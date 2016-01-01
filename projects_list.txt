@@ -1,0 +1,7 @@
+1) Java  Web App: ANAC Mobile inspections
+
+2) Android App: ANAC Mobile inspections
+
+3) Java  Web App: VLC-RC Web service
+
+4) Android App: VLC-RC Mobile Client
