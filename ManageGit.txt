@@ -38,8 +38,10 @@ github  https://github.com/nbrest/java.web.mobile.inspections.git (push)
 origin  https://www.nicobrest.com.ar/git/java.web.mobile.inspections.git (fetch)
 origin  https://www.nicobrest.com.ar/git/java.web.mobile.inspections.git (push)
 
-### Usage:
+### Usage ###########################################################
 git checkout -b dev
+git add File.java
+git rm File.java
 git commit -m "Commit message"
 
 git push all master
@@ -50,3 +52,64 @@ git push origin dev
 
 git push github master
 git push github dev
+
+### Merge dev to master #############################################
+	on dev:
+1) git merge master 
+	merge master changes into the dev branch, fix any conflicts and commit the fixes on dev.
+	
+2) git checkout master
+	switch to the master branch
+
+3) git merge dev
+	there should be no conflicts on this merge because they were all fixed in the dev branch on step 1
+
+### Tags ############################################################
+# Make the tags from the master branch (not sure if it affects though, because you tag a commit)
+
+List tags: git tag
+
+	Show tag info: 
+git show tagName
+	ej: git show v0.1
+
+	Create a tag: 
+git tag -a v0.1 -m "My tag v0.1"
+
+	Push tags: 
+git push all v0.1
+git push origin v0.1
+git push github v0.1
+
+	Push all tags:
+git push all --tags
+git push origin --tags
+git push github --tags
+
+	Checking out tags: You can´t! But you can create a new branch and checkout the code of the tag version there
+git checkout -b branchName tagName
+ej: git checkout -b stableVersion v0.1
+
+### Branches ########################################################
+
+List branches:
+git branch -v
+
+Create branch:
+git checkout -b branchName
+
+Push the branches:
+git push all branchName
+git push origin branchName
+git push github branchName
+
+Delete branch: (local)
+	if branchName was merged with the current branch and is safe to delete
+git branch -d branchName
+	if branchName wasn´t merged yet with the current branch and is NOT safe to delete, you can force it with -D
+git branch -D branchName
+
+Push the deletes:
+git push all 
+git push origin 
+git push github 
