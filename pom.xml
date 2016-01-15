@@ -5,10 +5,11 @@
 	<artifactId>MobileInspections</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring MVC HelloWorld Maven Webapp</name>
+	<name>Java Web App : Mobile Inspections</name>
 	<url>https://www.nicobrest.com.ar</url>
  
 	<properties>
+		<!-- Updated 2016/01/15 -->
 		<spring.version>4.2.4.RELEASE</spring.version>
 		<junit.version>4.12</junit.version>
 	</properties>
