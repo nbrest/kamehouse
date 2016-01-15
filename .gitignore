@@ -72,3 +72,4 @@ local.properties
 
 # Internal tomcat deployment
 WebContent/
+/target/
