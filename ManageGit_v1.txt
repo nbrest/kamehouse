@@ -139,3 +139,37 @@ Use the sample version gitignore_example.txt for my projects
 
 * Apply stashed changes into a new branch for testing stashed work:
 	git stash branch newBranchName (Creates a new branch named newBranchName and sets the working copy as it was when the stash was created in that new branch)
+
+### Reset changes ###################################################
+# git reset: resets the head to a specific commit (if no commit is specified, it resets it to the current head)
+# HEAD: Snapshot of the last commit
+
+* Reset the head to a specific commit(not useful if you don´t specify a commit)
+	git reset --soft commitHash
+	git reset --soft
+
+* Clean working copy, reset (and loose) all changes made:
+	git reset --hard
+
+* Unstage all changes (default action of git reset): 
+	git reset --mixed (it doesn´t remove the changes from the code, but leaves those changes unstaged for commit)
+
+# FILE LEVEL RESETS: --soft --mixed --hard have no effect here
+	# Working directory changes are NOT updated with git reset on file level, only the revision, the changes remain there, unstaged for commit
+	git reset HEAD~2 foo.java (updates the staged snapshot to match the specified commit)
+	git reset HEAD foo.java (commonly used with HEAD than with any other commit)
+	
+	# Working directory changes are updated using checkout instead of reset
+	git checkout HEAD foo.java (resets both the staged snapshot and the working copy of the specified file to the HEAD version. This is what I should use to revert the changes of a file to a previous commit)
+	git checkout HEAD~2 foo.java (reverts a file to the 2nd last commit before HEAD)
+	
+### Revert changes ##################################################
+# git revert: Undoes changes in a commit by creating a new commit where it removes the changes from the last commit, setting it back to the 2nd last commit
+# RULE: Use git reset to undo UNCOMMITED changes and use git revert to undo COMMITED changes
+
+* Revert last committed changes to the 2nd last commit:
+	git revert HEAD~2
+
+
+	
+	
