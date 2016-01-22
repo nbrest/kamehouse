@@ -1,4 +1,4 @@
-package ar.com.nicobrest.helloworld.user;
+package ar.com.nicobrest.mobileinspections.model;
 
 public class UserData {
 	String username;

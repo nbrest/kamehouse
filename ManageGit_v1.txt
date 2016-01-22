@@ -67,51 +67,75 @@ git push github dev
 ### Tags ############################################################
 # Make the tags from the master branch (not sure if it affects though, because you tag a commit)
 
-List tags: git tag
+	* List tags: git tag
 
-	Show tag info: 
+	* Show tag info: 
 git show tagName
 	ej: git show v0.1
 
-	Create a tag: 
+	* Create a tag: 
 git tag -a v0.1 -m "My tag v0.1"
 
-	Push tags: 
+	* Push tags: 
 git push all v0.1
 git push origin v0.1
 git push github v0.1
 
-	Push all tags:
+	* Push all tags:
 git push all --tags
 git push origin --tags
 git push github --tags
 
-	Checking out tags: You can´t! But you can create a new branch and checkout the code of the tag version there
+	* Checking out tags: You can´t! But you can create a new branch and checkout the code of the tag version there
 git checkout -b branchName tagName
 ej: git checkout -b stableVersion v0.1
 
 ### Branches ########################################################
 
-List branches:
+* List branches:
 git branch -v
 
-Create branch:
+* Create branch:
 git checkout -b branchName
 
-Push the branches:
+* Push the branches:
 git push all branchName
 git push origin branchName
 git push github branchName
 
-Delete branch: (local)
+* Delete branch: (local)
 	if branchName was merged with the current branch and is safe to delete
 git branch -d branchName
 	if branchName wasn´t merged yet with the current branch and is NOT safe to delete, you can force it with -D
 git branch -D branchName
 
-Push the deletes:
+* Push the deletes:
 git push all 
 git push origin 
 git push github 
 
 ### .gitignore ######################################################
+
+Use the sample version gitignore_example.txt for my projects
+
+### Stash ###########################################################
+# Save work in progress in a stack so that I don´t loose it and can switch branches without having to commit half finished work
+
+* Add work in progress to the stack and leave working copy clean:
+	git stash
+
+* List stashed work:
+	git stash list
+	
+* Apply stashed work:
+	git stash apply (applies the latest stashed work but leaves all files unstaged for commit)
+	git stash apply --index (this one leaves the working copy exactly as it was when it was stashed. applies the latest stashed work and tries to stage for commit the previously staged changes in the stash)
+	
+* Remove a stashed work from the stack:
+	git stash drop stash@{9} (Drops the stashed work number 9 in the stack)
+	
+* Apply stash and drop it:
+	git stash pop stash@{9}
+
+* Apply stashed changes into a new branch for testing stashed work:
+	git stash branch newBranchName (Creates a new branch named newBranchName and sets the working copy as it was when the stash was created in that new branch)
