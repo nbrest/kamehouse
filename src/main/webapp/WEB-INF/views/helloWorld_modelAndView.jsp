@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Spring 4 MVC -HelloWorld</title>
+	<title>HelloWorld ModelAndView Test Endpoint</title>
 </head>
 <body>
 	<center>
-		<h2>mada mada dane</h2>
+		<h2>HelloWorld ModelAndView Test Endpoint</h2>
 		<h2>
 			${message} ${name}
 		</h2>

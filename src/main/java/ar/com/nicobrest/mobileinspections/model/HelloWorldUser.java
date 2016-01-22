@@ -1,6 +1,6 @@
 package ar.com.nicobrest.mobileinspections.model;
 
-public class UserData {
+public class HelloWorldUser {
 	String username;
 	String email;
 	int age;
