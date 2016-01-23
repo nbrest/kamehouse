@@ -53,9 +53,9 @@ git push origin dev
 git push github master
 git push github dev
 
-### Options ###########################################################
+### Options #########################################################
 
-* Store git credentials for future use (in plain text format!)
+* Store git credentials for future use (in plain text format! default file $HOME/.git-credentials)
 	git config credential.helper store
 	git config credential.helper store --file fileName
 
