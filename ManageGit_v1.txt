@@ -53,6 +53,15 @@ git push origin dev
 git push github master
 git push github dev
 
+### Options ###########################################################
+
+* Store git credentials for future use (in plain text format!)
+	git config credential.helper store
+	git config credential.helper store --file fileName
+
+* Disable https certificate validation:
+	http.sslVerify = false
+
 ### Merge dev to master #############################################
 	on dev:
 1) git merge master 
