@@ -9,13 +9,17 @@
 	<url>https://www.nicobrest.com.ar</url>
  
 	<properties>
-		<!-- Updated 2016/01/15 -->
-		<spring.version>4.2.4.RELEASE</spring.version>
+		<!-- Updated 2016/01/22 --> 
+		<jackson.version>2.4.3</jackson.version>
+		<jcloverslf4j.version>1.7.13</jcloverslf4j.version>
 		<junit.version>4.12</junit.version>
-		<jackson.version>1.9.10</jackson.version>
+		<logback.version>1.1.2</logback.version>
+		<spring.version>4.2.4.RELEASE</spring.version>
 	</properties>
 	
 	<dependencies>
+	
+		<!-- JUnit dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -29,6 +33,18 @@
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
  
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -41,17 +57,32 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+	
+		<!-- Jackson dependencies -->
+	    <dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-core</artifactId>
+	        <version>${jackson.version}</version>
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	        <version>${jackson.version}</version>
+	    </dependency>
+	    
+	    <!-- Logging dependencies --> 
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
 		
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>2.4.3</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.4.3</version>
-    </dependency>
+		<dependency>                                    
+			<groupId>org.slf4j</groupId>                
+			<artifactId>jcl-over-slf4j</artifactId>     
+			<version>${jcloverslf4j.version}</version>  
+		</dependency>
  
 	</dependencies>
  
