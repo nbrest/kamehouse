@@ -125,7 +125,7 @@ git push github
 
 ### .gitignore ######################################################
 
-Use the sample version gitignore_example.txt for my projects
+Use the sample version gitignoreExample.txt for my projects
 
 ### Stash ###########################################################
 # Save work in progress in a stack so that I don´t loose it and can switch branches without having to commit half finished work
