@@ -1,7 +1,13 @@
 package ar.com.nicobrest.mobileinspections.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +28,13 @@ import ar.com.nicobrest.mobileinspections.model.HelloWorldUser;
 public class HelloWorldController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldController.class);
+	
+	@Autowired
+	private HelloWorldUser gohanHelloWorldUser;
+	
+	//@AutoWired + @Qualifier("gotenHelloWorldUser")
+	@Resource(name="gotenHelloWorldUser")
+	private HelloWorldUser gotenHelloWorldUser;
 	
 	/**
 	 * 
@@ -52,16 +65,22 @@ public class HelloWorldController {
 	 * Returns the HelloWorldUser object in json format for the test endpoint /helloWorld/json
 	 */
 	@RequestMapping(value = "/json", method = RequestMethod.GET)
-	public @ResponseBody HelloWorldUser getJson() {
+	public @ResponseBody List<HelloWorldUser> getJson() {
 
 		LOGGER.info("In controller /helloWorld/json");
 		
-		HelloWorldUser helloWorldUser = new HelloWorldUser();
-		helloWorldUser.setAge(21);
-		helloWorldUser.setEmail("goku@dbz.com");
-		helloWorldUser.setUsername("goku"); 
+		List<HelloWorldUser> helloWorldUsers = new ArrayList<HelloWorldUser>();
+		
+		HelloWorldUser helloWorldUser1 = new HelloWorldUser();
+		helloWorldUser1.setAge(21);
+		helloWorldUser1.setEmail("goku@dbz.com");
+		helloWorldUser1.setUsername("goku"); 
+		
+		helloWorldUsers.add(helloWorldUser1);
+		helloWorldUsers.add(gohanHelloWorldUser);
+		helloWorldUsers.add(gotenHelloWorldUser);
 
-		return helloWorldUser;
+		return helloWorldUsers;
 	}
 
 }
