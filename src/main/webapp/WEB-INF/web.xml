@@ -4,6 +4,12 @@
  
 	<display-name>Mobile Inspections Web Application</display-name>
  
+	<!-- Root Application Context common for all servlets  --> 
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+ 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>
@@ -17,6 +23,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
  
+ 	<!-- Application Context specific for the dispatcher-servlet  --> 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
