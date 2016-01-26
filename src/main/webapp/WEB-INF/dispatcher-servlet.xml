@@ -13,17 +13,31 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
  	<!-- Application Context specific for the dispatcher-servlet -->
  	
 	<context:component-scan base-package="ar.com.nicobrest.mobileinspections.controller" />
- 
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/views/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
-	
-	<mvc:annotation-driven /> 
-	
+ 	
+ 	<mvc:annotation-driven /> 
+
+	<!-- Resolve associations of views with .jsp files -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+        <!-- <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/> -->
+    </bean>
+ 	
+ 	<!-- Map exceptions thrown to HTTP status codes -->
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="ar.com.nicobrest.mobileinspections.exception.HelloWorldNotFoundException">error/404</prop>
+                <prop key="java.lang.Exception">error/error</prop>
+                <prop key="java.lang.RuntimeException">error/error</prop>
+            </props>
+        </property>
+        <property name="statusCodes">
+            <props>
+                <prop key="error/404">404</prop>
+                <prop key="error/error">500</prop>
+            </props>
+        </property>
+    </bean> 
+    
 </beans>

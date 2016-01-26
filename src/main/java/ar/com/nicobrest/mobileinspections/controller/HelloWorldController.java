@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.com.nicobrest.mobileinspections.model.HelloWorldUser; 
+import ar.com.nicobrest.mobileinspections.exception.HelloWorldNotFoundException;
 
 /**
  *
@@ -51,7 +52,7 @@ public class HelloWorldController {
 		
 		String message = "message: HelloWorld ModelAndView!";
 
-		ModelAndView mv = new ModelAndView("helloWorld_modelAndView");
+		ModelAndView mv = new ModelAndView("helloWorld/modelAndView");
 		mv.addObject("message", message);
 		mv.addObject("name", name);
 
@@ -63,9 +64,11 @@ public class HelloWorldController {
 	 * @return HelloWorldUser
 	 * 
 	 * Returns the HelloWorldUser object in json format for the test endpoint /helloWorld/json
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/json", method = RequestMethod.GET)
-	public @ResponseBody List<HelloWorldUser> getJson() {
+	public @ResponseBody List<HelloWorldUser> getJson(
+			@RequestParam(value = "action", required = false, defaultValue = "goku") String action) throws Exception {
 
 		LOGGER.info("In controller /helloWorld/json");
 		
@@ -79,6 +82,21 @@ public class HelloWorldController {
 		helloWorldUsers.add(helloWorldUser1);
 		helloWorldUsers.add(gohanHelloWorldUser);
 		helloWorldUsers.add(gotenHelloWorldUser);
+		 
+		
+		switch (action) {
+		case "HelloWorldNotFoundException":
+			throw new HelloWorldNotFoundException("*** HelloWorldNotFoundException in getJson ***");
+			//break;
+		case "RuntimeException":
+			throw new RuntimeException("*** RuntimeException in getJson ***");
+			//break;
+		case "Exception":
+			throw new Exception("*** Exception in getJson ***");
+			//break;
+		default:
+			break;
+		}
 
 		return helloWorldUsers;
 	}

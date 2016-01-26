@@ -108,6 +108,7 @@
 		</dependency>
 		
 		<dependency>
+			<!-- Spring -->
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId> 
 		    <version>${spring.version}</version> 
@@ -137,6 +138,7 @@
 			        <groupId>org.apache.maven.plugins</groupId>
 			        <artifactId>maven-compiler-plugin</artifactId>          
 			        <configuration>
+			            <!-- Removes compiler warnings about java version in eclipse -->
 			            <source>1.7</source>
 			            <target>1.7</target>
 			        </configuration>
