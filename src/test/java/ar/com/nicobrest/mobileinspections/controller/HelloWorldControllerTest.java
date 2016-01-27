@@ -8,6 +8,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
   
+/**
+ * 
+ * @author nicolas.brest
+ *
+ *	Unit tests for the HelloWorldController class
+ */
 public class HelloWorldControllerTest {
 
 	@BeforeClass
@@ -34,13 +40,23 @@ public class HelloWorldControllerTest {
 	
 	}
 	
+	/**
+	 * Test the rest web service on the endpoint /helloWorld/json with the 
+	 * HTTP method GET. The service should respond with HTTP status 200 OK and
+	 * a json array in the response body.
+	 */
 	@Test
 	public void getJsonTest() {
 		assertEquals("getJsonTest not yet implemented",0,0);
 	} 
 
+	/**
+	 * Test the endpoint /helloWorld/modelAndView with the 
+	 * HTTP method GET. The service should respond with HTTP status 200 OK 
+	 * and a view defined in helloWorld/modelAndView.jsp
+	 */
 	@Test
-	public void getModelAndViewTest() {
+	public void getModelAndViewTestSuccessfully() {
 		assertEquals("getModelAndViewTest not yet implemented",0,0);
 	} 
 }
