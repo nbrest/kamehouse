@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
   
 /**
@@ -59,4 +60,11 @@ public class HelloWorldControllerTest {
 	public void getModelAndViewTestSuccessfully() {
 		assertEquals("getModelAndViewTest not yet implemented",0,0);
 	} 
+	
+	@Ignore("Disabled test example")
+	@Test
+	public void disabledTest() {
+		/* @Ignore disables the execution of the test */
+		assertEquals("disabledTest not yet implemented",0,0);
+	}
 }
