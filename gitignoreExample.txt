@@ -1,3 +1,9 @@
+###################
+# Added by me     #
+###################
+.checkstyle
+
+###################
 # Directories #
 /build/
 /bin/
