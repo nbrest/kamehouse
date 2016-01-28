@@ -1,12 +1,7 @@
 package ar.com.nicobrest.mobileinspections.controller;
-
+ 
 import ar.com.nicobrest.mobileinspections.exception.HelloWorldNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.HelloWorldUser;
- 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
  
 /**
  * @since v0.01 
