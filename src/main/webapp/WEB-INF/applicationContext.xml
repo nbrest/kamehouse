@@ -1,8 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/context
@@ -10,18 +10,18 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
  
-	<!-- Root Application Context for the entire web application  -->
-	 
-	<bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
-		<property name="username" value="gohan" />
-		<property name="email" value="gohan@dbz.com" />
-		<property name="age" value="20" />
-	</bean>
-	
-	<bean id="gotenHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
-		<property name="username" value="goten" />
-		<property name="email" value="goten@dbz.com" />
-		<property name="age" value="10" />
-	</bean>
+  <!-- Root Application Context for the entire web application  -->
+   
+  <bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
+    <property name="username" value="gohan" />
+    <property name="email" value="gohan@dbz.com" />
+    <property name="age" value="20" />
+  </bean>
+  
+  <bean id="gotenHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
+    <property name="username" value="goten" />
+    <property name="email" value="goten@dbz.com" />
+    <property name="age" value="10" />
+  </bean>
  
 </beans>
