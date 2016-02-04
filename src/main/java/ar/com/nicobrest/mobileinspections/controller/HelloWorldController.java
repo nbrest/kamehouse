@@ -19,7 +19,7 @@ import java.util.List;
 import javax.annotation.Resource;
  
 /**
- * @since v0.01 
+ * @since v0.02 
  * @author nbrest
  * 
  *         Controller class for the helloWorld test endpoints
@@ -38,7 +38,7 @@ public class HelloWorldController {
   private HelloWorldUser gotenHelloWorldUser;
 
   /** 
-   * @since v0.01 
+   * @since v0.02 
    * @param name : Nombre del usuario que visita el sitio
    * @return ModelAndView
    * 
@@ -61,7 +61,7 @@ public class HelloWorldController {
   }
 
   /**
-   * @since v0.01 
+   * @since v0.02 
    * @return HelloWorldUser
    * 
    *         Returns the HelloWorldUser object in json format for the test

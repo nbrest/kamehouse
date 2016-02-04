@@ -1,7 +1,7 @@
 package ar.com.nicobrest.mobileinspections.model;
 
 /**
- * @since v0.01 
+ * @since v0.02 
  * @author nbrest
  *
  *         HelloWorldUser POJO used for the test endpoints

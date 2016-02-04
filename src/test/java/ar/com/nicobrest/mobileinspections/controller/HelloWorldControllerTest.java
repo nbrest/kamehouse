@@ -10,7 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * @since v0.01 
+ * @since v0.02 
  * @author nicolas.brest
  *
  *         Unit tests for the HelloWorldController class
