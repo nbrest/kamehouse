@@ -1,6 +1,8 @@
 package ar.com.nicobrest.mobileinspections.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals; 
+
+import ar.com.nicobrest.mobileinspections.model.HelloWorldUser;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -8,6 +10,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * @since v0.02 
@@ -15,18 +27,40 @@ import org.junit.Test;
  *
  *         Unit tests for the HelloWorldController class
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:testContext.xml", 
+                                   "classpath:applicationContext-web.xml"})
+@WebAppConfiguration
 public class HelloWorldControllerTest {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldControllerTest.class);
+
+  private MockMvc mockMvc;
+
+  @Autowired
+  private HelloWorldUser gohanHelloWorldUser;
+
+  @Autowired
+  private WebApplicationContext webApplicationContext;
+    
   @BeforeClass
   public static void beforeClassTest() throws Exception {
     /* Actions to perform ONCE before all tests in the class */
 
   }
 
+  /**
+   * @since v0.02
+   * @author nbrest
+   * @throws Exception MockMvc Exceptions
+   */
   @Before
   public void beforeTest() throws Exception {
     /* Actions to perform before each test in the class */
+    // Reset mock objects before each test
+    //Mockito.reset(mockObject);
 
+    mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
   }
 
   @After
@@ -48,7 +82,10 @@ public class HelloWorldControllerTest {
    */
   @Test
   public void getJsonTest() {
+    LOGGER.info("******************  Executing getJsonTest ******************");
+    
     assertEquals("getJsonTest not yet implemented", 0, 0);
+    mockMvc.toString();
   }
 
   /**

@@ -2,6 +2,7 @@
 # Added by me     #
 ###################
 .checkstyle
+logs/**
 
 ###################
 # Directories #

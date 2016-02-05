@@ -10,19 +10,17 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
  
-  <!-- Root Application Context for the entire web application -->
+  <!-- Test Application Context to be used in unit tests -->
    
-  <import resource="applicationContext-web.xml"/>
-  
   <bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
-    <property name="username" value="gohan" />
-    <property name="email" value="gohan@dbz.com" />
+    <property name="username" value="gohanTest" />
+    <property name="email" value="gohanTest@dbz.com" />
     <property name="age" value="20" />
   </bean>
   
   <bean id="gotenHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
-    <property name="username" value="goten" />
-    <property name="email" value="goten@dbz.com" />
+    <property name="username" value="gotenTest" />
+    <property name="email" value="gotenTest@dbz.com" />
     <property name="age" value="10" />
   </bean>
  
