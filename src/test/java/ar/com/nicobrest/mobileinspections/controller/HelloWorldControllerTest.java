@@ -83,6 +83,8 @@ public class HelloWorldControllerTest {
   @Test
   public void getJsonTest() {
     LOGGER.info("******************  Executing getJsonTest ******************");
+    LOGGER.info("gohanHelloWorld: " + gohanHelloWorldUser.getUsername() + " " 
+        + gohanHelloWorldUser.getEmail() + " " + gohanHelloWorldUser.getAge());
     
     assertEquals("getJsonTest not yet implemented", 0, 0);
     mockMvc.toString();
