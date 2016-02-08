@@ -5,7 +5,9 @@ import ar.com.nicobrest.mobileinspections.model.HelloWorldUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,12 +18,46 @@ import javax.annotation.Resource;
  */
 public class HelloWorldUserDaoInMemory implements HelloWorldUserDao {
  
+  private static Map<String, HelloWorldUser> helloWorldUsers;
+  
   @Autowired
   private HelloWorldUser gohanHelloWorldUser;
 
   // @AutoWired + @Qualifier("gotenHelloWorldUser")
   @Resource(name = "gotenHelloWorldUser")
   private HelloWorldUser gotenHelloWorldUser;
+  
+  /**
+   * @since v0.03
+   * @author nbrest
+   */
+  public HelloWorldUserDaoInMemory() {
+    
+    initRepository();
+  }
+  
+  private static void initRepository() {
+    
+    HelloWorldUser helloWorldUser1 = new HelloWorldUser();
+    helloWorldUser1.setAge(49);
+    helloWorldUser1.setEmail("goku@dbz.com");
+    helloWorldUser1.setUsername("goku");
+    
+    HelloWorldUser helloWorldUser2 = new HelloWorldUser();
+    helloWorldUser2.setAge(29);
+    helloWorldUser2.setEmail("gohan@dbz.com");
+    helloWorldUser2.setUsername("gohan");
+    
+    HelloWorldUser helloWorldUser3 = new HelloWorldUser();
+    helloWorldUser3.setAge(19);
+    helloWorldUser3.setEmail("goten@dbz.com");
+    helloWorldUser3.setUsername("goten");
+    
+    helloWorldUsers = new HashMap<String, HelloWorldUser>();
+    helloWorldUsers.put(helloWorldUser1.getUsername(), helloWorldUser1);
+    helloWorldUsers.put(helloWorldUser2.getUsername(), helloWorldUser2);
+    helloWorldUsers.put(helloWorldUser3.getUsername(), helloWorldUser3);
+  }
   
   public void setGohanHelloWorldUser(HelloWorldUser gohanHelloWorldUser) {
     
@@ -50,32 +86,18 @@ public class HelloWorldUserDaoInMemory implements HelloWorldUserDao {
    */
   public HelloWorldUser getHelloWorldUser(String username) {
     
-    // TODO Search through the users instead of returning a new one
-    return new HelloWorldUser();
+    return helloWorldUsers.get(username);
   }
   
   /**
    * @since v0.03
    * @author nbrest
-   *      Returns all HelloWorldUsers in the repository
+   *      Returns all the HelloWorldUsers in the repository
    */
   public List<HelloWorldUser> getAllHelloWorldUsers() {
     
-    HelloWorldUser helloWorldUser1 = new HelloWorldUser();
-    helloWorldUser1.setAge(21);
-    helloWorldUser1.setEmail("goku@dbz.com");
-    helloWorldUser1.setUsername("goku");
+    List<HelloWorldUser> usersList = new ArrayList<HelloWorldUser>(helloWorldUsers.values());
     
-    HelloWorldUser helloWorldUser2 = new HelloWorldUser();
-    helloWorldUser2.setAge(gotenHelloWorldUser.getAge());
-    helloWorldUser2.setEmail(gotenHelloWorldUser.getEmail());
-    helloWorldUser2.setUsername(gotenHelloWorldUser.getUsername());
-    
-    List<HelloWorldUser> helloWorldUsers = new ArrayList<HelloWorldUser>();
-    helloWorldUsers.add(helloWorldUser1);
-    helloWorldUsers.add(helloWorldUser2);
-    helloWorldUsers.add(gohanHelloWorldUser);
-    
-    return helloWorldUsers;
+    return usersList;
   }
 }

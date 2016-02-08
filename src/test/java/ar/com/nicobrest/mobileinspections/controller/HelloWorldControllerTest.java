@@ -48,7 +48,7 @@ import java.util.List;
  *         Unit tests for the HelloWorldController class
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:testContext.xml", 
+@ContextConfiguration(locations = {"classpath:testContextController.xml", 
                                    "classpath:applicationContext-web.xml"})
 @WebAppConfiguration
 public class HelloWorldControllerTest {
@@ -131,8 +131,8 @@ public class HelloWorldControllerTest {
    * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
-  public void getModelAndViewTestSuccess() throws Exception {
-    LOGGER.info("****************** Executing getModelAndViewTestSuccess ******************");
+  public void getModelAndViewSuccessTest() throws Exception {
+    LOGGER.info("****************** Executing getModelAndViewSuccessTest ******************");
     
     mockMvc.perform(get("/helloWorld/modelAndView"))
       .andExpect(status().isOk())
@@ -152,8 +152,8 @@ public class HelloWorldControllerTest {
    * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
-  public void getJsonTestSuccess() throws Exception {
-    LOGGER.info("****************** Executing getJsonTestSuccess ******************");
+  public void getJsonSuccessTest() throws Exception {
+    LOGGER.info("****************** Executing getJsonSuccessTest ******************");
     
     // Setup mock object helloWorldUserServiceMock 
     when(helloWorldUserServiceMock.getAllHelloWorldUsers()).thenReturn(helloWorldUsers);
@@ -185,8 +185,8 @@ public class HelloWorldControllerTest {
    * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
-  public void getJsonTestException() throws Exception {
-    LOGGER.info("****************** Executing getJsonTestException ******************");
+  public void getJsonExceptionTest() throws Exception {
+    LOGGER.info("****************** Executing getJsonExceptionTest ******************");
 
     // Setup mock object helloWorldUserServiceMock 
     when(helloWorldUserServiceMock.getAllHelloWorldUsers()).thenReturn(helloWorldUsers);

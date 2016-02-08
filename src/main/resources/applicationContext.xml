@@ -13,7 +13,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   <!-- Root Application Context for the entire web application -->
    
   <import resource="applicationContext-web.xml"/>
-  
+
+  <!-- Example endpoints beans -->
+   
   <bean id="helloWorldUserService" 
     class="ar.com.nicobrest.mobileinspections.service.HelloWorldUserService">
     <property name="helloWorldUserDao" ref="helloWorldUserDao" />
@@ -26,14 +28,14 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   </bean>
   
   <bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
-    <property name="username" value="gohan" />
-    <property name="email" value="gohan@dbz.com" />
+    <property name="username" value="gohanBean" />
+    <property name="email" value="gohanBean@dbz.com" />
     <property name="age" value="20" />
   </bean>
   
   <bean id="gotenHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
-    <property name="username" value="goten" />
-    <property name="email" value="goten@dbz.com" />
+    <property name="username" value="gotenBean" />
+    <property name="email" value="gotenBean@dbz.com" />
     <property name="age" value="10" />
   </bean>
  

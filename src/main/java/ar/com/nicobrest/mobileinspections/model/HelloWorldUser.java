@@ -1,5 +1,8 @@
 package ar.com.nicobrest.mobileinspections.model;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * @since v0.02 
  * @author nbrest
@@ -34,5 +37,28 @@ public class HelloWorldUser {
 
   public int getAge() {
     return age;
+  }
+  
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder()
+                .append(username)
+                .append(email)
+                .append(age)
+                .toHashCode();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj instanceof HelloWorldUser) {
+      final HelloWorldUser other = (HelloWorldUser) obj;
+      return new EqualsBuilder()
+                .append(username, other.getUsername())
+                .append(email, other.getEmail())
+                .append(age, other.getAge())
+                .isEquals();
+    } else {
+      return false;
+    }
   }
 }
