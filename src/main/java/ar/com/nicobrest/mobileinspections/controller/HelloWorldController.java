@@ -2,6 +2,7 @@ package ar.com.nicobrest.mobileinspections.controller;
  
 import ar.com.nicobrest.mobileinspections.exception.HelloWorldNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.HelloWorldUser;
+import ar.com.nicobrest.mobileinspections.service.HelloWorldUserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
+ 
+import java.util.List; 
  
 /**
  * @since v0.02 
@@ -31,12 +29,18 @@ public class HelloWorldController {
   private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldController.class);
 
   @Autowired
-  private HelloWorldUser gohanHelloWorldUser;
+  private HelloWorldUserService helloWorldUserService;
 
-  // @AutoWired + @Qualifier("gotenHelloWorldUser")
-  @Resource(name = "gotenHelloWorldUser")
-  private HelloWorldUser gotenHelloWorldUser;
-
+  public void setHelloWorldUserService(HelloWorldUserService helloWorldUserService) {
+    
+    this.helloWorldUserService = helloWorldUserService;
+  }
+  
+  public HelloWorldUserService getHelloWorldUserService() {
+    
+    return this.helloWorldUserService;
+  }
+  
   /** 
    * @since v0.02 
    * @param name : Nombre del usuario que visita el sitio
@@ -81,21 +85,6 @@ public class HelloWorldController {
 
     LOGGER.info("In controller /helloWorld/json");
  
-    HelloWorldUser helloWorldUser1 = new HelloWorldUser();
-    helloWorldUser1.setAge(21);
-    helloWorldUser1.setEmail("goku@dbz.com");
-    helloWorldUser1.setUsername("goku");
-    
-    HelloWorldUser helloWorldUser2 = new HelloWorldUser();
-    helloWorldUser2.setAge(gotenHelloWorldUser.getAge());
-    helloWorldUser2.setEmail(gotenHelloWorldUser.getEmail());
-    helloWorldUser2.setUsername(gotenHelloWorldUser.getUsername());
-    
-    List<HelloWorldUser> helloWorldUsers = new ArrayList<HelloWorldUser>();
-    helloWorldUsers.add(helloWorldUser1);
-    helloWorldUsers.add(helloWorldUser2);
-    helloWorldUsers.add(gohanHelloWorldUser);
-
     switch (action) {
       case "HelloWorldNotFoundException":
         throw new HelloWorldNotFoundException("*** HelloWorldNotFoundException in getJson ***");
@@ -110,7 +99,7 @@ public class HelloWorldController {
         break;
     }
 
-    return helloWorldUsers;
+    return helloWorldUserService.getAllHelloWorldUsers();
   }
 
 }

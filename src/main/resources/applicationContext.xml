@@ -14,6 +14,17 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
    
   <import resource="applicationContext-web.xml"/>
   
+  <bean id="helloWorldUserService" 
+    class="ar.com.nicobrest.mobileinspections.service.HelloWorldUserService">
+    <property name="helloWorldUserDao" ref="helloWorldUserDao" />
+  </bean>
+  
+  <bean id="helloWorldUserDao" 
+    class="ar.com.nicobrest.mobileinspections.dao.HelloWorldUserDaoInMemory">
+      <property name="gohanHelloWorldUser" ref="gohanHelloWorldUser" />
+      <property name="gotenHelloWorldUser" ref="gotenHelloWorldUser" />
+  </bean>
+  
   <bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
     <property name="username" value="gohan" />
     <property name="email" value="gohan@dbz.com" />

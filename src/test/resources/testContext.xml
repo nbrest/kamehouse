@@ -12,15 +12,33 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
  
   <!-- Test Application Context to be used in unit tests -->
    
+  <bean id="helloWorldUserService" name="helloWorldUserService" class="org.mockito.Mockito"
+    factory-method="mock">
+    <constructor-arg value="ar.com.nicobrest.mobileinspections.service.HelloWorldUserService" />
+  </bean> 
+
+  <bean id="helloWorldUserDao" 
+    class="ar.com.nicobrest.mobileinspections.dao.HelloWorldUserDaoInMemory">
+      <property name="gohanHelloWorldUser" ref="gohanHelloWorldUser" />
+      <property name="gotenHelloWorldUser" ref="gotenHelloWorldUser" />
+  </bean>
+  
   <bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
     <property name="username" value="gohanTest" />
     <property name="email" value="gohanTest@dbz.com" />
-    <property name="age" value="29" />
+    <property name="age" value="27" />
   </bean>
 
-  <bean id="gotenHelloWorldUser" name="gotenHelloWorldUser" class="org.mockito.Mockito"
-    factory-method="mock">
-    <constructor-arg value="ar.com.nicobrest.mobileinspections.model.HelloWorldUser" />
+  <bean id="gotenHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
+    <property name="username" value="gotenTest" />
+    <property name="email" value="gotenTest@dbz.com" />
+    <property name="age" value="17" />
   </bean>
-
+  
+  <!-- 
+  <bean id="helloWorldUserService" 
+    class="ar.com.nicobrest.mobileinspections.service.HelloWorldUserService">
+    <property name="helloWorldUserDao" ref="helloWorldUserDao" />
+  </bean>
+  -->  
 </beans>

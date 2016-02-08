@@ -3,7 +3,6 @@ package ar.com.nicobrest.mobileinspections.controller;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.isA;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -15,9 +14,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view; 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import ar.com.nicobrest.mobileinspections.model.HelloWorldUser;
+import ar.com.nicobrest.mobileinspections.service.HelloWorldUserService;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -38,6 +38,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @since v0.02 
  * @author nicolas.brest
@@ -53,21 +56,44 @@ public class HelloWorldControllerTest {
   private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldControllerTest.class);
 
   private MockMvc mockMvc;
+  private static List<HelloWorldUser> helloWorldUsers;
 
   @Autowired
-  private HelloWorldUser gohanHelloWorldUser;
-  
-  @Autowired
-  @Qualifier("gotenHelloWorldUser")
-  private HelloWorldUser gotenHelloWorldUserMock;
+  @Qualifier("helloWorldUserService")
+  private HelloWorldUserService helloWorldUserServiceMock;
 
   @Autowired
   private WebApplicationContext webApplicationContext;
     
+  /**
+   * @since v0.02
+   * @author nbrest
+   * @throws Exception Throws any type of exception in the method
+   */
   @BeforeClass
   public static void beforeClassTest() throws Exception {
     /* Actions to perform ONCE before all tests in the class */
 
+    // Create test data to be returned by mock object helloWorldUserServiceMock
+    HelloWorldUser helloWorldUser1 = new HelloWorldUser();
+    helloWorldUser1.setAge(49);
+    helloWorldUser1.setEmail("gokuTestMock@dbz.com");
+    helloWorldUser1.setUsername("gokuTestMock");
+    
+    HelloWorldUser helloWorldUser2 = new HelloWorldUser();
+    helloWorldUser2.setAge(29);
+    helloWorldUser2.setEmail("gohanTestMock@dbz.com");
+    helloWorldUser2.setUsername("gohanTestMock");
+    
+    HelloWorldUser helloWorldUser3 = new HelloWorldUser();
+    helloWorldUser3.setAge(19);
+    helloWorldUser3.setEmail("gotenTestMock@dbz.com");
+    helloWorldUser3.setUsername("gotenTestMock");
+    
+    helloWorldUsers = new ArrayList<HelloWorldUser>();
+    helloWorldUsers.add(helloWorldUser1);
+    helloWorldUsers.add(helloWorldUser2);
+    helloWorldUsers.add(helloWorldUser3);
   }
 
   /**
@@ -80,7 +106,7 @@ public class HelloWorldControllerTest {
     /* Actions to perform before each test in the class */
     
     // Reset mock objects before each test
-    Mockito.reset(gotenHelloWorldUserMock);
+    Mockito.reset(helloWorldUserServiceMock);
 
     // Setup mockMvc test object
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -116,7 +142,7 @@ public class HelloWorldControllerTest {
       .andExpect(model().attribute("name", equalTo("Goku")))
       .andExpect(model().attribute("message", equalTo("message: HelloWorld ModelAndView!")));
     
-    verifyZeroInteractions(gotenHelloWorldUserMock);
+    verifyZeroInteractions(helloWorldUserServiceMock);
   }
   
   /**
@@ -129,54 +155,27 @@ public class HelloWorldControllerTest {
   public void getJsonTestSuccess() throws Exception {
     LOGGER.info("****************** Executing getJsonTestSuccess ******************");
     
-    LOGGER.info("gohanHelloWorldUser: " + gohanHelloWorldUser.getUsername() + " " 
-        + gohanHelloWorldUser.getEmail() + " " + gohanHelloWorldUser.getAge());
-
-    // Setup mock object gotenHelloWorldUserMock 
-    when(gotenHelloWorldUserMock.getUsername()).thenReturn("gotenTestMock");
-    when(gotenHelloWorldUserMock.getEmail()).thenReturn("gotenTestMock@dbz.com");
-    when(gotenHelloWorldUserMock.getAge()).thenReturn(17);
-
-    // Assert autowired mock bean gohanHelloWorldUser
-    assertEquals("autowired mock bean gotenHelloWorldUserMock username should be gotenTestMock",
-        "gotenTestMock", gotenHelloWorldUserMock.getUsername());
-    assertEquals("autowired mock bean gotenHelloWorldUserMock email should be "
-        + "gotenTestMock@dbz.com", "gotenTestMock@dbz.com", gotenHelloWorldUserMock.getEmail());
-    assertEquals("autowired mock bean gotenHelloWorldUserMock age should be 17", 17,
-        gotenHelloWorldUserMock.getAge());
-    
-    // Assert autowired test bean gohanHelloWorldUser
-    assertEquals("autowired test bean gohanHelloWorldUser username should be gohanTest", 
-        "gohanTest", gohanHelloWorldUser.getUsername());
-    assertEquals("autowired test bean gohanHelloWorldUser email should be gohanTest@dbz.com", 
-        "gohanTest@dbz.com", gohanHelloWorldUser.getEmail());
-    assertEquals("autowired test bean gohanHelloWorldUser age should be 29", 29,
-        gohanHelloWorldUser.getAge());
-     
+    // Setup mock object helloWorldUserServiceMock 
+    when(helloWorldUserServiceMock.getAllHelloWorldUsers()).thenReturn(helloWorldUsers);
+ 
     // Execute HTTP GET on the /helloWorld/json endpoint
     mockMvc.perform(get("/helloWorld/json"))
       .andExpect(status().isOk())
       .andExpect(content().contentType("application/json;charset=UTF-8"))
       .andExpect(jsonPath("$", hasSize(3)))
-      .andExpect(jsonPath("$[0].username", equalTo("goku")))
-      .andExpect(jsonPath("$[0].email", equalTo("goku@dbz.com")))
-      .andExpect(jsonPath("$[0].age", equalTo(21)))
-      .andExpect(jsonPath("$[1].username", equalTo("gotenTestMock")))
-      .andExpect(jsonPath("$[1].email", equalTo("gotenTestMock@dbz.com")))
-      .andExpect(jsonPath("$[1].age", equalTo(17)))
-      .andExpect(jsonPath("$[2].username", equalTo("gohanTest")))
-      .andExpect(jsonPath("$[2].email", equalTo("gohanTest@dbz.com")))
-      .andExpect(jsonPath("$[2].age", equalTo(29)));
-    
-    // Log gotenHelloWorldUserMock output behavior
-    LOGGER.info("gotenHelloWorldUserMock: " + gotenHelloWorldUserMock.getUsername() + " " 
-        + gotenHelloWorldUserMock.getEmail() + " " + gotenHelloWorldUserMock.getAge());
-    
+      .andExpect(jsonPath("$[0].username", equalTo("gokuTestMock")))
+      .andExpect(jsonPath("$[0].email", equalTo("gokuTestMock@dbz.com")))
+      .andExpect(jsonPath("$[0].age", equalTo(49)))
+      .andExpect(jsonPath("$[1].username", equalTo("gohanTestMock")))
+      .andExpect(jsonPath("$[1].email", equalTo("gohanTestMock@dbz.com")))
+      .andExpect(jsonPath("$[1].age", equalTo(29)))
+      .andExpect(jsonPath("$[2].username", equalTo("gotenTestMock")))
+      .andExpect(jsonPath("$[2].email", equalTo("gotenTestMock@dbz.com")))
+      .andExpect(jsonPath("$[2].age", equalTo(19)));
+        
     // Verify gotenHelloWorldUserMock invocations
-    verify(gotenHelloWorldUserMock, times(3)).getUsername();
-    verify(gotenHelloWorldUserMock, times(3)).getEmail();
-    verify(gotenHelloWorldUserMock, times(3)).getAge();
-    verifyNoMoreInteractions(gotenHelloWorldUserMock);
+    verify(helloWorldUserServiceMock, times(1)).getAllHelloWorldUsers();
+    verifyNoMoreInteractions(helloWorldUserServiceMock);
   }
 
   /**
@@ -188,14 +187,9 @@ public class HelloWorldControllerTest {
   @Test
   public void getJsonTestException() throws Exception {
     LOGGER.info("****************** Executing getJsonTestException ******************");
-    
-    LOGGER.info("gohanHelloWorldUser: " + gohanHelloWorldUser.getUsername() + " " 
-        + gohanHelloWorldUser.getEmail() + " " + gohanHelloWorldUser.getAge());
 
-    // Setup mock object gotenHelloWorldUserMock 
-    when(gotenHelloWorldUserMock.getUsername()).thenReturn("gotenTestMock");
-    when(gotenHelloWorldUserMock.getEmail()).thenReturn("gotenTestMock@dbz.com");
-    when(gotenHelloWorldUserMock.getAge()).thenReturn(17);
+    // Setup mock object helloWorldUserServiceMock 
+    when(helloWorldUserServiceMock.getAllHelloWorldUsers()).thenReturn(helloWorldUsers);
 
     // Execute HTTP GET on the /helloWorld/json endpoint where it throws Exception
     mockMvc.perform(get("/helloWorld/json?action=Exception"))
@@ -216,10 +210,7 @@ public class HelloWorldControllerTest {
       .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
     
     // Verify gotenHelloWorldUserMock invocations
-    verify(gotenHelloWorldUserMock, times(3)).getUsername();
-    verify(gotenHelloWorldUserMock, times(3)).getEmail();
-    verify(gotenHelloWorldUserMock, times(3)).getAge();
-    verifyNoMoreInteractions(gotenHelloWorldUserMock);
+    verifyZeroInteractions(helloWorldUserServiceMock); 
   }
 
   /*
