@@ -15,13 +15,12 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   <bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
     <property name="username" value="gohanTest" />
     <property name="email" value="gohanTest@dbz.com" />
-    <property name="age" value="20" />
+    <property name="age" value="29" />
   </bean>
-  
-  <bean id="gotenHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
-    <property name="username" value="gotenTest" />
-    <property name="email" value="gotenTest@dbz.com" />
-    <property name="age" value="10" />
+
+  <bean id="gotenHelloWorldUser" name="gotenHelloWorldUser" class="org.mockito.Mockito"
+    factory-method="mock">
+    <constructor-arg value="ar.com.nicobrest.mobileinspections.model.HelloWorldUser" />
   </bean>
- 
+
 </beans>

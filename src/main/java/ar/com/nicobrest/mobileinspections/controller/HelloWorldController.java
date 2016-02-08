@@ -56,7 +56,12 @@ public class HelloWorldController {
     ModelAndView mv = new ModelAndView("helloWorld/modelAndView");
     mv.addObject("message", message);
     mv.addObject("name", name);
-
+    
+    LOGGER.info("In controller /helloWorld/modelAndView Model keys: " 
+        + mv.getModel().keySet().toString());
+    LOGGER.info("In controller /helloWorld/modelAndView Model values: " 
+        + mv.getModel().values().toString());
+    
     return mv;
   }
 
@@ -81,10 +86,15 @@ public class HelloWorldController {
     helloWorldUser1.setEmail("goku@dbz.com");
     helloWorldUser1.setUsername("goku");
     
+    HelloWorldUser helloWorldUser2 = new HelloWorldUser();
+    helloWorldUser2.setAge(gotenHelloWorldUser.getAge());
+    helloWorldUser2.setEmail(gotenHelloWorldUser.getEmail());
+    helloWorldUser2.setUsername(gotenHelloWorldUser.getUsername());
+    
     List<HelloWorldUser> helloWorldUsers = new ArrayList<HelloWorldUser>();
     helloWorldUsers.add(helloWorldUser1);
+    helloWorldUsers.add(helloWorldUser2);
     helloWorldUsers.add(gohanHelloWorldUser);
-    helloWorldUsers.add(gotenHelloWorldUser);
 
     switch (action) {
       case "HelloWorldNotFoundException":
