@@ -26,9 +26,10 @@
     <spring.version>4.2.4.RELEASE</spring.version>
     <war.plugin.version>2.1.1</war.plugin.version>  
 
+    <java.target.version>1.7</java.target.version> 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    
   </properties>
-  
+
   <dependencies> 
   
     <!-- Java -->
@@ -176,8 +177,8 @@
         <version>${compiler.plugin.version}</version> 
         <configuration>
           <!-- Removes compiler warnings about java version in eclipse -->
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>${java.target.version}</source>
+          <target>${java.target.version}</target>
           <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
