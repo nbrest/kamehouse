@@ -2,7 +2,7 @@
 <configuration>
   <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</Pattern>
+      <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n</Pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>TRACE</level>
@@ -18,10 +18,10 @@
       <maxHistory>30</maxHistory>     
     </rollingPolicy>
     <encoder>
-      <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+      <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
     </encoder>      
   </appender>
-    
+
   <appender name="minuteRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- rollover every minute -->
@@ -32,7 +32,7 @@
     <encoder>
       <Pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</Pattern>
     </encoder>      
-  </appender>   
+  </appender>
 
   <logger name="ar.com.nicobrest.logger" additivity="false">
     <level value="DEBUG" />

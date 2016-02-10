@@ -43,7 +43,7 @@ import java.util.List;
 
 /**
  * @since v0.02 
- * @author nicolas.brest
+ * @author nbrest
  *
  *         Unit tests for the HelloWorldController class
  */

@@ -43,6 +43,7 @@ public class HelloWorldController {
   
   /** 
    * @since v0.02 
+   * @author nbrest
    * @param name : Nombre del usuario que visita el sitio
    * @return ModelAndView
    * 
