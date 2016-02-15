@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -151,6 +152,7 @@ public class HelloWorldControllerTest {
     LOGGER.info("****************** Executing getModelAndViewSuccessTest ******************");
     
     mockMvc.perform(get("/helloWorld/modelAndView"))
+      .andDo(print())
       .andExpect(status().isOk())
       .andExpect(view().name("helloWorld/modelAndView"))
       .andExpect(forwardedUrl("/WEB-INF/jsp/helloWorld/modelAndView.jsp"))
@@ -179,6 +181,7 @@ public class HelloWorldControllerTest {
  
     // Execute HTTP GET on the /helloWorld/json endpoint
     mockMvc.perform(get("/helloWorld/json"))
+      .andDo(print())
       .andExpect(status().isOk())
       .andExpect(content().contentType("application/json;charset=UTF-8"))
       .andExpect(jsonPath("$", hasSize(3)))
@@ -216,18 +219,21 @@ public class HelloWorldControllerTest {
 
     // Execute HTTP GET on the /helloWorld/json endpoint where it throws Exception
     mockMvc.perform(get("/helloWorld/json?action=Exception"))
+      .andDo(print())
       .andExpect(status().isInternalServerError())
       .andExpect(view().name("error/error"))
       .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
     
     // Execute HTTP GET on the /helloWorld/json endpoint where it throws RuntimeException
     mockMvc.perform(get("/helloWorld/json?action=RuntimeException"))
+      .andDo(print())
       .andExpect(status().isInternalServerError())
       .andExpect(view().name("error/error"))
       .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
     
     // Execute HTTP GET on the /helloWorld/json endpoint where it throws HelloWorldNotFoundException
     mockMvc.perform(get("/helloWorld/json?action=HelloWorldNotFoundException"))
+      .andDo(print())
       .andExpect(status().isNotFound())
       .andExpect(view().name("error/404"))
       .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
