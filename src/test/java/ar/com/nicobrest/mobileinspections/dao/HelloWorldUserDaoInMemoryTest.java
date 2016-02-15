@@ -35,6 +35,7 @@ public class HelloWorldUserDaoInMemoryTest {
   /**
    * @since v0.03
    * @author nbrest
+   * 
    *      Test for getting all the HelloWorldUsers in the repository
    */
   @Test
@@ -63,6 +64,7 @@ public class HelloWorldUserDaoInMemoryTest {
   /**
    * @since v0.03
    * @author nbrest
+   * 
    *      Test for getting a single HelloWorldUser in the repository
    */
   @Test
@@ -80,7 +82,8 @@ public class HelloWorldUserDaoInMemoryTest {
   /**
    * @since v0.03
    * @author nbrest
-   *      Test for getting a single HelloWorldUser in the repository
+   * 
+   *      Test for the autowired beans
    */
   @Test
   public void autoWiredBeansTest() {

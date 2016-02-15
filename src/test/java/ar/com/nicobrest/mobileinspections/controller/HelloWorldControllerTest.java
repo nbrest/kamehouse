@@ -68,7 +68,9 @@ public class HelloWorldControllerTest {
   /**
    * @since v0.02
    * @author nbrest
-   * @throws Exception Throws any type of exception in the method
+   * @throws Exception Throws unhandled exceptions
+   * 
+   *      Initializes test repositories
    */
   @BeforeClass
   public static void beforeClassTest() throws Exception {
@@ -100,6 +102,8 @@ public class HelloWorldControllerTest {
    * @since v0.02
    * @author nbrest
    * @throws Exception MockMvc Exceptions
+   * 
+   *      Resets mock objects
    */
   @Before
   public void beforeTest() throws Exception {
@@ -112,12 +116,21 @@ public class HelloWorldControllerTest {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
   }
 
+  /**
+   * @since v0.02
+   * @author nbrest
+   */
   @After
   public void afterTest() {
     /* Actions to perform after each test */
 
   }
 
+  /**
+   * @since v0.02
+   * @author nbrest
+   * @throws Exception Throws unhandled exceptions
+   */
   @AfterClass
   public static void afterClassTest() throws Exception {
     /* Actions to perform ONCE after all tests in the class */
@@ -125,10 +138,13 @@ public class HelloWorldControllerTest {
   }
 
   /**
-   * Test the endpoint /helloWorld/modelAndView with the HTTP method GET. The
-   * service should respond with HTTP status 200 OK and a view defined in
-   * helloWorld/modelAndView.jsp
+   * @since v0.02
+   * @author nbrest
    * @throws Exception Exceptions thrown by MockMvc
+   * 
+   *           Test the endpoint /helloWorld/modelAndView with the HTTP method
+   *           GET. The service should respond with HTTP status 200 OK and a
+   *           view defined in helloWorld/modelAndView.jsp
    */
   @Test
   public void getModelAndViewSuccessTest() throws Exception {
@@ -146,10 +162,13 @@ public class HelloWorldControllerTest {
   }
   
   /**
-   * Test the rest web service on the endpoint /helloWorld/json with the HTTP
-   * method GET. The service should respond with HTTP status 200 OK and a json
-   * array in the response body.
+   * @since v0.02
+   * @author nbrest
    * @throws Exception Exceptions thrown by MockMvc
+   * 
+   *           Test the rest web service on the endpoint /helloWorld/json with
+   *           the HTTP method GET. The service should respond with HTTP status
+   *           200 OK and a json array in the response body.
    */
   @Test
   public void getJsonSuccessTest() throws Exception {
@@ -179,10 +198,14 @@ public class HelloWorldControllerTest {
   }
 
   /**
-   * Test the rest web service on the endpoint /helloWorld/json with the HTTP
-   * method GET. The service should respond with HTTP status 404 and 500 
-   * for the different invocations throwing the correct Exception in each case
+   * @since v0.02
+   * @author nbrest
    * @throws Exception Exceptions thrown by MockMvc
+   * 
+   *           Test the rest web service on the endpoint /helloWorld/json with
+   *           the HTTP method GET. The service should respond with HTTP status
+   *           404 and 500 for the different invocations throwing the correct
+   *           Exception in each case
    */
   @Test
   public void getJsonExceptionTest() throws Exception {

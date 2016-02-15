@@ -25,7 +25,8 @@ public class HelloWorldUserTest {
   /**
    * @since v0.03
    * @author nbrest
-   *      Test for getting all the HelloWorldUsers in the repository
+   * 
+   *      Test the hashCode and equals methods in HelloWorldUser
    */
   @Test
   public void hashCodeAndEqualsTest() {

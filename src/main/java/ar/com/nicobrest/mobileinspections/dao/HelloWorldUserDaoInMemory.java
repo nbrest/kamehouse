@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 /**
  * @since v0.03
  * @author nbrest
+ * 
  *      In-Memory DAO for the test endpoint helloWorld
  */
 public class HelloWorldUserDaoInMemory implements HelloWorldUserDao {
@@ -36,6 +37,36 @@ public class HelloWorldUserDaoInMemory implements HelloWorldUserDao {
     initRepository();
   }
   
+  /**
+   * @since v0.03
+   * @author nbrest
+   * @param gohanHelloWorldUser
+   * 
+   *      Getters and setters
+   */
+  public void setGohanHelloWorldUser(HelloWorldUser gohanHelloWorldUser) {
+    
+    this.gohanHelloWorldUser = gohanHelloWorldUser;
+  }
+  
+  /**
+   * @since v0.03
+   * @author nbrest
+   * @return HelloWorldUser
+   * 
+   *      Getters and setters
+   */
+  public HelloWorldUser getGohanHelloWorldUser() {
+    
+    return this.gohanHelloWorldUser;
+  }
+  
+  /**
+   * @since v0.03
+   * @author nbrest
+   * 
+   *      Initialize In-Memory repository
+   */
   private static void initRepository() {
     
     HelloWorldUser helloWorldUser1 = new HelloWorldUser();
@@ -59,21 +90,25 @@ public class HelloWorldUserDaoInMemory implements HelloWorldUserDao {
     helloWorldUsers.put(helloWorldUser3.getUsername(), helloWorldUser3);
   }
   
-  public void setGohanHelloWorldUser(HelloWorldUser gohanHelloWorldUser) {
-    
-    this.gohanHelloWorldUser = gohanHelloWorldUser;
-  }
-  
-  public HelloWorldUser getGohanHelloWorldUser() {
-    
-    return this.gohanHelloWorldUser;
-  }
-  
+  /**
+   * @since v0.03
+   * @author nbrest
+   * @param gotenHelloWorldUser
+   * 
+   *      Getters and setters
+   */
   public void setGotenHelloWorldUser(HelloWorldUser gotenHelloWorldUser) {
     
     this.gotenHelloWorldUser = gotenHelloWorldUser;
   }
   
+  /**
+   * @since v0.03
+   * @author nbrest
+   * @return HelloWorldUser
+   * 
+   *      Getters and setters
+   */
   public HelloWorldUser getGotenHelloWorldUser() {
     
     return this.gotenHelloWorldUser;
@@ -82,6 +117,7 @@ public class HelloWorldUserDaoInMemory implements HelloWorldUserDao {
   /**
    * @since v0.03
    * @author nbrest
+   * 
    *      Returns a single instance of a HelloWorldUser
    */
   public HelloWorldUser getHelloWorldUser(String username) {
@@ -92,6 +128,7 @@ public class HelloWorldUserDaoInMemory implements HelloWorldUserDao {
   /**
    * @since v0.03
    * @author nbrest
+   * 
    *      Returns all the HelloWorldUsers in the repository
    */
   public List<HelloWorldUser> getAllHelloWorldUsers() {

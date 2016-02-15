@@ -31,11 +31,25 @@ public class HelloWorldController {
   @Autowired
   private HelloWorldUserService helloWorldUserService;
 
+  /**
+   * @since v0.03 
+   * @author nbrest
+   * @param helloWorldUserService
+   *    
+   *      Getters and Setters
+   */
   public void setHelloWorldUserService(HelloWorldUserService helloWorldUserService) {
     
     this.helloWorldUserService = helloWorldUserService;
   }
   
+  /**
+   * @since v0.03 
+   * @author nbrest
+   * @return HelloWorldUserService
+   * 
+   *      Getters and Setters
+   */
   public HelloWorldUserService getHelloWorldUserService() {
     
     return this.helloWorldUserService;
@@ -72,10 +86,12 @@ public class HelloWorldController {
 
   /**
    * @since v0.02 
+   * @author nbrest
    * @return HelloWorldUser
    * 
    *         Returns the HelloWorldUser object in json format for the test
    *         endpoint /helloWorld/json
+   *         
    * @throws Exception : General exception
    */
   @RequestMapping(value = "/json", method = RequestMethod.GET)

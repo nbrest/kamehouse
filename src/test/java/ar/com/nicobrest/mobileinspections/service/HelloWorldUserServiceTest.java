@@ -50,6 +50,8 @@ public class HelloWorldUserServiceTest {
    * @since v0.03
    * @author nbrest
    * @throws Exception Throws any type of exception in the method
+   * 
+   *      Initializes test repository
    */
   @BeforeClass
   public static void beforeClassTest() throws Exception {
@@ -80,6 +82,8 @@ public class HelloWorldUserServiceTest {
   /**
    * @since v0.03
    * @author nbrest 
+   * 
+   *      Resets mock objects
    */
   @Before
   public void beforeTest() {
@@ -92,6 +96,7 @@ public class HelloWorldUserServiceTest {
   /**
    * @since v0.03
    * @author nbrest
+   * 
    *      Test for getting all the HelloWorldUsers in the repository
    */
   @Test
@@ -124,6 +129,7 @@ public class HelloWorldUserServiceTest {
   /**
    * @since v0.03
    * @author nbrest
+   * 
    *      Test for getting a single HelloWorldUser in the repository
    */
   @Test
