@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * @since v0.03
  * @author nbrest
+ * 
  *      Service layer for the Example endpoints
  */
 public class HelloWorldUserService {

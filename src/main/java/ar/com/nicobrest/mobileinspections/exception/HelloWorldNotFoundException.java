@@ -2,7 +2,7 @@ package ar.com.nicobrest.mobileinspections.exception;
 
 /**
  * @since v0.02 
- * @author nicolas.brest
+ * @author nbrest
  *
  *         HelloWorldNotFoundException used for testing purposes
  */
