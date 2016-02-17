@@ -1,8 +1,8 @@
 package ar.com.nicobrest.mobileinspections.controller;
  
-import ar.com.nicobrest.mobileinspections.exception.HelloWorldNotFoundException;
-import ar.com.nicobrest.mobileinspections.model.HelloWorldUser;
-import ar.com.nicobrest.mobileinspections.service.HelloWorldUserService;
+import ar.com.nicobrest.mobileinspections.exception.DragonBallNotFoundException;
+import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
+import ar.com.nicobrest.mobileinspections.service.DragonBallUserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,39 +20,39 @@ import java.util.List;
  * @since v0.02 
  * @author nbrest
  * 
- *         Controller class for the helloWorld test endpoints
+ *         Controller class for the dragonball test endpoints
  */
 @Controller
-@RequestMapping(value = "/helloWorld")
-public class HelloWorldController {
+@RequestMapping(value = "/dragonball")
+public class DragonBallController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallController.class);
 
   @Autowired
-  private HelloWorldUserService helloWorldUserService;
+  private DragonBallUserService dragonBallUserService;
 
   /**
    * @since v0.03 
    * @author nbrest
-   * @param helloWorldUserService
+   * @param dragonBallUserService
    *    
    *      Getters and Setters
    */
-  public void setHelloWorldUserService(HelloWorldUserService helloWorldUserService) {
+  public void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
     
-    this.helloWorldUserService = helloWorldUserService;
+    this.dragonBallUserService = dragonBallUserService;
   }
   
   /**
    * @since v0.03 
    * @author nbrest
-   * @return HelloWorldUserService
+   * @return DragonBallUserService
    * 
    *      Getters and Setters
    */
-  public HelloWorldUserService getHelloWorldUserService() {
+  public DragonBallUserService getDragonBallUserService() {
     
-    return this.helloWorldUserService;
+    return this.dragonBallUserService;
   }
   
   /** 
@@ -62,23 +62,23 @@ public class HelloWorldController {
    * @return ModelAndView
    * 
    *         Returns the ModelAndView object for the test endpoint
-   *         /helloWorld/modelAndView
+   *         /dragonball/modelAndView
    */
   @RequestMapping(value = "/modelAndView", method = RequestMethod.GET)
   public ModelAndView getModelAndView(
       @RequestParam(value = "name", required = false, defaultValue = "Goku") String name) {
 
-    LOGGER.info("In controller /helloWorld/modelAndView");
+    LOGGER.info("In controller /dragonball/modelAndView");
 
-    String message = "message: HelloWorld ModelAndView!";
+    String message = "message: dragonball ModelAndView!";
 
-    ModelAndView mv = new ModelAndView("helloWorld/modelAndView");
+    ModelAndView mv = new ModelAndView("dragonball/modelAndView");
     mv.addObject("message", message);
     mv.addObject("name", name);
     
-    LOGGER.info("In controller /helloWorld/modelAndView Model keys: " 
+    LOGGER.info("In controller /dragonball/modelAndView Model keys: " 
         + mv.getModel().keySet().toString());
-    LOGGER.info("In controller /helloWorld/modelAndView Model values: " 
+    LOGGER.info("In controller /dragonball/modelAndView Model values: " 
         + mv.getModel().values().toString());
     
     return mv;
@@ -87,24 +87,24 @@ public class HelloWorldController {
   /**
    * @since v0.02 
    * @author nbrest
-   * @return HelloWorldUser
+   * @return DragonBallUser list
    * 
-   *         Returns the HelloWorldUser object in json format for the test
-   *         endpoint /helloWorld/json
+   *         Returns the DragonBallUser object in json format for the test
+   *         endpoint /dragonball/json
    *         
    * @throws Exception : General exception
    */
   @RequestMapping(value = "/json", method = RequestMethod.GET)
   @ResponseBody
-  public List<HelloWorldUser> getJson(
+  public List<DragonBallUser> getJson(
       @RequestParam(value = "action", required = false, defaultValue = "goku") 
       String action) throws Exception {
 
-    LOGGER.info("In controller /helloWorld/json");
+    LOGGER.info("In controller /dragonball/json");
  
     switch (action) {
-      case "HelloWorldNotFoundException":
-        throw new HelloWorldNotFoundException("*** HelloWorldNotFoundException in getJson ***");
+      case "DragonBallNotFoundException":
+        throw new DragonBallNotFoundException("*** DragonBallNotFoundException in getJson ***");
         // break;
       case "RuntimeException":
         throw new RuntimeException("*** RuntimeException in getJson ***");
@@ -116,7 +116,7 @@ public class HelloWorldController {
         break;
     }
 
-    return helloWorldUserService.getAllHelloWorldUsers();
+    return dragonBallUserService.getAllDragonBallUsers();
   }
 
 }

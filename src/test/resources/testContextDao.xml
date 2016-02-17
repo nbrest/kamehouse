@@ -14,22 +14,28 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   
   <!-- Example endpoints beans -->
 
-  <bean id="helloWorldUserDaoInMemory" 
-    class="ar.com.nicobrest.mobileinspections.dao.HelloWorldUserDaoInMemory">
-      <property name="gohanHelloWorldUser" ref="gohanHelloWorldUser" />
-      <property name="gotenHelloWorldUser" ref="gotenHelloWorldUser" />
+  <bean id="dragonBallUserDaoInMemory" 
+    class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoInMemory">
+      <property name="gohanDragonBallUser" ref="gohanDragonBallUser" />
+      <property name="gotenDragonBallUser" ref="gotenDragonBallUser" />
   </bean>
     
-  <bean id="gohanHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
+  <bean id="gohanDragonBallUser" class="ar.com.nicobrest.mobileinspections.model.DragonBallUser">
+    <property name="id" value="1001" />
     <property name="username" value="gohanTestBean" />
     <property name="email" value="gohanTestBean@dbz.com" />
     <property name="age" value="20" />
+    <property name="powerLevel" value="20" />
+    <property name="stamina" value="1000" />
   </bean>
   
-  <bean id="gotenHelloWorldUser" class="ar.com.nicobrest.mobileinspections.model.HelloWorldUser">
+  <bean id="gotenDragonBallUser" class="ar.com.nicobrest.mobileinspections.model.DragonBallUser">
+    <property name="id" value="1002" />
     <property name="username" value="gotenTestBean" />
     <property name="email" value="gotenTestBean@dbz.com" />
     <property name="age" value="10" />
+    <property name="powerLevel" value="10" />
+    <property name="stamina" value="1000" />
   </bean>
   
 </beans>

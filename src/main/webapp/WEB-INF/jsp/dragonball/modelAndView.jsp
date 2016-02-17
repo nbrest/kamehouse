@@ -3,11 +3,11 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>HelloWorld ModelAndView Test Endpoint</title>
+  <title>dragonball ModelAndView Test Endpoint</title>
 </head>
 <body>
   <center>
-    <h2>HelloWorld ModelAndView Test Endpoint</h2>
+    <h2>dragonball ModelAndView Test Endpoint</h2>
     <h2>
       ${message} ${name}
     </h2>

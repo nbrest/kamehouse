@@ -13,14 +13,14 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   <!-- Test Application Context to be used in unit tests for the Service layer -->
   
   <!-- Example endpoints beans -->
-  <bean id="helloWorldUserService" name="helloWorldUserService" 
-    class="ar.com.nicobrest.mobileinspections.service.HelloWorldUserService">
-    <property name="helloWorldUserDao" ref="helloWorldUserDao" />
+  <bean id="dragonBallUserService" name="dragonBallUserService" 
+    class="ar.com.nicobrest.mobileinspections.service.DragonBallUserService">
+    <property name="dragonBallUserDao" ref="dragonBallUserDao" />
   </bean> 
 
-  <bean id="helloWorldUserDao" name="helloWorldUserDao" class="org.mockito.Mockito"
+  <bean id="dragonBallUserDao" name="dragonBallUserDao" class="org.mockito.Mockito"
     factory-method="mock">
-    <constructor-arg value="ar.com.nicobrest.mobileinspections.dao.HelloWorldUserDao" />
+    <constructor-arg value="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDao" />
   </bean>  
     
 </beans>

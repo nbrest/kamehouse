@@ -4,13 +4,13 @@ package ar.com.nicobrest.mobileinspections.exception;
  * @since v0.02 
  * @author nbrest
  *
- *         HelloWorldNotFoundException used for testing purposes
+ *         DragonBallNotFoundException used for testing purposes
  */
-public class HelloWorldNotFoundException extends Exception {
+public class DragonBallNotFoundException extends Exception {
 
   private static final long serialVersionUID = 9L;
 
-  public HelloWorldNotFoundException(String message) {
+  public DragonBallNotFoundException(String message) {
     super(message);
   }
 
