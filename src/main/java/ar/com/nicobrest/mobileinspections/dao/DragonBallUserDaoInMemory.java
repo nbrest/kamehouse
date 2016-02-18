@@ -1,6 +1,7 @@
 package ar.com.nicobrest.mobileinspections.dao;
 
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
+import ar.com.nicobrest.mobileinspections.utils.IdGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -69,33 +70,23 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    */
   private static void initRepository() {
     
-    DragonBallUser user1 = new DragonBallUser();
-    user1.setId(1000L);
-    user1.setAge(49);
-    user1.setEmail("goku@dbz.com");
-    user1.setUsername("goku");
-    user1.setPowerLevel(30);
-    user1.setStamina(1000);
+    dragonBallUsers = new HashMap<String, DragonBallUser>();
+    
+    DragonBallUser user1 = new DragonBallUser(IdGenerator.getId(), "goku", 
+        "goku@dbz.com", 49, 30, 1000); 
+    dragonBallUsers.put(user1.getUsername(), user1);
     
     DragonBallUser user2 = new DragonBallUser();
-    user2.setId(1001L);
+    user2.setId(IdGenerator.getId());
     user2.setAge(29);
     user2.setEmail("gohan@dbz.com");
     user2.setUsername("gohan");
     user2.setPowerLevel(20);
     user2.setStamina(1000);
-    
-    DragonBallUser user3 = new DragonBallUser();
-    user3.setId(1002L);
-    user3.setAge(19);
-    user3.setEmail("goten@dbz.com");
-    user3.setUsername("goten");
-    user3.setPowerLevel(10);
-    user3.setStamina(1000);
-    
-    dragonBallUsers = new HashMap<String, DragonBallUser>();
-    dragonBallUsers.put(user1.getUsername(), user1);
     dragonBallUsers.put(user2.getUsername(), user2);
+    
+    DragonBallUser user3 = new DragonBallUser(IdGenerator.getId(), "goten", 
+        "goten@dbz.com", 19, 10, 1000); 
     dragonBallUsers.put(user3.getUsername(), user3);
   }
   

@@ -48,21 +48,21 @@ public class DragonBallUserDaoInMemoryTest {
     LOGGER.info("dragonBallUsers.get(1): " + usersList.get(1).getUsername());
     LOGGER.info("dragonBallUsers.get(2): " + usersList.get(2).getUsername());
 
-    assertEquals("1002", usersList.get(0).getId().toString());
+    assertEquals("3", usersList.get(0).getId().toString());
     assertEquals("goten", usersList.get(0).getUsername());
     assertEquals("goten@dbz.com", usersList.get(0).getEmail());
     assertEquals(19, usersList.get(0).getAge());
     assertEquals(10, usersList.get(0).getPowerLevel());
     assertEquals(1000, usersList.get(0).getStamina());
     
-    assertEquals("1001", usersList.get(1).getId().toString());
+    assertEquals("2", usersList.get(1).getId().toString());
     assertEquals("gohan", usersList.get(1).getUsername());
     assertEquals("gohan@dbz.com", usersList.get(1).getEmail());
     assertEquals(29, usersList.get(1).getAge());
     assertEquals(20, usersList.get(1).getPowerLevel());
     assertEquals(1000, usersList.get(1).getStamina());
     
-    assertEquals("1000", usersList.get(2).getId().toString());
+    assertEquals("1", usersList.get(2).getId().toString());
     assertEquals("goku", usersList.get(2).getUsername());
     assertEquals("goku@dbz.com", usersList.get(2).getEmail());
     assertEquals(49, usersList.get(2).getAge());

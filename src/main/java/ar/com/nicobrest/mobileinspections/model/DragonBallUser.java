@@ -19,6 +19,33 @@ public class DragonBallUser {
   private int stamina;
 
   /**
+   * @since v0.03
+   * @author nbrest 
+   */
+  public DragonBallUser() {}
+  
+  /**
+   * @since v0.03
+   * @author nbrest
+   * @param id : user id
+   * @param username : user unique name
+   * @param email : user email address
+   * @param age : user age
+   * @param powerLevel : user power level
+   * @param stamina : user stamina
+   */
+  public DragonBallUser(Long id, String username, String email, int age, 
+      int powerLevel, int stamina) {
+    
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.age = age;
+    this.powerLevel = powerLevel;
+    this.stamina = stamina;
+  }
+  
+  /**
    * @since v0.03 
    * @author nbrest
    * @param id
