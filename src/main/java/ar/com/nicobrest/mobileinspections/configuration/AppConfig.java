@@ -10,13 +10,13 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 /**
- * @since v0.02
- * @author nbrest
- * 
  *         Class that configures the application contexts. It is used to replace
  *         the web.xml file. Using this configuration makes it easier to unit
  *         test the controllers and web application using a testContext.xml file
  *         in the test classes
+ *         
+ * @since v0.02
+ * @author nbrest
  */
 public class AppConfig implements WebApplicationInitializer {
 

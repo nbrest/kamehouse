@@ -2,11 +2,13 @@ package ar.com.nicobrest.mobileinspections.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import ar.com.nicobrest.mobileinspections.dao.DragonBallUserDao;
+import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.junit.Before;
@@ -25,10 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *         Unit tests for the DragonBallUserService class
+ *         
  * @since v0.03 
  * @author nbrest
- *
- *         Unit tests for the DragonBallUserService class
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:testContextService.xml"})
@@ -47,11 +49,11 @@ public class DragonBallUserServiceTest {
   private DragonBallUserDao dragonBallUserDaoMock;
 
   /**
+   *      Initializes test repository
+   *      
    * @since v0.03
    * @author nbrest
    * @throws Exception Throws any type of exception in the method
-   * 
-   *      Initializes test repository
    */
   @BeforeClass
   public static void beforeClassTest() throws Exception {
@@ -89,10 +91,10 @@ public class DragonBallUserServiceTest {
   }
 
   /**
+   *      Resets mock objects
+   *      
    * @since v0.03
    * @author nbrest 
-   * 
-   *      Resets mock objects
    */
   @Before
   public void beforeTest() {
@@ -103,10 +105,10 @@ public class DragonBallUserServiceTest {
   }
   
   /**
+   *      Test for getting all the DragonBallUsers in the repository
+   *      
    * @since v0.03
    * @author nbrest
-   * 
-   *      Test for getting all the DragonBallUsers in the repository
    */
   @Test
   public void getAllDragonBallUsersTest() {
@@ -145,24 +147,29 @@ public class DragonBallUserServiceTest {
   }
   
   /**
+   *      Test for getting a single DragonBallUser in the repository
+   *      
    * @since v0.03
    * @author nbrest
-   * 
-   *      Test for getting a single DragonBallUser in the repository
    */
   @Test
   public void getDragonBallUserTest() {
     LOGGER.info("****************** Executing getDragonBallUserTest ******************");
     
-    when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock"))
-      .thenReturn(dragonBallUsers.get(0));
-    
-    DragonBallUser user = dragonBallUserService.getDragonBallUser("gokuTestMock");
-    
-    LOGGER.info("user: " + user.getUsername());
-    
-    assertNotNull(user);
-    assertEquals("gokuTestMock", user.getUsername());
-    verify(dragonBallUserDaoMock, times(1)).getDragonBallUser("gokuTestMock"); 
+    try {
+      when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock"))
+        .thenReturn(dragonBallUsers.get(0));
+      
+      DragonBallUser user = dragonBallUserService.getDragonBallUser("gokuTestMock");
+      
+      LOGGER.info("user: " + user.getUsername());
+      
+      assertNotNull(user);
+      assertEquals("gokuTestMock", user.getUsername());
+      verify(dragonBallUserDaoMock, times(1)).getDragonBallUser("gokuTestMock"); 
+    } catch (DragonBallUserNotFoundException e) {
+      e.printStackTrace();
+      fail();
+    }
   }
 }

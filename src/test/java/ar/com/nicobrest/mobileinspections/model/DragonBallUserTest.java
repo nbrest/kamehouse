@@ -13,20 +13,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ *         Unit tests for the DragonBallUser class
+ *         
  * @since v0.03 
  * @author nbrest
- *
- *         Unit tests for the DragonBallUser class
  */
 public class DragonBallUserTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserTest.class);
   
   /**
+   *      Test the hashCode and equals methods in DragonBallUser
+   *      
    * @since v0.03
    * @author nbrest
-   * 
-   *      Test the hashCode and equals methods in DragonBallUser
    */
   @Test
   public void hashCodeAndEqualsTest() {
@@ -65,10 +65,10 @@ public class DragonBallUserTest {
   }
   
   /**
+   *      Test the hashCode and equals methods in DragonBallUser
+   *      
    * @since v0.03
    * @author nbrest
-   * 
-   *      Test the hashCode and equals methods in DragonBallUser
    */
   @Test
   public void attackAndRecoverTest() {

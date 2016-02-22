@@ -43,10 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *         Unit tests for the DragonBallController class
+ *         
  * @since v0.02 
  * @author nbrest
- *
- *         Unit tests for the DragonBallController class
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:testContextController.xml", 
@@ -67,11 +67,11 @@ public class DragonBallControllerTest {
   private WebApplicationContext webApplicationContext;
     
   /**
+   *      Initializes test repositories
+   *      
    * @since v0.02
    * @author nbrest
    * @throws Exception Throws unhandled exceptions
-   * 
-   *      Initializes test repositories
    */
   @BeforeClass
   public static void beforeClassTest() throws Exception {
@@ -109,11 +109,11 @@ public class DragonBallControllerTest {
   }
 
   /**
+   *      Resets mock objects
+   *      
    * @since v0.02
    * @author nbrest
    * @throws Exception MockMvc Exceptions
-   * 
-   *      Resets mock objects
    */
   @Before
   public void beforeTest() throws Exception {
@@ -148,13 +148,13 @@ public class DragonBallControllerTest {
   }
 
   /**
-   * @since v0.02
-   * @author nbrest
-   * @throws Exception Exceptions thrown by MockMvc
-   * 
    *           Test the endpoint /dragonball/modelAndView with the HTTP method
    *           GET. The service should respond with HTTP status 200 OK and a
    *           view defined in dragonball/modelAndView.jsp
+   *           
+   * @since v0.02
+   * @author nbrest
+   * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
   public void getModelAndViewSuccessTest() throws Exception {
@@ -173,13 +173,13 @@ public class DragonBallControllerTest {
   }
   
   /**
-   * @since v0.02
-   * @author nbrest
-   * @throws Exception Exceptions thrown by MockMvc
-   * 
    *           Test the rest web service on the endpoint /dragonball/json with
    *           the HTTP method GET. The service should respond with HTTP status
    *           200 OK and a json array in the response body.
+   *           
+   * @since v0.02
+   * @author nbrest
+   * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
   public void getJsonSuccessTest() throws Exception {
@@ -221,14 +221,14 @@ public class DragonBallControllerTest {
   }
 
   /**
-   * @since v0.02
-   * @author nbrest
-   * @throws Exception Exceptions thrown by MockMvc
-   * 
    *           Test the rest web service on the endpoint /dragonball/json with
    *           the HTTP method GET. The service should respond with HTTP status
    *           404 and 500 for the different invocations throwing the correct
    *           Exception in each case
+   *           
+   * @since v0.02
+   * @author nbrest
+   * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
   public void getJsonExceptionTest() throws Exception {
@@ -251,8 +251,9 @@ public class DragonBallControllerTest {
       .andExpect(view().name("error/error"))
       .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
     
-    // Execute HTTP GET on the /dragonball/json endpoint where it throws DragonBallNotFoundException
-    mockMvc.perform(get("/dragonball/json?action=DragonBallNotFoundException"))
+    // Execute HTTP GET on the /dragonball/json endpoint where it throws 
+    // DragonBallUserNotFoundException
+    mockMvc.perform(get("/dragonball/json?action=DragonBallUserNotFoundException"))
       .andDo(print())
       .andExpect(status().isNotFound())
       .andExpect(view().name("error/404"))

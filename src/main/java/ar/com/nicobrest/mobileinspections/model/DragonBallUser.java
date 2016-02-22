@@ -4,10 +4,10 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
+ *         DragonBallUser POJO used for the test endpoints
+ *         
  * @since v0.02 
  * @author nbrest
- *
- *         DragonBallUser POJO used for the test endpoints
  */
 public class DragonBallUser {
 
@@ -19,20 +19,24 @@ public class DragonBallUser {
   private int stamina;
 
   /**
+   *      Constructor
+   *      
    * @since v0.03
    * @author nbrest 
    */
   public DragonBallUser() {}
   
   /**
+   *      Constructor
+   *      
    * @since v0.03
    * @author nbrest
-   * @param id : user id
-   * @param username : user unique name
-   * @param email : user email address
+   * @param id : User id
+   * @param username : User unique name
+   * @param email : User email address
    * @param age : user age
-   * @param powerLevel : user power level
-   * @param stamina : user stamina
+   * @param powerLevel : User power level
+   * @param stamina : User stamina
    */
   public DragonBallUser(Long id, String username, String email, int age, 
       int powerLevel, int stamina) {
@@ -46,132 +50,132 @@ public class DragonBallUser {
   }
   
   /**
+   *      Getters and Setters
+   *      
    * @since v0.03 
    * @author nbrest
-   * @param id
-   * 
-   *      Getters and Setters
+   * @param id : User id
    */
   public void setId(Long id) {
     this.id = id;
   }
   
   /**
+   *      Getters and Setters
+   *      
    * @since v0.02 
    * @author nbrest
-   * @param username
-   * 
-   *      Getters and Setters
+   * @param username : User name
    */
   public void setUsername(String username) {
     this.username = username;
   }
 
   /**
+   *      Getters and Setters
+   *      
    * @since v0.02 
    * @author nbrest
-   * @param email
-   * 
-   *      Getters and Setters
+   * @param email : User email
    */
   public void setEmail(String email) {
     this.email = email;
   }
 
   /**
+   *      Getters and Setters
+   *      
    * @since v0.02 
    * @author nbrest
-   * @param age
-   * 
-   *      Getters and Setters
+   * @param age : User age
    */
   public void setAge(int age) {
     this.age = age;
   }
 
   /**
+   *      Getters and Setters
+   *      
    * @since v0.03 
    * @author nbrest
-   * @param powerLevel
-   * 
-   *      Getters and Setters
+   * @param powerLevel : User power level
    */
   public void setPowerLevel(int powerLevel) {
     this.powerLevel = powerLevel;
   }
   
   /**
+   *      Getters and Setters
+   * 
    * @since v0.03 
    * @author nbrest
-   * @param stamina
-   * 
-   *      Getters and Setters
+   * @param stamina : User stamina
    */
   public void setStamina(int stamina) {
     this.stamina = stamina;
   }
  
   /**
+   *      Getters and Setters
+   *      
    * @since v0.03 
    * @author nbrest
    * @return Long
-   * 
-   *      Getters and Setters
    */
   public Long getId() {
     return id;
   }  
   
   /**
+   *      Getters and Setters
+   *      
    * @since v0.02 
    * @author nbrest
    * @return String
-   * 
-   *      Getters and Setters
    */
   public String getUsername() {
     return username;
   }
 
   /**
+   *      Getters and Setters
+   *      
    * @since v0.02 
    * @author nbrest
    * @return String
-   * 
-   *      Getters and Setters
    */
   public String getEmail() {
     return email;
   }
 
   /**
+   *      Getters and Setters
+   *      
    * @since v0.02 
    * @author nbrest
    * @return int
-   * 
-   *      Getters and Setters
    */
   public int getAge() {
     return age;
   }
  
   /**
+   *      Getters and Setters
+   *      
    * @since v0.03 
    * @author nbrest
    * @return int
-   * 
-   *      Getters and Setters
    */
   public int getPowerLevel() {
     return powerLevel;
   }
   
   /**
+   *      Getters and Setters
+   *      
    * @since v0.03 
    * @author nbrest
    * @return int
-   * 
-   *      Getters and Setters
    */
   public int getStamina() {
     return stamina;
@@ -179,10 +183,10 @@ public class DragonBallUser {
   
   
   /**
+   *      Attack another DragonBallUser
+   *      
    * @since v0.03 
    * @author nbrest 
-   * 
-   *      Attack another DragonBallUser
    */
   public void attack(DragonBallUser opponent) {
     
@@ -201,10 +205,10 @@ public class DragonBallUser {
   }
   
   /**
+   *      Recover stamina
+   *      
    * @since v0.03 
    * @author nbrest 
-   * 
-   *      Recover stamina
    */
   public void recoverStamina() {
     

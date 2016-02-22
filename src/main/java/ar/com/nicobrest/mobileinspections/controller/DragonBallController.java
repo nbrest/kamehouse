@@ -1,6 +1,6 @@
 package ar.com.nicobrest.mobileinspections.controller;
  
-import ar.com.nicobrest.mobileinspections.exception.DragonBallNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 import ar.com.nicobrest.mobileinspections.service.DragonBallUserService;
 
@@ -17,10 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List; 
  
 /**
+ *         Controller class for the dragonball test endpoints
+ *         
  * @since v0.02 
  * @author nbrest
- * 
- *         Controller class for the dragonball test endpoints
  */
 @Controller
 @RequestMapping(value = "/dragonball")
@@ -32,11 +32,11 @@ public class DragonBallController {
   private DragonBallUserService dragonBallUserService;
 
   /**
+   *      Getters and Setters
+   *      
    * @since v0.03 
    * @author nbrest
-   * @param dragonBallUserService
-   *    
-   *      Getters and Setters
+   * @param dragonBallUserService DragonBallUserService
    */
   public void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
     
@@ -44,11 +44,11 @@ public class DragonBallController {
   }
   
   /**
+   *      Getters and Setters
+   *      
    * @since v0.03 
    * @author nbrest
    * @return DragonBallUserService
-   * 
-   *      Getters and Setters
    */
   public DragonBallUserService getDragonBallUserService() {
     
@@ -56,13 +56,13 @@ public class DragonBallController {
   }
   
   /** 
+   *         Returns the ModelAndView object for the test endpoint
+   *         /dragonball/modelAndView
+   *         
    * @since v0.02 
    * @author nbrest
    * @param name : Nombre del usuario que visita el sitio
    * @return ModelAndView
-   * 
-   *         Returns the ModelAndView object for the test endpoint
-   *         /dragonball/modelAndView
    */
   @RequestMapping(value = "/modelAndView", method = RequestMethod.GET)
   public ModelAndView getModelAndView(
@@ -85,13 +85,12 @@ public class DragonBallController {
   }
 
   /**
-   * @since v0.02 
-   * @author nbrest
-   * @return DragonBallUser list
-   * 
    *         Returns the DragonBallUser object in json format for the test
    *         endpoint /dragonball/json
    *         
+   * @since v0.02 
+   * @author nbrest
+   * @return DragonBallUser list
    * @throws Exception : General exception
    */
   @RequestMapping(value = "/json", method = RequestMethod.GET)
@@ -103,8 +102,9 @@ public class DragonBallController {
     LOGGER.info("In controller /dragonball/json");
  
     switch (action) {
-      case "DragonBallNotFoundException":
-        throw new DragonBallNotFoundException("*** DragonBallNotFoundException in getJson ***");
+      case "DragonBallUserNotFoundException":
+        throw new DragonBallUserNotFoundException(
+            "*** DragonBallUserNotFoundException in getJson ***");
         // break;
       case "RuntimeException":
         throw new RuntimeException("*** RuntimeException in getJson ***");

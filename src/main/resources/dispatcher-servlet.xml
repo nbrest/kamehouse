@@ -27,7 +27,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
     <property name="exceptionMappings">
       <props>
-        <prop key="ar.com.nicobrest.mobileinspections.exception.DragonBallNotFoundException">error/404</prop>
+        <prop key="ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException">error/404</prop>
         <prop key="java.lang.Exception">error/error</prop>
         <prop key="java.lang.RuntimeException">error/error</prop>
       </props>
