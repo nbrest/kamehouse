@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *         Unit tests for the DragonBallUser class
+ *        Unit tests for the DragonBallUser class
  *         
  * @since v0.03 
  * @author nbrest

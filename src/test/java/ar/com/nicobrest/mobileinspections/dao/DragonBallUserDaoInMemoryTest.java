@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 /**
- *         Unit tests for the DragonBallUserInMemoryDao class
+ *        Unit tests for the DragonBallUserInMemoryDao class
  *         
  * @since v0.03 
  * @author nbrest

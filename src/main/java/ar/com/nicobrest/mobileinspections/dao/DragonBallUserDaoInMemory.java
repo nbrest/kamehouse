@@ -15,7 +15,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 /**
- *         In-Memory DAO for the test endpoint dragonball
+ *        In-Memory DAO for the test endpoint dragonball
  *         
  * @since v0.03
  * @author nbrest
@@ -41,7 +41,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *          Getters and setters
+   *      Getters and setters
    *          
    * @since v0.03
    * @author nbrest
@@ -53,7 +53,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *          Getters and setters
+   *      Getters and setters
    *          
    * @since v0.03
    * @author nbrest
@@ -65,7 +65,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *          Getters and setters
+   *      Getters and setters
    *          
    * @since v0.03
    * @author nbrest
@@ -77,7 +77,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *         Getters and setters
+   *      Getters and setters
    *         
    * @since v0.03
    * @author nbrest
@@ -89,7 +89,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *         Initialize In-Memory repository
+   *      Initialize In-Memory repository
    *         
    * @since v0.03
    * @author nbrest
@@ -117,7 +117,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
   
   /**
-   *           Adds a new DragonBallUser to the repository
+   *      Adds a new DragonBallUser to the repository
    *           
    * @since v0.03
    * @author nbrest
@@ -135,7 +135,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *           Returns a single instance of a DragonBallUser
+   *      Returns a single instance of a DragonBallUser
    *           
    * @since v0.03
    * @author nbrest
@@ -189,7 +189,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *         Returns all the DragonBallUsers in the repository
+   *      Returns all the DragonBallUsers in the repository
    *         
    * @since v0.03
    * @author nbrest

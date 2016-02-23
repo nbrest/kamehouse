@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- *     Service layer for the Example endpoints
+ *        Service layer for the Example endpoints
  *     
  * @since v0.03
  * @author nbrest

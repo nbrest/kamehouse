@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *         Unit tests for the DragonBallController class
+ *        Unit tests for the DragonBallController class
  *         
  * @since v0.02 
  * @author nbrest
@@ -148,9 +148,9 @@ public class DragonBallControllerTest {
   }
 
   /**
-   *           Test the endpoint /dragonball/modelAndView with the HTTP method
-   *           GET. The service should respond with HTTP status 200 OK and a
-   *           view defined in dragonball/modelAndView.jsp
+   *      Test the endpoint /dragonball/modelAndView with the HTTP method
+   *      GET. The service should respond with HTTP status 200 OK and a
+   *      view defined in dragonball/modelAndView.jsp
    *           
    * @since v0.02
    * @author nbrest
@@ -173,9 +173,9 @@ public class DragonBallControllerTest {
   }
   
   /**
-   *           Test the rest web service on the endpoint /dragonball/users with
-   *           the HTTP method GET. The service should respond with HTTP status
-   *           200 OK and a json array in the response body.
+   *      Test the rest web service on the endpoint /dragonball/users with
+   *      the HTTP method GET. The service should respond with HTTP status
+   *      200 OK and a json array in the response body.
    *           
    * @since v0.02
    * @author nbrest
@@ -221,10 +221,10 @@ public class DragonBallControllerTest {
   }
 
   /**
-   *           Test the rest web service on the endpoint /dragonball/users with
-   *           the HTTP method GET. The service should respond with HTTP status
-   *           404 and 500 for the different invocations throwing the correct
-   *           Exception in each case
+   *      Test the rest web service on the endpoint /dragonball/users with
+   *      the HTTP method GET. The service should respond with HTTP status
+   *      404 and 500 for the different invocations throwing the correct
+   *      Exception in each case
    *           
    * @since v0.02
    * @author nbrest

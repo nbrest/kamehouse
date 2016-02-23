@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- *         DragonBallUser POJO used for the test endpoints
+ *        DragonBallUser POJO used for the test endpoints
  *         
  * @since v0.02 
  * @author nbrest

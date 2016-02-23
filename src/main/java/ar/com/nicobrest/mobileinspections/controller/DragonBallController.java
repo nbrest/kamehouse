@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List; 
  
 /**
- *         Controller class for the dragonball test endpoints
+ *        Controller class for the dragonball test endpoints
  *         
  * @since v0.02 
  * @author nbrest
@@ -58,8 +58,8 @@ public class DragonBallController {
   }
   
   /** 
-   *         Returns the ModelAndView object for the test endpoint
-   *         /dragonball/modelAndView
+   *      Returns the ModelAndView object for the test endpoint
+   *      /dragonball/modelAndView
    *         
    * @since v0.02 
    * @author nbrest
@@ -87,8 +87,8 @@ public class DragonBallController {
   }
 
   /**
-   *         Returns all DragonBallUsers in json format for the test
-   *         endpoint /dragonball/users
+   *      Returns all DragonBallUsers in json format for the test
+   *      endpoint /dragonball/users
    *         
    * @since v0.02 
    * @author nbrest
@@ -133,7 +133,7 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users", method = RequestMethod.POST)
   @ResponseBody
-  public DragonBallUser postUser(@RequestBody DragonBallUser dragonBallUser) 
+  public DragonBallUser postUsers(@RequestBody DragonBallUser dragonBallUser) 
       throws DragonBallUserAlreadyExistsException, DragonBallUserNotFoundException {
     
     LOGGER.info("In controller /dragonball/users (POST)");

@@ -1,7 +1,7 @@
 package ar.com.nicobrest.mobileinspections.exception;
 
 /**
- *         DragonBallUserAlreadyExistsException used for testing purposes
+ *        DragonBallUserAlreadyExistsException used for testing purposes
  *         
  * @since v0.03 
  * @author nbrest
