@@ -173,7 +173,7 @@ public class DragonBallControllerTest {
   }
   
   /**
-   *           Test the rest web service on the endpoint /dragonball/json with
+   *           Test the rest web service on the endpoint /dragonball/users with
    *           the HTTP method GET. The service should respond with HTTP status
    *           200 OK and a json array in the response body.
    *           
@@ -182,14 +182,14 @@ public class DragonBallControllerTest {
    * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
-  public void getJsonSuccessTest() throws Exception {
-    LOGGER.info("****************** Executing getJsonSuccessTest ******************");
+  public void getUsersSuccessTest() throws Exception {
+    LOGGER.info("****************** Executing getUsersSuccessTest ******************");
     
     // Setup mock object dragonBallUserServiceMock 
     when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsers);
  
-    // Execute HTTP GET on the /dragonball/json endpoint
-    mockMvc.perform(get("/dragonball/json"))
+    // Execute HTTP GET on the /dragonball/users endpoint
+    mockMvc.perform(get("/dragonball/users"))
       .andDo(print())
       .andExpect(status().isOk())
       .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -221,7 +221,7 @@ public class DragonBallControllerTest {
   }
 
   /**
-   *           Test the rest web service on the endpoint /dragonball/json with
+   *           Test the rest web service on the endpoint /dragonball/users with
    *           the HTTP method GET. The service should respond with HTTP status
    *           404 and 500 for the different invocations throwing the correct
    *           Exception in each case
@@ -231,29 +231,29 @@ public class DragonBallControllerTest {
    * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
-  public void getJsonExceptionTest() throws Exception {
-    LOGGER.info("****************** Executing getJsonExceptionTest ******************");
+  public void getUsersExceptionTest() throws Exception {
+    LOGGER.info("****************** Executing getUsersExceptionTest ******************");
 
     // Setup mock object dragonBallUserServiceMock 
     when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsers);
 
-    // Execute HTTP GET on the /dragonball/json endpoint where it throws Exception
-    mockMvc.perform(get("/dragonball/json?action=Exception"))
+    // Execute HTTP GET on the /dragonball/users endpoint where it throws Exception
+    mockMvc.perform(get("/dragonball/users?action=Exception"))
       .andDo(print())
       .andExpect(status().isInternalServerError())
       .andExpect(view().name("error/error"))
       .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
     
-    // Execute HTTP GET on the /dragonball/json endpoint where it throws RuntimeException
-    mockMvc.perform(get("/dragonball/json?action=RuntimeException"))
+    // Execute HTTP GET on the /dragonball/users endpoint where it throws RuntimeException
+    mockMvc.perform(get("/dragonball/users?action=RuntimeException"))
       .andDo(print())
       .andExpect(status().isInternalServerError())
       .andExpect(view().name("error/error"))
       .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
     
-    // Execute HTTP GET on the /dragonball/json endpoint where it throws 
+    // Execute HTTP GET on the /dragonball/users endpoint where it throws 
     // DragonBallUserNotFoundException
-    mockMvc.perform(get("/dragonball/json?action=DragonBallUserNotFoundException"))
+    mockMvc.perform(get("/dragonball/users?action=DragonBallUserNotFoundException"))
       .andDo(print())
       .andExpect(status().isNotFound())
       .andExpect(view().name("error/404"))
