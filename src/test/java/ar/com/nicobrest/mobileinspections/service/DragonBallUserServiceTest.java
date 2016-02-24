@@ -114,7 +114,7 @@ public class DragonBallUserServiceTest {
       verify(dragonBallUserDaoMock, times(1)).createDragonBallUser(userToAdd);
     } catch (DragonBallUserAlreadyExistsException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserAlreadyExistsException.");
     }
     
     // Exception flow
@@ -154,7 +154,7 @@ public class DragonBallUserServiceTest {
       verify(dragonBallUserDaoMock, times(1)).getDragonBallUser("gokuTestMock"); 
     } catch (DragonBallUserNotFoundException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserNotFoundException.");
     }
     
     // Exception flow
@@ -191,7 +191,7 @@ public class DragonBallUserServiceTest {
       verify(dragonBallUserDaoMock, times(1)).updateDragonBallUser(userToUpdate);
     } catch (DragonBallUserNotFoundException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserNotFoundException.");
     }
     
     // Exception flows
@@ -221,14 +221,15 @@ public class DragonBallUserServiceTest {
     
     // Normal flow
     try {
-      Mockito.doNothing().when(dragonBallUserDaoMock).deleteDragonBallUser("goku");
+      when(dragonBallUserDaoMock.deleteDragonBallUser("goku"))
+        .thenReturn(dragonBallUsersList.get(0));
       
       dragonBallUserService.deleteDragonBallUser("goku");
       
       verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser("goku");
     } catch (DragonBallUserNotFoundException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserNotFoundException.");
     }
     
     // Exception flows

@@ -23,7 +23,7 @@ public interface DragonBallUserDao {
   public void updateDragonBallUser(DragonBallUser dragonBallUser) 
       throws DragonBallUserNotFoundException;
   
-  public void deleteDragonBallUser(String username) 
+  public DragonBallUser deleteDragonBallUser(String username) 
       throws DragonBallUserNotFoundException;
 
   public List<DragonBallUser> getAllDragonBallUsers();

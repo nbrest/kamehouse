@@ -1,14 +1,19 @@
 package ar.com.nicobrest.mobileinspections.controller;
 
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.isA;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
@@ -17,8 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.DragonBallUserForbiddenException;
+import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 import ar.com.nicobrest.mobileinspections.service.DragonBallUserService;
+import ar.com.nicobrest.mobileinspections.utils.JsonUtils;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -39,6 +49,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +68,7 @@ public class DragonBallControllerTest {
   private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallControllerTest.class);
 
   private MockMvc mockMvc;
-  private static List<DragonBallUser> dragonBallUsers;
+  private static List<DragonBallUser> dragonBallUsersList;
 
   @Autowired
   @Qualifier("dragonBallUserService")
@@ -102,10 +113,10 @@ public class DragonBallControllerTest {
     user3.setPowerLevel(10);
     user3.setStamina(1000);
     
-    dragonBallUsers = new ArrayList<DragonBallUser>();
-    dragonBallUsers.add(user1);
-    dragonBallUsers.add(user2);
-    dragonBallUsers.add(user3);
+    dragonBallUsersList = new ArrayList<DragonBallUser>();
+    dragonBallUsersList.add(user1);
+    dragonBallUsersList.add(user2);
+    dragonBallUsersList.add(user3);
   }
 
   /**
@@ -148,6 +159,7 @@ public class DragonBallControllerTest {
   }
 
   /**
+   *      /dragonball/modelAndView (GET)
    *      Test the endpoint /dragonball/modelAndView with the HTTP method
    *      GET. The service should respond with HTTP status 200 OK and a
    *      view defined in dragonball/modelAndView.jsp
@@ -157,8 +169,8 @@ public class DragonBallControllerTest {
    * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
-  public void getModelAndViewSuccessTest() throws Exception {
-    LOGGER.info("****************** Executing getModelAndViewSuccessTest ******************");
+  public void getModelAndViewTest() throws Exception {
+    LOGGER.info("****************** Executing getModelAndViewTest ******************");
     
     mockMvc.perform(get("/dragonball/modelAndView"))
       .andDo(print())
@@ -173,6 +185,7 @@ public class DragonBallControllerTest {
   }
   
   /**
+   *      /dragonball/users (GET)
    *      Test the rest web service on the endpoint /dragonball/users with
    *      the HTTP method GET. The service should respond with HTTP status
    *      200 OK and a json array in the response body.
@@ -182,11 +195,11 @@ public class DragonBallControllerTest {
    * @throws Exception Exceptions thrown by MockMvc
    */
   @Test
-  public void getUsersSuccessTest() throws Exception {
-    LOGGER.info("****************** Executing getUsersSuccessTest ******************");
+  public void getUsersTest() throws Exception {
+    LOGGER.info("****************** Executing getUsersTest ******************");
     
     // Setup mock object dragonBallUserServiceMock 
-    when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsers);
+    when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsersList);
  
     // Execute HTTP GET on the /dragonball/users endpoint
     mockMvc.perform(get("/dragonball/users"))
@@ -221,6 +234,7 @@ public class DragonBallControllerTest {
   }
 
   /**
+   *      /dragonball/users (GET)
    *      Test the rest web service on the endpoint /dragonball/users with
    *      the HTTP method GET. The service should respond with HTTP status
    *      404 and 500 for the different invocations throwing the correct
@@ -235,7 +249,7 @@ public class DragonBallControllerTest {
     LOGGER.info("****************** Executing getUsersExceptionTest ******************");
 
     // Setup mock object dragonBallUserServiceMock 
-    when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsers);
+    when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsersList);
 
     // Execute HTTP GET on the /dragonball/users endpoint where it throws Exception
     mockMvc.perform(get("/dragonball/users?action=Exception"))
@@ -263,6 +277,294 @@ public class DragonBallControllerTest {
     verifyZeroInteractions(dragonBallUserServiceMock); 
   }
 
+  /**
+   *      /dragonball/users (POST)
+   *      Test creating a new DragonBallUser in the repository
+   * 
+   * @since v0.03
+   * @author nbrest
+   */
+  @Test
+  public void postUsersTest() {
+    LOGGER.info("****************** Executing postUsersTest ******************");
+    
+    // Normal flow
+    try {
+      // Setup mock object dragonBallUserServiceMock 
+      Mockito.doNothing().when(dragonBallUserServiceMock)
+        .createDragonBallUser(dragonBallUsersList.get(0));
+      when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
+        .thenReturn(dragonBallUsersList.get(0));
+      
+      // Execute HTTP POST on the /dragonball/users endpoint
+      mockMvc.perform(post("/dragonball/users")
+          .contentType(MediaType.APPLICATION_JSON_UTF8)
+          .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
+          )
+          .andDo(print())
+          .andExpect(status().isOk())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+          .andExpect(content().bytes(
+           JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0).getId())))
+          .andExpect(content().string(dragonBallUsersList.get(0).getId().toString()));
+      
+      verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUsersList.get(0));
+      verify(dragonBallUserServiceMock, times(1)).getDragonBallUser(dragonBallUsersList.get(0)
+          .getUsername());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception. It should pass.");
+    }
+    
+    // Exception flows
+    try {
+      // Reset mock objects before each test
+      Mockito.reset(dragonBallUserServiceMock);
+      
+      // Setup mock object dragonBallUserServiceMock 
+      Mockito.doThrow(new DragonBallUserAlreadyExistsException("User already exists"))
+      .when(dragonBallUserServiceMock).createDragonBallUser(dragonBallUsersList.get(0));
+      
+      // Execute HTTP POST on the /dragonball/users endpoint
+      mockMvc.perform(post("/dragonball/users")
+          .contentType(MediaType.APPLICATION_JSON_UTF8)
+          .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
+          )
+          .andDo(print())
+          .andExpect(status().is4xxClientError())
+          .andExpect(view().name("error/409"))
+          .andExpect(forwardedUrl("/WEB-INF/jsp/error/409.jsp"));
+      
+      verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUsersList.get(0));
+    } catch (DragonBallUserAlreadyExistsException e) {
+      fail("Caught DragonBallUserAlreadyExistsException. Should have been handled in thte mock.");
+    } catch (IOException e) {
+      e.printStackTrace();
+      fail("Caught IOException.");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception.");
+    }
+  }
+  
+  /**
+   *      /dragonball/users/{username} (GET)
+   *      Tests getting a specific user from the repository
+   * 
+   * @since v0.03
+   * @author nbrest
+   */
+  @Test
+  public void getUsersUsernameTest() {
+    LOGGER.info("****************** Executing getUsersUsernameTest ******************");
+    
+    try {
+      // Setup mock object dragonBallUserServiceMock
+      when(dragonBallUserServiceMock.getDragonBallUser("gokuTestMock"))
+        .thenReturn(dragonBallUsersList.get(0));
+
+      // Execute HTTP GET on the /dragonball/users/{username} endpoint
+      mockMvc.perform(get("/dragonball/users/gokuTestMock"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentType("application/json;charset=UTF-8"))
+        .andExpect(jsonPath("$.id", equalTo(101)))
+        .andExpect(jsonPath("$.username", equalTo("gokuTestMock")))
+        .andExpect(jsonPath("$.email", equalTo("gokuTestMock@dbz.com")))
+        .andExpect(jsonPath("$.age", equalTo(49)))
+        .andExpect(jsonPath("$.powerLevel", equalTo(30)))
+        .andExpect(jsonPath("$.stamina", equalTo(1000)));
+    } catch (DragonBallUserNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught DragonBallUserNotFoundException. It should pass.");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception. It should pass.");
+    }
+    
+    // Exception flows
+    try {
+      // Reset mock objects before each test
+      Mockito.reset(dragonBallUserServiceMock);
+      
+      // Setup mock object dragonBallUserServiceMock 
+      Mockito.doThrow(new DragonBallUserNotFoundException("User trunks not found"))
+      .when(dragonBallUserServiceMock).getDragonBallUser("trunks");
+      
+      // Execute HTTP GET on the /dragonball/users/{username} endpoint
+      mockMvc.perform(get("/dragonball/users/trunks"))
+        .andDo(print())
+        .andExpect(status().is4xxClientError())
+        .andExpect(view().name("error/404"))
+        .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+      verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
+    } catch (DragonBallUserNotFoundException e) {
+      fail("Caught DragonBallUserNotFoundException. It should have been handled in the mock.");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception.");
+    }
+  }
+  
+  /**
+   *      /dragonball/users/{username} (PUT)
+   *      Tests updating an existing user in the repository
+   * 
+   * @since v0.03
+   * @author nbrest
+   */
+  @Test
+  public void putUsersUsernameTest() {
+    LOGGER.info("****************** Executing putUsersUsernameTest ******************");
+    
+    // Normal flow
+    try {
+      // Setup mock object dragonBallUserServiceMock 
+      Mockito.doNothing().when(dragonBallUserServiceMock)
+        .updateDragonBallUser(dragonBallUsersList.get(0));
+      when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
+        .thenReturn(dragonBallUsersList.get(0));
+      
+      // Execute HTTP PUT on the /dragonball/users/{username} endpoint
+      mockMvc.perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getUsername())
+          .contentType(MediaType.APPLICATION_JSON_UTF8)
+          .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
+          )
+          .andDo(print())
+          .andExpect(status().isOk())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+          .andExpect(content().bytes(
+           JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0).getId())))
+          .andExpect(content().string(dragonBallUsersList.get(0).getId().toString()));
+      
+      verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUsersList.get(0));
+      verify(dragonBallUserServiceMock, times(1)).getDragonBallUser(dragonBallUsersList.get(0)
+          .getUsername());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception. It should pass.");
+    }
+    
+    // Exception flows
+    try {
+      // Reset mock objects before each test
+      Mockito.reset(dragonBallUserServiceMock);
+      
+      // Setup mock object dragonBallUserServiceMock 
+      Mockito.doThrow(new DragonBallUserNotFoundException("User not found"))
+      .when(dragonBallUserServiceMock).updateDragonBallUser(dragonBallUsersList.get(0));
+      
+      // Execute HTTP PUT on the /dragonball/users/{username} endpoint
+      mockMvc.perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getUsername())
+          .contentType(MediaType.APPLICATION_JSON_UTF8)
+          .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
+          )
+          .andDo(print())
+          .andExpect(status().is4xxClientError())
+          .andExpect(view().name("error/404"))
+          .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+      verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUsersList.get(0));
+    } catch (DragonBallUserNotFoundException e) {
+      fail("Caught DragonBallUserNotFoundException. It should have been handled in the mock.");
+    } catch (IOException e) {
+      e.printStackTrace();
+      fail("Caught IOException.");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception.");
+    } 
+    
+    try {
+      // Reset mock objects before each test
+      Mockito.reset(dragonBallUserServiceMock);
+      
+      // Setup mock object dragonBallUserServiceMock 
+      Mockito.doNothing().when(dragonBallUserServiceMock)
+        .updateDragonBallUser(dragonBallUsersList.get(0));
+      when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
+        .thenReturn(dragonBallUsersList.get(0));
+      
+      // Execute HTTP PUT on the /dragonball/users/{username} endpoint
+      mockMvc.perform(put("/dragonball/users/ryoma")
+          .contentType(MediaType.APPLICATION_JSON_UTF8)
+          .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
+          )
+          .andDo(print())
+          .andExpect(status().is4xxClientError())
+          .andExpect(view().name("error/403"))
+          .andExpect(forwardedUrl("/WEB-INF/jsp/error/403.jsp"));
+      verify(dragonBallUserServiceMock, times(0)).updateDragonBallUser(dragonBallUsersList.get(0));
+      verify(dragonBallUserServiceMock, times(0)).getDragonBallUser(dragonBallUsersList.get(0)
+          .getUsername());
+    } catch (DragonBallUserForbiddenException e) {
+      fail("Caught DragonBallUserForbiddenException. It should have been handled in the mock.");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception.");
+    }
+  }
+  
+  /**
+   *      /dragonball/users/{username} (DELETE)
+   *      Tests for deleting an existing user from the repository
+   * 
+   * @since v0.03
+   * @author nbrest
+   */
+  @Test
+  public void deleteUsersUsername() {
+    LOGGER.info("****************** Executing deleteUsersUsername ******************");
+    
+    // Normal flow
+    try {
+      // Setup mock object dragonBallUserServiceMock 
+      when(dragonBallUserServiceMock.deleteDragonBallUser(dragonBallUsersList.get(0)
+          .getUsername())).thenReturn(dragonBallUsersList.get(0));
+      
+      // Execute HTTP DELETE on the /dragonball/users/{username} endpoint
+      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getUsername()))
+          .andDo(print())
+          .andExpect(status().isOk())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+          .andExpect(content().bytes(
+           JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))));
+      
+      verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(dragonBallUsersList.get(0)
+          .getUsername());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception. It should pass.");
+    }
+    
+    // Exception flows
+    try {
+      // Reset mock objects before each test
+      Mockito.reset(dragonBallUserServiceMock);
+      
+      // Setup mock object dragonBallUserServiceMock 
+      Mockito.doThrow(new DragonBallUserNotFoundException("User not found"))
+          .when(dragonBallUserServiceMock).deleteDragonBallUser(dragonBallUsersList.get(0)
+          .getUsername());
+      
+      // Execute HTTP DELETE on the /dragonball/users/{username} endpoint
+      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getUsername()))
+          .andDo(print())
+          .andExpect(status().is4xxClientError())
+          .andExpect(view().name("error/404"))
+          .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+      verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(dragonBallUsersList.get(0)
+          .getUsername());
+    } catch (DragonBallUserNotFoundException e) {
+      fail("Caught DragonBallUserNotFoundException. It should have been handled in the mock.");
+    } catch (IOException e) {
+      e.printStackTrace();
+      fail("Caught IOException.");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught Exception.");
+    }    
+  }
+  
   /*
   @Ignore("Disabled test example")
   @Test

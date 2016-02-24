@@ -92,9 +92,10 @@ public class DragonBallUserService {
    * @param username : User name
    * @throws DragonBallUserNotFoundException User defined exception
    */
-  public void deleteDragonBallUser(String username) throws DragonBallUserNotFoundException {
+  public DragonBallUser deleteDragonBallUser(String username) 
+      throws DragonBallUserNotFoundException {
     
-    dragonBallUserDao.deleteDragonBallUser(username);
+    return dragonBallUserDao.deleteDragonBallUser(username);
   }
   
   /**

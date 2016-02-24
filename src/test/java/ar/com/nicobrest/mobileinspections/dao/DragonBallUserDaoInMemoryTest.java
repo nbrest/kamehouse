@@ -83,7 +83,7 @@ public class DragonBallUserDaoInMemoryTest {
       dragonBallUserDaoInMemory.deleteDragonBallUser("vegeta");
     } catch (DragonBallUserAlreadyExistsException | DragonBallUserNotFoundException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserAlreadyExistsException or DragonBallUserNotFoundException.");
     }
   }
   
@@ -126,7 +126,7 @@ public class DragonBallUserDaoInMemoryTest {
       assertEquals("goku", user.getUsername());
     } catch (DragonBallUserNotFoundException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserNotFoundException.");
     }
   }
 
@@ -176,7 +176,7 @@ public class DragonBallUserDaoInMemoryTest {
       dragonBallUserDaoInMemory.updateDragonBallUser(originalUser);
     } catch (DragonBallUserNotFoundException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserNotFoundException.");
     }
   }
   
@@ -211,17 +211,22 @@ public class DragonBallUserDaoInMemoryTest {
     
     try {
       DragonBallUser userToDelete = new DragonBallUser(0L, "piccolo", "piccolo@dbz.com", 
-          20, 20, 20);
+          20, 21, 22);
       dragonBallUserDaoInMemory.createDragonBallUser(userToDelete);
       assertEquals(4, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
-      dragonBallUserDaoInMemory.deleteDragonBallUser("piccolo");
+      DragonBallUser deletedUser = dragonBallUserDaoInMemory.deleteDragonBallUser("piccolo");
       assertEquals(3, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
+      assertEquals("piccolo", deletedUser.getUsername());
+      assertEquals("piccolo@dbz.com", deletedUser.getEmail());
+      assertEquals(20, deletedUser.getAge());
+      assertEquals(21, deletedUser.getPowerLevel());
+      assertEquals(22, deletedUser.getStamina());
     } catch (DragonBallUserNotFoundException | DragonBallUserAlreadyExistsException e) {
       e.printStackTrace();
-      fail();
+      fail("Caught DragonBallUserNotFoundException or DragonBallUserAlreadyExistsException.");
     }
   }
-  
+
   /**
    *      Test for deleting an existing user from the repository
    *      Exception flows

@@ -178,7 +178,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
-  public void deleteDragonBallUser(String username) throws DragonBallUserNotFoundException {
+  public DragonBallUser deleteDragonBallUser(String username) 
+      throws DragonBallUserNotFoundException {
 
     DragonBallUser removedUser = dragonBallUsers.remove(username);
 
@@ -186,6 +187,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
       throw new DragonBallUserNotFoundException("DragonBallUser with username " 
           + username + " was not found in the repository.");
     }
+    return removedUser;
   }
 
   /**
