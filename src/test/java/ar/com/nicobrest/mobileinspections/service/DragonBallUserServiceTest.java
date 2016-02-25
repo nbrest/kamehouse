@@ -121,7 +121,7 @@ public class DragonBallUserServiceTest {
    *      Test for calling the service to create a DragonBallUser in the repository
    *      Exception flows
    * 
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
@@ -176,7 +176,7 @@ public class DragonBallUserServiceTest {
    *      Test for calling the service to get a single DragonBallUser in the repository
    *      Exception flows
    *      
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -228,7 +228,7 @@ public class DragonBallUserServiceTest {
    *      Test for calling the service to update an existing DragonBallUser in the repository
    *      Exception flows
    *      
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -280,7 +280,7 @@ public class DragonBallUserServiceTest {
    *      Test for calling the service to delete an existing user in the repository
    *      Exception flows
    *      
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */

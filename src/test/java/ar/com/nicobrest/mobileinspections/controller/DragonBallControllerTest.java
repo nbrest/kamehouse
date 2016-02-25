@@ -238,7 +238,7 @@ public class DragonBallControllerTest {
    *      Test the rest web service on the endpoint /dragonball/users with
    *      the HTTP method GET. The request should return a Exception
    *           
-   * @since v0.02
+   * @since v0.04
    * @author nbrest 
    */
   @Test
@@ -265,7 +265,7 @@ public class DragonBallControllerTest {
    *      Test the rest web service on the endpoint /dragonball/users with
    *      the HTTP method GET. The request should return a RuntimeException
    *           
-   * @since v0.03
+   * @since v0.04
    * @author nbrest 
    */
   @Test
@@ -292,7 +292,7 @@ public class DragonBallControllerTest {
    *      Test the rest web service on the endpoint /dragonball/users with
    *      the HTTP method GET. The request should return a DragonBallUserNotFoundException
    *           
-   * @since v0.03
+   * @since v0.04
    * @author nbrest 
    */
   @Test
@@ -360,7 +360,7 @@ public class DragonBallControllerTest {
    *      Test creating a new DragonBallUser in the repository
    *      The request should throw a DragonBallUserAlreadyExistsException
    * 
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -460,7 +460,7 @@ public class DragonBallControllerTest {
    *      Tests getting a specific user from the repository
    *      The request should throw a DragonBallUserNotFoundException
    * 
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -534,7 +534,7 @@ public class DragonBallControllerTest {
    *      Tests updating an existing user in the repository
    *      The request should throw a DragonBallUserNotFoundException
    * 
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -574,7 +574,7 @@ public class DragonBallControllerTest {
    *      Tests updating an existing user in the repository
    *      The request should throw a DragonBallUserForbiddenException
    * 
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -648,7 +648,7 @@ public class DragonBallControllerTest {
    *      Tests for deleting an existing user from the repository
    *      The request should throw a DragonBallUserNotFoundException
    * 
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    */
   @Test

@@ -91,7 +91,7 @@ public class DragonBallUserDaoInMemoryTest {
    *      Test for creating a DragonBallUser in the repository
    *      Exception flows
    *  
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
@@ -136,7 +136,7 @@ public class DragonBallUserDaoInMemoryTest {
    *      Test for getting a single DragonBallUser in the repository
    *      Exception flows
    *      
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -188,7 +188,7 @@ public class DragonBallUserDaoInMemoryTest {
    *      Test for updating an existing user in the repository
    *      Exception flows
    *      
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -237,7 +237,7 @@ public class DragonBallUserDaoInMemoryTest {
    *      Test for deleting an existing user from the repository
    *      Exception flows
    * 
-   * @since v0.03
+   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
