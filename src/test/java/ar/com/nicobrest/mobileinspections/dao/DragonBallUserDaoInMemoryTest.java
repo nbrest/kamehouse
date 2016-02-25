@@ -96,8 +96,10 @@ public class DragonBallUserDaoInMemoryTest {
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
   @Test
-  public void createDragonBallUserExceptionTest() throws DragonBallUserAlreadyExistsException {
-    LOGGER.info("****************** Executing createDragonBallUserExceptionTest ***************");
+  public void createDragonBallUserDragonBallUserAlreadyExistsExceptionTest() 
+      throws DragonBallUserAlreadyExistsException {
+    LOGGER.info("****************** Executing "
+        + "createDragonBallUserDragonBallUserAlreadyExistsExceptionTest ***************");
     
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "goku", "goku@dbz.com", 
         49, 40, 1000);
@@ -139,8 +141,10 @@ public class DragonBallUserDaoInMemoryTest {
    * @throws DragonBallUserNotFoundException User defined exception
    */
   @Test
-  public void getDragonBallUserExceptionTest() throws DragonBallUserNotFoundException {
-    LOGGER.info("****************** Executing getDragonBallUserExceptionTest ******************");
+  public void getDragonBallUserDragonBallUserNotFoundExceptionTest() 
+      throws DragonBallUserNotFoundException {
+    LOGGER.info("****************** Executing "
+        + "getDragonBallUserDragonBallUserNotFoundExceptionTest ******************");
         
     thrown.expect(DragonBallUserNotFoundException.class);
     thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
@@ -189,8 +193,10 @@ public class DragonBallUserDaoInMemoryTest {
    * @throws DragonBallUserNotFoundException User defined exception
    */
   @Test
-  public void updateDragonBallUserExceptionTest() throws DragonBallUserNotFoundException {
-    LOGGER.info("****************** Executing updateDragonBallUserExceptionTest ****************");
+  public void updateDragonBallUserDragonBallUserNotFoundExceptionTest() 
+      throws DragonBallUserNotFoundException {
+    LOGGER.info("****************** Executing "
+        + "updateDragonBallUserDragonBallUserNotFoundExceptionTest ****************");
     
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "yukimura", "yukimura@pot.com", 
         10, 10, 10);
@@ -236,8 +242,10 @@ public class DragonBallUserDaoInMemoryTest {
    * @throws DragonBallUserNotFoundException User defined exception
    */
   @Test
-  public void deleteDragonBallUserExceptionTest() throws DragonBallUserNotFoundException {
-    LOGGER.info("****************** Executing deleteDragonBallUserExceptionTest ****************");
+  public void deleteDragonBallUserDragonBallUserNotFoundExceptionTest() 
+      throws DragonBallUserNotFoundException {
+    LOGGER.info("****************** Executing "
+        + "deleteDragonBallUserDragonBallUserNotFoundExceptionTest ****************");
     
     thrown.expect(DragonBallUserNotFoundException.class);
     thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
