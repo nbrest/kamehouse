@@ -1,3 +1,8 @@
+<!-- DEPRECATED
+    Replaced this testContextService.xml with mock objects defined in the test class 
+    annotated with @Mock and annotated the properties that require those mocks with
+    @InjectMocks and removed the need to load a spring application context for the test 
+ --> 
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:context="http://www.springframework.org/schema/context"
   xmlns:mvc="http://www.springframework.org/schema/mvc" 
