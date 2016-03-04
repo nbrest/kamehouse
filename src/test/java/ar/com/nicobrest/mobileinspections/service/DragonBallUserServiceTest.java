@@ -13,15 +13,13 @@ import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundExcept
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.Test; 
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.slf4j.LoggerFactory; 
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +30,16 @@ import java.util.List;
  * @since v0.03 
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:testContextService.xml"})
 public class DragonBallUserServiceTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserServiceTest.class);
 
   private static List<DragonBallUser> dragonBallUsersList;
   
-  @Autowired
-  @Qualifier("dragonBallUserService")
+  @InjectMocks
   private DragonBallUserService dragonBallUserService;
   
-  @Autowired
-  @Qualifier("dragonBallUserDao")
+  @Mock(name = "dragonBallUserDao")
   private DragonBallUserDao dragonBallUserDaoMock;
 
   /**
@@ -89,6 +83,7 @@ public class DragonBallUserServiceTest {
     dragonBallUsersList.add(user3);
     
     // Reset mock objects before each test
+    MockitoAnnotations.initMocks(this);
     Mockito.reset(dragonBallUserDaoMock);
   }
   

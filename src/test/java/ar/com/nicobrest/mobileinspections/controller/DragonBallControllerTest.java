@@ -1,6 +1,5 @@
 package ar.com.nicobrest.mobileinspections.controller;
 
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.isA;
