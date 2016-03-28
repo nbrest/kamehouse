@@ -339,7 +339,7 @@ public class DragonBallControllerTest {
           .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
           )
           .andDo(print())
-          .andExpect(status().isOk())
+          .andExpect(status().isCreated())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
           .andExpect(content().bytes(
            JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0).getId())))

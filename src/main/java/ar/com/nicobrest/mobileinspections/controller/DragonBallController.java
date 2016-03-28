@@ -9,6 +9,8 @@ import ar.com.nicobrest.mobileinspections.service.DragonBallUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
  
+
+
 import java.util.List; 
  
 /**
@@ -103,7 +107,7 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users", method = RequestMethod.GET)
   @ResponseBody
-  public List<DragonBallUser> getUsers(
+  public ResponseEntity<List<DragonBallUser>> getUsers(
       @RequestParam(value = "action", required = false, defaultValue = "goku") 
       String action) throws Exception {
 
@@ -123,8 +127,10 @@ public class DragonBallController {
       default:
         break;
     }
+    
+    List<DragonBallUser> dbUsers = dragonBallUserService.getAllDragonBallUsers();
 
-    return dragonBallUserService.getAllDragonBallUsers();
+    return new ResponseEntity<List<DragonBallUser>>(dbUsers, HttpStatus.OK);
   }
   
   /**
@@ -140,14 +146,16 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users", method = RequestMethod.POST)
   @ResponseBody
-  public Long postUsers(@RequestBody DragonBallUser dragonBallUser) 
+  public ResponseEntity<Long> postUsers(@RequestBody DragonBallUser dragonBallUser) 
       throws DragonBallUserAlreadyExistsException, DragonBallUserNotFoundException {
     
     LOGGER.info("In controller /dragonball/users (POST)");
     
     dragonBallUserService.createDragonBallUser(dragonBallUser);
     
-    return dragonBallUserService.getDragonBallUser(dragonBallUser.getUsername()).getId();
+    Long dbUserId = dragonBallUserService.getDragonBallUser(dragonBallUser.getUsername()).getId();
+    
+    return new ResponseEntity<Long>(dbUserId, HttpStatus.CREATED);
   }
   
   /**
@@ -162,12 +170,14 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users/{username}", method = RequestMethod.GET)
   @ResponseBody
-  public DragonBallUser getUsersUsername(@PathVariable String username) 
+  public ResponseEntity<DragonBallUser> getUsersUsername(@PathVariable String username) 
       throws DragonBallUserNotFoundException {
     
     LOGGER.info("In controller /dragonball/users/{username} (GET)");
     
-    return dragonBallUserService.getDragonBallUser(username);
+    DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
+    
+    return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
   }
   
   /**
@@ -184,7 +194,7 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users/{username}", method = RequestMethod.PUT)
   @ResponseBody
-  public Long putUsersUsername(@PathVariable String username, 
+  public ResponseEntity<Long> putUsersUsername(@PathVariable String username, 
       @RequestBody DragonBallUser dragonBallUser) 
           throws DragonBallUserForbiddenException, DragonBallUserNotFoundException {
     
@@ -196,7 +206,9 @@ public class DragonBallController {
     }
     dragonBallUserService.updateDragonBallUser(dragonBallUser);
     
-    return dragonBallUserService.getDragonBallUser(username).getId();
+    Long dbUserId = dragonBallUserService.getDragonBallUser(username).getId();
+    
+    return new ResponseEntity<Long>(dbUserId, HttpStatus.OK);
   }
   
   /**
@@ -211,11 +223,13 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users/{username}", method = RequestMethod.DELETE)
   @ResponseBody
-  public DragonBallUser deleteUsersUsername(@PathVariable String username) 
+  public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable String username) 
       throws DragonBallUserNotFoundException {
     
     LOGGER.info("In controller /dragonball/users/{username} (DELETE)");
     
-    return dragonBallUserService.deleteDragonBallUser(username);
+    DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(username);
+    
+    return new ResponseEntity<DragonBallUser>(deletedDbUser, HttpStatus.OK);
   }
 }
