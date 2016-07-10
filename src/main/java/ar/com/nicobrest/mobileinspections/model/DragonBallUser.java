@@ -4,9 +4,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- *        DragonBallUser POJO used for the test endpoints
+ *        DragonBallUser POJO used for the test endpoints.
  *         
- * @since v0.02 
  * @author nbrest
  */
 public class DragonBallUser {
@@ -19,17 +18,15 @@ public class DragonBallUser {
   private int stamina;
 
   /**
-   *      Constructor
+   *      Constructor.
    *      
-   * @since v0.03
    * @author nbrest 
    */
   public DragonBallUser() {}
   
   /**
-   *      Constructor
+   *      Constructor.
    *      
-   * @since v0.03
    * @author nbrest
    * @param id : User id
    * @param username : User unique name
@@ -50,9 +47,8 @@ public class DragonBallUser {
   }
   
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.03 
    * @author nbrest
    * @param id : User id
    */
@@ -61,9 +57,8 @@ public class DragonBallUser {
   }
   
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.02 
    * @author nbrest
    * @param username : User name
    */
@@ -72,9 +67,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.02 
    * @author nbrest
    * @param email : User email
    */
@@ -83,9 +77,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.02 
    * @author nbrest
    * @param age : User age
    */
@@ -94,9 +87,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.03 
    * @author nbrest
    * @param powerLevel : User power level
    */
@@ -105,9 +97,8 @@ public class DragonBallUser {
   }
   
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    * 
-   * @since v0.03 
    * @author nbrest
    * @param stamina : User stamina
    */
@@ -116,9 +107,8 @@ public class DragonBallUser {
   }
  
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.03 
    * @author nbrest
    * @return Long
    */
@@ -127,9 +117,8 @@ public class DragonBallUser {
   }  
   
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.02 
    * @author nbrest
    * @return String
    */
@@ -138,9 +127,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.02 
    * @author nbrest
    * @return String
    */
@@ -149,9 +137,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.02 
    * @author nbrest
    * @return int
    */
@@ -160,9 +147,8 @@ public class DragonBallUser {
   }
  
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.03 
    * @author nbrest
    * @return int
    */
@@ -171,9 +157,8 @@ public class DragonBallUser {
   }
   
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.03 
    * @author nbrest
    * @return int
    */
@@ -183,9 +168,8 @@ public class DragonBallUser {
   
   
   /**
-   *      Attack another DragonBallUser
+   *      Attack another DragonBallUser.
    *      
-   * @since v0.03 
    * @author nbrest 
    */
   public void attack(DragonBallUser opponent) {
@@ -205,9 +189,8 @@ public class DragonBallUser {
   }
   
   /**
-   *      Recover stamina
+   *      Recover stamina.
    *      
-   * @since v0.03 
    * @author nbrest 
    */
   public void recoverStamina() {
@@ -216,7 +199,8 @@ public class DragonBallUser {
   }  
   
   /**
-   * @since v0.03 
+   *      Hashcode.
+   * 
    * @author nbrest
    */
   @Override
@@ -228,7 +212,8 @@ public class DragonBallUser {
   }
 
   /**
-   * @since v0.03 
+   *      Equals.
+   * 
    * @author nbrest
    */
   @Override

@@ -53,9 +53,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *        Unit tests for the DragonBallController class
+ *        Unit tests for the DragonBallController class.
  *         
- * @since v0.02 
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -77,9 +76,8 @@ public class DragonBallControllerTest {
   private WebApplicationContext webApplicationContext;
     
   /**
-   *      Initializes test repositories
+   *      Initializes test repositories.
    *      
-   * @since v0.02
    * @author nbrest
    * @throws Exception Throws unhandled exceptions
    */
@@ -119,9 +117,8 @@ public class DragonBallControllerTest {
   }
 
   /**
-   *      Resets mock objects
+   *      Resets mock objects.
    *      
-   * @since v0.02
    * @author nbrest
    * @throws Exception MockMvc Exceptions
    */
@@ -137,7 +134,8 @@ public class DragonBallControllerTest {
   }
 
   /**
-   * @since v0.02
+   *      Clean up after each test.
+   * 
    * @author nbrest
    */
   @After
@@ -147,7 +145,8 @@ public class DragonBallControllerTest {
   }
 
   /**
-   * @since v0.02
+   *    Cleanup after all tests have executed.
+   * 
    * @author nbrest
    * @throws Exception Throws unhandled exceptions
    */
@@ -161,9 +160,8 @@ public class DragonBallControllerTest {
    *      /dragonball/modelAndView (GET)
    *      Test the endpoint /dragonball/modelAndView with the HTTP method
    *      GET. The service should respond with HTTP status 200 OK and a
-   *      view defined in dragonball/modelAndView.jsp
+   *      view defined in dragonball/modelAndView.jsp.
    *           
-   * @since v0.02
    * @author nbrest
    * @throws Exception Exceptions thrown by MockMvc
    */
@@ -189,7 +187,6 @@ public class DragonBallControllerTest {
    *      the HTTP method GET. The service should respond with HTTP status
    *      200 OK and a json array in the response body.
    *           
-   * @since v0.02
    * @author nbrest
    * @throws Exception Exceptions thrown by MockMvc
    */
@@ -235,9 +232,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users (GET)
    *      Test the rest web service on the endpoint /dragonball/users with
-   *      the HTTP method GET. The request should return a Exception
+   *      the HTTP method GET. The request should return a Exception.
    *           
-   * @since v0.04
    * @author nbrest 
    */
   @Test
@@ -262,9 +258,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users (GET)
    *      Test the rest web service on the endpoint /dragonball/users with
-   *      the HTTP method GET. The request should return a RuntimeException
+   *      the HTTP method GET. The request should return a RuntimeException.
    *           
-   * @since v0.04
    * @author nbrest 
    */
   @Test
@@ -289,9 +284,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users (GET)
    *      Test the rest web service on the endpoint /dragonball/users with
-   *      the HTTP method GET. The request should return a DragonBallUserNotFoundException
+   *      the HTTP method GET. The request should return a DragonBallUserNotFoundException.
    *           
-   * @since v0.04
    * @author nbrest 
    */
   @Test
@@ -316,9 +310,8 @@ public class DragonBallControllerTest {
 
   /**
    *      /dragonball/users (POST)
-   *      Test creating a new DragonBallUser in the repository
+   *      Test creating a new DragonBallUser in the repository.
    * 
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -357,9 +350,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users (POST)
    *      Test creating a new DragonBallUser in the repository
-   *      The request should throw a DragonBallUserAlreadyExistsException
+   *      The request should throw a DragonBallUserAlreadyExistsException.
    * 
-   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -397,9 +389,8 @@ public class DragonBallControllerTest {
   
   /**
    *      /dragonball/users/{username} (GET)
-   *      Tests getting a specific user from the repository
+   *      Tests getting a specific user from the repository.
    * 
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -457,9 +448,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users/{username} (GET)
    *      Tests getting a specific user from the repository
-   *      The request should throw a DragonBallUserNotFoundException
+   *      The request should throw a DragonBallUserNotFoundException.
    * 
-   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -490,9 +480,8 @@ public class DragonBallControllerTest {
   
   /**
    *      /dragonball/users/{username} (PUT)
-   *      Tests updating an existing user in the repository
+   *      Tests updating an existing user in the repository.
    * 
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -531,9 +520,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users/{username} (PUT)
    *      Tests updating an existing user in the repository
-   *      The request should throw a DragonBallUserNotFoundException
+   *      The request should throw a DragonBallUserNotFoundException.
    * 
-   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -571,9 +559,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users/{username} (PUT)
    *      Tests updating an existing user in the repository
-   *      The request should throw a DragonBallUserForbiddenException
+   *      The request should throw a DragonBallUserForbiddenException.
    * 
-   * @since v0.04
    * @author nbrest
    */
   @Test
@@ -611,9 +598,8 @@ public class DragonBallControllerTest {
    
   /**
    *      /dragonball/users/{username} (DELETE)
-   *      Tests for deleting an existing user from the repository
+   *      Tests for deleting an existing user from the repository.
    * 
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -645,9 +631,8 @@ public class DragonBallControllerTest {
   /**
    *      /dragonball/users/{username} (DELETE)
    *      Tests for deleting an existing user from the repository
-   *      The request should throw a DragonBallUserNotFoundException
+   *      The request should throw a DragonBallUserNotFoundException.
    * 
-   * @since v0.04
    * @author nbrest
    */
   @Test

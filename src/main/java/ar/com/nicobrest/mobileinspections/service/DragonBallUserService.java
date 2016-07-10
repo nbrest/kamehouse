@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- *        Service layer for the Example endpoints
+ *        Service layer for the Example endpoints.
  *     
- * @since v0.03
  * @author nbrest
  */
 public class DragonBallUserService {
@@ -21,9 +20,8 @@ public class DragonBallUserService {
   private DragonBallUserDao dragonBallUserDao;
 
   /**
-   *      Getters and setters
+   *      Getters and setters.
    *      
-   * @since v0.03
    * @author nbrest
    * @param dragonBallUserDao DragonBallUserDao
    */
@@ -33,9 +31,8 @@ public class DragonBallUserService {
   }
 
   /**
-   *      Getters and setters
+   *      Getters and setters.
    *      
-   * @since v0.03
    * @author nbrest
    * @return DragonBallUserDao
    */
@@ -45,9 +42,8 @@ public class DragonBallUserService {
   }
   
   /**
-   *      Create a new DragonBallUser in the repository
+   *      Create a new DragonBallUser in the repository.
    *    
-   * @since v0.03
    * @author nbrest
    * @param dragonBallUser DragonBallUser
    * @throws DragonBallUserAlreadyExistsException User defined exception
@@ -59,9 +55,8 @@ public class DragonBallUserService {
   }
   
   /**
-   *      Returns a single instance of a DragonBallUser
+   *      Returns a single instance of a DragonBallUser.
    *      
-   * @since v0.03
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -71,9 +66,8 @@ public class DragonBallUserService {
   }
   
   /**
-   *      Updates an existing DragonBallUser in the repository
+   *      Updates an existing DragonBallUser in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    * @param dragonBallUser DragonBallUser
    * @throws DragonBallUserNotFoundException User defined exception
@@ -85,9 +79,8 @@ public class DragonBallUserService {
   }
   
   /**
-   *      Deletes an existing DragonBallUser in the repository
+   *      Deletes an existing DragonBallUser in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    * @param username : User name
    * @throws DragonBallUserNotFoundException User defined exception
@@ -99,9 +92,8 @@ public class DragonBallUserService {
   }
   
   /**
-   *      Returns all the DragonBallUsers in the repository
+   *      Returns all the DragonBallUsers in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    */
   public List<DragonBallUser> getAllDragonBallUsers() {

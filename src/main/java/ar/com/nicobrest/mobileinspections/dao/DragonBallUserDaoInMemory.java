@@ -15,9 +15,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 /**
- *        In-Memory DAO for the test endpoint dragonball
+ *        In-Memory DAO for the test endpoint dragonball.
  *         
- * @since v0.03
  * @author nbrest
  */
 public class DragonBallUserDaoInMemory implements DragonBallUserDao {
@@ -32,7 +31,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   private DragonBallUser gotenDragonBallUser;
 
   /**
-   * @since v0.03
+   *      Constructors.   
+   * 
    * @author nbrest
    */
   public DragonBallUserDaoInMemory() {
@@ -41,9 +41,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Getters and setters
+   *      Getters and setters.
    *          
-   * @since v0.03
    * @author nbrest
    * @param gohanDragonBallUser DragonBallUser
    */
@@ -53,9 +52,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Getters and setters
+   *      Getters and setters.
    *          
-   * @since v0.03
    * @author nbrest
    * @return DragonBallUser
    */
@@ -65,9 +63,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Getters and setters
+   *      Getters and setters.
    *          
-   * @since v0.03
    * @author nbrest
    * @param gotenDragonBallUser DragonBallUser
    */
@@ -77,9 +74,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Getters and setters
+   *      Getters and setters.
    *         
-   * @since v0.03
    * @author nbrest
    * @return DragonBallUser
    */
@@ -89,9 +85,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Initialize In-Memory repository
+   *      Initialize In-Memory repository.
    *         
-   * @since v0.03
    * @author nbrest
    */
   private static void initRepository() {
@@ -117,9 +112,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
   
   /**
-   *      Adds a new DragonBallUser to the repository
+   *      Adds a new DragonBallUser to the repository.
    *           
-   * @since v0.03
    * @author nbrest
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
@@ -135,9 +129,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Returns a single instance of a DragonBallUser
+   *      Returns a single instance of a DragonBallUser.
    *           
-   * @since v0.03
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -153,9 +146,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Updates an existing DragonBallUser in the repository
+   *      Updates an existing DragonBallUser in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -172,9 +164,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Deletes a DragonBallUser from the repository
+   *      Deletes a DragonBallUser from the repository.
    *      
-   * @since v0.03
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -191,9 +182,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   *      Returns all the DragonBallUsers in the repository
+   *      Returns all the DragonBallUsers in the repository.
    *         
-   * @since v0.03
    * @author nbrest
    */
   public List<DragonBallUser> getAllDragonBallUsers() {

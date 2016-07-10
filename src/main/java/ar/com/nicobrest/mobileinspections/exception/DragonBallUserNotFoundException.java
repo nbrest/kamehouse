@@ -1,9 +1,8 @@
 package ar.com.nicobrest.mobileinspections.exception;
 
 /**
- *        DragonBallUserNotFoundException used for testing purposes
+ *        DragonBallUserNotFoundException used for testing purposes.
  *         
- * @since v0.02 
  * @author nbrest
  */
 public class DragonBallUserNotFoundException extends Exception {

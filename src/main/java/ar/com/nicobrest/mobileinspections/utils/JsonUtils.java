@@ -6,17 +6,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 /**
- *        Utility class to process jsons
+ *        Utility class to process jsons.
  * 
- * @since v0.03
  * @author nbrest
  */
 public class JsonUtils {
 
   /**
-   *      Converts an object to a json byte array
+   *      Converts an object to a json byte array.
    * 
-   * @since v0.03
    * @author nbrest
    * @param object Object to convert to json
    * @return byte[]

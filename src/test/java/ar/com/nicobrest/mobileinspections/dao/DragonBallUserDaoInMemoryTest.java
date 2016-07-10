@@ -23,9 +23,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 /**
- *        Unit tests for the DragonBallUserInMemoryDao class
+ *        Unit tests for the DragonBallUserInMemoryDao class.
  *         
- * @since v0.03 
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,9 +41,8 @@ public class DragonBallUserDaoInMemoryTest {
   public ExpectedException thrown = ExpectedException.none();
   
   /**
-   *      Test for the autowired beans
+   *      Test for the autowired beans.
    *      
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -64,9 +62,8 @@ public class DragonBallUserDaoInMemoryTest {
   }
   
   /**
-   *      Test for creating a DragonBallUser in the repository
+   *      Test for creating a DragonBallUser in the repository.
    *  
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -90,9 +87,8 @@ public class DragonBallUserDaoInMemoryTest {
   
   /**
    *      Test for creating a DragonBallUser in the repository
-   *      Exception flows
+   *      Exception flows.
    *  
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
@@ -111,9 +107,8 @@ public class DragonBallUserDaoInMemoryTest {
   }
   
   /**
-   *      Test for getting a single DragonBallUser in the repository
+   *      Test for getting a single DragonBallUser in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -135,9 +130,8 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    *      Test for getting a single DragonBallUser in the repository
-   *      Exception flows
+   *      Exception flows.
    *      
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -153,9 +147,8 @@ public class DragonBallUserDaoInMemoryTest {
   }
   
   /**
-   *      Test for updating an existing user in the repository
+   *      Test for updating an existing user in the repository.
    * 
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -187,9 +180,8 @@ public class DragonBallUserDaoInMemoryTest {
   
   /**
    *      Test for updating an existing user in the repository
-   *      Exception flows
+   *      Exception flows.
    *      
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -207,9 +199,8 @@ public class DragonBallUserDaoInMemoryTest {
   }
   
   /**
-   *      Test for deleting an existing user from the repository
+   *      Test for deleting an existing user from the repository.
    * 
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -236,9 +227,8 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    *      Test for deleting an existing user from the repository
-   *      Exception flows
+   *      Exception flows.
    * 
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -254,9 +244,8 @@ public class DragonBallUserDaoInMemoryTest {
   }
   
   /**
-   *      Test for getting all the DragonBallUsers in the repository
+   *      Test for getting all the DragonBallUsers in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    */
   @Test

@@ -3,9 +3,8 @@ package ar.com.nicobrest.mobileinspections.utils;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- *        Class to generate a thread safe sequence number to use as id
+ *        Class to generate a thread safe sequence number to use as id.
  *        
- * @since v0.03
  * @author nbrest
  */
 public class IdGenerator { 
@@ -15,9 +14,8 @@ public class IdGenerator {
   private IdGenerator() {}
 
   /**      
-   *      Return next number in the sequence
+   *      Return next number in the sequence.
    *      
-   * @since v0.03
    * @author nbrest
    * @return Long
    */

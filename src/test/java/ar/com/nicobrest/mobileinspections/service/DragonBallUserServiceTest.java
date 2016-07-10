@@ -25,9 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *        Unit tests for the DragonBallUserService class
+ *        Unit tests for the DragonBallUserService class.
  *         
- * @since v0.03 
  * @author nbrest
  */
 public class DragonBallUserServiceTest {
@@ -43,9 +42,8 @@ public class DragonBallUserServiceTest {
   private DragonBallUserDao dragonBallUserDaoMock;
 
   /**
-   *      Resets mock objects and initializes test repository
+   *      Resets mock objects and initializes test repository.
    *      
-   * @since v0.03
    * @author nbrest 
    */
   @Before
@@ -88,9 +86,8 @@ public class DragonBallUserServiceTest {
   }
   
   /**
-   *      Test for calling the service to create a DragonBallUser in the repository
+   *      Test for calling the service to create a DragonBallUser in the repository.
    * 
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -114,9 +111,8 @@ public class DragonBallUserServiceTest {
   
   /**
    *      Test for calling the service to create a DragonBallUser in the repository
-   *      Exception flows
+   *      Exception flows.
    * 
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
@@ -140,9 +136,8 @@ public class DragonBallUserServiceTest {
   }
   
   /**
-   *      Test for calling the service to get a single DragonBallUser in the repository
+   *      Test for calling the service to get a single DragonBallUser in the repository.
    *      
-   * @since v0.03
    * @author nbrest 
    */
   @Test
@@ -169,9 +164,8 @@ public class DragonBallUserServiceTest {
 
   /**
    *      Test for calling the service to get a single DragonBallUser in the repository
-   *      Exception flows
+   *      Exception flows.
    *      
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -195,9 +189,8 @@ public class DragonBallUserServiceTest {
   }
    
   /**
-   *      Test for calling the service to update an existing DragonBallUser in the repository
+   *      Test for calling the service to update an existing DragonBallUser in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    */
   @Test
@@ -221,9 +214,8 @@ public class DragonBallUserServiceTest {
   
   /**
    *      Test for calling the service to update an existing DragonBallUser in the repository
-   *      Exception flows
+   *      Exception flows.
    *      
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -248,9 +240,8 @@ public class DragonBallUserServiceTest {
   }
   
   /**
-   *      Test for calling the service to delete an existing user in the repository
+   *      Test for calling the service to delete an existing user in the repository.
    *     
-   * @since v0.03
    * @author nbrest 
    */
   @Test
@@ -273,9 +264,8 @@ public class DragonBallUserServiceTest {
   
   /**
    *      Test for calling the service to delete an existing user in the repository
-   *      Exception flows
+   *      Exception flows.
    *      
-   * @since v0.04
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
@@ -299,9 +289,8 @@ public class DragonBallUserServiceTest {
   }
   
   /**
-   *      Test for calling the service to get all the DragonBallUsers in the repository
+   *      Test for calling the service to get all the DragonBallUsers in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    */
   @Test

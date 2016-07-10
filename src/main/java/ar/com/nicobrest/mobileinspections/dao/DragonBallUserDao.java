@@ -7,9 +7,8 @@ import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 import java.util.List;
 
 /**
- *        DragonBallUserDao interface
+ *        DragonBallUserDao interface.
  *      
- * @since v0.02
  * @author nbrest
  */
 public interface DragonBallUserDao {
