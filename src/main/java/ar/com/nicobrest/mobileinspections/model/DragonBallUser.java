@@ -224,10 +224,6 @@ public class DragonBallUser {
     return new HashCodeBuilder()
               .append(id)
               .append(username)
-              .append(email)
-              .append(age)
-              .append(powerLevel)
-              .append(stamina)
               .toHashCode();
   }
 
@@ -242,10 +238,6 @@ public class DragonBallUser {
       return new EqualsBuilder()
                 .append(id, other.getId())
                 .append(username, other.getUsername())
-                .append(email, other.getEmail())
-                .append(age, other.getAge())
-                .append(powerLevel, other.getPowerLevel())
-                .append(stamina, other.getStamina())
                 .isEquals();
     } else {
       return false;

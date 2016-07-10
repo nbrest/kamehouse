@@ -2,6 +2,7 @@ package ar.com.nicobrest.mobileinspections.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
@@ -270,25 +271,14 @@ public class DragonBallUserDaoInMemoryTest {
 
     assertEquals(3, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
     
-    assertEquals("3", usersList.get(0).getId().toString());
-    assertEquals("goten", usersList.get(0).getUsername());
-    assertEquals("goten@dbz.com", usersList.get(0).getEmail());
-    assertEquals(19, usersList.get(0).getAge());
-    assertEquals(10, usersList.get(0).getPowerLevel());
-    assertEquals(1000, usersList.get(0).getStamina());
+    DragonBallUser expectedStoredDbUser = new DragonBallUser();
+    expectedStoredDbUser.setAge(19);
+    expectedStoredDbUser.setEmail("goten@dbz.com");
+    expectedStoredDbUser.setId(new Long(3));
+    expectedStoredDbUser.setPowerLevel(10);
+    expectedStoredDbUser.setStamina(1000);
+    expectedStoredDbUser.setUsername("goten");
     
-    assertEquals("2", usersList.get(1).getId().toString());
-    assertEquals("gohan", usersList.get(1).getUsername());
-    assertEquals("gohan@dbz.com", usersList.get(1).getEmail());
-    assertEquals(29, usersList.get(1).getAge());
-    assertEquals(20, usersList.get(1).getPowerLevel());
-    assertEquals(1000, usersList.get(1).getStamina());
-    
-    assertEquals("1", usersList.get(2).getId().toString());
-    assertEquals("goku", usersList.get(2).getUsername());
-    assertEquals("goku@dbz.com", usersList.get(2).getEmail());
-    assertEquals(49, usersList.get(2).getAge());
-    assertEquals(30, usersList.get(2).getPowerLevel());
-    assertEquals(1000, usersList.get(2).getStamina());
+    assertTrue(usersList.contains(expectedStoredDbUser));
   }
 }

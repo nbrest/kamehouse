@@ -14,7 +14,7 @@
     <checkstyle.version>2.17</checkstyle.version>
     <commons.lang.version>2.6</commons.lang.version>
     <compiler.plugin.version>3.5</compiler.plugin.version>
-    <findbugs.version>2.5.2</findbugs.version>
+    <findbugs.version>3.0.1</findbugs.version>
     <hamcrest.version>1.3</hamcrest.version>
     <jackson.version>2.4.3</jackson.version>
     <javax.servlet.version>3.0.1</javax.servlet.version>

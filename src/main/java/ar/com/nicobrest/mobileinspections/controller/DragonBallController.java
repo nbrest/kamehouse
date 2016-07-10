@@ -29,9 +29,8 @@ import java.util.List;
  *        /dragonball
  *        /dragonball/modelAndView
  *        /dragonball/users
- *        /dragonball/users/{username}
+ *        /dragonball/users/{username}.
  *         
- * @since v0.02 
  * @author nbrest
  */
 @Controller
@@ -44,9 +43,8 @@ public class DragonBallController {
   private DragonBallUserService dragonBallUserService;
 
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.03 
    * @author nbrest
    * @param dragonBallUserService DragonBallUserService
    */
@@ -56,9 +54,8 @@ public class DragonBallController {
   }
   
   /**
-   *      Getters and Setters
+   *      Getters and Setters.
    *      
-   * @since v0.03 
    * @author nbrest
    * @return DragonBallUserService
    */
@@ -69,9 +66,8 @@ public class DragonBallController {
   
   /** 
    *      /dragonball/modelAndView
-   *      Returns the ModelAndView object for the test endpoint
+   *      Returns the ModelAndView object for the test endpoint.
    *         
-   * @since v0.02 
    * @author nbrest
    * @param name : Nombre del usuario que visita el sitio
    * @return ModelAndView
@@ -98,9 +94,8 @@ public class DragonBallController {
 
   /**
    *      /dragonball/users
-   *      Returns all DragonBallUsers in json format
+   *      Returns all DragonBallUsers in json format.
    *         
-   * @since v0.02 
    * @author nbrest
    * @return DragonBallUser list
    * @throws Exception : General exception
@@ -135,9 +130,8 @@ public class DragonBallController {
   
   /**
    *      /dragonball/users
-   *      Creates a new DragonBallUser in the repository
+   *      Creates a new DragonBallUser in the repository.
    *      
-   * @since v0.03
    * @author nbrest
    * @param dragonBallUser User to add to the repository
    * @return Long Returns the id of the newly created DragonBallUser
@@ -160,9 +154,8 @@ public class DragonBallController {
   
   /**
    *      /dragonball/users/{username}
-   *      Returns a specific DragonBallUser from the repository
+   *      Returns a specific DragonBallUser from the repository.
    *      
-   * @since v0.03
    * @author nbrest
    * @param username User name to get from the repository
    * @return DragonBallUser
@@ -182,9 +175,8 @@ public class DragonBallController {
   
   /**
    *      /dragonball/users/{username}
-   *      Updates a user in the repository
+   *      Updates a user in the repository.
    * 
-   * @since v0.03
    * @author nbrest
    * @param username Username of user to update
    * @param dragonBallUser User to update
@@ -213,9 +205,8 @@ public class DragonBallController {
   
   /**
    *      /dragonball/users/{username}
-   *      Deletes an existing user from the repository
+   *      Deletes an existing user from the repository.
    * 
-   * @since v0.03
    * @author nbrest
    * @param username User name to delete
    * @return DragonBallUser Deleted user
