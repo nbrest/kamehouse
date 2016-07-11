@@ -3,18 +3,37 @@ package ar.com.nicobrest.mobileinspections.model;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *        DragonBallUser POJO used for the test endpoints.
  *         
  * @author nbrest
  */
+@Entity
+@Table(name = "dragonballuser")
 public class DragonBallUser {
 
+  @Id
+  @Column(name = "id", unique = true)
   private Long id;
+  
+  @Column(name = "username")
   private String username;
+  
+  @Column(name = "email")
   private String email;
+  
+  @Column(name = "age")
   private int age;
+  
+  @Column(name = "powerlevel")
   private int powerLevel;
+  
+  @Column(name = "stamina")
   private int stamina;
 
   /**
