@@ -7,10 +7,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Java Web App Mobile Inspections</name>
   <url>https://www.nicobrest.com.ar</url>
- 
+
   <properties>
-    <!-- Updated versions on 2016/02/05 --> 
-    
+    <!-- Updated versions on 2016/02/05 -->
+
     <checkstyle.version>2.17</checkstyle.version>
     <commons.lang.version>2.6</commons.lang.version>
     <compiler.plugin.version>3.5</compiler.plugin.version>
@@ -24,14 +24,14 @@
     <logback.version>1.1.2</logback.version>
     <mockito.version>1.9.5</mockito.version>
     <spring.version>4.2.4.RELEASE</spring.version>
-    <war.plugin.version>2.1.1</war.plugin.version>  
+    <war.plugin.version>2.1.1</war.plugin.version>
 
-    <java.target.version>1.7</java.target.version> 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    
+    <java.target.version>1.7</java.target.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <dependencies> 
-  
+  <dependencies>
+
     <!-- Java -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -39,14 +39,14 @@
       <version>${javax.servlet.version}</version>
       <scope>provided</scope>
     </dependency>
-    
+
     <!-- Apache -->
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
       <version>${commons.lang.version}</version>
     </dependency>
-    
+
     <!-- Spring dependencies -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -65,57 +65,57 @@
         </exclusion>
       </exclusions>
     </dependency>
- 
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
     </dependency>
- 
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>${spring.version}</version>
     </dependency>
-  
-    <!-- Jackson dependencies for mapping Objects to Json-->
+
+    <!-- Jackson dependencies for mapping Objects to Json -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
       <version>${jackson.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>${jackson.version}</version>
     </dependency>
-    
-    <!-- Logging dependencies --> 
+
+    <!-- Logging dependencies -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
     </dependency>
-    
-    <dependency>                                    
-      <groupId>org.slf4j</groupId>                
-      <artifactId>jcl-over-slf4j</artifactId>     
-      <version>${jcloverslf4j.version}</version>  
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${jcloverslf4j.version}</version>
     </dependency>
- 
-    <!-- Testing dependencies --> 
+
+    <!-- Testing dependencies -->
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId> 
-      <version>${hamcrest.version}</version> 
+      <artifactId>hamcrest-all</artifactId>
+      <version>${hamcrest.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>junit</groupId>
-      <artifactId>junit</artifactId> 
-      <version>${junit.version}</version> 
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -124,119 +124,124 @@
         </exclusion>
       </exclusions>
     </dependency>
-    
+
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId> 
-      <version>${mockito.version}</version> 
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
-      <!-- Spring test-->
+      <!-- Spring test -->
       <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId> 
-      <version>${spring.version}</version> 
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>com.jayway.jsonpath</groupId>
-      <artifactId>json-path</artifactId> 
-      <version>${jsonpath.version}</version> 
+      <artifactId>json-path</artifactId>
+      <version>${jsonpath.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>com.jayway.jsonpath</groupId>
-      <artifactId>json-path-assert</artifactId> 
-      <version>${jsonpath.version}</version> 
+      <artifactId>json-path-assert</artifactId>
+      <version>${jsonpath.version}</version>
       <scope>test</scope>
-    </dependency> 
+    </dependency>
   </dependencies>
- 
+
   <build>
     <finalName>MobileInspections</finalName>
-    <!-- <pluginManagement> -->
-    <plugins>
+    <pluginManagement>
+    <!-- Adding the pluginManagement fixes the errors of lifecycle not covered in
+    eclipse but it seems to disable the plugins when compiling from the command 
+    line. So compile everything with eclipse and remove all the warnings within
+    eclipse before commiting and pushing the changes to the repositories -->
     
-      <!-- maven war plugin: disable build failure because of no web.xml -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>${war.plugin.version}</version>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-            
-      <!-- maven compiler plugin: Compiler configurations for maven -->
-      <plugin> 
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId> 
-        <version>${compiler.plugin.version}</version> 
-        <configuration>
-          <!-- Removes compiler warnings about java version in eclipse -->
-          <source>${java.target.version}</source>
-          <target>${java.target.version}</target>
-          <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
-          <encoding>${project.build.sourceEncoding}</encoding>
-        </configuration>
-      </plugin>
-  
-      <!-- findbugs: Detect bugs at compilation time and generate a report -->
-      <plugin> 
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${findbugs.version}</version>
-        <configuration>
-          <!-- Enables analysis which takes more memory but finds more bugs.
-               If you run out of memory, changes the value of the effort element
-               to 'Low'. -->
-          <effort>Max</effort>
-          <!-- Reports all bugs (other values are medium and max) -->
-          <threshold>Low</threshold>
-          <!-- Produces XML report -->
-          <xmlOutput>true</xmlOutput>
-          <!-- Configures the directory in which the XML report is created -->
-          <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
-        </configuration>
-        <executions>
-          <!-- Ensures that FindBugs inspects source code when project is compiled. -->
-          <execution>
-            <id>analyze-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin> 
-      
-      <!-- checkstyle: Checks that the code sticks to standard conventions -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle.version}</version>
-        <executions>
-          <execution>
-            <id>validate</id>
-            <phase>validate</phase>
-            <configuration>
-              <configLocation>google_checks.xml</configLocation>
-              <encoding>${project.build.sourceEncoding}</encoding>
-              <consoleOutput>true</consoleOutput>
-              <failsOnError>true</failsOnError>
-              <linkXRef>false</linkXRef>
-            </configuration>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-    <!-- </pluginManagement> -->
+      <plugins>
+        <!-- maven war plugin: disable build failure because of no web.xml -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${war.plugin.version}</version>
+          <configuration>
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+          </configuration>
+        </plugin>
+
+        <!-- maven compiler plugin: Compiler configurations for maven -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${compiler.plugin.version}</version>
+          <configuration>
+            <!-- Removes compiler warnings about java version in eclipse -->
+            <source>${java.target.version}</source>
+            <target>${java.target.version}</target>
+            <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
+            <encoding>${project.build.sourceEncoding}</encoding>
+          </configuration>
+        </plugin>
+
+        <!-- findbugs: Detect bugs at compilation time and generate a report -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>${findbugs.version}</version>
+          <configuration>
+            <!-- Enables analysis which takes more memory but finds more 
+              bugs. If you run out of memory, changes the value of the effort element to 
+              'Low'. -->
+            <effort>Max</effort>
+            <!-- Reports all bugs (other values are medium and max) -->
+            <threshold>Low</threshold>
+            <!-- Produces XML report -->
+            <xmlOutput>true</xmlOutput>
+            <!-- Configures the directory in which the XML report is created -->
+            <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+          </configuration>
+          <executions>
+            <!-- Ensures that FindBugs inspects source code when project 
+              is compiled. -->
+            <execution>
+              <id>findbugs</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- checkstyle: Checks that the code sticks to standard conventions -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${checkstyle.version}</version>
+          <executions>
+            <execution>
+              <id>checkstyle</id>
+              <phase>compile</phase>
+              <configuration>
+                <configLocation>google_checks.xml</configLocation>
+                <encoding>${project.build.sourceEncoding}</encoding>
+                <consoleOutput>true</consoleOutput>
+                <failsOnError>true</failsOnError>
+                <linkXRef>false</linkXRef>
+              </configuration>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
- 
+
 </project>
