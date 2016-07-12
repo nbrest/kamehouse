@@ -3,7 +3,6 @@ package ar.com.nicobrest.mobileinspections.dao;
 import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
 import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
-import ar.com.nicobrest.mobileinspections.utils.IdGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 
@@ -30,6 +30,28 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   @Resource(name = "gotenDragonBallUser")
   private DragonBallUser gotenDragonBallUser;
 
+  /**
+   * Static inner class that generates Ids.
+   * 
+   * @author nbrest 
+   */
+  private static class IdGenerator { 
+    
+    private static final AtomicInteger sequence = new AtomicInteger(1);
+
+    private IdGenerator() {}
+
+    /**      
+     *      Return next number in the sequence.
+     *      
+     * @author nbrest
+     * @return Long
+     */
+    public static Long getId() {
+      return Long.valueOf(sequence.getAndIncrement());
+    } 
+  }
+  
   /**
    *      Constructors.   
    * 
