@@ -13,6 +13,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   <!-- Root Application Context for the entire web application -->
    
   <import resource="applicationContext-web.xml"/>
+  <import resource="persistenceContext.xml"/>
 
   <!-- Example endpoints beans -->
    
@@ -20,6 +21,11 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     class="ar.com.nicobrest.mobileinspections.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDao" />
   </bean>
+  
+<!--   <bean id="dragonBallUserDaoHibernate"  -->
+<!--     class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoHibernate"> -->
+<!--       <property name="sessionFactory" ref="sessionFactory" />  -->
+<!--   </bean> -->
   
   <bean id="dragonBallUserDao" 
     class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoInMemory">
