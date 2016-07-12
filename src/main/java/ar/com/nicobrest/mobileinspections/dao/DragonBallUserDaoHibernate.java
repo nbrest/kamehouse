@@ -27,6 +27,7 @@ public class DragonBallUserDaoHibernate implements DragonBallUserDao {
   public void createDragonBallUser(DragonBallUser dragonBallUser) 
       throws DragonBallUserAlreadyExistsException {
 
+    sessionFactory.getCurrentSession().save(dragonBallUser);
   }
   
   /**
