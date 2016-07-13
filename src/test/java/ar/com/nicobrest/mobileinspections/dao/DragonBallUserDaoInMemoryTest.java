@@ -161,17 +161,18 @@ public class DragonBallUserDaoInMemoryTest {
    * @author nbrest
    */
   @Test
-  public void updateDragonBallUserTest() {
+  public void updateDragonBallUserTest() throws DragonBallUserAlreadyExistsException {
     LOGGER
         .info("****************** Executing updateDragonBallUserTest ******************");
 
-    DragonBallUser modifiedUser = new DragonBallUser(0L, "goku",
-        "gokuUpdated@dbz.com", 51, 52, 53);
     try {
       DragonBallUser originalUser = dragonBallUserDaoInMemory
           .getDragonBallUser("goku");
       assertEquals("goku", originalUser.getUsername());
 
+      DragonBallUser modifiedUser = new DragonBallUser(originalUser.getId(), "goku",
+          "gokuUpdated@dbz.com", 51, 52, 53);
+      
       dragonBallUserDaoInMemory.updateDragonBallUser(modifiedUser);
       DragonBallUser updatedUser = dragonBallUserDaoInMemory
           .getDragonBallUser("goku");
@@ -194,12 +195,10 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for updating an existing user in the repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserNotFoundException
-   *           User defined exception
    */
   @Test
   public void updateDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException {
+      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
     LOGGER
         .info("****************** Executing "
             + "updateDragonBallUserDragonBallUserNotFoundExceptionTest ****************");
@@ -208,7 +207,7 @@ public class DragonBallUserDaoInMemoryTest {
         "yukimura@pot.com", 10, 10, 10);
     thrown.expect(DragonBallUserNotFoundException.class);
     thrown
-        .expectMessage("DragonBallUser with username yukimura was not found in the repository.");
+        .expectMessage("DragonBallUser with id 0 was not found in the repository.");
     dragonBallUserDaoInMemory.updateDragonBallUser(dragonBallUser);
   }
 

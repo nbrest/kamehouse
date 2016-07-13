@@ -37,7 +37,7 @@ public interface DragonBallUserDao {
    * @author nbrest
    */
   public void updateDragonBallUser(DragonBallUser dragonBallUser) 
-      throws DragonBallUserNotFoundException;
+      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException;
   
   /**
    * Deletes a DragonBallUser from the repository.

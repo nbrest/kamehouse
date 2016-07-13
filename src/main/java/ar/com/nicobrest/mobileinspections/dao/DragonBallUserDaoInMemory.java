@@ -178,17 +178,29 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Updates an existing DragonBallUser in the repository.
    *      
    * @author nbrest
-   * @throws DragonBallUserNotFoundException User defined exception
    */
   public void updateDragonBallUser(DragonBallUser dragonBallUser) 
-      throws DragonBallUserNotFoundException {
+      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
 
-    if (dragonBallUsers.get(dragonBallUser.getUsername()) == null) {
-      throw new DragonBallUserNotFoundException("DragonBallUser with username " 
-          + dragonBallUser.getUsername() + " was not found in the repository.");
+    // Check that the user being updated exists in the repo
+    if (dragonBallUsernamesById.get(dragonBallUser.getId()) == null) {
+      throw new DragonBallUserNotFoundException("DragonBallUser with id " 
+          + dragonBallUser.getId() + " was not found in the repository.");
     }
-    Long storedId = dragonBallUsers.get(dragonBallUser.getUsername()).getId();
-    dragonBallUser.setId(storedId);
+    
+    //If the username changes, check that the new username doesn´t already exist in the repo
+    if (!dragonBallUser.getUsername().equals(dragonBallUsernamesById.get(dragonBallUser.getId()))) {
+      if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
+        throw new DragonBallUserAlreadyExistsException("DragonBallUser with username " 
+            + dragonBallUser.getUsername() + " already exists in the repository.");
+      }
+    }
+
+    // Remove old entry for the updated user
+    dragonBallUsers.remove(dragonBallUsernamesById.get(dragonBallUser.getId()));
+    dragonBallUsernamesById.remove(dragonBallUser.getId());
+    
+    // Insert the new entry for the updated user
     dragonBallUsers.put(dragonBallUser.getUsername(), dragonBallUser);
     dragonBallUsernamesById.put(dragonBallUser.getId(), dragonBallUser.getUsername());
   }

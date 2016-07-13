@@ -210,7 +210,7 @@ public class DragonBallUserServiceTest {
    * @author nbrest
    */
   @Test
-  public void updateDragonBallUserTest() {
+  public void updateDragonBallUserTest() throws DragonBallUserAlreadyExistsException {
     LOGGER
         .info("****************** Executing updateDragonBallUserTest ******************");
 
@@ -241,7 +241,7 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void updateDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException {
+      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
     LOGGER
         .info("****************** Executing updateDragonBallUserTest ******************");
 

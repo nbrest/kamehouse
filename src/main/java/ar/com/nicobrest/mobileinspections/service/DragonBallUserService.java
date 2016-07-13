@@ -73,7 +73,7 @@ public class DragonBallUserService {
    * @throws DragonBallUserNotFoundException User defined exception
    */
   public void updateDragonBallUser(DragonBallUser dragonBallUser) 
-      throws DragonBallUserNotFoundException {
+      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
     
     dragonBallUserDao.updateDragonBallUser(dragonBallUser);
   }
