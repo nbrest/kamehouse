@@ -172,37 +172,35 @@ public class DragonBallController {
   }
   
   /**
-   *      /dragonball/users/{username}
+   *      /dragonball/users/{id}
    *      Updates a user in the repository.
    * 
    * @author nbrest
-   * @param username Username of user to update
+   * @param id : id of user to update
    * @param dragonBallUser User to update
    * @return Long
    * @throws DragonBallUserForbiddenException User defined exception
    * @throws DragonBallUserNotFoundException User defined exception
    */
-  @RequestMapping(value = "/users/{username}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
   @ResponseBody
-  public ResponseEntity<Long> putUsersUsername(@PathVariable String username, 
+  public ResponseEntity<?> putUsersUsername(@PathVariable Long id, 
       @RequestBody DragonBallUser dragonBallUser) 
           throws DragonBallUserForbiddenException, DragonBallUserNotFoundException {
     
-    LOGGER.info("In controller /dragonball/users/{username} (PUT)");
+    LOGGER.info("In controller /dragonball/users/{id} (PUT)");
     
-    if (!username.equals(dragonBallUser.getUsername())) {
-      throw new DragonBallUserForbiddenException("Username in path variable doesn´t match" 
-          + "username in request body.");
+    if (!id.equals(dragonBallUser.getId())) {
+      throw new DragonBallUserForbiddenException("Id in path variable doesn´t match" 
+          + "id in request body.");
     }
     dragonBallUserService.updateDragonBallUser(dragonBallUser);
-    
-    Long dbUserId = dragonBallUserService.getDragonBallUser(username).getId();
-    
-    return new ResponseEntity<Long>(dbUserId, HttpStatus.OK);
+        
+    return new ResponseEntity<>(HttpStatus.OK);
   }
   
   /**
-   *      /dragonball/users/{username}
+   *      /dragonball/users/{id}
    *      Deletes an existing user from the repository.
    * 
    * @author nbrest

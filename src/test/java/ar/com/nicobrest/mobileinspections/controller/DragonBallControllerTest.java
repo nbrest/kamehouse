@@ -477,7 +477,7 @@ public class DragonBallControllerTest {
   }
   
   /**
-   *      /dragonball/users/{username} (PUT)
+   *      /dragonball/users/{id} (PUT)
    *      Tests updating an existing user in the repository.
    * 
    * @author nbrest
@@ -494,21 +494,15 @@ public class DragonBallControllerTest {
       when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
         .thenReturn(dragonBallUsersList.get(0));
       
-      // Execute HTTP PUT on the /dragonball/users/{username} endpoint
-      mockMvc.perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getUsername())
+      // Execute HTTP PUT on the /dragonball/users/{id} endpoint
+      mockMvc.perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getId())
           .contentType(MediaType.APPLICATION_JSON_UTF8)
           .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
           )
           .andDo(print())
-          .andExpect(status().isOk())
-          .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-          .andExpect(content().bytes(
-           JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0).getId())))
-          .andExpect(content().string(dragonBallUsersList.get(0).getId().toString()));
-      
+          .andExpect(status().isOk());
+          
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUsersList.get(0));
-      verify(dragonBallUserServiceMock, times(1)).getDragonBallUser(dragonBallUsersList.get(0)
-          .getUsername());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Caught Exception. It should pass.");
@@ -516,7 +510,7 @@ public class DragonBallControllerTest {
   }
   
   /**
-   *      /dragonball/users/{username} (PUT)
+   *      /dragonball/users/{id} (PUT)
    *      Tests updating an existing user in the repository
    *      The request should throw a DragonBallUserNotFoundException.
    * 
@@ -533,8 +527,8 @@ public class DragonBallControllerTest {
       Mockito.doThrow(new DragonBallUserNotFoundException("User not found"))
       .when(dragonBallUserServiceMock).updateDragonBallUser(dragonBallUsersList.get(0));
       
-      // Execute HTTP PUT on the /dragonball/users/{username} endpoint
-      mockMvc.perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getUsername())
+      // Execute HTTP PUT on the /dragonball/users/{id} endpoint
+      mockMvc.perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getId())
           .contentType(MediaType.APPLICATION_JSON_UTF8)
           .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
           )
@@ -555,7 +549,7 @@ public class DragonBallControllerTest {
   }
   
   /**
-   *      /dragonball/users/{username} (PUT)
+   *      /dragonball/users/{id} (PUT)
    *      Tests updating an existing user in the repository
    *      The request should throw a DragonBallUserForbiddenException.
    * 
@@ -574,8 +568,8 @@ public class DragonBallControllerTest {
       when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
         .thenReturn(dragonBallUsersList.get(0));
       
-      // Execute HTTP PUT on the /dragonball/users/{username} endpoint
-      mockMvc.perform(put("/dragonball/users/ryoma")
+      // Execute HTTP PUT on the /dragonball/users/{id} endpoint
+      mockMvc.perform(put("/dragonball/users/987")
           .contentType(MediaType.APPLICATION_JSON_UTF8)
           .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0)))
           )
@@ -595,7 +589,7 @@ public class DragonBallControllerTest {
   }
    
   /**
-   *      /dragonball/users/{username} (DELETE)
+   *      /dragonball/users/{id} (DELETE)
    *      Tests for deleting an existing user from the repository.
    * 
    * @author nbrest
@@ -627,7 +621,7 @@ public class DragonBallControllerTest {
   }
   
   /**
-   *      /dragonball/users/{username} (DELETE)
+   *      /dragonball/users/{id} (DELETE)
    *      Tests for deleting an existing user from the repository
    *      The request should throw a DragonBallUserNotFoundException.
    * 
