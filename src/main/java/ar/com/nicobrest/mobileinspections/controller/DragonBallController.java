@@ -145,10 +145,8 @@ public class DragonBallController {
     
     LOGGER.info("In controller /dragonball/users (POST)");
     
-    dragonBallUserService.createDragonBallUser(dragonBallUser);
-    
-    Long dbUserId = dragonBallUserService.getDragonBallUser(dragonBallUser.getUsername()).getId();
-    
+    Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUser);
+        
     return new ResponseEntity<Long>(dbUserId, HttpStatus.CREATED);
   }
   
@@ -208,18 +206,17 @@ public class DragonBallController {
    *      Deletes an existing user from the repository.
    * 
    * @author nbrest
-   * @param username User name to delete
    * @return DragonBallUser Deleted user
    * @throws DragonBallUserNotFoundException User defined exception
    */
-  @RequestMapping(value = "/users/{username}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
   @ResponseBody
-  public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable String username) 
+  public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) 
       throws DragonBallUserNotFoundException {
     
     LOGGER.info("In controller /dragonball/users/{username} (DELETE)");
     
-    DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(username);
+    DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
     
     return new ResponseEntity<DragonBallUser>(deletedDbUser, HttpStatus.OK);
   }

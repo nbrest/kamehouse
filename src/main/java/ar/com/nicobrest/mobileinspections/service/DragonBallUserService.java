@@ -48,10 +48,10 @@ public class DragonBallUserService {
    * @param dragonBallUser DragonBallUser
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
-  public void createDragonBallUser(DragonBallUser dragonBallUser) 
+  public Long createDragonBallUser(DragonBallUser dragonBallUser) 
       throws DragonBallUserAlreadyExistsException {
     
-    dragonBallUserDao.createDragonBallUser(dragonBallUser);
+    return dragonBallUserDao.createDragonBallUser(dragonBallUser);
   }
   
   /**
@@ -85,10 +85,10 @@ public class DragonBallUserService {
    * @param username : User name
    * @throws DragonBallUserNotFoundException User defined exception
    */
-  public DragonBallUser deleteDragonBallUser(String username) 
+  public DragonBallUser deleteDragonBallUser(Long id) 
       throws DragonBallUserNotFoundException {
     
-    return dragonBallUserDao.deleteDragonBallUser(username);
+    return dragonBallUserDao.deleteDragonBallUser(id);
   }
   
   /**

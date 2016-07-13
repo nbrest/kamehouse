@@ -14,11 +14,12 @@ import java.util.List;
 public interface DragonBallUserDao {
 
   /**
-   * Creates a DragonBallUser in the repository.
+   * Creates a DragonBallUser in the repository. Returns the ID of the newly 
+   * generated DragonBallUser
    * 
    * @author nbrest
    */
-  public void createDragonBallUser(DragonBallUser dragonBallUser) 
+  public Long createDragonBallUser(DragonBallUser dragonBallUser) 
       throws DragonBallUserAlreadyExistsException;
   
   /**
@@ -44,9 +45,9 @@ public interface DragonBallUserDao {
    * @author nbrest
    * @return DragonBallUser
    */
-  public DragonBallUser deleteDragonBallUser(String username) 
+  public DragonBallUser deleteDragonBallUser(Long id) 
       throws DragonBallUserNotFoundException;
-
+  
   /**
    * Gets all the DragonBallUsers from the repository.
    * 

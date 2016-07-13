@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   private static Map<String, DragonBallUser> dragonBallUsers;
+  private static Map<Long, String> dragonBallUsernamesById;
 
   @Autowired
   private DragonBallUser gohanDragonBallUser;
@@ -114,11 +115,13 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   private static void initRepository() {
 
     dragonBallUsers = new HashMap<String, DragonBallUser>();
-
+    dragonBallUsernamesById = new HashMap<Long, String>();
+    
     DragonBallUser user1 = new DragonBallUser(IdGenerator.getId(), "goku", "goku@dbz.com", 
         49, 30, 1000);
     dragonBallUsers.put(user1.getUsername(), user1);
-
+    dragonBallUsernamesById.put(user1.getId(), user1.getUsername());
+    
     DragonBallUser user2 = new DragonBallUser();
     user2.setId(IdGenerator.getId());
     user2.setAge(29);
@@ -127,10 +130,12 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     user2.setPowerLevel(20);
     user2.setStamina(1000);
     dragonBallUsers.put(user2.getUsername(), user2);
+    dragonBallUsernamesById.put(user2.getId(), user2.getUsername());
 
     DragonBallUser user3 = new DragonBallUser(IdGenerator.getId(), "goten", "goten@dbz.com", 
         19, 10, 1000);
     dragonBallUsers.put(user3.getUsername(), user3);
+    dragonBallUsernamesById.put(user3.getId(), user3.getUsername());
   }
   
   /**
@@ -139,7 +144,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    * @author nbrest
    * @throws DragonBallUserAlreadyExistsException User defined exception
    */
-  public void createDragonBallUser(DragonBallUser dragonBallUser) 
+  public Long createDragonBallUser(DragonBallUser dragonBallUser) 
       throws DragonBallUserAlreadyExistsException {
 
     if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
@@ -148,6 +153,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     }
     dragonBallUser.setId(IdGenerator.getId());
     dragonBallUsers.put(dragonBallUser.getUsername(), dragonBallUser);
+    dragonBallUsernamesById.put(dragonBallUser.getId(), dragonBallUser.getUsername());
+    return dragonBallUser.getId();
   }
 
   /**
@@ -183,6 +190,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     Long storedId = dragonBallUsers.get(dragonBallUser.getUsername()).getId();
     dragonBallUser.setId(storedId);
     dragonBallUsers.put(dragonBallUser.getUsername(), dragonBallUser);
+    dragonBallUsernamesById.put(dragonBallUser.getId(), dragonBallUser.getUsername());
   }
 
   /**
@@ -191,15 +199,16 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    * @author nbrest
    * @throws DragonBallUserNotFoundException User defined exception
    */
-  public DragonBallUser deleteDragonBallUser(String username) 
+  public DragonBallUser deleteDragonBallUser(Long id) 
       throws DragonBallUserNotFoundException {
 
-    DragonBallUser removedUser = dragonBallUsers.remove(username);
-
-    if (removedUser == null) {
-      throw new DragonBallUserNotFoundException("DragonBallUser with username " 
-          + username + " was not found in the repository.");
+    String username = dragonBallUsernamesById.remove(id);
+    if (username == null) {
+      throw new DragonBallUserNotFoundException("DragonBallUser with id " 
+          + id + " was not found in the repository.");
     }
+    DragonBallUser removedUser = dragonBallUsers.remove(username); 
+    
     return removedUser;
   }
 

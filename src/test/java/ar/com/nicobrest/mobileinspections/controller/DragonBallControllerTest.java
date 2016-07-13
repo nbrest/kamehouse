@@ -321,7 +321,7 @@ public class DragonBallControllerTest {
     // Normal flow
     try {
       // Setup mock object dragonBallUserServiceMock 
-      Mockito.doNothing().when(dragonBallUserServiceMock)
+      Mockito.doReturn(dragonBallUsersList.get(0).getId()).when(dragonBallUserServiceMock)
         .createDragonBallUser(dragonBallUsersList.get(0));
       when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
         .thenReturn(dragonBallUsersList.get(0));
@@ -339,8 +339,6 @@ public class DragonBallControllerTest {
           .andExpect(content().string(dragonBallUsersList.get(0).getId().toString()));
       
       verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUsersList.get(0));
-      verify(dragonBallUserServiceMock, times(1)).getDragonBallUser(dragonBallUsersList.get(0)
-          .getUsername());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Caught Exception. It should pass.");
@@ -610,10 +608,10 @@ public class DragonBallControllerTest {
     try {
       // Setup mock object dragonBallUserServiceMock 
       when(dragonBallUserServiceMock.deleteDragonBallUser(dragonBallUsersList.get(0)
-          .getUsername())).thenReturn(dragonBallUsersList.get(0));
+          .getId())).thenReturn(dragonBallUsersList.get(0));
       
-      // Execute HTTP DELETE on the /dragonball/users/{username} endpoint
-      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getUsername()))
+      // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
+      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getId()))
           .andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -621,7 +619,7 @@ public class DragonBallControllerTest {
            JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))));
       
       verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(dragonBallUsersList.get(0)
-          .getUsername());
+          .getId());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Caught Exception. It should pass.");
@@ -645,16 +643,16 @@ public class DragonBallControllerTest {
       // Setup mock object dragonBallUserServiceMock 
       Mockito.doThrow(new DragonBallUserNotFoundException("User not found"))
           .when(dragonBallUserServiceMock).deleteDragonBallUser(dragonBallUsersList.get(0)
-          .getUsername());
+          .getId());
       
-      // Execute HTTP DELETE on the /dragonball/users/{username} endpoint
-      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getUsername()))
+      // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
+      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getId()))
           .andDo(print())
           .andExpect(status().is4xxClientError())
           .andExpect(view().name("error/404"))
           .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
       verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(dragonBallUsersList.get(0)
-          .getUsername());
+          .getId());
     } catch (DragonBallUserNotFoundException e) {
       fail("Caught DragonBallUserNotFoundException. It should have been handled in the mock.");
     } catch (IOException e) {

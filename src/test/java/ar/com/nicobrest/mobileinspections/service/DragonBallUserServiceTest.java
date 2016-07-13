@@ -98,7 +98,7 @@ public class DragonBallUserServiceTest {
     try {
       DragonBallUser userToAdd = new DragonBallUser(0L, "vegeta", "vegeta@dbz.com", 
           50, 50, 50);
-      Mockito.doNothing().when(dragonBallUserDaoMock).createDragonBallUser(userToAdd);
+      Mockito.doReturn(1L).when(dragonBallUserDaoMock).createDragonBallUser(userToAdd);
       
       dragonBallUserService.createDragonBallUser(userToAdd);
       
@@ -250,12 +250,12 @@ public class DragonBallUserServiceTest {
     
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.deleteDragonBallUser("goku"))
+      when(dragonBallUserDaoMock.deleteDragonBallUser(1L))
         .thenReturn(dragonBallUsersList.get(0));
       
-      dragonBallUserService.deleteDragonBallUser("goku");
+      dragonBallUserService.deleteDragonBallUser(1L);
       
-      verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser("goku");
+      verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser(1L);
     } catch (DragonBallUserNotFoundException e) {
       e.printStackTrace();
       fail("Caught DragonBallUserNotFoundException.");
@@ -277,14 +277,14 @@ public class DragonBallUserServiceTest {
      
     // Exception flows
     try {
-      Mockito.doThrow(new DragonBallUserNotFoundException("User ryoma doesn´t exist"))
-        .when(dragonBallUserDaoMock).deleteDragonBallUser("ryoma");
+      Mockito.doThrow(new DragonBallUserNotFoundException("User with ID " + 987L + " doesn´t exist"))
+        .when(dragonBallUserDaoMock).deleteDragonBallUser(987L);
       
-      dragonBallUserService.deleteDragonBallUser("ryoma");
+      dragonBallUserService.deleteDragonBallUser(987L);
       
       fail("Passed. It should have thrown a DragonBallUserNotFoundException");
     } catch (DragonBallUserNotFoundException e) {
-      verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser("ryoma");
+      verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser(987L);
     }
   }
   

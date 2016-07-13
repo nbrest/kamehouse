@@ -22,9 +22,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     <property name="dragonBallUserDao" ref="dragonBallUserDao" />
   </bean>
   
-<!--   <bean id="dragonBallUserDaoHibernate"  -->
-<!--     class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoHibernate"> -->
-<!--       <property name="sessionFactory" ref="sessionFactory" />  -->
+<!--   <bean id="dragonBallUserDao"  -->
+<!--     class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoJpa"> -->
+<!--       <property name="entityManagerFactory" ref="entityManagerFactory" />  -->
 <!--   </bean> -->
   
   <bean id="dragonBallUserDao" 
