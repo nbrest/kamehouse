@@ -4,10 +4,11 @@ import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsE
 import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+
+import javax.persistence.EntityManagerFactory;
 
 /**
  *      Hibernate DAO for the DragonBallUser test entities.
@@ -17,7 +18,7 @@ import java.util.List;
 public class DragonBallUserDaoHibernate implements DragonBallUserDao {
 
   @Autowired
-  private SessionFactory sessionFactory;
+  private EntityManagerFactory entityManagerFactory;
   
   /**
    * Inserts a DragonBallUser to the repository.
@@ -27,7 +28,6 @@ public class DragonBallUserDaoHibernate implements DragonBallUserDao {
   public void createDragonBallUser(DragonBallUser dragonBallUser) 
       throws DragonBallUserAlreadyExistsException {
 
-    sessionFactory.getCurrentSession().save(dragonBallUser);
   }
   
   /**
