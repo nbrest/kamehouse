@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 /**
  * JPA DAO for the DragonBallUser test entities.
@@ -75,7 +76,12 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   public DragonBallUser getDragonBallUser(String username)
       throws DragonBallUserNotFoundException {
 
-    return null;
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin();
+    Query query = em.createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
+    query.setParameter("pUsername", username);
+    DragonBallUser dragonBallUser = (DragonBallUser) query.getSingleResult();
+    return dragonBallUser;
   }
 
   /**
@@ -86,6 +92,18 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   public void updateDragonBallUser(DragonBallUser dragonBallUser)
       throws DragonBallUserNotFoundException {
 
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin();
+    DragonBallUser updatedDbUser = em.find(DragonBallUser.class, dragonBallUser.getId());
+    if (updatedDbUser != null) {
+      updatedDbUser.setAge(dragonBallUser.getAge());
+      updatedDbUser.setEmail(dragonBallUser.getEmail());
+      updatedDbUser.setPowerLevel(dragonBallUser.getPowerLevel());
+      updatedDbUser.setStamina(dragonBallUser.getStamina());
+      updatedDbUser.setUsername(dragonBallUser.getUsername());
+    } 
+    em.getTransaction().commit();
+    em.close();
   }
 
   /**
@@ -96,8 +114,20 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    */
   public DragonBallUser deleteDragonBallUser(Long id)
       throws DragonBallUserNotFoundException {
-
-    return null;
+    
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin();
+    // find(): returns the entity from the EntityManager if its already in memory. Otherwise it goes
+    // to the database to find it.
+    // getReference(): Returns a proxy to the real entity. Useful if you need to access the primary
+    // key used to look up the entity but not the other data of the object.
+    DragonBallUser dbUserToRemove = em.find(DragonBallUser.class, id);
+    if (dbUserToRemove != null) {
+      em.remove(dbUserToRemove);
+    } 
+    em.getTransaction().commit();
+    em.close();
+    return dbUserToRemove;
   }
 
   /**

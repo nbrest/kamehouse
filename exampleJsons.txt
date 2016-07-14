@@ -1,0 +1,19 @@
+DragonBallUser class examples:
+[
+  {
+    "id": 1,
+    "username": "goku",
+    "email": "dbz@dbz.com",
+    "age": 10,
+    "powerLevel": 1000,
+    "stamina": 1000
+  },
+  {
+    "id": 99,
+    "username": "trunks",
+    "email": "trunks@dbz.com",
+    "age": 10,
+    "powerLevel": 1000,
+    "stamina": 1000
+  }
+]
