@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
@@ -103,8 +104,8 @@ public class DragonBallUserDaoJpaTest {
         .info("****************** Executing "
             + "createDragonBallUserAlreadyExistsExceptionTest ***************");
 
-    thrown.expect(javax.persistence.RollbackException.class);
-    thrown.expectMessage("Error while committing the transaction");
+    thrown.expect(MobileInspectionsException.class);
+    thrown.expectMessage("PersistenceException in createDragonBallUser");
     
     DragonBallUser dragonBallUser = new DragonBallUser(null, "goku",
         "goku@dbz.com", 49, 40, 1000);
@@ -153,8 +154,8 @@ public class DragonBallUserDaoJpaTest {
         .info("****************** Executing "
             + "getDragonBallUserExceptionTest ******************");
 
-    thrown.expect(javax.persistence.NoResultException.class);
-    thrown.expectMessage("No entity found for query");
+    thrown.expect(MobileInspectionsException.class);
+    thrown.expectMessage("PersistenceException in getDragonBallUser");
     dragonBallUserDaoJpa.getDragonBallUser("yukimura");
   }
 
