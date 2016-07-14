@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.junit.Before;
@@ -85,10 +85,10 @@ public class DragonBallUserDaoJpaTest {
       assertEquals(1, dragonBallUserDaoJpa.getAllDragonBallUsers().size());
       dragonBallUserDaoJpa.deleteDragonBallUser(dragonBallUserDaoJpa
           .getDragonBallUser("vegeta").getId());
-    } catch (DragonBallUserAlreadyExistsException
-        | DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsAlreadyExistsException
+        | MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserAlreadyExistsException or DragonBallUserNotFoundException.");
+      fail("Caught MobileInspectionsAlreadyExistsException or MobileInspectionsNotFoundException.");
     }
   }
 
@@ -96,15 +96,12 @@ public class DragonBallUserDaoJpaTest {
    * Test for creating a DragonBallUser in the repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserAlreadyExistsException
-   *           User defined exception
    */
   @Test
-  public void createDragonBallUserDragonBallUserAlreadyExistsExceptionTest()
-      throws DragonBallUserAlreadyExistsException {
+  public void createDragonBallUserAlreadyExistsExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "createDragonBallUserDragonBallUserAlreadyExistsExceptionTest ***************");
+            + "createDragonBallUserAlreadyExistsExceptionTest ***************");
 
     thrown.expect(javax.persistence.RollbackException.class);
     thrown.expectMessage("Error while committing the transaction");
@@ -124,7 +121,7 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Test
-  public void getDragonBallUserTest() throws DragonBallUserAlreadyExistsException {
+  public void getDragonBallUserTest() {
     LOGGER
         .info("****************** Executing getDragonBallUserTest ******************");
 
@@ -139,9 +136,9 @@ public class DragonBallUserDaoJpaTest {
 
       assertNotNull(user);
       assertEquals("goku", user.getUsername());
-    } catch (DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException.");
+      fail("Caught MobileInspectionsNotFoundException.");
     }
   }
 
@@ -151,8 +148,7 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Test
-  public void getDragonBallUserExceptionTest()
-      throws DragonBallUserNotFoundException {
+  public void getDragonBallUserExceptionTest() {
     LOGGER
         .info("****************** Executing "
             + "getDragonBallUserExceptionTest ******************");
@@ -168,7 +164,7 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Test
-  public void updateDragonBallUserTest() throws DragonBallUserAlreadyExistsException {
+  public void updateDragonBallUserTest() {
     LOGGER
         .info("****************** Executing updateDragonBallUserTest ******************");
 
@@ -196,7 +192,7 @@ public class DragonBallUserDaoJpaTest {
       assertEquals(53, updatedUser.getStamina());
 
       dragonBallUserDaoJpa.updateDragonBallUser(originalUser);
-    } catch (DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
       fail("Caught DragonBallUserNotFoundException.");
     }
@@ -208,15 +204,14 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Test
-  public void updateDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
+  public void updateDragonBallUserNotFoundExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "updateDragonBallUserDragonBallUserNotFoundExceptionTest ****************");
+            + "updateDragonBallUserNotFoundExceptionTest ****************");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "yukimura",
         "yukimura@pot.com", 10, 10, 10);
-    thrown.expect(DragonBallUserNotFoundException.class);
+    thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with id 0 was not found in the repository.");
     dragonBallUserDaoJpa.updateDragonBallUser(dragonBallUser);
@@ -245,10 +240,10 @@ public class DragonBallUserDaoJpaTest {
       assertEquals(20, deletedUser.getAge());
       assertEquals(21, deletedUser.getPowerLevel());
       assertEquals(22, deletedUser.getStamina());
-    } catch (DragonBallUserNotFoundException
-        | DragonBallUserAlreadyExistsException e) {
+    } catch (MobileInspectionsNotFoundException
+        | MobileInspectionsAlreadyExistsException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException or DragonBallUserAlreadyExistsException.");
+      fail("Caught MobileInspectionsNotFoundException or MobileInspectionsAlreadyExistsException.");
     }
   }
 
@@ -256,17 +251,14 @@ public class DragonBallUserDaoJpaTest {
    * Test for deleting an existing user from the repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserNotFoundException
-   *           User defined exception
    */
   @Test
-  public void deleteDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException {
+  public void deleteDragonBallUserNotFoundExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "deleteDragonBallUserDragonBallUserNotFoundExceptionTest ****************");
+            + "deleteDragonBallUserNotFoundExceptionTest ****************");
 
-    thrown.expect(DragonBallUserNotFoundException.class);
+    thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with id " + 987L + " was not found in the repository.");
     dragonBallUserDaoJpa.deleteDragonBallUser(987L);
@@ -278,7 +270,7 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Test
-  public void getAllDragonBallUsersTest() throws DragonBallUserAlreadyExistsException {
+  public void getAllDragonBallUsersTest() {
     LOGGER
         .info("****************** Executing getAllDragonBallUsersTest ******************");
 

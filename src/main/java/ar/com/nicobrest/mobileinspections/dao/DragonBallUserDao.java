@@ -1,7 +1,5 @@
 package ar.com.nicobrest.mobileinspections.dao;
 
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import java.util.List;
@@ -19,40 +17,33 @@ public interface DragonBallUserDao {
    * 
    * @author nbrest
    */
-  public Long createDragonBallUser(DragonBallUser dragonBallUser) 
-      throws DragonBallUserAlreadyExistsException;
+  public Long createDragonBallUser(DragonBallUser dragonBallUser);
   
   /**
    * Gets a DragonBallUser from the repository.
    * 
    * @author nbrest
-   * @return DragonBallUser
    */
-  public DragonBallUser getDragonBallUser(String username) 
-      throws DragonBallUserNotFoundException;
+  public DragonBallUser getDragonBallUser(String username);
   
   /**
    * Updates a DragonBallUser on the repository.
    * 
    * @author nbrest
    */
-  public void updateDragonBallUser(DragonBallUser dragonBallUser) 
-      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException;
+  public void updateDragonBallUser(DragonBallUser dragonBallUser);
   
   /**
    * Deletes a DragonBallUser from the repository.
    * 
    * @author nbrest
-   * @return DragonBallUser
    */
-  public DragonBallUser deleteDragonBallUser(Long id) 
-      throws DragonBallUserNotFoundException;
+  public DragonBallUser deleteDragonBallUser(Long id);
   
   /**
    * Gets all the DragonBallUsers from the repository.
    * 
    * @author nbrest
-   * @return List of DragonBallUser
    */
   public List<DragonBallUser> getAllDragonBallUsers();
 }

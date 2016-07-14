@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.junit.Rule;
@@ -82,10 +82,10 @@ public class DragonBallUserDaoInMemoryTest {
       assertEquals(4, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
       dragonBallUserDaoInMemory.deleteDragonBallUser(dragonBallUserDaoInMemory
           .getDragonBallUser("vegeta").getId());
-    } catch (DragonBallUserAlreadyExistsException
-        | DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsAlreadyExistsException
+        | MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserAlreadyExistsException or DragonBallUserNotFoundException.");
+      fail("Caught MobileInspectionsAlreadyExistsException or MobileInspectionsNotFoundException.");
     }
   }
 
@@ -93,20 +93,17 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for creating a DragonBallUser in the repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserAlreadyExistsException
-   *           User defined exception
    */
   @Test
-  public void createDragonBallUserDragonBallUserAlreadyExistsExceptionTest()
-      throws DragonBallUserAlreadyExistsException {
+  public void createDragonBallUserAlreadyExistsExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "createDragonBallUserDragonBallUserAlreadyExistsExceptionTest ***************");
+            + "createDragonBallUserAlreadyExistsExceptionTest ***************");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "goku",
         "goku@dbz.com", 49, 40, 1000);
 
-    thrown.expect(DragonBallUserAlreadyExistsException.class);
+    thrown.expect(MobileInspectionsAlreadyExistsException.class);
     thrown
         .expectMessage("DragonBallUser with username goku already exists in the repository.");
     dragonBallUserDaoInMemory.createDragonBallUser(dragonBallUser);
@@ -129,7 +126,7 @@ public class DragonBallUserDaoInMemoryTest {
 
       assertNotNull(user);
       assertEquals("goku", user.getUsername());
-    } catch (DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
       fail("Caught DragonBallUserNotFoundException.");
     }
@@ -139,17 +136,14 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for getting a single DragonBallUser in the repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserNotFoundException
-   *           User defined exception
    */
   @Test
-  public void getDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException {
+  public void getDragonBallUserNotFoundExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "getDragonBallUserDragonBallUserNotFoundExceptionTest ******************");
+            + "getDragonBallUserNotFoundExceptionTest ******************");
 
-    thrown.expect(DragonBallUserNotFoundException.class);
+    thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with username yukimura was not found in the repository.");
     dragonBallUserDaoInMemory.getDragonBallUser("yukimura");
@@ -161,7 +155,7 @@ public class DragonBallUserDaoInMemoryTest {
    * @author nbrest
    */
   @Test
-  public void updateDragonBallUserTest() throws DragonBallUserAlreadyExistsException {
+  public void updateDragonBallUserTest() {
     LOGGER
         .info("****************** Executing updateDragonBallUserTest ******************");
 
@@ -185,9 +179,9 @@ public class DragonBallUserDaoInMemoryTest {
       assertEquals(53, updatedUser.getStamina());
 
       dragonBallUserDaoInMemory.updateDragonBallUser(originalUser);
-    } catch (DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException.");
+      fail("Caught MobileInspectionsNotFoundException.");
     }
   }
 
@@ -197,15 +191,14 @@ public class DragonBallUserDaoInMemoryTest {
    * @author nbrest
    */
   @Test
-  public void updateDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
+  public void updateDragonBallUserNotFoundExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "updateDragonBallUserDragonBallUserNotFoundExceptionTest ****************");
+            + "updateDragonBallUserNotFoundExceptionTest ****************");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "yukimura",
         "yukimura@pot.com", 10, 10, 10);
-    thrown.expect(DragonBallUserNotFoundException.class);
+    thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with id 0 was not found in the repository.");
     dragonBallUserDaoInMemory.updateDragonBallUser(dragonBallUser);
@@ -234,10 +227,10 @@ public class DragonBallUserDaoInMemoryTest {
       assertEquals(20, deletedUser.getAge());
       assertEquals(21, deletedUser.getPowerLevel());
       assertEquals(22, deletedUser.getStamina());
-    } catch (DragonBallUserNotFoundException
-        | DragonBallUserAlreadyExistsException e) {
+    } catch (MobileInspectionsNotFoundException
+        | MobileInspectionsAlreadyExistsException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException or DragonBallUserAlreadyExistsException.");
+      fail("Caught MobileInspectionsNotFoundException or MobileInspectionsAlreadyExistsException.");
     }
   }
 
@@ -245,17 +238,14 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for deleting an existing user from the repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserNotFoundException
-   *           User defined exception
    */
   @Test
-  public void deleteDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException {
+  public void deleteDragonBallUserNotFoundExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "deleteDragonBallUserDragonBallUserNotFoundExceptionTest ****************");
+            + "deleteDragonBallUserNotFoundExceptionTest ****************");
 
-    thrown.expect(DragonBallUserNotFoundException.class);
+    thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with id " + 987L + " was not found in the repository.");
     dragonBallUserDaoInMemory.deleteDragonBallUser(987L);

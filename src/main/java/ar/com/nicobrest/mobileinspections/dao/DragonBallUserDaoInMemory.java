@@ -1,7 +1,7 @@
 package ar.com.nicobrest.mobileinspections.dao;
 
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,6 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
      *      Return next number in the sequence.
      *      
      * @author nbrest
-     * @return Long
      */
     public static Long getId() {
       return Long.valueOf(sequence.getAndIncrement());
@@ -67,7 +66,6 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Getters and setters.
    *          
    * @author nbrest
-   * @param gohanDragonBallUser DragonBallUser
    */
   public void setGohanDragonBallUser(DragonBallUser gohanDragonBallUser) {
 
@@ -78,7 +76,6 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Getters and setters.
    *          
    * @author nbrest
-   * @return DragonBallUser
    */
   public DragonBallUser getGohanDragonBallUser() {
 
@@ -89,7 +86,6 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Getters and setters.
    *          
    * @author nbrest
-   * @param gotenDragonBallUser DragonBallUser
    */
   public void setGotenDragonBallUser(DragonBallUser gotenDragonBallUser) {
 
@@ -100,7 +96,6 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Getters and setters.
    *         
    * @author nbrest
-   * @return DragonBallUser
    */
   public DragonBallUser getGotenDragonBallUser() {
 
@@ -142,13 +137,11 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Adds a new DragonBallUser to the repository.
    *           
    * @author nbrest
-   * @throws DragonBallUserAlreadyExistsException User defined exception
    */
-  public Long createDragonBallUser(DragonBallUser dragonBallUser) 
-      throws DragonBallUserAlreadyExistsException {
+  public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-      throw new DragonBallUserAlreadyExistsException("DragonBallUser with username " 
+      throw new MobileInspectionsAlreadyExistsException("DragonBallUser with username " 
           + dragonBallUser.getUsername() + " already exists in the repository.");
     }
     dragonBallUser.setId(IdGenerator.getId());
@@ -161,14 +154,13 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Returns a single instance of a DragonBallUser.
    *           
    * @author nbrest
-   * @throws DragonBallUserNotFoundException User defined exception
    */
-  public DragonBallUser getDragonBallUser(String username) throws DragonBallUserNotFoundException {
+  public DragonBallUser getDragonBallUser(String username) {
 
     DragonBallUser user = dragonBallUsers.get(username);
 
     if (user == null) {
-      throw new DragonBallUserNotFoundException("DragonBallUser with username " 
+      throw new MobileInspectionsNotFoundException("DragonBallUser with username " 
           + username + " was not found in the repository.");
     }
     return user;
@@ -179,19 +171,18 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      
    * @author nbrest
    */
-  public void updateDragonBallUser(DragonBallUser dragonBallUser) 
-      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
+  public void updateDragonBallUser(DragonBallUser dragonBallUser) {
 
     // Check that the user being updated exists in the repo
     if (dragonBallUsernamesById.get(dragonBallUser.getId()) == null) {
-      throw new DragonBallUserNotFoundException("DragonBallUser with id " 
+      throw new MobileInspectionsNotFoundException("DragonBallUser with id " 
           + dragonBallUser.getId() + " was not found in the repository.");
     }
     
     //If the username changes, check that the new username doesn´t already exist in the repo
     if (!dragonBallUser.getUsername().equals(dragonBallUsernamesById.get(dragonBallUser.getId()))) {
       if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-        throw new DragonBallUserAlreadyExistsException("DragonBallUser with username " 
+        throw new MobileInspectionsAlreadyExistsException("DragonBallUser with username " 
             + dragonBallUser.getUsername() + " already exists in the repository.");
       }
     }
@@ -209,14 +200,12 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    *      Deletes a DragonBallUser from the repository.
    *      
    * @author nbrest
-   * @throws DragonBallUserNotFoundException User defined exception
    */
-  public DragonBallUser deleteDragonBallUser(Long id) 
-      throws DragonBallUserNotFoundException {
+  public DragonBallUser deleteDragonBallUser(Long id) {
 
     String username = dragonBallUsernamesById.remove(id);
     if (username == null) {
-      throw new DragonBallUserNotFoundException("DragonBallUser with id " 
+      throw new MobileInspectionsNotFoundException("DragonBallUser with id " 
           + id + " was not found in the repository.");
     }
     DragonBallUser removedUser = dragonBallUsers.remove(username); 

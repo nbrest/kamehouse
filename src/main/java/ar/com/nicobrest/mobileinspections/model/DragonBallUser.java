@@ -72,7 +72,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @param id : User id
    */
   public void setId(Long id) {
     this.id = id;
@@ -82,7 +81,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @param username : User name
    */
   public void setUsername(String username) {
     this.username = username;
@@ -92,7 +90,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @param email : User email
    */
   public void setEmail(String email) {
     this.email = email;
@@ -102,7 +99,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @param age : User age
    */
   public void setAge(int age) {
     this.age = age;
@@ -112,7 +108,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @param powerLevel : User power level
    */
   public void setPowerLevel(int powerLevel) {
     this.powerLevel = powerLevel;
@@ -122,7 +117,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    * 
    * @author nbrest
-   * @param stamina : User stamina
    */
   public void setStamina(int stamina) {
     this.stamina = stamina;
@@ -132,7 +126,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @return Long
    */
   public Long getId() {
     return id;
@@ -142,7 +135,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @return String
    */
   public String getUsername() {
     return username;
@@ -152,7 +144,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @return String
    */
   public String getEmail() {
     return email;
@@ -162,7 +153,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @return int
    */
   public int getAge() {
     return age;
@@ -172,7 +162,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @return int
    */
   public int getPowerLevel() {
     return powerLevel;
@@ -182,7 +171,6 @@ public class DragonBallUser {
    *      Getters and Setters.
    *      
    * @author nbrest
-   * @return int
    */
   public int getStamina() {
     return stamina;

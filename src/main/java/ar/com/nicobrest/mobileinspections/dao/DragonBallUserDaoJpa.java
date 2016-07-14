@@ -1,7 +1,6 @@
 package ar.com.nicobrest.mobileinspections.dao;
 
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +56,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    * 
    * @author nbrest
    */
-  public Long createDragonBallUser(DragonBallUser dragonBallUser)
-      throws DragonBallUserAlreadyExistsException {
+  public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     EntityManager em = getEntityManager();
     em.getTransaction().begin();
@@ -73,8 +71,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    * 
    * @author nbrest
    */
-  public DragonBallUser getDragonBallUser(String username)
-      throws DragonBallUserNotFoundException {
+  public DragonBallUser getDragonBallUser(String username) {
 
     EntityManager em = getEntityManager();
     em.getTransaction().begin();
@@ -92,8 +89,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    * 
    * @author nbrest
    */
-  public void updateDragonBallUser(DragonBallUser dragonBallUser)
-      throws DragonBallUserNotFoundException {
+  public void updateDragonBallUser(DragonBallUser dragonBallUser) {
 
     // TODO: Refactor this code to correcly throw the exception using try-catch
     EntityManager em = getEntityManager();
@@ -110,7 +106,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     em.getTransaction().commit();
     em.close();
     if (updatedDbUser == null) {
-      throw new DragonBallUserNotFoundException("DragonBallUser with id "
+      throw new MobileInspectionsNotFoundException("DragonBallUser with id "
           + dragonBallUser.getId() + " was not found in the repository.");
     }
   }
@@ -121,8 +117,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    * @author nbrest
    * @return DragonBallUser
    */
-  public DragonBallUser deleteDragonBallUser(Long id)
-      throws DragonBallUserNotFoundException {
+  public DragonBallUser deleteDragonBallUser(Long id) {
 
     EntityManager em = getEntityManager();
     em.getTransaction().begin();
@@ -139,7 +134,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     em.getTransaction().commit();
     em.close();
     if (dbUserToRemove == null) {
-      throw new DragonBallUserNotFoundException("DragonBallUser with id "
+      throw new MobileInspectionsNotFoundException("DragonBallUser with id "
           + id + " was not found in the repository.");
     }
     return dbUserToRemove;

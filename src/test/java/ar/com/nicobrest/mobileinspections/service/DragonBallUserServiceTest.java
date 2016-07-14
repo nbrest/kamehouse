@@ -8,8 +8,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import ar.com.nicobrest.mobileinspections.dao.DragonBallUserDao;
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.DragonBallUserNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.junit.Before;
@@ -106,9 +106,9 @@ public class DragonBallUserServiceTest {
       dragonBallUserService.createDragonBallUser(userToAdd);
 
       verify(dragonBallUserDaoMock, times(1)).createDragonBallUser(userToAdd);
-    } catch (DragonBallUserAlreadyExistsException e) {
+    } catch (MobileInspectionsAlreadyExistsException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserAlreadyExistsException.");
+      fail("Caught MobileInspectionsAlreadyExistsException.");
     }
   }
 
@@ -117,28 +117,24 @@ public class DragonBallUserServiceTest {
    * Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserAlreadyExistsException
-   *           User defined exception
    */
   @Test
-  public void createDragonBallUserDragonBallUserAlreadyExistsExceptionTest()
-      throws DragonBallUserAlreadyExistsException {
-    LOGGER
-        .info("****************** Executing "
-            + "createDragonBallUserDragonBallUserAlreadyExistsExceptionTest ******************");
+  public void createDragonBallUserAlreadyExistsExceptionTest() {
+    LOGGER.info("****************** Executing "
+        + "createDragonBallUserAlreadyExistsExceptionTest ******************");
 
     // Exception flow
     try {
       Mockito
           .doThrow(
-              new DragonBallUserAlreadyExistsException(
+              new MobileInspectionsAlreadyExistsException(
                   "User goku already exists")).when(dragonBallUserDaoMock)
           .createDragonBallUser(dragonBallUsersList.get(0));
 
       dragonBallUserService.createDragonBallUser(dragonBallUsersList.get(0));
 
-      fail("Passed. It should have thrown a DragonBallUserAlreadyExistsException.");
-    } catch (DragonBallUserAlreadyExistsException e) {
+      fail("Passed. It should have thrown a MobileInspectionsAlreadyExistsException.");
+    } catch (MobileInspectionsAlreadyExistsException e) {
       verify(dragonBallUserDaoMock, times(1)).createDragonBallUser(
           dragonBallUsersList.get(0));
     }
@@ -168,9 +164,9 @@ public class DragonBallUserServiceTest {
       assertNotNull(user);
       assertEquals("gokuTestMock", user.getUsername());
       verify(dragonBallUserDaoMock, times(1)).getDragonBallUser("gokuTestMock");
-    } catch (DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException.");
+      fail("Caught MobileInspectionsNotFoundException.");
     }
   }
 
@@ -179,26 +175,23 @@ public class DragonBallUserServiceTest {
    * repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserNotFoundException
-   *           User defined exception
    */
   @Test
-  public void getDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException {
-    LOGGER
-        .info("****************** Executing "
-            + "getDragonBallUserDragonBallUserNotFoundExceptionTest ******************");
+  public void getDragonBallUserNotFoundExceptionTest() {
+    LOGGER.info("****************** Executing "
+        + "getDragonBallUserNotFoundExceptionTest ******************");
 
     // Exception flow
     try {
       Mockito
-          .doThrow(new DragonBallUserNotFoundException("User seiya not found"))
+          .doThrow(
+              new MobileInspectionsNotFoundException("User seiya not found"))
           .when(dragonBallUserDaoMock).getDragonBallUser("seiya");
 
       dragonBallUserService.getDragonBallUser("seiya");
 
-      fail("Passed. It should have thrown a DragonBallUserNotFoundException");
-    } catch (DragonBallUserNotFoundException e) {
+      fail("Passed. It should have thrown a MobileInspectionsNotFoundException");
+    } catch (MobileInspectionsNotFoundException e) {
       verify(dragonBallUserDaoMock, times(1)).getDragonBallUser("seiya");
     }
   }
@@ -210,7 +203,7 @@ public class DragonBallUserServiceTest {
    * @author nbrest
    */
   @Test
-  public void updateDragonBallUserTest() throws DragonBallUserAlreadyExistsException {
+  public void updateDragonBallUserTest() {
     LOGGER
         .info("****************** Executing updateDragonBallUserTest ******************");
 
@@ -225,9 +218,9 @@ public class DragonBallUserServiceTest {
 
       verify(dragonBallUserDaoMock, times(1))
           .updateDragonBallUser(userToUpdate);
-    } catch (DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException.");
+      fail("Caught MobileInspectionsNotFoundException.");
     }
   }
 
@@ -236,14 +229,11 @@ public class DragonBallUserServiceTest {
    * repository Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserNotFoundException
-   *           User defined exception
    */
   @Test
-  public void updateDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException, DragonBallUserAlreadyExistsException {
-    LOGGER
-        .info("****************** Executing updateDragonBallUserTest ******************");
+  public void updateDragonBallUserNotFoundExceptionTest() {
+    LOGGER.info("****************** Executing "
+        + "updateDragonBallUserNotFoundExceptionTest ******************");
 
     // Exception flows
     DragonBallUser inexistentUserToUpdate = new DragonBallUser(0L, "sanada",
@@ -251,14 +241,14 @@ public class DragonBallUserServiceTest {
     try {
       Mockito
           .doThrow(
-              new DragonBallUserNotFoundException("User sanada doesn´t exist"))
-          .when(dragonBallUserDaoMock)
+              new MobileInspectionsNotFoundException(
+                  "User sanada doesn´t exist")).when(dragonBallUserDaoMock)
           .updateDragonBallUser(inexistentUserToUpdate);
 
       dragonBallUserService.updateDragonBallUser(inexistentUserToUpdate);
 
-      fail("Passed. Should have thrown a DragonBallUserNotFoundException");
-    } catch (DragonBallUserNotFoundException e) {
+      fail("Passed. Should have thrown a MobileInspectionsNotFoundException");
+    } catch (MobileInspectionsNotFoundException e) {
       verify(dragonBallUserDaoMock, times(1)).updateDragonBallUser(
           inexistentUserToUpdate);
     }
@@ -282,9 +272,9 @@ public class DragonBallUserServiceTest {
       dragonBallUserService.deleteDragonBallUser(1L);
 
       verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser(1L);
-    } catch (DragonBallUserNotFoundException e) {
+    } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException.");
+      fail("Caught MobileInspectionsNotFoundException.");
     }
   }
 
@@ -293,28 +283,25 @@ public class DragonBallUserServiceTest {
    * Exception flows.
    * 
    * @author nbrest
-   * @throws DragonBallUserNotFoundException
-   *           User defined exception
    */
   @Test
-  public void deleteDragonBallUserDragonBallUserNotFoundExceptionTest()
-      throws DragonBallUserNotFoundException {
+  public void deleteDragonBallUserNotFoundExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "deleteDragonBallUserDragonBallUserNotFoundExceptionTest ******************");
+            + "deleteDragonBallUserNotFoundExceptionTest ******************");
 
     // Exception flows
     try {
       Mockito
           .doThrow(
-              new DragonBallUserNotFoundException("User with ID " + 987L
+              new MobileInspectionsNotFoundException("User with ID " + 987L
                   + " doesn´t exist")).when(dragonBallUserDaoMock)
           .deleteDragonBallUser(987L);
 
       dragonBallUserService.deleteDragonBallUser(987L);
 
-      fail("Passed. It should have thrown a DragonBallUserNotFoundException");
-    } catch (DragonBallUserNotFoundException e) {
+      fail("Passed. It should have thrown a MobileInspectionsNotFoundException");
+    } catch (MobileInspectionsNotFoundException e) {
       verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser(987L);
     }
   }
