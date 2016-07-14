@@ -5,6 +5,6 @@
   <!-- Configured completely in the persistenceContext.xml -->
   <persistence-unit name="mobileInsp"
     transaction-type="RESOURCE_LOCAL">
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
   </persistence-unit>
 </persistence>
