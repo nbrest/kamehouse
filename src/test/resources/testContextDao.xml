@@ -12,7 +12,14 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
  
   <!-- Test Application Context to be used in unit tests for the Service layer -->
   
+  <import resource="applicationContext-persistence.xml"/>
+  
   <!-- Example endpoints beans -->
+
+  <bean id="dragonBallUserDaoJpa" 
+    class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoJpa">
+      <property name="entityManagerFactory" ref="entityManagerFactory" /> 
+  </bean>
 
   <bean id="dragonBallUserDaoInMemory" 
     class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoInMemory">
