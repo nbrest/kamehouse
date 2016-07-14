@@ -55,6 +55,9 @@ public class DragonBallUserDaoJpaTest {
   @Before
   public void clearData() {
     
+    LOGGER
+    .info("****************** Clearing database ******************");
+    
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
     Query query = em.createNativeQuery("DELETE FROM DRAGONBALLUSER");
