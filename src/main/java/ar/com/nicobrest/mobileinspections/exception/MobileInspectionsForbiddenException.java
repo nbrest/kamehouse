@@ -1,11 +1,11 @@
 package ar.com.nicobrest.mobileinspections.exception;
 
 /**
- *        MobileInspectionsForbiddenException used for testing purposes.
+ *        MobileInspectionsForbiddenException class.
  *         
  * @author nbrest
  */
-public class MobileInspectionsForbiddenException extends RuntimeException {
+public class MobileInspectionsForbiddenException extends MobileInspectionsException {
 
   private static final long serialVersionUID = 9L;
 
@@ -13,4 +13,7 @@ public class MobileInspectionsForbiddenException extends RuntimeException {
     super(message);
   }
 
+  public MobileInspectionsForbiddenException(String message, Exception cause) {
+    super(message, cause);
+  }
 }

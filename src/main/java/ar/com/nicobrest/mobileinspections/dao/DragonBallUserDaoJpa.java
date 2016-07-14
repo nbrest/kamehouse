@@ -1,5 +1,6 @@
 package ar.com.nicobrest.mobileinspections.dao;
 
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
@@ -69,7 +70,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       // TODO: Handle exception and if it is a duplicate entry
       // throw a MobileInspectionsAlreadyExistsException
       pe.printStackTrace();
-      throw pe;
+      throw new MobileInspectionsException(
+          "PersistenceException in createDragonBallUser", pe);
     }
     return dragonBallUser.getId();
   }
@@ -95,7 +97,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       // TODO: Handle exception and if it is a not found
       // throw a MobileInspectionsNotFoundException
       pe.printStackTrace();
-      throw pe;
+      throw new MobileInspectionsException(
+          "PersistenceException in getDragonBallUser", pe);
     }
     return dragonBallUser;
   }
@@ -130,7 +133,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       // TODO: Handle exception and if it is a not found
       // throw a MobileInspectionsNotFoundException
       pe.printStackTrace();
-      throw pe;
+      throw new MobileInspectionsException(
+          "PersistenceException in updateDragonBallUser", pe);
     }
   }
 
@@ -167,7 +171,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       // TODO: Handle exception and if it is a not found
       // throw a MobileInspectionsNotFoundException
       pe.printStackTrace();
-      throw pe;
+      throw new MobileInspectionsException(
+          "PersistenceException in deleteDragonBallUser", pe);
     }
     return dbUserToRemove;
   }
@@ -190,7 +195,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     } catch (PersistenceException pe) {
       // TODO: Check to see if a specific exception check is required
       pe.printStackTrace();
-      throw pe;
+      throw new MobileInspectionsException(
+          "PersistenceException in getAllDragonBallUsers", pe);
     }
     return dragonBallUsers;
   }

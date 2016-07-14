@@ -1,11 +1,11 @@
 package ar.com.nicobrest.mobileinspections.exception;
 
 /**
- *        MobileInspectionsNotFoundException used for testing purposes.
+ *        MobileInspectionsNotFoundException class.
  *         
  * @author nbrest
  */
-public class MobileInspectionsNotFoundException extends RuntimeException {
+public class MobileInspectionsNotFoundException extends MobileInspectionsException {
 
   private static final long serialVersionUID = 9L;
 
@@ -13,4 +13,7 @@ public class MobileInspectionsNotFoundException extends RuntimeException {
     super(message);
   }
 
+  public MobileInspectionsNotFoundException(String message, Exception cause) {
+    super(message, cause);
+  }
 }
