@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsBadRequestException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
@@ -86,10 +86,10 @@ public class DragonBallUserDaoJpaTest {
       assertEquals(1, dragonBallUserDaoJpa.getAllDragonBallUsers().size());
       dragonBallUserDaoJpa.deleteDragonBallUser(dragonBallUserDaoJpa
           .getDragonBallUser("vegeta").getId());
-    } catch (MobileInspectionsAlreadyExistsException
+    } catch (MobileInspectionsBadRequestException
         | MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught MobileInspectionsAlreadyExistsException or MobileInspectionsNotFoundException.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -99,13 +99,13 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Test
-  public void createDragonBallUserAlreadyExistsExceptionTest() {
+  public void createDragonBallUserConflictExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "createDragonBallUserAlreadyExistsExceptionTest ***************");
+            + "createDragonBallUserConflictExceptionTest ***************");
 
-    thrown.expect(MobileInspectionsException.class);
-    thrown.expectMessage("PersistenceException in createDragonBallUser");
+    thrown.expect(MobileInspectionsConflictException.class);
+    thrown.expectMessage("ConstraintViolationException: Error inserting data");
     
     DragonBallUser dragonBallUser = new DragonBallUser(null, "goku",
         "goku@dbz.com", 49, 40, 1000);
@@ -139,7 +139,7 @@ public class DragonBallUserDaoJpaTest {
       assertEquals("goku", user.getUsername());
     } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught MobileInspectionsNotFoundException.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -149,13 +149,13 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Test
-  public void getDragonBallUserExceptionTest() {
+  public void getDragonBallUserNotFoundExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "getDragonBallUserExceptionTest ******************");
+            + "getDragonBallUserNotFoundExceptionTest ******************");
 
-    thrown.expect(MobileInspectionsException.class);
-    thrown.expectMessage("PersistenceException in getDragonBallUser");
+    thrown.expect(MobileInspectionsNotFoundException.class);
+    thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
     dragonBallUserDaoJpa.getDragonBallUser("yukimura");
   }
 
@@ -195,7 +195,7 @@ public class DragonBallUserDaoJpaTest {
       dragonBallUserDaoJpa.updateDragonBallUser(originalUser);
     } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -242,9 +242,9 @@ public class DragonBallUserDaoJpaTest {
       assertEquals(21, deletedUser.getPowerLevel());
       assertEquals(22, deletedUser.getStamina());
     } catch (MobileInspectionsNotFoundException
-        | MobileInspectionsAlreadyExistsException e) {
+        | MobileInspectionsBadRequestException e) {
       e.printStackTrace();
-      fail("Caught MobileInspectionsNotFoundException or MobileInspectionsAlreadyExistsException.");
+      fail("Caught unexpected exception.");
     }
   }
 

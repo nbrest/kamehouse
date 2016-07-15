@@ -1,6 +1,6 @@
 package ar.com.nicobrest.mobileinspections.dao;
 
-import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
@@ -141,7 +141,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-      throw new MobileInspectionsAlreadyExistsException("DragonBallUser with username " 
+      throw new MobileInspectionsConflictException("DragonBallUser with username " 
           + dragonBallUser.getUsername() + " already exists in the repository.");
     }
     dragonBallUser.setId(IdGenerator.getId());
@@ -182,7 +182,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     //If the username changes, check that the new username doesn´t already exist in the repo
     if (!dragonBallUser.getUsername().equals(dragonBallUsernamesById.get(dragonBallUser.getId()))) {
       if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-        throw new MobileInspectionsAlreadyExistsException("DragonBallUser with username " 
+        throw new MobileInspectionsConflictException("DragonBallUser with username " 
             + dragonBallUser.getUsername() + " already exists in the repository.");
       }
     }

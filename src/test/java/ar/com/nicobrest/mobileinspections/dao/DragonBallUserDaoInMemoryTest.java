@@ -5,7 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsBadRequestException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
@@ -82,10 +83,10 @@ public class DragonBallUserDaoInMemoryTest {
       assertEquals(4, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
       dragonBallUserDaoInMemory.deleteDragonBallUser(dragonBallUserDaoInMemory
           .getDragonBallUser("vegeta").getId());
-    } catch (MobileInspectionsAlreadyExistsException
+    } catch (MobileInspectionsBadRequestException
         | MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught MobileInspectionsAlreadyExistsException or MobileInspectionsNotFoundException.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -95,15 +96,15 @@ public class DragonBallUserDaoInMemoryTest {
    * @author nbrest
    */
   @Test
-  public void createDragonBallUserAlreadyExistsExceptionTest() {
+  public void createDragonBallUserConflictExceptionTest() {
     LOGGER
         .info("****************** Executing "
-            + "createDragonBallUserAlreadyExistsExceptionTest ***************");
+            + "createDragonBallUserConflictExceptionTest ***************");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "goku",
         "goku@dbz.com", 49, 40, 1000);
 
-    thrown.expect(MobileInspectionsAlreadyExistsException.class);
+    thrown.expect(MobileInspectionsConflictException.class);
     thrown
         .expectMessage("DragonBallUser with username goku already exists in the repository.");
     dragonBallUserDaoInMemory.createDragonBallUser(dragonBallUser);
@@ -128,7 +129,7 @@ public class DragonBallUserDaoInMemoryTest {
       assertEquals("goku", user.getUsername());
     } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught DragonBallUserNotFoundException.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -181,7 +182,7 @@ public class DragonBallUserDaoInMemoryTest {
       dragonBallUserDaoInMemory.updateDragonBallUser(originalUser);
     } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
-      fail("Caught MobileInspectionsNotFoundException.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -228,9 +229,9 @@ public class DragonBallUserDaoInMemoryTest {
       assertEquals(21, deletedUser.getPowerLevel());
       assertEquals(22, deletedUser.getStamina());
     } catch (MobileInspectionsNotFoundException
-        | MobileInspectionsAlreadyExistsException e) {
+        | MobileInspectionsBadRequestException e) {
       e.printStackTrace();
-      fail("Caught MobileInspectionsNotFoundException or MobileInspectionsAlreadyExistsException.");
+      fail("Caught unexpected exception.");
     }
   }
 

@@ -21,8 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsAlreadyExistsException;
-import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsForbiddenException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 import ar.com.nicobrest.mobileinspections.service.DragonBallUserService;
@@ -48,7 +47,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -298,9 +296,7 @@ public class DragonBallControllerTest {
       mockMvc
           .perform(
               get("/dragonball/users?action=MobileInspectionsNotFoundException"))
-          .andDo(print()).andExpect(status().isNotFound())
-          .andExpect(view().name("error/404"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+          .andDo(print()).andExpect(status().isNotFound());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -350,7 +346,7 @@ public class DragonBallControllerTest {
           dragonBallUsersList.get(0));
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception. It should pass.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -361,16 +357,16 @@ public class DragonBallControllerTest {
    * @author nbrest
    */
   @Test
-  public void postUsersAlreadyExistsExceptionTest() {
+  public void postUsersConflictExceptionTest() {
     LOGGER
-        .info("****************** Executing postUsersAlreadyExistsExceptionTest ********");
+        .info("****************** Executing postUsersConflictExceptionTest ********");
 
     // Exception flows
     try {
       // Setup mock object dragonBallUserServiceMock
       Mockito
           .doThrow(
-              new MobileInspectionsAlreadyExistsException("User already exists"))
+              new MobileInspectionsConflictException("User already exists"))
           .when(dragonBallUserServiceMock)
           .createDragonBallUser(dragonBallUsersList.get(0));
 
@@ -380,21 +376,13 @@ public class DragonBallControllerTest {
               post("/dragonball/users").contentType(
                   MediaType.APPLICATION_JSON_UTF8).content(
                   JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
-          .andDo(print()).andExpect(status().is4xxClientError())
-          .andExpect(view().name("error/409"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/error/409.jsp"));
+          .andDo(print()).andExpect(status().is4xxClientError());
 
       verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(
           dragonBallUsersList.get(0));
-    } catch (MobileInspectionsAlreadyExistsException e) {
-      fail("Caught MobileInspectionsAlreadyExistsException. "
-          + "It Should have been handled in the mock");
-    } catch (IOException e) {
-      e.printStackTrace();
-      fail("Caught IOException.");
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -424,12 +412,9 @@ public class DragonBallControllerTest {
           .andExpect(jsonPath("$.age", equalTo(49)))
           .andExpect(jsonPath("$.powerLevel", equalTo(30)))
           .andExpect(jsonPath("$.stamina", equalTo(1000)));
-    } catch (MobileInspectionsNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught MobileInspectionsNotFoundException. It should pass.");
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception. It should pass.");
+      fail("unexpected exception.");
     }
 
     // Exception flows
@@ -445,15 +430,11 @@ public class DragonBallControllerTest {
 
       // Execute HTTP GET on the /dragonball/users/{username} endpoint
       mockMvc.perform(get("/dragonball/users/trunks")).andDo(print())
-          .andExpect(status().is4xxClientError())
-          .andExpect(view().name("error/404"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+          .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
-    } catch (MobileInspectionsNotFoundException e) {
-      fail("Caught MobileInspectionsNotFoundException. It should have been handled in the mock.");
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -478,15 +459,11 @@ public class DragonBallControllerTest {
 
       // Execute HTTP GET on the /dragonball/users/{username} endpoint
       mockMvc.perform(get("/dragonball/users/trunks")).andDo(print())
-          .andExpect(status().is4xxClientError())
-          .andExpect(view().name("error/404"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+          .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
-    } catch (MobileInspectionsNotFoundException e) {
-      fail("Caught MobileInspectionsNotFoundException. It should have been handled in the mock.");
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -522,7 +499,7 @@ public class DragonBallControllerTest {
           dragonBallUsersList.get(0));
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception. It should pass.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -550,19 +527,12 @@ public class DragonBallControllerTest {
               put("/dragonball/users/" + dragonBallUsersList.get(0).getId())
                   .contentType(MediaType.APPLICATION_JSON_UTF8).content(
                       JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
-          .andDo(print()).andExpect(status().is4xxClientError())
-          .andExpect(view().name("error/404"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+          .andDo(print()).andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(
           dragonBallUsersList.get(0));
-    } catch (MobileInspectionsNotFoundException e) {
-      fail("Caught MobileInspectionsNotFoundException. It should have been handled in the mock.");
-    } catch (IOException e) {
-      e.printStackTrace();
-      fail("Caught IOException.");
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -592,18 +562,14 @@ public class DragonBallControllerTest {
               put("/dragonball/users/987").contentType(
                   MediaType.APPLICATION_JSON_UTF8).content(
                   JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
-          .andDo(print()).andExpect(status().is4xxClientError())
-          .andExpect(view().name("error/403"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/error/403.jsp"));
+          .andDo(print()).andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(0)).updateDragonBallUser(
           dragonBallUsersList.get(0));
       verify(dragonBallUserServiceMock, times(0)).getDragonBallUser(
           dragonBallUsersList.get(0).getUsername());
-    } catch (MobileInspectionsForbiddenException e) {
-      fail("Caught MobileInspectionsForbiddenException. It should have been handled in the mock.");
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception.");
+      fail("Caught unexpected exception.");
     }
   }
 
@@ -640,13 +606,12 @@ public class DragonBallControllerTest {
           dragonBallUsersList.get(0).getId());
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception. It should pass.");
+      fail("Caught unexpected exception.");
     }
   }
 
   /**
-   * /dragonball/users/{id} (DELETE) Tests for deleting an existing user from
-   * the repository The request should throw a DragonBallUserNotFoundException.
+   * /dragonball/users/{id} (DELETE) Tests for deleting an user not found in the repository.
    * 
    * @author nbrest
    */
@@ -666,19 +631,12 @@ public class DragonBallControllerTest {
       mockMvc
           .perform(
               delete("/dragonball/users/" + dragonBallUsersList.get(0).getId()))
-          .andDo(print()).andExpect(status().is4xxClientError())
-          .andExpect(view().name("error/404"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+          .andDo(print()).andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(
           dragonBallUsersList.get(0).getId());
-    } catch (MobileInspectionsNotFoundException e) {
-      fail("Caught MobileInspectionsNotFoundException. It should have been handled in the mock.");
-    } catch (IOException e) {
-      e.printStackTrace();
-      fail("Caught IOException.");
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught Exception.");
+      fail("Caught unexpected exception.");
     }
   }
 
