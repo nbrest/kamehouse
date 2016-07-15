@@ -72,11 +72,13 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new MobileInspectionsConflictException("ConstraintViolationException: Error inserting data", pe);
+          throw new MobileInspectionsConflictException(
+              "ConstraintViolationException: Error inserting data", pe);
         }
         cause = cause.getCause();
       }
-      throw new MobileInspectionsServerErrorException("PersistenceException in createDragonBallUser", pe);
+      throw new MobileInspectionsServerErrorException(
+          "PersistenceException in createDragonBallUser", pe);
     }
     return dragonBallUser.getId();
   }
@@ -92,7 +94,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     DragonBallUser dragonBallUser = null;
     try {
       em.getTransaction().begin();
-      Query query = em.createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
+      Query query = em
+          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
       query.setParameter("pUsername", username);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
@@ -103,11 +106,13 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
           throw new MobileInspectionsNotFoundException(
-              "DragonBallUser with username " + username + " was not found in the repository.");
+              "DragonBallUser with username " + username
+                  + " was not found in the repository.");
         }
         cause = cause.getCause();
-      } 
-      throw new MobileInspectionsServerErrorException("PersistenceException in getDragonBallUser", pe);
+      }
+      throw new MobileInspectionsServerErrorException(
+          "PersistenceException in getDragonBallUser", pe);
     }
     return dragonBallUser;
   }
@@ -122,7 +127,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
-      DragonBallUser updatedDbUser = em.find(DragonBallUser.class, dragonBallUser.getId());
+      DragonBallUser updatedDbUser = em.find(DragonBallUser.class,
+          dragonBallUser.getId());
       if (updatedDbUser != null) {
         updatedDbUser.setAge(dragonBallUser.getAge());
         updatedDbUser.setEmail(dragonBallUser.getEmail());
@@ -133,19 +139,21 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.getTransaction().commit();
       em.close();
       if (updatedDbUser == null) {
-        throw new MobileInspectionsNotFoundException(
-            "DragonBallUser with id " + dragonBallUser.getId() + " was not found in the repository.");
+        throw new MobileInspectionsNotFoundException("DragonBallUser with id "
+            + dragonBallUser.getId() + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new MobileInspectionsConflictException("ConstraintViolationException: Error updating data", pe);
+          throw new MobileInspectionsConflictException(
+              "ConstraintViolationException: Error updating data", pe);
         }
         cause = cause.getCause();
       }
-      throw new MobileInspectionsServerErrorException("PersistenceException in updateDragonBallUser", pe);
+      throw new MobileInspectionsServerErrorException(
+          "PersistenceException in updateDragonBallUser", pe);
     }
   }
 
@@ -175,12 +183,13 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.getTransaction().commit();
       em.close();
       if (dbUserToRemove == null) {
-        throw new MobileInspectionsNotFoundException(
-            "DragonBallUser with id " + id + " was not found in the repository.");
+        throw new MobileInspectionsNotFoundException("DragonBallUser with id "
+            + id + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      throw new MobileInspectionsServerErrorException("PersistenceException in deleteDragonBallUser", pe);
+      throw new MobileInspectionsServerErrorException(
+          "PersistenceException in deleteDragonBallUser", pe);
     }
     return dbUserToRemove;
   }
@@ -196,12 +205,14 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     List<DragonBallUser> dragonBallUsers = null;
     try {
       em.getTransaction().begin();
-      dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class).getResultList();
+      dragonBallUsers = em.createQuery("from DragonBallUser",
+          DragonBallUser.class).getResultList();
       em.getTransaction().commit();
       em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      throw new MobileInspectionsServerErrorException("PersistenceException in getAllDragonBallUsers", pe);
+      throw new MobileInspectionsServerErrorException(
+          "PersistenceException in getAllDragonBallUsers", pe);
     }
     return dragonBallUsers;
   }
