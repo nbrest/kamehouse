@@ -34,18 +34,18 @@ import org.junit.BeforeClass;
 //import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +56,7 @@ import java.util.List;
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:testContextController.xml",
-    "classpath:applicationContext-web.xml" })
+@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class DragonBallControllerTest {
 
@@ -65,15 +64,15 @@ public class DragonBallControllerTest {
       .getLogger(DragonBallControllerTest.class);
 
   private MockMvc mockMvc;
+  
   private static List<DragonBallUser> dragonBallUsersList;
 
-  @Autowired
-  @Qualifier("dragonBallUserService")
+  @InjectMocks
+  private DragonBallController dragonBallController;
+  
+  @Mock(name = "dragonBallUserService")
   private DragonBallUserService dragonBallUserServiceMock;
-
-  @Autowired
-  private WebApplicationContext webApplicationContext;
-
+   
   /**
    * Initializes test repositories.
    * 
@@ -111,7 +110,7 @@ public class DragonBallControllerTest {
     dragonBallUsersList = new ArrayList<DragonBallUser>();
     dragonBallUsersList.add(user1);
     dragonBallUsersList.add(user2);
-    dragonBallUsersList.add(user3);
+    dragonBallUsersList.add(user3); 
   }
 
   /**
@@ -124,10 +123,11 @@ public class DragonBallControllerTest {
     /* Actions to perform before each test in the class */
 
     // Reset mock objects before each test
+    MockitoAnnotations.initMocks(this);
     Mockito.reset(dragonBallUserServiceMock);
 
     // Setup mockMvc test object
-    mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(dragonBallController).build();
   }
 
   /**
@@ -170,7 +170,7 @@ public class DragonBallControllerTest {
           .andDo(print())
           .andExpect(status().isOk())
           .andExpect(view().name("dragonball/modelAndView"))
-          .andExpect(forwardedUrl("/WEB-INF/jsp/dragonball/modelAndView.jsp"))
+          .andExpect(forwardedUrl("dragonball/modelAndView"))
           .andExpect(model().attribute("name", isA(String.class)))
           .andExpect(model().attribute("name", equalTo("Goku")))
           .andExpect(

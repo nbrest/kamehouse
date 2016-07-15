@@ -4,6 +4,7 @@ import ar.com.nicobrest.mobileinspections.dao.DragonBallUserDao;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class DragonBallUserService {
 
   @Autowired
+  @Qualifier("dragonBallUserDaoJpa")
   private DragonBallUserDao dragonBallUserDao;
 
   /**

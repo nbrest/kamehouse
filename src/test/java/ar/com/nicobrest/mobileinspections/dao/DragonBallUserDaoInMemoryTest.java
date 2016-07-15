@@ -2,7 +2,6 @@ package ar.com.nicobrest.mobileinspections.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsBadRequestException;
@@ -29,7 +28,7 @@ import java.util.List;
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:testContextDao.xml" })
+@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoInMemoryTest {
 
   private static final Logger LOGGER = LoggerFactory
@@ -37,7 +36,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   @Autowired
   @Qualifier("dragonBallUserDaoInMemory")
-  private DragonBallUserDaoInMemory dragonBallUserDaoInMemory;
+  private DragonBallUserDaoInMemory dragonBallUserDao;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -52,16 +51,16 @@ public class DragonBallUserDaoInMemoryTest {
     LOGGER
         .info("****************** Executing autoWiredBeansTest ******************");
 
-    DragonBallUser gohan = dragonBallUserDaoInMemory.getGohanDragonBallUser();
-    DragonBallUser goten = dragonBallUserDaoInMemory.getGotenDragonBallUser();
+    DragonBallUser gohan = dragonBallUserDao.getGohanDragonBallUser();
+    DragonBallUser goten = dragonBallUserDao.getGotenDragonBallUser();
 
     LOGGER.info("gohan: " + gohan.getUsername());
     LOGGER.info("goten: " + goten.getUsername());
 
     assertNotNull(gohan);
-    assertEquals("gohanTestBean", gohan.getUsername());
+    assertEquals("gohanBean", gohan.getUsername());
     assertNotNull(goten);
-    assertEquals("gotenTestBean", goten.getUsername());
+    assertEquals("gotenBean", goten.getUsername());
   }
 
   /**
@@ -78,10 +77,10 @@ public class DragonBallUserDaoInMemoryTest {
         "vegeta@dbz.com", 49, 40, 1000);
 
     try {
-      assertEquals(3, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
-      dragonBallUserDaoInMemory.createDragonBallUser(dragonBallUser);
-      assertEquals(4, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
-      dragonBallUserDaoInMemory.deleteDragonBallUser(dragonBallUserDaoInMemory
+      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
+      dragonBallUserDao.createDragonBallUser(dragonBallUser);
+      assertEquals(4, dragonBallUserDao.getAllDragonBallUsers().size());
+      dragonBallUserDao.deleteDragonBallUser(dragonBallUserDao
           .getDragonBallUser("vegeta").getId());
     } catch (MobileInspectionsBadRequestException
         | MobileInspectionsNotFoundException e) {
@@ -107,7 +106,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expect(MobileInspectionsConflictException.class);
     thrown
         .expectMessage("DragonBallUser with username goku already exists in the repository.");
-    dragonBallUserDaoInMemory.createDragonBallUser(dragonBallUser);
+    dragonBallUserDao.createDragonBallUser(dragonBallUser);
   }
 
   /**
@@ -121,7 +120,7 @@ public class DragonBallUserDaoInMemoryTest {
         .info("****************** Executing getDragonBallUserTest ******************");
 
     try {
-      DragonBallUser user = dragonBallUserDaoInMemory.getDragonBallUser("goku");
+      DragonBallUser user = dragonBallUserDao.getDragonBallUser("goku");
 
       LOGGER.info("user: " + user.getUsername());
 
@@ -147,7 +146,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with username yukimura was not found in the repository.");
-    dragonBallUserDaoInMemory.getDragonBallUser("yukimura");
+    dragonBallUserDao.getDragonBallUser("yukimura");
   }
 
   /**
@@ -161,25 +160,25 @@ public class DragonBallUserDaoInMemoryTest {
         .info("****************** Executing updateDragonBallUserTest ******************");
 
     try {
-      DragonBallUser originalUser = dragonBallUserDaoInMemory
+      DragonBallUser originalUser = dragonBallUserDao
           .getDragonBallUser("goku");
       assertEquals("goku", originalUser.getUsername());
 
       DragonBallUser modifiedUser = new DragonBallUser(originalUser.getId(), "goku",
           "gokuUpdated@dbz.com", 51, 52, 53);
       
-      dragonBallUserDaoInMemory.updateDragonBallUser(modifiedUser);
-      DragonBallUser updatedUser = dragonBallUserDaoInMemory
+      dragonBallUserDao.updateDragonBallUser(modifiedUser);
+      DragonBallUser updatedUser = dragonBallUserDao
           .getDragonBallUser("goku");
 
-      assertEquals("1", updatedUser.getId().toString());
+      assertEquals(originalUser.getId().toString(), updatedUser.getId().toString());
       assertEquals("goku", updatedUser.getUsername());
       assertEquals("gokuUpdated@dbz.com", updatedUser.getEmail());
       assertEquals(51, updatedUser.getAge());
       assertEquals(52, updatedUser.getPowerLevel());
       assertEquals(53, updatedUser.getStamina());
 
-      dragonBallUserDaoInMemory.updateDragonBallUser(originalUser);
+      dragonBallUserDao.updateDragonBallUser(originalUser);
     } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -202,7 +201,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with id 0 was not found in the repository.");
-    dragonBallUserDaoInMemory.updateDragonBallUser(dragonBallUser);
+    dragonBallUserDao.updateDragonBallUser(dragonBallUser);
   }
 
   /**
@@ -218,11 +217,11 @@ public class DragonBallUserDaoInMemoryTest {
     try {
       DragonBallUser userToDelete = new DragonBallUser(0L, "piccolo",
           "piccolo@dbz.com", 20, 21, 22);
-      dragonBallUserDaoInMemory.createDragonBallUser(userToDelete);
-      assertEquals(4, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
-      DragonBallUser deletedUser = dragonBallUserDaoInMemory
-          .deleteDragonBallUser(dragonBallUserDaoInMemory.getDragonBallUser("piccolo").getId());
-      assertEquals(3, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
+      dragonBallUserDao.createDragonBallUser(userToDelete);
+      assertEquals(4, dragonBallUserDao.getAllDragonBallUsers().size());
+      DragonBallUser deletedUser = dragonBallUserDao
+          .deleteDragonBallUser(dragonBallUserDao.getDragonBallUser("piccolo").getId());
+      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
       assertEquals("piccolo", deletedUser.getUsername());
       assertEquals("piccolo@dbz.com", deletedUser.getEmail());
       assertEquals(20, deletedUser.getAge());
@@ -249,7 +248,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
         .expectMessage("DragonBallUser with id " + 987L + " was not found in the repository.");
-    dragonBallUserDaoInMemory.deleteDragonBallUser(987L);
+    dragonBallUserDao.deleteDragonBallUser(987L);
   }
 
   /**
@@ -262,23 +261,13 @@ public class DragonBallUserDaoInMemoryTest {
     LOGGER
         .info("****************** Executing getAllDragonBallUsersTest ******************");
 
-    List<DragonBallUser> usersList = dragonBallUserDaoInMemory
+    List<DragonBallUser> usersList = dragonBallUserDao
         .getAllDragonBallUsers();
 
     LOGGER.info("dragonBallUsers.get(0): " + usersList.get(0).getUsername());
     LOGGER.info("dragonBallUsers.get(1): " + usersList.get(1).getUsername());
     LOGGER.info("dragonBallUsers.get(2): " + usersList.get(2).getUsername());
 
-    assertEquals(3, dragonBallUserDaoInMemory.getAllDragonBallUsers().size());
-
-    DragonBallUser expectedStoredDbUser = new DragonBallUser();
-    expectedStoredDbUser.setAge(19);
-    expectedStoredDbUser.setEmail("goten@dbz.com");
-    expectedStoredDbUser.setId(new Long(3));
-    expectedStoredDbUser.setPowerLevel(10);
-    expectedStoredDbUser.setStamina(1000);
-    expectedStoredDbUser.setUsername("goten");
-
-    assertTrue(usersList.contains(expectedStoredDbUser));
+    assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
   }
 }

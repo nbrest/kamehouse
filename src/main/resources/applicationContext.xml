@@ -19,19 +19,19 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
    
   <bean id="dragonBallUserService" 
     class="ar.com.nicobrest.mobileinspections.service.DragonBallUserService">
-    <property name="dragonBallUserDao" ref="dragonBallUserDao" />
+    <property name="dragonBallUserDao" ref="dragonBallUserDaoJpa" />
   </bean>
   
-  <bean id="dragonBallUserDao" 
+  <bean id="dragonBallUserDaoJpa" 
     class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoJpa">
       <property name="entityManagerFactory" ref="entityManagerFactory" /> 
   </bean>
   
-<!--   <bean id="dragonBallUserDao"  -->
-<!--     class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoInMemory"> -->
-<!--       <property name="gohanDragonBallUser" ref="gohanDragonBallUser" /> -->
-<!--       <property name="gotenDragonBallUser" ref="gotenDragonBallUser" /> -->
-<!--   </bean> -->
+  <bean id="dragonBallUserDaoInMemory" 
+    class="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDaoInMemory">
+      <property name="gohanDragonBallUser" ref="gohanDragonBallUser" />
+      <property name="gotenDragonBallUser" ref="gotenDragonBallUser" />
+  </bean>
   
   <bean id="gohanDragonBallUser" class="ar.com.nicobrest.mobileinspections.model.DragonBallUser">
     <property name="id" value="1001" />

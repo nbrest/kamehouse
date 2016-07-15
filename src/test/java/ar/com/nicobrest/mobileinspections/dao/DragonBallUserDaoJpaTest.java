@@ -33,7 +33,7 @@ import javax.persistence.Query;
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:testContextDao.xml" })
+@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoJpaTest {
 
   private static final Logger LOGGER = LoggerFactory
