@@ -69,6 +69,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
+      // Iterate through the causes of the PersistenceException to identify and return  
+      // the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
@@ -102,6 +104,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
+      // Iterate through the causes of the PersistenceException to identify and return  
+      // the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
@@ -144,6 +148,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
     } catch (PersistenceException pe) {
       pe.printStackTrace();
+      // Iterate through the causes of the PersistenceException to identify and return  
+      // the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
