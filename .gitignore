@@ -3,6 +3,7 @@
 ###################
 .checkstyle
 logs/**
+data/**
 
 ###################
 # Directories #
