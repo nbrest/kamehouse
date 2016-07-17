@@ -238,4 +238,37 @@ public class DragonBallUser {
       return false;
     }
   }
+  
+  /**
+   * toString.
+   * 
+   * @author nbrest
+   */
+  @Override
+  public String toString() {
+    StringBuffer instanceString = new StringBuffer();
+    instanceString.append("DragonBallUser [ ");
+    
+    instanceString.append("id = "); 
+    instanceString.append(id.toString());
+    
+    instanceString.append(", username = ");  
+    instanceString.append(username);
+    
+    instanceString.append(", email = "); 
+    instanceString.append(email);
+    
+    instanceString.append(", age = "); 
+    instanceString.append(age);
+    
+    instanceString.append(", powerLevel = "); 
+    instanceString.append(powerLevel);
+    
+    instanceString.append(", stamina = "); 
+    instanceString.append(stamina);
+    
+    instanceString.append(" ]");
+    
+    return instanceString.toString();
+  }
 }
