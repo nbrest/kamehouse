@@ -31,12 +31,13 @@ DROP TABLE IF EXISTS hibernate_sequence;
 CREATE TABLE dragonballuser (
   id bigint(20) NOT NULL,
   age int(11) DEFAULT NULL,
-  email varchar(255) DEFAULT NULL,
+  email varchar(255) NOT NULL,
   powerlevel int(11) DEFAULT NULL,
   stamina int(11) DEFAULT NULL,
   username varchar(255) NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY UK_username (username)
+  UNIQUE KEY UK_username (username),
+  UNIQUE KEY UK_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE hibernate_sequence (
