@@ -137,7 +137,7 @@ public class DragonBallController {
 
   /**
    * /dragonball/users/{username} Returns a specific DragonBallUser from the
-   * repository.
+   * repository based on the username.
    * 
    * @author nbrest
    */
@@ -153,6 +153,24 @@ public class DragonBallController {
     return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
   }
 
+  /**
+   * /dragonball/users/email/{email} Returns a specific DragonBallUser from the
+   * repository based on the email.
+   * 
+   * @author nbrest
+   */
+  @RequestMapping(value = "/users/email/{email}", method = RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity<DragonBallUser> getUsersByEmail(
+      @PathVariable String email) {
+
+    LOGGER.info("In controller /dragonball/users/email/{email} (GET)");
+
+    DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
+
+    return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
+  }
+  
   /**
    * /dragonball/users/{id} Updates a user in the repository.
    * 

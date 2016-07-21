@@ -86,7 +86,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   }
 
   /**
-   * Gets a DragonBallUser from the repository.
+   * Gets a DragonBallUser from the repository looking up by username.
    * 
    * @author nbrest
    */
@@ -121,6 +121,42 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     return dragonBallUser;
   }
 
+  /**
+   * Gets a DragonBallUser from the repository looking up by email.
+   * 
+   * @author nbrest
+   */
+  public DragonBallUser getDragonBallUserByEmail(String email) {
+
+    EntityManager em = getEntityManager();
+    DragonBallUser dragonBallUser = null;
+    try {
+      em.getTransaction().begin();
+      Query query = em
+          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.email=:pEmail");
+      query.setParameter("pEmail", email);
+      dragonBallUser = (DragonBallUser) query.getSingleResult();
+      em.getTransaction().commit();
+      em.close();
+    } catch (PersistenceException pe) {
+      pe.printStackTrace();
+      // Iterate through the causes of the PersistenceException to identify and return  
+      // the correct exception.
+      Throwable cause = pe;
+      while (cause != null) {
+        if (cause instanceof javax.persistence.NoResultException) {
+          throw new MobileInspectionsNotFoundException(
+              "DragonBallUser with email " + email
+                  + " was not found in the repository.");
+        }
+        cause = cause.getCause();
+      }
+      throw new MobileInspectionsServerErrorException(
+          "PersistenceException in getDragonBallUser", pe);
+    }
+    return dragonBallUser;
+  }
+  
   /**
    * Updates a DragonBallUser on the repository.
    * 

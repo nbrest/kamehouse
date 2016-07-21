@@ -20,11 +20,18 @@ public interface DragonBallUserDao {
   public Long createDragonBallUser(DragonBallUser dragonBallUser);
   
   /**
-   * Gets a DragonBallUser from the repository.
+   * Gets a DragonBallUser from the repository by its username.
    * 
    * @author nbrest
    */
   public DragonBallUser getDragonBallUser(String username);
+  
+  /**
+   * Gets a DragonBallUser from the repository by its email.
+   * 
+   * @author nbrest
+   */
+  public DragonBallUser getDragonBallUserByEmail(String email);
   
   /**
    * Updates a DragonBallUser on the repository.

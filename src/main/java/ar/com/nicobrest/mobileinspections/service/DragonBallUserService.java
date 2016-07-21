@@ -50,13 +50,23 @@ public class DragonBallUserService {
   }
   
   /**
-   *      Returns a single instance of a DragonBallUser.
+   *      Returns a single instance of a DragonBallUser looking up by username.
    *      
    * @author nbrest 
    */
   public DragonBallUser getDragonBallUser(String username) {
     
     return dragonBallUserDao.getDragonBallUser(username);
+  }
+  
+  /**
+   *      Returns a single instance of a DragonBallUser looking up by email.
+   *      
+   * @author nbrest 
+   */
+  public DragonBallUser getDragonBallUserByEmail(String email) {
+    
+    return dragonBallUserDao.getDragonBallUserByEmail(email);
   }
   
   /**
