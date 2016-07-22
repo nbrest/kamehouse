@@ -113,7 +113,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     dragonBallUsers = new HashMap<String, DragonBallUser>();
     dragonBallUsernamesById = new HashMap<Long, String>();
 
-    DragonBallUser user1 = new DragonBallUser(IdGenerator.getId(), "goku", "goku@dbz.com", 49, 30, 1000);
+    DragonBallUser user1 = new DragonBallUser(IdGenerator.getId(), "goku", "goku@dbz.com", 49, 30,
+        1000);
     dragonBallUsers.put(user1.getUsername(), user1);
     dragonBallUsernamesById.put(user1.getId(), user1.getUsername());
 
@@ -127,7 +128,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     dragonBallUsers.put(user2.getUsername(), user2);
     dragonBallUsernamesById.put(user2.getId(), user2.getUsername());
 
-    DragonBallUser user3 = new DragonBallUser(IdGenerator.getId(), "goten", "goten@dbz.com", 19, 10, 1000);
+    DragonBallUser user3 = new DragonBallUser(IdGenerator.getId(), "goten", "goten@dbz.com", 19,
+        10, 1000);
     dragonBallUsers.put(user3.getUsername(), user3);
     dragonBallUsernamesById.put(user3.getId(), user3.getUsername());
   }
@@ -140,8 +142,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-      throw new MobileInspectionsConflictException(
-          "DragonBallUser with username " + dragonBallUser.getUsername() + " already exists in the repository.");
+      throw new MobileInspectionsConflictException("DragonBallUser with username "
+          + dragonBallUser.getUsername() + " already exists in the repository.");
     }
     dragonBallUser.setId(IdGenerator.getId());
     dragonBallUsers.put(dragonBallUser.getUsername(), dragonBallUser);
@@ -185,16 +187,17 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
     // Check that the user being updated exists in the repo
     if (dragonBallUsernamesById.get(dragonBallUser.getId()) == null) {
-      throw new MobileInspectionsNotFoundException(
-          "DragonBallUser with id " + dragonBallUser.getId() + " was not found in the repository.");
+      throw new MobileInspectionsNotFoundException("DragonBallUser with id "
+          + dragonBallUser.getId() + " was not found in the repository.");
     }
 
     // If the username changes, check that the new username doesn´t already
     // exist in the repo
-    if (!dragonBallUser.getUsername().equals(dragonBallUsernamesById.get(dragonBallUser.getId()))) {
+    if (!dragonBallUser.getUsername()
+        .equals(dragonBallUsernamesById.get(dragonBallUser.getId()))) {
       if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-        throw new MobileInspectionsConflictException(
-            "DragonBallUser with username " + dragonBallUser.getUsername() + " already exists in the repository.");
+        throw new MobileInspectionsConflictException("DragonBallUser with username "
+            + dragonBallUser.getUsername() + " already exists in the repository.");
       }
     }
 
