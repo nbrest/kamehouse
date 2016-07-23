@@ -163,6 +163,7 @@ public class DragonBallController {
 
     LOGGER.info("In controller /dragonball/users/emails/{email:.+} (GET)"); 
     
+    /* url encoded parameters are automatically decoded, there´s no need to do it here.
     String emailDecoded;
     try {
       emailDecoded = URLDecoder.decode(email, "UTF-8");
@@ -170,7 +171,8 @@ public class DragonBallController {
       e.printStackTrace();
       throw new MobileInspectionsBadRequestException("Error parsing email url parameter", e);
     }
-    DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(emailDecoded);
+    */
+    DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
 
     return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
   }
