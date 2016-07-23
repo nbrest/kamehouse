@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- *        MobileInspectionsServerErrorException class.
- *         
+ * MobileInspectionsServerErrorException class.
+ * 
  * @author nbrest
  */
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

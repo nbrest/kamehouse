@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- *        MobileInspectionsBadRequestException class.
- *         
+ * MobileInspectionsBadRequestException class.
+ * 
  * @author nbrest
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -16,7 +16,7 @@ public class MobileInspectionsBadRequestException extends MobileInspectionsExcep
   public MobileInspectionsBadRequestException(String message) {
     super(message);
   }
-  
+
   public MobileInspectionsBadRequestException(String message, Exception cause) {
     super(message, cause);
   }

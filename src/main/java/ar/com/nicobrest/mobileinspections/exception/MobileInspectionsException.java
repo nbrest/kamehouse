@@ -1,8 +1,8 @@
 package ar.com.nicobrest.mobileinspections.exception;
 
 /**
- *        MobileInspectionsException base exceptions class.
- *         
+ * MobileInspectionsException base exceptions class.
+ * 
  * @author nbrest
  */
 public class MobileInspectionsException extends RuntimeException {

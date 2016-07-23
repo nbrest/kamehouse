@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- *        MobileInspectionsNotFoundException class.
- *         
+ * MobileInspectionsNotFoundException class.
+ * 
  * @author nbrest
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)

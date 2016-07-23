@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *        DragonBallUser POJO used for the test endpoints.
- *         
+ * DragonBallUser POJO used for the test endpoints.
+ * 
  * @author nbrest
  */
 @Entity
@@ -23,43 +23,38 @@ public class DragonBallUser {
   @Column(name = "id", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-  
+
   @Column(name = "username", unique = true, nullable = false)
   private String username;
-  
+
   @Column(name = "email", unique = true, nullable = false)
   private String email;
-  
+
   @Column(name = "age")
   private int age;
-  
+
   @Column(name = "powerlevel")
   private int powerLevel;
-  
+
   @Column(name = "stamina")
   private int stamina;
 
   /**
-   *      Constructor.
-   *      
-   * @author nbrest 
-   */
-  public DragonBallUser() {}
-  
-  /**
-   *      Constructor.
-   *      
+   * Constructor.
+   * 
    * @author nbrest
-   * @param id : User id
-   * @param username : User unique name
-   * @param email : User email address
-   * @param age : user age
-   * @param powerLevel : User power level
-   * @param stamina : User stamina
    */
-  public DragonBallUser(Long id, String username, String email, int age, 
-      int powerLevel, int stamina) {
-    
+  public DragonBallUser() {
+  }
+
+  /**
+   * Constructor.
+   * 
+   * @author nbrest
+   */
+  public DragonBallUser(Long id, String username, String email, int age, int powerLevel,
+      int stamina) {
+
     this.id = id;
     this.username = username;
     this.email = email;
@@ -67,19 +62,19 @@ public class DragonBallUser {
     this.powerLevel = powerLevel;
     this.stamina = stamina;
   }
-  
+
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public void setId(Long id) {
     this.id = id;
   }
-  
+
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public void setUsername(String username) {
@@ -87,8 +82,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public void setEmail(String email) {
@@ -96,8 +91,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public void setAge(int age) {
@@ -105,35 +100,35 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public void setPowerLevel(int powerLevel) {
     this.powerLevel = powerLevel;
   }
-  
+
   /**
-   *      Getters and Setters.
+   * Getters and Setters.
    * 
    * @author nbrest
    */
   public void setStamina(int stamina) {
     this.stamina = stamina;
   }
- 
+
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public Long getId() {
     return id;
-  }  
-  
+  }
+
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public String getUsername() {
@@ -141,8 +136,8 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public String getEmail() {
@@ -150,46 +145,44 @@ public class DragonBallUser {
   }
 
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public int getAge() {
     return age;
   }
- 
+
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public int getPowerLevel() {
     return powerLevel;
   }
-  
+
   /**
-   *      Getters and Setters.
-   *      
+   * Getters and Setters.
+   * 
    * @author nbrest
    */
   public int getStamina() {
     return stamina;
   }
-  
-  
+
   /**
-   *      Attack another DragonBallUser.
-   *      
-   * @author nbrest 
+   * Attack another DragonBallUser.
+   * 
+   * @author nbrest
    */
   public void attack(DragonBallUser opponent) {
-    
-    /* Check for nulls in parameters in methods that can be called from
-     * outside the application, where I don´t know what the client can send 
-    if (opponent == null) {
-      throw new IllegalArgumentException();
-    }
-    */
+
+    /*
+     * Check for nulls in parameters in methods that can be called from outside
+     * the application, where I don´t know what the client can send if (opponent
+     * == null) { throw new IllegalArgumentException(); }
+     */
     int currentOpponentStamina = opponent.getStamina();
     currentOpponentStamina = currentOpponentStamina - powerLevel;
     if (currentOpponentStamina < 0) {
@@ -197,32 +190,29 @@ public class DragonBallUser {
     }
     opponent.setStamina(currentOpponentStamina);
   }
-  
+
   /**
-   *      Recover stamina.
-   *      
-   * @author nbrest 
+   * Recover stamina.
+   * 
+   * @author nbrest
    */
   public void recoverStamina() {
-    
+
     stamina = stamina + powerLevel;
-  }  
-  
+  }
+
   /**
-   *      Hashcode.
+   * Hashcode.
    * 
    * @author nbrest
    */
   @Override
   public int hashCode() {
-    return new HashCodeBuilder()
-              .append(id)
-              .append(username)
-              .toHashCode();
+    return new HashCodeBuilder().append(id).append(username).toHashCode();
   }
 
   /**
-   *      Equals.
+   * Equals.
    * 
    * @author nbrest
    */
@@ -230,15 +220,13 @@ public class DragonBallUser {
   public boolean equals(final Object obj) {
     if (obj instanceof DragonBallUser) {
       final DragonBallUser other = (DragonBallUser) obj;
-      return new EqualsBuilder()
-                .append(id, other.getId())
-                .append(username, other.getUsername())
-                .isEquals();
+      return new EqualsBuilder().append(id, other.getId()).append(username, other.getUsername())
+          .isEquals();
     } else {
       return false;
     }
   }
-  
+
   /**
    * toString.
    * 
@@ -248,27 +236,27 @@ public class DragonBallUser {
   public String toString() {
     StringBuffer instanceString = new StringBuffer();
     instanceString.append("DragonBallUser [ ");
-    
-    instanceString.append("id = "); 
+
+    instanceString.append("id = ");
     instanceString.append(id.toString());
-    
-    instanceString.append(", username = ");  
+
+    instanceString.append(", username = ");
     instanceString.append(username);
-    
-    instanceString.append(", email = "); 
+
+    instanceString.append(", email = ");
     instanceString.append(email);
-    
-    instanceString.append(", age = "); 
+
+    instanceString.append(", age = ");
     instanceString.append(age);
-    
-    instanceString.append(", powerLevel = "); 
+
+    instanceString.append(", powerLevel = ");
     instanceString.append(powerLevel);
-    
-    instanceString.append(", stamina = "); 
+
+    instanceString.append(", stamina = ");
     instanceString.append(stamina);
-    
+
     instanceString.append(" ]");
-    
+
     return instanceString.toString();
   }
 }

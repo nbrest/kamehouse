@@ -10,9 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 /**
- *        Class that configures the application contexts. It is used to replace
- *        the web.xml file.
- *         
+ * Class that configures the application contexts. It is used to replace the
+ * web.xml file.
+ * 
  * @author nbrest
  */
 public class AppConfig implements WebApplicationInitializer {
@@ -23,8 +23,8 @@ public class AppConfig implements WebApplicationInitializer {
     XmlWebApplicationContext appContext = new XmlWebApplicationContext();
     appContext.setConfigLocation("classpath:applicationContext.xml");
 
-    ServletRegistration.Dynamic dispatcher = servletContext.addServlet(
-        "dispatcher", new DispatcherServlet(appContext));
+    ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher",
+        new DispatcherServlet(appContext));
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping("/");
 
