@@ -31,8 +31,7 @@ import java.util.List;
  */
 public class DragonBallUserServiceTest {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(DragonBallUserServiceTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserServiceTest.class);
 
   private static List<DragonBallUser> dragonBallUsersList;
 
@@ -93,15 +92,12 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void createDragonBallUserTest() {
-    LOGGER
-        .info("***** Executing createDragonBallUserTest");
+    LOGGER.info("***** Executing createDragonBallUserTest");
 
     // Normal flow
     try {
-      DragonBallUser userToAdd = new DragonBallUser(0L, "vegeta",
-          "vegeta@dbz.com", 50, 50, 50);
-      Mockito.doReturn(1L).when(dragonBallUserDaoMock)
-          .createDragonBallUser(userToAdd);
+      DragonBallUser userToAdd = new DragonBallUser(0L, "vegeta", "vegeta@dbz.com", 50, 50, 50);
+      Mockito.doReturn(1L).when(dragonBallUserDaoMock).createDragonBallUser(userToAdd);
 
       dragonBallUserService.createDragonBallUser(userToAdd);
 
@@ -120,16 +116,14 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void getDragonBallUserTest() {
-    LOGGER
-        .info("***** Executing getDragonBallUserTest");
+    LOGGER.info("***** Executing getDragonBallUserTest");
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock")).thenReturn(
-          dragonBallUsersList.get(0));
+      when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock"))
+          .thenReturn(dragonBallUsersList.get(0));
 
-      DragonBallUser user = dragonBallUserService
-          .getDragonBallUser("gokuTestMock");
+      DragonBallUser user = dragonBallUserService.getDragonBallUser("gokuTestMock");
 
       LOGGER.info("user: " + user.getUsername());
 
@@ -142,7 +136,6 @@ public class DragonBallUserServiceTest {
     }
   }
 
-
   /**
    * Test for calling the service to get a single DragonBallUser in the
    * repository by its email.
@@ -151,16 +144,14 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    LOGGER
-        .info("***** Executing getDragonBallUserByEmailTest");
+    LOGGER.info("***** Executing getDragonBallUserByEmailTest");
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.getDragonBallUserByEmail("gokuTestMock@dbz.com")).thenReturn(
-          dragonBallUsersList.get(0));
+      when(dragonBallUserDaoMock.getDragonBallUserByEmail("gokuTestMock@dbz.com"))
+          .thenReturn(dragonBallUsersList.get(0));
 
-      DragonBallUser user = dragonBallUserService
-          .getDragonBallUserByEmail("gokuTestMock@dbz.com");
+      DragonBallUser user = dragonBallUserService.getDragonBallUserByEmail("gokuTestMock@dbz.com");
 
       LOGGER.info("user: " + user.getUsername());
 
@@ -172,7 +163,7 @@ public class DragonBallUserServiceTest {
       fail("Caught unexpected exception.");
     }
   }
-  
+
   /**
    * Test for calling the service to update an existing DragonBallUser in the
    * repository.
@@ -181,20 +172,17 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void updateDragonBallUserTest() {
-    LOGGER
-        .info("***** Executing updateDragonBallUserTest");
+    LOGGER.info("***** Executing updateDragonBallUserTest");
 
     // Normal flow
     try {
-      DragonBallUser userToUpdate = new DragonBallUser(0L, "goku",
-          "gokuUpdated@dbz.com", 30, 30, 30);
-      Mockito.doNothing().when(dragonBallUserDaoMock)
-          .updateDragonBallUser(userToUpdate);
+      DragonBallUser userToUpdate = new DragonBallUser(0L, "goku", "gokuUpdated@dbz.com", 30, 30,
+          30);
+      Mockito.doNothing().when(dragonBallUserDaoMock).updateDragonBallUser(userToUpdate);
 
       dragonBallUserService.updateDragonBallUser(userToUpdate);
 
-      verify(dragonBallUserDaoMock, times(1))
-          .updateDragonBallUser(userToUpdate);
+      verify(dragonBallUserDaoMock, times(1)).updateDragonBallUser(userToUpdate);
     } catch (MobileInspectionsNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -208,13 +196,11 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void deleteDragonBallUserTest() {
-    LOGGER
-        .info("***** Executing deleteDragonBallUserTest");
+    LOGGER.info("***** Executing deleteDragonBallUserTest");
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.deleteDragonBallUser(1L)).thenReturn(
-          dragonBallUsersList.get(0));
+      when(dragonBallUserDaoMock.deleteDragonBallUser(1L)).thenReturn(dragonBallUsersList.get(0));
 
       dragonBallUserService.deleteDragonBallUser(1L);
 
@@ -233,14 +219,11 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    LOGGER
-        .info("***** Executing getAllDragonBallUsersTest");
+    LOGGER.info("***** Executing getAllDragonBallUsersTest");
 
-    when(dragonBallUserDaoMock.getAllDragonBallUsers()).thenReturn(
-        dragonBallUsersList);
+    when(dragonBallUserDaoMock.getAllDragonBallUsers()).thenReturn(dragonBallUsersList);
 
-    List<DragonBallUser> usersList = dragonBallUserService
-        .getAllDragonBallUsers();
+    List<DragonBallUser> usersList = dragonBallUserService.getAllDragonBallUsers();
 
     LOGGER.info("dragonBallUsers.get(0): " + usersList.get(0).getUsername());
     LOGGER.info("dragonBallUsers.get(1): " + usersList.get(1).getUsername());

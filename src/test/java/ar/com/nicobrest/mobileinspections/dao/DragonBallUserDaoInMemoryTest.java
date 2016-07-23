@@ -131,8 +131,7 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    LOGGER
-        .info("***** Executing getDragonBallUserByEmailTest");
+    LOGGER.info("***** Executing getDragonBallUserByEmailTest");
 
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage(
