@@ -69,7 +69,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      // Iterate through the causes of the PersistenceException to identify and return  
+      // Iterate through the causes of the PersistenceException to identify and
+      // return
       // the correct exception.
       Throwable cause = pe;
       while (cause != null) {
@@ -104,19 +105,19 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      // Iterate through the causes of the PersistenceException to identify and return  
+      // Iterate through the causes of the PersistenceException to identify and
+      // return
       // the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
           throw new MobileInspectionsNotFoundException(
-              "DragonBallUser with username " + username
-                  + " was not found in the repository.");
+              "DragonBallUser with username " + username + " was not found in the repository.");
         }
         cause = cause.getCause();
       }
-      throw new MobileInspectionsServerErrorException(
-          "PersistenceException in getDragonBallUser", pe);
+      throw new MobileInspectionsServerErrorException("PersistenceException in getDragonBallUser",
+          pe);
     }
     return dragonBallUser;
   }
@@ -132,31 +133,30 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     DragonBallUser dragonBallUser = null;
     try {
       em.getTransaction().begin();
-      Query query = em
-          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.email=:pEmail");
+      Query query = em.createQuery("SELECT dbu from DragonBallUser dbu where dbu.email=:pEmail");
       query.setParameter("pEmail", email);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
       em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      // Iterate through the causes of the PersistenceException to identify and return  
+      // Iterate through the causes of the PersistenceException to identify and
+      // return
       // the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
           throw new MobileInspectionsNotFoundException(
-              "DragonBallUser with email " + email
-                  + " was not found in the repository.");
+              "DragonBallUser with email " + email + " was not found in the repository.");
         }
         cause = cause.getCause();
       }
       throw new MobileInspectionsServerErrorException(
-          "PersistenceException in getDragonBallUser", pe);
+          "PersistenceException in getDragonBallUserByEmail", pe);
     }
     return dragonBallUser;
   }
-  
+
   /**
    * Updates a DragonBallUser on the repository.
    * 
@@ -167,8 +167,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
-      DragonBallUser updatedDbUser = em.find(DragonBallUser.class,
-          dragonBallUser.getId());
+      DragonBallUser updatedDbUser = em.find(DragonBallUser.class, dragonBallUser.getId());
       if (updatedDbUser != null) {
         updatedDbUser.setAge(dragonBallUser.getAge());
         updatedDbUser.setEmail(dragonBallUser.getEmail());
@@ -184,7 +183,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      // Iterate through the causes of the PersistenceException to identify and return  
+      // Iterate through the causes of the PersistenceException to identify and
+      // return
       // the correct exception.
       Throwable cause = pe;
       while (cause != null) {
@@ -208,11 +208,10 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   public DragonBallUser deleteDragonBallUser(Long id) {
 
     // find(): returns the entity from the EntityManager if its already in
-    // memory. Otherwise it goes
-    // to the database to find it.
+    // memory. Otherwise it goes to the database to find it.
     // getReference(): Returns a proxy to the real entity. Useful if you need to
-    // access the primary
-    // key used to look up the entity but not the other data of the object.
+    // access the primary key used to look up the entity but not the other data
+    // of the object.
 
     EntityManager em = getEntityManager();
     DragonBallUser dbUserToRemove = null;
@@ -225,8 +224,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.getTransaction().commit();
       em.close();
       if (dbUserToRemove == null) {
-        throw new MobileInspectionsNotFoundException("DragonBallUser with id "
-            + id + " was not found in the repository.");
+        throw new MobileInspectionsNotFoundException(
+            "DragonBallUser with id " + id + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
       pe.printStackTrace();
@@ -247,8 +246,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     List<DragonBallUser> dragonBallUsers = null;
     try {
       em.getTransaction().begin();
-      dragonBallUsers = em.createQuery("from DragonBallUser",
-          DragonBallUser.class).getResultList();
+      dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class)
+          .getResultList();
       em.getTransaction().commit();
       em.close();
     } catch (PersistenceException pe) {

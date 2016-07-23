@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.List;
 
 /**
- *        Service layer for the Example endpoints.
- *     
+ * Service layer for the Example endpoints.
+ * 
  * @author nbrest
  */
 public class DragonBallUserService {
@@ -20,82 +20,82 @@ public class DragonBallUserService {
   private DragonBallUserDao dragonBallUserDao;
 
   /**
-   *      Getters and setters.
-   *      
+   * Getters and setters.
+   * 
    * @author nbrest
    */
   public void setDragonBallUserDao(DragonBallUserDao dragonBallUserDao) {
-    
+
     this.dragonBallUserDao = dragonBallUserDao;
   }
 
   /**
-   *      Getters and setters.
-   *      
+   * Getters and setters.
+   * 
    * @author nbrest
    */
   public DragonBallUserDao getDragonBallUserDao() {
-    
+
     return this.dragonBallUserDao;
   }
-  
+
   /**
-   *      Create a new DragonBallUser in the repository.
-   *    
+   * Create a new DragonBallUser in the repository.
+   * 
    * @author nbrest
    */
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
-    
+
     return dragonBallUserDao.createDragonBallUser(dragonBallUser);
   }
-  
+
   /**
-   *      Returns a single instance of a DragonBallUser looking up by username.
-   *      
-   * @author nbrest 
+   * Returns a single instance of a DragonBallUser looking up by username.
+   * 
+   * @author nbrest
    */
   public DragonBallUser getDragonBallUser(String username) {
-    
+
     return dragonBallUserDao.getDragonBallUser(username);
   }
-  
+
   /**
-   *      Returns a single instance of a DragonBallUser looking up by email.
-   *      
-   * @author nbrest 
+   * Returns a single instance of a DragonBallUser looking up by email.
+   * 
+   * @author nbrest
    */
   public DragonBallUser getDragonBallUserByEmail(String email) {
-    
+
     return dragonBallUserDao.getDragonBallUserByEmail(email);
   }
-  
+
   /**
-   *      Updates an existing DragonBallUser in the repository.
-   *      
+   * Updates an existing DragonBallUser in the repository.
+   * 
    * @author nbrest
    */
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
-    
+
     dragonBallUserDao.updateDragonBallUser(dragonBallUser);
   }
-  
+
   /**
-   *      Deletes an existing DragonBallUser in the repository.
-   *      
+   * Deletes an existing DragonBallUser in the repository.
+   * 
    * @author nbrest
    */
   public DragonBallUser deleteDragonBallUser(Long id) {
-    
+
     return dragonBallUserDao.deleteDragonBallUser(id);
   }
-  
+
   /**
-   *      Returns all the DragonBallUsers in the repository.
-   *      
+   * Returns all the DragonBallUsers in the repository.
+   * 
    * @author nbrest
    */
   public List<DragonBallUser> getAllDragonBallUsers() {
-    
+
     return dragonBallUserDao.getAllDragonBallUsers();
   }
 }

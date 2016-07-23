@@ -1,5 +1,6 @@
 package ar.com.nicobrest.mobileinspections.controller;
 
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsBadRequestException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsForbiddenException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
@@ -19,11 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
- * Controller class for the dragonball test endpoints /dragonball
- * /dragonball/modelAndView /dragonball/users /dragonball/users/{username}.
+ * Controller class for the test endpoint /dragonball.
  * 
  * @author nbrest
  */
@@ -31,8 +33,7 @@ import java.util.List;
 @RequestMapping(value = "/dragonball")
 public class DragonBallController {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(DragonBallController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallController.class);
 
   @Autowired
   private DragonBallUserService dragonBallUserService;
@@ -42,8 +43,7 @@ public class DragonBallController {
    * 
    * @author nbrest
    */
-  public void setDragonBallUserService(
-      DragonBallUserService dragonBallUserService) {
+  public void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
 
     this.dragonBallUserService = dragonBallUserService;
   }
@@ -76,8 +76,8 @@ public class DragonBallController {
     mv.addObject("message", message);
     mv.addObject("name", name);
 
-    LOGGER.info("In controller /dragonball/modelAndView Model keys: "
-        + mv.getModel().keySet().toString());
+    LOGGER.info(
+        "In controller /dragonball/modelAndView Model keys: " + mv.getModel().keySet().toString());
     LOGGER.info("In controller /dragonball/modelAndView Model values: "
         + mv.getModel().values().toString());
 
@@ -93,14 +93,14 @@ public class DragonBallController {
   @ResponseBody
   public ResponseEntity<List<DragonBallUser>> getUsers(
       @RequestParam(value = "action", required = false, defaultValue = "goku") String action)
-      throws Exception {
+          throws Exception {
 
     LOGGER.info("In controller /dragonball/users (GET)");
 
     switch (action) {
       case "MobileInspectionsNotFoundException":
         throw new MobileInspectionsNotFoundException(
-          "*** MobileInspectionsNotFoundException in getUsers ***");
+            "*** MobileInspectionsNotFoundException in getUsers ***");
         // break;
       case "RuntimeException":
         throw new RuntimeException("*** RuntimeException in getUsers ***");
@@ -112,8 +112,7 @@ public class DragonBallController {
         break;
     }
 
-    List<DragonBallUser> dbUsers = dragonBallUserService
-        .getAllDragonBallUsers();
+    List<DragonBallUser> dbUsers = dragonBallUserService.getAllDragonBallUsers();
 
     return new ResponseEntity<List<DragonBallUser>>(dbUsers, HttpStatus.OK);
   }
@@ -125,8 +124,7 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseEntity<Long> postUsers(
-      @RequestBody DragonBallUser dragonBallUser) {
+  public ResponseEntity<Long> postUsers(@RequestBody DragonBallUser dragonBallUser) {
 
     LOGGER.info("In controller /dragonball/users (POST)");
 
@@ -141,12 +139,12 @@ public class DragonBallController {
    * 
    * @author nbrest
    */
-  @RequestMapping(value = "/users/{username}", method = RequestMethod.GET)
+  @RequestMapping(value = "/users/{username:.+}", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<DragonBallUser> getUsersUsername(
-      @PathVariable String username) {
-
-    LOGGER.info("In controller /dragonball/users/{username} (GET)");
+  public ResponseEntity<DragonBallUser> getUsersUsername(@PathVariable String username) {
+    // The :.+ on the endpoint mapping is to allow dots in the username, otherwise it strips the
+    // part following the first dot
+    LOGGER.info("In controller /dragonball/users/{username:.+} (GET)");
 
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
 
@@ -154,23 +152,29 @@ public class DragonBallController {
   }
 
   /**
-   * /dragonball/users/email/{email} Returns a specific DragonBallUser from the
-   * repository based on the email.
+   * /dragonball/users/emails/{email:.+} Returns a specific DragonBallUser from the
+   * repository based on the email (URLEncoded with UTF-8).
    * 
    * @author nbrest
    */
-  @RequestMapping(value = "/users/email/{email}", method = RequestMethod.GET)
+  @RequestMapping(value = "/users/emails/{email:.+}", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<DragonBallUser> getUsersByEmail(
-      @PathVariable String email) {
+  public ResponseEntity<DragonBallUser> getUsersByEmail(@PathVariable String email) {
 
-    LOGGER.info("In controller /dragonball/users/email/{email} (GET)");
-
-    DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
+    LOGGER.info("In controller /dragonball/users/emails/{email:.+} (GET)"); 
+    
+    String emailDecoded;
+    try {
+      emailDecoded = URLDecoder.decode(email, "UTF-8");
+    } catch (UnsupportedEncodingException e) { 
+      e.printStackTrace();
+      throw new MobileInspectionsBadRequestException("Error parsing email url parameter", e);
+    }
+    DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(emailDecoded);
 
     return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
   }
-  
+
   /**
    * /dragonball/users/{id} Updates a user in the repository.
    * 
@@ -199,13 +203,11 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
   @ResponseBody
-  public ResponseEntity<DragonBallUser> deleteUsersUsername(
-      @PathVariable Long id) {
+  public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) {
 
     LOGGER.info("In controller /dragonball/users/{username} (DELETE)");
 
-    DragonBallUser deletedDbUser = dragonBallUserService
-        .deleteDragonBallUser(id);
+    DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
 
     return new ResponseEntity<DragonBallUser>(deletedDbUser, HttpStatus.OK);
   }

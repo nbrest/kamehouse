@@ -21,7 +21,7 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -76,7 +76,7 @@ public class DragonBallUserServiceTest {
     user3.setPowerLevel(10);
     user3.setStamina(1000);
 
-    dragonBallUsersList = new ArrayList<DragonBallUser>();
+    dragonBallUsersList = new LinkedList<DragonBallUser>();
     dragonBallUsersList.add(user1);
     dragonBallUsersList.add(user2);
     dragonBallUsersList.add(user3);
@@ -94,7 +94,7 @@ public class DragonBallUserServiceTest {
   @Test
   public void createDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing createDragonBallUserTest ******************");
+        .info("***** Executing createDragonBallUserTest");
 
     // Normal flow
     try {
@@ -121,7 +121,7 @@ public class DragonBallUserServiceTest {
   @Test
   public void getDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing getDragonBallUserTest ******************");
+        .info("***** Executing getDragonBallUserTest");
 
     // Normal flow
     try {
@@ -142,6 +142,37 @@ public class DragonBallUserServiceTest {
     }
   }
 
+
+  /**
+   * Test for calling the service to get a single DragonBallUser in the
+   * repository by its email.
+   * 
+   * @author nbrest
+   */
+  @Test
+  public void getDragonBallUserByEmailTest() {
+    LOGGER
+        .info("***** Executing getDragonBallUserByEmailTest");
+
+    // Normal flow
+    try {
+      when(dragonBallUserDaoMock.getDragonBallUserByEmail("gokuTestMock@dbz.com")).thenReturn(
+          dragonBallUsersList.get(0));
+
+      DragonBallUser user = dragonBallUserService
+          .getDragonBallUserByEmail("gokuTestMock@dbz.com");
+
+      LOGGER.info("user: " + user.getUsername());
+
+      assertNotNull(user);
+      assertEquals("gokuTestMock", user.getUsername());
+      verify(dragonBallUserDaoMock, times(1)).getDragonBallUserByEmail("gokuTestMock@dbz.com");
+    } catch (MobileInspectionsNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+  
   /**
    * Test for calling the service to update an existing DragonBallUser in the
    * repository.
@@ -151,7 +182,7 @@ public class DragonBallUserServiceTest {
   @Test
   public void updateDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing updateDragonBallUserTest ******************");
+        .info("***** Executing updateDragonBallUserTest");
 
     // Normal flow
     try {
@@ -178,7 +209,7 @@ public class DragonBallUserServiceTest {
   @Test
   public void deleteDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing deleteDragonBallUserTest ******************");
+        .info("***** Executing deleteDragonBallUserTest");
 
     // Normal flow
     try {
@@ -203,7 +234,7 @@ public class DragonBallUserServiceTest {
   @Test
   public void getAllDragonBallUsersTest() {
     LOGGER
-        .info("****************** Executing getAllDragonBallUsersTest ******************");
+        .info("***** Executing getAllDragonBallUsersTest");
 
     when(dragonBallUserDaoMock.getAllDragonBallUsers()).thenReturn(
         dragonBallUsersList);

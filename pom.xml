@@ -12,6 +12,7 @@
     <!-- Updated versions on 2016/02/05 -->
 
     <checkstyle.version>2.17</checkstyle.version>
+    <codehaus.jackson.version>1.9.13</codehaus.jackson.version>
     <commons.lang.version>2.6</commons.lang.version>
     <compiler.plugin.version>3.5</compiler.plugin.version>
     <findbugs.version>3.0.1</findbugs.version>
@@ -140,7 +141,19 @@
       <artifactId>jackson-databind</artifactId>
       <version>${jackson.version}</version>
     </dependency>
+    
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+      <version>${codehaus.jackson.version}</version>
+    </dependency>
 
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>${codehaus.jackson.version}</version>
+    </dependency>
+    
     <!-- Logging dependencies -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -208,10 +221,10 @@
   <build>
     <finalName>MobileInspections</finalName>
     <pluginManagement>
-      <!-- Adding the pluginManagement fixes the errors of lifecycle not 
-        covered in eclipse but it seems to disable the plugins when compiling from 
-        the command line. So compile everything with eclipse and remove all the warnings 
-        within eclipse before commiting and pushing the changes to the repositories -->
+      <!-- Adding the pluginManagement fixes the errors of lifecycle not covered 
+        in eclipse but it seems to disable the plugins when compiling from the command line. 
+        So compile everything with eclipse and remove all the warnings within eclipse before 
+        commiting and pushing the changes to the repositories -->
 
       <plugins>
         <!-- maven war plugin: disable build failure because of no web.xml -->
@@ -244,9 +257,8 @@
           <artifactId>findbugs-maven-plugin</artifactId>
           <version>${findbugs.version}</version>
           <configuration>
-            <!-- Enables analysis which takes more memory but finds more 
-              bugs. If you run out of memory, changes the value of the effort element to 
-              'Low'. -->
+            <!-- Enables analysis which takes more memory but finds more bugs. If 
+              you run out of memory, changes the value of the effort element to 'Low'. -->
             <effort>Max</effort>
             <!-- Reports all bugs (other values are medium and max) -->
             <threshold>Low</threshold>
@@ -256,8 +268,7 @@
             <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
           </configuration>
           <executions>
-            <!-- Ensures that FindBugs inspects source code when project 
-              is compiled. -->
+            <!-- Ensures that FindBugs inspects source code when project is compiled. -->
             <execution>
               <id>findbugs</id>
               <phase>compile</phase>

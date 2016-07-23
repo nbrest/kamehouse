@@ -57,7 +57,7 @@ public class DragonBallUserDaoJpaTest {
   public void clearData() {
     
     LOGGER
-    .info("****************** Clearing database ******************");
+    .info("***** Clearing database");
     
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
@@ -75,7 +75,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void createDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing createDragonBallUserTest ******************");
+        .info("***** Executing createDragonBallUserTest");
 
     DragonBallUser dragonBallUser = new DragonBallUser(null, "vegeta",
         "vegeta@dbz.com", 49, 40, 1000);
@@ -101,8 +101,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void createDragonBallUserConflictExceptionTest() {
     LOGGER
-        .info("****************** Executing "
-            + "createDragonBallUserConflictExceptionTest ***************");
+        .info("***** Executing createDragonBallUserConflictExceptionTest");
 
     thrown.expect(MobileInspectionsConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
@@ -124,7 +123,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void getDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing getDragonBallUserTest ******************");
+        .info("***** Executing getDragonBallUserTest");
 
     try {
       DragonBallUser dbUser = new DragonBallUser(null, "goku",
@@ -144,6 +143,33 @@ public class DragonBallUserDaoJpaTest {
   }
 
   /**
+   * Test for getting a single DragonBallUser in the repository by its email.
+   * 
+   * @author nbrest
+   */
+  @Test
+  public void getDragonBallUserByEmailTest() {
+    LOGGER
+        .info("***** Executing getDragonBallUserByEmailTest");
+
+    try {
+      DragonBallUser dbUser = new DragonBallUser(null, "goku",
+          "goku@dbz.com", 20, 21, 22);
+      dragonBallUserDaoJpa.createDragonBallUser(dbUser);
+      
+      DragonBallUser user = dragonBallUserDaoJpa.getDragonBallUserByEmail("goku@dbz.com");
+
+      LOGGER.info("user: " + user.getUsername());
+
+      assertNotNull(user);
+      assertEquals("goku", user.getUsername());
+    } catch (MobileInspectionsNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+  
+  /**
    * Test for getting a single DragonBallUser in the repository Exception flows.
    * 
    * @author nbrest
@@ -151,8 +177,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void getDragonBallUserNotFoundExceptionTest() {
     LOGGER
-        .info("****************** Executing "
-            + "getDragonBallUserNotFoundExceptionTest ******************");
+        .info("***** Executing getDragonBallUserNotFoundExceptionTest");
 
     thrown.expect(MobileInspectionsNotFoundException.class);
     thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
@@ -167,7 +192,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void updateDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing updateDragonBallUserTest ******************");
+        .info("***** Executing updateDragonBallUserTest");
 
     try {
       DragonBallUser userToInsert = new DragonBallUser(null, "goku",
@@ -207,8 +232,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void updateDragonBallUserNotFoundExceptionTest() {
     LOGGER
-        .info("****************** Executing "
-            + "updateDragonBallUserNotFoundExceptionTest ****************");
+        .info("***** Executing updateDragonBallUserNotFoundExceptionTest");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "yukimura",
         "yukimura@pot.com", 10, 10, 10);
@@ -226,7 +250,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void deleteDragonBallUserTest() {
     LOGGER
-        .info("****************** Executing deleteDragonBallUserTest ******************");
+        .info("***** Executing deleteDragonBallUserTest");
 
     try {
       DragonBallUser userToDelete = new DragonBallUser(null, "piccolo",
@@ -256,8 +280,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void deleteDragonBallUserNotFoundExceptionTest() {
     LOGGER
-        .info("****************** Executing "
-            + "deleteDragonBallUserNotFoundExceptionTest ****************");
+        .info("***** Executing deleteDragonBallUserNotFoundExceptionTest");
 
     thrown.expect(MobileInspectionsNotFoundException.class);
     thrown
@@ -273,7 +296,7 @@ public class DragonBallUserDaoJpaTest {
   @Test
   public void getAllDragonBallUsersTest() {
     LOGGER
-        .info("****************** Executing getAllDragonBallUsersTest ******************");
+        .info("***** Executing getAllDragonBallUsersTest");
 
     DragonBallUser dbUser1 = new DragonBallUser(null, "piccolo",
         "piccolo@dbz.com", 20, 21, 22);
