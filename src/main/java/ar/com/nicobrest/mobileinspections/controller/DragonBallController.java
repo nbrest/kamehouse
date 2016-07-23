@@ -1,6 +1,5 @@
 package ar.com.nicobrest.mobileinspections.controller;
 
-import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsBadRequestException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsForbiddenException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 /**
