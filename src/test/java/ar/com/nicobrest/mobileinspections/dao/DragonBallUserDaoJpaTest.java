@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsBadRequestException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsServerErrorException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 
 import org.junit.Before;
@@ -44,6 +45,7 @@ public class DragonBallUserDaoJpaTest {
 
   @Autowired
   private EntityManagerFactory entityManagerFactory;
+
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -135,6 +137,20 @@ public class DragonBallUserDaoJpaTest {
   }
 
   /**
+   * Test for getting a single DragonBallUser in the repository Exception flows.
+   * 
+   * @author nbrest
+   */
+  @Test
+  public void getDragonBallUserNotFoundExceptionTest() {
+    LOGGER.info("***** Executing getDragonBallUserNotFoundExceptionTest");
+
+    thrown.expect(MobileInspectionsNotFoundException.class);
+    thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
+    dragonBallUserDaoJpa.getDragonBallUser("yukimura");
+  }
+
+  /**
    * Test for getting a single DragonBallUser in the repository by its email.
    * 
    * @author nbrest
@@ -160,17 +176,19 @@ public class DragonBallUserDaoJpaTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository Exception flows.
+   * Test for getting a single DragonBallUser in the repository by its email
+   * Exception flows.
    * 
    * @author nbrest
    */
   @Test
-  public void getDragonBallUserNotFoundExceptionTest() {
-    LOGGER.info("***** Executing getDragonBallUserNotFoundExceptionTest");
+  public void getDragonBallUserByEmailNotFoundExceptionTest() {
+    LOGGER.info("***** Executing getDragonBallUserByEmailNotFoundExceptionTest");
 
     thrown.expect(MobileInspectionsNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
-    dragonBallUserDaoJpa.getDragonBallUser("yukimura");
+    thrown.expectMessage(
+        "DragonBallUser with email yukimura@dbz.com was not found in the repository.");
+    dragonBallUserDaoJpa.getDragonBallUserByEmail("yukimura@dbz.com");
   }
 
   /**
@@ -225,6 +243,41 @@ public class DragonBallUserDaoJpaTest {
     dragonBallUserDaoJpa.updateDragonBallUser(dragonBallUser);
   }
 
+  /**
+   * Test for updating an existing user in the repository Exception flows.
+   * 
+   * @author nbrest
+   */
+  @Test
+  public void updateDragonBallUserServerErrorExceptionTest() {
+    LOGGER.info("***** Executing updateDragonBallUserServerErrorExceptionTest");
+
+    thrown.expect(MobileInspectionsServerErrorException.class);
+    thrown.expectMessage("PersistenceException in updateDragonBallUser");
+    
+    try {
+      DragonBallUser userToInsert = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
+      dragonBallUserDaoJpa.createDragonBallUser(userToInsert);
+
+      DragonBallUser originalUser = dragonBallUserDaoJpa.getDragonBallUser("goku");
+      assertEquals("goku", originalUser.getUsername());
+
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < 70 ; i++) {
+        sb.append("goku");
+      }
+      String username = sb.toString();
+      
+      DragonBallUser modifiedUser = new DragonBallUser(originalUser.getId(), username,
+          "gokuUpdated@dbz.com", 51, 52, 53);
+
+      dragonBallUserDaoJpa.updateDragonBallUser(modifiedUser);
+    } catch (MobileInspectionsNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+  
   /**
    * Test for deleting an existing user from the repository.
    * 

@@ -1,7 +1,13 @@
 package ar.com.nicobrest.mobileinspections.model;
 
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsInvalidDataException;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,13 +17,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * DragonBallUser POJO used for the test endpoints.
+ * DragonBallUser used for the test endpoints.
  * 
  * @author nbrest
  */
 @Entity
 @Table(name = "dragonballuser")
-public class DragonBallUser {
+public class DragonBallUser implements Serializable {
+
+  private static final int MAX_STRING_LENGTH = 255;
+  private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+      + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+  private static final String USERNAME_PATTERN = "^[A-Za-z0-9]+[\\._A-Za-z0-9-]*";
+
+  private static final long serialVersionUID = 159367676076449689L;
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
@@ -45,6 +58,7 @@ public class DragonBallUser {
    * @author nbrest
    */
   public DragonBallUser() {
+
   }
 
   /**
@@ -199,6 +213,90 @@ public class DragonBallUser {
   public void recoverStamina() {
 
     stamina = stamina + powerLevel;
+  }
+
+  /**
+   * Performs all the input and logical validations on a DragonBallUser and
+   * throw an exception if a validation fails.
+   * 
+   * @author nbrest
+   */
+  public void validateAllFields() {
+
+    /*
+     * Adding these validation methods to the setter and getters caused some
+     * problems with autowiring with Spring so instead of that, call this method
+     * to validate the fields before persisting the object to the database.
+     * 
+     * - username must contain lettes, numbers, dots, '-' or '_'. And start with
+     * a letter or numberf - check valid format in the email field:
+     * sth1@sth2.sth3 - age and powerlevel should be > 0 - strings shouldn´t be
+     * longer than the supported 255 characters of varchar in the database
+     */
+    validateUsernameFormat(username);
+    validateStringLength(username);
+
+    validateEmailFormat(email);
+    validateStringLength(email);
+
+    validatePositiveValue(age);
+
+    validatePositiveValue(powerLevel);
+  }
+
+  /**
+   * Validate that the username respects the established format.
+   * 
+   * @author nbrest
+   */
+  private void validateUsernameFormat(String username) {
+
+    Pattern pattern = Pattern.compile(USERNAME_PATTERN);
+    Matcher matcher = pattern.matcher(username);
+    if (!matcher.matches()) {
+      throw new MobileInspectionsInvalidDataException("Invalid username format: " + username);
+    }
+  }
+
+  /**
+   * Validate that the email has a valid format.
+   * 
+   * @author nbrest
+   */
+  private void validateEmailFormat(String email) {
+
+    Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    Matcher matcher = pattern.matcher(email);
+    if (!matcher.matches()) {
+      throw new MobileInspectionsInvalidDataException("Invalid email address: " + email);
+    }
+  }
+
+  /**
+   * Validate that the integer has a positive value.
+   * 
+   * @author nbrest
+   */
+  private void validatePositiveValue(int value) {
+
+    if (value < 0) {
+      throw new MobileInspectionsInvalidDataException(
+          "The attribute should be a positive value. Current value: " + value);
+    }
+  }
+
+  /**
+   * Validate that the string lenght is accepted by the database.
+   * 
+   * @author nbrest
+   */
+  private void validateStringLength(String value) {
+
+    if (value.length() > MAX_STRING_LENGTH) {
+      throw new MobileInspectionsInvalidDataException(
+          "The string attribute excedes the maximum length of " + MAX_STRING_LENGTH
+              + ". Current length: " + value.length());
+    }
   }
 
   /**

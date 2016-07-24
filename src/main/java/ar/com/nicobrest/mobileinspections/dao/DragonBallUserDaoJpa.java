@@ -65,13 +65,11 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     try {
       em.getTransaction().begin();
       em.persist(dragonBallUser);
-      em.getTransaction().commit();
-      em.close();
+      em.getTransaction().commit(); 
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       // Iterate through the causes of the PersistenceException to identify and
-      // return
-      // the correct exception.
+      // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
@@ -82,6 +80,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       throw new MobileInspectionsServerErrorException(
           "PersistenceException in createDragonBallUser", pe);
+    } finally {
+      em.close();
     }
     return dragonBallUser.getId();
   }
@@ -101,13 +101,11 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
           .createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
       query.setParameter("pUsername", username);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
-      em.getTransaction().commit();
-      em.close();
+      em.getTransaction().commit(); 
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       // Iterate through the causes of the PersistenceException to identify and
-      // return
-      // the correct exception.
+      // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
@@ -118,6 +116,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       throw new MobileInspectionsServerErrorException("PersistenceException in getDragonBallUser",
           pe);
+    } finally {
+      em.close();
     }
     return dragonBallUser;
   }
@@ -137,12 +137,10 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       query.setParameter("pEmail", email);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
-      em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       // Iterate through the causes of the PersistenceException to identify and
-      // return
-      // the correct exception.
+      // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
@@ -153,6 +151,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       throw new MobileInspectionsServerErrorException(
           "PersistenceException in getDragonBallUserByEmail", pe);
+    } finally {
+      em.close();
     }
     return dragonBallUser;
   }
@@ -176,7 +176,6 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
         updatedDbUser.setUsername(dragonBallUser.getUsername());
       }
       em.getTransaction().commit();
-      em.close();
       if (updatedDbUser == null) {
         throw new MobileInspectionsNotFoundException("DragonBallUser with id "
             + dragonBallUser.getId() + " was not found in the repository.");
@@ -184,8 +183,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       // Iterate through the causes of the PersistenceException to identify and
-      // return
-      // the correct exception.
+      // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
@@ -196,6 +194,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       throw new MobileInspectionsServerErrorException(
           "PersistenceException in updateDragonBallUser", pe);
+    } finally {
+      em.close();
     }
   }
 
@@ -222,7 +222,6 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
         em.remove(dbUserToRemove);
       }
       em.getTransaction().commit();
-      em.close();
       if (dbUserToRemove == null) {
         throw new MobileInspectionsNotFoundException(
             "DragonBallUser with id " + id + " was not found in the repository.");
@@ -231,6 +230,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       pe.printStackTrace();
       throw new MobileInspectionsServerErrorException(
           "PersistenceException in deleteDragonBallUser", pe);
+    } finally {
+      em.close();
     }
     return dbUserToRemove;
   }
@@ -249,11 +250,12 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class)
           .getResultList();
       em.getTransaction().commit();
-      em.close();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       throw new MobileInspectionsServerErrorException(
           "PersistenceException in getAllDragonBallUsers", pe);
+    } finally {
+      em.close();
     }
     return dragonBallUsers;
   }
