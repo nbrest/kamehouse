@@ -2,12 +2,17 @@ package ar.com.nicobrest.mobileinspections.controller;
 
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsForbiddenException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
+import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsServerErrorException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
 import ar.com.nicobrest.mobileinspections.service.DragonBallUserService;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -139,7 +144,8 @@ public class DragonBallController {
   @RequestMapping(value = "/users/{username:.+}", method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<DragonBallUser> getUsersUsername(@PathVariable String username) {
-    // The :.+ on the endpoint mapping is to allow dots in the username, otherwise it strips the
+    // The :.+ on the endpoint mapping is to allow dots in the username,
+    // otherwise it strips the
     // part following the first dot
     LOGGER.info("In controller /dragonball/users/{username:.+} (GET)");
 
@@ -149,29 +155,33 @@ public class DragonBallController {
   }
 
   /**
-   * /dragonball/users/emails/{email:.+} Returns a specific DragonBallUser from the
-   * repository based on the email (URLEncoded with UTF-8).
+   * /dragonball/users/emails/{email:.+} Returns a specific DragonBallUser from
+   * the repository based on the email (URLEncoded with UTF-8).
    * 
    * @author nbrest
    */
   @RequestMapping(value = "/users/emails/{email:.+}", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<DragonBallUser> getUsersByEmail(@PathVariable String email) {
+  public ResponseEntity<String> getUsersByEmail(@PathVariable String email) {
 
-    LOGGER.info("In controller /dragonball/users/emails/{email:.+} (GET)"); 
-    
-    /* url encoded parameters are automatically decoded, there´s no need to do it here.
-    String emailDecoded;
-    try {
-      emailDecoded = URLDecoder.decode(email, "UTF-8");
-    } catch (UnsupportedEncodingException e) { 
-      e.printStackTrace();
-      throw new MobileInspectionsBadRequestException("Error parsing email url parameter", e);
-    }
-    */
+    LOGGER.info("In controller /dragonball/users/emails/{email:.+} (GET)");
+
+    /*
+     * url encoded parameters are automatically decoded, there´s no need to do
+     * it here. String emailDecoded; try { emailDecoded =
+     * URLDecoder.decode(email, "UTF-8"); } catch (UnsupportedEncodingException
+     * e) { e.printStackTrace(); throw new MobileInspectionsBadRequestException(
+     * "Error parsing email url parameter", e); }
+     */
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
-
-    return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
+    String dbUserJson = convertToJsonString(dbUser); 
+    
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Content-Type", "application/json;charset=UTF-8");
+    ResponseEntity<String> response = new ResponseEntity<String>(dbUserJson, headers,
+        HttpStatus.OK);
+    
+    return response;
   }
 
   /**
@@ -209,5 +219,24 @@ public class DragonBallController {
     DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
 
     return new ResponseEntity<DragonBallUser>(deletedDbUser, HttpStatus.OK);
+  }
+  
+  /**
+   * Converts an Object to a Json String.
+   * 
+   * @author nbrest
+   */
+  private String convertToJsonString(Object obj) {
+    
+    ObjectMapper mapper = new ObjectMapper();
+    String jsonString;
+    try {
+      jsonString = mapper.writeValueAsString(obj);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      throw new MobileInspectionsServerErrorException(
+          "Error mapping Object to a Json string", e);
+    }
+    return jsonString;
   }
 }
