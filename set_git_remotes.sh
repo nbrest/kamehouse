@@ -1,4 +1,7 @@
 #!/bin/bash
+####################################################
+### REPOSITORY NAME: java.web.mobile.inspections ###
+####################################################
 
 ### Create the remote named all with fetch from the github repo
 git remote remove all
@@ -16,7 +19,7 @@ git remote add github https://github.com/nbrest/java.web.mobile.inspections.git
 
 ### Create a remote named nicobrest to be able to push only to my private repo
 git remote remove nicobrest
-git remote add nicobrest https://nbrest@www.nicobrest.com.ar/git/my.scripts.git
+git remote add nicobrest https://www.nicobrest.com.ar/git/java.web.mobile.inspections.git
 
 ### list all the remotes
 git remote -v 
