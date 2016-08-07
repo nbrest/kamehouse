@@ -229,18 +229,18 @@
       <!-- maven compiler plugin: Compiler configurations for maven -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>v
+        <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
 
       <!-- findbugs: Detect bugs at compilation time and generate a report -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>v
+        <artifactId>findbugs-maven-plugin</artifactId>
       </plugin>
       <!-- checkstyle: Checks that the code sticks to standard conventions -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>v
+        <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
     </plugins>
     
