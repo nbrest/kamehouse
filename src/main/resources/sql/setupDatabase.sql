@@ -17,13 +17,6 @@ CREATE USER 'mobileInspUser'@'localhost' identified by 'mobileInspPwd';
 -- Grant privileges:
 GRANT ALL PRIVILEGES ON mobileInsp.* TO 'mobileInspUser'@'localhost';
 
--- Query user permissions in mysql:
-SELECT * FROM mysql.user;
-
--- Export table creation script in mysql:
-show create table dragonballuser;
-show create table hibernate_sequence;
-
 -- MobileInspections Tables for mysql:
 DROP TABLE IF EXISTS dragonballuser;
 DROP TABLE IF EXISTS hibernate_sequence;
@@ -50,3 +43,10 @@ INSERT INTO hibernate_sequence(next_val) VALUES (0);
 -- Query application tables:
 SELECT * FROM dragonballuser;
 SELECT * FROM hibernate_sequence;
+
+-- Query user permissions in mysql:
+SELECT * FROM mysql.user;
+
+-- Export table creation script in mysql:
+show create table dragonballuser;
+show create table hibernate_sequence;
