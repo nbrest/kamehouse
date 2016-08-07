@@ -225,26 +225,22 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>${war.plugin.version}</version>
       </plugin>
       <!-- maven compiler plugin: Compiler configurations for maven -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler.plugin.version}</version>
+        <artifactId>maven-compiler-plugin</artifactId>v
       </plugin>
 
       <!-- findbugs: Detect bugs at compilation time and generate a report -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${findbugs.version}</version>
+        <artifactId>findbugs-maven-plugin</artifactId>v
       </plugin>
       <!-- checkstyle: Checks that the code sticks to standard conventions -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle.version}</version>
+        <artifactId>maven-checkstyle-plugin</artifactId>v
       </plugin>
     </plugins>
     

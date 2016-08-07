@@ -1,25 +1,25 @@
 -- ********************************
--- *** Last updated: 2016/07/15 ***
+-- *** Last updated: 2016/08/07 ***
 -- ********************************
 
 -- Create schema:
+DROP SCHEMA IF EXISTS mobileInsp;
 CREATE SCHEMA mobileInsp;
+
 -- Use schema:
 USE mobileInsp;
 
 -- Create user:
-CREATE USER mobileInsp@localhost identified by 'mobileInspPwd';
+-- Use '%' instead of 'localhost' to allow to connect remotely with hibSprNbrest
+DROP USER IF EXISTS 'mobileInspUser'@'localhost';
+CREATE USER 'mobileInspUser'@'localhost' identified by 'mobileInspPwd';
 
 -- Grant privileges:
-GRANT ALL PRIVILEGES ON mobileInsp.* TO 'mobileInsp'@'localhost' IDENTIFIED BY 'mobileInspPwd';
-
--- Drop user:
-DROP USER mobileInsp@localhost;
--- Drop schema:
-DROP SCHEMA mobileInsp;
+GRANT ALL PRIVILEGES ON mobileInsp.* TO 'mobileInspUser'@'localhost';
 
 -- Query user permissions in mysql:
 SELECT * FROM mysql.user;
+
 -- Export table creation script in mysql:
 show create table dragonballuser;
 show create table hibernate_sequence;
