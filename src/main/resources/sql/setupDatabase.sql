@@ -47,6 +47,6 @@ CREATE TABLE hibernate_sequence (
 -- Hibernate expects hibernate_sequence to have an initial value or it will fail
 INSERT INTO hibernate_sequence(next_val) VALUES (0);
 
--- Query MobileInspections tables:
+-- Query application tables:
 SELECT * FROM dragonballuser;
 SELECT * FROM hibernate_sequence;
