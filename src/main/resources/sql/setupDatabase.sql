@@ -10,7 +10,7 @@ CREATE SCHEMA mobileInsp;
 USE mobileInsp;
 
 -- Create user:
--- Use '%' instead of 'localhost' to allow to connect remotely with hibSprNbrest
+-- Use '%' instead of 'localhost' to allow to connect remotely with this user
 DROP USER IF EXISTS 'mobileInspUser'@'localhost';
 CREATE USER 'mobileInspUser'@'localhost' identified by 'mobileInspPwd';
 
