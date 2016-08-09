@@ -21,6 +21,10 @@ git remote add github https://github.com/nbrest/java.web.mobile.inspections.git
 git remote remove nicobrest
 git remote add nicobrest https://www.nicobrest.com.ar/git/java.web.mobile.inspections.git
 
+### Create a remote named githubssh to push using ssh to github
+git remote remove githubssh
+git remote add githubssh git@github.com:nbrest/java.web.mobile.inspections.git
+
 ### list all the remotes
 git remote -v 
 
