@@ -25,6 +25,10 @@ git remote add nicobrest https://www.nicobrest.com.ar/git/java.web.mobile.inspec
 git remote remove githubssh
 git remote add githubssh git@github.com:nbrest/java.web.mobile.inspections.git
 
+### Create a remote to push using ssh inside my local network without internet access
+git remote remove localssh
+git remote add localssh ssh://nbrest@niko-w/git/java.web.mobile.inspections.git
+
 ### list all the remotes
 git remote -v 
 
