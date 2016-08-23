@@ -28,6 +28,7 @@
     <logback.version>1.1.2</logback.version>
     <mockito.version>1.9.5</mockito.version>
     <mysql.connector.java.version>5.1.39</mysql.connector.java.version>
+    <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
     <spring.version>4.2.4.RELEASE</spring.version>
     <war.plugin.version>2.1.1</war.plugin.version>
 
@@ -90,6 +91,13 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql.connector.java.version}</version>
+    </dependency>
+
+    <!-- Oracle database driver -->
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+      <version>${oracle.ojdbc.version}</version>
     </dependency>
 
     <!-- Spring dependencies -->
@@ -243,12 +251,12 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
     </plugins>
-    
+
     <pluginManagement>
-      <!-- Adding the pluginManagement fixes the errors of lifecycle not 
-        covered in eclipse but it seems to disable the plugins when compiling from 
-        the command line. So compile everything with eclipse and remove all the warnings 
-        within eclipse before commiting and pushing the changes to the repositories -->
+      <!-- Adding the pluginManagement fixes the errors of lifecycle not covered 
+        in eclipse but it seems to disable the plugins when compiling from the command line. 
+        So compile everything with eclipse and remove all the warnings within eclipse before 
+        commiting and pushing the changes to the repositories -->
 
       <plugins>
         <!-- maven war plugin: disable build failure because of no web.xml -->
@@ -281,9 +289,8 @@
           <artifactId>findbugs-maven-plugin</artifactId>
           <version>${findbugs.version}</version>
           <configuration>
-            <!-- Enables analysis which takes more memory but finds more 
-              bugs. If you run out of memory, changes the value of the effort element to 
-              'Low'. -->
+            <!-- Enables analysis which takes more memory but finds more bugs. If 
+              you run out of memory, changes the value of the effort element to 'Low'. -->
             <effort>Max</effort>
             <!-- Reports all bugs (other values are medium and max) -->
             <threshold>Low</threshold>
@@ -293,8 +300,7 @@
             <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
           </configuration>
           <executions>
-            <!-- Ensures that FindBugs inspects source code when project 
-              is compiled. -->
+            <!-- Ensures that FindBugs inspects source code when project is compiled. -->
             <execution>
               <id>findbugs</id>
               <phase>compile</phase>
@@ -354,6 +360,17 @@
         </filters>
       </build>
     </profile>
+
+    <profile>
+      <id>qa</id>
+      <build>
+        <filters>
+          <filter>src/main/filters/qa/hibernate.properties</filter>
+          <filter>src/main/filters/qa/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
+
     <profile>
       <id>dev</id>
       <build>
