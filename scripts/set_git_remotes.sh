@@ -8,7 +8,7 @@ git remote remove all
 git remote add all https://github.com/nbrest/java.web.mobile.inspections.git
 
 ### Add the nicobrest repo to the remote all push
-git remote set-url --add --push all https://www.nicobrest.com.ar/git/java.web.mobile.inspections.git
+#git remote set-url --add --push all https://www.nicobrest.com.ar/git/java.web.mobile.inspections.git
 
 ### Add the github repo to the remote all push
 git remote set-url --add --push all https://github.com/nbrest/java.web.mobile.inspections.git
