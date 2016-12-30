@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * Controller class for the test endpoint /dragonball.
- * 
+ *
  * @author nbrest
  */
 @Controller
@@ -42,7 +42,7 @@ public class DragonBallController {
 
   /**
    * Getters and Setters.
-   * 
+   *
    * @author nbrest
    */
   public void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
@@ -52,7 +52,7 @@ public class DragonBallController {
 
   /**
    * Getters and Setters.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUserService getDragonBallUserService() {
@@ -61,26 +61,26 @@ public class DragonBallController {
   }
 
   /**
-   * /dragonball/modelAndView Returns the ModelAndView object for the test
+   * /dragonball/model-and-view Returns the ModelAndView object for the test
    * endpoint.
-   * 
+   *
    * @author nbrest
    */
-  @RequestMapping(value = "/modelAndView", method = RequestMethod.GET)
+  @RequestMapping(value = "/model-and-view", method = RequestMethod.GET)
   public ModelAndView getModelAndView(
       @RequestParam(value = "name", required = false, defaultValue = "Goku") String name) {
 
-    LOGGER.info("In controller /dragonball/modelAndView (GET)");
+    LOGGER.info("In controller /dragonball/model-and-view (GET)");
 
     String message = "message: dragonball ModelAndView!";
 
-    ModelAndView mv = new ModelAndView("dragonball/modelAndView");
+    ModelAndView mv = new ModelAndView("dragonball/model-and-view");
     mv.addObject("message", message);
     mv.addObject("name", name);
 
     LOGGER.info(
-        "In controller /dragonball/modelAndView Model keys: " + mv.getModel().keySet().toString());
-    LOGGER.info("In controller /dragonball/modelAndView Model values: "
+        "In controller /dragonball/model-and-view Model keys: " + mv.getModel().keySet().toString());
+    LOGGER.info("In controller /dragonball/model-and-view Model values: "
         + mv.getModel().values().toString());
 
     return mv;
@@ -88,7 +88,7 @@ public class DragonBallController {
 
   /**
    * /dragonball/users Returns all DragonBallUsers in json format.
-   * 
+   *
    * @author nbrest
    */
   @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -121,7 +121,7 @@ public class DragonBallController {
 
   /**
    * /dragonball/users Creates a new DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   @RequestMapping(value = "/users", method = RequestMethod.POST)
@@ -138,7 +138,7 @@ public class DragonBallController {
   /**
    * /dragonball/users/{username} Returns a specific DragonBallUser from the
    * repository based on the username.
-   * 
+   *
    * @author nbrest
    */
   @RequestMapping(value = "/users/{username:.+}", method = RequestMethod.GET)
@@ -157,7 +157,7 @@ public class DragonBallController {
   /**
    * /dragonball/users/emails/{email:.+} Returns a specific DragonBallUser from
    * the repository based on the email (URLEncoded with UTF-8).
-   * 
+   *
    * @author nbrest
    */
   @RequestMapping(value = "/users/emails/{email:.+}", method = RequestMethod.GET)
@@ -174,19 +174,19 @@ public class DragonBallController {
      * "Error parsing email url parameter", e); }
      */
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
-    String dbUserJson = convertToJsonString(dbUser); 
-    
+    String dbUserJson = convertToJsonString(dbUser);
+
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Type", "application/json;charset=UTF-8");
     ResponseEntity<String> response = new ResponseEntity<String>(dbUserJson, headers,
         HttpStatus.OK);
-    
+
     return response;
   }
 
   /**
    * /dragonball/users/{id} Updates a user in the repository.
-   * 
+   *
    * @author nbrest
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
@@ -207,7 +207,7 @@ public class DragonBallController {
 
   /**
    * /dragonball/users/{id} Deletes an existing user from the repository.
-   * 
+   *
    * @author nbrest
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
@@ -220,14 +220,14 @@ public class DragonBallController {
 
     return new ResponseEntity<DragonBallUser>(deletedDbUser, HttpStatus.OK);
   }
-  
+
   /**
    * Converts an Object to a Json String.
-   * 
+   *
    * @author nbrest
    */
   private String convertToJsonString(Object obj) {
-    
+
     ObjectMapper mapper = new ObjectMapper();
     String jsonString;
     try {

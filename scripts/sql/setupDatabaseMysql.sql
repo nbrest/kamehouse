@@ -17,7 +17,7 @@ CREATE USER 'mobileInspUser'@'localhost' identified by 'mobileInspPwd';
 -- Grant privileges:
 GRANT ALL PRIVILEGES ON mobileInsp.* TO 'mobileInspUser'@'localhost';
 
--- MobileInspections Tables for mysql:
+-- mobile-inspections Tables for mysql:
 DROP TABLE IF EXISTS dragonballuser;
 DROP TABLE IF EXISTS hibernate_sequence;
 

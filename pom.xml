@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ar.com.nicobrest</groupId>
-  <artifactId>MobileInspections</artifactId>
+  <artifactId>mobile-inspections</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>Java Web App Mobile Inspections</name>
@@ -227,7 +227,7 @@
   </dependencies>
 
   <build>
-    <finalName>MobileInspections</finalName>
+    <finalName>mobile-inspections</finalName>
     <plugins>
       <!-- maven war plugin: disable build failure because of no web.xml -->
       <plugin>
@@ -253,9 +253,9 @@
     </plugins>
 
     <pluginManagement>
-      <!-- Adding the pluginManagement fixes the errors of lifecycle not covered 
-        in eclipse but it seems to disable the plugins when compiling from the command line. 
-        So compile everything with eclipse and remove all the warnings within eclipse before 
+      <!-- Adding the pluginManagement fixes the errors of lifecycle not covered
+        in eclipse but it seems to disable the plugins when compiling from the command line.
+        So compile everything with eclipse and remove all the warnings within eclipse before
         commiting and pushing the changes to the repositories -->
 
       <plugins>
@@ -289,7 +289,7 @@
           <artifactId>findbugs-maven-plugin</artifactId>
           <version>${findbugs.version}</version>
           <configuration>
-            <!-- Enables analysis which takes more memory but finds more bugs. If 
+            <!-- Enables analysis which takes more memory but finds more bugs. If
               you run out of memory, changes the value of the effort element to 'Low'. -->
             <effort>Max</effort>
             <!-- Reports all bugs (other values are medium and max) -->

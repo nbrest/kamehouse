@@ -52,7 +52,7 @@ import java.util.List;
 
 /**
  * Unit tests for the DragonBallController class.
- * 
+ *
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -74,7 +74,7 @@ public class DragonBallControllerTest {
 
   /**
    * Initializes test repositories.
-   * 
+   *
    * @author nbrest
    */
   @BeforeClass
@@ -114,7 +114,7 @@ public class DragonBallControllerTest {
 
   /**
    * Resets mock objects.
-   * 
+   *
    * @author nbrest
    */
   @Before
@@ -131,7 +131,7 @@ public class DragonBallControllerTest {
 
   /**
    * Clean up after each test.
-   * 
+   *
    * @author nbrest
    */
   @After
@@ -142,7 +142,7 @@ public class DragonBallControllerTest {
 
   /**
    * Cleanup after all tests have executed.
-   * 
+   *
    * @author nbrest
    */
   @AfterClass
@@ -152,10 +152,10 @@ public class DragonBallControllerTest {
   }
 
   /**
-   * /dragonball/modelAndView (GET) Test the endpoint /dragonball/modelAndView
+   * /dragonball/model-and-view (GET) Test the endpoint /dragonball/model-and-view
    * with the HTTP method GET. The service should respond with HTTP status 200
    * OK and a view defined in dragonball/modelAndView.jsp.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -163,9 +163,9 @@ public class DragonBallControllerTest {
     LOGGER.info("***** Executing getModelAndViewTest");
 
     try {
-      mockMvc.perform(get("/dragonball/modelAndView")).andDo(print()).andExpect(status().isOk())
-          .andExpect(view().name("dragonball/modelAndView"))
-          .andExpect(forwardedUrl("dragonball/modelAndView"))
+      mockMvc.perform(get("/dragonball/model-and-view")).andDo(print()).andExpect(status().isOk())
+          .andExpect(view().name("dragonball/model-and-view"))
+          .andExpect(forwardedUrl("dragonball/model-and-view"))
           .andExpect(model().attribute("name", isA(String.class)))
           .andExpect(model().attribute("name", equalTo("Goku")))
           .andExpect(model().attribute("message", equalTo("message: dragonball ModelAndView!")));
@@ -180,7 +180,7 @@ public class DragonBallControllerTest {
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the HTTP method GET. The service should respond with
    * HTTP status 200 OK and a json array in the response body.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -226,7 +226,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -248,7 +248,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -270,7 +270,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -291,7 +291,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (POST) Test creating a new DragonBallUser in the
    * repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -326,7 +326,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (POST) Test creating a new DragonBallUser in the
    * repository that already exists.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -355,7 +355,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{username} (GET) Tests getting a specific user from the
    * repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -404,7 +404,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{username} (GET) Tests user not found when getting a
    * specific user from the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -430,7 +430,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/emails/{email} (GET) Tests getting a specific user from
    * the repository by email.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -461,7 +461,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (PUT) Tests updating an existing user in the
    * repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -493,7 +493,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (PUT) Tests trying to update a non existing user in
    * the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -522,7 +522,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (PUT) Tests failing to update an existing user in
    * the repository with forbidden access.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -554,7 +554,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (DELETE) Tests for deleting an existing user from
    * the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -584,7 +584,7 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (DELETE) Tests for deleting an user not found in the
    * repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -611,12 +611,12 @@ public class DragonBallControllerTest {
 
   /*
    * @Ignore("Disabled test example")
-   * 
+   *
    * @Test public void disabledTest() { // @Ignore disables the execution of the
    * test assertEquals("disabledTest not yet implemented", 0, 0);
-   * 
+   *
    * // Assert statements:
-   * 
+   *
    * // fail(message) assertTrue([message,] boolean condition) //
    * assertFalse([message,] boolean condition) assertEquals([message,] //
    * expected, actual) assertEquals([message,] expected, actual, tolerance) //
