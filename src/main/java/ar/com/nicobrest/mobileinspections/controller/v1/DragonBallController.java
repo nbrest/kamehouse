@@ -1,4 +1,4 @@
-package ar.com.nicobrest.mobileinspections.controller;
+package ar.com.nicobrest.mobileinspections.controller.v1;
 
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsForbiddenException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
@@ -30,9 +30,10 @@ import java.util.List;
  * Controller class for the test endpoint /dragonball.
  *
  * @author nbrest
+ * @version 1
  */
 @Controller
-@RequestMapping(value = "/dragonball")
+@RequestMapping(value = "/api/v1/dragonball")
 public class DragonBallController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallController.class);

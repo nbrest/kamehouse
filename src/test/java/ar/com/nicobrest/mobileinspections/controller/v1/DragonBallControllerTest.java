@@ -1,4 +1,4 @@
-package ar.com.nicobrest.mobileinspections.controller;
+package ar.com.nicobrest.mobileinspections.controller.v1;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import ar.com.nicobrest.mobileinspections.controller.v1.DragonBallController;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
@@ -163,7 +164,7 @@ public class DragonBallControllerTest {
     LOGGER.info("***** Executing getModelAndViewTest");
 
     try {
-      mockMvc.perform(get("/dragonball/model-and-view")).andDo(print()).andExpect(status().isOk())
+      mockMvc.perform(get("/api/v1/dragonball/model-and-view")).andDo(print()).andExpect(status().isOk())
           .andExpect(view().name("dragonball/model-and-view"))
           .andExpect(forwardedUrl("dragonball/model-and-view"))
           .andExpect(model().attribute("name", isA(String.class)))
@@ -192,7 +193,7 @@ public class DragonBallControllerTest {
 
     // Execute HTTP GET on the /dragonball/users endpoint
     try {
-      mockMvc.perform(get("/dragonball/users")).andDo(print()).andExpect(status().isOk())
+      mockMvc.perform(get("/api/v1/dragonball/users")).andDo(print()).andExpect(status().isOk())
           .andExpect(content().contentType("application/json;charset=UTF-8"))
           .andExpect(jsonPath("$", hasSize(3))).andExpect(jsonPath("$[0].id", equalTo(101)))
           .andExpect(jsonPath("$[0].username", equalTo("gokuTestMock")))
@@ -234,7 +235,7 @@ public class DragonBallControllerTest {
     LOGGER.info("***** Executing getUsersExceptionTest");
 
     try {
-      mockMvc.perform(get("/dragonball/users?action=Exception")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users?action=Exception")).andDo(print())
           .andExpect(status().isInternalServerError()).andExpect(view().name("error/error"))
           .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
     } catch (Exception e) {
@@ -256,7 +257,7 @@ public class DragonBallControllerTest {
     LOGGER.info("***** Executing getUsersRuntimeExceptionTest");
 
     try {
-      mockMvc.perform(get("/dragonball/users?action=RuntimeException")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users?action=RuntimeException")).andDo(print())
           .andExpect(status().isInternalServerError()).andExpect(view().name("error/error"))
           .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
     } catch (Exception e) {
@@ -278,7 +279,7 @@ public class DragonBallControllerTest {
     LOGGER.info("***** Executing getUsersNotFoundExceptionTest");
 
     try {
-      mockMvc.perform(get("/dragonball/users?action=MobileInspectionsNotFoundException"))
+      mockMvc.perform(get("/api/v1/dragonball/users?action=MobileInspectionsNotFoundException"))
           .andDo(print()).andExpect(status().isNotFound());
     } catch (Exception e) {
       e.printStackTrace();
@@ -308,7 +309,7 @@ public class DragonBallControllerTest {
 
       // Execute HTTP POST on the /dragonball/users endpoint
       mockMvc
-          .perform(post("/dragonball/users").contentType(MediaType.APPLICATION_JSON_UTF8)
+          .perform(post("/api/v1/dragonball/users").contentType(MediaType.APPLICATION_JSON_UTF8)
               .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
           .andDo(print()).andExpect(status().isCreated())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -341,7 +342,7 @@ public class DragonBallControllerTest {
 
       // Execute HTTP POST on the /dragonball/users endpoint
       mockMvc
-          .perform(post("/dragonball/users").contentType(MediaType.APPLICATION_JSON_UTF8)
+          .perform(post("/api/v1/dragonball/users").contentType(MediaType.APPLICATION_JSON_UTF8)
               .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
           .andDo(print()).andExpect(status().is4xxClientError());
 
@@ -368,7 +369,7 @@ public class DragonBallControllerTest {
           .thenReturn(dragonBallUsersList.get(0));
 
       // Execute HTTP GET on the /dragonball/users/{username} endpoint
-      mockMvc.perform(get("/dragonball/users/gokuTestMock")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users/gokuTestMock")).andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().contentType("application/json;charset=UTF-8"))
           .andExpect(jsonPath("$.id", equalTo(101)))
@@ -392,7 +393,7 @@ public class DragonBallControllerTest {
           .when(dragonBallUserServiceMock).getDragonBallUser("trunks");
 
       // Execute HTTP GET on the /dragonball/users/{username} endpoint
-      mockMvc.perform(get("/dragonball/users/trunks")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users/trunks")).andDo(print())
           .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {
@@ -418,7 +419,7 @@ public class DragonBallControllerTest {
           .when(dragonBallUserServiceMock).getDragonBallUser("trunks");
 
       // Execute HTTP GET on the /dragonball/users/{username} endpoint
-      mockMvc.perform(get("/dragonball/users/trunks")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users/trunks")).andDo(print())
           .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {
@@ -443,7 +444,7 @@ public class DragonBallControllerTest {
           .thenReturn(dragonBallUsersList.get(0));
 
       // Execute HTTP GET on the /dragonball/users/{username} endpoint
-      mockMvc.perform(get("/dragonball/users/emails/gokuTestMock@dbz.com")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users/emails/gokuTestMock@dbz.com")).andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().contentType("application/json;charset=UTF-8"))
           .andExpect(jsonPath("$.id", equalTo(101)))
@@ -478,7 +479,7 @@ public class DragonBallControllerTest {
 
       // Execute HTTP PUT on the /dragonball/users/{id} endpoint
       mockMvc
-          .perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getId())
+          .perform(put("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
               .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
           .andDo(print()).andExpect(status().isOk());
@@ -508,7 +509,7 @@ public class DragonBallControllerTest {
 
       // Execute HTTP PUT on the /dragonball/users/{id} endpoint
       mockMvc
-          .perform(put("/dragonball/users/" + dragonBallUsersList.get(0).getId())
+          .perform(put("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
               .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
           .andDo(print()).andExpect(status().is4xxClientError());
@@ -568,7 +569,7 @@ public class DragonBallControllerTest {
           .thenReturn(dragonBallUsersList.get(0));
 
       // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
-      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getId()))
+      mockMvc.perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
           .andDo(print()).andExpect(status().isOk())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
           .andExpect(content().bytes(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))));
@@ -599,7 +600,7 @@ public class DragonBallControllerTest {
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());
 
       // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
-      mockMvc.perform(delete("/dragonball/users/" + dragonBallUsersList.get(0).getId()))
+      mockMvc.perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
           .andDo(print()).andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1))
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());
