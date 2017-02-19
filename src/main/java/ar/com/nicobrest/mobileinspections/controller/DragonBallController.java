@@ -1,4 +1,4 @@
-package ar.com.nicobrest.mobileinspections.controller.v1;
+package ar.com.nicobrest.mobileinspections.controller;
 
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsForbiddenException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;

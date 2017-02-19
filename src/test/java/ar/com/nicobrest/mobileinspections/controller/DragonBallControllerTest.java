@@ -1,4 +1,4 @@
-package ar.com.nicobrest.mobileinspections.controller.v1;
+package ar.com.nicobrest.mobileinspections.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import ar.com.nicobrest.mobileinspections.controller.v1.DragonBallController;
+import ar.com.nicobrest.mobileinspections.controller.DragonBallController;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException;
 import ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException;
 import ar.com.nicobrest.mobileinspections.model.DragonBallUser;
