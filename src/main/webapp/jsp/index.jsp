@@ -5,10 +5,10 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>Mobile Inspections</title>
+  <title>Mobile Inspections JSP App</title>
 </head>
 <body>
-  <%! /* variable and method declarations */ 
+  <%! /* variable and method declarations */
   Date currentDate = new Date();
 
   Date getDate() {
@@ -22,10 +22,11 @@
   }%>
 
   <center>
-    <h2>Mobile Inspections main website</h2>
+    <h2>Mobile Inspections JSP App</h2>
   </center>
 
-  <br> The time is now <%=new java.util.Date()%> <br> 
-  
+  <br> The time is now <%=new java.util.Date()%> <br>
+
+  <a href="dragonball/users/users-list.jsp">List Users</a>
 </body>
 </html>

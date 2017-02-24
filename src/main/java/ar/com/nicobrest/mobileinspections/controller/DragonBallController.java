@@ -68,8 +68,8 @@ public class DragonBallController {
    * @author nbrest
    */
   @RequestMapping(value = "/model-and-view", method = RequestMethod.GET)
-  public ModelAndView getModelAndView(
-      @RequestParam(value = "name", required = false, defaultValue = "Goku") String name) {
+  public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
+      defaultValue = "Goku") String name) {
 
     LOGGER.info("In controller /dragonball/model-and-view (GET)");
 
@@ -79,10 +79,10 @@ public class DragonBallController {
     mv.addObject("message", message);
     mv.addObject("name", name);
 
-    LOGGER.info(
-        "In controller /dragonball/model-and-view Model keys: " + mv.getModel().keySet().toString());
-    LOGGER.info("In controller /dragonball/model-and-view Model values: "
-        + mv.getModel().values().toString());
+    LOGGER.info("In controller /dragonball/model-and-view Model keys: " + mv.getModel().keySet()
+        .toString());
+    LOGGER.info("In controller /dragonball/model-and-view Model values: " + mv.getModel().values()
+        .toString());
 
     return mv;
   }
@@ -94,9 +94,8 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<List<DragonBallUser>> getUsers(
-      @RequestParam(value = "action", required = false, defaultValue = "goku") String action)
-          throws Exception {
+  public ResponseEntity<List<DragonBallUser>> getUsers(@RequestParam(value = "action",
+      required = false, defaultValue = "goku") String action) throws Exception {
 
     LOGGER.info("In controller /dragonball/users (GET)");
 
@@ -137,18 +136,34 @@ public class DragonBallController {
   }
 
   /**
-   * /dragonball/users/{username} Returns a specific DragonBallUser from the
+   * /dragonball/users/{id} Returns a specific DragonBallUser from the
+   * repository based on the id.
+   *
+   * @author nbrest
+   */
+  @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity<DragonBallUser> getUsersId(@PathVariable Long id) {
+    LOGGER.info("In controller /dragonball/users/{id} (GET)");
+
+    DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(id);
+
+    return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
+  }
+
+  /**
+   * /dragonball/users/username/{username} Returns a specific DragonBallUser from the
    * repository based on the username.
    *
    * @author nbrest
    */
-  @RequestMapping(value = "/users/{username:.+}", method = RequestMethod.GET)
+  @RequestMapping(value = "/users/username/{username:.+}", method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<DragonBallUser> getUsersUsername(@PathVariable String username) {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first dot
-    LOGGER.info("In controller /dragonball/users/{username:.+} (GET)");
+    LOGGER.info("In controller /dragonball/users/username/{username:.+} (GET)");
 
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
 
@@ -198,8 +213,8 @@ public class DragonBallController {
     LOGGER.info("In controller /dragonball/users/{id} (PUT)");
 
     if (!id.equals(dragonBallUser.getId())) {
-      throw new MobileInspectionsForbiddenException(
-          "Id in path variable doesn´t match" + "id in request body.");
+      throw new MobileInspectionsForbiddenException("Id in path variable doesn´t match"
+          + "id in request body.");
     }
     dragonBallUserService.updateDragonBallUser(dragonBallUser);
 
@@ -235,8 +250,7 @@ public class DragonBallController {
       jsonString = mapper.writeValueAsString(obj);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-      throw new MobileInspectionsServerErrorException(
-          "Error mapping Object to a Json string", e);
+      throw new MobileInspectionsServerErrorException("Error mapping Object to a Json string", e);
     }
     return jsonString;
   }

@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Service layer for the Example endpoints.
- * 
+ *
  * @author nbrest
  */
 public class DragonBallUserService {
@@ -23,7 +23,7 @@ public class DragonBallUserService {
 
   /**
    * Getters and setters.
-   * 
+   *
    * @author nbrest
    */
   public void setDragonBallUserDao(DragonBallUserDao dragonBallUserDao) {
@@ -33,7 +33,7 @@ public class DragonBallUserService {
 
   /**
    * Getters and setters.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUserDao getDragonBallUserDao() {
@@ -43,7 +43,7 @@ public class DragonBallUserService {
 
   /**
    * Create a new DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
@@ -57,8 +57,18 @@ public class DragonBallUserService {
   }
 
   /**
+   * Returns a single instance of a DragonBallUser looking up by id.
+   *
+   * @author nbrest
+   */
+  public DragonBallUser getDragonBallUser(Long id) {
+
+    return dragonBallUserDao.getDragonBallUser(id);
+  }
+
+  /**
    * Returns a single instance of a DragonBallUser looking up by username.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getDragonBallUser(String username) {
@@ -68,7 +78,7 @@ public class DragonBallUserService {
 
   /**
    * Returns a single instance of a DragonBallUser looking up by email.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getDragonBallUserByEmail(String email) {
@@ -78,7 +88,7 @@ public class DragonBallUserService {
 
   /**
    * Updates an existing DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
@@ -93,7 +103,7 @@ public class DragonBallUserService {
 
   /**
    * Deletes an existing DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser deleteDragonBallUser(Long id) {
@@ -103,7 +113,7 @@ public class DragonBallUserService {
 
   /**
    * Returns all the DragonBallUsers in the repository.
-   * 
+   *
    * @author nbrest
    */
   public List<DragonBallUser> getAllDragonBallUsers() {

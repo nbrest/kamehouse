@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 
 /**
  * In-Memory DAO for the test endpoint dragonball.
- * 
+ *
  * @author nbrest
  */
 public class DragonBallUserDaoInMemory implements DragonBallUserDao {
@@ -33,7 +33,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Static inner class that generates Ids.
-   * 
+   *
    * @author nbrest
    */
   private static class IdGenerator {
@@ -45,7 +45,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
     /**
      * Return next number in the sequence.
-     * 
+     *
      * @author nbrest
      */
     public static Long getId() {
@@ -55,7 +55,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Constructors.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUserDaoInMemory() {
@@ -65,7 +65,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Getters and setters.
-   * 
+   *
    * @author nbrest
    */
   public void setGohanDragonBallUser(DragonBallUser gohanDragonBallUser) {
@@ -75,7 +75,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Getters and setters.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getGohanDragonBallUser() {
@@ -85,7 +85,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Getters and setters.
-   * 
+   *
    * @author nbrest
    */
   public void setGotenDragonBallUser(DragonBallUser gotenDragonBallUser) {
@@ -95,7 +95,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Getters and setters.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getGotenDragonBallUser() {
@@ -105,7 +105,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Initialize In-Memory repository.
-   * 
+   *
    * @author nbrest
    */
   private static void initRepository() {
@@ -136,7 +136,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Adds a new DragonBallUser to the repository.
-   * 
+   *
    * @author nbrest
    */
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
@@ -152,8 +152,25 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
+   * Returns a single instance of a DragonBallUser based on its id.
+   *
+   * @author nbrest
+   */
+  public DragonBallUser getDragonBallUser(Long id) {
+
+    String username = dragonBallUsernamesById.get(id);
+    DragonBallUser dragonBallUser = dragonBallUsers.get(username);
+
+    if (username == null) {
+      throw new MobileInspectionsNotFoundException(
+          "DragonBallUser with id " + id + " was not found in the repository.");
+    }
+    return dragonBallUser;
+  }
+
+  /**
    * Returns a single instance of a DragonBallUser based on its username.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getDragonBallUser(String username) {
@@ -169,7 +186,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Returns a single instance of a DragonBallUser based on its email.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getDragonBallUserByEmail(String email) {
@@ -180,7 +197,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Updates an existing DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
@@ -212,7 +229,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Deletes a DragonBallUser from the repository.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser deleteDragonBallUser(Long id) {
@@ -229,7 +246,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   /**
    * Returns all the DragonBallUsers in the repository.
-   * 
+   *
    * @author nbrest
    */
   public List<DragonBallUser> getAllDragonBallUsers() {

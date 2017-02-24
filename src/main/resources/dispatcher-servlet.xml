@@ -17,7 +17,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
  <!-- Resolve associations of views with .jsp files -->
  <bean id="viewResolver"
   class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-  <property name="prefix" value="/WEB-INF/jsp/" />
+  <property name="prefix" value="/jsp/" />
   <property name="suffix" value=".jsp" />
   <!-- <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/> -->
  </bean>

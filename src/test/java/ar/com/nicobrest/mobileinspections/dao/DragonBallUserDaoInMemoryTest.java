@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * Unit tests for the DragonBallUserInMemoryDao class.
- * 
+ *
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,7 +43,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for the autowired beans.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -64,7 +64,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for creating a DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -88,7 +88,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for creating a DragonBallUser in the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -103,13 +103,36 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by its username.
-   * 
+   * Test for getting a single DragonBallUser in the repository by its id.
+   *
    * @author nbrest
    */
   @Test
   public void getDragonBallUserTest() {
     LOGGER.info("***** Executing getDragonBallUserTest");
+
+    try {
+      DragonBallUser userByUsername = dragonBallUserDao.getDragonBallUser("goku");
+      DragonBallUser user = dragonBallUserDao.getDragonBallUser(userByUsername.getId());
+
+      LOGGER.info("user: " + user.getUsername());
+
+      assertNotNull(user);
+      assertEquals(userByUsername.getId().toString(), user.getId().toString());
+    } catch (MobileInspectionsNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+
+  /**
+   * Test for getting a single DragonBallUser in the repository by its username.
+   *
+   * @author nbrest
+   */
+  @Test
+  public void getDragonBallUserByUsernameTest() {
+    LOGGER.info("***** Executing getDragonBallUserByUsernameTest");
 
     try {
       DragonBallUser user = dragonBallUserDao.getDragonBallUser("goku");
@@ -126,7 +149,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by email.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -141,11 +164,11 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
-  public void getDragonBallUserNotFoundExceptionTest() {
+  public void getDragonBallUserByUsernameNotFoundExceptionTest() {
     LOGGER.info("***** Executing getDragonBallUserNotFoundExceptionTest");
 
     thrown.expect(MobileInspectionsNotFoundException.class);
@@ -155,7 +178,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for updating an existing user in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -188,7 +211,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for updating an existing user in the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -204,7 +227,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for deleting an existing user from the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -232,7 +255,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for deleting an existing user from the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -246,7 +269,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting all the DragonBallUsers in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test

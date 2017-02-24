@@ -30,7 +30,7 @@ import javax.persistence.Query;
 
 /**
  * Unit tests for the DragonBallUserDaoJpa class.
- * 
+ *
  * @author nbrest
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,7 +51,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Clear data from the repository before each test.
-   * 
+   *
    * @author nbrest
    */
   @Before
@@ -69,7 +69,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for creating a DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -93,7 +93,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for creating a DragonBallUser in the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -112,13 +112,38 @@ public class DragonBallUserDaoJpaTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository.
-   * 
+   * Test for getting a single DragonBallUser in the repository by id.
+   *
    * @author nbrest
    */
   @Test
   public void getDragonBallUserTest() {
     LOGGER.info("***** Executing getDragonBallUserTest");
+
+    try {
+      DragonBallUser dbUser = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
+      dragonBallUserDaoJpa.createDragonBallUser(dbUser);
+      DragonBallUser userByUsername = dragonBallUserDaoJpa.getDragonBallUser("goku");
+      DragonBallUser user = dragonBallUserDaoJpa.getDragonBallUser(userByUsername.getId());
+
+      LOGGER.info("user: " + user.getUsername());
+
+      assertNotNull(user);
+      assertEquals(userByUsername.getId().toString(), user.getId().toString());
+    } catch (MobileInspectionsNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+
+  /**
+   * Test for getting a single DragonBallUser in the repository by username.
+   *
+   * @author nbrest
+   */
+  @Test
+  public void getDragonBallUserByUsernameTest() {
+    LOGGER.info("***** Executing getDragonBallUserByUsernameTest");
 
     try {
       DragonBallUser dbUser = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
@@ -138,7 +163,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -152,7 +177,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by its email.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -178,7 +203,7 @@ public class DragonBallUserDaoJpaTest {
   /**
    * Test for getting a single DragonBallUser in the repository by its email
    * Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -193,7 +218,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for updating an existing user in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -229,7 +254,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for updating an existing user in the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -245,7 +270,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for updating an existing user in the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -254,7 +279,7 @@ public class DragonBallUserDaoJpaTest {
 
     thrown.expect(MobileInspectionsServerErrorException.class);
     thrown.expectMessage("PersistenceException in updateDragonBallUser");
-    
+
     try {
       DragonBallUser userToInsert = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
       dragonBallUserDaoJpa.createDragonBallUser(userToInsert);
@@ -267,7 +292,7 @@ public class DragonBallUserDaoJpaTest {
         sb.append("goku");
       }
       String username = sb.toString();
-      
+
       DragonBallUser modifiedUser = new DragonBallUser(originalUser.getId(), username,
           "gokuUpdated@dbz.com", 51, 52, 53);
 
@@ -277,10 +302,10 @@ public class DragonBallUserDaoJpaTest {
       fail("Caught unexpected exception.");
     }
   }
-  
+
   /**
    * Test for deleting an existing user from the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -308,7 +333,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for deleting an existing user from the repository Exception flows.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -322,7 +347,7 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting all the DragonBallUsers in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test

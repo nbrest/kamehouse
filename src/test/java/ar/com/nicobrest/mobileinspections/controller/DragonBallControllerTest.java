@@ -354,7 +354,36 @@ public class DragonBallControllerTest {
   }
 
   /**
-   * /dragonball/users/{username} (GET) Tests getting a specific user from the
+   * /dragonball/users/{id} (GET) Tests getting a specific user from the
+   * repository.
+   *
+   * @author nbrest
+   */
+  @Test
+  public void getUsersIdTest() {
+    LOGGER.info("***** Executing getUsersIdTest");
+
+    try {
+      when(dragonBallUserServiceMock.getDragonBallUser(101L))
+          .thenReturn(dragonBallUsersList.get(0));
+
+      mockMvc.perform(get("/api/v1/dragonball/users/101")).andDo(print())
+          .andExpect(status().isOk())
+          .andExpect(content().contentType("application/json;charset=UTF-8"))
+          .andExpect(jsonPath("$.id", equalTo(101)))
+          .andExpect(jsonPath("$.username", equalTo("gokuTestMock")))
+          .andExpect(jsonPath("$.email", equalTo("gokuTestMock@dbz.com")))
+          .andExpect(jsonPath("$.age", equalTo(49)))
+          .andExpect(jsonPath("$.powerLevel", equalTo(30)))
+          .andExpect(jsonPath("$.stamina", equalTo(1000)));
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("unexpected exception.");
+    }
+  }
+
+  /**
+   * /dragonball/users/username/{username} (GET) Tests getting a specific user from the
    * repository.
    *
    * @author nbrest
@@ -364,12 +393,10 @@ public class DragonBallControllerTest {
     LOGGER.info("***** Executing getUsersUsernameTest");
 
     try {
-      // Setup mock object dragonBallUserServiceMock
       when(dragonBallUserServiceMock.getDragonBallUser("gokuTestMock"))
           .thenReturn(dragonBallUsersList.get(0));
 
-      // Execute HTTP GET on the /dragonball/users/{username} endpoint
-      mockMvc.perform(get("/api/v1/dragonball/users/gokuTestMock")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users/username/gokuTestMock")).andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().contentType("application/json;charset=UTF-8"))
           .andExpect(jsonPath("$.id", equalTo(101)))
@@ -385,15 +412,11 @@ public class DragonBallControllerTest {
 
     // Exception flows
     try {
-      // Reset mock objects before each test
       Mockito.reset(dragonBallUserServiceMock);
-
-      // Setup mock object dragonBallUserServiceMock
       Mockito.doThrow(new MobileInspectionsNotFoundException("User trunks not found"))
           .when(dragonBallUserServiceMock).getDragonBallUser("trunks");
 
-      // Execute HTTP GET on the /dragonball/users/{username} endpoint
-      mockMvc.perform(get("/api/v1/dragonball/users/trunks")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users/username/trunks")).andDo(print())
           .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {
@@ -403,7 +426,7 @@ public class DragonBallControllerTest {
   }
 
   /**
-   * /dragonball/users/{username} (GET) Tests user not found when getting a
+   * /dragonball/users/username/{username} (GET) Tests user not found when getting a
    * specific user from the repository.
    *
    * @author nbrest
@@ -414,12 +437,10 @@ public class DragonBallControllerTest {
 
     // Exception flows
     try {
-      // Setup mock object dragonBallUserServiceMock
       Mockito.doThrow(new MobileInspectionsNotFoundException("User trunks not found"))
           .when(dragonBallUserServiceMock).getDragonBallUser("trunks");
 
-      // Execute HTTP GET on the /dragonball/users/{username} endpoint
-      mockMvc.perform(get("/api/v1/dragonball/users/trunks")).andDo(print())
+      mockMvc.perform(get("/api/v1/dragonball/users/username/trunks")).andDo(print())
           .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {

@@ -22,7 +22,9 @@
     <hsql.version>2.3.2</hsql.version>
     <jackson.version>2.4.3</jackson.version>
     <javax.servlet.version>3.0.1</javax.servlet.version>
+    <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>
     <jcloverslf4j.version>1.7.13</jcloverslf4j.version>
+    <jstl.version>1.2</jstl.version>
     <jsonpath.version>0.8.1</jsonpath.version>
     <junit.version>4.12</junit.version>
     <logback.version>1.1.2</logback.version>
@@ -44,6 +46,20 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>${javax.servlet.version}</version>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- JSP -->
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>javax.servlet.jsp-api</artifactId>
+      <version>${javax.servlet.jsp.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>${jstl.version}</version>
     </dependency>
 
     <!-- Apache -->

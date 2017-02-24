@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Unit tests for the DragonBallUserService class.
- * 
+ *
  * @author nbrest
  */
 public class DragonBallUserServiceTest {
@@ -43,7 +43,7 @@ public class DragonBallUserServiceTest {
 
   /**
    * Resets mock objects and initializes test repository.
-   * 
+   *
    * @author nbrest
    */
   @Before
@@ -87,7 +87,7 @@ public class DragonBallUserServiceTest {
 
   /**
    * Test for calling the service to create a DragonBallUser in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -110,13 +110,41 @@ public class DragonBallUserServiceTest {
 
   /**
    * Test for calling the service to get a single DragonBallUser in the
-   * repository.
-   * 
+   * repository by id.
+   *
    * @author nbrest
    */
   @Test
   public void getDragonBallUserTest() {
     LOGGER.info("***** Executing getDragonBallUserTest");
+
+    // Normal flow
+    try {
+      when(dragonBallUserDaoMock.getDragonBallUser(1000L))
+          .thenReturn(dragonBallUsersList.get(0));
+
+      DragonBallUser user = dragonBallUserService.getDragonBallUser(1000L);
+
+      LOGGER.info("user: " + user.getUsername());
+
+      assertNotNull(user);
+      assertEquals("1000", user.getId().toString());
+      verify(dragonBallUserDaoMock, times(1)).getDragonBallUser(1000L);
+    } catch (MobileInspectionsNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+
+  /**
+   * Test for calling the service to get a single DragonBallUser in the
+   * repository by username.
+   *
+   * @author nbrest
+   */
+  @Test
+  public void getDragonBallUserByUsernameTest() {
+    LOGGER.info("***** Executing getDragonBallUserByUsernameTest");
 
     // Normal flow
     try {
@@ -139,7 +167,7 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to get a single DragonBallUser in the
    * repository by its email.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -167,7 +195,7 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to update an existing DragonBallUser in the
    * repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -191,7 +219,7 @@ public class DragonBallUserServiceTest {
 
   /**
    * Test for calling the service to delete an existing user in the repository.
-   * 
+   *
    * @author nbrest
    */
   @Test
@@ -214,7 +242,7 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to get all the DragonBallUsers in the
    * repository.
-   * 
+   *
    * @author nbrest
    */
   @Test

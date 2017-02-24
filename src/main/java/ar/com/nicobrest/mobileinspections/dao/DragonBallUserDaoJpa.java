@@ -16,7 +16,7 @@ import javax.persistence.Query;
 
 /**
  * JPA DAO for the DragonBallUser test entities.
- * 
+ *
  * @author nbrest
  */
 public class DragonBallUserDaoJpa implements DragonBallUserDao {
@@ -26,7 +26,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Getters and Setters.
-   * 
+   *
    * @author nbrest
    */
   public EntityManagerFactory getEntityManagerFactory() {
@@ -36,7 +36,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Getters and Setters.
-   * 
+   *
    * @author nbrest
    */
   public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
@@ -46,7 +46,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Get the EntityManager.
-   * 
+   *
    * @author nbrest
    */
   public EntityManager getEntityManager() {
@@ -56,7 +56,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Inserts a DragonBallUser to the repository.
-   * 
+   *
    * @author nbrest
    */
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
@@ -65,7 +65,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     try {
       em.getTransaction().begin();
       em.persist(dragonBallUser);
-      em.getTransaction().commit(); 
+      em.getTransaction().commit();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       // Iterate through the causes of the PersistenceException to identify and
@@ -87,8 +87,44 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   }
 
   /**
+   * Gets a DragonBallUser from the repository looking up by id.
+   *
+   * @author nbrest
+   */
+  public DragonBallUser getDragonBallUser(Long id) {
+
+    EntityManager em = getEntityManager();
+    DragonBallUser dragonBallUser = null;
+    try {
+      em.getTransaction().begin();
+      Query query = em
+          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.id=:pId");
+      query.setParameter("pId", id);
+      dragonBallUser = (DragonBallUser) query.getSingleResult();
+      em.getTransaction().commit();
+    } catch (PersistenceException pe) {
+      pe.printStackTrace();
+      // Iterate through the causes of the PersistenceException to identify and
+      // return the correct exception.
+      Throwable cause = pe;
+      while (cause != null) {
+        if (cause instanceof javax.persistence.NoResultException) {
+          throw new MobileInspectionsNotFoundException(
+              "DragonBallUser with id " + id + " was not found in the repository.");
+        }
+        cause = cause.getCause();
+      }
+      throw new MobileInspectionsServerErrorException("PersistenceException in getDragonBallUser",
+          pe);
+    } finally {
+      em.close();
+    }
+    return dragonBallUser;
+  }
+
+  /**
    * Gets a DragonBallUser from the repository looking up by username.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getDragonBallUser(String username) {
@@ -101,7 +137,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
           .createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
       query.setParameter("pUsername", username);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
-      em.getTransaction().commit(); 
+      em.getTransaction().commit();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
       // Iterate through the causes of the PersistenceException to identify and
@@ -124,7 +160,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Gets a DragonBallUser from the repository looking up by email.
-   * 
+   *
    * @author nbrest
    */
   public DragonBallUser getDragonBallUserByEmail(String email) {
@@ -159,7 +195,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Updates a DragonBallUser on the repository.
-   * 
+   *
    * @author nbrest
    */
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
@@ -201,7 +237,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Deletes a DragonBallUser from the repository.
-   * 
+   *
    * @author nbrest
    * @return DragonBallUser
    */
@@ -238,7 +274,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
   /**
    * Gets all the DragonBallUsers from the repository.
-   * 
+   *
    * @author nbrest
    */
   public List<DragonBallUser> getAllDragonBallUsers() {
