@@ -6,7 +6,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Edit Form</title>
+<title>Edit DragonBallUser Form</title>
+<link rel="stylesheet" href="../../lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../css/app.css" />
 </head>
 <body>
   <%-- TODO: I had to use the username as parameter because the id is of type Long, and
@@ -17,35 +19,81 @@
   <c:set var="username" value="${param.username}"></c:set>
   <c:set var="dragonBallUser" value="${dragonBallUserService.getDragonBallUser(username)}"></c:set>
 
-  <h1>Edit Form</h1>
-  <form action="users-edit-action.jsp" method="post">
-    <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
-    <table>
-      <tr>
-        <td>Username:</td>
-        <td><input type="text" name="username" value="${dragonBallUser.getUsername()}" /></td>
-      </tr>
-      <tr>
-        <td>Email:</td>
-        <td><input type="email" name="email" value="${dragonBallUser.getEmail()}" /></td>
-      </tr>
-      <tr>
-        <td>Age:</td>
-        <td><input type="text" name="age" value="${dragonBallUser.getAge()}" /></td>
-      </tr>
-      <tr>
-        <td>Power Level:</td>
-        <td><input type="text" name="powerLevel" value="${dragonBallUser.getPowerLevel()}" /></td>
-      </tr>
-      <tr>
-        <td>Stamina:</td>
-        <td><input type="text" name="stamina" value="${dragonBallUser.getStamina()}" /></td>
-      </tr>
-      <tr>
-        <td colspan="2"><input type="submit" value="Edit User" /></td>
-      </tr>
-    </table>
-  </form>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="lead">DragonBallUser Edit Form </span>
+    </div>
+    <div class="formcontainer">
+      <form action="users-edit-action.jsp" method="post" class="form-horizontal mi-form-horizontal">
+        <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable" for="username">Username</label>
+            <div class="col-md-7">
+              <input type="text" name="username" class="form-control input-sm"
+                value="${dragonBallUser.getUsername()}" />
+              </td>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable" for="email">Email</label>
+            <div class="col-md-7">
+              <input type="email" name="email" class="form-control input-sm"
+                value="${dragonBallUser.getEmail()}" />
+              </td>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable" for="age">Age</label>
+            <div class="col-md-7">
+              <input type="text" name="age" class="form-control input-sm"
+                value="${dragonBallUser.getAge()}" />
+              </td>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable" for="powerLevel">Power Level</label>
+            <div class="col-md-7">
+              <input type="text" name="powerLevel" class="form-control input-sm"
+                value="${dragonBallUser.getPowerLevel()}" />
+              </td>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable" for="stamina">Stamina</label>
+            <div class="col-md-7">
+              <input type="text" name="stamina" class="form-control input-sm"
+                value="${dragonBallUser.getStamina()}" />
+              </td>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-actions floatRight">
+            <input type="submit" value="Submit" class="btn btn-primary btn-sm" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <input type="button" value="Home" class="btn btn-basic custom-width" style="margin-right:5px"
+    onclick="window.location.href='../../'">
+  <input type="button" value="List DragonBallUsers" class="btn btn-primary custom-width"
+    onclick="window.location.href='users-list.jsp'">
 
 </body>
 </html>

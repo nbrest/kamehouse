@@ -6,6 +6,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <title>Mobile Inspections JSP App</title>
+  <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
 </head>
 <body>
   <%! /* variable and method declarations */
@@ -25,8 +26,9 @@
     <h2>Mobile Inspections JSP App</h2>
   </center>
 
-  <br> The time is now <%=new java.util.Date()%> <br>
+  <br> The time is now <%=new java.util.Date()%> <br><br>
 
-  <a href="dragonball/users/users-list.jsp">List Users</a>
+  <input type="button" value="List DragonBallUsers" class="btn btn-primary custom-width"
+    onclick="window.location.href='dragonball/users/users-list.jsp'">
 </body>
 </html>
