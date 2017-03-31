@@ -1,16 +1,26 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Mobile Inspections Home</title>
-<link rel="stylesheet" href="app/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/general.css" />
+<link rel="stylesheet" href="css/header.css" />
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="css/footer.css" />
 </head>
 <body>
-  <center>
-    <h1>Mobile Inspections Home</h1>
-  </center>
-
-  <input type="button" value="Jsp App" class="btn btn-primary custom-width"
-    style="margin-right: 5px" onclick="window.location.href='jsp'">
-  <input type="button" value="Angular App" class="btn btn-primary custom-width"
-    onclick="window.location.href='app'">
+  <div id="headerContainer"></div>
+  <main>
+  <div class="container">
+    <input type="button" value="Jsp App" class="btn btn-primary custom-width"
+      style="margin-right: 5px" onclick="window.location.href='jsp'"> <input type="button"
+      value="Angular App" class="btn btn-primary custom-width" onclick="window.location.href='app'">
+  </div>
+  </main>
+  <div id="footerContainer"></div>
+  <script src="lib/js/jquery-2.0.3.min.js"></script>
+  <script src="js/importHeaderFooter.js"></script>
+  <script type="text/javascript">importHeaderAndFooter()
+  </script>
 </body>
 </html>

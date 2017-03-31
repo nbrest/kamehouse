@@ -1,0 +1,38 @@
+/* FOOTER STYLES --------------------------------------------------*/
+footer {
+  min-width: 855px;
+  clear: both;
+  overflow: auto;
+}
+
+footer .container {
+  margin-top: 20px;
+  max-width: 855px;
+  margin: auto;
+  overflow: hidden;
+}
+
+footer .container .contact {
+  float: left;
+  width: 470px;
+}
+
+footer .container .contact .h4-title {
+  color: #2477a8;
+  font-style: italic;
+}
+
+footer .container .sitemap {
+  font-size: large;
+  text-align: center;
+  float: right;
+  width: 345px;
+}
+
+footer .container .sitemap .sitemap-left {
+  float: left;
+}
+
+footer .container .sitemap .sitemap-right {
+  float: right;
+}

@@ -1,0 +1,53 @@
+/* BASIC ELEMENTS STYLES ------------------------------------------*/
+p {
+  font-weight: bold;
+  margin: 10px;
+}
+
+ul {
+  margin:20px;
+  list-style: disc outside none;
+  list-style-type:circle;
+}
+
+li {
+  display: list-item;
+}
+
+a {
+  font-weight: bold;
+}
+
+a:link {
+  color: #2477a8;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #2477a8;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+/* HEADERS STYLES -------------------------------------------------*/
+h1 {
+  font-style: italic;
+  font-family: "Arial Black", Gadget, sans-serif;
+}
+
+h2 {
+  font-family: "Courier New", Courier, monospace;
+}
+
+h3 {
+  font-family: "Courier New", Courier, monospace;
+}
+
+h5 {
+    font-weight: bold;
+    font-family: "Courier New", Courier, monospace;
+}

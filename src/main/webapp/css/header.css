@@ -1,0 +1,29 @@
+/*  HEADER STYLES -------------------------------------------------*/
+header {
+  min-width: 855px;
+  background: #d3d7cf;
+  overflow: auto;
+}
+
+header .container {
+  max-width: 855px;
+  margin:auto;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+header .container .header-title {
+  float: left;
+  width: 570px;
+  color: #2477a8;
+}
+
+header .container .header-nav {
+    float: right;
+    width: 245px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: large;
+}
+

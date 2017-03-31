@@ -1,0 +1,108 @@
+/* GENERAL SITE STRUCTURE STYLES ----------------------------------*/
+body {
+  background: #d4d4d4;
+  font-size: 100%; /* sets the base font size */
+}
+
+main {
+  min-width: 855px;
+}
+
+main .container {
+  max-width: 855px;
+  margin:auto;
+  overflow: hidden;
+}
+
+/* MAIN STYLES ----------------------------------------------------*/
+main {
+  background: white;
+  overflow: auto;
+  min-height: 450px;
+}
+
+main .container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+main .container .main-content {
+  float: left;
+  width: 570px;
+}
+
+main .container .main-image {
+  float: right;
+  width: 285px;
+}
+
+main .container .tabs a span {
+  display: inline-block;
+  border-radius: 5px 5px 0 0;
+  width: 100px;
+  margin-right: 10px;
+  text-align: center;
+  background: #ddd;
+  padding: 5px;
+}
+
+main .container .tabs a span.active {
+  background: #eee;
+}
+
+main .container .tabs-content {
+  background: #eee;
+  min-height: 350px;
+  border-radius: 0 5px 5px 5px;
+}
+
+main .container .tabs-content ul {
+  margin-top: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 0;
+}
+
+main .container .tabs-content .tags-ul {
+  margin-top: 0;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0;
+}
+
+main .container .tabs-content ul li {
+  background: #dde8a9;
+  border-radius: 5px 5px 5px 5px;
+  margin: 10px;
+  list-style: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+main .container .tabs-content input {
+  border-radius: 5px 5px 5px 5px;
+  margin-top: 30px;
+  margin-left: 5px;
+  margin-right: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+main .container .tabs-content label {
+  margin-left: 30px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+main .container .tabs-content h3 {
+  background: #d2efc0;
+  border-radius: 5px 5px 5px 5px;
+  margin-left: 30px;
+  margin-right: 30px;
+  font-weight: bold;
+}
+
+main .container .tabs-content .tag-div {
+  padding-top: 30px;
+}
+
