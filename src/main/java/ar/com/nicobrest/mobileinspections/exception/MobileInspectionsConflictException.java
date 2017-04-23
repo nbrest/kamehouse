@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * MobileInspectionsConflictException class.
- * 
+ *
  * @author nbrest
  */
-@ResponseStatus(HttpStatus.CONFLICT)
+//@ResponseStatus(HttpStatus.CONFLICT)
 public class MobileInspectionsConflictException extends MobileInspectionsException {
 
   private static final long serialVersionUID = 9L;

@@ -1,10 +1,9 @@
 function importHeaderAndFooter(path) {
 
-  console.log("Loading header and footer.");
-
   if (path == undefined || path == null) {
     path = "";
   }
+  console.log("Loading header and footer from path: " + path);
 
   $(function(){
     $("#headerContainer").load(path + "header.html");

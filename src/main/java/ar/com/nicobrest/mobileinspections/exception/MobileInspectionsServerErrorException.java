@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * MobileInspectionsServerErrorException class.
- * 
+ *
  * @author nbrest
  */
-@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class MobileInspectionsServerErrorException extends MobileInspectionsException {
 
   private static final long serialVersionUID = 9L;

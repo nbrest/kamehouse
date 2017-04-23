@@ -6,7 +6,7 @@
 </head>
 <body>
   <center>
-    <h2>MobileInspections 400 Bad Request</h2> 
+    <h2>MobileInspections 400 Bad Request</h2>
   </center>
 </body>
 </html>

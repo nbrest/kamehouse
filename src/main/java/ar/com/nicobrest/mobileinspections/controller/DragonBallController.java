@@ -75,7 +75,7 @@ public class DragonBallController {
 
     String message = "message: dragonball ModelAndView!";
 
-    ModelAndView mv = new ModelAndView("dragonball/model-and-view");
+    ModelAndView mv = new ModelAndView("jsp/dragonball/model-and-view.jsp");
     mv.addObject("message", message);
     mv.addObject("name", name);
 

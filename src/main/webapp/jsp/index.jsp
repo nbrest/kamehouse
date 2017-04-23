@@ -30,7 +30,8 @@
 
     <br> The time is now
     <%=new java.util.Date()%>
-    <br> <br> <input type="button" value="List DragonBallUsers"
+    <br> <br> <input type="button" value="Home" class="btn btn-basic custom-width"
+      onclick="window.location.href='../'"> <input type="button" value="List DragonBallUsers"
       class="btn btn-primary custom-width"
       onclick="window.location.href='dragonball/users/users-list.jsp'">
   </div>
@@ -38,7 +39,7 @@
   <div id="footerContainer"></div>
   <script src="../lib/js/jquery-2.0.3.min.js"></script>
   <script src="../js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("../")
+  <script type="text/javascript">importHeaderAndFooter("../html/")
   </script>
 </body>
 </html>

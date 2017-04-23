@@ -107,7 +107,7 @@
   <div id="footerContainer"></div>
   <script src="../../../lib/js/jquery-2.0.3.min.js"></script>
   <script src="../../../js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("../../../")
+  <script type="text/javascript">importHeaderAndFooter("../../../html/")
   </script>
 </body>
 </html>

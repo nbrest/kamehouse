@@ -11,10 +11,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   <!-- Root Application Context for the entire web application -->
 
   <import resource="applicationContext-persistence.xml" />
-  <import resource="applicationContext-web.xml" />
 
   <!-- Example endpoints beans -->
-
   <bean id="dragonBallUserService"
     class="ar.com.nicobrest.mobileinspections.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDaoJpa" />
