@@ -1,6 +1,6 @@
-<%@ page isErrorPage="true" %>
+<%@ page isErrorPage="true"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*,java.text.*"%>
+<%@ page import="java.util.*,java.text.*,java.io.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,10 +18,22 @@
     <center>
       <h2>MobileInspections 404 Not Found</h2>
     </center>
-    <% if (exception != null) {%>
-      <%= exception.getMessage() %><br>
-      <%exception.printStackTrace();
-    }%>
+    <%
+      if (exception != null) {
+    %>
+    Message:
+    <%=exception.getMessage()%>
+
+    StackTrace:
+    <%
+      StringWriter stringWriter = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(stringWriter);
+            exception.printStackTrace(printWriter);
+            out.println(stringWriter);
+            printWriter.close();
+            stringWriter.close();
+          }
+    %>
   </div>
   </main>
   <div id="footerContainer"></div>

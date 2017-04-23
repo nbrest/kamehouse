@@ -165,8 +165,8 @@ public class DragonBallControllerTest {
 
     try {
       mockMvc.perform(get("/api/v1/dragonball/model-and-view")).andDo(print()).andExpect(status().isOk())
-          .andExpect(view().name("dragonball/model-and-view"))
-          .andExpect(forwardedUrl("dragonball/model-and-view"))
+          .andExpect(view().name("jsp/dragonball/model-and-view.jsp"))
+          .andExpect(forwardedUrl("jsp/dragonball/model-and-view.jsp"))
           .andExpect(model().attribute("name", isA(String.class)))
           .andExpect(model().attribute("name", equalTo("Goku")))
           .andExpect(model().attribute("message", equalTo("message: dragonball ModelAndView!")));
@@ -348,8 +348,10 @@ public class DragonBallControllerTest {
 
       verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUsersList.get(0));
     } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
+      if (!(e.getCause() instanceof MobileInspectionsConflictException)) {
+        e.printStackTrace();
+        fail("Caught unexpected exception.");
+      }
     }
   }
 
@@ -420,8 +422,10 @@ public class DragonBallControllerTest {
           .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
+      if (!(e.getCause() instanceof MobileInspectionsNotFoundException)) {
+        e.printStackTrace();
+        fail("Caught unexpected exception.");
+      }
     }
   }
 
@@ -444,8 +448,10 @@ public class DragonBallControllerTest {
           .andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
+      if (!(e.getCause() instanceof MobileInspectionsNotFoundException)) {
+        e.printStackTrace();
+        fail("Caught unexpected exception.");
+      }
     }
   }
 
@@ -536,8 +542,10 @@ public class DragonBallControllerTest {
           .andDo(print()).andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUsersList.get(0));
     } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
+      if (!(e.getCause() instanceof MobileInspectionsNotFoundException)) {
+        e.printStackTrace();
+        fail("Caught unexpected exception.");
+      }
     }
   }
 
@@ -626,8 +634,10 @@ public class DragonBallControllerTest {
       verify(dragonBallUserServiceMock, times(1))
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());
     } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
+      if (!(e.getCause() instanceof MobileInspectionsNotFoundException)) {
+        e.printStackTrace();
+        fail("Caught unexpected exception.");
+      }
     }
   }
 
