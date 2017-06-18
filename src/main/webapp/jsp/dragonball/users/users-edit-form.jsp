@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <input type="button" value="Home" class="btn btn-basic custom-width" style="margin-right: 5px"
+    <input type="button" value="Jsp Home" class="btn btn-basic custom-width" style="margin-right: 5px"
       onclick="window.location.href='../../'"> <input type="button"
       value="List DragonBallUsers" class="btn btn-primary custom-width"
       onclick="window.location.href='users-list.jsp'">
