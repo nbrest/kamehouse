@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mobile Inspections Home</title>
+<title>BaseApp Home</title>
 <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="css/general.css" />
 <link rel="stylesheet" href="css/header.css" />

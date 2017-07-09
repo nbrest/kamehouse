@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ar.com.nicobrest</groupId>
-  <artifactId>mobile-inspections</artifactId>
+  <groupId>com.nicobrest</groupId>
+  <artifactId>java-web-base-app</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Java Web App Mobile Inspections</name>
-  <url>https://www.nicobrest.com.ar</url>
+  <name>Java Web App - Base App</name>
+  <url>https://www.nicobrest.com</url>
 
   <properties>
     <!-- Updated versions on 2016/02/05 -->
@@ -243,7 +243,7 @@
   </dependencies>
 
   <build>
-    <finalName>mobile-inspections</finalName>
+    <finalName>base-app</finalName>
     <plugins>
       <!-- maven war plugin: disable build failure because of no web.xml -->
       <plugin>

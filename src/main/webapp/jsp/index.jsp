@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Mobile Inspections JSP App</title>
+<title>BaseApp JSP App</title>
 <link rel="stylesheet" href="../lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../css/general.css" />
 <link rel="stylesheet" href="../css/header.css" />

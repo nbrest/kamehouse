@@ -19,13 +19,13 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   
   <!-- Example endpoints beans -->
   <bean id="dragonBallUserService" name="dragonBallUserService" 
-    class="ar.com.nicobrest.mobileinspections.service.DragonBallUserService">
+    class="com.nicobrest.baseapp.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDao" />
   </bean> 
 
   <bean id="dragonBallUserDao" name="dragonBallUserDao" class="org.mockito.Mockito"
     factory-method="mock">
-    <constructor-arg value="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDao" />
+    <constructor-arg value="com.nicobrest.baseapp.dao.DragonBallUserDao" />
   </bean>  
     
 </beans>

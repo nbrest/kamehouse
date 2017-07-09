@@ -16,12 +16,12 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
    
   <bean id="dragonBallUserService" name="dragonBallUserService" class="org.mockito.Mockito"
     factory-method="mock">
-    <constructor-arg value="ar.com.nicobrest.mobileinspections.service.DragonBallUserService" />
+    <constructor-arg value="com.nicobrest.baseapp.service.DragonBallUserService" />
   </bean>  
   
   <bean id="dragonBallUserDao" name="dragonBallUserDao" class="org.mockito.Mockito"
     factory-method="mock">
-    <constructor-arg value="ar.com.nicobrest.mobileinspections.dao.DragonBallUserDao" />
+    <constructor-arg value="com.nicobrest.baseapp.dao.DragonBallUserDao" />
   </bean>
     
 </beans>

@@ -10,10 +10,10 @@
   </appender>
 
   <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>logs/mobileInspections.log</File>
+    <File>logs/baseApp.log</File>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- daily rollover -->
-      <FileNamePattern>logs/mobileInspections.%d{yyyy-MM-dd}.log</FileNamePattern>
+      <FileNamePattern>logs/baseApp.%d{yyyy-MM-dd}.log</FileNamePattern>
       <!-- keep 30 days' worth of history -->
       <maxHistory>30</maxHistory>     
     </rollingPolicy>
@@ -25,7 +25,7 @@
 <!--   <appender name="minuteRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
 <!--     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
       <!-- rollover every minute -->
-<!--       <FileNamePattern>logs/mobileInspections-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern> -->
+<!--       <FileNamePattern>logs/baseApp-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern> -->
       <!-- keep 30 minutes' worth of history -->
 <!--       <maxHistory>30</maxHistory>      -->
 <!--     </rollingPolicy> -->
@@ -34,7 +34,7 @@
 <!--     </encoder>       -->
 <!--   </appender> -->
 
-  <logger name="ar.com.nicobrest.logger" additivity="false">
+  <logger name="com.nicobrest" additivity="false">
     <level value="DEBUG" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <!-- <appender-ref ref="minuteRollingFileAppender"/> -->

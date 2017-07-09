@@ -1,23 +1,23 @@
 -- ********************************
--- *** Last updated: 2016/08/07 ***
+-- *** Last updated: 2017/07/02 ***
 -- ********************************
 
 -- Create schema:
-DROP SCHEMA IF EXISTS mobileInsp;
-CREATE SCHEMA mobileInsp;
+DROP SCHEMA IF EXISTS baseApp;
+CREATE SCHEMA baseApp;
 
 -- Use schema:
-USE mobileInsp;
+USE baseApp;
 
 -- Create user:
 -- Use '%' instead of 'localhost' to allow to connect remotely with this user
-DROP USER IF EXISTS 'mobileInspUser'@'localhost';
-CREATE USER 'mobileInspUser'@'localhost' identified by 'mobileInspPwd';
+DROP USER IF EXISTS 'baseAppUser'@'localhost';
+CREATE USER 'baseAppUser'@'localhost' identified by 'baseAppPwd';
 
 -- Grant privileges:
-GRANT ALL PRIVILEGES ON mobileInsp.* TO 'mobileInspUser'@'localhost';
+GRANT ALL PRIVILEGES ON baseApp.* TO 'baseAppUser'@'localhost';
 
--- mobile-inspections Tables for mysql:
+-- Tables for mysql:
 DROP TABLE IF EXISTS dragonballuser;
 DROP TABLE IF EXISTS hibernate_sequence;
 

@@ -9,7 +9,7 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
   <!-- Application Context specific for the dispatcher-servlet -->
-  <context:component-scan base-package="ar.com.nicobrest.mobileinspections.controller" />
+  <context:component-scan base-package="com.nicobrest.baseapp.controller" />
 
   <mvc:annotation-driven />
 
@@ -23,15 +23,15 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
   <property name="exceptionMappings">
    <props>
     <prop
-     key="ar.com.nicobrest.mobileinspections.exception.MobileInspectionsBadRequestException">error/400</prop>
+     key="com.nicobrest.baseapp.exception.BaseAppBadRequestException">error/400</prop>
     <prop
-     key="ar.com.nicobrest.mobileinspections.exception.MobileInspectionsConflictException">error/409</prop>
+     key="com.nicobrest.baseapp.exception.BaseAppConflictException">error/409</prop>
     <prop
-     key="ar.com.nicobrest.mobileinspections.exception.MobileInspectionsForbiddenException">error/403</prop>
+     key="com.nicobrest.baseapp.exception.BaseAppForbiddenException">error/403</prop>
     <prop
-     key="ar.com.nicobrest.mobileinspections.exception.MobileInspectionsNotFoundException">error/404</prop>
+     key="com.nicobrest.baseapp.exception.BaseAppNotFoundException">error/404</prop>
     <prop
-     key="ar.com.nicobrest.mobileinspections.exception.MobileInspectionsServerErrorException">error/500</prop>
+     key="com.nicobrest.baseapp.exception.BaseAppServerErrorException">error/500</prop>
     <prop key="java.lang.Exception">error/error</prop>
     <prop key="java.lang.RuntimeException">error/error</prop>
    </props>

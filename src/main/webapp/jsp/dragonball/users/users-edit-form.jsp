@@ -1,6 +1,6 @@
 <%@ page import="java.util.*"%>
-<%@ page import="ar.com.nicobrest.mobileinspections.service.DragonBallUserService"%>
-<%@ page import="ar.com.nicobrest.mobileinspections.model.DragonBallUser"%>
+<%@ page import="com.nicobrest.baseapp.service.DragonBallUserService"%>
+<%@ page import="com.nicobrest.baseapp.model.DragonBallUser"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>

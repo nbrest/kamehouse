@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY_NAME="java.web.mobile.inspections"
+REPOSITORY_NAME="java.web.base.app"
 
 #############
 # HTTPS all #

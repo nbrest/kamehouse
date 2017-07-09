@@ -1,9 +1,9 @@
 -- ********************************
--- *** Last updated: 2016/08/21 ***
+-- *** Last updated: 2017/07/02 ***
 -- ********************************
 
 -- Create user:
-CREATE USER mobileInspUser IDENTIFIED BY mobileInspPwd;
+CREATE USER baseAppUser IDENTIFIED BY baseAppPwd;
 
 -- Grant permissions:
-GRANT connect, resource TO mobileInspUser;
+GRANT connect, resource TO baseAppUser;
