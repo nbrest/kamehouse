@@ -16,7 +16,7 @@
   <div class="container">
     <center>
       <h2>dragonball ModelAndView Test Endpoint</h2>
-      <h2>${message} ${name}</h2>
+      <h2>${message}${name}</h2>
     </center>
   </div>
   </main>

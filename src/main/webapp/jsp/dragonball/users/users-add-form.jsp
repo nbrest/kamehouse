@@ -19,8 +19,7 @@
         <span class="lead">DragonBallUser Add Form </span>
       </div>
       <div class="formcontainer">
-        <form action="users-add-action.jsp" method="post"
-          class="form-horizontal mi-form-horizontal">
+        <form action="users-add-action.jsp" method="post" class="form-horizontal mi-form-horizontal">
           <div class="row">
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="username">Username</label>
@@ -80,9 +79,9 @@
       </div>
     </div>
 
-    <input type="button" value="Jsp Home" class="btn btn-basic custom-width" style="margin-right: 5px"
-      onclick="window.location.href='../../'"> <input type="button"
-      value="List DragonBallUsers" class="btn btn-primary custom-width"
+    <input type="button" value="Jsp Home" class="btn btn-basic custom-width"
+      style="margin-right: 5px" onclick="window.location.href='../../'">
+    <input type="button" value="List DragonBallUsers" class="btn btn-primary custom-width"
       onclick="window.location.href='users-list.jsp'">
   </div>
   </main>

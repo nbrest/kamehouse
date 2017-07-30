@@ -15,8 +15,9 @@
   <main>
   <div class="container">
     <input type="button" value="Jsp App" class="btn btn-primary custom-width"
-      style="margin-right: 5px" onclick="window.location.href='jsp/'"> <input type="button"
-      value="Angular App" class="btn btn-primary custom-width" onclick="window.location.href='app/index.html'">
+      style="margin-right: 5px" onclick="window.location.href='jsp/'">
+    <input type="button" value="Angular App" class="btn btn-primary custom-width"
+      onclick="window.location.href='app/index.html'">
   </div>
   </main>
   <div id="footerContainer"></div>

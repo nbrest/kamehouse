@@ -27,12 +27,12 @@
     <%
       Enumeration<String> paramNames = request.getParameterNames();
 
-          while (paramNames.hasMoreElements()) {
-            String paramName = (String) paramNames.nextElement();
-            System.out.print(paramName + " : ");
-            String paramValue = request.getParameter(paramName);
-            System.out.println(paramValue);
-          }
+    			while (paramNames.hasMoreElements()) {
+    				String paramName = (String) paramNames.nextElement();
+    				System.out.print(paramName + " : ");
+    				String paramValue = request.getParameter(paramName);
+    				System.out.println(paramValue);
+    			}
     %>
     <div class="tablecontainer">
       <table class="table table-hover">
@@ -57,18 +57,18 @@
               <td>${dragonBallUser.getPowerLevel()}</td>
               <td>${dragonBallUser.getStamina()}</td>
               <td><input type="button" value="edit" class="btn btn-success custom-width"
-                onclick="window.location.href='users-edit-form.jsp?username=${dragonBallUser.getUsername()}'">
+                  onclick="window.location.href='users-edit-form.jsp?username=${dragonBallUser.getUsername()}'">
                 <input type="button" value="delete" class="btn btn-danger custom-width"
-                onclick="window.location.href='users-delete.jsp?id=${dragonBallUser.getId()}'">
+                  onclick="window.location.href='users-delete.jsp?id=${dragonBallUser.getId()}'">
               </td>
             </tr>
           </c:forEach>
         </tbody>
       </table>
     </div>
-    <input type="button" value="Jsp Home" class="btn btn-basic custom-width" style="margin-right: 5px"
-      onclick="window.location.href='../../'"> <input type="button"
-      value="Add DragonBallUser" class="btn btn-primary custom-width"
+    <input type="button" value="Jsp Home" class="btn btn-basic custom-width"
+      style="margin-right: 5px" onclick="window.location.href='../../'">
+    <input type="button" value="Add DragonBallUser" class="btn btn-primary custom-width"
       onclick="window.location.href='users-add-form.jsp'">
   </div>
   </main>

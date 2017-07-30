@@ -16,23 +16,26 @@
   <main>
   <div class="container">
     <%!/* variable and method declarations */
-  Date currentDate = new Date();
+	Date currentDate = new Date();
 
-  Date getDate() {
-    System.out.println("In getDate() method");
-    return currentDate;
-  }
+	Date getDate() {
+		System.out.println("In getDate() method");
+		return currentDate;
+	}
 
-  void setDate() {
-    System.out.println("In setDate() method");
-    currentDate = new Date();
-  }%>
+	void setDate() {
+		System.out.println("In setDate() method");
+		currentDate = new Date();
+	}%>
 
-    <br> The time is now
+    <br>
+    The time is now
     <%=new java.util.Date()%>
-    <br> <br> <input type="button" value="Home" class="btn btn-basic custom-width"
-      onclick="window.location.href='../'"> <input type="button" value="List DragonBallUsers"
-      class="btn btn-primary custom-width"
+    <br>
+    <br>
+    <input type="button" value="Home" class="btn btn-basic custom-width"
+      onclick="window.location.href='../'">
+    <input type="button" value="List DragonBallUsers" class="btn btn-primary custom-width"
       onclick="window.location.href='dragonball/users/users-list.jsp'">
   </div>
   </main>

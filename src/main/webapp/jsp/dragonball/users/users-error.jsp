@@ -14,12 +14,15 @@
   <br />
   <a href="../../">Go home</a>
 
-  <br /> Status:
+  <br />
+  Status:
   <%=response.getStatus()%>
-  <br /> Message:
+  <br />
+  Message:
   <br />
   <%=exception.getMessage()%>
-  <br /> Stack trace:
+  <br />
+  Stack trace:
   <br />
   <%
     StackTraceElement[] stackTraceArray = exception.getStackTrace();
