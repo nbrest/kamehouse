@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>BaseApp 403 Forbidden</title>
+<title>kameHouse 403 Forbidden</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
@@ -16,7 +16,7 @@
   <main>
   <div class="container">
     <center>
-      <h2>BaseApp 403 Forbidden</h2>
+      <h2>kameHouse 403 Forbidden</h2>
     </center>
     <%
       if (exception != null) {

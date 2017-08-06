@@ -10,10 +10,10 @@
   </appender>
 
   <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>logs/baseApp.log</File>
+    <File>logs/kameHouse.log</File>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- daily rollover -->
-      <FileNamePattern>logs/baseApp.%d{yyyy-MM-dd}.log</FileNamePattern>
+      <FileNamePattern>logs/kameHouse.%d{yyyy-MM-dd}.log</FileNamePattern>
       <!-- keep 30 days' worth of history -->
       <maxHistory>30</maxHistory>     
     </rollingPolicy>
@@ -25,7 +25,7 @@
 <!--   <appender name="minuteRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
 <!--     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
       <!-- rollover every minute -->
-<!--       <FileNamePattern>logs/baseApp-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern> -->
+<!--       <FileNamePattern>logs/kameHouse-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern> -->
       <!-- keep 30 minutes' worth of history -->
 <!--       <maxHistory>30</maxHistory>      -->
 <!--     </rollingPolicy> -->

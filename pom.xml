@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.nicobrest</groupId>
-  <artifactId>java-web-base-app</artifactId>
+  <artifactId>java-web-kame-house</artifactId>
   <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Java Web App - Base App</name>
+  <version>0.09.1-SNAPSHOT</version>
+  <name>Java Web - Kame House</name>
   <url>https://www.nicobrest.com</url>
 
   <properties>
@@ -34,7 +34,7 @@
     <spring.version>4.2.4.RELEASE</spring.version>
     <war.plugin.version>2.1.1</war.plugin.version>
 
-    <java.target.version>1.7</java.target.version>
+    <java.target.version>1.8</java.target.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -243,7 +243,7 @@
   </dependencies>
 
   <build>
-    <finalName>base-app</finalName>
+    <finalName>kame-house</finalName>
     <plugins>
       <!-- maven war plugin: disable build failure because of no web.xml -->
       <plugin>

@@ -14,21 +14,21 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
   <!-- Example endpoints beans -->
   <bean id="dragonBallUserService"
-    class="com.nicobrest.baseapp.service.DragonBallUserService">
+    class="com.nicobrest.kamehouse.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDaoJpa" />
   </bean>
 
-  <bean id="dragonBallUserDaoJpa" class="com.nicobrest.baseapp.dao.DragonBallUserDaoJpa">
+  <bean id="dragonBallUserDaoJpa" class="com.nicobrest.kamehouse.dao.DragonBallUserDaoJpa">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
 
   <bean id="dragonBallUserDaoInMemory"
-    class="com.nicobrest.baseapp.dao.DragonBallUserDaoInMemory">
+    class="com.nicobrest.kamehouse.dao.DragonBallUserDaoInMemory">
     <property name="gohanDragonBallUser" ref="gohanDragonBallUser" />
     <property name="gotenDragonBallUser" ref="gotenDragonBallUser" />
   </bean>
 
-  <bean id="gohanDragonBallUser" class="com.nicobrest.baseapp.model.DragonBallUser">
+  <bean id="gohanDragonBallUser" class="com.nicobrest.kamehouse.model.DragonBallUser">
     <property name="id" value="1001" />
     <property name="username" value="gohanBean" />
     <property name="email" value="gohanBean@dbz.com" />
@@ -37,7 +37,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     <property name="stamina" value="1000" />
   </bean>
 
-  <bean id="gotenDragonBallUser" class="com.nicobrest.baseapp.model.DragonBallUser">
+  <bean id="gotenDragonBallUser" class="com.nicobrest.kamehouse.model.DragonBallUser">
     <property name="id" value="1002" />
     <property name="username" value="gotenBean" />
     <property name="email" value="gotenBean@dbz.com" />

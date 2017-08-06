@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>BaseApp 500 Server Error</title>
+<title>kameHouse 500 Server Error</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
@@ -16,7 +16,7 @@
   <main>
   <div class="container">
     <center>
-      <h2>BaseApp 500 Server Error</h2>
+      <h2>kameHouse 500 Server Error</h2>
     </center>
     <%
       if (exception != null) {

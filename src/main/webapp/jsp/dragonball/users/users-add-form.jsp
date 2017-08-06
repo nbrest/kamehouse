@@ -2,12 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+
 <title>Add DragonBallUser Form</title>
 <link rel="stylesheet" href="../../../lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../css/app.css" />
 <link rel="stylesheet" href="../../../css/general.css" />
 <link rel="stylesheet" href="../../../css/header.css" />
-<link rel="stylesheet" href="../../../css/main.css" />
 <link rel="stylesheet" href="../../../css/footer.css" />
 </head>
 <body>
@@ -16,7 +18,7 @@
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <span class="lead">DragonBallUser Add Form </span>
+        <span class="lead">Add DragonBall User</span>
       </div>
       <div class="formcontainer">
         <form action="users-add-action.jsp" method="post" class="form-horizontal mi-form-horizontal">
@@ -71,17 +73,14 @@
           </div>
 
           <div class="row">
-            <div class="form-actions floatRight">
+            <div class="dragonball-user-form-buttons">
               <input type="submit" value="Submit" class="btn btn-primary btn-sm" />
             </div>
           </div>
         </form>
       </div>
     </div>
-
-    <input type="button" value="Jsp Home" class="btn btn-basic custom-width"
-      style="margin-right: 5px" onclick="window.location.href='../../'">
-    <input type="button" value="List DragonBallUsers" class="btn btn-primary custom-width"
+    <input type="button" value="List DragonBall Users" class="btn btn-basic btn-block custom-width"
       onclick="window.location.href='users-list.jsp'">
   </div>
   </main>

@@ -1,29 +1,56 @@
-/*  HEADER STYLES -------------------------------------------------*/
 header {
-  min-width: 855px;
-  background: #d3d7cf;
-  overflow: auto;
+	background: #35424a;
+	color: #ffffff;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	min-height: 70px;
+	border-bottom: #e8491d 3px solid;
 }
 
-header .container {
-  max-width: 855px;
-  margin:auto;
-  overflow: hidden;
-  margin-top: 10px;
-  margin-bottom: 10px;
+header a {
+	color: #ffffff;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 16px;
 }
 
-header .container .header-title {
-  float: left;
-  width: 570px;
-  color: #2477a8;
+header li {
+	float: left;
+	display: inline;
+	padding: 0 20px 0 20px;
 }
 
-header .container .header-nav {
-    float: right;
-    width: 245px;
-    text-align: center;
-    margin-top: 20px;
-    font-size: large;
+header #branding {
+	float: left;
 }
 
+header #branding h1 {
+	margin: 0;
+}
+
+header nav {
+	float: right;
+	margin-top: 10px;
+}
+
+header .highlight, header .active a {
+	color: #e8491d;
+	font-weight: bold;
+}
+
+header a:hover {
+	color: #cccccc;
+	font-weight: bold;
+}
+
+/* Media Queries */
+@media ( max-width : 900px) {
+	header #branding, header nav, header nav li {
+		float: none;
+		text-align: center;
+		width: 100%;
+	}
+	header nav li {
+		padding: 10px;
+	}
+}

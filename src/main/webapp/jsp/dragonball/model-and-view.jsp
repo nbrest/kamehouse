@@ -3,11 +3,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+
 <title>dragonball ModelAndView Test Endpoint</title>
 <link rel="stylesheet" href="../../lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../css/general.css" />
 <link rel="stylesheet" href="../../css/header.css" />
-<link rel="stylesheet" href="../../css/main.css" />
 <link rel="stylesheet" href="../../css/footer.css" />
 </head>
 <body>

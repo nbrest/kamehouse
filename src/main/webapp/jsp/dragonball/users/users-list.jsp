@@ -1,16 +1,17 @@
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+
 <title>DragonBallUsers List</title>
 <link rel="stylesheet" href="../../../lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../css/app.css" />
 <link rel="stylesheet" href="../../../css/general.css" />
 <link rel="stylesheet" href="../../../css/header.css" />
-<link rel="stylesheet" href="../../../css/main.css" />
 <link rel="stylesheet" href="../../../css/footer.css" />
 </head>
 <body>
@@ -19,7 +20,7 @@
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <span class="lead">List of DragonBallUsers</span>
+        <span class="lead">List of DragonBall Users</span>
       </div>
     </div>
     <c:set var="dragonBallUsers" scope="page"
@@ -35,14 +36,14 @@
     			}
     %>
     <div class="tablecontainer">
-      <table class="table table-hover">
+      <table class="table table-hover table-dragonball-users">
         <thead>
           <tr>
             <th>Id</th>
-            <th>Username</th>
+            <th>Name</th>
             <th>Email</th>
             <th>Age</th>
-            <th>PowerLevel</th>
+            <th>Power Level</th>
             <th>Stamina</th>
             <th></th>
           </tr>
@@ -66,9 +67,7 @@
         </tbody>
       </table>
     </div>
-    <input type="button" value="Jsp Home" class="btn btn-basic custom-width"
-      style="margin-right: 5px" onclick="window.location.href='../../'">
-    <input type="button" value="Add DragonBallUser" class="btn btn-primary custom-width"
+    <input type="button" value="Add DragonBall User" class="btn btn-primary custom-width"
       onclick="window.location.href='users-add-form.jsp'">
   </div>
   </main>

@@ -3,7 +3,7 @@
 -- ********************************
 
 -- Create user:
-CREATE USER baseAppUser IDENTIFIED BY baseAppPwd;
+CREATE USER kameHouseUser IDENTIFIED BY kameHousePwd;
 
 -- Grant permissions:
-GRANT connect, resource TO baseAppUser;
+GRANT connect, resource TO kameHouseUser;

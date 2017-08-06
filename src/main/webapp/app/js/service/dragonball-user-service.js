@@ -2,7 +2,7 @@
 
 angular.module('myApp').factory('dragonBallUserService', [ '$http', '$q', function($http, $q) {
 
-  var REST_SERVICE_URI = '/base-app/api/v1/dragonball/users/';
+  var REST_SERVICE_URI = '/kame-house/api/v1/dragonball/users/';
 
   var factory = {
     fetchAllDragonBallUsers : fetchAllDragonBallUsers,

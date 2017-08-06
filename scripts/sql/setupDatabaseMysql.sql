@@ -1,21 +1,21 @@
 -- ********************************
--- *** Last updated: 2017/07/02 ***
+-- *** Last updated: 2017/08/05 ***
 -- ********************************
 
 -- Create schema:
-DROP SCHEMA IF EXISTS baseApp;
-CREATE SCHEMA baseApp;
+DROP SCHEMA IF EXISTS kameHouse;
+CREATE SCHEMA kameHouse;
 
 -- Use schema:
-USE baseApp;
+USE kameHouse;
 
 -- Create user:
 -- Use '%' instead of 'localhost' to allow to connect remotely with this user
-DROP USER IF EXISTS 'baseAppUser'@'localhost';
-CREATE USER 'baseAppUser'@'localhost' identified by 'baseAppPwd';
+DROP USER IF EXISTS 'kameHouseUser'@'localhost';
+CREATE USER 'kameHouseUser'@'localhost' identified by 'kameHousePwd';
 
 -- Grant privileges:
-GRANT ALL PRIVILEGES ON baseApp.* TO 'baseAppUser'@'localhost';
+GRANT ALL PRIVILEGES ON kameHouse.* TO 'kameHouseUser'@'localhost';
 
 -- Tables for mysql:
 DROP TABLE IF EXISTS dragonballuser;

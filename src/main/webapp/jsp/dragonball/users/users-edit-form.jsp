@@ -1,17 +1,19 @@
 <%@ page import="java.util.*"%>
-<%@ page import="com.nicobrest.baseapp.service.DragonBallUserService"%>
-<%@ page import="com.nicobrest.baseapp.model.DragonBallUser"%>
+<%@ page import="com.nicobrest.kamehouse.service.DragonBallUserService"%>
+<%@ page import="com.nicobrest.kamehouse.model.DragonBallUser"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+
 <title>Edit DragonBallUser Form</title>
 <link rel="stylesheet" href="../../../lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../css/app.css" />
 <link rel="stylesheet" href="../../../css/general.css" />
 <link rel="stylesheet" href="../../../css/header.css" />
-<link rel="stylesheet" href="../../../css/main.css" />
 <link rel="stylesheet" href="../../../css/footer.css" />
 </head>
 <body>
@@ -24,11 +26,12 @@
   username instead of a Long parameter searching by id.
   See how I can do to pass the id so it is recognized as a Long when the method is overloaded --%>
     <c:set var="username" value="${param.username}"></c:set>
+    <%-- TODO: Check username for null and assign it an empty string or something, otherwise, it throws 500 error, if I access the page directly --%>
     <c:set var="dragonBallUser" value="${dragonBallUserService.getDragonBallUser(username)}"></c:set>
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <span class="lead">DragonBallUser Edit Form </span>
+        <span class="lead">Edit DragonBall User</span>
       </div>
       <div class="formcontainer">
         <form action="users-edit-action.jsp" method="post"
@@ -90,17 +93,14 @@
           </div>
 
           <div class="row">
-            <div class="form-actions floatRight">
+            <div class="dragonball-user-form-buttons">
               <input type="submit" value="Submit" class="btn btn-primary btn-sm" />
             </div>
           </div>
         </form>
       </div>
     </div>
-
-    <input type="button" value="Jsp Home" class="btn btn-basic custom-width"
-      style="margin-right: 5px" onclick="window.location.href='../../'">
-    <input type="button" value="List DragonBallUsers" class="btn btn-primary custom-width"
+    <input type="button" value="List DragonBall Users" class="btn btn-basic btn-block custom-width"
       onclick="window.location.href='users-list.jsp'">
   </div>
   </main>

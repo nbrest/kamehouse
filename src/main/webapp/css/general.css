@@ -1,53 +1,171 @@
-/* BASIC ELEMENTS STYLES ------------------------------------------*/
-p {
-  font-weight: bold;
-  margin: 10px;
+/* Generic elements */
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	line-height: 1.5;
+	padding: 0;
+	margin: 0;
+	background-color: #f4f4f4;
 }
 
 ul {
-  margin:20px;
-  list-style: disc outside none;
-  list-style-type:circle;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
-li {
-  display: list-item;
+/* Custom Classes */
+.container {
+	width: 80%;
+	margin: auto;
+	overflow: hidden;
 }
 
-a {
-  font-weight: bold;
+.dark {
+	padding: 15px;
+	background: #35424a;
+	color: #ffffff;
 }
 
-a:link {
-  color: #2477a8;
-  text-decoration: none;
+.dragonball-user-form-buttons {
+	margin-left: 15px;
 }
 
-a:visited {
-  color: #2477a8;
-  text-decoration: none;
+.home-links {
+	text-align: center;
 }
 
-a:hover {
-  color: red;
-  text-decoration: underline;
+/* Custom ids */
+#banner {
+	min-height: 400px;
+	/* the tutorial had no-repeat in the background but it didn't work for me */
+	background: url(/kame-house/img/banner-space.jpg) 0 -400px;
+	text-align: center;
+	color: #ffffff;
 }
 
-/* HEADERS STYLES -------------------------------------------------*/
-h1 {
-  font-style: italic;
-  font-family: "Arial Black", Gadget, sans-serif;
+#banner h1 {
+	margin-top: 100px;
+	font-size: 55px;
+	margin-bottom: 10px;
 }
 
-h2 {
-  font-family: "Courier New", Courier, monospace;
+#banner p {
+	font-size: 20px;
 }
 
-h3 {
-  font-family: "Courier New", Courier, monospace;
+#boxes {
+	margin-top: 20px;
 }
 
-h5 {
-    font-weight: bold;
-    font-family: "Courier New", Courier, monospace;
+#boxes .box {
+	float: left;
+	width: 30%;
+	padding: 10px;
+	text-align: center;
+}
+
+#boxes .box img {
+	width: 90px;
+	height: 90px;
+}
+
+#main-article {
+	float: left;
+	width: 65%;
+}
+
+#newsletter {
+	padding: 15px;
+	color: #ffffff;
+	background: #35424a;
+}
+
+#newsletter h1 {
+	float: left;
+	margin-top: 10px;
+}
+
+#newsletter form {
+	float: right;
+	margin-top: 15px;
+}
+
+#newsletter input[type="email"] {
+	display: inline;
+	height: 32px;
+	padding: 6px;
+	width: 250px;
+}
+
+#sidebar {
+	float: right;
+	width: 30%;
+	margin-top: 10px;
+}
+
+#sidebar .quote input, #sidebar .quote textarea, #sidebar .quote button
+	{
+	width: 90%;
+	padding: 5px;
+}
+
+#services li {
+	list-style: none;
+	padding: 20px;
+	border: #cccccc solid 1px;
+	margin-bottom: 5px;
+	background: #e6e6e6;
+}
+
+/* Media Queries */
+@media ( max-width : 900px) {
+	#newsletter h1, #newsletter form, #boxes .box, #main-article, #sidebar {
+		float: none;
+		text-align: center;
+		width: 100%;
+	}
+	#banner h1 {
+		margin-top: 40px;
+	}
+	#newsletter button {
+		display: block;
+		width: 100%;
+	}
+	#newsletter form input[type="email"] {
+		width: 100%;
+		margin-bottom: 5px;
+	}
+	.table-dragonball-users tr td:nth-child(1), .table-dragonball-users tr th:nth-child(1)
+		{
+		display: inline-block;
+		width: 5%;
+		font-size: 0.75em;
+	}
+	.table-dragonball-users tr td:nth-child(2), .table-dragonball-users tr td:nth-child(3),
+		.table-dragonball-users tr th:nth-child(2), .table-dragonball-users tr th:nth-child(3)
+		{
+		display: inline-block;
+		width: 20%;
+		font-size: 0.75em;
+	}
+	.table-dragonball-users tr td:nth-child(4), .table-dragonball-users tr td:nth-child(5),
+		.table-dragonball-users tr td:nth-child(6), .table-dragonball-users tr th:nth-child(4),
+		.table-dragonball-users tr th:nth-child(5), .table-dragonball-users tr th:nth-child(6)
+		{
+		display: inline-block;
+		width: 15%;
+		font-size: 0.75em;
+	}
+	.table-dragonball-users tr th:nth-child(7) {
+		display: none;
+	}
+	.table-dragonball-users tr td:nth-child(7) {
+		display: block;
+		width: 100%;
+		font-size: 0.75em;
+	}
+	.table-dragonball-users tr td:nth-child(7) input {
+		width: 45%;
+	}
 }

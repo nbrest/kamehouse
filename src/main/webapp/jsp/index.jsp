@@ -4,41 +4,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>BaseApp JSP App</title>
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+
+<title>kame House - JSP App</title>
 <link rel="stylesheet" href="../lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../css/general.css" />
 <link rel="stylesheet" href="../css/header.css" />
-<link rel="stylesheet" href="../css/main.css" />
 <link rel="stylesheet" href="../css/footer.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
-  <main>
+  <section id="banner">
   <div class="container">
-    <%!/* variable and method declarations */
-	Date currentDate = new Date();
-
-	Date getDate() {
-		System.out.println("In getDate() method");
-		return currentDate;
-	}
-
-	void setDate() {
-		System.out.println("In setDate() method");
-		currentDate = new Date();
-	}%>
-
+    <h1>JSP Kame House Homepage</h1>
+    <p>Mada mada dane. Kamehame-ha. Pegasus Ryu Sei Ken. Tiger shot. Masenko. Final flash. Genki
+      dama. Tsubame gaeshi. Twist serve. Zero shiki drop shot.</p>
+  </div>
+  </section>
+  <section class="dark"> <br>
+  </section>
+  <div class="container home-links">
     <br>
-    The time is now
-    <%=new java.util.Date()%>
-    <br>
-    <br>
-    <input type="button" value="Home" class="btn btn-basic custom-width"
-      onclick="window.location.href='../'">
-    <input type="button" value="List DragonBallUsers" class="btn btn-primary custom-width"
+    <input type="button" value="List DragonBall Users" class="btn btn-basic btn-block custom-width"
       onclick="window.location.href='dragonball/users/users-list.jsp'">
   </div>
-  </main>
   <div id="footerContainer"></div>
   <script src="../lib/js/jquery-2.0.3.min.js"></script>
   <script src="../js/importHeaderFooter.js"></script>

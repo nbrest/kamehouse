@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY_NAME="java.web.base.app"
+REPOSITORY_NAME="java.web.kamehouse"
 
 #############
 # HTTPS all #

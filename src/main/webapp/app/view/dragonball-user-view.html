@@ -1,11 +1,13 @@
 <html>
 <head>
-<title>BaseApp Angular App</title>
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+
+<title>kameHouse - Angular App</title>
 <link rel="stylesheet" href="../../lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../css/app.css"></link>
 <link rel="stylesheet" href="../../css/general.css" />
 <link rel="stylesheet" href="../../css/header.css" />
-<link rel="stylesheet" href="../../css/main.css" />
 <link rel="stylesheet" href="../../css/footer.css" />
 </head>
 <body ng-app="myApp" class="ng-cloak">
@@ -15,7 +17,7 @@
     <div class="generic-container" ng-controller="dragonBallUserController as ctrl">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <span class="lead">DragonBallUsers Form </span>
+          <span class="lead">Edit DragonBall User</span>
         </div>
         <div class="formcontainer">
           <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal mi-form-horizontal">
@@ -83,7 +85,7 @@
             </div>
 
             <div class="row">
-              <div class="form-actions floatRight">
+              <div class="dragonball-user-form-buttons">
                 <input type="submit" value="{{!ctrl.user.id ? 'Add' : 'Update'}}"
                   class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid">
                 <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm"
@@ -96,10 +98,10 @@
       <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">
-          <span class="lead">List of DragonBallUsers </span>
+          <span class="lead">List of DragonBall Users</span>
         </div>
         <div class="tablecontainer">
-          <table class="table table-hover">
+          <table class="table table-hover table-dragonball-users">
             <thead>
               <tr>
                 <th>ID.</th>
@@ -120,10 +122,10 @@
                 <td><span ng-bind="u.powerLevel"></span></td>
                 <td><span ng-bind="u.stamina"></span></td>
                 <td>
-                  <button type="button" ng-click="ctrl.edit(u.id)"
-                    class="btn btn-success custom-width">Edit</button>
-                  <button type="button" ng-click="ctrl.remove(u.id)"
-                    class="btn btn-danger custom-width">Remove</button>
+                  <input type="button" ng-click="ctrl.edit(u.id)" value="edit"
+                    class="btn btn-success custom-width"/>
+                  <input type="button" ng-click="ctrl.remove(u.id)" value="delete"
+                    class="btn btn-danger custom-width"/>
                 </td>
               </tr>
             </tbody>
@@ -131,8 +133,6 @@
         </div>
       </div>
     </div>
-    <input type="button" value="Angular Home" class="btn btn-basic custom-width"
-      style="margin-right: 5px" onclick="window.location.href='../index.html'">
   </div>
   </main>
   <div id="footerContainer"></div>
