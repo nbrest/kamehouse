@@ -1,39 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*,java.text.*"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
 
-<title>kame House - JSP App</title>
+<title>kame House - Angular App</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
-<body>
+<body ng-app="myApp" class="ng-cloak">
   <div id="headerContainer"></div>
-  <section id="banner">
-  <div class="container">
-    <h1>JSP Kame House Homepage</h1>
-    <p>Mada mada dane. Kamehame-ha. Pegasus Ryu Sei Ken. Tiger shot. Masenko. Final flash. Genki
-      dama. Tsubame gaeshi. Twist serve. Zero shiki drop shot.</p>
-  </div>
-  </section>
-  <section class="dark"> <br>
-  </section>
-  <div class="container home-links">
-    <br>
-    <input type="button" value="DragonBall Users" class="btn btn-basic btn-block custom-width"
-      onclick="window.location.href='dragonball/users/users-list.jsp'">
-  </div>
+  <div ng-view></div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
   <script type="text/javascript">importHeaderAndFooter("../html/")
   </script>
+  <script src="${pageContext.request.contextPath}/lib/js/angular.js"></script>
+  <script src="${pageContext.request.contextPath}/lib/js/angular-route.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/service/dragonball-user-service.js"></script>
+  <script src="js/controller/dragonball-user-controller.js"></script>
 </body>
 </html>

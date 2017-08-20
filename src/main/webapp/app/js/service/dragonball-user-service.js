@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('myApp').factory('dragonBallUserService', [ '$http', '$q', function($http, $q) {
+angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', function($http, $q) {
 
   var REST_SERVICE_URI = '/kame-house/api/v1/dragonball/users/';
 
-  var factory = {
+  var dragonBallUserService = {
     fetchAllDragonBallUsers : fetchAllDragonBallUsers,
     createDragonBallUser : createDragonBallUser,
     updateDragonBallUser : updateDragonBallUser,
     deleteDragonBallUser : deleteDragonBallUser
   };
 
-  return factory;
+  return dragonBallUserService;
 
   function fetchAllDragonBallUsers() {
     var deferred = $q.defer();

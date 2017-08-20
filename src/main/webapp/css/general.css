@@ -6,6 +6,7 @@ body {
 	padding: 0;
 	margin: 0;
 	background-color: #f4f4f4;
+	word-wrap: break-word;
 }
 
 ul {
@@ -25,6 +26,11 @@ ul {
 	padding: 15px;
 	background: #35424a;
 	color: #ffffff;
+}
+
+.dragonball-users-edit-form {
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .dragonball-user-form-buttons {
@@ -120,6 +126,11 @@ ul {
 
 /* Media Queries */
 @media ( max-width : 900px) {
+	.container {
+		width: 100%;
+		margin: 0px;
+		overflow: hidden;
+	}
 	#newsletter h1, #newsletter form, #boxes .box, #main-article, #sidebar {
 		float: none;
 		text-align: center;
@@ -139,7 +150,7 @@ ul {
 	.table-dragonball-users tr td:nth-child(1), .table-dragonball-users tr th:nth-child(1)
 		{
 		display: inline-block;
-		width: 5%;
+		width: 9%;
 		font-size: 0.75em;
 	}
 	.table-dragonball-users tr td:nth-child(2), .table-dragonball-users tr td:nth-child(3),
@@ -159,6 +170,7 @@ ul {
 	}
 	.table-dragonball-users tr th:nth-child(7) {
 		display: none;
+		width: 0%;
 	}
 	.table-dragonball-users tr td:nth-child(7) {
 		display: block;

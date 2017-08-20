@@ -10,11 +10,12 @@
 <meta name="author" content="nbrest">
 
 <title>Edit DragonBallUser Form</title>
-<link rel="stylesheet" href="../../../lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../../css/app.css" />
-<link rel="stylesheet" href="../../../css/general.css" />
-<link rel="stylesheet" href="../../../css/header.css" />
-<link rel="stylesheet" href="../../../css/footer.css" />
+<link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/css/app.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
@@ -105,8 +106,8 @@
   </div>
   </main>
   <div id="footerContainer"></div>
-  <script src="../../../lib/js/jquery-2.0.3.min.js"></script>
-  <script src="../../../js/importHeaderFooter.js"></script>
+  <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
+  <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
   <script type="text/javascript">importHeaderAndFooter("../../../html/")
   </script>
 </body>

@@ -10,6 +10,7 @@
 <meta name="keywords" content="kame-house nicobrest nbrest">
 
 <title>Kame House - Home</title>
+<link rel="icon" type="img/ico" href="img/favicon.ico" />
 <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="css/general.css" />
 <link rel="stylesheet" href="css/header.css" />
@@ -29,7 +30,8 @@
       <h1>Subscribe to out Newsletter</h1>
       <form>
         <input type="email" placeholder="Enter email" class="form-control form-input" />
-        <button type="submit" class="btn btn-danger custom-width">Subscribe</button>
+        <button type="submit" class="btn btn-danger custom-width"
+          onclick="siteUnderCostructionAlert()">Subscribe</button>
       </form>
     </div>
   </section>
@@ -54,6 +56,7 @@
   </section>
   <div id="footerContainer"></div>
   <script src="lib/js/jquery-2.0.3.min.js"></script>
+  <script src="js/general.js"></script>
   <script src="js/importHeaderFooter.js"></script>
   <script type="text/javascript">importHeaderAndFooter("html/")
   </script>

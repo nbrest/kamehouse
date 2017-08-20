@@ -74,7 +74,17 @@
   <!-- Servlet mappings for static files under /app -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/app/*</url-pattern>
+    <url-pattern>/app/css/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/app/js/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/app/view/*</url-pattern>
   </servlet-mapping>
 
   <!-- Error page definitions -->
