@@ -8,12 +8,12 @@ function updateActiveTab() {
         $(navItem).addClass("active");
       } 
       break;
-    case "/kame-house/html/about.html":
+    case "/kame-house/about.jsp":
       if ($(navItem).attr("id") == "nav-about") {
         $(navItem).addClass("active");
       } 
       break;
-    case "/kame-house/html/services.html":
+    case "/kame-house/services.jsp":
       if ($(navItem).attr("id") == "nav-services") {
         $(navItem).addClass("active");
       } 

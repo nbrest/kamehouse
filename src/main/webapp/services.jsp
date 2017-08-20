@@ -8,11 +8,11 @@
 <meta name="author" content="nbrest">
 
 <title>kameHouse - Services</title>
-<link rel="icon" type="img/ico" href="../img/favicon.ico" />
-<link rel="stylesheet" href="../lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../css/general.css" />
-<link rel="stylesheet" href="../css/header.css" />
-<link rel="stylesheet" href="../css/footer.css" />
+<link rel="icon" type="img/ico" href="img/favicon.ico" />
+<link rel="stylesheet" href="lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/general.css" />
+<link rel="stylesheet" href="css/header.css" />
+<link rel="stylesheet" href="css/footer.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
@@ -77,10 +77,10 @@
     </div>
   </section>
   <div id="footerContainer"></div>
-  <script src="../lib/js/jquery-2.0.3.min.js"></script>
-  <script src="../js/general.js"></script>
-  <script src="../js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("../html/")
+  <script src="lib/js/jquery-2.0.3.min.js"></script>
+  <script src="js/general.js"></script>
+  <script src="js/importHeaderFooter.js"></script>
+  <script type="text/javascript">importHeaderAndFooter("html/")
   </script>
 </body>
 </html>
