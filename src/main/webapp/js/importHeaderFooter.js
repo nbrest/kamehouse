@@ -41,7 +41,7 @@ function importHeaderAndFooter(path) {
   console.log("Loading header and footer from path: " + path);
 
   $("#headerContainer").load(path + "header.html", function() {
-    updateActiveTab();
-    $("#footerContainer").load(path + "footer.html");
+    updateActiveTab(); 
   });
+  $("#footerContainer").load(path + "footer.html");
 }
