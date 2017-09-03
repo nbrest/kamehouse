@@ -18,12 +18,8 @@
 <body>
   <div id="headerContainer"></div>
   <main>
-  <div class="container">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <span class="lead">List of DragonBall Users</span>
-      </div>
-    </div>
+  <div class="container main">
+    <h3 class="page-title">List of DragonBall Users</h3>
     <c:set var="dragonBallUsers" scope="page"
       value="${dragonBallUserService.getAllDragonBallUsers()}" />
     <%
@@ -37,7 +33,7 @@
     			}
     %>
     <div class="tablecontainer">
-      <table class="table table-hover table-dragonball-users">
+      <table class="table table-dragonball-users">
         <thead>
           <tr>
             <th>Id</th>
@@ -58,9 +54,9 @@
               <td>${dragonBallUser.getAge()}</td>
               <td>${dragonBallUser.getPowerLevel()}</td>
               <td>${dragonBallUser.getStamina()}</td>
-              <td><input type="button" value="edit" class="btn btn-success custom-width"
+              <td><input type="button" value="edit" class="btn btn-outline-success custom-width"
                   onclick="window.location.href='users-edit-form.jsp?username=${dragonBallUser.getUsername()}'">
-                <input type="button" value="delete" class="btn btn-danger custom-width"
+                <input type="button" value="delete" class="btn btn-outline-danger custom-width"
                   onclick="window.location.href='users-delete.jsp?id=${dragonBallUser.getId()}'">
               </td>
             </tr>
@@ -68,7 +64,7 @@
         </tbody>
       </table>
     </div>
-    <input type="button" value="Add DragonBall User" class="btn btn-primary custom-width"
+    <input type="button" value="Add DragonBall User" class="btn btn-outline-info custom-width"
       onclick="window.location.href='users-add-form.jsp'">
   </div>
   </main>

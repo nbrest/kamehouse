@@ -15,6 +15,7 @@
     <codehaus.jackson.version>1.9.13</codehaus.jackson.version>
     <commons.lang.version>2.6</commons.lang.version>
     <compiler.plugin.version>3.5</compiler.plugin.version>
+    <ehcache.version>2.9.0</ehcache.version>
     <findbugs.version>3.0.1</findbugs.version>
     <hamcrest.version>1.3</hamcrest.version>
     <hibernate.version>5.1.0.Final</hibernate.version>
@@ -136,6 +137,13 @@
     </dependency>
 
     <dependency>
+      <!-- Support for Ehcache and others -->
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
@@ -189,6 +197,13 @@
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
       <version>${jcloverslf4j.version}</version>
+    </dependency>
+
+    <!-- Cache dependencies -->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>${ehcache.version}</version>
     </dependency>
 
     <!-- Testing dependencies -->
@@ -269,9 +284,9 @@
     </plugins>
 
     <pluginManagement>
-      <!-- Adding the pluginManagement fixes the errors of lifecycle not covered
-        in eclipse but it seems to disable the plugins when compiling from the command line.
-        So compile everything with eclipse and remove all the warnings within eclipse before
+      <!-- Adding the pluginManagement fixes the errors of lifecycle not covered 
+        in eclipse but it seems to disable the plugins when compiling from the command line. 
+        So compile everything with eclipse and remove all the warnings within eclipse before 
         commiting and pushing the changes to the repositories -->
 
       <plugins>
@@ -305,7 +320,7 @@
           <artifactId>findbugs-maven-plugin</artifactId>
           <version>${findbugs.version}</version>
           <configuration>
-            <!-- Enables analysis which takes more memory but finds more bugs. If
+            <!-- Enables analysis which takes more memory but finds more bugs. If 
               you run out of memory, changes the value of the effort element to 'Low'. -->
             <effort>Max</effort>
             <!-- Reports all bugs (other values are medium and max) -->

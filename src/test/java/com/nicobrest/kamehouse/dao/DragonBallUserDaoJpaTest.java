@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import com.nicobrest.kamehouse.dao.DragonBallUserDaoJpa;
 import com.nicobrest.kamehouse.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.exception.KameHouseNotFoundException;
@@ -19,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,14 +37,13 @@ import javax.persistence.Query;
 public class DragonBallUserDaoJpaTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserDaoJpaTest.class);
-
+   
   @Autowired
-  @Qualifier("dragonBallUserDaoJpa")
-  private DragonBallUserDaoJpa dragonBallUserDaoJpa;
+  private DragonBallUserDao dragonBallUserDaoJpa;
 
   @Autowired
   private EntityManagerFactory entityManagerFactory;
-
+  
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -56,10 +53,10 @@ public class DragonBallUserDaoJpaTest {
    * @author nbrest
    */
   @Before
-  public void clearData() {
+  public void setUp() {
 
-    LOGGER.info("***** Clearing database");
-
+    LOGGER.info("***** Setup");
+    
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
     Query query = em.createNativeQuery("DELETE FROM DRAGONBALLUSER");

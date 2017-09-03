@@ -1,10 +1,8 @@
 <main>
-<div class="container">
+<div class="container main">
   <div class="generic-container" ng-controller="dragonBallUserController as ctrl">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <span class="lead">Edit DragonBall User</span>
-      </div>
+      <h3 class="page-title">Edit DragonBall User</h3>
       <div class="formcontainer">
         <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal mi-form-horizontal">
           <input type="hidden" ng-model="ctrl.user.id" />
@@ -73,8 +71,8 @@
           <div class="row dragonball-users-edit-form">
             <div class="dragonball-user-form-buttons">
               <input type="submit" value="{{!ctrl.user.id ? 'Add' : 'Update'}}"
-                class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid">
-              <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm"
+                class="btn btn-outline-info btn-sm" ng-disabled="myForm.$invalid">
+              <button type="button" ng-click="ctrl.reset()" class="btn btn-outline-warning btn-sm"
                 ng-disabled="myForm.$pristine">Reset Form</button>
             </div>
           </div>
@@ -82,10 +80,7 @@
       </div>
     </div>
     <div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">
-        <span class="lead">List of DragonBall Users</span>
-      </div>
+      <h3 class="page-title">List of DragonBall Users</h3>
       <div class="tablecontainer">
         <table class="table table-hover table-dragonball-users">
           <thead>
@@ -108,9 +103,9 @@
               <td><span ng-bind="u.powerLevel"></span></td>
               <td><span ng-bind="u.stamina"></span></td>
               <td><input type="button" ng-click="ctrl.edit(u.id)" value="edit"
-                  class="btn btn-success custom-width" /> <input type="button"
-                  ng-click="ctrl.remove(u.id)" value="delete" class="btn btn-danger custom-width" />
-              </td>
+                  class="btn btn-outline-success custom-width" /> <input type="button"
+                  ng-click="ctrl.remove(u.id)" value="delete"
+                  class="btn btn-outline-danger custom-width" /></td>
             </tr>
           </tbody>
         </table>

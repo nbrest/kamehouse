@@ -6,6 +6,8 @@ import com.nicobrest.kamehouse.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.model.DragonBallUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -59,6 +61,10 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    *
    * @author nbrest
    */
+  //TODO: Figure out how to update the caches without having to clear them completely when I create
+  // update or delete an object from the database.
+  @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
+      "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     EntityManager em = getEntityManager();
@@ -78,8 +84,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
         }
         cause = cause.getCause();
       }
-      throw new KameHouseServerErrorException(
-          "PersistenceException in createDragonBallUser", pe);
+      throw new KameHouseServerErrorException("PersistenceException in createDragonBallUser", pe);
     } finally {
       em.close();
     }
@@ -91,14 +96,14 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    *
    * @author nbrest
    */
+  @Cacheable(value = "getDragonBallUserCache")
   public DragonBallUser getDragonBallUser(Long id) {
 
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
       em.getTransaction().begin();
-      Query query = em
-          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.id=:pId");
+      Query query = em.createQuery("SELECT dbu from DragonBallUser dbu where dbu.id=:pId");
       query.setParameter("pId", id);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
@@ -109,13 +114,12 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException(
-              "DragonBallUser with id " + id + " was not found in the repository.");
+          throw new KameHouseNotFoundException("DragonBallUser with id " + id
+              + " was not found in the repository.");
         }
         cause = cause.getCause();
       }
-      throw new KameHouseServerErrorException("PersistenceException in getDragonBallUser",
-          pe);
+      throw new KameHouseServerErrorException("PersistenceException in getDragonBallUser", pe);
     } finally {
       em.close();
     }
@@ -127,14 +131,15 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    *
    * @author nbrest
    */
+  @Cacheable(value = "getDragonBallUserByUsernameCache")
   public DragonBallUser getDragonBallUser(String username) {
 
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
       em.getTransaction().begin();
-      Query query = em
-          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
+      Query query = em.createQuery(
+          "SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
       query.setParameter("pUsername", username);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
@@ -145,13 +150,12 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException(
-              "DragonBallUser with username " + username + " was not found in the repository.");
+          throw new KameHouseNotFoundException("DragonBallUser with username " + username
+              + " was not found in the repository.");
         }
         cause = cause.getCause();
       }
-      throw new KameHouseServerErrorException("PersistenceException in getDragonBallUser",
-          pe);
+      throw new KameHouseServerErrorException("PersistenceException in getDragonBallUser", pe);
     } finally {
       em.close();
     }
@@ -163,6 +167,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    *
    * @author nbrest
    */
+  @Cacheable(value = "getDragonBallUserByEmailCache")
   public DragonBallUser getDragonBallUserByEmail(String email) {
 
     EntityManager em = getEntityManager();
@@ -180,13 +185,13 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException(
-              "DragonBallUser with email " + email + " was not found in the repository.");
+          throw new KameHouseNotFoundException("DragonBallUser with email " + email
+              + " was not found in the repository.");
         }
         cause = cause.getCause();
       }
-      throw new KameHouseServerErrorException(
-          "PersistenceException in getDragonBallUserByEmail", pe);
+      throw new KameHouseServerErrorException("PersistenceException in getDragonBallUserByEmail",
+          pe);
     } finally {
       em.close();
     }
@@ -198,6 +203,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    *
    * @author nbrest
    */
+  @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
+      "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
 
     EntityManager em = getEntityManager();
@@ -213,8 +220,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       em.getTransaction().commit();
       if (updatedDbUser == null) {
-        throw new KameHouseNotFoundException("DragonBallUser with id "
-            + dragonBallUser.getId() + " was not found in the repository.");
+        throw new KameHouseNotFoundException("DragonBallUser with id " + dragonBallUser.getId()
+            + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
       pe.printStackTrace();
@@ -223,13 +230,12 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException(
-              "ConstraintViolationException: Error updating data", pe);
+          throw new KameHouseConflictException("ConstraintViolationException: Error updating data",
+              pe);
         }
         cause = cause.getCause();
       }
-      throw new KameHouseServerErrorException(
-          "PersistenceException in updateDragonBallUser", pe);
+      throw new KameHouseServerErrorException("PersistenceException in updateDragonBallUser", pe);
     } finally {
       em.close();
     }
@@ -241,6 +247,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    * @author nbrest
    * @return DragonBallUser
    */
+  @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
+      "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public DragonBallUser deleteDragonBallUser(Long id) {
 
     // find(): returns the entity from the EntityManager if its already in
@@ -259,13 +267,12 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       em.getTransaction().commit();
       if (dbUserToRemove == null) {
-        throw new KameHouseNotFoundException(
-            "DragonBallUser with id " + id + " was not found in the repository.");
+        throw new KameHouseNotFoundException("DragonBallUser with id " + id
+            + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      throw new KameHouseServerErrorException(
-          "PersistenceException in deleteDragonBallUser", pe);
+      throw new KameHouseServerErrorException("PersistenceException in deleteDragonBallUser", pe);
     } finally {
       em.close();
     }
@@ -277,6 +284,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
    *
    * @author nbrest
    */
+  @Cacheable(value = "getAllDragonBallUsersCache")
   public List<DragonBallUser> getAllDragonBallUsers() {
 
     EntityManager em = getEntityManager();
@@ -288,8 +296,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
       pe.printStackTrace();
-      throw new KameHouseServerErrorException(
-          "PersistenceException in getAllDragonBallUsers", pe);
+      throw new KameHouseServerErrorException("PersistenceException in getAllDragonBallUsers", pe);
     } finally {
       em.close();
     }

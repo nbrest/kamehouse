@@ -82,12 +82,13 @@ public class DragonBallController {
         .toString());
     LOGGER.info("In controller /dragonball/model-and-view Model values: " + mv.getModel().values()
         .toString());
+    LOGGER.info("In controller /dragonball/model-and-view Model values: " + mv.getViewName());
 
     return mv;
   }
 
   /**
-   * /dragonball/users Returns all DragonBallUsers in json format.
+   * /dragonball/users Returns all DragonBallUsers.
    *
    * @author nbrest
    */

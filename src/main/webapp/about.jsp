@@ -16,20 +16,10 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <section id="newsletter">
-    <div class="container">
-      <h1>Subscribe to out Newsletter</h1>
-      <form>
-        <input type="email" placeholder="Enter email" class="form-control form-input" />
-        <button type="submit" class="btn btn-danger custom-width"
-          onclick="siteUnderCostructionAlert()">Subscribe</button>
-      </form>
-    </div>
-  </section>
   <section id="main">
     <div class="container">
       <article id="main-article">
-        <h1 class="page-title">About Us</h1>
+        <h3 class="page-title">About Us</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ornare vel velit
           maximus ultrices. Curabitur fringilla orci sed eros efficitur, in tincidunt enim
           vestibulum. Sed rutrum tempor vestibulum. Integer viverra orci at sagittis placerat.
@@ -41,15 +31,16 @@
           arcu quam ornare dolor. Fusce accumsan lectus tortor, vel pretium elit rutrum id. Nunc
           eleifend aliquam urna. Pellentesque et ullamcorper ligula, quis rutrum nisi. Sed eu velit
           iaculis, convallis lorem id, tincidunt ipsum.</p>
-        <p class="dark">Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-          himenaeos. Nulla ultricies diam id pharetra volutpat. Aliquam et mauris ac libero pulvinar
-          egestas id rhoncus magna. Integer fringilla purus quam, id condimentum sem dignissim
-          placerat. Praesent mollis commodo neque et congue. Maecenas porttitor est orci. In
-          elementum lectus id eros efficitur fringilla. Vestibulum semper luctus magna, ut tincidunt
-          turpis vehicula eu. Duis purus libero, faucibus sed sapien at, volutpat semper massa.</p>
+        <p class="lighter">Class aptent taciti sociosqu ad litora torquent per conubia nostra,
+          per inceptos himenaeos. Nulla ultricies diam id pharetra volutpat. Aliquam et mauris ac
+          libero pulvinar egestas id rhoncus magna. Integer fringilla purus quam, id condimentum sem
+          dignissim placerat. Praesent mollis commodo neque et congue. Maecenas porttitor est orci.
+          In elementum lectus id eros efficitur fringilla. Vestibulum semper luctus magna, ut
+          tincidunt turpis vehicula eu. Duis purus libero, faucibus sed sapien at, volutpat semper
+          massa.</p>
       </article>
       <aside id="sidebar">
-        <div class="dark">
+        <div class="lighter">
           <h3>What we do</h3>
           <p>Nulla ultricies diam id pharetra volutpat. Aliquam et mauris ac libero pulvinar
             egestas id rhoncus magna. Integer fringilla purus quam, id condimentum sem dignissim
@@ -58,11 +49,14 @@
       </aside>
     </div>
   </section>
+  <section id="newsletter"></section>
   <div id="footerContainer"></div>
   <script src="lib/js/jquery-2.0.3.min.js"></script>
   <script src="js/general.js"></script>
   <script src="js/importHeaderFooter.js"></script>
   <script type="text/javascript">importHeaderAndFooter("html/")
+  </script>
+  <script type="text/javascript">importNewsletter("html/")
   </script>
 </body>
 </html>

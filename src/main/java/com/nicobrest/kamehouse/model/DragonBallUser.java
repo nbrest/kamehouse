@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.exception.KameHouseInvalidDataException;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -293,9 +294,8 @@ public class DragonBallUser implements Serializable {
   private void validateStringLength(String value) {
 
     if (value.length() > MAX_STRING_LENGTH) {
-      throw new KameHouseInvalidDataException(
-          "The string attribute excedes the maximum length of " + MAX_STRING_LENGTH
-              + ". Current length: " + value.length());
+      throw new KameHouseInvalidDataException("The string attribute excedes the maximum length of "
+          + MAX_STRING_LENGTH + ". Current length: " + value.length());
     }
   }
 
@@ -326,35 +326,18 @@ public class DragonBallUser implements Serializable {
   }
 
   /**
-   * toString.
+   * toString as json representation.
    * 
    * @author nbrest
    */
   @Override
   public String toString() {
-    StringBuffer instanceString = new StringBuffer();
-    instanceString.append("DragonBallUser [ ");
 
-    instanceString.append("id = ");
-    instanceString.append(id.toString());
-
-    instanceString.append(", username = ");
-    instanceString.append(username);
-
-    instanceString.append(", email = ");
-    instanceString.append(email);
-
-    instanceString.append(", age = ");
-    instanceString.append(age);
-
-    instanceString.append(", powerLevel = ");
-    instanceString.append(powerLevel);
-
-    instanceString.append(", stamina = ");
-    instanceString.append(stamina);
-
-    instanceString.append(" ]");
-
-    return instanceString.toString();
+    try {
+      return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+      e.printStackTrace(); 
+    }
+    return "DragonBallUser: INVALID_STATE";
   }
 }

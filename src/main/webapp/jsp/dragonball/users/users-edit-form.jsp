@@ -20,7 +20,7 @@
 <body>
   <div id="headerContainer"></div>
   <main>
-  <div class="container">
+  <div class="container main">
     <%-- TODO: I had to use the username as parameter because the id is of type Long, and
   since the method getDragonBallUser is overloaded for strings and longs, when I passed
   the id from the jsp, the method was invoked with a String parameter searching by the
@@ -31,9 +31,7 @@
     <c:set var="dragonBallUser" value="${dragonBallUserService.getDragonBallUser(username)}"></c:set>
 
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <span class="lead">Edit DragonBall User</span>
-      </div>
+      <h3 class="page-title">Edit DragonBall User</h3>
       <div class="formcontainer">
         <form action="users-edit-action.jsp" method="post"
           class="form-horizontal mi-form-horizontal">
@@ -95,13 +93,13 @@
 
           <div class="row">
             <div class="dragonball-user-form-buttons">
-              <input type="submit" value="Submit" class="btn btn-primary btn-sm" />
+              <input type="submit" value="Submit" class="btn btn-outline-info btn-sm" />
             </div>
           </div>
         </form>
       </div>
     </div>
-    <input type="button" value="List DragonBall Users" class="btn btn-basic btn-block custom-width"
+    <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block custom-width"
       onclick="window.location.href='users-list.jsp'">
   </div>
   </main>

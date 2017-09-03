@@ -1,20 +1,50 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/mvc
-http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+http://www.springframework.org/schema/cache
+http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- Root Application Context for the entire web application -->
 
   <import resource="applicationContext-persistence.xml" />
 
+  <!-- Ehcache configuration -->
+  <cache:annotation-driven />
+
+  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <property name="cacheManager" ref="ehcache" />
+  </bean>
+
+  <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <property name="configLocation" value="classpath:ehcache.xml" />
+    <property name="shared" value="true" />
+  </bean>
+  
+  <bean id="ehCacheService" class="com.nicobrest.kamehouse.service.EhCacheService">
+    <property name="cacheManager" ref="cacheManager" />
+  </bean>
+
+  <!-- Enable access to specific beans from JSP pages using ${beanName} -->
+  <bean
+    class="org.springframework.web.context.support.ServletContextAttributeExporter">
+    <property name="attributes">
+      <map>
+        <entry key="dragonBallUserService">
+          <ref bean="dragonBallUserService" />
+        </entry>
+      </map>
+    </property>
+  </bean>
+
   <!-- Example endpoints beans -->
-  <bean id="dragonBallUserService"
-    class="com.nicobrest.kamehouse.service.DragonBallUserService">
+  <bean id="dragonBallUserService" class="com.nicobrest.kamehouse.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDaoJpa" />
   </bean>
 
@@ -22,8 +52,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
 
-  <bean id="dragonBallUserDaoInMemory"
-    class="com.nicobrest.kamehouse.dao.DragonBallUserDaoInMemory">
+  <bean id="dragonBallUserDaoInMemory" class="com.nicobrest.kamehouse.dao.DragonBallUserDaoInMemory">
     <property name="gohanDragonBallUser" ref="gohanDragonBallUser" />
     <property name="gotenDragonBallUser" ref="gotenDragonBallUser" />
   </bean>
@@ -44,18 +73,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     <property name="age" value="10" />
     <property name="powerLevel" value="10" />
     <property name="stamina" value="1000" />
-  </bean>
-
-  <!-- Enable access to specific beans from JSP pages using ${beanName} -->
-  <bean
-    class="org.springframework.web.context.support.ServletContextAttributeExporter">
-    <property name="attributes">
-      <map>
-        <entry key="dragonBallUserService">
-          <ref bean="dragonBallUserService" />
-        </entry>
-      </map>
-    </property>
   </bean>
 
 </beans>

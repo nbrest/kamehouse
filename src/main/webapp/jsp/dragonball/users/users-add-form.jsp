@@ -16,11 +16,9 @@
 <body>
   <div id="headerContainer"></div>
   <main>
-  <div class="container">
+  <div class="container main">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <span class="lead">Add DragonBall User</span>
-      </div>
+      <h3 class="page-title">Add DragonBall User</h3>
       <div class="formcontainer">
         <form action="users-add-action.jsp" method="post" class="form-horizontal mi-form-horizontal">
           <div class="row">
@@ -75,13 +73,13 @@
 
           <div class="row">
             <div class="dragonball-user-form-buttons">
-              <input type="submit" value="Submit" class="btn btn-primary btn-sm" />
+              <input type="submit" value="Submit" class="btn btn-outline-info btn-sm" />
             </div>
           </div>
         </form>
       </div>
     </div>
-    <input type="button" value="List DragonBall Users" class="btn btn-basic btn-block custom-width"
+    <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block custom-width"
       onclick="window.location.href='users-list.jsp'">
   </div>
   </main>

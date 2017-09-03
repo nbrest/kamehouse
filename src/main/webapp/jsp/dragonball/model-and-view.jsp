@@ -15,14 +15,12 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <main>
-  <div class="container">
+  <div class="container main">
     <center>
       <h2>dragonball ModelAndView Test Endpoint</h2>
       <h2>${message}${name}</h2>
     </center>
   </div>
-  </main>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>

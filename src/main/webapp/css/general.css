@@ -1,31 +1,59 @@
-/* Generic elements */
+#banner {
+  min-height: 400px;
+  /* the tutorial had no-repeat in the background but it didn't work for me */
+  background: url(/kame-house/img/banner-space.jpg) 0 -400px;
+  text-align: center;
+  color: #ffffff;
+}
+
+#banner h1 {
+  margin-top: 100px;
+  font-size: 55px;
+  margin-bottom: 10px;
+}
+
+#banner p {
+  font-size: 20px;
+}
+
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	line-height: 1.5;
 	padding: 0;
 	margin: 0;
-	background-color: #f4f4f4;
+	background: #2e3941;
+	color: #ffffff;
 	word-wrap: break-word;
 }
 
-ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+#boxes {
+  margin-top: 20px;
 }
 
-/* Custom Classes */
+#boxes .box {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  text-align: center;
+}
+
+#boxes .box img {
+  width: 90px;
+  height: 90px;
+}
+
+.cache-status-buttons {
+	float: right;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 5px;
+}
+
 .container {
 	width: 80%;
 	margin: auto;
 	overflow: hidden;
-}
-
-.dark {
-	padding: 15px;
-	background: #35424a;
-	color: #ffffff;
 }
 
 .dragonball-users-edit-form {
@@ -34,46 +62,27 @@ ul {
 }
 
 .dragonball-user-form-buttons {
-	margin-left: 15px;
+  margin-left: 15px;
+}
+
+#ehcache-header {
+	margin-top: 15px;
+	float: left;
+	font-weight: bold;
 }
 
 .home-links {
-	text-align: center;
+  text-align: center;
 }
 
-/* Custom ids */
-#banner {
-	min-height: 400px;
-	/* the tutorial had no-repeat in the background but it didn't work for me */
-	background: url(/kame-house/img/banner-space.jpg) 0 -400px;
-	text-align: center;
+.lighter {
+	padding: 15px;
+	background: #35424a;
 	color: #ffffff;
 }
 
-#banner h1 {
-	margin-top: 100px;
-	font-size: 55px;
-	margin-bottom: 10px;
-}
-
-#banner p {
-	font-size: 20px;
-}
-
-#boxes {
-	margin-top: 20px;
-}
-
-#boxes .box {
-	float: left;
-	width: 30%;
-	padding: 10px;
-	text-align: center;
-}
-
-#boxes .box img {
-	width: 90px;
-	height: 90px;
+.main {
+  min-height: 472px;
 }
 
 #main-article {
@@ -87,7 +96,7 @@ ul {
 	background: #35424a;
 }
 
-#newsletter h1 {
+#newsletter h3 {
 	float: left;
 	margin-top: 10px;
 }
@@ -104,6 +113,11 @@ ul {
 	width: 250px;
 }
 
+.page-title {
+  margin-top: 15px;
+  font-weight: bold;
+}
+  
 #sidebar {
 	float: right;
 	width: 30%;
@@ -124,35 +138,68 @@ ul {
 	background: #e6e6e6;
 }
 
+.table-ehcache {
+  background: #1c2226;
+  margin-bottom: 5px;
+}
+
+.table-ehcache-button {
+    float: right;
+    margin: 0px;
+    margin-left: 5px;    
+}
+
+.td-ehcache-header {
+    font-weight: bold;
+    width: 70px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 /* Media Queries */
 @media ( max-width : 900px) {
+	#banner h1 {
+    margin-top: 40px;
+  }
+  
 	.container {
 		width: 100%;
 		margin: 0px;
 		overflow: hidden;
+		min-height: 0px;
 	}
-	#newsletter h1, #newsletter form, #boxes .box, #main-article, #sidebar {
+	
+	.main {
+	 min-height: 0px;
+	}
+	
+	#newsletter h3, #newsletter form, #boxes .box, #main-article, #sidebar {
 		float: none;
 		text-align: center;
 		width: 100%;
 	}
-	#banner h1 {
-		margin-top: 40px;
-	}
+
 	#newsletter button {
 		display: block;
 		width: 100%;
 	}
+	
 	#newsletter form input[type="email"] {
 		width: 100%;
 		margin-bottom: 5px;
 	}
+	
 	.table-dragonball-users tr td:nth-child(1), .table-dragonball-users tr th:nth-child(1)
 		{
 		display: inline-block;
 		width: 9%;
 		font-size: 0.75em;
 	}
+	
 	.table-dragonball-users tr td:nth-child(2), .table-dragonball-users tr td:nth-child(3),
 		.table-dragonball-users tr th:nth-child(2), .table-dragonball-users tr th:nth-child(3)
 		{
@@ -160,6 +207,7 @@ ul {
 		width: 20%;
 		font-size: 0.75em;
 	}
+	
 	.table-dragonball-users tr td:nth-child(4), .table-dragonball-users tr td:nth-child(5),
 		.table-dragonball-users tr td:nth-child(6), .table-dragonball-users tr th:nth-child(4),
 		.table-dragonball-users tr th:nth-child(5), .table-dragonball-users tr th:nth-child(6)
@@ -168,15 +216,18 @@ ul {
 		width: 15%;
 		font-size: 0.75em;
 	}
+	
 	.table-dragonball-users tr th:nth-child(7) {
 		display: none;
 		width: 0%;
 	}
+	
 	.table-dragonball-users tr td:nth-child(7) {
 		display: block;
 		width: 100%;
 		font-size: 0.75em;
 	}
+	
 	.table-dragonball-users tr td:nth-child(7) input {
 		width: 45%;
 	}

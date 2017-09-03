@@ -13,8 +13,8 @@ function updateActiveTab() {
         $(navItem).addClass("active");
       } 
       break;
-    case "/kame-house/services.jsp":
-      if ($(navItem).attr("id") == "nav-services") {
+    case "/kame-house/contact-us.jsp":
+      if ($(navItem).attr("id") == "nav-contact-us") {
         $(navItem).addClass("active");
       } 
       break;
@@ -28,6 +28,11 @@ function updateActiveTab() {
     }
     if (pageUrl.includes("/kame-house/app")) {
       if ($(navItem).attr("id") == "nav-app") {
+        $(navItem).addClass("active");
+      } 
+    }
+    if (pageUrl.includes("/kame-house/admin")) {
+      if ($(navItem).attr("id") == "nav-admin") {
         $(navItem).addClass("active");
       } 
     }
