@@ -94,13 +94,13 @@ public class EhCacheControllerTest {
     when(ehCacheServiceMock.getAllCaches()).thenReturn(cacheList);
     when(ehCacheServiceMock.getCache("getAllDragonBallUsersCache")).thenReturn(cacheMap);
     try {
-      mockMvc.perform(get("/api/v1/admin/ehcache/status")).andDo(print()).andExpect(status()
+      mockMvc.perform(get("/api/v1/admin/ehcache")).andDo(print()).andExpect(status()
           .isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(
               jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].name", equalTo(
                   "getAllDragonBallUsersCache"))).andExpect(jsonPath("$[0].keys", equalTo("[]")))
           .andExpect(jsonPath("$[0].values", equalTo("[ ]"))).andExpect(jsonPath("$[0].status",
               equalTo("STATUS_ALIVE")));
-      mockMvc.perform(get("/api/v1/admin/ehcache/status?name=getAllDragonBallUsersCache")).andDo(
+      mockMvc.perform(get("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache")).andDo(
           print()).andExpect(status().isOk()).andExpect(content().contentType(
               "application/json;charset=UTF-8")).andExpect(jsonPath("$", hasSize(1))).andExpect(
                   jsonPath("$[0].name", equalTo("getAllDragonBallUsersCache"))).andExpect(jsonPath(
@@ -121,9 +121,9 @@ public class EhCacheControllerTest {
   public void clearCacheTest() {
 
     try {
-      mockMvc.perform(delete("/api/v1/admin/ehcache/clear")).andDo(print()).andExpect(status()
+      mockMvc.perform(delete("/api/v1/admin/ehcache")).andDo(print()).andExpect(status()
           .isOk());
-      mockMvc.perform(delete("/api/v1/admin/ehcache/clear?name=getAllDragonBallUsersCache")).andDo(
+      mockMvc.perform(delete("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache")).andDo(
           print()).andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();

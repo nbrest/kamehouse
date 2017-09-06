@@ -1,10 +1,11 @@
 var ehcacheToggleTableRowIds = [];
+var EHCACHE_REST_API = '/kame-house/api/v1/admin/ehcache';
 var main = function() {
   getCacheData();
 };
 
 function getCacheData() {
-  $.get("/kame-house/api/v1/admin/ehcache/status")
+  $.get(EHCACHE_REST_API)
     .success(function(result) {
       displayCacheData(result);
     })
@@ -23,13 +24,14 @@ function displayCacheData(caches) {
 
     $cacheTableRow = $("<tr>");
     $cacheTableRow.append($('<td class="td-ehcache-header">').text("name"));
-    $cacheTableRowValue = $("<td>");
-    $cacheTableRowValue.text(cache.name);
-    $cacheTableRowValue.append("<input id='clear-" + cache.name + "' type='button' value='Clear Cache' class='btn btn-outline-danger table-ehcache-button' />");
-    $cacheTableRowValue.append("<input id='toggle-view-" + cache.name + "' type='button' value='Expand/Collapse' class='btn btn-outline-secondary table-ehcache-button' />");
-    $cacheTableRow.append($cacheTableRowValue);
-    $cacheTable.append($cacheTableRow);    
-    var cacheTableHeaders = ["status", "keys", "values"];
+    $cacheTableRowContent = $("<td>");
+    $cacheTableRowContent.text(cache.name);
+    $cacheTableRowContent.append("<input id='clear-" + cache.name + "' type='button' value='Clear Cache' class='btn btn-outline-danger table-ehcache-button' />");
+    $cacheTableRowContent.append("<input id='toggle-view-" + cache.name + "' type='button' value='Expand/Collapse' class='btn btn-outline-secondary table-ehcache-button' />");
+    $cacheTableRow.append($cacheTableRowContent);
+    $cacheTable.append($cacheTableRow);
+    
+    var cacheTableHeaders = [ "status", "keys", "values" ];
     for (var i = 0; i < cacheTableHeaders.length; i++) {
       $cacheTableRow = $('<tr class="toggle-' + cache.name + '">');
       $cacheTableRow.append($('<td class="td-ehcache-header">').text(cacheTableHeaders[i]));
@@ -54,16 +56,16 @@ function displayErrorGettingCache() {
   var $cacheData = $("#cache-data");
   var $errorTable = $('<table class="table table-bordered table-responsive table-ehcache">');
   var $errorTableRow = $("<tr>");
-  $errorTableRow.append($('<td>').text("Error retrieving cache data. Please try again later."));
+  $errorTableRow.append($('<td>').text(getTimestamp() + " : Error retrieving cache data. Please try again later."));
   $errorTable.append($errorTableRow);
   $cacheData.append($errorTable);
-  console.error("Error retrieving cache data. Please try again later.");
+  console.error(getTimestamp() + " : Error retrieving cache data. Please try again later.");
 }
 
 function clearCacheData(cacheName) {
   console.log("Clearing " + cacheName);
   $.ajax({
-    url : '/kame-house/api/v1/admin/ehcache/clear?name=' + cacheName,
+    url : EHCACHE_REST_API + '?name=' + cacheName,
     type : 'DELETE',
     success : function(result) {
       getCacheData();
@@ -77,7 +79,7 @@ function clearCacheData(cacheName) {
 
 function clearAllCaches() {
   $.ajax({
-    url : '/kame-house/api/v1/admin/ehcache/clear',
+    url : EHCACHE_REST_API,
     type : 'DELETE',
     success : function(result) {
       getCacheData();
@@ -95,13 +97,17 @@ function emptyCacheDataDiv() {
 }
 
 function toggleCacheView(className) {
-    $(className).toggle();
+  $(className).toggle();
 }
 
 function toggleAllCacheView() {
-  for (var i = 0; i < ehcacheToggleTableRowIds.length; i++) { 
+  for (var i = 0; i < ehcacheToggleTableRowIds.length; i++) {
     toggleCacheView(ehcacheToggleTableRowIds[i]);
-  } 
+  }
+}
+
+function getTimestamp() {
+  return new Date().toISOString().replace("T", " ").slice(0,19);
 }
 
 $(document).ready(main);

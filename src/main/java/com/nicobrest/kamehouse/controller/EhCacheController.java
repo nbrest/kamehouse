@@ -33,7 +33,7 @@ public class EhCacheController {
    * Returns the status of all the ehcaches or the cache specified as a
    * parameter.
    */
-  @RequestMapping(value = "/status", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<List<Map<String, Object>>> getCache(@RequestParam(value = "name",
       required = false) String cacheName) {
@@ -54,7 +54,7 @@ public class EhCacheController {
   /**
    * Clears all the ehcaches or the cache specified as a parameter.
    */
-  @RequestMapping(value = "/clear", method = RequestMethod.DELETE)
+  @RequestMapping(method = RequestMethod.DELETE)
   public ResponseEntity<Void> clearCache(@RequestParam(value = "name",
       required = false) String cacheName) {
 
