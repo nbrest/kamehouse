@@ -1,5 +1,6 @@
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,9 +56,10 @@
               <td>${dragonBallUser.getPowerLevel()}</td>
               <td>${dragonBallUser.getStamina()}</td>
               <td><input type="button" value="edit" class="btn btn-outline-success custom-width"
-                  onclick="window.location.href='users-edit-form.jsp?username=${dragonBallUser.getUsername()}'">
+                  onclick="window.location.href='users-edit-form?username=${dragonBallUser.getUsername()}'">
+                <!-- TODO: Make this a DELETE request, not a GET (wrap in a form or in a js Ajax request?) -->
                 <input type="button" value="delete" class="btn btn-outline-danger custom-width"
-                  onclick="window.location.href='users-delete.jsp?id=${dragonBallUser.getId()}'">
+                  onclick="window.location.href='users-delete?id=${dragonBallUser.getId()}'">
               </td>
             </tr>
           </c:forEach>
@@ -65,13 +67,13 @@
       </table>
     </div>
     <input type="button" value="Add DragonBall User" class="btn btn-outline-info custom-width"
-      onclick="window.location.href='users-add-form.jsp'">
+      onclick="window.location.href='users-add-form'">
   </div>
   </main>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("../../../html/")
+  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/", "${requestScope.username}")
   </script>
 </body>
 </html>

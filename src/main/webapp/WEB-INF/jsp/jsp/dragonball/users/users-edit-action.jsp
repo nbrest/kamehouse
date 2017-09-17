@@ -3,6 +3,7 @@
 <%@ page import="com.nicobrest.kamehouse.service.DragonBallUserService"%>
 <%@ page import="com.nicobrest.kamehouse.model.DragonBallUser"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true"%>
 <jsp:useBean id="dragonBallUser" class="com.nicobrest.kamehouse.model.DragonBallUser">
   <jsp:setProperty name="dragonBallUser" property="id" value="${param.id}" />
   <jsp:setProperty name="dragonBallUser" property="username" value="${param.username}" />
@@ -14,5 +15,5 @@
 
 ${dragonBallUserService.updateDragonBallUser(dragonBallUser)}
 <%
-  response.sendRedirect("users-list.jsp");
+  response.sendRedirect("users-list");
 %>

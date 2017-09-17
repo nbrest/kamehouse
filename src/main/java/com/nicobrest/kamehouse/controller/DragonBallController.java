@@ -73,17 +73,9 @@ public class DragonBallController {
     LOGGER.info("In controller /dragonball/model-and-view (GET)");
 
     String message = "message: dragonball ModelAndView!";
-
-    ModelAndView mv = new ModelAndView("jsp/dragonball/model-and-view.jsp");
+    ModelAndView mv = new ModelAndView("jsp/dragonball/model-and-view");
     mv.addObject("message", message);
     mv.addObject("name", name);
-
-    LOGGER.info("In controller /dragonball/model-and-view Model keys: " + mv.getModel().keySet()
-        .toString());
-    LOGGER.info("In controller /dragonball/model-and-view Model values: " + mv.getModel().values()
-        .toString());
-    LOGGER.info("In controller /dragonball/model-and-view Model values: " + mv.getViewName());
-
     return mv;
   }
 

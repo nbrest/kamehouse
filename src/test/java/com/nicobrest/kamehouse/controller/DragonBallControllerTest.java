@@ -165,8 +165,8 @@ public class DragonBallControllerTest {
 
     try {
       mockMvc.perform(get("/api/v1/dragonball/model-and-view")).andDo(print()).andExpect(status().isOk())
-          .andExpect(view().name("jsp/dragonball/model-and-view.jsp"))
-          .andExpect(forwardedUrl("jsp/dragonball/model-and-view.jsp"))
+          .andExpect(view().name("jsp/dragonball/model-and-view"))
+          .andExpect(forwardedUrl("jsp/dragonball/model-and-view"))
           .andExpect(model().attribute("name", isA(String.class)))
           .andExpect(model().attribute("name", equalTo("Goku")))
           .andExpect(model().attribute("message", equalTo("message: dragonball ModelAndView!")));

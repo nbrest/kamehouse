@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*,java.text.*"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +11,11 @@
 <meta name="keywords" content="kame-house nicobrest nbrest">
 
 <title>Kame House - Home</title>
-<link rel="icon" type="img/ico" href="img/favicon.ico" />
-<link rel="stylesheet" href="lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="css/general.css" />
-<link rel="stylesheet" href="css/header.css" />
-<link rel="stylesheet" href="css/footer.css" />
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/general.css" />
+<link rel="stylesheet" href="/kame-house/css/header.css" />
+<link rel="stylesheet" href="/kame-house/css/footer.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
@@ -49,12 +50,12 @@
   </section>
   <section id="newsletter"></section>
   <div id="footerContainer"></div>
-  <script src="lib/js/jquery-2.0.3.min.js"></script>
-  <script src="js/general.js"></script>
-  <script src="js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("html/")
+  <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+  <script src="/kame-house/js/general.js"></script>
+  <script src="/kame-house/js/importHeaderFooter.js"></script>
+  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/", "${requestScope.username}")
   </script>
-  <script type="text/javascript">importNewsletter("html/")
+  <script type="text/javascript">importNewsletter("/kame-house" + "/html/")
   </script>
 </body>
 </html>

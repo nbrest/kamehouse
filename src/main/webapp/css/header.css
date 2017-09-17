@@ -1,56 +1,97 @@
 header {
 	background: #1a2226;
 	color: #ffffff;
-	padding-top: 30px;
-	padding-bottom: 30px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	min-height: 70px;
 	border-bottom: #e8491d 3px solid;
 }
 
-header a {
-	color: #ffffff;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 16px;
+header .container {
+	margin-bottom: 0px;
 }
 
-header li {
-	float: left;
-	display: inline;
-	padding: 0 20px 0 20px;
+header #header-menu {
 }
 
-header #branding {
-	float: left;
+header #header-menu nav {
+  margin-top: 5px;
 }
 
-header #branding h1 {
-	margin: 0;
+header #header-menu nav ul {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   width: 100%;
 }
 
-header nav {
+header #header-menu nav ul li {
+  float: left;
+  padding: 0 20px 0 20px;
+}
+
+header #header-menu nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+header #header-menu nav ul .active a {
+  color: #e8491d;
+  font-weight: bold;
+}
+
+header #header-menu nav ul li a:hover {
+  color: #808080;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+header #header-top #branding {
+  float: left;
+}
+
+header #header-top #branding h1 {
+  margin: 0;
+}
+
+header #header-top #login-status {
+  padding: 10px;
+  float: right;
+}
+
+header #header-top #login-status a {
+  float: right;
+  display: inline;
+}
+
+header #header-top #login-status h5 {
 	float: right;
-	margin-top: 10px;
+	display: inline;
+	padding: 5px;
+	padding-right: 20px;
 }
 
-header .highlight, header .active a {
-	color: #e8491d;
-	font-weight: bold;
-}
-
-header a:hover {
-	color: #cccccc;
-	font-weight: bold;
+header .highlight {
+  color: #e8491d;
+  font-weight: bold;
 }
 
 /* Media Queries */
 @media ( max-width : 900px) {
-	header #branding, header nav, header nav li {
+	
+	header #header-menu, header #header-top, header #header-top #branding, header #header-top #login-status {
 		float: none;
-		text-align: center;
+		display: block;
+		text-align: center; 
 		width: 100%;
 	}
-	header nav li {
+	
+	header #header-menu nav ul li {
 		padding: 10px;
+		display: inline;
 	}
 }

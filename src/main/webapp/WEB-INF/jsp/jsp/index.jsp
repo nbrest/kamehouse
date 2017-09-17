@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*,java.text.*"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page session="true"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -16,21 +17,22 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main">
-  <div>
-    <h3 id="ehcache-header">EhCache Status</h3>    
-    <input type="button" onclick="clearAllCaches()" value="Clear All" class="btn btn-outline-danger cache-status-buttons"/>
-    <input type="button" onclick="toggleAllCacheView()" value="Expand/Collapse All" class="btn btn-outline-secondary cache-status-buttons"/>
-    <input type="button" onclick="getCacheData()" value="Refresh" class="btn btn-outline-info cache-status-buttons"/>
+  <section id="banner">
+  <div class="container">
+    <h1>JSP Kame House Homepage</h1>
+    <p>Mada mada dane. Kamehame-ha. Pegasus Ryu Sei Ken. Tiger shot. Masenko. Final flash. Genki
+      dama. Tsubame gaeshi. Twist serve. Zero shiki drop shot.</p>
   </div>
-    <br><br><hr>
-    <div id="cache-data"></div>
+  </section>
+  <div class="container home-links">
+    <br>
+    <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary custom-width"
+      onclick="window.location.href='dragonball/users/users-list'">
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
-  <script src="${pageContext.request.contextPath}/js/admin.ehcache.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("../html/")
+  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/", "${requestScope.username}")
   </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <%@ page isErrorPage="true"%>
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,9 +11,9 @@
 <body>
   <p>Sorry, an error occurred when processing your request.</p>
 
-  <a href="users-list.jsp">Go to users list</a>
+  <a href="users-list">Go to users list</a>
   <br />
-  <a href="../../">Go home</a>
+  <a href="/">Go home</a>
 
   <br />
   Status:

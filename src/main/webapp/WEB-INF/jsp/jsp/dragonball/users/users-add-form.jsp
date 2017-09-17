@@ -1,3 +1,4 @@
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
     <div class="panel panel-default">
       <h3 class="page-title">Add DragonBall User</h3>
       <div class="formcontainer">
-        <form action="users-add-action.jsp" method="post" class="form-horizontal mi-form-horizontal">
+        <form action="users-add-action" method="post" class="form-horizontal mi-form-horizontal">
           <div class="row">
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="username">Username</label>
@@ -80,13 +81,13 @@
       </div>
     </div>
     <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block custom-width"
-      onclick="window.location.href='users-list.jsp'">
+      onclick="window.location.href='users-list'">
   </div>
   </main>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("../../../html/")
+  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/", "${requestScope.username}")
   </script>
 </body>
 </html>

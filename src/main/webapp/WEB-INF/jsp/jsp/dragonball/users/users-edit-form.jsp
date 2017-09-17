@@ -2,6 +2,7 @@
 <%@ page import="com.nicobrest.kamehouse.service.DragonBallUserService"%>
 <%@ page import="com.nicobrest.kamehouse.model.DragonBallUser"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
     <div class="panel panel-default">
       <h3 class="page-title">Edit DragonBall User</h3>
       <div class="formcontainer">
-        <form action="users-edit-action.jsp" method="post"
+        <form action="users-edit-action" method="post"
           class="form-horizontal mi-form-horizontal">
           <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
           <div class="row">
@@ -100,13 +101,13 @@
       </div>
     </div>
     <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block custom-width"
-      onclick="window.location.href='users-list.jsp'">
+      onclick="window.location.href='users-list'">
   </div>
   </main>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("../../../html/")
+  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/", "${requestScope.username}")
   </script>
 </body>
 </html>

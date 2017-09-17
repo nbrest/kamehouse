@@ -85,6 +85,10 @@ body {
   min-height: 472px;
 }
 
+.login-form {
+	margin: 30px;
+}
+
 #main-article {
 	float: left;
 	width: 65%;

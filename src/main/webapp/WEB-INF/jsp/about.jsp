@@ -54,7 +54,7 @@
   <script src="lib/js/jquery-2.0.3.min.js"></script>
   <script src="js/general.js"></script>
   <script src="js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("html/")
+  <script type="text/javascript">importHeaderAndFooter("html/", "${requestScope.username}")
   </script>
   <script type="text/javascript">importNewsletter("html/")
   </script>
