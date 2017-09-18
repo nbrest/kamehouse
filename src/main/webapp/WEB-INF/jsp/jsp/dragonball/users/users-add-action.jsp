@@ -1,4 +1,3 @@
-<%@ page errorPage="users-error.jsp"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.nicobrest.kamehouse.service.DragonBallUserService"%>
 <%@ page import="com.nicobrest.kamehouse.model.DragonBallUser"%>
@@ -12,19 +11,14 @@
   <jsp:setProperty name="dragonBallUser" property="stamina" value="${param.stamina}" />
 </jsp:useBean>
 
-<c:set var="dragonBallUserId" scope="page" value="0" />
-<c:set var="dragonBallUserId" value="${dragonBallUserService.createDragonBallUser(dragonBallUser)}"></c:set>
+<c:set var="addedDragonBallUserId" scope="page" value="0" />
+<c:set var="addedDragonBallUserId" value="${dragonBallUserService.createDragonBallUser(dragonBallUser)}"></c:set>
 <c:choose>
-  <c:when test="${dragonBallUserId > 0}">
+  <c:when test="${addedDragonBallUserId > 0}">
     <%
       response.sendRedirect("users-list");
     %>
   </c:when>
-  <c:otherwise>
-    <%
-      response.sendRedirect("users-error");
-    %>
-  </c:otherwise>
 </c:choose>
 
 <%-- <c:out value="${dragonBallUserId}"></c:out> --%>

@@ -1,4 +1,3 @@
-<%@ page errorPage="users-error.jsp"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.nicobrest.kamehouse.service.DragonBallUserService"%>
 <%@ page import="com.nicobrest.kamehouse.model.DragonBallUser"%>
