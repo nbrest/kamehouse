@@ -141,7 +141,11 @@ body {
 	margin-bottom: 5px;
 	background: #e6e6e6;
 }
-
+  
+.table-dragonball-users tr td:nth-child(7) form {
+  display: inline;
+}
+  
 .table-ehcache {
   background: #1c2226;
   margin-bottom: 5px;

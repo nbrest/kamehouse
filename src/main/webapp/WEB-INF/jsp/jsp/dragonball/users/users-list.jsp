@@ -55,19 +55,21 @@
               <td>${dragonBallUser.getAge()}</td>
               <td>${dragonBallUser.getPowerLevel()}</td>
               <td>${dragonBallUser.getStamina()}</td>
-              <td><input type="button" value="edit" class="btn btn-outline-success custom-width"
-                  onclick="window.location.href='users-edit-form?username=${dragonBallUser.getUsername()}'">
+              <td><input type="button" value="edit"
+                  class="btn btn-outline-success custom-width"
+                  onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
                 <!-- TODO: Make this a DELETE request, not a GET (wrap in a form or in a js Ajax request?) -->
-                <input type="button" value="delete" class="btn btn-outline-danger custom-width"
-                  onclick="window.location.href='users-delete?id=${dragonBallUser.getId()}'">
-              </td>
+                <form action="users-delete-action" method="post">
+                  <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
+                  <input type="submit" value="delete" class="btn btn-outline-danger custom-width" />
+                </form></td>
             </tr>
           </c:forEach>
         </tbody>
       </table>
     </div>
     <input type="button" value="Add DragonBall User" class="btn btn-outline-info custom-width"
-      onclick="window.location.href='users-add-form'">
+      onclick="window.location.href='users-add'">
   </div>
   </main>
   <div id="footerContainer"></div>

@@ -19,7 +19,7 @@
     <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')" method="PUT"/>
     <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')" method="DELETE"/>
 
-    <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')" method="GET"/>
+    <intercept-url pattern="/jsp/dragonball/users/**" access="permitAll" method="GET"/>
     <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')" method="POST"/>
     <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')" method="PUT"/>
     <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')" method="DELETE"/>
