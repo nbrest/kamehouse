@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.servlet;
 
+//TODO: Add unit tests and javadocs for all servlets
 import com.nicobrest.kamehouse.model.DragonBallUser;
 import com.nicobrest.kamehouse.service.DragonBallUserService;
 
@@ -15,22 +16,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/jsp/dragonball/users/users-edit-action")
-public class EditDragonBallUserServlet extends HttpServlet {
+@WebServlet("/jsp/dragonball/users/users-add-action")
+public class DragonBallUserAddActionServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
 
   @Autowired
-  private DragonBallUserService dragonBallUserService;
+  private static DragonBallUserService dragonBallUserService;
 
   /**
    * Getters and Setters.
    *
    * @author nbrest
    */
-  public void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
+  public static void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
 
-    this.dragonBallUserService = dragonBallUserService;
+    DragonBallUserAddActionServlet.dragonBallUserService = dragonBallUserService;
   }
 
   /**
@@ -38,9 +39,9 @@ public class EditDragonBallUserServlet extends HttpServlet {
    *
    * @author nbrest
    */
-  public DragonBallUserService getDragonBallUserService() {
+  public static DragonBallUserService getDragonBallUserService() {
 
-    return this.dragonBallUserService;
+    return DragonBallUserAddActionServlet.dragonBallUserService;
   }
 
   @Override
@@ -55,14 +56,13 @@ public class EditDragonBallUserServlet extends HttpServlet {
       throws ServletException, IOException {
 
     DragonBallUser dragonBallUser = new DragonBallUser();
-    dragonBallUser.setId(Long.parseLong(request.getParameter("id")));
     dragonBallUser.setUsername(request.getParameter("username"));
     dragonBallUser.setEmail(request.getParameter("email"));
     dragonBallUser.setAge(Integer.parseInt(request.getParameter("age")));
     dragonBallUser.setStamina(Integer.parseInt(request.getParameter("stamina")));
     dragonBallUser.setPowerLevel(Integer.parseInt(request.getParameter("powerLevel")));
 
-    dragonBallUserService.updateDragonBallUser(dragonBallUser);
+    dragonBallUserService.createDragonBallUser(dragonBallUser);
     response.sendRedirect("users-list");
   }
 
