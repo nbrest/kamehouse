@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//TODO: ADD UNIT TESTS
 
 /**
  * Controller to resolve views for all the jsps in the application.
@@ -99,7 +98,7 @@ public class ViewResolverController {
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String loginPage() {
     logger.debug("In controller /login (GET)");
-    return "login";
+    return "/login";
   }
 
   /**

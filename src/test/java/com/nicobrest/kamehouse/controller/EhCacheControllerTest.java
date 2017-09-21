@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Unit tests for the DragonBallController class.
+ * Unit tests for the EhCacheController class.
  *
  * @author nbrest
  */
@@ -75,13 +75,8 @@ public class EhCacheControllerTest {
    */
   @Before
   public void beforeTest() {
-    /* Actions to perform before each test in the class */
-
-    // Reset mock objects before each test
     MockitoAnnotations.initMocks(this);
     Mockito.reset(ehCacheServiceMock);
-
-    // Setup mockMvc test object
     mockMvc = MockMvcBuilders.standaloneSetup(ehCacheController).build();
   }
 
