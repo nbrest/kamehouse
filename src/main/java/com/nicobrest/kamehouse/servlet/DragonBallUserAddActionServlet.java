@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.servlet;
 
-//TODO: Add unit tests and javadocs for all servlets
 import com.nicobrest.kamehouse.model.DragonBallUser;
 import com.nicobrest.kamehouse.service.DragonBallUserService;
 
@@ -16,6 +15,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet to process requests to add a DragonBallUser from the repository.
+ * 
+ * @author nbrest
+ *
+ */
 @WebServlet("/jsp/dragonball/users/users-add-action")
 public class DragonBallUserAddActionServlet extends HttpServlet {
 
@@ -24,26 +29,19 @@ public class DragonBallUserAddActionServlet extends HttpServlet {
   @Autowired
   private static DragonBallUserService dragonBallUserService;
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public static void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
 
     DragonBallUserAddActionServlet.dragonBallUserService = dragonBallUserService;
   }
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public static DragonBallUserService getDragonBallUserService() {
 
     return DragonBallUserAddActionServlet.dragonBallUserService;
   }
 
+  /**
+   * Configures spring context.
+   */
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
@@ -51,6 +49,10 @@ public class DragonBallUserAddActionServlet extends HttpServlet {
         .getServletContext());
   }
 
+  /**
+   * Adds a DragonBallUser to the repository with the data taken from the
+   * request parameters.
+   */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -62,7 +64,7 @@ public class DragonBallUserAddActionServlet extends HttpServlet {
     dragonBallUser.setStamina(Integer.parseInt(request.getParameter("stamina")));
     dragonBallUser.setPowerLevel(Integer.parseInt(request.getParameter("powerLevel")));
 
-    dragonBallUserService.createDragonBallUser(dragonBallUser);
+    getDragonBallUserService().createDragonBallUser(dragonBallUser);
     response.sendRedirect("users-list");
   }
 

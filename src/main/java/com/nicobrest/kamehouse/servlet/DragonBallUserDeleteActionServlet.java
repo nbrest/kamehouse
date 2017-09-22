@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet to process requests to delete a DragonBallUser from the repository.
+ * 
+ * @author nbrest
+ *
+ */
 @WebServlet("/jsp/dragonball/users/users-delete-action")
 public class DragonBallUserDeleteActionServlet extends HttpServlet {
 
@@ -22,26 +28,19 @@ public class DragonBallUserDeleteActionServlet extends HttpServlet {
   @Autowired
   private static DragonBallUserService dragonBallUserService;
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public static void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
 
     DragonBallUserDeleteActionServlet.dragonBallUserService = dragonBallUserService;
   }
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public static DragonBallUserService getDragonBallUserService() {
 
     return DragonBallUserDeleteActionServlet.dragonBallUserService;
   }
 
+  /**
+   * Configures spring context.
+   */
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
@@ -49,6 +48,10 @@ public class DragonBallUserDeleteActionServlet extends HttpServlet {
         .getServletContext());
   }
 
+  /**
+   * Deletes the DragonBallUser from the repository with the id taken from the
+   * request parameters.
+   */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {

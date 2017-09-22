@@ -15,6 +15,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet to process requests to edit a DragonBallUser from the repository.
+ * 
+ * @author nbrest
+ *
+ */
 @WebServlet("/jsp/dragonball/users/users-edit-action")
 public class DragonBallUserEditActionServlet extends HttpServlet {
 
@@ -23,26 +29,19 @@ public class DragonBallUserEditActionServlet extends HttpServlet {
   @Autowired
   private static DragonBallUserService dragonBallUserService;
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public static void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
 
     DragonBallUserEditActionServlet.dragonBallUserService = dragonBallUserService;
   }
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public static DragonBallUserService getDragonBallUserService() {
 
     return DragonBallUserEditActionServlet.dragonBallUserService;
   }
 
+  /**
+   * Configures spring context.
+   */
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
@@ -50,6 +49,10 @@ public class DragonBallUserEditActionServlet extends HttpServlet {
         .getServletContext());
   }
 
+  /**
+   * Edits a DragonBallUser from the repository with the data taken from the
+   * request parameters.
+   */
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
