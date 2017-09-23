@@ -27,13 +27,13 @@ import javax.servlet.http.HttpServletResponse;
 public class DragonBallUserEditActionServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
- 
+
   private static DragonBallUserService dragonBallUserService;
 
   public static void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
     DragonBallUserEditActionServlet.dragonBallUserService = dragonBallUserService;
   }
-  
+
   public static DragonBallUserService getDragonBallUserService() {
     return DragonBallUserEditActionServlet.dragonBallUserService;
   }
@@ -43,7 +43,8 @@ public class DragonBallUserEditActionServlet extends HttpServlet {
    * because the servlet is not managed by spring and the initialization of
    * static fields probably happens before the spring context loads. The only
    * way for @Autowired to work was to have the property non-static and use
-   * SpringBeanAutowiringSupport in the init method.
+   * SpringBeanAutowiringSupport in the init method, but findbugs reports having
+   * non-static fields in a Servlet as a bug.
    */
   @Override
   public void init(ServletConfig config) throws ServletException {

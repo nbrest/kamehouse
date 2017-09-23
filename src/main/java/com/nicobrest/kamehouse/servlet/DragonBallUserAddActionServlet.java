@@ -43,7 +43,8 @@ public class DragonBallUserAddActionServlet extends HttpServlet {
    * because the servlet is not managed by spring and the initialization of
    * static fields probably happens before the spring context loads. The only
    * way for @Autowired to work was to have the property non-static and use
-   * SpringBeanAutowiringSupport in the init method.
+   * SpringBeanAutowiringSupport in the init method, but findbugs reports having
+   * non-static fields in a Servlet as a bug.
    */
   @Override
   public void init(ServletConfig config) throws ServletException {
