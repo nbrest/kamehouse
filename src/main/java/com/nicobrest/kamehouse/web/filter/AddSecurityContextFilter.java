@@ -15,15 +15,18 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * Filter class to add the logged in username to each request.
+ * Filter class to add the logged in username to each request.<br>
+ * Deprecated. Functionality replaced by
+ * {@link com.nicobrest.kamehouse.controller.SessionInformationController}.<br>
  * 
  * @author nbrest
  *
  */
+@Deprecated
 public class AddSecurityContextFilter implements Filter {
 
   private static final Logger logger = LoggerFactory.getLogger(AddSecurityContextFilter.class);
-  
+
   @Override
   public void destroy() {
   }
@@ -32,7 +35,6 @@ public class AddSecurityContextFilter implements Filter {
   public void init(FilterConfig filterConfig) throws ServletException {
   }
 
-  //TODO: Add unit test
   /**
    * Add logged in username to the current request.
    */
@@ -40,10 +42,17 @@ public class AddSecurityContextFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    Authentication authentication = getAuthentication();
     String username = authentication.getName();
     logger.trace("Setting request username: " + username);
     request.setAttribute("username", username);
     chain.doFilter(request, response);
+  }
+  
+  /**
+   * Get the Authentication object from the spring security context.
+   */
+  private Authentication getAuthentication() {
+    return SecurityContextHolder.getContext().getAuthentication();
   }
 }
