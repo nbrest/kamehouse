@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -103,6 +104,7 @@ public class EhCacheControllerTest {
                           "[ ]"))).andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
     } catch (Exception e) {
       e.printStackTrace();
+      fail("Unexpected exception thrown.");
     }
     verify(ehCacheServiceMock, times(1)).getAllCaches();
     verify(ehCacheServiceMock, times(1)).getCache("getAllDragonBallUsersCache");
@@ -122,6 +124,7 @@ public class EhCacheControllerTest {
           print()).andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
+      fail("Unexpected exception thrown.");
     }
     verify(ehCacheServiceMock, times(1)).clearAllCaches();
     verify(ehCacheServiceMock, times(1)).clearCache("getAllDragonBallUsersCache");

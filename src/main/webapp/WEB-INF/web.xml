@@ -97,17 +97,6 @@
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
-  <filter>
-    <filter-name>addSecurityContextFilter</filter-name>
-    <filter-class>com.nicobrest.kamehouse.web.filter.AddSecurityContextFilter</filter-class>
-  </filter>
-  
-  <filter-mapping>
-    <filter-name>addSecurityContextFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-    <servlet-name>dispatcher</servlet-name>
-  </filter-mapping>
   
   <!-- Error page definitions -->
   <error-page>

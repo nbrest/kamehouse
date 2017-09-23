@@ -1,5 +1,6 @@
 var ehcacheToggleTableRowIds = [];
 var EHCACHE_REST_API = '/kame-house/api/v1/admin/ehcache';
+
 var main = function() {
   getCacheData();
 };

@@ -29,9 +29,9 @@
     <jsonpath.version>0.8.1</jsonpath.version>
     <junit.version>4.12</junit.version>
     <logback.version>1.1.2</logback.version>
-    <mockito.version>1.9.5</mockito.version>
     <mysql.connector.java.version>5.1.39</mysql.connector.java.version>
     <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
+    <powermock.version>1.7.3</powermock.version>
     <spring.version>4.2.4.RELEASE</spring.version>
     <spring.security.version>4.2.3.RELEASE</spring.security.version>
     <war.plugin.version>2.1.1</war.plugin.version>
@@ -242,9 +242,23 @@
     </dependency>
 
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${mockito.version}</version>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-core</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito2</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -253,6 +267,14 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <!-- Spring Security test -->
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <version>${spring.security.version}</version>
       <scope>test</scope>
     </dependency>
 

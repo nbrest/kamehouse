@@ -1,3 +1,14 @@
+function importHeaderAndFooter(path) {
+  if (path == undefined || path == null) {
+    path = "";
+  }
+  $("#headerContainer").load(path + "header.html", function() {
+    updateActiveTab();
+    getSessionInformation();
+  });
+  $("#footerContainer").load(path + "footer.html");
+}
+
 function updateActiveTab() {
   var pageUrl = window.location.pathname; 
   $("#headerContainer header .container #header-menu nav ul li").toArray().forEach(function(navItem) {
@@ -39,17 +50,16 @@ function updateActiveTab() {
   });
 }
 
-function importHeaderAndFooter(path, username) {
-  if (path == undefined || path == null) {
-    path = "";
-  }
-  //console.log("Loading header and footer from path: " + path);
-
-  $("#headerContainer").load(path + "header.html", function() {
-    updateActiveTab(); 
-    updateLoginStatus(username);
+function getSessionInformation() {
+  SESSION_INFO_URL = "/kame-house/api/v1/session/status";
+  $.get(SESSION_INFO_URL)
+  .success(function(data) {
+    updateLoginStatus(data.username);
+  })
+  .error(function(jqXHR, textStatus, errorThrown) {
+    console.error("Error retrieving current session information.");
+    updateLoginStatus(null);
   });
-  $("#footerContainer").load(path + "footer.html");
 }
 
 function updateLoginStatus(username) {

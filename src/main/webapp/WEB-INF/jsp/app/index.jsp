@@ -19,7 +19,7 @@
   <div id="footerContainer"></div>
   <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
   <script src="/kame-house/js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/", "${requestScope.username}")
+  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/")
   </script>
   <script src="/kame-house/lib/js/angular.js"></script>
   <script src="/kame-house/lib/js/angular-route.js"></script>

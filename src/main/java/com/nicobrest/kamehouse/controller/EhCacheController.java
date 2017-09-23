@@ -3,6 +3,8 @@ package com.nicobrest.kamehouse.controller;
 import com.nicobrest.kamehouse.service.EhCacheService;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,8 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/admin/ehcache")
 public class EhCacheController {
 
+  private static final Logger logger = LoggerFactory.getLogger(EhCacheController.class);
+  
   @Autowired
   private EhCacheService ehCacheService;
 
@@ -38,10 +42,11 @@ public class EhCacheController {
   public ResponseEntity<List<Map<String, Object>>> getCache(@RequestParam(value = "name",
       required = false) String cacheName) {
 
+    logger.trace("In controller /api/v1/admin/ehcache (GET)");
     List<Map<String, Object>> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
       cacheList = new ArrayList<Map<String, Object>>();
-      Map<String,Object> cache = ehCacheService.getCache(cacheName);
+      Map<String, Object> cache = ehCacheService.getCache(cacheName);
       if (!cache.isEmpty()) {
         cacheList.add(cache);
       }
@@ -58,6 +63,7 @@ public class EhCacheController {
   public ResponseEntity<Void> clearCache(@RequestParam(value = "name",
       required = false) String cacheName) {
 
+    logger.trace("In controller /api/v1/admin/ehcache (DELETE)");
     if (!StringUtils.isBlank(cacheName)) {
       ehCacheService.clearCache(cacheName);
     } else {

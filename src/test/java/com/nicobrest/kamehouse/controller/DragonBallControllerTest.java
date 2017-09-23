@@ -172,8 +172,8 @@ public class DragonBallControllerTest {
           .andExpect(model().attribute("message", equalTo("message: dragonball ModelAndView!")));
     } catch (Exception e) {
       e.printStackTrace();
+      fail("Unexpected exception thrown.");
     }
-
     verifyZeroInteractions(dragonBallUserServiceMock);
   }
 
@@ -217,8 +217,8 @@ public class DragonBallControllerTest {
           .andExpect(jsonPath("$[2].stamina", equalTo(1000)));
     } catch (Exception e) {
       e.printStackTrace();
+      fail("Unexpected exception thrown.");
     }
-
     // Verify gotenDragonBallUserMock invocations
     verify(dragonBallUserServiceMock, times(1)).getAllDragonBallUsers();
     verifyNoMoreInteractions(dragonBallUserServiceMock);
@@ -238,10 +238,10 @@ public class DragonBallControllerTest {
       mockMvc.perform(get("/api/v1/dragonball/users?action=Exception")).andDo(print())
           .andExpect(status().isInternalServerError()).andExpect(view().name("error/error"))
           .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
+      fail("Expected an exception to be thrown.");
     } catch (Exception e) {
-      e.printStackTrace();
+      //Do nothing. An exception was expected.
     }
-
     // Verify gotenDragonBallUserMock invocations
     verifyZeroInteractions(dragonBallUserServiceMock);
   }
@@ -260,10 +260,10 @@ public class DragonBallControllerTest {
       mockMvc.perform(get("/api/v1/dragonball/users?action=RuntimeException")).andDo(print())
           .andExpect(status().isInternalServerError()).andExpect(view().name("error/error"))
           .andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
+      fail("Expected an exception to be thrown.");
     } catch (Exception e) {
-      e.printStackTrace();
+      //Do nothing. Expected an exception
     }
-
     // Verify gotenDragonBallUserMock invocations
     verifyZeroInteractions(dragonBallUserServiceMock);
   }
@@ -281,10 +281,10 @@ public class DragonBallControllerTest {
     try {
       mockMvc.perform(get("/api/v1/dragonball/users?action=KameHouseNotFoundException"))
           .andDo(print()).andExpect(status().isNotFound());
+      fail("Expected an exception to be thrown.");
     } catch (Exception e) {
-      e.printStackTrace();
+      //Do nothing. Expected an exception
     }
-
     // Verify gotenDragonBallUserMock invocations
     verifyZeroInteractions(dragonBallUserServiceMock);
   }
@@ -320,7 +320,7 @@ public class DragonBallControllerTest {
       verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUsersList.get(0));
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught unexpected exception.");
+      fail("Unexpected exception thrown.");
     }
   }
 
@@ -350,7 +350,7 @@ public class DragonBallControllerTest {
     } catch (Exception e) {
       if (!(e.getCause() instanceof KameHouseConflictException)) {
         e.printStackTrace();
-        fail("Caught unexpected exception.");
+        fail("Unexpected exception thrown.");
       }
     }
   }
@@ -380,7 +380,7 @@ public class DragonBallControllerTest {
           .andExpect(jsonPath("$.stamina", equalTo(1000)));
     } catch (Exception e) {
       e.printStackTrace();
-      fail("unexpected exception.");
+      fail("Unexpected exception thrown.");
     }
   }
 
@@ -409,7 +409,7 @@ public class DragonBallControllerTest {
           .andExpect(jsonPath("$.stamina", equalTo(1000)));
     } catch (Exception e) {
       e.printStackTrace();
-      fail("unexpected exception.");
+      fail("Unexpected exception thrown.");
     }
 
     // Exception flows
@@ -424,7 +424,7 @@ public class DragonBallControllerTest {
     } catch (Exception e) {
       if (!(e.getCause() instanceof KameHouseNotFoundException)) {
         e.printStackTrace();
-        fail("Caught unexpected exception.");
+        fail("Unexpected exception thrown.");
       }
     }
   }
@@ -450,7 +450,7 @@ public class DragonBallControllerTest {
     } catch (Exception e) {
       if (!(e.getCause() instanceof KameHouseNotFoundException)) {
         e.printStackTrace();
-        fail("Caught unexpected exception.");
+        fail("Unexpected exception thrown.");
       }
     }
   }
@@ -482,7 +482,7 @@ public class DragonBallControllerTest {
           .andExpect(jsonPath("$.stamina", equalTo(1000)));
     } catch (Exception e) {
       e.printStackTrace();
-      fail("unexpected exception.");
+      fail("Unexpected exception thrown.");
     }
   }
 
@@ -514,7 +514,7 @@ public class DragonBallControllerTest {
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUsersList.get(0));
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught unexpected exception.");
+      fail("Unexpected exception thrown.");
     }
   }
 
@@ -544,7 +544,7 @@ public class DragonBallControllerTest {
     } catch (Exception e) {
       if (!(e.getCause() instanceof KameHouseNotFoundException)) {
         e.printStackTrace();
-        fail("Caught unexpected exception.");
+        fail("Unexpected exception thrown.");
       }
     }
   }
@@ -577,7 +577,7 @@ public class DragonBallControllerTest {
           .getDragonBallUser(dragonBallUsersList.get(0).getUsername());
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught unexpected exception.");
+      fail("Unexpected exception thrown.");
     }
   }
 
@@ -607,7 +607,7 @@ public class DragonBallControllerTest {
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Caught unexpected exception.");
+      fail("Unexpected exception thrown.");
     }
   }
 
@@ -628,6 +628,7 @@ public class DragonBallControllerTest {
           .when(dragonBallUserServiceMock)
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());
 
+      //TODO: Divide into two tests. This doesn't get executed
       // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
       mockMvc.perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
           .andDo(print()).andExpect(status().is4xxClientError());
@@ -636,7 +637,7 @@ public class DragonBallControllerTest {
     } catch (Exception e) {
       if (!(e.getCause() instanceof KameHouseNotFoundException)) {
         e.printStackTrace();
-        fail("Caught unexpected exception.");
+        fail("Unexpected exception thrown.");
       }
     }
   }

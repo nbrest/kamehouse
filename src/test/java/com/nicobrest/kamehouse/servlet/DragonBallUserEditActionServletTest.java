@@ -2,10 +2,10 @@ package com.nicobrest.kamehouse.servlet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.doNothing;
 
 import com.nicobrest.kamehouse.service.DragonBallUserService;
 
@@ -40,7 +40,8 @@ public class DragonBallUserEditActionServletTest {
   }
 
   /**
-   * Tests the method to edit a DragonBallUser from the system through the servlet.
+   * Tests the method to edit a DragonBallUser from the system through the
+   * servlet.
    */
   @Test
   public void doPostTest() {
@@ -58,7 +59,7 @@ public class DragonBallUserEditActionServletTest {
       doNothing().when(dragonBallUserServiceMock).updateDragonBallUser(any());
 
       dragonBallUserEditActionServlet.doPost(request, response);
-      
+
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(any());
       assertEquals("users-list", response.getRedirectedUrl());
     } catch (ServletException e) {
