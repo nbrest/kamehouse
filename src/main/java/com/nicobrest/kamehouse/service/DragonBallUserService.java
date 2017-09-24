@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.List;
 
 /**
- * Service layer for the Example endpoints.
+ * Service layer to manage the DragonBallUsers.
  *
  * @author nbrest
  */

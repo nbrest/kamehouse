@@ -4,7 +4,7 @@ function importHeaderAndFooter(path) {
   }
   $("#headerContainer").load(path + "header.html", function() {
     updateActiveTab();
-    getSessionInformation();
+    getSessionStatus();
   });
   $("#footerContainer").load(path + "footer.html");
 }
@@ -50,11 +50,11 @@ function updateActiveTab() {
   });
 }
 
-function getSessionInformation() {
-  SESSION_INFO_URL = "/kame-house/api/v1/session/status";
-  $.get(SESSION_INFO_URL)
+function getSessionStatus() {
+  SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
+  $.get(SESSION_STATUS_URL)
   .success(function(data) {
-    updateLoginStatus(data.username);
+    updateLoginStatus(data.firstName);
   })
   .error(function(jqXHR, textStatus, errorThrown) {
     console.error("Error retrieving current session information.");
@@ -62,9 +62,8 @@ function getSessionInformation() {
   });
 }
 
-function updateLoginStatus(username) {
-  //console.log("updateLoginStatus - username: " + username);
-  if (username == undefined || username == null || username.trim() == "" || username.trim() == "anonymousUser") {
+function updateLoginStatus(name) {
+  if (name == undefined || name == null || name.trim() == "" || name.trim() == "anonymousUser") {
     var $loginStatus = $("#login-status");
     var $loginButton = $("<a href='/kame-house/login' class='btn btn-outline-info login-status-button'>Login</>");
     $loginStatus.append($loginButton);
@@ -72,7 +71,7 @@ function updateLoginStatus(username) {
     var $loginStatus = $("#login-status");
     var $logoutButton = $("<a href='/kame-house/logout' class='btn btn-outline-secondary login-status-button'>Logout</>");
     $loginMessage = $("<h5>");
-    $loginMessage.text("Welcome " + username + "!");
+    $loginMessage.text("Welcome " + name + "!");
     $loginStatus.append($logoutButton);
     $loginStatus.append($loginMessage);
   }

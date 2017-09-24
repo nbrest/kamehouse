@@ -17,7 +17,7 @@ import javax.servlet.ServletResponse;
 /**
  * Filter class to add the logged in username to each request.<br>
  * Deprecated. Functionality replaced by
- * {@link com.nicobrest.kamehouse.controller.SessionInformationController}.<br>
+ * {@link com.nicobrest.kamehouse.controller.SessionStatusController}.<br>
  * 
  * @author nbrest
  *

@@ -21,6 +21,10 @@ import javax.annotation.Resource;
  */
 public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
+  // TODO: Check concurrency issues when modifying the static maps
+  // dragonBallUsers and dragonBallUsernamesById. Even though there's only one
+  // instance of DragonBallUserDaoInMemory, since it's a singleton bean, but I
+  // still think they should be synchronized
   private static Map<String, DragonBallUser> dragonBallUsers;
   private static Map<Long, String> dragonBallUsernamesById;
 
@@ -30,28 +34,6 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   // @AutoWired + @Qualifier("gotenDragonBallUser")
   @Resource(name = "gotenDragonBallUser")
   private DragonBallUser gotenDragonBallUser;
-
-  /**
-   * Static inner class that generates Ids.
-   *
-   * @author nbrest
-   */
-  private static class IdGenerator {
-
-    private static final AtomicInteger sequence = new AtomicInteger(1);
-
-    private IdGenerator() {
-    }
-
-    /**
-     * Return next number in the sequence.
-     *
-     * @author nbrest
-     */
-    public static Long getId() {
-      return Long.valueOf(sequence.getAndIncrement());
-    }
-  }
 
   /**
    * Constructors.
@@ -142,8 +124,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-      throw new KameHouseConflictException("DragonBallUser with username "
-          + dragonBallUser.getUsername() + " already exists in the repository.");
+      throw new KameHouseConflictException("DragonBallUser with username " + dragonBallUser
+          .getUsername() + " already exists in the repository.");
     }
     dragonBallUser.setId(IdGenerator.getId());
     dragonBallUsers.put(dragonBallUser.getUsername(), dragonBallUser);
@@ -162,8 +144,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     DragonBallUser dragonBallUser = dragonBallUsers.get(username);
 
     if (username == null) {
-      throw new KameHouseNotFoundException(
-          "DragonBallUser with id " + id + " was not found in the repository.");
+      throw new KameHouseNotFoundException("DragonBallUser with id " + id
+          + " was not found in the repository.");
     }
     return dragonBallUser;
   }
@@ -178,8 +160,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     DragonBallUser user = dragonBallUsers.get(username);
 
     if (user == null) {
-      throw new KameHouseNotFoundException(
-          "DragonBallUser with username " + username + " was not found in the repository.");
+      throw new KameHouseNotFoundException("DragonBallUser with username " + username
+          + " was not found in the repository.");
     }
     return user;
   }
@@ -204,17 +186,17 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
     // Check that the user being updated exists in the repo
     if (dragonBallUsernamesById.get(dragonBallUser.getId()) == null) {
-      throw new KameHouseNotFoundException("DragonBallUser with id "
-          + dragonBallUser.getId() + " was not found in the repository.");
+      throw new KameHouseNotFoundException("DragonBallUser with id " + dragonBallUser.getId()
+          + " was not found in the repository.");
     }
 
     // If the username changes, check that the new username doesn´t already
     // exist in the repo
-    if (!dragonBallUser.getUsername()
-        .equals(dragonBallUsernamesById.get(dragonBallUser.getId()))) {
+    if (!dragonBallUser.getUsername().equals(dragonBallUsernamesById.get(dragonBallUser
+        .getId()))) {
       if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-        throw new KameHouseConflictException("DragonBallUser with username "
-            + dragonBallUser.getUsername() + " already exists in the repository.");
+        throw new KameHouseConflictException("DragonBallUser with username " + dragonBallUser
+            .getUsername() + " already exists in the repository.");
       }
     }
 
@@ -236,8 +218,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
     String username = dragonBallUsernamesById.remove(id);
     if (username == null) {
-      throw new KameHouseNotFoundException(
-          "DragonBallUser with id " + id + " was not found in the repository.");
+      throw new KameHouseNotFoundException("DragonBallUser with id " + id
+          + " was not found in the repository.");
     }
     DragonBallUser removedUser = dragonBallUsers.remove(username);
 
@@ -254,5 +236,23 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     List<DragonBallUser> usersList = new ArrayList<DragonBallUser>(dragonBallUsers.values());
 
     return usersList;
+  }
+
+  /**
+   * Static inner class that generates Ids.
+   */
+  private static class IdGenerator {
+
+    private static final AtomicInteger sequence = new AtomicInteger(1);
+
+    private IdGenerator() {
+    }
+
+    /**
+     * Return next number in the sequence.
+     */
+    public static Long getId() {
+      return Long.valueOf(sequence.getAndIncrement());
+    }
   }
 }

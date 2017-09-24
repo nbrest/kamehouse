@@ -9,7 +9,7 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
   <!-- Application Context specific for the dispatcher-servlet -->
-  <context:component-scan base-package="com.nicobrest.kamehouse.controller" />
+  <context:component-scan base-package="com.nicobrest.kamehouse.*" />
 
   <mvc:annotation-driven />
 
