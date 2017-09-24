@@ -131,7 +131,7 @@ public class DragonBallUserTest {
     gohan.setPowerLevel(20);
     gohan.setStamina(1000);
 
-    assertEquals(goku, goku);
+    assertEquals(goku, goku1);
     assertEquals(goku.hashCode(), goku.hashCode());
     assertEquals(goku, goku1);
     assertEquals(goku.hashCode(), goku1.hashCode());
