@@ -8,6 +8,8 @@ import com.nicobrest.kamehouse.model.ApplicationUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
@@ -42,6 +44,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   }
 
   @Override
+  @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public Long createUser(ApplicationUser applicationUser) {
 
     logger.trace("Creating ApplicationUser: " + applicationUser.getUsername());
@@ -78,6 +81,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   }
 
   @Override
+  @Cacheable(value = "getApplicationUsers")
   public ApplicationUser loadUserByUsername(String username) {
 
     logger.trace("Loading ApplicationUser: " + username);
@@ -109,6 +113,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   }
 
   @Override
+  @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public void updateUser(ApplicationUser applicationUser) {
 
     logger.trace("Updating ApplicationUser: " + applicationUser.getUsername());
@@ -162,6 +167,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   }
 
   @Override
+  @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public ApplicationUser deleteUser(Long id) {
 
     logger.trace("Deleting ApplicationUser: " + id);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 public class EhCacheController {
 
   private static final Logger logger = LoggerFactory.getLogger(EhCacheController.class);
-  
+
   @Autowired
   private EhCacheService ehCacheService;
 
@@ -53,6 +54,7 @@ public class EhCacheController {
     } else {
       cacheList = ehCacheService.getAllCaches();
     }
+    removeApplicationUsersCache(cacheList);
     return new ResponseEntity<List<Map<String, Object>>>(cacheList, HttpStatus.OK);
   }
 
@@ -70,5 +72,19 @@ public class EhCacheController {
       ehCacheService.clearAllCaches();
     }
     return new ResponseEntity<Void>(HttpStatus.OK);
+  }
+
+  /**
+   * Remove ApplicationUsers cache from the list of caches. It shouldn't be
+   * exposed as it contains the passwords of the users.
+   */
+  private void removeApplicationUsersCache(List<Map<String, Object>> cacheList) {
+    Iterator<Map<String, Object>> cacheIterator = cacheList.iterator();
+    while (cacheIterator.hasNext()) {
+      Map<String, Object> cache = cacheIterator.next();
+      if (cache.get("name").equals("getApplicationUsers")) {
+        cacheIterator.remove();
+      }
+    }
   }
 }
