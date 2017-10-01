@@ -72,6 +72,8 @@ public class ApplicationAuthenticationProviderTest {
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
           applicationUserMock.getUsername(), applicationUserMock.getPassword());
       authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
+      applicationUserMock.setPassword(PasswordUtils.generateHashedPassword(applicationUserMock
+          .getPassword()));
       when(applicationUserServiceMock.loadUserByUsername(applicationUserMock.getUsername()))
           .thenReturn(applicationUserMock);
       applicationAuthenticationProvider.authenticate(authentication);

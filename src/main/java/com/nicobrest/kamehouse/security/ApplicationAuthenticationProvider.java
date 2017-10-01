@@ -46,7 +46,7 @@ public class ApplicationAuthenticationProvider implements AuthenticationProvider
     if (user == null || !user.getUsername().equalsIgnoreCase(username)) {
       throw new BadCredentialsException("Username not found.");
     }
-    if (password == null || !password.equals(user.getPassword())) {
+    if (password == null || !PasswordUtils.isValidPassword(password, user.getPassword())) {
       throw new BadCredentialsException("Wrong password.");
     }
     Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

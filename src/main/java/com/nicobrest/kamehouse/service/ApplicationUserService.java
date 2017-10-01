@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.service;
 
 import com.nicobrest.kamehouse.dao.ApplicationUserDao;
 import com.nicobrest.kamehouse.model.ApplicationUser;
+import com.nicobrest.kamehouse.security.PasswordUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Service
 public class ApplicationUserService implements UserDetailsService {
- 
+
   @Autowired
   @Qualifier("applicationUserDaoJpa")
   private ApplicationUserDao applicationUserDao;
@@ -27,7 +28,7 @@ public class ApplicationUserService implements UserDetailsService {
   @Autowired
   @Qualifier("anonymousUser")
   private ApplicationUser anonymousUser;
-  
+
   public void setApplicationUserDao(ApplicationUserDao applicationUserDao) {
     this.applicationUserDao = applicationUserDao;
   }
@@ -35,11 +36,11 @@ public class ApplicationUserService implements UserDetailsService {
   public ApplicationUserDao getApplicationUserDao() {
     return applicationUserDao;
   }
-  
+
   public void setAnonymousUser(ApplicationUser anonymousUser) {
     this.anonymousUser = anonymousUser;
   }
-  
+
   public ApplicationUser getAnonymousUser() {
     return anonymousUser;
   }
@@ -57,6 +58,8 @@ public class ApplicationUserService implements UserDetailsService {
    * Creates a new application user in the repository.
    */
   public Long createUser(ApplicationUser applicationUser) {
+    applicationUser.setPassword(PasswordUtils.generateHashedPassword(applicationUser
+        .getPassword()));
     Long id = applicationUserDao.createUser(applicationUser);
     return id;
   }

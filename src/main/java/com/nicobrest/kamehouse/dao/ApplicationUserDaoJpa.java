@@ -44,7 +44,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   @Override
   public Long createUser(ApplicationUser applicationUser) {
 
-    logger.trace("Creating ApplicationUser: " + applicationUser);
+    logger.trace("Creating ApplicationUser: " + applicationUser.getUsername());
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
@@ -71,6 +71,9 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
     } finally {
       em.close();
     }
+    // TODO: this method is returning always null, so maybe with em.merge()
+    // instead of em.persist() it doesn't update the id in the object. I need to
+    // investigate it more.
     return applicationUser.getId();
   }
 
@@ -108,7 +111,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   @Override
   public void updateUser(ApplicationUser applicationUser) {
 
-    logger.trace("Updating ApplicationUser: " + applicationUser);
+    logger.trace("Updating ApplicationUser: " + applicationUser.getUsername());
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
