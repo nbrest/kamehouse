@@ -58,7 +58,6 @@
               <td><input type="button" value="edit"
                   class="btn btn-outline-success custom-width"
                   onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
-                <!-- TODO: Make this a DELETE request, not a GET (wrap in a form or in a js Ajax request?) -->
                 <form action="users-delete-action" method="post">
                   <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
                   <input type="submit" value="delete" class="btn btn-outline-danger custom-width" />

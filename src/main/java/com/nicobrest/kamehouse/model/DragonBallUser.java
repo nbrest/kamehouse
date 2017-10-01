@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * @author nbrest
  */
 @Entity
-@Table(name = "dragonballuser")
+@Table(name = "DRAGONBALL_USER")
 public class DragonBallUser implements Serializable {
 
   private static final int MAX_STRING_LENGTH = 255;
@@ -34,23 +34,23 @@ public class DragonBallUser implements Serializable {
   private static final long serialVersionUID = 159367676076449689L;
 
   @Id
-  @Column(name = "id", unique = true, nullable = false)
+  @Column(name = "ID", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "username", unique = true, nullable = false)
+  @Column(name = "USERNAME", unique = true, nullable = false)
   private String username;
 
-  @Column(name = "email", unique = true, nullable = false)
+  @Column(name = "EMAIL", unique = true, nullable = false)
   private String email;
 
-  @Column(name = "age")
+  @Column(name = "AGE")
   private int age;
 
-  @Column(name = "powerlevel")
+  @Column(name = "POWER_LEVEL")
   private int powerLevel;
 
-  @Column(name = "stamina")
+  @Column(name = "STAMINA")
   private int stamina;
 
   /**

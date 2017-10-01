@@ -75,5 +75,4 @@ public class SessionStatusServiceTest {
       fail("Unexpected exception thrown.");
     }
   }
-
 }

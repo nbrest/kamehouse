@@ -38,7 +38,7 @@
         <label class="input-group-addon" for="username">
           <i class="fa fa-user"></i>
         </label>
-        <input type="text" class="form-control" id="username" name="ssoId"
+        <input type="text" class="form-control" id="username" name="username"
           placeholder="Enter Username" required>
       </div>
       <br>

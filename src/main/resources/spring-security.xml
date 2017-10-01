@@ -1,13 +1,25 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-  xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:beans="http://www.springframework.org/schema/beans" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
   <http auto-config="true">
+    <!-- The order of intercept-urls matters. Order them from more specific to more 
+      general within the same url. Ej: /api/v1/admin/application/** before /api/v1/admin/** -->
     <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"
       method="GET" />
+
+    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+      method="GET" />
+    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+      method="POST" />
+    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+      method="PUT" />
+    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+      method="DELETE" />
 
     <intercept-url pattern="/api/v1/admin/**" access="permitAll"
       method="GET" />
@@ -36,7 +48,7 @@
     <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"
       method="DELETE" />
 
-    <form-login login-page="/login" username-parameter="ssoId"
+    <form-login login-page="/login" username-parameter="username"
       password-parameter="password" />
     <csrf disabled="true" />
   </http>
@@ -49,7 +61,7 @@
     class="com.nicobrest.kamehouse.service.SessionStatusService">
     <beans:property name="applicationUserService" ref="applicationUserService" />
   </beans:bean>
-  
+
   <beans:bean id="applicationAuthenticationProvider"
     class="com.nicobrest.kamehouse.security.ApplicationAuthenticationProvider">
     <beans:property name="applicationUserService" ref="applicationUserService" />
@@ -57,9 +69,27 @@
 
   <beans:bean id="applicationUserService"
     class="com.nicobrest.kamehouse.service.ApplicationUserService">
-    <beans:property name="applicationUserDao" ref="applicationUserDaoInMemory" />
+    <beans:property name="applicationUserDao" ref="applicationUserDaoJpa" />
+    <beans:property name="anonymousUser" ref="anonymousUser" />
+  </beans:bean>
+
+  <beans:bean id="applicationUserDaoJpa" class="com.nicobrest.kamehouse.dao.ApplicationUserDaoJpa">
+    <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
   </beans:bean>
 
   <beans:bean id="applicationUserDaoInMemory"
     class="com.nicobrest.kamehouse.dao.ApplicationUserDaoInMemory" />
+    
+  <beans:bean id="anonymousUser" class="com.nicobrest.kamehouse.model.ApplicationUser">
+    <beans:property name="username" value="anonymousUser" />
+    <beans:property name="authorities">
+      <beans:list>
+        <beans:ref bean="anonymousRole"/>
+      </beans:list>
+    </beans:property>
+  </beans:bean>  
+  
+  <beans:bean id="anonymousRole" class="com.nicobrest.kamehouse.model.ApplicationRole">
+    <beans:property name="name" value="ROLE_ANONYMOUS"/>
+  </beans:bean>
 </beans:beans>

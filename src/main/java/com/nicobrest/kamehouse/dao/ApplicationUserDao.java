@@ -2,6 +2,8 @@ package com.nicobrest.kamehouse.dao;
 
 import com.nicobrest.kamehouse.model.ApplicationUser;
 
+import java.util.List;
+
 /**
  * Interfase for the ApplicationUserDao repositories.
  * 
@@ -29,4 +31,9 @@ public interface ApplicationUserDao {
    * Deletes the application user with the passed id from the repository.
    */
   public ApplicationUser deleteUser(Long id);
+  
+  /**
+   * Get all application users.
+   */
+  public List<ApplicationUser> getAllUsers();  
 }

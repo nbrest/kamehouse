@@ -36,7 +36,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
   public ApplicationUser loadUserByUsername(final String username) {
     ApplicationUser applicationUser = applicationUsers.get(username);
     if (applicationUser == null) {
-      throw new UsernameNotFoundException("User with username " + username + "not found.");
+      throw new UsernameNotFoundException("User with username " + username + " not found.");
     }
     return applicationUser;
   }
@@ -67,7 +67,14 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
         return userToDelete;
       }
     }
-    throw new UsernameNotFoundException("User with id " + id + "not found.");
+    throw new UsernameNotFoundException("User with id " + id + " not found.");
+  }
+
+  @Override
+  public List<ApplicationUser> getAllUsers() {
+    List<ApplicationUser> applicationUsersList = new ArrayList<ApplicationUser>(applicationUsers
+        .values());
+    return applicationUsersList;
   }
 
   /**

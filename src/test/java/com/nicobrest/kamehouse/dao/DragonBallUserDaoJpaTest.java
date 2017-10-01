@@ -59,7 +59,7 @@ public class DragonBallUserDaoJpaTest {
     
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
-    Query query = em.createNativeQuery("DELETE FROM DRAGONBALLUSER");
+    Query query = em.createNativeQuery("DELETE FROM DRAGONBALL_USER");
     query.executeUpdate();
     em.getTransaction().commit();
     em.close();

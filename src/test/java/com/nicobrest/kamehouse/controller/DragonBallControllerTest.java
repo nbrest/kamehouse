@@ -628,7 +628,6 @@ public class DragonBallControllerTest {
           .when(dragonBallUserServiceMock)
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());
 
-      //TODO: Divide into two tests. This doesn't get executed
       // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
       mockMvc.perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
           .andDo(print()).andExpect(status().is4xxClientError());

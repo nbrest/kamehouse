@@ -29,7 +29,6 @@ import java.util.List;
  * Controller class for the test endpoint /dragonball.
  *
  * @author nbrest
- * @version 1
  */
 @Controller
 @RequestMapping(value = "/api/v1/dragonball")
@@ -93,8 +92,7 @@ public class DragonBallController {
 
     switch (action) {
       case "KameHouseNotFoundException":
-        throw new KameHouseNotFoundException(
-            "*** KameHouseNotFoundException in getUsers ***");
+        throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
         // break;
       case "RuntimeException":
         throw new RuntimeException("*** RuntimeException in getUsers ***");
@@ -144,8 +142,8 @@ public class DragonBallController {
   }
 
   /**
-   * /dragonball/users/username/{username} Returns a specific DragonBallUser from the
-   * repository based on the username.
+   * /dragonball/users/username/{username} Returns a specific DragonBallUser
+   * from the repository based on the username.
    *
    * @author nbrest
    */
@@ -205,6 +203,7 @@ public class DragonBallController {
     LOGGER.info("In controller /dragonball/users/{id} (PUT)");
 
     if (!id.equals(dragonBallUser.getId())) {
+      // TODO: This should be a bad request exception
       throw new KameHouseForbiddenException("Id in path variable doesn´t match"
           + "id in request body.");
     }
@@ -222,7 +221,7 @@ public class DragonBallController {
   @ResponseBody
   public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) {
 
-    LOGGER.info("In controller /dragonball/users/{username} (DELETE)");
+    LOGGER.info("In controller /dragonball/users/{id} (DELETE)");
 
     DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
 
