@@ -118,7 +118,9 @@ public class ApplicationUserController {
     logger.trace("In controller /application/users/{id} (DELETE)");
 
     ApplicationUser deletedAppUser = applicationUserService.deleteUser(id);
-
+    //Don't return the passwords through the API.
+    deletedAppUser.setPassword(null);
+    
     return new ResponseEntity<ApplicationUser>(deletedAppUser, HttpStatus.OK);
   }
 }

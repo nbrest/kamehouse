@@ -73,8 +73,6 @@ public class ApplicationUserService implements UserDetailsService {
    */
   public ApplicationUser deleteUser(Long id) {
     ApplicationUser deletedUser = applicationUserDao.deleteUser(id);
-    //Don't return the passwords through the API.
-    deletedUser.setPassword(null);
     return deletedUser;
   }
 
