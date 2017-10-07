@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>kameHouse 500 Internal Server Error</title>
+<title>kameHouse 500 Server Error</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
@@ -12,11 +12,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
+    <%
+      response.setStatus(500);
+    %>
   <div id="headerContainer"></div>
   <main>
   <div class="container main">
     <center>
-      <h2>kameHouse 500 Internal Server Error</h2>
+      <h2>kameHouse 500 Server Error</h2>
     </center>
     <%
       if (exception != null) {

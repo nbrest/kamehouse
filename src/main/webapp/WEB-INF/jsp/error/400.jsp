@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
+    <%
+      response.setStatus(400);
+    %>
   <div id="headerContainer"></div>
   <main>
   <div class="container main">

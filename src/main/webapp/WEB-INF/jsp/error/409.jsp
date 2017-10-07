@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>kameHouse 403 Forbidden</title>
+<title>kameHouse 409 Conflict</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
@@ -12,11 +12,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
+    <%
+      response.setStatus(409);
+    %>
   <div id="headerContainer"></div>
   <main>
   <div class="container main">
     <center>
-      <h2>kameHouse 403 Forbidden</h2>
+      <h2>kameHouse 409 Conflict</h2>
     </center>
     <%
       if (exception != null) {
