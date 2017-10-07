@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'dragonBallUserService', function($scope, dragonBallUserService) {
+angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'dragonBallUserService', '$location', function($scope, dragonBallUserService, $location) {
   var self = this;
   self.user = {
     id : null,
@@ -27,6 +27,10 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         },
         function(errResponse) {
           console.error('Error while fetching DragonBallUsers');
+          if (errResponse.status == 403) {
+          //$location.url('/403');
+            $location.path('/403');
+          }
         }
     );
   }
@@ -37,6 +41,10 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while creating DragonBallUser');
+          if (errResponse.status == 403) {
+          //$location.url('/403');
+            $location.path('/403');
+          }
         }
     );
   }
@@ -47,6 +55,10 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while updating DragonBallUser');
+          if (errResponse.status == 403) {
+          //$location.url('/403');
+            $location.path('/403');
+          }
         }
     );
   }
@@ -57,6 +69,10 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while deleting DragonBallUser');
+          if (errResponse.status == 403) {
+          //$location.url('/403');
+            $location.path('/403');
+          }
         }
     );
   }
