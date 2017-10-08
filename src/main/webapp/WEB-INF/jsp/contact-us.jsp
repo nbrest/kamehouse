@@ -23,6 +23,7 @@
           <h3 class="page-title">Contact Us</h3>
           <div class="lighter">
             <form class="quote">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <div>
                 <label>Name</label>
                 <br>

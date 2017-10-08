@@ -60,6 +60,7 @@
                   onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
                 <form action="users-delete-action" method="post">
                   <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                   <input type="submit" value="delete" class="btn btn-outline-danger custom-width" />
                 </form></td>
             </tr>

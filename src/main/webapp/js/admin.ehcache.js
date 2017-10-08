@@ -64,8 +64,11 @@ function displayErrorGettingCache() {
 }
 
 function clearCacheData(cacheName) {
-  console.log("Clearing " + cacheName);
+  //console.debug("Clearing " + cacheName);
   $.ajax({
+    beforeSend: function(request) {
+      request.setRequestHeader(getCsrfHeader(), getCsrfToken());
+    },
     url : EHCACHE_REST_API + '?name=' + cacheName,
     type : 'DELETE',
     success : function(result) {
@@ -80,6 +83,9 @@ function clearCacheData(cacheName) {
 
 function clearAllCaches() {
   $.ajax({
+    beforeSend: function(request) {
+      request.setRequestHeader(getCsrfHeader(), getCsrfToken());
+    },
     url : EHCACHE_REST_API,
     type : 'DELETE',
     success : function(result) {
@@ -109,6 +115,18 @@ function toggleAllCacheView() {
 
 function getTimestamp() {
   return new Date().toISOString().replace("T", " ").slice(0,19);
+}
+
+function getCsrfToken() {
+  var token = $("meta[name='_csrf']").attr("content");
+  //console.log("getCsrfToken: " + token);
+  return token;
+}
+
+function getCsrfHeader() {
+  var header = $("meta[name='_csrf_header']").attr("content");
+  //console.log("getCsrfHeader: " + header);
+  return header;
 }
 
 $(document).ready(main);

@@ -17,9 +17,16 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   self.remove = remove;
   self.reset = reset;
 
+  // Set CSRF security object
+  self.csrf = {};
+  self.csrf.token = getCsrfToken();
+  self.csrf.header = getCsrfHeader();
+  
+  // Fetch dragonBallUsers from backend
   fetchAllDragonBallUsers();
 
   function fetchAllDragonBallUsers() {
+    //console.log("fetchAllDragonBallUsers");
     dragonBallUserService.fetchAllDragonBallUsers()
       .then(
         function(d) {
@@ -28,7 +35,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         function(errResponse) {
           console.error('Error while fetching DragonBallUsers');
           if (errResponse.status == 403) {
-          //$location.url('/403');
+            //$location.url('/403');
             $location.path('/403');
           }
         }
@@ -36,13 +43,13 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   }
 
   function createDragonBallUser(user) {
-    dragonBallUserService.createDragonBallUser(user)
+    dragonBallUserService.createDragonBallUser(user, self.csrf)
       .then(
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while creating DragonBallUser');
           if (errResponse.status == 403) {
-          //$location.url('/403');
+            //$location.url('/403');
             $location.path('/403');
           }
         }
@@ -50,13 +57,13 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   }
 
   function updateDragonBallUser(user, id) {
-    dragonBallUserService.updateDragonBallUser(user, id)
+    dragonBallUserService.updateDragonBallUser(user, id, self.csrf)
       .then(
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while updating DragonBallUser');
           if (errResponse.status == 403) {
-          //$location.url('/403');
+            //$location.url('/403');
             $location.path('/403');
           }
         }
@@ -64,13 +71,13 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   }
 
   function deleteDragonBallUser(id) {
-    dragonBallUserService.deleteDragonBallUser(id)
+    dragonBallUserService.deleteDragonBallUser(id, self.csrf)
       .then(
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while deleting DragonBallUser');
           if (errResponse.status == 403) {
-          //$location.url('/403');
+            //$location.url('/403');
             $location.path('/403');
           }
         }
@@ -116,5 +123,17 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       stamina : 0
     };
     $scope.myForm.$setPristine(); //reset Form
+  }
+
+  function getCsrfToken() {
+    var token = $("meta[name='_csrf']").attr("content");
+    //console.log("getCsrfToken: " + token);
+    return token;
+  }
+
+  function getCsrfHeader() {
+    var header = $("meta[name='_csrf_header']").attr("content");
+    //console.log("getCsrfHeader: " + header);
+    return header;
   }
 } ]);

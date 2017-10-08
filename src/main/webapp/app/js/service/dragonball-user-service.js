@@ -28,9 +28,10 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     return deferred.promise;
   }
 
-  function createDragonBallUser(dragonBallUser) {
+  function createDragonBallUser(dragonBallUser, csrf) {
     var deferred = $q.defer();
-    $http.post(REST_SERVICE_URI, dragonBallUser)
+    var config = generateConfig(csrf);
+    $http.post(REST_SERVICE_URI, dragonBallUser, config)
       .then(
         function(response) {
           deferred.resolve(response.data);
@@ -43,9 +44,10 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     return deferred.promise;
   }
 
-  function updateDragonBallUser(dragonBallUser, id) {
+  function updateDragonBallUser(dragonBallUser, id, csrf) {
     var deferred = $q.defer();
-    $http.put(REST_SERVICE_URI + id, dragonBallUser)
+    var config = generateConfig(csrf);
+    $http.put(REST_SERVICE_URI + id, dragonBallUser, config)
       .then(
         function(response) {
           deferred.resolve(response.data);
@@ -58,9 +60,10 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     return deferred.promise;
   }
 
-  function deleteDragonBallUser(id) {
+  function deleteDragonBallUser(id, csrf) {
     var deferred = $q.defer();
-    $http.delete(REST_SERVICE_URI + id)
+    var config = generateConfig(csrf);
+    $http.delete(REST_SERVICE_URI + id, config)
       .then(
         function(response) {
           deferred.resolve(response.data);
@@ -73,4 +76,11 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     return deferred.promise;
   }
 
+  function generateConfig(csrf) {
+    var config = {};
+    config.headers = {};
+    config.headers[csrf.header] = csrf.token;
+    //console.log("config" + JSON.stringify(config));
+    return config;
+  }
 } ]);

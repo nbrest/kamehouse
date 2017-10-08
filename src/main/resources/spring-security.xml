@@ -50,7 +50,7 @@
 
     <form-login login-page="/login" username-parameter="username"
       password-parameter="password" />
-    <csrf disabled="true" />
+    <csrf disabled="false" />
   </http>
 
   <authentication-manager>
