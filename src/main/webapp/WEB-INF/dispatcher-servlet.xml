@@ -41,6 +41,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         <prop key="/error/400">400</prop>
         <prop key="/error/403">403</prop>
         <prop key="/error/404">404</prop>
+        <prop key="/error/405">405</prop>
         <prop key="/error/409">409</prop>
         <prop key="/error/500">500</prop>
       </props>

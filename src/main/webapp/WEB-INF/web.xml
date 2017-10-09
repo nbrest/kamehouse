@@ -113,7 +113,12 @@
     <error-code>404</error-code>
     <location>/WEB-INF/jsp/error/404.jsp</location>
   </error-page>
-
+  
+  <error-page>
+    <error-code>405</error-code>
+    <location>/WEB-INF/jsp/error/405.jsp</location>
+  </error-page>
+  
   <error-page>
     <error-code>409</error-code>
     <location>/WEB-INF/jsp/error/409.jsp</location>
