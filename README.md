@@ -45,6 +45,9 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 *********************
 # ChangeLog:
+#### v0.13
+- Added error mapping for status 405
+- Moved validations from model to service layer in test models
 #### v0.12
 - Secured application through spring security
 - Implemented login functionality

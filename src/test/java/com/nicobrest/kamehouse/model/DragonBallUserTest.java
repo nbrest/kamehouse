@@ -5,14 +5,10 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import com.nicobrest.kamehouse.exception.KameHouseInvalidDataException;
+ 
 import com.nicobrest.kamehouse.model.DragonBallUser;
 
-import org.junit.Rule;
-
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,80 +20,7 @@ import org.slf4j.LoggerFactory;
 public class DragonBallUserTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserTest.class);
-  
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-  
-  /**
-   * Test the failure flow of validateUsernameFormat.
-   * 
-   * @author nbrest
-   */
-  @Test
-  public void validateUsernameFormatExceptionTest() {
-    LOGGER.info("***** Executing validateUsernameFormatExceptionTest");
-    
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("Invalid username format:");
-    
-    DragonBallUser user1 = new DragonBallUser(1L,".goku.9.enzo", "goku@dbz.com", 20, 20, 20);
-    user1.validateAllFields();     
-  }
-  
-  /**
-   * Test the failure flow of validateEmailFormat.
-   * 
-   * @author nbrest
-   */
-  @Test
-  public void validateEmailFormatExceptionTest() { 
-    LOGGER.info("***** Executing validateEmailFormatExceptionTest");
-    
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("Invalid email address: ");
-    
-    DragonBallUser user1 = new DragonBallUser(1L,"goku", "goku.9.enzo@@dbz.com", 20, 20, 20);
-    user1.validateAllFields(); 
-  }
-  
-  /**
-   * Test the failure flow of validatePositiveValue.
-   * 
-   * @author nbrest
-   */
-  @Test
-  public void validatePositiveValueExceptionTest() { 
-    LOGGER.info("***** Executing validatePositiveValueExceptionTest");
-    
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("The attribute should be a positive value. Current value:");
-    
-    DragonBallUser user1 = new DragonBallUser(1L,"goku", "goku@dbz.com", -10, 20, 20);
-    user1.validateAllFields(); 
-  }
-  
-  /**
-   * Test the failure flow of validateStringLength.
-   * 
-   * @author nbrest
-   */
-  @Test
-  public void validateStringLengthExceptionTest() { 
-    LOGGER.info("***** Executing validateStringLengthExceptionTest");
-    
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("The string attribute excedes the maximum length of ");
-    
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0 ; i < 70 ; i++) {
-      sb.append("goku");
-    }
-    String username = sb.toString();
-    
-    DragonBallUser user1 = new DragonBallUser(1L,username, "goku@dbz.com", -10, 20, 20);
-    user1.validateAllFields(); 
-  }
-  
+
   /**
    * Test the hashCode and equals methods in DragonBallUser.
    * 

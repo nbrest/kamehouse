@@ -12,7 +12,6 @@
 
 <title>Kame House - Login</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
-<!-- <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" /> -->
 <link href="<c:url value='/lib/css/bootstrap.min.css' />" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/lib/css/font-awesome.css' />" />
 <link rel="stylesheet" href="/kame-house/css/general.css" />
