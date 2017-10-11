@@ -49,6 +49,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Added error mapping for status 405
 - Moved validations from model to service layer in test models
 - Added error mappings for exceptions in web.xml
+- Redirect to error pages from angular when getting errors from the backend
 #### v0.12
 - Secured application through spring security
 - Implemented login functionality
