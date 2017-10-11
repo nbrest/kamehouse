@@ -34,10 +34,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         },
         function(errResponse) {
           console.error('Error while fetching DragonBallUsers');
-          if (errResponse.status == 403) {
-            //$location.url('/403');
-            $location.path('/403');
-          }
+          redirectToErrorPage(errResponse.status);
         }
     );
   }
@@ -48,10 +45,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while creating DragonBallUser');
-          if (errResponse.status == 403) {
-            //$location.url('/403');
-            $location.path('/403');
-          }
+          redirectToErrorPage(errResponse.status);
         }
     );
   }
@@ -62,10 +56,8 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while updating DragonBallUser');
-          if (errResponse.status == 403) {
-            //$location.url('/403');
-            $location.path('/403');
-          }
+          //console.log(JSON.stringify(errResponse));
+          redirectToErrorPage(errResponse.status);
         }
     );
   }
@@ -76,10 +68,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         fetchAllDragonBallUsers,
         function(errResponse) {
           console.error('Error while deleting DragonBallUser');
-          if (errResponse.status == 403) {
-            //$location.url('/403');
-            $location.path('/403');
-          }
+          redirectToErrorPage(errResponse.status);
         }
     );
   }
@@ -135,5 +124,17 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     var header = $("meta[name='_csrf_header']").attr("content");
     //console.log("getCsrfHeader: " + header);
     return header;
+  }
+  
+  function redirectToErrorPage(statusCode) {
+    if (statusCode != null && statusCode != undefined) {
+      $location.path('/' + statusCode);
+      // To display the error page content without redirecting use the following, but it
+      // breaks the navigation with angular because I need to reload the page to go back to
+      // where I was when the error was produced.
+      //var mainContent = $('#main-content');
+      //mainContent.empty();
+      //mainContent.load('/kame-house/app/view/' + statusCode + '.html');
+    }
   }
 } ]);
