@@ -116,11 +116,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     dragonBallUsernamesById.put(user3.getId(), user3.getUsername());
   }
 
-  /**
-   * Adds a new DragonBallUser to the repository.
-   *
-   * @author nbrest
-   */
+  @Override
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
@@ -133,11 +129,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     return dragonBallUser.getId();
   }
 
-  /**
-   * Returns a single instance of a DragonBallUser based on its id.
-   *
-   * @author nbrest
-   */
+  @Override
   public DragonBallUser getDragonBallUser(Long id) {
 
     String username = dragonBallUsernamesById.get(id);
@@ -150,11 +142,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     return dragonBallUser;
   }
 
-  /**
-   * Returns a single instance of a DragonBallUser based on its username.
-   *
-   * @author nbrest
-   */
+  @Override
   public DragonBallUser getDragonBallUser(String username) {
 
     DragonBallUser user = dragonBallUsers.get(username);
@@ -166,22 +154,14 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     return user;
   }
 
-  /**
-   * Returns a single instance of a DragonBallUser based on its email.
-   *
-   * @author nbrest
-   */
+  @Override
   public DragonBallUser getDragonBallUserByEmail(String email) {
 
     throw new UnsupportedOperationException(
         "This functionality is not implemented for the DragonBallUserInMemory repository.");
   }
 
-  /**
-   * Updates an existing DragonBallUser in the repository.
-   *
-   * @author nbrest
-   */
+  @Override
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
 
     // Check that the user being updated exists in the repo
@@ -209,11 +189,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     dragonBallUsernamesById.put(dragonBallUser.getId(), dragonBallUser.getUsername());
   }
 
-  /**
-   * Deletes a DragonBallUser from the repository.
-   *
-   * @author nbrest
-   */
+  @Override
   public DragonBallUser deleteDragonBallUser(Long id) {
 
     String username = dragonBallUsernamesById.remove(id);
@@ -226,11 +202,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     return removedUser;
   }
 
-  /**
-   * Returns all the DragonBallUsers in the repository.
-   *
-   * @author nbrest
-   */
+  @Override
   public List<DragonBallUser> getAllDragonBallUsers() {
 
     List<DragonBallUser> usersList = new ArrayList<DragonBallUser>(dragonBallUsers.values());

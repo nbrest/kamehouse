@@ -208,23 +208,11 @@ public class DragonBallUser implements Serializable {
     stamina = stamina + powerLevel;
   }
 
-
-
-  /**
-   * Hashcode.
-   * 
-   * @author nbrest
-   */
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(id).append(username).toHashCode();
   }
 
-  /**
-   * Equals.
-   * 
-   * @author nbrest
-   */
   @Override
   public boolean equals(final Object obj) {
     if (obj instanceof DragonBallUser) {
@@ -236,11 +224,6 @@ public class DragonBallUser implements Serializable {
     }
   }
 
-  /**
-   * toString as json representation.
-   * 
-   * @author nbrest
-   */
   @Override
   public String toString() {
 

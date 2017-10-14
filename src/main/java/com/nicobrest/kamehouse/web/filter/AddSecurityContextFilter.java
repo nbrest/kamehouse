@@ -35,9 +35,6 @@ public class AddSecurityContextFilter implements Filter {
   public void init(FilterConfig filterConfig) throws ServletException {
   }
 
-  /**
-   * Add logged in username to the current request.
-   */
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {

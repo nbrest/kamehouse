@@ -56,11 +56,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     return entityManagerFactory.createEntityManager();
   }
 
-  /**
-   * Inserts a DragonBallUser to the repository.
-   *
-   * @author nbrest
-   */
+  @Override
   //TODO: Figure out how to update the caches without having to clear them completely when I create
   // update or delete an object from the database.
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
@@ -91,11 +87,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     return dragonBallUser.getId();
   }
 
-  /**
-   * Gets a DragonBallUser from the repository looking up by id.
-   *
-   * @author nbrest
-   */
+  @Override
   @Cacheable(value = "getDragonBallUserCache")
   public DragonBallUser getDragonBallUser(Long id) {
 
@@ -126,11 +118,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     return dragonBallUser;
   }
 
-  /**
-   * Gets a DragonBallUser from the repository looking up by username.
-   *
-   * @author nbrest
-   */
+  @Override
   @Cacheable(value = "getDragonBallUserByUsernameCache")
   public DragonBallUser getDragonBallUser(String username) {
 
@@ -162,11 +150,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     return dragonBallUser;
   }
 
-  /**
-   * Gets a DragonBallUser from the repository looking up by email.
-   *
-   * @author nbrest
-   */
+  @Override
   @Cacheable(value = "getDragonBallUserByEmailCache")
   public DragonBallUser getDragonBallUserByEmail(String email) {
 
@@ -198,11 +182,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     return dragonBallUser;
   }
 
-  /**
-   * Updates a DragonBallUser on the repository.
-   *
-   * @author nbrest
-   */
+  @Override
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
       "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
@@ -241,12 +221,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     }
   }
 
-  /**
-   * Deletes a DragonBallUser from the repository.
-   *
-   * @author nbrest
-   * @return DragonBallUser
-   */
+  @Override
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
       "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public DragonBallUser deleteDragonBallUser(Long id) {
@@ -279,11 +254,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     return dbUserToRemove;
   }
 
-  /**
-   * Gets all the DragonBallUsers from the repository.
-   *
-   * @author nbrest
-   */
+  @Override
   @Cacheable(value = "getAllDragonBallUsersCache")
   public List<DragonBallUser> getAllDragonBallUsers() {
 
