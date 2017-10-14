@@ -1,12 +1,13 @@
-function importHeaderAndFooter(path) {
-  if (path == undefined || path == null) {
-    path = "";
-  }
-  $("#headerContainer").load(path + "header.html", function() {
+function main() {
+  importHeaderAndFooter();
+}
+
+function importHeaderAndFooter() {
+  $("#headerContainer").load("/kame-house/html/header.html", function() {
     updateActiveTab();
     getSessionStatus();
   });
-  $("#footerContainer").load(path + "footer.html");
+  $("#footerContainer").load("/kame-house/html/footer.html");
 }
 
 function updateActiveTab() {
@@ -76,3 +77,5 @@ function updateLoginStatus(name) {
     $loginStatus.append($loginMessage);
   }
 }
+
+$(document).ready(main);

@@ -54,9 +54,5 @@
   <script src="lib/js/jquery-2.0.3.min.js"></script>
   <script src="js/general.js"></script>
   <script src="js/importHeaderFooter.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/")
-  </script>
-  <script type="text/javascript">importNewsletter("/kame-house/html/")
-  </script>
 </body>
 </html>

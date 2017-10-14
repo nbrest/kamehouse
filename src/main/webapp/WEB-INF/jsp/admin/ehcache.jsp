@@ -33,7 +33,5 @@
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
   <script src="${pageContext.request.contextPath}/js/admin.ehcache.js"></script>
-  <script type="text/javascript">importHeaderAndFooter("/kame-house/html/")
-  </script>
 </body>
 </html>
