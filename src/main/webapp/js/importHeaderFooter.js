@@ -1,7 +1,15 @@
+/**
+ * Import Header and Footer functions.
+ * 
+ * @author nbrest
+ */
 function main() {
   importHeaderAndFooter();
 }
 
+/**
+ * Import header and footer.
+ */
 function importHeaderAndFooter() {
   $("#headerContainer").load("/kame-house/html/header.html", function() {
     updateActiveTab();
@@ -10,6 +18,9 @@ function importHeaderAndFooter() {
   $("#footerContainer").load("/kame-house/html/footer.html");
 }
 
+/**
+ * Set active tab in the menu.
+ */
 function updateActiveTab() {
   var pageUrl = window.location.pathname; 
   $("#headerContainer header .container #header-menu nav ul li").toArray().forEach(function(navItem) {
@@ -51,6 +62,9 @@ function updateActiveTab() {
   });
 }
 
+/**
+ * Get session status.
+ */
 function getSessionStatus() {
   SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
   $.get(SESSION_STATUS_URL)
@@ -63,6 +77,9 @@ function getSessionStatus() {
   });
 }
 
+/**
+ * Update login status.
+ */
 function updateLoginStatus(name) {
   if (name == undefined || name == null || name.trim() == "" || name.trim() == "anonymousUser") {
     var $loginStatus = $("#login-status");
@@ -78,4 +95,7 @@ function updateLoginStatus(name) {
   }
 }
 
+/**
+ * Call main.
+ */
 $(document).ready(main);

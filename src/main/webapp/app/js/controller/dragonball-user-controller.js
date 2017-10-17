@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * DragonBallUserController.
+ * 
+ * @author nbrest
+ */
 angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'dragonBallUserService', '$location', function($scope, dragonBallUserService, $location) {
   var self = this;
   self.user = {
@@ -25,6 +30,9 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   // Fetch dragonBallUsers from backend
   fetchAllDragonBallUsers();
 
+  /**
+   * Fetch all DragonBallUsers.
+   */
   function fetchAllDragonBallUsers() {
     //console.log("fetchAllDragonBallUsers");
     dragonBallUserService.fetchAllDragonBallUsers()
@@ -39,6 +47,9 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     );
   }
 
+  /**
+   * Create a DragonBallUser.
+   */
   function createDragonBallUser(user) {
     dragonBallUserService.createDragonBallUser(user, self.csrf)
       .then(
@@ -50,6 +61,9 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     );
   }
 
+  /**
+   * Update a DragonBallUser.
+   */
   function updateDragonBallUser(user, id) {
     dragonBallUserService.updateDragonBallUser(user, id, self.csrf)
       .then(
@@ -62,6 +76,9 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     );
   }
 
+  /**
+   * Delete a DragonBallUser.
+   */
   function deleteDragonBallUser(id) {
     dragonBallUserService.deleteDragonBallUser(id, self.csrf)
       .then(
@@ -73,17 +90,23 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     );
   }
 
+  /**
+   * Submit function to create or update a DragonBallUser.
+   */
   function submit() {
     if (self.user.id === null) {
-      console.log('Saving New DragonBallUser', self.user);
+      //console.log('Saving New DragonBallUser', self.user);
       createDragonBallUser(self.user);
     } else {
       updateDragonBallUser(self.user, self.user.id);
-      console.log('DragonBallUser updated with id ', self.user.id);
+      //console.log('DragonBallUser updated with id ', self.user.id);
     }
     reset();
   }
 
+  /**
+   * Set the user to edit based on the id.
+   */
   function edit(id) {
     console.log('id to be edited', id);
     for (var i = 0; i < self.users.length; i++) {
@@ -94,14 +117,20 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     }
   }
 
+  /**
+   * Set the user to remove based on the id.
+   */
   function remove(id) {
-    console.log('id to be deleted', id);
+    //console.log('id to be deleted', id);
     if (self.user.id === id) { //clean form if the user to be deleted is shown there.
       reset();
     }
     deleteDragonBallUser(id);
   }
 
+  /**
+   * Reset the user view.
+   */
   function reset() {
     self.user = {
       id : null,
@@ -114,18 +143,27 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     $scope.myForm.$setPristine(); //reset Form
   }
 
+  /**
+   * Get CSRF token from the meta tags.
+   */
   function getCsrfToken() {
     var token = $("meta[name='_csrf']").attr("content");
     //console.log("getCsrfToken: " + token);
     return token;
   }
 
+  /**
+   * Get the CSRF header from the meta tags.
+   */
   function getCsrfHeader() {
     var header = $("meta[name='_csrf_header']").attr("content");
     //console.log("getCsrfHeader: " + header);
     return header;
   }
   
+  /**
+   * Redirect to error page based on the status code.
+   */
   function redirectToErrorPage(statusCode) {
     if (statusCode != null && statusCode != undefined) {
       $location.path('/' + statusCode);
@@ -137,4 +175,4 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       //mainContent.load('/kame-house/app/view/' + statusCode + '.html');
     }
   }
-} ]);
+}]);

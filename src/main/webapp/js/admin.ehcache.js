@@ -1,3 +1,8 @@
+/**
+ * Admin Ehcache main function.
+ * 
+ * @author nbrest
+ */
 var ehcacheToggleTableRowIds = [];
 var EHCACHE_REST_API = '/kame-house/api/v1/admin/ehcache';
 
@@ -5,6 +10,9 @@ var main = function() {
   getCacheData();
 };
 
+/**
+ * Get cache data.
+ */
 function getCacheData() {
   $.get(EHCACHE_REST_API)
     .success(function(result) {
@@ -15,6 +23,9 @@ function getCacheData() {
     });
 }
 
+/**
+ * Display cache data.
+ */
 function displayCacheData(caches) {
   emptyCacheDataDiv();
   ehcacheToggleTableRowIds = [];
@@ -52,6 +63,9 @@ function displayCacheData(caches) {
   });
 }
 
+/**
+ * Display error getting cache data.
+ */
 function displayErrorGettingCache() {
   emptyCacheDataDiv();
   var $cacheData = $("#cache-data");
@@ -63,6 +77,9 @@ function displayErrorGettingCache() {
   console.error(getTimestamp() + " : Error retrieving cache data. Please try again later.");
 }
 
+/**
+ * Clear cache data.
+ */
 function clearCacheData(cacheName) {
   //console.debug("Clearing " + cacheName);
   $.ajax({
@@ -81,6 +98,9 @@ function clearCacheData(cacheName) {
   });
 }
 
+/**
+ * Clear all caches.
+ */
 function clearAllCaches() {
   $.ajax({
     beforeSend: function(request) {
@@ -98,35 +118,56 @@ function clearAllCaches() {
   });
 }
 
+/**
+ * Empty cache data div.
+ */
 function emptyCacheDataDiv() {
   var $cacheData = $("#cache-data");
   $cacheData.empty();
 }
 
+/**
+ * Toggle cache view (expand/collapse).
+ */
 function toggleCacheView(className) {
   $(className).toggle();
 }
 
+/**
+ * Toggle cache view for all caches (expand/collapse).
+ */
 function toggleAllCacheView() {
   for (var i = 0; i < ehcacheToggleTableRowIds.length; i++) {
     toggleCacheView(ehcacheToggleTableRowIds[i]);
   }
 }
 
+/**
+ * Get timestamp.
+ */
 function getTimestamp() {
   return new Date().toISOString().replace("T", " ").slice(0,19);
 }
 
+/**
+ * Get CSRF token.
+ */
 function getCsrfToken() {
   var token = $("meta[name='_csrf']").attr("content");
   //console.log("getCsrfToken: " + token);
   return token;
 }
 
+/**
+ * Get CSRF header.
+ */
 function getCsrfHeader() {
   var header = $("meta[name='_csrf_header']").attr("content");
   //console.log("getCsrfHeader: " + header);
   return header;
 }
 
+/**
+ * Call main.
+ */
 $(document).ready(main);

@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * DragonBallUserService.
+ * 
+ * @author nbrest
+ */
 angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', function($http, $q) {
 
   var REST_SERVICE_URI = '/kame-house/api/v1/dragonball/users/';
@@ -13,6 +18,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
 
   return dragonBallUserService;
 
+  /**
+   * Get all DragonBallUsers.
+   */
   function fetchAllDragonBallUsers() {
     var deferred = $q.defer();
     $http.get(REST_SERVICE_URI)
@@ -28,6 +36,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     return deferred.promise;
   }
 
+  /**
+   * Create a DragonBallUser.
+   */
   function createDragonBallUser(dragonBallUser, csrf) {
     var deferred = $q.defer();
     var config = generateConfig(csrf);
@@ -43,7 +54,10 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     );
     return deferred.promise;
   }
-
+  
+  /**
+   * Updates a DragonBallUser.
+   */
   function updateDragonBallUser(dragonBallUser, id, csrf) {
     var deferred = $q.defer();
     var config = generateConfig(csrf);
@@ -60,6 +74,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     return deferred.promise;
   }
 
+  /**
+   * Deletes a DragonBallUser.
+   */
   function deleteDragonBallUser(id, csrf) {
     var deferred = $q.defer();
     var config = generateConfig(csrf);
@@ -76,6 +93,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     return deferred.promise;
   }
 
+  /**
+   * Generate config object to pass to the http requests.
+   */
   function generateConfig(csrf) {
     var config = {};
     config.headers = {};
@@ -83,4 +103,4 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     //console.log("config" + JSON.stringify(config));
     return config;
   }
-} ]);
+}]);

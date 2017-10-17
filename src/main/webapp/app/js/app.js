@@ -1,7 +1,15 @@
 'use strict';
 
+/**
+ * Angular App.
+ * 
+ * @author nbrest
+ */
 var App = angular.module('myApp', [ "ngRoute" ]);
 
+/**
+ * Configure routes.
+ */
 App.config(function($routeProvider, $locationProvider) {
   $routeProvider
     .when("/", {
