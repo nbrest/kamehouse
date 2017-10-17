@@ -39,8 +39,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -60,9 +58,7 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class DragonBallControllerTest {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallControllerTest.class);
-
+  
   private MockMvc mockMvc;
 
   private static List<DragonBallUser> dragonBallUsersList;
@@ -75,8 +71,6 @@ public class DragonBallControllerTest {
 
   /**
    * Initializes test repositories.
-   *
-   * @author nbrest
    */
   @BeforeClass
   public static void beforeClassTest() {
@@ -115,8 +109,6 @@ public class DragonBallControllerTest {
 
   /**
    * Resets mock objects.
-   *
-   * @author nbrest
    */
   @Before
   public void beforeTest() {
@@ -132,8 +124,6 @@ public class DragonBallControllerTest {
 
   /**
    * Clean up after each test.
-   *
-   * @author nbrest
    */
   @After
   public void afterTest() {
@@ -143,8 +133,6 @@ public class DragonBallControllerTest {
 
   /**
    * Cleanup after all tests have executed.
-   *
-   * @author nbrest
    */
   @AfterClass
   public static void afterClassTest() {
@@ -156,12 +144,9 @@ public class DragonBallControllerTest {
    * /dragonball/model-and-view (GET) Test the endpoint /dragonball/model-and-view
    * with the HTTP method GET. The service should respond with HTTP status 200
    * OK and a view defined in dragonball/modelAndView.jsp.
-   *
-   * @author nbrest
    */
   @Test
   public void getModelAndViewTest() {
-    LOGGER.info("***** Executing getModelAndViewTest");
 
     try {
       mockMvc.perform(get("/api/v1/dragonball/model-and-view")).andDo(print()).andExpect(status().isOk())
@@ -181,13 +166,10 @@ public class DragonBallControllerTest {
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the HTTP method GET. The service should respond with
    * HTTP status 200 OK and a json array in the response body.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersTest() {
-    LOGGER.info("***** Executing getUsersTest");
-
+    
     // Setup mock object dragonBallUserServiceMock
     when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsersList);
 
@@ -227,12 +209,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersExceptionTest() {
-    LOGGER.info("***** Executing getUsersExceptionTest");
 
     try {
       mockMvc.perform(get("/api/v1/dragonball/users?action=Exception")).andDo(print())
@@ -249,12 +228,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersRuntimeExceptionTest() {
-    LOGGER.info("***** Executing getUsersRuntimeExceptionTest");
 
     try {
       mockMvc.perform(get("/api/v1/dragonball/users?action=RuntimeException")).andDo(print())
@@ -271,12 +247,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersNotFoundExceptionTest() {
-    LOGGER.info("***** Executing getUsersNotFoundExceptionTest");
 
     try {
       mockMvc.perform(get("/api/v1/dragonball/users?action=KameHouseNotFoundException"))
@@ -292,13 +265,10 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (POST) Test creating a new DragonBallUser in the
    * repository.
-   *
-   * @author nbrest
    */
   @Test
   public void postUsersTest() {
-    LOGGER.info("***** Executing postUsersTest");
-
+    
     // Normal flow
     try {
       // Setup mock object dragonBallUserServiceMock
@@ -327,13 +297,10 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users (POST) Test creating a new DragonBallUser in the
    * repository that already exists.
-   *
-   * @author nbrest
    */
   @Test
   public void postUsersConflictExceptionTest() {
-    LOGGER.info("***** Executing postUsersConflictExceptionTest");
-
+    
     // Exception flows
     try {
       // Setup mock object dragonBallUserServiceMock
@@ -358,12 +325,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (GET) Tests getting a specific user from the
    * repository.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersIdTest() {
-    LOGGER.info("***** Executing getUsersIdTest");
 
     try {
       when(dragonBallUserServiceMock.getDragonBallUser(101L))
@@ -387,13 +351,10 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/username/{username} (GET) Tests getting a specific user from the
    * repository.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersUsernameTest() {
-    LOGGER.info("***** Executing getUsersUsernameTest");
-
+    
     try {
       when(dragonBallUserServiceMock.getDragonBallUser("gokuTestMock"))
           .thenReturn(dragonBallUsersList.get(0));
@@ -432,13 +393,10 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/username/{username} (GET) Tests user not found when getting a
    * specific user from the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersUsernameNotFoundExceptionTest() {
-    LOGGER.info("***** Executing getUsersUsernameNotFoundExceptionTest");
-
+    
     // Exception flows
     try {
       Mockito.doThrow(new KameHouseNotFoundException("User trunks not found"))
@@ -458,13 +416,10 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/emails/{email} (GET) Tests getting a specific user from
    * the repository by email.
-   *
-   * @author nbrest
    */
   @Test
   public void getUsersUsernameByEmailTest() {
-    LOGGER.info("***** Executing getUsersUsernameByEmailTest");
-
+    
     try {
       // Setup mock object dragonBallUserServiceMock
       when(dragonBallUserServiceMock.getDragonBallUserByEmail("gokuTestMock@dbz.com"))
@@ -489,12 +444,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (PUT) Tests updating an existing user in the
    * repository.
-   *
-   * @author nbrest
    */
   @Test
   public void putUsersUsernameTest() {
-    LOGGER.info("***** Executing putUsersUsernameTest");
 
     // Normal flow
     try {
@@ -521,12 +473,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (PUT) Tests trying to update a non existing user in
    * the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void putUsersUsernameNotFoundExceptionTest() {
-    LOGGER.info("***** Executing putUsersUsernameNotFoundExceptionTest");
 
     // Exception flows
     try {
@@ -552,12 +501,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (PUT) Tests failing to update an existing user in
    * the repository with forbidden access.
-   *
-   * @author nbrest
    */
   @Test
   public void putUsersUsernameForbiddenExceptionTest() {
-    LOGGER.info("***** Executing putUsersUsernameForbiddenExceptionTest");
 
     // Exception flows
     try {
@@ -584,12 +530,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (DELETE) Tests for deleting an existing user from
    * the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void deleteUsersUsernameTest() {
-    LOGGER.info("***** Executing deleteUsersUsernameTest");
 
     // Normal flow
     try {
@@ -614,12 +557,9 @@ public class DragonBallControllerTest {
   /**
    * /dragonball/users/{id} (DELETE) Tests for deleting an user not found in the
    * repository.
-   *
-   * @author nbrest
    */
   @Test
   public void deleteUsersUsernameNotFoundExceptionTest() {
-    LOGGER.info("***** Executing deleteUsersUsernameNotFoundExceptionTest");
 
     // Exception flows
     try {

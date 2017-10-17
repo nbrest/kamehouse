@@ -34,42 +34,28 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/dragonball")
 public class DragonBallController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallController.class);
+  private static final Logger logger = LoggerFactory.getLogger(DragonBallController.class);
 
   @Autowired
   private DragonBallUserService dragonBallUserService;
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
-
     this.dragonBallUserService = dragonBallUserService;
   }
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public DragonBallUserService getDragonBallUserService() {
-
     return this.dragonBallUserService;
   }
 
   /**
    * /dragonball/model-and-view Returns the ModelAndView object for the test
    * endpoint.
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/model-and-view", method = RequestMethod.GET)
   public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
       defaultValue = "Goku") String name) {
 
-    LOGGER.info("In controller /dragonball/model-and-view (GET)");
+    logger.trace("In controller /dragonball/model-and-view (GET)");
 
     String message = "message: dragonball ModelAndView!";
     ModelAndView mv = new ModelAndView("jsp/dragonball/model-and-view");
@@ -80,15 +66,13 @@ public class DragonBallController {
 
   /**
    * /dragonball/users Returns all DragonBallUsers.
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/users", method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<List<DragonBallUser>> getUsers(@RequestParam(value = "action",
       required = false, defaultValue = "goku") String action) throws Exception {
 
-    LOGGER.info("In controller /dragonball/users (GET)");
+    logger.trace("In controller /dragonball/users (GET)");
 
     switch (action) {
       case "KameHouseNotFoundException":
@@ -111,14 +95,12 @@ public class DragonBallController {
 
   /**
    * /dragonball/users Creates a new DragonBallUser in the repository.
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/users", method = RequestMethod.POST)
   @ResponseBody
   public ResponseEntity<Long> postUsers(@RequestBody DragonBallUser dragonBallUser) {
 
-    LOGGER.info("In controller /dragonball/users (POST)");
+    logger.trace("In controller /dragonball/users (POST)");
 
     Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUser);
 
@@ -128,13 +110,11 @@ public class DragonBallController {
   /**
    * /dragonball/users/{id} Returns a specific DragonBallUser from the
    * repository based on the id.
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<DragonBallUser> getUsersId(@PathVariable Long id) {
-    LOGGER.info("In controller /dragonball/users/{id} (GET)");
+    logger.trace("In controller /dragonball/users/{id} (GET)");
 
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(id);
 
@@ -144,8 +124,6 @@ public class DragonBallController {
   /**
    * /dragonball/users/username/{username} Returns a specific DragonBallUser
    * from the repository based on the username.
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/users/username/{username:.+}", method = RequestMethod.GET)
   @ResponseBody
@@ -153,7 +131,7 @@ public class DragonBallController {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first dot
-    LOGGER.info("In controller /dragonball/users/username/{username:.+} (GET)");
+    logger.trace("In controller /dragonball/users/username/{username:.+} (GET)");
 
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
 
@@ -163,14 +141,12 @@ public class DragonBallController {
   /**
    * /dragonball/users/emails/{email:.+} Returns a specific DragonBallUser from
    * the repository based on the email (URLEncoded with UTF-8).
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/users/emails/{email:.+}", method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<String> getUsersByEmail(@PathVariable String email) {
 
-    LOGGER.info("In controller /dragonball/users/emails/{email:.+} (GET)");
+    logger.trace("In controller /dragonball/users/emails/{email:.+} (GET)");
 
     /*
      * url encoded parameters are automatically decoded, there´s no need to do
@@ -192,15 +168,13 @@ public class DragonBallController {
 
   /**
    * /dragonball/users/{id} Updates a user in the repository.
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
   @ResponseBody
   public ResponseEntity<?> putUsersUsername(@PathVariable Long id,
       @RequestBody DragonBallUser dragonBallUser) {
 
-    LOGGER.info("In controller /dragonball/users/{id} (PUT)");
+    logger.trace("In controller /dragonball/users/{id} (PUT)");
 
     if (!id.equals(dragonBallUser.getId())) {
       // TODO: This should be a bad request exception
@@ -214,14 +188,12 @@ public class DragonBallController {
 
   /**
    * /dragonball/users/{id} Deletes an existing user from the repository.
-   *
-   * @author nbrest
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
   @ResponseBody
   public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) {
 
-    LOGGER.info("In controller /dragonball/users/{id} (DELETE)");
+    logger.trace("In controller /dragonball/users/{id} (DELETE)");
 
     DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
 
@@ -230,8 +202,6 @@ public class DragonBallController {
 
   /**
    * Converts an Object to a Json String.
-   *
-   * @author nbrest
    */
   private String convertToJsonString(Object obj) {
 

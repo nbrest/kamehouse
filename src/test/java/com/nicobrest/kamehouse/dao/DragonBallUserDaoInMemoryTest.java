@@ -14,14 +14,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 /**
  * Unit tests for the DragonBallUserInMemoryDao class.
@@ -32,9 +28,6 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoInMemoryTest {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(DragonBallUserDaoInMemoryTest.class);
-
   @Autowired
   @Qualifier("dragonBallUserDaoInMemory")
   private DragonBallUserDaoInMemory dragonBallUserDao;
@@ -44,19 +37,13 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for the autowired beans.
-   *
-   * @author nbrest
    */
   @Test
   public void autoWiredBeansTest() {
-    LOGGER.info("***** Executing autoWiredBeansTest");
 
     DragonBallUser gohan = dragonBallUserDao.getGohanDragonBallUser();
     DragonBallUser goten = dragonBallUserDao.getGotenDragonBallUser();
-
-    LOGGER.info("gohan: " + gohan.getUsername());
-    LOGGER.info("goten: " + goten.getUsername());
-
+    
     assertNotNull(gohan);
     assertEquals("gohanBean", gohan.getUsername());
     assertNotNull(goten);
@@ -65,12 +52,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for creating a DragonBallUser in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void createDragonBallUserTest() {
-    LOGGER.info("***** Executing createDragonBallUserTest");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "vegeta", "vegeta@dbz.com", 49, 40,
         1000);
@@ -89,12 +73,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for creating a DragonBallUser in the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void createDragonBallUserConflictExceptionTest() {
-    LOGGER.info("***** Executing createDragonBallUserConflictExceptionTest");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "goku", "goku@dbz.com", 49, 40, 1000);
 
@@ -105,18 +86,13 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by its id.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserTest() {
-    LOGGER.info("***** Executing getDragonBallUserTest");
 
     try {
       DragonBallUser userByUsername = dragonBallUserDao.getDragonBallUser("goku");
       DragonBallUser user = dragonBallUserDao.getDragonBallUser(userByUsername.getId());
-
-      LOGGER.info("user: " + user.getUsername());
 
       assertNotNull(user);
       assertEquals(userByUsername.getId().toString(), user.getId().toString());
@@ -128,18 +104,13 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by its username.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
-    LOGGER.info("***** Executing getDragonBallUserByUsernameTest");
-
+    
     try {
       DragonBallUser user = dragonBallUserDao.getDragonBallUser("goku");
-
-      LOGGER.info("user: " + user.getUsername());
-
+      
       assertNotNull(user);
       assertEquals("goku", user.getUsername());
     } catch (KameHouseNotFoundException e) {
@@ -150,13 +121,10 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by email.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    LOGGER.info("***** Executing getDragonBallUserByEmailTest");
-
+    
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage(
         "This functionality is not implemented for the DragonBallUserInMemory repository.");
@@ -165,12 +133,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByUsernameNotFoundExceptionTest() {
-    LOGGER.info("***** Executing getDragonBallUserNotFoundExceptionTest");
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
@@ -179,12 +144,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for updating an existing user in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void updateDragonBallUserTest() {
-    LOGGER.info("***** Executing updateDragonBallUserTest");
 
     try {
       DragonBallUser originalUser = dragonBallUserDao.getDragonBallUser("goku");
@@ -212,12 +174,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for updating an existing user in the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void updateDragonBallUserNotFoundExceptionTest() {
-    LOGGER.info("***** Executing updateDragonBallUserNotFoundExceptionTest");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "yukimura", "yukimura@pot.com", 10, 10,
         10);
@@ -228,12 +187,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for deleting an existing user from the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void deleteDragonBallUserTest() {
-    LOGGER.info("***** Executing deleteDragonBallUserTest");
 
     try {
       DragonBallUser userToDelete = new DragonBallUser(0L, "piccolo", "piccolo@dbz.com", 20, 21,
@@ -256,12 +212,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for deleting an existing user from the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void deleteDragonBallUserNotFoundExceptionTest() {
-    LOGGER.info("***** Executing deleteDragonBallUserNotFoundExceptionTest");
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + 987L + " was not found in the repository.");
@@ -270,19 +223,9 @@ public class DragonBallUserDaoInMemoryTest {
 
   /**
    * Test for getting all the DragonBallUsers in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    LOGGER.info("***** Executing getAllDragonBallUsersTest");
-
-    List<DragonBallUser> usersList = dragonBallUserDao.getAllDragonBallUsers();
-
-    LOGGER.info("dragonBallUsers.get(0): " + usersList.get(0).getUsername());
-    LOGGER.info("dragonBallUsers.get(1): " + usersList.get(1).getUsername());
-    LOGGER.info("dragonBallUsers.get(2): " + usersList.get(2).getUsername());
-
     assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
   }
 }

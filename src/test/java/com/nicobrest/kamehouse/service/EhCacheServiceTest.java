@@ -10,8 +10,6 @@ import com.nicobrest.kamehouse.model.DragonBallUser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,8 +31,6 @@ import javax.persistence.Query;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class EhCacheServiceTest {
 
-  private static final Logger logger = LoggerFactory.getLogger(EhCacheServiceTest.class);
-
   @Autowired
   private EhCacheService ehCacheService;
 
@@ -46,13 +42,9 @@ public class EhCacheServiceTest {
 
   /**
    * Clear data from the repository before each test.
-   *
-   * @author nbrest
    */
   @Before
   public void setUp() {
-
-    logger.info("***** setUp");
 
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
@@ -62,6 +54,9 @@ public class EhCacheServiceTest {
     em.close();
   }
 
+  /**
+   * Tests retrieving all caches.
+   */
   @Test
   public void getAllCachesTest() {
 
@@ -83,6 +78,9 @@ public class EhCacheServiceTest {
     }
   }
 
+  /**
+   * Tests clearing all caches.
+   */
   @Test
   public void clearAllCachesTest() {
 

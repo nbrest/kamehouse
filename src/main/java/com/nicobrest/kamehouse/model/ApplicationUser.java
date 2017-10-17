@@ -228,8 +228,6 @@ public class ApplicationUser implements UserDetails {
   @Override
   public String toString() {
 
-    // return ToStringBuilder.reflectionToString(this);
-
     try {
       return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     } catch (com.fasterxml.jackson.core.JsonProcessingException e) {

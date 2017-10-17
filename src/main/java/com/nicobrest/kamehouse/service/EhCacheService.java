@@ -27,16 +27,10 @@ public class EhCacheService {
   @Qualifier("cacheManager")
   private EhCacheCacheManager cacheManager;
 
-  /**
-   * Getters and setters.
-   */
   public void setCacheManager(EhCacheCacheManager cacheManager) {
     this.cacheManager = cacheManager;
   }
-  
-  /**
-   * Getters and setters.
-   */
+
   public EhCacheCacheManager getCacheManager() {
     return cacheManager;
   }
@@ -46,7 +40,7 @@ public class EhCacheService {
    */
   public Map<String, Object> getCache(String cacheName) {
 
-    logger.debug("Getting information for cache: " + cacheName);
+    logger.trace("Getting information for cache: " + cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     Map<String, Object> cacheMap = new HashMap<String, Object>();
     if (cache != null) {
@@ -77,7 +71,7 @@ public class EhCacheService {
    */
   public void clearCache(String cacheName) {
 
-    logger.debug("Clearing cache: " + cacheName);
+    logger.trace("Clearing cache: " + cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     if (cache != null) {
       cache.removeAll();

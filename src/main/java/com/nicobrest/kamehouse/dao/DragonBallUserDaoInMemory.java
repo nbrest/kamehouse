@@ -35,60 +35,28 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   @Resource(name = "gotenDragonBallUser")
   private DragonBallUser gotenDragonBallUser;
 
-  /**
-   * Constructors.
-   *
-   * @author nbrest
-   */
   public DragonBallUserDaoInMemory() {
-
     initRepository();
   }
 
-  /**
-   * Getters and setters.
-   *
-   * @author nbrest
-   */
   public void setGohanDragonBallUser(DragonBallUser gohanDragonBallUser) {
-
     this.gohanDragonBallUser = gohanDragonBallUser;
   }
 
-  /**
-   * Getters and setters.
-   *
-   * @author nbrest
-   */
   public DragonBallUser getGohanDragonBallUser() {
-
     return this.gohanDragonBallUser;
   }
 
-  /**
-   * Getters and setters.
-   *
-   * @author nbrest
-   */
   public void setGotenDragonBallUser(DragonBallUser gotenDragonBallUser) {
-
     this.gotenDragonBallUser = gotenDragonBallUser;
   }
 
-  /**
-   * Getters and setters.
-   *
-   * @author nbrest
-   */
   public DragonBallUser getGotenDragonBallUser() {
-
     return this.gotenDragonBallUser;
   }
 
   /**
    * Initialize In-Memory repository.
-   *
-   * @author nbrest
    */
   private static void initRepository() {
 

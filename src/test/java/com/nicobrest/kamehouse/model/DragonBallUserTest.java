@@ -9,8 +9,6 @@ import static org.junit.Assert.assertTrue;
 import com.nicobrest.kamehouse.model.DragonBallUser;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Unit tests for the DragonBallUser class.
@@ -19,16 +17,11 @@ import org.slf4j.LoggerFactory;
  */
 public class DragonBallUserTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserTest.class);
-
   /**
    * Test the hashCode and equals methods in DragonBallUser.
-   * 
-   * @author nbrest
    */
   @Test
   public void hashCodeAndEqualsTest() {
-    LOGGER.info("***** Executing hashCodeAndEqualsTest");
 
     DragonBallUser goku = new DragonBallUser();
     goku.setId(10L);
@@ -64,12 +57,9 @@ public class DragonBallUserTest {
 
   /**
    * Test the hashCode and equals methods in DragonBallUser.
-   * 
-   * @author nbrest
    */
   @Test
   public void attackAndRecoverTest() {
-    LOGGER.info("***** Executing attackAndRecoverTest");
 
     DragonBallUser goku = new DragonBallUser();
     goku.setId(10L);

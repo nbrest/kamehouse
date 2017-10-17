@@ -21,6 +21,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
+/**
+ * Test class for the custom AuthenticationProvider implementation.
+ * 
+ * @author nbrest
+ *
+ */
 public class ApplicationAuthenticationProviderTest {
 
   private ApplicationUser applicationUserMock;

@@ -21,8 +21,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,8 +31,6 @@ import java.util.List;
  * @author nbrest
  */
 public class DragonBallUserServiceTest {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserServiceTest.class);
 
   private static List<DragonBallUser> dragonBallUsersList;
 
@@ -49,8 +45,6 @@ public class DragonBallUserServiceTest {
   
   /**
    * Resets mock objects and initializes test repository.
-   *
-   * @author nbrest
    */
   @Before
   public void beforeTest() {
@@ -93,12 +87,9 @@ public class DragonBallUserServiceTest {
 
   /**
    * Test for calling the service to create a DragonBallUser in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void createDragonBallUserTest() {
-    LOGGER.info("***** Executing createDragonBallUserTest");
 
     // Normal flow
     try {
@@ -117,12 +108,9 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to get a single DragonBallUser in the
    * repository by id.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserTest() {
-    LOGGER.info("***** Executing getDragonBallUserTest");
 
     // Normal flow
     try {
@@ -130,8 +118,6 @@ public class DragonBallUserServiceTest {
           .thenReturn(dragonBallUsersList.get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUser(1000L);
-
-      LOGGER.info("user: " + user.getUsername());
 
       assertNotNull(user);
       assertEquals("1000", user.getId().toString());
@@ -145,12 +131,9 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to get a single DragonBallUser in the
    * repository by username.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
-    LOGGER.info("***** Executing getDragonBallUserByUsernameTest");
 
     // Normal flow
     try {
@@ -158,8 +141,6 @@ public class DragonBallUserServiceTest {
           .thenReturn(dragonBallUsersList.get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUser("gokuTestMock");
-
-      LOGGER.info("user: " + user.getUsername());
 
       assertNotNull(user);
       assertEquals("gokuTestMock", user.getUsername());
@@ -173,12 +154,9 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to get a single DragonBallUser in the
    * repository by its email.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    LOGGER.info("***** Executing getDragonBallUserByEmailTest");
 
     // Normal flow
     try {
@@ -186,8 +164,6 @@ public class DragonBallUserServiceTest {
           .thenReturn(dragonBallUsersList.get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUserByEmail("gokuTestMock@dbz.com");
-
-      LOGGER.info("user: " + user.getUsername());
 
       assertNotNull(user);
       assertEquals("gokuTestMock", user.getUsername());
@@ -201,12 +177,9 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to update an existing DragonBallUser in the
    * repository.
-   *
-   * @author nbrest
    */
   @Test
   public void updateDragonBallUserTest() {
-    LOGGER.info("***** Executing updateDragonBallUserTest");
 
     // Normal flow
     try {
@@ -225,13 +198,10 @@ public class DragonBallUserServiceTest {
 
   /**
    * Test for calling the service to delete an existing user in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void deleteDragonBallUserTest() {
-    LOGGER.info("***** Executing deleteDragonBallUserTest");
-
+    
     // Normal flow
     try {
       when(dragonBallUserDaoMock.deleteDragonBallUser(1L)).thenReturn(dragonBallUsersList.get(0));
@@ -248,20 +218,13 @@ public class DragonBallUserServiceTest {
   /**
    * Test for calling the service to get all the DragonBallUsers in the
    * repository.
-   *
-   * @author nbrest
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    LOGGER.info("***** Executing getAllDragonBallUsersTest");
 
     when(dragonBallUserDaoMock.getAllDragonBallUsers()).thenReturn(dragonBallUsersList);
 
     List<DragonBallUser> usersList = dragonBallUserService.getAllDragonBallUsers();
-
-    LOGGER.info("dragonBallUsers.get(0): " + usersList.get(0).getUsername());
-    LOGGER.info("dragonBallUsers.get(1): " + usersList.get(1).getUsername());
-    LOGGER.info("dragonBallUsers.get(2): " + usersList.get(2).getUsername());
 
     assertEquals("gokuTestMock", usersList.get(0).getUsername());
     assertEquals("gokuTestMock@dbz.com", usersList.get(0).getEmail());
@@ -289,8 +252,6 @@ public class DragonBallUserServiceTest {
   
   /**
    * Test the failure flow of validateUsernameFormat.
-   * 
-   * @author nbrest
    */
   @Test
   public void validateUsernameFormatExceptionTest() {
@@ -303,8 +264,6 @@ public class DragonBallUserServiceTest {
   
   /**
    * Test the failure flow of validateEmailFormat.
-   * 
-   * @author nbrest
    */
   @Test
   public void validateEmailFormatExceptionTest() { 
@@ -318,8 +277,6 @@ public class DragonBallUserServiceTest {
   
   /**
    * Test the failure flow of validatePositiveValue.
-   * 
-   * @author nbrest
    */
   @Test
   public void validatePositiveValueExceptionTest() {
@@ -333,8 +290,6 @@ public class DragonBallUserServiceTest {
   
   /**
    * Test the failure flow of validateStringLength.
-   * 
-   * @author nbrest
    */
   @Test
   public void validateStringLengthExceptionTest() {  
@@ -350,5 +305,4 @@ public class DragonBallUserServiceTest {
     DragonBallUser user1 = new DragonBallUser(1L,username, "goku@dbz.com", -10, 20, 20);
     dragonBallUserService.createDragonBallUser(user1);
   }
-  
 }

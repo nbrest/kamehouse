@@ -45,19 +45,11 @@ public class DragonBallUser implements Serializable {
   @Column(name = "STAMINA")
   private int stamina;
 
-  /**
-   * Constructor.
-   * 
-   * @author nbrest
-   */
   public DragonBallUser() {
-
   }
 
   /**
    * Constructor.
-   * 
-   * @author nbrest
    */
   public DragonBallUser(Long id, String username, String email, int age, int powerLevel,
       int stamina) {
@@ -70,118 +62,56 @@ public class DragonBallUser implements Serializable {
     this.stamina = stamina;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public void setId(Long id) {
     this.id = id;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public void setUsername(String username) {
     this.username = username;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public void setEmail(String email) {
     this.email = email;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public void setAge(int age) {
     this.age = age;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public void setPowerLevel(int powerLevel) {
     this.powerLevel = powerLevel;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public void setStamina(int stamina) {
     this.stamina = stamina;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public Long getId() {
     return id;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public String getUsername() {
     return username;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public String getEmail() {
     return email;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public int getAge() {
     return age;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public int getPowerLevel() {
     return powerLevel;
   }
 
-  /**
-   * Getters and Setters.
-   * 
-   * @author nbrest
-   */
   public int getStamina() {
     return stamina;
   }
 
   /**
    * Attack another DragonBallUser.
-   * 
-   * @author nbrest
    */
   public void attack(DragonBallUser opponent) {
 
@@ -200,11 +130,8 @@ public class DragonBallUser implements Serializable {
 
   /**
    * Recover stamina.
-   * 
-   * @author nbrest
    */
   public void recoverStamina() {
-
     stamina = stamina + powerLevel;
   }
 

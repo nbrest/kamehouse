@@ -29,7 +29,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
   public ModelAndView homePage() {
-    logger.debug("In controller /, /welcome** (GET)");
+    logger.trace("In controller /, /welcome** (GET)");
     ModelAndView model = new ModelAndView();
     model.setViewName("/index");
     return model;
@@ -40,7 +40,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/about", method = RequestMethod.GET)
   public String aboutPage() {
-    logger.debug("In controller /about (GET)");
+    logger.trace("In controller /about (GET)");
     return "/about";
   }
 
@@ -49,7 +49,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/admin/**", method = RequestMethod.GET)
   public String adminPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.debug("In controller /admin/** (GET) with path: " + request.getServletPath());
+    logger.trace("In controller /admin/** (GET) with path: " + request.getServletPath());
     if (request.getServletPath().equals("/admin/")) {
       return "/admin/index";
     } else {
@@ -62,7 +62,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/app/**", method = RequestMethod.GET)
   public String appPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.debug("In controller /app/** (GET) with path: " + request.getServletPath());
+    logger.trace("In controller /app/** (GET) with path: " + request.getServletPath());
     if (request.getServletPath().equals("/app/")) {
       return "/app/index";
     } else {
@@ -75,7 +75,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/contact-us", method = RequestMethod.GET)
   public String contactUsPage() {
-    logger.debug("In controller /contact-us (GET)");
+    logger.trace("In controller /contact-us (GET)");
     return "/contact-us";
   }
 
@@ -84,7 +84,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/jsp/**", method = RequestMethod.GET)
   public String jspPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.debug("In controller /jsp/** (GET) with path: " + request.getServletPath());
+    logger.trace("In controller /jsp/** (GET) with path: " + request.getServletPath());
     if (request.getServletPath().equals("/jsp/")) {
       return "/jsp/index";
     } else {
@@ -97,7 +97,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String loginPage() {
-    logger.debug("In controller /login (GET)");
+    logger.trace("In controller /login (GET)");
     return "/login";
   }
 
@@ -106,7 +106,7 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.debug("In controller /logout (GET)");
+    logger.trace("In controller /logout (GET)");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
       new SecurityContextLogoutHandler().logout(request, response, authentication);

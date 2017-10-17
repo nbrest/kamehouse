@@ -14,8 +14,6 @@ public class JsonUtils {
 
   /**
    * Converts an object to a json byte array.
-   * 
-   * @author nbrest
    */
   public static byte[] convertToJsonBytes(Object object) throws IOException {
 

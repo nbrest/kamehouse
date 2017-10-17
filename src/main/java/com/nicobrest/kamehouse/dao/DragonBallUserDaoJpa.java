@@ -26,33 +26,18 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   @Autowired
   private EntityManagerFactory entityManagerFactory;
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public EntityManagerFactory getEntityManagerFactory() {
-
     return entityManagerFactory;
   }
 
-  /**
-   * Getters and Setters.
-   *
-   * @author nbrest
-   */
   public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-
     this.entityManagerFactory = entityManagerFactory;
   }
 
   /**
    * Get the EntityManager.
-   *
-   * @author nbrest
    */
   public EntityManager getEntityManager() {
-
     return entityManagerFactory.createEntityManager();
   }
 

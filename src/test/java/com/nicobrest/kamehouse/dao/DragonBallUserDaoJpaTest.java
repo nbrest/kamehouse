@@ -35,8 +35,6 @@ import javax.persistence.Query;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoJpaTest {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserDaoJpaTest.class);
    
   @Autowired
   private DragonBallUserDao dragonBallUserDaoJpa;
@@ -49,13 +47,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Clear data from the repository before each test.
-   *
-   * @author nbrest
    */
   @Before
   public void setUp() {
-
-    LOGGER.info("***** Setup");
     
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
@@ -67,12 +61,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for creating a DragonBallUser in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void createDragonBallUserTest() {
-    LOGGER.info("***** Executing createDragonBallUserTest");
 
     DragonBallUser dragonBallUser = new DragonBallUser(null, "vegeta", "vegeta@dbz.com", 49, 40,
         1000);
@@ -91,12 +82,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for creating a DragonBallUser in the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void createDragonBallUserConflictExceptionTest() {
-    LOGGER.info("***** Executing createDragonBallUserConflictExceptionTest");
 
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
@@ -111,20 +99,15 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by id.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserTest() {
-    LOGGER.info("***** Executing getDragonBallUserTest");
 
     try {
       DragonBallUser dbUser = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
       dragonBallUserDaoJpa.createDragonBallUser(dbUser);
       DragonBallUser userByUsername = dragonBallUserDaoJpa.getDragonBallUser("goku");
       DragonBallUser user = dragonBallUserDaoJpa.getDragonBallUser(userByUsername.getId());
-
-      LOGGER.info("user: " + user.getUsername());
 
       assertNotNull(user);
       assertEquals(userByUsername.getId().toString(), user.getId().toString());
@@ -136,21 +119,16 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by username.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
-    LOGGER.info("***** Executing getDragonBallUserByUsernameTest");
 
     try {
       DragonBallUser dbUser = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
       dragonBallUserDaoJpa.createDragonBallUser(dbUser);
 
       DragonBallUser user = dragonBallUserDaoJpa.getDragonBallUser("goku");
-
-      LOGGER.info("user: " + user.getUsername());
-
+      
       assertNotNull(user);
       assertEquals("goku", user.getUsername());
     } catch (KameHouseNotFoundException e) {
@@ -161,12 +139,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserNotFoundExceptionTest() {
-    LOGGER.info("***** Executing getDragonBallUserNotFoundExceptionTest");
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
@@ -175,20 +150,14 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting a single DragonBallUser in the repository by its email.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    LOGGER.info("***** Executing getDragonBallUserByEmailTest");
-
     try {
       DragonBallUser dbUser = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
       dragonBallUserDaoJpa.createDragonBallUser(dbUser);
 
       DragonBallUser user = dragonBallUserDaoJpa.getDragonBallUserByEmail("goku@dbz.com");
-
-      LOGGER.info("user: " + user.getUsername());
 
       assertNotNull(user);
       assertEquals("goku", user.getUsername());
@@ -201,12 +170,9 @@ public class DragonBallUserDaoJpaTest {
   /**
    * Test for getting a single DragonBallUser in the repository by its email
    * Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void getDragonBallUserByEmailNotFoundExceptionTest() {
-    LOGGER.info("***** Executing getDragonBallUserByEmailNotFoundExceptionTest");
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage(
@@ -216,12 +182,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for updating an existing user in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void updateDragonBallUserTest() {
-    LOGGER.info("***** Executing updateDragonBallUserTest");
 
     try {
       DragonBallUser userToInsert = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
@@ -252,12 +215,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for updating an existing user in the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void updateDragonBallUserNotFoundExceptionTest() {
-    LOGGER.info("***** Executing updateDragonBallUserNotFoundExceptionTest");
 
     DragonBallUser dragonBallUser = new DragonBallUser(0L, "yukimura", "yukimura@pot.com", 10, 10,
         10);
@@ -268,12 +228,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for updating an existing user in the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void updateDragonBallUserServerErrorExceptionTest() {
-    LOGGER.info("***** Executing updateDragonBallUserServerErrorExceptionTest");
 
     thrown.expect(KameHouseServerErrorException.class);
     thrown.expectMessage("PersistenceException in updateDragonBallUser");
@@ -303,12 +260,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for deleting an existing user from the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void deleteDragonBallUserTest() {
-    LOGGER.info("***** Executing deleteDragonBallUserTest");
 
     try {
       DragonBallUser userToDelete = new DragonBallUser(null, "piccolo", "piccolo@dbz.com", 20, 21,
@@ -331,12 +285,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for deleting an existing user from the repository Exception flows.
-   *
-   * @author nbrest
    */
   @Test
   public void deleteDragonBallUserNotFoundExceptionTest() {
-    LOGGER.info("***** Executing deleteDragonBallUserNotFoundExceptionTest");
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + 987L + " was not found in the repository.");
@@ -345,12 +296,9 @@ public class DragonBallUserDaoJpaTest {
 
   /**
    * Test for getting all the DragonBallUsers in the repository.
-   *
-   * @author nbrest
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    LOGGER.info("***** Executing getAllDragonBallUsersTest");
 
     DragonBallUser dbUser1 = new DragonBallUser(null, "piccolo", "piccolo@dbz.com", 20, 21, 22);
     dragonBallUserDaoJpa.createDragonBallUser(dbUser1);
