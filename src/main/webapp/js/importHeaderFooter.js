@@ -3,6 +3,8 @@
  * 
  * @author nbrest
  */
+var SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
+
 function main() {
   importHeaderAndFooter();
 }
@@ -66,7 +68,6 @@ function updateActiveTab() {
  * Get session status.
  */
 function getSessionStatus() {
-  SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
   $.get(SESSION_STATUS_URL)
   .success(function(data) {
     updateLoginStatus(data.firstName);
@@ -83,11 +84,13 @@ function getSessionStatus() {
 function updateLoginStatus(name) {
   if (name == undefined || name == null || name.trim() == "" || name.trim() == "anonymousUser") {
     var $loginStatus = $("#login-status");
-    var $loginButton = $("<a href='/kame-house/login' class='btn btn-outline-info login-status-button'>Login</>");
+    var $loginButton = $("<a href='/kame-house/login' " + 
+        "class='btn btn-outline-info login-status-button'>Login</>");
     $loginStatus.append($loginButton);
   } else {
     var $loginStatus = $("#login-status");
-    var $logoutButton = $("<a href='/kame-house/logout' class='btn btn-outline-secondary login-status-button'>Logout</>");
+    var $logoutButton = $("<a href='/kame-house/logout' " + 
+        "class='btn btn-outline-secondary login-status-button'>Logout</>");
     $loginMessage = $("<h5>");
     $loginMessage.text("Welcome " + name + "!");
     $loginStatus.append($logoutButton);

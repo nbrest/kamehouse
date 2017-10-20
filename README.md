@@ -51,8 +51,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Added error mappings for exceptions in web.xml
 - Redirect to error pages from angular when getting errors from the backend
 - Updated functions to import header and footer and newsletter
-- Updated javadocs
-- Minor java code refactors
+- Updated javadocs in java and js
+- Minor java and js code refactors
 #### v0.12
 - Secured application through spring security
 - Implemented login functionality
