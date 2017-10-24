@@ -100,7 +100,9 @@ public class EhCacheService {
     List<?> cacheKeys = cache.getKeys();
     for (Object key : cacheKeys) {
       Element cacheElement = cache.get(key);
-      cacheValues.add(cacheElement.getObjectValue().toString());
+      if (cacheElement != null) {
+        cacheValues.add(cacheElement.getObjectValue().toString());
+      }
     }
     cacheMap.put("keys", cache.getKeys().toString());
     cacheMap.put("values", cacheValues);
