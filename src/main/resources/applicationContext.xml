@@ -48,7 +48,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <bean id="dragonBallUserService" class="com.nicobrest.kamehouse.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDaoJpa" />
   </bean>
-
+  
   <bean id="dragonBallUserDaoJpa" class="com.nicobrest.kamehouse.dao.DragonBallUserDaoJpa">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>

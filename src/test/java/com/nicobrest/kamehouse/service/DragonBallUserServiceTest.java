@@ -14,9 +14,7 @@ import com.nicobrest.kamehouse.model.DragonBallUser;
 import com.nicobrest.kamehouse.service.DragonBallUserService;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -40,9 +38,6 @@ public class DragonBallUserServiceTest {
   @Mock(name = "dragonBallUserDao")
   private DragonBallUserDao dragonBallUserDaoMock;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-  
   /**
    * Resets mock objects and initializes test repository.
    */
@@ -114,8 +109,7 @@ public class DragonBallUserServiceTest {
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.getDragonBallUser(1000L))
-          .thenReturn(dragonBallUsersList.get(0));
+      when(dragonBallUserDaoMock.getDragonBallUser(1000L)).thenReturn(dragonBallUsersList.get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUser(1000L);
 
@@ -137,8 +131,8 @@ public class DragonBallUserServiceTest {
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock"))
-          .thenReturn(dragonBallUsersList.get(0));
+      when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock")).thenReturn(dragonBallUsersList
+          .get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUser("gokuTestMock");
 
@@ -160,8 +154,8 @@ public class DragonBallUserServiceTest {
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.getDragonBallUserByEmail("gokuTestMock@dbz.com"))
-          .thenReturn(dragonBallUsersList.get(0));
+      when(dragonBallUserDaoMock.getDragonBallUserByEmail("gokuTestMock@dbz.com")).thenReturn(
+          dragonBallUsersList.get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUserByEmail("gokuTestMock@dbz.com");
 
@@ -201,7 +195,7 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void deleteDragonBallUserTest() {
-    
+
     // Normal flow
     try {
       when(dragonBallUserDaoMock.deleteDragonBallUser(1L)).thenReturn(dragonBallUsersList.get(0));
@@ -248,61 +242,5 @@ public class DragonBallUserServiceTest {
     assertEquals(1000, usersList.get(2).getStamina());
 
     verify(dragonBallUserDaoMock, times(1)).getAllDragonBallUsers();
-  }
-  
-  /**
-   * Test the failure flow of validateUsernameFormat.
-   */
-  @Test
-  public void validateUsernameFormatExceptionTest() {
-    
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("Invalid username format:");
-    DragonBallUser user1 = new DragonBallUser(1L,".goku.9.enzo", "goku@dbz.com", 20, 20, 20);
-    dragonBallUserService.createDragonBallUser(user1);     
-  }
-  
-  /**
-   * Test the failure flow of validateEmailFormat.
-   */
-  @Test
-  public void validateEmailFormatExceptionTest() { 
-    
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("Invalid email address: ");
-    
-    DragonBallUser user1 = new DragonBallUser(1L,"goku", "goku.9.enzo@@dbz.com", 20, 20, 20);
-    dragonBallUserService.createDragonBallUser(user1); 
-  }
-  
-  /**
-   * Test the failure flow of validatePositiveValue.
-   */
-  @Test
-  public void validatePositiveValueExceptionTest() {
-    
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("The attribute should be a positive value. Current value:");
-    
-    DragonBallUser user1 = new DragonBallUser(1L,"goku", "goku@dbz.com", -10, 20, 20);
-    dragonBallUserService.createDragonBallUser(user1); 
-  }
-  
-  /**
-   * Test the failure flow of validateStringLength.
-   */
-  @Test
-  public void validateStringLengthExceptionTest() {  
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("The string attribute excedes the maximum length of ");
-    
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0 ; i < 70 ; i++) {
-      sb.append("goku");
-    }
-    String username = sb.toString();
-    
-    DragonBallUser user1 = new DragonBallUser(1L,username, "goku@dbz.com", -10, 20, 20);
-    dragonBallUserService.createDragonBallUser(user1);
   }
 }
