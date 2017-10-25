@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.validator.DragonBallUserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  *
  * @author nbrest
  */
+@Service
 public class DragonBallUserService {
 
   @Autowired
@@ -36,10 +38,11 @@ public class DragonBallUserService {
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
 
     try {
-      validateAllFields(dragonBallUser);
+      validateDragonBallUser(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
-      // TODO: Maybe catch the exception in the controller and transform it to a
-      // Network exception in the controller layer
+      // TODO: Catch the exception in the controller and transform it to a
+      // Network exception in the controller layer. Also move network exceptions
+      // from the Dao layer to the controller layer.
       throw new KameHouseBadRequestException(e.getMessage(), e);
     }
     return dragonBallUserDao.createDragonBallUser(dragonBallUser);
@@ -72,7 +75,7 @@ public class DragonBallUserService {
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
 
     try {
-      validateAllFields(dragonBallUser);
+      validateDragonBallUser(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
       throw new KameHouseBadRequestException(e.getMessage(), e);
     }
@@ -97,11 +100,11 @@ public class DragonBallUserService {
    * Performs all the input and logical validations on a DragonBallUser and
    * throw an exception if a validation fails.
    */
-  private void validateAllFields(DragonBallUser dragonBallUser) {
+  private void validateDragonBallUser(DragonBallUser dragonBallUser) {
 
     DragonBallUserValidator.validateUsernameFormat(dragonBallUser.getUsername());
-    DragonBallUserValidator.validateStringLength(dragonBallUser.getUsername());
     DragonBallUserValidator.validateEmailFormat(dragonBallUser.getEmail());
+    DragonBallUserValidator.validateStringLength(dragonBallUser.getUsername());
     DragonBallUserValidator.validateStringLength(dragonBallUser.getEmail());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getAge());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getPowerLevel());

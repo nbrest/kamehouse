@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.service;
 import com.nicobrest.kamehouse.dao.ApplicationUserDao;
 import com.nicobrest.kamehouse.model.ApplicationUser;
 import com.nicobrest.kamehouse.security.PasswordUtils;
+import com.nicobrest.kamehouse.validator.ApplicationUserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -58,6 +59,7 @@ public class ApplicationUserService implements UserDetailsService {
    * Creates a new application user in the repository.
    */
   public Long createUser(ApplicationUser applicationUser) {
+    validateApplicationUser(applicationUser);
     applicationUser.setPassword(PasswordUtils.generateHashedPassword(applicationUser
         .getPassword()));
     Long id = applicationUserDao.createUser(applicationUser);
@@ -68,6 +70,7 @@ public class ApplicationUserService implements UserDetailsService {
    * Updates an application user in the repository.
    */
   public void updateUser(ApplicationUser applicationUser) {
+    validateApplicationUser(applicationUser);
     applicationUserDao.updateUser(applicationUser);
   }
 
@@ -85,5 +88,21 @@ public class ApplicationUserService implements UserDetailsService {
   public List<ApplicationUser> getAllUsers() {
     List<ApplicationUser> applicationUsers = applicationUserDao.getAllUsers();
     return applicationUsers;
+  }
+  
+  /**
+   * Validates the application user attributes.
+   */
+  private void validateApplicationUser(ApplicationUser applicationUser) {
+    
+    ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
+    ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
+    ApplicationUserValidator.validateUsernameFormat(applicationUser.getUsername());
+    ApplicationUserValidator.validateEmailFormat(applicationUser.getEmail());
+    ApplicationUserValidator.validateStringLength(applicationUser.getFirstName());
+    ApplicationUserValidator.validateStringLength(applicationUser.getLastName());
+    ApplicationUserValidator.validateStringLength(applicationUser.getUsername());
+    ApplicationUserValidator.validateStringLength(applicationUser.getEmail());
+    ApplicationUserValidator.validateStringLength(applicationUser.getPassword());
   }
 }

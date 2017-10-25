@@ -42,6 +42,8 @@ public class ApplicationUserServiceTest {
     applicationUserMock.setEmail("gokuTestMock@dbz.com");
     applicationUserMock.setUsername("gokuTestMock");
     applicationUserMock.setPassword("gokupass");
+    applicationUserMock.setFirstName("Goku");
+    applicationUserMock.setLastName("Son");
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserDaoMock);
