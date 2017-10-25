@@ -16,10 +16,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 /**
  * Test class for the AddSecurityContextFilter.
  * 
@@ -57,12 +53,6 @@ public class AddSecurityContextFilterTest {
       addSecurityContextFilterSpy.doFilter(request, response, chain);
       PowerMockito.verifyPrivate(addSecurityContextFilterSpy, Mockito.times(1)).invoke(
           "getAuthentication");
-    } catch (IOException e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    } catch (ServletException e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

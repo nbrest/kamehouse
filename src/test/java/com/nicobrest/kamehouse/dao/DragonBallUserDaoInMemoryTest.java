@@ -226,6 +226,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
+    try {
+      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size()); 
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
   }
 }

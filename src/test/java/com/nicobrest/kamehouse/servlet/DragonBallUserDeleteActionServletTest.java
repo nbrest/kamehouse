@@ -58,10 +58,7 @@ public class DragonBallUserDeleteActionServletTest {
 
       verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(100L);
       assertEquals("users-list", response.getRedirectedUrl());
-    } catch (ServletException e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    } catch (IOException e) {
+    } catch (ServletException | IOException e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }

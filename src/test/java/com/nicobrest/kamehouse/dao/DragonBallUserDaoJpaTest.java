@@ -302,9 +302,12 @@ public class DragonBallUserDaoJpaTest {
     dragonBallUserDaoJpa.createDragonBallUser(dbUser1);
     DragonBallUser dbUser2 = new DragonBallUser(null, "goten", "goten@dbz.com", 30, 31, 32);
     dragonBallUserDaoJpa.createDragonBallUser(dbUser2);
-
-    List<DragonBallUser> usersList = dragonBallUserDaoJpa.getAllDragonBallUsers();
-
-    assertEquals(2, usersList.size());
+    try {
+      List<DragonBallUser> usersList = dragonBallUserDaoJpa.getAllDragonBallUsers();
+      assertEquals(2, usersList.size()); 
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
   }
 }

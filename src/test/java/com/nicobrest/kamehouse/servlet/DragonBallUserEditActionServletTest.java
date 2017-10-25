@@ -62,10 +62,7 @@ public class DragonBallUserEditActionServletTest {
 
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(any());
       assertEquals("users-list", response.getRedirectedUrl());
-    } catch (ServletException e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    } catch (IOException e) {
+    } catch (ServletException | IOException e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }

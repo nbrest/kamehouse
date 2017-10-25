@@ -53,6 +53,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Updated functions to import header and footer and newsletter
 - Updated javadocs in java and js
 - Minor java and js code refactors
+- Added validations to the ApplicationUser in the backend
+- Fixed bugs
 #### v0.12
 - Secured application through spring security
 - Implemented login functionality

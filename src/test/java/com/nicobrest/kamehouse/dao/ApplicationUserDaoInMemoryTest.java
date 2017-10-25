@@ -192,7 +192,11 @@ public class ApplicationUserDaoInMemoryTest {
    */
   @Test
   public void getAllApplicationUsersTest() {
-    
-    assertEquals(4, applicationUserDao.getAllUsers().size());
+    try {
+      assertEquals(4, applicationUserDao.getAllUsers().size());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
   }
 }

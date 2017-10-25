@@ -233,7 +233,12 @@ public class ApplicationUserDaoJpaTest {
     applicationUserDaoJpa.createUser(applicationUsersList.get(0));
     applicationUserDaoJpa.createUser(applicationUsersList.get(1));
     applicationUserDaoJpa.createUser(applicationUsersList.get(2));
-    List<ApplicationUser> usersList = applicationUserDaoJpa.getAllUsers();
-    assertEquals(3, usersList.size());
+    try {
+      List<ApplicationUser> usersList = applicationUserDaoJpa.getAllUsers();
+      assertEquals(3, usersList.size());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
   }
 }
