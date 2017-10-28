@@ -4,40 +4,39 @@
   <groupId>com.nicobrest</groupId>
   <artifactId>java-web-kame-house</artifactId>
   <packaging>war</packaging>
-  <version>0.12.1-SNAPSHOT</version>
+  <version>0.13.1-SNAPSHOT</version>
   <name>Java Web - Kame House</name>
   <url>https://www.nicobrest.com</url>
 
   <properties>
-    <!-- Updated versions on 2016/02/05 -->
-
-    <checkstyle.version>2.17</checkstyle.version>
-    <codehaus.jackson.version>1.9.13</codehaus.jackson.version>
-    <commons.lang.version>2.6</commons.lang.version>
-    <compiler.plugin.version>3.5</compiler.plugin.version>
-    <ehcache.version>2.9.0</ehcache.version>
-    <findbugs.version>3.0.1</findbugs.version>
-    <hamcrest.version>1.3</hamcrest.version>
-    <hibernate.version>5.1.0.Final</hibernate.version>
-    <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
-    <hsql.version>2.3.2</hsql.version>
-    <jackson.version>2.4.3</jackson.version>
-    <javax.servlet.version>3.0.1</javax.servlet.version>
-    <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>
-    <jcloverslf4j.version>1.7.13</jcloverslf4j.version>
-    <jstl.version>1.2</jstl.version>
-    <jsonpath.version>0.8.1</jsonpath.version>
-    <junit.version>4.12</junit.version>
-    <logback.version>1.1.2</logback.version>
-    <mysql.connector.java.version>5.1.39</mysql.connector.java.version>
-    <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
-    <powermock.version>1.7.3</powermock.version>
-    <spring.version>4.2.4.RELEASE</spring.version>
-    <spring.security.version>4.2.3.RELEASE</spring.security.version>
-    <war.plugin.version>2.1.1</war.plugin.version>
+  
+    <checkstyle.version>2.17</checkstyle.version> <!-- Updated on 2016/02/05 -->
+    <codehaus.jackson.version>1.9.13</codehaus.jackson.version> <!-- Updated on 2016/02/05 -->
+    <commons.lang.version>2.6</commons.lang.version> <!-- Updated on 2016/02/05 -->
+    <compiler.plugin.version>3.5</compiler.plugin.version> <!-- Updated on 2016/02/05 -->
+    <ehcache.version>2.9.0</ehcache.version> <!-- Updated on 2016/02/05 -->
+    <findbugs.version>3.0.1</findbugs.version> <!-- Updated on 2016/02/05 -->
+    <hamcrest.version>1.3</hamcrest.version> <!-- Updated on 2016/02/05 -->
+    <hibernate.version>5.1.0.Final</hibernate.version> <!-- Updated on 2016/02/05 -->
+    <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version> <!-- Updated on 2016/02/05 -->
+    <hsql.version>2.3.2</hsql.version> <!-- Updated on 2016/02/05 -->
+    <jackson.version>2.4.3</jackson.version> <!-- Updated on 2016/02/05 -->
+    <javax.servlet.version>3.0.1</javax.servlet.version> <!-- Updated on 2016/02/05 -->
+    <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version> <!-- Updated on 2016/02/05 -->
+    <jcloverslf4j.version>1.7.13</jcloverslf4j.version> <!-- Updated on 2016/02/05 -->
+    <jstl.version>1.2</jstl.version> <!-- Updated on 2016/02/05 -->
+    <jsonpath.version>0.8.1</jsonpath.version> <!-- Updated on 2016/02/05 -->
+    <junit.version>4.12</junit.version> <!-- Updated on 2016/02/05 -->
+    <logback.version>1.1.2</logback.version> <!-- Updated on 2016/02/05 -->
+    <mysql.connector.java.version>5.1.39</mysql.connector.java.version> <!-- Updated on 2016/02/05 -->
+    <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version> <!-- Updated on 2016/02/05 -->
+    <powermock.version>1.7.3</powermock.version> <!-- Updated on 2016/02/05 -->
+    <spring.version>4.2.4.RELEASE</spring.version> <!-- Updated on 2016/02/05 -->
+    <spring.security.version>4.2.3.RELEASE</spring.security.version> <!-- Updated on 2016/02/05 -->
+    <war.plugin.version>2.1.1</war.plugin.version> <!-- Updated on 2016/02/05 -->
 
     <java.target.version>1.8</java.target.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
   </properties>
 
   <dependencies>
