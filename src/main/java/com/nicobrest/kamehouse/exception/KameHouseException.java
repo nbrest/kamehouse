@@ -16,4 +16,8 @@ public class KameHouseException extends RuntimeException {
   public KameHouseException(String message, Exception cause) {
     super(message, cause);
   }
+  
+  public KameHouseException(Exception cause) {
+    super(cause);
+  }
 }

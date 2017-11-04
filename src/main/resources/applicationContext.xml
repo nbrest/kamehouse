@@ -12,7 +12,8 @@ http://www.springframework.org/schema/cache
 http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- Root Application Context for the entire web application -->
-
+  <context:property-placeholder
+    location="classpath:application.properties,classpath:jdbc.properties,classpath:hibernate.properties" />
   <import resource="applicationContext-persistence.xml" />
   <import resource="spring-security.xml" />
 
@@ -27,7 +28,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     <property name="configLocation" value="classpath:ehcache.xml" />
     <property name="shared" value="true" />
   </bean>
-  
+
   <bean id="ehCacheService" class="com.nicobrest.kamehouse.service.EhCacheService">
     <property name="cacheManager" ref="cacheManager" />
   </bean>
@@ -44,11 +45,23 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     </property>
   </bean>
 
+  <!-- vlc-rc beans -->
+  <bean id="vlcRcService" class="com.nicobrest.kamehouse.vlcrc.service.VlcRcService">
+    <property name="vlcPlayer" ref="vlcPlayer" />
+  </bean>
+
+  <bean id="vlcPlayer" class="com.nicobrest.kamehouse.vlcrc.model.VlcPlayer">
+    <property name="hostname" value="${vlc.player.hostname}" />
+    <property name="port" value="${vlc.player.port}" />
+    <property name="username" value="${vlc.player.username}" />
+    <property name="password" value="${vlc.player.password}" />
+  </bean>
+
   <!-- Example endpoints beans -->
   <bean id="dragonBallUserService" class="com.nicobrest.kamehouse.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDaoJpa" />
   </bean>
-  
+
   <bean id="dragonBallUserDaoJpa" class="com.nicobrest.kamehouse.dao.DragonBallUserDaoJpa">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
