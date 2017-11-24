@@ -53,6 +53,6 @@ public class VlcRcController {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/commands (POST)");
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, vlcPlayerName);
-    return new ResponseEntity<VlcRcStatus>(vlcRcStatus, HttpStatus.OK);
+    return new ResponseEntity<VlcRcStatus>(vlcRcStatus, HttpStatus.CREATED);
   }
 }

@@ -1,0 +1,88 @@
+{
+	"fullscreen": true,
+	"repeat": false,
+	"subtitledelay": 0,
+	"equalizer": [],
+	"aspectratio": "16:9",
+	"audiodelay": 0,
+	"apiversion": 3,
+	"currentplid": 390,
+	"time": 1777,
+	"volume": 90,
+	"length": 4515,
+	"random": true,
+	"rate": 1,
+	"state": "playing",
+	"loop": false,
+	"version": "2.2.1 Terry Pratchett (Weatherwax)",
+	"position": 0.39357134699821,
+	"stats": {
+		"inputbitrate": 0.12517169117928,
+		"sentbytes": 0,
+		"lostabuffers": 1,
+		"averagedemuxbitrate": 0,
+		"readpackets": 697,
+		"demuxreadpackets": 0,
+		"lostpictures": 1,
+		"displayedpictures": 42581,
+		"sentpackets": 0,
+		"demuxreadbytes": 370995366,
+		"demuxbitrate": 0.21276922523975,
+		"playedabuffers": 55542,
+		"demuxdiscontinuity": 0,
+		"decodedaudio": 55542,
+		"sendbitrate": 0,
+		"readbytes": 371895365,
+		"averageinputbitrate": 0,
+		"demuxcorrupted": 0,
+		"decodedvideo": 42594
+	},
+	"audiofilters": {
+		"filter_0": ""
+	},
+	"videoeffects": {
+		"hue": 0,
+		"saturation": 1,
+		"contrast": 1,
+		"brightness": 1,
+		"gamma": 1
+	},
+	"information": {
+		"chapter": 0,
+		"chapters": [
+			0
+		],
+		"title": 0,
+		"titles": [
+			0
+		],
+		"category": {
+			"Stream 0": {
+				"Frame_rate": "23.976216",
+				"Decoded_format": "Planar 4: 2 :0 YVU",
+				"Type": "Video",
+				"Codec": "H264 - MPEG-4 AVC (part 10) (avc1)",
+				"Display_resolution": "856x480",
+				"Resolution": "864x480"
+			},
+			"Stream 1": {
+				"Bitrate": "192 kb/s",
+				"Type": "Audio",
+				"Channels": "3F2R/LFE",
+				"Sample_rate": "48000 Hz",
+				"Language": "English",
+				"Codec": "A52 Audio (aka AC3) (a52 )"
+			},
+			"meta": {
+				"ENCODER": "Lavf52.94.0",
+				"filename": "Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv",
+				"title": "Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv"
+			},
+			"Stream 2": {
+				"Type": "Subtitle",
+				"Language": "English",
+				"Codec": "Text subtitles with various tags (subt)"
+			}
+		}
+	}
+}

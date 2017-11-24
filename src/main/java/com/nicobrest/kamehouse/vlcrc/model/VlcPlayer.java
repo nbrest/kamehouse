@@ -1,13 +1,18 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.exception.KameHouseException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -18,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,9 +43,13 @@ import java.util.Map.Entry;
  */
 public class VlcPlayer {
 
+  @JsonIgnore
   private static final Logger logger = LoggerFactory.getLogger(VlcPlayer.class);
+  @JsonIgnore
   private static final String PROTOCOL = "http://";
+  @JsonIgnore
   private static final String BASE_URL = "/requests/status.json";
+
   private String hostname;
   private int port;
   private String username;
@@ -98,6 +108,7 @@ public class VlcPlayer {
   /**
    * Get the status information of the VLC Player.
    */
+  @JsonIgnore
   public VlcRcStatus getVlcRcStatus() {
     StringBuffer statusUrl = new StringBuffer();
     statusUrl.append(PROTOCOL);
@@ -155,22 +166,21 @@ public class VlcPlayer {
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
     credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-    HttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(
-        credentialsProvider).build();
+    HttpClient client = createHttpClient(credentialsProvider);
     HttpGet request = new HttpGet(url);
     HttpResponse response;
     BufferedReader responseReader = null;
     try {
-      response = client.execute(request);
-      responseReader = new BufferedReader(new InputStreamReader(response.getEntity()
-          .getContent()));
+      response = executeGetRequest(client, request);
+      InputStream inputStreamFromResponse = getInputStreamFromResponse(response);
+      responseReader = new BufferedReader(new InputStreamReader(inputStreamFromResponse));
 
       StringBuffer responseBody = new StringBuffer();
       String line = "";
       while ((line = responseReader.readLine()) != null) {
         responseBody.append(line);
       }
-      logger.trace("VLC response Code: " + response.getStatusLine().getStatusCode()
+      logger.trace("VLC response Status Code: " + getResponseStatusCode(response)
           + ". VLC Response Body: " + responseBody);
       VlcRcStatus vlcRcStatus = buildVlcRcStatus(responseBody.toString());
       return vlcRcStatus;
@@ -188,7 +198,38 @@ public class VlcPlayer {
       }
     }
   }
+  
+  /**
+   * Creates an instance of HttpClient with the provided credentials.
+   */
+  private HttpClient createHttpClient(CredentialsProvider credentialsProvider) {
+    return HttpClientBuilder.create().setDefaultCredentialsProvider(
+        credentialsProvider).build();
+  }
 
+  /**
+   * Execute the HTTP Get request to the specified HttpClient.
+   */
+  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest)
+      throws ClientProtocolException, IOException {
+    return client.execute(getRequest);
+  }
+
+  /**
+   * Returns the response content as an InputStream.
+   */
+  private InputStream getInputStreamFromResponse(HttpResponse response)
+      throws UnsupportedOperationException, IOException {
+    return response.getEntity().getContent();
+  }
+
+  /**
+   * Returns the status code from an HttpResponse instance.
+   */
+  private int getResponseStatusCode(HttpResponse response) {
+    return response.getStatusLine().getStatusCode();
+  }
+  
   /**
    * Converts the status information returned by the web API of the VLC Player
    * into its internal representation used in the application.
@@ -364,5 +405,32 @@ public class VlcPlayer {
       e.printStackTrace();
       throw new KameHouseException(e);
     }
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(hostname).append(port).toHashCode();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj instanceof VlcPlayer) {
+      final VlcPlayer other = (VlcPlayer) obj;
+      return new EqualsBuilder().append(hostname, other.getHostname()).append(port, other
+          .getPort()).isEquals();
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public String toString() {
+
+    try {
+      return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+      e.printStackTrace();
+    }
+    return "VlcPlayer: INVALID_STATE";
   }
 }
