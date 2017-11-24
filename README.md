@@ -45,6 +45,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 *********************
 # ChangeLog:
+#### v0.14
+- Added backend support to execute commands and check the status of a VLC Player configured in the application context
 #### v0.13
 - Added error mapping for status 405
 - Moved validations from model to service layer in test models
