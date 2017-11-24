@@ -2,7 +2,7 @@
 
 This application (still heavily under construction) will contain the following modules: 
 * Manage my media files
-* Extend the web interface of a vlc player running locally
+* Control multiple VLC Players through their web interface
 * Test endpoints to practice different frontend frameworks
 * Login system
 * Application administration view 
@@ -23,6 +23,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 ##### Javascript frameworks/libraries:
 * Angular
+* Vue
+* React
 * jQuery
 
 ##### SCM:
