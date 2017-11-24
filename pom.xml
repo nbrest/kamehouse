@@ -12,6 +12,7 @@
     <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
     <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
     <commons.lang.version>2.6</commons.lang.version>                    <!-- Updated 2016/02 -->
+    <commons.httpclient.version>3.1</commons.httpclient.version>        <!-- Updated 2017/11 -->
     <compiler.plugin.version>3.5</compiler.plugin.version>              <!-- Updated 2016/02 -->
     <ehcache.version>2.9.0</ehcache.version>                            <!-- Updated 2016/02 -->
     <findbugs.version>3.0.1</findbugs.version>                          <!-- Updated 2016/02 -->
@@ -74,6 +75,12 @@
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>${httpclient.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>${commons.httpclient.version}</version>
     </dependency>
 
     <!-- Hibernate/JPA dependencies -->

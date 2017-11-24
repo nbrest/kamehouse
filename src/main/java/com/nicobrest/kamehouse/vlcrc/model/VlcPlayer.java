@@ -7,6 +7,8 @@ import com.nicobrest.kamehouse.exception.KameHouseException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.http.HttpResponse;
@@ -132,23 +134,33 @@ public class VlcPlayer {
     commandUrl.append(":");
     commandUrl.append(port);
     commandUrl.append(BASE_URL);
-    commandUrl.append("?command=" + command.getName());
+    commandUrl.append("?command=" + urlEncode(command.getName()));
     if (command.getInput() != null) {
-      commandUrl.append("&input=" + command.getInput());
+      commandUrl.append("&input=" + urlEncode(command.getInput()));
     }
     if (command.getOption() != null) {
-      commandUrl.append("&option=" + command.getOption());
+      commandUrl.append("&option=" + urlEncode(command.getOption()));
     }
     if (command.getVal() != null) {
-      commandUrl.append("&val=" + command.getVal());
+      commandUrl.append("&val=" + urlEncode(command.getVal()));
     }
     if (command.getId() != null) {
-      commandUrl.append("&id=" + command.getId());
+      commandUrl.append("&id=" + urlEncode(command.getId()));
     }
     if (command.getBand() != null) {
-      commandUrl.append("&band=" + command.getBand());
+      commandUrl.append("&band=" + urlEncode(command.getBand()));
     }
     return commandUrl.toString();
+  }
+  
+  private String urlEncode(String parameter) {
+    try {
+      return URIUtil.encodeQuery(parameter);
+    } catch (URIException e) {
+      logger.error("Failed to encode parameter: " + parameter);
+      e.printStackTrace();
+      return null;
+    }
   }
 
   /**

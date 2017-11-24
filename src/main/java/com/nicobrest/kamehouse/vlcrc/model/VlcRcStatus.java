@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.List;
 import java.util.Map;
 
