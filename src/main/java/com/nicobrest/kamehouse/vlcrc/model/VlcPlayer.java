@@ -305,7 +305,7 @@ public class VlcPlayer {
 
       /* Set equalizer */
       JsonNode equalizerJson = vlcStatusResponseJson.get("equalizer");
-      VlcRcStatus.Equalizer equalizer = vlcRcStatus.new Equalizer();
+      VlcRcStatus.Equalizer equalizer = new VlcRcStatus.Equalizer();
 
       JsonNode presetsJson = equalizerJson.get("presets");
       if (presetsJson != null) {
@@ -336,7 +336,7 @@ public class VlcPlayer {
       vlcRcStatus.setEqualizer(equalizer);
 
       /* Set information */
-      VlcRcStatus.Information information = vlcRcStatus.new Information();
+      VlcRcStatus.Information information = new VlcRcStatus.Information();
       JsonNode informationJson = vlcStatusResponseJson.get("information");
 
       information.setChapter(informationJson.get("chapter").asText());

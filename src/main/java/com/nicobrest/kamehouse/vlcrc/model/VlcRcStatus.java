@@ -226,9 +226,7 @@ public class VlcRcStatus {
     this.information = information;
   }
 
-  @SuppressFBWarnings(value = "SIC_INNER_SHOULD_BE_STATIC",
-      justification = "Every VlcRcStatus instance requires a new instance of Equalizer class")
-  public class Equalizer {
+  public static class Equalizer {
 
     private Map<String, String> presets;
     private Map<String, Integer> bands;
@@ -259,9 +257,7 @@ public class VlcRcStatus {
     }
   }
 
-  @SuppressFBWarnings(value = "SIC_INNER_SHOULD_BE_STATIC",
-      justification = "Every VlcRcStatus instance requires a new instance of Information class")
-  public class Information {
+  public static class Information {
 
     private String chapter;
     private List<String> chapters;

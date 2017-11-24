@@ -117,11 +117,11 @@ public class VlcRcControllerTest {
     stats.put("decodedVideo", 1);
     vlcRcStatusMock.setStats(stats);
     // equalizer
-    Equalizer equalizer = vlcRcStatusMock.new Equalizer();
+    Equalizer equalizer = new VlcRcStatus.Equalizer();
     equalizer.setPreAmp(1);
     vlcRcStatusMock.setEqualizer(equalizer);
     // information
-    Information information = vlcRcStatusMock.new Information();
+    Information information = new VlcRcStatus.Information();
     information.setChapter("0");
     information.setChapters(Arrays.asList(""));
     information.setChapter("0");
