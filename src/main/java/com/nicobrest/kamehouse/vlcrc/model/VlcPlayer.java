@@ -50,7 +50,9 @@ public class VlcPlayer {
   @JsonIgnore
   private static final String PROTOCOL = "http://";
   @JsonIgnore
-  private static final String BASE_URL = "/requests/status.json";
+  private static final String STATUS_URL = "/requests/status.json";
+  @JsonIgnore
+  private static final String PLAYLIST_URL = "/requests/playlist.json";
 
   private String hostname;
   private int port;
@@ -103,7 +105,8 @@ public class VlcPlayer {
    */
   public VlcRcStatus execute(VlcRcCommand command) {
     String commandUrl = buildCommandUrl(command);
-    VlcRcStatus vlcRcStatus = executeRequestToVlcServer(commandUrl);
+    String vlcServerResponse = executeRequestToVlcServer(commandUrl);
+    VlcRcStatus vlcRcStatus = buildVlcRcStatus(vlcServerResponse);
     return vlcRcStatus;
   }
 
@@ -117,9 +120,26 @@ public class VlcPlayer {
     statusUrl.append(hostname);
     statusUrl.append(":");
     statusUrl.append(port);
-    statusUrl.append(BASE_URL);
-    VlcRcStatus vlcRcStatus = executeRequestToVlcServer(statusUrl.toString());
+    statusUrl.append(STATUS_URL);
+    String vlcServerResponse = executeRequestToVlcServer(statusUrl.toString());
+    VlcRcStatus vlcRcStatus = buildVlcRcStatus(vlcServerResponse);
     return vlcRcStatus;
+  }
+
+  /**
+   * Gets the current playlist.
+   */
+  @JsonIgnore
+  public List<Map<String, Object>> getPlaylist() {
+    StringBuffer playlistUrl = new StringBuffer();
+    playlistUrl.append(PROTOCOL);
+    playlistUrl.append(hostname);
+    playlistUrl.append(":");
+    playlistUrl.append(port);
+    playlistUrl.append(PLAYLIST_URL);
+    String vlcServerResponse = executeRequestToVlcServer(playlistUrl.toString());
+    List<Map<String, Object>> vlcRcPlaylist = buildVlcRcPlaylist(vlcServerResponse);
+    return vlcRcPlaylist;
   }
 
   /**
@@ -133,7 +153,7 @@ public class VlcPlayer {
     commandUrl.append(hostname);
     commandUrl.append(":");
     commandUrl.append(port);
-    commandUrl.append(BASE_URL);
+    commandUrl.append(STATUS_URL);
     commandUrl.append("?command=" + urlEncode(command.getName()));
     if (command.getInput() != null) {
       commandUrl.append("&input=" + urlEncode(command.getInput()));
@@ -152,7 +172,7 @@ public class VlcPlayer {
     }
     return commandUrl.toString();
   }
-  
+
   private String urlEncode(String parameter) {
     try {
       return URIUtil.encodeQuery(parameter);
@@ -173,7 +193,7 @@ public class VlcPlayer {
   // responseReader = new BufferedReader(new
   // InputStreamReader(response.getEntity()
   // .getContent()));
-  private VlcRcStatus executeRequestToVlcServer(String url) {
+  private String executeRequestToVlcServer(String url) {
     logger.trace("Executing request: " + url);
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
@@ -194,8 +214,7 @@ public class VlcPlayer {
       }
       logger.trace("VLC response Status Code: " + getResponseStatusCode(response)
           + ". VLC Response Body: " + responseBody);
-      VlcRcStatus vlcRcStatus = buildVlcRcStatus(responseBody.toString());
-      return vlcRcStatus;
+      return responseBody.toString();
     } catch (IOException e) {
       e.printStackTrace();
       throw new KameHouseException(e);
@@ -210,13 +229,12 @@ public class VlcPlayer {
       }
     }
   }
-  
+
   /**
    * Creates an instance of HttpClient with the provided credentials.
    */
   private HttpClient createHttpClient(CredentialsProvider credentialsProvider) {
-    return HttpClientBuilder.create().setDefaultCredentialsProvider(
-        credentialsProvider).build();
+    return HttpClientBuilder.create().setDefaultCredentialsProvider(credentialsProvider).build();
   }
 
   /**
@@ -241,7 +259,7 @@ public class VlcPlayer {
   private int getResponseStatusCode(HttpResponse response) {
     return response.getStatusLine().getStatusCode();
   }
-  
+
   /**
    * Converts the status information returned by the web API of the VLC Player
    * into its internal representation used in the application.
@@ -254,45 +272,79 @@ public class VlcPlayer {
       VlcRcStatus vlcRcStatus = new VlcRcStatus();
 
       /* Set direct attributes */
-      vlcRcStatus.setFullscreen(vlcStatusResponseJson.get("fullscreen").asBoolean());
-      vlcRcStatus.setRepeat(vlcStatusResponseJson.get("repeat").asBoolean());
-      vlcRcStatus.setSubtitleDelay(vlcStatusResponseJson.get("subtitledelay").asInt());
-      vlcRcStatus.setAspectRatio(vlcStatusResponseJson.get("aspectratio").asText());
-      vlcRcStatus.setAudioDelay(vlcStatusResponseJson.get("audiodelay").asInt());
-      vlcRcStatus.setApiVersion(vlcStatusResponseJson.get("apiversion").asInt());
-      vlcRcStatus.setCurrentPlId(vlcStatusResponseJson.get("currentplid").asInt());
-      vlcRcStatus.setTime(vlcStatusResponseJson.get("time").asInt());
-      vlcRcStatus.setVolume(vlcStatusResponseJson.get("volume").asInt());
-      vlcRcStatus.setLength(vlcStatusResponseJson.get("length").asInt());
-      vlcRcStatus.setRandom(vlcStatusResponseJson.get("random").asBoolean());
-      vlcRcStatus.setRate(vlcStatusResponseJson.get("rate").asInt());
-      vlcRcStatus.setState(vlcStatusResponseJson.get("state").asText());
-      vlcRcStatus.setLoop(vlcStatusResponseJson.get("loop").asBoolean());
-      vlcRcStatus.setPosition(vlcStatusResponseJson.get("position").asInt());
-      vlcRcStatus.setVersion(vlcStatusResponseJson.get("version").asText());
+      if (vlcStatusResponseJson.get("fullscreen") != null) {
+        vlcRcStatus.setFullscreen(vlcStatusResponseJson.get("fullscreen").asBoolean());
+      }
+      if (vlcStatusResponseJson.get("repeat") != null) {
+        vlcRcStatus.setRepeat(vlcStatusResponseJson.get("repeat").asBoolean());
+      }
+      if (vlcStatusResponseJson.get("subtitledelay") != null) {
+        vlcRcStatus.setSubtitleDelay(vlcStatusResponseJson.get("subtitledelay").asInt());
+      }
+      if (vlcStatusResponseJson.get("aspectratio") != null) {
+        vlcRcStatus.setAspectRatio(vlcStatusResponseJson.get("aspectratio").asText());
+      }
+      if (vlcStatusResponseJson.get("audiodelay") != null) {
+        vlcRcStatus.setAudioDelay(vlcStatusResponseJson.get("audiodelay").asInt());
+      }
+      if (vlcStatusResponseJson.get("apiversion") != null) {
+        vlcRcStatus.setApiVersion(vlcStatusResponseJson.get("apiversion").asInt());
+      }
+      if (vlcStatusResponseJson.get("currentplid") != null) {
+        vlcRcStatus.setCurrentPlId(vlcStatusResponseJson.get("currentplid").asInt());
+      }
+      if (vlcStatusResponseJson.get("time") != null) {
+        vlcRcStatus.setTime(vlcStatusResponseJson.get("time").asInt());
+      }
+      if (vlcStatusResponseJson.get("volume") != null) {
+        vlcRcStatus.setVolume(vlcStatusResponseJson.get("volume").asInt());
+      }
+      if (vlcStatusResponseJson.get("length") != null) {
+        vlcRcStatus.setLength(vlcStatusResponseJson.get("length").asInt());
+      }
+      if (vlcStatusResponseJson.get("random") != null) {
+        vlcRcStatus.setRandom(vlcStatusResponseJson.get("random").asBoolean());
+      }
+      if (vlcStatusResponseJson.get("rate") != null) {
+        vlcRcStatus.setRate(vlcStatusResponseJson.get("rate").asInt());
+      }
+      if (vlcStatusResponseJson.get("state") != null) {
+        vlcRcStatus.setState(vlcStatusResponseJson.get("state").asText());
+      }
+      if (vlcStatusResponseJson.get("loop") != null) {
+        vlcRcStatus.setLoop(vlcStatusResponseJson.get("loop").asBoolean());
+      }
+      if (vlcStatusResponseJson.get("position") != null) {
+        vlcRcStatus.setPosition(vlcStatusResponseJson.get("position").asInt());
+      }
+      if (vlcStatusResponseJson.get("version") != null) {
+        vlcRcStatus.setVersion(vlcStatusResponseJson.get("version").asText());
+      }
 
       /* Set stats */
       JsonNode statsJson = vlcStatusResponseJson.get("stats");
       Map<String, Object> stats = new HashMap<String, Object>();
-      stats.put("inputBitrate", statsJson.get("inputbitrate"));
-      stats.put("sentBytes", statsJson.get("sentbytes"));
-      stats.put("lostaBuffers", statsJson.get("lostabuffers"));
-      stats.put("averageDemuxBitrate", statsJson.get("averagedemuxbitrate"));
-      stats.put("readPackets", statsJson.get("readpackets"));
-      stats.put("demuxReadPackets", statsJson.get("demuxreadpackets"));
-      stats.put("lostPictures", statsJson.get("lostpictures"));
-      stats.put("displayedPictures", statsJson.get("displayedpictures"));
-      stats.put("sentPackets", statsJson.get("sentpackets"));
-      stats.put("demuxReadBytes", statsJson.get("demuxreadbytes"));
-      stats.put("demuxBitrate", statsJson.get("demuxbitrate"));
-      stats.put("playedaBuffers", statsJson.get("playedabuffers"));
-      stats.put("demuxDiscontinuity", statsJson.get("demuxdiscontinuity"));
-      stats.put("decodedAudio", statsJson.get("decodedaudio"));
-      stats.put("sendBitrate", statsJson.get("sendbitrate"));
-      stats.put("readBytes", statsJson.get("readbytes"));
-      stats.put("averageInputBitrate", statsJson.get("averageinputbitrate"));
-      stats.put("demuxCorrupted", statsJson.get("demuxcorrupted"));
-      stats.put("decodedVideo", statsJson.get("decodedvideo"));
+      if (statsJson != null) {
+        stats.put("inputBitrate", statsJson.get("inputbitrate"));
+        stats.put("sentBytes", statsJson.get("sentbytes"));
+        stats.put("lostaBuffers", statsJson.get("lostabuffers"));
+        stats.put("averageDemuxBitrate", statsJson.get("averagedemuxbitrate"));
+        stats.put("readPackets", statsJson.get("readpackets"));
+        stats.put("demuxReadPackets", statsJson.get("demuxreadpackets"));
+        stats.put("lostPictures", statsJson.get("lostpictures"));
+        stats.put("displayedPictures", statsJson.get("displayedpictures"));
+        stats.put("sentPackets", statsJson.get("sentpackets"));
+        stats.put("demuxReadBytes", statsJson.get("demuxreadbytes"));
+        stats.put("demuxBitrate", statsJson.get("demuxbitrate"));
+        stats.put("playedaBuffers", statsJson.get("playedabuffers"));
+        stats.put("demuxDiscontinuity", statsJson.get("demuxdiscontinuity"));
+        stats.put("decodedAudio", statsJson.get("decodedaudio"));
+        stats.put("sendBitrate", statsJson.get("sendbitrate"));
+        stats.put("readBytes", statsJson.get("readbytes"));
+        stats.put("averageInputBitrate", statsJson.get("averageinputbitrate"));
+        stats.put("demuxCorrupted", statsJson.get("demuxcorrupted"));
+        stats.put("decodedVideo", statsJson.get("decodedvideo"));
+      }
       vlcRcStatus.setStats(stats);
 
       /* Set audioFilters */
@@ -351,68 +403,99 @@ public class VlcPlayer {
       VlcRcStatus.Information information = new VlcRcStatus.Information();
       JsonNode informationJson = vlcStatusResponseJson.get("information");
 
-      information.setChapter(informationJson.get("chapter").asText());
-      List<String> chapters = new ArrayList<String>();
-      String[] chaptersArray = informationJson.get("chapters").asText().split(",");
-      chapters.addAll(Arrays.asList(chaptersArray));
-      information.setChapters(chapters);
+      if (informationJson != null) {
+        information.setChapter(informationJson.get("chapter").asText());
+        List<String> chapters = new ArrayList<String>();
+        String[] chaptersArray = informationJson.get("chapters").asText().split(",");
+        chapters.addAll(Arrays.asList(chaptersArray));
+        information.setChapters(chapters);
 
-      information.setTitle(informationJson.get("title").asText());
-      List<String> titles = new ArrayList<String>();
-      String[] titlesArray = informationJson.get("titles").asText().split(",");
-      titles.addAll(Arrays.asList(titlesArray));
-      information.setTitles(titles);
+        information.setTitle(informationJson.get("title").asText());
+        List<String> titles = new ArrayList<String>();
+        String[] titlesArray = informationJson.get("titles").asText().split(",");
+        titles.addAll(Arrays.asList(titlesArray));
+        information.setTitles(titles);
 
-      JsonNode categoryJson = informationJson.get("category");
-      Iterator<Entry<String, JsonNode>> categoryIterator = categoryJson.fields();
-      List<Map<String, Object>> informationCategories = new ArrayList<Map<String, Object>>();
-      while (categoryIterator.hasNext()) {
-        Map<String, Object> informationCategory = new HashMap<String, Object>();
-        Entry<String, JsonNode> categoryEntry = categoryIterator.next();
-        String name = categoryEntry.getKey();
-        informationCategory.put("name", name);
-        if (name.equals("meta")) {
-          informationCategory.put("filename", categoryEntry.getValue().get("filename"));
-          informationCategory.put("title", categoryEntry.getValue().get("title"));
-          informationCategory.put("artist", categoryEntry.getValue().get("artist"));
-          informationCategory.put("setting", categoryEntry.getValue().get("setting"));
-          informationCategory.put("software", categoryEntry.getValue().get("Software"));
-        } else {
-          String type = categoryEntry.getValue().get("Type").asText();
-          informationCategory.put("type", type);
-          switch (type) {
-            case "Video":
-              informationCategory.put("frameRate", categoryEntry.getValue().get("Frame_rate"));
-              informationCategory.put("decodedFormat", categoryEntry.getValue().get(
-                  "Decoded_format"));
-              informationCategory.put("displayResolution", categoryEntry.getValue().get(
-                  "Display_resolution"));
-              informationCategory.put("codec", categoryEntry.getValue().get("Codec"));
-              informationCategory.put("language", categoryEntry.getValue().get("Language"));
-              informationCategory.put("resolution", categoryEntry.getValue().get("Resolution"));
-              break;
-            case "Audio":
-              informationCategory.put("bitrate", categoryEntry.getValue().get("Bitrate"));
-              informationCategory.put("channels", categoryEntry.getValue().get("Channels"));
-              informationCategory.put("sampleRate", categoryEntry.getValue().get("Sample_rate"));
-              informationCategory.put("codec", categoryEntry.getValue().get("Codec"));
-              informationCategory.put("language", categoryEntry.getValue().get("Language"));
-              break;
-            case "Subtitle":
-              informationCategory.put("codec", categoryEntry.getValue().get("Codec"));
-              informationCategory.put("language", categoryEntry.getValue().get("Language"));
-              break;
-            default:
-              logger.warn("Unrecognized Type returned by VLC: " + type);
-              break;
+        JsonNode categoryJson = informationJson.get("category");
+        Iterator<Entry<String, JsonNode>> categoryIterator = categoryJson.fields();
+        List<Map<String, Object>> informationCategories = new ArrayList<Map<String, Object>>();
+        while (categoryIterator.hasNext()) {
+          Map<String, Object> informationCategory = new HashMap<String, Object>();
+          Entry<String, JsonNode> categoryEntry = categoryIterator.next();
+          String name = categoryEntry.getKey();
+          informationCategory.put("name", name);
+          if (name.equals("meta")) {
+            informationCategory.put("filename", categoryEntry.getValue().get("filename"));
+            informationCategory.put("title", categoryEntry.getValue().get("title"));
+            informationCategory.put("artist", categoryEntry.getValue().get("artist"));
+            informationCategory.put("setting", categoryEntry.getValue().get("setting"));
+            informationCategory.put("software", categoryEntry.getValue().get("Software"));
+          } else {
+            String type = categoryEntry.getValue().get("Type").asText();
+            informationCategory.put("type", type);
+            switch (type) {
+              case "Video":
+                informationCategory.put("frameRate", categoryEntry.getValue().get("Frame_rate"));
+                informationCategory.put("decodedFormat", categoryEntry.getValue().get(
+                    "Decoded_format"));
+                informationCategory.put("displayResolution", categoryEntry.getValue().get(
+                    "Display_resolution"));
+                informationCategory.put("codec", categoryEntry.getValue().get("Codec"));
+                informationCategory.put("language", categoryEntry.getValue().get("Language"));
+                informationCategory.put("resolution", categoryEntry.getValue().get("Resolution"));
+                break;
+              case "Audio":
+                informationCategory.put("bitrate", categoryEntry.getValue().get("Bitrate"));
+                informationCategory.put("channels", categoryEntry.getValue().get("Channels"));
+                informationCategory.put("sampleRate", categoryEntry.getValue().get("Sample_rate"));
+                informationCategory.put("codec", categoryEntry.getValue().get("Codec"));
+                informationCategory.put("language", categoryEntry.getValue().get("Language"));
+                break;
+              case "Subtitle":
+                informationCategory.put("codec", categoryEntry.getValue().get("Codec"));
+                informationCategory.put("language", categoryEntry.getValue().get("Language"));
+                break;
+              default:
+                logger.warn("Unrecognized Type returned by VLC: " + type);
+                break;
+            }
           }
+          informationCategories.add(informationCategory);
         }
-        informationCategories.add(informationCategory);
+        information.setCategory(informationCategories);
       }
-      information.setCategory(informationCategories);
-
       vlcRcStatus.setInformation(information);
       return vlcRcStatus;
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new KameHouseException(e);
+    }
+  }
+
+  private List<Map<String, Object>> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
+    List<Map<String, Object>> vlcRcPlaylist = new ArrayList<Map<String, Object>>();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      JsonNode vlcRcPlaylistResponseJson = mapper.readTree(vlcRcPlaylistResponse);
+      JsonNode firstChildrenArray = vlcRcPlaylistResponseJson.get("children");
+      if (firstChildrenArray.isArray()) {
+        for (JsonNode firstChildrenNode : firstChildrenArray) {
+          if ("Playlist".equals(firstChildrenNode.get("name").asText())) {
+            JsonNode playlistArrayNode = firstChildrenNode.get("children");
+            if (playlistArrayNode.isArray()) {
+              for (JsonNode playlistItemNode : playlistArrayNode) {
+                Map<String, Object> playlistItem = new HashMap<String, Object>();
+                playlistItem.put("id", playlistItemNode.get("id").asInt());
+                playlistItem.put("name", playlistItemNode.get("name").asText());
+                playlistItem.put("uri", playlistItemNode.get("uri").asText());
+                playlistItem.put("duration", playlistItemNode.get("duration").asInt());
+                vlcRcPlaylist.add(playlistItem);
+              }
+            }
+          }
+        }
+      }
+      return vlcRcPlaylist;
     } catch (IOException e) {
       e.printStackTrace();
       throw new KameHouseException(e);

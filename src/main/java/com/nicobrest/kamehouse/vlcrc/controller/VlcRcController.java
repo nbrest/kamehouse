@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Controller to manage the VLC Players registered in the application.
  * 
@@ -54,5 +57,17 @@ public class VlcRcController {
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/commands (POST)");
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, vlcPlayerName);
     return new ResponseEntity<VlcRcStatus>(vlcRcStatus, HttpStatus.CREATED);
+  }
+
+  /**
+   * Gets the current playlist from the selected VLC Player.
+   */
+  @RequestMapping(value = "/players/{vlcPlayerName}/playlist", method = RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity<List<Map<String,Object>>> getPlaylist(@PathVariable String vlcPlayerName) {
+
+    logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/playlist (GET)");
+    List<Map<String,Object>> vlcPlaylist = vlcRcService.getPlaylist(vlcPlayerName);
+    return new ResponseEntity<List<Map<String,Object>>>(vlcPlaylist, HttpStatus.OK);
   }
 }

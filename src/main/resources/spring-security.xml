@@ -55,7 +55,7 @@
     <form-login login-page="/login" username-parameter="username"
       password-parameter="password" />
       <!-- TODO: RE ENABLE CSRF AFTER DEVELOPMENT -->
-    <csrf disabled="false" />
+    <csrf disabled="true" />
   </http>
 
   <authentication-manager>

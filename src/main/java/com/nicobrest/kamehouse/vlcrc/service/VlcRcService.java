@@ -6,6 +6,9 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Service layer to interact with the registered VLC Players in the application.
  * 
@@ -40,5 +43,13 @@ public class VlcRcService {
     //TODO: Add a vlcPlayer DAO and search by vlcPlayerName (hostname)
     VlcRcStatus vlcRcStatus = vlcPlayer.execute(vlcRcCommand);
     return vlcRcStatus;
+  }
+  
+  /**
+   * Gets the current playlist for the selected VLC Player.
+   */
+  public List<Map<String,Object>> getPlaylist(String vlcPlayerName) {
+    List<Map<String,Object>> vlcPlaylist = vlcPlayer.getPlaylist();
+    return vlcPlaylist;
   }
 }

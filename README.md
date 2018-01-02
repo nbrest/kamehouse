@@ -2,7 +2,7 @@
 
 This application (still heavily under construction) will contain the following modules: 
 * Manage my media files
-* Control multiple VLC Players through their web interface
+* Control multiple VLC Players through their web API
 * Test endpoints to practice different frontend frameworks
 * Login system
 * Application administration view 
@@ -47,6 +47,9 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 *********************
 # ChangeLog:
+#### v0.15
+- Added backend support to get the current playlist
+- Added backend support to browse for a file in the server where VLC Player is running through the browse.json API
 #### v0.14
 - Added backend support to execute commands and check the status of a VLC Player configured in the application context
 #### v0.13
