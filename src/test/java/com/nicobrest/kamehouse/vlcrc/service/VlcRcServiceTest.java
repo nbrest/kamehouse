@@ -37,6 +37,7 @@ public class VlcRcServiceTest {
 
   private static VlcRcStatus vlcRcStatusMock;
   private static List<Map<String, Object>> vlcRcPlaylistMock;
+  private static List<Map<String, Object>> vlcRcFilelistMock;
 
   @InjectMocks
   private VlcRcService vlcRcService;
@@ -159,6 +160,34 @@ public class VlcRcServiceTest {
     playlistItem2.put("uri", "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4");
     playlistItem2.put("duration", 325);
     vlcRcPlaylistMock.add(playlistItem2);
+
+    vlcRcFilelistMock = new ArrayList<Map<String, Object>>();
+    Map<String, Object> fileListItem1 = new HashMap<String, Object>();
+    fileListItem1.put("type", "dir");
+    fileListItem1.put("path", "C:\\");
+    fileListItem1.put("name", "C:\\");
+    fileListItem1.put("uri", "file:///C:/");
+    fileListItem1.put("accessTime", 315543600);
+    fileListItem1.put("uid", 0);
+    fileListItem1.put("creationTime", 315543600);
+    fileListItem1.put("gid", 0);
+    fileListItem1.put("modificationTime", 315543600);
+    fileListItem1.put("mode", 16895);
+    fileListItem1.put("size", 0);
+    vlcRcFilelistMock.add(fileListItem1);
+    Map<String, Object> fileListItem2 = new HashMap<String, Object>();
+    fileListItem2.put("type", "dir");
+    fileListItem2.put("path", "D:\\");
+    fileListItem2.put("name", "D:\\");
+    fileListItem2.put("uri", "file:///D:/");
+    fileListItem2.put("accessTime", 315543600);
+    fileListItem2.put("uid", 0);
+    fileListItem2.put("creationTime", 315543600);
+    fileListItem2.put("gid", 0);
+    fileListItem2.put("modificationTime", 315543600);
+    fileListItem2.put("mode", 16895);
+    fileListItem2.put("size", 0);
+    vlcRcFilelistMock.add(fileListItem2);
   }
 
   @Before
@@ -214,11 +243,34 @@ public class VlcRcServiceTest {
 
     try {
       when(vlcPlayer.getPlaylist()).thenReturn(vlcRcPlaylistMock);
-      List<Map<String,Object>> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
+      List<Map<String, Object>> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
       assertEquals(2, returnedPlaylist.size());
-      assertEquals(vlcRcPlaylistMock.get(0).get("name"),returnedPlaylist.get(0).get("name"));
-      assertEquals(vlcRcPlaylistMock.get(1).get("name"),returnedPlaylist.get(1).get("name"));
+      assertEquals(vlcRcPlaylistMock.get(0).get("name"), returnedPlaylist.get(0).get("name"));
+      assertEquals(vlcRcPlaylistMock.get(1).get("name"), returnedPlaylist.get(1).get("name"));
       verify(vlcPlayer, times(1)).getPlaylist();
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+
+  /**
+   * Tests browsing files in the VLC Player.
+   */
+  @Test
+  public void browseTest() {
+
+    try {
+      when(vlcPlayer.browse(any())).thenReturn(vlcRcFilelistMock);
+      List<Map<String, Object>> returnedFilelist = vlcRcService.browse(null, "niko-nba");
+      assertEquals(2, returnedFilelist.size());
+      assertEquals(vlcRcFilelistMock.get(0).get("name"), returnedFilelist.get(0).get("name"));
+      assertEquals(vlcRcFilelistMock.get(0).get("type"), returnedFilelist.get(0).get("type"));
+      assertEquals(vlcRcFilelistMock.get(0).get("uri"), returnedFilelist.get(0).get("uri"));
+      assertEquals(vlcRcFilelistMock.get(1).get("name"), returnedFilelist.get(1).get("name"));
+      assertEquals(vlcRcFilelistMock.get(1).get("type"), returnedFilelist.get(1).get("type"));
+      assertEquals(vlcRcFilelistMock.get(1).get("uri"), returnedFilelist.get(1).get("uri"));
+      verify(vlcPlayer, times(1)).browse(any());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

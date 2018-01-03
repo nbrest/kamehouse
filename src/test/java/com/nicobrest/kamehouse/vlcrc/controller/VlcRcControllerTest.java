@@ -57,6 +57,7 @@ public class VlcRcControllerTest {
   private MockMvc mockMvc;
   private static VlcRcStatus vlcRcStatusMock;
   private static List<Map<String, Object>> vlcRcPlaylistMock;
+  private static List<Map<String, Object>> vlcRcFilelistMock;
 
   @InjectMocks
   private VlcRcController vlcRcController;
@@ -179,8 +180,36 @@ public class VlcRcControllerTest {
     playlistItem2.put("uri", "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4");
     playlistItem2.put("duration", 325);
     vlcRcPlaylistMock.add(playlistItem2);
+    
+    vlcRcFilelistMock = new ArrayList<Map<String, Object>>();
+    Map<String, Object> fileListItem1 = new HashMap<String, Object>();
+    fileListItem1.put("type", "dir");
+    fileListItem1.put("path", "C:\\");
+    fileListItem1.put("name", "C:\\");
+    fileListItem1.put("uri", "file:///C:/");
+    fileListItem1.put("accessTime", 315543600);
+    fileListItem1.put("uid", 0);
+    fileListItem1.put("creationTime", 315543600);
+    fileListItem1.put("gid", 0);
+    fileListItem1.put("modificationTime", 315543600);
+    fileListItem1.put("mode", 16895);
+    fileListItem1.put("size", 0);
+    vlcRcFilelistMock.add(fileListItem1);
+    Map<String, Object> fileListItem2 = new HashMap<String, Object>();
+    fileListItem2.put("type", "dir");
+    fileListItem2.put("path", "D:\\");
+    fileListItem2.put("name", "D:\\");
+    fileListItem2.put("uri", "file:///D:/");
+    fileListItem2.put("accessTime", 315543600);
+    fileListItem2.put("uid", 0);
+    fileListItem2.put("creationTime", 315543600);
+    fileListItem2.put("gid", 0);
+    fileListItem2.put("modificationTime", 315543600);
+    fileListItem2.put("mode", 16895);
+    fileListItem2.put("size", 0);
+    vlcRcFilelistMock.add(fileListItem2);
   }
-
+  
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
@@ -260,6 +289,33 @@ public class VlcRcControllerTest {
                   "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4"))).andExpect(
                       jsonPath("$[1].duration", equalTo(325)));
       verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+  
+  /**
+   * Tests browsing files in the VLC Player.
+   */
+  @Test
+  public void browseTest() {
+
+    try {
+      when(vlcRcServiceMock.browse(null,"niko-nba")).thenReturn(vlcRcFilelistMock);
+
+      mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/browse")).andDo(print()).andExpect(
+          status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8"))
+          .andExpect(jsonPath("$", hasSize(2))).andExpect(jsonPath("$[0].type", equalTo("dir")))
+          .andExpect(jsonPath("$[0].path", equalTo("C:\\"))).andExpect(jsonPath(
+                  "$[0].uri", equalTo("file:///C:/"))).andExpect(
+                          jsonPath("$[0].accessTime", equalTo(315543600)))
+
+          .andExpect(jsonPath("$[1].type", equalTo("dir")))
+          .andExpect(jsonPath("$[1].path", equalTo("D:\\"))).andExpect(jsonPath(
+                  "$[1].uri", equalTo("file:///D:/"))).andExpect(
+                          jsonPath("$[1].accessTime", equalTo(315543600)));
+      verify(vlcRcServiceMock, times(1)).browse(any(), anyString());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

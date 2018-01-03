@@ -1,0 +1,29 @@
+{
+	"element": [{
+			"type": "dir",
+			"path": "C:\\",
+			"name": "C:\\",
+			"access_time": 315543600,
+			"uid": 0,
+			"creation_time": 315543600,
+			"gid": 0,
+			"modification_time": 315543600,
+			"mode": 16895,
+			"uri": "file:///C:/",
+			"size": 0
+		},
+		{
+			"type": "dir",
+			"path": "D:\\",
+			"name": "D:\\",
+			"access_time": 315543600,
+			"uid": 0,
+			"creation_time": 315543600,
+			"gid": 0,
+			"modification_time": 315543600,
+			"mode": 16895,
+			"uri": "file:///D:/",
+			"size": 0
+		}
+	]
+}

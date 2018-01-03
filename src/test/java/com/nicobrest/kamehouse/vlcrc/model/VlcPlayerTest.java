@@ -144,6 +144,35 @@ public class VlcPlayerTest {
     }
   }
 
+
+  /**
+   * Browse files in the VLC Player server.
+   */
+  @Test
+  public void browseTest() {
+    VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
+    InputStream vlcRcFilelistInputStream = getVlcRcFilelistInputStreamFromFile();
+    try {
+      PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
+          any());
+      PowerMockito.doReturn(vlcRcFilelistInputStream).when(vlcPlayerSpy,
+          "getInputStreamFromResponse", any());
+      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any());
+      PowerMockito.doReturn(200).when(vlcPlayerSpy, "getResponseStatusCode", any());
+      List<Map<String, Object>> returnedFilelist = vlcPlayerSpy.browse(null);
+      assertEquals(2, returnedFilelist.size());
+      assertEquals("C:\\", returnedFilelist.get(0).get("name"));
+      assertEquals("file:///C:/",returnedFilelist.get(0).get("uri"));
+      assertEquals(315543600,returnedFilelist.get(0).get("accessTime"));
+      assertEquals("D:\\", returnedFilelist.get(1).get("name"));
+      assertEquals("file:///D:/",returnedFilelist.get(1).get("uri"));
+      assertEquals(315543600,returnedFilelist.get(1).get("accessTime"));
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+  
   private InputStream getVlcRcStatusInputStreamFromFile() {
     ClassLoader classLoader = getClass().getClassLoader();
     InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream("vlc-rc-status.json");
@@ -156,6 +185,12 @@ public class VlcPlayerTest {
     return vlcRcStatusInputStream;
   }
 
+  private InputStream getVlcRcFilelistInputStreamFromFile() {
+    ClassLoader classLoader = getClass().getClassLoader();
+    InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream("vlc-rc-filelist.json");
+    return vlcRcStatusInputStream;
+  }
+  
   private VlcPlayer createTestVlcPlayer() {
     VlcPlayer vlcPlayer = new VlcPlayer();
     vlcPlayer.setHostname("niko-nba");
