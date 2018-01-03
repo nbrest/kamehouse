@@ -161,10 +161,10 @@ public class VlcPlayerTest {
       PowerMockito.doReturn(200).when(vlcPlayerSpy, "getResponseStatusCode", any());
       List<Map<String, Object>> returnedFilelist = vlcPlayerSpy.browse(null);
       assertEquals(2, returnedFilelist.size());
-      assertEquals("C:\\", returnedFilelist.get(0).get("name"));
+      assertEquals("C:/", returnedFilelist.get(0).get("name"));
       assertEquals("file:///C:/",returnedFilelist.get(0).get("uri"));
       assertEquals(315543600,returnedFilelist.get(0).get("accessTime"));
-      assertEquals("D:\\", returnedFilelist.get(1).get("name"));
+      assertEquals("D:/", returnedFilelist.get(1).get("name"));
       assertEquals("file:///D:/",returnedFilelist.get(1).get("uri"));
       assertEquals(315543600,returnedFilelist.get(1).get("accessTime"));
     } catch (Exception e) {

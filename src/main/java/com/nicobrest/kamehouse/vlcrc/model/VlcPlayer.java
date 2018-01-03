@@ -534,7 +534,7 @@ public class VlcPlayer {
    * list format.
    */
   private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcPlaylistResponse) {
-    String parsedVlcRcPlaylistResponse = vlcRcPlaylistResponse.replace("\\", "\\\\");
+    String parsedVlcRcPlaylistResponse = vlcRcPlaylistResponse.replace("\\", "/");
     List<Map<String, Object>> vlcRcFilelist = new ArrayList<Map<String, Object>>();
     ObjectMapper mapper = new ObjectMapper();
     try {
