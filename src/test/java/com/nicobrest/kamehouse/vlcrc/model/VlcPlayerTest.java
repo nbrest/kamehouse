@@ -54,7 +54,7 @@ public class VlcPlayerTest {
   @Test
   public void executeTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcStatusInputStream = getVlcRcStatusInputStreamFromFile();
+    InputStream vlcRcStatusInputStream = getInputStreamFromResource("vlc-rc-status.json");
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
     vlcRcCommand.setName("fullscreen");
     try {
@@ -90,7 +90,7 @@ public class VlcPlayerTest {
   @Test
   public void getVlcRcStatusTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcStatusInputStream = getVlcRcStatusInputStreamFromFile();
+    InputStream vlcRcStatusInputStream = getInputStreamFromResource("vlc-rc-status.json");
     try {
       PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
           any());
@@ -124,7 +124,7 @@ public class VlcPlayerTest {
   @Test
   public void getVlcRcPlaylistTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcPlaylistInputStream = getVlcRcPlaylistInputStreamFromFile();
+    InputStream vlcRcPlaylistInputStream = getInputStreamFromResource("vlc-rc-playlist.json");
     try {
       PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
           any());
@@ -151,7 +151,7 @@ public class VlcPlayerTest {
   @Test
   public void browseTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcFilelistInputStream = getVlcRcFilelistInputStreamFromFile();
+    InputStream vlcRcFilelistInputStream = getInputStreamFromResource("vlc-rc-filelist.json");
     try {
       PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
           any());
@@ -173,23 +173,11 @@ public class VlcPlayerTest {
     }
   }
   
-  private InputStream getVlcRcStatusInputStreamFromFile() {
+  private InputStream getInputStreamFromResource(String resourceName) {
     ClassLoader classLoader = getClass().getClassLoader();
-    InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream("vlc-rc-status.json");
+    InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream(resourceName);
     return vlcRcStatusInputStream;
-  }
-
-  private InputStream getVlcRcPlaylistInputStreamFromFile() {
-    ClassLoader classLoader = getClass().getClassLoader();
-    InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream("vlc-rc-playlist.json");
-    return vlcRcStatusInputStream;
-  }
-
-  private InputStream getVlcRcFilelistInputStreamFromFile() {
-    ClassLoader classLoader = getClass().getClassLoader();
-    InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream("vlc-rc-filelist.json");
-    return vlcRcStatusInputStream;
-  }
+  } 
   
   private VlcPlayer createTestVlcPlayer() {
     VlcPlayer vlcPlayer = new VlcPlayer();
