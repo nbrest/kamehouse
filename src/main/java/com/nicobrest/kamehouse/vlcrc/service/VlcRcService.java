@@ -52,4 +52,12 @@ public class VlcRcService {
     List<Map<String,Object>> vlcPlaylist = vlcPlayer.getPlaylist();
     return vlcPlaylist;
   }
+  
+  /**
+   * Browse the file system of the selected VLC Player.
+   */
+  public List<Map<String,Object>> browse(String uri, String vlcPlayerName) {
+    List<Map<String,Object>> vlcRcFileList = vlcPlayer.browse(uri);
+    return vlcRcFileList;
+  }
 }

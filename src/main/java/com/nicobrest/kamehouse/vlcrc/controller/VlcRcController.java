@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -64,10 +65,24 @@ public class VlcRcController {
    */
   @RequestMapping(value = "/players/{vlcPlayerName}/playlist", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<List<Map<String,Object>>> getPlaylist(@PathVariable String vlcPlayerName) {
+  public ResponseEntity<List<Map<String, Object>>> getPlaylist(
+      @PathVariable String vlcPlayerName) {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/playlist (GET)");
-    List<Map<String,Object>> vlcPlaylist = vlcRcService.getPlaylist(vlcPlayerName);
-    return new ResponseEntity<List<Map<String,Object>>>(vlcPlaylist, HttpStatus.OK);
+    List<Map<String, Object>> vlcPlaylist = vlcRcService.getPlaylist(vlcPlayerName);
+    return new ResponseEntity<List<Map<String, Object>>>(vlcPlaylist, HttpStatus.OK);
+  }
+
+  /**
+   * Browse the VLC Player server's file system.
+   */
+  @RequestMapping(value = "/players/{vlcPlayerName}/browse", method = RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity<List<Map<String, Object>>> browse(@RequestParam(value = "uri",
+      required = false) String uri, @PathVariable String vlcPlayerName) {
+
+    logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/browse (GET)");
+    List<Map<String, Object>> vlcRcFileList = vlcRcService.browse(uri, vlcPlayerName);
+    return new ResponseEntity<List<Map<String, Object>>>(vlcRcFileList, HttpStatus.OK);
   }
 }
