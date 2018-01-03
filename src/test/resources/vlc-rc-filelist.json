@@ -1,8 +1,8 @@
 {
 	"element": [{
 			"type": "dir",
-			"path": "C:\\",
-			"name": "C:\\",
+			"path": "C:\",
+			"name": "C:\",
 			"access_time": 315543600,
 			"uid": 0,
 			"creation_time": 315543600,
@@ -14,8 +14,8 @@
 		},
 		{
 			"type": "dir",
-			"path": "D:\\",
-			"name": "D:\\",
+			"path": "D:\",
+			"name": "D:\",
 			"access_time": 315543600,
 			"uid": 0,
 			"creation_time": 315543600,

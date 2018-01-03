@@ -55,7 +55,7 @@ public class VlcPlayer {
   private static final String PLAYLIST_URL = "/requests/playlist.json";
   @JsonIgnore
   private static final String BROWSE_URL = "/requests/browse.json";
-  
+
   private String hostname;
   private int port;
   private String username;
@@ -143,7 +143,7 @@ public class VlcPlayer {
     List<Map<String, Object>> vlcRcPlaylist = buildVlcRcPlaylist(vlcServerResponse);
     return vlcRcPlaylist;
   }
-  
+
   /**
    * Gets the current playlist.
    */
@@ -153,7 +153,7 @@ public class VlcPlayer {
     browseUrl.append(hostname);
     browseUrl.append(":");
     browseUrl.append(port);
-    browseUrl.append(BROWSE_URL); 
+    browseUrl.append(BROWSE_URL);
     if (uri != null) {
       browseUrl.append("?uri=" + urlEncode(uri));
     } else {
@@ -206,8 +206,8 @@ public class VlcPlayer {
   }
 
   /**
-   * Executes a request to the web API of the VLC Player using the provided URL and returns
-   * the payload as a String.
+   * Executes a request to the web API of the VLC Player using the provided URL
+   * and returns the payload as a String.
    */
   @SuppressFBWarnings(value = "DM_DEFAULT_ENCODING",
       justification = "Currently it's a limitation by using apache HttpClient. Created a task to "
@@ -496,7 +496,8 @@ public class VlcPlayer {
   }
 
   /**
-   * Converts the playlist returned by the VLC Player into an internal playlist format.
+   * Converts the playlist returned by the VLC Player into an internal playlist
+   * format.
    */
   private List<Map<String, Object>> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
     List<Map<String, Object>> vlcRcPlaylist = new ArrayList<Map<String, Object>>();
@@ -529,29 +530,31 @@ public class VlcPlayer {
   }
 
   /**
-   * Converts the file list returned by the VLC Player into an internal file list format.
+   * Converts the file list returned by the VLC Player into an internal file
+   * list format.
    */
   private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcPlaylistResponse) {
+    String parsedVlcRcPlaylistResponse = vlcRcPlaylistResponse.replace("\\", "\\\\");
     List<Map<String, Object>> vlcRcFilelist = new ArrayList<Map<String, Object>>();
     ObjectMapper mapper = new ObjectMapper();
     try {
-      JsonNode vlcRcFileListResponseJson = mapper.readTree(vlcRcPlaylistResponse);
+      JsonNode vlcRcFileListResponseJson = mapper.readTree(parsedVlcRcPlaylistResponse);
       JsonNode elementArray = vlcRcFileListResponseJson.get("element");
       if (elementArray.isArray()) {
         for (JsonNode fileListItemNode : elementArray) {
-                Map<String, Object> fileListItem = new HashMap<String, Object>();
-                fileListItem.put("type", fileListItemNode.get("type").asText());
-                fileListItem.put("name", fileListItemNode.get("name").asText());
-                fileListItem.put("path", fileListItemNode.get("path").asText());
-                fileListItem.put("uri", fileListItemNode.get("uri").asText());
-                fileListItem.put("size", fileListItemNode.get("size").asInt());
-                fileListItem.put("accessTime", fileListItemNode.get("access_time").asInt());
-                fileListItem.put("creationTime", fileListItemNode.get("creation_time").asInt());
-                fileListItem.put("modificationTime", fileListItemNode.get("modification_time").asInt());
-                fileListItem.put("uid", fileListItemNode.get("uid").asInt());
-                fileListItem.put("gid", fileListItemNode.get("gid").asInt());
-                fileListItem.put("mode", fileListItemNode.get("mode").asInt());
-                vlcRcFilelist.add(fileListItem);
+          Map<String, Object> fileListItem = new HashMap<String, Object>();
+          fileListItem.put("type", fileListItemNode.get("type").asText());
+          fileListItem.put("name", fileListItemNode.get("name").asText());
+          fileListItem.put("path", fileListItemNode.get("path").asText());
+          fileListItem.put("uri", fileListItemNode.get("uri").asText());
+          fileListItem.put("size", fileListItemNode.get("size").asInt());
+          fileListItem.put("accessTime", fileListItemNode.get("access_time").asInt());
+          fileListItem.put("creationTime", fileListItemNode.get("creation_time").asInt());
+          fileListItem.put("modificationTime", fileListItemNode.get("modification_time").asInt());
+          fileListItem.put("uid", fileListItemNode.get("uid").asInt());
+          fileListItem.put("gid", fileListItemNode.get("gid").asInt());
+          fileListItem.put("mode", fileListItemNode.get("mode").asInt());
+          vlcRcFilelist.add(fileListItem);
         }
       }
       return vlcRcFilelist;
@@ -560,7 +563,7 @@ public class VlcPlayer {
       throw new KameHouseException(e);
     }
   }
-  
+
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(hostname).append(port).toHashCode();
