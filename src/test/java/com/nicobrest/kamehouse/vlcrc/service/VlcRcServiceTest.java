@@ -1,11 +1,12 @@
 package com.nicobrest.kamehouse.vlcrc.service;
- 
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any; 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when; 
- 
+import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
@@ -18,7 +19,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations; 
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,13 +36,13 @@ import java.util.Map;
 public class VlcRcServiceTest {
 
   private static VlcRcStatus vlcRcStatusMock;
-  
+  private static List<Map<String, Object>> vlcRcPlaylistMock;
+
   @InjectMocks
   private VlcRcService vlcRcService;
 
   @Mock(name = "vlcPlayer")
   private VlcPlayer vlcPlayer;
-  
 
   @BeforeClass
   public static void beforeClassTest() {
@@ -143,6 +144,21 @@ public class VlcRcServiceTest {
     informationCategories.add(subtitle);
     information.setCategory(informationCategories);
     vlcRcStatusMock.setInformation(information);
+
+    vlcRcPlaylistMock = new ArrayList<Map<String, Object>>();
+    Map<String, Object> playlistItem1 = new HashMap<String, Object>();
+    playlistItem1.put("id", 1);
+    playlistItem1.put("name", "Lleyton Hewitt- Brash teenager to Aussie great.mp4");
+    playlistItem1.put("uri", "file:///home/nbrest/Videos/Lleyton%20"
+        + "Hewitt-%20Brash%20teenager%20to%20Aussie%20great.mp4");
+    playlistItem1.put("duration", 281);
+    vlcRcPlaylistMock.add(playlistItem1);
+    Map<String, Object> playlistItem2 = new HashMap<String, Object>();
+    playlistItem2.put("id", 2);
+    playlistItem2.put("name", "Lleyton Hewitt Special.mp4");
+    playlistItem2.put("uri", "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4");
+    playlistItem2.put("duration", 325);
+    vlcRcPlaylistMock.add(playlistItem2);
   }
 
   @Before
@@ -159,8 +175,10 @@ public class VlcRcServiceTest {
   public void getVlcRcStatusTest() {
 
     try {
-      when(vlcPlayer.getVlcRcStatus()).thenReturn(vlcRcStatusMock); 
-      vlcRcService.getVlcRcStatus("niko-nba");
+      when(vlcPlayer.getVlcRcStatus()).thenReturn(vlcRcStatusMock);
+      VlcRcStatus returnedStatus = vlcRcService.getVlcRcStatus("niko-nba");
+      assertEquals(vlcRcStatusMock.getInformation().getTitle(), returnedStatus.getInformation()
+          .getTitle());
       verify(vlcPlayer, times(1)).getVlcRcStatus();
     } catch (Exception e) {
       e.printStackTrace();
@@ -177,9 +195,30 @@ public class VlcRcServiceTest {
     try {
       VlcRcCommand vlcRcCommand = new VlcRcCommand();
       vlcRcCommand.setName("fullscreen");
-      when(vlcPlayer.execute(any())).thenReturn(vlcRcStatusMock); 
-      vlcRcService.execute(vlcRcCommand, "niko-nba");
+      when(vlcPlayer.execute(any())).thenReturn(vlcRcStatusMock);
+      VlcRcStatus returnedStatus = vlcRcService.execute(vlcRcCommand, "niko-nba");
+      assertEquals(vlcRcStatusMock.getInformation().getTitle(), returnedStatus.getInformation()
+          .getTitle());
       verify(vlcPlayer, times(1)).execute(any());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+
+  /**
+   * Tests getting the playlist from the VLC Player.
+   */
+  @Test
+  public void getVlcRcPlaylistTest() {
+
+    try {
+      when(vlcPlayer.getPlaylist()).thenReturn(vlcRcPlaylistMock);
+      List<Map<String,Object>> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
+      assertEquals(2, returnedPlaylist.size());
+      assertEquals(vlcRcPlaylistMock.get(0).get("name"),returnedPlaylist.get(0).get("name"));
+      assertEquals(vlcRcPlaylistMock.get(1).get("name"),returnedPlaylist.get(1).get("name"));
+      verify(vlcPlayer, times(1)).getPlaylist();
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

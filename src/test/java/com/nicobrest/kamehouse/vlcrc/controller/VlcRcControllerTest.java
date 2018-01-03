@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import static org.hamcrest.Matchers.equalTo; 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
@@ -55,7 +56,8 @@ public class VlcRcControllerTest {
 
   private MockMvc mockMvc;
   private static VlcRcStatus vlcRcStatusMock;
-  
+  private static List<Map<String, Object>> vlcRcPlaylistMock;
+
   @InjectMocks
   private VlcRcController vlcRcController;
 
@@ -162,6 +164,21 @@ public class VlcRcControllerTest {
     informationCategories.add(subtitle);
     information.setCategory(informationCategories);
     vlcRcStatusMock.setInformation(information);
+
+    vlcRcPlaylistMock = new ArrayList<Map<String, Object>>();
+    Map<String, Object> playlistItem1 = new HashMap<String, Object>();
+    playlistItem1.put("id", 1);
+    playlistItem1.put("name", "Lleyton Hewitt- Brash teenager to Aussie great.mp4");
+    playlistItem1.put("uri", "file:///home/nbrest/Videos/Lleyton%20"
+        + "Hewitt-%20Brash%20teenager%20to%20Aussie%20great.mp4");
+    playlistItem1.put("duration", 281);
+    vlcRcPlaylistMock.add(playlistItem1);
+    Map<String, Object> playlistItem2 = new HashMap<String, Object>();
+    playlistItem2.put("id", 2);
+    playlistItem2.put("name", "Lleyton Hewitt Special.mp4");
+    playlistItem2.put("uri", "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4");
+    playlistItem2.put("duration", 325);
+    vlcRcPlaylistMock.add(playlistItem2);
   }
 
   @Before
@@ -187,6 +204,7 @@ public class VlcRcControllerTest {
                   equalTo(1))).andExpect(jsonPath("$.stats.inputBitrate", equalTo(1))).andExpect(
                       jsonPath("$.information.chapter", equalTo("0"))).andExpect(jsonPath(
                           "$.version", equalTo("yukimura")));
+      verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -203,7 +221,7 @@ public class VlcRcControllerTest {
       VlcRcCommand vlcRcCommand = new VlcRcCommand();
       vlcRcCommand.setName("fullscreen");
       when(vlcRcServiceMock.execute(any(), anyString())).thenReturn(vlcRcStatusMock);
-      
+
       mockMvc.perform(post("/api/v1/vlc-rc/players/niko-nba/commands").contentType(
           MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(vlcRcCommand)))
           .andDo(print()).andExpect(status().isCreated()).andExpect(content().contentType(
@@ -213,6 +231,35 @@ public class VlcRcControllerTest {
                   equalTo("0"))).andExpect(jsonPath("$.version", equalTo("yukimura")));
 
       verify(vlcRcServiceMock, times(1)).execute(any(), anyString());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+
+  /**
+   * Tests getting the playlist from the VLC Player.
+   */
+  @Test
+  public void getVlcRcPlaylistTest() {
+
+    try {
+      when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylistMock);
+
+      mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/playlist")).andDo(print()).andExpect(
+          status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8"))
+          .andExpect(jsonPath("$", hasSize(2))).andExpect(jsonPath("$[0].id", equalTo(1)))
+          .andExpect(jsonPath("$[0].name", equalTo(
+              "Lleyton Hewitt- Brash teenager to Aussie great.mp4"))).andExpect(jsonPath(
+                  "$[0].uri", equalTo("file:///home/nbrest/Videos/Lleyton%20"
+                      + "Hewitt-%20Brash%20teenager%20to%20Aussie%20great.mp4"))).andExpect(
+                          jsonPath("$[0].duration", equalTo(281)))
+
+          .andExpect(jsonPath("$[1].id", equalTo(2))).andExpect(jsonPath("$[1].name", equalTo(
+              "Lleyton Hewitt Special.mp4"))).andExpect(jsonPath("$[1].uri", equalTo(
+                  "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4"))).andExpect(
+                      jsonPath("$[1].duration", equalTo(325)));
+      verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

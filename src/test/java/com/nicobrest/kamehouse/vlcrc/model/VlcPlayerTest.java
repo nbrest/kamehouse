@@ -118,9 +118,41 @@ public class VlcPlayerTest {
     }
   }
 
+  /**
+   * Get the current playlist of the VLC Player.
+   */
+  @Test
+  public void getVlcRcPlaylistTest() {
+    VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
+    InputStream vlcRcPlaylistInputStream = getVlcRcPlaylistInputStreamFromFile();
+    try {
+      PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
+          any());
+      PowerMockito.doReturn(vlcRcPlaylistInputStream).when(vlcPlayerSpy,
+          "getInputStreamFromResponse", any());
+      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any());
+      PowerMockito.doReturn(200).when(vlcPlayerSpy, "getResponseStatusCode", any());
+      List<Map<String, Object>> returnedPlaylist = vlcPlayerSpy.getPlaylist();
+      assertEquals(3, returnedPlaylist.size());
+      assertEquals("Lleyton Hewitt- Brash teenager to Aussie great.mp4", returnedPlaylist.get(0)
+          .get("name"));
+      assertEquals("Lleyton Hewitt Special.mp4",returnedPlaylist.get(1).get("name"));
+      assertEquals("Lleyton Last On Court Interview.mp4",returnedPlaylist.get(2).get("name"));
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+
   private InputStream getVlcRcStatusInputStreamFromFile() {
     ClassLoader classLoader = getClass().getClassLoader();
     InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream("vlc-rc-status.json");
+    return vlcRcStatusInputStream;
+  }
+
+  private InputStream getVlcRcPlaylistInputStreamFromFile() {
+    ClassLoader classLoader = getClass().getClassLoader();
+    InputStream vlcRcStatusInputStream = classLoader.getResourceAsStream("vlc-rc-playlist.json");
     return vlcRcStatusInputStream;
   }
 

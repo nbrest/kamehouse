@@ -184,7 +184,8 @@ public class VlcPlayer {
   }
 
   /**
-   * Executes a request to the web API of the VLC Player using the provided URL.
+   * Executes a request to the web API of the VLC Player using the provided URL and returns
+   * the payload as a String.
    */
   @SuppressFBWarnings(value = "DM_DEFAULT_ENCODING",
       justification = "Currently it's a limitation by using apache HttpClient. Created a task to "

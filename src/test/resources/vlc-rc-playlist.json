@@ -1,0 +1,45 @@
+{
+	"ro": "rw",
+	"name": "Undefined",
+	"id": "1",
+	"children": [{
+			"ro": "ro",
+			"name": "Playlist",
+			"id": "2",
+			"children": [{
+					"ro": "rw",
+					"name": "Lleyton Hewitt- Brash teenager to Aussie great.mp4",
+					"id": "5",
+					"uri": "file:///home/nbrest/Videos/Lleyton%20Hewitt-%20Brash%20teenager%20to%20Aussie%20great.mp4",
+					"duration": 281,
+					"type": "leaf"
+				},
+				{
+					"ro": "rw",
+					"name": "Lleyton Hewitt Special.mp4",
+					"id": "6",
+					"uri": "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4",
+					"duration": 325,
+					"type": "leaf"
+				},
+				{
+					"ro": "rw",
+					"name": "Lleyton Last On Court Interview.mp4",
+					"id": "7",
+					"uri": "file:///home/nbrest/Videos/Lleyton%20Last%20On%20Court%20Interview.mp4",
+					"duration": 426,
+					"type": "leaf"
+				}
+			],
+			"type": "node"
+		},
+		{
+			"ro": "ro",
+			"name": "Media Library",
+			"id": "3",
+			"children": [],
+			"type": "node"
+		}
+	],
+	"type": "node"
+}
