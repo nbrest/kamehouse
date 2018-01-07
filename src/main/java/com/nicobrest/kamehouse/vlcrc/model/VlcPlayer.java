@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,6 +35,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Represents a VLC Player in the system. It connects to the web API of the VLC
@@ -43,8 +51,12 @@ import java.util.Map.Entry;
  * @author nbrest
  *
  */
-public class VlcPlayer {
+@Entity
+@Table(name = "VLC_PLAYER")
+public class VlcPlayer implements Serializable {
 
+  @JsonIgnore
+  private static final long serialVersionUID = 1L;
   @JsonIgnore
   private static final Logger logger = LoggerFactory.getLogger(VlcPlayer.class);
   @JsonIgnore
@@ -56,9 +68,21 @@ public class VlcPlayer {
   @JsonIgnore
   private static final String BROWSE_URL = "/requests/browse.json";
 
+  @Id
+  @Column(name = "ID", unique = true, nullable = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @Column(name = "HOSTNAME", unique = true, nullable = false)
   private String hostname;
+
+  @Column(name = "PORT")
   private int port;
+
+  @Column(name = "USERNAME")
   private String username;
+
+  @Column(name = "PASSWORD")
   private String password;
 
   public VlcPlayer() {
@@ -68,6 +92,14 @@ public class VlcPlayer {
   public VlcPlayer(String hostname, int port) {
     this.hostname = hostname;
     this.port = port;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public void setHostname(String hostname) {
@@ -566,15 +598,15 @@ public class VlcPlayer {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder().append(hostname).append(port).toHashCode();
+    return new HashCodeBuilder().append(id).append(hostname).append(port).toHashCode();
   }
 
   @Override
   public boolean equals(final Object obj) {
     if (obj instanceof VlcPlayer) {
       final VlcPlayer other = (VlcPlayer) obj;
-      return new EqualsBuilder().append(hostname, other.getHostname()).append(port, other
-          .getPort()).isEquals();
+      return new EqualsBuilder().append(id, other.getId()).append(hostname, other.getHostname())
+          .append(port, other.getPort()).isEquals();
     } else {
       return false;
     }

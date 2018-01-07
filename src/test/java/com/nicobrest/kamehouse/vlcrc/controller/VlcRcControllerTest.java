@@ -20,6 +20,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus.Equalizer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus.Information;
+import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 
 import org.junit.Before;
@@ -65,6 +66,9 @@ public class VlcRcControllerTest {
   @Mock(name = "vlcRcService")
   private VlcRcService vlcRcServiceMock;
 
+  @Mock(name = "vlcPlayerService")
+  private VlcPlayerService vlcPlayerServiceMock;
+  
   @BeforeClass
   public static void beforeClassTest() {
     vlcRcStatusMock = new VlcRcStatus();
@@ -214,6 +218,7 @@ public class VlcRcControllerTest {
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(vlcRcServiceMock);
+    Mockito.reset(vlcPlayerServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(vlcRcController).build();
   }
 
@@ -227,7 +232,7 @@ public class VlcRcControllerTest {
     try {
       when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatusMock);
 
-      mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba")).andDo(print()).andExpect(status()
+      mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/status")).andDo(print()).andExpect(status()
           .isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(
               jsonPath("$.apiVersion", equalTo(3))).andExpect(jsonPath("$.videoEffects.saturation",
                   equalTo(1))).andExpect(jsonPath("$.stats.inputBitrate", equalTo(1))).andExpect(

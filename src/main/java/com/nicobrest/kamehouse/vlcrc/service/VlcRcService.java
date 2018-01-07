@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
-import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
@@ -18,46 +17,47 @@ import java.util.Map;
 public class VlcRcService {
 
   @Autowired
-  private VlcPlayer vlcPlayer;
-  
-  public void setVlcPlayer(VlcPlayer vlcPlayer) {
-    this.vlcPlayer = vlcPlayer;
+  private VlcPlayerService vlcPlayerService;
+
+  public void setVlcPlayerService(VlcPlayerService vlcPlayerService) {
+    this.vlcPlayerService = vlcPlayerService;
   }
-  
-  public VlcPlayer getVlcPlayer() {
-    return vlcPlayer;
+
+  public VlcPlayerService getVlcPlayerService() {
+    return vlcPlayerService;
   }
-  
+
   /**
    * Gets the status information of the specified VLC Player.
    */
   public VlcRcStatus getVlcRcStatus(String vlcPlayerName) {
-    VlcRcStatus vlcRcStatus = vlcPlayer.getVlcRcStatus();
+    VlcRcStatus vlcRcStatus = vlcPlayerService.getVlcPlayer(vlcPlayerName).getVlcRcStatus();
     return vlcRcStatus;
   }
-  
+
   /**
    * Executes a command in the specified VLC Player.
    */
-  public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String vlcPlayerName) {
-    //TODO: Add a vlcPlayer DAO and search by vlcPlayerName (hostname)
-    VlcRcStatus vlcRcStatus = vlcPlayer.execute(vlcRcCommand);
+  public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String vlcPlayerName) { 
+    VlcRcStatus vlcRcStatus = vlcPlayerService.getVlcPlayer(vlcPlayerName).execute(vlcRcCommand);
     return vlcRcStatus;
   }
-  
+
   /**
    * Gets the current playlist for the selected VLC Player.
    */
-  public List<Map<String,Object>> getPlaylist(String vlcPlayerName) {
-    List<Map<String,Object>> vlcPlaylist = vlcPlayer.getPlaylist();
+  public List<Map<String, Object>> getPlaylist(String vlcPlayerName) {
+    List<Map<String, Object>> vlcPlaylist = vlcPlayerService.getVlcPlayer(vlcPlayerName)
+        .getPlaylist();
     return vlcPlaylist;
   }
-  
+
   /**
    * Browse the file system of the selected VLC Player.
    */
-  public List<Map<String,Object>> browse(String uri, String vlcPlayerName) {
-    List<Map<String,Object>> vlcRcFileList = vlcPlayer.browse(uri);
+  public List<Map<String, Object>> browse(String uri, String vlcPlayerName) {
+    List<Map<String, Object>> vlcRcFileList = vlcPlayerService.getVlcPlayer(vlcPlayerName).browse(
+        uri);
     return vlcRcFileList;
   }
 }

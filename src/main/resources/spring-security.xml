@@ -42,6 +42,10 @@
       method="GET" />
     <intercept-url pattern="/api/v1/vlc-rc" access="permitAll"
       method="POST" />
+    <intercept-url pattern="/api/v1/vlc-rc" access="permitAll"
+      method="PUT" />
+    <intercept-url pattern="/api/v1/vlc-rc" access="permitAll"
+      method="DELETE" />
 
     <intercept-url pattern="/jsp/dragonball/users/**" access="permitAll"
       method="GET" />
@@ -54,8 +58,8 @@
 
     <form-login login-page="/login" username-parameter="username"
       password-parameter="password" />
-      <!-- TODO: RE ENABLE CSRF AFTER DEVELOPMENT -->
-    <csrf disabled="false" />
+    <!-- TODO: RE ENABLE CSRF AFTER DEVELOPMENT -->
+    <csrf disabled="true" />
   </http>
 
   <authentication-manager>

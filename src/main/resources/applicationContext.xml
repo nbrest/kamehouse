@@ -13,7 +13,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- Root Application Context for the entire web application -->
   <context:property-placeholder
-    location="classpath:application.properties,classpath:jdbc.properties,classpath:hibernate.properties" />
+    location="classpath:jdbc.properties,classpath:hibernate.properties" />
   <import resource="applicationContext-persistence.xml" />
   <import resource="spring-security.xml" />
 
@@ -47,14 +47,15 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- vlc-rc beans -->
   <bean id="vlcRcService" class="com.nicobrest.kamehouse.vlcrc.service.VlcRcService">
-    <property name="vlcPlayer" ref="vlcPlayer" />
+    <property name="vlcPlayerService" ref="vlcPlayerService" />
   </bean>
 
-  <bean id="vlcPlayer" class="com.nicobrest.kamehouse.vlcrc.model.VlcPlayer">
-    <property name="hostname" value="${vlc.player.hostname}" />
-    <property name="port" value="${vlc.player.port}" />
-    <property name="username" value="${vlc.player.username}" />
-    <property name="password" value="${vlc.player.password}" />
+  <bean id="vlcPlayerService" class="com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService">
+    <property name="vlcPlayerDao" ref="vlcPlayerDaoJpa" />
+  </bean>
+
+  <bean id="vlcPlayerDaoJpa" class="com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDaoJpa">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
 
   <!-- Example endpoints beans -->
