@@ -7,15 +7,19 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nicobrest.kamehouse.utils.JsonUtils;
+import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus.Equalizer;
@@ -56,7 +60,9 @@ import java.util.Map;
 public class VlcRcControllerTest {
 
   private MockMvc mockMvc;
+  private static VlcPlayer vlcPlayerMock;
   private static VlcRcStatus vlcRcStatusMock;
+  private static List<VlcPlayer> vlcPlayerListMock;
   private static List<Map<String, Object>> vlcRcPlaylistMock;
   private static List<Map<String, Object>> vlcRcFilelistMock;
 
@@ -68,9 +74,26 @@ public class VlcRcControllerTest {
 
   @Mock(name = "vlcPlayerService")
   private VlcPlayerService vlcPlayerServiceMock;
-  
+
   @BeforeClass
   public static void beforeClassTest() {
+    vlcPlayerMock = new VlcPlayer();
+    vlcPlayerMock.setHostname("localhost");
+    vlcPlayerMock.setPort(8080);
+    vlcPlayerMock.setUsername("");
+    vlcPlayerMock.setPassword("1");
+    vlcPlayerMock.setId(10L);
+
+    vlcPlayerListMock = new ArrayList<VlcPlayer>();
+    vlcPlayerListMock.add(vlcPlayerMock);
+    VlcPlayer vlcPlayerMock2 = new VlcPlayer();
+    vlcPlayerMock2.setHostname("niko-nba");
+    vlcPlayerMock2.setPort(8080);
+    vlcPlayerMock2.setId(20L);
+    vlcPlayerMock2.setUsername("");
+    vlcPlayerMock2.setPassword("1");
+    vlcPlayerListMock.add(vlcPlayerMock2);
+
     vlcRcStatusMock = new VlcRcStatus();
     // Direct attributes
     vlcRcStatusMock.setApiVersion(3);
@@ -184,7 +207,7 @@ public class VlcRcControllerTest {
     playlistItem2.put("uri", "file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4");
     playlistItem2.put("duration", 325);
     vlcRcPlaylistMock.add(playlistItem2);
-    
+
     vlcRcFilelistMock = new ArrayList<Map<String, Object>>();
     Map<String, Object> fileListItem1 = new HashMap<String, Object>();
     fileListItem1.put("type", "dir");
@@ -213,13 +236,125 @@ public class VlcRcControllerTest {
     fileListItem2.put("size", 0);
     vlcRcFilelistMock.add(fileListItem2);
   }
-  
+
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(vlcRcServiceMock);
     Mockito.reset(vlcPlayerServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(vlcRcController).build();
+  }
+
+  /**
+   * Tests creating a VLC Player.
+   */
+  @Test
+  public void createVlcPlayerTest() {
+
+    try {
+      when(vlcPlayerServiceMock.createVlcPlayer(vlcPlayerMock)).thenReturn(vlcPlayerMock.getId());
+
+      mockMvc.perform(post("/api/v1/vlc-rc/players").contentType(MediaType.APPLICATION_JSON_UTF8)
+          .content(JsonUtils.convertToJsonBytes(vlcPlayerMock))).andDo(print()).andExpect(status()
+              .isCreated()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+          .andExpect(content().bytes(JsonUtils.convertToJsonBytes(vlcPlayerMock.getId())))
+          .andExpect(content().string(vlcPlayerMock.getId().toString()));
+
+      verify(vlcPlayerServiceMock, times(1)).createVlcPlayer(vlcPlayerMock);
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+
+  /**
+   * Tests getting all VLC Players.
+   */
+  @Test
+  public void getAllVlcPlayersTest() {
+    when(vlcPlayerServiceMock.getAllVlcPlayers()).thenReturn(vlcPlayerListMock);
+
+    try {
+      mockMvc.perform(get("/api/v1/vlc-rc/players")).andDo(print()).andExpect(status().isOk())
+          .andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath(
+              "$", hasSize(2))).andExpect(jsonPath("$[0].id", equalTo(10))).andExpect(jsonPath(
+                  "$[0].username", equalTo(""))).andExpect(jsonPath("$[0].password", equalTo("1")))
+          .andExpect(jsonPath("$[0].port", equalTo(8080))).andExpect(jsonPath("$[0].hostname",
+              equalTo("localhost")))
+
+          .andExpect(jsonPath("$[1].id", equalTo(20))).andExpect(jsonPath("$[1].username", equalTo(
+              ""))).andExpect(jsonPath("$[1].password", equalTo("1"))).andExpect(jsonPath(
+                  "$[1].port", equalTo(8080))).andExpect(jsonPath("$[1].hostname", equalTo(
+                      "niko-nba")));
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+    verify(vlcPlayerServiceMock, times(1)).getAllVlcPlayers();
+    verifyNoMoreInteractions(vlcPlayerServiceMock);
+  }
+
+  /**
+   * Tests getting a specific VLC Player.
+   */
+  @Test
+  public void getVlcPlayerTest() {
+
+    try {
+      when(vlcPlayerServiceMock.getVlcPlayer("localhost")).thenReturn(vlcPlayerMock);
+
+      mockMvc.perform(get("/api/v1/vlc-rc/players/localhost")).andDo(print()).andExpect(status()
+          .isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(
+              jsonPath("$.id", equalTo(10))).andExpect(jsonPath("$.username", equalTo("")))
+          .andExpect(jsonPath("$.password", equalTo("1"))).andExpect(jsonPath("$.hostname",
+              equalTo("localhost"))).andExpect(jsonPath("$.port", equalTo(8080)));
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+
+  /**
+   * Tests updating a VLC Player in the system.
+   */
+  @Test
+  public void updateVlcPlayerTest() {
+
+    try {
+      Mockito.doNothing().when(vlcPlayerServiceMock).updateVlcPlayer(vlcPlayerMock);
+      when(vlcPlayerServiceMock.getVlcPlayer(vlcPlayerMock.getHostname())).thenReturn(
+          vlcPlayerMock);
+
+      mockMvc.perform(put("/api/v1/vlc-rc/players/" + vlcPlayerMock.getHostname()).contentType(
+          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(vlcPlayerMock)))
+          .andDo(print()).andExpect(status().isOk());
+
+      verify(vlcPlayerServiceMock, times(1)).updateVlcPlayer(vlcPlayerMock);
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+
+  /**
+   * Tests deleting a VLC Player from the system.
+   */
+  @Test
+  public void deleteVlcPlayerTest() {
+
+    try {
+      when(vlcPlayerServiceMock.deleteVlcPlayer(vlcPlayerMock.getId())).thenReturn(vlcPlayerMock);
+
+      mockMvc.perform(delete("/api/v1/vlc-rc/players/" + vlcPlayerMock.getId())).andDo(print())
+          .andExpect(status().isOk()).andExpect(content().contentType(
+              MediaType.APPLICATION_JSON_UTF8)).andExpect(content().bytes(JsonUtils
+                  .convertToJsonBytes(vlcPlayerMock)));
+
+      verify(vlcPlayerServiceMock, times(1)).deleteVlcPlayer(vlcPlayerMock.getId());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
   }
 
   /**
@@ -232,12 +367,12 @@ public class VlcRcControllerTest {
     try {
       when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatusMock);
 
-      mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/status")).andDo(print()).andExpect(status()
-          .isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(
-              jsonPath("$.apiVersion", equalTo(3))).andExpect(jsonPath("$.videoEffects.saturation",
-                  equalTo(1))).andExpect(jsonPath("$.stats.inputBitrate", equalTo(1))).andExpect(
-                      jsonPath("$.information.chapter", equalTo("0"))).andExpect(jsonPath(
-                          "$.version", equalTo("yukimura")));
+      mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/status")).andDo(print()).andExpect(
+          status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8"))
+          .andExpect(jsonPath("$.apiVersion", equalTo(3))).andExpect(jsonPath(
+              "$.videoEffects.saturation", equalTo(1))).andExpect(jsonPath("$.stats.inputBitrate",
+                  equalTo(1))).andExpect(jsonPath("$.information.chapter", equalTo("0")))
+          .andExpect(jsonPath("$.version", equalTo("yukimura")));
       verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
     } catch (Exception e) {
       e.printStackTrace();
@@ -299,7 +434,7 @@ public class VlcRcControllerTest {
       fail("Unexpected exception thrown.");
     }
   }
-  
+
   /**
    * Tests browsing files in the VLC Player.
    */
@@ -307,19 +442,17 @@ public class VlcRcControllerTest {
   public void browseTest() {
 
     try {
-      when(vlcRcServiceMock.browse(null,"niko-nba")).thenReturn(vlcRcFilelistMock);
+      when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFilelistMock);
 
       mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/browse")).andDo(print()).andExpect(
           status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8"))
           .andExpect(jsonPath("$", hasSize(2))).andExpect(jsonPath("$[0].type", equalTo("dir")))
-          .andExpect(jsonPath("$[0].path", equalTo("C:\\"))).andExpect(jsonPath(
-                  "$[0].uri", equalTo("file:///C:/"))).andExpect(
-                          jsonPath("$[0].accessTime", equalTo(315543600)))
+          .andExpect(jsonPath("$[0].path", equalTo("C:\\"))).andExpect(jsonPath("$[0].uri",
+              equalTo("file:///C:/"))).andExpect(jsonPath("$[0].accessTime", equalTo(315543600)))
 
-          .andExpect(jsonPath("$[1].type", equalTo("dir")))
-          .andExpect(jsonPath("$[1].path", equalTo("D:\\"))).andExpect(jsonPath(
-                  "$[1].uri", equalTo("file:///D:/"))).andExpect(
-                          jsonPath("$[1].accessTime", equalTo(315543600)));
+          .andExpect(jsonPath("$[1].type", equalTo("dir"))).andExpect(jsonPath("$[1].path",
+              equalTo("D:\\"))).andExpect(jsonPath("$[1].uri", equalTo("file:///D:/"))).andExpect(
+                  jsonPath("$[1].accessTime", equalTo(315543600)));
       verify(vlcRcServiceMock, times(1)).browse(any(), anyString());
     } catch (Exception e) {
       e.printStackTrace();
