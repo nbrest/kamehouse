@@ -47,6 +47,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 *********************
 # ChangeLog:
+#### v0.16
+- Added backend functionality to support multiple VLC Players and register them in the application
 #### v0.15
 - Added backend support to get the current playlist
 - Added backend support to browse for a file in the server where VLC Player is running through the browse.json API
