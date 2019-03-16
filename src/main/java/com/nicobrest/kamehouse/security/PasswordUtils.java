@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
- * Utility class to generarte and check hashed passwords.
+ * Utility class to generate and check hashed passwords.
  * 
  * @author nbrest
  *

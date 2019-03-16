@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.model.DragonBallUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.Resource;
+//import javax.annotation.Resource;
 
 /**
  * In-Memory DAO for the test endpoint dragonball.
@@ -31,8 +32,9 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   @Autowired
   private DragonBallUser gohanDragonBallUser;
 
-  // @AutoWired + @Qualifier("gotenDragonBallUser")
-  @Resource(name = "gotenDragonBallUser")
+  @Autowired 
+  @Qualifier("gotenDragonBallUser")
+ // @Resource(name = "gotenDragonBallUser")
   private DragonBallUser gotenDragonBallUser;
 
   public DragonBallUserDaoInMemory() {
