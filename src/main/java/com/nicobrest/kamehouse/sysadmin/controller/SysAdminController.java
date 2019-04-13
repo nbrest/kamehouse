@@ -8,20 +8,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 @Controller
 @RequestMapping(value = "/api/v1/sysadmin")
 public class SysAdminController {
-
+/*
   public static void main(String[] args) throws IOException, InterruptedException {
 
     System.out.println("Test executing command start");
 
-    boolean isWindowsOS = System.getProperty("os.name").toLowerCase().startsWith("windows");
+    boolean isWindowsOpSys = System.getProperty("os.name").toLowerCase(Locale.getDefault()).startsWith("windows");
     ProcessBuilder processBuilder = new ProcessBuilder();
-    if (isWindowsOS) {
+    if (isWindowsOpSys) {
       processBuilder.command("cmd.exe", "/c", "dir");
     } else {
       processBuilder.command("sh", "-c", "ls");
@@ -50,4 +51,5 @@ public class SysAdminController {
       new BufferedReader(new InputStreamReader(inputStream)).lines().forEach(consumer);
     }
   }
+  */
 }
