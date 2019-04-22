@@ -420,6 +420,8 @@
                 <encoding>${project.build.sourceEncoding}</encoding>
                 <consoleOutput>true</consoleOutput>
                 <failsOnError>true</failsOnError>
+                <failOnViolation>true</failOnViolation>
+                <violationSeverity>warning</violationSeverity>
                 <linkXRef>false</linkXRef>
               </configuration>
               <goals>
