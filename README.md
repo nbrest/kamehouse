@@ -46,6 +46,12 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Deploy copying the war into the webapps directory of your tomcat installation
 
 *********************
+# Other notes:
+- The commands to start and stop vlc don't work if tomcat is run as a service in windows, even if it's configured to run as a service with the same user. To fix this, add a shortcut to the TOMCAT_HOME/bin/startup.bat script in the windows startup folder (Currently in windows 10 it's $HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup) so tomcat runs when I logon.
+- TODO: Figure out a way for tomcat console to start minimized when I use the above approach.
+
+
+*********************
 # ChangeLog:
 #### v0.16
 - Added backend functionality to support multiple VLC Players and register them in the application
