@@ -1,55 +1,64 @@
 package com.nicobrest.kamehouse.sysadmin.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Locale;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 @Controller
 @RequestMapping(value = "/api/v1/sysadmin")
 public class SysAdminController {
-/*
-  public static void main(String[] args) throws IOException, InterruptedException {
 
-    System.out.println("Test executing command start");
+  /**
+   * Test method to start a vlc player. 
+   */
+  @RequestMapping(value = "/vlc-player-start", method = RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity<String> startVlcPlayer() throws IOException {
 
-    boolean isWindowsOpSys = System.getProperty("os.name").toLowerCase(Locale.getDefault()).startsWith("windows");
+    System.out.println("begin start vlc player");
+
+    boolean isWindowsOpSys = System.getProperty("os.name").toLowerCase(Locale.getDefault())
+        .startsWith("windows");
     ProcessBuilder processBuilder = new ProcessBuilder();
     if (isWindowsOpSys) {
-      processBuilder.command("cmd.exe", "/c", "dir");
+      processBuilder.command("cmd.exe", "/c", "start", "vlc",
+          "D:\\Series\\game_of_thrones\\GameOfThrones.m3u");
     } else {
-      processBuilder.command("sh", "-c", "ls");
+      processBuilder.command("vlc", "/home/nbrest/Videos/lleyton.hewitt.m3u");
     }
-    processBuilder.directory(new File(System.getProperty("user.home")));
-    Process process = processBuilder.start();
-    StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
-    Executors.newSingleThreadExecutor().submit(streamGobbler);
-    int exitCode = process.waitFor();
-    assert exitCode == 0;
-
-    System.out.println("Test executing command end");
+    System.out.println("processBuilder.command()" + processBuilder.command().toString());
+    processBuilder.start();
+    System.out.println("finish start vlc player");
+    return new ResponseEntity<String>("Started vlc player", HttpStatus.OK);
   }
 
-  private static class StreamGobbler implements Runnable {
-    private InputStream inputStream;
-    private Consumer<String> consumer;
+  /**
+   * Test method to stop vlc player. 
+   */
+  @RequestMapping(value = "/vlc-player-stop", method = RequestMethod.GET)
+  @ResponseBody
+  public ResponseEntity<String> stopVlcPlayer() throws IOException {
 
-    public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
-      this.inputStream = inputStream;
-      this.consumer = consumer;
-    }
+    System.out.println("begin stop vlc player");
 
-    @Override
-    public void run() {
-      new BufferedReader(new InputStreamReader(inputStream)).lines().forEach(consumer);
+    boolean isWindowsOpSys = System.getProperty("os.name").toLowerCase(Locale.getDefault())
+        .startsWith("windows");
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    if (isWindowsOpSys) {
+      processBuilder.command("cmd.exe", "/c", "start", "taskkill", "/im", "vlc.exe");
+    } else {
+      processBuilder.command("skill", "-9", "vlc");
     }
+    System.out.println("processBuilder.command()" + processBuilder.command().toString());
+    processBuilder.start();
+    System.out.println("finish stop vlc player");
+    return new ResponseEntity<String>("Stopped vlc player", HttpStatus.OK);
   }
-  */
+
 }

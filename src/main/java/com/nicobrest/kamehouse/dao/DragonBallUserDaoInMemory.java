@@ -32,9 +32,9 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   @Autowired
   private DragonBallUser gohanDragonBallUser;
 
-  @Autowired 
+  @Autowired
   @Qualifier("gotenDragonBallUser")
- // @Resource(name = "gotenDragonBallUser")
+  // @Resource(name = "gotenDragonBallUser")
   private DragonBallUser gotenDragonBallUser;
 
   public DragonBallUserDaoInMemory() {

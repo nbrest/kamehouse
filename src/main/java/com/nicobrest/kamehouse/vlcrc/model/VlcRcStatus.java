@@ -29,6 +29,8 @@ public class VlcRcStatus {
   private String version;
   private Equalizer equalizer;
 
+  // TODO: Move these maps to inner classes and update the constructor of this
+  // class to instantiate them when it's created.
   /*
    * audioFilters:
    * 

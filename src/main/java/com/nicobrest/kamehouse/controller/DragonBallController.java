@@ -74,6 +74,7 @@ public class DragonBallController {
 
     logger.trace("In controller /dragonball/users (GET)");
 
+    // switch test to test parameters and exceptions
     switch (action) {
       case "KameHouseNotFoundException":
         throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
