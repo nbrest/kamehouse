@@ -49,6 +49,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 # Other notes:
 
 ### Make VLC start and stop commands work:
+- Make sure vlc executable is in the user's PATH. In linux it's added by default when vlc is installed. In windows I need to manually add the path to the executable to my user's PATH environment variable. To test that it works, open a command prompt and type vlc to see if it finds the executable or if it throws an error that it can't find it.
+
 - The commands to start and stop vlc (and possibly other system commands) don't work if tomcat is run as a service in windows, even if it's configured to run as a service with my user. To fix this, uninstall the service, add a shortcut to the $HOME/programs/apache-tomcat/bin/startup.bat script in the windows startup folder (Currently in windows 10 it's $HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup) so tomcat runs when I logon.
 - To make the command windows start minimized, update catalina.bat and in the line where it says 'set _EXECJAVA=start "%TITLE%" %_RUNJAVA%' add /min after the start: 'set _EXECJAVA=start /min "%TITLE%" %_RUNJAVA%'
 
