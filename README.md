@@ -47,9 +47,15 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 *********************
 # Other notes:
-- The commands to start and stop vlc don't work if tomcat is run as a service in windows, even if it's configured to run as a service with the same user. To fix this, add a shortcut to the TOMCAT_HOME/bin/startup.bat script in the windows startup folder (Currently in windows 10 it's $HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup) so tomcat runs when I logon.
-- TODO: Figure out a way for tomcat console to start minimized when I use the above approach.
 
+### Make VLC start and stop commands work:
+- The commands to start and stop vlc (and possibly other system commands) don't work if tomcat is run as a service in windows, even if it's configured to run as a service with my user. To fix this, uninstall the service, add a shortcut to the $HOME/programs/apache-tomcat/bin/startup.bat script in the windows startup folder (Currently in windows 10 it's $HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup) so tomcat runs when I logon.
+- To make the command windows start minimized, update catalina.bat and in the line where it says 'set _EXECJAVA=start "%TITLE%" %_RUNJAVA%' add /min after the start: 'set _EXECJAVA=start /min "%TITLE%" %_RUNJAVA%'
+
+- For the vlc start and stop (and possibly other system commands) to work in Linux, if I have any tomcat installed as a service, run sudo apt-get remove tomcatX, sudo apt-get purge tomcatX, remove everything. Download the zip or tar.gz from the tomcat website, unpack it in $HOME/programs/apache-tomcat and start it with $HOME/programs/apache-tomcat/bin/startup.sh. Tomcat should start with my current user and the command to start and stop vlc should work. 
+- To run on startup, with my current user, edit my cron jobs with 'crontab -e' and add the following entry: 
+'@reboot /bin/bash $HOME/programs/apache-tomcat/bin/startup.sh'
+- Also update the script startup.sh and as the second line add 'export DISPLAY=:0' otherwise vlc start will fail because DISPLAY env variable won't be set at reboot time when tomcat is being started. I don't need to set it if I run startup.sh from my desktop but if I schedule it with cron, startup.sh needs to be updated with that export.
 
 *********************
 # ChangeLog:
