@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.sysadmin.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +32,9 @@ public class SysAdminController {
    */
   @RequestMapping(value = "/vlc-player-start", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<String> startVlcPlayer() throws IOException {
+  public ResponseEntity<String> startVlcPlayer() {
 
-    logger.debug("begin start vlc player");
+    logger.trace("begin start vlc player");
 
     boolean isWindowsOpSys = System.getProperty("os.name").toLowerCase(Locale.getDefault())
         .startsWith("windows");
@@ -45,9 +45,14 @@ public class SysAdminController {
     } else {
       processBuilder.command("vlc", "/home/nbrest/Videos/lleyton.hewitt.m3u");
     }
-    logger.debug("processBuilder.command()" + processBuilder.command().toString());
-    processBuilder.start();
-    logger.debug("finish start vlc player");
+    logger.trace("processBuilder.command()" + processBuilder.command().toString());
+    try {
+      processBuilder.start();
+    } catch (IOException e) {
+      logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
+      e.printStackTrace();
+    }
+    logger.trace("finish start vlc player");
     return new ResponseEntity<String>("Started vlc player", HttpStatus.OK);
   }
 
@@ -56,9 +61,9 @@ public class SysAdminController {
    */
   @RequestMapping(value = "/vlc-player-stop", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<String> stopVlcPlayer() throws IOException {
+  public ResponseEntity<String> stopVlcPlayer() {
 
-    logger.debug("begin stop vlc player");
+    logger.trace("begin stop vlc player");
 
     boolean isWindowsOpSys = System.getProperty("os.name").toLowerCase(Locale.getDefault())
         .startsWith("windows");
@@ -68,9 +73,14 @@ public class SysAdminController {
     } else {
       processBuilder.command("skill", "-9", "vlc");
     }
-    logger.debug("processBuilder.command()" + processBuilder.command().toString());
-    processBuilder.start();
-    logger.debug("finish stop vlc player");
+    logger.trace("processBuilder.command()" + processBuilder.command().toString());
+    try {
+      processBuilder.start();
+    } catch (IOException e) {
+      logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
+      e.printStackTrace();
+    }
+    logger.trace("finish stop vlc player");
     return new ResponseEntity<String>("Stopped vlc player", HttpStatus.OK);
   }
 
@@ -81,7 +91,7 @@ public class SysAdminController {
   @ResponseBody
   public ResponseEntity<Map<String, Object>> statusVlcPlayer() {
 
-    logger.debug("begin status vlc player");
+    logger.trace("begin status vlc player");
 
     boolean isWindowsOpSys = System.getProperty("os.name").toLowerCase(Locale.getDefault())
         .startsWith("windows");
@@ -89,42 +99,66 @@ public class SysAdminController {
     if (isWindowsOpSys) {
       processBuilder.command("tasklist", "/FI", "IMAGENAME eq vlc.exe");
     } else {
-      processBuilder.command("ps", "aux", "|", "grep", "-e", "vlc\\|COMMAND", "|", "grep", "-v",
-          "grep");
+      processBuilder.command("/bin/bash", "-c",
+          "ps aux | grep -e \"vlc\\|COMMAND\" | grep -v grep");
     }
-    logger.debug("processBuilder.command()" + processBuilder.command().toString());
+    logger.trace("processBuilder.command()" + processBuilder.command().toString());
     Process process;
     InputStream processInputStream = null;
     BufferedReader processBufferedReader = null;
+    InputStream processErrorStream = null;
+    BufferedReader processErrorBufferedReader = null;
     Map<String, Object> processOutput = new HashMap<String, Object>();
     try {
       process = processBuilder.start();
       process.waitFor();
+      List<String> processOuputList = new ArrayList<String>();
+      // Read command standard output stream
       processInputStream = process.getInputStream();
       processBufferedReader = new BufferedReader(new InputStreamReader(processInputStream,
           StandardCharsets.UTF_8));
       String inputStreamLine;
-      List<String> processOuputList = new ArrayList<String>();
       while ((inputStreamLine = processBufferedReader.readLine()) != null) {
-        logger.info("inputStreamLine : " + inputStreamLine);
-        processOuputList.add(inputStreamLine);
+        if (!StringUtils.isEmpty(inputStreamLine)) {
+          processOuputList.add(inputStreamLine);
+        }
+      }
+      // Read command standard error stream
+      processErrorStream = process.getErrorStream();
+      processErrorBufferedReader = new BufferedReader(new InputStreamReader(processErrorStream,
+          StandardCharsets.UTF_8));
+      String errorStreamLine;
+      while ((errorStreamLine = processErrorBufferedReader.readLine()) != null) {
+        if (!StringUtils.isEmpty(errorStreamLine)) {
+          processOuputList.add(errorStreamLine);
+        }
       }
       processOutput.put("exitStatus", process.exitValue());
       processOutput.put("output", processOuputList);
     } catch (IOException | InterruptedException e) {
-      logger.error("Exception occurred while executing the process.");
+      logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
       e.printStackTrace();
     } finally {
       if (processBufferedReader != null) {
         try {
           processBufferedReader.close();
         } catch (IOException e) {
-          logger.error("Exception occurred while executing the process.");
+          logger.error("Exception occurred while executing the process. Message: " + e
+              .getMessage());
+          e.printStackTrace();
+        }
+      }
+      if (processErrorBufferedReader != null) {
+        try {
+          processErrorBufferedReader.close();
+        } catch (IOException e) {
+          logger.error("Exception occurred while executing the process. Message: " + e
+              .getMessage());
           e.printStackTrace();
         }
       }
     }
-    logger.debug("finish status vlc player");
+    logger.trace("finish status vlc player");
     return new ResponseEntity<Map<String, Object>>(processOutput, HttpStatus.OK);
   }
 
