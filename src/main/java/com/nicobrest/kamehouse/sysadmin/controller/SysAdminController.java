@@ -115,14 +115,6 @@ public class SysAdminController {
       logger.error("Exception occurred while executing the process.");
       e.printStackTrace();
     } finally {
-      if (processInputStream != null) {
-        try {
-          processInputStream.close();
-        } catch (IOException e) {
-          logger.error("Exception occurred while executing the process.");
-          e.printStackTrace();
-        }
-      }
       if (processBufferedReader != null) {
         try {
           processBufferedReader.close();
