@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,8 +79,7 @@ public class SysAdminController {
    */
   @RequestMapping(value = "/vlc-player-status", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseEntity<Map<String, Object>> statusVlcPlayer() throws IOException,
-      InterruptedException {
+  public ResponseEntity<Map<String, Object>> statusVlcPlayer() {
 
     logger.debug("begin status vlc player");
 
@@ -93,21 +93,45 @@ public class SysAdminController {
           "grep");
     }
     logger.debug("processBuilder.command()" + processBuilder.command().toString());
-    Process process = processBuilder.start();
-    process.waitFor();
-    InputStream processInputStream = process.getInputStream();
-    BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(
-        processInputStream));
-    String inputStreamLine;
-    List<String> processOuputList = new ArrayList<String>();
-    while ((inputStreamLine = inputStreamReader.readLine()) != null) {
-      logger.info("inputStreamLine : " + inputStreamLine);
-      processOuputList.add(inputStreamLine);
-    }
-
+    Process process;
+    InputStream processInputStream = null;
+    BufferedReader processBufferedReader = null;
     Map<String, Object> processOutput = new HashMap<String, Object>();
-    processOutput.put("exitStatus", process.exitValue());
-    processOutput.put("output", processOuputList);
+    try {
+      process = processBuilder.start();
+      process.waitFor();
+      processInputStream = process.getInputStream();
+      processBufferedReader = new BufferedReader(new InputStreamReader(processInputStream,
+          StandardCharsets.UTF_8));
+      String inputStreamLine;
+      List<String> processOuputList = new ArrayList<String>();
+      while ((inputStreamLine = processBufferedReader.readLine()) != null) {
+        logger.info("inputStreamLine : " + inputStreamLine);
+        processOuputList.add(inputStreamLine);
+      }
+      processOutput.put("exitStatus", process.exitValue());
+      processOutput.put("output", processOuputList);
+    } catch (IOException | InterruptedException e) {
+      logger.error("Exception occurred while executing the process.");
+      e.printStackTrace();
+    } finally {
+      if (processInputStream != null) {
+        try {
+          processInputStream.close();
+        } catch (IOException e) {
+          logger.error("Exception occurred while executing the process.");
+          e.printStackTrace();
+        }
+      }
+      if (processBufferedReader != null) {
+        try {
+          processBufferedReader.close();
+        } catch (IOException e) {
+          logger.error("Exception occurred while executing the process.");
+          e.printStackTrace();
+        }
+      }
+    }
     logger.debug("finish status vlc player");
     return new ResponseEntity<Map<String, Object>>(processOutput, HttpStatus.OK);
   }
