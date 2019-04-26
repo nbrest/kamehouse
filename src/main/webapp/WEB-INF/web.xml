@@ -128,27 +128,27 @@
   </error-page>
 
   <error-page>
-    <exception-type>com.nicobrest.kamehouse.exception.KameHouseBadRequestException</exception-type>
+    <exception-type>com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException</exception-type>
     <location>/WEB-INF/jsp/error/400.jsp</location>
   </error-page>
 
   <error-page>
-    <exception-type>com.nicobrest.kamehouse.exception.KameHouseConflictException</exception-type>
+    <exception-type>com.nicobrest.kamehouse.main.exception.KameHouseConflictException</exception-type>
     <location>/WEB-INF/jsp/error/409.jsp</location>
   </error-page>
 
   <error-page>
-    <exception-type>com.nicobrest.kamehouse.exception.KameHouseForbiddenException</exception-type>
+    <exception-type>com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException</exception-type>
     <location>/WEB-INF/jsp/error/403.jsp</location>
   </error-page>
   
   <error-page>
-    <exception-type>com.nicobrest.kamehouse.exception.KameHouseNotFoundException</exception-type>
+    <exception-type>com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException</exception-type>
     <location>/WEB-INF/jsp/error/404.jsp</location>
   </error-page>
 
   <error-page>
-    <exception-type>com.nicobrest.kamehouse.exception.KameHouseServerErrorException</exception-type>
+    <exception-type>com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException</exception-type>
     <location>/WEB-INF/jsp/error/500.jsp</location>
   </error-page>
 

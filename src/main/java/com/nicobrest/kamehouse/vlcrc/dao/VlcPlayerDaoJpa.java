@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
-import com.nicobrest.kamehouse.exception.KameHouseConflictException;
-import com.nicobrest.kamehouse.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +95,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
     }
   }
 
+  //TODO: Add cache of VlcPlayers here
   @Override
   public VlcPlayer getVlcPlayer(String vlcPlayerName) {
     EntityManager em = getEntityManager();

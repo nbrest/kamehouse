@@ -1,6 +1,6 @@
 <%@ page import="java.util.*"%>
-<%@ page import="com.nicobrest.kamehouse.service.DragonBallUserService"%>
-<%@ page import="com.nicobrest.kamehouse.model.DragonBallUser"%>
+<%@ page import="com.nicobrest.kamehouse.testmodule.service.DragonBallUserService"%>
+<%@ page import="com.nicobrest.kamehouse.testmodule.model.DragonBallUser"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
 <!DOCTYPE html>

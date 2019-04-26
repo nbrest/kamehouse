@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import com.nicobrest.kamehouse.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.junit.Before;

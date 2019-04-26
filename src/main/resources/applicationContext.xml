@@ -1,5 +1,7 @@
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:cache="http://www.springframework.org/schema/cache"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="
 http://www.springframework.org/schema/beans
@@ -20,22 +22,52 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <!-- Ehcache configuration -->
   <cache:annotation-driven />
 
-  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+  <bean id="cacheManager"
+    class="org.springframework.cache.ehcache.EhCacheCacheManager">
     <property name="cacheManager" ref="ehcache" />
   </bean>
 
-  <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+  <bean id="ehcache"
+    class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
     <property name="configLocation" value="classpath:ehcache.xml" />
     <property name="shared" value="true" />
   </bean>
 
-  <bean id="ehCacheService" class="com.nicobrest.kamehouse.service.EhCacheService">
+  <!-- admin beans -->
+  <bean id="ehCacheService"
+    class="com.nicobrest.kamehouse.admin.service.EhCacheService">
     <property name="cacheManager" ref="cacheManager" />
   </bean>
 
-  <!-- Enable access to specific beans from JSP pages using ${beanName} -->
+  <bean id="adminVlcService"
+    class="com.nicobrest.kamehouse.admin.service.AdminVlcService">
+    <property name="systemCommandService" ref="systemCommandService" />
+  </bean>
+
+  <!-- systemcommand beans -->
+  <bean id="systemCommandService"
+    class="com.nicobrest.kamehouse.systemcommand.service.SystemCommandService" />
+
+  <!-- vlc-rc beans -->
+  <bean id="vlcRcService"
+    class="com.nicobrest.kamehouse.vlcrc.service.VlcRcService">
+    <property name="vlcPlayerService" ref="vlcPlayerService" />
+  </bean>
+
+  <bean id="vlcPlayerService"
+    class="com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService">
+    <property name="vlcPlayerDao" ref="vlcPlayerDaoJpa" />
+  </bean>
+
+  <bean id="vlcPlayerDaoJpa"
+    class="com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDaoJpa">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
+  </bean>
+
+  <!-- testmodule beans -->
   <bean
     class="org.springframework.web.context.support.ServletContextAttributeExporter">
+    <!-- Enable access to specific beans from JSP pages using ${beanName} -->
     <property name="attributes">
       <map>
         <entry key="dragonBallUserService">
@@ -44,35 +76,24 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
       </map>
     </property>
   </bean>
-
-  <!-- vlc-rc beans -->
-  <bean id="vlcRcService" class="com.nicobrest.kamehouse.vlcrc.service.VlcRcService">
-    <property name="vlcPlayerService" ref="vlcPlayerService" />
-  </bean>
-
-  <bean id="vlcPlayerService" class="com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService">
-    <property name="vlcPlayerDao" ref="vlcPlayerDaoJpa" />
-  </bean>
-
-  <bean id="vlcPlayerDaoJpa" class="com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDaoJpa">
-    <property name="entityManagerFactory" ref="entityManagerFactory" />
-  </bean>
-
-  <!-- Example endpoints beans -->
-  <bean id="dragonBallUserService" class="com.nicobrest.kamehouse.service.DragonBallUserService">
+  <bean id="dragonBallUserService"
+    class="com.nicobrest.kamehouse.testmodule.service.DragonBallUserService">
     <property name="dragonBallUserDao" ref="dragonBallUserDaoJpa" />
   </bean>
 
-  <bean id="dragonBallUserDaoJpa" class="com.nicobrest.kamehouse.dao.DragonBallUserDaoJpa">
+  <bean id="dragonBallUserDaoJpa"
+    class="com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDaoJpa">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
 
-  <bean id="dragonBallUserDaoInMemory" class="com.nicobrest.kamehouse.dao.DragonBallUserDaoInMemory">
+  <bean id="dragonBallUserDaoInMemory"
+    class="com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDaoInMemory">
     <property name="gohanDragonBallUser" ref="gohanDragonBallUser" />
     <property name="gotenDragonBallUser" ref="gotenDragonBallUser" />
   </bean>
 
-  <bean id="gohanDragonBallUser" class="com.nicobrest.kamehouse.model.DragonBallUser">
+  <bean id="gohanDragonBallUser"
+    class="com.nicobrest.kamehouse.testmodule.model.DragonBallUser">
     <property name="id" value="1001" />
     <property name="username" value="gohanBean" />
     <property name="email" value="gohanBean@dbz.com" />
@@ -81,7 +102,8 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     <property name="stamina" value="1000" />
   </bean>
 
-  <bean id="gotenDragonBallUser" class="com.nicobrest.kamehouse.model.DragonBallUser">
+  <bean id="gotenDragonBallUser"
+    class="com.nicobrest.kamehouse.testmodule.model.DragonBallUser">
     <property name="id" value="1002" />
     <property name="username" value="gotenBean" />
     <property name="email" value="gotenBean@dbz.com" />

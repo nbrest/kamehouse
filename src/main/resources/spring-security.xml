@@ -20,6 +20,15 @@
     <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
       method="DELETE" />
 
+    <intercept-url pattern="/api/v1/admin/vlc" access="permitAll"
+      method="GET" />
+    <intercept-url pattern="/api/v1/admin/vlc" access="permitAll"
+      method="POST" />
+    <intercept-url pattern="/api/v1/admin/vlc" access="permitAll"
+      method="PUT" />
+    <intercept-url pattern="/api/v1/admin/vlc" access="permitAll"
+      method="DELETE" />
+
     <intercept-url pattern="/api/v1/admin/**" access="permitAll"
       method="GET" />
     <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_ADMIN')"
@@ -67,29 +76,29 @@
   </authentication-manager>
 
   <beans:bean id="sessionStatusService"
-    class="com.nicobrest.kamehouse.service.SessionStatusService">
+    class="com.nicobrest.kamehouse.admin.service.SessionStatusService">
     <beans:property name="applicationUserService" ref="applicationUserService" />
   </beans:bean>
 
   <beans:bean id="applicationAuthenticationProvider"
-    class="com.nicobrest.kamehouse.security.ApplicationAuthenticationProvider">
+    class="com.nicobrest.kamehouse.admin.security.ApplicationAuthenticationProvider">
     <beans:property name="applicationUserService" ref="applicationUserService" />
   </beans:bean>
 
   <beans:bean id="applicationUserService"
-    class="com.nicobrest.kamehouse.service.ApplicationUserService">
+    class="com.nicobrest.kamehouse.admin.service.ApplicationUserService">
     <beans:property name="applicationUserDao" ref="applicationUserDaoJpa" />
     <beans:property name="anonymousUser" ref="anonymousUser" />
   </beans:bean>
 
-  <beans:bean id="applicationUserDaoJpa" class="com.nicobrest.kamehouse.dao.ApplicationUserDaoJpa">
+  <beans:bean id="applicationUserDaoJpa" class="com.nicobrest.kamehouse.admin.dao.ApplicationUserDaoJpa">
     <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
   </beans:bean>
 
   <beans:bean id="applicationUserDaoInMemory"
-    class="com.nicobrest.kamehouse.dao.ApplicationUserDaoInMemory" />
+    class="com.nicobrest.kamehouse.admin.dao.ApplicationUserDaoInMemory" />
 
-  <beans:bean id="anonymousUser" class="com.nicobrest.kamehouse.model.ApplicationUser">
+  <beans:bean id="anonymousUser" class="com.nicobrest.kamehouse.admin.model.ApplicationUser">
     <beans:property name="username" value="anonymousUser" />
     <beans:property name="authorities">
       <beans:list>
@@ -98,7 +107,7 @@
     </beans:property>
   </beans:bean>
 
-  <beans:bean id="anonymousRole" class="com.nicobrest.kamehouse.model.ApplicationRole">
+  <beans:bean id="anonymousRole" class="com.nicobrest.kamehouse.admin.model.ApplicationRole">
     <beans:property name="name" value="ROLE_ANONYMOUS" />
   </beans:bean>
 </beans:beans>

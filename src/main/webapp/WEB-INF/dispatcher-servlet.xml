@@ -28,11 +28,11 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
     <property name="exceptionMappings">
       <props>
-        <prop key="com.nicobrest.kamehouse.exception.KameHouseBadRequestException">/error/400</prop>
-        <prop key="com.nicobrest.kamehouse.exception.KameHouseConflictException">/error/409</prop>
-        <prop key="com.nicobrest.kamehouse.exception.KameHouseForbiddenException">/error/403</prop>
-        <prop key="com.nicobrest.kamehouse.exception.KameHouseNotFoundException">/error/404</prop>
-        <prop key="com.nicobrest.kamehouse.exception.KameHouseServerErrorException">/error/500</prop>
+        <prop key="com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException">/error/400</prop>
+        <prop key="com.nicobrest.kamehouse.main.exception.KameHouseConflictException">/error/409</prop>
+        <prop key="com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException">/error/403</prop>
+        <prop key="com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException">/error/404</prop>
+        <prop key="com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException">/error/500</prop>
         <prop key="org.springframework.security.core.userdetails.UsernameNotFoundException">/error/404</prop>
       </props>
     </property>

@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.vlcrc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicobrest.kamehouse.exception.KameHouseException;
+import com.nicobrest.kamehouse.main.exception.KameHouseException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
