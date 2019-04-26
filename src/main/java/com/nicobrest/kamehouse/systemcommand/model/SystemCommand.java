@@ -2,22 +2,22 @@ package com.nicobrest.kamehouse.systemcommand.model;
 
 public class SystemCommand {
   
-  private String name;
-  private String[] arguments = null;
- 
-  public String getName() {
-    return name;
+  private String[] command = null;
+  private Boolean isDaemon = false;
+
+  public String[] getCommand() {
+    return command.clone();
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setCommand(String[] command) {
+    this.command = command.clone();
   }
-
-  public String[] getArguments() {
-    return arguments.clone();
+  
+  public Boolean isDaemon() {
+    return isDaemon;
   }
-
-  public void setArguments(String[] arguments) {
-    this.arguments = arguments.clone();
+  
+  public void setIsDaemon(Boolean isDaemon) {
+    this.isDaemon = isDaemon;
   }
 }

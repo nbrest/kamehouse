@@ -1,14 +1,23 @@
-package com.nicobrest.kamehouse.admin.model;
+package com.nicobrest.kamehouse.systemcommand.model;
 
 import java.util.List;
 
-public class CommandOutput {
+public class SystemCommandOutput {
 
+  private String command;
   private int exitCode = -1;
   private int pid = -1;
   private String status = null;
   private List<String> standardOutput = null;
   private List<String> standardError = null;
+  
+  public String getCommand() {
+    return command;
+  }
+  
+  public void setCommand(String command) {
+    this.command = command;
+  }
   
   public int getExitCode() {
     return exitCode;
