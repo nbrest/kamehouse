@@ -226,12 +226,12 @@ public class SystemCommandService {
       setShutdownSystemCommand.setCommand(command);
     } else {
       int timeInMinutes = adminShutdownCommand.getTime() / 60;
-      String[] command = { "shutdown", "-P", String.valueOf(timeInMinutes) };
+      String[] command = { "/bin/bash", "-c", "shutdown -P " + String.valueOf(timeInMinutes) };
       setShutdownSystemCommand.setCommand(command);
     }
     return setShutdownSystemCommand;
   }
-  
+
   private SystemCommand getCancelShutdownSystemCommand() {
     SystemCommand cancelShutdownSystemCommand = new SystemCommand();
     cancelShutdownSystemCommand.setIsDaemon(false);
@@ -239,7 +239,7 @@ public class SystemCommandService {
       String[] command = { "cmd.exe", "/c", "start", "shutdown", "/a" };
       cancelShutdownSystemCommand.setCommand(command);
     } else {
-      String[] command = { "shutdown", "-c" };
+      String[] command = { "/bin/bash", "-c", "shutdown -c" };
       cancelShutdownSystemCommand.setCommand(command);
     }
     return cancelShutdownSystemCommand;
