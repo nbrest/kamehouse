@@ -72,7 +72,7 @@ function executeDelete(url, requestBody) {
       'Content-Type': 'application/json'
     },
     success: function(data) {
-      console.debug(JSON.stringify(data));
+      //console.debug(JSON.stringify(data));
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {
