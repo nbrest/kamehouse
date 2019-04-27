@@ -44,6 +44,11 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     <property name="systemCommandService" ref="systemCommandService" />
   </bean>
 
+  <bean id="adminShutdownService"
+    class="com.nicobrest.kamehouse.admin.service.AdminShutdownService">
+    <property name="systemCommandService" ref="systemCommandService" />
+  </bean>
+  
   <!-- systemcommand beans -->
   <bean id="systemCommandService"
     class="com.nicobrest.kamehouse.systemcommand.service.SystemCommandService" />

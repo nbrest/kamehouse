@@ -3,7 +3,6 @@
  * 
  * @author nbrest
  */
-
 var main = function() { 
   displayRequestPayload(null, null, null, null);
 };
@@ -29,6 +28,15 @@ function executeAdminVlcPost(url, command, file) {
   });
   executePost(url, requestBody);
 }
+
+function executeAdminShutdownPost(url, command, time) {
+  var requestBody = JSON.stringify({
+    command: command,
+    time: time
+  });
+  executePost(url, requestBody);
+}
+
 
 function executePost(url, requestBody) {
   console.debug(getTimestamp() + " : Executing POST on " + url);

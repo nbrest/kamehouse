@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.systemcommand.service;
 
+import com.nicobrest.kamehouse.admin.model.AdminShutdownCommand;
 import com.nicobrest.kamehouse.admin.model.AdminVlcCommand;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
@@ -45,6 +46,30 @@ public class SystemCommandService {
         logger.error("Invalid AdminVlcCommand " + adminVlcCommand.getCommand());
         throw new KameHouseInvalidCommandException("Invalid AdminVlcCommand " + adminVlcCommand
             .getCommand());
+    }
+    return systemCommands;
+  }
+
+  /**
+   * Get the list of system commands for the specified AdminShutdownCommand.
+   */
+  public List<SystemCommand> getSystemCommands(AdminShutdownCommand adminShutdownCommand) {
+
+    List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
+    switch (adminShutdownCommand.getCommand()) {
+      case "set":
+        systemCommands.add(getSetShutdownSystemCommand(adminShutdownCommand));
+        break;
+      case "cancel":
+        systemCommands.add(getCancelShutdownSystemCommand());
+        break;
+      case "status":
+        systemCommands.add(getStatusShutdownSystemCommand());
+        break;
+      default:
+        logger.error("Invalid AdminShutdownCommand " + adminShutdownCommand.getCommand());
+        throw new KameHouseInvalidCommandException("Invalid AdminShutdownCommand "
+            + adminShutdownCommand.getCommand());
     }
     return systemCommands;
   }
@@ -183,6 +208,54 @@ public class SystemCommandService {
     } else {
       String[] command = { "/bin/bash", "-c",
           "ps aux | grep -e \"vlc\\|COMMAND\" | grep -v grep" };
+      statusVlcSystemCommand.setCommand(command);
+    }
+    return statusVlcSystemCommand;
+  }
+
+  private SystemCommand getSetShutdownSystemCommand(AdminShutdownCommand adminShutdownCommand) {
+    SystemCommand setShutdownSystemCommand = new SystemCommand();
+    setShutdownSystemCommand.setIsDaemon(true);
+    if (adminShutdownCommand.getTime() <= 0) {
+      throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
+          + adminShutdownCommand.getTime());
+    }
+    if (IS_WINDOWS_HOST) {
+      String[] command = { "cmd.exe", "/c", "start", "shutdown", "/s", "/t", String.valueOf(
+          adminShutdownCommand.getTime()) };
+      setShutdownSystemCommand.setCommand(command);
+    } else {
+      int timeInMinutes = adminShutdownCommand.getTime() / 60;
+      String[] command = { "shutdown", "-P", String.valueOf(timeInMinutes) };
+      setShutdownSystemCommand.setCommand(command);
+    }
+    return setShutdownSystemCommand;
+  }
+  
+  private SystemCommand getCancelShutdownSystemCommand() {
+    SystemCommand cancelShutdownSystemCommand = new SystemCommand();
+    cancelShutdownSystemCommand.setIsDaemon(false);
+    if (IS_WINDOWS_HOST) {
+      String[] command = { "cmd.exe", "/c", "start", "shutdown", "/a" };
+      cancelShutdownSystemCommand.setCommand(command);
+    } else {
+      String[] command = { "shutdown", "-c" };
+      cancelShutdownSystemCommand.setCommand(command);
+    }
+    return cancelShutdownSystemCommand;
+  }
+
+  private SystemCommand getStatusShutdownSystemCommand() {
+    // TODO this doesn't work. Need to find a way to get the status both in win
+    // and linux
+    SystemCommand statusVlcSystemCommand = new SystemCommand();
+    statusVlcSystemCommand.setIsDaemon(false);
+    if (IS_WINDOWS_HOST) {
+      String[] command = { "tasklist", "/FI", "IMAGENAME eq shutdown.exe" };
+      statusVlcSystemCommand.setCommand(command);
+    } else {
+      String[] command = { "/bin/bash", "-c",
+          "ps aux | grep -e \"shutdown\\|COMMAND\" | grep -v grep" };
       statusVlcSystemCommand.setCommand(command);
     }
     return statusVlcSystemCommand;
