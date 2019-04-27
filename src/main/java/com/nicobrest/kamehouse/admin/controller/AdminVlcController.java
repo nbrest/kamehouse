@@ -27,14 +27,14 @@ public class AdminVlcController {
   private AdminVlcService adminVlcService;
 
   /**
-   * Start a vlc player.
+   * Start a vlc player in the local server.
    */
   @RequestMapping(value = "/vlc", method = RequestMethod.POST)
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> startVlcPlayer(
       @RequestBody AdminVlcCommand adminVlcCommand) {
 
-    logger.trace("Began start vlc player");
+    logger.trace("In controller /api/v1/admin/vlc (POST)");
     List<SystemCommandOutput> commandOutputs = adminVlcService.startVlcPlayer(adminVlcCommand);
     HttpStatus httpStatus = HttpStatus.OK;
     for (SystemCommandOutput commandOutput : commandOutputs) {
@@ -44,18 +44,17 @@ public class AdminVlcController {
     }
     ResponseEntity<List<SystemCommandOutput>> responseEntity =
         new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
-    logger.trace("Finished start vlc player");
     return responseEntity;
   }
 
   /**
-   * Stop vlc player.
+   * Stop vlc player in the local server.
    */
   @RequestMapping(value = "/vlc", method = RequestMethod.DELETE)
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> stopVlcPlayer() {
 
-    logger.trace("Began stop vlc player"); 
+    logger.trace("In controller /api/v1/admin/vlc (DELETE)"); 
     List<SystemCommandOutput> commandOutputs = adminVlcService.stopVlcPlayer();
     HttpStatus httpStatus = HttpStatus.OK;
     for (SystemCommandOutput commandOutput : commandOutputs) {
@@ -65,18 +64,17 @@ public class AdminVlcController {
     }
     ResponseEntity<List<SystemCommandOutput>> responseEntity =
         new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
-    logger.trace("Finished stop vlc player");
     return responseEntity;
   }
 
   /**
-   * Get the status of vlc player.
+   * Get the status of vlc player in the local server.
    */
   @RequestMapping(value = "/vlc", method = RequestMethod.GET)
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusVlcPlayer() {
 
-    logger.trace("Began status vlc player"); 
+    logger.trace("In controller /api/v1/admin/vlc (GET)"); 
     List<SystemCommandOutput> commandOutputs = adminVlcService.statusVlcPlayer();
     HttpStatus httpStatus = HttpStatus.OK;
     for (SystemCommandOutput commandOutput : commandOutputs) {
@@ -85,10 +83,7 @@ public class AdminVlcController {
       }
     }
     ResponseEntity<List<SystemCommandOutput>> responseEntity =
-        new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
-    logger.trace("Finished status vlc player");
+        new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus); 
     return responseEntity;
   }
-
-  //TODO: Add exception handler.
 }

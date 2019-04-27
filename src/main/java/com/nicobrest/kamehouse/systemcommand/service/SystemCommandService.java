@@ -159,9 +159,9 @@ public class SystemCommandService {
   private SystemCommand getStartVlcSystemCommand(AdminVlcCommand adminVlcCommand) {
     SystemCommand startVlcSystemCommand = new SystemCommand();
     startVlcSystemCommand.setIsDaemon(true);
-    // TODO set maximum length for file
     String file = "";
     if (adminVlcCommand.getFile() != null) {
+      // TODO check if the file exists, if it doesn't throw an exception.
       file = adminVlcCommand.getFile();
     }
     if (IS_WINDOWS_HOST) {
