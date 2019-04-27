@@ -226,7 +226,8 @@ public class SystemCommandService {
       setShutdownSystemCommand.setCommand(command);
     } else {
       int timeInMinutes = adminShutdownCommand.getTime() / 60;
-      String[] command = { "/bin/bash", "-c", "shutdown -P " + String.valueOf(timeInMinutes) };
+      String[] command = { "/bin/bash", "-c", "/sbin/shutdown -P " + String.valueOf(
+          timeInMinutes) };
       setShutdownSystemCommand.setCommand(command);
     }
     return setShutdownSystemCommand;
@@ -239,7 +240,7 @@ public class SystemCommandService {
       String[] command = { "cmd.exe", "/c", "start", "shutdown", "/a" };
       cancelShutdownSystemCommand.setCommand(command);
     } else {
-      String[] command = { "/bin/bash", "-c", "shutdown -c" };
+      String[] command = { "/bin/bash", "-c", "/sbin/shutdown -c" };
       cancelShutdownSystemCommand.setCommand(command);
     }
     return cancelShutdownSystemCommand;
