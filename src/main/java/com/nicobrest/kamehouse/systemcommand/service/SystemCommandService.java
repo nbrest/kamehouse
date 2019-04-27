@@ -215,7 +215,7 @@ public class SystemCommandService {
 
   private SystemCommand getSetShutdownSystemCommand(AdminShutdownCommand adminShutdownCommand) {
     SystemCommand setShutdownSystemCommand = new SystemCommand();
-    setShutdownSystemCommand.setIsDaemon(true);
+    setShutdownSystemCommand.setIsDaemon(false);
     if (adminShutdownCommand.getTime() <= 0) {
       throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
           + adminShutdownCommand.getTime());
