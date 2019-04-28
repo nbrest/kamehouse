@@ -43,6 +43,9 @@ public class VideoPlaylistService {
             Playlist playlist = new Playlist();
             playlist.setName(fileName.toString());
             playlist.setPath(filePath.toString());
+            //TODO set a flag to determine if I am requested to list the files in the playlist
+            // and if I do, read the playlist file, and add the contained files to the
+            // Playlist.files attribute
             videoPlaylists.add(playlist);
           }
         }
@@ -52,6 +55,7 @@ public class VideoPlaylistService {
           .getMessage());
       e.printStackTrace();
     }
+    //sort them by Playlist.path, then by Playlist.name
     return videoPlaylists;
   }
 }

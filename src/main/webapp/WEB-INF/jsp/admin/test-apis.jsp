@@ -45,6 +45,12 @@
       class="btn btn-outline-danger" />
     
     <br><br><h5>/api/v1/admin/vlc Requests</h5><br>
+    <select id="playlist-dropdown" name="playlist"></select>  
+    <br><br> 
+    <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'start')"
+      value="Start VLC with selected playlist"
+      class="btn btn-outline-primary" />
+    <br><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
       value="/kame-house/api/v1/admin/vlc GET"
       class="btn btn-outline-success" />
@@ -60,7 +66,12 @@
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
       value="/kame-house/api/v1/admin/vlc DELETE"
       class="btn btn-outline-danger" />
-      
+    
+    <br><br><h5>/api/v1/media/video/playlists Requests</h5><br>
+    <input type="button" onclick="executeGet('/kame-house/api/v1/media/video/playlists')"
+      value="/kame-house/api/v1/media/video/playlists GET"
+      class="btn btn-outline-success" />   
+    
     <br><br><h5>/api/v1/dragonball Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET"

@@ -5,6 +5,7 @@
  */
 var main = function() { 
   displayRequestPayload(null, null, null, null);
+  populateVideoPlaylists();
 };
 
 function executeGet(url) {
@@ -19,6 +20,16 @@ function executeGet(url) {
       displayErrorExecutingRequest();
     });
   scrollToTop();
+}
+
+function executeAdminVlcPostWithSelectedPlaylist(url, command) {
+  var playlistSelected = document.getElementById("playlist-dropdown").value;
+  //console.debug("playlistSelected " + playlistSelected);
+  var requestBody = JSON.stringify({
+    command: command,
+    file: playlistSelected
+  });
+  executePost(url, requestBody);
 }
 
 function executeAdminVlcPost(url, command, file) {
@@ -36,7 +47,6 @@ function executeAdminShutdownPost(url, command, time) {
   });
   executePost(url, requestBody);
 }
-
 
 function executePost(url, requestBody) {
   console.debug(getTimestamp() + " : Executing POST on " + url);
@@ -132,6 +142,27 @@ function displayErrorExecutingRequest() {
   $errorTable.append($errorTableRow);
   $apiCallOutput.append($errorTable);
   console.error(getTimestamp() + " : Error executing api request. Please check server logs.");
+}
+
+function populateVideoPlaylists() {
+  let dropdown = $('#playlist-dropdown');
+
+  dropdown.empty();
+
+  dropdown.append('<option selected="true" disabled>Choose a playlist</option>');
+  dropdown.prop('selectedIndex', 0);
+
+  $.get('/kame-house/api/v1/media/video/playlists')
+    .success(function(result) { 
+      //console.debug(JSON.stringify(videoPlaylists));
+      $.each(result, function (key, entry) {
+        dropdown.append($('<option></option>').attr('value', entry.path).text(entry.name));
+      })
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+      console.error(JSON.stringify(jqXHR));
+      displayErrorExecutingRequest();
+    }); 
 }
 
 /**
