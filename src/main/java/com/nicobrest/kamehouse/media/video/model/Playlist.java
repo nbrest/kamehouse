@@ -1,9 +1,12 @@
 package com.nicobrest.kamehouse.media.video.model;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import java.util.List;
 
 public class Playlist implements Comparable<Playlist> {
-
+    
   private String name;
   private String category;
   private String path;
@@ -50,5 +53,21 @@ public class Playlist implements Comparable<Playlist> {
       return 1;
     }
     return this.path.compareTo(otherPlaylist.getPath());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof Playlist) {
+      final Playlist other = (Playlist) obj;
+      return new EqualsBuilder().append(name, other.getName()).append(path, other.getPath())
+          .append(category, other.getCategory()).isEquals();
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(name).append(path).append(category).toHashCode();
   }
 }

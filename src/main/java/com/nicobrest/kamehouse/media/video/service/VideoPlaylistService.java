@@ -66,7 +66,10 @@ public class VideoPlaylistService {
     return videoPlaylists;
   }
 
-  public String getCategory(Path basePath, Path filePath) {
+  /**
+   * Get the category of the playlist based on the base path.
+   */
+  private String getCategory(Path basePath, Path filePath) {
     int basePathLength = basePath.toFile().getAbsolutePath().length();
     Path parentPath = filePath.getParent();
     if (parentPath != null) {
