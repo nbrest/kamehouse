@@ -6,6 +6,23 @@
 var videoPlaylists = [];
 var videoPlaylistCategories = [];
 
+function setCollapsibleContent() {
+  var coll = document.getElementsByClassName("collapsible");
+  var i;
+
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.maxHeight){
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      } 
+    });
+  }  
+}
+
 var main = function() { 
   displayRequestPayload(null, null, null, null);
   populateVideoPlaylistCategories();
@@ -23,6 +40,7 @@ function executeGet(url) {
       displayErrorExecutingRequest();
     });
   scrollToTop();
+  setCollapsibleContent();
 }
 
 function executeAdminVlcPostWithSelectedPlaylist(url, command) {
@@ -39,6 +57,13 @@ function executeAdminVlcPost(url, command, file) {
   var requestBody = JSON.stringify({
     command: command,
     file: file
+  });
+  executePost(url, requestBody);
+}
+
+function executeVlcRcCommandPost(url, name) {
+  var requestBody = JSON.stringify({
+    name: name
   });
   executePost(url, requestBody);
 }
@@ -72,6 +97,7 @@ function executePost(url, requestBody) {
     }
     });
   scrollToTop();
+  setCollapsibleContent();
 }
 
 function executeDelete(url, requestBody) {
@@ -124,12 +150,15 @@ function displayRequestPayload(apiResponsePayload, url, requestType, requestBody
   $timeRow.append($('<td>').text("Time"));
   $timeRow.append($('<td>').text(getTimestamp()));
   $apiCallOutputTable.append($timeRow);
-  // Output row.
-  var $outputRow = $("<tr>");
-  $outputRow.append($('<td>').text("Output"));
-  $outputRow.append($('<td>').append($('<pre style="color:white;">').text(JSON.stringify(apiResponsePayload, null, 2))));
-  $apiCallOutputTable.append($outputRow);
   $apiCallOutput.append($apiCallOutputTable);
+  // Output payload.
+  var $outputPayloadButton = $('<button class="collapsible">');
+  $outputPayloadButton.text("Output Payload");
+  $outputPayloadContent = $('<div class="content">');
+  $outputPayloadContent.append($('<pre style="color:white;">').text(JSON.stringify(apiResponsePayload, null, 2)));
+  $apiCallOutput.append($outputPayloadButton);
+  $apiCallOutput.append($outputPayloadContent);
+  setCollapsibleContent();
 }
 
 /**

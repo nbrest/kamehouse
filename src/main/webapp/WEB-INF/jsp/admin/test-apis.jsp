@@ -27,7 +27,18 @@
     <hr>
     <br><h5>Request Output</h5> <br>
     <div id="api-call-output"></div>
-        
+    
+    <br><br><h5>/api/v1/vlc-rc/players/localhost/commands Requests</h5><br>
+    <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_previous')"
+      value="VLC play prev"
+      class="btn btn-outline-success" />
+    <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_next')"
+      value="VLC play next"
+      class="btn btn-outline-success" />
+    <br><br>
+    <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_random')"
+      value="VLC random on/off"
+      class="btn btn-outline-success" /> 
     <br><br><h5>/api/v1/admin/vlc Requests</h5><br>
     <select class="custom-select sources" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select> 
     <br><br>
