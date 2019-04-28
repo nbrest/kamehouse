@@ -25,41 +25,49 @@
       <h3 id="ehcache-header">Test APIs</h3>
     </div>
     <hr>
-    <br><br><h5>Request Output</h5> <br>
+    <br><h5>Request Output</h5> <br>
     <div id="api-call-output"></div>
-    
-    <br><h5>/api/v1/admin/shutdown Requests</h5><br>
-    <input type="button" onclick="executeGet('/kame-house/api/v1/admin/shutdown')"
-      value="Get Shutdown status"
-      class="btn btn-outline-success" /> 
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 5400)"
-      value="Set Shutdown in 90 min"
-      class="btn btn-outline-primary" /> 
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 60)"
-      value="Set Shutdown in 1 min"
-      class="btn btn-outline-primary" /> 
-    <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/shutdown', null)"
-      value="Cancel Shutdown"
-      class="btn btn-outline-danger" />
-    
+        
     <br><br><h5>/api/v1/admin/vlc Requests</h5><br>
+    <select class="custom-select sources" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select> 
+    <br><br>
     <select class="custom-select sources" id="playlist-dropdown" name="playlist"></select> 
-    <br><br> 
+    <br><br>  
     <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'start')"
       value="Start VLC with selected playlist"
       class="btn btn-outline-primary" />
     <br><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
       value="Get VLC status"
-      class="btn btn-outline-success" /> 
+      class="btn btn-outline-success" />
+    <br><br>
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="Start VLC with Win GoT pls"
-      class="btn btn-outline-primary" /> 
+      class="btn btn-outline-primary" />
+    <br><br> 
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
       value="Start VLC with Linux LH pls"
-      class="btn btn-outline-primary" /> 
+      class="btn btn-outline-primary" />
+    <br><br>
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
       value="Stop VLC player"
+      class="btn btn-outline-danger" />
+      
+    <br><br><h5>/api/v1/admin/shutdown Requests</h5><br>
+    <input type="button" onclick="executeGet('/kame-house/api/v1/admin/shutdown')"
+      value="Get Shutdown status"
+      class="btn btn-outline-success" />
+    <br><br>
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 5400)"
+      value="Set Shutdown in 90 min"
+      class="btn btn-outline-primary" /> 
+    <br><br>
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 60)"
+      value="Set Shutdown in 1 min"
+      class="btn btn-outline-primary" />
+    <br><br>
+    <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/shutdown', null)"
+      value="Cancel Shutdown"
       class="btn btn-outline-danger" />
     
     <br><br><h5>/api/v1/media/video/playlists Requests</h5><br>
@@ -70,10 +78,12 @@
     <br><br><h5>/api/v1/dragonball Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET"
-      class="btn btn-outline-success" /> 
+      class="btn btn-outline-success" />
+    <br><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users/username/goku')"
       value="/kame-house/api/v1/dragonball/users/username/goku GET"
       class="btn btn-outline-success" />
+    <br><br>
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
