@@ -31,16 +31,13 @@
     <br><h5>/api/v1/admin/shutdown Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/shutdown')"
       value="Get Shutdown status"
-      class="btn btn-outline-success" />
-    <br><br> 
+      class="btn btn-outline-success" /> 
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 5400)"
       value="Set Shutdown in 90 min"
-      class="btn btn-outline-primary" />
-    <br><br>
+      class="btn btn-outline-primary" /> 
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 60)"
       value="Set Shutdown in 1 min"
-      class="btn btn-outline-primary" />
-    <br><br>
+      class="btn btn-outline-primary" /> 
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/shutdown', null)"
       value="Cancel Shutdown"
       class="btn btn-outline-danger" />
@@ -54,16 +51,13 @@
     <br><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
       value="Get VLC status"
-      class="btn btn-outline-success" />
-    <br><br> 
+      class="btn btn-outline-success" /> 
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="Start VLC with Win GoT pls"
-      class="btn btn-outline-primary" />
-    <br><br>
+      class="btn btn-outline-primary" /> 
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
       value="Start VLC with Linux LH pls"
-      class="btn btn-outline-primary" />
-    <br><br>
+      class="btn btn-outline-primary" /> 
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
       value="Stop VLC player"
       class="btn btn-outline-danger" />
@@ -76,15 +70,10 @@
     <br><br><h5>/api/v1/dragonball Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET"
-      class="btn btn-outline-success" />
-    <br><br>
+      class="btn btn-outline-success" /> 
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users/username/goku')"
       value="/kame-house/api/v1/dragonball/users/username/goku GET"
       class="btn btn-outline-success" />
-    <br><br>
-    
-    <hr>
-    <div id="api-call-output"></div>
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
