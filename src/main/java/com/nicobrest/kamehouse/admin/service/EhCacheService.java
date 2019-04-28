@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author nbrest
  *
  */
+@Service
 public class EhCacheService {
 
   private static final Logger logger = LoggerFactory.getLogger(EhCacheService.class);

@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @author nbrest
  *
  */
+@Service
 public class VlcRcService {
 
   @Autowired

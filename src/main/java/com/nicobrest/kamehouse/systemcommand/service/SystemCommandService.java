@@ -5,10 +5,12 @@ import com.nicobrest.kamehouse.admin.model.AdminVlcCommand;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.utils.SystemPropertiesUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,10 +22,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+@Service
 public class SystemCommandService {
 
   private static final Logger logger = LoggerFactory.getLogger(SystemCommandService.class);
-  private static boolean IS_WINDOWS_HOST = isWindowsHost();
 
   /**
    * Get the list of system commands for the specified AdminVlcCommand.
@@ -171,7 +173,7 @@ public class SystemCommandService {
   private SystemCommand getStopVlcSystemCommand() {
     SystemCommand stopVlcSystemCommand = new SystemCommand();
     stopVlcSystemCommand.setIsDaemon(false);
-    if (IS_WINDOWS_HOST) {
+    if (SystemPropertiesUtils.IS_WINDOWS_HOST) {
       String[] command = { "cmd.exe", "/c", "start", "taskkill", "/im", "vlc.exe" };
       stopVlcSystemCommand.setCommand(command);
     } else {
@@ -189,7 +191,7 @@ public class SystemCommandService {
       // TODO check if the file exists, if it doesn't throw an exception.
       file = adminVlcCommand.getFile();
     }
-    if (IS_WINDOWS_HOST) {
+    if (SystemPropertiesUtils.IS_WINDOWS_HOST) {
       String[] command = { "cmd.exe", "/c", "start", "vlc", file };
       startVlcSystemCommand.setCommand(command);
     } else {
@@ -202,7 +204,7 @@ public class SystemCommandService {
   private SystemCommand getStatusVlcSystemCommand() {
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
-    if (IS_WINDOWS_HOST) {
+    if (SystemPropertiesUtils.IS_WINDOWS_HOST) {
       String[] command = { "tasklist", "/FI", "IMAGENAME eq vlc.exe" };
       statusVlcSystemCommand.setCommand(command);
     } else {
@@ -220,7 +222,7 @@ public class SystemCommandService {
       throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
           + adminShutdownCommand.getTime());
     }
-    if (IS_WINDOWS_HOST) {
+    if (SystemPropertiesUtils.IS_WINDOWS_HOST) {
       String[] command = { "cmd.exe", "/c", "start", "shutdown", "/s", "/t", String.valueOf(
           adminShutdownCommand.getTime()) };
       setShutdownSystemCommand.setCommand(command);
@@ -236,7 +238,7 @@ public class SystemCommandService {
   private SystemCommand getCancelShutdownSystemCommand() {
     SystemCommand cancelShutdownSystemCommand = new SystemCommand();
     cancelShutdownSystemCommand.setIsDaemon(false);
-    if (IS_WINDOWS_HOST) {
+    if (SystemPropertiesUtils.IS_WINDOWS_HOST) {
       String[] command = { "cmd.exe", "/c", "start", "shutdown", "/a" };
       cancelShutdownSystemCommand.setCommand(command);
     } else {
@@ -251,7 +253,7 @@ public class SystemCommandService {
     // and linux
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
-    if (IS_WINDOWS_HOST) {
+    if (SystemPropertiesUtils.IS_WINDOWS_HOST) {
       String[] command = { "tasklist", "/FI", "IMAGENAME eq shutdown.exe" };
       statusVlcSystemCommand.setCommand(command);
     } else {
@@ -260,9 +262,5 @@ public class SystemCommandService {
       statusVlcSystemCommand.setCommand(command);
     }
     return statusVlcSystemCommand;
-  }
-
-  private static boolean isWindowsHost() {
-    return System.getProperty("os.name").toLowerCase(Locale.getDefault()).startsWith("windows");
   }
 }
