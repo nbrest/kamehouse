@@ -156,7 +156,9 @@ function populateVideoPlaylists() {
     .success(function(result) { 
       //console.debug(JSON.stringify(videoPlaylists));
       $.each(result, function (key, entry) {
-        dropdown.append($('<option></option>').attr('value', entry.path).text(entry.name));
+        var selectedName = entry.category + entry.name;
+        var selectedNameFiltered = selectedName.replace(/\\/g, ' \\ ').replace(/\//g, ' / ');
+        dropdown.append($('<option></option>').attr('value', entry.path).text(selectedNameFiltered));
       })
     })
     .error(function(jqXHR, textStatus, errorThrown) {

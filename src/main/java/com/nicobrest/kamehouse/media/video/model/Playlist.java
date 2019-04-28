@@ -2,9 +2,10 @@ package com.nicobrest.kamehouse.media.video.model;
 
 import java.util.List;
 
-public class Playlist {
+public class Playlist implements Comparable<Playlist> {
 
   private String name;
+  private String category;
   private String path;
   private List<String> files;
 
@@ -14,6 +15,14 @@ public class Playlist {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getCategory() {
+    return category;
+  }
+
+  public void setCategory(String category) {
+    this.category = category;
   }
 
   public String getPath() {
@@ -30,5 +39,16 @@ public class Playlist {
 
   public void setFiles(List<String> files) {
     this.files = files;
+  }
+
+  @Override
+  public int compareTo(Playlist otherPlaylist) {
+    if (this.path == null) {
+      return -1;
+    }
+    if (otherPlaylist.getPath() == null) {
+      return 1;
+    }
+    return this.path.compareTo(otherPlaylist.getPath());
   }
 }
