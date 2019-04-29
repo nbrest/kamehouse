@@ -43,6 +43,11 @@ body {
   height: 90px;
 }
 
+.btn-margins {
+  margin-bottom: 5px; 
+  margin-right: 5px;
+}
+
 .cache-status-buttons {
 	float: right;
 	margin-top: 10px;

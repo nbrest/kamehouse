@@ -4,6 +4,7 @@
 .checkstyle
 logs/**
 data/**
+tmp/**
 
 ###################
 # Directories #

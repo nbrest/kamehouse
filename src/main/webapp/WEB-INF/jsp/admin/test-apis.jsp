@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
 
-<title>kame House - JSP App</title>
+<title>kame House - Test APIs</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
@@ -67,19 +67,19 @@
     <br><br><h5>/api/v1/admin/shutdown Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/shutdown')"
       value="Get Shutdown status"
-      class="btn btn-outline-success" />
+      class="btn btn-outline-warn" />
     <br><br>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 5400)"
       value="Set Shutdown in 90 min"
-      class="btn btn-outline-primary" /> 
+      class="btn btn-outline-danger" /> 
     <br><br>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 60)"
       value="Set Shutdown in 1 min"
-      class="btn btn-outline-primary" />
+      class="btn btn-outline-danger" />
     <br><br>
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/shutdown', null)"
       value="Cancel Shutdown"
-      class="btn btn-outline-danger" />
+      class="btn btn-outline-success" />
     
     <br><br><h5>/api/v1/media/video/playlists Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/media/video/playlists')"
