@@ -4,7 +4,7 @@
 
 /** Collapsible div */
 .collapsible {
-  background-color: #777;
+  background-color: #535556;
   color: white;
   cursor: pointer;
   padding: 18px;
@@ -13,6 +13,7 @@
   text-align: left;
   outline: none;
   font-size: 15px;
+  border-radius: 4px;
 }
 
 .active, .collapsible:hover {
@@ -50,6 +51,8 @@
   .custom-select {
     position: relative;
     display: inline-block;
+    color: white;
+    background: #535556;
   }
     .custom-select-trigger {
       position: relative;
