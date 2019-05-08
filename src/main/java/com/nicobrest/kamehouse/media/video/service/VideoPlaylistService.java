@@ -75,7 +75,7 @@ public class VideoPlaylistService {
     if (parentPath != null) {
       String absoluteParentFilePath = parentPath.toFile().getAbsolutePath();
       String relativeFilePath = absoluteParentFilePath.substring(basePathLength + 1);
-      return relativeFilePath + File.separator;
+      return relativeFilePath;
     } else {
       return null;
     }

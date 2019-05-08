@@ -198,7 +198,7 @@ function populateVideoPlaylistCategories() {
       //console.debug(JSON.stringify(videoPlaylists));
       $.each(videoPlaylistCategories, function (key, entry) {
         var category = entry;
-        var categoryFormatted = category.replace(/\\/g, ' \\ ').replace(/\//g, ' / ');
+        var categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
         playlistCategoryDropdown.append($('<option></option>').attr('value', entry).text(categoryFormatted));
       });
     })
