@@ -59,7 +59,7 @@ public class VlcRcController {
   @ResponseBody
   public ResponseEntity<List<VlcPlayer>> getAllVlcPlayers() {
 
-    logger.trace("In controller /vlc-rc/players/ ()");
+    logger.trace("In controller /vlc-rc/players/ (GET)");
     List<VlcPlayer> vlcPlayers = vlcPlayerService.getAllVlcPlayers();
     return new ResponseEntity<List<VlcPlayer>>(vlcPlayers, HttpStatus.OK);
   }

@@ -249,7 +249,7 @@ public class VlcPlayer implements Serializable {
   // InputStreamReader(response.getEntity()
   // .getContent()));
   private String executeRequestToVlcServer(String url) {
-    logger.trace("Executing request: " + url);
+    logger.trace("Executing request to VLC server: " + url);
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
     credentialsProvider.setCredentials(AuthScope.ANY, credentials);
@@ -267,10 +267,10 @@ public class VlcPlayer implements Serializable {
       while ((line = responseReader.readLine()) != null) {
         responseBody.append(line);
       }
-      logger.trace("VLC response Status Code: " + getResponseStatusCode(response)
-          + ". VLC Response Body: " + responseBody);
+      logger.trace("VLC server response status code: " + getResponseStatusCode(response));
       return responseBody.toString();
     } catch (IOException e) {
+      logger.error("Error executing request. Message: " + e.getMessage());
       e.printStackTrace();
       throw new KameHouseException(e);
     } finally {
@@ -279,8 +279,8 @@ public class VlcPlayer implements Serializable {
           responseReader.close();
         }
       } catch (IOException e) {
-        e.printStackTrace();
         logger.error("Unable to close responseReader");
+        e.printStackTrace();
       }
     }
   }
