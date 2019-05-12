@@ -48,10 +48,8 @@ public class VideoPlaylistService {
             playlist.setCategory(category);
             playlist.setPath(filePath.toString());
             // TODO set a flag to determine if I am requested to list the files
-            // in the playlist
-            // and if I do, read the playlist file, and add the contained files
-            // to the
-            // Playlist.files attribute
+            // in the playlist and if I do, read the playlist file, and add the
+            // contained files to the Playlist.files attribute
             videoPlaylists.add(playlist);
           }
         }
