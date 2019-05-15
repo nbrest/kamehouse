@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.media.video.service;
 
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.model.PlaylistComparator;
-import com.nicobrest.kamehouse.utils.SystemPropertiesUtils;
+import com.nicobrest.kamehouse.utils.PropertiesUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +22,24 @@ public class VideoPlaylistService {
 
   private static final Logger logger = LoggerFactory.getLogger(VideoPlaylistService.class);
 
+  private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
+  private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
+
   /**
    * Get all video playlists.
    */
   public List<Playlist> getAllVideoPlaylists() {
-    String userHome = SystemPropertiesUtils.getUserHome();
+
+    String userHome = PropertiesUtils.getUserHome();
     String videoPlaylistsHome;
-    if (SystemPropertiesUtils.IS_WINDOWS_HOST) {
-      videoPlaylistsHome = userHome + "\\git\\texts\\video_playlists\\windows\\niko4tbusb";
+    if (PropertiesUtils.isWindowsHost()) {
+      String playlistsPathWindows = PropertiesUtils.getMediaVideoProperty(
+          PROP_PLAYLISTS_PATH_WINDOWS);
+      videoPlaylistsHome = userHome + playlistsPathWindows;
     } else {
-      videoPlaylistsHome = userHome + "/git/texts/video_playlists/linux/niko4tbusb";
+      String playlistsPathLinux = PropertiesUtils.getMediaVideoProperty(
+          PROP_PLAYLISTS_PATH_LINUX);
+      videoPlaylistsHome = userHome + playlistsPathLinux;
     }
     List<Playlist> videoPlaylists = new ArrayList<Playlist>();
     Path basePath = Paths.get(videoPlaylistsHome);

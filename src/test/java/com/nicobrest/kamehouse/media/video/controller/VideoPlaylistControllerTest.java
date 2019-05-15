@@ -68,7 +68,7 @@ public class VideoPlaylistControllerTest {
    * Tests getting all video playlists.
    */
   @Test
-  public void getAllVideoPlaylists() {
+  public void getAllVideoPlaylistsTest() {
     when(videoPlaylistService.getAllVideoPlaylists()).thenReturn(videoPlaylistsListMock);
 
     try {

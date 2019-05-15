@@ -54,7 +54,7 @@ public class VlcPlayerTest {
   @Test
   public void executeTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcStatusInputStream = getInputStreamFromResource("vlc-rc-status.json");
+    InputStream vlcRcStatusInputStream = getInputStreamFromResource("vlcrc/vlc-rc-status.json");
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
     vlcRcCommand.setName("fullscreen");
     try {
@@ -90,7 +90,7 @@ public class VlcPlayerTest {
   @Test
   public void getVlcRcStatusTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcStatusInputStream = getInputStreamFromResource("vlc-rc-status.json");
+    InputStream vlcRcStatusInputStream = getInputStreamFromResource("vlcrc/vlc-rc-status.json");
     try {
       PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
           any());
@@ -124,7 +124,7 @@ public class VlcPlayerTest {
   @Test
   public void getVlcRcPlaylistTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcPlaylistInputStream = getInputStreamFromResource("vlc-rc-playlist.json");
+    InputStream vlcRcPlaylistInputStream = getInputStreamFromResource("vlcrc/vlc-rc-playlist.json");
     try {
       PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
           any());
@@ -151,7 +151,7 @@ public class VlcPlayerTest {
   @Test
   public void browseTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcFilelistInputStream = getInputStreamFromResource("vlc-rc-filelist.json");
+    InputStream vlcRcFilelistInputStream = getInputStreamFromResource("vlcrc/vlc-rc-filelist.json");
     try {
       PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
           any());
