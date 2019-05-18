@@ -1,16 +1,18 @@
 package com.nicobrest.kamehouse.systemcommand.model;
 
+import java.util.List;
+
 public class SystemCommand {
   
-  private String[] command = null;
+  private List<String> command = null;
   private Boolean isDaemon = false;
 
-  public String[] getCommand() {
-    return command.clone();
+  public List<String> getCommand() {
+    return command;
   }
 
-  public void setCommand(String[] command) {
-    this.command = command.clone();
+  public void setCommand(List<String> command) {
+    this.command = command;
   }
   
   public Boolean isDaemon() {

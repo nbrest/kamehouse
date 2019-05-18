@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.systemcommand.service;
 import com.nicobrest.kamehouse.admin.model.AdminShutdownCommand;
 import com.nicobrest.kamehouse.admin.model.AdminVlcCommand;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.systemcommand.model.CommandLine;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.utils.PropertiesUtils;
@@ -19,6 +20,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -172,11 +174,12 @@ public class SystemCommandService {
   private SystemCommand getStopVlcSystemCommand() {
     SystemCommand stopVlcSystemCommand = new SystemCommand();
     stopVlcSystemCommand.setIsDaemon(false);
+    List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      String[] command = { "cmd.exe", "/c", "start", "taskkill", "/im", "vlc.exe" };
+      Collections.addAll(command, CommandLine.VLC_STOP_WINDOWS.getCommand()); 
       stopVlcSystemCommand.setCommand(command);
     } else {
-      String[] command = { "skill", "-9", "vlc" };
+      Collections.addAll(command, CommandLine.VLC_STOP_LINUX.getCommand()); 
       stopVlcSystemCommand.setCommand(command);
     }
     return stopVlcSystemCommand;
@@ -190,11 +193,14 @@ public class SystemCommandService {
       // TODO check if the file exists, if it doesn't throw an exception.
       file = adminVlcCommand.getFile();
     }
-    if (PropertiesUtils.isWindowsHost()) {
-      String[] command = { "cmd.exe", "/c", "start", "vlc", file };
+    List<String> command = new ArrayList<String>();
+    if (PropertiesUtils.isWindowsHost()) { 
+      Collections.addAll(command, CommandLine.VLC_START_WINDOWS.getCommand());
+      command.add(file);
       startVlcSystemCommand.setCommand(command);
     } else {
-      String[] command = { "vlc", file };
+      Collections.addAll(command, CommandLine.VLC_START_LINUX.getCommand());
+      command.add(file);
       startVlcSystemCommand.setCommand(command);
     }
     return startVlcSystemCommand;
@@ -203,12 +209,12 @@ public class SystemCommandService {
   private SystemCommand getStatusVlcSystemCommand() {
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
+    List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      String[] command = { "tasklist", "/FI", "IMAGENAME eq vlc.exe" };
+      Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.getCommand()); 
       statusVlcSystemCommand.setCommand(command);
     } else {
-      String[] command = { "/bin/bash", "-c",
-          "ps aux | grep -e \"vlc\\|COMMAND\" | grep -v grep" };
+      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.getCommand()); 
       statusVlcSystemCommand.setCommand(command);
     }
     return statusVlcSystemCommand;
@@ -221,14 +227,15 @@ public class SystemCommandService {
       throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
           + adminShutdownCommand.getTime());
     }
+    List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      String[] command = { "cmd.exe", "/c", "start", "shutdown", "/s", "/t", String.valueOf(
-          adminShutdownCommand.getTime()) };
+      Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.getCommand());
+      command.add(String.valueOf(adminShutdownCommand.getTime()));
       setShutdownSystemCommand.setCommand(command);
     } else {
       int timeInMinutes = adminShutdownCommand.getTime() / 60;
-      String[] command = { "/bin/bash", "-c", "sudo /sbin/shutdown -P " + String.valueOf(
-          timeInMinutes) };
+      Collections.addAll(command, CommandLine.SHUTDOWN_LINUX.getCommand());
+      command.add(String.valueOf(timeInMinutes));
       setShutdownSystemCommand.setCommand(command);
     }
     return setShutdownSystemCommand;
@@ -237,11 +244,12 @@ public class SystemCommandService {
   private SystemCommand getCancelShutdownSystemCommand() {
     SystemCommand cancelShutdownSystemCommand = new SystemCommand();
     cancelShutdownSystemCommand.setIsDaemon(false);
+    List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      String[] command = { "cmd.exe", "/c", "start", "shutdown", "/a" };
+      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.getCommand()); 
       cancelShutdownSystemCommand.setCommand(command);
     } else {
-      String[] command = { "/bin/bash", "-c", "sudo /sbin/shutdown -c" };
+      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_LINUX.getCommand()); 
       cancelShutdownSystemCommand.setCommand(command);
     }
     return cancelShutdownSystemCommand;
@@ -252,12 +260,12 @@ public class SystemCommandService {
     // and linux
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
+    List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      String[] command = { "tasklist", "/FI", "IMAGENAME eq shutdown.exe" };
+      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.getCommand()); 
       statusVlcSystemCommand.setCommand(command);
     } else {
-      String[] command = { "/bin/bash", "-c",
-          "ps aux | grep -e \"shutdown\\|COMMAND\" | grep -v grep" };
+      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.getCommand()); 
       statusVlcSystemCommand.setCommand(command);
     }
     return statusVlcSystemCommand;
