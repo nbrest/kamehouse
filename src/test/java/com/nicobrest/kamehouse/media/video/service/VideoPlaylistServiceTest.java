@@ -37,6 +37,7 @@ public class VideoPlaylistServiceTest {
 
   @Test
   public void getAllVideoPlaylistsTest() {
+    
     List<String> expectedPlaylists = Arrays.asList("dc.m3u", "marvel.m3u");
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     when(PropertiesUtils.getUserHome()).thenReturn("./");

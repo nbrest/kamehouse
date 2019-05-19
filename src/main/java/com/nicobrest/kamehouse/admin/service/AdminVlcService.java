@@ -30,7 +30,7 @@ public class AdminVlcService {
    * Start vlc player with the specified file or playlist in the AdminVlcCommand.
    */
   public List<SystemCommandOutput> startVlcPlayer(AdminVlcCommand adminVlcCommand) {
-    if (!"start".equals(adminVlcCommand.getCommand())) {
+    if (!AdminVlcCommand.START.equals(adminVlcCommand.getCommand())) {
       throw new KameHouseInvalidCommandException("Invalid AdminVlcCommand " + adminVlcCommand
           .getCommand());
     }
@@ -48,7 +48,7 @@ public class AdminVlcService {
    */
   public List<SystemCommandOutput> stopVlcPlayer() {
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand("stop");
+    adminVlcCommand.setCommand(AdminVlcCommand.STOP);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
     List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
     for (SystemCommand systemCommand : systemCommands) {
@@ -63,7 +63,7 @@ public class AdminVlcService {
    */
   public List<SystemCommandOutput> statusVlcPlayer() {
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand("status");
+    adminVlcCommand.setCommand(AdminVlcCommand.STATUS);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
     List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
     for (SystemCommand systemCommand : systemCommands) {

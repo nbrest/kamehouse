@@ -35,14 +35,14 @@ public class SystemCommandService {
 
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     switch (adminVlcCommand.getCommand()) {
-      case "start":
+      case AdminVlcCommand.START:
         systemCommands.add(getStopVlcSystemCommand());
         systemCommands.add(getStartVlcSystemCommand(adminVlcCommand));
         break;
-      case "stop":
+      case AdminVlcCommand.STOP:
         systemCommands.add(getStopVlcSystemCommand());
         break;
-      case "status":
+      case AdminVlcCommand.STATUS:
         systemCommands.add(getStatusVlcSystemCommand());
         break;
       default:
@@ -60,13 +60,13 @@ public class SystemCommandService {
 
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     switch (adminShutdownCommand.getCommand()) {
-      case "set":
+      case AdminShutdownCommand.SET:
         systemCommands.add(getSetShutdownSystemCommand(adminShutdownCommand));
         break;
-      case "cancel":
+      case AdminShutdownCommand.CANCEL:
         systemCommands.add(getCancelShutdownSystemCommand());
         break;
-      case "status":
+      case AdminShutdownCommand.STATUS:
         systemCommands.add(getStatusShutdownSystemCommand());
         break;
       default:
@@ -81,6 +81,7 @@ public class SystemCommandService {
    * Execute the specified SystemCommand.
    */
   public SystemCommandOutput execute(SystemCommand systemCommand) {
+    
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
@@ -172,19 +173,21 @@ public class SystemCommandService {
   }
 
   private SystemCommand getStopVlcSystemCommand() {
+    
     SystemCommand stopVlcSystemCommand = new SystemCommand();
     stopVlcSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.VLC_STOP_WINDOWS.getCommand());
+      Collections.addAll(command, CommandLine.VLC_STOP_WINDOWS.get());
     } else {
-      Collections.addAll(command, CommandLine.VLC_STOP_LINUX.getCommand());
+      Collections.addAll(command, CommandLine.VLC_STOP_LINUX.get());
     }
     stopVlcSystemCommand.setCommand(command);
     return stopVlcSystemCommand;
   }
 
   private SystemCommand getStartVlcSystemCommand(AdminVlcCommand adminVlcCommand) {
+    
     SystemCommand startVlcSystemCommand = new SystemCommand();
     startVlcSystemCommand.setIsDaemon(true);
     String file = "";
@@ -194,10 +197,10 @@ public class SystemCommandService {
     }
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) { 
-      Collections.addAll(command, CommandLine.VLC_START_WINDOWS.getCommand());
+      Collections.addAll(command, CommandLine.VLC_START_WINDOWS.get());
       command.add(file);
     } else {
-      Collections.addAll(command, CommandLine.VLC_START_LINUX.getCommand());
+      Collections.addAll(command, CommandLine.VLC_START_LINUX.get());
       command.add(file); 
     }
     startVlcSystemCommand.setCommand(command);
@@ -205,19 +208,21 @@ public class SystemCommandService {
   }
 
   private SystemCommand getStatusVlcSystemCommand() {
+    
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.getCommand()); 
+      Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.get()); 
     } else {
-      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.getCommand());  
+      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.get());  
     }
     statusVlcSystemCommand.setCommand(command);
     return statusVlcSystemCommand;
   }
 
   private SystemCommand getSetShutdownSystemCommand(AdminShutdownCommand adminShutdownCommand) {
+    
     SystemCommand setShutdownSystemCommand = new SystemCommand();
     setShutdownSystemCommand.setIsDaemon(false);
     if (adminShutdownCommand.getTime() <= 0) {
@@ -226,11 +231,11 @@ public class SystemCommandService {
     }
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.getCommand());
+      Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.get());
       command.add(String.valueOf(adminShutdownCommand.getTime())); 
     } else {
       int timeInMinutes = adminShutdownCommand.getTime() / 60;
-      Collections.addAll(command, CommandLine.SHUTDOWN_LINUX.getCommand());
+      Collections.addAll(command, CommandLine.SHUTDOWN_LINUX.get());
       command.add(String.valueOf(timeInMinutes)); 
     }
     setShutdownSystemCommand.setCommand(command);
@@ -238,28 +243,30 @@ public class SystemCommandService {
   }
 
   private SystemCommand getCancelShutdownSystemCommand() {
+    
     SystemCommand cancelShutdownSystemCommand = new SystemCommand();
     cancelShutdownSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.getCommand()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.get()); 
     } else {
-      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_LINUX.getCommand()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_LINUX.get()); 
     }
     cancelShutdownSystemCommand.setCommand(command);
     return cancelShutdownSystemCommand;
   }
 
   private SystemCommand getStatusShutdownSystemCommand() {
+    
     // TODO this doesn't work. Need to find a way to get the status both in win
     // and linux
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.getCommand()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.get()); 
     } else {
-      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.getCommand()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.get()); 
     }
     statusVlcSystemCommand.setCommand(command);
     return statusVlcSystemCommand;

@@ -17,13 +17,16 @@ public enum CommandLine {
   VLC_STOP_WINDOWS("cmd.exe", "/c", "start", "taskkill", "/im", "vlc.exe")
   ;
   
-  private final String[] commandLineToExecute;
+  private final String[] commandLine;
   
-  private CommandLine(String... commandLineToExecute) {
-    this.commandLineToExecute = commandLineToExecute;
+  private CommandLine(String... commandLine) {
+    this.commandLine = commandLine;
   }
   
-  public String[] getCommand() {
-    return commandLineToExecute.clone();
+  /**
+   * Returns the command line to execute.
+   */
+  public String[] get() {
+    return commandLine.clone();
   }
 }

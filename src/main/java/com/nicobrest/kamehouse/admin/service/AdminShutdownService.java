@@ -30,7 +30,7 @@ public class AdminShutdownService {
    * Set the system to shutdown at the specified time.
    */
   public List<SystemCommandOutput> setShutdown(AdminShutdownCommand adminShutdownCommand) {
-    if (!"set".equals(adminShutdownCommand.getCommand())) {
+    if (!AdminShutdownCommand.SET.equals(adminShutdownCommand.getCommand())) {
       throw new KameHouseInvalidCommandException("Invalid AdminShutdownCommand "
           + adminShutdownCommand.getCommand());
     }
@@ -49,7 +49,7 @@ public class AdminShutdownService {
    */
   public List<SystemCommandOutput> cancelShutdown() {
     AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand("cancel");
+    adminShutdownCommand.setCommand(AdminShutdownCommand.CANCEL);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
     List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
@@ -65,7 +65,7 @@ public class AdminShutdownService {
    */
   public List<SystemCommandOutput> statusShutdown() {
     AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand("status");
+    adminShutdownCommand.setCommand(AdminShutdownCommand.STATUS);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
     List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();

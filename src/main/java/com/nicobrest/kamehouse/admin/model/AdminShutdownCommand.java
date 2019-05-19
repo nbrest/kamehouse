@@ -1,7 +1,11 @@
 package com.nicobrest.kamehouse.admin.model;
 
 public class AdminShutdownCommand {
-
+  
+  public static final String CANCEL = "cancel";
+  public static final String SET = "set";
+  public static final String STATUS = "status";
+  
   private String command;
   private int time;
   
