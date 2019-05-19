@@ -12,6 +12,11 @@
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
 
+  <session-config>
+    <!-- Don't timeout sessions. Timeout set in minutes. -->
+    <session-timeout>0</session-timeout>
+  </session-config>
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>

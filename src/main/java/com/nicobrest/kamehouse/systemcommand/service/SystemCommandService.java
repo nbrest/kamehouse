@@ -176,12 +176,11 @@ public class SystemCommandService {
     stopVlcSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.VLC_STOP_WINDOWS.getCommand()); 
-      stopVlcSystemCommand.setCommand(command);
+      Collections.addAll(command, CommandLine.VLC_STOP_WINDOWS.getCommand());
     } else {
-      Collections.addAll(command, CommandLine.VLC_STOP_LINUX.getCommand()); 
-      stopVlcSystemCommand.setCommand(command);
+      Collections.addAll(command, CommandLine.VLC_STOP_LINUX.getCommand());
     }
+    stopVlcSystemCommand.setCommand(command);
     return stopVlcSystemCommand;
   }
 
@@ -197,12 +196,11 @@ public class SystemCommandService {
     if (PropertiesUtils.isWindowsHost()) { 
       Collections.addAll(command, CommandLine.VLC_START_WINDOWS.getCommand());
       command.add(file);
-      startVlcSystemCommand.setCommand(command);
     } else {
       Collections.addAll(command, CommandLine.VLC_START_LINUX.getCommand());
-      command.add(file);
-      startVlcSystemCommand.setCommand(command);
+      command.add(file); 
     }
+    startVlcSystemCommand.setCommand(command);
     return startVlcSystemCommand;
   }
 
@@ -212,11 +210,10 @@ public class SystemCommandService {
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.getCommand()); 
-      statusVlcSystemCommand.setCommand(command);
     } else {
-      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.getCommand()); 
-      statusVlcSystemCommand.setCommand(command);
+      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.getCommand());  
     }
+    statusVlcSystemCommand.setCommand(command);
     return statusVlcSystemCommand;
   }
 
@@ -230,14 +227,13 @@ public class SystemCommandService {
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.getCommand());
-      command.add(String.valueOf(adminShutdownCommand.getTime()));
-      setShutdownSystemCommand.setCommand(command);
+      command.add(String.valueOf(adminShutdownCommand.getTime())); 
     } else {
       int timeInMinutes = adminShutdownCommand.getTime() / 60;
       Collections.addAll(command, CommandLine.SHUTDOWN_LINUX.getCommand());
-      command.add(String.valueOf(timeInMinutes));
-      setShutdownSystemCommand.setCommand(command);
+      command.add(String.valueOf(timeInMinutes)); 
     }
+    setShutdownSystemCommand.setCommand(command);
     return setShutdownSystemCommand;
   }
 
@@ -247,11 +243,10 @@ public class SystemCommandService {
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.getCommand()); 
-      cancelShutdownSystemCommand.setCommand(command);
     } else {
       Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_LINUX.getCommand()); 
-      cancelShutdownSystemCommand.setCommand(command);
     }
+    cancelShutdownSystemCommand.setCommand(command);
     return cancelShutdownSystemCommand;
   }
 
@@ -263,11 +258,10 @@ public class SystemCommandService {
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.getCommand()); 
-      statusVlcSystemCommand.setCommand(command);
     } else {
       Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.getCommand()); 
-      statusVlcSystemCommand.setCommand(command);
     }
+    statusVlcSystemCommand.setCommand(command);
     return statusVlcSystemCommand;
-  }
+  } 
 }
