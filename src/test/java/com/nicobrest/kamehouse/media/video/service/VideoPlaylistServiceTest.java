@@ -45,8 +45,10 @@ public class VideoPlaylistServiceTest {
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAllVideoPlaylists();
 
-    assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
-    assertTrue(returnedPlaylists.containsAll(expectedPlaylists));
+    assertEquals(expectedPlaylists.size(), returnedPlaylists.size()); 
+    for (Playlist expectedPlaylist : expectedPlaylists) {
+      assertTrue(returnedPlaylists.contains(expectedPlaylist));
+    }
   }
 
   private List<Playlist> getExpectedPlaylists() {
