@@ -224,7 +224,9 @@ function populateVideoPlaylists() {
   console.debug("selectedPlaylistCategory " + selectedPlaylistCategory);
   $.each(videoPlaylists, function (key, entry) {
     if (entry.category === selectedPlaylistCategory) { 
-      playlistDropdown.append($('<option></option>').attr('value', entry.path).text(entry.name));
+      var playlistName = entry.name;
+      playlistName = playlistName.replace(/.m3u+$/, "");
+      playlistDropdown.append($('<option></option>').attr('value', entry.path).text(playlistName));
     }
   });
 }
