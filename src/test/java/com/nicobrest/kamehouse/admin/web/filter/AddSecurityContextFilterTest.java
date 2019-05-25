@@ -39,7 +39,7 @@ public class AddSecurityContextFilterTest {
    * Tests the filter to add the logged in username on each request as a parameter.
    */
   @Test
-  public void test() {
+  public void doFilterTest() {
 
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
