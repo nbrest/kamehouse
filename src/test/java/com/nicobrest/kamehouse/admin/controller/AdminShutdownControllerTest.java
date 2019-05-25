@@ -32,6 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
@@ -66,15 +67,21 @@ public class AdminShutdownControllerTest {
     adminShutdownCommand.setTime(5400);
     when(adminShutdownService.setShutdown(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      mockMvc.perform(post("/api/v1/admin/shutdown").contentType(
+      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/shutdown").contentType(
           MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
-              adminShutdownCommand))).andDo(print()).andExpect(status().isOk())
-          .andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath(
-              "$", hasSize(1))).andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(
-                  0).getCommand()))).andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs
-                      .get(0).getExitCode()))).andExpect(jsonPath("$[0].pid", equalTo(
-                          mockCommandOutputs.get(0).getPid())));
-      // TODO: Add validation to standardOuput and standardError
+              adminShutdownCommand))).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+      requestResult.andExpect(jsonPath("$", hasSize(1)));
+      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
+          .getCommand())));
+      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
+          .getExitCode())));
+      requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
+      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
+          .getStandardOutput())));
+      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
+          .getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -88,13 +95,20 @@ public class AdminShutdownControllerTest {
     List<SystemCommandOutput> mockCommandOutputs = createCancelShutdownCommandOutputs();
     when(adminShutdownService.cancelShutdown()).thenReturn(mockCommandOutputs);
     try {
-      mockMvc.perform(delete("/api/v1/admin/shutdown")).andDo(print()).andExpect(status().isOk())
-          .andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath(
-              "$", hasSize(1))).andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(
-                  0).getCommand()))).andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs
-                      .get(0).getExitCode()))).andExpect(jsonPath("$[0].pid", equalTo(
-                          mockCommandOutputs.get(0).getPid())));
-      // TODO: Add validation to standardOuput and standardError
+      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/shutdown")).andDo(
+          print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+      requestResult.andExpect(jsonPath("$", hasSize(1)));
+      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
+          .getCommand())));
+      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
+          .getExitCode())));
+      requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
+      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
+          .getStandardOutput())));
+      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
+          .getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -108,13 +122,19 @@ public class AdminShutdownControllerTest {
     List<SystemCommandOutput> mockCommandOutputs = createStatusShutdownCommandOutputs();
     when(adminShutdownService.statusShutdown()).thenReturn(mockCommandOutputs);
     try {
-      mockMvc.perform(get("/api/v1/admin/shutdown")).andDo(print()).andExpect(status().isOk())
-          .andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath(
-              "$", hasSize(1))).andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(
-                  0).getCommand()))).andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs
-                      .get(0).getExitCode()))).andExpect(jsonPath("$[0].pid", equalTo(
-                          mockCommandOutputs.get(0).getPid())));
-      // TODO: Add validation to standardOuput and standardError
+      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/shutdown")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+      requestResult.andExpect(jsonPath("$", hasSize(1)));
+      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
+          .getCommand())));
+      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
+          .getExitCode())));
+      requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
+      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
+          .getStandardOutput())));
+      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
+          .getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -148,7 +168,7 @@ public class AdminShutdownControllerTest {
     commandOutputs.add(commandOutput);
     return commandOutputs;
   }
-  
+
   private List<SystemCommandOutput> createStatusShutdownCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
