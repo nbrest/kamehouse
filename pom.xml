@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.nicobrest</groupId>
@@ -22,6 +23,7 @@
     <hsql.version>2.3.2</hsql.version>                                  <!-- Updated 2016/02 -->
     <httpclient.version>4.5.3</httpclient.version>                      <!-- Updated 2017/10 -->
     <jackson.version>2.4.3</jackson.version>                            <!-- Updated 2016/02 -->
+    <jacoco.version>0.8.4</jacoco.version>                              <!-- Updated 2019/05 -->
     <javax.servlet.version>3.0.1</javax.servlet.version>                <!-- Updated 2016/02 -->
     <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
     <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
@@ -319,6 +321,13 @@
         </exclusion>
       </exclusions>
     </dependency>
+  
+    <!-- Test coverage -->
+    <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>${jacoco.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -345,13 +354,54 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
+      <!-- jacoco: Checks that expected test coverage percentage is met -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-check</id>
+            <phase>test</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.80</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
 
     <pluginManagement>
       <!-- Adding the pluginManagement fixes the errors of lifecycle not covered 
         in eclipse but it seems to disable the plugins when compiling from the command line. 
         So compile everything with eclipse and remove all the warnings within eclipse before 
-        commiting and pushing the changes to the repositories -->
+        committing and pushing the changes to the repositories -->
 
       <plugins>
         <!-- maven war plugin: disable build failure because of no web.xml -->
