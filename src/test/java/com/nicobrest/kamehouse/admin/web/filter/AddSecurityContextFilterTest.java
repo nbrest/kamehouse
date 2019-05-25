@@ -2,8 +2,6 @@ package com.nicobrest.kamehouse.admin.web.filter;
 
 import static org.junit.Assert.fail;
 
-import com.nicobrest.kamehouse.admin.web.filter.AddSecurityContextFilter;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
