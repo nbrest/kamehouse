@@ -61,7 +61,7 @@ public class AdminShutdownControllerTest {
 
   @Test
   public void setShutdownTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createSetShutdownCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockSetShutdownCommandOutputs();
     AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
     adminShutdownCommand.setCommand(AdminShutdownCommand.SET);
     adminShutdownCommand.setTime(5400);
@@ -92,7 +92,7 @@ public class AdminShutdownControllerTest {
 
   @Test
   public void cancelShutdownTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createCancelShutdownCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
     when(adminShutdownService.cancelShutdown()).thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/shutdown")).andDo(
@@ -119,7 +119,7 @@ public class AdminShutdownControllerTest {
   
   @Test
   public void cancelShutdownServerErrorTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createCancelShutdownCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
     mockCommandOutputs.get(0).setExitCode(1);
     when(adminShutdownService.cancelShutdown()).thenReturn(mockCommandOutputs);
     try {
@@ -136,7 +136,7 @@ public class AdminShutdownControllerTest {
 
   @Test
   public void statusShutdownTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createStatusShutdownCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockStatusShutdownCommandOutputs();
     when(adminShutdownService.statusShutdown()).thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/shutdown")).andDo(print());
@@ -160,7 +160,7 @@ public class AdminShutdownControllerTest {
     verifyNoMoreInteractions(adminShutdownService);
   }
 
-  private List<SystemCommandOutput> createSetShutdownCommandOutputs() {
+  private List<SystemCommandOutput> mockSetShutdownCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, shutdown, /s, /t , 5400]");
@@ -173,7 +173,7 @@ public class AdminShutdownControllerTest {
     return commandOutputs;
   }
 
-  private List<SystemCommandOutput> createCancelShutdownCommandOutputs() {
+  private List<SystemCommandOutput> mockCancelShutdownCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, shutdown, /a]");
@@ -186,7 +186,7 @@ public class AdminShutdownControllerTest {
     return commandOutputs;
   }
 
-  private List<SystemCommandOutput> createStatusShutdownCommandOutputs() {
+  private List<SystemCommandOutput> mockStatusShutdownCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[tasklist, /FI, IMAGENAME eq shutdown.exe]");
