@@ -37,12 +37,7 @@ public class AdminShutdownController {
     logger.trace("In controller /api/v1/admin/shutdown (POST)");
     List<SystemCommandOutput> commandOutputs = adminShutdownService.setShutdown(
         adminShutdownCommand);
-    HttpStatus httpStatus = HttpStatus.OK;
-    for (SystemCommandOutput commandOutput : commandOutputs) {
-      if (commandOutput.getExitCode() > 0) {
-        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-      }
-    }
+    HttpStatus httpStatus = setHttpStatus(commandOutputs);
     ResponseEntity<List<SystemCommandOutput>> responseEntity =
         new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
     return responseEntity;
@@ -57,12 +52,7 @@ public class AdminShutdownController {
 
     logger.trace("In controller /api/v1/admin/shutdown (DELETE)");
     List<SystemCommandOutput> commandOutputs = adminShutdownService.cancelShutdown();
-    HttpStatus httpStatus = HttpStatus.OK;
-    for (SystemCommandOutput commandOutput : commandOutputs) {
-      if (commandOutput.getExitCode() > 0) {
-        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-      }
-    }
+    HttpStatus httpStatus = setHttpStatus(commandOutputs);
     ResponseEntity<List<SystemCommandOutput>> responseEntity =
         new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
     return responseEntity;
@@ -77,14 +67,22 @@ public class AdminShutdownController {
 
     logger.trace("In controller /api/v1/admin/shutdown (GET)");
     List<SystemCommandOutput> commandOutputs = adminShutdownService.statusShutdown();
+    HttpStatus httpStatus = setHttpStatus(commandOutputs);
+    ResponseEntity<List<SystemCommandOutput>> responseEntity =
+        new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
+    return responseEntity;
+  }
+  
+  /**
+   * Set the HttpStatus based on the output of the system commands.
+   */
+  private HttpStatus setHttpStatus(List<SystemCommandOutput> commandOutputs) {
     HttpStatus httpStatus = HttpStatus.OK;
     for (SystemCommandOutput commandOutput : commandOutputs) {
       if (commandOutput.getExitCode() > 0) {
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
       }
     }
-    ResponseEntity<List<SystemCommandOutput>> responseEntity =
-        new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
-    return responseEntity;
+    return httpStatus;
   }
 }
