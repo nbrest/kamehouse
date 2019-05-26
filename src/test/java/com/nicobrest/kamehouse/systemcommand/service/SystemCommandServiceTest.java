@@ -27,6 +27,7 @@ import java.util.List;
 @PrepareForTest({ PropertiesUtils.class })
 public class SystemCommandServiceTest {
 
+  //TODO: See if I can @PrepareForTest Process class and mock the interactions with the process.
   private static SystemCommandService systemCommandService = new SystemCommandService();
 
   @Rule

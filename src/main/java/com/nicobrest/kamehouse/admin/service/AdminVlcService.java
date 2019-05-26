@@ -35,11 +35,7 @@ public class AdminVlcService {
           .getCommand());
     }
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
-    List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
-    for (SystemCommand systemCommand : systemCommands) {
-      SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
-      systemCommandOutputs.add(systemCommandOutput);
-    }
+    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
     return systemCommandOutputs;
   }
 
@@ -50,11 +46,7 @@ public class AdminVlcService {
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
     adminVlcCommand.setCommand(AdminVlcCommand.STOP);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
-    List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
-    for (SystemCommand systemCommand : systemCommands) {
-      SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
-      systemCommandOutputs.add(systemCommandOutput);
-    }
+    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
     return systemCommandOutputs;
   }
 
@@ -65,6 +57,14 @@ public class AdminVlcService {
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
     adminVlcCommand.setCommand(AdminVlcCommand.STATUS);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
+    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
+    return systemCommandOutputs;
+  }
+  
+  /**
+   * Execute the specified list of system commands.
+   */
+  private List<SystemCommandOutput> executeSystemCommands(List<SystemCommand> systemCommands) {
     List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
     for (SystemCommand systemCommand : systemCommands) {
       SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);

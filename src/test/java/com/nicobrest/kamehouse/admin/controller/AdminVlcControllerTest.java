@@ -61,7 +61,7 @@ public class AdminVlcControllerTest {
 
   @Test
   public void startVlcPlayerTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createStartVlcCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockStartVlcCommandOutputs();
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
     adminVlcCommand.setCommand(AdminVlcCommand.START);
     adminVlcCommand.setFile("marvel.m3u");
@@ -92,7 +92,7 @@ public class AdminVlcControllerTest {
 
   @Test
   public void stopVlcPlayerTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createStopVlcCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
     when(adminVlcService.stopVlcPlayer()).thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(
@@ -119,7 +119,7 @@ public class AdminVlcControllerTest {
   
   @Test
   public void stopVlcPlayerServerErrorTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createStopVlcCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
     mockCommandOutputs.get(0).setExitCode(1);
     when(adminVlcService.stopVlcPlayer()).thenReturn(mockCommandOutputs);
     try {
@@ -136,7 +136,7 @@ public class AdminVlcControllerTest {
 
   @Test
   public void statusVlcPlayerTest() {
-    List<SystemCommandOutput> mockCommandOutputs = createStatusVlcPlayerCommandOutputs();
+    List<SystemCommandOutput> mockCommandOutputs = mockStatusVlcPlayerCommandOutputs();
     when(adminVlcService.statusVlcPlayer()).thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/vlc")).andDo(print());
@@ -160,7 +160,7 @@ public class AdminVlcControllerTest {
     verifyNoMoreInteractions(adminVlcService);
   }
 
-  private List<SystemCommandOutput> createStartVlcCommandOutputs() {
+  private List<SystemCommandOutput> mockStartVlcCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
@@ -173,7 +173,7 @@ public class AdminVlcControllerTest {
     return commandOutputs;
   }
 
-  private List<SystemCommandOutput> createStopVlcCommandOutputs() {
+  private List<SystemCommandOutput> mockStopVlcCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, taskkill, /im, vlc.exe]");
@@ -186,7 +186,7 @@ public class AdminVlcControllerTest {
     return commandOutputs;
   }
 
-  private List<SystemCommandOutput> createStatusVlcPlayerCommandOutputs() {
+  private List<SystemCommandOutput> mockStatusVlcPlayerCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[tasklist, /FI, IMAGENAME eq vlc.exe]");
