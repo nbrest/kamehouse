@@ -331,6 +331,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
       </plugin>
+      
       <!-- maven compiler plugin: Compiler configurations for maven -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -342,11 +343,13 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
       </plugin>
+      
       <!-- checkstyle: Checks that the code sticks to standard conventions -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
+      
       <!-- cobertura: Checks that expected test coverage percentage is met -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
