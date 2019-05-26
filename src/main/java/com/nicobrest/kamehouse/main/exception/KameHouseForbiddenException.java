@@ -12,8 +12,4 @@ public class KameHouseForbiddenException extends KameHouseException {
   public KameHouseForbiddenException(String message) {
     super(message);
   }
-
-  public KameHouseForbiddenException(String message, Exception cause) {
-    super(message, cause);
-  }
 }

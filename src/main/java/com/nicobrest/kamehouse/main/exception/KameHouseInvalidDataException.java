@@ -12,8 +12,4 @@ public class KameHouseInvalidDataException extends KameHouseException {
   public KameHouseInvalidDataException(String message) {
     super(message);
   }
-
-  public KameHouseInvalidDataException(String message, Exception cause) {
-    super(message, cause);
-  }
 }
