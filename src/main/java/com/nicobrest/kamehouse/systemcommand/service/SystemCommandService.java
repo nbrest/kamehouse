@@ -47,8 +47,8 @@ public class SystemCommandService {
         break;
       default:
         logger.error("Invalid AdminVlcCommand " + adminVlcCommand.getCommand());
-        throw new KameHouseInvalidCommandException("Invalid AdminVlcCommand " + adminVlcCommand
-            .getCommand());
+        throw new KameHouseInvalidCommandException(
+            "Invalid AdminVlcCommand " + adminVlcCommand.getCommand());
     }
     return systemCommands;
   }
@@ -71,8 +71,8 @@ public class SystemCommandService {
         break;
       default:
         logger.error("Invalid AdminShutdownCommand " + adminShutdownCommand.getCommand());
-        throw new KameHouseInvalidCommandException("Invalid AdminShutdownCommand "
-            + adminShutdownCommand.getCommand());
+        throw new KameHouseInvalidCommandException(
+            "Invalid AdminShutdownCommand " + adminShutdownCommand.getCommand());
     }
     return systemCommands;
   }
@@ -81,7 +81,7 @@ public class SystemCommandService {
    * Execute the specified SystemCommand.
    */
   public SystemCommandOutput execute(SystemCommand systemCommand) {
-    
+
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
@@ -97,12 +97,12 @@ public class SystemCommandService {
       if (!systemCommand.isDaemon()) {
         // Not an ongoing process. Wait until the process finishes and then read
         // standard ouput and error streams.
-        process.waitFor();
+        waitForProcess(process);
         // Read command standard output stream
         List<String> processStandardOuputList = new ArrayList<String>();
-        processInputStream = process.getInputStream();
-        processBufferedReader = new BufferedReader(new InputStreamReader(processInputStream,
-            StandardCharsets.UTF_8));
+        processInputStream = getInputStreamFromProcess(process);
+        processBufferedReader = new BufferedReader(
+            new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
         String inputStreamLine;
         while ((inputStreamLine = processBufferedReader.readLine()) != null) {
           if (!StringUtils.isEmpty(inputStreamLine)) {
@@ -112,9 +112,9 @@ public class SystemCommandService {
         commandOutput.setStandardOutput(processStandardOuputList);
         // Read command standard error stream
         List<String> processStandardErrorList = new ArrayList<String>();
-        processErrorStream = process.getErrorStream();
-        processErrorBufferedReader = new BufferedReader(new InputStreamReader(processErrorStream,
-            StandardCharsets.UTF_8));
+        processErrorStream = getErrorStreamFromProcess(process);
+        processErrorBufferedReader = new BufferedReader(
+            new InputStreamReader(processErrorStream, StandardCharsets.UTF_8));
         String errorStreamLine;
         while ((errorStreamLine = processErrorBufferedReader.readLine()) != null) {
           if (!StringUtils.isEmpty(errorStreamLine)) {
@@ -146,34 +146,46 @@ public class SystemCommandService {
         try {
           processBufferedReader.close();
         } catch (IOException e) {
-          logger.error("Exception occurred while executing the process. Message: " + e
-              .getMessage());
+          logger
+              .error("Exception occurred while executing the process. Message: " + e.getMessage());
           e.printStackTrace();
           commandOutput.setExitCode(1);
           commandOutput.setStatus("failed");
-          commandOutput.setStandardError(Arrays.asList(
-              "An error occurred closing the input stream of the process."));
+          commandOutput.setStandardError(
+              Arrays.asList("An error occurred closing the input stream of the process."));
         }
       }
       if (processErrorBufferedReader != null) {
         try {
           processErrorBufferedReader.close();
         } catch (IOException e) {
-          logger.error("Exception occurred while executing the process. Message: " + e
-              .getMessage());
+          logger
+              .error("Exception occurred while executing the process. Message: " + e.getMessage());
           e.printStackTrace();
           commandOutput.setExitCode(1);
           commandOutput.setStatus("failed");
-          commandOutput.setStandardError(Arrays.asList(
-              "An error occurred closing the error stream of the process."));
+          commandOutput.setStandardError(
+              Arrays.asList("An error occurred closing the error stream of the process."));
         }
       }
     }
     return commandOutput;
   }
 
+  private void waitForProcess(Process process) throws InterruptedException {
+    process.waitFor();
+  }
+
+  private InputStream getInputStreamFromProcess(Process process) {
+    return process.getInputStream();
+  }
+
+  private InputStream getErrorStreamFromProcess(Process process) {
+    return process.getErrorStream();
+  }
+
   private SystemCommand getStopVlcSystemCommand() {
-    
+
     SystemCommand stopVlcSystemCommand = new SystemCommand();
     stopVlcSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
@@ -187,7 +199,7 @@ public class SystemCommandService {
   }
 
   private SystemCommand getStartVlcSystemCommand(AdminVlcCommand adminVlcCommand) {
-    
+
     SystemCommand startVlcSystemCommand = new SystemCommand();
     startVlcSystemCommand.setIsDaemon(true);
     String file = "";
@@ -196,79 +208,79 @@ public class SystemCommandService {
       file = adminVlcCommand.getFile();
     }
     List<String> command = new ArrayList<String>();
-    if (PropertiesUtils.isWindowsHost()) { 
+    if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.VLC_START_WINDOWS.get());
       command.add(file);
     } else {
       Collections.addAll(command, CommandLine.VLC_START_LINUX.get());
-      command.add(file); 
+      command.add(file);
     }
     startVlcSystemCommand.setCommand(command);
     return startVlcSystemCommand;
   }
 
   private SystemCommand getStatusVlcSystemCommand() {
-    
+
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.get()); 
+      Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.get());
     } else {
-      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.get());  
+      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.get());
     }
     statusVlcSystemCommand.setCommand(command);
     return statusVlcSystemCommand;
   }
 
   private SystemCommand getSetShutdownSystemCommand(AdminShutdownCommand adminShutdownCommand) {
-    
+
     SystemCommand setShutdownSystemCommand = new SystemCommand();
     setShutdownSystemCommand.setIsDaemon(false);
     if (adminShutdownCommand.getTime() <= 0) {
-      throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
-          + adminShutdownCommand.getTime());
+      throw new KameHouseInvalidCommandException(
+          "Invalid time for shutdown command " + adminShutdownCommand.getTime());
     }
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.get());
-      command.add(String.valueOf(adminShutdownCommand.getTime())); 
+      command.add(String.valueOf(adminShutdownCommand.getTime()));
     } else {
       int timeInMinutes = adminShutdownCommand.getTime() / 60;
       Collections.addAll(command, CommandLine.SHUTDOWN_LINUX.get());
-      command.add(String.valueOf(timeInMinutes)); 
+      command.add(String.valueOf(timeInMinutes));
     }
     setShutdownSystemCommand.setCommand(command);
     return setShutdownSystemCommand;
   }
 
   private SystemCommand getCancelShutdownSystemCommand() {
-    
+
     SystemCommand cancelShutdownSystemCommand = new SystemCommand();
     cancelShutdownSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.get()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.get());
     } else {
-      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_LINUX.get()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_LINUX.get());
     }
     cancelShutdownSystemCommand.setCommand(command);
     return cancelShutdownSystemCommand;
   }
 
   private SystemCommand getStatusShutdownSystemCommand() {
-    
+
     // TODO this doesn't work. Need to find a way to get the status both in win
     // and linux
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.get()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.get());
     } else {
-      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.get()); 
+      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.get());
     }
     statusVlcSystemCommand.setCommand(command);
     return statusVlcSystemCommand;
-  } 
+  }
 }
