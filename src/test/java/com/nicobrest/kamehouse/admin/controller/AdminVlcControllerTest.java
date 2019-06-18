@@ -39,6 +39,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Unit tests for the AdminVlcController class.
+ * 
+ * @author nbrest
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
@@ -59,6 +65,9 @@ public class AdminVlcControllerTest {
     mockMvc = MockMvcBuilders.standaloneSetup(adminVlcController).build();
   }
 
+  /**
+   * Start VLC player successful test.
+   */
   @Test
   public void startVlcPlayerTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStartVlcCommandOutputs();
@@ -90,6 +99,9 @@ public class AdminVlcControllerTest {
     verifyNoMoreInteractions(adminVlcService);
   }
 
+  /**
+   * Stop VLC player successful test.
+   */
   @Test
   public void stopVlcPlayerTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
@@ -117,6 +129,9 @@ public class AdminVlcControllerTest {
     verifyNoMoreInteractions(adminVlcService);
   }
   
+  /**
+   * Stop VLC server error test.
+   */
   @Test
   public void stopVlcPlayerServerErrorTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
@@ -134,6 +149,9 @@ public class AdminVlcControllerTest {
     verifyNoMoreInteractions(adminVlcService);
   }
 
+  /**
+   * Status VLC successful test.
+   */
   @Test
   public void statusVlcPlayerTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStatusVlcPlayerCommandOutputs();
@@ -160,6 +178,9 @@ public class AdminVlcControllerTest {
     verifyNoMoreInteractions(adminVlcService);
   }
 
+  /**
+   * Mock start VLC command outputs.
+   */
   private List<SystemCommandOutput> mockStartVlcCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
@@ -173,6 +194,9 @@ public class AdminVlcControllerTest {
     return commandOutputs;
   }
 
+  /**
+   * Mock stop VLC command outputs.
+   */
   private List<SystemCommandOutput> mockStopVlcCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
@@ -186,6 +210,9 @@ public class AdminVlcControllerTest {
     return commandOutputs;
   }
 
+  /**
+   * Mock status VLC command outputs.
+   */
   private List<SystemCommandOutput> mockStatusVlcPlayerCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();

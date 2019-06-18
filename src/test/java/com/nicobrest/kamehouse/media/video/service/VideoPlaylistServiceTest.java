@@ -19,6 +19,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Unit tests for the VideoPlaylistService class.
+ * 
+ * @author nbrest
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ PropertiesUtils.class })
 public class VideoPlaylistServiceTest {
@@ -35,6 +41,9 @@ public class VideoPlaylistServiceTest {
     PowerMockito.mockStatic(PropertiesUtils.class);
   }
 
+  /**
+   * Get all video playlists successful test.
+   */
   @Test
   public void getAllVideoPlaylistsTest() {
     

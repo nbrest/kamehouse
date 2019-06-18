@@ -23,6 +23,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Unit tests for AdminShutdownService class.
+ * 
+ * @author nbrest
+ *
+ */
 public class AdminShutdownServiceTest {
 
   @InjectMocks
@@ -39,7 +45,10 @@ public class AdminShutdownServiceTest {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(systemCommandService);
   }
-
+  
+  /**
+   * Set shutdown successful test.
+   */
   @Test
   public void setShutdownTest() {
     AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
@@ -57,6 +66,9 @@ public class AdminShutdownServiceTest {
     assertEquals(systemCommandOutput, systemCommandOutputs.get(0));
   }
 
+  /**
+   * Set shutdown invalid command test.
+   */
   @Test
   public void setShutdownInvalidCommandTest() {
     thrown.expect(KameHouseInvalidCommandException.class);
@@ -69,6 +81,9 @@ public class AdminShutdownServiceTest {
     adminShutdownService.setShutdown(adminShutdownCommand);
   }
 
+  /**
+   * Cancel shutdown successful test.
+   */
   @Test
   public void cancelShutdownTest() {
     List<SystemCommand> systemCommands = mockCancelShutdownSystemCommands();
@@ -82,6 +97,9 @@ public class AdminShutdownServiceTest {
     assertEquals(systemCommandOutput, systemCommandOutputs.get(0));
   }
 
+  /**
+   * Shutdown status successful test.
+   */
   @Test
   public void statusShutdownTest() {
     List<SystemCommand> systemCommands = mockStatusShutdownSystemCommands();
@@ -95,7 +113,10 @@ public class AdminShutdownServiceTest {
     assertEquals(systemCommandOutput, systemCommandOutputs.get(0));
   }
 
-  public List<SystemCommand> mockSetShutdownSystemCommands() {
+  /**
+   * Mock set shutdown commands.
+   */
+  private List<SystemCommand> mockSetShutdownSystemCommands() {
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     SystemCommand systemCommand = new SystemCommand();
     systemCommand.setCommand(Arrays.asList("cmd.exe", "/c", "start", "shutdown", "/s", "/t ",
@@ -105,7 +126,10 @@ public class AdminShutdownServiceTest {
     return systemCommands;
   }
   
-  public List<SystemCommand> mockCancelShutdownSystemCommands() {
+  /**
+   * Mock set shutdown commands.
+   */
+  private List<SystemCommand> mockCancelShutdownSystemCommands() {
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     SystemCommand systemCommand = new SystemCommand();
     systemCommand.setCommand(Arrays.asList("cmd.exe", "/c", "start", "shutdown", "/s", "/t ",
@@ -115,7 +139,10 @@ public class AdminShutdownServiceTest {
     return systemCommands;
   }
   
-  public List<SystemCommand> mockStatusShutdownSystemCommands() {
+  /**
+   * Mock shutdown status commands.
+   */
+  private List<SystemCommand> mockStatusShutdownSystemCommands() {
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     SystemCommand systemCommand = new SystemCommand();
     systemCommand.setCommand(Arrays.asList("tasklist", "/FI", "IMAGENAME eq shutdown.exe"));
@@ -124,6 +151,9 @@ public class AdminShutdownServiceTest {
     return systemCommands;
   }
   
+  /**
+   * Mock set shutdown command output.
+   */
   private SystemCommandOutput mockSetShutdownCommandOutput() {
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, shutdown, /s, /t , 5400]");
@@ -135,6 +165,9 @@ public class AdminShutdownServiceTest {
     return commandOutput;
   }
 
+  /**
+   * Mock cancel shutdown command output.
+   */
   private SystemCommandOutput mockCancelShutdownCommandOutput() {
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, shutdown, /a]");
@@ -146,6 +179,9 @@ public class AdminShutdownServiceTest {
     return commandOutput;
   }
 
+  /**
+   * Mock shutdown status command output.
+   */
   private SystemCommandOutput mockStatusShutdownCommandOutput() { 
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[tasklist, /FI, IMAGENAME eq shutdown.exe]");

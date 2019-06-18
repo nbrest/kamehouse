@@ -29,6 +29,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Unit tests for the SystemCommandService class.
+ * 
+ * @author nbrest
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ PropertiesUtils.class, ProcessUtils.class })
 public class SystemCommandServiceTest {
@@ -44,6 +50,9 @@ public class SystemCommandServiceTest {
     systemCommandService = PowerMockito.spy(new SystemCommandService());
   }
   
+  /**
+   * Execute process successful test.
+   */
   @Test
   public void executeTest() throws Exception {
     String inputStreamString = "/home /bin /opt";
@@ -65,6 +74,9 @@ public class SystemCommandServiceTest {
 	  assertEquals(new ArrayList<String>(), systemCommandOutput.getStandardError());
   }
   
+  /**
+   * Execute daemon process successful test.
+   */
   @Test
   public void executeDaemonTest() throws Exception { 
     InputStream processInputStream = new ByteArrayInputStream("".getBytes());
@@ -86,6 +98,9 @@ public class SystemCommandServiceTest {
     assertEquals(null, systemCommandOutput.getStandardError());
   }
 
+  /**
+   * Get set shutdown system commands linux successful test.
+   */
   @Test
   public void getSystemCommandsShutdownSetLinuxTest() {
 
@@ -105,6 +120,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get set shutdown system commands windows successful test.
+   */
   @Test
   public void getSystemCommandsShutdownSetWindowsTest() {
 
@@ -124,6 +142,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get set shutdown system commands exception test.
+   */
   @Test
   public void getSystemCommandsShutdownSetExceptionTest() {
 
@@ -135,6 +156,9 @@ public class SystemCommandServiceTest {
     systemCommandService.getSystemCommands(adminShutdownCommand);
   }
 
+  /**
+   * Get cancel shutdown system commands linux successful test.
+   */
   @Test
   public void getSystemCommandsShutdownCancelLinuxTest() {
 
@@ -152,6 +176,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get cancel shutdown system commands windows successful test.
+   */
   @Test
   public void getSystemCommandsShutdownCancelWindowsTest() {
 
@@ -169,6 +196,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get status shutdown system commands linux successful test.
+   */
   @Test
   public void getSystemCommandsShutdownStatusLinuxTest() {
 
@@ -186,6 +216,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get status shutdown system commands windows successful test.
+   */
   @Test
   public void getSystemCommandsShutdownStatusWindowsTest() {
 
@@ -203,6 +236,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get start vlc system commands linux successful test.
+   */
   @Test
   public void getSystemCommandsVlcStartLinuxTest() {
 
@@ -225,6 +261,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand2, returnedSystemCommands.get(1).getCommand());
   }
 
+  /**
+   * Get start vlc system commands windows successful test.
+   */
   @Test
   public void getSystemCommandsVlcStartWindowsTest() {
 
@@ -247,6 +286,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand2, returnedSystemCommands.get(1).getCommand());
   }
 
+  /**
+   * Get stop vlc system commands linux successful test.
+   */
   @Test
   public void getSystemCommandsVlcStopLinuxTest() {
 
@@ -264,6 +306,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get stop vlc system commands windows successful test.
+   */
   @Test
   public void getSystemCommandsVlcStoptWindowsTest() {
 
@@ -281,6 +326,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get status vlc system commands linux successful test.
+   */
   @Test
   public void getSystemCommandsVlcStatusLinuxTest() {
 
@@ -298,6 +346,9 @@ public class SystemCommandServiceTest {
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
 
+  /**
+   * Get status vlc system commands windows successful test.
+   */
   @Test
   public void getSystemCommandsVlcStatustWindowsTest() {
 

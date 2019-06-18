@@ -23,6 +23,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Unit tests for the AdminVlcService class.
+ * 
+ * @author nbrest
+ *
+ */
 public class AdminVlcServiceTest {
 
   @InjectMocks
@@ -40,6 +46,9 @@ public class AdminVlcServiceTest {
     Mockito.reset(systemCommandService);
   }
 
+  /**
+   * Start VLC player successful test.
+   */
   @Test
   public void startVlcPlayerTest() {
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
@@ -57,6 +66,9 @@ public class AdminVlcServiceTest {
     assertEquals(systemCommandOutput, systemCommandOutputs.get(0));
   }
 
+  /**
+   * Start VLC player invalid command test.
+   */
   @Test
   public void startVlcPlayerInvalidCommandTest() {
     thrown.expect(KameHouseInvalidCommandException.class);
@@ -68,6 +80,9 @@ public class AdminVlcServiceTest {
     adminVlcService.startVlcPlayer(adminVlcCommand);
   }
 
+  /**
+   * Stop VLC player successful test.
+   */
   @Test
   public void stopVlcPlayerTest() {
     List<SystemCommand> systemCommands = mockStopVlcPlayerSystemCommands();
@@ -82,6 +97,9 @@ public class AdminVlcServiceTest {
     assertEquals(systemCommandOutput, systemCommandOutputs.get(0));
   }
 
+  /**
+   * Status VLC successful test.
+   */
   @Test
   public void statusVlcPlayerTest() {
     List<SystemCommand> systemCommands = mockStatusVlcPlayerSystemCommands();
@@ -96,7 +114,10 @@ public class AdminVlcServiceTest {
     assertEquals(systemCommandOutput, systemCommandOutputs.get(0));
   }
 
-  public List<SystemCommand> mockStartVlcPlayerSystemCommands() {
+  /**
+   * Mock start VLC commands.
+   */
+  private List<SystemCommand> mockStartVlcPlayerSystemCommands() {
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     SystemCommand systemCommand = new SystemCommand();
     systemCommand.setCommand(Arrays.asList("cmd.exe", "/c", "start", "vlc"));
@@ -105,7 +126,10 @@ public class AdminVlcServiceTest {
     return systemCommands;
   }
 
-  public List<SystemCommand> mockStopVlcPlayerSystemCommands() {
+  /**
+   * Mock stop VLC commands.
+   */
+  private List<SystemCommand> mockStopVlcPlayerSystemCommands() {
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     SystemCommand systemCommand = new SystemCommand();
     systemCommand.setCommand(Arrays.asList("skill", "-9", "vlc"));
@@ -114,7 +138,10 @@ public class AdminVlcServiceTest {
     return systemCommands;
   }
 
-  public List<SystemCommand> mockStatusVlcPlayerSystemCommands() {
+  /**
+   * Mock status VLC commands.
+   */
+  private List<SystemCommand> mockStatusVlcPlayerSystemCommands() {
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     SystemCommand systemCommand = new SystemCommand();
     systemCommand.setCommand(Arrays.asList("tasklist", "/FI", "IMAGENAME eq vlc.exe"));
@@ -123,6 +150,9 @@ public class AdminVlcServiceTest {
     return systemCommands;
   }
 
+  /**
+   * Mock start VLC command output.
+   */
   private SystemCommandOutput mockStartVlcPlayerCommandOutput() {
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, vlc, /home/goku/playlists/marvel.m3u]");
@@ -134,6 +164,9 @@ public class AdminVlcServiceTest {
     return commandOutput;
   }
 
+  /**
+   * Mock stop VLC command output.
+   */
   private SystemCommandOutput mockStopVlcPlayerCommandOutput() {
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[cmd.exe, /c, start, taskkill, /im, vlc.exe]");
@@ -145,6 +178,9 @@ public class AdminVlcServiceTest {
     return commandOutput;
   }
 
+  /**
+   * Mock status VLC command output.
+   */
   private SystemCommandOutput mockStatusVlcPlayerCommandOutput() {
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     commandOutput.setCommand("[tasklist, /FI, IMAGENAME eq vlc.exe]");

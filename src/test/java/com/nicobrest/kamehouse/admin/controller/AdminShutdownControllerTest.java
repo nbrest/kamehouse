@@ -39,6 +39,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Unit tests for AdminShutdownController class.
+ * 
+ * @author nbrest
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
@@ -59,6 +65,9 @@ public class AdminShutdownControllerTest {
     mockMvc = MockMvcBuilders.standaloneSetup(adminShutdownController).build();
   }
 
+  /**
+   * Set shutdown successful test.
+   */
   @Test
   public void setShutdownTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockSetShutdownCommandOutputs();
@@ -90,6 +99,9 @@ public class AdminShutdownControllerTest {
     verifyNoMoreInteractions(adminShutdownService);
   }
 
+  /**
+   * Cancel shutdown successful test.
+   */
   @Test
   public void cancelShutdownTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
@@ -117,6 +129,9 @@ public class AdminShutdownControllerTest {
     verifyNoMoreInteractions(adminShutdownService);
   }
   
+  /**
+   * Cancel shutdown server error test.
+   */
   @Test
   public void cancelShutdownServerErrorTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
@@ -134,6 +149,9 @@ public class AdminShutdownControllerTest {
     verifyNoMoreInteractions(adminShutdownService);
   }
 
+  /**
+   * Shutdown status successful test.
+   */
   @Test
   public void statusShutdownTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStatusShutdownCommandOutputs();
@@ -160,6 +178,9 @@ public class AdminShutdownControllerTest {
     verifyNoMoreInteractions(adminShutdownService);
   }
 
+  /**
+   * Mock set shutdown command outputs.
+   */
   private List<SystemCommandOutput> mockSetShutdownCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
@@ -173,6 +194,9 @@ public class AdminShutdownControllerTest {
     return commandOutputs;
   }
 
+  /**
+   * Mock cancel shutdown command outputs.
+   */
   private List<SystemCommandOutput> mockCancelShutdownCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
@@ -186,6 +210,9 @@ public class AdminShutdownControllerTest {
     return commandOutputs;
   }
 
+  /**
+   * Mock shutdown status command outputs.
+   */
   private List<SystemCommandOutput> mockStatusShutdownCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
