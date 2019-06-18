@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 
+/**
+ * Utility class to manage the application properties.
+ * 
+ * @author nbrest
+ *
+ */
 public class PropertiesUtils {
   
   private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
@@ -27,19 +33,30 @@ public class PropertiesUtils {
     }
   }
 
-  public static boolean setIsWindowsHost() {
+  /**
+   * Sets the IS_WINDOWS_HOST variable.
+   */
+  private static boolean setIsWindowsHost() {
     return System.getProperty("os.name").toLowerCase(Locale.getDefault()).startsWith("windows");
   }
   
+  /**
+   * Returns true if the application is running on a windows host, false otherwise.
+   */
   public static boolean isWindowsHost() {
     return IS_WINDOWS_HOST;
   }
 
-  // This returns the home of the user running the application server.
+  /**
+   * Returns the home of the user running the application server. 
+   */
   public static String getUserHome() {
     return System.getProperty("user.home");
   }
   
+  /**
+   * Gets the specified property from the media.video application properties.
+   */
   public static String getMediaVideoProperty(String propertyName) {
     return mediaVideoProperties.getProperty(propertyName);
   }

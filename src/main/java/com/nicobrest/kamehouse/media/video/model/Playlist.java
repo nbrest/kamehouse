@@ -5,6 +5,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.util.List;
 
+/**
+ * Represents a playlist file.
+ * 
+ * @author nbrest
+ *
+ */
 public class Playlist implements Comparable<Playlist> {
     
   private String name;

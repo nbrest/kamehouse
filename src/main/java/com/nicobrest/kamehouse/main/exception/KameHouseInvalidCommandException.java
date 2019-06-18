@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.main.exception;
 
 /**
- * KameHouseInvalidDataException class.
+ * KameHouseInvalidCommandException class.
  * 
  * @author nbrest
  */

@@ -24,6 +24,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Service to execute and manage system commands.
+ * 
+ * @author nbrest
+ *
+ */
 @Service
 public class SystemCommandService {
 
@@ -174,6 +180,9 @@ public class SystemCommandService {
     return commandOutput;
   }
 
+  /**
+   * Get the system command to stop a VLC player.
+   */
   private SystemCommand getStopVlcSystemCommand() {
 
     SystemCommand stopVlcSystemCommand = new SystemCommand();
@@ -188,6 +197,9 @@ public class SystemCommandService {
     return stopVlcSystemCommand;
   }
 
+  /**
+   * Get the system command to start a VLC player.
+   */
   private SystemCommand getStartVlcSystemCommand(AdminVlcCommand adminVlcCommand) {
 
     SystemCommand startVlcSystemCommand = new SystemCommand();
@@ -209,6 +221,9 @@ public class SystemCommandService {
     return startVlcSystemCommand;
   }
 
+  /**
+   * Get the system command to check the status of a VLC player.
+   */
   private SystemCommand getStatusVlcSystemCommand() {
 
     SystemCommand statusVlcSystemCommand = new SystemCommand();
@@ -223,6 +238,9 @@ public class SystemCommandService {
     return statusVlcSystemCommand;
   }
 
+  /**
+   * Get the system command to set the server shutdown.
+   */
   private SystemCommand getSetShutdownSystemCommand(AdminShutdownCommand adminShutdownCommand) {
 
     SystemCommand setShutdownSystemCommand = new SystemCommand();
@@ -244,6 +262,9 @@ public class SystemCommandService {
     return setShutdownSystemCommand;
   }
 
+  /**
+   * Get the system command to cancel a server shutdown.
+   */
   private SystemCommand getCancelShutdownSystemCommand() {
 
     SystemCommand cancelShutdownSystemCommand = new SystemCommand();
@@ -258,6 +279,9 @@ public class SystemCommandService {
     return cancelShutdownSystemCommand;
   }
 
+  /**
+   * Get the system command to check the status of a scheduled shutdown.
+   */
   private SystemCommand getStatusShutdownSystemCommand() {
 
     // TODO this doesn't work. Need to find a way to get the status both in win

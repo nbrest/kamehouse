@@ -17,6 +17,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Service to manage the video playlists in the local system.
+ * 
+ * @author nbrest
+ *
+ */
 @Service
 public class VideoPlaylistService {
 

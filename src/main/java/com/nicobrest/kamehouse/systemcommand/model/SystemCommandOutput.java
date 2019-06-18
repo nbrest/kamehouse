@@ -2,6 +2,12 @@ package com.nicobrest.kamehouse.systemcommand.model;
 
 import java.util.List;
 
+/**
+ * Represents the output and status of an executed system command.
+ * 
+ * @author nbrest
+ *
+ */
 public class SystemCommandOutput {
 
   private String command;

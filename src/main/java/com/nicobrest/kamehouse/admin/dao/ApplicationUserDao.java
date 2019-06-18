@@ -5,7 +5,7 @@ import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import java.util.List;
 
 /**
- * Interfase for the ApplicationUserDao repositories.
+ * Interface for the ApplicationUserDao repositories.
  * 
  * @author nbrest
  *

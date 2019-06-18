@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * Controller class to start, stop and get the status of a local VLC player.
+ * 
+ * @author nbrest
+ *
+ */
 @Controller
 @RequestMapping(value = "/api/v1/admin")
 public class AdminVlcController {

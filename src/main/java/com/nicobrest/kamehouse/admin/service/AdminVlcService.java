@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service to execute admin VLC commands such as start, stop or get status.
+ * 
+ * @author nbrest
+ *
+ */
 @Service
 public class AdminVlcService {
 

@@ -13,22 +13,37 @@ import java.io.InputStream;
  */
 public class ProcessUtils {
 
+  /**
+   * Start the specified process. 
+   */
   public static Process startProcess(ProcessBuilder processBuilder) throws IOException {
     return processBuilder.start();
   }
   
+  /**
+   * Wait for the specified process to finish.
+   */
   public static void waitForProcess(Process process) throws InterruptedException {
     process.waitFor();
   }
   
+  /**
+   * Get the exit value of the specified process. 
+   */
   public static int getExitValue(Process process) {
     return process.exitValue();
   }
 
+  /**
+   * Get the input stream from the specified process.
+   */
   public static InputStream getInputStreamFromProcess(Process process) {
     return process.getInputStream();
   }
 
+  /**
+   * Get the error stream from the specified process. 
+   */
   public static InputStream getErrorStreamFromProcess(Process process) {
     return process.getErrorStream();
   }

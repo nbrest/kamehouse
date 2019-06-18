@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-
+/**
+ * Controller to manage the video playlists in the local system.
+ * 
+ * @author nbrest
+ *
+ */
 @Controller
 @RequestMapping(value = "/api/v1/media/video")
 public class VideoPlaylistController {

@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * Controller class for the shutdown commands.
+ * 
+ * @author nbrest
+ *
+ */
 @Controller
 @RequestMapping(value = "/api/v1/admin")
 public class AdminShutdownController {
@@ -27,7 +33,7 @@ public class AdminShutdownController {
   private AdminShutdownService adminShutdownService;
 
   /**
-   * Start a vlc player in the local server.
+   * Shutdown the local server with the specified delay in seconds.
    */
   @RequestMapping(value = "/shutdown", method = RequestMethod.POST)
   @ResponseBody

@@ -1,5 +1,14 @@
 package com.nicobrest.kamehouse.systemcommand.model;
 
+/**
+ * Command line to execute for all the system commands that are to be
+ * executed through the application.
+ * For security purposes, I prefer to have them listed explicit in the code
+ * rather than variable.
+ * 
+ * @author nbrest
+ *
+ */
 public enum CommandLine {
   
   SHUTDOWN_LINUX("/bin/bash", "-c", "sudo /sbin/shutdown -P "),

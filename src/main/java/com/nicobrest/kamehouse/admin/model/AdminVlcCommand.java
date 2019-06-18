@@ -1,5 +1,11 @@
 package com.nicobrest.kamehouse.admin.model;
 
+/**
+ * Admin VLC command such as start, stop, or get the status of a VLC player.
+ * 
+ * @author nbrest
+ *
+ */
 public class AdminVlcCommand {
 
   public static final String START = "start";
