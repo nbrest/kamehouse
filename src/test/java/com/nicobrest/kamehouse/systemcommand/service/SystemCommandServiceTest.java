@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.systemcommand.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import com.nicobrest.kamehouse.admin.model.AdminShutdownCommand;
@@ -10,6 +9,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.CommandLine;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.utils.ProcessUtils;
 import com.nicobrest.kamehouse.utils.PropertiesUtils;
 
 import org.junit.Before;
@@ -17,48 +17,73 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ PropertiesUtils.class })
+@PrepareForTest({ PropertiesUtils.class, ProcessUtils.class })
 public class SystemCommandServiceTest {
 
-  //TODO: See if I can @PrepareForTest Process class and mock the interactions with the process.
-  private static SystemCommandService systemCommandService;
+  private SystemCommandService systemCommandService;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void before() {
-    PowerMockito.mockStatic(PropertiesUtils.class); 
+    PowerMockito.mockStatic(PropertiesUtils.class, ProcessUtils.class);
     systemCommandService = PowerMockito.spy(new SystemCommandService());
   }
   
   @Test
   public void executeTest() throws Exception {
+    String inputStreamString = "/home /bin /opt";
+    InputStream processInputStream = new ByteArrayInputStream(inputStreamString.getBytes());
+    InputStream processErrorStream = new ByteArrayInputStream("".getBytes());
+    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream); 
+    when(ProcessUtils.getErrorStreamFromProcess(Mockito.any())).thenReturn(processErrorStream);
+    
 	  SystemCommand systemCommand = new SystemCommand();
 	  systemCommand.setCommand(Arrays.asList("ls"));
-	  //doNothing().when(systemCommandService, "waitForProcess", ArgumentMatchers.any(Process.class));
-	  PowerMockito.doNothing().when(systemCommandService, PowerMockito.method(SystemCommandService.class, "waitForProcess")).withArguments(Mockito.any(Process.class));
-
+	  
 	  SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
 	  
-	  System.out.println(systemCommandOutput.getCommand());
-	  System.out.println(systemCommandOutput.getStatus());
-	  System.out.println(systemCommandOutput.getPid());
-	  System.out.println(systemCommandOutput.getExitCode());
-	  System.out.println(systemCommandOutput.getStandardError().toString());
-	  System.out.println(systemCommandOutput.getStandardOutput().toString());
+	  assertEquals("[ls]", systemCommandOutput.getCommand());
+	  assertEquals("completed", systemCommandOutput.getStatus());
+	  assertEquals(-1, systemCommandOutput.getPid());
+	  assertEquals(0, systemCommandOutput.getExitCode());
+	  assertEquals(inputStreamString, systemCommandOutput.getStandardOutput().get(0));
+	  assertEquals(new ArrayList<String>(), systemCommandOutput.getStandardError());
+  }
+  
+  @Test
+  public void executeDaemonTest() throws Exception { 
+    InputStream processInputStream = new ByteArrayInputStream("".getBytes());
+    InputStream processErrorStream = new ByteArrayInputStream("".getBytes());
+    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream); 
+    when(ProcessUtils.getErrorStreamFromProcess(Mockito.any())).thenReturn(processErrorStream);
+    
+    SystemCommand systemCommand = new SystemCommand();
+    systemCommand.setCommand(Arrays.asList("vlc"));
+    systemCommand.setIsDaemon(true);
+    
+    SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
+    
+    assertEquals("[vlc]", systemCommandOutput.getCommand());
+    assertEquals("running", systemCommandOutput.getStatus());
+    assertEquals(-1, systemCommandOutput.getPid());
+    assertEquals(-1, systemCommandOutput.getExitCode());
+    assertEquals(null, systemCommandOutput.getStandardOutput());
+    assertEquals(null, systemCommandOutput.getStandardError());
   }
 
   @Test

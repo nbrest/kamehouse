@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.CommandLine;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.utils.ProcessUtils;
 import com.nicobrest.kamehouse.utils.PropertiesUtils;
 
 import org.apache.commons.lang.StringUtils;
@@ -93,14 +94,14 @@ public class SystemCommandService {
     InputStream processErrorStream = null;
     BufferedReader processErrorBufferedReader = null;
     try {
-      process = processBuilder.start();
+      process = ProcessUtils.startProcess(processBuilder);
       if (!systemCommand.isDaemon()) {
         // Not an ongoing process. Wait until the process finishes and then read
         // standard ouput and error streams.
-        waitForProcess(process);
+        ProcessUtils.waitForProcess(process);
         // Read command standard output stream
         List<String> processStandardOuputList = new ArrayList<String>();
-        processInputStream = getInputStreamFromProcess(process);
+        processInputStream = ProcessUtils.getInputStreamFromProcess(process);
         processBufferedReader = new BufferedReader(
             new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
         String inputStreamLine;
@@ -112,7 +113,7 @@ public class SystemCommandService {
         commandOutput.setStandardOutput(processStandardOuputList);
         // Read command standard error stream
         List<String> processStandardErrorList = new ArrayList<String>();
-        processErrorStream = getErrorStreamFromProcess(process);
+        processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
         processErrorBufferedReader = new BufferedReader(
             new InputStreamReader(processErrorStream, StandardCharsets.UTF_8));
         String errorStreamLine;
@@ -123,8 +124,9 @@ public class SystemCommandService {
         }
         commandOutput.setStandardError(processStandardErrorList);
 
-        commandOutput.setExitCode(process.exitValue());
-        if (process.exitValue() > 0) {
+        int exitValue = ProcessUtils.getExitValue(process);
+        commandOutput.setExitCode(exitValue);
+        if (exitValue > 0) {
           commandOutput.setStatus("failed");
         } else {
           commandOutput.setStatus("completed");
@@ -170,18 +172,6 @@ public class SystemCommandService {
       }
     }
     return commandOutput;
-  }
-
-  private void waitForProcess(Process process) throws InterruptedException {
-    process.waitFor();
-  }
-
-  private InputStream getInputStreamFromProcess(Process process) {
-    return process.getInputStream();
-  }
-
-  private InputStream getErrorStreamFromProcess(Process process) {
-    return process.getErrorStream();
   }
 
   private SystemCommand getStopVlcSystemCommand() {
