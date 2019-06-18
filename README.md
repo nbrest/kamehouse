@@ -3,7 +3,7 @@
 This application (still heavily under construction) will contain the following modules: 
 * Manage my media files
 * Control multiple VLC Players through their web API
-* Test endpoints to practice different frontend frameworks
+* Test API endpoints to practice different frontend frameworks
 * Login system
 * Application administration view 
 * Integration with social networks and popular APIs
@@ -23,8 +23,6 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 ##### Javascript frameworks/libraries:
 * Angular
-* Vue
-* React
 * jQuery
 
 ##### SCM:
@@ -62,6 +60,13 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 *********************
 # ChangeLog:
+#### v0.17
+- Added cobertura to the build process to maintain a minimum test coverage
+- Added backend functionality to shutdown the pc, cancel a scheduled shutdown or check the status of a shutdown command
+- Added backend functionality to get the list of my video playlists
+- Added backend functionality to start, stop and get the status of a local VLC player
+- Added test page to test new apis
+- Added test page to control a local VLC player
 #### v0.16
 - Added backend functionality to support multiple VLC Players and register them in the application
 #### v0.15
