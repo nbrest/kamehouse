@@ -67,6 +67,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Added backend functionality to start, stop and get the status of a local VLC player
 - Added test page to test new apis
 - Added test page to control a local VLC player
+- Split the application into different packages (admin, main, media, systemcommand, testmodule, utils and vlcrc) as a first step to eventually make them independent modules/services.
 #### v0.16
 - Added backend functionality to support multiple VLC Players and register them in the application
 #### v0.15
