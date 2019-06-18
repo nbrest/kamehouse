@@ -5,7 +5,7 @@
   <groupId>com.nicobrest</groupId>
   <artifactId>java-web-kame-house</artifactId>
   <packaging>war</packaging>
-  <version>0.16.1-SNAPSHOT</version>
+  <version>0.17.1-SNAPSHOT</version>
   <name>Java Web - Kame House</name>
   <url>https://www.nicobrest.com</url>
 
