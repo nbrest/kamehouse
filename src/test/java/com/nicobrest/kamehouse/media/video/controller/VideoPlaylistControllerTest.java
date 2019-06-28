@@ -27,6 +27,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
@@ -78,12 +79,17 @@ public class VideoPlaylistControllerTest {
     when(videoPlaylistService.getAllVideoPlaylists()).thenReturn(videoPlaylistsListMock);
 
     try {
-      mockMvc.perform(get("/api/v1/media/video/playlists")).andDo(print()).andExpect(status()
-          .isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(
-              jsonPath("$", hasSize(4))).andExpect(jsonPath("$[0].name", equalTo(
-                  videoPlaylistsListMock.get(0).getName()))).andExpect(jsonPath("$[0].category",
-                      equalTo(videoPlaylistsListMock.get(0).getCategory()))).andExpect(jsonPath(
-                          "$[0].path", equalTo(videoPlaylistsListMock.get(0).getPath())));
+      ResultActions requestResult = mockMvc.perform(get("/api/v1/media/video/playlists"))
+          .andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
+      requestResult.andExpect(jsonPath("$", hasSize(4)));
+      requestResult
+          .andExpect(jsonPath("$[0].name", equalTo(videoPlaylistsListMock.get(0).getName())));
+      requestResult.andExpect(
+          jsonPath("$[0].category", equalTo(videoPlaylistsListMock.get(0).getCategory())));
+      requestResult
+          .andExpect(jsonPath("$[0].path", equalTo(videoPlaylistsListMock.get(0).getPath())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
