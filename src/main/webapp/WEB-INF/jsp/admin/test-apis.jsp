@@ -81,6 +81,15 @@
       value="Cancel Shutdown"
       class="btn btn-outline-success" />
     
+    <br><br><h5>/api/v1/admin/unlock-screen Request</h5><br>
+    <input type="button" onclick="executePost('/kame-house/api/v1/admin/lock-screen', null)"
+      value="Lock Screen"
+      class="btn btn-outline-warn" />
+    <br><br>
+    <input type="button" onclick="executePost('/kame-house/api/v1/admin/unlock-screen', null)"
+      value="Unlock Screen"
+      class="btn btn-outline-warn" />
+    
     <br><br><h5>/api/v1/media/video/playlists Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/media/video/playlists')"
       value="/kame-house/api/v1/media/video/playlists GET"

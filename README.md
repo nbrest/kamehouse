@@ -58,8 +58,17 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 '@reboot /bin/bash /PATH-TO-MY-SCRIPT/tomcat-startup.sh'
 - Also update the script startup.sh and as the second line add 'export DISPLAY=:0' otherwise vlc start will fail because DISPLAY env variable won't be set at reboot time when tomcat is being started. I don't need to set it if I run startup.sh from my desktop but if I schedule it with cron, startup.sh needs to be updated with that export.
 
+### Make lock and unlock screen work on windows and linux:
+- Setup a vnc server running in the same server as the application.
+- Install vncdotool (follow https://vncdotool.readthedocs.io/en/latest/install.html#windows) in the same server that runs the application.
+- Encode user password for the user and store it in a file specified by the property unlock.screen.pwd.file. This file should be readable only by the user, hidden from anyone else. The application will type this password to unlock the session. 
+- If the vnc server is configured with a password (it should!), also set the file pointed by vnc.server.pwd.file with the vnc server password. This password will be used by vncdo to execute the commands through vnc. Again, this file contains an encoded password so it should be only readable by the user owning this process.
+- Using a vnc server and vncdotool is the only way I found to unlock the screen remotely on windows 10 (also works on ubuntu 16). If you read this and have a better solution, please contact me.
+- Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu).
 *********************
 # ChangeLog:
+#### v0.18
+- Added lock and unlock screen functionality
 #### v0.17
 - Added cobertura to the build process to maintain a minimum test coverage
 - Added backend functionality to shutdown the pc, cancel a scheduled shutdown or check the status of a shutdown command
@@ -67,7 +76,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Added backend functionality to start, stop and get the status of a local VLC player
 - Added test page to test new apis
 - Added test page to control a local VLC player
-- Split the application into different packages (admin, main, media, systemcommand, testmodule, utils and vlcrc) as a first step to eventually make them independent modules/services.
+- Split the application into different packages (admin, main, media, systemcommand, testmodule, utils and vlcrc) as a first step to eventually make them independent modules/services
 #### v0.16
 - Added backend functionality to support multiple VLC Players and register them in the application
 #### v0.15

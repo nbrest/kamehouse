@@ -9,7 +9,6 @@ import com.nicobrest.kamehouse.systemcommand.service.SystemCommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +41,7 @@ public class AdminShutdownService {
     }
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
-    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
     return systemCommandOutputs;
   }
 
@@ -54,7 +53,7 @@ public class AdminShutdownService {
     adminShutdownCommand.setCommand(AdminShutdownCommand.CANCEL);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
-    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
     return systemCommandOutputs;
   }
 
@@ -66,19 +65,7 @@ public class AdminShutdownService {
     adminShutdownCommand.setCommand(AdminShutdownCommand.STATUS);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
-    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
-    return systemCommandOutputs;
-  }
-  
-  /**
-   * Execute the specified list of system commands.
-   */
-  private List<SystemCommandOutput> executeSystemCommands(List<SystemCommand> systemCommands) {
-    List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
-    for (SystemCommand systemCommand : systemCommands) {
-      SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
-      systemCommandOutputs.add(systemCommandOutput);
-    }
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
     return systemCommandOutputs;
   }
 }

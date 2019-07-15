@@ -31,9 +31,10 @@ public class AdminVlcService {
   public void setSystemCommandService(SystemCommandService systemCommandService) {
     this.systemCommandService = systemCommandService;
   }
-  
+
   /**
-   * Start vlc player with the specified file or playlist in the AdminVlcCommand.
+   * Start vlc player with the specified file or playlist in the
+   * AdminVlcCommand.
    */
   public List<SystemCommandOutput> startVlcPlayer(AdminVlcCommand adminVlcCommand) {
     if (!AdminVlcCommand.START.equals(adminVlcCommand.getCommand())) {
@@ -41,7 +42,7 @@ public class AdminVlcService {
           .getCommand());
     }
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
-    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
     return systemCommandOutputs;
   }
 
@@ -52,7 +53,7 @@ public class AdminVlcService {
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
     adminVlcCommand.setCommand(AdminVlcCommand.STOP);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
-    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
     return systemCommandOutputs;
   }
 
@@ -63,19 +64,11 @@ public class AdminVlcService {
     AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
     adminVlcCommand.setCommand(AdminVlcCommand.STATUS);
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminVlcCommand);
-    List<SystemCommandOutput> systemCommandOutputs = executeSystemCommands(systemCommands);
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
     return systemCommandOutputs;
   }
-  
-  /**
-   * Execute the specified list of system commands.
-   */
-  private List<SystemCommandOutput> executeSystemCommands(List<SystemCommand> systemCommands) {
-    List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
-    for (SystemCommand systemCommand : systemCommands) {
-      SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
-      systemCommandOutputs.add(systemCommandOutput);
-    }
-    return systemCommandOutputs;
-  }
+  // TODO: AdminlockscreenService, shutdown service and vlc service look the
+  // same. Consider making just one service for all and in the cases I need to
+  // validate input, maybe do it in the controller, if its something that comes
+  // from the request
 }
