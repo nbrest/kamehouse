@@ -26,6 +26,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
@@ -62,10 +63,10 @@ public class SessionStatusControllerTest {
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(sessionStatusServiceMock);
-    mockMvc = MockMvcBuilders.standaloneSetup(sessionStatusController).apply(
-        SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain)).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(sessionStatusController)
+        .apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain)).build();
   }
-
+  
   /**
    * Tests getting the current session information.
    */
@@ -84,12 +85,15 @@ public class SessionStatusControllerTest {
 
     when(sessionStatusServiceMock.getSessionStatus()).thenReturn(sessionStatusMock);
     try {
-      mockMvc.perform(get("/api/v1/session/status")).andDo(print()).andExpect(status().isOk())
-          .andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath(
-              "$.username", equalTo("anonymousUser"))).andExpect(jsonPath("$.session-id", equalTo(
-                  null))).andExpect(jsonPath("$.firstName", equalTo(null))).andExpect(jsonPath(
-                      "$.lastName", equalTo(null))).andExpect(jsonPath("$.email", equalTo(null)))
-          .andExpect(jsonPath("$.roles", equalTo(roleAnonymous)));
+      ResultActions requestResult = mockMvc.perform(get("/api/v1/session/status")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
+      requestResult.andExpect(jsonPath("$.username", equalTo("anonymousUser")));
+      requestResult.andExpect(jsonPath("$.session-id", equalTo(null)));
+      requestResult.andExpect(jsonPath("$.firstName", equalTo(null)));
+      requestResult.andExpect(jsonPath("$.lastName", equalTo(null)));
+      requestResult.andExpect(jsonPath("$.email", equalTo(null)));
+      requestResult.andExpect(jsonPath("$.roles", equalTo(roleAnonymous)));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

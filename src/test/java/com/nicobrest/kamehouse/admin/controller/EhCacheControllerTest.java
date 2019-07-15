@@ -29,6 +29,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.HashMap;
@@ -91,18 +92,24 @@ public class EhCacheControllerTest {
     when(ehCacheServiceMock.getAllCaches()).thenReturn(cacheList);
     when(ehCacheServiceMock.getCache("getAllDragonBallUsersCache")).thenReturn(cacheMap);
     try {
-      mockMvc.perform(get("/api/v1/admin/ehcache")).andDo(print()).andExpect(status()
-          .isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(
-              jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].name", equalTo(
-                  "getAllDragonBallUsersCache"))).andExpect(jsonPath("$[0].keys", equalTo("[]")))
-          .andExpect(jsonPath("$[0].values", equalTo("[ ]"))).andExpect(jsonPath("$[0].status",
-              equalTo("STATUS_ALIVE")));
-      mockMvc.perform(get("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache")).andDo(
-          print()).andExpect(status().isOk()).andExpect(content().contentType(
-              "application/json;charset=UTF-8")).andExpect(jsonPath("$", hasSize(1))).andExpect(
-                  jsonPath("$[0].name", equalTo("getAllDragonBallUsersCache"))).andExpect(jsonPath(
-                      "$[0].keys", equalTo("[]"))).andExpect(jsonPath("$[0].values", equalTo(
-                          "[ ]"))).andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
+      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/ehcache")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
+      requestResult.andExpect(jsonPath("$", hasSize(1)));
+      requestResult.andExpect(jsonPath("$[0].name", equalTo("getAllDragonBallUsersCache")));
+      requestResult.andExpect(jsonPath("$[0].keys", equalTo("[]")));
+      requestResult.andExpect(jsonPath("$[0].values", equalTo("[ ]")));
+      requestResult.andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
+
+      requestResult = mockMvc.perform(get("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache"))
+          .andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
+      requestResult.andExpect(jsonPath("$", hasSize(1)));
+      requestResult.andExpect(jsonPath("$[0].name", equalTo("getAllDragonBallUsersCache")));
+      requestResult.andExpect(jsonPath("$[0].keys", equalTo("[]")));
+      requestResult.andExpect(jsonPath("$[0].values", equalTo("[ ]")));
+      requestResult.andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -119,10 +126,12 @@ public class EhCacheControllerTest {
   public void clearCacheTest() {
 
     try {
-      mockMvc.perform(delete("/api/v1/admin/ehcache")).andDo(print()).andExpect(status()
-          .isOk());
-      mockMvc.perform(delete("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache")).andDo(
-          print()).andExpect(status().isOk());
+      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/ehcache")).andDo(print());
+      requestResult.andExpect(status().isOk());
+
+      requestResult = mockMvc
+          .perform(delete("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache")).andDo(print());
+      requestResult.andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

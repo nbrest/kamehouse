@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.vlcrc.controller;
+package com.nicobrest.kamehouse.vlcrc.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -36,10 +37,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class ViewResolverControllerTest {
 
   private MockMvc mockMvc;
-  
+
   @Mock
   private MockHttpServletRequest request;
-  
+
   @Mock
   private MockHttpServletResponse response;
 
@@ -56,8 +57,8 @@ public class ViewResolverControllerTest {
     viewResolver.setSuffix(".jsp");
 
     MockitoAnnotations.initMocks(this);
-    mockMvc = MockMvcBuilders.standaloneSetup(viewResolverController).setViewResolvers(
-        viewResolver).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(viewResolverController).setViewResolvers(viewResolver)
+        .build();
   }
 
   /**
@@ -67,41 +68,47 @@ public class ViewResolverControllerTest {
   public void allViewsTest() {
 
     try {
-      mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk()).andExpect(view().name(
-          "/index"));
-      
-      mockMvc.perform(get("/about")).andDo(print()).andExpect(status().isOk()).andExpect(
-          view().name("/about"));
+      ResultActions requestResult = mockMvc.perform(get("/")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(view().name("/index"));
+
+      requestResult = mockMvc.perform(get("/about")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(view().name("/about"));
 
       when(request.getServletPath()).thenReturn("/admin/");
       String adminIndex = viewResolverController.adminPage(request, response);
-      assertEquals("/admin/index",adminIndex);
+      assertEquals("/admin/index", adminIndex);
       when(request.getServletPath()).thenReturn("/admin/goku");
       String adminSubpage = viewResolverController.adminPage(request, response);
-      assertEquals("/admin/goku",adminSubpage);
-      
+      assertEquals("/admin/goku", adminSubpage);
+
       when(request.getServletPath()).thenReturn("/app/");
       String appIndex = viewResolverController.appPage(request, response);
-      assertEquals("/app/index",appIndex);
-      
+      assertEquals("/app/index", appIndex);
+
       when(request.getServletPath()).thenReturn("/app/gohan");
       String appSubpage = viewResolverController.appPage(request, response);
-      assertEquals("/app/gohan",appSubpage);
+      assertEquals("/app/gohan", appSubpage);
 
-      mockMvc.perform(get("/contact-us")).andDo(print()).andExpect(status().isOk()).andExpect(
-          view().name("/contact-us"));
+      requestResult = mockMvc.perform(get("/contact-us")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(view().name("/contact-us"));
 
       when(request.getServletPath()).thenReturn("/jsp/");
       String jspIndex = viewResolverController.jspPage(request, response);
-      assertEquals("/jsp/index",jspIndex);
+      assertEquals("/jsp/index", jspIndex);
       when(request.getServletPath()).thenReturn("/jsp/trunks");
       String jspSubpage = viewResolverController.jspPage(request, response);
-      assertEquals("/jsp/trunks",jspSubpage);
+      assertEquals("/jsp/trunks", jspSubpage);
 
-      mockMvc.perform(get("/login")).andDo(print()).andExpect(status().isOk()).andExpect(view()
-          .name("/login"));
-      mockMvc.perform(get("/logout")).andDo(print()).andExpect(status().is3xxRedirection())
-          .andExpect(view().name("redirect:/login?logout"));
+      requestResult = mockMvc.perform(get("/login")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(view().name("/login"));
+      
+      requestResult = mockMvc.perform(get("/logout")).andDo(print());
+      requestResult.andExpect(status().is3xxRedirection());
+      requestResult.andExpect(view().name("redirect:/login?logout"));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
