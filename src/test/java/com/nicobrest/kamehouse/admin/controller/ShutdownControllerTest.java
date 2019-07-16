@@ -17,11 +17,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
+import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.testutils.JsonUtils;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,7 +38,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.util.NestedServletException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +63,10 @@ public class ShutdownControllerTest {
 
   @Mock
   private AdminCommandService adminCommandService;
-
+  
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+  
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
@@ -100,6 +109,21 @@ public class ShutdownControllerTest {
   }
 
   /**
+   * Set shutdown exception test.
+   */
+  @Test
+  public void setShutdownExceptionTest() throws IOException, Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
+        KameHouseInvalidCommandException.class));
+    
+    AdminCommand adminShutdownCommand = new AdminCommand("INVALID_SET");
+
+    mockMvc.perform(post("/api/v1/admin/shutdown").contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(JsonUtils.convertToJsonBytes(adminShutdownCommand))).andDo(print());
+  }
+
+  /**
    * Cancel shutdown successful test.
    */
   @Test
@@ -128,7 +152,7 @@ public class ShutdownControllerTest {
     verify(adminCommandService, times(1)).execute(Mockito.any());
     verifyNoMoreInteractions(adminCommandService);
   }
-  
+
   /**
    * Cancel shutdown server error test.
    */
