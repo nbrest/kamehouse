@@ -33,7 +33,8 @@ public enum CommandLine {
   VLC_STOP_LINUX("skill", "-9", "vlc"),
   VLC_STOP_WINDOWS("cmd.exe", "/c", "start", "taskkill", "/im", "vlc.exe"),
   
-  VNCDO_KEY_LINUX("/bin/bash", "-c", "/usr/local/bin/vncdo --server HOSTNAME --password VNC_SERVER_PASSWORD key"),
+  VNCDO_KEY_LINUX("/bin/bash", "-c", 
+      "/usr/local/bin/vncdo --server HOSTNAME --password VNC_SERVER_PASSWORD key"),
   VNCDO_KEY_WINDOWS("cmd.exe", "/c", "vncdo", "--server", "HOSTNAME", "--password",
       "VNC_SERVER_PASSWORD",  "key"),
 
