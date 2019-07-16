@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.utils;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -7,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -64,11 +66,11 @@ public class PropertiesUtils {
   /**
    * Returns the hostname of the server.
    */
-  public static String getHostname() {
+  public static String getHostname() throws IOException {
     if (isWindowsHost()) {
       return System.getenv("COMPUTERNAME").toLowerCase(Locale.getDefault());
     } else {
-      return System.getenv("HOSTNAME").toLowerCase(Locale.getDefault());
+      return IOUtils.toString(Runtime.getRuntime().exec("hostname").getInputStream());
     }
   }
 
