@@ -1,8 +1,6 @@
 package com.nicobrest.kamehouse.systemcommand.service;
 
-import com.nicobrest.kamehouse.admin.model.AdminLockScreenCommand;
-import com.nicobrest.kamehouse.admin.model.AdminShutdownCommand;
-import com.nicobrest.kamehouse.admin.model.AdminVlcCommand;
+import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.CommandLine;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
@@ -38,73 +36,45 @@ import java.util.List;
 public class SystemCommandService {
 
   private static final Logger logger = LoggerFactory.getLogger(SystemCommandService.class);
-
+  private static final int HOSTNAME_INDEX = 4;
+  private static final int VNC_SERVER_PASSWORD_INDEX = 6;
+  
   /**
-   * Get the list of system commands for the specified AdminVlcCommand.
+   * Get the list of system commands for the specified AdminCommand.
    */
-  public List<SystemCommand> getSystemCommands(AdminVlcCommand adminVlcCommand) {
+  public List<SystemCommand> getSystemCommands(AdminCommand adminCommand) {
 
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
-    switch (adminVlcCommand.getCommand()) {
-      case AdminVlcCommand.START:
-        systemCommands.add(getStopVlcSystemCommand());
-        systemCommands.add(getStartVlcSystemCommand(adminVlcCommand));
+    switch (adminCommand.getCommand()) {
+      case AdminCommand.LOCK_SCREEN:
+        systemCommands.add(getLockScreenSystemCommand());
         break;
-      case AdminVlcCommand.STOP:
+      case AdminCommand.SHUTDOWN_SET:
+        systemCommands.add(getSetShutdownSystemCommand(adminCommand));
+        break;
+      case AdminCommand.SHUTDOWN_CANCEL:
+        systemCommands.add(getCancelShutdownSystemCommand());
+        break;
+      case AdminCommand.SHUTDOWN_STATUS:
+        systemCommands.add(getStatusShutdownSystemCommand());
+        break;
+      case AdminCommand.UNLOCK_SCREEN:
+        systemCommands.addAll(getUnlockScreenSystemCommands());
+        break;
+      case AdminCommand.VLC_START:
+        systemCommands.add(getStopVlcSystemCommand());
+        systemCommands.add(getStartVlcSystemCommand(adminCommand));
+        break;
+      case AdminCommand.VLC_STOP:
         systemCommands.add(getStopVlcSystemCommand());
         break;
-      case AdminVlcCommand.STATUS:
+      case AdminCommand.VLC_STATUS:
         systemCommands.add(getStatusVlcSystemCommand());
         break;
       default:
-        logger.error("Invalid AdminVlcCommand " + adminVlcCommand.getCommand());
-        throw new KameHouseInvalidCommandException("Invalid AdminVlcCommand " + adminVlcCommand
-            .getCommand());
-    }
-    return systemCommands;
-  }
-
-  /**
-   * Get the list of system commands for the specified AdminShutdownCommand.
-   */
-  public List<SystemCommand> getSystemCommands(AdminShutdownCommand adminShutdownCommand) {
-
-    List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
-    switch (adminShutdownCommand.getCommand()) {
-      case AdminShutdownCommand.SET:
-        systemCommands.add(getSetShutdownSystemCommand(adminShutdownCommand));
-        break;
-      case AdminShutdownCommand.CANCEL:
-        systemCommands.add(getCancelShutdownSystemCommand());
-        break;
-      case AdminShutdownCommand.STATUS:
-        systemCommands.add(getStatusShutdownSystemCommand());
-        break;
-      default:
-        logger.error("Invalid AdminShutdownCommand " + adminShutdownCommand.getCommand());
-        throw new KameHouseInvalidCommandException("Invalid AdminShutdownCommand "
-            + adminShutdownCommand.getCommand());
-    }
-    return systemCommands;
-  }
-
-  /**
-   * Get the list of system commands for the specified AdminLockScreenCommand.
-   */
-  public List<SystemCommand> getSystemCommands(AdminLockScreenCommand adminLockScreenCommand) {
-
-    List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
-    switch (adminLockScreenCommand.getCommand()) {
-      case AdminLockScreenCommand.LOCK:
-        systemCommands.add(getLockScreenSystemCommand());
-        break;
-      case AdminLockScreenCommand.UNLOCK:
-        systemCommands.addAll(getUnlockScreenSystemCommands());
-        break;
-      default:
-        logger.error("Invalid AdminLockScreenCommand " + adminLockScreenCommand.getCommand());
-        throw new KameHouseInvalidCommandException("Invalid AdminLockScreenCommand "
-            + adminLockScreenCommand.getCommand());
+        logger.error("Invalid AdminCommand " + adminCommand.getCommand());
+        throw new KameHouseInvalidCommandException("Invalid AdminCommand "
+            + adminCommand.getCommand());
     }
     return systemCommands;
   }
@@ -244,14 +214,14 @@ public class SystemCommandService {
   /**
    * Get the system command to start a VLC player.
    */
-  private SystemCommand getStartVlcSystemCommand(AdminVlcCommand adminVlcCommand) {
+  private SystemCommand getStartVlcSystemCommand(AdminCommand vlcStartAdminCommand) {
 
     SystemCommand startVlcSystemCommand = new SystemCommand();
     startVlcSystemCommand.setIsDaemon(true);
     String file = "";
-    if (adminVlcCommand.getFile() != null) {
+    if (vlcStartAdminCommand.getFile() != null) {
       // TODO check if the file exists, if it doesn't throw an exception.
-      file = adminVlcCommand.getFile();
+      file = vlcStartAdminCommand.getFile();
     }
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
@@ -285,20 +255,20 @@ public class SystemCommandService {
   /**
    * Get the system command to set the server shutdown.
    */
-  private SystemCommand getSetShutdownSystemCommand(AdminShutdownCommand adminShutdownCommand) {
+  private SystemCommand getSetShutdownSystemCommand(AdminCommand shutdownSetAdminCommand) {
 
     SystemCommand setShutdownSystemCommand = new SystemCommand();
     setShutdownSystemCommand.setIsDaemon(false);
-    if (adminShutdownCommand.getTime() <= 0) {
+    if (shutdownSetAdminCommand.getTime() <= 0) {
       throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
-          + adminShutdownCommand.getTime());
+          + shutdownSetAdminCommand.getTime());
     }
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.get());
-      command.add(String.valueOf(adminShutdownCommand.getTime()));
+      command.add(String.valueOf(shutdownSetAdminCommand.getTime()));
     } else {
-      int timeInMinutes = adminShutdownCommand.getTime() / 60;
+      int timeInMinutes = shutdownSetAdminCommand.getTime() / 60;
       Collections.addAll(command, CommandLine.SHUTDOWN_LINUX.get());
       command.add(String.valueOf(timeInMinutes));
     }
@@ -369,10 +339,6 @@ public class SystemCommandService {
     List<SystemCommand> unlockScreenSystemCommands = new ArrayList<SystemCommand>();
     unlockScreenSystemCommands.add(getLockScreenSystemCommand());
 
-    int hostnameIndex = 4;
-    int vncServerPasswordIndex = 6;
-    String vncServerPassword = getVncServerPassword();
-
     // Press ESC key command
     SystemCommand vncdoKeyEscSystemCommand = new SystemCommand();
     vncdoKeyEscSystemCommand.setIsDaemon(false);
@@ -382,8 +348,9 @@ public class SystemCommandService {
     } else {
       Collections.addAll(vncdoKeyEscCommandList, CommandLine.VNCDO_KEY_LINUX.get());
     }
-    vncdoKeyEscCommandList.set(hostnameIndex, PropertiesUtils.getHostname());
-    vncdoKeyEscCommandList.set(vncServerPasswordIndex, vncServerPassword);
+    vncdoKeyEscCommandList.set(HOSTNAME_INDEX, PropertiesUtils.getHostname());
+    String vncServerPassword = getVncServerPassword();
+    vncdoKeyEscCommandList.set(VNC_SERVER_PASSWORD_INDEX, vncServerPassword);
     vncdoKeyEscCommandList.add("esc");
     vncdoKeyEscSystemCommand.setCommand(vncdoKeyEscCommandList);
     unlockScreenSystemCommands.add(vncdoKeyEscSystemCommand);
@@ -397,8 +364,8 @@ public class SystemCommandService {
     } else {
       Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_LINUX.get());
     }
-    vncdoTypePasswordCommandList.set(hostnameIndex, PropertiesUtils.getHostname());
-    vncdoTypePasswordCommandList.set(vncServerPasswordIndex, vncServerPassword);
+    vncdoTypePasswordCommandList.set(HOSTNAME_INDEX, PropertiesUtils.getHostname());
+    vncdoTypePasswordCommandList.set(VNC_SERVER_PASSWORD_INDEX, vncServerPassword);
     String unlockScreenPassword = getUnlockScreenPassword();
     vncdoTypePasswordCommandList.add(unlockScreenPassword);
     vncdoTypePasswordSystemCommand.setCommand(vncdoTypePasswordCommandList);
@@ -413,8 +380,8 @@ public class SystemCommandService {
     } else {
       Collections.addAll(vncdoKeyEnterCommandList, CommandLine.VNCDO_KEY_LINUX.get());
     }
-    vncdoKeyEnterCommandList.set(hostnameIndex, PropertiesUtils.getHostname());
-    vncdoKeyEnterCommandList.set(vncServerPasswordIndex, vncServerPassword);
+    vncdoKeyEnterCommandList.set(HOSTNAME_INDEX, PropertiesUtils.getHostname());
+    vncdoKeyEnterCommandList.set(VNC_SERVER_PASSWORD_INDEX, vncServerPassword);
     vncdoKeyEnterCommandList.add("enter");
     vncdoKeyEnterSystemCommand.setCommand(vncdoKeyEnterCommandList);
     unlockScreenSystemCommands.add(vncdoKeyEnterSystemCommand);
@@ -422,53 +389,48 @@ public class SystemCommandService {
     return unlockScreenSystemCommands;
   }
 
+  /**
+   * Get the unlock screen password from a file.
+   */
   private String getUnlockScreenPassword() {
     String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getAdminProperty("unlock.screen.pwd.file");
-    String unlockScreenPassword = null;
-    try {
-      List<String> unlockScreenPasswordList = Files.readAllLines(Paths.get(unlockScreenPwdFile));
-      if (unlockScreenPasswordList != null && !unlockScreenPasswordList.isEmpty()) {
-        String unlockScreenPasswordEncoded = Files.readAllLines(Paths.get(unlockScreenPwdFile))
-            .get(0);
-        byte[] unlockScreenPasswordDecodedBytes = Base64.getDecoder().decode(
-            unlockScreenPasswordEncoded);
-        unlockScreenPassword = new String(unlockScreenPasswordDecodedBytes,
-            StandardCharsets.UTF_8);
-      }
-    } catch (IOException | IllegalArgumentException e) {
-      logger.error("Error while reading unlock screen password from file. Message: " + e
-          .getMessage());
-      unlockScreenPassword = "ERROR_READING_PASSWORD";
-    }
-    if (StringUtils.isEmpty(unlockScreenPassword)) {
-      unlockScreenPassword = "''";
-    }
+    String unlockScreenPassword = getDecodedPasswordFromFile(unlockScreenPwdFile);
     return unlockScreenPassword;
   }
 
-  // TODO: Move functionality to extract password to a common place, passing
-  // property file
+  /**
+   * Get the vnc server password from a file.
+   */
   private String getVncServerPassword() {
     String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getAdminProperty("vnc.server.pwd.file");
-    String vncServerPassword = null;
+    String vncServerPassword = getDecodedPasswordFromFile(vncServerPwdFile);
+    return vncServerPassword;
+  }
+  
+  /**
+   * Get the encoded password from the specified file and decode it.
+   */
+  private String getDecodedPasswordFromFile(String passwordFile) {
+   
+    String decodedPassword = null;
     try {
-      List<String> vncServerPasswordList = Files.readAllLines(Paths.get(vncServerPwdFile));
-      if (vncServerPasswordList != null && !vncServerPasswordList.isEmpty()) {
-        String vncServerPasswordEncoded = vncServerPasswordList.get(0);
-        byte[] vncServerPasswordDecodedBytes = Base64.getDecoder().decode(
-            vncServerPasswordEncoded);
-        vncServerPassword = new String(vncServerPasswordDecodedBytes, StandardCharsets.UTF_8);
+      List<String> encodedPasswordList = Files.readAllLines(Paths.get(passwordFile));
+      if (encodedPasswordList != null && !encodedPasswordList.isEmpty()) {
+        String encodedPassword = encodedPasswordList.get(0);
+        byte[] decodedPasswordBytes = Base64.getDecoder().decode(
+            encodedPassword);
+        decodedPassword = new String(decodedPasswordBytes, StandardCharsets.UTF_8);
       }
     } catch (IOException | IllegalArgumentException e) {
       logger.error("Error while reading vnc server password from file. Message: " + e
           .getMessage());
-      vncServerPassword = "ERROR_READING_PASSWORD";
+      decodedPassword = "ERROR_READING_PASSWORD";
     }
-    if (StringUtils.isEmpty(vncServerPassword)) {
-      vncServerPassword = "''";
+    if (StringUtils.isEmpty(decodedPassword)) {
+      decodedPassword = "''";
     }
-    return vncServerPassword;
+    return decodedPassword;
   }
 }

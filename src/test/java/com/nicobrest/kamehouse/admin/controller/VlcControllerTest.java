@@ -15,8 +15,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nicobrest.kamehouse.admin.model.AdminShutdownCommand;
-import com.nicobrest.kamehouse.admin.service.AdminShutdownService;
+import com.nicobrest.kamehouse.admin.model.AdminCommand;
+import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.testutils.JsonUtils;
 
@@ -40,7 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Unit tests for AdminShutdownController class.
+ * Unit tests for the VlcController class.
  * 
  * @author nbrest
  *
@@ -48,37 +48,37 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class AdminShutdownControllerTest {
+public class VlcControllerTest {
 
   private MockMvc mockMvc;
 
   @InjectMocks
-  private AdminShutdownController adminShutdownController;
+  private VlcController adminVlcController;
 
   @Mock
-  private AdminShutdownService adminShutdownService;
+  private AdminCommandService adminCommandService;
 
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(adminShutdownService);
-    mockMvc = MockMvcBuilders.standaloneSetup(adminShutdownController).build();
+    Mockito.reset(adminCommandService);
+    mockMvc = MockMvcBuilders.standaloneSetup(adminVlcController).build();
   }
 
   /**
-   * Set shutdown successful test.
+   * Start VLC player successful test.
    */
   @Test
-  public void setShutdownTest() {
-    List<SystemCommandOutput> mockCommandOutputs = mockSetShutdownCommandOutputs();
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.SET);
-    adminShutdownCommand.setTime(5400);
-    when(adminShutdownService.setShutdown(Mockito.any())).thenReturn(mockCommandOutputs);
+  public void startVlcPlayerTest() {
+    List<SystemCommandOutput> mockCommandOutputs = mockStartVlcCommandOutputs();
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.VLC_START);
+    adminVlcCommand.setFile("marvel.m3u");
+    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/shutdown").contentType(
+      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/vlc").contentType(
           MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
-              adminShutdownCommand))).andDo(print());
+              adminVlcCommand))).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -95,19 +95,19 @@ public class AdminShutdownControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminShutdownService, times(1)).setShutdown(Mockito.any());
-    verifyNoMoreInteractions(adminShutdownService);
+    verify(adminCommandService, times(1)).execute(Mockito.any());
+    verifyNoMoreInteractions(adminCommandService);
   }
 
   /**
-   * Cancel shutdown successful test.
+   * Stop VLC player successful test.
    */
   @Test
-  public void cancelShutdownTest() {
-    List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
-    when(adminShutdownService.cancelShutdown()).thenReturn(mockCommandOutputs);
+  public void stopVlcPlayerTest() {
+    List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
+    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/shutdown")).andDo(
+      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(
           print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -125,39 +125,39 @@ public class AdminShutdownControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminShutdownService, times(1)).cancelShutdown();
-    verifyNoMoreInteractions(adminShutdownService);
+    verify(adminCommandService, times(1)).execute(Mockito.any());
+    verifyNoMoreInteractions(adminCommandService);
   }
   
   /**
-   * Cancel shutdown server error test.
+   * Stop VLC server error test.
    */
   @Test
-  public void cancelShutdownServerErrorTest() {
-    List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
+  public void stopVlcPlayerServerErrorTest() {
+    List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
     mockCommandOutputs.get(0).setExitCode(1);
-    when(adminShutdownService.cancelShutdown()).thenReturn(mockCommandOutputs);
+    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/shutdown")).andDo(
+      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(
           print());
       requestResult.andExpect(status().is5xxServerError());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminShutdownService, times(1)).cancelShutdown();
-    verifyNoMoreInteractions(adminShutdownService);
+    verify(adminCommandService, times(1)).execute(Mockito.any());
+    verifyNoMoreInteractions(adminCommandService);
   }
 
   /**
-   * Shutdown status successful test.
+   * Status VLC successful test.
    */
   @Test
-  public void statusShutdownTest() {
-    List<SystemCommandOutput> mockCommandOutputs = mockStatusShutdownCommandOutputs();
-    when(adminShutdownService.statusShutdown()).thenReturn(mockCommandOutputs);
+  public void statusVlcPlayerTest() {
+    List<SystemCommandOutput> mockCommandOutputs = mockStatusVlcPlayerCommandOutputs();
+    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/shutdown")).andDo(print());
+      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/vlc")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -174,17 +174,33 @@ public class AdminShutdownControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminShutdownService, times(1)).statusShutdown();
-    verifyNoMoreInteractions(adminShutdownService);
+    verify(adminCommandService, times(1)).execute(Mockito.any());
+    verifyNoMoreInteractions(adminCommandService);
   }
 
   /**
-   * Mock set shutdown command outputs.
+   * Mock start VLC command outputs.
    */
-  private List<SystemCommandOutput> mockSetShutdownCommandOutputs() {
+  private List<SystemCommandOutput> mockStartVlcCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
-    commandOutput.setCommand("[cmd.exe, /c, start, shutdown, /s, /t , 5400]");
+    commandOutput.setCommand("[cmd.exe, /c, start, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
+    commandOutput.setExitCode(-1);
+    commandOutput.setPid(-1);
+    commandOutput.setStatus("running");
+    commandOutput.setStandardOutput(null);
+    commandOutput.setStandardError(null);
+    commandOutputs.add(commandOutput);
+    return commandOutputs;
+  }
+
+  /**
+   * Mock stop VLC command outputs.
+   */
+  private List<SystemCommandOutput> mockStopVlcCommandOutputs() {
+    List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
+    SystemCommandOutput commandOutput = new SystemCommandOutput();
+    commandOutput.setCommand("[cmd.exe, /c, start, taskkill, /im, vlc.exe]");
     commandOutput.setExitCode(0);
     commandOutput.setPid(-1);
     commandOutput.setStatus("completed");
@@ -195,28 +211,12 @@ public class AdminShutdownControllerTest {
   }
 
   /**
-   * Mock cancel shutdown command outputs.
+   * Mock status VLC command outputs.
    */
-  private List<SystemCommandOutput> mockCancelShutdownCommandOutputs() {
+  private List<SystemCommandOutput> mockStatusVlcPlayerCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
-    commandOutput.setCommand("[cmd.exe, /c, start, shutdown, /a]");
-    commandOutput.setExitCode(0);
-    commandOutput.setPid(-1);
-    commandOutput.setStatus("completed");
-    commandOutput.setStandardOutput(new ArrayList<String>());
-    commandOutput.setStandardError(new ArrayList<String>());
-    commandOutputs.add(commandOutput);
-    return commandOutputs;
-  }
-
-  /**
-   * Mock shutdown status command outputs.
-   */
-  private List<SystemCommandOutput> mockStatusShutdownCommandOutputs() {
-    List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
-    SystemCommandOutput commandOutput = new SystemCommandOutput();
-    commandOutput.setCommand("[tasklist, /FI, IMAGENAME eq shutdown.exe]");
+    commandOutput.setCommand("[tasklist, /FI, IMAGENAME eq vlc.exe]");
     commandOutput.setExitCode(0);
     commandOutput.setPid(-1);
     commandOutput.setStatus("completed");
@@ -226,4 +226,4 @@ public class AdminShutdownControllerTest {
     commandOutputs.add(commandOutput);
     return commandOutputs;
   }
-}
+}  

@@ -3,8 +3,7 @@ package com.nicobrest.kamehouse.systemcommand.service;
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-import com.nicobrest.kamehouse.admin.model.AdminShutdownCommand;
-import com.nicobrest.kamehouse.admin.model.AdminVlcCommand;
+import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.CommandLine;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
@@ -109,8 +108,8 @@ public class SystemCommandServiceTest {
     expectedSystemCommand.add("90");
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.SET);
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_SET);
     adminShutdownCommand.setTime(5400);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
@@ -131,8 +130,8 @@ public class SystemCommandServiceTest {
     expectedSystemCommand.add("5400");
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.SET);
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_SET);
     adminShutdownCommand.setTime(5400);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
@@ -148,8 +147,8 @@ public class SystemCommandServiceTest {
   @Test
   public void getSystemCommandsShutdownSetExceptionTest() {
 
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.SET);
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_SET);
 
     thrown.expect(KameHouseInvalidCommandException.class);
 
@@ -166,8 +165,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.SHUTDOWN_CANCEL_LINUX.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.CANCEL);
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_CANCEL);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
@@ -186,8 +185,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.SHUTDOWN_CANCEL_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.CANCEL);
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_CANCEL);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
@@ -206,8 +205,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.SHUTDOWN_STATUS_LINUX.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.STATUS);
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_STATUS);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
@@ -226,8 +225,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.SHUTDOWN_STATUS_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminShutdownCommand adminShutdownCommand = new AdminShutdownCommand();
-    adminShutdownCommand.setCommand(AdminShutdownCommand.STATUS);
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_STATUS);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminShutdownCommand);
@@ -249,8 +248,8 @@ public class SystemCommandServiceTest {
     expectedSystemCommand2.add("D:\\marvel.m3u");
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand(AdminVlcCommand.START);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.VLC_START);
     adminVlcCommand.setFile("D:\\marvel.m3u");
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
@@ -274,8 +273,8 @@ public class SystemCommandServiceTest {
     expectedSystemCommand2.add("D:\\marvel.m3u");
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand(AdminVlcCommand.START);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.VLC_START);
     adminVlcCommand.setFile("D:\\marvel.m3u");
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
@@ -296,8 +295,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.VLC_STOP_LINUX.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand(AdminVlcCommand.STOP);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.VLC_STOP);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);
@@ -316,8 +315,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.VLC_STOP_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand(AdminVlcCommand.STOP);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.VLC_STOP);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);
@@ -336,8 +335,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.VLC_STATUS_LINUX.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand(AdminVlcCommand.STATUS);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.VLC_STATUS);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);
@@ -356,8 +355,8 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.VLC_STATUS_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminVlcCommand adminVlcCommand = new AdminVlcCommand();
-    adminVlcCommand.setCommand(AdminVlcCommand.STATUS);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.VLC_STATUS);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);

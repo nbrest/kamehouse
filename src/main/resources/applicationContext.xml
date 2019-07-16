@@ -39,13 +39,8 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     <property name="cacheManager" ref="cacheManager" />
   </bean>
 
-  <bean id="adminVlcService"
-    class="com.nicobrest.kamehouse.admin.service.AdminVlcService">
-    <property name="systemCommandService" ref="systemCommandService" />
-  </bean>
-
-  <bean id="adminShutdownService"
-    class="com.nicobrest.kamehouse.admin.service.AdminShutdownService">
+  <bean id="adminCommandService"
+    class="com.nicobrest.kamehouse.admin.service.AdminCommandService">
     <property name="systemCommandService" ref="systemCommandService" />
   </bean>
 

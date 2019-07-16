@@ -89,14 +89,14 @@
     
     <select class="custom-select sources btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
     <select class="custom-select sources btn-margins" id="playlist-dropdown" name="playlist"></select>  
-    <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'start')"
+    <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
       value="&#128194; open"
       class="btn btn-outline-primary btn-margins" />
     <br>
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
+    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="&#128194; open GoT win"
       class="btn btn-outline-primary btn-margins" /> 
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
+    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
       value="&#128194; open LH lx"
       class="btn btn-outline-primary btn-margins" />
     <br>
@@ -109,10 +109,10 @@
      
     <br><h5>Server shutdown</h5>
     
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 5400)"
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 5400)"
       value="&#9201; Shutdown 90 min"
       class="btn btn-outline-danger btn-margins" />  
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 60)"
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 60)"
       value="&#9201; Shutdown 1 min"
       class="btn btn-outline-danger btn-margins" /> 
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/shutdown', null)"

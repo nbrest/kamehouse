@@ -44,7 +44,7 @@
     <br><br>
     <select class="custom-select sources" id="playlist-dropdown" name="playlist"></select> 
     <br><br>  
-    <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'start')"
+    <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
       value="Start VLC with selected playlist"
       class="btn btn-outline-primary" />
     <br><br>
@@ -52,11 +52,11 @@
       value="Get VLC status"
       class="btn btn-outline-success" />
     <br><br>
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
+    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="Start VLC with Win GoT pls"
       class="btn btn-outline-primary" />
     <br><br> 
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
+    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
       value="Start VLC with Linux LH pls"
       class="btn btn-outline-primary" />
     <br><br>
@@ -69,11 +69,11 @@
       value="Get Shutdown status"
       class="btn btn-outline-warn" />
     <br><br>
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 5400)"
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 5400)"
       value="Set Shutdown in 90 min"
       class="btn btn-outline-danger" /> 
     <br><br>
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'set', 60)"
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 60)"
       value="Set Shutdown in 1 min"
       class="btn btn-outline-danger" />
     <br><br>
