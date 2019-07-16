@@ -25,6 +25,9 @@
   </section>
   <div class="container home-links">
     <br>
+    <input type="button" value="Server Management" class="btn btn-block btn-outline-secondary custom-width"
+      onclick="window.location.href='server-management'">
+    <br>
     <input type="button" value="EhCache" class="btn btn-block btn-outline-secondary custom-width"
       onclick="window.location.href='ehcache'">
     <br>

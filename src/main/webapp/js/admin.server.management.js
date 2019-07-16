@@ -1,10 +1,8 @@
 /**
- * Admin Test APIs functions.
+ * Admin Server Management functions.
  * 
  * @author nbrest
  */
-var videoPlaylists = [];
-var videoPlaylistCategories = [];
 
 function setCollapsibleContent() {
   var coll = document.getElementsByClassName("collapsible");
@@ -25,12 +23,10 @@ function setCollapsibleContent() {
 
 var main = function() { 
   displayRequestPayload(null, null, null, null);
-  populateVideoPlaylistCategories();
 };
 
 function executeGet(url) {
   console.debug(getTimestamp() + " : Executing GET on " + url);
-  //console.debug(url);
   $.get(url)
     .success(function(result) {
       displayRequestPayload(result, url, "GET", null);
@@ -39,33 +35,7 @@ function executeGet(url) {
       console.error(JSON.stringify(jqXHR));
       displayErrorExecutingRequest();
     });
-  scrollToTop();
   setCollapsibleContent();
-}
-
-function executeAdminVlcPostWithSelectedPlaylist(url, command) {
-  var playlistSelected = document.getElementById("playlist-dropdown").value;
-  //console.debug("playlistSelected " + playlistSelected);
-  var requestBody = JSON.stringify({
-    command: command,
-    file: playlistSelected
-  });
-  executePost(url, requestBody);
-}
-
-function executeAdminVlcPost(url, command, file) {
-  var requestBody = JSON.stringify({
-    command: command,
-    file: file
-  });
-  executePost(url, requestBody);
-}
-
-function executeVlcRcCommandPost(url, name) {
-  var requestBody = JSON.stringify({
-    name: name
-  });
-  executePost(url, requestBody);
 }
 
 function executeAdminShutdownPost(url, command, time) {
@@ -87,8 +57,6 @@ function executePost(url, requestBody) {
       'Content-Type': 'application/json'
     },
     success: function(data) {
-      //console.debug(JSON.stringify(data));
-      //console.debug(JSON.stringify(data, null, 2));
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function(data) {
@@ -96,7 +64,6 @@ function executePost(url, requestBody) {
       displayErrorExecutingRequest(); 
     }
     });
-  scrollToTop();
   setCollapsibleContent();
 }
 
@@ -111,7 +78,6 @@ function executeDelete(url, requestBody) {
       'Content-Type': 'application/json'
     },
     success: function(data) {
-      //console.debug(JSON.stringify(data));
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {
@@ -119,16 +85,14 @@ function executeDelete(url, requestBody) {
       displayErrorExecutingRequest(); 
     }
     });
-  scrollToTop();
 }
 
 /**
- * Display api call output.
+ * Display command output.
  */
 function displayRequestPayload(apiResponsePayload, url, requestType, requestBody) {
-  emptyApiCallOutputDiv();
-  //console.debug(apiResponsePayload);
-  var $apiCallOutput = $("#api-call-output");
+  emptyCommandlOutputDiv();
+  var $apiCallOutput = $("#command-output");
   var $apiCallOutputTable = $('<table class="table table-bordered table-responsive">');
   // Request Type row.
   var $requestTypeRow = $("<tr>");
@@ -165,8 +129,8 @@ function displayRequestPayload(apiResponsePayload, url, requestType, requestBody
  * Display error executing the request.
  */
 function displayErrorExecutingRequest() {
-  emptyApiCallOutputDiv();
-  var $apiCallOutput = $("#api-call-output");
+  emptyCommandlOutputDiv();
+  var $apiCallOutput = $("#command-output");
   var $errorTable = $('<table class="table table-bordered table-responsive table-ehcache">');
   var $errorTableRow = $("<tr>");
   $errorTableRow.append($('<td>').text(getTimestamp() +
@@ -176,67 +140,12 @@ function displayErrorExecutingRequest() {
   console.error(getTimestamp() + " : Error executing api request. Please check server logs.");
 }
 
-function populateVideoPlaylistCategories() {
-  let playlistDropdown = $('#playlist-dropdown');
-  playlistDropdown.empty();
-  playlistDropdown.append('<option selected="true" disabled>Choose a playlist</option>');
-  playlistDropdown.prop('selectedIndex', 0);
-  let playlistCategoryDropdown = $('#playlist-category-dropdown');
-  playlistCategoryDropdown.empty();
-  playlistCategoryDropdown.append('<option selected="true" disabled>Choose a playlist category</option>');
-  playlistCategoryDropdown.prop('selectedIndex', 0);
-
-  $.get('/kame-house/api/v1/media/video/playlists')
-    .success(function(result) { 
-      videoPlaylists = result;
-      getVideoPlaylistCategories(videoPlaylists);
-      //console.debug(JSON.stringify(videoPlaylists));
-      $.each(videoPlaylistCategories, function (key, entry) {
-        var category = entry;
-        var categoryFormatted = category.replace(/\\/g, ' \\ ').replace(/\//g, ' / ');
-        playlistCategoryDropdown.append($('<option></option>').attr('value', entry).text(categoryFormatted));
-      });
-    })
-    .error(function(jqXHR, textStatus, errorThrown) {
-      console.error(JSON.stringify(jqXHR));
-      displayErrorExecutingRequest();
-    }); 
-}
-
-function getVideoPlaylistCategories(videoPlaylists) {
-  videoPlaylistCategories = [...new Set(videoPlaylists.map(playlist => playlist.category))];
-  //console.debug(videoPlaylistCategories);  
-}
-
-function populateVideoPlaylists() {
-  var playlistCategoriesList = document.getElementById('playlist-category-dropdown');
-  var selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
-  let playlistDropdown = $('#playlist-dropdown');
-  playlistDropdown.empty();
-  playlistDropdown.append('<option selected="true" disabled>Choose a playlist</option>');
-  playlistDropdown.prop('selectedIndex', 0);
-  //console.debug(JSON.stringify(videoPlaylists));
-  console.debug("selectedPlaylistCategory " + selectedPlaylistCategory);
-  $.each(videoPlaylists, function (key, entry) {
-    if (entry.category === selectedPlaylistCategory) { 
-      playlistDropdown.append($('<option></option>').attr('value', entry.path).text(entry.name));
-    }
-  });
-}
-
 /**
- * Empty api call output div.
+ * Empty command output div.
  */
-function emptyApiCallOutputDiv() {
-  var $apiCallOutput = $("#api-call-output");
+function emptyCommandlOutputDiv() {
+  var $apiCallOutput = $("#command-output");
   $apiCallOutput.empty();
-}
-
-/**
- * Scroll to the top of the screen.
- */
-function scrollToTop() {
-  $('html, body').animate({scrollTop:0}, '10');
 }
 
 /**
