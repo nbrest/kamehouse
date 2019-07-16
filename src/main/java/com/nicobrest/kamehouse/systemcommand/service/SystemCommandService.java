@@ -36,8 +36,7 @@ import java.util.List;
 public class SystemCommandService {
 
   private static final Logger logger = LoggerFactory.getLogger(SystemCommandService.class);
-  private static final int VNCDO_HOSTNAME_INDEX_WINDOWS = 4;
-  private static final int VNCDO_VNC_SERVER_PASSWORD_INDEX_WINDOWS = 6;
+  private static final int VNCDO_CMD_LINUX_INDEX = 2;
 
   /**
    * Get the list of system commands for the specified AdminCommand.
@@ -356,18 +355,15 @@ public class SystemCommandService {
     SystemCommand vncdoKeyEscSystemCommand = new SystemCommand();
     vncdoKeyEscSystemCommand.setIsDaemon(false);
     List<String> vncdoKeyEscCommandList = new ArrayList<String>();
-    String hostname = PropertiesUtils.getHostname();
-    String vncServerPassword = getVncServerPassword();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(vncdoKeyEscCommandList, CommandLine.VNCDO_KEY_WINDOWS.get());
-      vncdoKeyEscCommandList.set(VNCDO_HOSTNAME_INDEX_WINDOWS, PropertiesUtils.getHostname());
-      vncdoKeyEscCommandList.set(VNCDO_VNC_SERVER_PASSWORD_INDEX_WINDOWS, vncServerPassword);
+      setVncdoHostnameAndPassword(vncdoKeyEscCommandList);
       vncdoKeyEscCommandList.add("esc");
     } else {
       Collections.addAll(vncdoKeyEscCommandList, CommandLine.VNCDO_KEY_LINUX.get());
-      String vncdoCommand = vncdoKeyEscCommandList.get(2).replaceFirst("HOSTNAME", hostname)
-          .replaceFirst("VNC_SERVER_PASSWORD", vncServerPassword).concat(" esc");
-      vncdoKeyEscCommandList.set(2, vncdoCommand);
+      setVncdoHostnameAndPassword(vncdoKeyEscCommandList);
+      String vncdoCommand = vncdoKeyEscCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" esc");
+      vncdoKeyEscCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
     vncdoKeyEscSystemCommand.setCommand(vncdoKeyEscCommandList);
     unlockScreenSystemCommands.add(vncdoKeyEscSystemCommand);
@@ -379,16 +375,14 @@ public class SystemCommandService {
     String unlockScreenPassword = getUnlockScreenPassword();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_WINDOWS.get());
-      vncdoTypePasswordCommandList.set(VNCDO_HOSTNAME_INDEX_WINDOWS, PropertiesUtils
-          .getHostname());
-      vncdoTypePasswordCommandList.set(VNCDO_VNC_SERVER_PASSWORD_INDEX_WINDOWS, vncServerPassword);
+      setVncdoHostnameAndPassword(vncdoTypePasswordCommandList);
       vncdoTypePasswordCommandList.add(unlockScreenPassword);
     } else {
       Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_LINUX.get());
-      String vncdoCommand = vncdoTypePasswordCommandList.get(2).replaceFirst("HOSTNAME", hostname)
-          .replaceFirst("VNC_SERVER_PASSWORD", vncServerPassword).concat(" "
-              + unlockScreenPassword);
-      vncdoTypePasswordCommandList.set(2, vncdoCommand);
+      setVncdoHostnameAndPassword(vncdoTypePasswordCommandList);
+      String vncdoCommand = vncdoTypePasswordCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" "
+          + unlockScreenPassword);
+      vncdoTypePasswordCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
     vncdoTypePasswordSystemCommand.setCommand(vncdoTypePasswordCommandList);
     unlockScreenSystemCommands.add(vncdoTypePasswordSystemCommand);
@@ -399,19 +393,37 @@ public class SystemCommandService {
     List<String> vncdoKeyEnterCommandList = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(vncdoKeyEnterCommandList, CommandLine.VNCDO_KEY_WINDOWS.get());
-      vncdoKeyEnterCommandList.set(VNCDO_HOSTNAME_INDEX_WINDOWS, PropertiesUtils.getHostname());
-      vncdoKeyEnterCommandList.set(VNCDO_VNC_SERVER_PASSWORD_INDEX_WINDOWS, vncServerPassword);
+      setVncdoHostnameAndPassword(vncdoKeyEnterCommandList);
       vncdoKeyEnterCommandList.add("enter");
     } else {
       Collections.addAll(vncdoKeyEnterCommandList, CommandLine.VNCDO_KEY_LINUX.get());
-      String vncdoCommand = vncdoKeyEnterCommandList.get(2).replaceFirst("HOSTNAME", hostname)
-          .replaceFirst("VNC_SERVER_PASSWORD", vncServerPassword).concat(" enter");
-      vncdoKeyEnterCommandList.set(2, vncdoCommand);
+      setVncdoHostnameAndPassword(vncdoKeyEnterCommandList);
+      String vncdoCommand = vncdoKeyEnterCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" enter");
+      vncdoKeyEnterCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
     vncdoKeyEnterSystemCommand.setCommand(vncdoKeyEnterCommandList);
     unlockScreenSystemCommands.add(vncdoKeyEnterSystemCommand);
 
     return unlockScreenSystemCommands;
+  }
+
+  /**
+   * Set hostname and vnc server password for vncdo commands.
+   */
+  private void setVncdoHostnameAndPassword(List<String> vncdoCommandList) {
+    String hostname = PropertiesUtils.getHostname();
+    String vncServerPassword = getVncServerPassword();
+    if (PropertiesUtils.isWindowsHost()) {
+      int vncdoHostnameIndex = 4;
+      int vncdoVncServerPasswordIndex = 6;
+      vncdoCommandList.set(vncdoHostnameIndex, hostname);
+      vncdoCommandList.set(vncdoVncServerPasswordIndex, vncServerPassword);
+    } else {
+      String vncdoCommand = vncdoCommandList.get(VNCDO_CMD_LINUX_INDEX);
+      vncdoCommand = vncdoCommand.replaceFirst("HOSTNAME", hostname);
+      vncdoCommand = vncdoCommand.replaceFirst("VNC_SERVER_PASSWORD", vncServerPassword);
+      vncdoCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
+    }
   }
 
   /**

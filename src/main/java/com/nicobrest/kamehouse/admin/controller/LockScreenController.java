@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+/**
+ * Controller to execute lock and unlock screen commands.
+ * 
+ * @author nbrest
+ *
+ */
 @Controller
 @RequestMapping(value = "/api/v1/admin")
 public class LockScreenController {
