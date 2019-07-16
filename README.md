@@ -69,6 +69,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 # ChangeLog:
 #### v0.18
 - Added lock and unlock screen functionality
+- Refactored code
 #### v0.17
 - Added cobertura to the build process to maintain a minimum test coverage
 - Added backend functionality to shutdown the pc, cancel a scheduled shutdown or check the status of a shutdown command

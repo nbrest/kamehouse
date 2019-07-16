@@ -49,11 +49,11 @@ public class SystemCommandService {
       case AdminCommand.LOCK_SCREEN:
         systemCommands.add(getLockScreenSystemCommand());
         break;
-      case AdminCommand.SHUTDOWN_SET:
-        systemCommands.add(getSetShutdownSystemCommand(adminCommand));
-        break;
       case AdminCommand.SHUTDOWN_CANCEL:
         systemCommands.add(getCancelShutdownSystemCommand());
+        break;
+      case AdminCommand.SHUTDOWN_SET:
+        systemCommands.add(getSetShutdownSystemCommand(adminCommand));
         break;
       case AdminCommand.SHUTDOWN_STATUS:
         systemCommands.add(getStatusShutdownSystemCommand());
@@ -65,11 +65,11 @@ public class SystemCommandService {
         systemCommands.add(getStopVlcSystemCommand());
         systemCommands.add(getStartVlcSystemCommand(adminCommand));
         break;
-      case AdminCommand.VLC_STOP:
-        systemCommands.add(getStopVlcSystemCommand());
-        break;
       case AdminCommand.VLC_STATUS:
         systemCommands.add(getStatusVlcSystemCommand());
+        break;
+      case AdminCommand.VLC_STOP:
+        systemCommands.add(getStopVlcSystemCommand());
         break;
       default:
         logger.error("Invalid AdminCommand " + adminCommand.getCommand());
@@ -424,7 +424,7 @@ public class SystemCommandService {
         decodedPassword = new String(decodedPasswordBytes, StandardCharsets.UTF_8);
       }
     } catch (IOException | IllegalArgumentException e) {
-      logger.error("Error while reading vnc server password from file. Message: " + e
+      logger.error("Error while reading password from file. Message: " + e
           .getMessage());
       decodedPassword = "ERROR_READING_PASSWORD";
     }

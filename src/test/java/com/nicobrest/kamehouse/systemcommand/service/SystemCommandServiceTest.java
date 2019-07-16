@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.systemcommand.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
@@ -62,15 +63,16 @@ public class SystemCommandServiceTest {
     
 	  SystemCommand systemCommand = new SystemCommand();
 	  systemCommand.setCommand(Arrays.asList("ls"));
+	  List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
+	  systemCommands.add(systemCommand);
+	  List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
 	  
-	  SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
-	  
-	  assertEquals("[ls]", systemCommandOutput.getCommand());
-	  assertEquals("completed", systemCommandOutput.getStatus());
-	  assertEquals(-1, systemCommandOutput.getPid());
-	  assertEquals(0, systemCommandOutput.getExitCode());
-	  assertEquals(inputStreamString, systemCommandOutput.getStandardOutput().get(0));
-	  assertEquals(new ArrayList<String>(), systemCommandOutput.getStandardError());
+	  assertEquals("[ls]", systemCommandOutputs.get(0).getCommand());
+	  assertEquals("completed", systemCommandOutputs.get(0).getStatus());
+	  assertEquals(-1, systemCommandOutputs.get(0).getPid());
+	  assertEquals(0, systemCommandOutputs.get(0).getExitCode());
+	  assertEquals(inputStreamString, systemCommandOutputs.get(0).getStandardOutput().get(0));
+	  assertEquals(new ArrayList<String>(), systemCommandOutputs.get(0).getStandardError());
   }
   
   /**
@@ -97,6 +99,22 @@ public class SystemCommandServiceTest {
     assertEquals(null, systemCommandOutput.getStandardError());
   }
 
+  /**
+   * Get system commands exception test.
+   */
+  @Test
+  public void getSystemCommandsExceptionTest() {
+
+    AdminCommand adminShutdownCommand = new AdminCommand();
+    adminShutdownCommand.setCommand("INVALID COMMAND");
+
+    thrown.expect(KameHouseInvalidCommandException.class);
+
+    systemCommandService.getSystemCommands(adminShutdownCommand);
+    
+    fail("Should have thrown exception");
+  }
+  
   /**
    * Get set shutdown system commands linux successful test.
    */
@@ -142,19 +160,21 @@ public class SystemCommandServiceTest {
   }
 
   /**
-   * Get set shutdown system commands exception test.
+   * Get set shutdown system commands exception test. Invalid time.
    */
   @Test
-  public void getSystemCommandsShutdownSetExceptionTest() {
+  public void getSystemCommandsSetShutdownExceptionTest() {
 
-    AdminCommand adminShutdownCommand = new AdminCommand();
-    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_SET);
-
+    AdminCommand adminShutdownCommand = new AdminCommand(AdminCommand.SHUTDOWN_SET); 
+    adminShutdownCommand.setTime(-1);
+    
     thrown.expect(KameHouseInvalidCommandException.class);
 
     systemCommandService.getSystemCommands(adminShutdownCommand);
+    
+    fail("Should have thrown exception");
   }
-
+  
   /**
    * Get cancel shutdown system commands linux successful test.
    */
@@ -364,4 +384,87 @@ public class SystemCommandServiceTest {
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
+  
+  /**
+   * Get lock screen system commands linux successful test.
+   */
+  @Test
+  public void getSystemCommandsLockScreenLinuxTest() {
+
+    List<String> expectedSystemCommand = new ArrayList<String>();
+    Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_LINUX.get());
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(false);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.LOCK_SCREEN);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminVlcCommand);
+
+    assertEquals(1, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
+  }
+
+  /**
+   * Get lock screen system commands windows successful test.
+   */
+  @Test
+  public void getSystemCommandsLockScreenWindowsTest() {
+
+    List<String> expectedSystemCommand = new ArrayList<String>();
+    Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_WINDOWS.get());
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(true);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.LOCK_SCREEN);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminVlcCommand);
+
+    assertEquals(1, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
+  }  
+  
+  /**
+   * Get unlock screen system commands linux successful test.
+   */
+  @Test
+  public void getSystemCommandsUnlockScreenLinuxTest() {
+
+    List<String> expectedSystemCommand = new ArrayList<String>();
+    Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_LINUX.get());
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(false);
+    when(PropertiesUtils.getUserHome()).thenReturn("src/test/resources");
+    when(PropertiesUtils.getAdminProperty("unlock.screen.pwd.file")).thenReturn("admin/pwds/unlock.screen.pwd");
+    when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn("admin/pwds/vnc.server.pwd");
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.UNLOCK_SCREEN);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminVlcCommand);
+
+    assertEquals(4, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
+  }
+
+  /**
+   * Get unlock screen system commands windows successful test.
+   */
+  @Test
+  public void getSystemCommandsUnlockScreenWindowsTest() {
+
+    List<String> expectedSystemCommand = new ArrayList<String>();
+    Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_WINDOWS.get());
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(true);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.UNLOCK_SCREEN);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminVlcCommand);
+
+    assertEquals(4, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
+  }  
 }
