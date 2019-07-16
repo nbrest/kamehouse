@@ -8,7 +8,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -66,11 +65,16 @@ public class PropertiesUtils {
   /**
    * Returns the hostname of the server.
    */
-  public static String getHostname() throws IOException {
+  public static String getHostname() {
     if (isWindowsHost()) {
       return System.getenv("COMPUTERNAME").toLowerCase(Locale.getDefault());
     } else {
-      return IOUtils.toString(Runtime.getRuntime().exec("hostname").getInputStream());
+      try {
+        return IOUtils.toString(Runtime.getRuntime().exec("hostname").getInputStream());
+      } catch (IOException e) {
+        logger.error("Error getting hostname. Message: " + e.getMessage());
+        return null;
+      }
     }
   }
 
