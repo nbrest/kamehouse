@@ -63,6 +63,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Install vncdotool (follow https://vncdotool.readthedocs.io/en/latest/install.html#windows) in the same server that runs the application.
 - Encode user password for the user and store it in a file specified by the property unlock.screen.pwd.file. This file should be readable only by the user, hidden from anyone else. The application will type this password to unlock the session. 
 - If the vnc server is configured with a password (it should!), also set the file pointed by vnc.server.pwd.file with the vnc server password. This password will be used by vncdo to execute the commands through vnc. Again, this file contains an encoded password so it should be only readable by the user owning this process.
+- Make sure vncdo in installed to /usr/local/bin/vncdo in linux or update CommandLine.java to point to where it is installed. Using just vncdo without the absolute path got me command not found. It needs the absolute path or some other fix.
 - Using a vnc server and vncdotool is the only way I found to unlock the screen remotely on windows 10 (also works on ubuntu 16). If you read this and have a better solution, please contact me.
 - Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu).
 *********************
