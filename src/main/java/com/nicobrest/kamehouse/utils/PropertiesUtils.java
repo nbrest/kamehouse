@@ -1,13 +1,15 @@
 package com.nicobrest.kamehouse.utils;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -69,11 +71,23 @@ public class PropertiesUtils {
     if (isWindowsHost()) {
       return System.getenv("COMPUTERNAME").toLowerCase(Locale.getDefault());
     } else {
+      BufferedReader reader = null;
       try {
-        return IOUtils.toString(Runtime.getRuntime().exec("hostname").getInputStream());
+        reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname")
+            .getInputStream(), StandardCharsets.UTF_8));
+        String hostname = reader.readLine();
+        return hostname;
       } catch (IOException e) {
         logger.error("Error getting hostname. Message: " + e.getMessage());
-        return null;
+        return "INVALID_HOSTNAME";
+      } finally {
+        if (reader != null) {
+          try {
+            reader.close();
+          } catch (IOException e) {
+            logger.error("Error closing reader. Message: " + e.getMessage());
+          }
+        }
       }
     }
   }
@@ -84,7 +98,7 @@ public class PropertiesUtils {
   public static String getMediaVideoProperty(String propertyName) {
     return mediaVideoProperties.getProperty(propertyName);
   }
-  
+
   /**
    * Gets the specified property from the admin application properties.
    */

@@ -435,6 +435,7 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_LINUX.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
+    when(PropertiesUtils.getHostname()).thenReturn("planet-vegita");
     when(PropertiesUtils.getUserHome()).thenReturn("src/test/resources");
     when(PropertiesUtils.getAdminProperty("unlock.screen.pwd.file")).thenReturn("admin/pwds/unlock.screen.pwd");
     when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn("admin/pwds/vnc.server.pwd");

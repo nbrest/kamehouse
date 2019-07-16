@@ -22,7 +22,7 @@ public enum CommandLine {
   
   SHUTDOWN_STATUS_LINUX("/bin/bash", "-c", 
       "ps aux | grep -e \"shutdown\\|COMMAND\" | grep -v grep"),
-  SHUTDOWN_STATUS_WINDOWS ("tasklist", "/FI", "IMAGENAME eq shutdown.exe"),
+  SHUTDOWN_STATUS_WINDOWS("tasklist", "/FI", "IMAGENAME eq shutdown.exe"),
   
   VLC_START_LINUX("vlc"),
   VLC_START_WINDOWS("cmd.exe", "/c", "start", "vlc"),
@@ -33,13 +33,12 @@ public enum CommandLine {
   VLC_STOP_LINUX("skill", "-9", "vlc"),
   VLC_STOP_WINDOWS("cmd.exe", "/c", "start", "taskkill", "/im", "vlc.exe"),
   
-  VNCDO_KEY_LINUX("/bin/bash", "-c", "vncdo", "--server", "HOSTNAME", "--password",
-      "VNC_SERVER_PASSWORD", "key"),
+  VNCDO_KEY_LINUX("/bin/bash", "-c", "vncdo --server HOSTNAME --password VNC_SERVER_PASSWORD key"),
   VNCDO_KEY_WINDOWS("cmd.exe", "/c", "vncdo", "--server", "HOSTNAME", "--password",
       "VNC_SERVER_PASSWORD",  "key"),
 
-  VNCDO_TYPE_LINUX("/bin/bash", "-c", "vncdo", "--server", "HOSTNAME", "--password",
-      "VNC_SERVER_PASSWORD",  "type"),
+  VNCDO_TYPE_LINUX("/bin/bash", "-c", 
+      "vncdo --server HOSTNAME --password VNC_SERVER_PASSWORD type"),
   VNCDO_TYPE_WINDOWS("cmd.exe", "/c", "vncdo", "--server", "HOSTNAME", "--password",
       "VNC_SERVER_PASSWORD",  "type")
   ;
