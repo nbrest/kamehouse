@@ -80,6 +80,15 @@ public class ViewResolverController {
   }
 
   /**
+   * View resolver for the vlc player page.
+   */
+  @RequestMapping(value = "/vlc-player/**", method = RequestMethod.GET)
+  public String vlcPlayerPage() {
+    logger.trace("In controller /vlc-player (GET)");
+    return "/vlc-player";
+  }  
+  
+  /**
    * View resolver for the jsp app page.
    */
   @RequestMapping(value = "/jsp/**", method = RequestMethod.GET)

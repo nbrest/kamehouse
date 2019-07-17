@@ -46,6 +46,11 @@ function updateActiveTab() {
     default:
       break;
     }
+    if (pageUrl.includes("/kame-house/vlc-player/")) {
+      if ($(navItem).attr("id") == "nav-vlc-player") {
+        $(navItem).addClass("active");
+      } 
+    }
     if (pageUrl.includes("/kame-house/jsp/")) {
       if ($(navItem).attr("id") == "nav-jsp") {
         $(navItem).addClass("active");
