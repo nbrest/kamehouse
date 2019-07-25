@@ -49,7 +49,7 @@ public class SystemCommandServiceTest {
     PowerMockito.mockStatic(PropertiesUtils.class, ProcessUtils.class);
     systemCommandService = PowerMockito.spy(new SystemCommandService());
   }
-  
+
   /**
    * Execute process successful test.
    */
@@ -58,39 +58,39 @@ public class SystemCommandServiceTest {
     String inputStreamString = "/home /bin /opt";
     InputStream processInputStream = new ByteArrayInputStream(inputStreamString.getBytes());
     InputStream processErrorStream = new ByteArrayInputStream("".getBytes());
-    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream); 
+    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream);
     when(ProcessUtils.getErrorStreamFromProcess(Mockito.any())).thenReturn(processErrorStream);
-    
-	  SystemCommand systemCommand = new SystemCommand();
-	  systemCommand.setCommand(Arrays.asList("ls"));
-	  List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
-	  systemCommands.add(systemCommand);
-	  List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
-	  
-	  assertEquals("[ls]", systemCommandOutputs.get(0).getCommand());
-	  assertEquals("completed", systemCommandOutputs.get(0).getStatus());
-	  assertEquals(-1, systemCommandOutputs.get(0).getPid());
-	  assertEquals(0, systemCommandOutputs.get(0).getExitCode());
-	  assertEquals(inputStreamString, systemCommandOutputs.get(0).getStandardOutput().get(0));
-	  assertEquals(new ArrayList<String>(), systemCommandOutputs.get(0).getStandardError());
+
+    SystemCommand systemCommand = new SystemCommand();
+    systemCommand.setCommand(Arrays.asList("ls"));
+    List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
+    systemCommands.add(systemCommand);
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
+
+    assertEquals("[ls]", systemCommandOutputs.get(0).getCommand());
+    assertEquals("completed", systemCommandOutputs.get(0).getStatus());
+    assertEquals(-1, systemCommandOutputs.get(0).getPid());
+    assertEquals(0, systemCommandOutputs.get(0).getExitCode());
+    assertEquals(inputStreamString, systemCommandOutputs.get(0).getStandardOutput().get(0));
+    assertEquals(new ArrayList<String>(), systemCommandOutputs.get(0).getStandardError());
   }
-  
+
   /**
    * Execute daemon process successful test.
    */
   @Test
-  public void executeDaemonTest() throws Exception { 
+  public void executeDaemonTest() throws Exception {
     InputStream processInputStream = new ByteArrayInputStream("".getBytes());
     InputStream processErrorStream = new ByteArrayInputStream("".getBytes());
-    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream); 
+    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream);
     when(ProcessUtils.getErrorStreamFromProcess(Mockito.any())).thenReturn(processErrorStream);
-    
+
     SystemCommand systemCommand = new SystemCommand();
     systemCommand.setCommand(Arrays.asList("vlc"));
     systemCommand.setIsDaemon(true);
-    
+
     SystemCommandOutput systemCommandOutput = systemCommandService.execute(systemCommand);
-    
+
     assertEquals("[vlc]", systemCommandOutput.getCommand());
     assertEquals("running", systemCommandOutput.getStatus());
     assertEquals(-1, systemCommandOutput.getPid());
@@ -111,10 +111,10 @@ public class SystemCommandServiceTest {
     thrown.expect(KameHouseInvalidCommandException.class);
 
     systemCommandService.getSystemCommands(adminShutdownCommand);
-    
+
     fail("Should have thrown exception");
   }
-  
+
   /**
    * Get set shutdown system commands linux successful test.
    */
@@ -165,16 +165,16 @@ public class SystemCommandServiceTest {
   @Test
   public void getSystemCommandsSetShutdownExceptionTest() {
 
-    AdminCommand adminShutdownCommand = new AdminCommand(AdminCommand.SHUTDOWN_SET); 
+    AdminCommand adminShutdownCommand = new AdminCommand(AdminCommand.SHUTDOWN_SET);
     adminShutdownCommand.setTime(-1);
-    
+
     thrown.expect(KameHouseInvalidCommandException.class);
 
     systemCommandService.getSystemCommands(adminShutdownCommand);
-    
+
     fail("Should have thrown exception");
   }
-  
+
   /**
    * Get cancel shutdown system commands linux successful test.
    */
@@ -384,7 +384,7 @@ public class SystemCommandServiceTest {
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
-  
+
   /**
    * Get lock screen system commands linux successful test.
    */
@@ -423,8 +423,8 @@ public class SystemCommandServiceTest {
 
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
-  }  
-  
+  }
+
   /**
    * Get unlock screen system commands linux successful test.
    */
@@ -437,8 +437,10 @@ public class SystemCommandServiceTest {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     when(PropertiesUtils.getHostname()).thenReturn("planet-vegita");
     when(PropertiesUtils.getUserHome()).thenReturn("src/test/resources");
-    when(PropertiesUtils.getAdminProperty("unlock.screen.pwd.file")).thenReturn("admin/pwds/unlock.screen.pwd");
-    when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn("admin/pwds/vnc.server.pwd");
+    when(PropertiesUtils.getAdminProperty("unlock.screen.pwd.file")).thenReturn(
+        "admin/pwds/unlock.screen.pwd");
+    when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn(
+        "admin/pwds/vnc.server.pwd");
     AdminCommand adminVlcCommand = new AdminCommand();
     adminVlcCommand.setCommand(AdminCommand.SCREEN_UNLOCK);
 
@@ -467,5 +469,49 @@ public class SystemCommandServiceTest {
 
     assertEquals(4, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
-  }  
+  }
+
+  /**
+   * Get wake up screen system commands linux successful test.
+   */
+  @Test
+  public void getSystemCommandsWakeUpScreenLinuxTest() {
+
+    String expectedSystemCommand = "[/bin/bash, -c, /usr/local/bin/vncdo --server planet-vegita"
+        + " --password '' move 400 400 click 1]";
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(false);
+    when(PropertiesUtils.getHostname()).thenReturn("planet-vegita");
+    when(PropertiesUtils.getUserHome()).thenReturn("src/test/resources");
+    when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn(
+        "admin/pwds/vnc.server.pwd");
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.SCREEN_WAKE_UP);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminVlcCommand);
+
+    assertEquals(3, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand().toString());
+  }
+
+  /**
+   * Get wake up screen system commands windows successful test.
+   */
+  @Test
+  public void getSystemCommandsWakeUpScreenWindowsTest() {
+
+    String expectedSystemCommand = "[cmd.exe, /c, vncdo, --server, null, --password,"
+        + " ERROR_READING_PASSWORD, move, 400, 400, click 1]";
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(true);
+    AdminCommand adminVlcCommand = new AdminCommand();
+    adminVlcCommand.setCommand(AdminCommand.SCREEN_WAKE_UP);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminVlcCommand);
+
+    assertEquals(3, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand().toString());
+  }
 }
