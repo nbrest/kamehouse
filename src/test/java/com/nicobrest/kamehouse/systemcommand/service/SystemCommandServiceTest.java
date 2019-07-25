@@ -502,7 +502,7 @@ public class SystemCommandServiceTest {
   public void getSystemCommandsWakeUpScreenWindowsTest() {
 
     String expectedSystemCommand = "[cmd.exe, /c, vncdo, --server, null, --password,"
-        + " ERROR_READING_PASSWORD, move, 400, 400, click 1]";
+        + " ERROR_READING_PASSWORD, move, 400, 400, click, 1]";
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     AdminCommand adminVlcCommand = new AdminCommand();

@@ -37,7 +37,7 @@ public enum CommandLine {
       "/usr/local/bin/vncdo --server HOSTNAME --password VNC_SERVER_PASSWORD " 
     + "move HORIZONTAL_POSITION VERTICAL_POSITION click 1"),
   VNCDO_CLICK_SINGLE_WINDOWS("cmd.exe", "/c", "vncdo", "--server", "HOSTNAME", "--password",
-      "VNC_SERVER_PASSWORD", "move", "HORIZONTAL_POSITION", "VERTICAL_POSITION", "click 1"),
+      "VNC_SERVER_PASSWORD", "move", "HORIZONTAL_POSITION", "VERTICAL_POSITION", "click", "1"),
   
   VNCDO_KEY_LINUX("/bin/bash", "-c", 
       "/usr/local/bin/vncdo --server HOSTNAME --password VNC_SERVER_PASSWORD key"),
