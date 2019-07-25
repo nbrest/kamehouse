@@ -57,8 +57,8 @@
       class="btn btn-outline-primary btn-margins" />
           
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/power-management/suspend', null)"
-      value="Suspend Server"
-      class="btn btn-outline-warning btn-margins" />
+      value="Suspend Now"
+      class="btn btn-outline-danger btn-margins" />
       
     <hr>
     <h5>Command output:</h5>
