@@ -1,12 +1,13 @@
 # Description:
 
 This application (still heavily under construction) will contain the following modules: 
-* Manage my media files
-* Control multiple VLC Players through their web API
+* Manage my media files (store their location and information in a database and interfaces to play them)
+* Control multiple VLC Players through a custom interface using VLC's http API
+* Control the server running the application (shutdown, suspend, lock screen, unlock screen, etc)
 * Test API endpoints to practice different frontend frameworks
 * Login system
-* Application administration view 
-* Integration with social networks and popular APIs
+* Application administration view (secured through Spring Security)
+* Integration with social networks and other popular APIs
 * About and contact us
 * Newsletter functionality
 
