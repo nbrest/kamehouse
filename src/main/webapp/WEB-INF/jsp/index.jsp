@@ -10,7 +10,7 @@
 <meta name="description" content="kame-house main application">
 <meta name="keywords" content="kame-house nicobrest nbrest">
 
-<title>Kame House - Home</title>
+<title>KameHouse - Home</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/general.css" />
@@ -21,7 +21,7 @@
   <div id="headerContainer"></div>
   <section id="banner">
     <div class="container">
-      <h1>Kame House - Home</h1>
+      <h1>KameHouse - Home</h1>
       <p>Mada mada dane. Kamehame-ha. Pegasus Ryu Sei Ken. Tiger shot. Masenko. Final flash.
         Genki dama. Tsubame gaeshi. Twist serve. Zero shiki drop shot.</p>
     </div>

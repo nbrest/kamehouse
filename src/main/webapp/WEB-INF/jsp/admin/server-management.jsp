@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
 
-<title>kame House - Server Management</title>
+<title>KameHouse - Server Management</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />

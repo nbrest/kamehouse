@@ -10,7 +10,7 @@
 <meta name="description" content="kame-house login">
 <meta name="keywords" content="kame-house nicobrest nbrest">
 
-<title>Kame House - Login</title>
+<title>KameHouse - Login</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <link href="<c:url value='/lib/css/bootstrap.min.css' />" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/lib/css/font-awesome.css' />" />

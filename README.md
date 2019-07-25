@@ -46,6 +46,9 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 *********************
 # Other notes:
 
+### Troubleshoot linux commands:
+- Make sure the user running tomcat has sudo set for the commands that require it in CommandLine.java. I tried setting those without sudo and they don't work (tested on Ubuntu 16).
+
 ### Troubleshoot VLC start and stop commands:
 - Make sure vlc executable is in the user's PATH. In linux it's added by default when vlc is installed. In windows I need to manually add the path to the executable to my user's PATH environment variable. To test that it works, open a command prompt and type vlc to see if it finds the executable or if it throws an error that it can't find it.
 
@@ -65,7 +68,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - If the vnc server is configured with a password (it should!), also set the file pointed by vnc.server.pwd.file with the vnc server password encoded. This password will be used by vncdo to execute the commands through vnc. Again, this file contains an encoded password so it should be only readable by the user owning this process.
 - Make sure vncdo in installed to /usr/local/bin/vncdo in linux or update CommandLine.java to point to where it is installed. Using just vncdo without the absolute path got me command not found. It needs the absolute path or some other fix.
 - Using a vnc server and vncdotool is the only way I found to unlock the screen remotely on windows 10 (also works on ubuntu). If you are reading this and have a better solution, please contact me.
-- Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu).
+- Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu 16).
 *********************
 # ChangeLog:
 #### v0.19

@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
 
-<title>kame House - JSP App</title>
+<title>KameHouse - JSP App</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
@@ -19,7 +19,7 @@
   <div id="headerContainer"></div>
   <section id="banner">
   <div class="container">
-    <h1>JSP Kame House Homepage</h1>
+    <h1>JSP KameHouse Homepage</h1>
     <p>Mada mada dane. Kamehame-ha. Pegasus Ryu Sei Ken. Tiger shot. Masenko. Final flash. Genki
       dama. Tsubame gaeshi. Twist serve. Zero shiki drop shot.</p>
   </div>

@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
 
-<title>kame House - Admin</title>
+<title>KameHouse - Admin</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/general.css" />
@@ -19,7 +19,7 @@
   <div id="headerContainer"></div>
   <section id="banner">
   <div class="container">
-    <h1>Kame House - Admin</h1>
+    <h1>KameHouse - Admin</h1>
     <p>Manage configurations of the website</p>
   </div>
   </section>
