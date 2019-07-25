@@ -16,6 +16,7 @@ public class AdminCommand {
   public static final String SHUTDOWN_CANCEL = "shutdown_cancel";
   public static final String SHUTDOWN_SET = "shutdown_set";
   public static final String SHUTDOWN_STATUS = "shutdown_status";
+  public static final String SUSPEND = "suspend";
   public static final String VLC_START = "vlc_start";
   public static final String VLC_STATUS = "vlc_status";
   public static final String VLC_STOP = "vlc_stop";

@@ -25,10 +25,10 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/admin")
-public class ShutdownController {
+@RequestMapping(value = "/api/v1/admin/power-management")
+public class PowerManagementController {
 
-  private static final Logger logger = LoggerFactory.getLogger(ShutdownController.class);
+  private static final Logger logger = LoggerFactory.getLogger(PowerManagementController.class);
 
   @Autowired
   private AdminCommandService adminCommandService;
@@ -41,7 +41,7 @@ public class ShutdownController {
   public ResponseEntity<List<SystemCommandOutput>> setShutdown(
       @RequestBody AdminCommand shutdownSetAdminCommand) {
 
-    logger.trace("In controller /api/v1/admin/shutdown (POST)");
+    logger.trace("In controller /api/v1/admin/power-management/shutdown (POST)");
     if (!AdminCommand.SHUTDOWN_SET.equals(shutdownSetAdminCommand.getCommand())) {
       throw new KameHouseInvalidCommandException("Invalid AdminCommand " + shutdownSetAdminCommand
           .getCommand());
@@ -60,7 +60,7 @@ public class ShutdownController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> cancelShutdown() {
 
-    logger.trace("In controller /api/v1/admin/shutdown (DELETE)");
+    logger.trace("In controller /api/v1/admin/power-management/shutdown (DELETE)");
     AdminCommand shutdownCancelAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_CANCEL);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownCancelAdminCommand);
@@ -76,10 +76,26 @@ public class ShutdownController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusShutdown() {
 
-    logger.trace("In controller /api/v1/admin/shutdown (GET)");
+    logger.trace("In controller /api/v1/admin/power-management/shutdown (GET)");
     AdminCommand shutdownStatusAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownStatusAdminCommand);
+    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
+        .generateResponseEntity(commandOutputs);
+    return responseEntity;
+  }
+  
+  /**
+   * Suspend the server.
+   */
+  @RequestMapping(value = "/suspend", method = RequestMethod.POST)
+  @ResponseBody
+  public ResponseEntity<List<SystemCommandOutput>> suspend() {
+
+    logger.trace("In controller /api/v1/admin/power-management/suspend (POST)");
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SUSPEND);
+    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
+        adminCommand);
     ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
         .generateResponseEntity(commandOutputs);
     return responseEntity;

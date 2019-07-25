@@ -39,23 +39,27 @@
       value="Lock Screen"
       class="btn btn-outline-danger btn-margins" />
       
-    <br><br><h5>Shutdown:</h5>
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 5400)"
+    <br><br><h5>Power Management:</h5>
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 5400)"
       value="Shutdown in 90 min"
       class="btn btn-outline-danger btn-margins" /> 
     
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 60)"
+    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 60)"
       value="Shutdown in 1 min"
       class="btn btn-outline-danger btn-margins" />
 
-    <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/shutdown', null)"
+    <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/power-management/shutdown', null)"
       value="Cancel Shutdown"
       class="btn btn-outline-success btn-margins" />
      
-     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/shutdown')"
+     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/power-management/shutdown')"
       value="Get Shutdown status"
       class="btn btn-outline-primary btn-margins" />
-    
+          
+    <input type="button" onclick="executePost('/kame-house/api/v1/admin/power-management/suspend', null)"
+      value="Suspend Server"
+      class="btn btn-outline-warning btn-margins" />
+      
     <hr>
     <h5>Command output:</h5>
     <div id="command-output"></div>

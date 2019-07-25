@@ -63,6 +63,9 @@ public class SystemCommandService {
       case AdminCommand.SHUTDOWN_STATUS:
         systemCommands.add(getStatusShutdownSystemCommand());
         break;
+      case AdminCommand.SUSPEND:
+        systemCommands.add(getSuspendSystemCommand());
+        break;
       case AdminCommand.VLC_START:
         systemCommands.add(getStopVlcSystemCommand());
         systemCommands.add(getStartVlcSystemCommand(adminCommand));
@@ -315,16 +318,35 @@ public class SystemCommandService {
 
     // TODO this doesn't work. Need to find a way to get the status both in win
     // and linux
-    SystemCommand statusVlcSystemCommand = new SystemCommand();
-    statusVlcSystemCommand.setIsDaemon(false);
+    SystemCommand statusShutdownSystemCommand = new SystemCommand();
+    statusShutdownSystemCommand.setIsDaemon(false);
     List<String> command = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.get());
     } else {
       Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.get());
     }
-    statusVlcSystemCommand.setCommand(command);
-    return statusVlcSystemCommand;
+    statusShutdownSystemCommand.setCommand(command);
+    return statusShutdownSystemCommand;
+  }
+
+  /**
+   * Get the system command to suspend the server.
+   */
+  private SystemCommand getSuspendSystemCommand() {
+
+    SystemCommand suspendSystemCommand = new SystemCommand();
+    // Set daemon to true, otherwise the process will wait until suspend command
+    // finishes to return and that won't happen
+    suspendSystemCommand.setIsDaemon(true);
+    List<String> command = new ArrayList<String>();
+    if (PropertiesUtils.isWindowsHost()) {
+      Collections.addAll(command, CommandLine.SUSPEND_WINDOWS.get());
+    } else {
+      Collections.addAll(command, CommandLine.SUSPEND_LINUX.get());
+    }
+    suspendSystemCommand.setCommand(command);
+    return suspendSystemCommand;
   }
 
   /**
@@ -436,7 +458,8 @@ public class SystemCommandService {
     vncdoSingleClickSystemCommand.setIsDaemon(false);
     List<String> vncdoSingleClickCommandList = new ArrayList<String>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS.get());
+      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS
+          .get());
       setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
       int vncdoSingleClickHorizontalPositionIndex = 8;
       int vncdoSingleClickVerticalPositionIndex = 9;

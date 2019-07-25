@@ -254,7 +254,45 @@ public class SystemCommandServiceTest {
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
+  
+  /**
+   * Get suspend system commands linux successful test.
+   */
+  @Test
+  public void getSystemCommandsSuspendLinuxTest() {
 
+    List<String> expectedSystemCommand = new ArrayList<String>();
+    Collections.addAll(expectedSystemCommand, CommandLine.SUSPEND_LINUX.get());
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(false);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SUSPEND);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminCommand);
+
+    assertEquals(1, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
+  }
+  
+  /**
+   * Get suspend system commands windows successful test.
+   */
+  @Test
+  public void getSystemCommandsSuspendWindowsTest() {
+
+    List<String> expectedSystemCommand = new ArrayList<String>();
+    Collections.addAll(expectedSystemCommand, CommandLine.SUSPEND_WINDOWS.get());
+
+    when(PropertiesUtils.isWindowsHost()).thenReturn(true);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SUSPEND);
+
+    List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
+        adminCommand);
+
+    assertEquals(1, returnedSystemCommands.size());
+    assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
+  }
+  
   /**
    * Get start vlc system commands linux successful test.
    */
@@ -395,11 +433,10 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_LINUX.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.SCREEN_LOCK);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
-        adminVlcCommand);
+        adminCommand);
 
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
@@ -415,11 +452,10 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.SCREEN_LOCK);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK); 
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
-        adminVlcCommand);
+        adminCommand);
 
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
@@ -441,11 +477,10 @@ public class SystemCommandServiceTest {
         "admin/pwds/unlock.screen.pwd");
     when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn(
         "admin/pwds/vnc.server.pwd");
-    AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.SCREEN_UNLOCK);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
-        adminVlcCommand);
+        adminCommand);
 
     assertEquals(4, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
@@ -461,11 +496,10 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.SCREEN_UNLOCK);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK); 
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
-        adminVlcCommand);
+        adminCommand);
 
     assertEquals(4, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
@@ -485,11 +519,10 @@ public class SystemCommandServiceTest {
     when(PropertiesUtils.getUserHome()).thenReturn("src/test/resources");
     when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn(
         "admin/pwds/vnc.server.pwd");
-    AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.SCREEN_WAKE_UP);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_WAKE_UP);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
-        adminVlcCommand);
+        adminCommand);
 
     assertEquals(3, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand().toString());
@@ -505,11 +538,10 @@ public class SystemCommandServiceTest {
         + " ERROR_READING_PASSWORD, move, 400, 400, click, 1]";
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.SCREEN_WAKE_UP);
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_WAKE_UP);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
-        adminVlcCommand);
+        adminCommand);
 
     assertEquals(3, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand().toString());

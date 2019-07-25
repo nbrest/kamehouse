@@ -46,7 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Unit tests for ShutdownController class.
+ * Unit tests for PowerManagementController class.
  * 
  * @author nbrest
  *
@@ -54,24 +54,24 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class ShutdownControllerTest {
+public class PowerManagementControllerTest {
 
   private MockMvc mockMvc;
 
   @InjectMocks
-  private ShutdownController adminShutdownController;
+  private PowerManagementController adminPowerManagementController;
 
   @Mock
   private AdminCommandService adminCommandService;
-  
+
   @Rule
   public ExpectedException thrown = ExpectedException.none();
-  
+
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(adminCommandService);
-    mockMvc = MockMvcBuilders.standaloneSetup(adminShutdownController).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(adminPowerManagementController).build();
   }
 
   /**
@@ -85,8 +85,8 @@ public class ShutdownControllerTest {
     adminShutdownCommand.setTime(5400);
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/shutdown").contentType(
-          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
+      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/power-management/shutdown")
+          .contentType(MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
               adminShutdownCommand))).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -116,11 +116,12 @@ public class ShutdownControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
         KameHouseInvalidCommandException.class));
-    
+
     AdminCommand adminShutdownCommand = new AdminCommand("INVALID_SET");
 
-    mockMvc.perform(post("/api/v1/admin/shutdown").contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(JsonUtils.convertToJsonBytes(adminShutdownCommand))).andDo(print());
+    mockMvc.perform(post("/api/v1/admin/power-management/shutdown").contentType(
+        MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
+            adminShutdownCommand))).andDo(print());
   }
 
   /**
@@ -131,8 +132,8 @@ public class ShutdownControllerTest {
     List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/shutdown")).andDo(
-          print());
+      ResultActions requestResult = mockMvc.perform(delete(
+          "/api/v1/admin/power-management/shutdown")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -162,8 +163,8 @@ public class ShutdownControllerTest {
     mockCommandOutputs.get(0).setExitCode(1);
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/shutdown")).andDo(
-          print());
+      ResultActions requestResult = mockMvc.perform(delete(
+          "/api/v1/admin/power-management/shutdown")).andDo(print());
       requestResult.andExpect(status().is5xxServerError());
     } catch (Exception e) {
       e.printStackTrace();
@@ -181,7 +182,8 @@ public class ShutdownControllerTest {
     List<SystemCommandOutput> mockCommandOutputs = mockStatusShutdownCommandOutputs();
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/shutdown")).andDo(print());
+      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/power-management/shutdown"))
+          .andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -202,6 +204,36 @@ public class ShutdownControllerTest {
     verifyNoMoreInteractions(adminCommandService);
   }
 
+  /**
+   * Suspend server successful test.
+   */
+  @Test
+  public void suspendTest() {
+    List<SystemCommandOutput> mockCommandOutputs = mockSuspendCommandOutputs();
+    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    try {
+      ResultActions requestResult = mockMvc.perform(post(
+          "/api/v1/admin/power-management/suspend")).andDo(print());
+      requestResult.andExpect(status().isOk());
+      requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+      requestResult.andExpect(jsonPath("$", hasSize(1)));
+      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
+          .getCommand())));
+      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
+          .getExitCode())));
+      requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
+      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
+          .getStandardOutput())));
+      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
+          .getStandardError())));
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+    verify(adminCommandService, times(1)).execute(Mockito.any());
+    verifyNoMoreInteractions(adminCommandService);
+  }
+  
   /**
    * Mock set shutdown command outputs.
    */
@@ -246,6 +278,22 @@ public class ShutdownControllerTest {
     commandOutput.setStatus("completed");
     commandOutput.setStandardOutput(Arrays.asList(
         "INFO: No tasks are running which match the specified criteria."));
+    commandOutput.setStandardError(new ArrayList<String>());
+    commandOutputs.add(commandOutput);
+    return commandOutputs;
+  }
+  
+  /**
+   * Mock suspend command outputs.
+   */
+  private List<SystemCommandOutput> mockSuspendCommandOutputs() {
+    List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
+    SystemCommandOutput commandOutput = new SystemCommandOutput();
+    commandOutput.setCommand("[cmd.exe, /c, start, rundll32.exe, powrprof.dll,SetSuspendState, 0,1,0]");
+    commandOutput.setExitCode(-1);
+    commandOutput.setPid(-1);
+    commandOutput.setStatus("running");
+    commandOutput.setStandardOutput(new ArrayList<String>());
     commandOutput.setStandardError(new ArrayList<String>());
     commandOutputs.add(commandOutput);
     return commandOutputs;

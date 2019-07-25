@@ -33,9 +33,6 @@
     <br>
     <input type="button" value="Test APIs" class="btn btn-block btn-outline-secondary custom-width"
       onclick="window.location.href='test-apis'">
-    <br>
-    <input type="button" value="VLC Player test" class="btn btn-block btn-outline-secondary custom-width"
-      onclick="window.location.href='vlc-player'">
   </div>
   <div id="footerContainer"></div>
   <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>

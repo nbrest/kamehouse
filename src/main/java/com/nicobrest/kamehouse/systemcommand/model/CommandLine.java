@@ -24,6 +24,10 @@ public enum CommandLine {
       "ps aux | grep -e \"shutdown\\|COMMAND\" | grep -v grep"),
   SHUTDOWN_STATUS_WINDOWS("tasklist", "/FI", "IMAGENAME eq shutdown.exe"),
   
+  SUSPEND_LINUX("/bin/bash", "-c", "systemctrl suspend -i"),
+  SUSPEND_WINDOWS("cmd.exe", "/c", "start", "rundll32.exe", "powrprof.dll,SetSuspendState", 
+      "0,1,0"),
+  
   VLC_START_LINUX("vlc"),
   VLC_START_WINDOWS("cmd.exe", "/c", "start", "vlc"),
   

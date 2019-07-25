@@ -28,47 +28,6 @@
     <br><h5>Request Output</h5> <br>
     <div id="api-call-output"></div>
     
-    <br><br><h5>/api/v1/vlc-rc/players/localhost/commands Requests</h5><br>
-    <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_previous')"
-      value="VLC play prev"
-      class="btn btn-outline-success" />
-    <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_next')"
-      value="VLC play next"
-      class="btn btn-outline-success" />
-    <br><br>
-    <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_random')"
-      value="VLC random on/off"
-      class="btn btn-outline-success" /> 
-    <br><br><h5>/api/v1/admin/vlc Requests</h5><br>
-    <select class="custom-select sources" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select> 
-    <br><br>
-    <select class="custom-select sources" id="playlist-dropdown" name="playlist"></select> 
-    <br><br>  
-    <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
-      value="Start VLC with selected playlist"
-      class="btn btn-outline-primary" />
-    <br><br>
-    <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
-      value="Get VLC status"
-      class="btn btn-outline-success" />
-    <br><br>
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
-      value="Start VLC with Win GoT pls"
-      class="btn btn-outline-primary" />
-    <br><br> 
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
-      value="Start VLC with Linux LH pls"
-      class="btn btn-outline-primary" />
-    <br><br>
-    <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
-      value="Stop VLC player"
-      class="btn btn-outline-danger" />
-       
-    <br><br><h5>/api/v1/media/video/playlists Requests</h5><br>
-    <input type="button" onclick="executeGet('/kame-house/api/v1/media/video/playlists')"
-      value="/kame-house/api/v1/media/video/playlists GET"
-      class="btn btn-outline-success" />   
-    
     <br><br><h5>/api/v1/dragonball Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET"
