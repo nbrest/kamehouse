@@ -71,6 +71,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu 16).
 *********************
 # ChangeLog:
+#### v0.20
+- Updated initial version of vlc player page with most functionality
 #### v0.19
 - Added wake up screen functionality (backend and frontend)
 - Added suspend server functionality (backend and frontend)
