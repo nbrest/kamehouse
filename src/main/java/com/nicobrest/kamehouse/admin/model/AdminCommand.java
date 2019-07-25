@@ -10,11 +10,12 @@ package com.nicobrest.kamehouse.admin.model;
  */
 public class AdminCommand {
 
-  public static final String LOCK_SCREEN = "lock_screen";
+  public static final String SCREEN_LOCK = "screen_lock";
+  public static final String SCREEN_UNLOCK = "screen_unlock";
+  public static final String SCREEN_WAKE_UP = "screen_wake_up";
   public static final String SHUTDOWN_CANCEL = "shutdown_cancel";
   public static final String SHUTDOWN_SET = "shutdown_set";
   public static final String SHUTDOWN_STATUS = "shutdown_status";
-  public static final String UNLOCK_SCREEN = "unlock_screen";
   public static final String VLC_START = "vlc_start";
   public static final String VLC_STATUS = "vlc_status";
   public static final String VLC_STOP = "vlc_stop";

@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Unit tests for the LockScreenController class.
+ * Unit tests for the ScreenController class.
  * 
  * @author nbrest
  *
@@ -45,12 +45,12 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class LockScreenControllerTest {
+public class ScreenControllerTest {
 
   private MockMvc mockMvc;
 
   @InjectMocks
-  private LockScreenController lockScreenController;
+  private ScreenController screenController;
 
   @Mock
   private AdminCommandService adminCommandService;
@@ -59,7 +59,7 @@ public class LockScreenControllerTest {
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(adminCommandService);
-    mockMvc = MockMvcBuilders.standaloneSetup(lockScreenController).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(screenController).build();
   }
 
   /**
@@ -69,12 +69,12 @@ public class LockScreenControllerTest {
   public void lockScreenSuccessfulTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockLockScreenCommandOutputs();
     AdminCommand adminCommand = new AdminCommand();
-    adminCommand.setCommand(AdminCommand.LOCK_SCREEN);
+    adminCommand.setCommand(AdminCommand.SCREEN_LOCK);
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/lock-screen").contentType(
-          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
-              adminCommand))).andDo(print());
+      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/screen/lock").contentType(
+          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(adminCommand)))
+          .andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -94,7 +94,6 @@ public class LockScreenControllerTest {
     verify(adminCommandService, times(1)).execute(Mockito.any());
     verifyNoMoreInteractions(adminCommandService);
   }
-
 
   /**
    * Lock screen successful test.
@@ -103,11 +102,11 @@ public class LockScreenControllerTest {
   public void unlockScreenSuccessfulTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockUnlockScreenCommandOutputs();
     AdminCommand adminCommand = new AdminCommand();
-    adminCommand.setCommand(AdminCommand.UNLOCK_SCREEN);
+    adminCommand.setCommand(AdminCommand.SCREEN_UNLOCK);
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/unlock-screen").contentType(
-          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
+      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/screen/unlock")
+          .contentType(MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
               adminCommand))).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -128,7 +127,7 @@ public class LockScreenControllerTest {
     verify(adminCommandService, times(1)).execute(Mockito.any());
     verifyNoMoreInteractions(adminCommandService);
   }
-  
+
   /**
    * Mock Lock Screen command outputs.
    */
@@ -144,7 +143,7 @@ public class LockScreenControllerTest {
     commandOutputs.add(commandOutput);
     return commandOutputs;
   }
-  
+
   /**
    * Mock Unlock Screen command outputs.
    */
@@ -160,4 +159,4 @@ public class LockScreenControllerTest {
     commandOutputs.add(commandOutput);
     return commandOutputs;
   }
-}  
+}

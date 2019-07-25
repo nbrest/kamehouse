@@ -396,7 +396,7 @@ public class SystemCommandServiceTest {
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.LOCK_SCREEN);
+    adminVlcCommand.setCommand(AdminCommand.SCREEN_LOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);
@@ -416,7 +416,7 @@ public class SystemCommandServiceTest {
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.LOCK_SCREEN);
+    adminVlcCommand.setCommand(AdminCommand.SCREEN_LOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);
@@ -440,7 +440,7 @@ public class SystemCommandServiceTest {
     when(PropertiesUtils.getAdminProperty("unlock.screen.pwd.file")).thenReturn("admin/pwds/unlock.screen.pwd");
     when(PropertiesUtils.getAdminProperty("vnc.server.pwd.file")).thenReturn("admin/pwds/vnc.server.pwd");
     AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.UNLOCK_SCREEN);
+    adminVlcCommand.setCommand(AdminCommand.SCREEN_UNLOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);
@@ -460,7 +460,7 @@ public class SystemCommandServiceTest {
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.UNLOCK_SCREEN);
+    adminVlcCommand.setCommand(AdminCommand.SCREEN_UNLOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminVlcCommand);

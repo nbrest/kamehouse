@@ -63,33 +63,7 @@
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
       value="Stop VLC player"
       class="btn btn-outline-danger" />
-      
-    <br><br><h5>/api/v1/admin/shutdown Requests</h5><br>
-    <input type="button" onclick="executeGet('/kame-house/api/v1/admin/shutdown')"
-      value="Get Shutdown status"
-      class="btn btn-outline-warn" />
-    <br><br>
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 5400)"
-      value="Set Shutdown in 90 min"
-      class="btn btn-outline-danger" /> 
-    <br><br>
-    <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 60)"
-      value="Set Shutdown in 1 min"
-      class="btn btn-outline-danger" />
-    <br><br>
-    <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/shutdown', null)"
-      value="Cancel Shutdown"
-      class="btn btn-outline-success" />
-    
-    <br><br><h5>/api/v1/admin/unlock-screen Request</h5><br>
-    <input type="button" onclick="executePost('/kame-house/api/v1/admin/lock-screen', null)"
-      value="Lock Screen"
-      class="btn btn-outline-warn" />
-    <br><br>
-    <input type="button" onclick="executePost('/kame-house/api/v1/admin/unlock-screen', null)"
-      value="Unlock Screen"
-      class="btn btn-outline-warn" />
-    
+       
     <br><br><h5>/api/v1/media/video/playlists Requests</h5><br>
     <input type="button" onclick="executeGet('/kame-house/api/v1/media/video/playlists')"
       value="/kame-house/api/v1/media/video/playlists GET"

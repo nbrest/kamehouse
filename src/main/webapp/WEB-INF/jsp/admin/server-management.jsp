@@ -26,14 +26,18 @@
     </div>
     <hr>
     
-    <br><h5>Screen Lock:</h5>
-    <input type="button" onclick="executePost('/kame-house/api/v1/admin/lock-screen', null)"
-      value="Lock Screen"
-      class="btn btn-outline-danger btn-margins" />
-  
-    <input type="button" onclick="executePost('/kame-house/api/v1/admin/unlock-screen', null)"
+    <br><h5>Screen:</h5>
+    <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
       value="Unlock Screen"
       class="btn btn-outline-success btn-margins" />
+    
+    <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/wake-up', null)"
+      value="Wake-Up Screen"
+      class="btn btn-outline-warning btn-margins" />
+      
+    <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/lock', null)"
+      value="Lock Screen"
+      class="btn btn-outline-danger btn-margins" />
       
     <br><br><h5>Shutdown:</h5>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/shutdown', 'shutdown_set', 5400)"

@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * Controller to execute lock and unlock screen commands.
+ * Controller to execute commands to control the screen.
  * 
  * @author nbrest
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/admin")
-public class LockScreenController {
+@RequestMapping(value = "/api/v1/admin/screen")
+public class ScreenController {
 
-  private static final Logger logger = LoggerFactory.getLogger(LockScreenController.class);
+  private static final Logger logger = LoggerFactory.getLogger(ScreenController.class);
 
   @Autowired
   private AdminCommandService adminCommandService;
@@ -34,12 +34,12 @@ public class LockScreenController {
   /**
    * Lock screen in the server running the application.
    */
-  @RequestMapping(value = "/lock-screen", method = RequestMethod.POST)
+  @RequestMapping(value = "/lock", method = RequestMethod.POST)
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> lockScreen() {
 
-    logger.trace("In controller /api/v1/admin/lock-screen (POST)");
-    AdminCommand lockScreenAdminCommand = new AdminCommand(AdminCommand.LOCK_SCREEN);
+    logger.trace("In controller /api/v1/admin/screen/lock (POST)");
+    AdminCommand lockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(lockScreenAdminCommand);
     ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
         .generateResponseEntity(commandOutputs);
@@ -49,12 +49,28 @@ public class LockScreenController {
   /**
    * Unlock screen in the server running the application.
    */
-  @RequestMapping(value = "/unlock-screen", method = RequestMethod.POST)
+  @RequestMapping(value = "/unlock", method = RequestMethod.POST)
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> unlockScreen() {
 
-    logger.trace("In controller /api/v1/admin/unlock-screen (POST)");
-    AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.UNLOCK_SCREEN);
+    logger.trace("In controller /api/v1/admin/screen/unlock (POST)");
+    AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK);
+    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
+        unlockScreenAdminCommand);
+    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
+        .generateResponseEntity(commandOutputs);
+    return responseEntity;
+  }
+  
+  /**
+   * Wake up the screen. Run it when the screen goes dark after being idle for a while.
+   */
+  @RequestMapping(value = "/wake-up", method = RequestMethod.POST)
+  @ResponseBody
+  public ResponseEntity<List<SystemCommandOutput>> wakeUpScreen() {
+
+    logger.trace("In controller /api/v1/admin/screen/wake-up (POST)");
+    AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_WAKE_UP);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         unlockScreenAdminCommand);
     ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils

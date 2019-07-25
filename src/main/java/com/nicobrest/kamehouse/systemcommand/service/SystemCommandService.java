@@ -45,8 +45,14 @@ public class SystemCommandService {
 
     List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
     switch (adminCommand.getCommand()) {
-      case AdminCommand.LOCK_SCREEN:
+      case AdminCommand.SCREEN_LOCK:
         systemCommands.add(getLockScreenSystemCommand());
+        break;
+      case AdminCommand.SCREEN_UNLOCK:
+        systemCommands.addAll(getUnlockScreenSystemCommands());
+        break;
+      case AdminCommand.SCREEN_WAKE_UP:
+        systemCommands.addAll(getScreenWakeUpSystemCommands());
         break;
       case AdminCommand.SHUTDOWN_CANCEL:
         systemCommands.add(getCancelShutdownSystemCommand());
@@ -56,9 +62,6 @@ public class SystemCommandService {
         break;
       case AdminCommand.SHUTDOWN_STATUS:
         systemCommands.add(getStatusShutdownSystemCommand());
-        break;
-      case AdminCommand.UNLOCK_SCREEN:
-        systemCommands.addAll(getUnlockScreenSystemCommands());
         break;
       case AdminCommand.VLC_START:
         systemCommands.add(getStopVlcSystemCommand());
@@ -405,6 +408,50 @@ public class SystemCommandService {
     unlockScreenSystemCommands.add(vncdoKeyEnterSystemCommand);
 
     return unlockScreenSystemCommands;
+  }
+
+  /**
+   * Get the system commands to wake up the screen. Execute 3 clicks on
+   * different parts of the screen to wake it up.
+   */
+  private List<SystemCommand> getScreenWakeUpSystemCommands() {
+
+    List<SystemCommand> screenWakeUpSystemCommands = new ArrayList<SystemCommand>();
+
+    screenWakeUpSystemCommands.add(getSingleClick("400", "400"));
+    screenWakeUpSystemCommands.add(getSingleClick("400", "500"));
+    screenWakeUpSystemCommands.add(getSingleClick("500", "500"));
+
+    return screenWakeUpSystemCommands;
+  }
+
+  /**
+   * Execute a single click in the specified coordinates. The coordinates are a
+   * string in the format "HORIZONTAL_POSITION VERTICAL_POSITION" starting from
+   * "0 0" on the top left of the screen.
+   */
+  private SystemCommand getSingleClick(String horizontalPosition, String verticalPosition) {
+
+    SystemCommand vncdoSingleClickSystemCommand = new SystemCommand();
+    vncdoSingleClickSystemCommand.setIsDaemon(false);
+    List<String> vncdoSingleClickCommandList = new ArrayList<String>();
+    if (PropertiesUtils.isWindowsHost()) {
+      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS.get());
+      setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
+      int vncdoSingleClickHorizontalPositionIndex = 8;
+      int vncdoSingleClickVerticalPositionIndex = 9;
+      vncdoSingleClickCommandList.set(vncdoSingleClickHorizontalPositionIndex, horizontalPosition);
+      vncdoSingleClickCommandList.set(vncdoSingleClickVerticalPositionIndex, verticalPosition);
+    } else {
+      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_LINUX.get());
+      setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
+      String vncdoCommand = vncdoSingleClickCommandList.get(VNCDO_CMD_LINUX_INDEX);
+      vncdoCommand = vncdoCommand.replaceFirst("HORIZONTAL_POSITION", horizontalPosition);
+      vncdoCommand = vncdoCommand.replaceFirst("VERTICAL_POSITION", verticalPosition);
+      vncdoSingleClickCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
+    }
+    vncdoSingleClickSystemCommand.setCommand(vncdoSingleClickCommandList);
+    return vncdoSingleClickSystemCommand;
   }
 
   /**
