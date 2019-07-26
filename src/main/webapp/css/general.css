@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
 #banner {
   min-height: 400px;
   /* the tutorial had no-repeat in the background but it didn't work for me */
@@ -17,7 +19,7 @@
 }
 
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Varela Round', Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	line-height: 1.5;
 	padding: 0;

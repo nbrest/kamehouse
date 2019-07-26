@@ -30,7 +30,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Unit tests for the SystemCommandService class.
+ * Unit tests for the SystemCommandService class. If this class becomes too big,
+ * split it into separate test classes. For example, one test class for the
+ * execute methods, another for shutdown commands, another for vlc commands,
+ * another for lock/unlock screen, etc.
  * 
  * @author nbrest
  *
@@ -254,7 +257,7 @@ public class SystemCommandServiceTest {
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
-  
+
   /**
    * Get suspend system commands linux successful test.
    */
@@ -273,7 +276,7 @@ public class SystemCommandServiceTest {
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
-  
+
   /**
    * Get suspend system commands windows successful test.
    */
@@ -292,7 +295,7 @@ public class SystemCommandServiceTest {
     assertEquals(1, returnedSystemCommands.size());
     assertEquals(expectedSystemCommand, returnedSystemCommands.get(0).getCommand());
   }
-  
+
   /**
    * Get start vlc system commands linux successful test.
    */
@@ -452,7 +455,7 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK); 
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminCommand);
@@ -496,7 +499,7 @@ public class SystemCommandServiceTest {
     Collections.addAll(expectedSystemCommand, CommandLine.LOCK_SCREEN_WINDOWS.get());
 
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK); 
+    AdminCommand adminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK);
 
     List<SystemCommand> returnedSystemCommands = systemCommandService.getSystemCommands(
         adminCommand);
