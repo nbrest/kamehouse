@@ -28,36 +28,38 @@
     
     <br><h5>Screen:</h5>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
-      value="Unlock Screen"
+      value="Unlock"
       class="btn btn-outline-success btn-margins" />
     
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/wake-up', null)"
-      value="Wake-Up Screen"
+      value="Wake-Up"
       class="btn btn-outline-warning btn-margins" />
       
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/lock', null)"
-      value="Lock Screen"
+      value="Lock"
       class="btn btn-outline-danger btn-margins" />
       
     <br><br><h5>Power Management:</h5>
+    <h6>Shutdown:</h6>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 5400)"
-      value="Shutdown in 90 min"
+      value="90 Min"
       class="btn btn-outline-danger btn-margins" /> 
     
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 60)"
-      value="Shutdown in 1 min"
+      value="1 Min"
       class="btn btn-outline-danger btn-margins" />
 
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/power-management/shutdown', null)"
-      value="Cancel Shutdown"
+      value="Cancel"
       class="btn btn-outline-success btn-margins" />
      
      <input type="button" onclick="executeGet('/kame-house/api/v1/admin/power-management/shutdown')"
-      value="Get Shutdown status"
+      value="Status"
       class="btn btn-outline-primary btn-margins" />
-          
+    
+    <br><h6>Suspend:</h6>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/power-management/suspend', null)"
-      value="Suspend Now"
+      value="Now"
       class="btn btn-outline-danger btn-margins" />
       
     <hr>
