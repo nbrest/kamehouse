@@ -1,8 +1,9 @@
-/** CSS for certain test pages that shouldn't be put in general.css 
-  until it becomes a standard in my app */
+.btn-player-margins {
+	margin-top: 10px; 
+  margin-bottom: 10px; 
+  margin-right: 20px;
+}
 
-
-/** Collapsible div */
 .collapsible {
   background-color: #535556;
   color: white;
@@ -13,7 +14,7 @@
   text-align: left;
   outline: none;
   font-size: 15px;
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .active-collapsible, .collapsible:hover {
@@ -49,6 +50,7 @@
     display: none;
   }
   .custom-select {
+    border-radius: 0;
     position: relative;
     display: inline-block;
     color: white;
