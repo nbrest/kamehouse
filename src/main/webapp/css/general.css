@@ -45,6 +45,10 @@ body {
   height: 90px;
 }
 
+.btn {
+  border-radius: 0;
+}
+
 .btn-margins {
   margin-bottom: 5px; 
   margin-right: 5px;
