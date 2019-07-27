@@ -12,7 +12,7 @@ function setCollapsibleContent() {
 
   for (i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
-      this.classList.toggle("active");
+      this.classList.toggle("active-collapsible");
       var content = this.nextElementSibling;
       if (content.style.maxHeight){
         content.style.maxHeight = null;
@@ -160,7 +160,7 @@ function displayRequestPayload(apiResponsePayload, url, requestType, requestBody
   var $outputPayloadButton = $('<button class="collapsible">');
   $outputPayloadButton.text("Output Payload");
   $outputPayloadContent = $('<div class="content">');
-  $outputPayloadContent.append($('<pre style="color:white;">').text(JSON.stringify(apiResponsePayload, null, 2)));
+  $outputPayloadContent.append($('<pre class="content-pre">').text(JSON.stringify(apiResponsePayload, null, 2)));
   $apiCallOutput.append($outputPayloadButton);
   $apiCallOutput.append($outputPayloadContent);
   setCollapsibleContent();
@@ -184,11 +184,11 @@ function displayErrorExecutingRequest() {
 function populateVideoPlaylistCategories() {
   let playlistDropdown = $('#playlist-dropdown');
   playlistDropdown.empty();
-  playlistDropdown.append('<option selected="true" disabled>Choose a playlist</option>');
+  playlistDropdown.append('<option selected="true" disabled>Playlist</option>');
   playlistDropdown.prop('selectedIndex', 0);
   let playlistCategoryDropdown = $('#playlist-category-dropdown');
   playlistCategoryDropdown.empty();
-  playlistCategoryDropdown.append('<option selected="true" disabled>Choose a playlist category</option>');
+  playlistCategoryDropdown.append('<option selected="true" disabled>Playlist Category</option>');
   playlistCategoryDropdown.prop('selectedIndex', 0);
 
   $.get('/kame-house/api/v1/media/video/playlists')
@@ -218,7 +218,7 @@ function populateVideoPlaylists() {
   var selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
   let playlistDropdown = $('#playlist-dropdown');
   playlistDropdown.empty();
-  playlistDropdown.append('<option selected="true" disabled>Choose a playlist</option>');
+  playlistDropdown.append('<option selected="true" disabled>Playlist</option>');
   playlistDropdown.prop('selectedIndex', 0);
   //console.debug(JSON.stringify(videoPlaylists));
   console.debug("selectedPlaylistCategory " + selectedPlaylistCategory);

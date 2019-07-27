@@ -110,7 +110,7 @@
       value="&#8987; VLC Process Status"
       class="btn btn-outline-warning btn-margins" /> 
          
-    <h5>Request Output</h5>
+    <h5>Command Output</h5>
     <div id="api-call-output"></div>
   </div>
   <div id="footerContainer"></div>
