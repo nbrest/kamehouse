@@ -20,13 +20,11 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main">
-    <div>
-      <h3 id="ehcache-header">Server Management</h3>
-    </div>
+  <div class="container main server-management">
+    <h3 class="h3-kh">Server Management</h3>
     <hr>
     
-    <br><h5>Screen:</h5>
+    <h5 class="h5-kh">Screen:</h5>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
       value="Unlock"
       class="btn btn-outline-success btn-margins" />
@@ -38,9 +36,10 @@
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/lock', null)"
       value="Lock"
       class="btn btn-outline-danger btn-margins" />
-      
-    <br><br><h5>Power Management:</h5>
-    <h6>Shutdown:</h6>
+    
+    <hr>  
+    <h5 class="h5-kh">Power Management:</h5>
+    <h6 class="h6-kh">Shutdown:</h6>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 5400)"
       value="90 Min"
       class="btn btn-outline-danger btn-margins" /> 
@@ -57,19 +56,20 @@
       value="Status"
       class="btn btn-outline-primary btn-margins" />
     
-    <br><h6>Suspend:</h6>
+    <h6 class="h6-kh">Suspend:</h6>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/power-management/suspend', null)"
       value="Now"
       class="btn btn-outline-danger btn-margins" />
       
     <hr>
-    <h5>Command output:</h5>
-    <div id="command-output"></div>
+    <h5 class="h5-kh">Command output:</h5>
+    <div id="api-call-output"></div>
 
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
+  <script src="${pageContext.request.contextPath}/js/general.js"></script>
   <script src="${pageContext.request.contextPath}/js/admin.server.management.js"></script>
 </body>
 </html>

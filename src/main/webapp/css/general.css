@@ -67,6 +67,51 @@ body {
 	margin-left: 5px;
 }
 
+/** Collapsible content. Begin.*/
+.collapsible-kh {
+  background-color: #242424;
+  color: #c0c0c0;
+  cursor: pointer;
+  padding: 5px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  border-radius: 0px;
+  border:1px solid #686868;
+}
+
+.collapsible-kh:after {
+  content: '\002B';
+  color: #c0c0c0;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.collapsible-kh-active, .collapsible-kh:hover {
+  background-color: #555;
+}
+
+.collapsible-kh-active:after {
+  content: "\2212";
+}
+
+.collapsible-kh-content {
+  border:1px solid #686868;
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.collapsible-kh-content-pre {
+  color: #c0c0c0;
+  text-align: left;
+}
+/** Collapsible content. End.*/
+
 .container {
 	width: 80%;
 	margin: auto;
@@ -88,8 +133,30 @@ body {
 	font-weight: bold;
 }
 
+.h3-kh {
+	text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.h5-kh {
+	text-align: center;
+	font-weight: bold;
+}
+
+.h6-kh {
+  text-align: left;
+  font-weight: bold;
+}
+
 .home-links {
   text-align: center;
+}
+
+hr {
+	height: 1px;
+  color: #555555;
+  background-color: #555555;
 }
 
 .lighter {
@@ -139,6 +206,104 @@ body {
   font-weight: bold;
 }
 
+/** Select dark theme. Begin.*/
+.select-kh-dark {
+  border-radius: 0;
+  position: relative;
+  display: inline-block;
+  color: #c0c0c0;
+  background: #242424;
+  padding: 8px;
+  border:1px solid #686868;
+}
+
+.select-kh-dark.opened .select-kh-dark-trigger:after {
+  margin-top: 3px;
+  transform: rotate(-135deg) translateY(-50%);
+}
+
+.select-kh-dark-trigger {
+  position: relative;
+  display: block;
+  width: 130px;
+  padding: 0 84px 0 22px;
+  font-size: 22px;
+  font-weight: 300;
+  color: #fff;
+  line-height: 60px;
+  background: #5c9cd8;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.select-kh-dark-trigger:after {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 10px; height: 10px;
+  top: 50%; right: 25px;
+  margin-top: -3px;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  transform: rotate(45deg) translateY(-50%);
+  transition: all .4s ease-in-out;
+  transform-origin: 50% 0;
+}
+
+.select-kh-dark.opened .options-kh-dark {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.option-kh-dark {
+  position: relative;
+  display: block;
+  padding: 0 22px;
+  border-bottom: 1px solid #b5b5b5;
+  font-size: 18px;
+  font-weight: 600;
+  color: #b5b5b5;
+  line-height: 47px;
+  cursor: pointer;
+  transition: all .4s ease-in-out;
+}
+
+.options-kh-dark {
+  position: absolute;
+  display: block;
+  top: 100%; left: 0; right: 0;
+  min-width: 100%;
+  margin: 15px 0;
+  border: 1px solid #b5b5b5;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 1px rgba(0,0,0,.07);
+  background: #fff;
+  transition: all .4s ease-in-out;
+  
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-15px);
+}
+
+.options-kh-dark:before {
+  position: absolute;
+  display: block;
+  content: '';
+  bottom: 100%; right: 25px;
+  width: 7px; height: 7px;
+  margin-bottom: -4px;
+  border-top: 1px solid #b5b5b5;
+  border-left: 1px solid #b5b5b5;
+  background: #fff;
+  transform: rotate(45deg);
+  transition: all .4s ease-in-out;
+}
+/** Select dark theme. End.*/
+
 #sidebar {
 	float: right;
 	width: 30%;
@@ -157,6 +322,13 @@ body {
 	border: #cccccc solid 1px;
 	margin-bottom: 5px;
 	background: #e6e6e6;
+}
+
+.table-bordered-kh,
+.table-bordered-kh tr,
+.table-bordered-kh th,
+.table-bordered-kh td {
+	border:1px solid #686868;
 }
   
 .table-dragonball-users tr td:nth-child(7) form {
