@@ -171,3 +171,13 @@
 .custom-option.selection {
   background: #f9f9f9;
 }
+
+/**
+ * Table for media player buttons
+ */
+
+.kh-table-mplayer-btns {
+	width:100%;
+	text-align: center;
+}
+
