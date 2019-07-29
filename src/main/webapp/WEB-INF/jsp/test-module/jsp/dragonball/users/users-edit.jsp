@@ -13,7 +13,7 @@
 <title>Edit DragonBallUser Form</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/css/app.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/test-module/jsp/css/app.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />

@@ -23,8 +23,8 @@
   <script src="/kame-house/js/importHeaderFooter.js"></script>
   <script src="/kame-house/lib/js/angular.js"></script>
   <script src="/kame-house/lib/js/angular-route.js"></script>
-  <script src="/kame-house/app/js/app.js"></script>
-  <script src="/kame-house/app/js/service/dragonball-user-service.js"></script>
-  <script src="/kame-house/app/js/controller/dragonball-user-controller.js"></script>
+  <script src="/kame-house/test-module/angular-1/js/app.js"></script>
+  <script src="/kame-house/test-module/angular-1/js/service/dragonball-user-service.js"></script>
+  <script src="/kame-house/test-module/angular-1/js/controller/dragonball-user-controller.js"></script>
 </body>
 </html>

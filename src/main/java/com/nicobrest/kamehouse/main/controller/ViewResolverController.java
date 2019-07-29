@@ -60,11 +60,11 @@ public class ViewResolverController {
   /**
    * View resolver for the angular page.
    */
-  @RequestMapping(value = "/app/**", method = RequestMethod.GET)
+  @RequestMapping(value = "/test-module/angular-1/**", method = RequestMethod.GET)
   public String appPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /app/** (GET) with path: " + request.getServletPath());
-    if (request.getServletPath().equals("/app/")) {
-      return "/app/index";
+    logger.trace("In controller /test-module/angular-1/** (GET) with path: " + request.getServletPath());
+    if (request.getServletPath().equals("/test-module/angular-1/")) {
+      return "/test-module/angular-1/index";
     } else {
       return request.getServletPath();
     }
@@ -91,11 +91,11 @@ public class ViewResolverController {
   /**
    * View resolver for the jsp app page.
    */
-  @RequestMapping(value = "/jsp/**", method = RequestMethod.GET)
+  @RequestMapping(value = "/test-module/jsp/**", method = RequestMethod.GET)
   public String jspPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /jsp/** (GET) with path: " + request.getServletPath());
-    if (request.getServletPath().equals("/jsp/")) {
-      return "/jsp/index";
+    logger.trace("In controller /test-module/jsp/** (GET) with path: " + request.getServletPath());
+    if (request.getServletPath().equals("/test-module/jsp/")) {
+      return "/test-module/jsp/index";
     } else {
       return request.getServletPath();
     }

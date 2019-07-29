@@ -72,23 +72,23 @@
   <!-- Servlet mappings for static files under /jsp -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/jsp/css/*</url-pattern>
+    <url-pattern>/test-module/jsp/css/*</url-pattern>
   </servlet-mapping>
 
-  <!-- Servlet mappings for static files under /app -->
+  <!-- Servlet mappings for static files under /test-module/angular-1 -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/app/css/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/app/js/*</url-pattern>
+    <url-pattern>/test-module/angular-1/css/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/app/view/*</url-pattern>
+    <url-pattern>/test-module/angular-1/js/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/test-module/angular-1/view/*</url-pattern>
   </servlet-mapping>
 
   <!-- Spring Security -->

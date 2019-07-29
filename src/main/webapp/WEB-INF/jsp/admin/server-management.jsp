@@ -24,7 +24,7 @@
     <h3 class="h3-kh">Server Management</h3>
     <hr>
     
-    <h5 class="h5-kh">Screen:</h5>
+    <h5 class="h5-kh">Screen</h5>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
       value="Unlock"
       class="btn btn-outline-success btn-margins" />
@@ -38,8 +38,8 @@
       class="btn btn-outline-danger btn-margins" />
     
     <hr>  
-    <h5 class="h5-kh">Power Management:</h5>
-    <h6 class="h6-kh">Shutdown:</h6>
+    <h5 class="h5-kh">Power Management</h5>
+    <h6 class="h6-kh">Shutdown</h6>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 5400)"
       value="90 Min"
       class="btn btn-outline-danger btn-margins" /> 
@@ -56,13 +56,13 @@
       value="Status"
       class="btn btn-outline-primary btn-margins" />
     
-    <h6 class="h6-kh">Suspend:</h6>
+    <h6 class="h6-kh">Suspend</h6>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/power-management/suspend', null)"
       value="Now"
       class="btn btn-outline-danger btn-margins" />
       
     <hr>
-    <h5 class="h5-kh">Command output:</h5>
+    <h5 class="h5-kh">Command output</h5>
     <div id="api-call-output"></div>
 
   </div>

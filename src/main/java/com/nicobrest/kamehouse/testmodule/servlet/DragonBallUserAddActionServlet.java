@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author nbrest
  *
  */
-@WebServlet("/jsp/dragonball/users/users-add-action")
+@WebServlet("/test-module/jsp/dragonball/users/users-add-action")
 public class DragonBallUserAddActionServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;

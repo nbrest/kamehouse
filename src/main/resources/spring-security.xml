@@ -56,13 +56,13 @@
     <intercept-url pattern="/api/v1/vlc-rc" access="permitAll"
       method="DELETE" />
 
-    <intercept-url pattern="/jsp/dragonball/users/**" access="permitAll"
+    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="permitAll"
       method="GET" />
-    <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"
+    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"
       method="POST" />
-    <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"
+    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"
       method="PUT" />
-    <intercept-url pattern="/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"
+    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"
       method="DELETE" />
 
     <form-login login-page="/login" username-parameter="username"
