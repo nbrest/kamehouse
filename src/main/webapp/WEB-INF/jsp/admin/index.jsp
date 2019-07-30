@@ -19,8 +19,8 @@
   <div id="headerContainer"></div>
   <section id="banner">
   <div class="container">
-    <h1>KameHouse - Admin</h1>
-    <p>Manage configurations of the website</p>
+    <h1>Admin</h1>
+    <p>Perform administrative tasks on KameHouse</p>
   </div>
   </section>
   <div class="container home-links">

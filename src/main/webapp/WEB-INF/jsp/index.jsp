@@ -21,9 +21,8 @@
   <div id="headerContainer"></div>
   <section id="banner">
     <div class="container">
-      <h1>KameHouse - Home</h1>
-      <p>Mada mada dane. Kamehame-ha. Pegasus Ryu Sei Ken. Tiger shot. Masenko. Final flash.
-        Genki dama. Tsubame gaeshi. Twist serve. Zero shiki drop shot.</p>
+      <h1>KameHouse</h1>
+      <p>Welcome to Kame Sennin's Site!</p>
     </div>
   </section>
   <section class="lighter">

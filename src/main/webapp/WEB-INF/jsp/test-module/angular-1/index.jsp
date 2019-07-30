@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
 
-<title>KameHouse - Angular App</title>
+<title>KameHouse - Test Module - Angular-1</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/general.css" />

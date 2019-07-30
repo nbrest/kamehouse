@@ -76,6 +76,11 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 - Updated initial version of vlc player page with most functionality
 - Fixed issue with csrf. Now all requests work with csrf enabled. This fixes angular-1 app in test-module too
 - Formatted test-apis page
+- Updated header. Made it more responsive, updated nav, updated logged in message displayed
+- Changed style to use google fonts 'Varela Round' in all website
+- Added font borders to hero banner text
+- Updated banner texts
+- Created test-module page to group all test-module related functionality there
 - Fixed bugs
 #### v0.19
 - Added wake up screen functionality (backend and frontend)
