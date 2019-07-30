@@ -9,6 +9,12 @@
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
+@media ( max-width : 900px) {
+  .banner-text {
+    padding-top: 80px;
+  }
+}
+
 #banner h1 {
   margin-top: 100px;
   font-size: 55px;
@@ -331,7 +337,7 @@ hr {
 .table-bordered-kh td {
 	border:1px solid #686868;
 }
-  
+
 .table-dragonball-users tr td:nth-child(7) form {
   display: inline;
 }
@@ -350,6 +356,14 @@ hr {
 .td-ehcache-header {
     font-weight: bold;
     width: 70px;
+}
+
+@media ( max-width : 900px) {
+  /** Make tbody use the full width of the table */
+  tbody {
+    display: table;
+    width: 100%;
+  }
 }
 
 ul {

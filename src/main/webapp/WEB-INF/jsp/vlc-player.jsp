@@ -58,7 +58,7 @@
       </tr>
     </table>
     <table class="table-mplayer-btns-kh">
-      <tr> 
+      <tr>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"
             value="&#9836; &#9660;"
@@ -135,7 +135,8 @@
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
       value="VLC Process Status"
       class="btn btn-outline-warning btn-margins" /> 
-    <br>
+    <hr>
+    <h5 class="h5-kh">Other Commands</h5>
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="&#128194; GoT win"
       class="btn btn-outline-primary btn-margins" /> 

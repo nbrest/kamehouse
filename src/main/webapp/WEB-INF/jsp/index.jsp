@@ -20,7 +20,7 @@
 <body>
   <div id="headerContainer"></div>
   <section id="banner">
-    <div class="container">
+    <div class="container banner-text">
       <h1>KameHouse</h1>
       <p>Welcome to Kame Sennin's Site!</p>
     </div>

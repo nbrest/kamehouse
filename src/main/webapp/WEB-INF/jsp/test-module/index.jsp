@@ -18,7 +18,7 @@
 <body>
   <div id="headerContainer"></div>
   <section id="banner">
-  <div class="container">
+  <div class="container banner-text">
     <h1>Test Module</h1>
     <p>Execute all tasks available in the Test Module of KameHouse</p>
   </div>

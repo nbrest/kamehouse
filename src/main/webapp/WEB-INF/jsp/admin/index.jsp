@@ -18,7 +18,7 @@
 <body>
   <div id="headerContainer"></div>
   <section id="banner">
-  <div class="container">
+  <div class="container banner-text">
     <h1>Admin</h1>
     <p>Perform administrative tasks on KameHouse</p>
   </div>

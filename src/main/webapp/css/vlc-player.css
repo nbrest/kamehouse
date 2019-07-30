@@ -13,8 +13,9 @@
   * Table for media player buttons.
   */
 .table-mplayer-btns-kh {
-	width:100%;
+	width:50%;
 	text-align: center;
+	margin:1em auto;
 }
 
 /*
@@ -22,4 +23,12 @@
  */
 .vlc-player {
 	text-align: center;
+}
+
+/* Media Queries */
+@media ( max-width : 900px) {
+	.table-mplayer-btns-kh {
+	  width:100%;
+	  text-align: center;
+	}
 }

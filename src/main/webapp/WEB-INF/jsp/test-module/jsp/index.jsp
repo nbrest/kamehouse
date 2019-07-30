@@ -18,7 +18,7 @@
 <body>
   <div id="headerContainer"></div>
   <section id="banner">
-  <div class="container">
+  <div class="container banner-text">
     <h1>JSP</h1>
     <p>JSP test application in the Test Module</p>
   </div>
