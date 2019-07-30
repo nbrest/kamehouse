@@ -57,8 +57,8 @@ public class ViewResolverControllerTest {
     viewResolver.setSuffix(".jsp");
 
     MockitoAnnotations.initMocks(this);
-    mockMvc = MockMvcBuilders.standaloneSetup(viewResolverController).setViewResolvers(viewResolver)
-        .build();
+    mockMvc = MockMvcBuilders.standaloneSetup(viewResolverController).setViewResolvers(
+        viewResolver).build();
   }
 
   /**
@@ -66,16 +66,19 @@ public class ViewResolverControllerTest {
    */
   @Test
   public void allViewsTest() {
-
+    //TODO: It's becoming too big. Split them into separate tests for each method called.
     try {
+      // Home
       ResultActions requestResult = mockMvc.perform(get("/")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(view().name("/index"));
 
+      // About
       requestResult = mockMvc.perform(get("/about")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(view().name("/about"));
 
+      // Admin
       when(request.getServletPath()).thenReturn("/admin/");
       String adminIndex = viewResolverController.adminPage(request, response);
       assertEquals("/admin/index", adminIndex);
@@ -83,32 +86,46 @@ public class ViewResolverControllerTest {
       String adminSubpage = viewResolverController.adminPage(request, response);
       assertEquals("/admin/goku", adminSubpage);
 
-      when(request.getServletPath()).thenReturn("/app/");
-      String appIndex = viewResolverController.appPage(request, response);
-      assertEquals("/app/index", appIndex);
-
-      when(request.getServletPath()).thenReturn("/app/gohan");
-      String appSubpage = viewResolverController.appPage(request, response);
-      assertEquals("/app/gohan", appSubpage);
-
+      // Contact Us
       requestResult = mockMvc.perform(get("/contact-us")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(view().name("/contact-us"));
 
-      when(request.getServletPath()).thenReturn("/jsp/");
-      String jspIndex = viewResolverController.jspPage(request, response);
-      assertEquals("/jsp/index", jspIndex);
-      when(request.getServletPath()).thenReturn("/jsp/trunks");
-      String jspSubpage = viewResolverController.jspPage(request, response);
-      assertEquals("/jsp/trunks", jspSubpage);
-
+      // Login and Logout
       requestResult = mockMvc.perform(get("/login")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(view().name("/login"));
-      
       requestResult = mockMvc.perform(get("/logout")).andDo(print());
       requestResult.andExpect(status().is3xxRedirection());
       requestResult.andExpect(view().name("redirect:/login?logout"));
+
+      // Test Module
+      when(request.getServletPath()).thenReturn("/test-module");
+      String testModuleIndex = viewResolverController.testModule(request, response);
+      assertEquals("/test-module/index", testModuleIndex);
+
+      // Test Module Angular-1
+      when(request.getServletPath()).thenReturn("/test-module/angular-1/");
+      String testModuleAngularOneIndex = viewResolverController.testModuleAngularOne(request,
+          response);
+      assertEquals("/test-module/angular-1/index", testModuleAngularOneIndex);
+      when(request.getServletPath()).thenReturn("/test-module/angular-1/gohan");
+      String testModuleAngularOneSubpage = viewResolverController.testModuleAngularOne(request,
+          response);
+      assertEquals("/test-module/angular-1/gohan", testModuleAngularOneSubpage);
+
+      // Test Module JSP
+      when(request.getServletPath()).thenReturn("/test-module/jsp/");
+      String testModuleJspIndex = viewResolverController.testModuleJsp(request, response);
+      assertEquals("/test-module/jsp/index", testModuleJspIndex);
+      when(request.getServletPath()).thenReturn("/test-module/jsp/trunks");
+      String testModuleJspSubpage = viewResolverController.testModuleJsp(request, response);
+      assertEquals("/test-module/jsp/trunks", testModuleJspSubpage);
+
+      // VLC Player 
+      String vlcPlayerPage = viewResolverController.vlcPlayerPage();
+      assertEquals("/vlc-player", vlcPlayerPage);
+      
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

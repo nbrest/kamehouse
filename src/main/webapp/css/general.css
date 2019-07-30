@@ -6,6 +6,7 @@
   background: url(/kame-house/img/banner-space.jpg) 0 -400px;
   text-align: center;
   color: #ffffff;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
 #banner h1 {

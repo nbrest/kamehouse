@@ -65,7 +65,7 @@ public class ViewResolverController {
     logger.trace("In controller /contact-us (GET)");
     return "/contact-us";
   }
-  
+
   /**
    * View resolver for the login page.
    */
@@ -89,7 +89,7 @@ public class ViewResolverController {
     // return "forward:/login?logout"; //forwards the request without
     // redirecting
   }
-  
+
   /**
    * View resolver for the test module page.
    */
@@ -104,14 +104,15 @@ public class ViewResolverController {
    */
   @RequestMapping(value = "/test-module/angular-1/**", method = RequestMethod.GET)
   public String testModuleAngularOne(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /test-module/angular-1/** (GET) with path: " + request.getServletPath());
+    logger.trace("In controller /test-module/angular-1/** (GET) with path: " + request
+        .getServletPath());
     if (request.getServletPath().equals("/test-module/angular-1/")) {
       return "/test-module/angular-1/index";
     } else {
       return request.getServletPath();
     }
   }
-  
+
   /**
    * View resolver for the test module jsp app page.
    */
