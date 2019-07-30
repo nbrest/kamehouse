@@ -127,6 +127,20 @@ function getCsrfHeader() {
 }
 
 /**
+ * Get CSRF standard requestHeaders object.
+ */
+function getCsrfRequestHeadersObject() {
+  var csrfHeader = getCsrfHeader();
+  var csrfToken = getCsrfToken();
+  var requestHeaders = {};
+  requestHeaders.Accept = 'application/json';
+  requestHeaders['Content-Type'] = 'application/json';
+  requestHeaders[csrfHeader] = csrfToken;
+  //console.log(JSON.stringify(requestHeaders));
+  return requestHeaders;
+}
+
+/**
  * Call main.
  */
 $(document).ready(main);

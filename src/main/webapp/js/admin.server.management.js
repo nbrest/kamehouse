@@ -31,14 +31,12 @@ function executeAdminShutdownPost(url, command, time) {
 
 function executePost(url, requestBody) {
   console.debug(getTimestamp() + " : Executing POST on " + url);
+  requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
     url: url,
     data: requestBody,
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
+    headers: requestHeaders,
     success: function(data) {
       displayRequestPayload(data, url, "POST", requestBody);
     },
@@ -52,14 +50,12 @@ function executePost(url, requestBody) {
 
 function executeDelete(url, requestBody) {
   console.debug(getTimestamp() + " : Executing DELETE on " + url);
+  requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "DELETE",
     url: url,
     data: requestBody,
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
+    headers: requestHeaders,
     success: function(data) {
       displayRequestPayload(data, url, "DELETE", requestBody);
     },

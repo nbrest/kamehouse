@@ -74,6 +74,9 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 # ChangeLog:
 #### v0.20
 - Updated initial version of vlc player page with most functionality
+- Fixed issue with csrf. Now all requests work with csrf enabled. This fixes angular-1 app in test-module too
+- Formatted test-apis page
+- Fixed bugs
 #### v0.19
 - Added wake up screen functionality (backend and frontend)
 - Added suspend server functionality (backend and frontend)

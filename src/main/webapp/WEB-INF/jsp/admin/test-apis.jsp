@@ -20,15 +20,12 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main">
-    <div>
-      <h3 id="ehcache-header">Test APIs</h3>
-    </div>
+  <div class="container main"> 
+    <h3 class="h3-kh">Test APIs</h3> 
     <hr>
-    <br><h5>Request Output</h5> <br>
+    <h5 class="h5-kh">Request Output</h5>
     <div id="api-call-output"></div>
-    
-    <br><br><h5>/api/v1/dragonball Requests</h5><br>
+    <br><br><h5 class="h5-kh">/api/v1/dragonball Requests</h5>
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET"
       class="btn btn-outline-success" />
@@ -41,6 +38,7 @@
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
+  <script src="${pageContext.request.contextPath}/js/general.js"></script>
   <script src="${pageContext.request.contextPath}/js/admin.test.apis.js"></script>
 </body>
 </html>
