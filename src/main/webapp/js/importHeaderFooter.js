@@ -46,23 +46,18 @@ function updateActiveTab() {
     default:
       break;
     }
-    if (pageUrl.includes("/kame-house/vlc-player/")) {
-      if ($(navItem).attr("id") == "nav-vlc-player") {
-        $(navItem).addClass("active");
-      } 
-    }
-    if (pageUrl.includes("/kame-house/jsp/")) {
-      if ($(navItem).attr("id") == "nav-jsp") {
-        $(navItem).addClass("active");
-      } 
-    }
-    if (pageUrl.includes("/kame-house/app/")) {
-      if ($(navItem).attr("id") == "nav-app") {
-        $(navItem).addClass("active");
-      } 
-    }
-    if (pageUrl.includes("/kame-house/admin/")) {
+    if (pageUrl.includes("/kame-house/admin")) {
       if ($(navItem).attr("id") == "nav-admin") {
+        $(navItem).addClass("active");
+      } 
+    }
+    if (pageUrl.includes("/kame-house/test-module")) {
+      if ($(navItem).attr("id") == "nav-test-module") {
+        $(navItem).addClass("active");
+      } 
+    }
+    if (pageUrl.includes("/kame-house/vlc-player")) {
+      if ($(navItem).attr("id") == "nav-vlc-player") {
         $(navItem).addClass("active");
       } 
     }
@@ -75,7 +70,7 @@ function updateActiveTab() {
 function getSessionStatus() {
   $.get(SESSION_STATUS_URL)
   .success(function(data) {
-    updateLoginStatus(data.firstName);
+    updateLoginStatus(data.username);
   })
   .error(function(jqXHR, textStatus, errorThrown) {
     console.error("Error retrieving current session information.");
@@ -97,7 +92,7 @@ function updateLoginStatus(name) {
     var $logoutButton = $("<a href='/kame-house/logout' " + 
         "class='btn btn-outline-secondary login-status-button'>Logout</>");
     $loginMessage = $("<h5>");
-    $loginMessage.text("Welcome " + name + "!");
+    $loginMessage.text(name);
     $loginStatus.append($logoutButton);
     $loginStatus.append($loginMessage);
   }
