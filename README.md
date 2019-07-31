@@ -44,13 +44,24 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 # Installation:
 - Deploy copying the war into the webapps directory of your tomcat installation
 
+*************
+# External dependencies:
+This web application interacts with other applications that need to be installed on the server to execute certain functionality. These external dependencies are:
+
+- VLC Player (https://www.videolan.org/)
+- VNC Server. Any vnc server will do (https://www.tightvnc.com/)
+- VNCDoTool (https://github.com/sibson/vncdotool)
+- gnome-screensaver-command in Ubuntu (http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
+
+The application will load even without these installed, however some functionality will not work without them.
+
 *********************
 # Other notes:
 
-### Troubleshoot linux commands:
+### Setup/Troubleshoot linux commands:
 - Make sure the user running tomcat has sudo set for the commands that require it in CommandLine.java. I tried setting those without sudo and they don't work (tested on Ubuntu 16).
 
-### Troubleshoot VLC start and stop commands:
+### Setup/Troubleshoot VLC start and stop commands:
 - Make sure vlc executable is in the user's PATH. In linux it's added by default when vlc is installed. In windows I need to manually add the path to the executable to my user's PATH environment variable. To test that it works, open a command prompt and type vlc to see if it finds the executable or if it throws an error that it can't find it.
 
 - The commands to start and stop vlc (and possibly other system commands) don't work if tomcat is run as a service in windows, even if it's configured to run as a service with my user. To fix this, uninstall the service. Download tomcat and extract it to $HOME/programs/apache-tomcat. Add a shortcut to the $HOME/programs/apache-tomcat/bin/startup.bat script in the windows startup folder (Currently in windows 10 it's $HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup) so tomcat runs when I logon. Edit the windows shortcut and in the field 'Start in' change from $HOME/programs/apache-tomcat/bin to $HOME/programs/apache-tomcat otherwise it will create the application logs in $HOME/programs/apache-tomcat/bin/logs instead of $HOME/programs/apache-tomcat/logs
@@ -62,7 +73,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 '@reboot /bin/bash /PATH-TO-MY-SCRIPT/tomcat-startup.sh'
 - Also update the script startup.sh and as the second line add 'export DISPLAY=:0' otherwise vlc start will fail because DISPLAY env variable won't be set at reboot time when tomcat is being started. I don't need to set it if I run startup.sh from my desktop but if I schedule it with cron, startup.sh needs to be updated with that export.
 
-### Troubleshoot lock and unlock screen commands:
+### Setup/Troubleshoot lock, unlock and wake-up screen commands:
 - Setup a vnc server (I use tightvnc on windows and the native desktop sharing tool in ubuntu) running in the same server as the application. Unlock screen is done through vncdotool.
 - Install vncdotool (follow https://vncdotool.readthedocs.io/en/latest/install.html) in the same server that runs the application. Test it to make sure you can execute commands through it using the command line.
 - Encode user password with base64 for the user and store it in a file specified by the property unlock.screen.pwd.file. This file should be readable only by the user, hidden from anyone else. The application will decode and type this password to unlock the screen.

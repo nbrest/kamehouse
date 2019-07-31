@@ -4,7 +4,7 @@ header {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	min-height: 70px;
-	border-bottom: #e8491d 3px solid;
+	border-bottom: #d90000 3px solid;
 }
 
 header .container {
@@ -38,7 +38,7 @@ header #header-menu nav ul li a {
 }
 
 header #header-menu nav ul .active a {
-  color: #e8491d;
+  color: #d90000;
   font-weight: bold;
 }
 
@@ -65,6 +65,7 @@ header #header-top #login-status {
 header #header-top #login-status a {
   float: right;
   display: inline;
+  border: none;
 }
 
 header #header-top #login-status h5 {
@@ -75,20 +76,59 @@ header #header-top #login-status h5 {
 }
 
 header .highlight {
-  color: #e8491d;
+  color: #d90000;
   font-weight: bold;
 }
 
 /* Media Queries */
 @media ( max-width : 900px) {
-	
-	header #header-menu, header #header-top, header #header-top #branding, header #header-top #login-status {
-		float: none;
+	 
+  header .container {
+    padding: 0px;
+    width: 100%;
+    display: block;
+  }
+  
+  header #header-top {
+    display: inline;
+  }
+  
+  header #header-top #branding {
+    padding-top: 5px;
+    padding-left: 5px;
+  }
+  
+  header #header-top #branding h1 {
+    font-size: 25px;
+    text-align: left;
+    display: inline;
+  }
+  
+  header #header-top #login-status {
+    float: right;
+    text-align: right;
+    padding: 0px;
+    padding-right: 5px;
+  }
+  
+  header #header-top #login-status h5 {
+    font-size: 18px;
+    padding-top: 8px;
+    padding-right: 10px;
+    margin: 0px;
+  }
+    
+  header #header-top #login-status a {
+    border: none;
+  } 
+  
+	header #header-menu {
+		float: left;
 		display: block;
 		text-align: center; 
-		width: 100%;
 	}
-	
+
+  	
 	header #header-menu nav ul li {
 		padding: 10px;
 		display: inline;
