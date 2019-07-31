@@ -25,7 +25,7 @@ function importHeaderAndFooter() {
  */
 function updateActiveTab() {
   var pageUrl = window.location.pathname; 
-  $("#headerContainer header .container #header-menu nav ul li").toArray().forEach(function(navItem) {
+  $("#headerContainer header .container #header-menu a").toArray().forEach(function(navItem) {
     $(navItem).removeClass("active");   
     switch (pageUrl) {
     case "/kame-house/":
@@ -62,6 +62,16 @@ function updateActiveTab() {
       } 
     }
   });
+}
+
+/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+function toggleHeaderNav() {
+  var x = document.getElementById("header-menu");
+  if (x.className === "header-nav") {
+    x.className += " responsive";
+  } else {
+    x.className = "header-nav";
+  }
 }
 
 /**

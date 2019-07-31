@@ -1,9 +1,11 @@
+@import url('/kame-house/lib/css/font-awesome.css');
+
 header {
 	background: #000000;
 	color: #c0c0c0;
 	padding-top: 10px;
-	padding-bottom: 10px;
-	min-height: 70px;
+	padding-bottom: 0px;
+	min-height: 40px;
 	border-bottom: #d90000 3px solid;
 }
 
@@ -11,42 +13,37 @@ header .container {
 	margin-bottom: 0px;
 }
 
-header #header-menu {
+header .header-nav { 
+  overflow: hidden; 
 }
-
-header #header-menu nav {
-  margin-top: 5px;
-}
-
-header #header-menu nav ul {
-   list-style-type: none;
-   margin: 0;
-   padding: 0;
-   overflow: hidden;
-   width: 100%;
-}
-
-header #header-menu nav ul li {
+   
+header .header-nav a {
   float: left;
-  padding: 0 20px 0 20px;
-}
-
-header #header-menu nav ul li a {
+  display: block;
   color: #c0c0c0;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-header #header-menu nav ul .active a {
-  color: #d90000;
-  font-weight: bold;
-}
-
-header #header-menu nav ul li a:hover {
-  color: #808080;
   text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
-  font-weight: bold;
+  font-size: 17px;
+}
+
+header .header-nav .active a {
+  background-color: #800000;
+  color: #c0c0c0;
+}
+
+header .header-nav a:hover {
+  background-color: #d90000;
+  color: black;
+} 
+
+header .header-nav .icon {
+  display: none;
+}
+
+header #header-top {
+  display: block;
+  overflow: hidden;
 }
 
 header #header-top #branding {
@@ -59,6 +56,7 @@ header #header-top #branding h1 {
 
 header #header-top #login-status {
   padding: 10px;
+  padding-bottom: 0px;
   float: right;
 }
 
@@ -90,12 +88,13 @@ header .highlight {
   }
   
   header #header-top {
-    display: inline;
+    display: block;
+    overflow: hidden;
   }
   
   header #header-top #branding {
     padding-top: 5px;
-    padding-left: 5px;
+    padding-left: 15px;
   }
   
   header #header-top #branding h1 {
@@ -121,16 +120,23 @@ header .highlight {
   header #header-top #login-status a {
     border: none;
   } 
-  
-	header #header-menu {
-		float: left;
-		display: block;
-		text-align: center; 
-	}
 
-  	
-	header #header-menu nav ul li {
-		padding: 10px;
-		display: inline;
-	}
+  header .header-nav a:nth-child(n+4) {display: none;}
+  header .header-nav a.icon {
+    float: right;
+    display: block;
+  }
+  header .header-nav.responsive {position: relative;}
+  header .header-nav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  header .header-nav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }
+
