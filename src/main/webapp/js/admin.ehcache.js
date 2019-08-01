@@ -32,7 +32,7 @@ function displayCacheData(caches) {
   var $cacheData = $("#cache-data");
   caches.forEach(function(cache) {
     var $cacheTable = $('<table id="table-' + cache.name +
-      '" class="table table-bordered table-ehcache">');
+      '" class="table table-bordered table-ehcache table-bordered-kh">');
     var $cacheTableRow;
 
     $cacheTableRow = $("<tr>");
@@ -40,10 +40,10 @@ function displayCacheData(caches) {
     $cacheTableRowContent = $("<td>");
     $cacheTableRowContent.text(cache.name);
     $cacheTableRowContent.append("<input id='clear-" + cache.name +
-      "' type='button' value='Clear Cache' class='btn btn-outline-danger table-ehcache-button' />");
+      "' type='button' value='Clear Cache' class='btn btn-outline-danger table-ehcache-button btn-borderless' />");
     $cacheTableRowContent.append("<input id='toggle-view-" + cache.name +
       "' type='button' value='Expand/Collapse' " +
-      "class='btn btn-outline-secondary table-ehcache-button' />");
+      "class='btn btn-outline-secondary table-ehcache-button btn-borderless' />");
     $cacheTableRow.append($cacheTableRowContent);
     $cacheTable.append($cacheTableRow);
 

@@ -59,6 +59,7 @@ body {
 
 .btn-borderless {
   border: none;
+  cursor: pointer;
 }
 
 .btn-margins {

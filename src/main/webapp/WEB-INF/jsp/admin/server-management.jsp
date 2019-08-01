@@ -27,39 +27,39 @@
     <h5 class="h5-kh">Screen</h5>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
       value="Unlock"
-      class="btn btn-outline-success btn-margins" />
+      class="btn btn-outline-success btn-margins btn-borderless" />
     
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/wake-up', null)"
       value="Wake-Up"
-      class="btn btn-outline-warning btn-margins" />
+      class="btn btn-outline-warning btn-margins btn-borderless" />
       
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/lock', null)"
       value="Lock"
-      class="btn btn-outline-danger btn-margins" />
+      class="btn btn-outline-danger btn-margins btn-borderless" />
     
     <hr>  
     <h5 class="h5-kh">Power Management</h5>
     <h6 class="h6-kh">Shutdown</h6>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 5400)"
       value="90 Min"
-      class="btn btn-outline-danger btn-margins" /> 
+      class="btn btn-outline-danger btn-margins btn-borderless" /> 
     
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 60)"
       value="1 Min"
-      class="btn btn-outline-danger btn-margins" />
+      class="btn btn-outline-danger btn-margins btn-borderless" />
 
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/power-management/shutdown', null)"
       value="Cancel"
-      class="btn btn-outline-success btn-margins" />
+      class="btn btn-outline-success btn-margins btn-borderless" />
      
      <input type="button" onclick="executeGet('/kame-house/api/v1/admin/power-management/shutdown')"
       value="Status"
-      class="btn btn-outline-primary btn-margins" />
+      class="btn btn-outline-primary btn-margins btn-borderless" />
     
     <h6 class="h6-kh">Suspend</h6>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/power-management/suspend', null)"
       value="Now"
-      class="btn btn-outline-danger btn-margins" />
+      class="btn btn-outline-danger btn-margins btn-borderless" />
       
     <hr>
     <h5 class="h5-kh">Command output</h5>

@@ -22,9 +22,9 @@
   <div class="container main">
   <div>
     <h3 id="ehcache-header">EhCache Status</h3>    
-    <input type="button" onclick="clearAllCaches()" value="Clear All" class="btn btn-outline-danger cache-status-buttons"/>
-    <input type="button" onclick="toggleAllCacheView()" value="Expand/Collapse All" class="btn btn-outline-secondary cache-status-buttons"/>
-    <input type="button" onclick="getCacheData()" value="Refresh" class="btn btn-outline-info cache-status-buttons"/>
+    <input type="button" onclick="clearAllCaches()" value="Clear All" class="btn btn-outline-danger cache-status-buttons btn-borderless"/>
+    <input type="button" onclick="toggleAllCacheView()" value="Expand/Collapse All" class="btn btn-outline-secondary cache-status-buttons btn-borderless"/>
+    <input type="button" onclick="getCacheData()" value="Refresh" class="btn btn-outline-info cache-status-buttons btn-borderless"/>
   </div>
     <br><br><hr>
     <div id="cache-data"></div>
