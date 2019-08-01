@@ -4,4 +4,6 @@ footer {
 	color: #c0c0c0;
 	background: #000000;
 	text-align: center;
+	/** Creates the illusion of the footer extending to the bottom of the screen */
+  box-shadow: 0 50vh 0 50vh #000000;
 }
