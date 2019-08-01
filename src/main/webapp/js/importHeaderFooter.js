@@ -100,12 +100,12 @@ function updateLoginStatus(name) {
   if (name == undefined || name == null || name.trim() == "" || name.trim() == "anonymousUser") {
     var $loginStatus = $("#login-status");
     var $loginButton = $("<a href='/kame-house/login' " + 
-        "class='btn btn-outline-info login-status-button'>Login</>");
+        "class='btn btn-outline-danger login-status-button'>Login</>");
     $loginStatus.append($loginButton);
   } else {
     var $loginStatus = $("#login-status");
     var $logoutButton = $("<a href='/kame-house/logout' " + 
-        "class='btn btn-outline-secondary login-status-button'>Logout</>");
+        "class='btn btn-outline-danger'>Logout</>");
     $loginMessage = $("<h5>");
     $loginMessage.text(name);
     $loginStatus.append($logoutButton);

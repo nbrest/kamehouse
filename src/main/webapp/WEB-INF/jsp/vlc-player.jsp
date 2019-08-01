@@ -28,32 +28,32 @@
         <td>    
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_previous')"
             value="&#9198;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '-1m')"
             value="&#9194;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_pause')"
             value="&#9199;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '+1m')"
             value="&#9193;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_next')"
             value="&#9197;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_stop')"
             value="&#9209;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
       </tr>
     </table>
@@ -62,17 +62,17 @@
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"
             value="&#9836; &#9660;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"
             value="&#9836; &#9650;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"
             value="&#128263;"
-            class="btn btn-outline-primary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-primary btn-borderless" />
         </td>
       </tr>
     </table>
@@ -81,17 +81,17 @@
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_random')"
             value="&#128256;"
-            class="btn btn-outline-info btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-info btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_loop')"
             value="&#8634; Loop"
-            class="btn btn-outline-info btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-info btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_repeat')"
             value="&#8635; Repeat"
-            class="btn btn-outline-info btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-info btn-borderless" />
         </td>
       </tr>
     </table>
@@ -100,17 +100,17 @@
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"
             value="&#128250; Fullscreen"
-            class="btn btn-outline-secondary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-secondary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')"
             value="&#128250; 16:9"
-            class="btn btn-outline-secondary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-secondary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')"
             value="&#128250; 4:3"
-            class="btn btn-outline-secondary btn-borderless btn-mplayer-kh" />
+            class="btn btn-outline-secondary btn-borderless" />
         </td>
       </tr>
     </table>
@@ -120,29 +120,29 @@
     <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
     <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
       value="Load"
-      class="btn btn-outline-primary btn-margins" />
+      class="btn btn-outline-primary btn-margins btn-borderless" />
      
     <hr>
     <h5 class="h5-kh">Admin Commands</h5>
-    <input type="button" value="Server Management" class="btn btn-outline-secondary btn-margins"
+    <input type="button" value="Server Management" class="btn btn-outline-secondary btn-margins btn-borderless"
       onclick="window.location.href='/kame-house/admin/server-management'">
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
       value="Close VLC"
-      class="btn btn-outline-danger btn-margins" />
+      class="btn btn-outline-danger btn-margins btn-borderless" />
     <input type="button" onclick="executeGet('/kame-house/api/v1/vlc-rc/players/localhost/status')"
       value="VLC-RC Status"
-      class="btn btn-outline-warning btn-margins" />
+      class="btn btn-outline-warning btn-margins btn-borderless" />
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
       value="VLC Process Status"
-      class="btn btn-outline-warning btn-margins" /> 
+      class="btn btn-outline-warning btn-margins btn-borderless" /> 
     <hr>
     <h5 class="h5-kh">Other Commands</h5>
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="&#128194; GoT win"
-      class="btn btn-outline-primary btn-margins" /> 
+      class="btn btn-outline-primary btn-margins btn-borderless" /> 
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
       value="&#128194; LH lx"
-      class="btn btn-outline-primary btn-margins" />    
+      class="btn btn-outline-primary btn-margins btn-borderless" />    
     
     <hr>     
     <h5 class="h5-kh">Command Output</h5>

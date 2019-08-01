@@ -70,8 +70,9 @@ header #header-top #login-status a {
 header #header-top #login-status h5 {
 	float: right;
 	display: inline;
-	padding: 5px;
-	padding-right: 20px;
+	padding: 6px;
+	padding-right: 5px;
+	margin-bottom: 0px;
 }
 
 header .highlight {
@@ -122,11 +123,12 @@ header .highlight {
     border: none;
   } 
 
-  header .header-nav a:nth-child(n+4) {display: none;}
+  header .header-nav a:nth-child(n+5) {display: none;}
   header .header-nav a.icon {
     float: right;
     display: block;
   }
+  
   header .header-nav.responsive {position: relative;}
   header .header-nav.responsive a.icon {
     position: absolute;

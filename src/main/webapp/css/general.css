@@ -52,14 +52,13 @@ body {
   height: 90px;
 }
 
+/** Make all buttons square overriding bootstrap's default */
 .btn {
   border-radius: 0;
 }
 
 .btn-borderless {
-	padding: 0;
   border: none;
-  background: none;
 }
 
 .btn-margins {
