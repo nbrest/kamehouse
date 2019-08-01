@@ -216,17 +216,20 @@ hr {
 /** Select dark theme. Begin.*/
 .select-kh-dark {
   border-radius: 0;
+  border: 0px;
   position: relative;
   display: inline-block;
   color: #c0c0c0;
-  background: #242424;
+  background: #222222;
   padding: 8px;
-  border:1px solid #686868;
+}
+
+.select-kh-dark:hover {
+	border: 1px solid #686868;
 }
 
 .select-kh-dark.opened .select-kh-dark-trigger:after {
   margin-top: 3px;
-  transform: rotate(-135deg) translateY(-50%);
 }
 
 .select-kh-dark-trigger {
@@ -250,8 +253,6 @@ hr {
   width: 10px; height: 10px;
   top: 50%; right: 25px;
   margin-top: -3px;
-  border-bottom: 1px solid #fff;
-  border-right: 1px solid #fff;
   transform: rotate(45deg) translateY(-50%);
   transition: all .4s ease-in-out;
   transform-origin: 50% 0;
@@ -268,7 +269,6 @@ hr {
   position: relative;
   display: block;
   padding: 0 22px;
-  border-bottom: 1px solid #b5b5b5;
   font-size: 18px;
   font-weight: 600;
   color: #b5b5b5;
@@ -283,7 +283,6 @@ hr {
   top: 100%; left: 0; right: 0;
   min-width: 100%;
   margin: 15px 0;
-  border: 1px solid #b5b5b5;
   border-radius: 4px;
   box-sizing: border-box;
   box-shadow: 0 2px 1px rgba(0,0,0,.07);
@@ -303,8 +302,6 @@ hr {
   bottom: 100%; right: 25px;
   width: 7px; height: 7px;
   margin-bottom: -4px;
-  border-top: 1px solid #b5b5b5;
-  border-left: 1px solid #b5b5b5;
   background: #fff;
   transform: rotate(45deg);
   transition: all .4s ease-in-out;
