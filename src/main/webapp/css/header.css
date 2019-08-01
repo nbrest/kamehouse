@@ -22,18 +22,18 @@ header .header-nav a {
   display: block;
   color: #c0c0c0;
   text-align: center;
-  padding: 14px 16px;
+  padding: 8px 10px;
   text-decoration: none;
   font-size: 17px;
 }
 
-header .header-nav .active a {
-  background-color: #800000;
-  color: #c0c0c0;
+header .header-nav a.active {
+  background-color: #9d0000;
+  color: #000000;
 }
 
 header .header-nav a:hover {
-  background-color: #d90000;
+  background-color: #b50000;
   color: black;
 } 
 
@@ -44,6 +44,7 @@ header .header-nav .icon {
 header #header-top {
   display: block;
   overflow: hidden;
+  margin-bottom: 5px;
 }
 
 header #header-top #branding {
