@@ -22,7 +22,7 @@
   <section id="banner">
     <div class="container banner-text">
       <h1>KameHouse</h1>
-      <p>Welcome to Kame Sennin's Site!</p>
+      <p>Mada mada dane :)</p>
     </div>
   </section>
   <section class="lighter">
@@ -31,19 +31,19 @@
   <section id="boxes">
     <div class="container">
       <div class="box">
-        <img src="./img/dbz-kamesenin.png" />
-        <h3>DBZ</h3>
-        <p>Mada mada dane. Echizen kun. Pegasus Seiya</p>
+        <a href="/kame-house/vlc-player"><img src="./img/dbz-kamesenin.png" /></a>
+        <h3>VLC Player</h3>
+        <p>Control multiple VLC Players through KameHouse</p>
       </div>
       <div class="box">
-        <img src="./img/ss-ikki.jpg" />
-        <h3>SS</h3>
-        <p>Mada mada dane. Echizen kun. Pegasus Seiya</p>
+        <a href="/kame-house/test-module"><img src="./img/ss-ikki.jpg" /></a>
+        <h3>Test Module</h3>
+        <p>Run all test tasks on the test module</p>
       </div>
       <div class="box">
-        <img src="./img/pot-yukimura.jpg" />
-        <h3>POT</h3>
-        <p>Mada mada dane. Echizen kun. Pegasus Seiya</p>
+        <a href="/kame-house/contact-us"><img src="./img/pot-yukimura.jpg" /></a>
+        <h3>Contact Us</h3>
+        <p>Let us know your thoughts!</p>
       </div>
     </div>
   </section>

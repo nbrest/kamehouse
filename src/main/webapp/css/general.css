@@ -47,7 +47,11 @@ body {
   text-align: center;
 }
 
-#boxes .box img {
+#boxes .box a {
+	cursor: pointer;
+}
+
+#boxes .box a img {
   width: 90px;
   height: 90px;
 }
