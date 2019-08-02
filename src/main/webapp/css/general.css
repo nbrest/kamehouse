@@ -162,6 +162,7 @@ body {
 .h6-kh {
   text-align: left;
   font-weight: bold;
+  padding-left: 10px;
 }
 
 .home-links {
@@ -388,8 +389,12 @@ ul {
 		margin: 0px;
 		overflow: hidden;
 		min-height: 0px;
-		padding-left: 5px;
-		padding-right: 5px;
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	
+	.container h3 {
+	  padding-left: 10px; 
 	}
 	
 	.main {
