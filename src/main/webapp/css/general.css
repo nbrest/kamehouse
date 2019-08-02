@@ -123,6 +123,11 @@ body {
 }
 /** Collapsible content. End.*/
 
+#contact-us-form {
+  float: left;
+  width: 100%;
+}
+
 .container {
 	width: 80%;
 	margin: auto;

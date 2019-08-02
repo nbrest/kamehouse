@@ -19,23 +19,16 @@
   <div class="main">
     <section id="main">
       <div class="container">
-        <article id="main-article">
           <h3 class="page-title">Contact Us</h3>
           <div class="lighter">
             <form class="quote">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-              <div>
-                <label>Name</label> 
-                <input class="form-control form-input" type="text" placeholder="Name">
-              </div>
-              <div>
-                <label>Email</label> 
-                <input class="form-control" type="email" placeholder="Email Address">
-              </div>
-              <div>
-                <label>Message</label>
-                <textarea class="form-control" placeholder="Message.."></textarea>
-              </div>
+              <label>Name</label> 
+              <input class="form-control form-input" type="text" placeholder="Name"> 
+              <label>Email</label> 
+              <input class="form-control" type="email" placeholder="Email Address"> 
+              <label>Message</label>
+              <textarea class="form-control" placeholder="Message..."></textarea> 
               <br>
               <button class="btn btn-outline-info" type=submit onclick="siteUnderCostructionAlert()">Submit</button>
             </form>
