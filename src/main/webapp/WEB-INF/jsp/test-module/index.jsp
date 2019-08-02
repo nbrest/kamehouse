@@ -17,6 +17,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
+  <div class="main">
   <section id="banner">
   <div class="container banner-text">
     <h1>Test Module</h1>
@@ -30,6 +31,7 @@
     <br>
     <input type="button" value="JSP" class="btn btn-block btn-outline-secondary custom-width"
       onclick="window.location.href='test-module/jsp/'">
+  </div>
   </div>
   <div id="footerContainer"></div>
   <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>

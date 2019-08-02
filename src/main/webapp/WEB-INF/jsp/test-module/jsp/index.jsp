@@ -18,6 +18,7 @@
 <body>
   <div id="headerContainer"></div>
   <section id="banner">
+  <div class="main">
   <div class="container banner-text">
     <h1>JSP</h1>
     <p>JSP test application in the Test Module</p>
@@ -27,6 +28,7 @@
     <br>
     <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary custom-width"
       onclick="window.location.href='dragonball/users/users-list'">
+  </div>
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>

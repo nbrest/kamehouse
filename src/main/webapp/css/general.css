@@ -191,7 +191,7 @@ hr {
 }
 
 .main {
-  min-height: 472px;
+  min-height: 528px;
 }
 
 .login-form {
@@ -407,7 +407,7 @@ ul {
 	}
 	
 	.main {
-	 min-height: 0px;
+	 min-height: 525px;
 	}
 
 	#newsletter h5, #newsletter form, #boxes .box, #main-article, #sidebar {

@@ -17,7 +17,7 @@
 </head>
 <body ng-app="myApp" class="ng-cloak">
   <div id="headerContainer"></div>
-  <div id="main-content" ng-view></div>
+  <div id="main-content" class="main" ng-view></div>
   <div id="footerContainer"></div>
   <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
   <script src="/kame-house/js/importHeaderFooter.js"></script>
