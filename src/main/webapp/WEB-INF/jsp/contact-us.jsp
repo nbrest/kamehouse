@@ -25,20 +25,18 @@
             <form class="quote">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <div>
-                <label>Name</label>
-                <br>
-                <input type="text" placeholder="Name">
+                <label>Name</label> 
+                <input class="form-control form-input" type="text" placeholder="Name">
               </div>
               <div>
-                <label>Email</label>
-                <br>
-                <input type="email" placeholder="Email Address">
+                <label>Email</label> 
+                <input class="form-control" type="email" placeholder="Email Address">
               </div>
               <div>
                 <label>Message</label>
-                <br>
-                <textarea placeholder="Message.."></textarea>
+                <textarea class="form-control" placeholder="Message.."></textarea>
               </div>
+              <br>
               <button class="btn btn-outline-info" type=submit onclick="siteUnderCostructionAlert()">Submit</button>
             </form>
           </div>

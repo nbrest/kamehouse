@@ -140,6 +140,14 @@ body {
 	font-weight: bold;
 }
 
+/** Override some of bootstrap's form control */
+.form-control {
+	border:1px solid #686868;
+	border-radius: 0px;
+	background-color: #000000;
+	color: #686868;
+}
+
 .h3-kh {
 	text-align: center;
   margin-top: 15px;
@@ -186,25 +194,25 @@ hr {
 }
 
 #newsletter {
-	padding: 15px;
+	padding: 5px;
 	color: #c0c0c0;
 	background: #35424a;
 }
 
-#newsletter h3 {
+#newsletter h5 {
 	float: left;
 	margin-top: 10px;
 }
 
 #newsletter form {
 	float: right;
-	margin-top: 15px;
+	margin-top: 0px;
 }
 
 #newsletter input[type="email"] {
 	display: inline;
-	height: 32px;
-	padding: 6px;
+	height: 36px;
+	padding: 9px;
 	width: 250px;
 }
 
@@ -380,13 +388,15 @@ ul {
 		margin: 0px;
 		overflow: hidden;
 		min-height: 0px;
+		padding-left: 5px;
+		padding-right: 5px;
 	}
 	
 	.main {
 	 min-height: 0px;
 	}
-	
-	#newsletter h3, #newsletter form, #boxes .box, #main-article, #sidebar {
+
+	#newsletter h5, #newsletter form, #boxes .box, #main-article, #sidebar {
 		float: none;
 		text-align: center;
 		width: 100%;
