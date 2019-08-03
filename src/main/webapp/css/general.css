@@ -36,26 +36,6 @@ body {
 	word-wrap: break-word;
 }
 
-#boxes {
-  margin-top: 20px;
-}
-
-#boxes .box {
-  float: left;
-  width: 30%;
-  padding: 10px;
-  text-align: center;
-}
-
-#boxes .box a {
-	cursor: pointer;
-}
-
-#boxes .box a img {
-  width: 90px;
-  height: 90px;
-}
-
 /** Make all buttons square overriding bootstrap's default */
 .btn {
   border-radius: 0;
@@ -195,29 +175,6 @@ hr {
 
 .login-form {
 	margin: 30px;
-}
-
-#newsletter {
-	padding: 5px;
-	color: #c0c0c0;
-	background: #35424a;
-}
-
-#newsletter h5 {
-	float: left;
-	margin-top: 10px;
-}
-
-#newsletter form {
-	float: right;
-	margin-top: 0px;
-}
-
-#newsletter input[type="email"] {
-	display: inline;
-	height: 36px;
-	padding: 9px;
-	width: 250px;
 }
 
 /** Select dark theme. Begin.*/
@@ -383,7 +340,7 @@ ul {
 }
 
 /* Media Queries */
-@media ( max-width : 900px) {
+@media (max-width : 900px) {
 	#banner h1 {
     margin-top: 40px;
   }
@@ -410,22 +367,6 @@ ul {
 	 min-height: 525px;
 	}
 
-	#newsletter h5, #newsletter form, #boxes .box {
-		float: none;
-		text-align: center;
-		width: 100%;
-	}
-
-	#newsletter button {
-		display: block;
-		width: 100%;
-	}
-	
-	#newsletter form input[type="email"] {
-		width: 100%;
-		margin-bottom: 5px;
-	}
-	
 	.table-dragonball-users tr td:nth-child(1), .table-dragonball-users tr th:nth-child(1)
 		{
 		display: inline-block;

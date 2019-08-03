@@ -1,0 +1,28 @@
+#boxes {
+  margin-top: 20px;
+}
+
+#boxes .box {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  text-align: center;
+}
+
+#boxes .box a {
+  cursor: pointer;
+}
+
+#boxes .box a img {
+  width: 90px;
+  height: 90px;
+}
+
+@media (max-width : 900px) {
+  #boxes .box {
+    float: none;
+    text-align: center;
+    width: 100%;
+  }	
+}
+

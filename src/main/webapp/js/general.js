@@ -18,6 +18,7 @@ function siteUnderCostructionAlert() {
  * Import newsletter content.
  */
 function importNewsletter() {
+  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/newsletter.css">');
   $("#newsletter").load("/kame-house/html/newsletter.html");
 }
 

@@ -14,7 +14,7 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/test-general.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/test-apis.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>

@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="/kame-house/css/general.css" />
 <link rel="stylesheet" href="/kame-house/css/header.css" />
 <link rel="stylesheet" href="/kame-house/css/footer.css" />
+<link rel="stylesheet" href="/kame-house/css/home.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
@@ -33,7 +34,7 @@
       <div class="box">
         <a href="/kame-house/vlc-player"><img src="./img/dbz-kamesenin.png" /></a>
         <h3>VLC Player</h3>
-        <p>Control multiple VLC Players through KameHouse</p>
+        <p>Control multiple VLC Players</p>
       </div>
       <div class="box">
         <a href="/kame-house/test-module"><img src="./img/ss-ikki.jpg" /></a>
