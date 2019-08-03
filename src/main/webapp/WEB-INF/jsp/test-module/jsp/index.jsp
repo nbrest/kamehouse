@@ -26,7 +26,7 @@
   </section>
   <div class="container home-links">
     <br>
-    <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary custom-width"
+    <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='dragonball/users/users-list'">
   </div>
   </div>

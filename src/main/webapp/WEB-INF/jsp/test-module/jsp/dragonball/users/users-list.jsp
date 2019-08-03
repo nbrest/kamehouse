@@ -56,19 +56,19 @@
               <td>${dragonBallUser.getPowerLevel()}</td>
               <td>${dragonBallUser.getStamina()}</td>
               <td><input type="button" value="edit"
-                  class="btn btn-outline-success custom-width"
+                  class="btn btn-outline-success"
                   onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
                 <form action="users-delete-action" method="post">
                   <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                  <input type="submit" value="delete" class="btn btn-outline-danger custom-width" />
+                  <input type="submit" value="delete" class="btn btn-outline-danger" />
                 </form></td>
             </tr>
           </c:forEach>
         </tbody>
       </table>
     </div>
-    <input type="button" value="Add DragonBall User" class="btn btn-outline-info custom-width"
+    <input type="button" value="Add DragonBall User" class="btn btn-outline-info"
       onclick="window.location.href='users-add'">
   </div>
   </main>

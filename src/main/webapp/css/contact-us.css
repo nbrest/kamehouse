@@ -1,0 +1,19 @@
+#contact-us-form {
+  padding: 15px;
+  background: #35424a;
+  color: #c0c0c0;
+}
+
+#contact-us-form form {
+	min-height: inherit;
+}
+
+#contact-us-newsletter-wrapper {
+	margin-top: 90px;
+}
+
+@media ( max-width : 900px) {
+	#contact-us-newsletter-wrapper {
+	  margin-top: 10px;
+	}
+}

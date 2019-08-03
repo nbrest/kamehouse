@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/general.css" />
 <link rel="stylesheet" href="css/header.css" />
 <link rel="stylesheet" href="css/footer.css" />
+<link rel="stylesheet" href="css/contact-us.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
@@ -20,8 +21,8 @@
     <section id="main">
       <div class="container">
           <h3 class="page-title">Contact Us</h3>
-          <div class="lighter">
-            <form class="quote">
+          <div id="contact-us-form">
+            <form>
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <label>Name</label> 
               <input class="form-control form-input" type="text" placeholder="Name"> 
@@ -30,13 +31,15 @@
               <label>Message</label>
               <textarea class="form-control" placeholder="Message..."></textarea> 
               <br>
-              <button class="btn btn-outline-info" type=submit onclick="siteUnderCostructionAlert()">Submit</button>
+              <button class="btn btn-block btn-outline-info" id="submit" type=submit onclick="siteUnderCostructionAlert()">Submit</button>
             </form>
           </div>
       </div>
     </section>
     <br>
-    <section id="newsletter"></section>
+    <div id="contact-us-newsletter-wrapper">
+      <section id="newsletter"></section>
+    </div>
   </div>
   <div id="footerContainer"></div>
   <script src="lib/js/jquery-2.0.3.min.js"></script>

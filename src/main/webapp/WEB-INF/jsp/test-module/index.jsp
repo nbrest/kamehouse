@@ -26,10 +26,10 @@
   </section>
   <div class="container home-links">
     <br>
-    <input type="button" value="Angular 1" class="btn btn-block btn-outline-secondary custom-width"
+    <input type="button" value="Angular 1" class="btn-outline-secondary btn btn-block"
       onclick="window.location.href='test-module/angular-1/'">
     <br>
-    <input type="button" value="JSP" class="btn btn-block btn-outline-secondary custom-width"
+    <input type="button" value="JSP" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='test-module/jsp/'">
   </div>
   </div>

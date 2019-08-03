@@ -25,13 +25,13 @@
   </section>
   <div class="container home-links">
     <br>
-    <input type="button" value="Server Management" class="btn btn-block btn-outline-secondary custom-width"
+    <input type="button" value="Server Management" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='server-management'">
     <br>
-    <input type="button" value="EhCache" class="btn btn-block btn-outline-secondary custom-width"
+    <input type="button" value="EhCache" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='ehcache'">
     <br>
-    <input type="button" value="Test APIs" class="btn btn-block btn-outline-secondary custom-width"
+    <input type="button" value="Test APIs" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='test-apis'">
   </div>
   <div id="footerContainer"></div>

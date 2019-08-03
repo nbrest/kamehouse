@@ -332,12 +332,6 @@ hr {
 	margin-top: 10px;
 }
 
-#sidebar .quote input, #sidebar .quote textarea, #sidebar .quote button
-	{
-	width: 90%;
-	padding: 5px;
-}
-
 #services li {
 	list-style: none;
 	padding: 20px;
@@ -405,6 +399,11 @@ ul {
 	.container h3 {
 	  padding-left: 10px; 
 	}
+	
+	.home-links {
+	  margin: auto; /** center the element */
+    width: 90%;
+  }
 	
 	.main {
 	 min-height: 525px;

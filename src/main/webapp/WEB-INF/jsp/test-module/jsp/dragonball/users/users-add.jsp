@@ -81,7 +81,7 @@
         </form>
       </div>
     </div>
-    <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block custom-width"
+    <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block"
       onclick="window.location.href='users-list'">
   </div>
   </main>
