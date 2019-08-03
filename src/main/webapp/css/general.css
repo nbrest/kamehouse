@@ -60,7 +60,7 @@ body {
 
 /** Collapsible content. Begin.*/
 .collapsible-kh {
-  background-color: #242424;
+  background-color: #191919;
   color: #c0c0c0;
   cursor: pointer;
   padding: 5px;
@@ -70,7 +70,6 @@ body {
   outline: none;
   font-size: 15px;
   border-radius: 0px;
-  border:1px solid #686868;
 }
 
 .collapsible-kh:after {
@@ -82,7 +81,7 @@ body {
 }
 
 .collapsible-kh-active, .collapsible-kh:hover {
-  background-color: #555;
+  background-color: #343434;
 }
 
 .collapsible-kh-active:after {
@@ -90,7 +89,7 @@ body {
 }
 
 .collapsible-kh-content {
-  border:1px solid #686868;
+  border:1px solid #343434;
   padding: 0 18px;
   max-height: 0;
   overflow: hidden;
@@ -285,11 +284,20 @@ hr {
 	background: #e6e6e6;
 }
 
+.table-bordered-kh {
+	width: 100%;
+}
+
+.table-bordered-kh tbody {
+	width: 100%;
+	text-align: center;
+}
+
 .table-bordered-kh,
 .table-bordered-kh tr,
 .table-bordered-kh th,
 .table-bordered-kh td {
-	border:1px solid #686868;
+	border:1px solid #343434; 
 }
 
 .table-dragonball-users tr td:nth-child(7) form {
