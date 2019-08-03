@@ -13,13 +13,14 @@
 <link rel="stylesheet" href="css/general.css" />
 <link rel="stylesheet" href="css/header.css" />
 <link rel="stylesheet" href="css/footer.css" />
+<link rel="stylesheet" href="css/about.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
   <section id="main">
     <div class="container">
       <article id="main-article">
-        <h3 class="page-title">About Us</h3>
+        <h3 class="h3-kh txt-l-kh">About Us</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ornare vel velit
           maximus ultrices. Curabitur fringilla orci sed eros efficitur, in tincidunt enim
           vestibulum. Sed rutrum tempor vestibulum. Integer viverra orci at sagittis placerat.
@@ -31,7 +32,7 @@
           arcu quam ornare dolor. Fusce accumsan lectus tortor, vel pretium elit rutrum id. Nunc
           eleifend aliquam urna. Pellentesque et ullamcorper ligula, quis rutrum nisi. Sed eu velit
           iaculis, convallis lorem id, tincidunt ipsum.</p>
-        <p class="lighter">Class aptent taciti sociosqu ad litora torquent per conubia nostra,
+        <p class="bg-lighter-kh pd-15-kh">Class aptent taciti sociosqu ad litora torquent per conubia nostra,
           per inceptos himenaeos. Nulla ultricies diam id pharetra volutpat. Aliquam et mauris ac
           libero pulvinar egestas id rhoncus magna. Integer fringilla purus quam, id condimentum sem
           dignissim placerat. Praesent mollis commodo neque et congue. Maecenas porttitor est orci.
@@ -40,7 +41,7 @@
           massa.</p>
       </article>
       <aside id="sidebar">
-        <div class="lighter">
+        <div class="bg-lighter-kh pd-15-kh">
           <h3>What we do</h3>
           <p>Nulla ultricies diam id pharetra volutpat. Aliquam et mauris ac libero pulvinar
             egestas id rhoncus magna. Integer fringilla purus quam, id condimentum sem dignissim
@@ -49,7 +50,9 @@
       </aside>
     </div>
   </section>
-  <section id="newsletter"></section>
+  <div id="about-newsletter-wrapper">
+    <section id="newsletter"></section>
+  </div>
   <div id="footerContainer"></div>
   <script src="lib/js/jquery-2.0.3.min.js"></script>
   <script src="js/general.js"></script>

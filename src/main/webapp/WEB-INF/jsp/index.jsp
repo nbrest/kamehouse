@@ -25,8 +25,8 @@
       <p>Mada mada dane :)</p>
     </div>
   </section>
-  <section class="lighter">
-    <br>
+  <section class="bg-lighter-kh">
+    <br><br>
   </section>
   <section id="boxes">
     <div class="container">

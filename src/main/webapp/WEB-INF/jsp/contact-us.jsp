@@ -20,7 +20,7 @@
   <div class="main">
     <section id="main">
       <div class="container">
-          <h3 class="page-title">Contact Us</h3>
+          <h3 class="h3-kh txt-l-kh">Contact Us</h3>
           <div id="contact-us-form">
             <form>
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

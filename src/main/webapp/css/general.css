@@ -184,8 +184,7 @@ hr {
   background-color: #555555;
 }
 
-.lighter {
-	padding: 15px;
+.bg-lighter-kh { 
 	background: #35424a;
 	color: #c0c0c0;
 }
@@ -196,11 +195,6 @@ hr {
 
 .login-form {
 	margin: 30px;
-}
-
-#main-article {
-	float: left;
-	width: 65%;
 }
 
 #newsletter {
@@ -224,11 +218,6 @@ hr {
 	height: 36px;
 	padding: 9px;
 	width: 250px;
-}
-
-.page-title {
-  margin-top: 15px;
-  font-weight: bold;
 }
 
 /** Select dark theme. Begin.*/
@@ -326,10 +315,9 @@ hr {
 }
 /** Select dark theme. End.*/
 
-#sidebar {
-	float: right;
-	width: 30%;
-	margin-top: 10px;
+/** add padding */
+.pd-15-kh {
+	padding: 15px;
 }
 
 #services li {
@@ -375,6 +363,19 @@ hr {
   }
 }
 
+/** set text alignment */
+.txt-c-kh {
+	text-align: center;
+}
+
+.txt-l-kh {
+  text-align: left;
+}
+
+.txt-r-kh {
+  text-align: right;
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -409,7 +410,7 @@ ul {
 	 min-height: 525px;
 	}
 
-	#newsletter h5, #newsletter form, #boxes .box, #main-article, #sidebar {
+	#newsletter h5, #newsletter form, #boxes .box {
 		float: none;
 		text-align: center;
 		width: 100%;
