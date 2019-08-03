@@ -18,6 +18,10 @@
   height: 90px;
 }
 
+#boxes .box a img:hover {
+  transform: scale(1.1);
+}
+
 @media (max-width : 900px) {
   #boxes .box {
     float: none;
