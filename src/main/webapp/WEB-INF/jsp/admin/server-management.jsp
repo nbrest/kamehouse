@@ -24,7 +24,7 @@
   <div class="server-management">
     <h3 class="h3-kh">Server Management</h3> 
     
-    <div class="container screen-section">
+    <div class="default-layout screen-section">
     <h5 class="h5-kh txt-l-kh">Screen</h5>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
       value="Unlock"
@@ -40,7 +40,7 @@
     </div> 
     
     <div class="bg-lighter-kh pd-15-kh">
-    <div class="container pm-section">
+    <div class="default-layout pm-section">
     <h5 class="h5-kh txt-r-m-kh">Power Management</h5>
     <div class="fl-l-kh">
     <h6 class="h6-kh txt-l-kh">Shutdown</h6>
@@ -70,7 +70,7 @@
     </div>
     
     <div class="bg-darker-kh pd-15-kh">
-    <div class="container">
+    <div class="default-layout">
     <h5 class="h5-kh txt-l-kh">Command output</h5>
     <div id="api-call-output"></div>
     </div>

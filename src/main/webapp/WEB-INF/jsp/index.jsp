@@ -22,7 +22,7 @@
   <div id="headerContainer"></div>
   <div class="main-body">
   <div id="banner" class="banner-space">
-    <div class="container banner-text">
+    <div class="default-layout banner-text">
       <h1>KameHouse</h1>
       <p>Mada mada dane :)</p>
     </div>
@@ -30,7 +30,7 @@
   <div class="bg-lighter-kh">
     <br><br>
   </div>
-  <div class="container">
+  <div class="default-layout">
   <div id="boxes">
       <div class="box">
         <a href="/kame-house/vlc-player"><img src="./img/dbz/kamesenin-logo.png" /></a>

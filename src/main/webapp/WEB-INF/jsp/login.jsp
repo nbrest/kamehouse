@@ -20,7 +20,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main-body">
+  <div class="default-layout main-body">
     <c:url var="loginUrl" value="/login" />
     <form action="${loginUrl}" method="post" class="form-horizontal login-form">
       <c:if test="${param.error != null}">

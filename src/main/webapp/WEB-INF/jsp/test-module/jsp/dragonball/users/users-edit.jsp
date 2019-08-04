@@ -20,7 +20,7 @@
 </head>
 <body>
   <div id="headerContainer"></div> 
-  <div class="container main-body">
+  <div class="default-layout main-body">
     <%-- TODO: I had to use the username as parameter because the id is of type Long, and
   since the method getDragonBallUser is overloaded for strings and longs, when I passed
   the id from the jsp, the method was invoked with a String parameter searching by the

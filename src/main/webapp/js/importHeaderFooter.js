@@ -27,7 +27,7 @@ function updateActiveTab() {
   var pageUrl = window.location.pathname;
   console.log("Started updateActiveTab");
   console.log("pageUrl" + pageUrl);
-  $("#headerContainer header .container #header-menu a").toArray().forEach(function(navItem) {
+  $("#headerContainer header .default-layout #header-menu a").toArray().forEach(function(navItem) {
     $(navItem).removeClass("active"); 
     console.log("navItem" + navItem);
     switch (pageUrl) {

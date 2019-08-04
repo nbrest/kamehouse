@@ -9,7 +9,7 @@ header {
 	border-bottom: #d90000 3px solid;
 }
 
-header .container {
+header .default-layout {
 	margin-bottom: 0px;
 }
 
@@ -83,7 +83,7 @@ header .highlight {
 /* Media Queries */
 @media ( max-width : 900px) {
 	 
-  header .container {
+  header .default-layout {
     padding: 0px;
     width: 100%;
     display: block;

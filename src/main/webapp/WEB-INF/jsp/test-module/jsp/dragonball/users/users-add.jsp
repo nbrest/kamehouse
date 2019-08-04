@@ -16,7 +16,7 @@
 </head>
 <body>
   <div id="headerContainer"></div> 
-  <div class="container main-body">
+  <div class="default-layout main-body">
     <div class="panel panel-default">
       <h3 class="h3-kh txt-l-kh">Add DragonBall User</h3>
       <div class="formcontainer">

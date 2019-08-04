@@ -115,7 +115,7 @@ body {
   width: 100%;
 }
 
-.container {
+.default-layout {
 	width: 80%;
 	margin: auto;
 	overflow: hidden;
@@ -426,7 +426,7 @@ ul {
     margin-top: 40px;
   }
   
-	.container {
+	.default-layout {
 		width: 100%;
 		margin: 0px;
 		overflow: hidden;
@@ -435,7 +435,7 @@ ul {
 		padding-right: 0px;
 	}
 	
-	.container h3 {
+	.default-layout h3 {
 	  padding-left: 10px; 
 	}
 	

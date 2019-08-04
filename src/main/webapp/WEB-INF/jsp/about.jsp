@@ -18,7 +18,7 @@
 <body>
   <div id="headerContainer"></div>
   <div class="main-body">
-    <div class="container">
+    <div class="default-layout">
       <div id="main-article">
         <h3 class="h3-kh txt-l-kh">About Us</h3>
         <p>KameHouse is a project I started mainly to practice Java and frontend development.

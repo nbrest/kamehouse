@@ -16,7 +16,7 @@
       response.setStatus(403);
     %>
   <div id="headerContainer"></div> 
-  <div class="container main-body">
+  <div class="default-layout main-body">
     <center>
       <h2>kameHouse 403 Forbidden</h2>
     </center>

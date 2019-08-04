@@ -19,12 +19,12 @@
   <div id="headerContainer"></div>
   <div class="main-body">
   <div id="banner" class="banner-space">
-  <div class="container banner-text">
+  <div class="default-layout banner-text">
     <h1>Test Module</h1>
     <p>Execute all tasks available in the Test Module of KameHouse</p>
   </div>
   </div>
-  <div class="container home-links">
+  <div class="default-layout home-links">
     <br>
     <input type="button" value="Angular 1" class="btn-outline-secondary btn btn-block"
       onclick="window.location.href='test-module/angular-1/'">

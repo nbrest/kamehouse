@@ -16,7 +16,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main-body"> 
+  <div class="default-layout main-body"> 
       <h2>dragonball ModelAndView Test Endpoint</h2>
       <h2>${message}${name}</h2> 
   </div>

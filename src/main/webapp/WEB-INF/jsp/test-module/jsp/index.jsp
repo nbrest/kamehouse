@@ -19,12 +19,12 @@
   <div id="headerContainer"></div>
   <div class="main-body">
   <div id="banner" class="banner-sunset">
-  <div class="container banner-text">
+  <div class="default-layout banner-text">
     <h1>JSP</h1>
     <p>JSP test application in the Test Module</p>
   </div>
   </div>
-  <div class="container home-links">
+  <div class="default-layout home-links">
     <br>
     <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='dragonball/users/users-list'">
