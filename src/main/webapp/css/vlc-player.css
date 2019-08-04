@@ -1,15 +1,21 @@
-/**
-  * Table for media player buttons.
-  */
+.ac-section {
+	width: 55%;
+}
+
+.pls-section {
+	width: 55%;
+}
+
+.oc-section {
+	width: 55%;
+}
+
 .table-mplayer-btns-kh { 
 	text-align: center; 
 	margin: auto;
 	width: 100%;
 }
 
-/*
- * VLC Player page global styles.
- */
 .vlc-player {
 	text-align: center;
 }
@@ -22,13 +28,25 @@
 
 /* Media Queries */
 @media (max-width : 900px) {
-  #vlc-player-buttons { 
-	  width: 100%; 
-	  text-align: center;
+	.ac-section {
+	  width: 100%;
 	}
+	
+	.pls-section {
+	  width: 100%;
+	}
+	
+	.oc-section {
+	  width: 100%;
+	}	
 
 	.table-mplayer-btns-kh {
-	  width:100%;
+	  width: 100%;
 	  text-align: center;
 	}
+	
+	#vlc-player-buttons { 
+    width: 100%; 
+    text-align: center;
+  }
 }
