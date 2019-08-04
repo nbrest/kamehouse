@@ -37,9 +37,9 @@
         <p>Control multiple VLC Players</p>
       </div>
       <div class="box">
-        <a href="/kame-house/test-module"><img src="./img/dbz/kaio-sama-logo.png" /></a>
-        <h3>Test Module</h3>
-        <p>Test db on the test module</p>
+        <a href="/kame-house/about"><img src="./img/dbz/kaio-sama-logo.png" /></a>
+        <h3>About</h3>
+        <p>Learn more about us</p>
       </div>
       <div class="box">
         <a href="/kame-house/contact-us"><img src="./img/dbz/goku-go-logo.png" /></a>

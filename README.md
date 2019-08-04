@@ -4,12 +4,12 @@ This application (still heavily under construction) will contain the following m
 * Manage my media files (store their location and information in a database and create interfaces to play them)
 * Control multiple VLC Players through a custom interface using VLC's http API
 * Control the server running the application (shutdown, suspend, lock screen, unlock screen, etc)
-* Test API endpoints to practice different frontend frameworks
 * Login system
 * Application administration view (secured through Spring Security)
-* Integration with social networks and other popular APIs
 * About and contact us
 * Newsletter functionality
+* Test API endpoints to practice different frontend frameworks
+* Integration with social networks and other popular APIs
 
 The main idea of this application is to keep improving and learning best practices of software development with Java and frontend technologies, so if you are a software developer and can look through the code and see vulnerabilities or things to improve i'd be more than happy to hear about them!
 
@@ -25,6 +25,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 ##### Javascript frameworks/libraries:
 * Angular
 * jQuery
+
+- The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel 2 using chrome dev tools). It's not tested nor supported in other mobile devices. It was also tested mainly on Chrome and Firefox on desktop. It probably needs several more breakpoints and fixes for other devices and browsers.
 
 ##### SCM:
 * Maven 
@@ -90,8 +92,15 @@ The application will load even without these installed, however some functionali
 - Updated header. Made it more responsive, updated nav, updated logged in message displayed
 - Changed style to use google fonts 'Varela Round' in all website
 - Added font borders to hero banner text
-- Updated banner texts
+- Updated banners fonts, texts and images.
 - Created test-module page to group all test-module related functionality there
+- Updated homepage, about and contact us content and layout
+- Updated server management layout
+- Updated ehcache layout
+- Updated buttons to square instead of rounded
+- Added animation on hover to home image links
+- Restructured css and js files
+- Fixed footer positioning on shorter pages
 - Fixed bugs
 #### v0.19
 - Added wake up screen functionality (backend and frontend)

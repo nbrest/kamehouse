@@ -17,39 +17,37 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <section id="main">
+  <div class="main">
     <div class="container">
-      <article id="main-article">
+      <div id="main-article">
         <h3 class="h3-kh txt-l-kh">About Us</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ornare vel velit
-          maximus ultrices. Curabitur fringilla orci sed eros efficitur, in tincidunt enim
-          vestibulum. Sed rutrum tempor vestibulum. Integer viverra orci at sagittis placerat.
-          Integer nunc justo, hendrerit et mi nec, feugiat blandit dolor. Aenean velit purus,
-          ullamcorper sed scelerisque ac, varius quis purus. Praesent felis augue, facilisis non
-          rhoncus quis, volutpat ac est. Mauris vel aliquet massa, nec euismod lorem. Cras sodales
-          gravida ultricies. Duis rutrum nec urna at lobortis. Aliquam dapibus nibh ornare finibus
-          finibus. Donec consectetur, mi id tincidunt semper, ligula ipsum maximus elit, vel luctus
-          arcu quam ornare dolor. Fusce accumsan lectus tortor, vel pretium elit rutrum id. Nunc
-          eleifend aliquam urna. Pellentesque et ullamcorper ligula, quis rutrum nisi. Sed eu velit
-          iaculis, convallis lorem id, tincidunt ipsum.</p>
-        <p class="bg-lighter-kh pd-15-kh">Class aptent taciti sociosqu ad litora torquent per conubia nostra,
-          per inceptos himenaeos. Nulla ultricies diam id pharetra volutpat. Aliquam et mauris ac
-          libero pulvinar egestas id rhoncus magna. Integer fringilla purus quam, id condimentum sem
-          dignissim placerat. Praesent mollis commodo neque et congue. Maecenas porttitor est orci.
-          In elementum lectus id eros efficitur fringilla. Vestibulum semper luctus magna, ut
-          tincidunt turpis vehicula eu. Duis purus libero, faucibus sed sapien at, volutpat semper
-          massa.</p>
-      </article>
-      <aside id="sidebar">
+        <p>KameHouse is a project I started mainly to practice Java and frontend development.
+        The main functionality of this application is around managing media files. I use VLC player
+        to play movies, series, anime. So I developed this application to remotely control the
+        computer on which VLC is running, which is attached to a TV, from either my phone 
+        or another computer.</p>
+        <p class="bg-lighter-kh pd-15-kh">This application has other functionality as well. I added the
+        functionality to remotely lock, unlock, wake up screen and shutdown the computer, among
+        others. You can find the full description of the project in the github link below.</p>
+        <p>KameHouse is an open source project. You can find the code for this project at: 
+        <a href="https://github.com/nbrest/java.web.kamehouse" target="_blank" class="btn btn-outline-danger btn-borderless">
+        <img src="./img/social-media/github.png" class="social-media-logo"/> github.com/nbrest/java.web.kamehouse</a>
+        </p>
+      </div>
+      <div id="sidebar">
         <div class="bg-lighter-kh pd-15-kh">
-          <h3>What we do</h3>
-          <p>Nulla ultricies diam id pharetra volutpat. Aliquam et mauris ac libero pulvinar
-            egestas id rhoncus magna. Integer fringilla purus quam, id condimentum sem dignissim
-            placerat. Praesent mollis</p>
+          <h3>Who are we</h3>
+          <p>I'm Nicolas Brest. I'm a software engineer and Java backend developer from Argentina,
+           currently living in Melbourne :)</p>
+          <p id="social-media-links" class="bg-default-kh pd-15-kh">You can find me on: 
+          <br><a href="https://www.linkedin.com/in/nicolasbrest" target="_blank" class="btn btn-outline-info btn-borderless"><img src="./img/social-media/linkedin.png" class="social-media-logo"/> Linkedin</a>
+          <br><a href="https://github.com/nbrest" target="_blank" class="btn btn-outline-info btn-borderless"><img src="./img/social-media/github.png" class="social-media-logo"/> Github</a>
+          <br><a href="https://www.facebook.com/brest.nico" target="_blank" class="btn btn-outline-info btn-borderless"><img src="./img/social-media/facebook.png" class="social-media-logo"/> Facebook</a>
+          </p>
         </div>
-      </aside>
+      </div>
     </div>
-  </section>
+  </div>
   <div id="about-newsletter-wrapper">
     <section id="newsletter"></section>
   </div>

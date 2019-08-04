@@ -8,6 +8,7 @@
   float: left;
   width: 65%;
 }
+
 @media ( max-width : 900px) {
   #main-article {
     float: none;
@@ -27,4 +28,14 @@
 	    text-align: center;
 	    width: 100%;
 	  }
+}
+
+#social-media-links {
+	margin: auto;
+	width: 70%;
+}
+
+.social-media-logo { 
+  width: 14px;
+  height: 14px; 
 }

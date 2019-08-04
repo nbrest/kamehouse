@@ -31,7 +31,7 @@
               <label>Message</label>
               <textarea class="form-control" placeholder="Message..."></textarea> 
               <br>
-              <button class="btn btn-block btn-outline-info" id="submit" type=submit onclick="siteUnderCostructionAlert()">Submit</button>
+              <button class="btn btn-block btn-outline-info btn-borderless" id="submit" type=submit onclick="siteUnderCostructionAlert()">Submit</button>
             </form>
           </div>
       </div>
