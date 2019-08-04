@@ -17,7 +17,8 @@
 </head>
 <body>
   <div id="headerContainer"></div> 
-  <div class="default-layout main-body">
+  <div class="main-body">
+  <div class="default-layout">
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">List of DragonBall Users</h3>
     <c:set var="dragonBallUsers" scope="page"
       value="${dragonBallUserService.getAllDragonBallUsers()}" />
@@ -31,7 +32,6 @@
     				System.out.println(paramValue);
     			}
     %>
-    <div class="tablecontainer">
       <table class="table table-dragonball-users">
         <thead>
           <tr>
@@ -54,21 +54,21 @@
               <td>${dragonBallUser.getPowerLevel()}</td>
               <td>${dragonBallUser.getStamina()}</td>
               <td><input type="button" value="edit"
-                  class="btn btn-outline-success"
+                  class="btn btn-outline-success btn-borderless"
                   onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
                 <form action="users-delete-action" method="post">
                   <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                  <input type="submit" value="delete" class="btn btn-outline-danger" />
+                  <input type="submit" value="delete" class="btn btn-outline-danger btn-borderless" />
                 </form></td>
             </tr>
           </c:forEach>
         </tbody>
       </table>
-    </div>
     <input type="button" value="Add DragonBall User" class="btn btn-outline-info"
       onclick="window.location.href='users-add'">
-  </div> 
+  </div>
+  </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/header-footer/headerFooter.js"></script>

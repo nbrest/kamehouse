@@ -58,7 +58,7 @@ public class DragonBallController {
     logger.trace("In controller /dragonball/model-and-view (GET)");
 
     String message = "message: dragonball ModelAndView!";
-    ModelAndView mv = new ModelAndView("jsp/dragonball/model-and-view");
+    ModelAndView mv = new ModelAndView("jsp/test-module/jsp/dragonball/model-and-view");
     mv.addObject("message", message);
     mv.addObject("name", name);
     return mv;
