@@ -49,7 +49,7 @@
     </div>
   </div>
   <div id="about-newsletter-wrapper">
-    <section id="newsletter"></section>
+    <div id="newsletter"></div>
   </div>
   <div id="footerContainer"></div>
   <script src="lib/js/jquery-2.0.3.min.js"></script>

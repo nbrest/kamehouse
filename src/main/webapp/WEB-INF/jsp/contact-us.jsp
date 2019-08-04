@@ -18,7 +18,6 @@
 <body>
   <div id="headerContainer"></div>
   <div class="main">
-    <section id="main">
       <div class="container">
           <h3 class="h3-kh txt-l-kh">Contact Us</h3>
           <div id="contact-us-form">
@@ -34,11 +33,10 @@
               <button class="btn btn-block btn-outline-info btn-borderless" id="submit" type=submit onclick="siteUnderCostructionAlert()">Submit</button>
             </form>
           </div>
-      </div>
-    </section>
+      </div> 
     <br>
     <div id="contact-us-newsletter-wrapper">
-      <section id="newsletter"></section>
+      <div id="newsletter"></div>
     </div>
   </div>
   <div id="footerContainer"></div>
