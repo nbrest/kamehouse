@@ -1,10 +1,10 @@
 /**
   * Table for media player buttons.
   */
-.table-mplayer-btns-kh {
-	width:50%;
-	text-align: center;
-	margin:1em auto;
+.table-mplayer-btns-kh { 
+	text-align: center; 
+	margin: auto;
+	width: 100%;
 }
 
 /*
@@ -14,8 +14,19 @@
 	text-align: center;
 }
 
+#vlc-player-buttons {
+  background: #242f35;
+  width: 50%;
+  margin: auto;
+}
+
 /* Media Queries */
-@media ( max-width : 900px) {
+@media (max-width : 900px) {
+  #vlc-player-buttons { 
+	  width: 100%; 
+	  text-align: center;
+	}
+
 	.table-mplayer-btns-kh {
 	  width:100%;
 	  text-align: center;

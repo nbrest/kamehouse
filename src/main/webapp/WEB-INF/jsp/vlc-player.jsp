@@ -20,9 +20,10 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main vlc-player">
+  <div class="main">
+  <div class="vlc-player">
     <h3 class="h3-kh">VLC Player</h3>
-    <div class="bg-lighter-kh pd-15-kh">
+    <div id="vlc-player-buttons">
     <table class="table-mplayer-btns-kh">
       <tr>
         <td>    
@@ -115,8 +116,8 @@
       </tr>
     </table>
     </div>
-    <div class="pd-15-kh">
-    <h5 class="h5-kh">Playlist Selector</h5>
+    <div class="container pd-15-kh">
+    <h5 class="h5-kh txt-l-kh">Playlist Selector</h5>
     <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
     <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
     <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
@@ -124,7 +125,8 @@
       class="btn btn-outline-primary btn-margins btn-borderless" />
     </div> 
     <div class="bg-lighter-kh pd-15-kh">
-    <h5 class="h5-kh">Admin Commands</h5>
+    <div class="container">
+    <h5 class="h5-kh txt-r-kh">Admin Commands</h5>
     <input type="button" value="Server Management" class="btn btn-outline-secondary btn-margins btn-borderless"
       onclick="window.location.href='/kame-house/admin/server-management'">
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
@@ -137,8 +139,10 @@
       value="VLC Process Status"
       class="btn btn-outline-warning btn-margins btn-borderless" /> 
     </div>
+    </div>
     <div class="pd-15-kh">
-    <h5 class="h5-kh">Other Commands</h5>
+    <div class="container">
+    <h5 class="h5-kh txt-l-kh">Other Commands</h5>
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="&#128194; GoT win"
       class="btn btn-outline-primary btn-margins btn-borderless" /> 
@@ -146,10 +150,14 @@
       value="&#128194; LH lx"
       class="btn btn-outline-primary btn-margins btn-borderless" /> 
     </div>
-    <div class="bg-lighter-kh pd-15-kh">
-    <h5 class="h5-kh">Command Output</h5>
+    </div>
+    <div class="bg-darker-kh pd-15-kh">
+    <div class="container">
+    <h5 class="h5-kh txt-r-kh">Command Output</h5>
     <div id="api-call-output"></div>
     </div>
+    </div>
+  </div>
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>

@@ -169,9 +169,12 @@ hr {
   background-color: #555555;
 }
 
+.bg-darker-kh { 
+  background: #171e22; 
+}
+
 .bg-lighter-kh { 
-	background: #35424a;
-	color: #c0c0c0;
+	background: #242f35; 
 }
 
 .main {
