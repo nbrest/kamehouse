@@ -136,6 +136,36 @@ body {
 	font-weight: bold;
 }
 
+/** Set div float */
+.fl-l-kh {
+  float: left;
+}
+
+.fl-r-kh {
+	float: right;
+}
+
+/** Set div float desktop */
+.fl-l-d-kh {
+  float: left;
+}
+
+.fl-r-d-kh {
+  float: right;
+}
+
+/** Set div float mobile */
+@media (max-width: 900px) {
+	.fl-l-m-kh {
+    float: left;
+  }
+	
+	.fl-r-m-kh {
+	  float: right;
+	}
+}
+
+
 /** Override some of bootstrap's form control */
 .form-control {
 	border:1px solid #686868;
@@ -350,6 +380,34 @@ hr {
 
 .txt-r-kh {
   text-align: right;
+}
+
+/** set text alignment desktop */
+.txt-c-d-kh {
+  text-align: center;
+}
+
+.txt-l-d-kh {
+  text-align: left;
+}
+
+.txt-r-d-kh {
+  text-align: right;
+}
+
+/** set text alignment mobile*/
+@media(max-width: 900px){
+	.txt-c-m-kh {
+	  text-align: center;
+	}
+	
+	.txt-l-m-kh {
+	  text-align: left;
+	}
+	
+	.txt-r-m-kh {
+	  text-align: right;
+	}
 }
 
 ul {

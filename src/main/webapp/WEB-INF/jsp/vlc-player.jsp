@@ -163,6 +163,6 @@
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
   <script src="${pageContext.request.contextPath}/js/general.js"></script>
-  <script src="${pageContext.request.contextPath}/js/vlc.player.js"></script>
+  <script src="${pageContext.request.contextPath}/js/vlc-player.js"></script>
 </body>
 </html>

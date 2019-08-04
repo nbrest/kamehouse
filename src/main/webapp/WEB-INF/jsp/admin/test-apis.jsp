@@ -14,7 +14,7 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/test-apis.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/test-apis.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
@@ -39,6 +39,6 @@
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
   <script src="${pageContext.request.contextPath}/js/general.js"></script>
-  <script src="${pageContext.request.contextPath}/js/admin.test.apis.js"></script>
+  <script src="${pageContext.request.contextPath}/js/admin/test-apis.js"></script>
 </body>
 </html>

@@ -4,3 +4,21 @@
 .server-management {
   text-align: left;
 }
+
+.pm-section {
+  width: 40%; 
+}
+
+.screen-section {
+	width: 60%; 
+}
+
+@media (max-width: 900px) {
+	.pm-section {
+	  width: 100%; 
+	}
+	
+	.screen-section {
+    width: 100%; 
+  }
+}
