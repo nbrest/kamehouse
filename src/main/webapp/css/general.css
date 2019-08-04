@@ -5,14 +5,16 @@
   text-align: center;
   color: #dddddd;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .banner-space {
-	background: url(/kame-house/img/banners/space.jpg) 0 -400px;
+	background: url(/kame-house/img/banners/space.jpg) 0 0;
 }
 
 .banner-sunset {
-	background: url(/kame-house/img/banners/sunset.jpg) 0 0;
+	background: url(/kame-house/img/banners/sunset.jpg) 0 0; 
 }
 
 @media ( max-width : 900px) {
