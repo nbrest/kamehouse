@@ -7,7 +7,6 @@ var videoPlaylists = [];
 var videoPlaylistCategories = [];
 
 var main = function() { 
-  displayRequestPayload(null, null, null, null);
   populateVideoPlaylistCategories();
 };
 
@@ -145,7 +144,7 @@ function populateVideoPlaylists() {
   playlistDropdown.empty();
   playlistDropdown.append('<option selected="true" disabled>Playlist</option>');
   playlistDropdown.prop('selectedIndex', 0);
-  console.debug("selectedPlaylistCategory " + selectedPlaylistCategory);
+  //console.debug("selectedPlaylistCategory " + selectedPlaylistCategory);
   $.each(videoPlaylists, function (key, entry) {
     if (entry.category === selectedPlaylistCategory) { 
       var playlistName = entry.name;

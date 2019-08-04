@@ -1,0 +1,53 @@
+.dragonball-users-edit-form {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.dragonball-user-form-buttons {
+  margin-left: 15px;
+}
+ 
+.table-dragonball-users tr td:nth-child(7) form {
+  display: inline;
+}
+
+@media (max-width: 900px) {
+  .table-dragonball-users tr td:nth-child(1), .table-dragonball-users tr th:nth-child(1)
+    {
+    display: inline-block;
+    width: 9%;
+    font-size: 0.75em;
+  }
+  
+  .table-dragonball-users tr td:nth-child(2), .table-dragonball-users tr td:nth-child(3),
+    .table-dragonball-users tr th:nth-child(2), .table-dragonball-users tr th:nth-child(3)
+    {
+    display: inline-block;
+    width: 20%;
+    font-size: 0.75em;
+  }
+  
+  .table-dragonball-users tr td:nth-child(4), .table-dragonball-users tr td:nth-child(5),
+    .table-dragonball-users tr td:nth-child(6), .table-dragonball-users tr th:nth-child(4),
+    .table-dragonball-users tr th:nth-child(5), .table-dragonball-users tr th:nth-child(6)
+    {
+    display: inline-block;
+    width: 15%;
+    font-size: 0.75em;
+  }
+  
+  .table-dragonball-users tr th:nth-child(7) {
+    display: none;
+    width: 0%;
+  }
+  
+  .table-dragonball-users tr td:nth-child(7) {
+    display: block;
+    width: 100%;
+    font-size: 0.75em;
+  }
+  
+  .table-dragonball-users tr td:nth-child(7) input {
+    width: 45%;
+  }	
+}

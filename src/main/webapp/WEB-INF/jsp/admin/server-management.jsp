@@ -13,10 +13,7 @@
 <title>KameHouse - Server Management</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin/server-management.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
@@ -80,8 +77,9 @@
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
-  <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>
-  <script src="${pageContext.request.contextPath}/js/general.js"></script>
+  <script src="${pageContext.request.contextPath}/js/header-footer/headerFooter.js"></script>
+  <script src="${pageContext.request.contextPath}/js/global.js"></script>
   <script src="${pageContext.request.contextPath}/js/admin/server-management.js"></script>
+  <script src="${pageContext.request.contextPath}/js/snippets/api-call-output.js"></script>
 </body>
 </html>

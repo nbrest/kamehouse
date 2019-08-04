@@ -4,9 +4,14 @@
  * @author nbrest
  */
 
-var main = function() { 
-  displayRequestPayload(null, null, null, null);
+var main = function() {
+  importTestApisCss();
 };
+
+/** Import test apis css */
+function importTestApisCss() {
+  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/test-apis.css">');
+}
 
 function executeGet(url) {
   console.debug(getTimestamp() + " : Executing GET on " + url);

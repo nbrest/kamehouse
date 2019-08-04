@@ -13,28 +13,26 @@ function main() {
  * Import header and footer.
  */
 function importHeaderAndFooter() {
-  $("#headerContainer").load("/kame-house/html/header.html", function() {
+  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
+  $("#headerContainer").load("/kame-house/html/header-footer/header.html", function() {
     updateActiveTab();
     getSessionStatus();
   });
-  $("#footerContainer").load("/kame-house/html/footer.html");
+  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
+  $("#footerContainer").load("/kame-house/html/header-footer/footer.html");
 }
 
 /**
  * Set active tab in the menu.
  */
 function updateActiveTab() {
-  var pageUrl = window.location.pathname;
-  console.log("Started updateActiveTab");
-  console.log("pageUrl" + pageUrl);
+  var pageUrl = window.location.pathname; 
   $("#headerContainer header .default-layout #header-menu a").toArray().forEach(function(navItem) {
-    $(navItem).removeClass("active"); 
-    console.log("navItem" + navItem);
+    $(navItem).removeClass("active");  
     switch (pageUrl) {
     case "/kame-house/":
       if ($(navItem).attr("id") == "nav-home") {
-        $(navItem).addClass("active");
-        console.log("in home");
+        $(navItem).addClass("active"); 
       } 
       break;
     case "/kame-house/about":
@@ -62,8 +60,7 @@ function updateActiveTab() {
     }
     if (pageUrl.includes("/kame-house/vlc-player")) {
       if ($(navItem).attr("id") == "nav-vlc-player") {
-        $(navItem).addClass("active");
-        console.log("in vlc");
+        $(navItem).addClass("active"); 
       } 
     }
   });

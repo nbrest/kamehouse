@@ -4,9 +4,13 @@
  * @author nbrest
  */
 
-var main = function() { 
-  displayRequestPayload(null, null, null, null);
+var main = function() {  
+  importServerManagementCss();
 };
+
+function importServerManagementCss() {
+  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
+}
 
 function executeGet(url) {
   console.debug(getTimestamp() + " : Executing GET on " + url);

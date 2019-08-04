@@ -10,9 +10,7 @@
 <title>kameHouse - About</title>
 <link rel="icon" type="img/ico" href="img/favicon.ico" />
 <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="css/general.css" />
-<link rel="stylesheet" href="css/header.css" />
-<link rel="stylesheet" href="css/footer.css" />
+<link rel="stylesheet" href="css/global.css" />
 <link rel="stylesheet" href="css/about.css" />
 </head>
 <body>
@@ -53,7 +51,8 @@
   </div>
   <div id="footerContainer"></div>
   <script src="lib/js/jquery-2.0.3.min.js"></script>
-  <script src="js/general.js"></script>
-  <script src="js/importHeaderFooter.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/header-footer/headerFooter.js"></script>
+  <script src="js/snippets/newsletter.js"></script>
 </body>
 </html>

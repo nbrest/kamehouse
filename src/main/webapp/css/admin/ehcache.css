@@ -1,0 +1,28 @@
+.cache-status-buttons {
+  float: right;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
+#ehcache-header {
+  margin-top: 15px;
+  float: left;
+  font-weight: bold;
+}
+
+.table-ehcache {
+  background: #1c2226;
+  margin-bottom: 5px;
+}
+
+.table-ehcache-button {
+    float: right;
+    margin: 0px;
+    margin-left: 5px;    
+}
+
+.td-ehcache-header {
+    font-weight: bold;
+    width: 70px;
+}

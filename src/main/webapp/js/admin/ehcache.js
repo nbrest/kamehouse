@@ -7,8 +7,14 @@ var ehcacheToggleTableRowIds = [];
 var EHCACHE_REST_API = '/kame-house/api/v1/admin/ehcache';
 
 var main = function() {
+  importEhcacheCss();
   getCacheData();
 };
+
+/** Import ehcache css */
+function importEhcacheCss() {
+  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/ehcache.css">');
+}
 
 /**
  * Get cache data.

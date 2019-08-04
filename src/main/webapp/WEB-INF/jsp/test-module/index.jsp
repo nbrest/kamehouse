@@ -11,9 +11,7 @@
 <title>KameHouse - Test Module</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/kame-house/css/general.css" />
-<link rel="stylesheet" href="/kame-house/css/header.css" />
-<link rel="stylesheet" href="/kame-house/css/footer.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
 </head>
 <body>
   <div id="headerContainer"></div>
@@ -35,6 +33,6 @@
   </div>
   <div id="footerContainer"></div>
   <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
-  <script src="/kame-house/js/importHeaderFooter.js"></script>
+  <script src="/kame-house/js/header-footer/headerFooter.js"></script>
 </body>
 </html>
