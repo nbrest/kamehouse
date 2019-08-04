@@ -32,7 +32,7 @@
     
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/wake-up', null)"
       value="Wake-Up"
-      class="btn btn-outline-warning btn-margins btn-borderless" />
+      class="btn btn-outline-info btn-margins btn-borderless" />
       
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/lock', null)"
       value="Lock"

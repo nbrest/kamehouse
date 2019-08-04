@@ -134,10 +134,10 @@
       class="btn btn-outline-danger btn-margins btn-borderless" />
     <input type="button" onclick="executeGet('/kame-house/api/v1/vlc-rc/players/localhost/status')"
       value="VLC-RC Status"
-      class="btn btn-outline-warning btn-margins btn-borderless" />
+      class="btn btn-outline-success btn-margins btn-borderless" />
     <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
       value="VLC Process Status"
-      class="btn btn-outline-warning btn-margins btn-borderless" /> 
+      class="btn btn-outline-success btn-margins btn-borderless" /> 
     </div>
     </div>
     <div class="pd-15-kh">
