@@ -21,8 +21,8 @@
   <div class="server-management">
     <h3 class="h3-kh">Server Management</h3> 
     
-    <div class="default-layout screen-section">
-    <h5 class="h5-kh txt-l-kh">Screen</h5>
+    <div class="default-layout screen-section pd-15-d-kh pd-15-m-kh">
+    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Screen</h5>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
       value="Unlock"
       class="btn btn-outline-success btn-margins btn-borderless" />
@@ -36,11 +36,11 @@
       class="btn btn-outline-danger btn-margins btn-borderless" />
     </div> 
     
-    <div class="bg-lighter-kh pd-15-kh">
+    <div class="bg-lighter-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout pm-section">
     <h5 class="h5-kh txt-r-m-kh">Power Management</h5>
-    <div class="fl-l-kh">
-    <h6 class="h6-kh txt-l-kh">Shutdown</h6>
+    <div class="fl-l-d-kh fl-l-m-kh">
+    <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Shutdown</h6>
     <input type="button" onclick="executeAdminShutdownPost('/kame-house/api/v1/admin/power-management/shutdown', 'shutdown_set', 5400)"
       value="90 Min"
       class="btn btn-outline-danger btn-margins btn-borderless" /> 
@@ -66,9 +66,9 @@
     </div>
     </div>
     
-    <div class="bg-darker-kh pd-15-kh">
+    <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout">
-    <h5 class="h5-kh txt-l-kh">Command output</h5>
+    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Command output</h5>
     <div id="api-call-output"></div>
     </div>
     </div>

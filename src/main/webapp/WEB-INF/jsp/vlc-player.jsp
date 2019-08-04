@@ -114,17 +114,17 @@
       </tr>
     </table>
     </div>
-    <div class="default-layout pd-15-kh pls-section">
-    <h5 class="h5-kh txt-l-kh">Playlist Selector</h5>
+    <div class="default-layout pd-15-d-kh pd-15-m-kh pls-section">
+    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Playlist Selector</h5>
     <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
     <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
     <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
       value="Load"
       class="btn btn-outline-primary btn-margins btn-borderless" />
     </div> 
-    <div class="bg-lighter-kh pd-15-kh">
+    <div class="bg-lighter-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout ac-section">
-    <h5 class="h5-kh txt-r-kh">Admin Commands</h5>
+    <h5 class="h5-kh txt-r-d-kh txt-r-m-kh">Admin Commands</h5>
     <input type="button" value="Server Management" class="btn btn-outline-secondary btn-margins btn-borderless"
       onclick="window.location.href='/kame-house/admin/server-management'">
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
@@ -138,9 +138,9 @@
       class="btn btn-outline-info btn-margins btn-borderless" /> 
     </div>
     </div>
-    <div class="pd-15-kh">
+    <div class="pd-15-d-kh pd-15-m-kh">
     <div class="default-layout oc-section">
-    <h5 class="h5-kh txt-l-kh">Other Commands</h5>
+    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Other Commands</h5>
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="&#128194; GoT win"
       class="btn btn-outline-primary btn-margins btn-borderless" /> 
@@ -149,9 +149,9 @@
       class="btn btn-outline-primary btn-margins btn-borderless" /> 
     </div>
     </div>
-    <div class="bg-darker-kh pd-15-kh">
+    <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout">
-    <h5 class="h5-kh txt-c-kh">Command Output</h5>
+    <h5 class="h5-kh txt-c-d-kh txt-c-m-kh">Command Output</h5>
     <div id="api-call-output"></div>
     </div>
     </div>

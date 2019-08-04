@@ -94,14 +94,6 @@ body {
   }
 }
 
-/** Set div float */
-.fl-l-kh {
-  float: left;
-}
-.fl-r-kh {
-	float: right;
-}
-
 /** Set div float desktop and mobile */
 .fl-l-d-kh {
   float: left;
@@ -170,8 +162,14 @@ hr {
   }
 }
 
-.pd-15-kh {
+/** Set padding on desktop and mobile */
+.pd-15-d-kh {
   padding: 15px;
+}
+@media (max-width : 900px) {  
+	.pd-15-m-kh {
+	  padding: 15px;
+	}
 }
 
 /** Select dark theme. Begin.*/
@@ -283,19 +281,6 @@ tbody {}
     display: table;
     width: 100%;
   }
-}
-
-/** set text alignment */
-.txt-c-kh {
-	text-align: center;
-}
-
-.txt-l-kh {
-  text-align: left;
-}
-
-.txt-r-kh {
-  text-align: right;
 }
 
 /** set text alignment desktop and mobile */

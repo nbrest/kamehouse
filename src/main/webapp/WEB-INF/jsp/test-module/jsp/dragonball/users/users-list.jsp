@@ -18,7 +18,7 @@
 <body>
   <div id="headerContainer"></div> 
   <div class="default-layout main-body">
-    <h3 class="h3-kh txt-l-kh">List of DragonBall Users</h3>
+    <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">List of DragonBall Users</h3>
     <c:set var="dragonBallUsers" scope="page"
       value="${dragonBallUserService.getAllDragonBallUsers()}" />
     <%

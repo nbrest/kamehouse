@@ -17,7 +17,7 @@
   <div id="headerContainer"></div>
   <div class="main-body">
       <div class="default-layout">
-          <h3 class="h3-kh txt-l-kh">Contact Us</h3>
+          <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Contact Us</h3>
           <div id="contact-us-form">
             <form>
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

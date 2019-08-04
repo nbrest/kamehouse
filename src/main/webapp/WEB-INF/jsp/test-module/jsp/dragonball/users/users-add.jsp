@@ -18,7 +18,7 @@
   <div id="headerContainer"></div> 
   <div class="default-layout main-body">
     <div class="panel panel-default">
-      <h3 class="h3-kh txt-l-kh">Add DragonBall User</h3>
+      <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Add DragonBall User</h3>
       <div class="formcontainer">
         <form action="users-add-action" method="post" class="form-horizontal mi-form-horizontal">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
