@@ -17,8 +17,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
-  <div id="headerContainer"></div>
-  <main>
+  <div id="headerContainer"></div> 
   <div class="container main">
     <h3 class="h3-kh txt-l-kh">List of DragonBall Users</h3>
     <c:set var="dragonBallUsers" scope="page"
@@ -70,8 +69,7 @@
     </div>
     <input type="button" value="Add DragonBall User" class="btn btn-outline-info"
       onclick="window.location.href='users-add'">
-  </div>
-  </main>
+  </div> 
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>

@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
 
 #banner {
-  min-height: 400px;
-  /* the tutorial had no-repeat in the background but it didn't work for me */
-  background: url(/kame-house/img/banner-space.jpg) 0 -400px;
+  min-height: 400px; 
   text-align: center;
   color: #dddddd;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+.banner-space {
+	background: url(/kame-house/img/banners/space.jpg) 0 -400px;
+}
+
+.banner-sunset {
+	background: url(/kame-house/img/banners/sunset.jpg) 0 0;
 }
 
 @media ( max-width : 900px) {

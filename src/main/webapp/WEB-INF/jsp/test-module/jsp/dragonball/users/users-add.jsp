@@ -15,8 +15,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
-  <div id="headerContainer"></div>
-  <main>
+  <div id="headerContainer"></div> 
   <div class="container main">
     <div class="panel panel-default">
       <h3 class="h3-kh txt-l-kh">Add DragonBall User</h3>
@@ -83,8 +82,7 @@
     </div>
     <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block"
       onclick="window.location.href='users-list'">
-  </div>
-  </main>
+  </div> 
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>

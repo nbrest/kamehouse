@@ -17,12 +17,12 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <section id="banner">
+  <div id="banner" class="banner-sunset">
   <div class="container banner-text">
     <h1>Admin</h1>
     <p>Perform administrative tasks on KameHouse</p>
   </div>
-  </section>
+  </div>
   <div class="container home-links">
     <br>
     <input type="button" value="Server Management" class="btn btn-block btn-outline-secondary"

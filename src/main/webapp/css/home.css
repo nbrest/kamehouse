@@ -2,11 +2,15 @@
   margin-top: 20px;
 }
 
-#boxes .box {
-  float: left;
+#boxes {
+	text-align: center;
+	margin: auto;
+}
+
+.box {
   width: 30%;
   padding: 10px;
-  text-align: center;
+  display: inline-block;
 }
 
 #boxes .box a {

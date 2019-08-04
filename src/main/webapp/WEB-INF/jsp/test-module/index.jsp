@@ -18,12 +18,12 @@
 <body>
   <div id="headerContainer"></div>
   <div class="main">
-  <section id="banner">
+  <div id="banner" class="banner-space">
   <div class="container banner-text">
     <h1>Test Module</h1>
     <p>Execute all tasks available in the Test Module of KameHouse</p>
   </div>
-  </section>
+  </div>
   <div class="container home-links">
     <br>
     <input type="button" value="Angular 1" class="btn-outline-secondary btn btn-block"

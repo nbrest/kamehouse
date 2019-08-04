@@ -15,8 +15,7 @@
     <%
       response.setStatus(404);
     %>
-  <div id="headerContainer"></div>
-  <main>
+  <div id="headerContainer"></div> 
   <div class="container main">
     <center>
       <h2>kameHouse 404 Not Found</h2>
@@ -37,8 +36,7 @@
     				stringWriter.close();
     			}
     %>
-  </div>
-  </main>
+  </div> 
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>

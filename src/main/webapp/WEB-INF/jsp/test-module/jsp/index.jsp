@@ -17,13 +17,13 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <section id="banner">
   <div class="main">
+  <div id="banner" class="banner-sunset">
   <div class="container banner-text">
     <h1>JSP</h1>
     <p>JSP test application in the Test Module</p>
   </div>
-  </section>
+  </div>
   <div class="container home-links">
     <br>
     <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary"

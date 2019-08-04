@@ -19,8 +19,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
-  <div id="headerContainer"></div>
-  <main>
+  <div id="headerContainer"></div> 
   <div class="container main">
     <%-- TODO: I had to use the username as parameter because the id is of type Long, and
   since the method getDragonBallUser is overloaded for strings and longs, when I passed
@@ -103,8 +102,7 @@
     </div>
     <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block"
       onclick="window.location.href='users-list'">
-  </div>
-  </main>
+  </div> 
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/importHeaderFooter.js"></script>

@@ -20,35 +20,35 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <section id="banner">
+  <div id="banner" class="banner-space">
     <div class="container banner-text">
       <h1>KameHouse</h1>
       <p>Mada mada dane :)</p>
     </div>
-  </section>
-  <section class="bg-lighter-kh">
+  </div>
+  <div class="bg-lighter-kh">
     <br><br>
-  </section>
-  <section id="boxes">
-    <div class="container">
+  </div>
+  <div class="container">
+  <div id="boxes">
       <div class="box">
-        <a href="/kame-house/vlc-player"><img src="./img/dbz-kamesenin.png" /></a>
+        <a href="/kame-house/vlc-player"><img src="./img/dbz/kamesenin-logo.png" /></a>
         <h3>VLC Player</h3>
         <p>Control multiple VLC Players</p>
       </div>
       <div class="box">
-        <a href="/kame-house/test-module"><img src="./img/ss-ikki.jpg" /></a>
+        <a href="/kame-house/test-module"><img src="./img/dbz/kaio-sama-logo.png" /></a>
         <h3>Test Module</h3>
-        <p>Run all test tasks on the test module</p>
+        <p>Test db on the test module</p>
       </div>
       <div class="box">
-        <a href="/kame-house/contact-us"><img src="./img/pot-yukimura.jpg" /></a>
+        <a href="/kame-house/contact-us"><img src="./img/dbz/goku-go-logo.png" /></a>
         <h3>Contact Us</h3>
         <p>Let us know your thoughts!</p>
-      </div>
-    </div>
-  </section>
-  <section id="newsletter"></section>
+      </div> 
+  </div>
+  </div>
+  <div id="newsletter" ></div>
   <div id="footerContainer"></div>
   <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
   <script src="/kame-house/js/general.js"></script>

@@ -1,5 +1,5 @@
 /**
- * Import Header and Footer functions.
+ * Header and Footer functions.
  * 
  * @author nbrest
  */
