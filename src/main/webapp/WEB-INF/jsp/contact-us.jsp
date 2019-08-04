@@ -17,7 +17,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="main">
+  <div class="main-body">
       <div class="container">
           <h3 class="h3-kh txt-l-kh">Contact Us</h3>
           <div id="contact-us-form">

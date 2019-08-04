@@ -18,7 +18,7 @@
 </head>
 <body>
   <div id="headerContainer"></div> 
-  <div class="container main">
+  <div class="container main-body">
     <h3 class="h3-kh txt-l-kh">List of DragonBall Users</h3>
     <c:set var="dragonBallUsers" scope="page"
       value="${dragonBallUserService.getAllDragonBallUsers()}" />

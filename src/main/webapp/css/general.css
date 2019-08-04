@@ -213,7 +213,7 @@ hr {
 	background: #242f35; 
 }
 
-.main {
+.main-body {
   min-height: 528px;
 }
 
@@ -444,7 +444,7 @@ ul {
     width: 90%;
   }
 	
-	.main {
+	.main-body {
 	 min-height: 525px;
 	}
 

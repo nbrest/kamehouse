@@ -20,7 +20,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="main">
+  <div class="main-body">
   <div class="vlc-player">
     <h3 class="h3-kh">VLC Player</h3>
     <div id="vlc-player-buttons">

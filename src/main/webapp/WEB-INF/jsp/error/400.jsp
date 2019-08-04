@@ -16,7 +16,7 @@
       response.setStatus(400);
     %>
   <div id="headerContainer"></div> 
-  <div class="container main">
+  <div class="container main-body">
     <center>
       <h2>kameHouse 400 Bad Request</h2>
     </center>

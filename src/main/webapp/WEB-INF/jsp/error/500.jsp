@@ -16,7 +16,7 @@
       response.setStatus(500);
     %>
   <div id="headerContainer"></div> 
-  <div class="container main">
+  <div class="container main-body">
     <center>
       <h2>kameHouse 500 Internal Server Error</h2>
     </center>

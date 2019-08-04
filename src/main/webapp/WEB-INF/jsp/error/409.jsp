@@ -16,7 +16,7 @@
       response.setStatus(409);
     %>
   <div id="headerContainer"></div> 
-  <div class="container main">
+  <div class="container main-body">
     <center>
       <h2>kameHouse 409 Conflict</h2>
     </center>

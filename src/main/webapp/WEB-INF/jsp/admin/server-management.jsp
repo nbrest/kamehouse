@@ -20,7 +20,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="main">
+  <div class="main-body">
   <div class="server-management">
     <h3 class="h3-kh">Server Management</h3> 
     

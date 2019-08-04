@@ -19,7 +19,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main">
+  <div class="container main-body">
   <div>
     <h3 id="ehcache-header">EhCache Status</h3>    
     <input type="button" onclick="clearAllCaches()" value="Clear All" class="btn btn-outline-danger cache-status-buttons btn-borderless"/>

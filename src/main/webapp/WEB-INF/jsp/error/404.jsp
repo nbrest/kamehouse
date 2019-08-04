@@ -16,7 +16,7 @@
       response.setStatus(404);
     %>
   <div id="headerContainer"></div> 
-  <div class="container main">
+  <div class="container main-body">
     <center>
       <h2>kameHouse 404 Not Found</h2>
     </center>

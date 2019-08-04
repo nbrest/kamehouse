@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
-<meta name="description" content="kame-house main application">
+<meta name="description" content="kame-house application">
 <meta name="keywords" content="kame-house nicobrest nbrest">
 
 <title>KameHouse - Home</title>
@@ -20,6 +20,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
+  <div class="main-body">
   <div id="banner" class="banner-space">
     <div class="container banner-text">
       <h1>KameHouse</h1>
@@ -49,6 +50,7 @@
   </div>
   </div>
   <div id="newsletter" ></div>
+  </div>
   <div id="footerContainer"></div>
   <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
   <script src="/kame-house/js/general.js"></script>

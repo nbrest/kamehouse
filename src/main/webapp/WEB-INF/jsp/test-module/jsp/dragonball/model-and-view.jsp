@@ -16,11 +16,9 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="container main">
-    <center>
+  <div class="container main-body"> 
       <h2>dragonball ModelAndView Test Endpoint</h2>
-      <h2>${message}${name}</h2>
-    </center>
+      <h2>${message}${name}</h2> 
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>

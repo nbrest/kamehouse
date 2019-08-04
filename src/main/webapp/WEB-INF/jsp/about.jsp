@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<meta name="description" content="kame-house main application">
+<meta name="description" content="kame-house application">
 <meta name="keywords" content="kame-house nicobrest">
 <meta name="author" content="nbrest">
 
@@ -17,7 +17,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="main">
+  <div class="main-body">
     <div class="container">
       <div id="main-article">
         <h3 class="h3-kh txt-l-kh">About Us</h3>

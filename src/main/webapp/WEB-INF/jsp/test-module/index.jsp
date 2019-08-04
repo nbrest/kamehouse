@@ -17,7 +17,7 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="main">
+  <div class="main-body">
   <div id="banner" class="banner-space">
   <div class="container banner-text">
     <h1>Test Module</h1>
