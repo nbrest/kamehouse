@@ -24,7 +24,7 @@
     <p>JSP test application in the Test Module</p>
   </div>
   </div>
-  <div class="default-layout home-links">
+  <div class="default-layout landing-p-links">
     <br>
     <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='dragonball/users/users-list'">

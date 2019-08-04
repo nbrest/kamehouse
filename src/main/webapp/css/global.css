@@ -145,11 +145,11 @@ body {
   padding-left: 10px;
 }
 
-.home-links {
+.landing-p-links {
   text-align: center;
 }
 @media (max-width : 900px) {  
-  .home-links {
+  .landing-p-links {
     margin: auto; /** center the element */
     width: 90%;
   }

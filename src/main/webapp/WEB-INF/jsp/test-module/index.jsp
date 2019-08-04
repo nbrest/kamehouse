@@ -22,7 +22,7 @@
     <p>Execute all tasks available in the Test Module of KameHouse</p>
   </div>
   </div>
-  <div class="default-layout home-links">
+  <div class="default-layout landing-p-links">
     <br>
     <input type="button" value="Angular 1" class="btn-outline-secondary btn btn-block"
       onclick="window.location.href='test-module/angular-1/'">

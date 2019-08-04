@@ -21,7 +21,7 @@
     <p>Perform administrative tasks on KameHouse</p>
   </div>
   </div>
-  <div class="default-layout home-links">
+  <div class="default-layout landing-p-links">
     <br>
     <input type="button" value="Server Management" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='server-management'">
