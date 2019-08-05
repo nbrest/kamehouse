@@ -11,7 +11,7 @@ This application (still heavily under construction) will contain the following m
 * Test API endpoints to practice different frontend frameworks
 * Integration with social networks and other popular APIs
 
-The main idea of this application is to keep improving and learning best practices of software development with Java and frontend technologies, so if you are a software developer and can look through the code and see vulnerabilities or things to improve i'd be more than happy to hear about them!
+The main idea of this application is to keep improving and learning best practices of software development with Java and frontend technologies, so if you are a software developer and can look through the code and see vulnerabilities or things to improve I'd be more than happy to hear about them!
 
 The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **cobertura**, validate code with **findbugs** and the style with **checkstyle**.
 
@@ -26,12 +26,13 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * Angular
 * jQuery
 
-The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel 2 using chrome dev tools). It's neither tested nor supported in other mobile devices. It was also tested mainly on Chrome and Firefox on desktop. It probably needs several more breakpoints and fixes for other devices and browsers.
-
 ##### SCM:
 * Maven 
-************
+* Trello for organizing development tasks
+
+*********************
 # Compilation:
+
 - Compile using `mvn clean install [compilation option]`.
 
 | Compilation option | Usage | Description | 
@@ -56,6 +57,13 @@ This web application interacts with other applications that need to be installed
 - gnome-screensaver-command in Ubuntu (http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
 
 The application will load even without these installed, however some functionality will not work without them.
+
+*********************
+# Live demo:
+
+This application is hosted in https://www.nicobrest.com/kame-house/ so you can check it out and play around with it and report any issues :) It's hosted in an Amazon AWS Free Tier EC2 Ubuntu 18 running with mysql. Non of the external dependencies are installed though and it's not configured to execute shutdown or lock commands. So you can just test the UI (remember I'm a backend developer :p) and some of the functionality.
+
+The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel 2 using chrome dev tools). It's neither tested nor supported in other mobile devices. It was also tested mainly on Chrome and Firefox on desktop. It most certainly needs several more breakpoints and fixes for other devices and browsers.
 
 *********************
 # Other notes:
@@ -85,7 +93,12 @@ The application will load even without these installed, however some functionali
 - Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu 16).
 *********************
 # ChangeLog:
+
+#### v0.21
+- Improved vlc-player UI
+
 #### v0.20
+- Deployed for the first time to https://www.nicobrest.com/kame-house/ :) 
 - Updated initial version of vlc player page with most functionality
 - Fixed issue with csrf. Now all requests work with csrf enabled. This fixes angular-1 app in test-module too
 - Formatted test-apis page
