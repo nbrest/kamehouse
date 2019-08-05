@@ -162,6 +162,16 @@ hr {
   }
 }
 
+/** Set margins -t top -b bottom -l left -r right | -d desktop -m mobile */
+.mar-5-d-kh {
+	margin: 5px;
+}
+@media (max-width : 900px) { 
+	.mar-5-m-kh {
+	  margin: 5px;
+	}
+}
+
 /** Set padding on desktop and mobile */
 .pd-15-d-kh {
   padding: 15px;

@@ -20,7 +20,6 @@
   <div id="headerContainer"></div>
   <div class="main-body">
   <div class="vlc-player">
-    <h3 class="h3-kh">VLC Player</h3>
     <div id="vlc-player-buttons" class="bg-darker-kh">
     <table class="table-mplayer-btns-kh">
       <tr>
@@ -114,36 +113,30 @@
       </tr>
     </table>
     </div>
-    
-    <div class="default-layout pd-15-d-kh pd-15-m-kh pls-section">
-    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Playlist Selector</h5>
+     
+    <div class="bg-darker-kh mar-5-d-kh mar-5-m-kh">
+    <div class="default-layout pd-15-d-kh pd-15-m-kh pls-section"> 
     <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
     <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
     <input type="button" onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
       value="Load"
       class="btn btn-outline-primary btn-margins btn-borderless" />
     </div> 
+    </div> 
     
-    <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
-    <div class="default-layout ac-section">
-    <h5 class="h5-kh txt-r-d-kh txt-r-m-kh">Admin Commands</h5>
+    <div class="pd-15-d-kh pd-15-m-kh">
+    <div class="default-layout ac-section"> 
     <input type="button" value="Server Management" class="btn btn-outline-secondary btn-margins btn-borderless"
       onclick="window.location.href='/kame-house/admin/server-management'">
     <input type="button" onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)"
       value="Close VLC"
       class="btn btn-outline-danger btn-margins btn-borderless" />
-    <input type="button" onclick="executeGet('/kame-house/api/v1/vlc-rc/players/localhost/status')"
-      value="VLC-RC Status"
-      class="btn btn-outline-info btn-margins btn-borderless" />
-    <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
-      value="VLC Process Status"
-      class="btn btn-outline-info btn-margins btn-borderless" /> 
     </div>
     </div>
 
-    <div class="pd-15-d-kh pd-15-m-kh">
+    <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout">
-    <h5 class="h5-kh txt-c-d-kh txt-c-m-kh">Command Output</h5>
+    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Status</h5>
     <div id="api-call-output"></div>
     </div>
     </div>

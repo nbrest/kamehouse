@@ -26,12 +26,18 @@
     <br><br><h5 class="h5-kh">VLC Load Playlists</h5>
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="&#128194; Game Of Thrones Windows"
-      class="btn btn-outline-primary btn-margins" /> 
-    <br><br>
+      class="btn btn-outline-primary btn-margins" />
     <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
       value="&#128194; LH Linux"
       class="btn btn-outline-primary btn-margins" /> 
     
+    <br><br><h5 class="h5-kh">VLC Status</h5>
+    <input type="button" onclick="executeGet('/kame-house/api/v1/vlc-rc/players/localhost/status')"
+      value="VLC-RC Status"
+      class="btn btn-outline-info btn-margins btn-borderless" />
+    <input type="button" onclick="executeGet('/kame-house/api/v1/admin/vlc')"
+      value="VLC Process Status"
+      class="btn btn-outline-info btn-margins btn-borderless" /> 
     <br><br><h5 class="h5-kh">/api/v1/dragonball Requests</h5>
     <input type="button" onclick="executeGet('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET"

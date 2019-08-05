@@ -44,10 +44,14 @@
 #vlc-player-buttons {
   width: 50%;
   margin: auto;
+  margin-top: 15px;
+  margin-bottom: 10px;
 } 
 @media (max-width : 900px) {	
 	#vlc-player-buttons { 
     width: 100%; 
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
   }
 }
