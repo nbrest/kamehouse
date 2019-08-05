@@ -1,13 +1,28 @@
 .ac-section {
 	width: 55%;
 }
+@media (max-width : 900px) {
+  .ac-section {
+    width: 100%;
+  }
+}
 
 .pls-section {
 	width: 55%;
 }
+@media (max-width : 900px) {
+  .pls-section {
+    width: 100%;
+  }
+}
 
 .oc-section {
 	width: 55%;
+}
+@media (max-width : 900px) {  
+  .oc-section {
+    width: 100%;
+  } 
 }
 
 .table-mplayer-btns-kh { 
@@ -15,36 +30,22 @@
 	margin: auto;
 	width: 100%;
 }
+@media (max-width : 900px) {
+  .table-mplayer-btns-kh {
+    width: 100%;
+    text-align: center;
+  }
+}
 
 .vlc-player {
 	text-align: center;
 }
 
 #vlc-player-buttons {
-  background: #242f35;
   width: 50%;
   margin: auto;
-}
-
-/* Media Queries */
-@media (max-width : 900px) {
-	.ac-section {
-	  width: 100%;
-	}
-	
-	.pls-section {
-	  width: 100%;
-	}
-	
-	.oc-section {
-	  width: 100%;
-	}	
-
-	.table-mplayer-btns-kh {
-	  width: 100%;
-	  text-align: center;
-	}
-	
+} 
+@media (max-width : 900px) {	
 	#vlc-player-buttons { 
     width: 100%; 
     text-align: center;

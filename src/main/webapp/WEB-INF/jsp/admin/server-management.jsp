@@ -21,6 +21,7 @@
   <div class="server-management">
     <h3 class="h3-kh">Server Management</h3> 
     
+    <div class="bg-darker-kh">
     <div class="default-layout screen-section pd-15-d-kh pd-15-m-kh">
     <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Screen</h5>
     <input type="button" onclick="executePost('/kame-house/api/v1/admin/screen/unlock', null)"
@@ -35,8 +36,8 @@
       value="Lock"
       class="btn btn-outline-danger btn-margins btn-borderless" />
     </div> 
-    
-    <div class="bg-lighter-kh pd-15-d-kh pd-15-m-kh">
+    </div>
+    <div class="pd-15-d-kh pd-15-m-kh">
     <div class="default-layout pm-section">
     <h5 class="h5-kh txt-r-m-kh">Power Management</h5>
     <div class="fl-l-d-kh fl-l-m-kh">

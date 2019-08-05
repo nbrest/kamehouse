@@ -21,7 +21,7 @@
   <div class="main-body">
   <div class="vlc-player">
     <h3 class="h3-kh">VLC Player</h3>
-    <div id="vlc-player-buttons">
+    <div id="vlc-player-buttons" class="bg-darker-kh">
     <table class="table-mplayer-btns-kh">
       <tr>
         <td>    
@@ -98,22 +98,23 @@
       <tr>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"
-            value="&#128250; Fullscreen"
+            value="Fullscreen"
             class="btn btn-outline-secondary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')"
-            value="&#128250; 16:9"
+            value="16:9"
             class="btn btn-outline-secondary btn-borderless" />
         </td>
         <td>
           <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')"
-            value="&#128250; 4:3"
+            value="4:3"
             class="btn btn-outline-secondary btn-borderless" />
         </td>
       </tr>
     </table>
     </div>
+    
     <div class="default-layout pd-15-d-kh pd-15-m-kh pls-section">
     <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Playlist Selector</h5>
     <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
@@ -122,7 +123,8 @@
       value="Load"
       class="btn btn-outline-primary btn-margins btn-borderless" />
     </div> 
-    <div class="bg-lighter-kh pd-15-d-kh pd-15-m-kh">
+    
+    <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout ac-section">
     <h5 class="h5-kh txt-r-d-kh txt-r-m-kh">Admin Commands</h5>
     <input type="button" value="Server Management" class="btn btn-outline-secondary btn-margins btn-borderless"
@@ -138,18 +140,8 @@
       class="btn btn-outline-info btn-margins btn-borderless" /> 
     </div>
     </div>
+
     <div class="pd-15-d-kh pd-15-m-kh">
-    <div class="default-layout oc-section">
-    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Other Commands</h5>
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
-      value="&#128194; GoT win"
-      class="btn btn-outline-primary btn-margins btn-borderless" /> 
-    <input type="button" onclick="executeAdminVlcPost('/kame-house/api/v1/admin/vlc', 'vlc_start', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
-      value="&#128194; LH lx"
-      class="btn btn-outline-primary btn-margins btn-borderless" /> 
-    </div>
-    </div>
-    <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout">
     <h5 class="h5-kh txt-c-d-kh txt-c-m-kh">Command Output</h5>
     <div id="api-call-output"></div>
