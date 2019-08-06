@@ -13,6 +13,14 @@ function importTestApisCss() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/test-apis.css">');
 }
 
+function executeAdminVlcPost(url, command, file) {
+  var requestBody = JSON.stringify({
+    command: command,
+    file: file
+  });
+  executePost(url, requestBody);
+}
+
 function executeGet(url) {
   console.debug(getTimestamp() + " : Executing GET on " + url);
   //console.debug(url);
