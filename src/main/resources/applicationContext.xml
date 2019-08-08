@@ -19,9 +19,17 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <import resource="applicationContext-persistence.xml" />
   <import resource="spring-security.xml" />
 
+  <context:annotation-config />
+  <!-- Needed for loading spring configuration classes such as websocket ones in 
+    test module -->
+
+  <!-- main beans -->
+  <bean class="com.nicobrest.kamehouse.main.config.WebSocketConfig" />
+  <bean class="com.nicobrest.kamehouse.main.config.WebSocketSecurityConfig" />
+
   <!-- Ehcache configuration -->
   <cache:annotation-driven />
-  
+
   <bean id="cacheManager"
     class="org.springframework.cache.ehcache.EhCacheCacheManager">
     <property name="cacheManager" ref="ehcache" />
@@ -116,4 +124,6 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     <property name="stamina" value="1000" />
   </bean>
 
+  <bean id="testWebSocketService"
+    class="com.nicobrest.kamehouse.testmodule.service.TestWebSocketService" />
 </beans>

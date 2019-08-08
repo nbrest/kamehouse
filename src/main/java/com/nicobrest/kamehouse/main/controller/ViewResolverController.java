@@ -127,9 +127,18 @@ public class ViewResolverController {
   }
 
   /**
+   * View resolver for the test module websocket page.
+   */
+  @RequestMapping(value = "/test-module/websocket", method = RequestMethod.GET)
+  public String testModuleWebSocket(HttpServletRequest request, HttpServletResponse response) {
+    logger.trace("In controller /test-module/websocket (GET) ");
+    return "/test-module/websocket/index";
+  }
+
+  /**
    * View resolver for the vlc player page.
    */
-  @RequestMapping(value = "/vlc-player/**", method = RequestMethod.GET)
+  @RequestMapping(value = "/vlc-player", method = RequestMethod.GET)
   public String vlcPlayerPage() {
     logger.trace("In controller /vlc-player (GET)");
     return "/vlc-player";

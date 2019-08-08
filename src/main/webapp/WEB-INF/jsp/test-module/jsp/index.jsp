@@ -12,8 +12,6 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/header.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/footer.css" />
 </head>
 <body>
   <div id="headerContainer"></div>

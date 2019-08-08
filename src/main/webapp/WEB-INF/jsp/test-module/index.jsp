@@ -29,6 +29,9 @@
     <br>
     <input type="button" value="JSP" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='test-module/jsp/'">
+    <br>
+    <input type="button" value="WebSocket" class="btn btn-block btn-outline-secondary"
+      onclick="window.location.href='test-module/websocket/'">
   </div>
   </div>
   <div id="footerContainer"></div>
