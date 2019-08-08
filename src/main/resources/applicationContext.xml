@@ -20,8 +20,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <import resource="spring-security.xml" />
 
   <context:annotation-config />
-  <!-- Needed for loading spring configuration classes such as websocket ones in 
-    test module -->
+  <!-- Needed for loading spring configuration classes such as websocket ones -->
 
   <!-- main beans -->
   <bean class="com.nicobrest.kamehouse.main.config.WebSocketConfig" />

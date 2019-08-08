@@ -96,7 +96,7 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 
 #### v0.21
 - Improved vlc-player UI
-
+- Added support for websockets
 #### v0.20
 - Deployed for the first time to https://www.nicobrest.com/kame-house/ :) 
 - Updated initial version of vlc player page with most functionality
