@@ -14,7 +14,7 @@ function setConnected(isConnected) {
 }
 
 function connectWebSocket() {
-    var socket = new SockJS('/kame-house/test-module/websocket');
+    var socket = new SockJS('/kame-house/api/ws/test-module/websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
