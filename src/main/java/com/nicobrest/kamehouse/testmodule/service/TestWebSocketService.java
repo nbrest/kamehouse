@@ -19,12 +19,13 @@ public class TestWebSocketService {
   /**
    * Generate a websocket response message for the specified request input.
    */
-  public TestWebSocketResponseMessage generateTestWebSocketResponseMessage(TestWebSocketRequestMessage inputMessage) {
+  public TestWebSocketResponseMessage generateTestWebSocketResponseMessage(
+      TestWebSocketRequestMessage inputMessage) {
     TestWebSocketResponseMessage testWebSocketResponseMessage = new TestWebSocketResponseMessage();
     testWebSocketResponseMessage.setDate(new Date());
     testWebSocketResponseMessage.setMessage("Mada mada dane, " + inputMessage.getLastName() + " "
         + inputMessage.getFirstName());
     return testWebSocketResponseMessage;
   }
-  
+
 }

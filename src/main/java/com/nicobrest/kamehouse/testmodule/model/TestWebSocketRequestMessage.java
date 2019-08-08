@@ -1,5 +1,11 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
+/**
+ * Test WebSocket request message.
+ * 
+ * @author nbrest
+ *
+ */
 public class TestWebSocketRequestMessage {
 
   private String firstName;
