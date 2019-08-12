@@ -47,6 +47,17 @@
   margin-top: 15px;
   margin-bottom: 10px;
 } 
+#vlc-player-buttons img {
+  width: 45px;
+  height: 45px;
+}
+#vlc-player-buttons img:hover {
+  transform: scale(1.1);
+}
+#vlc-player-buttons img:active {
+  transform: scale(0.9);
+}
+
 @media (max-width : 900px) {	
 	#vlc-player-buttons { 
     width: 100%; 

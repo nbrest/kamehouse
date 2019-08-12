@@ -24,91 +24,61 @@
     <table class="table-mplayer-btns-kh">
       <tr>
         <td>    
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_previous')"
-            value="&#9198;"
-            class="btn btn-outline-primary btn-borderless" />
+           <img src="/kame-house/img/mplayer/previous.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_previous')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '-1m')"
-            value="&#9194;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+           <img src="/kame-house/img/mplayer/rewind.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '-1m')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_pause')"
-            value="&#9199;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/play.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_pause')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '+1m')"
-            value="&#9193;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/fast-forward.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '+1m')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_next')"
-            value="&#9197;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/next.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_next')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_stop')"
-            value="&#9209;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/stop.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_stop')"/> 
         </td>
       </tr>
     </table>
     <table class="table-mplayer-btns-kh">
       <tr>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"
-            value="&#9836; &#9660;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/audio-down.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"
-            value="&#9836; &#9650;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/audio-up.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"
-            value="&#128263;"
-            class="btn btn-outline-primary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/mute.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"/> 
         </td>
       </tr>
     </table>
     <table class="table-mplayer-btns-kh">
       <tr> 
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_random')"
-            value="&#128256;"
-            class="btn btn-outline-info btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/shuffle.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_random')"/> 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_loop')"
-            value="&#8634; Loop"
-            class="btn btn-outline-info btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/repeat.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_loop')"/>
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_repeat')"
-            value="&#8635; Repeat"
-            class="btn btn-outline-info btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/repeat-1.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_repeat')"/>
         </td>
       </tr>
     </table>
     <table class="table-mplayer-btns-kh">
       <tr>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"
-            value="Fullscreen"
-            class="btn btn-outline-secondary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/chromecast-fullscreen.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"/> FS
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')"
-            value="16:9"
-            class="btn btn-outline-secondary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/chromecast-fullscreen.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')"/> 16:9 
         </td>
-        <td>
-          <input type="button" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')"
-            value="4:3"
-            class="btn btn-outline-secondary btn-borderless" />
+        <td> 
+          <img src="/kame-house/img/mplayer/chromecast-fullscreen.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')"/> 4:3 
         </td>
       </tr>
     </table>
