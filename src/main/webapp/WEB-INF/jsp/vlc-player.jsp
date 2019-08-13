@@ -103,7 +103,7 @@
     </div>
     </div>
 
-    <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
+    <div id="debug-status" class="bg-darker-kh pd-15-d-kh pd-15-m-kh hidden-kh">
     <div class="default-layout">
     <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Status</h5>
     <div id="api-call-output"></div>

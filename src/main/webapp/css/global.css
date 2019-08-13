@@ -137,6 +137,10 @@ body {
   padding-left: 10px;
 }
 
+.hidden-kh {
+	display: none;
+}
+
 .landing-p-links {
   text-align: center;
 }
