@@ -7,6 +7,18 @@
   }
 }
 
+.btn-audio {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: 40px;
+}
+
+.btn-img {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 3px;
+}
+
 .pls-section {
 	width: 55%;
 }
@@ -37,6 +49,8 @@
   }
 }
 
+
+
 .vlc-player {
 	text-align: center;
 }
@@ -48,8 +62,8 @@
   margin-bottom: 10px;
 } 
 #vlc-player-buttons img {
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
 }
 #vlc-player-buttons img:hover {
   transform: scale(1.1);
