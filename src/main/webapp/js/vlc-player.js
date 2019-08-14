@@ -187,8 +187,8 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
   mediaName = getMediaName(); 
   mediaTime = getMediaTime();
   $("#media-title").text(mediaName.filename );
-  $("#media-time").text(convertSecondsToHsMsSs(mediaTime.currentTime) 
-      + " - " + convertSecondsToHsMsSs(mediaTime.totalTime));
+  $("#current-time").text(convertSecondsToHsMsSs(mediaTime.currentTime));
+  $("#total-time").text(convertSecondsToHsMsSs(mediaTime.totalTime));
 }
 
 function disconnectWebSocket() {

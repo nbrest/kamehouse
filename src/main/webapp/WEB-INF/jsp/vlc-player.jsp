@@ -23,7 +23,7 @@
     <div id="vlc-player-main" class="bg-darker-kh">
     <div class="bg-darker-kh"><br></div>
     <div id="media-title" class="bg-default-kh pd-15-d-kh">No media loaded</div>
-    <div id="media-time" class="bg-default-kh">0 - 0</div>
+    <div id="media-time" class="bg-default-kh"><span id="current-time">0</span> - <span> Time Bar </span> - <span id="total-time">0</span></div>
     <div class="bg-darker-kh"><br></div>
     <table class="table-mplayer-btns-kh">
       <tr>
@@ -50,9 +50,10 @@
     <table class="table-mplayer-btns-kh">
       <tr>
         <td> 
-          <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"/> 
-          <img class="btn-audio" src="/kame-house/img/mplayer/audio-up-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"/> 
           <img class="btn-audio" src="/kame-house/img/mplayer/mute-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"/> 
+          <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"/> 
+          <span> Volume Bar </span>
+          <img class="btn-audio" src="/kame-house/img/mplayer/audio-up-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"/>           
         </td>
       </tr>
     </table>
