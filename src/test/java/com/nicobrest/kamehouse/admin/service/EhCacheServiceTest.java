@@ -67,7 +67,7 @@ public class EhCacheServiceTest {
       dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
       dragonBallUserDaoJpa.getAllDragonBallUsers();
       List<Map<String, Object>> cacheList = ehCacheService.getAllCaches();
-      assertEquals(5, cacheList.size());
+      assertEquals(6, cacheList.size());
       for (Map<String, Object> cacheMap : ehCacheService.getAllCaches()) {
         if (cacheMap.get("name").equals("getAllDragonBallUsersCache")) {
           assertEquals("[SimpleKey []]", cacheMap.get("keys"));

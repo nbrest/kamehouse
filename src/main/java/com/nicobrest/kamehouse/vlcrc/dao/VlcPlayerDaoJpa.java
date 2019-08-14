@@ -6,6 +6,8 @@ import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
   }
 
   @Override
+  @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public Long createVlcPlayer(VlcPlayer vlcPlayer) {
     EntityManager em = getEntityManager();
     try {
@@ -60,6 +63,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
   }
 
   @Override
+  @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public void updateVlcPlayer(VlcPlayer vlcPlayer) {
 
     EntityManager em = getEntityManager();
@@ -94,9 +98,9 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       em.close();
     }
   }
-
-  //TODO: Add cache of VlcPlayers here
+ 
   @Override
+  @Cacheable(value = "getVlcPlayer")
   public VlcPlayer getVlcPlayer(String vlcPlayerName) {
     EntityManager em = getEntityManager();
     VlcPlayer vlcPlayer = null;
@@ -127,6 +131,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
   }
 
   @Override
+  @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public VlcPlayer deleteVlcPlayer(Long vlcPlayerId) {
     EntityManager em = getEntityManager();
     VlcPlayer vlcPlayerToRemove = null;

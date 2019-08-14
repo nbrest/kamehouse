@@ -11,7 +11,18 @@
     maxEntriesLocalDisk="10000"
     eternal="false"
     diskSpoolBufferSizeMB="20"
-    timeToIdleSeconds="300" timeToLiveSeconds="600"
+    timeToIdleSeconds="86000" timeToLiveSeconds="86400"
+    memoryStoreEvictionPolicy="LFU"
+    transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
+  
+  <cache name="getVlcPlayer"
+    maxEntriesLocalHeap="1000"
+    maxEntriesLocalDisk="10000"
+    eternal="false"
+    diskSpoolBufferSizeMB="20"
+    timeToIdleSeconds="86000" timeToLiveSeconds="86400"
     memoryStoreEvictionPolicy="LFU"
     transactionalMode="off">
     <persistence strategy="localTempSwap" />
@@ -22,40 +33,40 @@
     maxEntriesLocalDisk="10000"
     eternal="false"
     diskSpoolBufferSizeMB="20"
-    timeToIdleSeconds="300" timeToLiveSeconds="600"
+    timeToIdleSeconds="86000" timeToLiveSeconds="86400"
     memoryStoreEvictionPolicy="LFU"
     transactionalMode="off">
     <persistence strategy="localTempSwap" />
   </cache>
   
-    <cache name="getDragonBallUserByUsernameCache"
+  <cache name="getDragonBallUserByUsernameCache"
     maxEntriesLocalHeap="1000"
     maxEntriesLocalDisk="10000"
     eternal="false"
     diskSpoolBufferSizeMB="20"
-    timeToIdleSeconds="300" timeToLiveSeconds="600"
+    timeToIdleSeconds="86000" timeToLiveSeconds="86400"
     memoryStoreEvictionPolicy="LFU"
     transactionalMode="off">
     <persistence strategy="localTempSwap" />
   </cache>
   
-    <cache name="getDragonBallUserByEmailCache"
+  <cache name="getDragonBallUserByEmailCache"
     maxEntriesLocalHeap="1000"
     maxEntriesLocalDisk="10000"
     eternal="false"
     diskSpoolBufferSizeMB="20"
-    timeToIdleSeconds="300" timeToLiveSeconds="600"
+    timeToIdleSeconds="86000" timeToLiveSeconds="86400"
     memoryStoreEvictionPolicy="LFU"
     transactionalMode="off">
     <persistence strategy="localTempSwap" />
   </cache>
   
-    <cache name="getAllDragonBallUsersCache"
+  <cache name="getAllDragonBallUsersCache"
     maxEntriesLocalHeap="1000"
     maxEntriesLocalDisk="10000"
     eternal="false"
     diskSpoolBufferSizeMB="20"
-    timeToIdleSeconds="300" timeToLiveSeconds="600"
+    timeToIdleSeconds="86000" timeToLiveSeconds="86400"
     memoryStoreEvictionPolicy="LFU"
     transactionalMode="off">
     <persistence strategy="localTempSwap" />

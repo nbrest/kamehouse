@@ -19,6 +19,10 @@ function getTimestamp() {
   return new Date().toISOString().replace("T", " ").slice(0, 19);
 }
 
+function convertSecondsToHsMsSs(seconds) {
+  return new Date(seconds * 1000).toISOString().substr(11, 8);
+}
+
 /**
  * Get CSRF token.
  */

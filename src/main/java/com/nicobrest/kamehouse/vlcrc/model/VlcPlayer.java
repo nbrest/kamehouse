@@ -155,8 +155,9 @@ public class VlcPlayer implements Serializable {
     statusUrl.append(":");
     statusUrl.append(port);
     statusUrl.append(STATUS_URL);
+    VlcRcStatus vlcRcStatus = null;
     String vlcServerResponse = executeRequestToVlcServer(statusUrl.toString());
-    VlcRcStatus vlcRcStatus = buildVlcRcStatus(vlcServerResponse);
+    vlcRcStatus = buildVlcRcStatus(vlcServerResponse);
     return vlcRcStatus;
   }
 
@@ -249,7 +250,7 @@ public class VlcPlayer implements Serializable {
   // InputStreamReader(response.getEntity()
   // .getContent()));
   private String executeRequestToVlcServer(String url) {
-    logger.trace("Executing request to VLC server: " + url);
+    // logger.trace("Executing request to VLC server: " + url);
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
     credentialsProvider.setCredentials(AuthScope.ANY, credentials);
@@ -267,12 +268,12 @@ public class VlcPlayer implements Serializable {
       while ((line = responseReader.readLine()) != null) {
         responseBody.append(line);
       }
-      logger.trace("VLC server response status code: " + getResponseStatusCode(response));
+      // logger.trace("VLC server response status code: " +
+      // getResponseStatusCode(response));
       return responseBody.toString();
     } catch (IOException e) {
       logger.error("Error executing request. Message: " + e.getMessage());
-      e.printStackTrace();
-      throw new KameHouseException(e);
+      return "{}";
     } finally {
       try {
         if (responseReader != null) {
@@ -308,12 +309,12 @@ public class VlcPlayer implements Serializable {
     return response.getEntity().getContent();
   }
 
-  /**
+  /*
    * Returns the status code from an HttpResponse instance.
+   * 
+   * private int getResponseStatusCode(HttpResponse response) { return
+   * response.getStatusLine().getStatusCode(); }
    */
-  private int getResponseStatusCode(HttpResponse response) {
-    return response.getStatusLine().getStatusCode();
-  }
 
   /**
    * Converts the status information returned by the web API of the VLC Player
@@ -321,10 +322,10 @@ public class VlcPlayer implements Serializable {
    */
   private VlcRcStatus buildVlcRcStatus(String vlcStatusResponseStr) {
 
+    VlcRcStatus vlcRcStatus = new VlcRcStatus();
     try {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode vlcStatusResponseJson = mapper.readTree(vlcStatusResponseStr);
-      VlcRcStatus vlcRcStatus = new VlcRcStatus();
 
       /* Set direct attributes */
       if (vlcStatusResponseJson.get("fullscreen") != null) {
@@ -405,60 +406,65 @@ public class VlcPlayer implements Serializable {
       /* Set audioFilters */
       Map<String, String> audioFilters = new HashMap<String, String>();
       JsonNode audioFiltersJson = vlcStatusResponseJson.get("audiofilters");
-      Iterator<Entry<String, JsonNode>> audioFiltersIterator = audioFiltersJson.fields();
-      while (audioFiltersIterator.hasNext()) {
-        Entry<String, JsonNode> audioFiltersEntry = audioFiltersIterator.next();
-        audioFilters.put(audioFiltersEntry.getKey(), audioFiltersEntry.getValue().asText());
+      if (audioFiltersJson != null) {
+        Iterator<Entry<String, JsonNode>> audioFiltersIterator = audioFiltersJson.fields();
+        while (audioFiltersIterator.hasNext()) {
+          Entry<String, JsonNode> audioFiltersEntry = audioFiltersIterator.next();
+          audioFilters.put(audioFiltersEntry.getKey(), audioFiltersEntry.getValue().asText());
+        }
+        vlcRcStatus.setAudioFilters(audioFilters);
       }
-      vlcRcStatus.setAudioFilters(audioFilters);
 
       /* Set videoEffects */
       Map<String, Integer> videoEffects = new HashMap<String, Integer>();
       JsonNode videoEffectsJson = vlcStatusResponseJson.get("videoeffects");
-      Iterator<Entry<String, JsonNode>> videoEffectsIterator = videoEffectsJson.fields();
-      while (videoEffectsIterator.hasNext()) {
-        Entry<String, JsonNode> videoEffectsEntry = videoEffectsIterator.next();
-        videoEffects.put(videoEffectsEntry.getKey(), videoEffectsEntry.getValue().asInt());
+      if (videoEffectsJson != null) {
+        Iterator<Entry<String, JsonNode>> videoEffectsIterator = videoEffectsJson.fields();
+        while (videoEffectsIterator.hasNext()) {
+          Entry<String, JsonNode> videoEffectsEntry = videoEffectsIterator.next();
+          videoEffects.put(videoEffectsEntry.getKey(), videoEffectsEntry.getValue().asInt());
+        }
+        vlcRcStatus.setVideoEffects(videoEffects);
       }
-      vlcRcStatus.setVideoEffects(videoEffects);
 
       /* Set equalizer */
       JsonNode equalizerJson = vlcStatusResponseJson.get("equalizer");
-      VlcRcStatus.Equalizer equalizer = new VlcRcStatus.Equalizer();
+      if (equalizerJson != null) {
+        VlcRcStatus.Equalizer equalizer = new VlcRcStatus.Equalizer();
 
-      JsonNode presetsJson = equalizerJson.get("presets");
-      if (presetsJson != null) {
-        Iterator<Entry<String, JsonNode>> presetsIterator = presetsJson.fields();
-        Map<String, String> equalizerPresets = new HashMap<String, String>();
-        while (presetsIterator.hasNext()) {
-          Entry<String, JsonNode> presetsEntry = presetsIterator.next();
-          equalizerPresets.put(presetsEntry.getKey(), presetsEntry.getValue().asText());
+        JsonNode presetsJson = equalizerJson.get("presets");
+        if (presetsJson != null) {
+          Iterator<Entry<String, JsonNode>> presetsIterator = presetsJson.fields();
+          Map<String, String> equalizerPresets = new HashMap<String, String>();
+          while (presetsIterator.hasNext()) {
+            Entry<String, JsonNode> presetsEntry = presetsIterator.next();
+            equalizerPresets.put(presetsEntry.getKey(), presetsEntry.getValue().asText());
+          }
+          equalizer.setPresets(equalizerPresets);
         }
-        equalizer.setPresets(equalizerPresets);
-      }
 
-      JsonNode bandsJson = equalizerJson.get("bands");
-      if (bandsJson != null) {
-        Iterator<Entry<String, JsonNode>> bandsIterator = bandsJson.fields();
-        Map<String, Integer> equalizerBands = new HashMap<String, Integer>();
-        while (bandsIterator.hasNext()) {
-          Entry<String, JsonNode> bandsEntry = bandsIterator.next();
-          equalizerBands.put(bandsEntry.getKey(), bandsEntry.getValue().asInt());
+        JsonNode bandsJson = equalizerJson.get("bands");
+        if (bandsJson != null) {
+          Iterator<Entry<String, JsonNode>> bandsIterator = bandsJson.fields();
+          Map<String, Integer> equalizerBands = new HashMap<String, Integer>();
+          while (bandsIterator.hasNext()) {
+            Entry<String, JsonNode> bandsEntry = bandsIterator.next();
+            equalizerBands.put(bandsEntry.getKey(), bandsEntry.getValue().asInt());
+          }
+          equalizer.setBands(equalizerBands);
         }
-        equalizer.setBands(equalizerBands);
-      }
 
-      JsonNode preAmpNode = equalizerJson.get("preamp");
-      if (preAmpNode != null) {
-        equalizer.setPreAmp(preAmpNode.asInt());
+        JsonNode preAmpNode = equalizerJson.get("preamp");
+        if (preAmpNode != null) {
+          equalizer.setPreAmp(preAmpNode.asInt());
+        }
+        vlcRcStatus.setEqualizer(equalizer);
       }
-      vlcRcStatus.setEqualizer(equalizer);
 
       /* Set information */
-      VlcRcStatus.Information information = new VlcRcStatus.Information();
       JsonNode informationJson = vlcStatusResponseJson.get("information");
-
       if (informationJson != null) {
+        VlcRcStatus.Information information = new VlcRcStatus.Information();
         information.setChapter(informationJson.get("chapter").asText());
         List<String> chapters = new ArrayList<String>();
         String[] chaptersArray = informationJson.get("chapters").asText().split(",");
@@ -518,13 +524,14 @@ public class VlcPlayer implements Serializable {
           informationCategories.add(informationCategory);
         }
         information.setCategory(informationCategories);
+        vlcRcStatus.setInformation(information);
       }
-      vlcRcStatus.setInformation(information);
-      return vlcRcStatus;
+
     } catch (IOException e) {
-      e.printStackTrace();
-      throw new KameHouseException(e);
+      logger.error("Error parsing input VlcRcStatus");
+      // e.printStackTrace();
     }
+    return vlcRcStatus;
   }
 
   /**

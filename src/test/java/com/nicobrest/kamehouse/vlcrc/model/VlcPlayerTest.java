@@ -62,8 +62,7 @@ public class VlcPlayerTest {
           any());
       PowerMockito.doReturn(vlcRcStatusInputStream).when(vlcPlayerSpy,
           "getInputStreamFromResponse", any());
-      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any());
-      PowerMockito.doReturn(200).when(vlcPlayerSpy, "getResponseStatusCode", any());
+      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any()); 
       VlcRcStatus vlcRcStatus = vlcPlayerSpy.execute(vlcRcCommand);
       // Validate returned VlcRcStatus
       assertEquals("16:9", vlcRcStatus.getAspectRatio());
@@ -96,8 +95,7 @@ public class VlcPlayerTest {
           any());
       PowerMockito.doReturn(vlcRcStatusInputStream).when(vlcPlayerSpy,
           "getInputStreamFromResponse", any());
-      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any());
-      PowerMockito.doReturn(200).when(vlcPlayerSpy, "getResponseStatusCode", any());
+      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any()); 
       VlcRcStatus vlcRcStatus = vlcPlayerSpy.getVlcRcStatus();
       // Validate returned VlcRcStatus
       assertEquals("16:9", vlcRcStatus.getAspectRatio());
@@ -130,8 +128,7 @@ public class VlcPlayerTest {
           any());
       PowerMockito.doReturn(vlcRcPlaylistInputStream).when(vlcPlayerSpy,
           "getInputStreamFromResponse", any());
-      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any());
-      PowerMockito.doReturn(200).when(vlcPlayerSpy, "getResponseStatusCode", any());
+      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any()); 
       List<Map<String, Object>> returnedPlaylist = vlcPlayerSpy.getPlaylist();
       assertEquals(3, returnedPlaylist.size());
       assertEquals("Lleyton Hewitt- Brash teenager to Aussie great.mp4", returnedPlaylist.get(0)
@@ -157,8 +154,7 @@ public class VlcPlayerTest {
           any());
       PowerMockito.doReturn(vlcRcFilelistInputStream).when(vlcPlayerSpy,
           "getInputStreamFromResponse", any());
-      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any());
-      PowerMockito.doReturn(200).when(vlcPlayerSpy, "getResponseStatusCode", any());
+      PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any()); 
       List<Map<String, Object>> returnedFilelist = vlcPlayerSpy.browse(null);
       assertEquals(2, returnedFilelist.size());
       assertEquals("C:/", returnedFilelist.get(0).get("name"));

@@ -8,13 +8,14 @@ var videoPlaylistCategories = [];
 
 var main = function() { 
   populateVideoPlaylistCategories();
+  setupWebSocketForVlcStatus();
 };
 
 function executeGet(url) {
-  console.debug(getTimestamp() + " : Executing GET on " + url);
+  //console.debug(getTimestamp() + " : Executing GET on " + url);
   //console.debug(url);
   $.get(url)
-    .success(function(result) {
+    .success(function(result) { 
       displayRequestPayload(result, url, "GET", null);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
@@ -66,7 +67,7 @@ function executeAdminShutdownPost(url, command, time) {
 }
 
 function executePost(url, requestBody) {
-  console.debug(getTimestamp() + " : Executing POST on " + url);
+  //console.debug(getTimestamp() + " : Executing POST on " + url);
   requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
@@ -75,7 +76,7 @@ function executePost(url, requestBody) {
     headers: requestHeaders,
     success: function(data) {
       //console.debug(JSON.stringify(data));
-      //console.debug(JSON.stringify(data, null, 2));
+      //console.debug(JSON.stringify(data, null, 2));  
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function(data) {
@@ -87,7 +88,7 @@ function executePost(url, requestBody) {
 }
 
 function executeDelete(url, requestBody) {
-  console.debug(getTimestamp() + " : Executing DELETE on " + url);
+  //console.debug(getTimestamp() + " : Executing DELETE on " + url);
   requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "DELETE",
@@ -95,7 +96,7 @@ function executeDelete(url, requestBody) {
     data: requestBody,
     headers: requestHeaders,
     success: function(data) {
-      //console.debug(JSON.stringify(data));
+      //console.debug(JSON.stringify(data));  
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {
@@ -152,6 +153,106 @@ function populateVideoPlaylists() {
       playlistDropdown.append($('<option></option>').attr('value', entry.path).text(playlistName));
     }
   });
+}
+
+/**
+ * Websockets functionality to poll vlc player status.
+ * */
+var stompClient = null;
+var vlcRcStatus = {};
+var isWebSocketConnected = false; 
+var isPlaying = true;
+function setupWebSocketForVlcStatus() {
+  connectWebSocket();
+  pullVlcRcStatusLoop();
+}
+
+function connectWebSocket() {
+  var socket = new SockJS('/kame-house/api/ws/vlc-player/status');
+  stompClient = Stomp.over(socket);
+  //Disable console messages for stomp. Only enable to debug.
+  stompClient.debug = null;
+  stompClient.connect({}, function (frame) { 
+      //console.log('Connected WebSocket: ' + frame);
+      isWebSocketConnected = true;
+      stompClient.subscribe('/topic/vlc-player/status-out', function (vlcRcStatusResponse) {
+        updateVlcPlayerStatus(JSON.parse(vlcRcStatusResponse.body));
+      });
+  });
+}
+ 
+function updateVlcPlayerStatus(vlcRcStatusResponse) {
+  vlcRcStatus = vlcRcStatusResponse;
+  //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
+  mediaName = getMediaName(); 
+  mediaTime = getMediaTime();
+  $("#media-title").text(mediaName.filename );
+  $("#media-time").text(convertSecondsToHsMsSs(mediaTime.currentTime) 
+      + " - " + convertSecondsToHsMsSs(mediaTime.totalTime));
+}
+
+function disconnectWebSocket() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+        isWebSocketConnected = false;
+    }
+    console.log("Disconnected WebSocket");
+}
+
+function getVlcRcStatus() {
+  //console.log("Requesting vlc-rc status");
+  stompClient.send("/app/vlc-player/status-in", {});
+}
+
+function getMediaName() {
+  var mediaName = {};
+  mediaName.filename = "No media loaded";
+  mediaName.title = "No media loaded";
+  if (vlcRcStatus.information != null && vlcRcStatus.information.category != null) {
+      vlcRcStatus.information.category.forEach(function (category) {
+        if (category.filename != undefined && category.filename != null) {
+          mediaName.filename = category.filename;
+          mediaName.title = category.title;
+        }
+    });
+  }  
+  return mediaName;
+}
+
+function getMediaTime() {
+  var mediaTime = {};
+  mediaTime.currentTime = vlcRcStatus.time;
+  mediaTime.totalTime = vlcRcStatus.length;
+  return mediaTime;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function pullVlcRcStatusLoop() {
+  
+  // Infinite loop to pull VlcRcStatus every 1 second, switch to 60 seconds if I'm not playing anything.
+  var sleepTime = 1000;
+  let failedCount = 0;
+  // TODO: Make the client side contain a status of when vlc player is actually running on the server and only pull when it's running.
+  for ( ; ; ) { 
+    if (isWebSocketConnected && isPlaying) {
+      getVlcRcStatus();
+    }  
+    if (vlcRcStatus.information != null && vlcRcStatus.information != undefined) {
+      sleepTime = 1000;
+      failedCount = 0;
+      //isPlaying = true;
+    } else {
+      failedCount++;
+      if (failedCount >= 10) {
+        sleepTime = 60000;
+      }
+      //isPlaying = false;
+    } 
+    await sleep(sleepTime); 
+  }
 }
 
 /**

@@ -15,18 +15,9 @@
 }
 
 .btn-img {
-  width: 25px;
-  height: 25px;
+  width: 21px;
+  height: 21px;
   margin-bottom: 3px;
-}
-
-.pls-section {
-	width: 55%;
-}
-@media (max-width : 900px) {
-  .pls-section {
-    width: 100%;
-  }
 }
 
 .oc-section {
@@ -36,6 +27,15 @@
   .oc-section {
     width: 100%;
   } 
+}
+
+.pls-section {
+  width: 55%;
+}
+@media (max-width : 900px) {
+  .pls-section {
+    width: 100%;
+  }
 }
 
 .table-mplayer-btns-kh { 
@@ -49,32 +49,33 @@
     text-align: center;
   }
 }
-
-
-
+ 
 .vlc-player {
 	text-align: center;
 }
 
-#vlc-player-buttons {
+#vlc-player-main {
+	color: #969696;
+	border-style: solid;
+  border-width: 10px;
+  border-color: #161e21;
   width: 50%;
   margin: auto;
   margin-top: 15px;
   margin-bottom: 10px;
 } 
-#vlc-player-buttons img {
+#vlc-player-main img {
   width: 35px;
   height: 35px;
 }
-#vlc-player-buttons img:hover {
+#vlc-player-main img:hover {
   transform: scale(1.1);
 }
-#vlc-player-buttons img:active {
+#vlc-player-main img:active {
   transform: scale(0.9);
 }
-
 @media (max-width : 900px) {	
-	#vlc-player-buttons { 
+	#vlc-player-main { 
     width: 100%; 
     text-align: center;
     margin-top: 10px;

@@ -18,11 +18,12 @@
 </head>
 <body>
   <div id="headerContainer"></div>
-  <div class="main-body">
+  <div class="main-body ">
   <div class="vlc-player">
-    <div id="vlc-player-buttons" class="bg-darker-kh">
+    <div id="vlc-player-main" class="bg-darker-kh">
     <div class="bg-darker-kh"><br></div>
     <div id="media-title" class="bg-default-kh pd-15-d-kh">No media loaded</div>
+    <div id="media-time" class="bg-default-kh">0 - 0</div>
     <div class="bg-darker-kh"><br></div>
     <table class="table-mplayer-btns-kh">
       <tr>
@@ -113,6 +114,8 @@
   </div>
   <div id="footerContainer"></div>
   <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
+  <script src="/kame-house/lib/js/sockjs.min.js"></script>
+  <script src="/kame-house/lib/js/stomp.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/header-footer/headerFooter.js"></script>
   <script src="${pageContext.request.contextPath}/js/global.js"></script>
   <script src="${pageContext.request.contextPath}/js/vlc-player.js"></script>

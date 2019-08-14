@@ -18,6 +18,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  {
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
+    registry.addEndpoint("/api/ws/vlc-player/status").setAllowedOrigins("*").withSockJS();
     registry.addEndpoint("/api/ws/test-module/websocket").setAllowedOrigins("*").withSockJS();
   }
 }
