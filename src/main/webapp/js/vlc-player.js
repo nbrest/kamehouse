@@ -185,15 +185,21 @@ function connectWebSocket() {
 function updateVlcPlayerStatus(vlcRcStatusResponse) {
   vlcRcStatus = vlcRcStatusResponse;
   //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
+  
+  // Update media title.
   mediaName = getMediaName(); 
-  mediaTime = getMediaTime();
   $("#media-title").text(mediaName.filename);
+  
+  // Update media playing time
+  mediaTime = getMediaTime();
   $("#current-time").text(convertSecondsToHsMsSs(mediaTime.currentTime));
   $("#total-time").text(convertSecondsToHsMsSs(mediaTime.totalTime));
   
-  //Update volume percentage and slider.
-  $("#volume-slider").val(vlcRcStatus.volume);
-  updateVolumePercentage(vlcRcStatus.volume);
+  // Update volume percentage and slider.
+  if (vlcRcStatus.volume != null && vlcRcStatus.volume != undefined) {
+    $("#volume-slider").val(vlcRcStatus.volume);
+    updateVolumePercentage(vlcRcStatus.volume);
+  } 
 }
 
 function disconnectWebSocket() {
