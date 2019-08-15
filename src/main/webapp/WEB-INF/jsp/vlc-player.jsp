@@ -34,7 +34,7 @@
            <img src="/kame-house/img/mplayer/rewind.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '-1m')"/> 
         </td>
         <td> 
-          <img src="/kame-house/img/mplayer/play.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_pause')"/> 
+          <img src="/kame-house/img/mplayer/resume.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_pause')"/> 
         </td>
         <td> 
           <img src="/kame-house/img/mplayer/fast-forward.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '+1m')"/> 
