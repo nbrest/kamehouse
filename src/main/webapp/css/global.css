@@ -98,13 +98,14 @@ body {
 .fl-l-d-kh {
   float: left;
 }
-.fl-r-d-kh {
-  float: right;
-}
 @media (max-width: 900px) {
   .fl-l-m-kh {
     float: left;
   }
+}
+
+.fl-r-d-kh {
+  float: right;
 }
 @media (max-width: 900px) {	
 	.fl-r-m-kh {
@@ -328,3 +329,11 @@ ul {
   padding: 0;
   list-style: none;
 }
+
+/** Set width percentage (for example in table columns) */
+.w-10-pc-kh {
+  width: 10%; 
+} 
+.w-60-pc-kh {
+  width: 60%; 
+} 

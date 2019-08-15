@@ -23,7 +23,25 @@
     <div id="vlc-player-main" class="bg-darker-kh">
     <div class="bg-darker-kh"><br></div>
     <div id="media-title" class="bg-default-kh pd-15-d-kh">No media loaded</div>
-    <div id="media-time" class="bg-default-kh"><span id="current-time">0</span> - <span> Time Bar </span> - <span id="total-time">0</span></div>
+    <div id="media-time" class="bg-default-kh">
+      <table>
+      <tr>
+      <td>
+        <span id="current-time" class="fl-l-d-kh fl-l-m-kh">--:--:--</span>
+      </td>
+      <td>
+        <span id="total-time" class="fl-r-d-kh fl-r-m-kh">--:--:--</span>
+      </td>
+      </tr>
+      </table>
+      <table>
+      <tr>
+      <td>
+        <div id="time-slider-wrapper"><input type="range" min="0" max="1000" value="500" id="time-slider" onmouseup="setTimeFromSlider(this.value)" ontouchend="setTimeFromSlider(this.value)"></div> 
+      </td>
+      </tr>
+      </table>
+    </div>
     <div class="bg-darker-kh"><br></div>
     <table class="table-mplayer-btns-kh">
       <tr>

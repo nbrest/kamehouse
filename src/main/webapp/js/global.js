@@ -19,8 +19,20 @@ function getTimestamp() {
   return new Date().toISOString().replace("T", " ").slice(0, 19);
 }
 
+/**
+ * Convert input in seconds to hh:mm:ss output. 
+ */
 function convertSecondsToHsMsSs(seconds) {
   return new Date(seconds * 1000).toISOString().substr(11, 8);
+}
+
+/**
+ * Sleep the specified milliseconds.
+ * This function needs to be called in an async method, with the await prefix. 
+ * Example: await sleep(1000);
+ */
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**

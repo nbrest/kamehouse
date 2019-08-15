@@ -3,15 +3,23 @@
  * 
  * @author nbrest
  */
+
+/** Global variables. */
 var videoPlaylists = [];
 var videoPlaylistCategories = [];
+var stompClient = null;
+var vlcRcStatus = {};
+var isWebSocketConnected = false; 
+var isPlaying = true;
 
+/** Main function. */
 var main = function() { 
   updateVolumePercentage(document.getElementById("volume-slider").value);
   populateVideoPlaylistCategories();
   setupWebSocketForVlcStatus();
 };
 
+/** ---- General REST request functions --------------------------------------------- **/
 function executeGet(url) {
   //console.debug(getTimestamp() + " : Executing GET on " + url);
   //console.debug(url);
@@ -107,6 +115,9 @@ function executeDelete(url, requestBody) {
     }); 
 }
 
+/** ---- Populate playlists functions --------------------------------------------- **/
+
+/** Populate playlist categories dropdown. */
 function populateVideoPlaylistCategories() {
   let playlistDropdown = $('#playlist-dropdown');
   playlistDropdown.empty();
@@ -120,7 +131,7 @@ function populateVideoPlaylistCategories() {
   $.get('/kame-house/api/v1/media/video/playlists')
     .success(function(result) { 
       videoPlaylists = result;
-      getVideoPlaylistCategories(videoPlaylists);
+      setVideoPlaylistCategories(videoPlaylists);
       //console.debug(JSON.stringify(videoPlaylists));
       $.each(videoPlaylistCategories, function (key, entry) {
         var category = entry;
@@ -134,11 +145,13 @@ function populateVideoPlaylistCategories() {
     }); 
 }
 
-function getVideoPlaylistCategories(videoPlaylists) {
+/** Set video playlist categories. */
+function setVideoPlaylistCategories(videoPlaylists) {
   videoPlaylistCategories = [...new Set(videoPlaylists.map(playlist => playlist.category))];
   //console.debug(videoPlaylistCategories);  
 }
 
+/** Populate video playlists dropdown. */
 function populateVideoPlaylists() {
   var playlistCategoriesList = document.getElementById('playlist-category-dropdown');
   var selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
@@ -156,18 +169,15 @@ function populateVideoPlaylists() {
   });
 }
 
-/**
- * Websockets functionality to poll vlc player status.
- * */
-var stompClient = null;
-var vlcRcStatus = {};
-var isWebSocketConnected = false; 
-var isPlaying = true;
+/** ---- Websockets functions --------------------------------------------- **/
+
+/** Setup the websocket for pulling VlcRcStatus. */
 function setupWebSocketForVlcStatus() {
   connectWebSocket();
   pullVlcRcStatusLoop();
 }
 
+/** Connect the websocket. */
 function connectWebSocket() {
   var socket = new SockJS('/kame-house/api/ws/vlc-player/status');
   stompClient = Stomp.over(socket);
@@ -181,27 +191,8 @@ function connectWebSocket() {
       });
   });
 }
- 
-function updateVlcPlayerStatus(vlcRcStatusResponse) {
-  vlcRcStatus = vlcRcStatusResponse;
-  //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
-  
-  // Update media title.
-  mediaName = getMediaName(); 
-  $("#media-title").text(mediaName.filename);
-  
-  // Update media playing time
-  mediaTime = getMediaTime();
-  $("#current-time").text(convertSecondsToHsMsSs(mediaTime.currentTime));
-  $("#total-time").text(convertSecondsToHsMsSs(mediaTime.totalTime));
-  
-  // Update volume percentage and slider.
-  if (vlcRcStatus.volume != null && vlcRcStatus.volume != undefined) {
-    $("#volume-slider").val(vlcRcStatus.volume);
-    updateVolumePercentage(vlcRcStatus.volume);
-  } 
-}
 
+/** Disconnect the websocket. */
 function disconnectWebSocket() {
     if (stompClient !== null) {
         stompClient.disconnect();
@@ -210,37 +201,15 @@ function disconnectWebSocket() {
     console.log("Disconnected WebSocket");
 }
 
+/** ---- Update vlc player status functions --------------------------------------------- **/
+
+/** Poll for an updated VlcRcStatus from the server. */
 function getVlcRcStatus() {
   //console.log("Requesting vlc-rc status");
   stompClient.send("/app/vlc-player/status-in", {});
 }
 
-function getMediaName() {
-  var mediaName = {};
-  mediaName.filename = "No media loaded";
-  mediaName.title = "No media loaded";
-  if (vlcRcStatus.information != null && vlcRcStatus.information.category != null) {
-      vlcRcStatus.information.category.forEach(function (category) {
-        if (category.filename != undefined && category.filename != null) {
-          mediaName.filename = category.filename;
-          mediaName.title = category.title;
-        }
-    });
-  }  
-  return mediaName;
-}
-
-function getMediaTime() {
-  var mediaTime = {};
-  mediaTime.currentTime = vlcRcStatus.time;
-  mediaTime.totalTime = vlcRcStatus.length;
-  return mediaTime;
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
+/** Infinite loop to pull VlcRcStatus from the server. */
 async function pullVlcRcStatusLoop() {
   
   // Infinite loop to pull VlcRcStatus every 1 second, switch to 60 seconds if I'm not playing anything.
@@ -266,21 +235,72 @@ async function pullVlcRcStatusLoop() {
   }
 }
 
+/** Update vlc player status based on the VlcRcStatus object. */
+function updateVlcPlayerStatus(vlcRcStatusResponse) {
+  vlcRcStatus = vlcRcStatusResponse;
+  //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
+  
+  // Update media title.
+  mediaName = getMediaName(); 
+  $("#media-title").text(mediaName.filename);
+  
+  // Update media playing time
+  if (vlcRcStatus.time != null && vlcRcStatus.time != undefined) { 
+    $("#current-time").text(convertSecondsToHsMsSs(vlcRcStatus.time));
+    $("#time-slider").val(vlcRcStatus.time);
+    
+    $("#total-time").text(convertSecondsToHsMsSs(vlcRcStatus.length)); 
+    $("#time-slider").attr('max', vlcRcStatus.length);
+  } 
+  
+  // Update volume percentage and slider.
+  if (vlcRcStatus.volume != null && vlcRcStatus.volume != undefined) {
+    $("#volume-slider").val(vlcRcStatus.volume);
+    updateVolumePercentage(vlcRcStatus.volume);
+  } 
+}
+
+/** Set the current time from the slider's value. */
+function setTimeFromSlider(value) {
+  $("#current-time").text(convertSecondsToHsMsSs(value)); 
+  executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', value);
+}
+/** Update the displayed current time while I'm sliding */
+function updateTimeWhileSliding(value) {
+  console.log("current time: " + value);
+  $("#current-time").text(convertSecondsToHsMsSs(value));  
+}
+
+/** Get media name from VlcRcStatus. */
+function getMediaName() {
+  var mediaName = {};
+  mediaName.filename = "No media loaded";
+  mediaName.title = "No media loaded";
+  if (vlcRcStatus.information != null && vlcRcStatus.information.category != null) {
+      vlcRcStatus.information.category.forEach(function (category) {
+        if (category.filename != undefined && category.filename != null) {
+          mediaName.filename = category.filename;
+          mediaName.title = category.title;
+        }
+    });
+  }  
+  return mediaName;
+}
+
+/** Set the volume from the slider's value. */
 function setVolumeFromSlider(value) {
   //console.log("Current volume value " + value); 
   updateVolumePercentage(value);
 	executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
 }
 
-function updateVolumePercentage(value) { 
-  var currentVolume = document.getElementById("current-volume");
-  currentVolume.innerHTML = calculateVolumePercentaje(value) + "%";
+/** Update volume percentage to display with the specified value. */
+function updateVolumePercentage(value) {
+  let volumePercentaje = Math.floor(value * 200/512);
+  var currentVolume = document.getElementById("current-volume"); 
+  currentVolume.innerHTML = volumePercentaje + "%";
 }
-
-function calculateVolumePercentaje(volumeValue) {
-	let volumePercentaje = Math.floor(volumeValue * 200/512);
-	return volumePercentaje;
-}
+ 
 /**
  * Call main.
  */
