@@ -7,11 +7,18 @@
   }
 }
 
-.btn-audio {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 40px;
-	margin-right: 40px;
+#audio-controls {
+  margin-top: 25px;
+  margin-bottom: 25px; 
+}
+@media (max-width : 900px) {
+  #audio-buttons {
+    width: 100%;
+  }
+}
+.btn-audio { 
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .btn-img {
@@ -81,4 +88,44 @@
     margin-top: 10px;
     margin-bottom: 5px;
   }
+}
+
+#volume-slider-wrapper {
+  display: inline; 
+}
+
+#volume-slider {
+  -webkit-appearance: none; 
+  height: 20px;
+  width: 140px;
+  background: #505050;
+  outline: none;
+  opacity: 0.4;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+#volume-slider:hover {
+  opacity: 1;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #000000;
+  cursor: pointer;
+}
+
+#volume-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #000000;
+  cursor: pointer;
+}
+
+#current-volume {
+	display: inline-block;
+	min-width: 50px;
 }

@@ -89,11 +89,6 @@ public class VlcPlayer implements Serializable {
     super();
   }
 
-  public VlcPlayer(String hostname, int port) {
-    this.hostname = hostname;
-    this.port = port;
-  }
-
   public void setId(Long id) {
     this.id = id;
   }

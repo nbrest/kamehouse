@@ -49,12 +49,15 @@
     </table>
     <table class="table-mplayer-btns-kh">
       <tr>
-        <td> 
-          <img class="btn-audio" src="/kame-house/img/mplayer/mute-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"/> 
-          <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"/> 
-          <span> Volume Bar </span>
-          <img class="btn-audio" src="/kame-house/img/mplayer/audio-up-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"/>           
-        </td>
+      <td>
+        <div id="audio-controls">
+	        <img class="btn-audio" src="/kame-house/img/mplayer/mute-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"/> 
+	        <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"/> 
+	        <div id="volume-slider-wrapper"><input type="range" min="0" max="512" value="52" id="volume-slider"></div> 
+	        <img class="btn-audio" src="/kame-house/img/mplayer/audio-up-gray.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"/>           
+	        <div id="current-volume"></div>
+        </div>
+      </td>
       </tr>
     </table>
     <table class="table-mplayer-btns-kh">

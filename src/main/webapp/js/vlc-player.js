@@ -255,6 +255,14 @@ async function pullVlcRcStatusLoop() {
   }
 }
 
+var volumeSlider = document.getElementById("volume-slider");
+var currentVolume = document.getElementById("current-volume");
+currentVolume.innerHTML = volumeSlider.value;
+
+volumeSlider.oninput = function() {
+	currentVolume.innerHTML = this.value;
+}
+
 /**
  * Call main.
  */
