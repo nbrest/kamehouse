@@ -142,7 +142,7 @@
 }
 #vlc-player-main img:hover {
   transform: scale(1.3);
-  filter: brightness(1.3);
+  filter: brightness(1);
 }
 #vlc-player-main img:active {
   transform: scale(0.9);
