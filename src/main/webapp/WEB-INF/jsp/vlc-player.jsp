@@ -21,8 +21,7 @@
   <div class="main-body ">
   <div class="vlc-player">
     <div id="vlc-player-main" class="bg-darker-kh">
-    <div class="bg-darker-kh"><br></div>
-    <div id="media-title" class="bg-default-kh pd-15-d-kh">No media loaded</div>
+    <div id="media-title" class="bg-default-kh">No media loaded</div>
     <div id="media-time" class="bg-default-kh">
       <table>
       <tr>
@@ -42,7 +41,7 @@
       </tr>
       </table>
     </div>
-    <div class="bg-darker-kh"><br></div>
+    <div id="media-buttons">
     <table class="table-mplayer-btns-kh">
       <tr>
         <td>    
@@ -114,7 +113,8 @@
       </tr>
     </table>
     </div>
-     
+    </div>
+    
     <div class="bg-darker-kh mar-5-d-kh mar-5-m-kh">
     <div class="default-layout pd-15-d-kh pd-15-m-kh pls-section"> 
     <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  

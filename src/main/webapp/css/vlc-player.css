@@ -81,9 +81,22 @@
   margin-bottom: 3px;
   cursor: pointer;
 }
+#media-buttons {
+	padding-top: 10px;
+}
+
+#media-title {
+  padding-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#media-time {
+	padding-bottom: 5px;
+}
 
 #media-time #time-slider-wrapper {
-  display: inline; 
+  display: inline;
 }
 
 #media-time table {
