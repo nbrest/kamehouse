@@ -7,6 +7,7 @@ var videoPlaylists = [];
 var videoPlaylistCategories = [];
 
 var main = function() { 
+  updateVolumePercentage(document.getElementById("volume-slider").value);
   populateVideoPlaylistCategories();
   setupWebSocketForVlcStatus();
 };
@@ -186,9 +187,13 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
   //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
   mediaName = getMediaName(); 
   mediaTime = getMediaTime();
-  $("#media-title").text(mediaName.filename );
+  $("#media-title").text(mediaName.filename);
   $("#current-time").text(convertSecondsToHsMsSs(mediaTime.currentTime));
   $("#total-time").text(convertSecondsToHsMsSs(mediaTime.totalTime));
+  
+  //Update volume percentage and slider.
+  $("#volume-slider").val(vlcRcStatus.volume);
+  updateVolumePercentage(vlcRcStatus.volume);
 }
 
 function disconnectWebSocket() {
@@ -255,13 +260,15 @@ async function pullVlcRcStatusLoop() {
   }
 }
 
-var volumeSlider = document.getElementById("volume-slider");
-var currentVolume = document.getElementById("current-volume");
-currentVolume.innerHTML = calculateVolumePercentaje(volumeSlider.value) + "%";
+function setVolumeFromSlider(value) {
+  //console.log("Current volume value " + value); 
+  updateVolumePercentage(value);
+	executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
+}
 
-volumeSlider.oninput = function() {
-	let volumePercentaje = calculateVolumePercentaje(this.value);
-	currentVolume.innerHTML = volumePercentaje + "%";
+function updateVolumePercentage(value) { 
+  var currentVolume = document.getElementById("current-volume");
+  currentVolume.innerHTML = calculateVolumePercentaje(value) + "%";
 }
 
 function calculateVolumePercentaje(volumeValue) {
