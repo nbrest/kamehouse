@@ -144,8 +144,19 @@
   transform: scale(1.3);
   filter: brightness(1);
 }
+@media (max-width : 900px) {  
+  #vlc-player-main img:hover { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
 #vlc-player-main img:active {
   transform: scale(0.9);
+}
+@media (max-width : 900px) {  
+  #vlc-player-main img:active { 
+    transform: scale(0.7);
+  }
 }
 @media (max-width : 900px) {	
 	#vlc-player-main { 
