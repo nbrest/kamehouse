@@ -257,12 +257,17 @@ async function pullVlcRcStatusLoop() {
 
 var volumeSlider = document.getElementById("volume-slider");
 var currentVolume = document.getElementById("current-volume");
-currentVolume.innerHTML = volumeSlider.value;
+currentVolume.innerHTML = calculateVolumePercentaje(volumeSlider.value) + "%";
 
 volumeSlider.oninput = function() {
-	currentVolume.innerHTML = this.value;
+	let volumePercentaje = calculateVolumePercentaje(this.value);
+	currentVolume.innerHTML = volumePercentaje + "%";
 }
 
+function calculateVolumePercentaje(volumeValue) {
+	let volumePercentaje = Math.floor(volumeValue * 200/512);
+	return volumePercentaje;
+}
 /**
  * Call main.
  */
