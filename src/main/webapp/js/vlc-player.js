@@ -222,7 +222,7 @@ async function pullVlcRcStatusLoop() {
     } else {
       failedCount++;
       if (failedCount >= 10) {
-        vlcRcStatusPullWaitTimeMs = 20000;
+        vlcRcStatusPullWaitTimeMs = 15000;
       }
       //isPlaying = false;
     } 
