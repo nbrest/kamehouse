@@ -211,22 +211,25 @@ async function pullVlcRcStatusLoop() {
   var vlcRcStatusPullWaitTimeMs = 1000;
   let failedCount = 0;
   // TODO: Make the client side contain a status of when vlc player is actually running on the server and only pull when it's running.
+  if (isWebSocketConnected) {
+    getVlcRcStatus();
+  } 
   for ( ; ; ) { 
+    await sleep(vlcRcStatusPullWaitTimeMs); 
     if (isWebSocketConnected && isPlaying) {
       getVlcRcStatus();
     }  
     if (vlcRcStatus.information != null && vlcRcStatus.information != undefined) {
+      //isPlaying = true;
       vlcRcStatusPullWaitTimeMs = 1000;
       failedCount = 0;
-      //isPlaying = true;
     } else {
+      //isPlaying = false;
       failedCount++;
       if (failedCount >= 10) {
         vlcRcStatusPullWaitTimeMs = 15000;
       }
-      //isPlaying = false;
     } 
-    await sleep(vlcRcStatusPullWaitTimeMs); 
   }
 }
 
