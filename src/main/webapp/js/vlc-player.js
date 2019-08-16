@@ -25,6 +25,7 @@ function executeGet(url) {
   //console.debug(url);
   $.get(url)
     .success(function(result) { 
+      getVlcRcStatus();
       displayRequestPayload(result, url, "GET", null);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
@@ -67,14 +68,6 @@ function executeVlcRcCommandPost(url, name, val) {
   executePost(url, requestBody);
 }
 
-function executeAdminShutdownPost(url, command, time) {
-  var requestBody = JSON.stringify({
-    command: command,
-    time: time
-  });
-  executePost(url, requestBody);
-}
-
 function executePost(url, requestBody) {
   //console.debug(getTimestamp() + " : Executing POST on " + url);
   requestHeaders = getCsrfRequestHeadersObject();
@@ -85,7 +78,8 @@ function executePost(url, requestBody) {
     headers: requestHeaders,
     success: function(data) {
       //console.debug(JSON.stringify(data));
-      //console.debug(JSON.stringify(data, null, 2));  
+      //console.debug(JSON.stringify(data, null, 2));
+      getVlcRcStatus();
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function(data) {
@@ -106,13 +100,14 @@ function executeDelete(url, requestBody) {
     headers: requestHeaders,
     success: function(data) {
       //console.debug(JSON.stringify(data));  
+      getVlcRcStatus();
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {
       console.error(JSON.stringify(data));
       displayErrorExecutingRequest(); 
     }
-    }); 
+  }); 
 }
 
 /** ---- Populate playlists functions --------------------------------------------- **/
@@ -212,8 +207,8 @@ function getVlcRcStatus() {
 /** Infinite loop to pull VlcRcStatus from the server. */
 async function pullVlcRcStatusLoop() {
   
-  // Infinite loop to pull VlcRcStatus every 1 second, switch to 60 seconds if I'm not playing anything.
-  var sleepTime = 1000;
+  // Infinite loop to pull VlcRcStatus every 1 second, switch to XX seconds if I'm not playing anything.
+  var vlcRcStatusPullWaitTimeMs = 1000;
   let failedCount = 0;
   // TODO: Make the client side contain a status of when vlc player is actually running on the server and only pull when it's running.
   for ( ; ; ) { 
@@ -221,17 +216,17 @@ async function pullVlcRcStatusLoop() {
       getVlcRcStatus();
     }  
     if (vlcRcStatus.information != null && vlcRcStatus.information != undefined) {
-      sleepTime = 1000;
+      vlcRcStatusPullWaitTimeMs = 1000;
       failedCount = 0;
       //isPlaying = true;
     } else {
       failedCount++;
       if (failedCount >= 10) {
-        sleepTime = 60000;
+        vlcRcStatusPullWaitTimeMs = 20000;
       }
       //isPlaying = false;
     } 
-    await sleep(sleepTime); 
+    await sleep(vlcRcStatusPullWaitTimeMs); 
   }
 }
 
