@@ -96,6 +96,8 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 
 #### v0.21
 - Completely changed vlc player UI
+- Added cache for vlc players
+- Updated ehcache configuration for all caches
 - Added debug mode toggle to hide/show debug table
 - Added collapsible playlist with clickable items and highlighted current item
 - Updated animations on buttons in vlc player
