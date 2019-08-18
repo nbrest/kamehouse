@@ -251,8 +251,7 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
     updateVolumePercentage(vlcRcStatus.volume);
   } 
   
-  //TODO if performance gets laggy, see if not updating current pls item every second helps a bit. This shouldn't have much impact though.
-  updateCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
+  highlightCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
 }
 
 /** Set the current time from the slider's value. */
@@ -342,19 +341,23 @@ function displayPlaylist(playlistArray) {
       $playlistTableBody.append(playlistTableRow);
     } 
   } 
-  updateCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
+  highlightCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
 }
 
-function updateCurrentPlayingItemInPlaylist(currentPlId) {
+/** Highlight currently playing item in the playlist. Only do the update if the playlist is not collapsed. */
+function highlightCurrentPlayingItemInPlaylist(currentPlId) {
   //console.log("currentPlId " + currentPlId);
-  $('#playlist-table-body tr').each(function() {
-    var playlistItemId = $(this).attr('id');
-    if (playlistItemId == currentPlId) {
-      $(this).addClass("playlist-table-element-playing");
-    } else {
-      $(this).removeClass("playlist-table-element-playing");
-    }
-  });
+  var isPlaylistCurrentlyVisible = $('#playlist-collapsible').hasClass("playlist-collapsible-active");
+  if (isPlaylistCurrentlyVisible) {
+    $('#playlist-table-body tr').each(function() {
+      var playlistItemId = $(this).attr('id');
+      if (playlistItemId == currentPlId) {
+        $(this).addClass("playlist-table-element-playing");
+      } else {
+        $(this).removeClass("playlist-table-element-playing");
+      }
+    });
+  } 
 }
 
 /** Play the clicked element from the playlist. */
