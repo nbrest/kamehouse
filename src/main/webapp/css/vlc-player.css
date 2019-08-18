@@ -37,6 +37,7 @@
   opacity: 1;
 }
 
+/** ::-webkit-slider-thumb for Chrome */
 #audio-controls #volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -48,7 +49,7 @@
   background: #141414;
   cursor: pointer;
 }
-
+/** ::-moz-range-thumb and ::-moz-range-progress for Firefox */
 #audio-controls #volume-slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
@@ -58,6 +59,12 @@
   background: #141414;
   cursor: pointer;
 }
+#audio-controls #volume-slider::-moz-range-progress {
+	width: 25px;
+  height: 25px;
+  background: #343434; 
+}
+
 
 #audio-controls #current-volume {
   display: inline-block;
@@ -145,6 +152,11 @@
   border-widh: 10px;
   background: #141414;
   cursor: pointer;
+}
+#media-time #time-slider::-moz-range-progress {
+  width: 25px;
+  height: 25px;
+  background: #343434; 
 }
 
 #media-time #current-time {
