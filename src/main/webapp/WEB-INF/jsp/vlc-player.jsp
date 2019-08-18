@@ -148,10 +148,10 @@
       onclick="window.location.href='/kame-house/admin/server-management'">
       <img class="btn-img" src="/kame-house/img/pc/server-gray.png"/> Management  
     </button>
-    
-    <input type="button" onclick="reloadPlaylist()"
-      value="Reload Playlist" class="btn btn-outline-info btn-borderless" />
-      
+    <button class="btn btn-outline-success btn-margins btn-borderless"
+      onclick="toggleDebugMode()">
+      <img class="btn-img" src="/kame-house/img/other/debug-btn-success.png"/> Mode  
+    </button> 
     <button onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)" 
       class="btn btn-outline-danger btn-margins btn-borderless">
       Close <img class="btn-img" src="/kame-house/img/mplayer/vlc-red.png"/>
@@ -159,9 +159,13 @@
     </div>
     </div>
     
-    <div id="debug-status" class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
+    <div id="debug-mode" class="bg-darker-kh pd-15-d-kh pd-15-m-kh hidden-kh">
     <div class="default-layout">
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
+      <button class="btn btn-outline-info btn-margins btn-borderless fl-r-d-kh"
+        onclick="reloadPlaylist()">
+        <img class="btn-img" src="/kame-house/img/other/sync-btn-info.png"/> Playlist  
+      </button>
       <div id="api-call-output"></div>
     </div>
     </div>

@@ -377,5 +377,14 @@ function toggleShowOrHidePlaylistContent() {
   playlistCollapsibleContent.classList.toggle("playlist-collapsible-content-active");
 } 
 
+/** ----- Debug mode functions ----------------------------------------------------------- */
+
+/** Toggle debug mode. */
+function toggleDebugMode() { 
+  //console.log("Toggled debug mode.")
+  var debugModeDiv = document.getElementById("debug-mode");
+  debugModeDiv.classList.toggle("hidden-kh");
+} 
+
 /** Call main. */
 $(document).ready(main);
