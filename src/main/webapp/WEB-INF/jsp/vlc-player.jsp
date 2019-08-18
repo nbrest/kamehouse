@@ -68,8 +68,9 @@
       <colgroup>
         <col class="w-10-pc-kh" />
         <col class="w-10-pc-kh" />
-        <col class="w-60-pc-kh" />
+        <col class="w-50-pc-kh" />
         <col class="w-10-pc-kh" />
+        <col class="w-10-pc-kh" /> 
         <col class="w-10-pc-kh" /> 
       </colgroup>
       <tr>
@@ -88,6 +89,9 @@
       <td>  
         <div id="current-volume"></div>
       </td>
+      <td> 
+        <img src="/kame-house/img/mplayer/audio-track-cycle-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'audio-track')"/>
+      </td>
       </tr> 
     </table>
     <table class="table-mplayer-btns-kh">
@@ -102,6 +106,9 @@
           <img src="/kame-house/img/mplayer/repeat-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_loop')"/>
         </td>
         <td> 
+          <img src="/kame-house/img/mplayer/subtitles-cycle-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'subtitle-track')"/> 
+        </td>
+        <td> 
           <img src="/kame-house/img/mplayer/fullscreen-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"/>
         </td>
         <td> 
@@ -109,6 +116,9 @@
         </td>
         <td> 
           <img src="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')"/> 
+        </td>
+        <td> 
+          <img src="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'aspect-ratio')"/>
         </td>
       </tr>
     </table>

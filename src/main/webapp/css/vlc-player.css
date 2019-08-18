@@ -29,7 +29,7 @@
 }
 @media (max-width : 900px) {
   #audio-controls #volume-slider {
-    width: 210px;
+    width: 100%;
   }
 }
 
