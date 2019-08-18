@@ -95,8 +95,20 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 # ChangeLog:
 
 #### v0.21
-- Improved vlc-player UI
+- Completely changed vlc player UI
+- Added debug mode toggle to hide/show debug table
+- Added collapsible playlist with clickable items and highlighted current item
+- Updated animations on buttons in vlc player
+- Added sliding bars to display and set time and volume
+- Added filename being played display
+- Added current/total play time display
+- Updated existing buttons
+- Added more buttons with more functionality (cycle audio, cycle track, cycle aspect ratio and others)
 - Added support for websockets
+- Created test websockets page
+- Made contact us and newsletter use a darker theme
+- Updated favicon
+- Fixed some bugs
 #### v0.20
 - Deployed for the first time to https://www.nicobrest.com/kame-house/ :) 
 - Updated initial version of vlc player page with most functionality
