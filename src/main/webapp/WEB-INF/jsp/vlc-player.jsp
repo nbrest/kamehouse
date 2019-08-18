@@ -36,7 +36,7 @@
       <table>
       <tr>
       <td>
-        <div id="time-slider-wrapper"><input type="range" min="0" max="1000" value="500" id="time-slider" onmouseup="setTimeFromSlider(this.value)" ontouchend="setTimeFromSlider(this.value)"></div> 
+        <div id="time-slider-wrapper"><input type="range" min="0" max="1000" value="500" id="time-slider" oninput="updateTimeWhileSliding(this.value)" onmouseup="setTimeFromSlider(this.value)" ontouchend="setTimeFromSlider(this.value)"></div> 
       </td>
       </tr>
       </table>
@@ -80,7 +80,7 @@
         <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"/> 
 	    </td> 
       <td>  
-        <div id="volume-slider-wrapper"><input type="range" min="0" max="512" value="256" id="volume-slider" onmouseup="setVolumeFromSlider(this.value)"  ontouchend="setVolumeFromSlider(this.value)"></div> 
+        <div id="volume-slider-wrapper"><input type="range" min="0" max="512" value="256" id="volume-slider" oninput="updateVolumePercentage(this.value)" onmouseup="setVolumeFromSlider(this.value)"  ontouchend="setVolumeFromSlider(this.value)"></div> 
 	    </td>
       <td>   
         <img class="btn-audio" src="/kame-house/img/mplayer/audio-up-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')"/>           

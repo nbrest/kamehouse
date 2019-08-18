@@ -261,8 +261,9 @@ function setTimeFromSlider(value) {
 }
 /** Update the displayed current time while I'm sliding */
 function updateTimeWhileSliding(value) {
-  console.log("current time: " + value);
-  $("#current-time").text(convertSecondsToHsMsSs(value));  
+  //console.log("current time: " + value);
+  var currentTime = document.getElementById("current-time"); 
+  currentTime.innerHTML = convertSecondsToHsMsSs(value);
 }
 
 /** Get media name from VlcRcStatus. */
@@ -294,7 +295,7 @@ function updateVolumePercentage(value) {
   var currentVolume = document.getElementById("current-volume"); 
   currentVolume.innerHTML = volumePercentaje + "%";
 }
-
+ 
 /** ----- Display playlist functions ----------------------------------------------------------- **/
 
 /** Reload current playlist from server. */
