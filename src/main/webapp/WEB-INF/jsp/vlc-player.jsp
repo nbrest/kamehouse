@@ -75,7 +75,7 @@
       </colgroup>
       <tr>
       <td> 
-	      <img class="btn-audio" src="/kame-house/img/mplayer/mute-red-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"/> 
+	      <img class="btn-audio" src="/kame-house/img/mplayer/mute-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')"/> 
 	    </td>  
       <td>   
         <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')"/> 
