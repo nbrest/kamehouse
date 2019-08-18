@@ -94,6 +94,7 @@ function executeDelete(url, requestBody) {
     success: function(data) {
       //console.debug(JSON.stringify(data));  
       getVlcRcStatus();
+      asyncReloadPlaylist(5000);
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {

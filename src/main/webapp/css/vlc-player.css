@@ -233,7 +233,7 @@
   width: 100%;
   border: none;
   text-align: left;
-  outline: none;
+  outline: none !important;
   font-size: 15px;
   border-radius: 0px;
 } 
@@ -245,29 +245,29 @@
     margin-left: 5px;
   } 
    
-  .playlist-collapsible-active, .playlist-collapsible:hover {
+  .playlist-collapsible-active, .playlist-collapsible:hover { 
     background-color: #2b0b0b;
     color: #c0c0c0;
   } 
-  .playlist-collapsible-active:after {
+  .playlist-collapsible-active:after { 
     content: "\2212";
-    color: #c0c0c0;
+    color: #c0c0c0; 
   } 
   
-  .playlist-collapsible-content {
+  .playlist-collapsible-content { 
     border: 0;
     padding: 0 18px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
-  .playlist-collapsible-content-active {
-  border:1px solid #343434;
+  .playlist-collapsible-content-active { 
+    border:1px solid #343434;
     max-height: 500px;
     overflow: scroll;
   }  
 	@media (max-width: 900px) {
-	  .playlist-collapsible-content-active {
+	  .playlist-collapsible-content-active { 
       border:1px solid #343434;
 	    max-height: 450px;
 	    overflow: scroll;
@@ -278,7 +278,7 @@
   padding-top: 10px;
   padding-left: 10px;
   padding-right:10px;
-  padding-bottom: 0; 
+  padding-bottom: 0;
 }
 
 .playlist-table {}
