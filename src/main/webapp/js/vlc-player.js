@@ -250,6 +250,9 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
     $("#volume-slider").val(vlcRcStatus.volume);
     updateVolumePercentage(vlcRcStatus.volume);
   } 
+  
+  //TODO if performance gets laggy, see if not updating current pls item every second helps a bit. This shouldn't have much impact though.
+  updateCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
 }
 
 /** Set the current time from the slider's value. */
@@ -335,10 +338,23 @@ function displayPlaylist(playlistArray) {
       playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
       playlistElementButton.text(currentPlaylist[i].name);
       playlistElementButton.click({id: currentPlaylist[i].id}, clickEventOnPlaylistRow);
-      var playlistTableRow = $('<tr>').append($('<td>').append(playlistElementButton));
+      var playlistTableRow = $('<tr id=' + currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
       $playlistTableBody.append(playlistTableRow);
     } 
   } 
+  updateCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
+}
+
+function updateCurrentPlayingItemInPlaylist(currentPlId) {
+  //console.log("currentPlId " + currentPlId);
+  $('#playlist-table-body tr').each(function() {
+    var playlistItemId = $(this).attr('id');
+    if (playlistItemId == currentPlId) {
+      $(this).addClass("playlist-table-element-playing");
+    } else {
+      $(this).removeClass("playlist-table-element-playing");
+    }
+  });
 }
 
 /** Play the clicked element from the playlist. */

@@ -255,8 +255,9 @@
   } 
   
   .playlist-collapsible-content { 
+    background: #101517;
     border: 0;
-    padding: 0 18px;
+    padding: 0;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
@@ -269,7 +270,7 @@
 	@media (max-width: 900px) {
 	  .playlist-collapsible-content-active { 
       border:1px solid #343434;
-	    max-height: 450px;
+	    max-height: 380px;
 	    overflow: scroll;
 	  }
 	}  
@@ -281,12 +282,18 @@
   padding-bottom: 0;
 }
 
-.playlist-table {}
+.playlist-table {
+	width: 100%;
+}
 @media (max-width: 900px) {
   .playlist-table {
     display: block;
   }
 }  
+
+.playlist-table-element-playing {
+	background-color: #511c1c; 
+}
 
 #playlist-wrapper {
   padding-top: 0;

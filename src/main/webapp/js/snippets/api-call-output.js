@@ -44,7 +44,7 @@ function displayRequestPayload(apiResponsePayload, url, requestType, requestBody
   $apiCallOutput.append($apiCallOutputTable);
   // Output payload.
   var $outputPayloadButton = $('<button class="collapsible-kh">');
-  $outputPayloadButton.text("Output Payload");
+  $outputPayloadButton.text("Response Body");
   $outputPayloadContent = $('<div class="collapsible-kh-content">');
   $outputPayloadContent.append($('<pre class="collapsible-kh-content-pre">').text(JSON.stringify(apiResponsePayload, null, 2)));
   $apiCallOutput.append($outputPayloadButton);

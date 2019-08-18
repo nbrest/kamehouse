@@ -117,12 +117,12 @@
     
     <div class="default-layout bg-darker-kh">
     <div id="playlist-selector"> 
-    <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
-    <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
-    <button onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
-      class="btn btn-outline-primary btn-margins btn-borderless" >
-      Load <img class="btn-img" src="/kame-house/img/mplayer/playlist-blue.png"/>
-    </button>
+      <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
+      <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
+      <button onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
+        class="btn btn-outline-primary btn-margins btn-borderless" >
+        Load <img class="btn-img" src="/kame-house/img/mplayer/playlist-blue.png"/>
+      </button>
     </div> 
     </div> 
     
