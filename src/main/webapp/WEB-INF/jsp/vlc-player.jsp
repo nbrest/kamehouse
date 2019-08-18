@@ -115,8 +115,8 @@
     </div>
     </div>
     
-    <div class="bg-darker-kh mar-5-d-kh mar-5-m-kh">
-    <div class="default-layout pd-15-d-kh pd-15-m-kh pls-section"> 
+    <div class="default-layout bg-darker-kh">
+    <div id="playlist-selector"> 
     <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
     <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
     <button onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
@@ -126,23 +126,43 @@
     </div> 
     </div> 
     
+    <div class="default-layout">
+    <div class="bg-darker-kh">
+      <div id="playlist-wrapper">
+        <button id="playlist-collapsible" class="playlist-collapsible" 
+          onclick="toggleShowOrHidePlaylistContent()">Playlist</button>
+        <div id="playlist-collapsible-content" class="playlist-collapsible-content">
+          <table id="playlist-table" class="playlist-table">
+            <tbody id="playlist-table-body">
+              <tr><td>No playlist loaded yet. Mada mada dane.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    </div>
+    
     <div class="pd-15-d-kh pd-15-m-kh">
-    <div class="default-layout ac-section"> 
+    <div class="default-layout admin-cmds-section"> 
     <button class="btn btn-outline-secondary btn-margins btn-borderless"
       onclick="window.location.href='/kame-house/admin/server-management'">
       <img class="btn-img" src="/kame-house/img/pc/server-gray.png"/> Management  
     </button>
+    
+    <input type="button" onclick="reloadPlaylist()"
+      value="Reload Playlist" class="btn btn-outline-info btn-borderless" />
+      
     <button onclick="executeDelete('/kame-house/api/v1/admin/vlc', null)" 
       class="btn btn-outline-danger btn-margins btn-borderless">
       Close <img class="btn-img" src="/kame-house/img/mplayer/vlc-red.png"/>
     </button>
     </div>
     </div>
-
-    <div id="debug-status" class="bg-darker-kh pd-15-d-kh pd-15-m-kh hidden-kh">
+    
+    <div id="debug-status" class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout">
-    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Status</h5>
-    <div id="api-call-output"></div>
+      <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
+      <div id="api-call-output"></div>
     </div>
     </div>
   </div>

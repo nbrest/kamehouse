@@ -7,79 +7,71 @@
 /** Global variables. */
 var videoPlaylists = [];
 var videoPlaylistCategories = [];
+
 var stompClient = null;
 var vlcRcStatus = {};
 var isWebSocketConnected = false; 
 var isPlaying = true;
 
+var currentPlaylist = [];
+
 /** Main function. */
 var main = function() { 
+  setupWebSocketForVlcStatus();
   updateVolumePercentage(document.getElementById("volume-slider").value);
   populateVideoPlaylistCategories();
-  setupWebSocketForVlcStatus();
+  reloadPlaylist();
 };
 
 /** ---- General REST request functions --------------------------------------------- **/
-function executeGet(url) {
-  //console.debug(getTimestamp() + " : Executing GET on " + url);
-  //console.debug(url);
-  $.get(url)
-    .success(function(result) { 
-      getVlcRcStatus();
-      displayRequestPayload(result, url, "GET", null);
-    })
-    .error(function(jqXHR, textStatus, errorThrown) {
-      console.error(JSON.stringify(jqXHR));
-      displayErrorExecutingRequest();
-    });
-  setCollapsibleContent();
-}
 
+/** Reload VLC with the current selected playlist from the dropdowns. */
 function executeAdminVlcPostWithSelectedPlaylist(url, command) {
   var playlistSelected = document.getElementById("playlist-dropdown").value;
   //console.debug("playlistSelected " + playlistSelected);
-  var requestBody = JSON.stringify({
+  var requestBody = {
     command: command,
     file: playlistSelected
-  });
+  };
   executePost(url, requestBody);
 }
 
-function executeAdminVlcPost(url, command, file) {
-  var requestBody = JSON.stringify({
-    command: command,
-    file: file
-  });
-  executePost(url, requestBody);
-}
-
+/** Create a vlcrc command with the parameters and execute the request to the server. */
 function executeVlcRcCommandPost(url, name) {
-  var requestBody = JSON.stringify({
+  var requestBody = {
     name: name
-  });
+  };
   executePost(url, requestBody);
 }
 
+/** Create a vlcrc command with the parameters and execute the request to the server. */
 function executeVlcRcCommandPost(url, name, val) {
-  var requestBody = JSON.stringify({
+  var requestBody = {
     name: name,
     val: val
-  });
+  };
   executePost(url, requestBody);
 }
 
+/** Execute a POST request to the specified url with the specified request body. */
 function executePost(url, requestBody) {
   //console.debug(getTimestamp() + " : Executing POST on " + url);
   requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
     url: url,
-    data: requestBody,
+    data: JSON.stringify(requestBody),
     headers: requestHeaders,
     success: function(data) {
       //console.debug(JSON.stringify(data));
       //console.debug(JSON.stringify(data, null, 2));
-      getVlcRcStatus();
+      getVlcRcStatus(); 
+      if ((!isEmpty(requestBody.command) && requestBody.command == 'vlc_start') || 
+          (!isEmpty(requestBody.name) && requestBody.name == 'pl_stop')) {
+        // If command is vlc_start or pl_stop I'm restarting vlc or stopping it. 
+        // Relad playlist (after a few seconds to give it time to restart vlc).
+        asyncReloadPlaylist(5000);
+      } 
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function(data) {
@@ -90,6 +82,7 @@ function executePost(url, requestBody) {
   setCollapsibleContent();
 }
 
+/** Execute a DELETE request to the specified url with the specified request body. */
 function executeDelete(url, requestBody) {
   //console.debug(getTimestamp() + " : Executing DELETE on " + url);
   requestHeaders = getCsrfRequestHeadersObject();
@@ -189,7 +182,7 @@ function connectWebSocket() {
 
 /** Disconnect the websocket. */
 function disconnectWebSocket() {
-    if (stompClient !== null) {
+    if (!isEmpty(stompClient)) {
         stompClient.disconnect();
         isWebSocketConnected = false;
     }
@@ -219,7 +212,7 @@ async function pullVlcRcStatusLoop() {
     if (isWebSocketConnected && isPlaying) {
       getVlcRcStatus();
     }  
-    if (vlcRcStatus.information != null && vlcRcStatus.information != undefined) {
+    if (!isEmpty(vlcRcStatus.information)) {
       //isPlaying = true;
       vlcRcStatusPullWaitTimeMs = 1000;
       failedCount = 0;
@@ -243,7 +236,7 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
   $("#media-title").text(mediaName.filename);
   
   // Update media playing time
-  if (vlcRcStatus.time != null && vlcRcStatus.time != undefined) { 
+  if (!isEmpty(vlcRcStatus.time)) { 
     $("#current-time").text(convertSecondsToHsMsSs(vlcRcStatus.time));
     $("#time-slider").val(vlcRcStatus.time);
     
@@ -252,7 +245,7 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
   } 
   
   // Update volume percentage and slider.
-  if (vlcRcStatus.volume != null && vlcRcStatus.volume != undefined) {
+  if (!isEmpty(vlcRcStatus.volume)) {
     $("#volume-slider").val(vlcRcStatus.volume);
     updateVolumePercentage(vlcRcStatus.volume);
   } 
@@ -274,9 +267,9 @@ function getMediaName() {
   var mediaName = {};
   mediaName.filename = "No media loaded";
   mediaName.title = "No media loaded";
-  if (vlcRcStatus.information != null && vlcRcStatus.information.category != null) {
+  if (!isEmpty(vlcRcStatus.information)) {
       vlcRcStatus.information.category.forEach(function (category) {
-        if (category.filename != undefined && category.filename != null) {
+        if (!isEmpty(category.filename)) {
           mediaName.filename = category.filename;
           mediaName.title = category.title;
         }
@@ -298,8 +291,91 @@ function updateVolumePercentage(value) {
   var currentVolume = document.getElementById("current-volume"); 
   currentVolume.innerHTML = volumePercentaje + "%";
 }
- 
-/**
- * Call main.
- */
+
+/** ----- Display playlist functions ----------------------------------------------------------- **/
+
+/** Reload current playlist from server. */
+function reloadPlaylist() {
+  var getPlaylistUrl = '/kame-house/api/v1/vlc-rc/players/localhost/playlist';
+  //console.debug(getTimestamp() + " : Reloading playlist");
+  $.get(getPlaylistUrl)
+    .success(function(result) {  
+      displayPlaylist(result);
+      displayRequestPayload(result, getPlaylistUrl, "GET", null);
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+      console.error(JSON.stringify(jqXHR));
+      displayErrorGettingPlaylist();
+    });
+}
+
+/** Reload playlist after the specified ms. 
+ * Call this function instead of reloadPlaylist() directly
+ * if I need to give VLC player to restart so I get the updated playlist. 
+ * I will usually need this after a vlc_start. */
+async function asyncReloadPlaylist(sleepTime) {
+  await sleep(sleepTime);
+  reloadPlaylist();
+}
+
+/** Display playlist. */
+function displayPlaylist(playlistArray) {
+  currentPlaylist = playlistArray;
+  // Clear playlist content, if it has.
+  emptyPlaylistTableBody();
+  // Add the new playlist items received from the server.
+  var $playlistTableBody = $('#playlist-table-body'); 
+  if (isEmptyArray(currentPlaylist)) {
+    var playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet. Mada mada dane :)"));
+    $playlistTableBody.append(playlistTableRow);
+  } else {
+    for (var i = 0; i < currentPlaylist.length ; i++) {
+      var playlistElementButton = $('<button>');
+      playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
+      playlistElementButton.text(currentPlaylist[i].name);
+      playlistElementButton.click({id: currentPlaylist[i].id}, clickEventOnPlaylistRow);
+      var playlistTableRow = $('<tr>').append($('<td>').append(playlistElementButton));
+      $playlistTableBody.append(playlistTableRow);
+    } 
+  } 
+}
+
+/** Play the clicked element from the playlist. */
+function clickEventOnPlaylistRow(event) {
+  //console.log("Play playlist id: " + event.data.id);
+  var requestBody = {
+    name: 'pl_play',
+    id: event.data.id
+  };
+  executePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', requestBody);
+}
+
+/** Display error getting playlist from the server. */
+function displayErrorGettingPlaylist() {
+  emptyPlaylistTableBody();
+  var $playlistTableBody = $('#playlist-table-body'); 
+  var $errorTableRow = $("<tr>").append($('<td>').text(getTimestamp() +
+  " : Error getting playlist from the server. Please check server logs."));
+  $playlistTableBody.append($errorTableRow);
+  console.error(getTimestamp() + " : Error getting playlist from the server. Please check server logs.");
+}
+
+/** Empty Playlist table body. */
+function emptyPlaylistTableBody() {
+  $("#playlist-table-body").empty();  
+}
+
+/** Toggle playlist collapsible active status and show or hide collapsible content. */
+// For an example of a collapsible element that expands to full vertical height, 
+// check the api-call-output example in the test-apis page. This one expands to a fixed height.
+function toggleShowOrHidePlaylistContent() {
+  //console.log(getTimestamp() + " clicked playlist button");
+  var playlistCollapsibleButton = document.getElementById("playlist-collapsible");
+  playlistCollapsibleButton.classList.toggle("playlist-collapsible-active");
+  
+  var playlistCollapsibleContent = document.getElementById("playlist-collapsible-content");
+  playlistCollapsibleContent.classList.toggle("playlist-collapsible-content-active");
+} 
+
+/** Call main. */
 $(document).ready(main);

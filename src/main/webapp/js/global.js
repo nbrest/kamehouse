@@ -1,27 +1,21 @@
 /**
- * Global js functions for all pages.
+ * Global js variables and functions for all pages.
  * 
  * @author nbrest
  */
 function main() {}
 
-/**
- * Site under construction message.
- */
+/** Site under construction message. */
 function siteUnderCostructionAlert() {
   alert('The site is still under construction and this functionality has not been implemented yet.');
 }
 
-/**
- * Get timestamp.
- */
+/** Get timestamp. */
 function getTimestamp() {
   return new Date().toISOString().replace("T", " ").slice(0, 19);
 }
 
-/**
- * Convert input in seconds to hh:mm:ss output. 
- */
+/** Convert input in seconds to hh:mm:ss output. */
 function convertSecondsToHsMsSs(seconds) {
   return new Date(seconds * 1000).toISOString().substr(11, 8);
 }
@@ -35,25 +29,19 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/**
- * Get CSRF token.
- */
+/** Get CSRF token. */
 function getCsrfToken() {
   var token = $("meta[name='_csrf']").attr("content");
   return token;
 }
 
-/**
- * Get CSRF header.
- */
+/** Get CSRF header. */
 function getCsrfHeader() {
   var header = $("meta[name='_csrf_header']").attr("content");
   return header;
 }
 
-/**
- * Get CSRF standard requestHeaders object.
- */
+/** Get CSRF standard requestHeaders object. */
 function getCsrfRequestHeadersObject() {
   var csrfHeader = getCsrfHeader();
   var csrfToken = getCsrfToken();
@@ -65,7 +53,15 @@ function getCsrfRequestHeadersObject() {
   return requestHeaders;
 }
 
-/**
- * Call main.
- */
+/** Checks if a variable is undefined or null. */
+function isEmpty(val) {
+  return (val === undefined || val == null);
+}
+
+/** Checks if an array is empty. */
+function isEmptyArray(val) {
+  return (isEmpty(val) || val.length <= 0);
+}
+
+/** Call main. */
 $(document).ready(main);

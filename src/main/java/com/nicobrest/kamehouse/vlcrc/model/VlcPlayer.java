@@ -539,11 +539,13 @@ public class VlcPlayer implements Serializable {
     try {
       JsonNode vlcRcPlaylistResponseJson = mapper.readTree(vlcRcPlaylistResponse);
       JsonNode firstChildrenArray = vlcRcPlaylistResponseJson.get("children");
-      if (firstChildrenArray.isArray()) {
+      if (firstChildrenArray != null && firstChildrenArray.isArray() && firstChildrenArray
+          .size() > 0) {
         for (JsonNode firstChildrenNode : firstChildrenArray) {
           if ("Playlist".equals(firstChildrenNode.get("name").asText())) {
             JsonNode playlistArrayNode = firstChildrenNode.get("children");
-            if (playlistArrayNode.isArray()) {
+            if (playlistArrayNode != null && playlistArrayNode.isArray() && playlistArrayNode
+                .size() > 0) {
               for (JsonNode playlistItemNode : playlistArrayNode) {
                 Map<String, Object> playlistItem = new HashMap<String, Object>();
                 playlistItem.put("id", playlistItemNode.get("id").asInt());

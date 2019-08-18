@@ -1,8 +1,8 @@
-.ac-section {
+.admin-cmds-section {
 	width: 55%;
 }
 @media (max-width : 900px) {
-  .ac-section {
+  .admin-cmds-section {
     width: 100%;
   }
 }
@@ -81,6 +81,12 @@
   margin-bottom: 3px;
   cursor: pointer;
 }
+
+.btn-playlist {
+	width: 100%;
+	text-align: left;
+}
+
 #media-buttons {
 	padding-top: 10px;
 }
@@ -160,15 +166,6 @@
   } 
 }
 
-.pls-section {
-  width: 55%;
-}
-@media (max-width : 900px) {
-  .pls-section {
-    width: 100%;
-  }
-}
-
 .table-mplayer-btns-kh { 
 	text-align: center; 
 	margin: auto;
@@ -226,3 +223,75 @@
     margin-bottom: 5px;
   }
 }
+
+/** Playlist begin.*/
+.playlist-collapsible {
+  background-color: #1b1b1f;
+  color: #646464;
+  cursor: pointer;
+  padding: 5px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  border-radius: 0px;
+} 
+  .playlist-collapsible:after {
+    content: '\002B';
+    color: #646464;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  } 
+   
+  .playlist-collapsible-active, .playlist-collapsible:hover {
+    background-color: #2b0b0b;
+    color: #c0c0c0;
+  } 
+  .playlist-collapsible-active:after {
+    content: "\2212";
+    color: #c0c0c0;
+  } 
+  
+  .playlist-collapsible-content {
+    border: 0;
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+  .playlist-collapsible-content-active {
+  border:1px solid #343434;
+    max-height: 500px;
+    overflow: scroll;
+  }  
+	@media (max-width: 900px) {
+	  .playlist-collapsible-content-active {
+      border:1px solid #343434;
+	    max-height: 450px;
+	    overflow: scroll;
+	  }
+	}  
+
+#playlist-selector {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right:10px;
+  padding-bottom: 0; 
+}
+
+.playlist-table {}
+@media (max-width: 900px) {
+  .playlist-table {
+    display: block;
+  }
+}  
+
+#playlist-wrapper {
+  padding-top: 0;
+  padding-left: 10px;
+  padding-right:10px;
+  padding-bottom: 10px; 
+} 
+/** Playlist end */

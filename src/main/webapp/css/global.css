@@ -337,3 +337,32 @@ ul {
 .w-60-pc-kh {
   width: 60%; 
 } 
+
+/** ----- Set scrollbar styles for different browsers ---------------------------------------- */
+
+/** Set scrollbar style FIREFOX */
+* {
+  scrollbar-color: #d90000 #2E3645 !important;
+  scrollbar-width: thin !important;
+}
+* {
+  scrollbar-width: thin !important;
+}
+/** Set scrollbar style CHROME */
+::-webkit-scrollbar {
+  width: 7px;
+}
+@media(max-width: 900px){
+  ::-webkit-scrollbar  {
+    width: 2px;
+  }
+}
+::-webkit-scrollbar-track {
+  background: #2E3645;
+}
+::-webkit-scrollbar-thumb {
+  background: #d90000; 
+}
+::-webkit-scrollbar-corner {
+  background: #2E3645;
+}
