@@ -173,7 +173,7 @@ public class VlcPlayer implements Serializable {
   }
 
   /**
-   * Gets the current playlist.
+   * Browse through the server running vlc.
    */
   public List<Map<String, Object>> browse(String uri) {
     StringBuffer browseUrl = new StringBuffer();
@@ -576,7 +576,7 @@ public class VlcPlayer implements Serializable {
     try {
       JsonNode vlcRcFileListResponseJson = mapper.readTree(parsedVlcRcPlaylistResponse);
       JsonNode elementArray = vlcRcFileListResponseJson.get("element");
-      if (elementArray.isArray()) {
+      if (elementArray != null && elementArray.isArray()) {
         for (JsonNode fileListItemNode : elementArray) {
           Map<String, Object> fileListItem = new HashMap<String, Object>();
           fileListItem.put("type", fileListItemNode.get("type").asText());
