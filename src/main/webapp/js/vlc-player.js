@@ -229,6 +229,10 @@ async function pullVlcRcStatusLoop() {
 
 /** Update vlc player status based on the VlcRcStatus object. */
 function updateVlcPlayerStatus(vlcRcStatusResponse) {
+  if (isEmpty(vlcRcStatusResponse)) {
+    //console.log("No vlcRcStatus update received from the server.");
+    return;
+  }
   vlcRcStatus = vlcRcStatusResponse;
   //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
   
@@ -250,6 +254,9 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
     $("#volume-slider").val(vlcRcStatus.volume);
     updateVolumePercentage(vlcRcStatus.volume);
   } 
+  
+  // Update media buttons with state
+  updateMediaButtonsWithState();
   
   highlightCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
 }
@@ -294,6 +301,76 @@ function updateVolumePercentage(value) {
   let volumePercentaje = Math.floor(value * 200/512);
   var currentVolume = document.getElementById("current-volume"); 
   currentVolume.innerHTML = volumePercentaje + "%";
+}
+
+function updateMediaButtonsWithState() {
+  // Update aspect-ratio 16:9 button
+  if (vlcRcStatus.aspectRatio == "16:9") {
+    setMediaButtonPressed('media-btn-aspect-ratio-16-9'); 
+  } else { 
+    setMediaButtonUnpressed('media-btn-aspect-ratio-16-9');
+  } 
+  
+  // Update aspect-ratio 4:3 button
+  if (vlcRcStatus.aspectRatio == "4:3") {
+    setMediaButtonPressed('media-btn-aspect-ratio-4-3'); 
+  } else { 
+    setMediaButtonUnpressed('media-btn-aspect-ratio-4-3'); 
+  } 
+  
+  // Update fullscreen button
+  if (vlcRcStatus.fullscreen) {
+    setMediaButtonPressed('media-btn-fullscreen'); 
+  } else { 
+    setMediaButtonUnpressed('media-btn-fullscreen'); 
+  }   
+  
+  // Update mute button
+  if (vlcRcStatus.volume == 0) {
+    setMediaButtonPressed('media-btn-mute'); 
+  } else {
+    setMediaButtonUnpressed('media-btn-mute'); 
+  } 
+  
+  // Update repeat 1 button
+  if (vlcRcStatus.repeat) {
+    setMediaButtonPressed('media-btn-repeat-1'); 
+  } else { 
+    setMediaButtonUnpressed('media-btn-repeat-1'); 
+  } 
+  
+  // Update repeat all button
+  if (vlcRcStatus.loop) {
+    setMediaButtonPressed('media-btn-repeat'); 
+  } else { 
+    setMediaButtonUnpressed('media-btn-repeat'); 
+  } 
+  
+  // Update shuffle button
+  if (vlcRcStatus.random) {
+    setMediaButtonPressed('media-btn-shuffle'); 
+  } else { 
+    setMediaButtonUnpressed('media-btn-shuffle'); 
+  } 
+  
+  // Update stop button
+  if (vlcRcStatus.state == "stopped") {
+    setMediaButtonPressed('media-btn-stop'); 
+  } else { 
+    setMediaButtonUnpressed('media-btn-stop'); 
+  } 
+}
+
+/** Set media button pressed */
+function setMediaButtonPressed(mediaButtonId) {
+  $('#' + mediaButtonId).removeClass('media-btn-unpressed');
+  $('#' + mediaButtonId).addClass('media-btn-pressed');
+}
+
+/** Set media button unpressed */
+function setMediaButtonUnpressed(mediaButtonId) {
+  $('#' + mediaButtonId).removeClass('media-btn-pressed');
+  $('#' + mediaButtonId).addClass('media-btn-unpressed');
 }
  
 /** ----- Display playlist functions ----------------------------------------------------------- **/
@@ -405,7 +482,7 @@ function toggleDebugMode() {
   //console.log("Toggled debug mode.")
   var debugModeDiv = document.getElementById("debug-mode");
   debugModeDiv.classList.toggle("hidden-kh");
-} 
-
+}  
+ 
 /** Call main. */
 $(document).ready(main);
