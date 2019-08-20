@@ -274,6 +274,7 @@
 
 .playlist-selector {
   color: #868686;
+  background: #1a242a;
 }
 
 #playlist-category-dropdown {
@@ -291,7 +292,7 @@
 }
 @media (max-width: 900px) {
   #playlist-dropdown {
-    min-width: 240px;
+    min-width: 130px;
     margin-top: 7px;
     margin-right: 0;
     margin-bottom: 7px;
