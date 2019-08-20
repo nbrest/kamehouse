@@ -256,7 +256,9 @@
 }  
 
 .playlist-table-element-playing {
-  background-color: #511c1c; 
+  background-color: #9d0000; 
+  color: black;
+  font-weight: bolder;
 }
 
 #playlist-wrapper {

@@ -430,9 +430,9 @@ function highlightCurrentPlayingItemInPlaylist(currentPlId) {
     $('#playlist-table-body tr').each(function() {
       var playlistItemId = $(this).attr('id');
       if (playlistItemId == currentPlId) {
-        $(this).addClass("playlist-table-element-playing");
+        $(this).children().children().addClass("playlist-table-element-playing");
       } else {
-        $(this).removeClass("playlist-table-element-playing");
+        $(this).children().children().removeClass("playlist-table-element-playing");
       }
     });
   } 
