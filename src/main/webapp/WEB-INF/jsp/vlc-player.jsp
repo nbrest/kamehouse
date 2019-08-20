@@ -125,17 +125,6 @@
     </div>
     </div>
     
-    <div class="default-layout bg-darker-kh">
-    <div id="playlist-selector"> 
-      <select class="select-kh-dark btn-margins" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
-      <select class="select-kh-dark btn-margins" id="playlist-dropdown" name="playlist"></select>  
-      <button onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
-        class="btn btn-outline-primary btn-margins btn-borderless" >
-        Load <img class="btn-img" src="/kame-house/img/mplayer/playlist-blue.png"/>
-      </button>
-    </div> 
-    </div> 
-    
     <div class="default-layout">
     <div class="bg-darker-kh">
       <div id="playlist-wrapper">
@@ -148,11 +137,18 @@
             </tbody>
           </table>
         </div>
+      </div> 
+      <div id="playlist-selector"> 
+        <select class="select-kh-dark playlist-selector" id="playlist-category-dropdown" name="playlist-category" onchange="populateVideoPlaylists()"></select>  
+        <select class="select-kh-dark playlist-selector" id="playlist-dropdown" name="playlist"></select>  
+        <button onclick="executeAdminVlcPostWithSelectedPlaylist('/kame-house/api/v1/admin/vlc', 'vlc_start')"
+          class="btn btn-outline-primary btn-margins btn-borderless" >
+          Load <img class="btn-img" src="/kame-house/img/mplayer/playlist-blue.png"/>
+        </button>
       </div>
-    </div>
-    </div>
-    
-    <div class="pd-15-d-kh pd-15-m-kh">
+    </div> 
+    </div> 
+     
     <div class="default-layout admin-cmds-section"> 
     <button class="btn btn-outline-secondary btn-margins btn-borderless"
       onclick="window.location.href='/kame-house/admin/server-management'">
@@ -166,8 +162,7 @@
       class="btn btn-outline-danger btn-margins btn-borderless">
       Close <img class="btn-img" src="/kame-house/img/mplayer/vlc-red.png"/>
     </button>
-    </div>
-    </div>
+    </div> 
     
     <div id="debug-mode" class="bg-darker-kh pd-15-d-kh pd-15-m-kh hidden-kh">
     <div class="default-layout">
