@@ -25,6 +25,21 @@ var main = function() {
 
 /** ---- General REST request functions --------------------------------------------- **/
 
+/** Execute get on the specified url and display the output in the debug table. */
+function executeGet(url) {
+  console.debug(getTimestamp() + " : Executing GET on " + url);
+  //console.debug(url);
+  $.get(url)
+    .success(function(result) {
+      displayRequestPayload(result, url, "GET", null);
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+      console.error(JSON.stringify(jqXHR));
+      displayErrorExecutingRequest();
+    });
+  setCollapsibleContent();
+}
+
 /** Reload VLC with the current selected playlist from the dropdowns. */
 function executeAdminVlcPostWithSelectedPlaylist(url, command) {
   var playlistSelected = document.getElementById("playlist-dropdown").value;

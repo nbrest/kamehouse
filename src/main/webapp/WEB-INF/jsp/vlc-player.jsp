@@ -167,10 +167,14 @@
     <div id="debug-mode" class="bg-darker-kh pd-15-d-kh pd-15-m-kh hidden-kh">
     <div class="default-layout">
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
-      <button class="btn btn-outline-info btn-margins btn-borderless fl-r-d-kh"
-        onclick="reloadPlaylist()">
-        <img class="btn-img" src="/kame-house/img/other/sync-btn-info.png"/> Playlist  
-      </button>
+      <div id="debug-buttons">
+        <button class="btn btn-outline-info btn-margins btn-borderless fl-r-d-kh"
+          onclick="reloadPlaylist()">
+          <img class="btn-img" src="/kame-house/img/other/sync-btn-info.png"/> Playlist  
+        </button>
+        <button onclick="executeGet('/kame-house/api/v1/vlc-rc/players/localhost/status')"
+        class="btn btn-outline-success btn-margins btn-borderless fl-r-d-kh">Get VlcRcStatus</button>
+      </div>
       <div id="api-call-output"></div>
     </div>
     </div>
