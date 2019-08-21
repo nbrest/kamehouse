@@ -90,7 +90,7 @@
         <div id="current-volume"></div>
       </td>
       <td> 
-        <img src="/kame-house/img/mplayer/audio-track-cycle-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'audio-track')"/>
+        <img class="btn-audio" src="/kame-house/img/mplayer/audio-track-cycle-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'audio-track')"/>
       </td>
       </tr> 
     </table>
