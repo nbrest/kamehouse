@@ -109,7 +109,13 @@ public class VlcRcController {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/status (GET)");
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(vlcPlayerName);
-    return new ResponseEntity<VlcRcStatus>(vlcRcStatus, HttpStatus.OK);
+    ResponseEntity<VlcRcStatus> responseEntity = null; 
+    if (vlcRcStatus != null) { 
+      responseEntity = new ResponseEntity<VlcRcStatus>(vlcRcStatus, HttpStatus.OK);
+    } else {
+      responseEntity = new ResponseEntity<VlcRcStatus>(vlcRcStatus, HttpStatus.NOT_FOUND);
+    }
+    return responseEntity;
   }
 
   /**

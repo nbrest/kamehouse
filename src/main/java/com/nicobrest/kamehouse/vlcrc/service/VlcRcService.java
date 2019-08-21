@@ -33,6 +33,7 @@ public class VlcRcService {
    * Gets the status information of the specified VLC Player.
    */
   public VlcRcStatus getVlcRcStatus(String vlcPlayerName) {
+    // TODO add null checks for vlc players here
     VlcRcStatus vlcRcStatus = vlcPlayerService.getVlcPlayer(vlcPlayerName).getVlcRcStatus();
     return vlcRcStatus;
   }

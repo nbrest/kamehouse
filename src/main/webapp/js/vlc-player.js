@@ -228,6 +228,7 @@ async function pullVlcRcStatusLoop() {
     if (isWebSocketConnected && isPlaying) {
       getVlcRcStatus();
     }  
+    console.log("pullVlcRcStatusLoop vlcRcStatus " + JSON.stringify(vlcRcStatus));
     if (!isEmpty(vlcRcStatus.information)) {
       //isPlaying = true;
       vlcRcStatusPullWaitTimeMs = 1000;
@@ -244,11 +245,12 @@ async function pullVlcRcStatusLoop() {
 
 /** Update vlc player status based on the VlcRcStatus object. */
 function updateVlcPlayerStatus(vlcRcStatusResponse) {
-  if (isEmpty(vlcRcStatusResponse)) {
-    //console.log("No vlcRcStatus update received from the server.");
-    return;
-  }
+  console.log("updateVlcPlayerStatus begin. " + JSON.stringify(vlcRcStatusResponse));
   vlcRcStatus = vlcRcStatusResponse;
+  if (isEmpty(vlcRcStatusResponse)) {
+    console.error("No vlcRcStatus update received from the server. This shouldn't ever execute as I should never receive an empty response.");
+    return;
+  } 
   //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
   
   // Update media title.

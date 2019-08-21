@@ -268,7 +268,7 @@ public class VlcPlayer implements Serializable {
       return responseBody.toString();
     } catch (IOException e) {
       logger.error("Error executing request. Message: " + e.getMessage());
-      return "{}";
+      return null;
     } finally {
       try {
         if (responseReader != null) {
@@ -317,6 +317,10 @@ public class VlcPlayer implements Serializable {
    */
   private VlcRcStatus buildVlcRcStatus(String vlcStatusResponseStr) {
 
+    if (vlcStatusResponseStr == null) {
+      return null;
+    }  
+    
     VlcRcStatus vlcRcStatus = new VlcRcStatus();
     try {
       ObjectMapper mapper = new ObjectMapper();
@@ -521,9 +525,9 @@ public class VlcPlayer implements Serializable {
         information.setCategory(informationCategories);
         vlcRcStatus.setInformation(information);
       }
-
     } catch (IOException e) {
       logger.error("Error parsing input VlcRcStatus");
+      vlcRcStatus = null;
       // e.printStackTrace();
     }
     return vlcRcStatus;
@@ -534,6 +538,9 @@ public class VlcPlayer implements Serializable {
    * format.
    */
   private List<Map<String, Object>> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
+    if (vlcRcPlaylistResponse == null) {
+      return null;
+    }
     List<Map<String, Object>> vlcRcPlaylist = new ArrayList<Map<String, Object>>();
     ObjectMapper mapper = new ObjectMapper();
     try {
