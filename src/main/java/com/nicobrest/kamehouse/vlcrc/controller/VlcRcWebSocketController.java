@@ -1,8 +1,10 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
- 
+
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -16,18 +18,27 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class VlcRcWebSocketController {
- 
+
+  private static final Logger logger = LoggerFactory.getLogger(VlcRcWebSocketController.class);
+
   @Autowired
   private VlcRcService vlcRcService;
-  
+
   /**
    * Process the websocket input request for vlc player status.
    */
   @MessageMapping("/vlc-player/status-in")
   @SendTo("/topic/vlc-player/status-out")
   public VlcRcStatus getVlcRcStatus() throws Exception {
- 
+
+    logger.trace("In WebSocket controller /vlc-player/status-in");
+
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
+    if (vlcRcStatus == null) {
+      // Return an empty object instead of null so the client receives a response and updates 
+      // accordingly. Null doesn't even send a response to the channel.
+      vlcRcStatus = new VlcRcStatus();
+    }
     return vlcRcStatus;
   }
 }

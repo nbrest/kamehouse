@@ -53,14 +53,10 @@ function getCsrfRequestHeadersObject() {
   return requestHeaders;
 }
 
-/** Checks if a variable is undefined or null. */
+/** Checks if a variable is undefined or null, an empty array [] or an empty object {} */
 function isEmpty(val) {
-  return (val === undefined || val == null);
-}
-
-/** Checks if an array is empty. */
-function isEmptyArray(val) {
-  return (isEmpty(val) || val.length <= 0);
+  return (val === undefined || val == null || val.length <= 0 
+		  || (Object.entries(val).length === 0 && val.constructor === Object));
 }
 
 /** Call main. */

@@ -27,15 +27,18 @@ var main = function() {
 
 /** Execute get on the specified url and display the output in the debug table. */
 function executeGet(url) {
-  console.debug(getTimestamp() + " : Executing GET on " + url);
-  //console.debug(url);
+  //console.debug(getTimestamp() + " : Executing GET on " + url); 
   $.get(url)
     .success(function(result) {
       displayRequestPayload(result, url, "GET", null);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
-      console.error(JSON.stringify(jqXHR));
-      displayErrorExecutingRequest();
+      //console.error(JSON.stringify(jqXHR));
+      if (jqXHR.status == "404") {
+    	  displayErrorExecutingRequest("Could not connect to VLC player to get the status.");
+      } else {
+    	  displayErrorExecutingRequest();
+      } 
     });
   setCollapsibleContent();
 }
@@ -77,8 +80,7 @@ function executePost(url, requestBody) {
     url: url,
     data: JSON.stringify(requestBody),
     headers: requestHeaders,
-    success: function(data) {
-      //console.debug(JSON.stringify(data));
+    success: function(data) { 
       //console.debug(JSON.stringify(data, null, 2));
       getVlcRcStatus(); 
       if ((!isEmpty(requestBody.command) && requestBody.command == 'vlc_start') || 
@@ -90,7 +92,7 @@ function executePost(url, requestBody) {
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function(data) {
-      console.error(JSON.stringify(data));
+      //console.error(JSON.stringify(data));
       displayErrorExecutingRequest(); 
     }
     });
@@ -113,7 +115,7 @@ function executeDelete(url, requestBody) {
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {
-      console.error(JSON.stringify(data));
+      //console.error(JSON.stringify(data));
       displayErrorExecutingRequest(); 
     }
   }); 
@@ -144,7 +146,7 @@ function populateVideoPlaylistCategories() {
       });
     })
     .error(function(jqXHR, textStatus, errorThrown) {
-      console.error(JSON.stringify(jqXHR));
+      //console.error(JSON.stringify(jqXHR));
       displayErrorExecutingRequest();
     }); 
 }
@@ -228,8 +230,9 @@ async function pullVlcRcStatusLoop() {
     if (isWebSocketConnected && isPlaying) {
       getVlcRcStatus();
     }  
-    console.log("pullVlcRcStatusLoop vlcRcStatus " + JSON.stringify(vlcRcStatus));
+    //console.log("pullVlcRcStatusLoop vlcRcStatus " + JSON.stringify(vlcRcStatus));
     if (!isEmpty(vlcRcStatus.information)) {
+    	
       //isPlaying = true;
       vlcRcStatusPullWaitTimeMs = 1000;
       failedCount = 0;
@@ -245,12 +248,7 @@ async function pullVlcRcStatusLoop() {
 
 /** Update vlc player status based on the VlcRcStatus object. */
 function updateVlcPlayerStatus(vlcRcStatusResponse) {
-  console.log("updateVlcPlayerStatus begin. " + JSON.stringify(vlcRcStatusResponse));
   vlcRcStatus = vlcRcStatusResponse;
-  if (isEmpty(vlcRcStatusResponse)) {
-    console.error("No vlcRcStatus update received from the server. This shouldn't ever execute as I should never receive an empty response.");
-    return;
-  } 
   //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
   
   // Update media title.
@@ -310,7 +308,7 @@ function getMediaName() {
 function setVolumeFromSlider(value) {
   //console.log("Current volume value " + value); 
   updateVolumePercentage(value);
-	executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
+  executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
 }
 
 /** Update volume percentage to display with the specified value. */
@@ -402,8 +400,12 @@ function reloadPlaylist() {
       displayRequestPayload(result, getPlaylistUrl, "GET", null);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
-      console.error(JSON.stringify(jqXHR));
-      displayErrorGettingPlaylist();
+      //console.error(JSON.stringify(jqXHR));
+        if (jqXHR.status == "404") {
+        	displayErrorGettingPlaylist("Could not connect to VLC player to get the current playlist.");
+        } else {
+        	displayErrorGettingPlaylist();
+        }  
     });
 }
 
@@ -423,7 +425,7 @@ function displayPlaylist(playlistArray) {
   emptyPlaylistTableBody();
   // Add the new playlist items received from the server.
   var $playlistTableBody = $('#playlist-table-body'); 
-  if (isEmptyArray(currentPlaylist)) {
+  if (isEmpty(currentPlaylist)) {
     var playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet. Mada mada dane :)"));
     $playlistTableBody.append(playlistTableRow);
   } else {
@@ -435,8 +437,8 @@ function displayPlaylist(playlistArray) {
       var playlistTableRow = $('<tr id=' + currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
       $playlistTableBody.append(playlistTableRow);
     } 
+    highlightCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
   } 
-  highlightCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
 }
 
 /** Highlight currently playing item in the playlist. Only do the update if the playlist is not collapsed. */
@@ -466,13 +468,10 @@ function clickEventOnPlaylistRow(event) {
 }
 
 /** Display error getting playlist from the server. */
-function displayErrorGettingPlaylist() {
-  emptyPlaylistTableBody();
-  var $playlistTableBody = $('#playlist-table-body'); 
-  var $errorTableRow = $("<tr>").append($('<td>').text(getTimestamp() +
-  " : Error getting playlist from the server. Please check server logs."));
-  $playlistTableBody.append($errorTableRow);
-  console.error(getTimestamp() + " : Error getting playlist from the server. Please check server logs.");
+function displayErrorGettingPlaylist(errorMessage) { 
+  displayPlaylist();
+  displayErrorExecutingRequest(errorMessage);
+  //console.error(getTimestamp() + " : Error getting playlist from the server. Please check server logs.");
 }
 
 /** Empty Playlist table body. */

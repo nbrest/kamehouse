@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class ControllerUtils {
 
+  private static final ResponseEntity<?> NOT_FOUND_RESPONSE_ENTITY = ResponseEntity.notFound()
+      .build();
+
   /**
    * Generates a response entity for a list of SystemCommandOutputs.
    */
@@ -26,8 +29,23 @@ public class ControllerUtils {
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
       }
     }
-    ResponseEntity<List<SystemCommandOutput>> responseEntity =
-        new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
+    ResponseEntity<List<SystemCommandOutput>> responseEntity = new ResponseEntity<List<SystemCommandOutput>>(
+        commandOutputs, httpStatus);
+    return responseEntity;
+  }
+
+  /**
+   * Generates a standard response entity for get requests with the Object
+   * parameter as a body and 200 return code and a 404 with empty body if the
+   * Object is null.
+   */
+  public static ResponseEntity<?> generateGetStandardResponseEntity(Object object) {
+    ResponseEntity<?> responseEntity = null;
+    if (object != null) {
+      responseEntity = ResponseEntity.ok(object);
+    } else {
+      responseEntity = NOT_FOUND_RESPONSE_ENTITY;
+    }
     return responseEntity;
   }
 }

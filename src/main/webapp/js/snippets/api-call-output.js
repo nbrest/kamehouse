@@ -55,16 +55,22 @@ function displayRequestPayload(apiResponsePayload, url, requestType, requestBody
 /**
  * Display error executing the request.
  */
-function displayErrorExecutingRequest() {
+function displayErrorExecutingRequest(errorMessage) {
   emptyApiCallOutputDiv();
   var $apiCallOutput = $("#api-call-output");
   var $errorTable = $('<table class="table table-bordered table-responsive table-bordered-kh">');
   var $errorTableRow = $("<tr>");
-  $errorTableRow.append($('<td>').text(getTimestamp() +
-    " : Error executing api request. Please check server logs."));
+  if (!isEmpty(errorMessage)) {
+	  $errorTableRow.append($('<td>').text(getTimestamp() + " : " + errorMessage));
+  } else {
+	  // Print default error message
+	  $errorTableRow.append($('<td>').text(getTimestamp() +
+	    " : Error executing api request. Please check server logs."));  
+  }
+  
   $errorTable.append($errorTableRow);
   $apiCallOutput.append($errorTable);
-  console.error(getTimestamp() + " : Error executing api request. Please check server logs.");
+  //console.error(getTimestamp() + " : Error executing api request. Please check server logs.");
 }
 
 /**
