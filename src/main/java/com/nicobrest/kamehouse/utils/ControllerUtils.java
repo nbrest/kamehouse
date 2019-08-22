@@ -29,8 +29,8 @@ public class ControllerUtils {
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
       }
     }
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = new ResponseEntity<List<SystemCommandOutput>>(
-        commandOutputs, httpStatus);
+    ResponseEntity<List<SystemCommandOutput>> responseEntity =
+        new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
     return responseEntity;
   }
 

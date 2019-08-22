@@ -400,6 +400,25 @@ public class VlcRcControllerTest {
   }
 
   /**
+   * Tests getting 404 not found when the server can't reach the specified vlc player.
+   */
+  @Test
+  public void getVlcRcStatusNotFoundTest() {
+
+    try {
+      when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(null);
+
+      ResultActions requestResult = mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/status"))
+          .andDo(print());
+      requestResult.andExpect(status().isNotFound());
+      verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+  
+  /**
    * Tests Executing a command in the selected VLC Player.
    */
   @Test
