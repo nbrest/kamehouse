@@ -576,8 +576,11 @@ public class VlcPlayer implements Serializable {
    * Converts the file list returned by the VLC Player into an internal file
    * list format.
    */
-  private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcPlaylistResponse) {
-    String parsedVlcRcPlaylistResponse = vlcRcPlaylistResponse.replace("\\", "/");
+  private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcFileListResponse) {
+    if (vlcRcFileListResponse == null) {
+      return null;
+    }
+    String parsedVlcRcPlaylistResponse = vlcRcFileListResponse.replace("\\", "/");
     List<Map<String, Object>> vlcRcFilelist = new ArrayList<Map<String, Object>>();
     ObjectMapper mapper = new ObjectMapper();
     try {
