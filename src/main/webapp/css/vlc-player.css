@@ -91,6 +91,15 @@
   margin-bottom: 3px;
   cursor: pointer;
 }
+ 
+.btn-mute-pressed {
+  transform: scale(0.68);
+  filter: brightness(0.6);
+} 
+.btn-mute-unpressed {
+  transform: scale(0.7);
+  filter: brightness(1);
+}
 
 .btn-playlist {
 	width: 100%;

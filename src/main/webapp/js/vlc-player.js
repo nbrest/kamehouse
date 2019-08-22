@@ -342,9 +342,9 @@ function updateMediaButtonsWithState() {
   
   // Update mute button
   if (vlcRcStatus.volume == 0) {
-    setMediaButtonPressed('media-btn-mute'); 
+    setMuteButtonPressed('media-btn-mute'); 
   } else {
-    setMediaButtonUnpressed('media-btn-mute'); 
+    setMuteButtonUnpressed('media-btn-mute'); 
   } 
   
   // Update repeat 1 button
@@ -387,7 +387,19 @@ function setMediaButtonUnpressed(mediaButtonId) {
   $('#' + mediaButtonId).removeClass('media-btn-pressed');
   $('#' + mediaButtonId).addClass('media-btn-unpressed');
 }
- 
+
+/** Set mute button pressed (specific because it has a different size) */
+function setMuteButtonPressed(mediaButtonId) {
+  $('#' + mediaButtonId).removeClass('btn-mute-unpressed');
+  $('#' + mediaButtonId).addClass('btn-mute-pressed');
+}
+
+/** Set mute button unpressed (specific because it has a different size) */
+function setMuteButtonUnpressed(mediaButtonId) {
+  $('#' + mediaButtonId).removeClass('btn-mute-pressed');
+  $('#' + mediaButtonId).addClass('btn-mute-unpressed');
+}
+
 /** ----- Display playlist functions ----------------------------------------------------------- **/
 
 /** Reload current playlist from server. */
