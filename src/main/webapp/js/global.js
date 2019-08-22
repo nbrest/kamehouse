@@ -10,9 +10,12 @@ function siteUnderCostructionAlert() {
   alert('The site is still under construction and this functionality has not been implemented yet.');
 }
 
-/** Get timestamp. */
+/** Get current timestamp with client timezone. */
 function getTimestamp() {
-  return new Date().toISOString().replace("T", " ").slice(0, 19);
+  var newDate = new Date();
+  var offsetTime = newDate.getTimezoneOffset() * -1 * 60 * 1000;
+  var currentDateTime = newDate.getTime();
+  return new Date(currentDateTime + offsetTime).toISOString().replace("T", " ").slice(0, 19);
 }
 
 /** Convert input in seconds to hh:mm:ss output. */
