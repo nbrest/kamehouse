@@ -18,6 +18,30 @@ function getTimestamp() {
   return new Date(currentDateTime + offsetTime).toISOString().replace("T", " ").slice(0, 19);
 }
 
+/** Log a specified message with the specified logging level. */
+function log(logLevel, message) {
+  if (isEmpty(logLevel)) {
+    return;
+  }
+  var logLevelUpperCase = logLevel.toUpperCase();
+  var logEntry = getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
+  if (logLevelUpperCase == "ERROR") {
+    console.error(logEntry)
+  }
+  if (logLevelUpperCase == "WARN") {
+    console.warn(logEntry);
+  }
+  if (logLevelUpperCase == "INFO") {
+    console.info(logEntry);
+  }
+  if (logLevelUpperCase == "DEBUG") {
+    console.debug(logEntry);
+  }
+  if (logLevelUpperCase == "TRACE") {
+    console.trace(logEntry);
+  } 
+}
+
 /** Convert input in seconds to hh:mm:ss output. */
 function convertSecondsToHsMsSs(seconds) {
   return new Date(seconds * 1000).toISOString().substr(11, 8);
