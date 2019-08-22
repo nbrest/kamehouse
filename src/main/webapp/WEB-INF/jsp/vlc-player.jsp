@@ -112,10 +112,10 @@
           <img id="media-btn-fullscreen" src="/kame-house/img/mplayer/fullscreen-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"/>
         </td>
         <td> 
-          <img id="media-btn-aspect-ratio-16-9" src="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')"/> 
+          <img id="media-btn-aspect-ratio-4-3" src="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')"/> 
         </td>
         <td> 
-          <img id="media-btn-aspect-ratio-4-3" src="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')"/> 
+          <img id="media-btn-aspect-ratio-16-9" src="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')"/> 
         </td>
         <td> 
           <img id="media-btn-aspect-ratio-cycle" src="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'aspect-ratio')"/>
