@@ -10,7 +10,7 @@ function main() {
  */
 function importNewsletter() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/newsletter.css">');
-  $("#newsletter").load("/kame-house/html/snippets/newsletter.html");
+  $("#newsletter").load("/kame-house/html-snippets/newsletter.html");
 }
 
 /**

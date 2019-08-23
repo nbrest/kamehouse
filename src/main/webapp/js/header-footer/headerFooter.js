@@ -14,12 +14,12 @@ function main() {
  */
 function importHeaderAndFooter() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
-  $("#headerContainer").load("/kame-house/html/header-footer/header.html", function() {
+  $("#headerContainer").load("/kame-house/html-snippets/header.html", function() {
     updateActiveTab();
     getSessionStatus();
   });
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
-  $("#footerContainer").load("/kame-house/html/header-footer/footer.html");
+  $("#footerContainer").load("/kame-house/html-snippets/footer.html");
 }
 
 /**

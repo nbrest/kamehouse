@@ -9,7 +9,7 @@
 <title>Add DragonBallUser Form</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/test-module/jsp/css/app.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/test-module/jsp/app.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/header.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/footer.css" />

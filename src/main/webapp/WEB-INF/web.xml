@@ -42,7 +42,7 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
-  <!-- Servlet mappings for static files in the root -->
+  <!-- Servlet mappings for static files -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/css/*</url-pattern>
@@ -50,56 +50,27 @@
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/js/*</url-pattern>
+    <url-pattern>/html-snippets/*</url-pattern>
   </servlet-mapping>
-
+  
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/html/*</url-pattern>
+    <url-pattern>/js/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/img/*</url-pattern>
   </servlet-mapping>
-
-  <!-- Servlet mappings for static files under /lib -->
-  <servlet-mapping>
+ 
+   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/lib/*</url-pattern>
-  </servlet-mapping>
-
-  <!-- Servlet mappings for static files under /test-module/angular-1 -->
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/test-module/angular-1/css/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/test-module/angular-1/js/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/test-module/angular-1/view/*</url-pattern>
-  </servlet-mapping>
-
-  <!-- Servlet mappings for static files under /test-module/jsp -->
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/test-module/jsp/css/*</url-pattern>
-  </servlet-mapping>
-
-  <!-- Servlet mappings for static files under /test-module/websocket -->
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/test-module/websocket/css/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/test-module/websocket/js/*</url-pattern>
+    <url-pattern>/view/*</url-pattern>
   </servlet-mapping>
   
   <!-- Spring Security -->
