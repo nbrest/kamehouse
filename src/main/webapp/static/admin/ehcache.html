@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+
+<title>KameHouse - Ehcache</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
+</head>
+<body>
+  <div id="headerContainer"></div>
+  <div class="default-layout main-body">
+  <div>
+    <h3 id="ehcache-header">EhCache Status</h3>    
+    <input type="button" onclick="clearAllCaches()" value="Clear All" class="btn btn-outline-danger cache-status-buttons btn-borderless"/>
+    <input type="button" onclick="toggleAllCacheView()" value="Expand/Collapse All" class="btn btn-outline-secondary cache-status-buttons btn-borderless"/>
+    <input type="button" onclick="getCacheData()" value="Refresh" class="btn btn-outline-info cache-status-buttons btn-borderless"/>
+  </div>
+    <br><br><hr>
+    <div id="cache-data"></div>
+  </div>
+  <div id="footerContainer"></div>
+  <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+  <script src="/kame-house/js/header-footer/headerFooter.js"></script>
+  <script src="/kame-house/js/admin/ehcache.js"></script>
+</body>
+</html>
