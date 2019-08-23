@@ -5,9 +5,6 @@
  */
 
 /** ----- Global variables ---------------------------------------------------------------- */
-// Defaults logging level to INFO 
-global.logLevel = 2;
-
 global.vlcRcStatus = {};
 
 global.videoPlaylists = [];

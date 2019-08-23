@@ -5,8 +5,8 @@
  */
 /** ----- Global variables ------------------------------------------------------------------ */
 var global = {};
-//Defaults logging level to ERROR 
-global.logLevel = 0;
+//Defaults logging level to INFO 
+global.logLevel = 2;
 
 /** ----- Global functions ------------------------------------------------------------------ */
 function main() {
