@@ -4,16 +4,18 @@
  * @author nbrest
  */
 
-/** Global variables. */
-var videoPlaylists = [];
-var videoPlaylistCategories = [];
+/** ----- Global variables ---------------------------------------------------------------- */
+// Defaults logging level to INFO 
+global.logLevel = 2;
 
-var stompClient = null;
-var vlcRcStatus = {};
-var isWebSocketConnected = false; 
-var isPlaying = true;
+global.vlcRcStatus = {};
 
-var currentPlaylist = [];
+global.videoPlaylists = [];
+global.videoPlaylistCategories = [];
+global.currentPlaylist = [];
+
+global.stompClient = null;
+global.isWebSocketConnected = false;  
 
 /** Main function. */
 var main = function() { 
@@ -27,13 +29,13 @@ var main = function() {
 
 /** Execute get on the specified url and display the output in the debug table. */
 function executeGet(url) {
-  //console.debug(getTimestamp() + " : Executing GET on " + url); 
+  log("DEBUG", "Executing GET on " + url); 
   $.get(url)
     .success(function(result) {
       displayRequestPayload(result, url, "GET", null);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
-      //console.error(JSON.stringify(jqXHR));
+      log("ERROR", JSON.stringify(jqXHR));
       if (jqXHR.status == "404") {
     	  displayErrorExecutingRequest("Could not connect to VLC player to get the status.");
       } else {
@@ -46,7 +48,7 @@ function executeGet(url) {
 /** Reload VLC with the current selected playlist from the dropdowns. */
 function executeAdminVlcPostWithSelectedPlaylist(url, command) {
   var playlistSelected = document.getElementById("playlist-dropdown").value;
-  //console.debug("playlistSelected " + playlistSelected);
+  log("DEBUG", "Playlist selected: " + playlistSelected);
   var requestBody = {
     command: command,
     file: playlistSelected
@@ -73,7 +75,7 @@ function executeVlcRcCommandPost(url, name, val) {
 
 /** Execute a POST request to the specified url with the specified request body. */
 function executePost(url, requestBody) {
-  //console.debug(getTimestamp() + " : Executing POST on " + url);
+  log("DEBUG", "Executing POST on " + url + " with requestBody " + JSON.stringify(requestBody));
   requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
@@ -81,7 +83,7 @@ function executePost(url, requestBody) {
     data: JSON.stringify(requestBody),
     headers: requestHeaders,
     success: function(data) { 
-      //console.debug(JSON.stringify(data, null, 2));
+      log("TRACE", JSON.stringify(data, null, 2));
       getVlcRcStatus(); 
       if ((!isEmpty(requestBody.command) && requestBody.command == 'vlc_start') || 
           (!isEmpty(requestBody.name) && requestBody.name == 'pl_stop')) {
@@ -92,16 +94,16 @@ function executePost(url, requestBody) {
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function(data) {
-      //console.error(JSON.stringify(data));
+      log("ERROR", JSON.stringify(data));
       displayErrorExecutingRequest(); 
     }
-    });
+  });
   setCollapsibleContent();
 }
 
 /** Execute a DELETE request to the specified url with the specified request body. */
 function executeDelete(url, requestBody) {
-  //console.debug(getTimestamp() + " : Executing DELETE on " + url);
+  log("DEBUG", "Executing DELETE on " + url + " with requestBody " + JSON.stringify(requestBody));
   requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "DELETE",
@@ -109,13 +111,13 @@ function executeDelete(url, requestBody) {
     data: requestBody,
     headers: requestHeaders,
     success: function(data) {
-      //console.debug(JSON.stringify(data));  
+      log("TRACE", JSON.stringify(data));  
       getVlcRcStatus();
       asyncReloadPlaylist(5000);
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {
-      //console.error(JSON.stringify(data));
+      log("ERROR", JSON.stringify(data));
       displayErrorExecutingRequest(); 
     }
   }); 
@@ -136,25 +138,25 @@ function populateVideoPlaylistCategories() {
 
   $.get('/kame-house/api/v1/media/video/playlists')
     .success(function(result) { 
-      videoPlaylists = result;
-      setVideoPlaylistCategories(videoPlaylists);
-      //console.debug(JSON.stringify(videoPlaylists));
-      $.each(videoPlaylistCategories, function (key, entry) {
+      global.videoPlaylists = result;
+      setVideoPlaylistCategories(global.videoPlaylists);
+      log("TRACE", JSON.stringify(global.videoPlaylists));
+      $.each(global.videoPlaylistCategories, function (key, entry) {
         var category = entry;
         var categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
         playlistCategoryDropdown.append($('<option></option>').attr('value', entry).text(categoryFormatted));
       });
     })
     .error(function(jqXHR, textStatus, errorThrown) {
-      //console.error(JSON.stringify(jqXHR));
+      log("ERROR", JSON.stringify(jqXHR));
       displayErrorExecutingRequest();
     }); 
 }
 
 /** Set video playlist categories. */
 function setVideoPlaylistCategories(videoPlaylists) {
-  videoPlaylistCategories = [...new Set(videoPlaylists.map(playlist => playlist.category))];
-  //console.debug(videoPlaylistCategories);  
+  global.videoPlaylistCategories = [...new Set(videoPlaylists.map(playlist => playlist.category))];
+  log("TRACE", global.videoPlaylistCategories);  
 }
 
 /** Populate video playlists dropdown. */
@@ -165,8 +167,8 @@ function populateVideoPlaylists() {
   playlistDropdown.empty();
   playlistDropdown.append('<option selected="true" disabled>Playlist</option>');
   playlistDropdown.prop('selectedIndex', 0);
-  //console.debug("selectedPlaylistCategory " + selectedPlaylistCategory);
-  $.each(videoPlaylists, function (key, entry) {
+  log("DEBUG", "Selected PlaylistCategory: " + selectedPlaylistCategory);
+  $.each(global.videoPlaylists, function (key, entry) {
     if (entry.category === selectedPlaylistCategory) { 
       var playlistName = entry.name;
       playlistName = playlistName.replace(/.m3u+$/, "");
@@ -186,13 +188,13 @@ function setupWebSocketForVlcStatus() {
 /** Connect the websocket. */
 function connectWebSocket() {
   var socket = new SockJS('/kame-house/api/ws/vlc-player/status');
-  stompClient = Stomp.over(socket);
-  //Disable console messages for stomp. Only enable to debug.
-  stompClient.debug = null;
-  stompClient.connect({}, function (frame) { 
-      //console.log('Connected WebSocket: ' + frame);
-      isWebSocketConnected = true;
-      stompClient.subscribe('/topic/vlc-player/status-out', function (vlcRcStatusResponse) {
+  global.stompClient = Stomp.over(socket);
+  //Disable console messages for stomp. Only enable if I need to debug connection issues.
+  global.stompClient.debug = null;
+  global.stompClient.connect({}, function (frame) { 
+      log("DEBUG", 'Connected WebSocket: ' + frame);
+      global.isWebSocketConnected = true;
+      global.stompClient.subscribe('/topic/vlc-player/status-out', function (vlcRcStatusResponse) {
         updateVlcPlayerStatus(JSON.parse(vlcRcStatusResponse.body));
       });
   });
@@ -200,19 +202,20 @@ function connectWebSocket() {
 
 /** Disconnect the websocket. */
 function disconnectWebSocket() {
-    if (!isEmpty(stompClient)) {
-        stompClient.disconnect();
-        isWebSocketConnected = false;
+    if (!isEmpty(global.stompClient)) {
+        global.stompClient.disconnect();
+        global.isWebSocketConnected = false;
     }
-    console.log("Disconnected WebSocket");
+    log("DEBUG", "Disconnected WebSocket");
 }
 
 /** ---- Update vlc player status functions --------------------------------------------- **/
 
 /** Poll for an updated VlcRcStatus from the server. */
 function getVlcRcStatus() {
-  //console.log("Requesting vlc-rc status");
-  stompClient.send("/app/vlc-player/status-in", {});
+  // Setting this as trace as it executes every second so if I want to debug other stuff it's noisy.
+  log("TRACE", "Requesting vlc-rc status");
+  global.stompClient.send("/app/vlc-player/status-in", {});
 }
 
 /** Infinite loop to pull VlcRcStatus from the server. */
@@ -222,22 +225,19 @@ async function pullVlcRcStatusLoop() {
   var vlcRcStatusPullWaitTimeMs = 1000;
   let failedCount = 0;
   // TODO: Make the client side contain a status of when vlc player is actually running on the server and only pull when it's running.
-  if (isWebSocketConnected) {
+  if (global.isWebSocketConnected) {
     getVlcRcStatus();
   } 
   for ( ; ; ) { 
-    await sleep(vlcRcStatusPullWaitTimeMs); 
-    if (isWebSocketConnected && isPlaying) {
+    await sleep(vlcRcStatusPullWaitTimeMs);
+    log("TRACE", "pullVlcRcStatusLoop(): vlcRcStatus:" + JSON.stringify(global.vlcRcStatus));
+    if (global.isWebSocketConnected) {
       getVlcRcStatus();
     }  
-    //console.log("pullVlcRcStatusLoop vlcRcStatus " + JSON.stringify(vlcRcStatus));
-    if (!isEmpty(vlcRcStatus.information)) {
-    	
-      //isPlaying = true;
+    if (!isEmpty(global.vlcRcStatus.information)) {
       vlcRcStatusPullWaitTimeMs = 1000;
       failedCount = 0;
-    } else {
-      //isPlaying = false;
+    } else { 
       failedCount++;
       if (failedCount >= 10) {
         vlcRcStatusPullWaitTimeMs = 15000;
@@ -248,32 +248,32 @@ async function pullVlcRcStatusLoop() {
 
 /** Update vlc player status based on the VlcRcStatus object. */
 function updateVlcPlayerStatus(vlcRcStatusResponse) {
-  vlcRcStatus = vlcRcStatusResponse;
-  //console.log("vlcRcStatusResponse: " + JSON.stringify(vlcRcStatus));
+  global.vlcRcStatus = vlcRcStatusResponse;
+  log("TRACE", "vlcRcStatusResponse: " + JSON.stringify(global.vlcRcStatus));
   
   // Update media title.
   mediaName = getMediaName(); 
   $("#media-title").text(mediaName.filename);
   
   // Update media playing time
-  if (!isEmpty(vlcRcStatus.time)) { 
-    $("#current-time").text(convertSecondsToHsMsSs(vlcRcStatus.time));
-    $("#time-slider").val(vlcRcStatus.time);
+  if (!isEmpty(global.vlcRcStatus.time)) { 
+    $("#current-time").text(convertSecondsToHsMsSs(global.vlcRcStatus.time));
+    $("#time-slider").val(global.vlcRcStatus.time);
     
-    $("#total-time").text(convertSecondsToHsMsSs(vlcRcStatus.length)); 
-    $("#time-slider").attr('max', vlcRcStatus.length);
+    $("#total-time").text(convertSecondsToHsMsSs(global.vlcRcStatus.length)); 
+    $("#time-slider").attr('max', global.vlcRcStatus.length);
   } 
   
   // Update volume percentage and slider.
-  if (!isEmpty(vlcRcStatus.volume)) {
-    $("#volume-slider").val(vlcRcStatus.volume);
-    updateVolumePercentage(vlcRcStatus.volume);
+  if (!isEmpty(global.vlcRcStatus.volume)) {
+    $("#volume-slider").val(global.vlcRcStatus.volume);
+    updateVolumePercentage(global.vlcRcStatus.volume);
   } 
   
   // Update media buttons with state
   updateMediaButtonsWithState();
   
-  highlightCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
+  highlightCurrentPlayingItemInPlaylist(global.vlcRcStatus.currentPlId);
 }
 
 /** Set the current time from the slider's value. */
@@ -283,7 +283,7 @@ function setTimeFromSlider(value) {
 }
 /** Update the displayed current time while I'm sliding */
 function updateTimeWhileSliding(value) {
-  //console.log("current time: " + value);
+  log("TRACE", "Current time: " + value);
   var currentTime = document.getElementById("current-time"); 
   currentTime.innerHTML = convertSecondsToHsMsSs(value);
 }
@@ -293,8 +293,8 @@ function getMediaName() {
   var mediaName = {};
   mediaName.filename = "No media loaded";
   mediaName.title = "No media loaded";
-  if (!isEmpty(vlcRcStatus.information)) {
-      vlcRcStatus.information.category.forEach(function (category) {
+  if (!isEmpty(global.vlcRcStatus.information)) {
+      global.vlcRcStatus.information.category.forEach(function (category) {
         if (!isEmpty(category.filename)) {
           mediaName.filename = category.filename;
           mediaName.title = category.title;
@@ -306,7 +306,7 @@ function getMediaName() {
 
 /** Set the volume from the slider's value. */
 function setVolumeFromSlider(value) {
-  //console.log("Current volume value " + value); 
+  log("TRACE", "Current volume value: " + value); 
   updateVolumePercentage(value);
   executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
 }
@@ -320,56 +320,56 @@ function updateVolumePercentage(value) {
 
 function updateMediaButtonsWithState() {
   // Update aspect-ratio 16:9 button
-  if (vlcRcStatus.aspectRatio == "16:9") {
+  if (global.vlcRcStatus.aspectRatio == "16:9") {
     setMediaButtonPressed('media-btn-aspect-ratio-16-9'); 
   } else { 
     setMediaButtonUnpressed('media-btn-aspect-ratio-16-9');
   } 
   
   // Update aspect-ratio 4:3 button
-  if (vlcRcStatus.aspectRatio == "4:3") {
+  if (global.vlcRcStatus.aspectRatio == "4:3") {
     setMediaButtonPressed('media-btn-aspect-ratio-4-3'); 
   } else { 
     setMediaButtonUnpressed('media-btn-aspect-ratio-4-3'); 
   } 
   
   // Update fullscreen button
-  if (vlcRcStatus.fullscreen) {
+  if (global.vlcRcStatus.fullscreen) {
     setMediaButtonPressed('media-btn-fullscreen'); 
   } else { 
     setMediaButtonUnpressed('media-btn-fullscreen'); 
   }   
   
   // Update mute button
-  if (vlcRcStatus.volume == 0) {
+  if (global.vlcRcStatus.volume == 0) {
     setMuteButtonPressed('media-btn-mute'); 
   } else {
     setMuteButtonUnpressed('media-btn-mute'); 
   } 
   
   // Update repeat 1 button
-  if (vlcRcStatus.repeat) {
+  if (global.vlcRcStatus.repeat) {
     setMediaButtonPressed('media-btn-repeat-1'); 
   } else { 
     setMediaButtonUnpressed('media-btn-repeat-1'); 
   } 
   
   // Update repeat all button
-  if (vlcRcStatus.loop) {
+  if (global.vlcRcStatus.loop) {
     setMediaButtonPressed('media-btn-repeat'); 
   } else { 
     setMediaButtonUnpressed('media-btn-repeat'); 
   } 
   
   // Update shuffle button
-  if (vlcRcStatus.random) {
+  if (global.vlcRcStatus.random) {
     setMediaButtonPressed('media-btn-shuffle'); 
   } else { 
     setMediaButtonUnpressed('media-btn-shuffle'); 
   } 
   
   // Update stop button
-  if (vlcRcStatus.state == "stopped") {
+  if (global.vlcRcStatus.state == "stopped") {
     setMediaButtonPressed('media-btn-stop'); 
   } else { 
     setMediaButtonUnpressed('media-btn-stop'); 
@@ -405,14 +405,14 @@ function setMuteButtonUnpressed(mediaButtonId) {
 /** Reload current playlist from server. */
 function reloadPlaylist() {
   var getPlaylistUrl = '/kame-house/api/v1/vlc-rc/players/localhost/playlist';
-  //console.debug(getTimestamp() + " : Reloading playlist");
+  log("DEBUG", "Reloading playlist");
   $.get(getPlaylistUrl)
     .success(function(result) {  
       displayPlaylist(result);
       displayRequestPayload(result, getPlaylistUrl, "GET", null);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
-      //console.error(JSON.stringify(jqXHR));
+        log("ERROR", JSON.stringify(jqXHR));
         if (jqXHR.status == "404") {
         	displayErrorGettingPlaylist("Could not connect to VLC player to get the current playlist.");
         } else {
@@ -432,32 +432,32 @@ async function asyncReloadPlaylist(sleepTime) {
 
 /** Display playlist. */
 function displayPlaylist(playlistArray) {
-  currentPlaylist = playlistArray;
+  global.currentPlaylist = playlistArray;
   // Clear playlist content, if it has.
   emptyPlaylistTableBody();
   // Add the new playlist items received from the server.
   var $playlistTableBody = $('#playlist-table-body'); 
-  if (isEmpty(currentPlaylist)) {
+  if (isEmpty(global.currentPlaylist)) {
     var playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet. Mada mada dane :)"));
     $playlistTableBody.append(playlistTableRow);
   } else {
-    for (var i = 0; i < currentPlaylist.length ; i++) {
+    for (var i = 0; i < global.currentPlaylist.length ; i++) {
       var playlistElementButton = $('<button>');
       playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
-      playlistElementButton.text(currentPlaylist[i].name);
-      playlistElementButton.click({id: currentPlaylist[i].id}, clickEventOnPlaylistRow);
-      var playlistTableRow = $('<tr id=' + currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
+      playlistElementButton.text(global.currentPlaylist[i].name);
+      playlistElementButton.click({id: global.currentPlaylist[i].id}, clickEventOnPlaylistRow);
+      var playlistTableRow = $('<tr id=' + global.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
       $playlistTableBody.append(playlistTableRow);
     } 
-    highlightCurrentPlayingItemInPlaylist(vlcRcStatus.currentPlId);
+    highlightCurrentPlayingItemInPlaylist(global.vlcRcStatus.currentPlId);
   } 
 }
 
 /** Highlight currently playing item in the playlist. Only do the update if the playlist is not collapsed. */
 function highlightCurrentPlayingItemInPlaylist(currentPlId) {
-  //console.log("currentPlId " + currentPlId);
   var isPlaylistCurrentlyVisible = $('#playlist-collapsible').hasClass("playlist-collapsible-active");
   if (isPlaylistCurrentlyVisible) {
+    log("TRACE", "currentPlId: " + currentPlId);
     $('#playlist-table-body tr').each(function() {
       var playlistItemId = $(this).attr('id');
       if (playlistItemId == currentPlId) {
@@ -471,7 +471,7 @@ function highlightCurrentPlayingItemInPlaylist(currentPlId) {
 
 /** Play the clicked element from the playlist. */
 function clickEventOnPlaylistRow(event) {
-  //console.log("Play playlist id: " + event.data.id);
+  log("DEBUG", "Play playlist id: " + event.data.id);
   var requestBody = {
     name: 'pl_play',
     id: event.data.id
@@ -483,7 +483,6 @@ function clickEventOnPlaylistRow(event) {
 function displayErrorGettingPlaylist(errorMessage) { 
   displayPlaylist();
   displayErrorExecutingRequest(errorMessage);
-  //console.error(getTimestamp() + " : Error getting playlist from the server. Please check server logs.");
 }
 
 /** Empty Playlist table body. */
@@ -495,7 +494,7 @@ function emptyPlaylistTableBody() {
 // For an example of a collapsible element that expands to full vertical height, 
 // check the api-call-output example in the test-apis page. This one expands to a fixed height.
 function toggleShowOrHidePlaylistContent() {
-  //console.log(getTimestamp() + " clicked playlist button");
+  log("DEBUG", "Clicked playlist button");
   var playlistCollapsibleButton = document.getElementById("playlist-collapsible");
   playlistCollapsibleButton.classList.toggle("playlist-collapsible-active");
   
@@ -507,7 +506,7 @@ function toggleShowOrHidePlaylistContent() {
 
 /** Toggle debug mode. */
 function toggleDebugMode() { 
-  //console.log("Toggled debug mode.")
+  log("DEBUG", "Toggled debug mode")
   var debugModeDiv = document.getElementById("debug-mode");
   debugModeDiv.classList.toggle("hidden-kh");
 }  

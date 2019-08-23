@@ -3,7 +3,15 @@
  * 
  * @author nbrest
  */
-function main() {}
+/** ----- Global variables ------------------------------------------------------------------ */
+var global = {};
+//Defaults logging level to ERROR 
+global.logLevel = 0;
+
+/** ----- Global functions ------------------------------------------------------------------ */
+function main() {
+	//testLogLevel();
+}
 
 /** Site under construction message. */
 function siteUnderCostructionAlert() {
@@ -28,18 +36,29 @@ function log(logLevel, message) {
   if (logLevelUpperCase == "ERROR") {
     console.error(logEntry)
   }
-  if (logLevelUpperCase == "WARN") {
+  if (logLevelUpperCase == "WARN" && global.logLevel >= 1) {
     console.warn(logEntry);
   }
-  if (logLevelUpperCase == "INFO") {
+  if (logLevelUpperCase == "INFO" && global.logLevel >= 2) {
     console.info(logEntry);
   }
-  if (logLevelUpperCase == "DEBUG") {
+  if (logLevelUpperCase == "DEBUG" && global.logLevel >= 3) {
+    // Use debug to log behavior, such as executing x method, selected x playlist, etc.
     console.debug(logEntry);
   }
-  if (logLevelUpperCase == "TRACE") {
+  if (logLevelUpperCase == "TRACE" && global.logLevel >= 4) {
+    // Use trace to log content such as responses from api calls.
     console.trace(logEntry);
   } 
+}
+
+function testLogLevel() {
+	console.log("global.logLevel " + global.logLevel);
+	log("ERROR", "This is an ERROR message");
+	log("WARN", "This is a WARN message");
+	log("INFO", "This is an INFO message");
+	log("DEBUG", "This is a DEBUG message");
+	log("TRACE", "This is a TRACE message");
 }
 
 /** Convert input in seconds to hh:mm:ss output. */
