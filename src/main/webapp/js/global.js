@@ -29,6 +29,7 @@ function getTimestamp() {
 /** Log a specified message with the specified logging level. */
 function log(logLevel, message) {
   if (isEmpty(logLevel)) {
+    console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
     return;
   }
   var logLevelUpperCase = logLevel.toUpperCase();
@@ -95,7 +96,7 @@ function getCsrfRequestHeadersObject() {
   requestHeaders.Accept = 'application/json';
   requestHeaders['Content-Type'] = 'application/json';
   requestHeaders[csrfHeader] = csrfToken;
-  //console.log(JSON.stringify(requestHeaders));
+  log("TRACE", JSON.stringify(requestHeaders));
   return requestHeaders;
 }
 
