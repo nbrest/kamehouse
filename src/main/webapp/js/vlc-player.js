@@ -18,7 +18,8 @@ global.stompClient = null;
 global.isWebSocketConnected = false;  
 
 /** Main function. */
-var main = function() { 
+var main = function() {
+  log("INFO", "Started initializing VLC Player");
   setupWebSocketForVlcStatus();
   updateVolumePercentage(document.getElementById("volume-slider").value);
   populateVideoPlaylistCategories();
