@@ -1,4 +1,4 @@
-<%-- This JSP loads the static file received by ViewResolverController --%>
+<%-- This JSP loads the static html received by ViewResolverController --%>
 <% 
   String staticHtmlToLoad = (String) request.getAttribute("staticHtmlToLoad");
 %>
