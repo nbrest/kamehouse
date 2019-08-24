@@ -1,1 +1,0 @@
-<%@include  file="/static/admin/test-apis.html" %>

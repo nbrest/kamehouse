@@ -1,1 +1,0 @@
-<%@include  file="/static/test-module/websocket/index.html" %>

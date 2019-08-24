@@ -1,1 +1,0 @@
-<%@include  file="/static/admin/server-management.html" %>

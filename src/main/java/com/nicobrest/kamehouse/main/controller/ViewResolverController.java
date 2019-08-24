@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Controller to resolve views for all the jsps in the application.
+ * Controller to resolve views for all the static htmls and jsps in the
+ * application.
  * 
  * @author nbrest
  *
@@ -25,45 +26,40 @@ public class ViewResolverController {
   private static final Logger logger = LoggerFactory.getLogger(ViewResolverController.class);
 
   /**
-   * View resolver for the home page.
+   * View resolver for static html files.
    */
-  @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
-  public ModelAndView homePage() {
-    logger.trace("In controller /, /welcome** (GET)");
-    ModelAndView model = new ModelAndView();
-    model.setViewName("/index");
-    return model;
-  }
+  @RequestMapping(value = { "/", "/about", "/admin", "/admin/**", "/contact-us", "/test-module",
+      "/test-module/", "/test-module/angular-1", "/test-module/angular-1/**",
+      "/test-module/websocket", "/test-module/websocket/**", "/vlc-player" },
+      method = RequestMethod.GET)
+  public ModelAndView includeStaticHtml(HttpServletRequest request, HttpServletResponse response) {
 
-  /**
-   * View resolver for the about page.
-   */
-  @RequestMapping(value = "/about", method = RequestMethod.GET)
-  public String aboutPage() {
-    logger.trace("In controller /about (GET)");
-    return "/about";
-  }
+    String originalRequestUrl = (String) request.getServletPath();
+    String staticHtmlToLoad = "/static" + originalRequestUrl;
 
-  /**
-   * View resolver for the admin page.
-   */
-  @RequestMapping(value = "/admin/**", method = RequestMethod.GET)
-  public String adminPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /admin/** (GET) with path: " + request.getServletPath());
-    if (request.getServletPath().equals("/admin/")) {
-      return "/admin/index";
-    } else {
-      return request.getServletPath();
+    // Certain urls are meant to be the root folder in a tree structure, for
+    // those, I need to make sure I call them with the trailing /. If I don't, I
+    // need to add that trailing / here so it maps to an index page.
+    if (staticHtmlToLoad.endsWith("admin") || staticHtmlToLoad.endsWith("test-module")
+        || staticHtmlToLoad.endsWith("test-module/angular-1") || staticHtmlToLoad.endsWith(
+            "test-module/websocket")) {
+      staticHtmlToLoad = staticHtmlToLoad.concat("/");
     }
-  }
+    // If the file ends with / I'm in the root of a folder, append index to the
+    // filename
+    if (staticHtmlToLoad.endsWith("/")) {
+      staticHtmlToLoad = staticHtmlToLoad + "index";
+    }
+    // Always append .html extension
+    staticHtmlToLoad = staticHtmlToLoad + ".html";
 
-  /**
-   * View resolver for the contact us page.
-   */
-  @RequestMapping(value = "/contact-us", method = RequestMethod.GET)
-  public String contactUsPage() {
-    logger.trace("In controller /contact-us (GET)");
-    return "/contact-us";
+    logger.trace("In controller import-static (GET) with request '" + request.getServletPath()
+        + "' Loading static html: '" + staticHtmlToLoad + "'");
+
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("/include-static-html");
+    modelAndView.addObject("staticHtmlToLoad", staticHtmlToLoad); 
+    return modelAndView;
   }
 
   /**
@@ -91,29 +87,6 @@ public class ViewResolverController {
   }
 
   /**
-   * View resolver for the test module page.
-   */
-  @RequestMapping(value = "/test-module", method = RequestMethod.GET)
-  public String testModule(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /test-module (GET)");
-    return "/test-module/index";
-  }
-
-  /**
-   * View resolver for the test module angular-1 page.
-   */
-  @RequestMapping(value = "/test-module/angular-1/**", method = RequestMethod.GET)
-  public String testModuleAngularOne(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /test-module/angular-1/** (GET) with path: " + request
-        .getServletPath());
-    if (request.getServletPath().equals("/test-module/angular-1/")) {
-      return "/test-module/angular-1/index";
-    } else {
-      return request.getServletPath();
-    }
-  }
-
-  /**
    * View resolver for the test module jsp app page.
    */
   @RequestMapping(value = "/test-module/jsp/**", method = RequestMethod.GET)
@@ -124,23 +97,5 @@ public class ViewResolverController {
     } else {
       return request.getServletPath();
     }
-  }
-
-  /**
-   * View resolver for the test module websocket page.
-   */
-  @RequestMapping(value = "/test-module/websocket", method = RequestMethod.GET)
-  public String testModuleWebSocket(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /test-module/websocket (GET) ");
-    return "/test-module/websocket/index";
-  }
-
-  /**
-   * View resolver for the vlc player page.
-   */
-  @RequestMapping(value = "/vlc-player", method = RequestMethod.GET)
-  public String vlcPlayerPage() {
-    logger.trace("In controller /vlc-player (GET)");
-    return "/vlc-player";
   }
 }

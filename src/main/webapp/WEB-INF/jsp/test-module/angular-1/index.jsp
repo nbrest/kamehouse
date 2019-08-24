@@ -1,1 +1,0 @@
-<%@include  file="/static/test-module/angular-1/index.html" %>
