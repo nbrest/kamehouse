@@ -1,3 +1,5 @@
+global.logLevel = 4;
+
 var stompClient = null;
 
 function setConnected(isConnected) {

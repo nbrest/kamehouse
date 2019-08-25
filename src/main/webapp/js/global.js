@@ -8,9 +8,78 @@ var global = {};
 //Defaults logging level to INFO 
 global.logLevel = 2;
 
+global.session = {};
+
+var SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
+
 /** ----- Global functions ------------------------------------------------------------------ */
 function main() {
-	//testLogLevel();
+    //testLogLevel();
+	updateSessionStatus();
+}
+
+/** Update session status. */
+function updateSessionStatus() {
+  $.get(SESSION_STATUS_URL)
+  .success(function(data) {
+	log("TRACE", JSON.stringify(data));
+	global.session = data;
+	validateUrlPermissionsWithSession();
+	loadHeaderAndFooter(); 
+  })
+  .error(function(jqXHR, textStatus, errorThrown) {
+    log("ERROR", "Error retrieving current session information.");
+  });
+}
+
+/** Load header and footer. */
+function loadHeaderAndFooter() {
+	$.getScript( "/kame-house/js/header-footer/headerFooter.js", function(data, textStatus, jqxhr) {
+		renderHeaderAndFooter();
+	});
+}
+
+/** Check that the current user has permissions to load the current page or redirect to /login. */
+function validateUrlPermissionsWithSession() {
+	log("DEBUG", "Request path: " + window.location.pathname);
+	var adminPagesRoot = "/kame-house/admin";
+	var userPages = ['/kame-house/test-module/angular-1'];
+	var currentPage = window.location.pathname;
+	if (currentPage.includes(adminPagesRoot)) {
+		if (!hasRole("ROLE_ADMIN")) {
+			redirectToLogin();
+		}
+	}
+	userPages.forEach(function(item, index, array) {
+		if (currentPage.includes(item)) {
+			if (!hasRole("ROLE_USER")) {
+				redirectToLogin();
+			}
+		}
+	});
+}
+
+/** Redirect to login page. */
+function redirectToLogin() {
+	log("DEBUG", "Redirecting to /login");
+	window.location.href = "/kame-house/login";
+	//window.location.replace("/kame-house/login");
+}
+
+/** Checks if the current user has the specified role */
+function hasRole(role) {
+	var hasRole = false;
+	global.session.roles.forEach(function(item, index, array) { 
+		log("DEBUG", "User role " + item);
+		if (item == role) {
+			log("DEBUG", "User " + global.session.username + " has role " + role);
+			hasRole = true;
+		}
+	});
+	if (!hasRole) {
+		log("DEBUG", "User " + global.session.username + " doesn't have role " + role);
+	} 
+	return hasRole;
 }
 
 /** Site under construction message. */

@@ -23,7 +23,7 @@ public class ControllerUtils {
    */
   public static ResponseEntity<List<SystemCommandOutput>> generateResponseEntity(
       List<SystemCommandOutput> commandOutputs) {
-    HttpStatus httpStatus = HttpStatus.OK;
+    HttpStatus httpStatus = HttpStatus.OK; 
     for (SystemCommandOutput commandOutput : commandOutputs) {
       if (commandOutput.getExitCode() > 0) {
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

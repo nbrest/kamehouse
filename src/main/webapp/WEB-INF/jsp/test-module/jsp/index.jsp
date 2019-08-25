@@ -10,6 +10,8 @@
 
 <title>KameHouse - Test Module - JSP</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
+<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/js/global.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 </head>
@@ -29,7 +31,5 @@
   </div>
   </div>
   <div id="footerContainer"></div>
-  <script src="${pageContext.request.contextPath}/lib/js/jquery-2.0.3.min.js"></script>
-  <script src="${pageContext.request.contextPath}/js/header-footer/headerFooter.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.net.*,java.io.*,java.lang.*,java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -12,12 +13,22 @@
 
 <title>KameHouse - Login</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/js/global.js"></script>
 <link href="<c:url value='/lib/css/bootstrap.min.css' />" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/lib/css/font-awesome.css' />" />
 <link rel="stylesheet" href="/kame-house/css/global.css" /> 
 <link rel="stylesheet" href="/kame-house/css/login.css" /> 
 </head>
 <body>
+  <%-- Set redirect url based on the referer to the login page. 
+  TODO: Investigate potential security issues with this redirect method --%>
+  <% 
+    String redirectUrl = request.getHeader("referer"); 
+    if (redirectUrl == null) {
+      redirectUrl = "";
+    }
+  %>
   <div id="headerContainer"></div>
   <div class="default-layout main-body">
     <c:url var="loginUrl" value="/login" />
@@ -48,14 +59,12 @@
           placeholder="Enter Password" required>
       </div>
       <br>
+      <input type="hidden" name="redirect-url" value="<%=redirectUrl%>">
       <div class="form-actions">
         <input type="submit" class="btn btn-block btn-outline-info btn-default" value="Log in">
       </div>
     </form>
   </div>
   <div id="footerContainer"></div>
-  <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
-  <script src="/kame-house/js/global.js"></script>
-  <script src="/kame-house/js/header-footer/headerFooter.js"></script>
 </body>
 </html>

@@ -3,20 +3,15 @@
  * 
  * @author nbrest
  */
-var SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
-
-function main() {
-  importHeaderAndFooter();
-}
 
 /**
- * Import header and footer.
+ * Render header and footer.
  */
-function importHeaderAndFooter() {
+function renderHeaderAndFooter() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
   $("#headerContainer").load("/kame-house/html-snippets/header.html", function() {
     updateActiveTab();
-    getSessionStatus();
+    updateHeaderLoginStatus();
   });
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
   $("#footerContainer").load("/kame-house/html-snippets/footer.html");
@@ -77,24 +72,11 @@ function toggleHeaderNav() {
 }
 
 /**
- * Get session status.
+ * Update header login status.
  */
-function getSessionStatus() {
-  $.get(SESSION_STATUS_URL)
-  .success(function(data) {
-    updateLoginStatus(data.username);
-  })
-  .error(function(jqXHR, textStatus, errorThrown) {
-    console.error("Error retrieving current session information.");
-    updateLoginStatus(null);
-  });
-}
-
-/**
- * Update login status.
- */
-function updateLoginStatus(name) {
-  if (name == undefined || name == null || name.trim() == "" || name.trim() == "anonymousUser") {
+function updateHeaderLoginStatus() {
+  if (isEmpty(global.session.username) || global.session.username.trim() == "" 
+	  || global.session.username.trim() == "anonymousUser") {
     var $loginStatus = $("#login-status");
     var $loginButton = $("<a href='/kame-house/login' " + 
         "class='btn btn-outline-danger login-status-button'>Login</>");
@@ -104,13 +86,8 @@ function updateLoginStatus(name) {
     var $logoutButton = $("<a href='/kame-house/logout' " + 
         "class='btn btn-outline-danger'>Logout</>");
     $loginMessage = $("<h5>");
-    $loginMessage.text(name);
+    $loginMessage.text(global.session.username);
     $loginStatus.append($logoutButton);
     $loginStatus.append($loginMessage);
   }
 }
-
-/**
- * Call main.
- */
-$(document).ready(main);
