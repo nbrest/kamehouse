@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>kameHouse 400 Bad Request</title>
+<title>KameHouse 400 Bad Request</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
@@ -20,7 +20,7 @@
   <div id="headerContainer"></div> 
   <div class="default-layout main-body">
     <center>
-      <h2>kameHouse 400 Bad Request</h2>
+      <h2>KameHouse 400 Bad Request</h2>
     </center>
     <%
       if (exception != null) {
