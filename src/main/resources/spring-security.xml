@@ -8,7 +8,9 @@
   <http auto-config="true">
     <!-- The order of intercept-urls matters. Order them from more specific to more 
       general within the same url. Ej: /api/v1/admin/application/** before /api/v1/admin/** -->
-      
+    <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"
+      method="GET" />
+    
     <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
       method="GET" />
     <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
@@ -54,6 +56,9 @@
     <intercept-url pattern="/api/v1/vlc-rc" access="permitAll"
       method="DELETE" />
 
+    <intercept-url pattern="/test-module/angular-1/**" access="hasRole('ROLE_USER')"
+      method="GET" />
+      
     <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="permitAll"
       method="GET" />
     <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_USER')"

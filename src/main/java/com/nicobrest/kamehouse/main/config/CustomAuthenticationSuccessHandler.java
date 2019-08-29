@@ -29,10 +29,10 @@ public class CustomAuthenticationSuccessHandler extends
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws ServletException, IOException {
 
-    String redirectUrl = request.getParameter("redirect-url");
-    if (redirectUrl != null) {
-      setTargetUrlParameter("redirect-url");
-    }
+//    String redirectUrl = request.getParameter("redirect-url");
+//    if (redirectUrl != null) {
+//      setTargetUrlParameter("redirect-url");
+//    }
     super.onAuthenticationSuccess(request, response, authentication);
     return;
   }
