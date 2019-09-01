@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.main.config;
+package com.nicobrest.kamehouse.admin.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;

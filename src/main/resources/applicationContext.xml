@@ -24,7 +24,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- main beans -->
   <bean class="com.nicobrest.kamehouse.main.config.WebSocketConfig" />
-  <bean class="com.nicobrest.kamehouse.main.config.WebSocketSecurityConfig" />
+  <bean class="com.nicobrest.kamehouse.admin.security.WebSocketSecurityConfig" />
 
   <!-- Ehcache configuration -->
   <cache:annotation-driven />

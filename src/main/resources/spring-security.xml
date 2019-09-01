@@ -78,7 +78,7 @@
     <authentication-provider ref="applicationAuthenticationProvider" />
   </authentication-manager>
 
-	<beans:bean id="authenticationSuccessHandler" class="com.nicobrest.kamehouse.main.config.CustomAuthenticationSuccessHandler">
+	<beans:bean id="authenticationSuccessHandler" class="com.nicobrest.kamehouse.admin.security.CustomAuthenticationSuccessHandler">
 	    <!-- Set to false, as with js redirects, the last referer will be /login -->
 	    <beans:property name="useReferer" value="false" />
 	</beans:bean>
