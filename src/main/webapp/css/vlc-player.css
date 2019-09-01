@@ -20,7 +20,7 @@
 
 #audio-controls #volume-slider {
   -webkit-appearance: none; 
-  height: 20px;
+  height: 10px;
   width: 100%;
   background: #505050;
   outline: none;
@@ -43,18 +43,18 @@
 #audio-controls #volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
-  border-color: #141414;
+  width: 20px;
+  height: 20px;
+  border-color: #4c4c4c;
   border-style: solid;
-  border-widh: 10px;
+  border-width: 1px;
   background: #141414;
   cursor: pointer;
 }
 /** ::-moz-range-thumb and ::-moz-range-progress for Firefox */
 #audio-controls #volume-slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-color: #141414;
   border-style: solid;
   border-widh: 10px;
@@ -62,8 +62,8 @@
   cursor: pointer;
 }
 #audio-controls #volume-slider::-moz-range-progress {
-	width: 25px;
-  height: 25px;
+	width: 20px;
+  height: 20px;
   background: #343434; 
 }
 
@@ -159,9 +159,9 @@
   appearance: none;
   width: 25px;
   height: 25px;
-  border-color: #141414;
+  border-color: #4c4c4c;
   border-style: solid;
-  border-widh: 10px;
+  border-width: 1px;
   background: #141414;
   cursor: pointer;
 }
