@@ -94,6 +94,25 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 *********************
 # ChangeLog:
 
+#### v0.22
+- Updated several vlc player buttons
+- Added state to vlc player buttons that have state (pressed, unpressed)
+- Updated playlist selected item style
+- Updated vlc player layout
+- Added get vlcrc status in debug mode
+- Updated playlist selector style
+- Reduced size of audio buttons
+- Updated vlcRcService to return null when not playing vlc
+- Added global js object in vlc player
+- Updated slider styles
+- Added custom logging for frontend code with log level and timestamp
+- Fixed getTimestamp in frontend to use the correct timezone
+- Moved static content from jsps to html (to be served by apache httpd but also available straight from tomcat)
+- Added CustomOnSuccess handler to handle authentication redirects
+- Created local maven repo for oracle jdbc and any other future libraries I can't get from the official maven repos (so they can be imported automcatically in CI servers such as travis)
+- Added integration to travis CI
+- Added integration to online code quality analisys tools (Codacy, CodeFactor, SonarCloud, CodeCov, Coveralls)
+- Fixed bugs
 #### v0.21
 - Completely changed vlc player UI
 - Added cache for vlc players
