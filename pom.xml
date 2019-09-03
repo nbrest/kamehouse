@@ -17,7 +17,7 @@
     <commons.httpclient.version>3.1</commons.httpclient.version>        <!-- Updated 2017/11 -->
     <compiler.plugin.version>3.5</compiler.plugin.version>              <!-- Updated 2016/02 -->
     <ehcache.version>2.9.0</ehcache.version>                            <!-- Updated 2016/02 -->
-    <findbugs.version>3.0.1</findbugs.version>                          <!-- Updated 2016/02 -->
+    <findbugs.version>3.0.5</findbugs.version>                          <!-- Updated 2019/09 -->
     <hamcrest.version>1.3</hamcrest.version>                            <!-- Updated 2016/02 -->
     <hibernate.version>5.1.0.Final</hibernate.version>                  <!-- Updated 2016/02 -->
     <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>          <!-- Updated 2016/02 -->
