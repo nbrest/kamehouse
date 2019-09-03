@@ -6,4 +6,5 @@ branches:
   - master
   - dev
 
-script: mvn clean install
+install: mvn clean
+script: mvn install
