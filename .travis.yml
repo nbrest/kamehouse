@@ -21,9 +21,7 @@ addons:
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  #- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-  # Using mvn install until the code in master is analyzed in sonarcloud. After that, I can delete mvn install and run the above command
-  - mvn install
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
   
 after_success:
  - bash <(curl -s https://codecov.io/bash)  
