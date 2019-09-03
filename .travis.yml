@@ -2,7 +2,7 @@ language: java
 jdk: openjdk8
 
 branches:
-  only:
+ only:
   - master
   - dev
 
