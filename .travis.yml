@@ -20,10 +20,8 @@ addons:
       secure: "QppkpaRLeG7HCJg8+pMTZOWIkL9ciw94+daFvb1cMk4pKkakl8GTAS64E7HQN39eGqN3RZItCDUSOzQ9th1C/vxJ+amwLmWQlxutD5508WFFjk5YjMST70MCVP9HaIlr0tqr1/NCGg7V707rHi8jg3ICCXRltxQMx9mW3jG9wNt7t7ELBwb0gavFFICVfnsLNZfA/acXUqapZyUOt+dCwr/Jcslb+nqfAeRE6srq3Iiaam2M1SOfEm6bvyHX7UYNEXY+YRUvss/RC3DPXsf73LyaVEAiRYjEvOo78gOvRPe1x6PHF3autoUOE7xSJVGon14WxuHFOcDCNi54zi3F4X2EDIqgP4LdAZxizzNZKbmhTjZYUMBXU1MtcAl0V9s02gczDK3wRfrQDAE3FpCqR7yH2BcEzuUgeLmk4LAYLNUtPC+VE0J2UZZV5Rr/RpmRCyRYxS80Nu7szjRiwxCdTBChJiEkrK2dsGjNRnvlVj4+4gTYrLUY33AEoSP6uXW+Vwbv8yOGEUoI2qzZgQDyxsgl3rmlET31PN1yvPvdfUInpf9xfN35ivGE66iCZZB0Eze/gjyv445T/CYqiGUUBVDaqfCagbkqRMBBimn67p9zpiqvcPHqjSLxpenpj2gwHFgC1WXVtebyplYGBdKY8f5WELR8eTYgZfkCVfDqsFo="
 
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-  # Using mvn install until the code in master is analyzed in sonarcloud. After that, I can delete mvn install and run the above command
-  #- mvn install
+  # the following command line builds the project and then execute the SonarCloud analysis
+  - mvn clean install sonar:sonar
  
 after_success:
  - bash <(curl -s https://codecov.io/bash)  
