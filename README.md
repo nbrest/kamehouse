@@ -94,6 +94,8 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 *********************
 # ChangeLog:
 
+#### v0.23
+- Fixed issues reported by sonar cloud
 #### v0.22
 - Updated several vlc player buttons
 - Added state to vlc player buttons that have state (pressed, unpressed)
