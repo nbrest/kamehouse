@@ -10,6 +10,7 @@
 <meta name="author" content="nbrest">
 <meta name="description" content="kame-house login">
 <meta name="keywords" content="kame-house nicobrest nbrest">
+<meta name="mobile-web-app-capable" content="yes">
 
 <title>KameHouse - Login</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />

@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
+<meta name="mobile-web-app-capable" content="yes">
 
 <title>Add DragonBallUser Form</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
