@@ -59,7 +59,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
       em.merge(applicationUser);
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      pe.printStackTrace();
+      logger.error("PersistenceException", pe);
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -95,7 +95,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
       applicationUser = (ApplicationUser) queryAppUser.getSingleResult();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      pe.printStackTrace();
+      logger.error("PersistenceException", pe);
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -149,7 +149,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
             + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
-      pe.printStackTrace();
+      logger.error("PersistenceException", pe);
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -185,7 +185,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
             + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
-      pe.printStackTrace();
+      logger.error("PersistenceException", pe);
       throw new KameHouseServerErrorException("PersistenceException in deleteUser", pe);
     } finally {
       em.close();
@@ -205,7 +205,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
           .getResultList();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      pe.printStackTrace();
+      logger.error("PersistenceException", pe);
       throw new KameHouseServerErrorException("PersistenceException in getAllUsers", pe);
     } finally {
       em.close();
