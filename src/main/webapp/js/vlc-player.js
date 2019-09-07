@@ -238,7 +238,7 @@ async function pullVlcRcStatusLoop() {
     } else { 
       failedCount++;
       if (failedCount >= 10) {
-        vlcRcStatusPullWaitTimeMs = 15000;
+        vlcRcStatusPullWaitTimeMs = 4000;
       }
     } 
   }
