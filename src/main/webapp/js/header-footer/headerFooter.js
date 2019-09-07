@@ -4,14 +4,17 @@
  * @author nbrest
  */
 
+var SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
+
 /**
  * Render header and footer.
  */
 function renderHeaderAndFooter() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
   $("#headerContainer").load("/kame-house/html-snippets/header.html", function() {
+	updateHeaderLoginStatus();
     updateActiveTab();
-    updateHeaderLoginStatus();
+    updateSessionStatus(); 
   });
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
   $("#footerContainer").load("/kame-house/html-snippets/footer.html");
@@ -71,18 +74,31 @@ function toggleHeaderNav() {
   }
 }
 
+/** Update session status. */
+function updateSessionStatus() {
+  $.get(SESSION_STATUS_URL)
+  .success(function(data) {
+	log("TRACE", JSON.stringify(data));
+	global.session = data;
+	updateHeaderLoginStatus(); 
+  })
+  .error(function(jqXHR, textStatus, errorThrown) {
+    log("ERROR", "Error retrieving current session information.");
+  });
+}
+
 /**
  * Update header login status.
  */
 function updateHeaderLoginStatus() {
+  var $loginStatus = $("#login-status");
+  $loginStatus.empty();
   if (isEmpty(global.session.username) || global.session.username.trim() == "" 
-	  || global.session.username.trim() == "anonymousUser") {
-    var $loginStatus = $("#login-status");
+	  || global.session.username.trim() == "anonymousUser") { 
     var $loginButton = $("<a href='/kame-house/login' " + 
         "class='btn btn-outline-danger login-status-button'>Login</>");
     $loginStatus.append($loginButton);
-  } else {
-    var $loginStatus = $("#login-status");
+  } else { 
     var $logoutButton = $("<a href='/kame-house/logout' " + 
         "class='btn btn-outline-danger'>Logout</>");
     $loginMessage = $("<h5>");
