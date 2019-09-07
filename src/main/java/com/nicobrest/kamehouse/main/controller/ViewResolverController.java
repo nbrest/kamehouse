@@ -35,7 +35,10 @@ public class ViewResolverController {
   public ModelAndView includeStaticHtml(HttpServletRequest request, HttpServletResponse response) {
 
     String originalRequestUrl = (String) request.getServletPath();
-    String staticHtmlToLoad = "/static" + originalRequestUrl;
+    if (!originalRequestUrl.startsWith("/")) {
+      originalRequestUrl = "/" + originalRequestUrl;
+    }
+    String staticHtmlToLoad = originalRequestUrl;
 
     // Certain urls are meant to be the root folder in a tree structure, for
     // those, I need to make sure I call them with the trailing /. If I don't, I
@@ -51,8 +54,10 @@ public class ViewResolverController {
       staticHtmlToLoad = staticHtmlToLoad + "index";
     }
     // Always append .html extension
-    staticHtmlToLoad = staticHtmlToLoad + ".html";
-
+    if (!staticHtmlToLoad.endsWith(".html")) {
+      staticHtmlToLoad = staticHtmlToLoad + ".html";
+    } 
+    
     logger.trace("In controller import-static (GET) with request '" + request.getServletPath()
         + "' Loading static html: '" + staticHtmlToLoad + "'");
 

@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="nbrest">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 
 <title>KameHouse - VLC Player</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
@@ -92,6 +91,7 @@
       </tr> 
     </table>
     <table id="media-flow-buttons" class="table-mplayer-btns-kh">
+      <caption class="hidden-kh">Media flow buttons</caption>
       <tr> 
         <td> 
           <img id="media-btn-shuffle" class="media-flow-button" src="/kame-house/img/mplayer/shuffle-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_random')"/> 
@@ -111,6 +111,7 @@
       </tr>
     </table>
     <table class="table-mplayer-btns-kh">
+      <caption class="hidden-kh">Screen control buttons</caption>
       <tr>
         <td> 
           <img id="media-btn-fullscreen" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/fullscreen-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"/>
