@@ -122,6 +122,10 @@
 	padding-top: 10px;
 }
 
+#media-flow-buttons {
+  margin-bottom: 15px;	
+}
+
 #media-title {
   padding-top: 10px;
   padding-left: 5px;

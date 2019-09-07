@@ -71,8 +71,7 @@
         <col class="w-10-pc-kh" />
         <col class="w-50-pc-kh" />
         <col class="w-10-pc-kh" />
-        <col class="w-10-pc-kh" /> 
-        <col class="w-10-pc-kh" /> 
+        <col class="w-20-pc-kh" /> 
       </colgroup>
       <tr>
       <td> 
@@ -90,12 +89,9 @@
       <td>  
         <div id="current-volume"></div>
       </td>
-      <td> 
-        <img class="btn-audio" src="/kame-house/img/mplayer/audio-track-cycle-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'audio-track')"/>
-      </td>
       </tr> 
     </table>
-    <table class="table-mplayer-btns-kh">
+    <table id="media-flow-buttons" class="table-mplayer-btns-kh">
       <tr> 
         <td> 
           <img id="media-btn-shuffle" src="/kame-house/img/mplayer/shuffle-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_random')"/> 
@@ -109,6 +105,13 @@
         <td> 
           <img src="/kame-house/img/mplayer/subtitles-cycle-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'subtitle-track')"/> 
         </td>
+	      <td> 
+	        <img src="/kame-house/img/mplayer/audio-track-cycle-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'audio-track')"/>
+	      </td>
+      </tr>
+    </table>
+    <table class="table-mplayer-btns-kh">
+      <tr>
         <td> 
           <img id="media-btn-fullscreen" src="/kame-house/img/mplayer/fullscreen-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')"/>
         </td>
