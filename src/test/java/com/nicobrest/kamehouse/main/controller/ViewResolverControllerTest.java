@@ -75,28 +75,28 @@ public class ViewResolverControllerTest {
       when(request.getServletPath()).thenReturn("/");
       returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
       assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/static/index.html", returnedModelAndView.getModel().get(
+      assertEquals("/index.html", returnedModelAndView.getModel().get(
           "staticHtmlToLoad"));
 
       // About
       when(request.getServletPath()).thenReturn("/about");
       returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
       assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/static/about.html", returnedModelAndView.getModel().get(
+      assertEquals("/about.html", returnedModelAndView.getModel().get(
           "staticHtmlToLoad"));
 
       // Admin
       when(request.getServletPath()).thenReturn("/admin");
       returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
       assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/static/admin/index.html", returnedModelAndView.getModel().get(
+      assertEquals("/admin/index.html", returnedModelAndView.getModel().get(
           "staticHtmlToLoad"));
 
       // Contact Us
       when(request.getServletPath()).thenReturn("/contact-us");
       returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
       assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/static/contact-us.html", returnedModelAndView.getModel().get(
+      assertEquals("/contact-us.html", returnedModelAndView.getModel().get(
           "staticHtmlToLoad"));
 
       // Login and Logout
@@ -111,7 +111,7 @@ public class ViewResolverControllerTest {
       when(request.getServletPath()).thenReturn("/test-module/");
       returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
       assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/static/test-module/index.html", returnedModelAndView.getModel().get(
+      assertEquals("/test-module/index.html", returnedModelAndView.getModel().get(
           "staticHtmlToLoad"));
 
       // Test Module - JSP
@@ -126,7 +126,7 @@ public class ViewResolverControllerTest {
       when(request.getServletPath()).thenReturn("/vlc-player");
       returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
       assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/static/vlc-player.html", returnedModelAndView.getModel().get(
+      assertEquals("/vlc-player.html", returnedModelAndView.getModel().get(
           "staticHtmlToLoad"));
 
     } catch (Exception e) {
