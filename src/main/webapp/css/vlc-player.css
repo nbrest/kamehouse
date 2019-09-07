@@ -126,6 +126,16 @@
   margin-bottom: 15px;	
 }
 
+.media-flow-button {
+	width: 30px !important; 
+	height: 30px !important;
+}
+
+.media-screen-ctrl-button {
+  width: 32px !important; 
+  height: 32px !important;
+}
+
 #media-title {
   padding-top: 10px;
   padding-left: 5px;
