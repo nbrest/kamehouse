@@ -18,10 +18,8 @@
       response.setStatus(404);
     %>
   <div id="headerContainer"></div> 
-  <div class="default-layout main-body">
-    <center>
-      <h2>KameHouse 404 Not Found</h2>
-    </center>
+  <div class="default-layout main-body"> 
+    <h2 class="txt-c-d-kh">KameHouse 404 Not Found</h2> 
     <%
       if (exception != null) {
     %>

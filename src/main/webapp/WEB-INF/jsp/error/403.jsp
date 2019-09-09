@@ -18,10 +18,8 @@
       response.setStatus(403);
     %>
   <div id="headerContainer"></div> 
-  <div class="default-layout main-body">
-    <center>
-      <h2>KameHouse 403 Forbidden</h2>
-    </center>
+  <div class="default-layout main-body"> 
+    <h2 class="txt-c-d-kh">KameHouse 403 Forbidden</h2> 
     <%
       if (exception != null) {
     %>

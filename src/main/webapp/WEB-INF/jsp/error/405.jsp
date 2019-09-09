@@ -18,10 +18,8 @@
       response.setStatus(405);
     %>
   <div id="headerContainer"></div> 
-  <div class="default-layout main-body">
-    <center>
-      <h2>KameHouse 405 Method Not Allowed</h2>
-    </center>
+  <div class="default-layout main-body"> 
+    <h2 class="txt-c-d-kh">KameHouse 405 Method Not Allowed</h2> 
     <%
       if (exception != null) {
     %>
