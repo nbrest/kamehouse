@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -23,6 +25,7 @@ import javax.persistence.Table;
 @Table(name = "DRAGONBALL_USER")
 public class DragonBallUser implements Serializable {
 
+  private static final Logger logger = LoggerFactory.getLogger(DragonBallUser.class);
   private static final long serialVersionUID = 159367676076449689L;
 
   @Id
@@ -157,7 +160,7 @@ public class DragonBallUser implements Serializable {
     try {
       return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      e.printStackTrace(); 
+      logger.error("Error formatting json", e);
     }
     return "DragonBallUser: INVALID_STATE";
   }

@@ -152,7 +152,6 @@ public class SystemCommandService {
 
     } catch (IOException | InterruptedException e) {
       logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
-      e.printStackTrace();
       commandOutput.setExitCode(1);
       commandOutput.setStatus("failed");
       commandOutput.setStandardError(Arrays.asList("An error occurred executing the command"));
@@ -163,7 +162,6 @@ public class SystemCommandService {
         } catch (IOException e) {
           logger.error("Exception occurred while executing the process. Message: " + e
               .getMessage());
-          e.printStackTrace();
           commandOutput.setExitCode(1);
           commandOutput.setStatus("failed");
           commandOutput.setStandardError(Arrays.asList(
@@ -176,7 +174,6 @@ public class SystemCommandService {
         } catch (IOException e) {
           logger.error("Exception occurred while executing the process. Message: " + e
               .getMessage());
-          e.printStackTrace();
           commandOutput.setExitCode(1);
           commandOutput.setStatus("failed");
           commandOutput.setStandardError(Arrays.asList(

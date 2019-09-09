@@ -71,7 +71,6 @@ public class VideoPlaylistService {
     } catch (IOException e) {
       logger.error("An exception occurred while getting all the video playlists. Message: " + e
           .getMessage());
-      e.printStackTrace();
     }
     videoPlaylists.sort(new PlaylistComparator());
     return videoPlaylists;

@@ -37,8 +37,7 @@ public class PropertiesUtils {
           adminPropertiesResource);
       adminProperties.putAll(adminPropertiesFromFile);
     } catch (IOException e) {
-      logger.error("Exception loading properties files. Message: " + e.getMessage());
-      e.printStackTrace();
+      logger.error("Exception loading properties files. Message: " + e.getMessage()); 
     }
   }
 

@@ -53,8 +53,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.getTransaction().begin();
       em.persist(dragonBallUser);
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -84,8 +83,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       query.setParameter("pId", id);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -116,8 +114,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       query.setParameter("pUsername", username);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -147,8 +144,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       query.setParameter("pEmail", email);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -188,8 +184,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
         throw new KameHouseNotFoundException("DragonBallUser with id " + dragonBallUser.getId()
             + " was not found in the repository.");
       }
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -230,8 +225,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
         throw new KameHouseNotFoundException("DragonBallUser with id " + id
             + " was not found in the repository.");
       }
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       throw new KameHouseServerErrorException("PersistenceException in deleteDragonBallUser", pe);
     } finally {
       em.close();
@@ -250,8 +244,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class)
           .getResultList();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       throw new KameHouseServerErrorException("PersistenceException in getAllDragonBallUsers", pe);
     } finally {
       em.close();

@@ -43,8 +43,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       em.getTransaction().begin();
       em.persist(vlcPlayer);
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -81,8 +80,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
         throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayer.getId()
             + " was not found in the repository.");
       }
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -111,8 +109,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       query.setParameter("pHostname", vlcPlayerName);
       vlcPlayer = (VlcPlayer) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -146,8 +143,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
         throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayerId
             + " was not found in the repository.");
       }
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       throw new KameHouseServerErrorException("PersistenceException in deleteDragonBallUser", pe);
     } finally {
       em.close();
@@ -163,8 +159,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       em.getTransaction().begin();
       vlcPlayers = em.createQuery("from VlcPlayer", VlcPlayer.class).getResultList();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      pe.printStackTrace();
+    } catch (PersistenceException pe) { 
       throw new KameHouseServerErrorException("PersistenceException in getAllVlcPlayers", pe);
     } finally {
       em.close();

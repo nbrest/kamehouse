@@ -227,8 +227,7 @@ public class VlcPlayer implements Serializable {
     try {
       return URIUtil.encodeQuery(parameter);
     } catch (URIException e) {
-      logger.error("Failed to encode parameter: " + parameter);
-      e.printStackTrace();
+      logger.error("Failed to encode parameter: " + parameter); 
       return null;
     }
   }
@@ -275,8 +274,7 @@ public class VlcPlayer implements Serializable {
           responseReader.close();
         }
       } catch (IOException e) {
-        logger.error("Unable to close responseReader");
-        e.printStackTrace();
+        logger.error("Unable to close responseReader", e); 
       }
     }
   }
@@ -526,9 +524,8 @@ public class VlcPlayer implements Serializable {
         vlcRcStatus.setInformation(information);
       }
     } catch (IOException e) {
-      logger.error("Error parsing input VlcRcStatus");
-      vlcRcStatus = null;
-      // e.printStackTrace();
+      logger.error("Error parsing input VlcRcStatus", e);
+      vlcRcStatus = null; 
     }
     return vlcRcStatus;
   }
@@ -566,8 +563,7 @@ public class VlcPlayer implements Serializable {
         }
       }
       return vlcRcPlaylist;
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException e) { 
       throw new KameHouseException(e);
     }
   }
@@ -604,8 +600,7 @@ public class VlcPlayer implements Serializable {
         }
       }
       return vlcRcFilelist;
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException e) { 
       throw new KameHouseException(e);
     }
   }
@@ -632,7 +627,7 @@ public class VlcPlayer implements Serializable {
     try {
       return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      e.printStackTrace();
+      logger.error("Error formatting json", e);
     }
     return "VlcPlayer: INVALID_STATE";
   }

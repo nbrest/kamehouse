@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
@@ -30,6 +32,7 @@ import javax.persistence.Table;
 @Table(name = "APPLICATION_USER")
 public class ApplicationUser implements UserDetails {
 
+  private static final Logger logger = LoggerFactory.getLogger(ApplicationUser.class);
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -231,7 +234,7 @@ public class ApplicationUser implements UserDetails {
     try {
       return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      e.printStackTrace();
+      logger.error("Error formatting json", e);
     }
     return "ApplicationUser: INVALID_STATE";
   }

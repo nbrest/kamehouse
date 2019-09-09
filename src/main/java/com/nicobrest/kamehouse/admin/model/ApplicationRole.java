@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
@@ -26,6 +28,7 @@ import javax.persistence.Table;
 @Table(name = "APPLICATION_ROLE")
 public class ApplicationRole implements GrantedAuthority {
 
+  private static final Logger logger = LoggerFactory.getLogger(ApplicationRole.class);
   private static final long serialVersionUID = 1L;
   
   @Id
@@ -91,7 +94,7 @@ public class ApplicationRole implements GrantedAuthority {
     try {
       return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      e.printStackTrace(); 
+      logger.error("Error formatting json", e);
     }
     return "ApplicationRole: INVALID_STATE";
   }
