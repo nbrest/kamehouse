@@ -58,7 +58,7 @@
   height: 20px;
   border-color: #141414;
   border-style: solid;
-  border-widh: 10px;
+  border-width: 10px;
   border-radius: 50%;
   background: #141414;
   cursor: pointer;
@@ -187,7 +187,7 @@
   height: 25px;
   border-color: #141414;
   border-style: solid;
-  border-widh: 10px;
+  border-width: 10px;
   background: #141414;
   cursor: pointer;
 }

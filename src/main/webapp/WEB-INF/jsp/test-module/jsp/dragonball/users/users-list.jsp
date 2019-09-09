@@ -36,15 +36,16 @@
     			}
     %>
       <table class="table table-dragonball-users">
+        <caption class="hidden-kh">DragonBall Users</caption>
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Age</th>
-            <th>Power Level</th>
-            <th>Stamina</th>
-            <th></th>
+            <th scope="row">Id</th>
+            <th scope="row">Name</th>
+            <th scope="row">Email</th>
+            <th scope="row">Age</th>
+            <th scope="row">Power Level</th>
+            <th scope="row">Stamina</th>
+            <th scope="row"></th>
           </tr>
         </thead>
         <tbody>
