@@ -210,8 +210,7 @@ public class DragonBallController {
     String jsonString;
     try {
       jsonString = mapper.writeValueAsString(obj);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
+    } catch (JsonProcessingException e) { 
       throw new KameHouseServerErrorException("Error mapping Object to a Json string", e);
     }
     return jsonString;
