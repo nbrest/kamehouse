@@ -149,12 +149,14 @@ public class SystemCommandService {
         commandOutput.setExitCode(-1); // process is still running.
         commandOutput.setStatus("running");
       }
-
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
       logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
       commandOutput.setExitCode(1);
       commandOutput.setStatus("failed");
       commandOutput.setStandardError(Arrays.asList("An error occurred executing the command"));
+    } catch (InterruptedException e) {
+      logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
+      Thread.currentThread().interrupt();
     } finally {
       if (processBufferedReader != null) {
         try {

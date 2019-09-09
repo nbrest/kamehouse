@@ -13,6 +13,7 @@ global.currentPlaylist = [];
 
 global.stompClient = null;
 global.isWebSocketConnected = false;  
+global.syncVlcStatus = true;
 
 /** Main function. */
 var main = function() {
@@ -225,7 +226,7 @@ async function pullVlcRcStatusLoop() {
   // TODO: Make the client side contain a status of when vlc player is actually running on the server and only pull when it's running.
   if (global.isWebSocketConnected) {
     getVlcRcStatus();
-  } 
+  }  
   for ( ; ; ) { 
     await sleep(vlcRcStatusPullWaitTimeMs);
     log("TRACE", "pullVlcRcStatusLoop(): vlcRcStatus:" + JSON.stringify(global.vlcRcStatus));
@@ -240,7 +241,10 @@ async function pullVlcRcStatusLoop() {
       if (failedCount >= 10) {
         vlcRcStatusPullWaitTimeMs = 4000;
       }
-    } 
+    }
+    if (!global.syncVlcStatus) {
+    	break;
+    }
   }
 }
 
