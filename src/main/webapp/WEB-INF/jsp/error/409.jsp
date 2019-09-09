@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*,java.text.*,java.io.*"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>KameHouse 409 Conflict</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
