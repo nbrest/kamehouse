@@ -12,6 +12,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
+import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -86,9 +87,15 @@ public class VlcPlayerServiceTest {
       playerToAdd.setHostname("playerAdded.localhost");
       playerToAdd.setPort(8080);
 
+      VlcPlayerDto vlcPlayerToAddDto = new VlcPlayerDto();
+      vlcPlayerToAddDto.setUsername("playerAdded");
+      vlcPlayerToAddDto.setPassword("1");
+      vlcPlayerToAddDto.setHostname("playerAdded.localhost");
+      vlcPlayerToAddDto.setPort(8080);
+      
       Mockito.doReturn(1L).when(vlcPlayerDaoMock).createVlcPlayer(playerToAdd);
 
-      vlcPlayerService.createVlcPlayer(playerToAdd);
+      vlcPlayerService.createVlcPlayer(vlcPlayerToAddDto);
 
       verify(vlcPlayerDaoMock, times(1)).createVlcPlayer(playerToAdd);
     } catch (KameHouseBadRequestException e) {
@@ -133,9 +140,16 @@ public class VlcPlayerServiceTest {
       vlcPlayerToUpdate.setUsername("player1user");
       vlcPlayerToUpdate.setPassword("1pass");
 
+      VlcPlayerDto vlcPlayerToUpdateDto = new VlcPlayerDto();
+      vlcPlayerToUpdateDto.setUsername("player1user");
+      vlcPlayerToUpdateDto.setPassword("1pass");
+      vlcPlayerToUpdateDto.setHostname("player1.localhost");
+      vlcPlayerToUpdateDto.setPort(9999);
+      vlcPlayerToUpdateDto.setId(1000L);
+      
       Mockito.doNothing().when(vlcPlayerDaoMock).updateVlcPlayer(vlcPlayerToUpdate);
 
-      vlcPlayerService.updateVlcPlayer(vlcPlayerToUpdate);
+      vlcPlayerService.updateVlcPlayer(vlcPlayerToUpdateDto);
 
       verify(vlcPlayerDaoMock, times(1)).updateVlcPlayer(vlcPlayerToUpdate);
     } catch (KameHouseNotFoundException e) {

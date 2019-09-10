@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.service;
 
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
+import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,7 +42,8 @@ public class VlcPlayerService {
   /**
    * Create a VLC Player.
    */
-  public Long createVlcPlayer(VlcPlayer vlcPlayer) {
+  public Long createVlcPlayer(VlcPlayerDto vlcPlayerDto) {
+    VlcPlayer vlcPlayer = getModel(vlcPlayerDto);
     Long vlcPlayerId = vlcPlayerDao.createVlcPlayer(vlcPlayer);
     return vlcPlayerId;
   } 
@@ -49,7 +51,8 @@ public class VlcPlayerService {
   /**
    * Update a VLC Player.
    */
-  public void updateVlcPlayer(VlcPlayer vlcPlayer) {
+  public void updateVlcPlayer(VlcPlayerDto vlcPlayerDto) {
+    VlcPlayer vlcPlayer = getModel(vlcPlayerDto);
     vlcPlayerDao.updateVlcPlayer(vlcPlayer);
   } 
   
@@ -67,5 +70,18 @@ public class VlcPlayerService {
   public List<VlcPlayer> getAllVlcPlayers() {
     List<VlcPlayer> vlcPlayers = vlcPlayerDao.getAllVlcPlayers();
     return vlcPlayers;
+  }
+  
+  /**
+   * Get VlcPlayer model object from it's DTO.
+   */
+  private VlcPlayer getModel(VlcPlayerDto vlcPlayerDto) {
+    VlcPlayer vlcPlayer = new VlcPlayer();
+    vlcPlayer.setHostname(vlcPlayerDto.getHostname());
+    vlcPlayer.setId(vlcPlayerDto.getId());
+    vlcPlayer.setPassword(vlcPlayerDto.getPassword());
+    vlcPlayer.setPort(vlcPlayerDto.getPort());
+    vlcPlayer.setUsername(vlcPlayerDto.getUsername());
+    return vlcPlayer;
   }
 }

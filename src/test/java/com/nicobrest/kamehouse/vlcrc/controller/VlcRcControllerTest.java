@@ -26,6 +26,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus.Equalizer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus.Information;
 import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
+import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -62,6 +63,7 @@ public class VlcRcControllerTest {
 
   private MockMvc mockMvc;
   private static VlcPlayer vlcPlayerMock;
+  private static VlcPlayerDto vlcPlayerDtoMock;
   private static VlcRcStatus vlcRcStatusMock;
   private static List<VlcPlayer> vlcPlayerListMock;
   private static List<Map<String, Object>> vlcRcPlaylistMock;
@@ -84,6 +86,13 @@ public class VlcRcControllerTest {
     vlcPlayerMock.setUsername("");
     vlcPlayerMock.setPassword("1");
     vlcPlayerMock.setId(10L);
+
+    vlcPlayerDtoMock = new VlcPlayerDto();
+    vlcPlayerDtoMock.setHostname("localhost");
+    vlcPlayerDtoMock.setPort(8080);
+    vlcPlayerDtoMock.setUsername("");
+    vlcPlayerDtoMock.setPassword("1");
+    vlcPlayerDtoMock.setId(10L);
 
     vlcPlayerListMock = new ArrayList<VlcPlayer>();
     vlcPlayerListMock.add(vlcPlayerMock);
@@ -253,18 +262,20 @@ public class VlcRcControllerTest {
   public void createVlcPlayerTest() {
 
     try {
-      when(vlcPlayerServiceMock.createVlcPlayer(vlcPlayerMock)).thenReturn(vlcPlayerMock.getId());
+      when(vlcPlayerServiceMock.createVlcPlayer(vlcPlayerDtoMock))
+          .thenReturn(vlcPlayerDtoMock.getId());
 
       ResultActions requestResult = mockMvc
           .perform(post("/api/v1/vlc-rc/players").contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(vlcPlayerMock)))
+              .content(JsonUtils.convertToJsonBytes(vlcPlayerDtoMock)))
           .andDo(print());
       requestResult.andExpect(status().isCreated());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-      requestResult.andExpect(content().bytes(JsonUtils.convertToJsonBytes(vlcPlayerMock.getId())));
+      requestResult
+          .andExpect(content().bytes(JsonUtils.convertToJsonBytes(vlcPlayerDtoMock.getId())));
       requestResult.andExpect(content().string(vlcPlayerMock.getId().toString()));
 
-      verify(vlcPlayerServiceMock, times(1)).createVlcPlayer(vlcPlayerMock);
+      verify(vlcPlayerServiceMock, times(1)).createVlcPlayer(vlcPlayerDtoMock);
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -333,18 +344,18 @@ public class VlcRcControllerTest {
   public void updateVlcPlayerTest() {
 
     try {
-      Mockito.doNothing().when(vlcPlayerServiceMock).updateVlcPlayer(vlcPlayerMock);
-      when(vlcPlayerServiceMock.getVlcPlayer(vlcPlayerMock.getHostname()))
+      Mockito.doNothing().when(vlcPlayerServiceMock).updateVlcPlayer(vlcPlayerDtoMock);
+      when(vlcPlayerServiceMock.getVlcPlayer(vlcPlayerDtoMock.getHostname()))
           .thenReturn(vlcPlayerMock);
 
       ResultActions requestResult = mockMvc
-          .perform(put("/api/v1/vlc-rc/players/" + vlcPlayerMock.getHostname())
+          .perform(put("/api/v1/vlc-rc/players/" + vlcPlayerDtoMock.getHostname())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(vlcPlayerMock)))
+              .content(JsonUtils.convertToJsonBytes(vlcPlayerDtoMock)))
           .andDo(print());
       requestResult.andExpect(status().isOk());
 
-      verify(vlcPlayerServiceMock, times(1)).updateVlcPlayer(vlcPlayerMock);
+      verify(vlcPlayerServiceMock, times(1)).updateVlcPlayer(vlcPlayerDtoMock);
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -400,7 +411,8 @@ public class VlcRcControllerTest {
   }
 
   /**
-   * Tests getting 404 not found when the server can't reach the specified vlc player.
+   * Tests getting 404 not found when the server can't reach the specified vlc
+   * player.
    */
   @Test
   public void getVlcRcStatusNotFoundTest() {
@@ -417,7 +429,7 @@ public class VlcRcControllerTest {
       fail("Unexpected exception thrown.");
     }
   }
-  
+
   /**
    * Tests Executing a command in the selected VLC Player.
    */
@@ -490,17 +502,17 @@ public class VlcRcControllerTest {
       when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFilelistMock);
 
       ResultActions requestResult = mockMvc.perform(get("/api/v1/vlc-rc/players/niko-nba/browse"))
-          .andDo(print()).andExpect(status().isOk())
-          .andExpect(content().contentType("application/json;charset=UTF-8"))
-          .andExpect(jsonPath("$", hasSize(2))).andExpect(jsonPath("$[0].type", equalTo("dir")))
-          .andExpect(jsonPath("$[0].path", equalTo("C:\\")))
-          .andExpect(jsonPath("$[0].uri", equalTo("file:///C:/")))
-          .andExpect(jsonPath("$[0].accessTime", equalTo(315543600)))
+          .andDo(print()).andExpect(status().isOk());
+      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
+      requestResult.andExpect(jsonPath("$", hasSize(2))).andExpect(jsonPath("$[0].type", equalTo("dir")));
+      requestResult.andExpect(jsonPath("$[0].path", equalTo("C:\\")));
+      requestResult.andExpect(jsonPath("$[0].uri", equalTo("file:///C:/")));
+      requestResult.andExpect(jsonPath("$[0].accessTime", equalTo(315543600)));
 
-          .andExpect(jsonPath("$[1].type", equalTo("dir")))
-          .andExpect(jsonPath("$[1].path", equalTo("D:\\")))
-          .andExpect(jsonPath("$[1].uri", equalTo("file:///D:/")))
-          .andExpect(jsonPath("$[1].accessTime", equalTo(315543600)));
+      requestResult.andExpect(jsonPath("$[1].type", equalTo("dir")));
+      requestResult.andExpect(jsonPath("$[1].path", equalTo("D:\\")));
+      requestResult.andExpect(jsonPath("$[1].uri", equalTo("file:///D:/")));
+      requestResult.andExpect(jsonPath("$[1].accessTime", equalTo(315543600)));
       verify(vlcRcServiceMock, times(1)).browse(any(), anyString());
     } catch (Exception e) {
       e.printStackTrace();

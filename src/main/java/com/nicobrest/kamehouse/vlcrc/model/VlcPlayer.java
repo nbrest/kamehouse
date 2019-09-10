@@ -134,9 +134,13 @@ public class VlcPlayer implements Serializable {
    */
   public VlcRcStatus execute(VlcRcCommand command) {
     String commandUrl = buildCommandUrl(command);
-    String vlcServerResponse = executeRequestToVlcServer(commandUrl);
-    VlcRcStatus vlcRcStatus = buildVlcRcStatus(vlcServerResponse);
-    return vlcRcStatus;
+    if (commandUrl != null) {
+      String vlcServerResponse = executeRequestToVlcServer(commandUrl);
+      VlcRcStatus vlcRcStatus = buildVlcRcStatus(vlcServerResponse);
+      return vlcRcStatus; 
+    } else {
+      return null;
+    } 
   }
 
   /**
@@ -198,13 +202,17 @@ public class VlcPlayer implements Serializable {
    */
   private String buildCommandUrl(VlcRcCommand command) {
 
+    String encodedCommand = urlEncode(command.getName());
+    if (encodedCommand == null) {
+      return null;
+    } 
     StringBuffer commandUrl = new StringBuffer();
     commandUrl.append(PROTOCOL);
     commandUrl.append(hostname);
     commandUrl.append(":");
     commandUrl.append(port);
-    commandUrl.append(STATUS_URL);
-    commandUrl.append("?command=" + urlEncode(command.getName()));
+    commandUrl.append(STATUS_URL);  
+    commandUrl.append("?command=" + encodedCommand); 
     if (command.getInput() != null) {
       commandUrl.append("&input=" + urlEncode(command.getInput()));
     }
@@ -226,7 +234,7 @@ public class VlcPlayer implements Serializable {
   private String urlEncode(String parameter) {
     try {
       return URIUtil.encodeQuery(parameter);
-    } catch (URIException e) {
+    } catch (URIException | IllegalArgumentException e) {
       logger.error("Failed to encode parameter: " + parameter); 
       return null;
     }

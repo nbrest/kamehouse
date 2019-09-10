@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
+import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,10 +47,10 @@ public class VlcRcController {
    */
   @RequestMapping(value = "/players", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseEntity<Long> createVlcPlayer(@RequestBody VlcPlayer vlcPlayer) {
+  public ResponseEntity<Long> createVlcPlayer(@RequestBody VlcPlayerDto vlcPlayerDto) {
 
     logger.trace("In controller /vlc-rc/players (POST)");
-    Long vlcPlayerId = vlcPlayerService.createVlcPlayer(vlcPlayer);
+    Long vlcPlayerId = vlcPlayerService.createVlcPlayer(vlcPlayerDto);
     return new ResponseEntity<Long>(vlcPlayerId, HttpStatus.CREATED);
   }
 
@@ -82,10 +83,11 @@ public class VlcRcController {
    */
   @RequestMapping(value = "/players/{vlcPlayerName}", method = RequestMethod.PUT)
   public ResponseEntity<?> updateVlcPlayer(@PathVariable String vlcPlayerName,
-      @RequestBody VlcPlayer vlcPlayer) {
+      @RequestBody VlcPlayerDto vlcPlayerDto) {
 
+    //TODO: Move this to {id} and check that path id is the same as VlcPlayerDto id
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName} (PUT)");
-    vlcPlayerService.updateVlcPlayer(vlcPlayer);
+    vlcPlayerService.updateVlcPlayer(vlcPlayerDto);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 

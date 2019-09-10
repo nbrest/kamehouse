@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.junit.Before;
@@ -82,6 +84,7 @@ public class VlcPlayerTest {
       fail("Unexpected exception thrown.");
     }
   }
+  
   /**
    * Execute a command in the VLC Player and return it's status.
    */
@@ -117,6 +120,23 @@ public class VlcPlayerTest {
       }
       assertEquals("\"Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv\"", meta.get("filename")
           .toString());
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown.");
+    }
+  }
+  
+  /**
+   * Execute a command in the VLC Player with an invalid requestUrl. 
+   */
+  @Test
+  public void executeNullCommandTest() { 
+    VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer()); 
+    VlcRcCommand vlcRcCommand = new VlcRcCommand();
+    vlcRcCommand.setName(null); 
+    try {  
+      VlcRcStatus vlcRcStatus = vlcPlayerSpy.execute(vlcRcCommand); 
+      assertEquals(null, vlcRcStatus); 
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
