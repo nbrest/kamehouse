@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.service;
  
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class SessionStatusService {
     WebAuthenticationDetails sessionDetails = (WebAuthenticationDetails) authentication
         .getDetails();
     Map<String, Object> sessionStatus = new HashMap<String, Object>();
-    sessionStatus.put("username", username);
+    sessionStatus.put("username", StringEscapeUtils.escapeHtml(username));
     sessionStatus.put("session-id", sessionDetails.getSessionId());
     List<String> roles = new ArrayList<String>();
     for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
