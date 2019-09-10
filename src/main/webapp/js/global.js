@@ -23,11 +23,6 @@ function loadHeaderAndFooter() {
 	});
 }
 
-/** Site under construction message. */
-function siteUnderCostructionAlert() {
-  alert('The site is still under construction and this functionality has not been implemented yet.');
-}
-
 /** Get current timestamp with client timezone. */
 function getTimestamp() {
   var newDate = new Date();
