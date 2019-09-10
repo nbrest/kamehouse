@@ -110,7 +110,7 @@ public class ApplicationUserServiceTest {
       fail("Caught unexpected exception.");
     }
   }
-
+  
   /**
    * Test for calling the service to get a single ApplicationUser in the
    * repository by username.

@@ -65,8 +65,8 @@ public class ApplicationUserService implements UserDetailsService {
   public Long createUser(ApplicationUserDto applicationUserDto) {
     ApplicationUser applicationUser = getModel(applicationUserDto);
     validateApplicationUser(applicationUser);
-    applicationUser.setPassword(PasswordUtils.generateHashedPassword(applicationUser
-        .getPassword()));
+    applicationUser
+        .setPassword(PasswordUtils.generateHashedPassword(applicationUser.getPassword()));
     Long id = applicationUserDao.createUser(applicationUser);
     return id;
   }
@@ -95,28 +95,23 @@ public class ApplicationUserService implements UserDetailsService {
     List<ApplicationUser> applicationUsers = applicationUserDao.getAllUsers();
     return applicationUsers;
   }
-  
+
   /**
    * Validates the application user attributes.
    */
   private void validateApplicationUser(ApplicationUser applicationUser) {
-    if (applicationUser != null) {
-      ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
-      ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
-      ApplicationUserValidator.validateUsernameFormat(applicationUser.getUsername());
-      ApplicationUserValidator.validateEmailFormat(applicationUser.getEmail());
-      ApplicationUserValidator.validateStringLength(applicationUser.getFirstName());
-      ApplicationUserValidator.validateStringLength(applicationUser.getLastName());
-      ApplicationUserValidator.validateStringLength(applicationUser.getUsername());
-      ApplicationUserValidator.validateStringLength(applicationUser.getEmail());
-      ApplicationUserValidator.validateStringLength(applicationUser.getPassword());      
-    } 
+    ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
+    ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
+    ApplicationUserValidator.validateUsernameFormat(applicationUser.getUsername());
+    ApplicationUserValidator.validateEmailFormat(applicationUser.getEmail());
+    ApplicationUserValidator.validateStringLength(applicationUser.getFirstName());
+    ApplicationUserValidator.validateStringLength(applicationUser.getLastName());
+    ApplicationUserValidator.validateStringLength(applicationUser.getUsername());
+    ApplicationUserValidator.validateStringLength(applicationUser.getEmail());
+    ApplicationUserValidator.validateStringLength(applicationUser.getPassword());
   }
-  
+
   private ApplicationUser getModel(ApplicationUserDto applicationUserDto) {
-    if (applicationUserDto == null) {
-      return null;
-    }
     ApplicationUser applicationUser = new ApplicationUser();
     applicationUser.setAccountNonExpired(applicationUserDto.isAccountNonExpired());
     applicationUser.setAccountNonLocked(applicationUserDto.isAccountNonLocked());
@@ -129,7 +124,7 @@ public class ApplicationUserService implements UserDetailsService {
         applicationRole.setName(applicationRoleDto.getName());
         applicationRole.setApplicationUser(applicationUser);
       }
-    } 
+    }
     applicationUser.setAuthorities(applicationRoles);
     applicationUser.setCredentialsNonExpired(applicationUserDto.isCredentialsNonExpired());
     applicationUser.setEmail(applicationUserDto.getEmail());
