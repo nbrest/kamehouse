@@ -2,6 +2,8 @@ package com.nicobrest.kamehouse.testmodule.servlet;
 
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/test-module/jsp/dragonball/users/users-delete-action")
 public class DragonBallUserDeleteActionServlet extends HttpServlet {
 
+  private static final Logger logger = LoggerFactory
+      .getLogger(DragonBallUserDeleteActionServlet.class);
   private static final long serialVersionUID = 1L;
 
   private static DragonBallUserService dragonBallUserService;
@@ -39,19 +43,19 @@ public class DragonBallUserDeleteActionServlet extends HttpServlet {
 
   /**
    * Configures private static dragonBallUserService. @Autowired doesn't work
-   * because the servlet is not managed by spring and the initialization of
-   * static fields probably happens before the spring context loads. The only
-   * way for @Autowired to work was to have the property non-static and use
+   * because the servlet is not managed by spring and the initialization of static
+   * fields probably happens before the spring context loads. The only way
+   * for @Autowired to work was to have the property non-static and use
    * SpringBeanAutowiringSupport in the init method, but findbugs reports having
    * non-static fields in a Servlet as a bug.
    */
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
-    ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this
-        .getServletContext());
-    DragonBallUserService dragonBallUserService = (DragonBallUserService) context.getBean(
-        "dragonBallUserService");
+    ApplicationContext context = WebApplicationContextUtils
+        .getRequiredWebApplicationContext(this.getServletContext());
+    DragonBallUserService dragonBallUserService = (DragonBallUserService) context
+        .getBean("dragonBallUserService");
     setDragonBallUserService(dragonBallUserService);
   }
 
@@ -62,9 +66,12 @@ public class DragonBallUserDeleteActionServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
-    Long userId = Long.parseLong(request.getParameter("id"));
-    getDragonBallUserService().deleteDragonBallUser(userId);
-    response.sendRedirect("users-list");
+    try {
+      Long userId = Long.parseLong(request.getParameter("id"));
+      getDragonBallUserService().deleteDragonBallUser(userId);
+      response.sendRedirect("users-list");
+    } catch (NumberFormatException e) {
+      logger.error("Error occurred processing request.", e);
+    }
   }
 }
