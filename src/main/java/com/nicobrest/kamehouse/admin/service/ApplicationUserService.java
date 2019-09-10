@@ -100,16 +100,17 @@ public class ApplicationUserService implements UserDetailsService {
    * Validates the application user attributes.
    */
   private void validateApplicationUser(ApplicationUser applicationUser) {
-    
-    ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
-    ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
-    ApplicationUserValidator.validateUsernameFormat(applicationUser.getUsername());
-    ApplicationUserValidator.validateEmailFormat(applicationUser.getEmail());
-    ApplicationUserValidator.validateStringLength(applicationUser.getFirstName());
-    ApplicationUserValidator.validateStringLength(applicationUser.getLastName());
-    ApplicationUserValidator.validateStringLength(applicationUser.getUsername());
-    ApplicationUserValidator.validateStringLength(applicationUser.getEmail());
-    ApplicationUserValidator.validateStringLength(applicationUser.getPassword());
+    if (applicationUser != null) {
+      ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
+      ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
+      ApplicationUserValidator.validateUsernameFormat(applicationUser.getUsername());
+      ApplicationUserValidator.validateEmailFormat(applicationUser.getEmail());
+      ApplicationUserValidator.validateStringLength(applicationUser.getFirstName());
+      ApplicationUserValidator.validateStringLength(applicationUser.getLastName());
+      ApplicationUserValidator.validateStringLength(applicationUser.getUsername());
+      ApplicationUserValidator.validateStringLength(applicationUser.getEmail());
+      ApplicationUserValidator.validateStringLength(applicationUser.getPassword());      
+    } 
   }
   
   private ApplicationUser getModel(ApplicationUserDto applicationUserDto) {
