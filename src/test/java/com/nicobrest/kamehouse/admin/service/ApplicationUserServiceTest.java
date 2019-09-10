@@ -10,6 +10,8 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.admin.dao.ApplicationUserDao;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
+import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
+import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +19,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Unit tests for the ApplicationUserService class.
@@ -26,7 +33,9 @@ import org.mockito.MockitoAnnotations;
 public class ApplicationUserServiceTest {
 
   private ApplicationUser applicationUserMock;
-
+  private ApplicationUserDto applicationUserDtoMock;
+  private static List<ApplicationUser> applicationUsersList;
+  
   @InjectMocks
   private ApplicationUserService applicationUserService;
 
@@ -46,6 +55,42 @@ public class ApplicationUserServiceTest {
     applicationUserMock.setFirstName("Goku");
     applicationUserMock.setLastName("Son");
 
+    applicationUserDtoMock = new ApplicationUserDto();
+    applicationUserDtoMock.setId(1000L);
+    applicationUserDtoMock.setEmail("gokuTestMock@dbz.com");
+    applicationUserDtoMock.setUsername("gokuTestMock");
+    applicationUserDtoMock.setPassword("gokupass");
+    applicationUserDtoMock.setFirstName("Goku");
+    applicationUserDtoMock.setLastName("Son");
+    applicationUserDtoMock.setAccountNonExpired(true);
+    applicationUserDtoMock.setAccountNonLocked(true);
+    applicationUserDtoMock.setCredentialsNonExpired(true);
+    applicationUserDtoMock.setEnabled(true);
+    applicationUserDtoMock.setLastLogin(new Date()); 
+    List<ApplicationRoleDto> authorities = new ArrayList<>();
+    ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
+    applicationRoleDto.setId(10L);
+    applicationRoleDto.setName("ADMIN_ROLE");
+    authorities.add(applicationRoleDto);
+    applicationUserDtoMock.setAuthorities(authorities);
+    
+    ApplicationUser applicationUserMock2 = new ApplicationUser();
+    applicationUserMock2.setId(1002L);
+    applicationUserMock2.setEmail("gohan@dbz.com");
+    applicationUserMock2.setUsername("gohan");
+    applicationUserMock2.setPassword("gohan");
+
+    ApplicationUser applicationUserMock3 = new ApplicationUser();
+    applicationUserMock3.setId(1003L);
+    applicationUserMock3.setEmail("goten@dbz.com");
+    applicationUserMock3.setUsername("goten");
+    applicationUserMock3.setPassword("goten");
+
+    applicationUsersList = new LinkedList<ApplicationUser>();
+    applicationUsersList.add(applicationUserMock);
+    applicationUsersList.add(applicationUserMock2);
+    applicationUsersList.add(applicationUserMock3);
+    
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserDaoMock);
   }
@@ -58,7 +103,7 @@ public class ApplicationUserServiceTest {
   public void createUserTest() {
     try {
       Mockito.doReturn(1L).when(applicationUserDaoMock).createUser(applicationUserMock);
-      applicationUserService.createUser(applicationUserMock);
+      applicationUserService.createUser(applicationUserDtoMock);
       verify(applicationUserDaoMock, times(1)).createUser(applicationUserMock);
     } catch (Exception e) {
       e.printStackTrace();
@@ -89,6 +134,22 @@ public class ApplicationUserServiceTest {
   }
 
   /**
+   * Test for getting all users of the application.
+   */
+  @Test
+  public void getAllUsersTest() { 
+    try {
+      when(applicationUserDaoMock.getAllUsers()).thenReturn(applicationUsersList);
+      List<ApplicationUser> returnedApplicationUsers = applicationUserService.getAllUsers();
+      assertEquals(applicationUsersList.size(), returnedApplicationUsers.size());
+      verify(applicationUserDaoMock, times(1)).getAllUsers();
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+  
+  /**
    * Test for calling the service to update an existing ApplicationUser in the
    * repository.
    */
@@ -97,7 +158,7 @@ public class ApplicationUserServiceTest {
 
     try {
       Mockito.doNothing().when(applicationUserDaoMock).updateUser(applicationUserMock);
-      applicationUserService.updateUser(applicationUserMock);
+      applicationUserService.updateUser(applicationUserDtoMock);
       verify(applicationUserDaoMock, times(1)).updateUser(applicationUserMock);
     } catch (Exception e) {
       e.printStackTrace();

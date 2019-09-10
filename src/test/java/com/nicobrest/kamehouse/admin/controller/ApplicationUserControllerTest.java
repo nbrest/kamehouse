@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.admin.controller;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -17,16 +17,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nicobrest.kamehouse.admin.controller.ApplicationUserController;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
+import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
+import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
+import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testutils.JsonUtils;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,7 +44,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.util.NestedServletException;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,6 +64,7 @@ public class ApplicationUserControllerTest {
   private MockMvc mockMvc;
 
   private static ApplicationUser applicationUserMock;
+  private static ApplicationUserDto applicationUserDtoMock;
   private static List<ApplicationUser> applicationUsersList;
 
   @InjectMocks
@@ -63,6 +72,9 @@ public class ApplicationUserControllerTest {
 
   @Mock(name = "applicationUserService")
   private ApplicationUserService applicationUserServiceMock;
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Initializes test repositories.
@@ -74,6 +86,23 @@ public class ApplicationUserControllerTest {
     applicationUserMock.setEmail("goku@dbz.com");
     applicationUserMock.setUsername("goku");
     applicationUserMock.setPassword("goku");
+
+    applicationUserDtoMock = new ApplicationUserDto();
+    applicationUserDtoMock.setId(1001L);
+    applicationUserDtoMock.setEmail("goku@dbz.com");
+    applicationUserDtoMock.setUsername("goku");
+    applicationUserDtoMock.setPassword("goku");
+    applicationUserDtoMock.setAccountNonExpired(true);
+    applicationUserDtoMock.setAccountNonLocked(true);
+    applicationUserDtoMock.setCredentialsNonExpired(true);
+    applicationUserDtoMock.setEnabled(true);
+    applicationUserDtoMock.setLastLogin(new Date());
+    List<ApplicationRoleDto> authorities = new ArrayList<>();
+    ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
+    applicationRoleDto.setId(10L);
+    applicationRoleDto.setName("ADMIN_ROLE");
+    authorities.add(applicationRoleDto);
+    applicationUserDtoMock.setAuthorities(authorities);
 
     ApplicationUser applicationUserMock2 = new ApplicationUser();
     applicationUserMock2.setId(1002L);
@@ -142,23 +171,21 @@ public class ApplicationUserControllerTest {
   @Test
   public void postUsersTest() {
     try {
-      Mockito.doReturn(applicationUsersList.get(0).getId()).when(applicationUserServiceMock)
-          .createUser(applicationUsersList.get(0));
-      when(applicationUserServiceMock.loadUserByUsername(applicationUsersList.get(0).getUsername()))
-          .thenReturn(applicationUsersList.get(0));
+      Mockito.doReturn(applicationUserMock.getId()).when(applicationUserServiceMock)
+          .createUser(applicationUserDtoMock);
+      when(applicationUserServiceMock.loadUserByUsername(applicationUserMock.getUsername()))
+          .thenReturn(applicationUserMock);
 
-      ResultActions requestResult = mockMvc
-          .perform(
-              post("/api/v1/admin/application/users").contentType(MediaType.APPLICATION_JSON_UTF8)
-                  .content(JsonUtils.convertToJsonBytes(applicationUsersList.get(0))))
-          .andDo(print());
+      byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
+      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/application/users")
+          .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload)).andDo(print());
       requestResult.andExpect(status().isCreated());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-      requestResult.andExpect(
-          content().bytes(JsonUtils.convertToJsonBytes(applicationUsersList.get(0).getId())));
-      requestResult.andExpect(content().string(applicationUsersList.get(0).getId().toString()));
+      requestResult
+          .andExpect(content().bytes(JsonUtils.convertToJsonBytes(applicationUserDtoMock.getId())));
+      requestResult.andExpect(content().string(applicationUserDtoMock.getId().toString()));
 
-      verify(applicationUserServiceMock, times(1)).createUser(applicationUsersList.get(0));
+      verify(applicationUserServiceMock, times(1)).createUser(applicationUserDtoMock);
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -169,28 +196,17 @@ public class ApplicationUserControllerTest {
    * Create an user conflict exception test.
    */
   @Test
-  public void postUsersConflictExceptionTest() {
+  public void postUsersConflictExceptionTest() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseConflictException.class));
+    Mockito.doThrow(new KameHouseConflictException("User already exists"))
+        .when(applicationUserServiceMock).createUser(applicationUserDtoMock);
 
-    // TODO: Check which exception the application user service returns and update
-    // it here.
-    try {
-      Mockito.doThrow(new KameHouseConflictException("User already exists"))
-          .when(applicationUserServiceMock).createUser(applicationUsersList.get(0));
-
-      ResultActions requestResult = mockMvc
-          .perform(
-              post("/api/v1/admin/application/users").contentType(MediaType.APPLICATION_JSON_UTF8)
-                  .content(JsonUtils.convertToJsonBytes(applicationUsersList.get(0))))
-          .andDo(print());
-      requestResult.andExpect(status().is4xxClientError());
-
-      verify(applicationUserServiceMock, times(1)).createUser(applicationUsersList.get(0));
-    } catch (Exception e) {
-      if (!(e.getCause() instanceof KameHouseConflictException)) {
-        e.printStackTrace();
-        fail("Unexpected exception thrown.");
-      }
-    }
+    byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
+    ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/application/users")
+        .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload)).andDo(print());
+    requestResult.andExpect(status().is4xxClientError());
+    verify(applicationUserServiceMock, times(1)).createUser(applicationUserDtoMock);
   }
 
   /**
@@ -221,24 +237,17 @@ public class ApplicationUserControllerTest {
    * Test get user not found exception.
    */
   @Test
-  public void getUserNotFoundExceptionTest() {
+  public void getUserNotFoundExceptionTest() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
 
-    // TODO: Check which exception the application user service returns and update
-    // it here.
-    try {
-      Mockito.doThrow(new KameHouseNotFoundException("User trunks not found"))
-          .when(applicationUserServiceMock).loadUserByUsername("trunks");
+    Mockito.doThrow(new KameHouseNotFoundException("User trunks not found"))
+        .when(applicationUserServiceMock).loadUserByUsername("trunks");
 
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/application/users/trunks"))
-          .andDo(print());
-      requestResult.andExpect(status().is4xxClientError());
-      verify(applicationUserServiceMock, times(1)).loadUserByUsername("trunks");
-    } catch (Exception e) {
-      if (!(e.getCause() instanceof KameHouseNotFoundException)) {
-        e.printStackTrace();
-        fail("Unexpected exception thrown.");
-      }
-    }
+    ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/application/users/trunks"))
+        .andDo(print());
+    requestResult.andExpect(status().is4xxClientError());
+    verify(applicationUserServiceMock, times(1)).loadUserByUsername("trunks");
   }
 
   /**
@@ -248,12 +257,12 @@ public class ApplicationUserControllerTest {
   public void putUsersTest() {
 
     try {
-      Mockito.doNothing().when(applicationUserServiceMock).updateUser(applicationUsersList.get(0));
+      Mockito.doNothing().when(applicationUserServiceMock).updateUser(applicationUserDtoMock);
 
+      byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
       ResultActions requestResult = mockMvc
-          .perform(put("/api/v1/admin/application/users/" + applicationUsersList.get(0).getId())
-              .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(applicationUsersList.get(0))))
+          .perform(put("/api/v1/admin/application/users/" + applicationUserDtoMock.getId())
+              .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
           .andDo(print());
       requestResult.andExpect(status().isOk());
       verify(applicationUserServiceMock, times(1)).updateUser(any());
@@ -264,30 +273,38 @@ public class ApplicationUserControllerTest {
   }
 
   /**
+   * Update an user with invalid path id. Exception expected.
+   */
+  @Test
+  public void putUsersInvalidPathId() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseForbiddenException.class));
+    byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
+    ResultActions requestResult = mockMvc
+        .perform(put("/api/v1/admin/application/users/" + applicationUserDtoMock.getId() + 1)
+            .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .andDo(print());
+    requestResult.andExpect(status().is4xxClientError());
+    verify(applicationUserServiceMock, times(0)).updateUser(any());
+  }
+
+  /**
    * Update an user not found test.
    */
   @Test
-  public void putUsersUsernameNotFoundExceptionTest() {
+  public void putUsersUsernameNotFoundExceptionTest() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
+    Mockito.doThrow(new KameHouseNotFoundException("User not found"))
+        .when(applicationUserServiceMock).updateUser(applicationUserDtoMock);
 
-    // TODO: Check which exception the application user service returns and update
-    // it here.
-    try {
-      Mockito.doThrow(new KameHouseNotFoundException("User not found"))
-          .when(applicationUserServiceMock).updateUser(applicationUsersList.get(0));
-
-      ResultActions requestResult = mockMvc
-          .perform(put("/api/v1/admin/application/users/" + applicationUsersList.get(0).getId())
-              .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(applicationUsersList.get(0))))
-          .andDo(print());
-      requestResult.andExpect(status().is4xxClientError());
-      verify(applicationUserServiceMock, times(1)).updateUser(applicationUsersList.get(0));
-    } catch (Exception e) {
-      if (!(e.getCause() instanceof KameHouseNotFoundException)) {
-        e.printStackTrace();
-        fail("Unexpected exception thrown.");
-      }
-    }
+    byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUsersList.get(0));
+    ResultActions requestResult = mockMvc
+        .perform(put("/api/v1/admin/application/users/" + applicationUserDtoMock.getId())
+            .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .andDo(print());
+    requestResult.andExpect(status().is4xxClientError());
+    verify(applicationUserServiceMock, times(1)).updateUser(applicationUserDtoMock);
   }
 
   /**
@@ -321,24 +338,16 @@ public class ApplicationUserControllerTest {
    * Delete an user not found test.
    */
   @Test
-  public void deleteUserNotFoundExceptionTest() {
+  public void deleteUserNotFoundExceptionTest() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
+    Mockito.doThrow(new KameHouseNotFoundException("User not found"))
+        .when(applicationUserServiceMock).deleteUser(applicationUsersList.get(0).getId());
 
-    // TODO: Check which exception the application user service returns and update
-    // it here.
-    try {
-      Mockito.doThrow(new KameHouseNotFoundException("User not found"))
-          .when(applicationUserServiceMock).deleteUser(applicationUsersList.get(0).getId());
-
-      ResultActions requestResult = mockMvc
-          .perform(delete("/api/v1/admin/application/users/" + applicationUsersList.get(0).getId()))
-          .andDo(print());
-      requestResult.andExpect(status().is4xxClientError());
-      verify(applicationUserServiceMock, times(1)).deleteUser(applicationUsersList.get(0).getId());
-    } catch (Exception e) {
-      if (!(e.getCause() instanceof KameHouseNotFoundException)) {
-        e.printStackTrace();
-        fail("Unexpected exception thrown.");
-      }
-    }
+    ResultActions requestResult = mockMvc
+        .perform(delete("/api/v1/admin/application/users/" + applicationUsersList.get(0).getId()))
+        .andDo(print());
+    requestResult.andExpect(status().is4xxClientError());
+    verify(applicationUserServiceMock, times(1)).deleteUser(applicationUsersList.get(0).getId());
   }
 }

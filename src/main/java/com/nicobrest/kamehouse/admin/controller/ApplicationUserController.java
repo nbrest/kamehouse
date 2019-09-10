@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
+import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
 
 import org.slf4j.Logger;
@@ -62,11 +63,11 @@ public class ApplicationUserController {
    */
   @RequestMapping(value = "/users", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseEntity<Long> postUsers(@RequestBody ApplicationUser applicationUser) {
+  public ResponseEntity<Long> postUsers(@RequestBody ApplicationUserDto applicationUserDto) {
 
     logger.trace("In controller /application/users (POST)");
 
-    Long applicationUserId = applicationUserService.createUser(applicationUser);
+    Long applicationUserId = applicationUserService.createUser(applicationUserDto);
 
     return new ResponseEntity<Long>(applicationUserId, HttpStatus.CREATED);
   }
@@ -93,17 +94,17 @@ public class ApplicationUserController {
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
   @ResponseBody
-  public ResponseEntity<?> putUsersUsername(@PathVariable Long id,
-      @RequestBody ApplicationUser applicationUser) {
+  public ResponseEntity<?> putUsers(@PathVariable Long id,
+      @RequestBody ApplicationUserDto applicationUserDto) {
 
     logger.trace("In controller /application/users/{id} (PUT)");
 
-    if (!id.equals(applicationUser.getId())) {
+    if (!id.equals(applicationUserDto.getId())) {
       //TODO: This should be a bad request exception
       throw new KameHouseForbiddenException("Id in path variable doesn´t match"
           + "id in request body.");
     }
-    applicationUserService.updateUser(applicationUser);
+    applicationUserService.updateUser(applicationUserDto);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
