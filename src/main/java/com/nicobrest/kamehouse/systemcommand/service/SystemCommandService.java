@@ -520,21 +520,21 @@ public class SystemCommandService {
    */
   private String getDecodedPasswordFromFile(String passwordFile) {
 
-    String decodedPassword = null;
+    String decodedPwd = null;
     try {
-      List<String> encodedPasswordList = Files.readAllLines(Paths.get(passwordFile));
-      if (encodedPasswordList != null && !encodedPasswordList.isEmpty()) {
-        String encodedPassword = encodedPasswordList.get(0);
-        byte[] decodedPasswordBytes = Base64.getDecoder().decode(encodedPassword);
-        decodedPassword = new String(decodedPasswordBytes, StandardCharsets.UTF_8);
+      List<String> encodedPwdList = Files.readAllLines(Paths.get(passwordFile));
+      if (encodedPwdList != null && !encodedPwdList.isEmpty()) {
+        String encodedPwd = encodedPwdList.get(0);
+        byte[] decodedPwdBytes = Base64.getDecoder().decode(encodedPwd);
+        decodedPwd = new String(decodedPwdBytes, StandardCharsets.UTF_8);
       }
     } catch (IOException | IllegalArgumentException e) {
-      logger.error("Error while reading password from file. Message: " + e.getMessage());
-      decodedPassword = "ERROR_READING_PASSWORD";
+      logger.error("Error while reading pwd from file. Message: " + e.getMessage());
+      decodedPwd = "ERROR_READING_PWD";
     }
-    if (StringUtils.isEmpty(decodedPassword)) {
-      decodedPassword = "''";
+    if (StringUtils.isEmpty(decodedPwd)) {
+      decodedPwd = "''";
     }
-    return decodedPassword;
+    return decodedPwd;
   }
 }
