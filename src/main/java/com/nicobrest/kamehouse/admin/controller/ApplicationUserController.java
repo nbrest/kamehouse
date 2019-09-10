@@ -51,7 +51,7 @@ public class ApplicationUserController {
     logger.trace("In controller /application/users/ (GET)");
 
     List<ApplicationUser> applicationUsers = applicationUserService.getAllUsers();
-    //Don't return the passwords through the API.
+    // Don't return the passwords through the API.
     for (ApplicationUser appUser : applicationUsers) {
       appUser.setPassword(null);
     }
@@ -73,8 +73,7 @@ public class ApplicationUserController {
   }
 
   /**
-   * Returns a specific ApplicationUser from the repository based on the
-   * username.
+   * Returns a specific ApplicationUser from the repository based on the username.
    */
   @RequestMapping(value = "/users/{username:.+}", method = RequestMethod.GET)
   @ResponseBody
@@ -83,9 +82,9 @@ public class ApplicationUserController {
     logger.trace("In controller /application/users/{username:.+} (GET)");
 
     ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
-    //Don't return the password through the API.
+    // Don't return the password through the API.
     applicationUser.setPassword(null);
-    
+
     return new ResponseEntity<ApplicationUser>(applicationUser, HttpStatus.OK);
   }
 
@@ -100,9 +99,9 @@ public class ApplicationUserController {
     logger.trace("In controller /application/users/{id} (PUT)");
 
     if (!id.equals(applicationUserDto.getId())) {
-      //TODO: This should be a bad request exception
-      throw new KameHouseForbiddenException("Id in path variable doesn´t match"
-          + "id in request body.");
+      // TODO: This should be a bad request exception
+      throw new KameHouseForbiddenException(
+          "Id in path variable doesn´t match" + "id in request body.");
     }
     applicationUserService.updateUser(applicationUserDto);
 
@@ -119,9 +118,9 @@ public class ApplicationUserController {
     logger.trace("In controller /application/users/{id} (DELETE)");
 
     ApplicationUser deletedAppUser = applicationUserService.deleteUser(id);
-    //Don't return the passwords through the API.
+    // Don't return the passwords through the API.
     deletedAppUser.setPassword(null);
-    
+
     return new ResponseEntity<ApplicationUser>(deletedAppUser, HttpStatus.OK);
   }
 }

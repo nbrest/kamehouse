@@ -111,6 +111,9 @@ public class ApplicationUserService implements UserDetailsService {
     ApplicationUserValidator.validateStringLength(applicationUser.getPassword());
   }
 
+  /**
+   * Gets an ApplicationUser model object from it's DTO. 
+   */
   private ApplicationUser getModel(ApplicationUserDto applicationUserDto) {
     ApplicationUser applicationUser = new ApplicationUser();
     applicationUser.setAccountNonExpired(applicationUserDto.isAccountNonExpired());

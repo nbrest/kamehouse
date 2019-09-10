@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
+import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,11 +100,11 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseEntity<Long> postUsers(@RequestBody DragonBallUser dragonBallUser) {
+  public ResponseEntity<Long> postUsers(@RequestBody DragonBallUserDto dragonBallUserDto) {
 
     logger.trace("In controller /dragonball/users (POST)");
 
-    Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUser);
+    Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUserDto);
 
     return new ResponseEntity<Long>(dbUserId, HttpStatus.CREATED);
   }
@@ -172,17 +173,17 @@ public class DragonBallController {
    */
   @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
   @ResponseBody
-  public ResponseEntity<?> putUsersUsername(@PathVariable Long id,
-      @RequestBody DragonBallUser dragonBallUser) {
+  public ResponseEntity<?> putUsers(@PathVariable Long id,
+      @RequestBody DragonBallUserDto dragonBallUserDto) {
 
     logger.trace("In controller /dragonball/users/{id} (PUT)");
 
-    if (!id.equals(dragonBallUser.getId())) {
+    if (!id.equals(dragonBallUserDto.getId())) {
       // TODO: This should be a bad request exception
       throw new KameHouseForbiddenException("Id in path variable doesn´t match"
           + "id in request body.");
     }
-    dragonBallUserService.updateDragonBallUser(dragonBallUser);
+    dragonBallUserService.updateDragonBallUser(dragonBallUserDto);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }

@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.validator.DragonBallUserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class DragonBallUserService {
   /**
    * Create a new DragonBallUser in the repository.
    */
-  public Long createDragonBallUser(DragonBallUser dragonBallUser) {
-
-    try {
+  public Long createDragonBallUser(DragonBallUserDto dragonBallUserDto) {
+    DragonBallUser dragonBallUser = getModel(dragonBallUserDto);
+    try { 
       validateDragonBallUser(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
       // TODO: Catch the exception in the controller and transform it to a
@@ -72,8 +73,8 @@ public class DragonBallUserService {
   /**
    * Updates an existing DragonBallUser in the repository.
    */
-  public void updateDragonBallUser(DragonBallUser dragonBallUser) {
-
+  public void updateDragonBallUser(DragonBallUserDto dragonBallUserDto) {
+    DragonBallUser dragonBallUser = getModel(dragonBallUserDto);
     try {
       validateDragonBallUser(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
@@ -108,5 +109,19 @@ public class DragonBallUserService {
     DragonBallUserValidator.validateStringLength(dragonBallUser.getEmail());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getAge());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getPowerLevel());
+  }
+  
+  /**
+   * Get a DragonBallUser model object from it's DTO.
+   */
+  private DragonBallUser getModel(DragonBallUserDto dragonBallUserDto) {
+    DragonBallUser dragonBallUser = new DragonBallUser();
+    dragonBallUser.setAge(dragonBallUserDto.getAge());
+    dragonBallUser.setEmail(dragonBallUserDto.getEmail());
+    dragonBallUser.setId(dragonBallUserDto.getId());
+    dragonBallUser.setPowerLevel(dragonBallUser.getPowerLevel());
+    dragonBallUser.setStamina(dragonBallUserDto.getStamina());
+    dragonBallUser.setUsername(dragonBallUserDto.getUsername());
+    return dragonBallUser;
   }
 }

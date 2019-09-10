@@ -12,6 +12,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
+import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -89,9 +90,11 @@ public class DragonBallUserServiceTest {
     // Normal flow
     try {
       DragonBallUser userToAdd = new DragonBallUser(0L, "vegeta", "vegeta@dbz.com", 50, 50, 50);
+      DragonBallUserDto userToAddDto = new DragonBallUserDto(0L, "vegeta", "vegeta@dbz.com", 50, 50,
+          50);
       Mockito.doReturn(1L).when(dragonBallUserDaoMock).createDragonBallUser(userToAdd);
 
-      dragonBallUserService.createDragonBallUser(userToAdd);
+      dragonBallUserService.createDragonBallUser(userToAddDto);
 
       verify(dragonBallUserDaoMock, times(1)).createDragonBallUser(userToAdd);
     } catch (KameHouseBadRequestException e) {
@@ -101,8 +104,8 @@ public class DragonBallUserServiceTest {
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the
-   * repository by id.
+   * Test for calling the service to get a single DragonBallUser in the repository
+   * by id.
    */
   @Test
   public void getDragonBallUserTest() {
@@ -123,16 +126,16 @@ public class DragonBallUserServiceTest {
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the
-   * repository by username.
+   * Test for calling the service to get a single DragonBallUser in the repository
+   * by username.
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock")).thenReturn(dragonBallUsersList
-          .get(0));
+      when(dragonBallUserDaoMock.getDragonBallUser("gokuTestMock"))
+          .thenReturn(dragonBallUsersList.get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUser("gokuTestMock");
 
@@ -146,16 +149,16 @@ public class DragonBallUserServiceTest {
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the
-   * repository by its email.
+   * Test for calling the service to get a single DragonBallUser in the repository
+   * by its email.
    */
   @Test
   public void getDragonBallUserByEmailTest() {
 
     // Normal flow
     try {
-      when(dragonBallUserDaoMock.getDragonBallUserByEmail("gokuTestMock@dbz.com")).thenReturn(
-          dragonBallUsersList.get(0));
+      when(dragonBallUserDaoMock.getDragonBallUserByEmail("gokuTestMock@dbz.com"))
+          .thenReturn(dragonBallUsersList.get(0));
 
       DragonBallUser user = dragonBallUserService.getDragonBallUserByEmail("gokuTestMock@dbz.com");
 
@@ -179,9 +182,11 @@ public class DragonBallUserServiceTest {
     try {
       DragonBallUser userToUpdate = new DragonBallUser(0L, "goku", "gokuUpdated@dbz.com", 30, 30,
           30);
+      DragonBallUserDto userToUpdateDto = new DragonBallUserDto(0L, "goku", "gokuUpdated@dbz.com",
+          30, 30, 30);
       Mockito.doNothing().when(dragonBallUserDaoMock).updateDragonBallUser(userToUpdate);
 
-      dragonBallUserService.updateDragonBallUser(userToUpdate);
+      dragonBallUserService.updateDragonBallUser(userToUpdateDto);
 
       verify(dragonBallUserDaoMock, times(1)).updateDragonBallUser(userToUpdate);
     } catch (KameHouseNotFoundException e) {

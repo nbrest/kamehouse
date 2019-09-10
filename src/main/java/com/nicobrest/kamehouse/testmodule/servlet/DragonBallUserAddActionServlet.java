@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.servlet;
-
-import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+ 
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
+import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 
 import org.springframework.context.ApplicationContext; 
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -64,14 +64,14 @@ public class DragonBallUserAddActionServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    DragonBallUser dragonBallUser = new DragonBallUser();
-    dragonBallUser.setUsername(request.getParameter("username"));
-    dragonBallUser.setEmail(request.getParameter("email"));
-    dragonBallUser.setAge(Integer.parseInt(request.getParameter("age")));
-    dragonBallUser.setStamina(Integer.parseInt(request.getParameter("stamina")));
-    dragonBallUser.setPowerLevel(Integer.parseInt(request.getParameter("powerLevel")));
+    DragonBallUserDto dragonBallUserDto = new DragonBallUserDto();
+    dragonBallUserDto.setUsername(request.getParameter("username"));
+    dragonBallUserDto.setEmail(request.getParameter("email"));
+    dragonBallUserDto.setAge(Integer.parseInt(request.getParameter("age")));
+    dragonBallUserDto.setStamina(Integer.parseInt(request.getParameter("stamina")));
+    dragonBallUserDto.setPowerLevel(Integer.parseInt(request.getParameter("powerLevel")));
 
-    getDragonBallUserService().createDragonBallUser(dragonBallUser);
+    getDragonBallUserService().createDragonBallUser(dragonBallUserDto);
     response.sendRedirect("users-list");
   }
 }
