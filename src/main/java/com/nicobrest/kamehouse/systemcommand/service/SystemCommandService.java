@@ -520,21 +520,21 @@ public class SystemCommandService {
    */
   private String getDecodedPasswordFromFile(String passwordFile) {
 
-    String decodedPwd = null;
+    String decodedFileContent = null;
     try {
-      List<String> encodedPwdList = Files.readAllLines(Paths.get(passwordFile));
-      if (encodedPwdList != null && !encodedPwdList.isEmpty()) {
-        String encodedPwd = encodedPwdList.get(0);
-        byte[] decodedPwdBytes = Base64.getDecoder().decode(encodedPwd);
-        decodedPwd = new String(decodedPwdBytes, StandardCharsets.UTF_8);
+      List<String> encodedFileContentList = Files.readAllLines(Paths.get(passwordFile));
+      if (encodedFileContentList != null && !encodedFileContentList.isEmpty()) {
+        String encodedFileContent = encodedFileContentList.get(0);
+        byte[] decodedFileContentBytes = Base64.getDecoder().decode(encodedFileContent);
+        decodedFileContent = new String(decodedFileContentBytes, StandardCharsets.UTF_8);
       }
     } catch (IOException | IllegalArgumentException e) {
       logger.error("Error while reading pwd from file. Message: " + e.getMessage());
-      decodedPwd = "ERROR_READING_PWD";
+      decodedFileContent = "ERROR_READING_FILE";
     }
-    if (StringUtils.isEmpty(decodedPwd)) {
-      decodedPwd = "''";
+    if (StringUtils.isEmpty(decodedFileContent)) {
+      decodedFileContent = "''";
     }
-    return decodedPwd;
+    return decodedFileContent;
   }
 }
