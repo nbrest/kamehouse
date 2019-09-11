@@ -23,6 +23,10 @@ import javax.persistence.Query;
  */
 public class DragonBallUserDaoJpa implements DragonBallUserDao {
 
+  private static final String DBUSER_WITH_ID = "DragonBallUser with id ";
+  private static final String DBUSER_WITH_USERNAME = "DragonBallUser with username ";
+  private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
+
   @Autowired
   private EntityManagerFactory entityManagerFactory;
 
@@ -42,8 +46,6 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   }
 
   @Override
-  //TODO: Figure out how to update the caches without having to clear them completely when I create
-  // update or delete an object from the database.
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
       "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
@@ -53,14 +55,14 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       em.getTransaction().begin();
       em.persist(dragonBallUser);
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException(
-              "ConstraintViolationException: Error inserting data", pe);
+          throw new KameHouseConflictException("ConstraintViolationException: Error inserting data",
+              pe);
         }
         cause = cause.getCause();
       }
@@ -83,14 +85,13 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       query.setParameter("pId", id);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException("DragonBallUser with id " + id
-              + " was not found in the repository.");
+          throw new KameHouseNotFoundException(DBUSER_WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
         }
         cause = cause.getCause();
       }
@@ -109,19 +110,19 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     DragonBallUser dragonBallUser = null;
     try {
       em.getTransaction().begin();
-      Query query = em.createQuery(
-          "SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
+      Query query = em
+          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
       query.setParameter("pUsername", username);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException("DragonBallUser with username " + username
-              + " was not found in the repository.");
+          throw new KameHouseNotFoundException(
+              DBUSER_WITH_USERNAME + username + NOT_FOUND_IN_REPOSITORY);
         }
         cause = cause.getCause();
       }
@@ -144,14 +145,14 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       query.setParameter("pEmail", email);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException("DragonBallUser with email " + email
-              + " was not found in the repository.");
+          throw new KameHouseNotFoundException(
+              "DragonBallUser with email " + email + NOT_FOUND_IN_REPOSITORY);
         }
         cause = cause.getCause();
       }
@@ -181,10 +182,10 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       em.getTransaction().commit();
       if (updatedDbUser == null) {
-        throw new KameHouseNotFoundException("DragonBallUser with id " + dragonBallUser.getId()
-            + " was not found in the repository.");
+        throw new KameHouseNotFoundException(
+            DBUSER_WITH_ID + dragonBallUser.getId() + NOT_FOUND_IN_REPOSITORY);
       }
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -222,10 +223,9 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       em.getTransaction().commit();
       if (dbUserToRemove == null) {
-        throw new KameHouseNotFoundException("DragonBallUser with id " + id
-            + " was not found in the repository.");
+        throw new KameHouseNotFoundException(DBUSER_WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
       }
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException("PersistenceException in deleteDragonBallUser", pe);
     } finally {
       em.close();
@@ -241,10 +241,9 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
     List<DragonBallUser> dragonBallUsers = null;
     try {
       em.getTransaction().begin();
-      dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class)
-          .getResultList();
+      dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class).getResultList();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException("PersistenceException in getAllDragonBallUsers", pe);
     } finally {
       em.close();

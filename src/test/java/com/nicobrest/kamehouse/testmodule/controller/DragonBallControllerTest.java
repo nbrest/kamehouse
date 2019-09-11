@@ -220,7 +220,7 @@ public class DragonBallControllerTest {
 
     try {
       ResultActions requestResult = mockMvc
-          .perform(get("/api/v1/dragonball/users?action=Exception")).andDo(print());
+          .perform(get("/api/v1/dragonball/users?action=KameHouseException")).andDo(print());
       requestResult.andExpect(status().isInternalServerError());
       requestResult.andExpect(view().name("error/error"));
       requestResult.andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));

@@ -27,10 +27,7 @@ public class TestWebSocketController {
   @MessageMapping("/test-module/websocket-in")
   @SendTo("/topic/test-module/websocket-out")
   public TestWebSocketResponseMessage testWebSocketProcess(
-      TestWebSocketRequestMessage inputMessage) throws Exception {
-
-    TestWebSocketResponseMessage testWebSocketResponseMessage = testWebSocketService
-        .generateTestWebSocketResponseMessage(inputMessage);
-    return testWebSocketResponseMessage;
+      TestWebSocketRequestMessage inputMessage) {
+    return testWebSocketService.generateTestWebSocketResponseMessage(inputMessage);
   }
 }

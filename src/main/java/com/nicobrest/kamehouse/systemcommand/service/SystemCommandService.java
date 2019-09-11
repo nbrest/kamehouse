@@ -37,13 +37,16 @@ public class SystemCommandService {
 
   private static final Logger logger = LoggerFactory.getLogger(SystemCommandService.class);
   private static final int VNCDO_CMD_LINUX_INDEX = 2;
+  private static final String COMPLETED = "completed";
+  private static final String FAILED = "failed";
+  private static final String RUNNING = "running";
 
   /**
    * Get the list of system commands for the specified AdminCommand.
    */
   public List<SystemCommand> getSystemCommands(AdminCommand adminCommand) {
 
-    List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
+    List<SystemCommand> systemCommands = new ArrayList<>();
     switch (adminCommand.getCommand()) {
       case AdminCommand.SCREEN_LOCK:
         systemCommands.add(getLockScreenSystemCommand());
@@ -77,7 +80,7 @@ public class SystemCommandService {
         systemCommands.add(getStopVlcSystemCommand());
         break;
       default:
-        logger.error("Invalid AdminCommand " + adminCommand.getCommand());
+        logger.error("Invalid AdminCommand {}", adminCommand.getCommand());
         throw new KameHouseInvalidCommandException("Invalid AdminCommand " + adminCommand
             .getCommand());
     }
@@ -99,7 +102,7 @@ public class SystemCommandService {
       logger.trace("Executing system command [vncdo (hidden from logs as it contains passwords)]");
     } else {
       commandOutput.setCommand(processBuilder.command().toString());
-      logger.trace("Executing system command " + processBuilder.command().toString());
+      logger.trace("Executing system command {}", processBuilder.command().toString());
     }
     Process process;
     InputStream processInputStream = null;
@@ -113,7 +116,7 @@ public class SystemCommandService {
         // standard ouput and error streams.
         ProcessUtils.waitForProcess(process);
         // Read command standard output stream
-        List<String> processStandardOuputList = new ArrayList<String>();
+        List<String> processStandardOuputList = new ArrayList<>();
         processInputStream = ProcessUtils.getInputStreamFromProcess(process);
         processBufferedReader = new BufferedReader(new InputStreamReader(processInputStream,
             StandardCharsets.UTF_8));
@@ -125,7 +128,7 @@ public class SystemCommandService {
         }
         commandOutput.setStandardOutput(processStandardOuputList);
         // Read command standard error stream
-        List<String> processStandardErrorList = new ArrayList<String>();
+        List<String> processStandardErrorList = new ArrayList<>();
         processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
         processErrorBufferedReader = new BufferedReader(new InputStreamReader(processErrorStream,
             StandardCharsets.UTF_8));
@@ -140,32 +143,32 @@ public class SystemCommandService {
         int exitValue = ProcessUtils.getExitValue(process);
         commandOutput.setExitCode(exitValue);
         if (exitValue > 0) {
-          commandOutput.setStatus("failed");
+          commandOutput.setStatus(FAILED);
         } else {
-          commandOutput.setStatus("completed");
+          commandOutput.setStatus(COMPLETED);
         }
       } else {
         // Ongoing process
         commandOutput.setExitCode(-1); // process is still running.
-        commandOutput.setStatus("running");
+        commandOutput.setStatus(RUNNING);
       }
     } catch (IOException e) {
-      logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
+      logger.error("Exception occurred while executing the process. Message: {}", e.getMessage());
       commandOutput.setExitCode(1);
-      commandOutput.setStatus("failed");
+      commandOutput.setStatus(FAILED);
       commandOutput.setStandardError(Arrays.asList("An error occurred executing the command"));
     } catch (InterruptedException e) {
-      logger.error("Exception occurred while executing the process. Message: " + e.getMessage());
+      logger.error("Exception occurred while executing the process. Message: {}", e.getMessage());
       Thread.currentThread().interrupt();
     } finally {
       if (processBufferedReader != null) {
         try {
           processBufferedReader.close();
         } catch (IOException e) {
-          logger.error("Exception occurred while executing the process. Message: " + e
+          logger.error("Exception occurred while executing the process. Message: {}", e
               .getMessage());
           commandOutput.setExitCode(1);
-          commandOutput.setStatus("failed");
+          commandOutput.setStatus(FAILED);
           commandOutput.setStandardError(Arrays.asList(
               "An error occurred closing the input stream of the process."));
         }
@@ -174,10 +177,10 @@ public class SystemCommandService {
         try {
           processErrorBufferedReader.close();
         } catch (IOException e) {
-          logger.error("Exception occurred while executing the process. Message: " + e
+          logger.error("Exception occurred while executing the process. Message: {}", e
               .getMessage());
           commandOutput.setExitCode(1);
-          commandOutput.setStatus("failed");
+          commandOutput.setStatus(FAILED);
           commandOutput.setStandardError(Arrays.asList(
               "An error occurred closing the error stream of the process."));
         }
@@ -190,7 +193,7 @@ public class SystemCommandService {
    * Execute the specified list of system commands.
    */
   public List<SystemCommandOutput> execute(List<SystemCommand> systemCommands) {
-    List<SystemCommandOutput> systemCommandOutputs = new ArrayList<SystemCommandOutput>();
+    List<SystemCommandOutput> systemCommandOutputs = new ArrayList<>();
     for (SystemCommand systemCommand : systemCommands) {
       SystemCommandOutput systemCommandOutput = execute(systemCommand);
       systemCommandOutputs.add(systemCommandOutput);
@@ -218,7 +221,7 @@ public class SystemCommandService {
 
     SystemCommand stopVlcSystemCommand = new SystemCommand();
     stopVlcSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<String>();
+    List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.VLC_STOP_WINDOWS.get());
     } else {
@@ -237,10 +240,9 @@ public class SystemCommandService {
     startVlcSystemCommand.setIsDaemon(true);
     String file = "";
     if (vlcStartAdminCommand.getFile() != null) {
-      // TODO check if the file exists, if it doesn't throw an exception.
       file = vlcStartAdminCommand.getFile();
     }
-    List<String> command = new ArrayList<String>();
+    List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.VLC_START_WINDOWS.get());
       command.add(file);
@@ -259,7 +261,7 @@ public class SystemCommandService {
 
     SystemCommand statusVlcSystemCommand = new SystemCommand();
     statusVlcSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<String>();
+    List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.get());
     } else {
@@ -280,7 +282,7 @@ public class SystemCommandService {
       throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
           + shutdownSetAdminCommand.getTime());
     }
-    List<String> command = new ArrayList<String>();
+    List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.get());
       command.add(String.valueOf(shutdownSetAdminCommand.getTime()));
@@ -300,7 +302,7 @@ public class SystemCommandService {
 
     SystemCommand cancelShutdownSystemCommand = new SystemCommand();
     cancelShutdownSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<String>();
+    List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.get());
     } else {
@@ -315,11 +317,9 @@ public class SystemCommandService {
    */
   private SystemCommand getStatusShutdownSystemCommand() {
 
-    // TODO this doesn't work. Need to find a way to get the status both in win
-    // and linux
     SystemCommand statusShutdownSystemCommand = new SystemCommand();
     statusShutdownSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<String>();
+    List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.get());
     } else {
@@ -338,7 +338,7 @@ public class SystemCommandService {
     // Set daemon to true, otherwise the process will wait until suspend command
     // finishes to return and that won't happen
     suspendSystemCommand.setIsDaemon(true);
-    List<String> command = new ArrayList<String>();
+    List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(command, CommandLine.SUSPEND_WINDOWS.get());
     } else {
@@ -355,7 +355,7 @@ public class SystemCommandService {
 
     SystemCommand lockScreenSystemCommand = new SystemCommand();
     lockScreenSystemCommand.setIsDaemon(false);
-    List<String> lockScreenCommandList = new ArrayList<String>();
+    List<String> lockScreenCommandList = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(lockScreenCommandList, CommandLine.LOCK_SCREEN_WINDOWS.get());
     } else {
@@ -372,13 +372,13 @@ public class SystemCommandService {
 
     // Lock screen first so if it is already unlocked, I don't type the password
     // anywhere
-    List<SystemCommand> unlockScreenSystemCommands = new ArrayList<SystemCommand>();
+    List<SystemCommand> unlockScreenSystemCommands = new ArrayList<>();
     unlockScreenSystemCommands.add(getLockScreenSystemCommand());
 
     // Press ESC key command
     SystemCommand vncdoKeyEscSystemCommand = new SystemCommand();
     vncdoKeyEscSystemCommand.setIsDaemon(false);
-    List<String> vncdoKeyEscCommandList = new ArrayList<String>();
+    List<String> vncdoKeyEscCommandList = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(vncdoKeyEscCommandList, CommandLine.VNCDO_KEY_WINDOWS.get());
       setVncdoHostnameAndPassword(vncdoKeyEscCommandList);
@@ -395,7 +395,7 @@ public class SystemCommandService {
     // Type user password command
     SystemCommand vncdoTypePasswordSystemCommand = new SystemCommand();
     vncdoTypePasswordSystemCommand.setIsDaemon(false);
-    List<String> vncdoTypePasswordCommandList = new ArrayList<String>();
+    List<String> vncdoTypePasswordCommandList = new ArrayList<>();
     String unlockScreenPassword = getUnlockScreenPassword();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_WINDOWS.get());
@@ -414,7 +414,7 @@ public class SystemCommandService {
     // Press Enter key command
     SystemCommand vncdoKeyEnterSystemCommand = new SystemCommand();
     vncdoKeyEnterSystemCommand.setIsDaemon(false);
-    List<String> vncdoKeyEnterCommandList = new ArrayList<String>();
+    List<String> vncdoKeyEnterCommandList = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(vncdoKeyEnterCommandList, CommandLine.VNCDO_KEY_WINDOWS.get());
       setVncdoHostnameAndPassword(vncdoKeyEnterCommandList);
@@ -437,7 +437,7 @@ public class SystemCommandService {
    */
   private List<SystemCommand> getScreenWakeUpSystemCommands() {
 
-    List<SystemCommand> screenWakeUpSystemCommands = new ArrayList<SystemCommand>();
+    List<SystemCommand> screenWakeUpSystemCommands = new ArrayList<>();
 
     screenWakeUpSystemCommands.add(getSingleClick("400", "400"));
     screenWakeUpSystemCommands.add(getSingleClick("400", "500"));
@@ -455,7 +455,7 @@ public class SystemCommandService {
 
     SystemCommand vncdoSingleClickSystemCommand = new SystemCommand();
     vncdoSingleClickSystemCommand.setIsDaemon(false);
-    List<String> vncdoSingleClickCommandList = new ArrayList<String>();
+    List<String> vncdoSingleClickCommandList = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
       Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS
           .get());
@@ -501,8 +501,7 @@ public class SystemCommandService {
   private String getUnlockScreenPassword() {
     String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getAdminProperty("unlock.screen.pwd.file");
-    String unlockScreenPassword = getDecodedPasswordFromFile(unlockScreenPwdFile);
-    return unlockScreenPassword;
+    return getDecodedPasswordFromFile(unlockScreenPwdFile);
   }
 
   /**
@@ -511,8 +510,7 @@ public class SystemCommandService {
   private String getVncServerPassword() {
     String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getAdminProperty("vnc.server.pwd.file");
-    String vncServerPassword = getDecodedPasswordFromFile(vncServerPwdFile);
-    return vncServerPassword;
+    return getDecodedPasswordFromFile(vncServerPwdFile);
   }
 
   /**
@@ -529,7 +527,7 @@ public class SystemCommandService {
         decodedFileContent = new String(decodedFileContentBytes, StandardCharsets.UTF_8);
       }
     } catch (IOException | IllegalArgumentException e) {
-      logger.error("Error while reading pwd from file. Message: " + e.getMessage());
+      logger.error("Error while reading pwd from file. Message: {}", e.getMessage());
       decodedFileContent = "ERROR_READING_FILE";
     }
     if (StringUtils.isEmpty(decodedFileContent)) {

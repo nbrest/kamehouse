@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.testmodule.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.main.exception.KameHouseException;
 import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
@@ -74,28 +75,25 @@ public class DragonBallController {
   @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<DragonBallUser>> getUsers(@RequestParam(value = "action",
-      required = false, defaultValue = "goku") String action) throws Exception {
+      required = false, defaultValue = "goku") String action)  {
 
     logger.trace("In controller /dragonball/users (GET)");
 
     // switch test to test parameters and exceptions
     switch (action) {
       case "KameHouseNotFoundException":
-        throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
-        // break;
+        throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***"); 
       case "RuntimeException":
-        throw new RuntimeException("*** RuntimeException in getUsers ***");
-        // break;
-      case "Exception":
-        throw new Exception("*** Exception in getUsers ***");
-        // break;
+        throw new RuntimeException("*** RuntimeException in getUsers ***"); 
+      case "KameHouseException":
+        throw new KameHouseException("*** KameHouseException in getUsers ***"); 
       default:
         break;
     }
 
     List<DragonBallUser> dbUsers = dragonBallUserService.getAllDragonBallUsers();
 
-    return new ResponseEntity<List<DragonBallUser>>(dbUsers, HttpStatus.OK);
+    return new ResponseEntity<>(dbUsers, HttpStatus.OK);
   }
 
   /**
@@ -109,7 +107,7 @@ public class DragonBallController {
 
     Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUserDto);
 
-    return new ResponseEntity<Long>(dbUserId, HttpStatus.CREATED);
+    return new ResponseEntity<>(dbUserId, HttpStatus.CREATED);
   }
 
   /**
@@ -123,7 +121,7 @@ public class DragonBallController {
 
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(id);
 
-    return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
+    return new ResponseEntity<>(dbUser, HttpStatus.OK);
   }
 
   /**
@@ -140,7 +138,7 @@ public class DragonBallController {
 
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
 
-    return new ResponseEntity<DragonBallUser>(dbUser, HttpStatus.OK);
+    return new ResponseEntity<>(dbUser, HttpStatus.OK);
   }
 
   /**
@@ -153,22 +151,12 @@ public class DragonBallController {
 
     logger.trace("In controller /dragonball/users/emails/{email:.+} (GET)");
 
-    /*
-     * url encoded parameters are automatically decoded, there´s no need to do
-     * it here. String emailDecoded; try { emailDecoded =
-     * URLDecoder.decode(email, "UTF-8"); } catch (UnsupportedEncodingException
-     * e) { e.printStackTrace(); throw new KameHouseBadRequestException(
-     * "Error parsing email url parameter", e); }
-     */
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
     String dbUserJson = convertToJsonString(dbUser);
 
     HttpHeaders headers = new HttpHeaders();
-    headers.add("Content-Type", "application/json;charset=UTF-8");
-    ResponseEntity<String> response = new ResponseEntity<String>(dbUserJson, headers,
-        HttpStatus.OK);
-
-    return response;
+    headers.add("Content-Type", "application/json;charset=UTF-8"); 
+    return new ResponseEntity<>(dbUserJson, headers, HttpStatus.OK);
   }
 
   /**
@@ -176,13 +164,12 @@ public class DragonBallController {
    */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<?> putUsers(@PathVariable Long id,
+  public ResponseEntity<Void> putUsers(@PathVariable Long id,
       @RequestBody DragonBallUserDto dragonBallUserDto) {
 
     logger.trace("In controller /dragonball/users/{id} (PUT)");
 
     if (!id.equals(dragonBallUserDto.getId())) {
-      // TODO: This should be a bad request exception
       throw new KameHouseForbiddenException("Id in path variable doesn´t match"
           + "id in request body.");
     }
@@ -202,7 +189,7 @@ public class DragonBallController {
 
     DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
 
-    return new ResponseEntity<DragonBallUser>(deletedDbUser, HttpStatus.OK);
+    return new ResponseEntity<>(deletedDbUser, HttpStatus.OK);
   }
 
   /**

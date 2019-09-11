@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CustomAuthenticationSuccessHandler
     extends SavedRequestAwareAuthenticationSuccessHandler {
 
-  private static final Logger logger = LoggerFactory
+  private static final Logger log = LoggerFactory
       .getLogger(CustomAuthenticationSuccessHandler.class);
 
   @Override
@@ -45,7 +45,7 @@ public class CustomAuthenticationSuccessHandler
     String redirectUrl = StringEscapeUtils.escapeHtml(request.getParameter("redirect-url"));
     if (redirectUrl != null) {
       // here I would set the setTargetUrlParameter to redirect to that page.
-      logger.trace("Custom redirect url set, but not used yet: {}", redirectUrl);
+      log.trace("Custom redirect url set, but not used yet: {}", redirectUrl);
     }
     super.onAuthenticationSuccess(request, response, authentication);
   }
