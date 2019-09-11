@@ -21,12 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class ApplicationUserDaoInMemory implements ApplicationUserDao {
 
-  // TODO: Check concurrency issues when modifying the static map
-  // applicationUsers. Even though there's only one instance of
-  // ApplicationUserDaoInMemory, since it's a singleton bean, but I still think
-  // it should be synchronized
-  private static Map<String, ApplicationUser> applicationUsers =
-      new HashMap<String, ApplicationUser>();
+  private static Map<String, ApplicationUser> applicationUsers = new HashMap<>();
 
   public ApplicationUserDaoInMemory() {
     initRepository();
@@ -72,9 +67,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
 
   @Override
   public List<ApplicationUser> getAllUsers() {
-    List<ApplicationUser> applicationUsersList = new ArrayList<ApplicationUser>(applicationUsers
-        .values());
-    return applicationUsersList;
+    return new ArrayList<>(applicationUsers.values());
   }
 
   /**
@@ -96,7 +89,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     user.setEmail("user@nicobrest.com");
     user.setUsername("user");
     user.setPassword("user");
-    List<ApplicationRole> userRoles = new ArrayList<ApplicationRole>();
+    List<ApplicationRole> userRoles = new ArrayList<>();
     userRoles.add(userRole);
     user.setAuthorities(userRoles);
     applicationUsers.put(user.getUsername(), user);
@@ -108,7 +101,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     admin.setEmail("admin@nicobrest.com");
     admin.setUsername("admin");
     admin.setPassword("admin");
-    List<ApplicationRole> adminRoles = new ArrayList<ApplicationRole>();
+    List<ApplicationRole> adminRoles = new ArrayList<>();
     adminRoles.add(adminRole);
     admin.setAuthorities(adminRoles);
     applicationUsers.put(admin.getUsername(), admin);
@@ -120,7 +113,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     superUser.setEmail("super.user@nicobrest.com");
     superUser.setUsername("super-user");
     superUser.setPassword("super-user");
-    List<ApplicationRole> superUserRoles = new ArrayList<ApplicationRole>();
+    List<ApplicationRole> superUserRoles = new ArrayList<>();
     superUserRoles.add(adminRole);
     superUserRoles.add(userRole);
     superUserRoles.add(guestRole);
@@ -134,7 +127,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     guest.setEmail("guest@nicobrest.com");
     guest.setUsername("guest");
     guest.setPassword("guest");
-    List<ApplicationRole> guestRoles = new ArrayList<ApplicationRole>();
+    List<ApplicationRole> guestRoles = new ArrayList<>();
     guestRoles.add(guestRole);
     guest.setAuthorities(guestRoles);
     applicationUsers.put(guest.getUsername(), guest);

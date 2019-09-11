@@ -15,12 +15,15 @@ public class PasswordUtils {
   private static final Logger logger = LoggerFactory.getLogger(PasswordUtils.class);
   private static final int LOG_ROUNDS = 12;
 
+  private PasswordUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+  
   /**
    * Generates a hashed password from a plain text one.
    */
-  public static String generateHashedPassword(String plainTextPassword) {
-    String hashedPassword = BCrypt.hashpw(plainTextPassword, BCrypt.gensalt(LOG_ROUNDS));
-    return hashedPassword;
+  public static String generateHashedPassword(String plainTextPassword) { 
+    return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt(LOG_ROUNDS));
   }
   
   /**
@@ -31,7 +34,7 @@ public class PasswordUtils {
     try {
       isValidPassword = BCrypt.checkpw(plainTextPassword, hashedPassword);
     } catch (IllegalArgumentException e) {
-      logger.debug(e.getClass().getSimpleName() + ": " + e.getMessage());
+      logger.error("Exception validating password.", e);
     }
     return isValidPassword;
   }

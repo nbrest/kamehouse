@@ -49,9 +49,7 @@ public class VlcController {
           .getCommand());
     }
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStartAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -64,9 +62,7 @@ public class VlcController {
     logger.trace("In controller /api/v1/admin/vlc (DELETE)");
     AdminCommand vlcStopAdminCommand = new AdminCommand(AdminCommand.VLC_STOP);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStopAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -79,8 +75,6 @@ public class VlcController {
     logger.trace("In controller /api/v1/admin/vlc (GET)");
     AdminCommand vlcStatusAdminCommand = new AdminCommand(AdminCommand.VLC_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStatusAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 }

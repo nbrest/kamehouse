@@ -36,8 +36,7 @@ public class ApplicationAuthenticationProvider implements AuthenticationProvider
   }
 
   @Override
-  public Authentication authenticate(Authentication authentication)
-      throws AuthenticationException {
+  public Authentication authenticate(Authentication authentication) {
     String username = authentication.getName();
     String password = (String) authentication.getCredentials();
 

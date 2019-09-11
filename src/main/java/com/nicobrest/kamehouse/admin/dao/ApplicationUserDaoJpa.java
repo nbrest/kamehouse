@@ -47,7 +47,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public Long createUser(ApplicationUser applicationUser) {
 
-    logger.trace("Creating ApplicationUser: " + applicationUser.getUsername());
+    logger.trace("Creating ApplicationUser: {}", applicationUser.getUsername());
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
@@ -73,9 +73,6 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
     } finally {
       em.close();
     }
-    // TODO: this method is returning always null, so maybe with em.merge()
-    // instead of em.persist() it doesn't update the id in the object. I need to
-    // investigate it more.
     return applicationUser.getId();
   }
 
@@ -83,7 +80,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   @Cacheable(value = "getApplicationUsers")
   public ApplicationUser loadUserByUsername(String username) {
 
-    logger.trace("Loading ApplicationUser: " + username);
+    logger.trace("Loading ApplicationUser: {}", username);
     EntityManager em = getEntityManager();
     ApplicationUser applicationUser = null;
     try {
@@ -114,7 +111,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public void updateUser(ApplicationUser applicationUser) {
 
-    logger.trace("Updating ApplicationUser: " + applicationUser.getUsername());
+    logger.trace("Updating ApplicationUser: {}", applicationUser.getUsername());
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
@@ -129,13 +126,6 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
         updatedAppUser.setFirstName(applicationUser.getFirstName());
         updatedAppUser.setLastLogin(applicationUser.getLastLogin());
         updatedAppUser.setLastName(applicationUser.getLastName());
-        // Do not update the password here. Create a separate method just to
-        // update the password.
-        // updatedAppUser.setPassword(applicationUser.getPassword());
-        // Do not update the username here. Create a separate method just to
-        // update the username.
-        // updatedAppUser.setUsername(applicationUser.getUsername());
-
         for (ApplicationRole role : updatedAppUser.getAuthorities()) {
           role.setApplicationUser(updatedAppUser);
         }
@@ -167,7 +157,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
   @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public ApplicationUser deleteUser(Long id) {
 
-    logger.trace("Deleting ApplicationUser: " + id);
+    logger.trace("Deleting ApplicationUser: {}", id);
     EntityManager em = getEntityManager();
     ApplicationUser appUserToRemove = null;
     try {

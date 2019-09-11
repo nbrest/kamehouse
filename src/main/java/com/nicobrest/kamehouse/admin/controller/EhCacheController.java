@@ -47,7 +47,7 @@ public class EhCacheController {
     logger.trace("In controller /api/v1/admin/ehcache (GET)");
     List<Map<String, Object>> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
-      cacheList = new ArrayList<Map<String, Object>>();
+      cacheList = new ArrayList<>();
       Map<String, Object> cache = ehCacheService.getCache(cacheName);
       if (!cache.isEmpty()) {
         cacheList.add(cache);
@@ -56,7 +56,7 @@ public class EhCacheController {
       cacheList = ehCacheService.getAllCaches();
     }
     removeApplicationUsersCache(cacheList);
-    return new ResponseEntity<List<Map<String, Object>>>(cacheList, HttpStatus.OK);
+    return new ResponseEntity<>(cacheList, HttpStatus.OK);
   }
 
   /**
@@ -72,7 +72,7 @@ public class EhCacheController {
     } else {
       ehCacheService.clearAllCaches();
     }
-    return new ResponseEntity<Void>(HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   /**

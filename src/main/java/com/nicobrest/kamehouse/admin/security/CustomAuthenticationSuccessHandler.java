@@ -22,18 +22,20 @@ import javax.servlet.http.HttpServletResponse;
  * @author nbrest
  *
  */
-public class CustomAuthenticationSuccessHandler extends
-    SavedRequestAwareAuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler
+    extends SavedRequestAwareAuthenticationSuccessHandler {
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws ServletException, IOException {
 
-    //    String redirectUrl = request.getParameter("redirect-url");
-    //    if (redirectUrl != null) {
-    //      setTargetUrlParameter("redirect-url");
-    //    }
+    /*
+     * If I need to do a custom redirect logic, I can read the destination
+     * redirect-url from a parameter and set the targetUrlParameter defined on the
+     * parent class with the method setTargetUrlParameter. I removed that logic now,
+     * because for now I serve the pages that require authentication from the
+     * backend, so I no longer need a custom authentication on success handler.
+     */
     super.onAuthenticationSuccess(request, response, authentication);
-    return;
   }
 }

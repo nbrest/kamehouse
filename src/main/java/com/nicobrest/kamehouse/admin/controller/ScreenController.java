@@ -40,10 +40,8 @@ public class ScreenController {
 
     logger.trace("In controller /api/v1/admin/screen/lock (POST)");
     AdminCommand lockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK);
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(lockScreenAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(lockScreenAdminCommand); 
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -57,9 +55,7 @@ public class ScreenController {
     AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         unlockScreenAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
   
   /**
@@ -73,8 +69,6 @@ public class ScreenController {
     AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_WAKE_UP);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         unlockScreenAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 }

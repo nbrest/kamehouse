@@ -50,9 +50,7 @@ public class PowerManagementController {
     }
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownSetAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -65,10 +63,8 @@ public class PowerManagementController {
     logger.trace("In controller /api/v1/admin/power-management/shutdown (DELETE)");
     AdminCommand shutdownCancelAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_CANCEL);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
-        shutdownCancelAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+        shutdownCancelAdminCommand); 
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -82,9 +78,7 @@ public class PowerManagementController {
     AdminCommand shutdownStatusAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownStatusAdminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
   
   /**
@@ -98,8 +92,6 @@ public class PowerManagementController {
     AdminCommand adminCommand = new AdminCommand(AdminCommand.SUSPEND);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         adminCommand);
-    ResponseEntity<List<SystemCommandOutput>> responseEntity = ControllerUtils
-        .generateResponseEntity(commandOutputs);
-    return responseEntity;
+    return ControllerUtils.generateResponseEntity(commandOutputs);
   }
 }
