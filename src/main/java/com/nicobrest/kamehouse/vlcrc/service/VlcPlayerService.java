@@ -34,18 +34,16 @@ public class VlcPlayerService {
   /**
    * Get a VLC Player.
    */
-  public VlcPlayer getVlcPlayer(String vlcPlayerName) {
-    VlcPlayer vlcPlayer = vlcPlayerDao.getVlcPlayer(vlcPlayerName);
-    return vlcPlayer;
+  public VlcPlayer getVlcPlayer(String vlcPlayerName) { 
+    return vlcPlayerDao.getVlcPlayer(vlcPlayerName);
   }
   
   /**
    * Create a VLC Player.
    */
   public Long createVlcPlayer(VlcPlayerDto vlcPlayerDto) {
-    VlcPlayer vlcPlayer = getModel(vlcPlayerDto);
-    Long vlcPlayerId = vlcPlayerDao.createVlcPlayer(vlcPlayer);
-    return vlcPlayerId;
+    VlcPlayer vlcPlayer = getModel(vlcPlayerDto); 
+    return vlcPlayerDao.createVlcPlayer(vlcPlayer);
   } 
   
   /**
@@ -60,16 +58,14 @@ public class VlcPlayerService {
    * Delete a VLC Player.
    */
   public VlcPlayer deleteVlcPlayer(Long vlcPlayerId) {
-    VlcPlayer deletedVlcPlayer = vlcPlayerDao.deleteVlcPlayer(vlcPlayerId);
-    return deletedVlcPlayer;
+    return vlcPlayerDao.deleteVlcPlayer(vlcPlayerId);
   }
   
   /**
    * Get all VLC Players.
    */
   public List<VlcPlayer> getAllVlcPlayers() {
-    List<VlcPlayer> vlcPlayers = vlcPlayerDao.getAllVlcPlayers();
-    return vlcPlayers;
+    return vlcPlayerDao.getAllVlcPlayers();
   }
   
   /**

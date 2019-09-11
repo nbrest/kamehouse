@@ -165,7 +165,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Redirect to error page based on the status code.
    */
   function redirectToErrorPage(statusCode) {
-    if (statusCode != null && statusCode != undefined) {
+    if (!isEmpty(statusCode)) {
       $location.path('/' + statusCode);
       // To display the error page content without redirecting use the following, but it
       // breaks the navigation with angular because I need to reload the page to go back to

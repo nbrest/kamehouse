@@ -24,13 +24,7 @@
 <body>
   <div id="headerContainer"></div> 
   <div class="default-layout main-body">
-    <%-- TODO: I had to use the username as parameter because the id is of type Long, and
-  since the method getDragonBallUser is overloaded for strings and longs, when I passed
-  the id from the jsp, the method was invoked with a String parameter searching by the
-  username instead of a Long parameter searching by id.
-  See how I can do to pass the id so it is recognized as a Long when the method is overloaded --%>
     <c:set var="username" value="${param.username}"></c:set>
-    <%-- TODO: Check username for null and assign it an empty string or something, otherwise, it throws 500 error, if I access the page directly --%>
     <c:set var="dragonBallUser" value="${dragonBallUserService.getDragonBallUser(username)}"></c:set>
 
     <div class="panel panel-default">
@@ -46,7 +40,6 @@
               <div class="col-md-7">
                 <input type="text" name="username" class="form-control input-sm"
                   value="${dragonBallUser.getUsername()}" />
-                </td>
               </div>
             </div>
           </div>
@@ -57,7 +50,6 @@
               <div class="col-md-7">
                 <input type="email" name="email" class="form-control input-sm"
                   value="${dragonBallUser.getEmail()}" />
-                </td>
               </div>
             </div>
           </div>
@@ -68,7 +60,6 @@
               <div class="col-md-7">
                 <input type="text" name="age" class="form-control input-sm"
                   value="${dragonBallUser.getAge()}" />
-                </td>
               </div>
             </div>
           </div>
@@ -79,7 +70,6 @@
               <div class="col-md-7">
                 <input type="text" name="powerLevel" class="form-control input-sm"
                   value="${dragonBallUser.getPowerLevel()}" />
-                </td>
               </div>
             </div>
           </div>
@@ -90,7 +80,6 @@
               <div class="col-md-7">
                 <input type="text" name="stamina" class="form-control input-sm"
                   value="${dragonBallUser.getStamina()}" />
-                </td>
               </div>
             </div>
           </div>

@@ -55,9 +55,9 @@ public class DragonBallUserAddActionServlet extends HttpServlet {
     super.init(config);
     ApplicationContext context = WebApplicationContextUtils
         .getRequiredWebApplicationContext(this.getServletContext());
-    DragonBallUserService dragonBallUserService = (DragonBallUserService) context
+    DragonBallUserService dragonBallUserServiceBean = (DragonBallUserService) context
         .getBean("dragonBallUserService");
-    setDragonBallUserService(dragonBallUserService);
+    setDragonBallUserService(dragonBallUserServiceBean);
   }
 
   /**

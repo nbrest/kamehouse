@@ -30,7 +30,6 @@
               <label class="col-md-2 control-lable" for="username">Username</label>
               <div class="col-md-7">
                 <input type="text" name="username" class="form-control input-sm" />
-                </td>
               </div>
             </div>
           </div>
@@ -40,7 +39,6 @@
               <label class="col-md-2 control-lable" for="email">Email</label>
               <div class="col-md-7">
                 <input type="email" name="email" class="form-control input-sm" value="@dbz.com" />
-                </td>
               </div>
             </div>
           </div>
@@ -50,7 +48,6 @@
               <label class="col-md-2 control-lable" for="age">Age</label>
               <div class="col-md-7">
                 <input type="text" name="age" class="form-control input-sm" value="1" />
-                </td>
               </div>
             </div>
           </div>
@@ -60,7 +57,6 @@
               <label class="col-md-2 control-lable" for="powerLevel">Power Level</label>
               <div class="col-md-7">
                 <input type="text" name="powerLevel" class="form-control input-sm" value="1" />
-                </td>
               </div>
             </div>
           </div>
@@ -70,7 +66,6 @@
               <label class="col-md-2 control-lable" for="stamina">Stamina</label>
               <div class="col-md-7">
                 <input type="text" name="stamina" class="form-control input-sm" value="1" />
-                </td>
               </div>
             </div>
           </div>

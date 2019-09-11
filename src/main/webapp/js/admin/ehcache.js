@@ -43,7 +43,7 @@ function displayCacheData(caches) {
 
     $cacheTableRow = $("<tr>");
     $cacheTableRow.append($('<td class="td-ehcache-header">').text("name"));
-    $cacheTableRowContent = $("<td>");
+    var $cacheTableRowContent = $("<td>");
     $cacheTableRowContent.text(cache.name);
     $cacheTableRowContent.append("<input id='clear-" + cache.name +
       "' type='button' value='Clear Cache' class='btn btn-outline-danger table-ehcache-button btn-borderless' />");

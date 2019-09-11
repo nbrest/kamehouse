@@ -24,6 +24,8 @@ import javax.persistence.Query;
  */
 public class VlcPlayerDaoJpa implements VlcPlayerDao {
 
+  private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
+  
   @Autowired
   private EntityManagerFactory entityManagerFactory;
 
@@ -78,7 +80,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       em.getTransaction().commit();
       if (updatedVlcPlayer == null) {
         throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayer.getId()
-            + " was not found in the repository.");
+            + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) { 
       // Iterate through the causes of the PersistenceException to identify and
@@ -116,7 +118,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
           throw new KameHouseNotFoundException("VLC Player with hostname " + vlcPlayerName
-              + " was not found in the repository.");
+              + NOT_FOUND_IN_REPOSITORY);
         }
         cause = cause.getCause();
       }
@@ -141,7 +143,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       em.getTransaction().commit();
       if (vlcPlayerToRemove == null) {
         throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayerId
-            + " was not found in the repository.");
+            + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) { 
       throw new KameHouseServerErrorException("PersistenceException in deleteDragonBallUser", pe);

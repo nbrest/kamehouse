@@ -42,9 +42,6 @@ public class DragonBallUserService {
     try { 
       validateDragonBallUser(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
-      // TODO: Catch the exception in the controller and transform it to a
-      // Network exception in the controller layer. Also move network exceptions
-      // from the Dao layer to the controller layer.
       throw new KameHouseBadRequestException(e.getMessage(), e);
     }
     return dragonBallUserDao.createDragonBallUser(dragonBallUser);

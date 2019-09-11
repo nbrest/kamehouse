@@ -29,8 +29,6 @@ public class VlcRcStatus {
   private String version;
   private Equalizer equalizer;
 
-  // TODO: Move these maps to inner classes and update the constructor of this
-  // class to instantiate them when it's created.
   /*
    * audioFilters:
    * 
@@ -41,11 +39,11 @@ public class VlcRcStatus {
   /*
    * stats:
    * 
-   * inputBitrate; sentBytes; lostaBuffers; averageDemuxBitrate; readPackets;
-   * demuxReadPackets; lostPictures;displayedPictures; sentPackets;
-   * demuxReadBytes; demuxBitrate; playedaBuffers; demuxDiscontinuity;
-   * decodedAudio; sendBitrate; readBytes; averageInputBitrate; demuxCorrupted;
-   * decodedVideo;
+   * inputBitrate, sentBytes, lostaBuffers, averageDemuxBitrate, readPackets,
+   * demuxReadPackets, lostPictures, displayedPictures, sentPackets,
+   * demuxReadBytes, demuxBitrate, playedaBuffers, demuxDiscontinuity,
+   * decodedAudio, sendBitrate, readBytes, averageInputBitrate, demuxCorrupted,
+   * decodedVideo.
    */
   private Map<String, Object> stats;
 

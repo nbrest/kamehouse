@@ -83,8 +83,6 @@ public class DragonBallController {
     switch (action) {
       case "KameHouseNotFoundException":
         throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***"); 
-      case "RuntimeException":
-        throw new RuntimeException("*** RuntimeException in getUsers ***"); 
       case "KameHouseException":
         throw new KameHouseException("*** KameHouseException in getUsers ***"); 
       default:

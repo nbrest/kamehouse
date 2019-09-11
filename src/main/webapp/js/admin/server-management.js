@@ -35,7 +35,7 @@ function executeAdminShutdownPost(url, command, time) {
 
 function executePost(url, requestBody) {
   console.debug(getTimestamp() + " : Executing POST on " + url);
-  requestHeaders = getCsrfRequestHeadersObject();
+  var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
     url: url,

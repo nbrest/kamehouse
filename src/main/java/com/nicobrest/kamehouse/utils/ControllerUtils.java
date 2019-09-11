@@ -15,9 +15,13 @@ import java.util.List;
  */
 public class ControllerUtils {
 
-  private static final ResponseEntity<?> NOT_FOUND_RESPONSE_ENTITY = ResponseEntity.notFound()
+  private static final ResponseEntity<Void> NOT_FOUND_RESPONSE_ENTITY = ResponseEntity.notFound()
       .build();
 
+  private ControllerUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+  
   /**
    * Generates a response entity for a list of SystemCommandOutputs.
    */
@@ -28,10 +32,8 @@ public class ControllerUtils {
       if (commandOutput.getExitCode() > 0) {
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
       }
-    }
-    ResponseEntity<List<SystemCommandOutput>> responseEntity =
-        new ResponseEntity<List<SystemCommandOutput>>(commandOutputs, httpStatus);
-    return responseEntity;
+    }         
+    return new ResponseEntity<>(commandOutputs, httpStatus);
   }
 
   /**

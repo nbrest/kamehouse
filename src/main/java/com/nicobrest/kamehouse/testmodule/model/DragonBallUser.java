@@ -120,8 +120,11 @@ public class DragonBallUser implements Serializable {
 
     /*
      * Check for nulls in parameters in methods that can be called from outside
-     * the application, where I don´t know what the client can send if (opponent
-     * == null) { throw new IllegalArgumentException(); }
+     * the application, where I don´t know what the client can send. In this
+     * case, it should be safe to assume DragonBallUser opponent will not be
+     * null, so I can skip that check. If I end up having a NullPointerException
+     * here, check if I need to do the null check here or if there's a bug
+     * somewhere that allows this code to receive a null value.
      */
     int currentOpponentStamina = opponent.getStamina();
     currentOpponentStamina = currentOpponentStamina - powerLevel;

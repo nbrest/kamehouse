@@ -40,6 +40,8 @@ public class SystemCommandService {
   private static final String COMPLETED = "completed";
   private static final String FAILED = "failed";
   private static final String RUNNING = "running";
+  private static final String EXCEPTION_EXECUTING_PROCESS =
+      "Exception occurred while executing the process. Message: {}";
 
   /**
    * Get the list of system commands for the specified AdminCommand.
@@ -101,8 +103,9 @@ public class SystemCommandService {
       commandOutput.setCommand("[vncdo (hidden from logs as it contains passwords)]");
       logger.trace("Executing system command [vncdo (hidden from logs as it contains passwords)]");
     } else {
-      commandOutput.setCommand(processBuilder.command().toString());
-      logger.trace("Executing system command {}", processBuilder.command().toString());
+      String command = processBuilder.command().toString();
+      commandOutput.setCommand(command);
+      logger.trace("Executing system command {}", command);
     }
     Process process;
     InputStream processInputStream = null;
@@ -153,19 +156,19 @@ public class SystemCommandService {
         commandOutput.setStatus(RUNNING);
       }
     } catch (IOException e) {
-      logger.error("Exception occurred while executing the process. Message: {}", e.getMessage());
+      logger.error(EXCEPTION_EXECUTING_PROCESS, e.getMessage());
       commandOutput.setExitCode(1);
       commandOutput.setStatus(FAILED);
       commandOutput.setStandardError(Arrays.asList("An error occurred executing the command"));
     } catch (InterruptedException e) {
-      logger.error("Exception occurred while executing the process. Message: {}", e.getMessage());
+      logger.error(EXCEPTION_EXECUTING_PROCESS, e.getMessage());
       Thread.currentThread().interrupt();
     } finally {
       if (processBufferedReader != null) {
         try {
           processBufferedReader.close();
         } catch (IOException e) {
-          logger.error("Exception occurred while executing the process. Message: {}", e
+          logger.error(EXCEPTION_EXECUTING_PROCESS, e
               .getMessage());
           commandOutput.setExitCode(1);
           commandOutput.setStatus(FAILED);
@@ -177,8 +180,7 @@ public class SystemCommandService {
         try {
           processErrorBufferedReader.close();
         } catch (IOException e) {
-          logger.error("Exception occurred while executing the process. Message: {}", e
-              .getMessage());
+          logger.error(EXCEPTION_EXECUTING_PROCESS, e.getMessage());
           commandOutput.setExitCode(1);
           commandOutput.setStatus(FAILED);
           commandOutput.setStandardError(Arrays.asList(

@@ -13,6 +13,10 @@ import java.io.InputStream;
  */
 public class ProcessUtils {
 
+  private ProcessUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+  
   /**
    * Start the specified process. 
    */

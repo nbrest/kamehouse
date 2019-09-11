@@ -14,6 +14,10 @@ import java.io.IOException;
  */
 public class JsonUtils {
 
+  private JsonUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+  
   /**
    * Converts an object to a json byte array.
    */

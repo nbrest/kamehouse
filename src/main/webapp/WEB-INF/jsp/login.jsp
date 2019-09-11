@@ -22,14 +22,6 @@
 <link rel="stylesheet" href="/kame-house/css/login.css" /> 
 </head>
 <body>
-  <%-- Set redirect url based on the referer to the login page. 
-  TODO: Investigate potential security issues with this redirect method --%>
-<%--   <%  --%>
-<!--     String redirectUrl = request.getHeader("referer");  -->
-<!--     if (redirectUrl == null) { -->
-<!--       redirectUrl = ""; -->
-<!--     } -->
-<!--   %> -->
   <div id="headerContainer"></div>
   <div class="default-layout main-body">
     <c:url var="loginUrl" value="/login" />
@@ -60,7 +52,6 @@
           placeholder="Enter Password" required>
       </div>
       <br>
-<%--       <input type="hidden" name="redirect-url" value="<%=redirectUrl%>"> --%>
       <div class="form-actions">
         <input type="submit" class="btn btn-block btn-outline-info btn-default" value="Log in">
       </div>

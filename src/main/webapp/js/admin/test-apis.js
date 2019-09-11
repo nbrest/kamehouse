@@ -22,8 +22,7 @@ function executeAdminVlcPost(url, command, file) {
 }
 
 function executeGet(url) {
-  console.debug(getTimestamp() + " : Executing GET on " + url);
-  //console.debug(url);
+  console.debug(getTimestamp() + " : Executing GET on " + url); 
   $.get(url)
     .success(function(result) {
       displayRequestPayload(result, url, "GET", null);
@@ -38,7 +37,7 @@ function executeGet(url) {
 
 function executePost(url, requestBody) {
   console.debug(getTimestamp() + " : Executing POST on " + url);
-  requestHeaders = getCsrfRequestHeadersObject();
+  var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
     url: url,

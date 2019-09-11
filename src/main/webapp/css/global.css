@@ -30,7 +30,6 @@
   font-size: 20px;
 }
 
-.banner-text {}
 @media ( max-width : 900px) {
   .banner-text {
     padding-top: 80px;
@@ -289,7 +288,6 @@ hr {
 	border:1px solid #343434; 
 }
 
-tbody {}
 @media ( max-width : 900px) {
   /** Make tbody use the full width of the table */
   tbody {
@@ -349,9 +347,6 @@ ul {
 /** Set scrollbar style FIREFOX */
 * {
   scrollbar-color: #d90000 #101517 !important;
-  scrollbar-width: thin !important;
-}
-* {
   scrollbar-width: thin !important;
 }
 /** Set scrollbar style CHROME */

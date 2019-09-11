@@ -63,19 +63,10 @@ function executeVlcRcCommandPost(url, name) {
   executePost(url, requestBody);
 }
 
-/** Create a vlcrc command with the parameters and execute the request to the server. */
-function executeVlcRcCommandPost(url, name, val) {
-  var requestBody = {
-    name: name,
-    val: val
-  };
-  executePost(url, requestBody);
-}
-
 /** Execute a POST request to the specified url with the specified request body. */
 function executePost(url, requestBody) {
   log("DEBUG", "Executing POST on " + url + " with requestBody " + JSON.stringify(requestBody));
-  requestHeaders = getCsrfRequestHeadersObject();
+  var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
     url: url,
@@ -227,7 +218,7 @@ async function pullVlcRcStatusLoop() {
   if (global.isWebSocketConnected) {
     getVlcRcStatus();
   }  
-  for ( ; ; ) { 
+  while (global.syncVlcStatus) { 
     await sleep(vlcRcStatusPullWaitTimeMs);
     log("TRACE", "pullVlcRcStatusLoop(): vlcRcStatus:" + JSON.stringify(global.vlcRcStatus));
     if (global.isWebSocketConnected) {
@@ -242,9 +233,6 @@ async function pullVlcRcStatusLoop() {
         vlcRcStatusPullWaitTimeMs = 4000;
       }
     }
-    if (!global.syncVlcStatus) {
-    	break;
-    }
   }
 }
 
@@ -254,7 +242,7 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
   log("TRACE", "vlcRcStatusResponse: " + JSON.stringify(global.vlcRcStatus));
   
   // Update media title.
-  mediaName = getMediaName(); 
+  var mediaName = getMediaName(); 
   $("#media-title").text(mediaName.filename);
   
   // Update media playing time
@@ -292,18 +280,18 @@ function updateTimeWhileSliding(value) {
 
 /** Get media name from VlcRcStatus. */
 function getMediaName() {
-  var mediaName = {};
-  mediaName.filename = "No media loaded";
-  mediaName.title = "No media loaded";
+  var mediaNameLocal = {};
+  mediaNameLocal.filename = "No media loaded";
+  mediaNameLocal.title = "No media loaded";
   if (!isEmpty(global.vlcRcStatus.information)) {
       global.vlcRcStatus.information.category.forEach(function (category) {
         if (!isEmpty(category.filename)) {
-          mediaName.filename = category.filename;
-          mediaName.title = category.title;
+          mediaNameLocal.filename = category.filename;
+          mediaNameLocal.title = category.title;
         }
     });
   }  
-  return mediaName;
+  return mediaNameLocal;
 }
 
 /** Set the volume from the slider's value. */
@@ -438,9 +426,10 @@ function displayPlaylist(playlistArray) {
   // Clear playlist content, if it has.
   emptyPlaylistTableBody();
   // Add the new playlist items received from the server.
-  var $playlistTableBody = $('#playlist-table-body'); 
+  var $playlistTableBody = $('#playlist-table-body');
+  var playlistTableRow;
   if (isEmpty(global.currentPlaylist)) {
-    var playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet. Mada mada dane :)"));
+    playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet. Mada mada dane :)"));
     $playlistTableBody.append(playlistTableRow);
   } else {
     for (var i = 0; i < global.currentPlaylist.length ; i++) {
@@ -448,7 +437,7 @@ function displayPlaylist(playlistArray) {
       playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
       playlistElementButton.text(global.currentPlaylist[i].name);
       playlistElementButton.click({id: global.currentPlaylist[i].id}, clickEventOnPlaylistRow);
-      var playlistTableRow = $('<tr id=' + global.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
+      playlistTableRow = $('<tr id=' + global.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
       $playlistTableBody.append(playlistTableRow);
     } 
     highlightCurrentPlayingItemInPlaylist(global.vlcRcStatus.currentPlId);

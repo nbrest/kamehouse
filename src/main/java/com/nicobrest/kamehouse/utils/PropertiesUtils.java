@@ -22,10 +22,15 @@ import java.util.Properties;
 public class PropertiesUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
+  
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
   private static final Properties mediaVideoProperties = new Properties();
   private static final Properties adminProperties = new Properties();
 
+  private PropertiesUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+  
   static {
     try {
       Resource mediaVideoPropertiesResource = new ClassPathResource("/media.video.properties");
@@ -37,7 +42,7 @@ public class PropertiesUtils {
           adminPropertiesResource);
       adminProperties.putAll(adminPropertiesFromFile);
     } catch (IOException e) {
-      logger.error("Exception loading properties files. Message: " + e.getMessage()); 
+      logger.error("Exception loading properties files. Message: {}", e.getMessage()); 
     }
   }
 
@@ -73,18 +78,17 @@ public class PropertiesUtils {
       BufferedReader reader = null;
       try {
         reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname")
-            .getInputStream(), StandardCharsets.UTF_8));
-        String hostname = reader.readLine();
-        return hostname;
+            .getInputStream(), StandardCharsets.UTF_8)); 
+        return reader.readLine();
       } catch (IOException e) {
-        logger.error("Error getting hostname. Message: " + e.getMessage());
+        logger.error("Error getting hostname. Message: {}", e.getMessage());
         return "INVALID_HOSTNAME";
       } finally {
         if (reader != null) {
           try {
             reader.close();
           } catch (IOException e) {
-            logger.error("Error closing reader. Message: " + e.getMessage());
+            logger.error("Error closing reader. Message: {}", e.getMessage());
           }
         }
       }

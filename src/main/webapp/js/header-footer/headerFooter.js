@@ -101,7 +101,7 @@ function updateHeaderLoginStatus() {
   } else { 
     var $logoutButton = $("<a href='/kame-house/logout' " + 
         "class='btn btn-outline-danger'>Logout</>");
-    $loginMessage = $("<h5>");
+    var $loginMessage = $("<h5>");
     $loginMessage.text(global.session.username);
     $loginStatus.append($logoutButton);
     $loginStatus.append($loginMessage);

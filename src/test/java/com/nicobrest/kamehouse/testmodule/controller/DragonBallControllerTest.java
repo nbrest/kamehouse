@@ -237,27 +237,6 @@ public class DragonBallControllerTest {
    * /dragonball/users with the parameter to throw an exception.
    */
   @Test
-  public void getUsersRuntimeExceptionTest() {
-
-    try {
-      ResultActions requestResult = mockMvc
-          .perform(get("/api/v1/dragonball/users?action=RuntimeException")).andDo(print());
-      requestResult.andExpect(status().isInternalServerError());
-      requestResult.andExpect(view().name("error/error"));
-      requestResult.andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
-      fail("Expected an exception to be thrown.");
-    } catch (Exception e) {
-      // Do nothing. Expected an exception
-    }
-    // Verify gotenDragonBallUserMock invocations
-    verifyZeroInteractions(dragonBallUserServiceMock);
-  }
-
-  /**
-   * /dragonball/users (GET) Test the rest web service on the endpoint
-   * /dragonball/users with the parameter to throw an exception.
-   */
-  @Test
   public void getUsersNotFoundExceptionTest() {
 
     try {

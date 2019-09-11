@@ -54,7 +54,7 @@ public class VlcRcController {
 
     logger.trace("In controller /vlc-rc/players (POST)");
     Long vlcPlayerId = vlcPlayerService.createVlcPlayer(vlcPlayerDto);
-    return new ResponseEntity<Long>(vlcPlayerId, HttpStatus.CREATED);
+    return new ResponseEntity<>(vlcPlayerId, HttpStatus.CREATED);
   }
 
   /**
@@ -85,10 +85,8 @@ public class VlcRcController {
    * Updates the VLC Player passed as a URL parameter.
    */
   @PutMapping(path = "/players/{vlcPlayerName}")
-  public ResponseEntity<?> updateVlcPlayer(@PathVariable String vlcPlayerName,
+  public ResponseEntity<Void> updateVlcPlayer(@PathVariable String vlcPlayerName,
       @RequestBody VlcPlayerDto vlcPlayerDto) {
-
-    //TODO: Move this to {id} and check that path id is the same as VlcPlayerDto id
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName} (PUT)");
     vlcPlayerService.updateVlcPlayer(vlcPlayerDto);
     return new ResponseEntity<>(HttpStatus.OK);
@@ -103,7 +101,7 @@ public class VlcRcController {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerId} (DELETE)");
     VlcPlayer vlcPlayer = vlcPlayerService.deleteVlcPlayer(vlcPlayerId);
-    return new ResponseEntity<VlcPlayer>(vlcPlayer, HttpStatus.OK);
+    return new ResponseEntity<>(vlcPlayer, HttpStatus.OK);
   }
 
   /**
@@ -128,7 +126,7 @@ public class VlcRcController {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/commands (POST)");
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, vlcPlayerName);
-    return new ResponseEntity<VlcRcStatus>(vlcRcStatus, HttpStatus.CREATED);
+    return new ResponseEntity<>(vlcRcStatus, HttpStatus.CREATED);
   }
 
   /**

@@ -29,7 +29,7 @@ public class VlcRcWebSocketController {
    */
   @MessageMapping("/vlc-player/status-in")
   @SendTo("/topic/vlc-player/status-out")
-  public VlcRcStatus getVlcRcStatus() throws Exception {
+  public VlcRcStatus getVlcRcStatus() {
 
     logger.trace("In WebSocket controller /vlc-player/status-in");
 
