@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -44,7 +47,7 @@ public class ApplicationUserController {
   /**
    * Returns all application users.
    */
-  @RequestMapping(value = "/users", method = RequestMethod.GET)
+  @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<ApplicationUser>> getUsers() {
 
@@ -55,13 +58,13 @@ public class ApplicationUserController {
     for (ApplicationUser appUser : applicationUsers) {
       appUser.setPassword(null);
     }
-    return new ResponseEntity<List<ApplicationUser>>(applicationUsers, HttpStatus.OK);
+    return new ResponseEntity<>(applicationUsers, HttpStatus.OK);
   }
 
   /**
    * Creates a new ApplicationUser in the repository.
    */
-  @RequestMapping(value = "/users", method = RequestMethod.POST)
+  @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> postUsers(@RequestBody ApplicationUserDto applicationUserDto) {
 
@@ -69,13 +72,13 @@ public class ApplicationUserController {
 
     Long applicationUserId = applicationUserService.createUser(applicationUserDto);
 
-    return new ResponseEntity<Long>(applicationUserId, HttpStatus.CREATED);
+    return new ResponseEntity<>(applicationUserId, HttpStatus.CREATED);
   }
 
   /**
    * Returns a specific ApplicationUser from the repository based on the username.
    */
-  @RequestMapping(value = "/users/{username:.+}", method = RequestMethod.GET)
+  @GetMapping(path = "/users/{username:.+}")
   @ResponseBody
   public ResponseEntity<ApplicationUser> getUsersUsername(@PathVariable String username) {
 
@@ -85,21 +88,20 @@ public class ApplicationUserController {
     // Don't return the password through the API.
     applicationUser.setPassword(null);
 
-    return new ResponseEntity<ApplicationUser>(applicationUser, HttpStatus.OK);
+    return new ResponseEntity<>(applicationUser, HttpStatus.OK);
   }
 
   /**
    * Updates a user in the repository.
    */
-  @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+  @PutMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<?> putUsers(@PathVariable Long id,
+  public ResponseEntity<Void> putUsersId(@PathVariable Long id,
       @RequestBody ApplicationUserDto applicationUserDto) {
 
     logger.trace("In controller /application/users/{id} (PUT)");
 
     if (!id.equals(applicationUserDto.getId())) {
-      // TODO: This should be a bad request exception
       throw new KameHouseForbiddenException(
           "Id in path variable doesn´t match" + "id in request body.");
     }
@@ -111,9 +113,9 @@ public class ApplicationUserController {
   /**
    * Deletes an existing user from the repository.
    */
-  @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+  @DeleteMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<ApplicationUser> deleteUsersUsername(@PathVariable Long id) {
+  public ResponseEntity<ApplicationUser> deleteUsersId(@PathVariable Long id) {
 
     logger.trace("In controller /application/users/{id} (DELETE)");
 
@@ -121,6 +123,6 @@ public class ApplicationUserController {
     // Don't return the passwords through the API.
     deletedAppUser.setPassword(null);
 
-    return new ResponseEntity<ApplicationUser>(deletedAppUser, HttpStatus.OK);
+    return new ResponseEntity<>(deletedAppUser, HttpStatus.OK);
   }
 }
