@@ -63,6 +63,15 @@ function executeVlcRcCommandPost(url, name) {
   executePost(url, requestBody);
 }
 
+/** Create a vlcrc command with the parameters and execute the request to the server. */
+function executeVlcRcCommandPost(url, name, val) {
+  var requestBody = {
+    name: name,
+    val: val
+  };
+  executePost(url, requestBody);
+}
+
 /** Execute a POST request to the specified url with the specified request body. */
 function executePost(url, requestBody) {
   log("DEBUG", "Executing POST on " + url + " with requestBody " + JSON.stringify(requestBody));
