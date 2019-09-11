@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.testmodule.service;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.main.validator.UserValidator;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
@@ -103,10 +104,10 @@ public class DragonBallUserService {
    */
   private void validateDragonBallUser(DragonBallUser dragonBallUser) {
 
-    DragonBallUserValidator.validateUsernameFormat(dragonBallUser.getUsername());
-    DragonBallUserValidator.validateEmailFormat(dragonBallUser.getEmail());
-    DragonBallUserValidator.validateStringLength(dragonBallUser.getUsername());
-    DragonBallUserValidator.validateStringLength(dragonBallUser.getEmail());
+    UserValidator.validateUsernameFormat(dragonBallUser.getUsername());
+    UserValidator.validateEmailFormat(dragonBallUser.getEmail());
+    UserValidator.validateStringLength(dragonBallUser.getUsername());
+    UserValidator.validateStringLength(dragonBallUser.getEmail());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getAge());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getPowerLevel());
   }

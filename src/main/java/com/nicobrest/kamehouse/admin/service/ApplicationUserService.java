@@ -7,11 +7,11 @@ import com.nicobrest.kamehouse.admin.security.PasswordUtils;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.validator.ApplicationUserValidator;
+import com.nicobrest.kamehouse.main.validator.UserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,12 +51,11 @@ public class ApplicationUserService implements UserDetailsService {
   }
 
   @Override
-  public ApplicationUser loadUserByUsername(String username) throws UsernameNotFoundException {
+  public ApplicationUser loadUserByUsername(String username) {
     if (username.equals("anonymousUser")) {
       return anonymousUser;
     }
-    ApplicationUser user = applicationUserDao.loadUserByUsername(username);
-    return user;
+    return applicationUserDao.loadUserByUsername(username);
   }
 
   /**
@@ -67,8 +66,7 @@ public class ApplicationUserService implements UserDetailsService {
     validateApplicationUser(applicationUser);
     applicationUser
         .setPassword(PasswordUtils.generateHashedPassword(applicationUser.getPassword()));
-    Long id = applicationUserDao.createUser(applicationUser);
-    return id;
+    return applicationUserDao.createUser(applicationUser);
   }
 
   /**
@@ -84,16 +82,14 @@ public class ApplicationUserService implements UserDetailsService {
    * Deletes an application user from the repository.
    */
   public ApplicationUser deleteUser(Long id) {
-    ApplicationUser deletedUser = applicationUserDao.deleteUser(id);
-    return deletedUser;
+    return applicationUserDao.deleteUser(id);
   }
 
   /**
    * Get all application users.
    */
   public List<ApplicationUser> getAllUsers() {
-    List<ApplicationUser> applicationUsers = applicationUserDao.getAllUsers();
-    return applicationUsers;
+    return applicationUserDao.getAllUsers();
   }
 
   /**
@@ -102,13 +98,13 @@ public class ApplicationUserService implements UserDetailsService {
   private void validateApplicationUser(ApplicationUser applicationUser) {
     ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
     ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
-    ApplicationUserValidator.validateUsernameFormat(applicationUser.getUsername());
-    ApplicationUserValidator.validateEmailFormat(applicationUser.getEmail());
-    ApplicationUserValidator.validateStringLength(applicationUser.getFirstName());
-    ApplicationUserValidator.validateStringLength(applicationUser.getLastName());
-    ApplicationUserValidator.validateStringLength(applicationUser.getUsername());
-    ApplicationUserValidator.validateStringLength(applicationUser.getEmail());
-    ApplicationUserValidator.validateStringLength(applicationUser.getPassword());
+    UserValidator.validateUsernameFormat(applicationUser.getUsername());
+    UserValidator.validateEmailFormat(applicationUser.getEmail());
+    UserValidator.validateStringLength(applicationUser.getFirstName());
+    UserValidator.validateStringLength(applicationUser.getLastName());
+    UserValidator.validateStringLength(applicationUser.getUsername());
+    UserValidator.validateStringLength(applicationUser.getEmail());
+    UserValidator.validateStringLength(applicationUser.getPassword());
   }
 
   /**

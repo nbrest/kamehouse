@@ -42,9 +42,9 @@ public class EhCacheService {
    */
   public Map<String, Object> getCache(String cacheName) {
 
-    logger.trace("Getting information for cache: " + cacheName);
+    logger.trace("Getting information for cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
-    Map<String, Object> cacheMap = new HashMap<String, Object>();
+    Map<String, Object> cacheMap = new HashMap<>();
     if (cache != null) {
       populateCacheMap(cacheMap, cache);
     }
@@ -57,7 +57,7 @@ public class EhCacheService {
   public List<Map<String, Object>> getAllCaches() {
 
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
-    List<Map<String, Object>> cacheList = new ArrayList<Map<String, Object>>();
+    List<Map<String, Object>> cacheList = new ArrayList<>();
 
     for (int i = 0; i < cacheNames.length; i++) {
       Map<String, Object> cacheMap = getCache(cacheNames[i]);
@@ -73,7 +73,7 @@ public class EhCacheService {
    */
   public void clearCache(String cacheName) {
 
-    logger.trace("Clearing cache: " + cacheName);
+    logger.trace("Clearing cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     if (cache != null) {
       cache.removeAll();
@@ -98,7 +98,7 @@ public class EhCacheService {
 
     cacheMap.put("name", cache.getName());
     cacheMap.put("status", cache.getStatus().toString());
-    List<String> cacheValues = new ArrayList<String>();
+    List<String> cacheValues = new ArrayList<>();
     List<?> cacheKeys = cache.getKeys();
     for (Object key : cacheKeys) {
       Element cacheElement = cache.get(key);

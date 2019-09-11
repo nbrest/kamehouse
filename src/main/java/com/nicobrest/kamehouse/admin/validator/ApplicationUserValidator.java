@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.validator;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
-import com.nicobrest.kamehouse.main.validator.UserValidator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,13 +11,17 @@ import java.util.regex.Pattern;
  * @author nbrest
  *
  */
-public class ApplicationUserValidator extends UserValidator {
+public class ApplicationUserValidator {
   
   private static final String FIRST_NAME_REGEX = "^[A-Za-z]+";
   private static final Pattern FIRST_NAME_PATTERN = Pattern.compile(FIRST_NAME_REGEX);
   private static final String LAST_NAME_REGEX = "^[A-Za-z]+";
   private static final Pattern LAST_NAME_PATTERN = Pattern.compile(LAST_NAME_REGEX);
 
+  private ApplicationUserValidator() {
+    throw new IllegalStateException("Utility class");
+  }
+  
   /**
    * Validate that the first name has a valid format.
    */

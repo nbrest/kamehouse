@@ -38,6 +38,6 @@ public class VideoPlaylistController {
 
     logger.trace("In controller /api/v1/media/video/playlists (GET)");
     List<Playlist> videoPlaylists = videoPlaylistService.getAllVideoPlaylists();
-    return new ResponseEntity<List<Playlist>>(videoPlaylists, HttpStatus.OK);
+    return new ResponseEntity<>(videoPlaylists, HttpStatus.OK);
   }
 }

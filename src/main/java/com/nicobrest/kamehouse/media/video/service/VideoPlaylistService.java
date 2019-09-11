@@ -47,7 +47,7 @@ public class VideoPlaylistService {
           PROP_PLAYLISTS_PATH_LINUX);
       videoPlaylistsHome = userHome + playlistsPathLinux;
     }
-    List<Playlist> videoPlaylists = new ArrayList<Playlist>();
+    List<Playlist> videoPlaylists = new ArrayList<>();
     Path basePath = Paths.get(videoPlaylistsHome);
     try (Stream<Path> filePaths = Files.walk(basePath)) {
       Iterator<Path> filePathsIterator = filePaths.iterator();
@@ -61,15 +61,12 @@ public class VideoPlaylistService {
             String category = getCategory(basePath, filePath);
             playlist.setCategory(category);
             playlist.setPath(filePath.toString());
-            // TODO set a flag to determine if I am requested to list the files
-            // in the playlist and if I do, read the playlist file, and add the
-            // contained files to the Playlist.files attribute
             videoPlaylists.add(playlist);
           }
         }
       }
     } catch (IOException e) {
-      logger.error("An exception occurred while getting all the video playlists. Message: " + e
+      logger.error("An exception occurred while getting all the video playlists. Message: {}", e
           .getMessage());
     }
     videoPlaylists.sort(new PlaylistComparator());
@@ -83,9 +80,8 @@ public class VideoPlaylistService {
     int basePathLength = basePath.toFile().getAbsolutePath().length();
     Path parentPath = filePath.getParent();
     if (parentPath != null) {
-      String absoluteParentFilePath = parentPath.toFile().getAbsolutePath();
-      String relativeFilePath = absoluteParentFilePath.substring(basePathLength + 1);
-      return relativeFilePath;
+      String absoluteParentFilePath = parentPath.toFile().getAbsolutePath(); 
+      return absoluteParentFilePath.substring(basePathLength + 1);
     } else {
       return null;
     }

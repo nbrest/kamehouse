@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.validator;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
-import com.nicobrest.kamehouse.main.validator.UserValidator;
 
 /**
  * Class to validate the attributes of a DragonBallUser.
@@ -9,7 +8,11 @@ import com.nicobrest.kamehouse.main.validator.UserValidator;
  * @author nbrest
  *
  */
-public class DragonBallUserValidator extends UserValidator {
+public class DragonBallUserValidator {
+  
+  private DragonBallUserValidator() {
+    throw new IllegalStateException("Utility class");
+  }
   
   /**
    * Validate that the integer has a positive value.

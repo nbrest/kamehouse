@@ -16,9 +16,9 @@ import javax.servlet.ServletResponse;
 
 /**
  * Filter class to add the logged in username to each request.<br>
- * Deprecated. Functionality replaced by
+ * @deprecated. Functionality replaced by
  * {@link com.nicobrest.kamehouse.admin.controller.SessionStatusController}.<br>
- * 
+ *  
  * @author nbrest
  *
  */
@@ -29,10 +29,12 @@ public class AddSecurityContextFilter implements Filter {
 
   @Override
   public void destroy() {
+    // No resources need to be cleared after the execution of the filter.
   }
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
+    // No initialization is required to execute this filter.
   }
 
   @Override
@@ -41,7 +43,7 @@ public class AddSecurityContextFilter implements Filter {
 
     Authentication authentication = getAuthentication();
     String username = authentication.getName();
-    logger.trace("Setting request username: " + username);
+    logger.trace("Setting request username: {}", username);
     request.setAttribute("username", username);
     chain.doFilter(request, response);
   }

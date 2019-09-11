@@ -50,10 +50,10 @@ public class SessionStatusService {
     String username = authentication.getName();
     WebAuthenticationDetails sessionDetails = (WebAuthenticationDetails) authentication
         .getDetails();
-    Map<String, Object> sessionStatus = new HashMap<String, Object>();
+    Map<String, Object> sessionStatus = new HashMap<>();
     sessionStatus.put("username", StringEscapeUtils.escapeHtml(username));
     sessionStatus.put("session-id", sessionDetails.getSessionId());
-    List<String> roles = new ArrayList<String>();
+    List<String> roles = new ArrayList<>();
     for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
       roles.add(grantedAuthority.getAuthority());
     }
