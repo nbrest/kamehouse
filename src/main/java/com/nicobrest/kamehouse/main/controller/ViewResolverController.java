@@ -6,8 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,10 +27,9 @@ public class ViewResolverController {
   /**
    * View resolver for static html files.
    */
-  @RequestMapping(value = { "/", "/about", "/admin", "/admin/**", "/contact-us", "/test-module",
+  @GetMapping(path = { "/", "/about", "/admin", "/admin/**", "/contact-us", "/test-module",
       "/test-module/", "/test-module/angular-1", "/test-module/angular-1/**",
-      "/test-module/websocket", "/test-module/websocket/**", "/vlc-player" },
-      method = RequestMethod.GET)
+      "/test-module/websocket", "/test-module/websocket/**", "/vlc-player" })
   public ModelAndView includeStaticHtml(HttpServletRequest request, HttpServletResponse response) {
 
     String originalRequestUrl = (String) request.getServletPath();
@@ -70,7 +68,7 @@ public class ViewResolverController {
   /**
    * View resolver for the login page.
    */
-  @RequestMapping(value = "/login", method = RequestMethod.GET)
+  @GetMapping(path = "/login")
   public String loginPage() {
     logger.trace("In controller /login (GET)");
     return "/login";
@@ -79,7 +77,7 @@ public class ViewResolverController {
   /**
    * View resolver for the logout page.
    */
-  @RequestMapping(value = "/logout", method = RequestMethod.GET)
+  @GetMapping(path = "/logout")
   public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
     logger.trace("In controller /logout (GET)");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -94,7 +92,7 @@ public class ViewResolverController {
   /**
    * View resolver for the test module jsp app page.
    */
-  @RequestMapping(value = "/test-module/jsp/**", method = RequestMethod.GET)
+  @GetMapping(path = "/test-module/jsp/**")
   public String testModuleJsp(HttpServletRequest request, HttpServletResponse response) {
     logger.trace("In controller /test-module/jsp/** (GET) with path: " + request.getServletPath());
     if (request.getServletPath().equals("/test-module/jsp/")) {

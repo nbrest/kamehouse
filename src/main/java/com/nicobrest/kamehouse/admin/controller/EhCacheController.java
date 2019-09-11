@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,7 +39,7 @@ public class EhCacheController {
    * Returns the status of all the ehcaches or the cache specified as a
    * parameter.
    */
-  @RequestMapping(method = RequestMethod.GET)
+  @GetMapping
   @ResponseBody
   public ResponseEntity<List<Map<String, Object>>> getCache(@RequestParam(value = "name",
       required = false) String cacheName) {
@@ -61,7 +62,7 @@ public class EhCacheController {
   /**
    * Clears all the ehcaches or the cache specified as a parameter.
    */
-  @RequestMapping(method = RequestMethod.DELETE)
+  @DeleteMapping
   public ResponseEntity<Void> clearCache(@RequestParam(value = "name",
       required = false) String cacheName) {
 

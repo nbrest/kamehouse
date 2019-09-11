@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class PowerManagementController {
   /**
    * Shutdown the local server with the specified delay in seconds.
    */
-  @RequestMapping(value = "/shutdown", method = RequestMethod.POST)
+  @PostMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> setShutdown(
       @RequestBody AdminCommand shutdownSetAdminCommand) {
@@ -56,7 +58,7 @@ public class PowerManagementController {
   /**
    * Cancel a shutdown command.
    */
-  @RequestMapping(value = "/shutdown", method = RequestMethod.DELETE)
+  @DeleteMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> cancelShutdown() {
 
@@ -72,7 +74,7 @@ public class PowerManagementController {
   /**
    * Get the status of a shutdown command.
    */
-  @RequestMapping(value = "/shutdown", method = RequestMethod.GET)
+  @GetMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusShutdown() {
 
@@ -88,7 +90,7 @@ public class PowerManagementController {
   /**
    * Suspend the server.
    */
-  @RequestMapping(value = "/suspend", method = RequestMethod.POST)
+  @PostMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> suspend() {
 

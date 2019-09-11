@@ -16,10 +16,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,7 +55,7 @@ public class DragonBallController {
    * /dragonball/model-and-view Returns the ModelAndView object for the test
    * endpoint.
    */
-  @RequestMapping(value = "/model-and-view", method = RequestMethod.GET)
+  @GetMapping(path = "/model-and-view")
   public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
       defaultValue = "Goku") String name) {
 
@@ -68,7 +71,7 @@ public class DragonBallController {
   /**
    * /dragonball/users Returns all DragonBallUsers.
    */
-  @RequestMapping(value = "/users", method = RequestMethod.GET)
+  @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<DragonBallUser>> getUsers(@RequestParam(value = "action",
       required = false, defaultValue = "goku") String action) throws Exception {
@@ -98,7 +101,7 @@ public class DragonBallController {
   /**
    * /dragonball/users Creates a new DragonBallUser in the repository.
    */
-  @RequestMapping(value = "/users", method = RequestMethod.POST)
+  @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> postUsers(@RequestBody DragonBallUserDto dragonBallUserDto) {
 
@@ -113,7 +116,7 @@ public class DragonBallController {
    * /dragonball/users/{id} Returns a specific DragonBallUser from the
    * repository based on the id.
    */
-  @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+  @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> getUsersId(@PathVariable Long id) {
     logger.trace("In controller /dragonball/users/{id} (GET)");
@@ -127,7 +130,7 @@ public class DragonBallController {
    * /dragonball/users/username/{username} Returns a specific DragonBallUser
    * from the repository based on the username.
    */
-  @RequestMapping(value = "/users/username/{username:.+}", method = RequestMethod.GET)
+  @GetMapping(path = "/users/username/{username:.+}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> getUsersUsername(@PathVariable String username) {
     // The :.+ on the endpoint mapping is to allow dots in the username,
@@ -144,7 +147,7 @@ public class DragonBallController {
    * /dragonball/users/emails/{email:.+} Returns a specific DragonBallUser from
    * the repository based on the email (URLEncoded with UTF-8).
    */
-  @RequestMapping(value = "/users/emails/{email:.+}", method = RequestMethod.GET)
+  @GetMapping(path = "/users/emails/{email:.+}")
   @ResponseBody
   public ResponseEntity<String> getUsersByEmail(@PathVariable String email) {
 
@@ -171,7 +174,7 @@ public class DragonBallController {
   /**
    * /dragonball/users/{id} Updates a user in the repository.
    */
-  @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+  @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<?> putUsers(@PathVariable Long id,
       @RequestBody DragonBallUserDto dragonBallUserDto) {
@@ -191,7 +194,7 @@ public class DragonBallController {
   /**
    * /dragonball/users/{id} Deletes an existing user from the repository.
    */
-  @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+  @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) {
 

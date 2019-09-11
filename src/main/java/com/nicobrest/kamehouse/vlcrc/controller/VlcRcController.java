@@ -14,7 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +49,7 @@ public class VlcRcController {
   /**
    * Creates a VLC Player.
    */
-  @RequestMapping(value = "/players", method = RequestMethod.POST)
+  @PostMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<Long> createVlcPlayer(@RequestBody VlcPlayerDto vlcPlayerDto) {
 
@@ -57,7 +61,7 @@ public class VlcRcController {
   /**
    * Gets all VLC Player registered in the application.
    */
-  @RequestMapping(value = "/players", method = RequestMethod.GET)
+  @GetMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<?> getAllVlcPlayers() {
 
@@ -69,7 +73,7 @@ public class VlcRcController {
   /**
    * Gets the VLC Player passed as a URL parameter.
    */
-  @RequestMapping(value = "/players/{vlcPlayerName}", method = RequestMethod.GET)
+  @GetMapping(path = "/players/{vlcPlayerName}")
   @ResponseBody
   public ResponseEntity<?> getVlcPlayer(@PathVariable String vlcPlayerName) {
 
@@ -81,7 +85,7 @@ public class VlcRcController {
   /**
    * Updates the VLC Player passed as a URL parameter.
    */
-  @RequestMapping(value = "/players/{vlcPlayerName}", method = RequestMethod.PUT)
+  @PutMapping(path = "/players/{vlcPlayerName}")
   public ResponseEntity<?> updateVlcPlayer(@PathVariable String vlcPlayerName,
       @RequestBody VlcPlayerDto vlcPlayerDto) {
 
@@ -94,7 +98,7 @@ public class VlcRcController {
   /**
    * Deletes the VLC Player passed as a URL parameter.
    */
-  @RequestMapping(value = "/players/{vlcPlayerId}", method = RequestMethod.DELETE)
+  @DeleteMapping(path = "/players/{vlcPlayerId}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> deleteVlcPlayer(@PathVariable Long vlcPlayerId) {
 
@@ -106,7 +110,7 @@ public class VlcRcController {
   /**
    * Gets the status information of the VLC Player passed through the URL.
    */
-  @RequestMapping(value = "/players/{vlcPlayerName}/status", method = RequestMethod.GET)
+  @GetMapping(path = "/players/{vlcPlayerName}/status")
   @ResponseBody
   public ResponseEntity<?> getVlcRcStatus(@PathVariable String vlcPlayerName) {
 
@@ -118,7 +122,7 @@ public class VlcRcController {
   /**
    * Executes a command in the selected VLC Player.
    */
-  @RequestMapping(value = "/players/{vlcPlayerName}/commands", method = RequestMethod.POST)
+  @PostMapping(path = "/players/{vlcPlayerName}/commands")
   @ResponseBody
   public ResponseEntity<VlcRcStatus> executeCommand(@RequestBody VlcRcCommand vlcRcCommand,
       @PathVariable String vlcPlayerName) {
@@ -131,7 +135,7 @@ public class VlcRcController {
   /**
    * Gets the current playlist from the selected VLC Player.
    */
-  @RequestMapping(value = "/players/{vlcPlayerName}/playlist", method = RequestMethod.GET)
+  @GetMapping(path = "/players/{vlcPlayerName}/playlist")
   @ResponseBody
   public ResponseEntity<?> getPlaylist(@PathVariable String vlcPlayerName) {
 
@@ -143,7 +147,7 @@ public class VlcRcController {
   /**
    * Browse the VLC Player server's file system.
    */
-  @RequestMapping(value = "/players/{vlcPlayerName}/browse", method = RequestMethod.GET)
+  @GetMapping(path = "/players/{vlcPlayerName}/browse")
   @ResponseBody
   public ResponseEntity<?> browse(
       @RequestParam(value = "uri", required = false) String uri,

@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class ScreenController {
   /**
    * Lock screen in the server running the application.
    */
-  @RequestMapping(value = "/lock", method = RequestMethod.POST)
+  @PostMapping(path = "/lock")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> lockScreen() {
 
@@ -49,7 +49,7 @@ public class ScreenController {
   /**
    * Unlock screen in the server running the application.
    */
-  @RequestMapping(value = "/unlock", method = RequestMethod.POST)
+  @PostMapping(path = "/unlock")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> unlockScreen() {
 
@@ -65,7 +65,7 @@ public class ScreenController {
   /**
    * Wake up the screen. Run it when the screen goes dark after being idle for a while.
    */
-  @RequestMapping(value = "/wake-up", method = RequestMethod.POST)
+  @PostMapping(path = "/wake-up")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> wakeUpScreen() {
 
