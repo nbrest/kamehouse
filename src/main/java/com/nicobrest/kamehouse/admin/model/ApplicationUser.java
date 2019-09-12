@@ -1,13 +1,10 @@
 package com.nicobrest.kamehouse.admin.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
@@ -32,8 +29,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "APPLICATION_USER")
 public class ApplicationUser implements UserDetails {
-
-  private static final Logger logger = LoggerFactory.getLogger(ApplicationUser.class);
+ 
   private static final long serialVersionUID = 1L;
 
   @Id

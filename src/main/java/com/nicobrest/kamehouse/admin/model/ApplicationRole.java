@@ -1,13 +1,10 @@
 package com.nicobrest.kamehouse.admin.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
@@ -28,8 +25,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "APPLICATION_ROLE")
 public class ApplicationRole implements GrantedAuthority {
-
-  private static final Logger logger = LoggerFactory.getLogger(ApplicationRole.class);
+ 
   private static final long serialVersionUID = 1L;
   
   @Id

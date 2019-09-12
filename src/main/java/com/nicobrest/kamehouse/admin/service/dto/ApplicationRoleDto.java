@@ -1,13 +1,10 @@
 package com.nicobrest.kamehouse.admin.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -18,8 +15,7 @@ import java.io.Serializable;
  *
  */ 
 public class ApplicationRoleDto implements Serializable {
-
-  private static final Logger logger = LoggerFactory.getLogger(ApplicationRoleDto.class);
+ 
   private static final long serialVersionUID = 1L;
    
   private Long id; 

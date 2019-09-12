@@ -122,6 +122,7 @@ public class ApplicationUserService implements UserDetailsService {
         applicationRole.setId(applicationRoleDto.getId());
         applicationRole.setName(applicationRoleDto.getName());
         applicationRole.setApplicationUser(applicationUser);
+        applicationRoles.add(applicationRole);
       }
     }
     applicationUser.setAuthorities(applicationRoles);

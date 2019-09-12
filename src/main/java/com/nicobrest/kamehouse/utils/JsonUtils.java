@@ -2,15 +2,11 @@ package com.nicobrest.kamehouse.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
-import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Utility class to process jsons used in the test classes. This code is not

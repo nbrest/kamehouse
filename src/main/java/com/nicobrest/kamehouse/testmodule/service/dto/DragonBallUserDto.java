@@ -1,12 +1,9 @@
 package com.nicobrest.kamehouse.testmodule.service.dto;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -16,8 +13,7 @@ import java.io.Serializable;
  * @author nbrest
  */
 public class DragonBallUserDto implements Serializable {
-
-  private static final Logger logger = LoggerFactory.getLogger(DragonBallUserDto.class);
+ 
   private static final long serialVersionUID = 159367676076449689L;
 
   private Long id;

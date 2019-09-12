@@ -1,12 +1,9 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -26,7 +23,6 @@ import javax.persistence.Table;
 @Table(name = "DRAGONBALL_USER")
 public class DragonBallUser implements Serializable {
 
-  private static final Logger logger = LoggerFactory.getLogger(DragonBallUser.class);
   private static final long serialVersionUID = 159367676076449689L;
 
   @Id
