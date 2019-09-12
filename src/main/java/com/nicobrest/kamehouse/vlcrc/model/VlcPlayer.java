@@ -207,7 +207,6 @@ public class VlcPlayer implements Serializable {
    * API.
    */
   private String buildCommandUrl(VlcRcCommand command) {
-
     String encodedCommand = urlEncode(command.getName());
     if (encodedCommand == null) {
       return null;
@@ -305,16 +304,15 @@ public class VlcPlayer implements Serializable {
    * into its internal representation used in the application.
    */
   private VlcRcStatus buildVlcRcStatus(String vlcStatusResponseStr) {
-
     if (vlcStatusResponseStr == null) {
       return null;
     }
-
     VlcRcStatus vlcRcStatus = new VlcRcStatus();
     try {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode vlcStatusResponseJson = mapper.readTree(vlcStatusResponseStr);
-      setVlcRcStatusRootAttributes(vlcStatusResponseJson, vlcRcStatus);
+      setVlcRcStatusRootMainAttributes(vlcStatusResponseJson, vlcRcStatus);
+      setVlcRcStatusRootAdditionalAttributes(vlcStatusResponseJson, vlcRcStatus);
       setVlcRcStatusStats(vlcStatusResponseJson, vlcRcStatus);
       setVlcRcStatusAudioFilters(vlcStatusResponseJson, vlcRcStatus);
       setVlcRcStatusVideoEffects(vlcStatusResponseJson, vlcRcStatus);
@@ -328,28 +326,18 @@ public class VlcPlayer implements Serializable {
   }
 
   /**
-   * Set VlcRcStatus root attributes.
+   * Set VlcRcStatus root main attributes.
    */
-  private void setVlcRcStatusRootAttributes(JsonNode vlcStatusResponseJson,
+  private void setVlcRcStatusRootMainAttributes(JsonNode vlcStatusResponseJson,
       VlcRcStatus vlcRcStatus) {
-    /* Set root attributes */
     if (vlcStatusResponseJson.get("fullscreen") != null) {
       vlcRcStatus.setFullscreen(vlcStatusResponseJson.get("fullscreen").asBoolean());
     }
     if (vlcStatusResponseJson.get("repeat") != null) {
       vlcRcStatus.setRepeat(vlcStatusResponseJson.get("repeat").asBoolean());
     }
-    if (vlcStatusResponseJson.get("subtitledelay") != null) {
-      vlcRcStatus.setSubtitleDelay(vlcStatusResponseJson.get("subtitledelay").asInt());
-    }
     if (vlcStatusResponseJson.get("aspectratio") != null) {
       vlcRcStatus.setAspectRatio(vlcStatusResponseJson.get("aspectratio").asText());
-    }
-    if (vlcStatusResponseJson.get("audiodelay") != null) {
-      vlcRcStatus.setAudioDelay(vlcStatusResponseJson.get("audiodelay").asInt());
-    }
-    if (vlcStatusResponseJson.get("apiversion") != null) {
-      vlcRcStatus.setApiVersion(vlcStatusResponseJson.get("apiversion").asInt());
     }
     if (vlcStatusResponseJson.get("currentplid") != null) {
       vlcRcStatus.setCurrentPlId(vlcStatusResponseJson.get("currentplid").asInt());
@@ -366,28 +354,43 @@ public class VlcPlayer implements Serializable {
     if (vlcStatusResponseJson.get("random") != null) {
       vlcRcStatus.setRandom(vlcStatusResponseJson.get("random").asBoolean());
     }
-    if (vlcStatusResponseJson.get("rate") != null) {
-      vlcRcStatus.setRate(vlcStatusResponseJson.get("rate").asInt());
-    }
     if (vlcStatusResponseJson.get("state") != null) {
       vlcRcStatus.setState(vlcStatusResponseJson.get("state").asText());
     }
     if (vlcStatusResponseJson.get("loop") != null) {
       vlcRcStatus.setLoop(vlcStatusResponseJson.get("loop").asBoolean());
     }
+  }
+  
+  /**
+   * Set VlcRcStatus root additional attributes.
+   */
+  private void setVlcRcStatusRootAdditionalAttributes(JsonNode vlcStatusResponseJson,
+      VlcRcStatus vlcRcStatus) {
+    if (vlcStatusResponseJson.get("apiversion") != null) {
+      vlcRcStatus.setApiVersion(vlcStatusResponseJson.get("apiversion").asInt());
+    }
+    if (vlcStatusResponseJson.get("audiodelay") != null) {
+      vlcRcStatus.setAudioDelay(vlcStatusResponseJson.get("audiodelay").asInt());
+    }
     if (vlcStatusResponseJson.get("position") != null) {
       vlcRcStatus.setPosition(vlcStatusResponseJson.get("position").asInt());
     }
+    if (vlcStatusResponseJson.get("rate") != null) {
+      vlcRcStatus.setRate(vlcStatusResponseJson.get("rate").asInt());
+    }
+    if (vlcStatusResponseJson.get("subtitledelay") != null) {
+      vlcRcStatus.setSubtitleDelay(vlcStatusResponseJson.get("subtitledelay").asInt());
+    } 
     if (vlcStatusResponseJson.get("version") != null) {
       vlcRcStatus.setVersion(vlcStatusResponseJson.get("version").asText());
     }
   }
-
+  
   /**
    * Set VlcRcStatus stats.
    */
   private void setVlcRcStatusStats(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
-    /* Set stats */
     JsonNode statsJson = vlcStatusResponseJson.get("stats");
     Map<String, Object> stats = new HashMap<>();
     if (statsJson != null) {
@@ -419,7 +422,6 @@ public class VlcPlayer implements Serializable {
    */
   private void setVlcRcStatusAudioFilters(JsonNode vlcStatusResponseJson,
       VlcRcStatus vlcRcStatus) {
-    /* Set audioFilters */
     Map<String, String> audioFilters = new HashMap<>();
     JsonNode audioFiltersJson = vlcStatusResponseJson.get("audiofilters");
     if (audioFiltersJson != null) {
@@ -437,7 +439,6 @@ public class VlcPlayer implements Serializable {
    */
   private void setVlcRcStatusVideoEffects(JsonNode vlcStatusResponseJson,
       VlcRcStatus vlcRcStatus) {
-    /* Set videoEffects */
     Map<String, Integer> videoEffects = new HashMap<>();
     JsonNode videoEffectsJson = vlcStatusResponseJson.get("videoeffects");
     if (videoEffectsJson != null) {
@@ -454,7 +455,6 @@ public class VlcPlayer implements Serializable {
    * Set VlcRcStatus equalizer.
    */
   private void setVlcRcStatusEqualizer(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
-    /* Set equalizer */
     JsonNode equalizerJson = vlcStatusResponseJson.get("equalizer");
     if (equalizerJson != null) {
       VlcRcStatus.Equalizer equalizer = new VlcRcStatus.Equalizer();
@@ -493,7 +493,6 @@ public class VlcPlayer implements Serializable {
    * Set VlcRcStatus information.
    */
   private void setVlcRcStatusInformation(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
-    /* Set information */
     JsonNode informationJson = vlcStatusResponseJson.get("information");
     if (informationJson != null) {
       VlcRcStatus.Information information = new VlcRcStatus.Information();
