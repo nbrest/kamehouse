@@ -1,12 +1,10 @@
 package com.nicobrest.kamehouse.vlcrc.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -19,9 +17,7 @@ import java.io.Serializable;
 public class VlcPlayerDto implements Serializable {
 
   @JsonIgnore
-  private static final long serialVersionUID = 1L;
-  @JsonIgnore
-  private static final Logger logger = LoggerFactory.getLogger(VlcPlayerDto.class);
+  private static final long serialVersionUID = 1L; 
   
   private Long id; 
   private String hostname; 
@@ -87,12 +83,6 @@ public class VlcPlayerDto implements Serializable {
 
   @Override
   public String toString() {
-
-    try {
-      return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
-    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      logger.error("Error formatting json", e);
-    }
-    return "VlcPlayer: INVALID_STATE";
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

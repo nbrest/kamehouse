@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.httpclient.URIException;
@@ -75,7 +76,7 @@ public class VlcPlayer implements Serializable {
   private static final String LANGUAGE = "language";
   @JsonIgnore
   private static final String LANGUAGE_CAMEL_CASE = "Language";
-  
+
   @Id
   @Column(name = "ID", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -147,7 +148,7 @@ public class VlcPlayer implements Serializable {
       return buildVlcRcStatus(vlcServerResponse);
     } else {
       return null;
-    } 
+    }
   }
 
   /**
@@ -178,7 +179,7 @@ public class VlcPlayer implements Serializable {
     playlistUrl.append(":");
     playlistUrl.append(port);
     playlistUrl.append(PLAYLIST_URL);
-    String vlcServerResponse = executeRequestToVlcServer(playlistUrl.toString()); 
+    String vlcServerResponse = executeRequestToVlcServer(playlistUrl.toString());
     return buildVlcRcPlaylist(vlcServerResponse);
   }
 
@@ -202,22 +203,21 @@ public class VlcPlayer implements Serializable {
   }
 
   /**
-   * Builds the URL to execute the command in the VLC Player through its web
-   * API.
+   * Builds the URL to execute the command in the VLC Player through its web API.
    */
   private String buildCommandUrl(VlcRcCommand command) {
 
     String encodedCommand = urlEncode(command.getName());
     if (encodedCommand == null) {
       return null;
-    } 
+    }
     StringBuilder commandUrl = new StringBuilder();
     commandUrl.append(PROTOCOL);
     commandUrl.append(hostname);
     commandUrl.append(":");
     commandUrl.append(port);
-    commandUrl.append(STATUS_URL);  
-    commandUrl.append("?command=" + encodedCommand); 
+    commandUrl.append(STATUS_URL);
+    commandUrl.append("?command=" + encodedCommand);
     if (command.getInput() != null) {
       commandUrl.append("&input=" + urlEncode(command.getInput()));
     }
@@ -240,7 +240,7 @@ public class VlcPlayer implements Serializable {
     try {
       return URIUtil.encodeQuery(parameter);
     } catch (URIException | IllegalArgumentException e) {
-      logger.error("Failed to encode parameter: {}", parameter); 
+      logger.error("Failed to encode parameter: {}", parameter);
       return null;
     }
   }
@@ -259,29 +259,21 @@ public class VlcPlayer implements Serializable {
     HttpClient client = createHttpClient(credentialsProvider);
     HttpGet request = new HttpGet(url);
     HttpResponse response;
-    BufferedReader responseReader = null;
     try {
       response = executeGetRequest(client, request);
-      InputStream inputStreamFromResponse = getInputStreamFromResponse(response);
-      responseReader = new BufferedReader(new InputStreamReader(inputStreamFromResponse));
-
-      StringBuilder responseBody = new StringBuilder();
-      String line = "";
-      while ((line = responseReader.readLine()) != null) {
-        responseBody.append(line);
+      try (InputStream inputStreamFromResponse = getInputStreamFromResponse(response);
+          BufferedReader responseReader =
+              new BufferedReader(new InputStreamReader(inputStreamFromResponse))) {
+        StringBuilder responseBody = new StringBuilder();
+        String line = "";
+        while ((line = responseReader.readLine()) != null) {
+          responseBody.append(line);
+        }
+        return responseBody.toString();
       }
-      return responseBody.toString();
     } catch (IOException e) {
       logger.error("Error executing request. Message: {}", e.getMessage());
       return null;
-    } finally {
-      try {
-        if (responseReader != null) {
-          responseReader.close();
-        }
-      } catch (IOException e) {
-        logger.error("Unable to close responseReader", e); 
-      }
     }
   }
 
@@ -295,16 +287,14 @@ public class VlcPlayer implements Serializable {
   /**
    * Execute the HTTP Get request to the specified HttpClient.
    */
-  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest)
-      throws IOException {
+  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest) throws IOException {
     return client.execute(getRequest);
   }
 
   /**
    * Returns the response content as an InputStream.
    */
-  private InputStream getInputStreamFromResponse(HttpResponse response)
-      throws IOException {
+  private InputStream getInputStreamFromResponse(HttpResponse response) throws IOException {
     return response.getEntity().getContent();
   }
 
@@ -316,8 +306,8 @@ public class VlcPlayer implements Serializable {
 
     if (vlcStatusResponseStr == null) {
       return null;
-    }  
-    
+    }
+
     VlcRcStatus vlcRcStatus = new VlcRcStatus();
     try {
       ObjectMapper mapper = new ObjectMapper();
@@ -493,12 +483,12 @@ public class VlcPlayer implements Serializable {
             switch (type) {
               case "Video":
                 informationCategory.put("frameRate", categoryEntry.getValue().get("Frame_rate"));
-                informationCategory.put("decodedFormat", categoryEntry.getValue().get(
-                    "Decoded_format"));
-                informationCategory.put("displayResolution", categoryEntry.getValue().get(
-                    "Display_resolution"));
+                informationCategory.put("decodedFormat",
+                    categoryEntry.getValue().get("Decoded_format"));
+                informationCategory.put("displayResolution",
+                    categoryEntry.getValue().get("Display_resolution"));
                 informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-                informationCategory.put(LANGUAGE, 
+                informationCategory.put(LANGUAGE,
                     categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
                 informationCategory.put("resolution", categoryEntry.getValue().get("Resolution"));
                 break;
@@ -507,12 +497,12 @@ public class VlcPlayer implements Serializable {
                 informationCategory.put("channels", categoryEntry.getValue().get("Channels"));
                 informationCategory.put("sampleRate", categoryEntry.getValue().get("Sample_rate"));
                 informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-                informationCategory.put(LANGUAGE, 
+                informationCategory.put(LANGUAGE,
                     categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
                 break;
               case "Subtitle":
                 informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-                informationCategory.put(LANGUAGE, 
+                informationCategory.put(LANGUAGE,
                     categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
                 break;
               default:
@@ -527,7 +517,7 @@ public class VlcPlayer implements Serializable {
       }
     } catch (IOException e) {
       logger.error("Error parsing input VlcRcStatus", e);
-      vlcRcStatus = null; 
+      vlcRcStatus = null;
     }
     return vlcRcStatus;
   }
@@ -545,13 +535,13 @@ public class VlcPlayer implements Serializable {
     try {
       JsonNode vlcRcPlaylistResponseJson = mapper.readTree(vlcRcPlaylistResponse);
       JsonNode firstChildrenArray = vlcRcPlaylistResponseJson.get("children");
-      if (firstChildrenArray != null && firstChildrenArray.isArray() && firstChildrenArray
-          .size() > 0) {
+      if (firstChildrenArray != null && firstChildrenArray.isArray()
+          && firstChildrenArray.size() > 0) {
         for (JsonNode firstChildrenNode : firstChildrenArray) {
           if ("Playlist".equals(firstChildrenNode.get("name").asText())) {
             JsonNode playlistArrayNode = firstChildrenNode.get("children");
-            if (playlistArrayNode != null && playlistArrayNode.isArray() && playlistArrayNode
-                .size() > 0) {
+            if (playlistArrayNode != null && playlistArrayNode.isArray()
+                && playlistArrayNode.size() > 0) {
               for (JsonNode playlistItemNode : playlistArrayNode) {
                 Map<String, Object> playlistItem = new HashMap<>();
                 playlistItem.put("id", playlistItemNode.get("id").asInt());
@@ -565,14 +555,14 @@ public class VlcPlayer implements Serializable {
         }
       }
       return vlcRcPlaylist;
-    } catch (IOException e) { 
+    } catch (IOException e) {
       throw new KameHouseException(e);
     }
   }
 
   /**
-   * Converts the file list returned by the VLC Player into an internal file
-   * list format.
+   * Converts the file list returned by the VLC Player into an internal file list
+   * format.
    */
   private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcFileListResponse) {
     if (vlcRcFileListResponse == null) {
@@ -602,7 +592,7 @@ public class VlcPlayer implements Serializable {
         }
       }
       return vlcRcFilelist;
-    } catch (IOException e) { 
+    } catch (IOException e) {
       throw new KameHouseException(e);
     }
   }
@@ -625,12 +615,6 @@ public class VlcPlayer implements Serializable {
 
   @Override
   public String toString() {
-
-    try {
-      return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
-    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      logger.error("Error formatting json", e);
-    }
-    return "VlcPlayer: INVALID_STATE";
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

@@ -22,7 +22,7 @@ import java.util.Properties;
 public class PropertiesUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
-  
+
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
   private static final Properties mediaVideoProperties = new Properties();
   private static final Properties adminProperties = new Properties();
@@ -30,19 +30,19 @@ public class PropertiesUtils {
   private PropertiesUtils() {
     throw new IllegalStateException("Utility class");
   }
-  
+
   static {
     try {
       Resource mediaVideoPropertiesResource = new ClassPathResource("/media.video.properties");
-      Properties mediaVideoPropertiesFromFile = PropertiesLoaderUtils.loadProperties(
-          mediaVideoPropertiesResource);
+      Properties mediaVideoPropertiesFromFile = PropertiesLoaderUtils
+          .loadProperties(mediaVideoPropertiesResource);
       mediaVideoProperties.putAll(mediaVideoPropertiesFromFile);
       Resource adminPropertiesResource = new ClassPathResource("/admin.properties");
-      Properties adminPropertiesFromFile = PropertiesLoaderUtils.loadProperties(
-          adminPropertiesResource);
+      Properties adminPropertiesFromFile = PropertiesLoaderUtils
+          .loadProperties(adminPropertiesResource);
       adminProperties.putAll(adminPropertiesFromFile);
     } catch (IOException e) {
-      logger.error("Exception loading properties files. Message: {}", e.getMessage()); 
+      logger.error("Exception loading properties files. Message: {}", e.getMessage());
     }
   }
 
@@ -75,22 +75,12 @@ public class PropertiesUtils {
     if (isWindowsHost()) {
       return System.getenv("COMPUTERNAME").toLowerCase(Locale.getDefault());
     } else {
-      BufferedReader reader = null;
-      try {
-        reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname")
-            .getInputStream(), StandardCharsets.UTF_8)); 
+      try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+          Runtime.getRuntime().exec("hostname").getInputStream(), StandardCharsets.UTF_8))) {
         return reader.readLine();
       } catch (IOException e) {
         logger.error("Error getting hostname. Message: {}", e.getMessage());
         return "INVALID_HOSTNAME";
-      } finally {
-        if (reader != null) {
-          try {
-            reader.close();
-          } catch (IOException e) {
-            logger.error("Error closing reader. Message: {}", e.getMessage());
-          }
-        }
       }
     }
   }

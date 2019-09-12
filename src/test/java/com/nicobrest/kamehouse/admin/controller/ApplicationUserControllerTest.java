@@ -24,7 +24,7 @@ import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.testutils.JsonUtils;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
@@ -176,13 +176,13 @@ public class ApplicationUserControllerTest {
       when(applicationUserServiceMock.loadUserByUsername(applicationUserMock.getUsername()))
           .thenReturn(applicationUserMock);
 
-      byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
+      byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
       ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/application/users")
           .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload)).andDo(print());
       requestResult.andExpect(status().isCreated());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult
-          .andExpect(content().bytes(JsonUtils.convertToJsonBytes(applicationUserDtoMock.getId())));
+          .andExpect(content().bytes(JsonUtils.toJsonByteArray(applicationUserDtoMock.getId())));
       requestResult.andExpect(content().string(applicationUserDtoMock.getId().toString()));
 
       verify(applicationUserServiceMock, times(1)).createUser(applicationUserDtoMock);
@@ -202,7 +202,7 @@ public class ApplicationUserControllerTest {
     Mockito.doThrow(new KameHouseConflictException("User already exists"))
         .when(applicationUserServiceMock).createUser(applicationUserDtoMock);
 
-    byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
+    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
     ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/application/users")
         .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload)).andDo(print());
     requestResult.andExpect(status().is4xxClientError());
@@ -259,7 +259,7 @@ public class ApplicationUserControllerTest {
     try {
       Mockito.doNothing().when(applicationUserServiceMock).updateUser(applicationUserDtoMock);
 
-      byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
+      byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
       ResultActions requestResult = mockMvc
           .perform(put("/api/v1/admin/application/users/" + applicationUserDtoMock.getId())
               .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
@@ -279,7 +279,7 @@ public class ApplicationUserControllerTest {
   public void putUsersInvalidPathId() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseForbiddenException.class));
-    byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUserDtoMock);
+    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
     ResultActions requestResult = mockMvc
         .perform(put("/api/v1/admin/application/users/" + applicationUserDtoMock.getId() + 1)
             .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
@@ -298,7 +298,7 @@ public class ApplicationUserControllerTest {
     Mockito.doThrow(new KameHouseNotFoundException("User not found"))
         .when(applicationUserServiceMock).updateUser(applicationUserDtoMock);
 
-    byte[] requestPayload = JsonUtils.convertToJsonBytes(applicationUsersList.get(0));
+    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUsersList.get(0));
     ResultActions requestResult = mockMvc
         .perform(put("/api/v1/admin/application/users/" + applicationUserDtoMock.getId())
             .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))

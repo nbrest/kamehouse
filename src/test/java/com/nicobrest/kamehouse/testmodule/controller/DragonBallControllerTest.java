@@ -27,7 +27,7 @@ import com.nicobrest.kamehouse.testmodule.controller.DragonBallController;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
-import com.nicobrest.kamehouse.testutils.JsonUtils;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -270,12 +270,12 @@ public class DragonBallControllerTest {
       // Execute HTTP POST on the /dragonball/users endpoint
       ResultActions requestResult = mockMvc
           .perform(post("/api/v1/dragonball/users").contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
+              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
           .andDo(print());
       requestResult.andExpect(status().isCreated());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(
-          content().bytes(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0).getId())));
+          content().bytes(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0).getId())));
       requestResult.andExpect(content().string(dragonBallUsersList.get(0).getId().toString()));
 
       verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUserDto);
@@ -301,7 +301,7 @@ public class DragonBallControllerTest {
       // Execute HTTP POST on the /dragonball/users endpoint
       ResultActions requestResult = mockMvc
           .perform(post("/api/v1/dragonball/users").contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(dragonBallUserDto)))
+              .content(JsonUtils.toJsonByteArray(dragonBallUserDto)))
           .andDo(print());
       requestResult.andExpect(status().is4xxClientError());
 
@@ -457,7 +457,7 @@ public class DragonBallControllerTest {
       ResultActions requestResult = mockMvc
           .perform(put("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
+              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
           .andDo(print());
       requestResult.andExpect(status().isOk());
 
@@ -485,7 +485,7 @@ public class DragonBallControllerTest {
       ResultActions requestResult = mockMvc
           .perform(put("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
+              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
           .andDo(print());
       requestResult.andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUserDto);
@@ -515,7 +515,7 @@ public class DragonBallControllerTest {
       // Execute HTTP PUT on the /dragonball/users/{id} endpoint
       ResultActions requestResult = mockMvc
           .perform(put("/dragonball/users/987").contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))))
+              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
           .andDo(print());
       requestResult.andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(0)).updateDragonBallUser(dragonBallUserDto);
@@ -547,7 +547,7 @@ public class DragonBallControllerTest {
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult
-          .andExpect(content().bytes(JsonUtils.convertToJsonBytes(dragonBallUsersList.get(0))));
+          .andExpect(content().bytes(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))));
 
       verify(dragonBallUserServiceMock, times(1))
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());

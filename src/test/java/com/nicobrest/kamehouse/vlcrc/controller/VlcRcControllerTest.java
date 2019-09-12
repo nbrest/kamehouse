@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nicobrest.kamehouse.testutils.JsonUtils;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
@@ -267,12 +267,12 @@ public class VlcRcControllerTest {
 
       ResultActions requestResult = mockMvc
           .perform(post("/api/v1/vlc-rc/players").contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(vlcPlayerDtoMock)))
+              .content(JsonUtils.toJsonByteArray(vlcPlayerDtoMock)))
           .andDo(print());
       requestResult.andExpect(status().isCreated());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult
-          .andExpect(content().bytes(JsonUtils.convertToJsonBytes(vlcPlayerDtoMock.getId())));
+          .andExpect(content().bytes(JsonUtils.toJsonByteArray(vlcPlayerDtoMock.getId())));
       requestResult.andExpect(content().string(vlcPlayerMock.getId().toString()));
 
       verify(vlcPlayerServiceMock, times(1)).createVlcPlayer(vlcPlayerDtoMock);
@@ -351,7 +351,7 @@ public class VlcRcControllerTest {
       ResultActions requestResult = mockMvc
           .perform(put("/api/v1/vlc-rc/players/" + vlcPlayerDtoMock.getHostname())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.convertToJsonBytes(vlcPlayerDtoMock)))
+              .content(JsonUtils.toJsonByteArray(vlcPlayerDtoMock)))
           .andDo(print());
       requestResult.andExpect(status().isOk());
 
@@ -375,7 +375,7 @@ public class VlcRcControllerTest {
           .perform(delete("/api/v1/vlc-rc/players/" + vlcPlayerMock.getId())).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-      requestResult.andExpect(content().bytes(JsonUtils.convertToJsonBytes(vlcPlayerMock)));
+      requestResult.andExpect(content().bytes(JsonUtils.toJsonByteArray(vlcPlayerMock)));
 
       verify(vlcPlayerServiceMock, times(1)).deleteVlcPlayer(vlcPlayerMock.getId());
     } catch (Exception e) {
@@ -443,7 +443,7 @@ public class VlcRcControllerTest {
 
       ResultActions requestResult = mockMvc.perform(post("/api/v1/vlc-rc/players/niko-nba/commands")
           .contentType(MediaType.APPLICATION_JSON_UTF8)
-          .content(JsonUtils.convertToJsonBytes(vlcRcCommand))).andDo(print());
+          .content(JsonUtils.toJsonByteArray(vlcRcCommand))).andDo(print());
       requestResult.andExpect(status().isCreated());
       requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
       requestResult.andExpect(jsonPath("$.apiVersion", equalTo(3)));

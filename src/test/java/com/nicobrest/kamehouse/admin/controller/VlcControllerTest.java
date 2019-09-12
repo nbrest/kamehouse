@@ -19,7 +19,7 @@ import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.testutils.JsonUtils;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
@@ -86,7 +86,7 @@ public class VlcControllerTest {
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/vlc").contentType(
-          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.convertToJsonBytes(
+          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.toJsonByteArray(
               adminVlcCommand))).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -120,7 +120,7 @@ public class VlcControllerTest {
     AdminCommand adminCommand = new AdminCommand("INVALID_SET");
 
     mockMvc.perform(post("/api/v1/admin/vlc").contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(JsonUtils.convertToJsonBytes(adminCommand))).andDo(print());
+        .content(JsonUtils.toJsonByteArray(adminCommand))).andDo(print());
   }  
   
   /**

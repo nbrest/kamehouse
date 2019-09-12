@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -164,12 +165,6 @@ public class ApplicationUserDto implements Serializable {
 
   @Override
   public String toString() {
-
-    try {
-      return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
-    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      logger.error("Error formatting json", e);
-    }
-    return "ApplicationUserDto: INVALID_STATE";
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

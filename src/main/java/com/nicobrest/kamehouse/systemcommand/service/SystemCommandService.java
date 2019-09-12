@@ -83,8 +83,8 @@ public class SystemCommandService {
         break;
       default:
         logger.error("Invalid AdminCommand {}", adminCommand.getCommand());
-        throw new KameHouseInvalidCommandException("Invalid AdminCommand " + adminCommand
-            .getCommand());
+        throw new KameHouseInvalidCommandException(
+            "Invalid AdminCommand " + adminCommand.getCommand());
     }
     return systemCommands;
   }
@@ -108,41 +108,37 @@ public class SystemCommandService {
       logger.trace("Executing system command {}", command);
     }
     Process process;
-    InputStream processInputStream = null;
-    BufferedReader processBufferedReader = null;
-    InputStream processErrorStream = null;
-    BufferedReader processErrorBufferedReader = null;
     try {
       process = ProcessUtils.startProcess(processBuilder);
       if (!systemCommand.isDaemon()) {
         // Not an ongoing process. Wait until the process finishes and then read
         // standard ouput and error streams.
         ProcessUtils.waitForProcess(process);
-        // Read command standard output stream
-        List<String> processStandardOuputList = new ArrayList<>();
-        processInputStream = ProcessUtils.getInputStreamFromProcess(process);
-        processBufferedReader = new BufferedReader(new InputStreamReader(processInputStream,
-            StandardCharsets.UTF_8));
-        String inputStreamLine;
-        while ((inputStreamLine = processBufferedReader.readLine()) != null) {
-          if (!StringUtils.isEmpty(inputStreamLine)) {
-            processStandardOuputList.add(inputStreamLine);
+        try (InputStream processInputStream = ProcessUtils.getInputStreamFromProcess(process);
+            BufferedReader processBufferedReader = new BufferedReader(
+                new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
+            InputStream processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
+            BufferedReader processErrorBufferedReader = new BufferedReader(
+                new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
+          // Read command standard output stream
+          List<String> processStandardOuputList = new ArrayList<>();
+          String inputStreamLine;
+          while ((inputStreamLine = processBufferedReader.readLine()) != null) {
+            if (!StringUtils.isEmpty(inputStreamLine)) {
+              processStandardOuputList.add(inputStreamLine);
+            }
           }
-        }
-        commandOutput.setStandardOutput(processStandardOuputList);
-        // Read command standard error stream
-        List<String> processStandardErrorList = new ArrayList<>();
-        processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
-        processErrorBufferedReader = new BufferedReader(new InputStreamReader(processErrorStream,
-            StandardCharsets.UTF_8));
-        String errorStreamLine;
-        while ((errorStreamLine = processErrorBufferedReader.readLine()) != null) {
-          if (!StringUtils.isEmpty(errorStreamLine)) {
-            processStandardErrorList.add(errorStreamLine);
+          // Read command standard error stream
+          List<String> processStandardErrorList = new ArrayList<>();
+          String errorStreamLine;
+          while ((errorStreamLine = processErrorBufferedReader.readLine()) != null) {
+            if (!StringUtils.isEmpty(errorStreamLine)) {
+              processStandardErrorList.add(errorStreamLine);
+            }
           }
+          commandOutput.setStandardError(processStandardErrorList);
+          commandOutput.setStandardOutput(processStandardOuputList);
         }
-        commandOutput.setStandardError(processStandardErrorList);
-
         int exitValue = ProcessUtils.getExitValue(process);
         commandOutput.setExitCode(exitValue);
         if (exitValue > 0) {
@@ -163,30 +159,6 @@ public class SystemCommandService {
     } catch (InterruptedException e) {
       logger.error(EXCEPTION_EXECUTING_PROCESS, e.getMessage());
       Thread.currentThread().interrupt();
-    } finally {
-      if (processBufferedReader != null) {
-        try {
-          processBufferedReader.close();
-        } catch (IOException e) {
-          logger.error(EXCEPTION_EXECUTING_PROCESS, e
-              .getMessage());
-          commandOutput.setExitCode(1);
-          commandOutput.setStatus(FAILED);
-          commandOutput.setStandardError(Arrays.asList(
-              "An error occurred closing the input stream of the process."));
-        }
-      }
-      if (processErrorBufferedReader != null) {
-        try {
-          processErrorBufferedReader.close();
-        } catch (IOException e) {
-          logger.error(EXCEPTION_EXECUTING_PROCESS, e.getMessage());
-          commandOutput.setExitCode(1);
-          commandOutput.setStatus(FAILED);
-          commandOutput.setStandardError(Arrays.asList(
-              "An error occurred closing the error stream of the process."));
-        }
-      }
     }
     return commandOutput;
   }
@@ -281,8 +253,8 @@ public class SystemCommandService {
     SystemCommand setShutdownSystemCommand = new SystemCommand();
     setShutdownSystemCommand.setIsDaemon(false);
     if (shutdownSetAdminCommand.getTime() <= 0) {
-      throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
-          + shutdownSetAdminCommand.getTime());
+      throw new KameHouseInvalidCommandException(
+          "Invalid time for shutdown command " + shutdownSetAdminCommand.getTime());
     }
     List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
@@ -406,8 +378,8 @@ public class SystemCommandService {
     } else {
       Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_LINUX.get());
       setVncdoHostnameAndPassword(vncdoTypePasswordCommandList);
-      String vncdoCommand = vncdoTypePasswordCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" "
-          + unlockScreenPassword);
+      String vncdoCommand = vncdoTypePasswordCommandList.get(VNCDO_CMD_LINUX_INDEX)
+          .concat(" " + unlockScreenPassword);
       vncdoTypePasswordCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
     vncdoTypePasswordSystemCommand.setCommand(vncdoTypePasswordCommandList);
@@ -434,8 +406,8 @@ public class SystemCommandService {
   }
 
   /**
-   * Get the system commands to wake up the screen. Execute 3 clicks on
-   * different parts of the screen to wake it up.
+   * Get the system commands to wake up the screen. Execute 3 clicks on different
+   * parts of the screen to wake it up.
    */
   private List<SystemCommand> getScreenWakeUpSystemCommands() {
 
@@ -450,8 +422,8 @@ public class SystemCommandService {
 
   /**
    * Execute a single click in the specified coordinates. The coordinates are a
-   * string in the format "HORIZONTAL_POSITION VERTICAL_POSITION" starting from
-   * "0 0" on the top left of the screen.
+   * string in the format "HORIZONTAL_POSITION VERTICAL_POSITION" starting from "0
+   * 0" on the top left of the screen.
    */
   private SystemCommand getSingleClick(String horizontalPosition, String verticalPosition) {
 
@@ -459,8 +431,7 @@ public class SystemCommandService {
     vncdoSingleClickSystemCommand.setIsDaemon(false);
     List<String> vncdoSingleClickCommandList = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS
-          .get());
+      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS.get());
       setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
       int vncdoSingleClickHorizontalPositionIndex = 8;
       int vncdoSingleClickVerticalPositionIndex = 9;
@@ -501,8 +472,8 @@ public class SystemCommandService {
    * Get the unlock screen password from a file.
    */
   private String getUnlockScreenPassword() {
-    String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
-        .getAdminProperty("unlock.screen.pwd.file");
+    String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/"
+        + PropertiesUtils.getAdminProperty("unlock.screen.pwd.file");
     return getDecodedPasswordFromFile(unlockScreenPwdFile);
   }
 
@@ -510,8 +481,8 @@ public class SystemCommandService {
    * Get the vnc server password from a file.
    */
   private String getVncServerPassword() {
-    String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
-        .getAdminProperty("vnc.server.pwd.file");
+    String vncServerPwdFile = PropertiesUtils.getUserHome() + "/"
+        + PropertiesUtils.getAdminProperty("vnc.server.pwd.file");
     return getDecodedPasswordFromFile(vncServerPwdFile);
   }
 
