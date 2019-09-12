@@ -11,7 +11,7 @@ import java.util.List;
 public class SystemCommand {
   
   private List<String> command = null;
-  private Boolean isDaemon = false;
+  private boolean isDaemon = false;
 
   public List<String> getCommand() {
     return command;
@@ -21,11 +21,11 @@ public class SystemCommand {
     this.command = command;
   }
   
-  public Boolean isDaemon() {
+  public boolean isDaemon() {
     return isDaemon;
   }
   
-  public void setIsDaemon(Boolean isDaemon) {
+  public void setIsDaemon(boolean isDaemon) {
     this.isDaemon = isDaemon;
   }
 }

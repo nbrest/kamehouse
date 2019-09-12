@@ -83,8 +83,8 @@ public class SystemCommandService {
         break;
       default:
         logger.error("Invalid AdminCommand {}", adminCommand.getCommand());
-        throw new KameHouseInvalidCommandException(
-            "Invalid AdminCommand " + adminCommand.getCommand());
+        throw new KameHouseInvalidCommandException("Invalid AdminCommand " + adminCommand
+            .getCommand());
     }
     return systemCommands;
   }
@@ -115,11 +115,11 @@ public class SystemCommandService {
         // standard ouput and error streams.
         ProcessUtils.waitForProcess(process);
         try (InputStream processInputStream = ProcessUtils.getInputStreamFromProcess(process);
-            BufferedReader processBufferedReader = new BufferedReader(
-                new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
+            BufferedReader processBufferedReader = new BufferedReader(new InputStreamReader(
+                processInputStream, StandardCharsets.UTF_8)); 
             InputStream processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
-            BufferedReader processErrorBufferedReader = new BufferedReader(
-                new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
+            BufferedReader processErrorBufferedReader = new BufferedReader(new InputStreamReader(
+                processErrorStream, StandardCharsets.UTF_8))) {
           // Read command standard output stream
           List<String> processStandardOuputList = new ArrayList<>();
           String inputStreamLine;
@@ -180,12 +180,8 @@ public class SystemCommandService {
    */
   private boolean isVncdoCommand(SystemCommand systemCommand) {
 
-    if (systemCommand.getCommand().contains("vncdo") || (systemCommand.getCommand().size() >= 3
-        && systemCommand.getCommand().get(2).contains("vncdo"))) {
-      return true;
-    } else {
-      return false;
-    }
+    return systemCommand.getCommand().contains("vncdo") || (systemCommand.getCommand().size() >= 3
+        && systemCommand.getCommand().get(2).contains("vncdo"));
   }
 
   /**
@@ -253,8 +249,8 @@ public class SystemCommandService {
     SystemCommand setShutdownSystemCommand = new SystemCommand();
     setShutdownSystemCommand.setIsDaemon(false);
     if (shutdownSetAdminCommand.getTime() <= 0) {
-      throw new KameHouseInvalidCommandException(
-          "Invalid time for shutdown command " + shutdownSetAdminCommand.getTime());
+      throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
+          + shutdownSetAdminCommand.getTime());
     }
     List<String> command = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
@@ -378,8 +374,8 @@ public class SystemCommandService {
     } else {
       Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_LINUX.get());
       setVncdoHostnameAndPassword(vncdoTypePasswordCommandList);
-      String vncdoCommand = vncdoTypePasswordCommandList.get(VNCDO_CMD_LINUX_INDEX)
-          .concat(" " + unlockScreenPassword);
+      String vncdoCommand = vncdoTypePasswordCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" "
+          + unlockScreenPassword);
       vncdoTypePasswordCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
     vncdoTypePasswordSystemCommand.setCommand(vncdoTypePasswordCommandList);
@@ -406,8 +402,8 @@ public class SystemCommandService {
   }
 
   /**
-   * Get the system commands to wake up the screen. Execute 3 clicks on different
-   * parts of the screen to wake it up.
+   * Get the system commands to wake up the screen. Execute 3 clicks on
+   * different parts of the screen to wake it up.
    */
   private List<SystemCommand> getScreenWakeUpSystemCommands() {
 
@@ -422,8 +418,8 @@ public class SystemCommandService {
 
   /**
    * Execute a single click in the specified coordinates. The coordinates are a
-   * string in the format "HORIZONTAL_POSITION VERTICAL_POSITION" starting from "0
-   * 0" on the top left of the screen.
+   * string in the format "HORIZONTAL_POSITION VERTICAL_POSITION" starting from
+   * "0 0" on the top left of the screen.
    */
   private SystemCommand getSingleClick(String horizontalPosition, String verticalPosition) {
 
@@ -431,7 +427,8 @@ public class SystemCommandService {
     vncdoSingleClickSystemCommand.setIsDaemon(false);
     List<String> vncdoSingleClickCommandList = new ArrayList<>();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS.get());
+      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS
+          .get());
       setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
       int vncdoSingleClickHorizontalPositionIndex = 8;
       int vncdoSingleClickVerticalPositionIndex = 9;
@@ -472,8 +469,8 @@ public class SystemCommandService {
    * Get the unlock screen password from a file.
    */
   private String getUnlockScreenPassword() {
-    String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/"
-        + PropertiesUtils.getAdminProperty("unlock.screen.pwd.file");
+    String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
+        .getAdminProperty("unlock.screen.pwd.file");
     return getDecodedPasswordFromFile(unlockScreenPwdFile);
   }
 
@@ -481,8 +478,8 @@ public class SystemCommandService {
    * Get the vnc server password from a file.
    */
   private String getVncServerPassword() {
-    String vncServerPwdFile = PropertiesUtils.getUserHome() + "/"
-        + PropertiesUtils.getAdminProperty("vnc.server.pwd.file");
+    String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
+        .getAdminProperty("vnc.server.pwd.file");
     return getDecodedPasswordFromFile(vncServerPwdFile);
   }
 
