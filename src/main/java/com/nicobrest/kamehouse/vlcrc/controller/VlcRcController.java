@@ -62,7 +62,7 @@ public class VlcRcController {
    */
   @GetMapping(path = "/players")
   @ResponseBody
-  public ResponseEntity<?> getAllVlcPlayers() {
+  public ResponseEntity<List<VlcPlayer>> getAllVlcPlayers() {
 
     logger.trace("In controller /vlc-rc/players/ (GET)");
     List<VlcPlayer> vlcPlayers = vlcPlayerService.getAllVlcPlayers();
@@ -74,7 +74,7 @@ public class VlcRcController {
    */
   @GetMapping(path = "/players/{vlcPlayerName}")
   @ResponseBody
-  public ResponseEntity<?> getVlcPlayer(@PathVariable String vlcPlayerName) {
+  public ResponseEntity<VlcPlayer> getVlcPlayer(@PathVariable String vlcPlayerName) {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName} (GET)");
     VlcPlayer vlcPlayer = vlcPlayerService.getVlcPlayer(vlcPlayerName);
@@ -109,7 +109,7 @@ public class VlcRcController {
    */
   @GetMapping(path = "/players/{vlcPlayerName}/status")
   @ResponseBody
-  public ResponseEntity<?> getVlcRcStatus(@PathVariable String vlcPlayerName) {
+  public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String vlcPlayerName) {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/status (GET)");
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(vlcPlayerName);
@@ -134,7 +134,7 @@ public class VlcRcController {
    */
   @GetMapping(path = "/players/{vlcPlayerName}/playlist")
   @ResponseBody
-  public ResponseEntity<?> getPlaylist(@PathVariable String vlcPlayerName) {
+  public ResponseEntity<List<Map<String, Object>>> getPlaylist(@PathVariable String vlcPlayerName) {
 
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/playlist (GET)");
     List<Map<String, Object>> vlcPlaylist = vlcRcService.getPlaylist(vlcPlayerName);
@@ -146,7 +146,7 @@ public class VlcRcController {
    */
   @GetMapping(path = "/players/{vlcPlayerName}/browse")
   @ResponseBody
-  public ResponseEntity<?> browse(
+  public ResponseEntity<List<Map<String, Object>>> browse(
       @RequestParam(value = "uri", required = false) String uri,
       @PathVariable String vlcPlayerName) {
 

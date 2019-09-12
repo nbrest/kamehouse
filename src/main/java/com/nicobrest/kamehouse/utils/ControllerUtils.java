@@ -14,10 +14,7 @@ import java.util.List;
  *
  */
 public class ControllerUtils {
-
-  private static final ResponseEntity<Void> NOT_FOUND_RESPONSE_ENTITY = ResponseEntity.notFound()
-      .build();
-
+  
   private ControllerUtils() {
     throw new IllegalStateException("Utility class");
   }
@@ -41,12 +38,12 @@ public class ControllerUtils {
    * parameter as a body and 200 return code and a 404 with empty body if the
    * Object is null.
    */
-  public static ResponseEntity<?> generateGetStandardResponseEntity(Object object) {
-    ResponseEntity<?> responseEntity = null;
+  public static <T>  ResponseEntity<T> generateGetStandardResponseEntity(T object) {
+    ResponseEntity<T> responseEntity = null;
     if (object != null) {
       responseEntity = ResponseEntity.ok(object);
     } else {
-      responseEntity = NOT_FOUND_RESPONSE_ENTITY;
+      responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;
   }
