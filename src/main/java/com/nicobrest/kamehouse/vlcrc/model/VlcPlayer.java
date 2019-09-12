@@ -527,10 +527,10 @@ public class VlcPlayer implements Serializable {
    * format.
    */
   private List<Map<String, Object>> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
-    if (vlcRcPlaylistResponse == null) {
-      return null;
-    }
     List<Map<String, Object>> vlcRcPlaylist = new ArrayList<>();
+    if (vlcRcPlaylistResponse == null) {
+      return vlcRcPlaylist;
+    } 
     ObjectMapper mapper = new ObjectMapper();
     try {
       JsonNode vlcRcPlaylistResponseJson = mapper.readTree(vlcRcPlaylistResponse);
@@ -565,11 +565,11 @@ public class VlcPlayer implements Serializable {
    * format.
    */
   private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcFileListResponse) {
+    List<Map<String, Object>> vlcRcFilelist = new ArrayList<>();
     if (vlcRcFileListResponse == null) {
-      return null;
+      return vlcRcFilelist;
     }
     String parsedVlcRcPlaylistResponse = vlcRcFileListResponse.replace("\\", "/");
-    List<Map<String, Object>> vlcRcFilelist = new ArrayList<>();
     ObjectMapper mapper = new ObjectMapper();
     try {
       JsonNode vlcRcFileListResponseJson = mapper.readTree(parsedVlcRcPlaylistResponse);
