@@ -59,7 +59,7 @@ function executePost(url, requestBody) {
 
 function executeDelete(url, requestBody) {
   console.debug(getTimestamp() + " : Executing DELETE on " + url);
-  requestHeaders = getCsrfRequestHeadersObject();
+  var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "DELETE",
     url: url,

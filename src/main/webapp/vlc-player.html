@@ -54,13 +54,13 @@
            <img src="/kame-house/img/mplayer/previous.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_previous')" alt="Previous"/> 
         </td>
         <td> 
-           <img src="/kame-house/img/mplayer/rewind.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '-1m')" alt="Rewind"/> 
+           <img src="/kame-house/img/mplayer/rewind.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '-1m')" alt="Rewind"/> 
         </td>
         <td> 
           <img src="/kame-house/img/mplayer/resume.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_pause')" alt="Resume"/> 
         </td>
         <td> 
-          <img src="/kame-house/img/mplayer/fast-forward.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '+1m')" alt="Fast Forward"/> 
+          <img src="/kame-house/img/mplayer/fast-forward.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', '+1m')" alt="Fast Forward"/> 
         </td>
         <td> 
           <img src="/kame-house/img/mplayer/next.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_next')" alt="Next"/> 
@@ -82,16 +82,16 @@
       <tr class="hidden-kh"><th scope="row">Audio controls</th></tr>
       <tr>
       <td> 
-	      <img id="media-btn-mute" class="btn-audio" src="/kame-house/img/mplayer/mute-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')" alt="Mute"/> 
+	      <img id="media-btn-mute" class="btn-audio" src="/kame-house/img/mplayer/mute-gray-dark.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '0')" alt="Mute"/> 
 	    </td>  
       <td>   
-        <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')" alt="Volume Down"/> 
+        <img class="btn-audio" src="/kame-house/img/mplayer/audio-down-gray-dark.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '-15')" alt="Volume Down"/> 
 	    </td> 
       <td>  
         <div id="volume-slider-wrapper"><input type="range" min="0" max="512" value="256" id="volume-slider" oninput="updateVolumePercentage(this.value)" onmouseup="setVolumeFromSlider(this.value)"  ontouchend="setVolumeFromSlider(this.value)"></div> 
 	    </td>
       <td>   
-        <img class="btn-audio" src="/kame-house/img/mplayer/audio-up-gray-dark.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')" alt="Volume Up"/>           
+        <img class="btn-audio" src="/kame-house/img/mplayer/audio-up-gray-dark.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', '+15')" alt="Volume Up"/>           
 	    </td>
       <td>  
         <div id="current-volume"></div>
@@ -112,10 +112,10 @@
           <img id="media-btn-repeat" class="media-flow-button" src="/kame-house/img/mplayer/repeat-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'pl_loop')" alt="Loop"/>
         </td>
         <td> 
-          <img class="media-flow-button" src="/kame-house/img/mplayer/subtitles-cycle-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'subtitle-track')" alt="Subtitle Cycle"/> 
+          <img class="media-flow-button" src="/kame-house/img/mplayer/subtitles-cycle-green.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'subtitle-track')" alt="Subtitle Cycle"/> 
         </td>
 	      <td> 
-	        <img class="media-flow-button" src="/kame-house/img/mplayer/audio-track-cycle-green.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'audio-track')" alt="Audio Track Cycle"/>
+	        <img class="media-flow-button" src="/kame-house/img/mplayer/audio-track-cycle-green.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'audio-track')" alt="Audio Track Cycle"/>
 	      </td>
       </tr>
     </table>
@@ -127,13 +127,13 @@
           <img id="media-btn-fullscreen" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/fullscreen-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'fullscreen')" alt="Fullscreen Toggle"/>
         </td>
         <td> 
-          <img id="media-btn-aspect-ratio-4-3" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')" alt="Aspect Ratio 4:3"/> 
+          <img id="media-btn-aspect-ratio-4-3" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '4:3')" alt="Aspect Ratio 4:3"/> 
         </td>
         <td> 
-          <img id="media-btn-aspect-ratio-16-9" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')" alt="Aspect Ratio 16:9"/> 
+          <img id="media-btn-aspect-ratio-16-9" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'aspectratio', '16:9')" alt="Aspect Ratio 16:9"/> 
         </td>
         <td> 
-          <img id="media-btn-aspect-ratio-cycle" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png" onclick="executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'aspect-ratio')" alt="Aspect Ratio Cycle"/>
+          <img id="media-btn-aspect-ratio-cycle" class="media-screen-ctrl-button" src="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png" onclick="executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'key', 'aspect-ratio')" alt="Aspect Ratio Cycle"/>
         </td>
       </tr>
     </table>

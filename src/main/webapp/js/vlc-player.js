@@ -64,7 +64,7 @@ function executeVlcRcCommandPost(url, name) {
 }
 
 /** Create a vlcrc command with the parameters and execute the request to the server. */
-function executeVlcRcCommandPost(url, name, val) {
+function executeVlcRcCommandWithValuePost(url, name, val) {
   var requestBody = {
     name: name,
     val: val
@@ -103,7 +103,7 @@ function executePost(url, requestBody) {
 /** Execute a DELETE request to the specified url with the specified request body. */
 function executeDelete(url, requestBody) {
   log("DEBUG", "Executing DELETE on " + url + " with requestBody " + JSON.stringify(requestBody));
-  requestHeaders = getCsrfRequestHeadersObject();
+  var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "DELETE",
     url: url,
@@ -278,7 +278,7 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
 /** Set the current time from the slider's value. */
 function setTimeFromSlider(value) {
   $("#current-time").text(convertSecondsToHsMsSs(value)); 
-  executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', value);
+  executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', value);
 }
 /** Update the displayed current time while I'm sliding */
 function updateTimeWhileSliding(value) {
@@ -307,7 +307,7 @@ function getMediaName() {
 function setVolumeFromSlider(value) {
   log("TRACE", "Current volume value: " + value); 
   updateVolumePercentage(value);
-  executeVlcRcCommandPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
+  executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
 }
 
 /** Update volume percentage to display with the specified value. */
