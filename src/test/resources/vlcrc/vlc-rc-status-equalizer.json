@@ -1,0 +1,126 @@
+{
+  "fullscreen": 0,
+  "stats": {
+    "inputbitrate": 0.1753758341074,
+    "sentbytes": 0,
+    "lostabuffers": 0,
+    "averagedemuxbitrate": 0,
+    "readpackets": 2303,
+    "demuxreadpackets": 0,
+    "lostpictures": 0,
+    "displayedpictures": 0,
+    "sentpackets": 0,
+    "demuxreadbytes": 19492605,
+    "demuxbitrate": 0.17519499361515,
+    "playedabuffers": 4739,
+    "demuxdiscontinuity": 0,
+    "decodedaudio": 9479,
+    "sendbitrate": 0,
+    "readbytes": 23497499,
+    "averageinputbitrate": 0,
+    "demuxcorrupted": 0,
+    "decodedvideo": 2728
+  },
+  "audiodelay": 0,
+  "apiversion": 3,
+  "currentplid": 4,
+  "time": 113,
+  "volume": 256,
+  "length": 3695,
+  "random": false,
+  "audiofilters": {
+    "filter_3": "stereo_widen",
+    "filter_0": "equalizer",
+    "filter_2": "spatializer",
+    "filter_4": "scaletempo_pitch",
+    "filter_1": "compressor"
+  },
+  "rate": 1,
+  "videoeffects": {
+    "hue": 0,
+    "saturation": 1,
+    "contrast": 1,
+    "brightness": 1,
+    "gamma": 1
+  },
+  "state": "playing",
+  "loop": false,
+  "version": "3.0.4 Vetinari",
+  "position": 0.030676860362291,
+  "information": {
+    "chapter": 0,
+    "chapters": [],
+    "title": 0,
+    "category": {
+      "Stream 0": {
+        "Frame_rate": "23.976024",
+        "Decoded_format": "Planar 4:2:0 YUV",
+        "Buffer_dimensions": "624x352",
+        "Type": "Video",
+        "Chroma_location": "Left",
+        "Orientation": "Top left",
+        "Video_resolution": "624x352",
+        "Codec": "Xvid MPEG-4 Video (XVID)"
+      },
+      "Stream 1": {
+        "Bitrate": "128 kb/s",
+        "Codec": "MPEG Audio layer 3 (mp3 )",
+        "Channels": "Stereo",
+        "Bits_per_sample": "32",
+        "Type": "Audio",
+        "Sample_rate": "48000 Hz"
+      },
+      "meta": {
+        "setting": " HAS_INDEX IS_INTERLEAVED",
+        "filename": "1 - Winter Is Coming.avi",
+        "Software": "Nandub v1.0rc2",
+        "artwork_url": "file:///C:/Users/nbrest/AppData/Roaming/vlc/art/arturl/939adb7ed723657d6a078ce9085e83ab/art",
+        "artist": "1",
+        "title": "Winter Is Coming.avi"
+      },
+      "Stream 2": {
+        "Codec": "Text subtitles with various tags (subt)",
+        "Language": "\\subs\\1 - Winter Is Coming",
+        "Type": "Subtitle"
+      }
+    },
+    "titles": []
+  },
+  "repeat": false,
+  "subtitledelay": 0,
+  "equalizer": {
+    "presets": {
+      "preset id=\"8\"": "Large Hall",
+      "preset id=\"4\"": "Full bass",
+      "preset id=\"17\"": "Techno",
+      "preset id=\"10\"": "Party",
+      "preset id=\"9\"": "Live",
+      "preset id=\"15\"": "Soft",
+      "preset id=\"14\"": "Ska",
+      "preset id=\"16\"": "Soft rock",
+      "preset id=\"11\"": "Pop",
+      "preset id=\"13\"": "Rock",
+      "preset id=\"5\"": "Full bass and treble",
+      "preset id=\"7\"": "Headphones",
+      "preset id=\"12\"": "Reggae",
+      "preset id=\"2\"": "Club",
+      "preset id=\"6\"": "Full treble",
+      "preset id=\"3\"": "Dance",
+      "preset id=\"1\"": "Classical",
+      "preset id=\"0\"": "Flat"
+    },
+    "bands": {
+      "band id=\"0\"": 9.6,
+      "band id=\"5\"": -5.18,
+      "band id=\"6\"": -7.18,
+      "band id=\"9\"": 0,
+      "band id=\"1\"": 7.2,
+      "band id=\"3\"": 0,
+      "band id=\"8\"": 0,
+      "band id=\"2\"": 2.4,
+      "band id=\"7\"": -7.18,
+      "band id=\"4\"": 0
+    },
+    "preamp": 5
+  }
+}

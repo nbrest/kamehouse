@@ -1,88 +1,89 @@
 {
-	"fullscreen": true,
-	"repeat": false,
-	"subtitledelay": 0,
-	"equalizer": [],
-	"aspectratio": "16:9",
-	"audiodelay": 0,
-	"apiversion": 3,
-	"currentplid": 390,
-	"time": 1777,
-	"volume": 90,
-	"length": 4515,
-	"random": true,
-	"rate": 1,
-	"state": "playing",
-	"loop": false,
-	"version": "2.2.1 Terry Pratchett (Weatherwax)",
-	"position": 0.39357134699821,
-	"stats": {
-		"inputbitrate": 0.12517169117928,
-		"sentbytes": 0,
-		"lostabuffers": 1,
-		"averagedemuxbitrate": 0,
-		"readpackets": 697,
-		"demuxreadpackets": 0,
-		"lostpictures": 1,
-		"displayedpictures": 42581,
-		"sentpackets": 0,
-		"demuxreadbytes": 370995366,
-		"demuxbitrate": 0.21276922523975,
-		"playedabuffers": 55542,
-		"demuxdiscontinuity": 0,
-		"decodedaudio": 55542,
-		"sendbitrate": 0,
-		"readbytes": 371895365,
-		"averageinputbitrate": 0,
-		"demuxcorrupted": 0,
-		"decodedvideo": 42594
-	},
-	"audiofilters": {
-		"filter_0": ""
-	},
-	"videoeffects": {
-		"hue": 0,
-		"saturation": 1,
-		"contrast": 1,
-		"brightness": 1,
-		"gamma": 1
-	},
-	"information": {
-		"chapter": 0,
-		"chapters": [
-			0
-		],
-		"title": 0,
-		"titles": [
-			0
-		],
-		"category": {
-			"Stream 0": {
-				"Frame_rate": "23.976216",
-				"Decoded_format": "Planar 4: 2 :0 YVU",
-				"Type": "Video",
-				"Codec": "H264 - MPEG-4 AVC (part 10) (avc1)",
-				"Display_resolution": "856x480",
-				"Resolution": "864x480"
-			},
-			"Stream 1": {
-				"Bitrate": "192 kb/s",
-				"Type": "Audio",
-				"Channels": "3F2R/LFE",
-				"Sample_rate": "48000 Hz",
-				"Language": "English",
-				"Codec": "A52 Audio (aka AC3) (a52 )"
-			},
-			"meta": {
-				"ENCODER": "Lavf52.94.0",
-				"filename": "Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv",
-				"title": "Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv"
-			},
-			"Stream 2": {
-				"Type": "Subtitle",
-				"Language": "English",
-				"Codec": "Text subtitles with various tags (subt)"
-			}
-		}
-	}
+  "fullscreen":true,
+  "stats":{
+    "inputbitrate":0.085485093295574,
+    "sentbytes":0,
+    "lostabuffers":0,
+    "averagedemuxbitrate":0,
+    "readpackets":4286,
+    "demuxreadpackets":0,
+    "lostpictures":18,
+    "displayedpictures":1988,
+    "sentpackets":0,
+    "demuxreadbytes":55350686,
+    "demuxbitrate":0.096156001091003,
+    "playedabuffers":17618,
+    "demuxdiscontinuity":4,
+    "decodedaudio":35587,
+    "sendbitrate":0,
+    "readbytes":59057789,
+    "averageinputbitrate":0,
+    "demuxcorrupted":0,
+    "decodedvideo":12263
+  },
+  "aspectratio":"16:9",
+  "audiodelay":0,
+  "apiversion":3,
+  "currentplid":4,
+  "time":421,
+  "volume":256,
+  "length":3695,
+  "random":false,
+  "audiofilters":{
+    "filter_0":""
+  },
+  "rate":1,
+  "videoeffects":{
+    "hue":0,
+    "saturation":1,
+    "contrast":1,
+    "brightness":1,
+    "gamma":1
+  },
+  "state":"playing",
+  "loop":false,
+  "version":"3.0.4 Vetinari",
+  "position":0.11406684666872,
+  "information":{
+    "chapter":0,
+    "chapters":[],
+    "title":0,
+    "category":{
+      "Stream 0":{
+        "Frame_rate":"23.976024",
+        "Decoded_format":"Planar 4:2:0 YUV",
+        "Buffer_dimensions":"624x352",
+        "Type":"Video",
+        "Chroma_location":"Left",
+        "Orientation":"Top left",
+        "Video_resolution":"624x352",
+        "Codec":"Xvid MPEG-4 Video (XVID)"
+      },
+      "Stream 1":{
+        "Bitrate":"128 kb/s",
+        "Codec":"MPEG Audio layer 3 (mp3 )",
+        "Channels":"Stereo",
+        "Bits_per_sample":"32",
+        "Type":"Audio",
+        "Sample_rate":"48000 Hz"
+      },
+      "meta":{
+        "setting":" HAS_INDEX IS_INTERLEAVED",
+        "filename":"1 - Winter Is Coming.avi",
+        "Software":"Nandub v1.0rc2",
+        "artwork_url":"file:///C:/Users/nbrest/AppData/Roaming/vlc/art/arturl/939adb7ed723657d6a078ce9085e83ab/art",
+        "artist":"1",
+        "title":"Winter Is Coming.avi"
+      },
+      "Stream 2":{
+        "Codec":"Text subtitles with various tags (subt)",
+        "Language":"\\subs\\1 - Winter Is Coming",
+        "Type":"Subtitle"
+      }
+    },
+    "titles":[]
+  },
+  "repeat":false,
+  "subtitledelay":0,
+  "equalizer":[]
 }

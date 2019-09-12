@@ -67,7 +67,7 @@ public class VlcPlayerTest {
       // Validate returned VlcRcStatus
       assertEquals("16:9", vlcRcStatus.getAspectRatio());
       assertTrue(vlcRcStatus.getFullscreen());
-      assertEquals("42581", vlcRcStatus.getStats().get("displayedPictures").toString());
+      assertEquals("1988", vlcRcStatus.getStats().get("displayedPictures").toString());
       List<Map<String, Object>> categoryMapList = vlcRcStatus.getInformation().getCategory();
       Map<String, Object> meta = null;
       for (Map<String, Object> categoryMap : categoryMapList) {
@@ -75,29 +75,30 @@ public class VlcPlayerTest {
           meta = categoryMap;
         }
       }
-      assertEquals("\"Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv\"", meta.get("filename")
+      assertEquals("\"1 - Winter Is Coming.avi\"", meta.get("filename")
           .toString());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
   }
-  
+
   /**
    * Execute a command in the VLC Player and return it's status.
    */
   @Test
   public void executeCommandWithAllParametersTest() {
     VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
-    InputStream vlcRcStatusInputStream = getInputStreamFromResource("vlcrc/vlc-rc-status.json");
+    InputStream vlcRcStatusInputStream = getInputStreamFromResource(
+        "vlcrc/vlc-rc-status-equalizer.json");
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
     vlcRcCommand.setName("pl_play");
     vlcRcCommand.setBand("low");
     vlcRcCommand.setId("9");
-    vlcRcCommand.setInput("avengers-1.mp4");
+    vlcRcCommand.setInput("1 - Winter Is Coming.avi");
     vlcRcCommand.setOption("opt-3");
     vlcRcCommand.setVal("val-3");
-    
+
     try {
       PowerMockito.doReturn(httpResponseMock).when(vlcPlayerSpy, "executeGetRequest", any(),
           any());
@@ -106,9 +107,9 @@ public class VlcPlayerTest {
       PowerMockito.doReturn(httpClientMock).when(vlcPlayerSpy, "createHttpClient", any());
       VlcRcStatus vlcRcStatus = vlcPlayerSpy.execute(vlcRcCommand);
       // Validate returned VlcRcStatus
-      assertEquals("16:9", vlcRcStatus.getAspectRatio());
-      assertTrue(vlcRcStatus.getFullscreen());
-      assertEquals("42581", vlcRcStatus.getStats().get("displayedPictures").toString());
+      assertEquals(null, vlcRcStatus.getAspectRatio());
+      assertTrue(!vlcRcStatus.getFullscreen());
+      assertEquals("0", vlcRcStatus.getStats().get("displayedPictures").toString());
       List<Map<String, Object>> categoryMapList = vlcRcStatus.getInformation().getCategory();
       Map<String, Object> meta = null;
       for (Map<String, Object> categoryMap : categoryMapList) {
@@ -116,25 +117,25 @@ public class VlcPlayerTest {
           meta = categoryMap;
         }
       }
-      assertEquals("\"Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv\"", meta.get("filename")
+      assertEquals("\"1 - Winter Is Coming.avi\"", meta.get("filename")
           .toString());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
   }
-  
+
   /**
-   * Execute a command in the VLC Player with an invalid requestUrl. 
+   * Execute a command in the VLC Player with an invalid requestUrl.
    */
   @Test
-  public void executeNullCommandTest() { 
-    VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer()); 
+  public void executeNullCommandTest() {
+    VlcPlayer vlcPlayerSpy = PowerMockito.spy(createTestVlcPlayer());
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
-    vlcRcCommand.setName(null); 
-    try {  
-      VlcRcStatus vlcRcStatus = vlcPlayerSpy.execute(vlcRcCommand); 
-      assertEquals(null, vlcRcStatus); 
+    vlcRcCommand.setName(null);
+    try {
+      VlcRcStatus vlcRcStatus = vlcPlayerSpy.execute(vlcRcCommand);
+      assertEquals(null, vlcRcStatus);
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -158,7 +159,7 @@ public class VlcPlayerTest {
       // Validate returned VlcRcStatus
       assertEquals("16:9", vlcRcStatus.getAspectRatio());
       assertTrue(vlcRcStatus.getFullscreen());
-      assertEquals("42581", vlcRcStatus.getStats().get("displayedPictures").toString());
+      assertEquals("1988", vlcRcStatus.getStats().get("displayedPictures").toString());
       List<Map<String, Object>> categoryMapList = vlcRcStatus.getInformation().getCategory();
       Map<String, Object> meta = null;
       for (Map<String, Object> categoryMap : categoryMapList) {
@@ -166,7 +167,7 @@ public class VlcPlayerTest {
           meta = categoryMap;
         }
       }
-      assertEquals("\"Superman.Unbound.2013.480p.WEB-DL.H264.AC3-XaW.mkv\"", meta.get("filename")
+      assertEquals("\"1 - Winter Is Coming.avi\"", meta.get("filename")
           .toString());
     } catch (Exception e) {
       e.printStackTrace();
@@ -222,17 +223,17 @@ public class VlcPlayerTest {
       assertEquals("D:/", returnedFilelist.get(1).get("name"));
       assertEquals("file:///D:/", returnedFilelist.get(1).get("uri"));
       assertEquals(315543600, returnedFilelist.get(1).get("accessTime"));
-      
+
       vlcRcFilelistInputStream.close();
       vlcRcFilelistInputStream = null;
-      
+
       // Browse a specific uri.
       vlcRcFilelistInputStream = getInputStreamFromResource("vlcrc/vlc-rc-filelist.json");
       PowerMockito.doReturn(vlcRcFilelistInputStream).when(vlcPlayerSpy,
           "getInputStreamFromResponse", any());
       returnedFilelist = vlcPlayerSpy.browse("C:/");
       assertEquals(2, returnedFilelist.size());
-      
+
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

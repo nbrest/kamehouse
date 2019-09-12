@@ -23,6 +23,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +80,34 @@ public class SystemCommandServiceTest {
   }
 
   /**
+   * Execute process with failing VncDo command test.
+   */
+  @Test
+  public void executeVncDoFailedTest() throws Exception {
+    String inputStreamString = "/home /bin /opt";
+    String errorStreamString = "no errors";
+    InputStream processInputStream = new ByteArrayInputStream(inputStreamString.getBytes());
+    InputStream processErrorStream = new ByteArrayInputStream(errorStreamString.getBytes());
+    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream);
+    when(ProcessUtils.getErrorStreamFromProcess(Mockito.any())).thenReturn(processErrorStream);
+    when(ProcessUtils.getExitValue(Mockito.any())).thenReturn(1);
+
+    SystemCommand systemCommand = new SystemCommand();
+    systemCommand.setCommand(Arrays.asList("vncdo"));
+    List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
+    systemCommands.add(systemCommand);
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
+
+    assertEquals("[vncdo (hidden from logs as it contains passwords)]", systemCommandOutputs.get(0)
+        .getCommand());
+    assertEquals("failed", systemCommandOutputs.get(0).getStatus());
+    assertEquals(-1, systemCommandOutputs.get(0).getPid());
+    assertEquals(1, systemCommandOutputs.get(0).getExitCode());
+    assertEquals(inputStreamString, systemCommandOutputs.get(0).getStandardOutput().get(0));
+    assertEquals(errorStreamString, systemCommandOutputs.get(0).getStandardError().get(0));
+  }
+
+  /**
    * Execute daemon process successful test.
    */
   @Test
@@ -100,6 +129,28 @@ public class SystemCommandServiceTest {
     assertEquals(-1, systemCommandOutput.getExitCode());
     assertEquals(null, systemCommandOutput.getStandardOutput());
     assertEquals(null, systemCommandOutput.getStandardError());
+  }
+
+  /**
+   * Execute process throwing an IOException test.
+   */
+  @Test
+  public void executeIOExceptionTest() throws Exception {
+    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenThrow(IOException.class);
+    SystemCommand systemCommand = new SystemCommand();
+    systemCommand.setCommand(Arrays.asList("ls"));
+    List<SystemCommand> systemCommands = new ArrayList<SystemCommand>();
+    systemCommands.add(systemCommand);
+
+    List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
+
+    assertEquals("[ls]", systemCommandOutputs.get(0).getCommand());
+    assertEquals("failed", systemCommandOutputs.get(0).getStatus());
+    assertEquals(-1, systemCommandOutputs.get(0).getPid());
+    assertEquals(1, systemCommandOutputs.get(0).getExitCode());
+    assertEquals(null, systemCommandOutputs.get(0).getStandardOutput());
+    assertEquals("An error occurred executing the command", systemCommandOutputs.get(0)
+        .getStandardError().get(0));
   }
 
   /**
