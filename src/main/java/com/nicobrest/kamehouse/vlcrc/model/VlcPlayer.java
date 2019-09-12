@@ -203,7 +203,8 @@ public class VlcPlayer implements Serializable {
   }
 
   /**
-   * Builds the URL to execute the command in the VLC Player through its web API.
+   * Builds the URL to execute the command in the VLC Player through its web
+   * API.
    */
   private String buildCommandUrl(VlcRcCommand command) {
 
@@ -262,8 +263,8 @@ public class VlcPlayer implements Serializable {
     try {
       response = executeGetRequest(client, request);
       try (InputStream inputStreamFromResponse = getInputStreamFromResponse(response);
-          BufferedReader responseReader =
-              new BufferedReader(new InputStreamReader(inputStreamFromResponse))) {
+          BufferedReader responseReader = new BufferedReader(new InputStreamReader(
+              inputStreamFromResponse))) {
         StringBuilder responseBody = new StringBuilder();
         String line = "";
         while ((line = responseReader.readLine()) != null) {
@@ -287,7 +288,8 @@ public class VlcPlayer implements Serializable {
   /**
    * Execute the HTTP Get request to the specified HttpClient.
    */
-  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest) throws IOException {
+  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest)
+      throws IOException {
     return client.execute(getRequest);
   }
 
@@ -483,13 +485,13 @@ public class VlcPlayer implements Serializable {
             switch (type) {
               case "Video":
                 informationCategory.put("frameRate", categoryEntry.getValue().get("Frame_rate"));
-                informationCategory.put("decodedFormat",
-                    categoryEntry.getValue().get("Decoded_format"));
-                informationCategory.put("displayResolution",
-                    categoryEntry.getValue().get("Display_resolution"));
+                informationCategory.put("decodedFormat", categoryEntry.getValue().get(
+                    "Decoded_format"));
+                informationCategory.put("displayResolution", categoryEntry.getValue().get(
+                    "Display_resolution"));
                 informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-                informationCategory.put(LANGUAGE,
-                    categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
+                informationCategory.put(LANGUAGE, categoryEntry.getValue().get(
+                    LANGUAGE_CAMEL_CASE));
                 informationCategory.put("resolution", categoryEntry.getValue().get("Resolution"));
                 break;
               case "Audio":
@@ -497,13 +499,13 @@ public class VlcPlayer implements Serializable {
                 informationCategory.put("channels", categoryEntry.getValue().get("Channels"));
                 informationCategory.put("sampleRate", categoryEntry.getValue().get("Sample_rate"));
                 informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-                informationCategory.put(LANGUAGE,
-                    categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
+                informationCategory.put(LANGUAGE, categoryEntry.getValue().get(
+                    LANGUAGE_CAMEL_CASE));
                 break;
               case "Subtitle":
                 informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-                informationCategory.put(LANGUAGE,
-                    categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
+                informationCategory.put(LANGUAGE, categoryEntry.getValue().get(
+                    LANGUAGE_CAMEL_CASE));
                 break;
               default:
                 logger.warn("Unrecognized Type returned by VLC: {}", type);
@@ -535,21 +537,12 @@ public class VlcPlayer implements Serializable {
     try {
       JsonNode vlcRcPlaylistResponseJson = mapper.readTree(vlcRcPlaylistResponse);
       JsonNode firstChildrenArray = vlcRcPlaylistResponseJson.get("children");
-      if (firstChildrenArray != null && firstChildrenArray.isArray()
-          && firstChildrenArray.size() > 0) {
+      if (!isJsonNodeArrayEmpty(firstChildrenArray)) {
         for (JsonNode firstChildrenNode : firstChildrenArray) {
           if ("Playlist".equals(firstChildrenNode.get("name").asText())) {
             JsonNode playlistArrayNode = firstChildrenNode.get("children");
-            if (playlistArrayNode != null && playlistArrayNode.isArray()
-                && playlistArrayNode.size() > 0) {
-              for (JsonNode playlistItemNode : playlistArrayNode) {
-                Map<String, Object> playlistItem = new HashMap<>();
-                playlistItem.put("id", playlistItemNode.get("id").asInt());
-                playlistItem.put("name", playlistItemNode.get("name").asText());
-                playlistItem.put("uri", playlistItemNode.get("uri").asText());
-                playlistItem.put("duration", playlistItemNode.get("duration").asInt());
-                vlcRcPlaylist.add(playlistItem);
-              }
+            if (!isJsonNodeArrayEmpty(playlistArrayNode)) {
+              vlcRcPlaylist = getVlcRcPlaylistFromJsonNode(playlistArrayNode);
             }
           }
         }
@@ -561,8 +554,32 @@ public class VlcPlayer implements Serializable {
   }
 
   /**
-   * Converts the file list returned by the VLC Player into an internal file list
-   * format.
+   * Checks if the specified JsonNode is an array and is not empty. 
+   */
+  private boolean isJsonNodeArrayEmpty(JsonNode jsonNodeArray) {
+    return !(jsonNodeArray != null && jsonNodeArray.isArray() && jsonNodeArray
+        .size() > 0);
+  }
+
+  /**
+   * Iterate through the JsonNode array and generate the VlcRcPlaylist.
+   */
+  private List<Map<String, Object>> getVlcRcPlaylistFromJsonNode(JsonNode playlistArrayNode) {
+    List<Map<String, Object>> vlcRcPlaylist = new ArrayList<>();
+    for (JsonNode playlistItemNode : playlistArrayNode) {
+      Map<String, Object> playlistItem = new HashMap<>();
+      playlistItem.put("id", playlistItemNode.get("id").asInt());
+      playlistItem.put("name", playlistItemNode.get("name").asText());
+      playlistItem.put("uri", playlistItemNode.get("uri").asText());
+      playlistItem.put("duration", playlistItemNode.get("duration").asInt());
+      vlcRcPlaylist.add(playlistItem);
+    }
+    return vlcRcPlaylist;
+  }
+  
+  /**
+   * Converts the file list returned by the VLC Player into an internal file
+   * list format.
    */
   private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcFileListResponse) {
     List<Map<String, Object>> vlcRcFilelist = new ArrayList<>();

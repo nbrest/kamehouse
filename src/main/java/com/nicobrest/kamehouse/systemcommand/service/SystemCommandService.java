@@ -114,31 +114,7 @@ public class SystemCommandService {
         // Not an ongoing process. Wait until the process finishes and then read
         // standard ouput and error streams.
         ProcessUtils.waitForProcess(process);
-        try (InputStream processInputStream = ProcessUtils.getInputStreamFromProcess(process);
-            BufferedReader processBufferedReader = new BufferedReader(new InputStreamReader(
-                processInputStream, StandardCharsets.UTF_8)); 
-            InputStream processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
-            BufferedReader processErrorBufferedReader = new BufferedReader(new InputStreamReader(
-                processErrorStream, StandardCharsets.UTF_8))) {
-          // Read command standard output stream
-          List<String> processStandardOuputList = new ArrayList<>();
-          String inputStreamLine;
-          while ((inputStreamLine = processBufferedReader.readLine()) != null) {
-            if (!StringUtils.isEmpty(inputStreamLine)) {
-              processStandardOuputList.add(inputStreamLine);
-            }
-          }
-          // Read command standard error stream
-          List<String> processStandardErrorList = new ArrayList<>();
-          String errorStreamLine;
-          while ((errorStreamLine = processErrorBufferedReader.readLine()) != null) {
-            if (!StringUtils.isEmpty(errorStreamLine)) {
-              processStandardErrorList.add(errorStreamLine);
-            }
-          }
-          commandOutput.setStandardError(processStandardErrorList);
-          commandOutput.setStandardOutput(processStandardOuputList);
-        }
+        getStreamsFromProcess(process, commandOutput);
         int exitValue = ProcessUtils.getExitValue(process);
         commandOutput.setExitCode(exitValue);
         if (exitValue > 0) {
@@ -504,5 +480,37 @@ public class SystemCommandService {
       decodedFileContent = "''";
     }
     return decodedFileContent;
+  }
+
+  /**
+   * Get input and error streams from process and add them to the system command output.
+   */
+  private void getStreamsFromProcess(Process process, SystemCommandOutput commandOutput)
+      throws IOException {
+    try (InputStream processInputStream = ProcessUtils.getInputStreamFromProcess(process);
+        BufferedReader processBufferedReader = new BufferedReader(new InputStreamReader(
+            processInputStream, StandardCharsets.UTF_8)); 
+        InputStream processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
+        BufferedReader processErrorBufferedReader = new BufferedReader(new InputStreamReader(
+            processErrorStream, StandardCharsets.UTF_8))) {
+      // Read command standard output stream
+      List<String> processStandardOuputList = new ArrayList<>();
+      String inputStreamLine;
+      while ((inputStreamLine = processBufferedReader.readLine()) != null) {
+        if (!StringUtils.isEmpty(inputStreamLine)) {
+          processStandardOuputList.add(inputStreamLine);
+        }
+      }
+      commandOutput.setStandardOutput(processStandardOuputList);
+      // Read command standard error stream
+      List<String> processStandardErrorList = new ArrayList<>();
+      String errorStreamLine;
+      while ((errorStreamLine = processErrorBufferedReader.readLine()) != null) {
+        if (!StringUtils.isEmpty(errorStreamLine)) {
+          processStandardErrorList.add(errorStreamLine);
+        }
+      }
+      commandOutput.setStandardError(processStandardErrorList);
+    }
   }
 }
