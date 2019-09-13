@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
 import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
-import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
@@ -38,17 +37,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
       em.persist(dragonBallUser);
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      // Iterate through the causes of the PersistenceException to identify and
-      // return the correct exception.
-      Throwable cause = pe;
-      while (cause != null) {
-        if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException(
-              "ConstraintViolationException: Error inserting data", pe);
-        }
-        cause = cause.getCause();
-      }
-      throw new KameHouseServerErrorException("PersistenceException in createDragonBallUser", pe);
+      handleOnCreateOrUpdatePersistentException(pe);
     } finally {
       em.close();
     }
@@ -68,7 +57,16 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      handleOnCreateOrUpdatePersistentException(pe);
+      // Iterate through the causes of the PersistenceException to identify and
+      // return the correct exception.
+      Throwable cause = pe;
+      while (cause != null) {
+        if (cause instanceof javax.persistence.NoResultException) {
+          throw new KameHouseNotFoundException(DBUSER_WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
+        }
+        cause = cause.getCause();
+      }
+      throw new KameHouseServerErrorException("PersistenceException in getDragonBallUser", pe);
     } finally {
       em.close();
     }
