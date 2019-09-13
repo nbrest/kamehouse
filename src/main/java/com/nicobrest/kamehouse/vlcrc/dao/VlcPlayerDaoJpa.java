@@ -1,18 +1,17 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
+import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
@@ -22,41 +21,21 @@ import javax.persistence.Query;
  * @author nbrest
  *
  */
-public class VlcPlayerDaoJpa implements VlcPlayerDao {
+public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
 
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
-  
-  @Autowired
-  private EntityManagerFactory entityManagerFactory;
-
-  public EntityManagerFactory getEntityManagerFactory() {
-    return entityManagerFactory;
-  }
-
-  public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-    this.entityManagerFactory = entityManagerFactory;
-  }
 
   @Override
   @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public Long createVlcPlayer(VlcPlayer vlcPlayer) {
+    logger.trace("Creating VlcPlayer: {}", vlcPlayer);
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
       em.persist(vlcPlayer);
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
-      // Iterate through the causes of the PersistenceException to identify and
-      // return the correct exception.
-      Throwable cause = pe;
-      while (cause != null) {
-        if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException(
-              "ConstraintViolationException: Error inserting data", pe);
-        }
-        cause = cause.getCause();
-      }
-      throw new KameHouseServerErrorException("PersistenceException in createVlcPlayer", pe);
+    } catch (PersistenceException pe) {
+      handleOnCreatePersistentException(pe);
     } finally {
       em.close();
     }
@@ -66,7 +45,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
   @Override
   @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public void updateVlcPlayer(VlcPlayer vlcPlayer) {
-
+    logger.trace("Updating VlcPlayer: {}", vlcPlayer);
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
@@ -82,7 +61,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
         throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayer.getId()
             + NOT_FOUND_IN_REPOSITORY);
       }
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -98,10 +77,11 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       em.close();
     }
   }
- 
+
   @Override
   @Cacheable(value = "getVlcPlayer")
   public VlcPlayer getVlcPlayer(String vlcPlayerName) {
+    logger.trace("Get VlcPlayer: {}", vlcPlayerName);
     EntityManager em = getEntityManager();
     VlcPlayer vlcPlayer = null;
     try {
@@ -111,7 +91,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
       query.setParameter("pHostname", vlcPlayerName);
       vlcPlayer = (VlcPlayer) query.getSingleResult();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
       // return the correct exception.
       Throwable cause = pe;
@@ -132,6 +112,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
   @Override
   @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public VlcPlayer deleteVlcPlayer(Long vlcPlayerId) {
+    logger.trace("Deleting VlcPlayer: {}", vlcPlayerId);
     EntityManager em = getEntityManager();
     VlcPlayer vlcPlayerToRemove = null;
     try {
@@ -145,7 +126,7 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
         throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayerId
             + NOT_FOUND_IN_REPOSITORY);
       }
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException("PersistenceException in deleteDragonBallUser", pe);
     } finally {
       em.close();
@@ -155,24 +136,18 @@ public class VlcPlayerDaoJpa implements VlcPlayerDao {
 
   @Override
   public List<VlcPlayer> getAllVlcPlayers() {
+    logger.trace("Get all VlcPlayers");
     EntityManager em = getEntityManager();
     List<VlcPlayer> vlcPlayers = null;
     try {
       em.getTransaction().begin();
       vlcPlayers = em.createQuery("from VlcPlayer", VlcPlayer.class).getResultList();
       em.getTransaction().commit();
-    } catch (PersistenceException pe) { 
+    } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException("PersistenceException in getAllVlcPlayers", pe);
     } finally {
       em.close();
     }
     return vlcPlayers;
-  }
-
-  /**
-   * Get the EntityManager.
-   */
-  public EntityManager getEntityManager() {
-    return entityManagerFactory.createEntityManager();
   }
 }

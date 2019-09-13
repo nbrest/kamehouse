@@ -1,18 +1,17 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
+import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
@@ -21,35 +20,17 @@ import javax.persistence.Query;
  *
  * @author nbrest
  */
-public class DragonBallUserDaoJpa implements DragonBallUserDao {
+public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUserDao {
 
   private static final String DBUSER_WITH_ID = "DragonBallUser with id ";
   private static final String DBUSER_WITH_USERNAME = "DragonBallUser with username ";
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
 
-  @Autowired
-  private EntityManagerFactory entityManagerFactory;
-
-  public EntityManagerFactory getEntityManagerFactory() {
-    return entityManagerFactory;
-  }
-
-  public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-    this.entityManagerFactory = entityManagerFactory;
-  }
-
-  /**
-   * Get the EntityManager.
-   */
-  public EntityManager getEntityManager() {
-    return entityManagerFactory.createEntityManager();
-  }
-
   @Override
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
       "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public Long createDragonBallUser(DragonBallUser dragonBallUser) {
-
+    logger.trace("Create DragonBallUser: {}", dragonBallUser);
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
@@ -61,8 +42,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException("ConstraintViolationException: Error inserting data",
-              pe);
+          throw new KameHouseConflictException(
+              "ConstraintViolationException: Error inserting data", pe);
         }
         cause = cause.getCause();
       }
@@ -76,7 +57,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   @Override
   @Cacheable(value = "getDragonBallUserCache")
   public DragonBallUser getDragonBallUser(Long id) {
-
+    logger.trace("Get DragonBallUser: {}", id);
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
@@ -86,16 +67,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      // Iterate through the causes of the PersistenceException to identify and
-      // return the correct exception.
-      Throwable cause = pe;
-      while (cause != null) {
-        if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException(DBUSER_WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
-        }
-        cause = cause.getCause();
-      }
-      throw new KameHouseServerErrorException("PersistenceException in getDragonBallUser", pe);
+      handleOnCreatePersistentException(pe);
     } finally {
       em.close();
     }
@@ -105,13 +77,13 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   @Override
   @Cacheable(value = "getDragonBallUserByUsernameCache")
   public DragonBallUser getDragonBallUser(String username) {
-
+    logger.trace("Get DragonBallUser: {}", username);
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
       em.getTransaction().begin();
-      Query query = em
-          .createQuery("SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
+      Query query = em.createQuery(
+          "SELECT dbu from DragonBallUser dbu where dbu.username=:pUsername");
       query.setParameter("pUsername", username);
       dragonBallUser = (DragonBallUser) query.getSingleResult();
       em.getTransaction().commit();
@@ -121,8 +93,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException(
-              DBUSER_WITH_USERNAME + username + NOT_FOUND_IN_REPOSITORY);
+          throw new KameHouseNotFoundException(DBUSER_WITH_USERNAME + username
+              + NOT_FOUND_IN_REPOSITORY);
         }
         cause = cause.getCause();
       }
@@ -136,7 +108,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   @Override
   @Cacheable(value = "getDragonBallUserByEmailCache")
   public DragonBallUser getDragonBallUserByEmail(String email) {
-
+    logger.trace("Get DragonBallUser: {}", email);
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
@@ -151,8 +123,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       Throwable cause = pe;
       while (cause != null) {
         if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException(
-              "DragonBallUser with email " + email + NOT_FOUND_IN_REPOSITORY);
+          throw new KameHouseNotFoundException("DragonBallUser with email " + email
+              + NOT_FOUND_IN_REPOSITORY);
         }
         cause = cause.getCause();
       }
@@ -168,7 +140,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
       "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
-
+    logger.trace("Update DragonBallUser: {}", dragonBallUser);
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
@@ -182,8 +154,8 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
       }
       em.getTransaction().commit();
       if (updatedDbUser == null) {
-        throw new KameHouseNotFoundException(
-            DBUSER_WITH_ID + dragonBallUser.getId() + NOT_FOUND_IN_REPOSITORY);
+        throw new KameHouseNotFoundException(DBUSER_WITH_ID + dragonBallUser.getId()
+            + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
       // Iterate through the causes of the PersistenceException to identify and
@@ -206,7 +178,7 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
       "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public DragonBallUser deleteDragonBallUser(Long id) {
-
+    logger.trace("Delete DragonBallUser: {}", id);
     // find(): returns the entity from the EntityManager if its already in
     // memory. Otherwise it goes to the database to find it.
     // getReference(): Returns a proxy to the real entity. Useful if you need to
@@ -236,12 +208,13 @@ public class DragonBallUserDaoJpa implements DragonBallUserDao {
   @Override
   @Cacheable(value = "getAllDragonBallUsersCache")
   public List<DragonBallUser> getAllDragonBallUsers() {
-
+    logger.trace("Get all DragonBallUsers");
     EntityManager em = getEntityManager();
     List<DragonBallUser> dragonBallUsers = null;
     try {
       em.getTransaction().begin();
-      dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class).getResultList();
+      dragonBallUsers = em.createQuery("from DragonBallUser", DragonBallUser.class)
+          .getResultList();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException("PersistenceException in getAllDragonBallUsers", pe);

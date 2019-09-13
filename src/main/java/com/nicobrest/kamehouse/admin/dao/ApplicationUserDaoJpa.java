@@ -2,12 +2,10 @@ package com.nicobrest.kamehouse.admin.dao;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
@@ -24,24 +21,7 @@ import javax.persistence.Query;
  *
  * @author nbrest
  */
-public class ApplicationUserDaoJpa implements ApplicationUserDao {
-
-  private static final Logger logger = LoggerFactory.getLogger(ApplicationUserDaoJpa.class);
-
-  @Autowired
-  private EntityManagerFactory entityManagerFactory;
-
-  public EntityManagerFactory getEntityManagerFactory() {
-    return entityManagerFactory;
-  }
-
-  public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-    this.entityManagerFactory = entityManagerFactory;
-  }
-
-  public EntityManager getEntityManager() {
-    return entityManagerFactory.createEntityManager();
-  }
+public class ApplicationUserDaoJpa extends AbstractDaoJpa implements ApplicationUserDao {
 
   @Override
   @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
@@ -59,17 +39,7 @@ public class ApplicationUserDaoJpa implements ApplicationUserDao {
       em.merge(applicationUser);
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      // Iterate through the causes of the PersistenceException to identify and
-      // return the correct exception.
-      Throwable cause = pe;
-      while (cause != null) {
-        if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException(
-              "ConstraintViolationException: Error inserting data", pe);
-        }
-        cause = cause.getCause();
-      }
-      throw new KameHouseServerErrorException("PersistenceException in createUser", pe);
+      handleOnCreatePersistentException(pe);
     } finally {
       em.close();
     }

@@ -87,7 +87,7 @@ public class VlcPlayerDaoJpaTest {
   public void createVlcPlayerConflictExceptionTest() {
 
     thrown.expect(KameHouseServerErrorException.class);
-    thrown.expectMessage("PersistenceException in createVlcPlayer");
+    thrown.expectMessage("PersistenceException");
 
     VlcPlayer vlcPlayerCreated = new VlcPlayer();
     vlcPlayerCreated.setHostname("playerCapsuleCorp");
