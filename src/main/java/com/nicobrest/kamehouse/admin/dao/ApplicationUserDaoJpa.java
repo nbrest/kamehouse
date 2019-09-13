@@ -3,7 +3,6 @@ package com.nicobrest.kamehouse.admin.dao;
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
-import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -39,7 +38,7 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
       em.merge(applicationUser);
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      handleOnCreatePersistentException(pe);
+      handleOnCreateOrUpdatePersistentException(pe);
     } finally {
       em.close();
     }
@@ -107,17 +106,7 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
             + " was not found in the repository.");
       }
     } catch (PersistenceException pe) {
-      // Iterate through the causes of the PersistenceException to identify and
-      // return the correct exception.
-      Throwable cause = pe;
-      while (cause != null) {
-        if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException("ConstraintViolationException: Error updating data",
-              pe);
-        }
-        cause = cause.getCause();
-      }
-      throw new KameHouseServerErrorException("PersistenceException in updateUser", pe);
+      handleOnCreateOrUpdatePersistentException(pe);
     } finally {
       em.close();
     }

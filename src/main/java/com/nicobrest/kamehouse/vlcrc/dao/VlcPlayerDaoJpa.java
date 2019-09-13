@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
 import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
-import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
@@ -35,7 +34,7 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
       em.persist(vlcPlayer);
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      handleOnCreatePersistentException(pe);
+      handleOnCreateOrUpdatePersistentException(pe);
     } finally {
       em.close();
     }
@@ -62,17 +61,7 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
             + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
-      // Iterate through the causes of the PersistenceException to identify and
-      // return the correct exception.
-      Throwable cause = pe;
-      while (cause != null) {
-        if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
-          throw new KameHouseConflictException("ConstraintViolationException: Error updating data",
-              pe);
-        }
-        cause = cause.getCause();
-      }
-      throw new KameHouseServerErrorException("PersistenceException in updateVlcPlayer", pe);
+      handleOnCreateOrUpdatePersistentException(pe);
     } finally {
       em.close();
     }

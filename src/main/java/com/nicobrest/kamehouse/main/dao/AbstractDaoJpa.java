@@ -36,7 +36,7 @@ public abstract class AbstractDaoJpa {
     return entityManagerFactory.createEntityManager();
   }
   
-  protected void handleOnCreatePersistentException(PersistenceException pe) {
+  protected void handleOnCreateOrUpdatePersistentException(PersistenceException pe) {
     // Iterate through the causes of the PersistenceException to identify and
     // return the correct exception.
     Throwable cause = pe;

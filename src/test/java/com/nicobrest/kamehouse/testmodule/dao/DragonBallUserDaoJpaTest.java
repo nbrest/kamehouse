@@ -232,7 +232,7 @@ public class DragonBallUserDaoJpaTest {
   public void updateDragonBallUserServerErrorExceptionTest() {
 
     thrown.expect(KameHouseServerErrorException.class);
-    thrown.expectMessage("PersistenceException in updateDragonBallUser");
+    thrown.expectMessage("PersistenceException");
 
     try {
       DragonBallUser userToInsert = new DragonBallUser(null, "goku", "goku@dbz.com", 20, 21, 22);
