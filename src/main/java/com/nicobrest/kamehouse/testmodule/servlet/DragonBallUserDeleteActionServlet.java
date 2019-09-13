@@ -1,18 +1,11 @@
 package com.nicobrest.kamehouse.testmodule.servlet;
 
-import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,40 +18,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 @WebServlet("/test-module/jsp/dragonball/users/users-delete-action")
-public class DragonBallUserDeleteActionServlet extends HttpServlet {
+public class DragonBallUserDeleteActionServlet extends AbstractDragonBallUserServlet {
 
-  private static final Logger logger = LoggerFactory
-      .getLogger(DragonBallUserDeleteActionServlet.class);
-  private static final long serialVersionUID = 1L;
-
-  private static DragonBallUserService dragonBallUserService;
-
-  public static void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
-    DragonBallUserDeleteActionServlet.dragonBallUserService = dragonBallUserService;
-  }
-
-  public static DragonBallUserService getDragonBallUserService() {
-    return DragonBallUserDeleteActionServlet.dragonBallUserService;
-  }
-
-  /**
-   * Configures private static dragonBallUserService. @Autowired doesn't work
-   * because the servlet is not managed by spring and the initialization of static
-   * fields probably happens before the spring context loads. The only way
-   * for @Autowired to work was to have the property non-static and use
-   * SpringBeanAutowiringSupport in the init method, but findbugs reports having
-   * non-static fields in a Servlet as a bug.
-   */
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-    ApplicationContext context = WebApplicationContextUtils
-        .getRequiredWebApplicationContext(this.getServletContext());
-    DragonBallUserService dragonBallUserServiceBean = (DragonBallUserService) context
-        .getBean("dragonBallUserService");
-    setDragonBallUserService(dragonBallUserServiceBean);
-  }
-
+  protected static final long serialVersionUID = 1L;
+  
   /**
    * Deletes the DragonBallUser from the repository with the id taken from the
    * request parameters.
@@ -73,5 +36,10 @@ public class DragonBallUserDeleteActionServlet extends HttpServlet {
     } catch (NumberFormatException e) {
       logger.error("Error occurred processing request.", e);
     }
+  }
+
+  @Override
+  void consumeDragonBallUserDto(DragonBallUserDto dragonBallUserDto) {
+    // Method not needed in this class.
   }
 }

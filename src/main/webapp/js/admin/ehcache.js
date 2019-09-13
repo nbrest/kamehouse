@@ -85,25 +85,24 @@ function displayErrorGettingCache() {
     " : Error retrieving cache data. Please try again later."));
   $errorTable.append($errorTableRow);
   $cacheData.append($errorTable);
-  console.error(getTimestamp() + " : Error retrieving cache data. Please try again later.");
+  log("ERROR", "Error retrieving cache data. Please try again later.");
 }
 
 /**
  * Clear cache data.
  */
 function clearCacheData(cacheName) {
-  //console.debug("Clearing " + cacheName);
+  log("DEBUG", "Clearing " + cacheName);
+  var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
-    beforeSend : function(request) {
-      request.setRequestHeader(getCsrfHeader(), getCsrfToken());
-    },
-    url : EHCACHE_REST_API + '?name=' + cacheName,
     type : 'DELETE',
-    success : function(result) {
+    url : EHCACHE_REST_API + '?name=' + cacheName,
+    headers: requestHeaders,
+    success : function(data) {
       getCacheData();
     },
-    error : function(result) {
-      console.error("Error clearing cache " + cacheName);
+    error : function(data) {
+      log("ERROR", "Error clearing cache " + cacheName);
       getCacheData();
     }
   });
@@ -113,17 +112,17 @@ function clearCacheData(cacheName) {
  * Clear all caches.
  */
 function clearAllCaches() {
+  log("DEBUG", "Clearing all caches");
+  var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
-    beforeSend : function(request) {
-      request.setRequestHeader(getCsrfHeader(), getCsrfToken());
-    },
     url : EHCACHE_REST_API,
     type : 'DELETE',
-    success : function(result) {
+    headers: requestHeaders,
+    success : function(data) {
       getCacheData();
     },
-    error : function(result) {
-      console.error("Error clearing all caches");
+    error : function(data) {
+      log("ERROR", "Error clearing all caches");
       getCacheData();
     }
   });
@@ -151,31 +150,6 @@ function toggleAllCacheView() {
   for (var i = 0; i < ehcacheToggleTableRowIds.length; i++) {
     toggleCacheView(ehcacheToggleTableRowIds[i]);
   }
-}
-
-/**
- * Get timestamp.
- */
-function getTimestamp() {
-  return new Date().toISOString().replace("T", " ").slice(0, 19);
-}
-
-/**
- * Get CSRF token.
- */
-function getCsrfToken() {
-  var token = $("meta[name='_csrf']").attr("content");
-  //console.log("getCsrfToken: " + token);
-  return token;
-}
-
-/**
- * Get CSRF header.
- */
-function getCsrfHeader() {
-  var header = $("meta[name='_csrf_header']").attr("content");
-  //console.log("getCsrfHeader: " + header);
-  return header;
 }
 
 /**

@@ -117,7 +117,7 @@ public class DragonBallUserService {
     dragonBallUser.setAge(dragonBallUserDto.getAge());
     dragonBallUser.setEmail(dragonBallUserDto.getEmail());
     dragonBallUser.setId(dragonBallUserDto.getId());
-    dragonBallUser.setPowerLevel(dragonBallUser.getPowerLevel());
+    dragonBallUser.setPowerLevel(dragonBallUserDto.getPowerLevel());
     dragonBallUser.setStamina(dragonBallUserDto.getStamina());
     dragonBallUser.setUsername(dragonBallUserDto.getUsername());
     return dragonBallUser;

@@ -19,7 +19,7 @@ import javax.persistence.PersistenceException;
  */
 public abstract class AbstractDaoJpa {
 
-  protected static final Logger logger = LoggerFactory.getLogger(AbstractDaoJpa.class);
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private EntityManagerFactory entityManagerFactory;
