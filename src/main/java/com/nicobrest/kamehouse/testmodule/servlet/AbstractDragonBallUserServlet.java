@@ -67,7 +67,7 @@ public abstract class AbstractDragonBallUserServlet extends HttpServlet {
       DragonBallUserDto dragonBallUserDto = getDragonBallUserDtoFromRequest(request);
       consumeDragonBallUserDto(dragonBallUserDto);
       response.sendRedirect("users-list");
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException | IOException e) {
       logger.error("Error occurred processing request.", e);
     }
   }
