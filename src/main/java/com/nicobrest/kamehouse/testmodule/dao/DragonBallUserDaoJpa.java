@@ -25,6 +25,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   private static final String DBUSER_WITH_ID = "DragonBallUser with id ";
   private static final String DBUSER_WITH_USERNAME = "DragonBallUser with username ";
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
+  private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
 
   @Override
   @CacheEvict(value = { "getAllDragonBallUsersCache", "getDragonBallUserCache",
@@ -57,7 +58,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   @Override
   @Cacheable(value = "getDragonBallUserCache")
   public DragonBallUser getDragonBallUser(Long id) {
-    logger.trace("Get DragonBallUser: {}", id);
+    logger.trace(GET_DRAGONBALLUSER, id);
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
@@ -77,7 +78,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   @Override
   @Cacheable(value = "getDragonBallUserByUsernameCache")
   public DragonBallUser getDragonBallUser(String username) {
-    logger.trace("Get DragonBallUser: {}", username);
+    logger.trace(GET_DRAGONBALLUSER, username);
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
@@ -108,7 +109,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   @Override
   @Cacheable(value = "getDragonBallUserByEmailCache")
   public DragonBallUser getDragonBallUserByEmail(String email) {
-    logger.trace("Get DragonBallUser: {}", email);
+    logger.trace(GET_DRAGONBALLUSER, email);
     EntityManager em = getEntityManager();
     DragonBallUser dragonBallUser = null;
     try {
