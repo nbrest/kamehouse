@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/media/video")
 public class VideoPlaylistController {
 
-  private static final Logger logger = LoggerFactory.getLogger(VideoPlaylistController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private VideoPlaylistService videoPlaylistService;

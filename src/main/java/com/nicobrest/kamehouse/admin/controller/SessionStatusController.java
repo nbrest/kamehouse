@@ -24,7 +24,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/session")
 public class SessionStatusController {
 
-  private static final Logger logger = LoggerFactory.getLogger(SessionStatusController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private SessionStatusService sessionStatusService;

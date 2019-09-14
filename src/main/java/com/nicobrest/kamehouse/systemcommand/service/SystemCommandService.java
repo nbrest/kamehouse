@@ -35,7 +35,7 @@ import java.util.List;
 @Service
 public class SystemCommandService {
 
-  private static final Logger logger = LoggerFactory.getLogger(SystemCommandService.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
   private static final int VNCDO_CMD_LINUX_INDEX = 2;
   private static final String COMPLETED = "completed";
   private static final String FAILED = "failed";

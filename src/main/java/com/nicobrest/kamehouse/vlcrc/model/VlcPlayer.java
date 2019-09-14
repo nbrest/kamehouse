@@ -57,7 +57,7 @@ public class VlcPlayer implements Serializable {
   @JsonIgnore
   private static final long serialVersionUID = 1L;
   @JsonIgnore
-  private static final Logger logger = LoggerFactory.getLogger(VlcPlayer.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
   @JsonIgnore
   private static final String PROTOCOL = "http://";
   @JsonIgnore

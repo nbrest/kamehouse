@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin/screen")
 public class ScreenController {
 
-  private static final Logger logger = LoggerFactory.getLogger(ScreenController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private AdminCommandService adminCommandService;

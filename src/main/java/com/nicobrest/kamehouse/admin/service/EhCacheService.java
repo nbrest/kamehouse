@@ -23,7 +23,7 @@ import java.util.Map;
 @Service
 public class EhCacheService {
 
-  private static final Logger logger = LoggerFactory.getLogger(EhCacheService.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   @Qualifier("cacheManager")

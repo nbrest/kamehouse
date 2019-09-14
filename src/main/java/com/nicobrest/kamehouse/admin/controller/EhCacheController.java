@@ -30,7 +30,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/admin/ehcache")
 public class EhCacheController {
 
-  private static final Logger logger = LoggerFactory.getLogger(EhCacheController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private EhCacheService ehCacheService;

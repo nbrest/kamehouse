@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin/power-management")
 public class PowerManagementController {
 
-  private static final Logger logger = LoggerFactory.getLogger(PowerManagementController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private AdminCommandService adminCommandService;

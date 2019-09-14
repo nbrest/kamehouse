@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class VlcRcWebSocketController {
 
-  private static final Logger logger = LoggerFactory.getLogger(VlcRcWebSocketController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private VlcRcService vlcRcService;

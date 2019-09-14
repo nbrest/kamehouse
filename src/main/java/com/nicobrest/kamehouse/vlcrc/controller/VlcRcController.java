@@ -37,7 +37,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcRcController {
 
-  private static final Logger logger = LoggerFactory.getLogger(VlcRcController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private VlcRcService vlcRcService;

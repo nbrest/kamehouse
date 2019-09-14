@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin")
 public class VlcController {
 
-  private static final Logger logger = LoggerFactory.getLogger(VlcController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private AdminCommandService adminCommandService;

@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Service
 public class VideoPlaylistService {
 
-  private static final Logger logger = LoggerFactory.getLogger(VideoPlaylistService.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
   private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";

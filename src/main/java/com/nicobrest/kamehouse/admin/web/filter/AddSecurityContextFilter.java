@@ -25,7 +25,7 @@ import javax.servlet.ServletResponse;
 @Deprecated
 public class AddSecurityContextFilter implements Filter {
 
-  private static final Logger logger = LoggerFactory.getLogger(AddSecurityContextFilter.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
   public void destroy() {

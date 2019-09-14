@@ -31,7 +31,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin/application")
 public class ApplicationUserController {
 
-  private static final Logger logger = LoggerFactory.getLogger(ApplicationUserController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private ApplicationUserService applicationUserService;

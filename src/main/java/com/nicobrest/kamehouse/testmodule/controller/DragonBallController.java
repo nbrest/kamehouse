@@ -39,7 +39,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/dragonball")
 public class DragonBallController {
 
-  private static final Logger logger = LoggerFactory.getLogger(DragonBallController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private DragonBallUserService dragonBallUserService;

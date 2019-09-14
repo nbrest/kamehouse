@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class ViewResolverController {
 
-  private static final Logger logger = LoggerFactory.getLogger(ViewResolverController.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
    * View resolver for static html files.

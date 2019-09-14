@@ -27,7 +27,7 @@ import java.util.Map;
 @Service
 public class SessionStatusService {
 
-  private static final Logger logger = LoggerFactory.getLogger(SessionStatusService.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
   
   @Autowired
   private ApplicationUserService applicationUserService;
