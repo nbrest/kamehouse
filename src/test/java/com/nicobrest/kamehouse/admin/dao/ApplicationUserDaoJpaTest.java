@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -187,7 +186,7 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void updateApplicationUserNotFoundExceptionTest() {
 
-    thrown.expect(UsernameNotFoundException.class);
+    thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("ApplicationUser with id " + 987L + " was not found in the repository.");
     applicationUserMock.setId(987L);
     applicationUserDaoJpa.updateUser(applicationUserMock);

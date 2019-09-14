@@ -21,7 +21,6 @@ import javax.persistence.Query;
  */
 public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUserDao {
 
-  private static final String DBUSER_WITH_ID = "DragonBallUser with id ";
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
 
@@ -111,27 +110,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
       "getDragonBallUserByUsernameCache", "getDragonBallUserByEmailCache" }, allEntries = true)
   public void updateDragonBallUser(DragonBallUser dragonBallUser) {
     logger.trace("Update DragonBallUser: {}", dragonBallUser);
-    EntityManager em = getEntityManager();
-    try {
-      em.getTransaction().begin();
-      DragonBallUser updatedDbUser = em.find(DragonBallUser.class, dragonBallUser.getId());
-      if (updatedDbUser != null) {
-        updatedDbUser.setAge(dragonBallUser.getAge());
-        updatedDbUser.setEmail(dragonBallUser.getEmail());
-        updatedDbUser.setPowerLevel(dragonBallUser.getPowerLevel());
-        updatedDbUser.setStamina(dragonBallUser.getStamina());
-        updatedDbUser.setUsername(dragonBallUser.getUsername());
-      }
-      em.getTransaction().commit();
-      if (updatedDbUser == null) {
-        throw new KameHouseNotFoundException(DBUSER_WITH_ID + dragonBallUser.getId()
-            + NOT_FOUND_IN_REPOSITORY);
-      }
-    } catch (PersistenceException pe) {
-      handlePersistentException(pe);
-    } finally {
-      em.close();
-    }
+    updateEntityInRepository(dragonBallUser.getId(), dragonBallUser, DragonBallUser.class);
   }
 
   @Override
@@ -152,5 +131,16 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   public List<DragonBallUser> getAllDragonBallUsers() {
     logger.trace("Get all DragonBallUsers");
     return getAllEntitiesFromRepository(DragonBallUser.class);
+  }
+
+  @Override
+  protected <T> void updateEntityValues(T persistedEntity, T entity) {
+    DragonBallUser persistedDragonBallUser = (DragonBallUser) persistedEntity;
+    DragonBallUser dragonBallUser = (DragonBallUser) entity;
+    persistedDragonBallUser.setAge(dragonBallUser.getAge());
+    persistedDragonBallUser.setEmail(dragonBallUser.getEmail());
+    persistedDragonBallUser.setPowerLevel(dragonBallUser.getPowerLevel());
+    persistedDragonBallUser.setStamina(dragonBallUser.getStamina());
+    persistedDragonBallUser.setUsername(dragonBallUser.getUsername());
   }
 }

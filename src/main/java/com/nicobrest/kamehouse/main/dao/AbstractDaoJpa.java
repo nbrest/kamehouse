@@ -23,12 +23,14 @@ import javax.persistence.PersistenceException;
 public abstract class AbstractDaoJpa {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
-  private static final String NOT_FOUND_IN_REPOSITORY =
+  private static final String NO_RESULT_EXCEPTION =
       "NoResultException: Entity not found in the repository.";
   private static final String CONSTRAINT_VIOLATION_EXCEPTION =
       "ConstraintViolationException: Error inserting data.";
   private static final String PERSISTENCE_EXCEPTION = "PersistenceException thrown.";
-  
+  private static final String WITH_ID = " with id ";
+  private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
+
   @Autowired
   private EntityManagerFactory entityManagerFactory;
 
@@ -61,6 +63,36 @@ public abstract class AbstractDaoJpa {
   }
 
   /**
+   * Update the specified entity in the repository.
+   */
+  protected <T> void updateEntityInRepository(Long entityId, T entity, Class<T> clazz) {
+    EntityManager em = getEntityManager();
+    try {
+      em.getTransaction().begin();
+      T persistedEntity = em.find(clazz, entityId);
+      if (persistedEntity != null) {
+        updateEntityValues(persistedEntity, entity);
+        em.merge(persistedEntity);
+      }
+      em.getTransaction().commit();
+      if (persistedEntity == null) {
+        throw new KameHouseNotFoundException(clazz.getSimpleName() + WITH_ID + entityId
+            + NOT_FOUND_IN_REPOSITORY);
+      }
+    } catch (PersistenceException pe) {
+      handlePersistentException(pe);
+    } finally {
+      em.close();
+    }
+  }
+
+  /**
+   * Abstract method to update the values of the persistedEntity with the object
+   * received as a second parameter.
+   */
+  protected abstract <T> void updateEntityValues(T persistedEntity, T entity);
+
+  /**
    * Delete the entity of the specified class from the repository.
    */
   protected <T> T deleteEntityFromRepository(Long entityId, Class<T> clazz) {
@@ -74,8 +106,8 @@ public abstract class AbstractDaoJpa {
       }
       em.getTransaction().commit();
       if (entityToRemove == null) {
-        throw new KameHouseNotFoundException(clazz.getSimpleName() + " with id " + entityId
-            + " was not found in the repository.");
+        throw new KameHouseNotFoundException(clazz.getSimpleName() + WITH_ID + entityId
+            + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException(PERSISTENCE_EXCEPTION, pe);
@@ -114,7 +146,7 @@ public abstract class AbstractDaoJpa {
         throw new KameHouseConflictException(CONSTRAINT_VIOLATION_EXCEPTION, pe);
       }
       if (cause instanceof javax.persistence.NoResultException) {
-        throw new KameHouseNotFoundException(NOT_FOUND_IN_REPOSITORY, pe);
+        throw new KameHouseNotFoundException(NO_RESULT_EXCEPTION, pe);
       }
       cause = cause.getCause();
     }

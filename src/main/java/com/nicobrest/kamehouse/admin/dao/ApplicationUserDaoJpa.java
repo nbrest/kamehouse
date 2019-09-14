@@ -6,7 +6,6 @@ import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
@@ -68,35 +67,7 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
   @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public void updateUser(ApplicationUser applicationUser) {
     logger.trace("Updating ApplicationUser: {}", applicationUser.getUsername());
-    EntityManager em = getEntityManager();
-    try {
-      em.getTransaction().begin();
-      ApplicationUser updatedAppUser = em.find(ApplicationUser.class, applicationUser.getId());
-      if (updatedAppUser != null) {
-        updatedAppUser.setAccountNonExpired(applicationUser.isAccountNonExpired());
-        updatedAppUser.setAccountNonLocked(applicationUser.isAccountNonLocked());
-        updatedAppUser.setAuthorities(applicationUser.getAuthorities());
-        updatedAppUser.setCredentialsNonExpired(applicationUser.isCredentialsNonExpired());
-        updatedAppUser.setEmail(applicationUser.getEmail());
-        updatedAppUser.setEnabled(applicationUser.isEnabled());
-        updatedAppUser.setFirstName(applicationUser.getFirstName());
-        updatedAppUser.setLastLogin(applicationUser.getLastLogin());
-        updatedAppUser.setLastName(applicationUser.getLastName());
-        for (ApplicationRole role : updatedAppUser.getAuthorities()) {
-          role.setApplicationUser(updatedAppUser);
-        }
-        em.merge(updatedAppUser);
-      }
-      em.getTransaction().commit();
-      if (updatedAppUser == null) {
-        throw new UsernameNotFoundException("ApplicationUser with id " + applicationUser.getId()
-            + " was not found in the repository.");
-      }
-    } catch (PersistenceException pe) {
-      handlePersistentException(pe);
-    } finally {
-      em.close();
-    }
+    updateEntityInRepository(applicationUser.getId(), applicationUser, ApplicationUser.class);
   }
 
   @Override
@@ -110,5 +81,24 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
   public List<ApplicationUser> getAllUsers() {
     logger.trace("Loading all ApplicationUsers");
     return getAllEntitiesFromRepository(ApplicationUser.class);
+  }
+
+  @Override
+  protected <T> void updateEntityValues(T persistedEntity, T entity) {
+    ApplicationUser persistedApplicationUser = (ApplicationUser) persistedEntity;
+    ApplicationUser updatedApplicationUser = (ApplicationUser) entity;
+    persistedApplicationUser.setAccountNonExpired(updatedApplicationUser.isAccountNonExpired());
+    persistedApplicationUser.setAccountNonLocked(updatedApplicationUser.isAccountNonLocked());
+    persistedApplicationUser.setAuthorities(updatedApplicationUser.getAuthorities());
+    persistedApplicationUser.setCredentialsNonExpired(updatedApplicationUser
+        .isCredentialsNonExpired());
+    persistedApplicationUser.setEmail(updatedApplicationUser.getEmail());
+    persistedApplicationUser.setEnabled(updatedApplicationUser.isEnabled());
+    persistedApplicationUser.setFirstName(updatedApplicationUser.getFirstName());
+    persistedApplicationUser.setLastLogin(updatedApplicationUser.getLastLogin());
+    persistedApplicationUser.setLastName(updatedApplicationUser.getLastName());
+    for (ApplicationRole role : persistedApplicationUser.getAuthorities()) {
+      role.setApplicationUser(persistedApplicationUser);
+    }
   }
 }

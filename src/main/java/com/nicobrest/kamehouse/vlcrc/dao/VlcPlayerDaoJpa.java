@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
 import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -21,8 +20,6 @@ import javax.persistence.Query;
  */
 public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
 
-  private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
-
   @Override
   @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public Long createVlcPlayer(VlcPlayer vlcPlayer) {
@@ -35,26 +32,7 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
   @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public void updateVlcPlayer(VlcPlayer vlcPlayer) {
     logger.trace("Updating VlcPlayer: {}", vlcPlayer);
-    EntityManager em = getEntityManager();
-    try {
-      em.getTransaction().begin();
-      VlcPlayer updatedVlcPlayer = em.find(VlcPlayer.class, vlcPlayer.getId());
-      if (updatedVlcPlayer != null) {
-        updatedVlcPlayer.setHostname(vlcPlayer.getHostname());
-        updatedVlcPlayer.setPort(vlcPlayer.getPort());
-        updatedVlcPlayer.setUsername(vlcPlayer.getUsername());
-        updatedVlcPlayer.setPassword(vlcPlayer.getPassword());
-      }
-      em.getTransaction().commit();
-      if (updatedVlcPlayer == null) {
-        throw new KameHouseNotFoundException("VlcPlayer with id " + vlcPlayer.getId()
-            + NOT_FOUND_IN_REPOSITORY);
-      }
-    } catch (PersistenceException pe) {
-      handlePersistentException(pe);
-    } finally {
-      em.close();
-    }
+    updateEntityInRepository(vlcPlayer.getId(), vlcPlayer, VlcPlayer.class);
   }
 
   @Override
@@ -89,5 +67,15 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
   public List<VlcPlayer> getAllVlcPlayers() {
     logger.trace("Get all VlcPlayers");
     return getAllEntitiesFromRepository(VlcPlayer.class);
+  }
+
+  @Override
+  protected <T> void updateEntityValues(T persistedEntity, T entity) {
+    VlcPlayer persistedVlcPlayer = (VlcPlayer) persistedEntity;
+    VlcPlayer vlcPlayer = (VlcPlayer) entity;
+    persistedVlcPlayer.setHostname(vlcPlayer.getHostname());
+    persistedVlcPlayer.setPort(vlcPlayer.getPort());
+    persistedVlcPlayer.setUsername(vlcPlayer.getUsername());
+    persistedVlcPlayer.setPassword(vlcPlayer.getPassword());
   }
 }
