@@ -67,8 +67,6 @@ public class ViewResolverControllerTest {
    */
   @Test
   public void allViewsTest() {
-    // TODO: It's becoming too big. Split them into separate tests for each
-    // method called.
     try {
       ModelAndView returnedModelAndView = null;
       // Home

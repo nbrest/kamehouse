@@ -220,10 +220,10 @@ function getVlcRcStatus() {
 /** Infinite loop to pull VlcRcStatus from the server. */
 async function pullVlcRcStatusLoop() {
   
-  // Infinite loop to pull VlcRcStatus every 1 second, switch to XX seconds if I'm not playing anything.
+  // Infinite loop to pull VlcRcStatus every 1 second, switch to vlcRcStatusPullWaitTimeMs seconds 
+  // if I'm not playing anything.
   var vlcRcStatusPullWaitTimeMs = 1000;
   let failedCount = 0;
-  // TODO: Make the client side contain a status of when vlc player is actually running on the server and only pull when it's running.
   if (global.isWebSocketConnected) {
     getVlcRcStatus();
   }  

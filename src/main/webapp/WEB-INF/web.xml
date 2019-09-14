@@ -70,7 +70,19 @@
 		<url-pattern>/test-module/angular-1/index.html</url-pattern>
 		<url-pattern>/test-module/websocket/index.html</url-pattern>
 	</servlet-mapping>
-
+	 <!-- Listing for static error pages. -->
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/error/400.html</url-pattern>
+    <url-pattern>/error/403.html</url-pattern>
+    <url-pattern>/error/404.html</url-pattern>
+    <url-pattern>/error/405.html</url-pattern>
+    <url-pattern>/error/409.html</url-pattern>
+    <url-pattern>/error/500.html</url-pattern>
+    <url-pattern>/error/502.html</url-pattern>
+    <url-pattern>/error/503.html</url-pattern>
+  </servlet-mapping>
+  
 	<!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -85,66 +97,66 @@
 	<!-- Error page definitions -->
 	<error-page>
 		<error-code>400</error-code>
-		<location>/WEB-INF/jsp/error/400.jsp</location>
+		<location>/error/400.html</location>
 	</error-page>
 
 	<error-page>
 		<error-code>403</error-code>
-		<location>/WEB-INF/jsp/error/403.jsp</location>
+		<location>/error/403.html</location>
 	</error-page>
 
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/jsp/error/404.jsp</location>
+		<location>/error/404.html</location>
 	</error-page>
 
 	<error-page>
 		<error-code>405</error-code>
-		<location>/WEB-INF/jsp/error/405.jsp</location>
+		<location>/error/405.html</location>
 	</error-page>
 
 	<error-page>
 		<error-code>409</error-code>
-		<location>/WEB-INF/jsp/error/409.jsp</location>
+		<location>/error/409.html</location>
 	</error-page>
 
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-INF/jsp/error/500.jsp</location>
+		<location>/error/500.html</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException</exception-type>
-		<location>/WEB-INF/jsp/error/400.jsp</location>
+		<location>/error/400.html</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>com.nicobrest.kamehouse.main.exception.KameHouseConflictException</exception-type>
-		<location>/WEB-INF/jsp/error/409.jsp</location>
+		<location>/error/409.html</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException</exception-type>
-		<location>/WEB-INF/jsp/error/403.jsp</location>
+		<location>/error/403.html</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException</exception-type>
-		<location>/WEB-INF/jsp/error/400.jsp</location>
+		<location>/error/400.html</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException</exception-type>
-		<location>/WEB-INF/jsp/error/404.jsp</location>
+		<location>/error/404.html</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException</exception-type>
-		<location>/WEB-INF/jsp/error/500.jsp</location>
+		<location>/error/500.html</location>
 	</error-page>
 
 	<error-page>
 		<exception-type>org.springframework.security.core.userdetails.UsernameNotFoundException</exception-type>
-		<location>/WEB-INF/jsp/error/404.jsp</location>
+		<location>/error/404.html</location>
 	</error-page>
 </web-app>

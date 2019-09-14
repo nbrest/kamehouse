@@ -16,8 +16,6 @@ function importApiCallOutputCss() {
  */
 function displayRequestPayload(apiResponsePayload, url, requestType, requestBody) {
   emptyApiCallOutputDiv();
-  // TODO: Move the static HTML creation logic to an html file and load it, as I do with newsletter.
-  // Only update the HTML with jquery for the dynamic fields that I need to update.
   //console.debug(apiResponsePayload);
   var $apiCallOutput = $("#api-call-output");
   var $apiCallOutputTable = $('<table class="table table-bordered table-responsive table-bordered-kh">');
