@@ -7,11 +7,13 @@ import com.nicobrest.kamehouse.admin.security.PasswordUtils;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.validator.ApplicationUserValidator;
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.validator.UserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -55,7 +57,11 @@ public class ApplicationUserService implements UserDetailsService {
     if (username.equals("anonymousUser")) {
       return anonymousUser;
     }
-    return applicationUserDao.loadUserByUsername(username);
+    try {
+      return applicationUserDao.loadUserByUsername(username);
+    } catch (KameHouseNotFoundException e) {
+      throw new UsernameNotFoundException(e.getMessage(), e);
+    }
   }
 
   /**
