@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 /**
@@ -39,21 +38,7 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
   @Cacheable(value = "getVlcPlayer")
   public VlcPlayer getVlcPlayer(String vlcPlayerName) {
     logger.trace("Get VlcPlayer: {}", vlcPlayerName);
-    EntityManager em = getEntityManager();
-    VlcPlayer vlcPlayer = null;
-    try {
-      em.getTransaction().begin();
-      Query query = em.createQuery(
-          "SELECT vlcPlayer from VlcPlayer vlcPlayer where vlcPlayer.hostname=:pHostname");
-      query.setParameter("pHostname", vlcPlayerName);
-      vlcPlayer = (VlcPlayer) query.getSingleResult();
-      em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      handlePersistentException(pe);
-    } finally {
-      em.close();
-    }
-    return vlcPlayer;
+    return getEntityFromRepository(vlcPlayerName);
   }
 
   @Override
@@ -77,5 +62,13 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
     persistedVlcPlayer.setPort(vlcPlayer.getPort());
     persistedVlcPlayer.setUsername(vlcPlayer.getUsername());
     persistedVlcPlayer.setPassword(vlcPlayer.getPassword());
+  }
+
+  @Override
+  protected <T> Query prepareQueryForGetEntity(EntityManager em, T searchParameter) {
+    Query query = em.createQuery(
+        "SELECT vlcPlayer from VlcPlayer vlcPlayer where vlcPlayer.hostname=:pHostname");
+    query.setParameter("pHostname", searchParameter);
+    return query;
   }
 }

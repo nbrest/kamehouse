@@ -13,6 +13,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 /**
  * Abstract class to group common functionality to Jpa Daos.
@@ -117,6 +118,30 @@ public abstract class AbstractDaoJpa {
     return entityToRemove;
   }
 
+  /**
+   * Get the specified entity from the repository.
+   */
+  protected <T, V> T getEntityFromRepository(V searchParameter) { 
+    EntityManager em = getEntityManager();
+    T entity = null;
+    try {
+      em.getTransaction().begin();
+      Query query = prepareQueryForGetEntity(em, searchParameter);
+      entity = (T) query.getSingleResult();
+      em.getTransaction().commit();
+    } catch (PersistenceException pe) {
+      handlePersistentException(pe);
+    } finally {
+      em.close();
+    }
+    return entity;
+  }
+  
+  /**
+   * Prepare the select query to get an entity from the repository.
+   */
+  protected abstract <T> Query prepareQueryForGetEntity(EntityManager em, T searchParameter);
+  
   /**
    * Get all objects of the specified entity from the repository.
    */

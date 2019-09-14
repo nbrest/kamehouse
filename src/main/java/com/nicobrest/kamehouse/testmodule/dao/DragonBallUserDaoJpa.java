@@ -37,20 +37,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   @Cacheable(value = "getDragonBallUserCache")
   public DragonBallUser getDragonBallUser(Long id) {
     logger.trace(GET_DRAGONBALLUSER, id);
-    EntityManager em = getEntityManager();
-    DragonBallUser dragonBallUser = null;
-    try {
-      em.getTransaction().begin();
-      Query query = em.createQuery("SELECT dbu from DragonBallUser dbu where dbu.id=:pId");
-      query.setParameter("pId", id);
-      dragonBallUser = (DragonBallUser) query.getSingleResult();
-      em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      handlePersistentException(pe);
-    } finally {
-      em.close();
-    }
-    return dragonBallUser;
+    return getEntityFromRepository(id);
   }
 
   @Override
@@ -142,5 +129,12 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
     persistedDragonBallUser.setPowerLevel(dragonBallUser.getPowerLevel());
     persistedDragonBallUser.setStamina(dragonBallUser.getStamina());
     persistedDragonBallUser.setUsername(dragonBallUser.getUsername());
+  }
+
+  @Override
+  protected <T> Query prepareQueryForGetEntity(EntityManager em, T searchParameter) {
+    Query query = em.createQuery("SELECT dbu from DragonBallUser dbu where dbu.id=:pId");
+    query.setParameter("pId", searchParameter);
+    return query;
   }
 }

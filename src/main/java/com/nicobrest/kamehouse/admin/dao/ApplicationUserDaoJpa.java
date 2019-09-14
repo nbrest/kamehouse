@@ -46,21 +46,7 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
   @Cacheable(value = "getApplicationUsers")
   public ApplicationUser loadUserByUsername(String username) {
     logger.trace("Loading ApplicationUser: {}", username);
-    EntityManager em = getEntityManager();
-    ApplicationUser applicationUser = null;
-    try {
-      em.getTransaction().begin();
-      Query queryAppUser = em.createQuery(
-          "SELECT appuser from ApplicationUser appuser where appuser.username=:pUsername");
-      queryAppUser.setParameter("pUsername", username);
-      applicationUser = (ApplicationUser) queryAppUser.getSingleResult();
-      em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      handlePersistentException(pe);
-    } finally {
-      em.close();
-    }
-    return applicationUser;
+    return getEntityFromRepository(username);
   }
 
   @Override
@@ -100,5 +86,13 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
     for (ApplicationRole role : persistedApplicationUser.getAuthorities()) {
       role.setApplicationUser(persistedApplicationUser);
     }
+  }
+
+  @Override
+  protected <T> Query prepareQueryForGetEntity(EntityManager em, T searchParameter) {
+    Query query = em.createQuery(
+        "SELECT appuser from ApplicationUser appuser where appuser.username=:pUsername");
+    query.setParameter("pUsername", searchParameter);
+    return query;
   }
 }
