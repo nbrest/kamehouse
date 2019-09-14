@@ -18,8 +18,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 <link rel="stylesheet" href="/kame-house/css/test-module/tm-global.css" />
 </head>
-<body>
-  <div id="headerContainer"></div> 
+<body> 
   <div class="main-body">
   <div class="default-layout">
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">List of DragonBall Users</h3>
@@ -73,6 +72,5 @@
       onclick="window.location.href='users-add'">
   </div>
   </div>
-  <div id="footerContainer"></div>
 </body>
 </html>

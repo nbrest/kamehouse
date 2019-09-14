@@ -16,11 +16,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 </head>
 <body>
-  <div id="headerContainer"></div>
   <div class="default-layout main-body"> 
       <h2>dragonball ModelAndView Test Endpoint</h2>
       <h2>${message}${name}</h2> 
   </div>
-  <div id="footerContainer"></div>
 </body>
 </html>

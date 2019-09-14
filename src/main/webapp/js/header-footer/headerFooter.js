@@ -11,12 +11,14 @@ var SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
  */
 function renderHeaderAndFooter() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
+  $("body").prepend('<div id="headerContainer"></div>');
   $("#headerContainer").load("/kame-house/html-snippets/header.html", function() {
 	updateHeaderLoginStatus();
     updateActiveTab();
     updateSessionStatus(); 
   });
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
+  $("body").append('<div id="footerContainer"></div>');
   $("#footerContainer").load("/kame-house/html-snippets/footer.html");
 }
 

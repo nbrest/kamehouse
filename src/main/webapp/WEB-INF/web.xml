@@ -125,6 +125,16 @@
 		<location>/error/500.html</location>
 	</error-page>
 
+  <error-page>
+    <error-code>502</error-code>
+    <location>/error/502.html</location>
+  </error-page>
+  
+  <error-page>
+    <error-code>503</error-code>
+    <location>/error/503.html</location>
+  </error-page>
+  
 	<error-page>
 		<exception-type>com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException</exception-type>
 		<location>/error/400.html</location>

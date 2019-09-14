@@ -17,7 +17,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 </head>
 <body>
-  <div id="headerContainer"></div>
   <div class="main-body">
   <div id="banner" class="banner-sunset">
   <div class="default-layout banner-text">
@@ -31,6 +30,5 @@
       onclick="window.location.href='dragonball/users/users-list'">
   </div>
   </div>
-  <div id="footerContainer"></div>
 </body>
 </html>

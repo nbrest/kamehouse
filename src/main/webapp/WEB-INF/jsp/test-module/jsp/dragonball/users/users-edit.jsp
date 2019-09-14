@@ -21,8 +21,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/header.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/footer.css" />
 </head>
-<body>
-  <div id="headerContainer"></div> 
+<body> 
   <div class="default-layout main-body">
     <c:set var="username" value="${param.username}"></c:set>
     <c:set var="dragonBallUser" value="${dragonBallUserService.getDragonBallUser(username)}"></c:set>
@@ -94,7 +93,6 @@
     </div>
     <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block"
       onclick="window.location.href='users-list'">
-  </div> 
-  <div id="footerContainer"></div>
+  </div>
 </body>
 </html>

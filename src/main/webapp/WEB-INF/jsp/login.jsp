@@ -22,7 +22,6 @@
 <link rel="stylesheet" href="/kame-house/css/login.css" /> 
 </head>
 <body>
-  <div id="headerContainer"></div>
   <div class="default-layout main-body">
     <c:url var="loginUrl" value="/login" />
     <form action="${loginUrl}" method="post" class="form-horizontal login-form">
@@ -57,6 +56,5 @@
       </div>
     </form>
   </div>
-  <div id="footerContainer"></div>
 </body>
 </html>
