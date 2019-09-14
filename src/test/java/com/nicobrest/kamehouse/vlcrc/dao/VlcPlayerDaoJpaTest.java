@@ -138,7 +138,7 @@ public class VlcPlayerDaoJpaTest {
   public void getVlcPlayerNotFoundExceptionTest() {
 
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("VLC Player with hostname yukimura was not found in the repository.");
+    thrown.expectMessage("Entity not found in the repository.");
     vlcPlayerDaoJpa.getVlcPlayer("yukimura");
   }  
   
@@ -194,7 +194,7 @@ public class VlcPlayerDaoJpaTest {
     vlcPlayerCreated.setId(0L);
     
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("VLC Player with id 0 was not found in the repository.");
+    thrown.expectMessage("VlcPlayer with id 0 was not found in the repository.");
     vlcPlayerDaoJpa.updateVlcPlayer(vlcPlayerCreated);
   }
 
@@ -272,7 +272,7 @@ public class VlcPlayerDaoJpaTest {
   public void deleteVlcPlayerNotFoundExceptionTest() {
 
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("VLC Player with id " + 987L + " was not found in the repository.");
+    thrown.expectMessage("VlcPlayer with id " + 987L + " was not found in the repository.");
     vlcPlayerDaoJpa.deleteVlcPlayer(987L);
   }
 

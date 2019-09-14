@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.vlcrc.dao;
 
 import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,16 +27,7 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
   @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public Long createVlcPlayer(VlcPlayer vlcPlayer) {
     logger.trace("Creating VlcPlayer: {}", vlcPlayer);
-    EntityManager em = getEntityManager();
-    try {
-      em.getTransaction().begin();
-      em.persist(vlcPlayer);
-      em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      handleOnCreateOrUpdatePersistentException(pe);
-    } finally {
-      em.close();
-    }
+    createEntityInRepository(vlcPlayer);
     return vlcPlayer.getId();
   }
 
@@ -57,11 +47,11 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
       }
       em.getTransaction().commit();
       if (updatedVlcPlayer == null) {
-        throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayer.getId()
+        throw new KameHouseNotFoundException("VlcPlayer with id " + vlcPlayer.getId()
             + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
-      handleOnCreateOrUpdatePersistentException(pe);
+      handlePersistentException(pe);
     } finally {
       em.close();
     }
@@ -81,17 +71,7 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
       vlcPlayer = (VlcPlayer) query.getSingleResult();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      // Iterate through the causes of the PersistenceException to identify and
-      // return the correct exception.
-      Throwable cause = pe;
-      while (cause != null) {
-        if (cause instanceof javax.persistence.NoResultException) {
-          throw new KameHouseNotFoundException("VLC Player with hostname " + vlcPlayerName
-              + NOT_FOUND_IN_REPOSITORY);
-        }
-        cause = cause.getCause();
-      }
-      throw new KameHouseServerErrorException("PersistenceException in getVlcPlayer", pe);
+      handlePersistentException(pe);
     } finally {
       em.close();
     }
@@ -102,41 +82,12 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
   @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
   public VlcPlayer deleteVlcPlayer(Long vlcPlayerId) {
     logger.trace("Deleting VlcPlayer: {}", vlcPlayerId);
-    EntityManager em = getEntityManager();
-    VlcPlayer vlcPlayerToRemove = null;
-    try {
-      em.getTransaction().begin();
-      vlcPlayerToRemove = em.find(VlcPlayer.class, vlcPlayerId);
-      if (vlcPlayerToRemove != null) {
-        em.remove(vlcPlayerToRemove);
-      }
-      em.getTransaction().commit();
-      if (vlcPlayerToRemove == null) {
-        throw new KameHouseNotFoundException("VLC Player with id " + vlcPlayerId
-            + NOT_FOUND_IN_REPOSITORY);
-      }
-    } catch (PersistenceException pe) {
-      throw new KameHouseServerErrorException("PersistenceException in deleteDragonBallUser", pe);
-    } finally {
-      em.close();
-    }
-    return vlcPlayerToRemove;
+    return deleteEntityFromRepository(vlcPlayerId, VlcPlayer.class);
   }
 
   @Override
   public List<VlcPlayer> getAllVlcPlayers() {
     logger.trace("Get all VlcPlayers");
-    EntityManager em = getEntityManager();
-    List<VlcPlayer> vlcPlayers = null;
-    try {
-      em.getTransaction().begin();
-      vlcPlayers = em.createQuery("from VlcPlayer", VlcPlayer.class).getResultList();
-      em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      throw new KameHouseServerErrorException("PersistenceException in getAllVlcPlayers", pe);
-    } finally {
-      em.close();
-    }
-    return vlcPlayers;
+    return getAllEntitiesFromRepository(VlcPlayer.class);
   }
 }

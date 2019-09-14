@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import com.nicobrest.kamehouse.admin.dao.ApplicationUserDao;
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -153,8 +153,8 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void getApplicationUserNotFoundExceptionTest() {
 
-    thrown.expect(UsernameNotFoundException.class);
-    thrown.expectMessage("User with username yukimura not found.");
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("Entity not found in the repository.");
     applicationUserDaoJpa.loadUserByUsername("yukimura");
   }
 
@@ -220,7 +220,7 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void deleteApplicationUserNotFoundExceptionTest() {
 
-    thrown.expect(UsernameNotFoundException.class);
+    thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("ApplicationUser with id " + 987L + " was not found in the repository.");
     applicationUserDaoJpa.deleteUser(987L);
   }

@@ -143,7 +143,7 @@ public class DragonBallUserDaoJpaTest {
   public void getDragonBallUserNotFoundExceptionTest() {
 
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
+    thrown.expectMessage("Entity not found in the repository.");
     dragonBallUserDaoJpa.getDragonBallUser("yukimura");
   }
 

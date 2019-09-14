@@ -12,4 +12,8 @@ public class KameHouseNotFoundException extends KameHouseException {
   public KameHouseNotFoundException(String message) {
     super(message);
   }
+  
+  public KameHouseNotFoundException(String message, Exception cause) {
+    super(message, cause);
+  }
 }
