@@ -27,5 +27,4 @@ public class TestWebSocketService {
         + inputMessage.getFirstName());
     return testWebSocketResponseMessage;
   }
-
 }

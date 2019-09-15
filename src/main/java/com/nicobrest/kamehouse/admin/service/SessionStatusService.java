@@ -44,7 +44,6 @@ public class SessionStatusService {
    * Returns the current session's status.
    */
   public Map<String, Object> getSessionStatus() {
-    
     logger.trace("Getting current session status");
     Authentication authentication = getAuthentication();
     String username = authentication.getName();

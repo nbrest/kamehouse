@@ -34,7 +34,6 @@ public class AdminCommandService {
    * Execute AdminCommand. Translate it to system commands and execute them.
    */
   public List<SystemCommandOutput> execute(AdminCommand adminCommand) {
-
     List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminCommand);
     return systemCommandService.execute(systemCommands);
   }

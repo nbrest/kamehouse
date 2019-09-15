@@ -27,7 +27,6 @@ public class JsonUtils {
    * Converts an object to a JSON byte array.
    */
   public static byte[] toJsonByteArray(Object object) throws IOException {
-
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(Include.NON_NULL);
     return mapper.writeValueAsBytes(object);

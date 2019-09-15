@@ -100,7 +100,6 @@ public class DragonBallUserService {
    * throw an exception if a validation fails.
    */
   private void validateDragonBallUser(DragonBallUser dragonBallUser) {
-
     UserValidator.validateUsernameFormat(dragonBallUser.getUsername());
     UserValidator.validateEmailFormat(dragonBallUser.getEmail());
     UserValidator.validateStringLength(dragonBallUser.getUsername());
