@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.main.controller;
 
 import org.springframework.test.web.servlet.MockMvc;
 
-public class AbstractControllerTest {
+public abstract class AbstractControllerTest {
 
   protected MockMvc mockMvc;
   
