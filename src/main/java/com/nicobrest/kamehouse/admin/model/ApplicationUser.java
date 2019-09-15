@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -64,7 +64,7 @@ public class ApplicationUser implements UserDetails {
   @OneToMany(mappedBy = "applicationUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
       orphanRemoval = true)
   @JsonManagedReference
-  private List<ApplicationRole> authorities;
+  private Set<ApplicationRole> authorities;
 
   @Column(name = "ACCOUNT_NON_EXPIRED")
   private boolean accountNonExpired = true;
@@ -147,11 +147,11 @@ public class ApplicationUser implements UserDetails {
   }
 
   @Override
-  public List<ApplicationRole> getAuthorities() {
+  public Set<ApplicationRole> getAuthorities() {
     return authorities;
   }
 
-  public void setAuthorities(List<ApplicationRole> authorities) {
+  public void setAuthorities(Set<ApplicationRole> authorities) {
     this.authorities = authorities;
   }
 

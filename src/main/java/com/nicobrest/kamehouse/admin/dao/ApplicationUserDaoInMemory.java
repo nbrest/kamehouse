@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -89,7 +91,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     user.setEmail("user@nicobrest.com");
     user.setUsername("user");
     user.setPassword("user");
-    List<ApplicationRole> userRoles = new ArrayList<>();
+    Set<ApplicationRole> userRoles = new HashSet<>();
     userRoles.add(userRole);
     user.setAuthorities(userRoles);
     applicationUsers.put(user.getUsername(), user);
@@ -101,7 +103,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     admin.setEmail("admin@nicobrest.com");
     admin.setUsername("admin");
     admin.setPassword("admin");
-    List<ApplicationRole> adminRoles = new ArrayList<>();
+    Set<ApplicationRole> adminRoles = new HashSet<>();
     adminRoles.add(adminRole);
     admin.setAuthorities(adminRoles);
     applicationUsers.put(admin.getUsername(), admin);
@@ -113,7 +115,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     superUser.setEmail("super.user@nicobrest.com");
     superUser.setUsername("super-user");
     superUser.setPassword("super-user");
-    List<ApplicationRole> superUserRoles = new ArrayList<>();
+    Set<ApplicationRole> superUserRoles = new HashSet<>();
     superUserRoles.add(adminRole);
     superUserRoles.add(userRole);
     superUserRoles.add(guestRole);
@@ -127,7 +129,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     guest.setEmail("guest@nicobrest.com");
     guest.setUsername("guest");
     guest.setPassword("guest");
-    List<ApplicationRole> guestRoles = new ArrayList<>();
+    Set<ApplicationRole> guestRoles = new HashSet<>();
     guestRoles.add(guestRole);
     guest.setAuthorities(guestRoles);
     applicationUsers.put(guest.getUsername(), guest);

@@ -174,8 +174,7 @@ public class DragonBallUserDaoJpaTest {
   public void getDragonBallUserByEmailNotFoundExceptionTest() {
 
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage(
-        "DragonBallUser with email yukimura@dbz.com was not found in the repository.");
+    thrown.expectMessage("NoResultException: Entity not found in the repository.");
     dragonBallUserDaoJpa.getDragonBallUserByEmail("yukimura@dbz.com");
   }
 

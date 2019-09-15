@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.dao.ApplicationUserDao;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 
@@ -20,10 +19,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Unit tests for the ApplicationUserService class.
@@ -67,7 +67,7 @@ public class ApplicationUserServiceTest {
     applicationUserDtoMock.setCredentialsNonExpired(true);
     applicationUserDtoMock.setEnabled(true);
     applicationUserDtoMock.setLastLogin(new Date()); 
-    List<ApplicationRoleDto> authorities = new ArrayList<>();
+    Set<ApplicationRoleDto> authorities = new HashSet<>();
     ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
     applicationRoleDto.setId(10L);
     applicationRoleDto.setName("ADMIN_ROLE");

@@ -345,11 +345,9 @@ public class VlcRcControllerTest {
 
     try {
       Mockito.doNothing().when(vlcPlayerServiceMock).updateVlcPlayer(vlcPlayerDtoMock);
-      when(vlcPlayerServiceMock.getVlcPlayer(vlcPlayerDtoMock.getHostname()))
-          .thenReturn(vlcPlayerMock);
 
       ResultActions requestResult = mockMvc
-          .perform(put("/api/v1/vlc-rc/players/" + vlcPlayerDtoMock.getHostname())
+          .perform(put("/api/v1/vlc-rc/players/" + vlcPlayerDtoMock.getId())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
               .content(JsonUtils.toJsonByteArray(vlcPlayerDtoMock)))
           .andDo(print());

@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * DTO for an ApplicationUser.
@@ -28,7 +28,7 @@ public class ApplicationUserDto implements Serializable {
   private String lastName; 
   private Date lastLogin; 
   @JsonManagedReference
-  private List<ApplicationRoleDto> authorities; 
+  private Set<ApplicationRoleDto> authorities; 
   private boolean accountNonExpired = true; 
   private boolean accountNonLocked = true; 
   private boolean credentialsNonExpired = true; 
@@ -102,11 +102,11 @@ public class ApplicationUserDto implements Serializable {
     }
   }
  
-  public List<ApplicationRoleDto> getAuthorities() {
+  public Set<ApplicationRoleDto> getAuthorities() {
     return authorities;
   }
 
-  public void setAuthorities(List<ApplicationRoleDto> authorities) {
+  public void setAuthorities(Set<ApplicationRoleDto> authorities) {
     this.authorities = authorities;
   }
  

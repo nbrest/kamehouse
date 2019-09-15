@@ -4,14 +4,9 @@ import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-
+import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import java.util.Set;
 
 /**
  * JPA DAO for the ApplicationUser entities.
@@ -21,52 +16,39 @@ import javax.persistence.Query;
 public class ApplicationUserDaoJpa extends AbstractDaoJpa implements ApplicationUserDao {
 
   @Override
-  @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
+  public List<ApplicationUser> getAllUsers() {
+    logger.trace("Loading all ApplicationUsers");
+    return findAll(ApplicationUser.class);
+  }
+
+  @Override
+  public ApplicationUser loadUserByUsername(String username) {
+    logger.trace("Loading ApplicationUser: {}", username);
+    return findByUsername(ApplicationUser.class, username);
+  }
+
+  @Override
   public Long createUser(ApplicationUser applicationUser) {
     logger.trace("Creating ApplicationUser: {}", applicationUser.getUsername());
-    EntityManager em = getEntityManager();
-    try {
-      em.getTransaction().begin();
-      for (ApplicationRole role : applicationUser.getAuthorities()) {
-        role.setApplicationUser(applicationUser);
-      }
-      // Use em.merge instead of em.persist so it doesn't throw the object
-      // detached exception for ApplicationRoles
-      em.merge(applicationUser);
-      em.getTransaction().commit();
-    } catch (PersistenceException pe) {
-      handlePersistentException(pe);
-    } finally {
-      em.close();
+    for (ApplicationRole role : applicationUser.getAuthorities()) {
+      role.setApplicationUser(applicationUser);
     }
+    // Use merge instead of persist so it doesn't throw the object
+    // detached exception for ApplicationRoles
+    mergeEntityInRepository(applicationUser);
     return applicationUser.getId();
   }
 
   @Override
-  @Cacheable(value = "getApplicationUsers")
-  public ApplicationUser loadUserByUsername(String username) {
-    logger.trace("Loading ApplicationUser: {}", username);
-    return getEntityFromRepository(username);
-  }
-
-  @Override
-  @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public void updateUser(ApplicationUser applicationUser) {
     logger.trace("Updating ApplicationUser: {}", applicationUser.getUsername());
-    updateEntityInRepository(applicationUser.getId(), applicationUser, ApplicationUser.class);
+    updateEntityInRepository(ApplicationUser.class, applicationUser, applicationUser.getId());
   }
 
   @Override
-  @CacheEvict(value = { "getApplicationUsers" }, allEntries = true)
   public ApplicationUser deleteUser(Long id) {
     logger.trace("Deleting ApplicationUser: {}", id);
-    return deleteEntityFromRepository(id, ApplicationUser.class);
-  }
-
-  @Override
-  public List<ApplicationUser> getAllUsers() {
-    logger.trace("Loading all ApplicationUsers");
-    return getAllEntitiesFromRepository(ApplicationUser.class);
+    return deleteEntityFromRepository(ApplicationUser.class, id);
   }
 
   @Override
@@ -75,7 +57,6 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
     ApplicationUser updatedApplicationUser = (ApplicationUser) entity;
     persistedApplicationUser.setAccountNonExpired(updatedApplicationUser.isAccountNonExpired());
     persistedApplicationUser.setAccountNonLocked(updatedApplicationUser.isAccountNonLocked());
-    persistedApplicationUser.setAuthorities(updatedApplicationUser.getAuthorities());
     persistedApplicationUser.setCredentialsNonExpired(updatedApplicationUser
         .isCredentialsNonExpired());
     persistedApplicationUser.setEmail(updatedApplicationUser.getEmail());
@@ -83,16 +64,16 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
     persistedApplicationUser.setFirstName(updatedApplicationUser.getFirstName());
     persistedApplicationUser.setLastLogin(updatedApplicationUser.getLastLogin());
     persistedApplicationUser.setLastName(updatedApplicationUser.getLastName());
-    for (ApplicationRole role : persistedApplicationUser.getAuthorities()) {
-      role.setApplicationUser(persistedApplicationUser);
+    Set<ApplicationRole> persistedApplicationRoles = persistedApplicationUser.getAuthorities();
+    Set<ApplicationRole> updatedApplicationRoles = updatedApplicationUser.getAuthorities();
+    Iterator<ApplicationRole> persistedApplicationRolesIterator = persistedApplicationRoles
+        .iterator();
+    while (persistedApplicationRolesIterator.hasNext()) {
+      ApplicationRole persistedRole = persistedApplicationRolesIterator.next();
+      if (!updatedApplicationRoles.contains(persistedRole)) {
+        persistedApplicationRolesIterator.remove();
+      }
     }
-  }
-
-  @Override
-  protected <T> Query prepareQueryForGetEntity(EntityManager em, T searchParameter) {
-    Query query = em.createQuery(
-        "SELECT appuser from ApplicationUser appuser where appuser.username=:pUsername");
-    query.setParameter("pUsername", searchParameter);
-    return query;
+    persistedApplicationRoles.addAll(updatedApplicationRoles);
   }
 }

@@ -18,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -62,7 +63,7 @@ public class ApplicationUserDaoJpaTest {
     em.getTransaction().commit();
     em.close();
 
-    List<ApplicationRole> rolesMock = new ArrayList<ApplicationRole>();
+    Set<ApplicationRole> rolesMock = new HashSet<ApplicationRole>();
     ApplicationRole userRoleMock = new ApplicationRole();
     userRoleMock.setName("ROLE_USER");
     rolesMock.add(userRoleMock);
@@ -72,7 +73,7 @@ public class ApplicationUserDaoJpaTest {
     applicationUserMock.setPassword("goku");
     applicationUserMock.setAuthorities(rolesMock);
 
-    List<ApplicationRole> rolesMock2 = new ArrayList<ApplicationRole>();
+    Set<ApplicationRole> rolesMock2 = new HashSet<ApplicationRole>();
     ApplicationRole userRoleMock2 = new ApplicationRole();
     userRoleMock2.setName("ROLE_USER");
     rolesMock2.add(userRoleMock2);
@@ -82,7 +83,7 @@ public class ApplicationUserDaoJpaTest {
     applicationUserMock2.setPassword("gohan");
     applicationUserMock2.setAuthorities(rolesMock2);
 
-    List<ApplicationRole> rolesMock3 = new ArrayList<ApplicationRole>();
+    Set<ApplicationRole> rolesMock3 = new HashSet<ApplicationRole>();
     ApplicationRole userRoleMock3 = new ApplicationRole();
     userRoleMock3.setName("ROLE_USER");
     rolesMock3.add(userRoleMock3);

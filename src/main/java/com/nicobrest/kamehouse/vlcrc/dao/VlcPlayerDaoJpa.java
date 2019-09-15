@@ -8,9 +8,6 @@ import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 /**
  * DAO layer to manage registered VLC Players in the application using JPA.
  * 
@@ -19,39 +16,41 @@ import javax.persistence.Query;
  */
 public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
 
+  private static final String GET_VLC_PLAYER_CACHE = "getVlcPlayer";
+  
   @Override
-  @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
+  public List<VlcPlayer> getAllVlcPlayers() {
+    logger.trace("Get all VlcPlayers");
+    return findAll(VlcPlayer.class);
+  }
+  
+  @Override
+  @Cacheable(value = GET_VLC_PLAYER_CACHE)
+  public VlcPlayer getVlcPlayer(String vlcPlayerName) {
+    logger.trace("Get VlcPlayer: {}", vlcPlayerName);
+    return findByAttribute(VlcPlayer.class, "hostname", vlcPlayerName);
+  }
+  
+  @Override
+  @CacheEvict(value = { GET_VLC_PLAYER_CACHE }, allEntries = true)
   public Long createVlcPlayer(VlcPlayer vlcPlayer) {
     logger.trace("Creating VlcPlayer: {}", vlcPlayer);
-    createEntityInRepository(vlcPlayer);
+    persistEntityInRepository(vlcPlayer);
     return vlcPlayer.getId();
   }
 
   @Override
-  @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
+  @CacheEvict(value = { GET_VLC_PLAYER_CACHE }, allEntries = true)
   public void updateVlcPlayer(VlcPlayer vlcPlayer) {
     logger.trace("Updating VlcPlayer: {}", vlcPlayer);
-    updateEntityInRepository(vlcPlayer.getId(), vlcPlayer, VlcPlayer.class);
-  }
+    updateEntityInRepository(VlcPlayer.class, vlcPlayer, vlcPlayer.getId());
+  } 
 
   @Override
-  @Cacheable(value = "getVlcPlayer")
-  public VlcPlayer getVlcPlayer(String vlcPlayerName) {
-    logger.trace("Get VlcPlayer: {}", vlcPlayerName);
-    return getEntityFromRepository(vlcPlayerName);
-  }
-
-  @Override
-  @CacheEvict(value = { "getVlcPlayer" }, allEntries = true)
+  @CacheEvict(value = { GET_VLC_PLAYER_CACHE }, allEntries = true)
   public VlcPlayer deleteVlcPlayer(Long vlcPlayerId) {
     logger.trace("Deleting VlcPlayer: {}", vlcPlayerId);
-    return deleteEntityFromRepository(vlcPlayerId, VlcPlayer.class);
-  }
-
-  @Override
-  public List<VlcPlayer> getAllVlcPlayers() {
-    logger.trace("Get all VlcPlayers");
-    return getAllEntitiesFromRepository(VlcPlayer.class);
+    return deleteEntityFromRepository(VlcPlayer.class, vlcPlayerId);
   }
 
   @Override
@@ -62,13 +61,5 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
     persistedVlcPlayer.setPort(vlcPlayer.getPort());
     persistedVlcPlayer.setUsername(vlcPlayer.getUsername());
     persistedVlcPlayer.setPassword(vlcPlayer.getPassword());
-  }
-
-  @Override
-  protected <T> Query prepareQueryForGetEntity(EntityManager em, T searchParameter) {
-    Query query = em.createQuery(
-        "SELECT vlcPlayer from VlcPlayer vlcPlayer where vlcPlayer.hostname=:pHostname");
-    query.setParameter("pHostname", searchParameter);
-    return query;
   }
 }

@@ -16,8 +16,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Service layer to manage the users in the application.
@@ -120,8 +121,8 @@ public class ApplicationUserService implements UserDetailsService {
     ApplicationUser applicationUser = new ApplicationUser();
     applicationUser.setAccountNonExpired(applicationUserDto.isAccountNonExpired());
     applicationUser.setAccountNonLocked(applicationUserDto.isAccountNonLocked());
-    List<ApplicationRole> applicationRoles = new ArrayList<>();
-    List<ApplicationRoleDto> applicationRoleDtos = applicationUserDto.getAuthorities();
+    Set<ApplicationRole> applicationRoles = new HashSet<>();
+    Set<ApplicationRoleDto> applicationRoleDtos = applicationUserDto.getAuthorities();
     if (applicationRoleDtos != null) {
       for (ApplicationRoleDto applicationRoleDto : applicationRoleDtos) {
         ApplicationRole applicationRole = new ApplicationRole();

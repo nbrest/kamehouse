@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
+import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.utils.ControllerUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
@@ -51,7 +52,6 @@ public class VlcRcController {
   @PostMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<Long> createVlcPlayer(@RequestBody VlcPlayerDto vlcPlayerDto) {
-
     logger.trace("In controller /vlc-rc/players (POST)");
     Long vlcPlayerId = vlcPlayerService.createVlcPlayer(vlcPlayerDto);
     return new ResponseEntity<>(vlcPlayerId, HttpStatus.CREATED);
@@ -63,7 +63,6 @@ public class VlcRcController {
   @GetMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<List<VlcPlayer>> getAllVlcPlayers() {
-
     logger.trace("In controller /vlc-rc/players/ (GET)");
     List<VlcPlayer> vlcPlayers = vlcPlayerService.getAllVlcPlayers();
     return ControllerUtils.generateGetStandardResponseEntity(vlcPlayers);
@@ -75,7 +74,6 @@ public class VlcRcController {
   @GetMapping(path = "/players/{vlcPlayerName}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> getVlcPlayer(@PathVariable String vlcPlayerName) {
-
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName} (GET)");
     VlcPlayer vlcPlayer = vlcPlayerService.getVlcPlayer(vlcPlayerName);
     return ControllerUtils.generateGetStandardResponseEntity(vlcPlayer);
@@ -84,10 +82,14 @@ public class VlcRcController {
   /**
    * Updates the VLC Player passed as a URL parameter.
    */
-  @PutMapping(path = "/players/{vlcPlayerName}")
-  public ResponseEntity<Void> updateVlcPlayer(@PathVariable String vlcPlayerName,
+  @PutMapping(path = "/players/{vlcPlayerId}")
+  public ResponseEntity<Void> updateVlcPlayer(@PathVariable Long vlcPlayerId,
       @RequestBody VlcPlayerDto vlcPlayerDto) {
-    logger.trace("In controller /vlc-rc/players/{vlcPlayerName} (PUT)");
+    logger.trace("In controller /vlc-rc/players/{vlcPlayerId} (PUT)");
+    if (!vlcPlayerId.equals(vlcPlayerDto.getId())) {
+      throw new KameHouseBadRequestException(
+          "Id in path variable doesn't match id in request body.");
+    }
     vlcPlayerService.updateVlcPlayer(vlcPlayerDto);
     return new ResponseEntity<>(HttpStatus.OK);
   }
@@ -98,7 +100,6 @@ public class VlcRcController {
   @DeleteMapping(path = "/players/{vlcPlayerId}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> deleteVlcPlayer(@PathVariable Long vlcPlayerId) {
-
     logger.trace("In controller /vlc-rc/players/{vlcPlayerId} (DELETE)");
     VlcPlayer vlcPlayer = vlcPlayerService.deleteVlcPlayer(vlcPlayerId);
     return new ResponseEntity<>(vlcPlayer, HttpStatus.OK);
@@ -110,7 +111,6 @@ public class VlcRcController {
   @GetMapping(path = "/players/{vlcPlayerName}/status")
   @ResponseBody
   public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String vlcPlayerName) {
-
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/status (GET)");
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(vlcPlayerName);
     return ControllerUtils.generateGetStandardResponseEntity(vlcRcStatus);
@@ -135,7 +135,6 @@ public class VlcRcController {
   @GetMapping(path = "/players/{vlcPlayerName}/playlist")
   @ResponseBody
   public ResponseEntity<List<Map<String, Object>>> getPlaylist(@PathVariable String vlcPlayerName) {
-
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/playlist (GET)");
     List<Map<String, Object>> vlcPlaylist = vlcRcService.getPlaylist(vlcPlayerName);
     return ControllerUtils.generateGetStandardResponseEntity(vlcPlaylist);
@@ -149,7 +148,6 @@ public class VlcRcController {
   public ResponseEntity<List<Map<String, Object>>> browse(
       @RequestParam(value = "uri", required = false) String uri,
       @PathVariable String vlcPlayerName) {
-
     logger.trace("In controller /vlc-rc/players/{vlcPlayerName}/browse (GET)");
     List<Map<String, Object>> vlcRcFileList = vlcRcService.browse(uri, vlcPlayerName);
     return ControllerUtils.generateGetStandardResponseEntity(vlcRcFileList);

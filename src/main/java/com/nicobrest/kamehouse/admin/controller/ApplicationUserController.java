@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.admin.controller;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
+import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +50,7 @@ public class ApplicationUserController {
   @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<ApplicationUser>> getUsers() {
-
     logger.trace("In controller /application/users/ (GET)");
-
     List<ApplicationUser> applicationUsers = applicationUserService.getAllUsers();
     // Don't return the passwords through the API.
     for (ApplicationUser appUser : applicationUsers) {
@@ -67,11 +65,8 @@ public class ApplicationUserController {
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> postUsers(@RequestBody ApplicationUserDto applicationUserDto) {
-
     logger.trace("In controller /application/users (POST)");
-
     Long applicationUserId = applicationUserService.createUser(applicationUserDto);
-
     return new ResponseEntity<>(applicationUserId, HttpStatus.CREATED);
   }
 
@@ -81,13 +76,10 @@ public class ApplicationUserController {
   @GetMapping(path = "/users/{username:.+}")
   @ResponseBody
   public ResponseEntity<ApplicationUser> getUsersUsername(@PathVariable String username) {
-
     logger.trace("In controller /application/users/{username:.+} (GET)");
-
     ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
     // Don't return the password through the API.
     applicationUser.setPassword(null);
-
     return new ResponseEntity<>(applicationUser, HttpStatus.OK);
   }
 
@@ -98,15 +90,12 @@ public class ApplicationUserController {
   @ResponseBody
   public ResponseEntity<Void> putUsersId(@PathVariable Long id,
       @RequestBody ApplicationUserDto applicationUserDto) {
-
     logger.trace("In controller /application/users/{id} (PUT)");
-
     if (!id.equals(applicationUserDto.getId())) {
-      throw new KameHouseForbiddenException(
-          "Id in path variable doesn´t match" + "id in request body.");
+      throw new KameHouseBadRequestException(
+          "Id in path variable doesn't match id in request body.");
     }
     applicationUserService.updateUser(applicationUserDto);
-
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
@@ -116,13 +105,10 @@ public class ApplicationUserController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<ApplicationUser> deleteUsersId(@PathVariable Long id) {
-
     logger.trace("In controller /application/users/{id} (DELETE)");
-
     ApplicationUser deletedAppUser = applicationUserService.deleteUser(id);
     // Don't return the passwords through the API.
     deletedAppUser.setPassword(null);
-
     return new ResponseEntity<>(deletedAppUser, HttpStatus.OK);
   }
 }

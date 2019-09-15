@@ -21,8 +21,8 @@ import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
+import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
-import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
@@ -46,10 +46,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Unit tests for the ApplicationUserController class.
@@ -97,7 +98,7 @@ public class ApplicationUserControllerTest {
     applicationUserDtoMock.setCredentialsNonExpired(true);
     applicationUserDtoMock.setEnabled(true);
     applicationUserDtoMock.setLastLogin(new Date());
-    List<ApplicationRoleDto> authorities = new ArrayList<>();
+    Set<ApplicationRoleDto> authorities = new HashSet<>();
     ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
     applicationRoleDto.setId(10L);
     applicationRoleDto.setName("ADMIN_ROLE");
@@ -278,7 +279,7 @@ public class ApplicationUserControllerTest {
   @Test
   public void putUsersInvalidPathId() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseForbiddenException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseBadRequestException.class));
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
     ResultActions requestResult = mockMvc
         .perform(put("/api/v1/admin/application/users/" + applicationUserDtoMock.getId() + 1)
