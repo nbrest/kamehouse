@@ -236,6 +236,9 @@ public class VlcPlayer implements Serializable {
     return commandUrl.toString();
   }
 
+  /**
+   * Encode the specified parameter to use as a URL.
+   */
   private String urlEncode(String parameter) {
     try {
       return URIUtil.encodeQuery(parameter);

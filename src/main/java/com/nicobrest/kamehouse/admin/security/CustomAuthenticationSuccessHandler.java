@@ -34,7 +34,6 @@ public class CustomAuthenticationSuccessHandler
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws ServletException, IOException {
-
     /*
      * If I need to do a custom redirect logic, I can read the destination
      * redirect-url from a parameter and set the targetUrlParameter defined on the

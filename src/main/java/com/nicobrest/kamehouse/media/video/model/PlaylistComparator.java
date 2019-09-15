@@ -17,5 +17,4 @@ public class PlaylistComparator implements Comparator<Playlist>, Serializable {
   public int compare(Playlist playlist1, Playlist playlist2) {
     return playlist1.compareTo(playlist2);
   }
-
 }

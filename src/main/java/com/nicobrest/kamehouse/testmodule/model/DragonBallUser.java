@@ -53,7 +53,6 @@ public class DragonBallUser implements Serializable {
    */
   public DragonBallUser(Long id, String username, String email, int age, int powerLevel,
       int stamina) {
-
     this.id = id;
     this.username = username;
     this.email = email;
@@ -114,7 +113,6 @@ public class DragonBallUser implements Serializable {
    * Attack another DragonBallUser.
    */
   public void attack(DragonBallUser opponent) {
-
     /*
      * Check for nulls in parameters in methods that can be called from outside
      * the application, where I don´t know what the client can send. In this

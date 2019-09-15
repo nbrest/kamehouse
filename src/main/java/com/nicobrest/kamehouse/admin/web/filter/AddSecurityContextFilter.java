@@ -40,7 +40,6 @@ public class AddSecurityContextFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-
     Authentication authentication = getAuthentication();
     String username = authentication.getName();
     logger.trace("Setting request username: {}", username);

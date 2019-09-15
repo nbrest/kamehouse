@@ -28,7 +28,6 @@ public class UserValidator {
    * Validate that the username respects the established format.
    */
   public static void validateUsernameFormat(String username) {
-
     Matcher matcher = USERNAME_PATTERN.matcher(username);
     if (!matcher.matches()) {
       throw new KameHouseInvalidDataException("Invalid username format: " + username);
@@ -39,7 +38,6 @@ public class UserValidator {
    * Validate that the email has a valid format.
    */
   public static void validateEmailFormat(String email) {
-
     Matcher matcher = EMAIL_PATTERN.matcher(email);
     if (!matcher.matches()) {
       throw new KameHouseInvalidDataException("Invalid email address: " + email);
@@ -50,7 +48,6 @@ public class UserValidator {
    * Validate that the string length is accepted by the database.
    */
   public static void validateStringLength(String value) {
-
     if (value.length() > MAX_STRING_LENGTH) {
       throw new KameHouseInvalidDataException("The string attribute excedes the maximum length of "
           + MAX_STRING_LENGTH + ". Current length: " + value.length());

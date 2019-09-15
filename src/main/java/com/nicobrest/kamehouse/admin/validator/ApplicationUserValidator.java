@@ -26,7 +26,6 @@ public class ApplicationUserValidator {
    * Validate that the first name has a valid format.
    */
   public static void validateFirstNameFormat(String firstName) {
-
     Matcher matcher = FIRST_NAME_PATTERN.matcher(firstName);
     if (!matcher.matches()) {
       throw new KameHouseInvalidDataException("Invalid first name: " + firstName);
@@ -37,7 +36,6 @@ public class ApplicationUserValidator {
    * Validate that the last name respects the established format.
    */
   public static void validateLastNameFormat(String lastName) {
-
     Matcher matcher = LAST_NAME_PATTERN.matcher(lastName);
     if (!matcher.matches()) {
       throw new KameHouseInvalidDataException("Invalid last name: " + lastName);

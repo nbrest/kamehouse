@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.media.video.model;
 
+import com.nicobrest.kamehouse.utils.JsonUtils;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -75,5 +77,10 @@ public class Playlist implements Comparable<Playlist> {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(name).append(path).append(category).toHashCode();
+  }
+  
+  @Override
+  public String toString() {
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }
