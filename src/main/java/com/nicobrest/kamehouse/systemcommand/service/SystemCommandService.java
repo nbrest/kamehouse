@@ -42,12 +42,13 @@ public class SystemCommandService {
   private static final String RUNNING = "running";
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Exception occurred while executing the process. Message: {}";
+  private static final String LINUX = "_LINUX";
+  private static final String WINDOWS = "_WINDOWS";
 
   /**
    * Get the list of system commands for the specified AdminCommand.
    */
   public List<SystemCommand> getSystemCommands(AdminCommand adminCommand) {
-
     List<SystemCommand> systemCommands = new ArrayList<>();
     switch (adminCommand.getCommand()) {
       case AdminCommand.SCREEN_LOCK:
@@ -93,7 +94,6 @@ public class SystemCommandService {
    * Execute the specified SystemCommand.
    */
   public SystemCommandOutput execute(SystemCommand systemCommand) {
-
     SystemCommandOutput commandOutput = new SystemCommandOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
@@ -155,7 +155,6 @@ public class SystemCommandService {
    * Returns true if the command is a vncdo command.
    */
   private boolean isVncdoCommand(SystemCommand systemCommand) {
-
     return systemCommand.getCommand().contains("vncdo") || (systemCommand.getCommand().size() >= 3
         && systemCommand.getCommand().get(2).contains("vncdo"));
   }
@@ -164,16 +163,8 @@ public class SystemCommandService {
    * Get the system command to stop a VLC player.
    */
   private SystemCommand getStopVlcSystemCommand() {
-
-    SystemCommand stopVlcSystemCommand = new SystemCommand();
+    SystemCommand stopVlcSystemCommand = getSystemCommand("VLC_STOP");
     stopVlcSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.VLC_STOP_WINDOWS.get());
-    } else {
-      Collections.addAll(command, CommandLine.VLC_STOP_LINUX.get());
-    }
-    stopVlcSystemCommand.setCommand(command);
     return stopVlcSystemCommand;
   }
 
@@ -181,22 +172,14 @@ public class SystemCommandService {
    * Get the system command to start a VLC player.
    */
   private SystemCommand getStartVlcSystemCommand(AdminCommand vlcStartAdminCommand) {
-
-    SystemCommand startVlcSystemCommand = new SystemCommand();
+    SystemCommand startVlcSystemCommand = getSystemCommand("VLC_START");
     startVlcSystemCommand.setIsDaemon(true);
     String file = "";
     if (vlcStartAdminCommand.getFile() != null) {
       file = vlcStartAdminCommand.getFile();
     }
-    List<String> command = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.VLC_START_WINDOWS.get());
-      command.add(file);
-    } else {
-      Collections.addAll(command, CommandLine.VLC_START_LINUX.get());
-      command.add(file);
-    }
-    startVlcSystemCommand.setCommand(command);
+    List<String> command = startVlcSystemCommand.getCommand();
+    command.add(file);
     return startVlcSystemCommand;
   }
 
@@ -204,16 +187,8 @@ public class SystemCommandService {
    * Get the system command to check the status of a VLC player.
    */
   private SystemCommand getStatusVlcSystemCommand() {
-
-    SystemCommand statusVlcSystemCommand = new SystemCommand();
+    SystemCommand statusVlcSystemCommand = getSystemCommand("VLC_STATUS");
     statusVlcSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.VLC_STATUS_WINDOWS.get());
-    } else {
-      Collections.addAll(command, CommandLine.VLC_STATUS_LINUX.get());
-    }
-    statusVlcSystemCommand.setCommand(command);
     return statusVlcSystemCommand;
   }
 
@@ -221,23 +196,18 @@ public class SystemCommandService {
    * Get the system command to set the server shutdown.
    */
   private SystemCommand getSetShutdownSystemCommand(AdminCommand shutdownSetAdminCommand) {
-
-    SystemCommand setShutdownSystemCommand = new SystemCommand();
+    SystemCommand setShutdownSystemCommand = getSystemCommand("SHUTDOWN");
     setShutdownSystemCommand.setIsDaemon(false);
     if (shutdownSetAdminCommand.getTime() <= 0) {
       throw new KameHouseInvalidCommandException("Invalid time for shutdown command "
           + shutdownSetAdminCommand.getTime());
     }
-    List<String> command = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_WINDOWS.get());
-      command.add(String.valueOf(shutdownSetAdminCommand.getTime()));
-    } else {
-      int timeInMinutes = shutdownSetAdminCommand.getTime() / 60;
-      Collections.addAll(command, CommandLine.SHUTDOWN_LINUX.get());
-      command.add(String.valueOf(timeInMinutes));
+    int timeToShutdown = shutdownSetAdminCommand.getTime();
+    List<String> command = setShutdownSystemCommand.getCommand();
+    if (!PropertiesUtils.isWindowsHost()) {
+      timeToShutdown = timeToShutdown / 60;
     }
-    setShutdownSystemCommand.setCommand(command);
+    command.add(String.valueOf(timeToShutdown));
     return setShutdownSystemCommand;
   }
 
@@ -245,16 +215,8 @@ public class SystemCommandService {
    * Get the system command to cancel a server shutdown.
    */
   private SystemCommand getCancelShutdownSystemCommand() {
-
-    SystemCommand cancelShutdownSystemCommand = new SystemCommand();
+    SystemCommand cancelShutdownSystemCommand = getSystemCommand("SHUTDOWN_CANCEL");
     cancelShutdownSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_WINDOWS.get());
-    } else {
-      Collections.addAll(command, CommandLine.SHUTDOWN_CANCEL_LINUX.get());
-    }
-    cancelShutdownSystemCommand.setCommand(command);
     return cancelShutdownSystemCommand;
   }
 
@@ -262,16 +224,8 @@ public class SystemCommandService {
    * Get the system command to check the status of a scheduled shutdown.
    */
   private SystemCommand getStatusShutdownSystemCommand() {
-
-    SystemCommand statusShutdownSystemCommand = new SystemCommand();
+    SystemCommand statusShutdownSystemCommand = getSystemCommand("SHUTDOWN_STATUS");
     statusShutdownSystemCommand.setIsDaemon(false);
-    List<String> command = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_WINDOWS.get());
-    } else {
-      Collections.addAll(command, CommandLine.SHUTDOWN_STATUS_LINUX.get());
-    }
-    statusShutdownSystemCommand.setCommand(command);
     return statusShutdownSystemCommand;
   }
 
@@ -279,18 +233,10 @@ public class SystemCommandService {
    * Get the system command to suspend the server.
    */
   private SystemCommand getSuspendSystemCommand() {
-
-    SystemCommand suspendSystemCommand = new SystemCommand();
+    SystemCommand suspendSystemCommand = getSystemCommand("SUSPEND");
     // Set daemon to true, otherwise the process will wait until suspend command
     // finishes to return and that won't happen
     suspendSystemCommand.setIsDaemon(true);
-    List<String> command = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(command, CommandLine.SUSPEND_WINDOWS.get());
-    } else {
-      Collections.addAll(command, CommandLine.SUSPEND_LINUX.get());
-    }
-    suspendSystemCommand.setCommand(command);
     return suspendSystemCommand;
   }
 
@@ -298,16 +244,8 @@ public class SystemCommandService {
    * Get the system command to lock the screen.
    */
   private SystemCommand getLockScreenSystemCommand() {
-
-    SystemCommand lockScreenSystemCommand = new SystemCommand();
+    SystemCommand lockScreenSystemCommand = getSystemCommand("LOCK_SCREEN");
     lockScreenSystemCommand.setIsDaemon(false);
-    List<String> lockScreenCommandList = new ArrayList<>();
-    if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(lockScreenCommandList, CommandLine.LOCK_SCREEN_WINDOWS.get());
-    } else {
-      Collections.addAll(lockScreenCommandList, CommandLine.LOCK_SCREEN_LINUX.get());
-    }
-    lockScreenSystemCommand.setCommand(lockScreenCommandList);
     return lockScreenSystemCommand;
   }
 
@@ -315,65 +253,51 @@ public class SystemCommandService {
    * Get the system commands to unlock the screen.
    */
   private List<SystemCommand> getUnlockScreenSystemCommands() {
-
     // Lock screen first so if it is already unlocked, I don't type the password
     // anywhere
     List<SystemCommand> unlockScreenSystemCommands = new ArrayList<>();
     unlockScreenSystemCommands.add(getLockScreenSystemCommand());
 
     // Press ESC key command
-    SystemCommand vncdoKeyEscSystemCommand = new SystemCommand();
+    SystemCommand vncdoKeyEscSystemCommand = getSystemCommand("VNCDO_KEY");
     vncdoKeyEscSystemCommand.setIsDaemon(false);
-    List<String> vncdoKeyEscCommandList = new ArrayList<>();
+    List<String> vncdoKeyEscCommandList = vncdoKeyEscSystemCommand.getCommand();
+    setVncdoHostnameAndPassword(vncdoKeyEscCommandList);
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(vncdoKeyEscCommandList, CommandLine.VNCDO_KEY_WINDOWS.get());
-      setVncdoHostnameAndPassword(vncdoKeyEscCommandList);
       vncdoKeyEscCommandList.add("esc");
     } else {
-      Collections.addAll(vncdoKeyEscCommandList, CommandLine.VNCDO_KEY_LINUX.get());
-      setVncdoHostnameAndPassword(vncdoKeyEscCommandList);
       String vncdoCommand = vncdoKeyEscCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" esc");
       vncdoKeyEscCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
-    vncdoKeyEscSystemCommand.setCommand(vncdoKeyEscCommandList);
     unlockScreenSystemCommands.add(vncdoKeyEscSystemCommand);
 
     // Type user password command
-    SystemCommand vncdoTypePasswordSystemCommand = new SystemCommand();
+    SystemCommand vncdoTypePasswordSystemCommand = getSystemCommand("VNCDO_TYPE");
     vncdoTypePasswordSystemCommand.setIsDaemon(false);
-    List<String> vncdoTypePasswordCommandList = new ArrayList<>();
+    List<String> vncdoTypePasswordCommandList = vncdoTypePasswordSystemCommand.getCommand();
+    setVncdoHostnameAndPassword(vncdoTypePasswordCommandList);
     String unlockScreenPassword = getUnlockScreenPassword();
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_WINDOWS.get());
-      setVncdoHostnameAndPassword(vncdoTypePasswordCommandList);
       vncdoTypePasswordCommandList.add(unlockScreenPassword);
     } else {
-      Collections.addAll(vncdoTypePasswordCommandList, CommandLine.VNCDO_TYPE_LINUX.get());
-      setVncdoHostnameAndPassword(vncdoTypePasswordCommandList);
       String vncdoCommand = vncdoTypePasswordCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" "
           + unlockScreenPassword);
       vncdoTypePasswordCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
-    vncdoTypePasswordSystemCommand.setCommand(vncdoTypePasswordCommandList);
     unlockScreenSystemCommands.add(vncdoTypePasswordSystemCommand);
 
     // Press Enter key command
-    SystemCommand vncdoKeyEnterSystemCommand = new SystemCommand();
+    SystemCommand vncdoKeyEnterSystemCommand = getSystemCommand("VNCDO_KEY");
     vncdoKeyEnterSystemCommand.setIsDaemon(false);
-    List<String> vncdoKeyEnterCommandList = new ArrayList<>();
+    List<String> vncdoKeyEnterCommandList = vncdoKeyEnterSystemCommand.getCommand();
+    setVncdoHostnameAndPassword(vncdoKeyEnterCommandList);
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(vncdoKeyEnterCommandList, CommandLine.VNCDO_KEY_WINDOWS.get());
-      setVncdoHostnameAndPassword(vncdoKeyEnterCommandList);
       vncdoKeyEnterCommandList.add("enter");
     } else {
-      Collections.addAll(vncdoKeyEnterCommandList, CommandLine.VNCDO_KEY_LINUX.get());
-      setVncdoHostnameAndPassword(vncdoKeyEnterCommandList);
       String vncdoCommand = vncdoKeyEnterCommandList.get(VNCDO_CMD_LINUX_INDEX).concat(" enter");
       vncdoKeyEnterCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
-    vncdoKeyEnterSystemCommand.setCommand(vncdoKeyEnterCommandList);
     unlockScreenSystemCommands.add(vncdoKeyEnterSystemCommand);
-
     return unlockScreenSystemCommands;
   }
 
@@ -382,13 +306,10 @@ public class SystemCommandService {
    * different parts of the screen to wake it up.
    */
   private List<SystemCommand> getScreenWakeUpSystemCommands() {
-
     List<SystemCommand> screenWakeUpSystemCommands = new ArrayList<>();
-
     screenWakeUpSystemCommands.add(getSingleClick("400", "400"));
     screenWakeUpSystemCommands.add(getSingleClick("400", "500"));
     screenWakeUpSystemCommands.add(getSingleClick("500", "500"));
-
     return screenWakeUpSystemCommands;
   }
 
@@ -398,27 +319,21 @@ public class SystemCommandService {
    * "0 0" on the top left of the screen.
    */
   private SystemCommand getSingleClick(String horizontalPosition, String verticalPosition) {
-
-    SystemCommand vncdoSingleClickSystemCommand = new SystemCommand();
+    SystemCommand vncdoSingleClickSystemCommand = getSystemCommand("VNCDO_CLICK_SINGLE");
     vncdoSingleClickSystemCommand.setIsDaemon(false);
-    List<String> vncdoSingleClickCommandList = new ArrayList<>();
+    List<String> vncdoSingleClickCommandList = vncdoSingleClickSystemCommand.getCommand();
+    setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
     if (PropertiesUtils.isWindowsHost()) {
-      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_WINDOWS
-          .get());
-      setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
       int vncdoSingleClickHorizontalPositionIndex = 8;
       int vncdoSingleClickVerticalPositionIndex = 9;
       vncdoSingleClickCommandList.set(vncdoSingleClickHorizontalPositionIndex, horizontalPosition);
       vncdoSingleClickCommandList.set(vncdoSingleClickVerticalPositionIndex, verticalPosition);
     } else {
-      Collections.addAll(vncdoSingleClickCommandList, CommandLine.VNCDO_CLICK_SINGLE_LINUX.get());
-      setVncdoHostnameAndPassword(vncdoSingleClickCommandList);
       String vncdoCommand = vncdoSingleClickCommandList.get(VNCDO_CMD_LINUX_INDEX);
       vncdoCommand = vncdoCommand.replaceFirst("HORIZONTAL_POSITION", horizontalPosition);
       vncdoCommand = vncdoCommand.replaceFirst("VERTICAL_POSITION", verticalPosition);
       vncdoSingleClickCommandList.set(VNCDO_CMD_LINUX_INDEX, vncdoCommand);
     }
-    vncdoSingleClickSystemCommand.setCommand(vncdoSingleClickCommandList);
     return vncdoSingleClickSystemCommand;
   }
 
@@ -463,7 +378,6 @@ public class SystemCommandService {
    * Get the encoded password from the specified file and decode it.
    */
   private String getDecodedPasswordFromFile(String passwordFile) {
-
     String decodedFileContent = null;
     try {
       List<String> encodedFileContentList = Files.readAllLines(Paths.get(passwordFile));
@@ -483,7 +397,8 @@ public class SystemCommandService {
   }
 
   /**
-   * Get input and error streams from process and add them to the system command output.
+   * Get input and error streams from process and add them to the system command
+   * output.
    */
   private void getStreamsFromProcess(Process process, SystemCommandOutput commandOutput)
       throws IOException {
@@ -512,5 +427,21 @@ public class SystemCommandService {
       }
       commandOutput.setStandardError(processStandardErrorList);
     }
+  }
+
+  /**
+   * Get the specified system command for the correct operating system.
+   */
+  private SystemCommand getSystemCommand(String systemCommandName) {
+    SystemCommand systemCommand = new SystemCommand();
+    List<String> systemCommandList = new ArrayList<>();
+    if (PropertiesUtils.isWindowsHost()) {
+      Collections.addAll(systemCommandList, CommandLine.valueOf(systemCommandName + WINDOWS)
+          .get());
+    } else {
+      Collections.addAll(systemCommandList, CommandLine.valueOf(systemCommandName + LINUX).get());
+    }
+    systemCommand.setCommand(systemCommandList);
+    return systemCommand;
   }
 }
