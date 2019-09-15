@@ -78,6 +78,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Before
   public void beforeTest() {
+    ApplicationUserTestUtils.initApplicationUserMocks();
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(applicationUserController).build();

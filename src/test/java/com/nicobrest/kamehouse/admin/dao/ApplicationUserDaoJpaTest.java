@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 
@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,9 +33,11 @@ import javax.persistence.Query;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class ApplicationUserDaoJpaTest {
 
-  private static ApplicationUser applicationUserMock;
-  private static List<ApplicationUser> applicationUsersList;
-
+  private static ApplicationUser applicationUserMock = ApplicationUserTestUtils
+      .getApplicationUserMock();
+  private static List<ApplicationUser> applicationUsersMockList = ApplicationUserTestUtils
+      .getApplicationUsersMockList();
+  
   @Autowired
   private ApplicationUserDao applicationUserDaoJpa;
 
@@ -53,7 +52,7 @@ public class ApplicationUserDaoJpaTest {
    */
   @Before
   public void setUp() {
-
+    ApplicationUserTestUtils.initApplicationUserMocks();
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
     Query deleteRoles = em.createNativeQuery("DELETE FROM APPLICATION_ROLE");
@@ -62,41 +61,6 @@ public class ApplicationUserDaoJpaTest {
     deleteUsers.executeUpdate();
     em.getTransaction().commit();
     em.close();
-
-    Set<ApplicationRole> rolesMock = new HashSet<ApplicationRole>();
-    ApplicationRole userRoleMock = new ApplicationRole();
-    userRoleMock.setName("ROLE_USER");
-    rolesMock.add(userRoleMock);
-    applicationUserMock = new ApplicationUser();
-    applicationUserMock.setEmail("goku@dbz.com");
-    applicationUserMock.setUsername("goku");
-    applicationUserMock.setPassword("goku");
-    applicationUserMock.setAuthorities(rolesMock);
-
-    Set<ApplicationRole> rolesMock2 = new HashSet<ApplicationRole>();
-    ApplicationRole userRoleMock2 = new ApplicationRole();
-    userRoleMock2.setName("ROLE_USER");
-    rolesMock2.add(userRoleMock2);
-    ApplicationUser applicationUserMock2 = new ApplicationUser();
-    applicationUserMock2.setEmail("gohan@dbz.com");
-    applicationUserMock2.setUsername("gohan");
-    applicationUserMock2.setPassword("gohan");
-    applicationUserMock2.setAuthorities(rolesMock2);
-
-    Set<ApplicationRole> rolesMock3 = new HashSet<ApplicationRole>();
-    ApplicationRole userRoleMock3 = new ApplicationRole();
-    userRoleMock3.setName("ROLE_USER");
-    rolesMock3.add(userRoleMock3);
-    ApplicationUser applicationUserMock3 = new ApplicationUser();
-    applicationUserMock3.setEmail("goten@dbz.com");
-    applicationUserMock3.setUsername("goten");
-    applicationUserMock3.setPassword("goten");
-    applicationUserMock3.setAuthorities(rolesMock3);
-
-    applicationUsersList = new LinkedList<ApplicationUser>();
-    applicationUsersList.add(applicationUserMock);
-    applicationUsersList.add(applicationUserMock2);
-    applicationUsersList.add(applicationUserMock3);
   }
 
   /**
@@ -231,9 +195,9 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void getAllApplicationUsersTest() {
 
-    applicationUserDaoJpa.createUser(applicationUsersList.get(0));
-    applicationUserDaoJpa.createUser(applicationUsersList.get(1));
-    applicationUserDaoJpa.createUser(applicationUsersList.get(2));
+    applicationUserDaoJpa.createUser(applicationUsersMockList.get(0));
+    applicationUserDaoJpa.createUser(applicationUsersMockList.get(1));
+    applicationUserDaoJpa.createUser(applicationUsersMockList.get(2));
     try {
       List<ApplicationUser> usersList = applicationUserDaoJpa.getAllUsers();
       assertEquals(3, usersList.size());

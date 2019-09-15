@@ -45,7 +45,8 @@ public class ApplicationUserServiceTest {
    * Resets mock objects and initializes test repository.
    */
   @Before
-  public void beforeTest() {    
+  public void beforeTest() {   
+    ApplicationUserTestUtils.initApplicationUserMocks();
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserDaoMock);
   }
@@ -125,7 +126,7 @@ public class ApplicationUserServiceTest {
    * Test for calling the service to delete an existing user in the repository.
    */
   @Test
-  public void deleteDragonBallUserTest() {
+  public void deleteUserTest() {
 
     try {
       when(applicationUserDaoMock.deleteUser(1000L)).thenReturn(applicationUserMock);

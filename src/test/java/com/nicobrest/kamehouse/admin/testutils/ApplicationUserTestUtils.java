@@ -73,13 +73,23 @@ public class ApplicationUserTestUtils {
     applicationUserMock2.setEmail("gohan@dbz.com");
     applicationUserMock2.setUsername("gohan");
     applicationUserMock2.setPassword("gohan");
-
+    Set<ApplicationRole> rolesMock2 = new HashSet<ApplicationRole>();
+    ApplicationRole userRoleMock2 = new ApplicationRole();
+    userRoleMock2.setName("ROLE_USER");
+    rolesMock2.add(userRoleMock2);
+    applicationUserMock2.setAuthorities(rolesMock2);
+    
     ApplicationUser applicationUserMock3 = new ApplicationUser();
     applicationUserMock3.setId(1003L);
     applicationUserMock3.setEmail("goten@dbz.com");
     applicationUserMock3.setUsername("goten");
     applicationUserMock3.setPassword("goten");
-
+    Set<ApplicationRole> rolesMock3 = new HashSet<ApplicationRole>();
+    ApplicationRole userRoleMock3 = new ApplicationRole();
+    userRoleMock3.setName("ROLE_USER");
+    rolesMock3.add(userRoleMock3);
+    applicationUserMock3.setAuthorities(rolesMock3);
+    
     applicationUsersMockList = new LinkedList<ApplicationUser>();
     applicationUsersMockList.add(applicationUserMock);
     applicationUsersMockList.add(applicationUserMock2);
