@@ -33,10 +33,8 @@ import javax.persistence.Query;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class ApplicationUserDaoJpaTest {
 
-  private static ApplicationUser applicationUserMock = ApplicationUserTestUtils
-      .getApplicationUserMock();
-  private static List<ApplicationUser> applicationUsersMockList = ApplicationUserTestUtils
-      .getApplicationUsersMockList();
+  private static ApplicationUser applicationUser;
+  private static List<ApplicationUser> applicationUsersList;
   
   @Autowired
   private ApplicationUserDao applicationUserDaoJpa;
@@ -52,7 +50,9 @@ public class ApplicationUserDaoJpaTest {
    */
   @Before
   public void setUp() {
-    ApplicationUserTestUtils.initApplicationUserMocks();
+    ApplicationUserTestUtils.initApplicationUserTestData();
+    applicationUser = ApplicationUserTestUtils.getApplicationUser();
+    applicationUsersList = ApplicationUserTestUtils.getApplicationUsersList();
     EntityManager em = entityManagerFactory.createEntityManager();
     em.getTransaction().begin();
     Query deleteRoles = em.createNativeQuery("DELETE FROM APPLICATION_ROLE");
@@ -71,7 +71,7 @@ public class ApplicationUserDaoJpaTest {
 
     try {
       assertEquals(0, applicationUserDaoJpa.getAllUsers().size());
-      applicationUserDaoJpa.createUser(applicationUserMock);
+      applicationUserDaoJpa.createUser(applicationUser);
       assertEquals(1, applicationUserDaoJpa.getAllUsers().size());
       applicationUserDaoJpa.deleteUser(applicationUserDaoJpa.loadUserByUsername("goku").getId());
     } catch (Exception e) {
@@ -88,9 +88,9 @@ public class ApplicationUserDaoJpaTest {
 
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
-    applicationUserDaoJpa.createUser(applicationUserMock);
-    applicationUserMock.setId(null);
-    applicationUserDaoJpa.createUser(applicationUserMock);
+    applicationUserDaoJpa.createUser(applicationUser);
+    applicationUser.setId(null);
+    applicationUserDaoJpa.createUser(applicationUser);
   }
 
   /**
@@ -100,7 +100,7 @@ public class ApplicationUserDaoJpaTest {
   public void getApplicationUserByUsernameTest() {
 
     try {
-      applicationUserDaoJpa.createUser(applicationUserMock);
+      applicationUserDaoJpa.createUser(applicationUser);
       ApplicationUser user = applicationUserDaoJpa.loadUserByUsername("goku");
       assertNotNull(user);
       assertEquals("goku", user.getUsername());
@@ -129,7 +129,7 @@ public class ApplicationUserDaoJpaTest {
   public void updateApplicationUserTest() {
 
     try {
-      applicationUserDaoJpa.createUser(applicationUserMock);
+      applicationUserDaoJpa.createUser(applicationUser);
       ApplicationUser userToUpdate = applicationUserDaoJpa.loadUserByUsername("goku");
       userToUpdate.setEmail("updatedGoku@dbz.com");
       userToUpdate.getAuthorities();
@@ -153,8 +153,8 @@ public class ApplicationUserDaoJpaTest {
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("ApplicationUser with id " + 987L + " was not found in the repository.");
-    applicationUserMock.setId(987L);
-    applicationUserDaoJpa.updateUser(applicationUserMock);
+    applicationUser.setId(987L);
+    applicationUserDaoJpa.updateUser(applicationUser);
   }
 
   /**
@@ -164,7 +164,7 @@ public class ApplicationUserDaoJpaTest {
   public void deleteApplicationUserTest() {
 
     try {
-      applicationUserDaoJpa.createUser(applicationUserMock);
+      applicationUserDaoJpa.createUser(applicationUser);
       assertEquals(1, applicationUserDaoJpa.getAllUsers().size());
       ApplicationUser deletedUser = applicationUserDaoJpa.deleteUser(applicationUserDaoJpa
           .loadUserByUsername("goku").getId());
@@ -195,9 +195,9 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void getAllApplicationUsersTest() {
 
-    applicationUserDaoJpa.createUser(applicationUsersMockList.get(0));
-    applicationUserDaoJpa.createUser(applicationUsersMockList.get(1));
-    applicationUserDaoJpa.createUser(applicationUsersMockList.get(2));
+    applicationUserDaoJpa.createUser(applicationUsersList.get(0));
+    applicationUserDaoJpa.createUser(applicationUsersList.get(1));
+    applicationUserDaoJpa.createUser(applicationUsersList.get(2));
     try {
       List<ApplicationUser> usersList = applicationUserDaoJpa.getAllUsers();
       assertEquals(3, usersList.size());

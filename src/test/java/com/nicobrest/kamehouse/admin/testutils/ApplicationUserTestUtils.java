@@ -13,60 +13,59 @@ import java.util.Set;
 
 public class ApplicationUserTestUtils {
 
-  private static ApplicationUser applicationUserMock;
-  private static List<ApplicationUser> applicationUsersMockList;
-  private static ApplicationUserDto applicationUserDtoMock;
+  private static ApplicationUser applicationUser;
+  private static List<ApplicationUser> applicationUsersList;
+  private static ApplicationUserDto applicationUserDto;
   
-  public static ApplicationUser getApplicationUserMock() {
-    return applicationUserMock;
+  public static ApplicationUser getApplicationUser() {
+    return applicationUser;
   }
 
-  public static List<ApplicationUser> getApplicationUsersMockList() {
-    return applicationUsersMockList;
+  public static List<ApplicationUser> getApplicationUsersList() {
+    return applicationUsersList;
   }
 
-  public static ApplicationUserDto getApplicationUserDtoMock() {
-    return applicationUserDtoMock;
+  public static ApplicationUserDto getApplicationUserDto() {
+    return applicationUserDto;
   }
 
   static {
-    initApplicationUserMocks();
+    initApplicationUserTestData();
   }
   
-  public static void initApplicationUserMocks() {
-    
-    applicationUserMock = new ApplicationUser();
-    applicationUserMock.setId(1001L);
-    applicationUserMock.setEmail("goku@dbz.com");
-    applicationUserMock.setUsername("goku");
-    applicationUserMock.setPassword("goku");
-    applicationUserMock.setFirstName("Goku");
-    applicationUserMock.setLastName("Son");
+  public static void initApplicationUserTestData() {
+    applicationUser = new ApplicationUser();
+    applicationUser.setId(1001L);
+    applicationUser.setEmail("goku@dbz.com");
+    applicationUser.setUsername("goku");
+    applicationUser.setPassword("goku");
+    applicationUser.setFirstName("Goku");
+    applicationUser.setLastName("Son");
     Set<ApplicationRole> authorities = new HashSet<>();
     ApplicationRole applicationRole = new ApplicationRole();
     applicationRole.setId(10L);
     applicationRole.setName("ADMIN_ROLE");
     authorities.add(applicationRole);
-    applicationUserMock.setAuthorities(authorities);
+    applicationUser.setAuthorities(authorities);
     
-    applicationUserDtoMock = new ApplicationUserDto();
-    applicationUserDtoMock.setId(1001L);
-    applicationUserDtoMock.setEmail("goku@dbz.com");
-    applicationUserDtoMock.setUsername("goku");
-    applicationUserDtoMock.setPassword("goku");
-    applicationUserDtoMock.setFirstName("Goku");
-    applicationUserDtoMock.setLastName("Son");
-    applicationUserDtoMock.setAccountNonExpired(true);
-    applicationUserDtoMock.setAccountNonLocked(true);
-    applicationUserDtoMock.setCredentialsNonExpired(true);
-    applicationUserDtoMock.setEnabled(true);
-    applicationUserDtoMock.setLastLogin(new Date());
+    applicationUserDto = new ApplicationUserDto();
+    applicationUserDto.setId(1001L);
+    applicationUserDto.setEmail("goku@dbz.com");
+    applicationUserDto.setUsername("goku");
+    applicationUserDto.setPassword("goku");
+    applicationUserDto.setFirstName("Goku");
+    applicationUserDto.setLastName("Son");
+    applicationUserDto.setAccountNonExpired(true);
+    applicationUserDto.setAccountNonLocked(true);
+    applicationUserDto.setCredentialsNonExpired(true);
+    applicationUserDto.setEnabled(true);
+    applicationUserDto.setLastLogin(new Date());
     Set<ApplicationRoleDto> authoritiesDto = new HashSet<>();
     ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
     applicationRoleDto.setId(10L);
     applicationRoleDto.setName("ADMIN_ROLE");
     authoritiesDto.add(applicationRoleDto);
-    applicationUserDtoMock.setAuthorities(authoritiesDto);
+    applicationUserDto.setAuthorities(authoritiesDto);
 
     ApplicationUser applicationUserMock2 = new ApplicationUser();
     applicationUserMock2.setId(1002L);
@@ -90,9 +89,9 @@ public class ApplicationUserTestUtils {
     rolesMock3.add(userRoleMock3);
     applicationUserMock3.setAuthorities(rolesMock3);
     
-    applicationUsersMockList = new LinkedList<ApplicationUser>();
-    applicationUsersMockList.add(applicationUserMock);
-    applicationUsersMockList.add(applicationUserMock2);
-    applicationUsersMockList.add(applicationUserMock3);
+    applicationUsersList = new LinkedList<ApplicationUser>();
+    applicationUsersList.add(applicationUser);
+    applicationUsersList.add(applicationUserMock2);
+    applicationUsersList.add(applicationUserMock3);
   }
 }

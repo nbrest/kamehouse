@@ -57,13 +57,10 @@ import java.util.List;
 @WebAppConfiguration
 public class ApplicationUserControllerTest extends AbstractControllerTest {
 
-  private static ApplicationUser applicationUserMock = ApplicationUserTestUtils
-      .getApplicationUserMock();
-  private static List<ApplicationUser> applicationUsersMockList = ApplicationUserTestUtils
-      .getApplicationUsersMockList();
-  private static ApplicationUserDto applicationUserDtoMock = ApplicationUserTestUtils
-      .getApplicationUserDtoMock();
-  
+  private static ApplicationUser applicationUser;
+  private static List<ApplicationUser> applicationUsersList;
+  private static ApplicationUserDto applicationUserDto;
+
   @InjectMocks
   private ApplicationUserController applicationUserController;
 
@@ -78,7 +75,11 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Before
   public void beforeTest() {
-    ApplicationUserTestUtils.initApplicationUserMocks();
+    ApplicationUserTestUtils.initApplicationUserTestData();
+    applicationUser = ApplicationUserTestUtils.getApplicationUser();
+    applicationUsersList = ApplicationUserTestUtils.getApplicationUsersList();
+    applicationUserDto = ApplicationUserTestUtils.getApplicationUserDto();
+    
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(applicationUserController).build();
@@ -89,7 +90,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUsersTest() {
-    when(applicationUserServiceMock.getAllUsers()).thenReturn(applicationUsersMockList);
+    when(applicationUserServiceMock.getAllUsers()).thenReturn(applicationUsersList);
 
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/application/users")).andDo(
@@ -123,21 +124,21 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   @Test
   public void postUsersTest() {
     try {
-      Mockito.doReturn(applicationUserMock.getId()).when(applicationUserServiceMock).createUser(
-          applicationUserDtoMock);
-      when(applicationUserServiceMock.loadUserByUsername(applicationUserMock.getUsername()))
-          .thenReturn(applicationUserMock);
+      Mockito.doReturn(applicationUser.getId()).when(applicationUserServiceMock).createUser(
+          applicationUserDto);
+      when(applicationUserServiceMock.loadUserByUsername(applicationUser.getUsername()))
+          .thenReturn(applicationUser);
 
-      byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
+      byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
       ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/application/users")
           .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload)).andDo(print());
       requestResult.andExpect(status().isCreated());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-      requestResult.andExpect(content().bytes(JsonUtils.toJsonByteArray(applicationUserDtoMock
+      requestResult.andExpect(content().bytes(JsonUtils.toJsonByteArray(applicationUserDto
           .getId())));
-      requestResult.andExpect(content().string(applicationUserDtoMock.getId().toString()));
+      requestResult.andExpect(content().string(applicationUserDto.getId().toString()));
 
-      verify(applicationUserServiceMock, times(1)).createUser(applicationUserDtoMock);
+      verify(applicationUserServiceMock, times(1)).createUser(applicationUserDto);
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -152,13 +153,13 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseConflictException.class));
     Mockito.doThrow(new KameHouseConflictException("User already exists")).when(
-        applicationUserServiceMock).createUser(applicationUserDtoMock);
+        applicationUserServiceMock).createUser(applicationUserDto);
 
-    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
+    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
     ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/application/users")
         .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload)).andDo(print());
     requestResult.andExpect(status().is4xxClientError());
-    verify(applicationUserServiceMock, times(1)).createUser(applicationUserDtoMock);
+    verify(applicationUserServiceMock, times(1)).createUser(applicationUserDto);
   }
 
   /**
@@ -168,8 +169,8 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   public void getUserTest() {
 
     try {
-      when(applicationUserServiceMock.loadUserByUsername("goku")).thenReturn(
-          applicationUsersMockList.get(0));
+      when(applicationUserServiceMock.loadUserByUsername("goku")).thenReturn(applicationUsersList
+          .get(0));
 
       ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/application/users/goku"))
           .andDo(print());
@@ -209,11 +210,11 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   public void putUsersTest() {
 
     try {
-      Mockito.doNothing().when(applicationUserServiceMock).updateUser(applicationUserDtoMock);
+      Mockito.doNothing().when(applicationUserServiceMock).updateUser(applicationUserDto);
 
-      byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
+      byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
       ResultActions requestResult = mockMvc.perform(put("/api/v1/admin/application/users/"
-          + applicationUserDtoMock.getId()).contentType(MediaType.APPLICATION_JSON_UTF8).content(
+          + applicationUserDto.getId()).contentType(MediaType.APPLICATION_JSON_UTF8).content(
               requestPayload)).andDo(print());
       requestResult.andExpect(status().isOk());
       verify(applicationUserServiceMock, times(1)).updateUser(any());
@@ -230,9 +231,9 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   public void putUsersInvalidPathId() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseBadRequestException.class));
-    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDtoMock);
+    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
     ResultActions requestResult = mockMvc.perform(put("/api/v1/admin/application/users/"
-        + applicationUserDtoMock.getId() + 1).contentType(MediaType.APPLICATION_JSON_UTF8).content(
+        + applicationUserDto.getId() + 1).contentType(MediaType.APPLICATION_JSON_UTF8).content(
             requestPayload)).andDo(print());
     requestResult.andExpect(status().is4xxClientError());
     verify(applicationUserServiceMock, times(0)).updateUser(any());
@@ -246,14 +247,14 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("User not found")).when(
-        applicationUserServiceMock).updateUser(applicationUserDtoMock);
+        applicationUserServiceMock).updateUser(applicationUserDto);
 
-    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUsersMockList.get(0));
+    byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUsersList.get(0));
     ResultActions requestResult = mockMvc.perform(put("/api/v1/admin/application/users/"
-        + applicationUserDtoMock.getId()).contentType(MediaType.APPLICATION_JSON_UTF8).content(
+        + applicationUserDto.getId()).contentType(MediaType.APPLICATION_JSON_UTF8).content(
             requestPayload)).andDo(print());
     requestResult.andExpect(status().is4xxClientError());
-    verify(applicationUserServiceMock, times(1)).updateUser(applicationUserDtoMock);
+    verify(applicationUserServiceMock, times(1)).updateUser(applicationUserDto);
   }
 
   /**
@@ -263,11 +264,11 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   public void deleteUserTest() {
 
     try {
-      when(applicationUserServiceMock.deleteUser(applicationUsersMockList.get(0).getId()))
-          .thenReturn(applicationUsersMockList.get(0));
+      when(applicationUserServiceMock.deleteUser(applicationUsersList.get(0).getId())).thenReturn(
+          applicationUsersList.get(0));
 
       ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/application/users/"
-          + applicationUsersMockList.get(0).getId())).andDo(print());
+          + applicationUsersList.get(0).getId())).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$.id", equalTo(1001)));
@@ -275,8 +276,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
       requestResult.andExpect(jsonPath("$.email", equalTo("goku@dbz.com")));
       requestResult.andExpect(jsonPath("$.password", equalTo(null)));
 
-      verify(applicationUserServiceMock, times(1)).deleteUser(applicationUsersMockList.get(0)
-          .getId());
+      verify(applicationUserServiceMock, times(1)).deleteUser(applicationUsersList.get(0).getId());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -291,12 +291,11 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("User not found")).when(
-        applicationUserServiceMock).deleteUser(applicationUsersMockList.get(0).getId());
+        applicationUserServiceMock).deleteUser(applicationUsersList.get(0).getId());
 
     ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/application/users/"
-        + applicationUsersMockList.get(0).getId())).andDo(print());
+        + applicationUsersList.get(0).getId())).andDo(print());
     requestResult.andExpect(status().is4xxClientError());
-    verify(applicationUserServiceMock, times(1)).deleteUser(applicationUsersMockList.get(0)
-        .getId());
+    verify(applicationUserServiceMock, times(1)).deleteUser(applicationUsersList.get(0).getId());
   }
 }
