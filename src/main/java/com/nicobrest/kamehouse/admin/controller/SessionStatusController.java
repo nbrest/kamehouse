@@ -35,7 +35,6 @@ public class SessionStatusController {
   @GetMapping(path = "/status")
   @ResponseBody
   public ResponseEntity<Map<String, Object>> getSessionStatus() {
-
     logger.trace("In controller /api/v1/session/status (GET)");
     Map<String, Object> sessionStatus = sessionStatusService.getSessionStatus();
     return new ResponseEntity<>(sessionStatus, HttpStatus.OK);

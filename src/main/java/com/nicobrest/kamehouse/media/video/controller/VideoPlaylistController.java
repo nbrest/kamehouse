@@ -35,7 +35,6 @@ public class VideoPlaylistController {
   @GetMapping(path = "/playlists")
   @ResponseBody
   public ResponseEntity<List<Playlist>> getAllVideoPlaylists() {
-
     logger.trace("In controller /api/v1/media/video/playlists (GET)");
     List<Playlist> videoPlaylists = videoPlaylistService.getAllVideoPlaylists();
     return new ResponseEntity<>(videoPlaylists, HttpStatus.OK);

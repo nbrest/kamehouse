@@ -42,7 +42,6 @@ public class PowerManagementController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> setShutdown(
       @RequestBody AdminCommand shutdownSetAdminCommand) {
-
     logger.trace("In controller /api/v1/admin/power-management/shutdown (POST)");
     if (!AdminCommand.SHUTDOWN_SET.equals(shutdownSetAdminCommand.getCommand())) {
       throw new KameHouseInvalidCommandException("Invalid AdminCommand " + shutdownSetAdminCommand
@@ -59,7 +58,6 @@ public class PowerManagementController {
   @DeleteMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> cancelShutdown() {
-
     logger.trace("In controller /api/v1/admin/power-management/shutdown (DELETE)");
     AdminCommand shutdownCancelAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_CANCEL);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
@@ -73,7 +71,6 @@ public class PowerManagementController {
   @GetMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusShutdown() {
-
     logger.trace("In controller /api/v1/admin/power-management/shutdown (GET)");
     AdminCommand shutdownStatusAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
@@ -87,7 +84,6 @@ public class PowerManagementController {
   @PostMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> suspend() {
-
     logger.trace("In controller /api/v1/admin/power-management/suspend (POST)");
     AdminCommand adminCommand = new AdminCommand(AdminCommand.SUSPEND);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(

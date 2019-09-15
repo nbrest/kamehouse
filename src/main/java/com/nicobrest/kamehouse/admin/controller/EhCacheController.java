@@ -42,7 +42,6 @@ public class EhCacheController {
   @ResponseBody
   public ResponseEntity<List<Map<String, Object>>> getCache(@RequestParam(value = "name",
       required = false) String cacheName) {
-
     logger.trace("In controller /api/v1/admin/ehcache (GET)");
     List<Map<String, Object>> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
@@ -63,7 +62,6 @@ public class EhCacheController {
   @DeleteMapping
   public ResponseEntity<Void> clearCache(@RequestParam(value = "name",
       required = false) String cacheName) {
-
     logger.trace("In controller /api/v1/admin/ehcache (DELETE)");
     if (!StringUtils.isBlank(cacheName)) {
       ehCacheService.clearCache(cacheName);

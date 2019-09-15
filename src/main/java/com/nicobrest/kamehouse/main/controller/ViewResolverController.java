@@ -31,7 +31,6 @@ public class ViewResolverController {
       "/test-module/", "/test-module/angular-1", "/test-module/angular-1/**",
       "/test-module/websocket", "/test-module/websocket/**", "/vlc-player" })
   public ModelAndView includeStaticHtml(HttpServletRequest request, HttpServletResponse response) {
-
     String originalRequestUrl = request.getServletPath();
     if (!originalRequestUrl.startsWith("/")) {
       originalRequestUrl = "/" + originalRequestUrl;

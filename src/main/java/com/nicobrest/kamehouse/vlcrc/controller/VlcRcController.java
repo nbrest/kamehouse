@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.utils.ControllerUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
@@ -86,10 +85,7 @@ public class VlcRcController {
   public ResponseEntity<Void> updateVlcPlayer(@PathVariable Long vlcPlayerId,
       @RequestBody VlcPlayerDto vlcPlayerDto) {
     logger.trace("In controller /vlc-rc/players/{vlcPlayerId} (PUT)");
-    if (!vlcPlayerId.equals(vlcPlayerDto.getId())) {
-      throw new KameHouseBadRequestException(
-          "Id in path variable doesn't match id in request body.");
-    }
+    ControllerUtils.validatePathAndRequestBodyIds(vlcPlayerId, vlcPlayerDto.getId());
     vlcPlayerService.updateVlcPlayer(vlcPlayerDto);
     return new ResponseEntity<>(HttpStatus.OK);
   }

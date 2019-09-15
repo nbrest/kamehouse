@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.admin.controller;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.utils.ControllerUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,10 +91,7 @@ public class ApplicationUserController {
   public ResponseEntity<Void> putUsersId(@PathVariable Long id,
       @RequestBody ApplicationUserDto applicationUserDto) {
     logger.trace("In controller /application/users/{id} (PUT)");
-    if (!id.equals(applicationUserDto.getId())) {
-      throw new KameHouseBadRequestException(
-          "Id in path variable doesn't match id in request body.");
-    }
+    ControllerUtils.validatePathAndRequestBodyIds(id, applicationUserDto.getId());
     applicationUserService.updateUser(applicationUserDto);
     return new ResponseEntity<>(HttpStatus.OK);
   }

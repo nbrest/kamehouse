@@ -1,14 +1,12 @@
 package com.nicobrest.kamehouse.testmodule.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
-import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.utils.ControllerUtils;
+import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,9 +57,7 @@ public class DragonBallController {
   @GetMapping(path = "/model-and-view")
   public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
       defaultValue = "Goku") String name) {
-
     logger.trace("In controller /dragonball/model-and-view (GET)");
-
     String message = "message: dragonball ModelAndView!";
     ModelAndView mv = new ModelAndView("jsp/test-module/jsp/dragonball/model-and-view");
     mv.addObject("message", message);
@@ -75,22 +71,18 @@ public class DragonBallController {
   @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<DragonBallUser>> getUsers(@RequestParam(value = "action",
-      required = false, defaultValue = "goku") String action)  {
-
+      required = false, defaultValue = "goku") String action) {
     logger.trace("In controller /dragonball/users (GET)");
-
     // switch test to test parameters and exceptions
     switch (action) {
       case "KameHouseNotFoundException":
-        throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***"); 
+        throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
       case "KameHouseException":
-        throw new KameHouseException("*** KameHouseException in getUsers ***"); 
+        throw new KameHouseException("*** KameHouseException in getUsers ***");
       default:
         break;
     }
-
     List<DragonBallUser> dbUsers = dragonBallUserService.getAllDragonBallUsers();
-
     return new ResponseEntity<>(dbUsers, HttpStatus.OK);
   }
 
@@ -100,11 +92,8 @@ public class DragonBallController {
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> postUsers(@RequestBody DragonBallUserDto dragonBallUserDto) {
-
     logger.trace("In controller /dragonball/users (POST)");
-
     Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUserDto);
-
     return new ResponseEntity<>(dbUserId, HttpStatus.CREATED);
   }
 
@@ -116,9 +105,7 @@ public class DragonBallController {
   @ResponseBody
   public ResponseEntity<DragonBallUser> getUsersId(@PathVariable Long id) {
     logger.trace("In controller /dragonball/users/{id} (GET)");
-
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(id);
-
     return new ResponseEntity<>(dbUser, HttpStatus.OK);
   }
 
@@ -133,9 +120,7 @@ public class DragonBallController {
     // otherwise it strips the
     // part following the first dot
     logger.trace("In controller /dragonball/users/username/{username:.+} (GET)");
-
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
-
     return new ResponseEntity<>(dbUser, HttpStatus.OK);
   }
 
@@ -146,14 +131,11 @@ public class DragonBallController {
   @GetMapping(path = "/users/emails/{email:.+}")
   @ResponseBody
   public ResponseEntity<String> getUsersByEmail(@PathVariable String email) {
-
     logger.trace("In controller /dragonball/users/emails/{email:.+} (GET)");
-
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
-    String dbUserJson = convertToJsonString(dbUser);
-
+    String dbUserJson = JsonUtils.toJsonString(dbUser);
     HttpHeaders headers = new HttpHeaders();
-    headers.add("Content-Type", "application/json;charset=UTF-8"); 
+    headers.add("Content-Type", "application/json;charset=UTF-8");
     return new ResponseEntity<>(dbUserJson, headers, HttpStatus.OK);
   }
 
@@ -164,15 +146,9 @@ public class DragonBallController {
   @ResponseBody
   public ResponseEntity<Void> putUsers(@PathVariable Long id,
       @RequestBody DragonBallUserDto dragonBallUserDto) {
-
     logger.trace("In controller /dragonball/users/{id} (PUT)");
-
-    if (!id.equals(dragonBallUserDto.getId())) {
-      throw new KameHouseForbiddenException("Id in path variable doesn´t match"
-          + "id in request body.");
-    }
+    ControllerUtils.validatePathAndRequestBodyIds(id, dragonBallUserDto.getId());
     dragonBallUserService.updateDragonBallUser(dragonBallUserDto);
-
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
@@ -182,26 +158,8 @@ public class DragonBallController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) {
-
     logger.trace("In controller /dragonball/users/{id} (DELETE)");
-
     DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
-
     return new ResponseEntity<>(deletedDbUser, HttpStatus.OK);
-  }
-
-  /**
-   * Converts an Object to a Json String.
-   */
-  private String convertToJsonString(Object obj) {
-
-    ObjectMapper mapper = new ObjectMapper();
-    String jsonString;
-    try {
-      jsonString = mapper.writeValueAsString(obj);
-    } catch (JsonProcessingException e) { 
-      throw new KameHouseServerErrorException("Error mapping Object to a Json string", e);
-    }
-    return jsonString;
   }
 }

@@ -42,7 +42,6 @@ public class VlcController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> startVlcPlayer(
       @RequestBody AdminCommand vlcStartAdminCommand) {
-
     logger.trace("In controller /api/v1/admin/vlc (POST)");
     if (!AdminCommand.VLC_START.equals(vlcStartAdminCommand.getCommand())) {
       throw new KameHouseInvalidCommandException("Invalid AdminCommand " + vlcStartAdminCommand
@@ -58,7 +57,6 @@ public class VlcController {
   @DeleteMapping(path = "/vlc")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> stopVlcPlayer() {
-
     logger.trace("In controller /api/v1/admin/vlc (DELETE)");
     AdminCommand vlcStopAdminCommand = new AdminCommand(AdminCommand.VLC_STOP);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStopAdminCommand);
@@ -71,7 +69,6 @@ public class VlcController {
   @GetMapping(path = "/vlc")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusVlcPlayer() {
-
     logger.trace("In controller /api/v1/admin/vlc (GET)");
     AdminCommand vlcStatusAdminCommand = new AdminCommand(AdminCommand.VLC_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStatusAdminCommand);

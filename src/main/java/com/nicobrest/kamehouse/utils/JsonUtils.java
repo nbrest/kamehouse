@@ -45,4 +45,13 @@ public class JsonUtils {
       return defaultValue;
     }
   }
+  
+  /**
+   * Converts an object to a JSON string. Returns a standard error message if
+   * the conversion to JSON fails.
+   */
+  public static String toJsonString(Object object) {
+    String defaultValue = "{\"message\": \"Unable to convert object to json string.\"}";
+    return toJsonString(object, defaultValue);
+  }
 }

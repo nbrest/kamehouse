@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.utils;
 
+import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.http.HttpStatus;
@@ -34,17 +35,31 @@ public class ControllerUtils {
   }
 
   /**
-   * Generates a standard response entity for get requests with the Object
+   * Generates a standard response entity for get requests with the entity
    * parameter as a body and 200 return code and a 404 with empty body if the
-   * Object is null.
+   * entity is null.
    */
-  public static <T> ResponseEntity<T> generateGetStandardResponseEntity(T object) {
+  public static <T> ResponseEntity<T> generateGetStandardResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
-    if (object != null) {
-      responseEntity = ResponseEntity.ok(object);
+    if (entity != null) {
+      responseEntity = ResponseEntity.ok(entity);
     } else {
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;
+  }
+
+  /**
+   * Check that the id in the path of the url matches the id of the request
+   * body. This is to avoid updating a wrong entity if they don't match.
+   */
+  public static void validatePathAndRequestBodyIds(Long pathId, Long requestBodyId) {
+    if (pathId == null) {
+      throw new KameHouseBadRequestException("Invalid id in path.");
+    }
+    if (!pathId.equals(requestBodyId)) {
+      throw new KameHouseBadRequestException(
+          "Id in path variable doesn't match id in request body.");
+    }
   }
 }

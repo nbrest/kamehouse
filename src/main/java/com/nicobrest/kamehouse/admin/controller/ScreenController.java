@@ -37,7 +37,6 @@ public class ScreenController {
   @PostMapping(path = "/lock")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> lockScreen() {
-
     logger.trace("In controller /api/v1/admin/screen/lock (POST)");
     AdminCommand lockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(lockScreenAdminCommand); 
@@ -50,7 +49,6 @@ public class ScreenController {
   @PostMapping(path = "/unlock")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> unlockScreen() {
-
     logger.trace("In controller /api/v1/admin/screen/unlock (POST)");
     AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
