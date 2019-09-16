@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.admin.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
@@ -35,6 +35,7 @@ public class ApplicationUserDaoJpaTest {
 
   private static ApplicationUser applicationUser;
   private static List<ApplicationUser> applicationUsersList;
+  private static final Long INVALID_ID = 987987L;
 
   @Autowired
   private ApplicationUserDao applicationUserDaoJpa;
@@ -68,12 +69,12 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void createApplicationUserTest() {
-    assertEquals(0, applicationUserDaoJpa.getAllUsers().size());
-
     Long returnedId = applicationUserDaoJpa.createUser(applicationUser);
 
-    assertEquals(applicationUser.getId(), returnedId);
-    assertEquals(1, applicationUserDaoJpa.getAllUsers().size());
+    assertNotEquals(applicationUser.getId(), returnedId);
+    ApplicationUser returnedUser = applicationUserDaoJpa.getUser(returnedId);
+    applicationUser.setId(returnedId);
+    assertEquals(applicationUser, returnedUser);
   }
 
   /**
@@ -83,12 +84,26 @@ public class ApplicationUserDaoJpaTest {
   public void createApplicationUserConflictExceptionTest() {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
-
     applicationUserDaoJpa.createUser(applicationUser);
     applicationUser.setId(null);
+
     applicationUserDaoJpa.createUser(applicationUser);
   }
 
+  /**
+   * Test for getting a single ApplicationUser in the repository by id.
+   */
+  @Test
+  public void getApplicationUserByIdTest() {
+    Long createId = applicationUserDaoJpa.createUser(applicationUser);
+    applicationUser.setId(createId);
+    
+    ApplicationUser returnedUser = applicationUserDaoJpa.getUser(createId);
+
+    assertNotNull(returnedUser);
+    assertEquals(applicationUser, returnedUser);
+  }
+  
   /**
    * Test for getting a single ApplicationUser in the repository by username.
    */
@@ -96,15 +111,17 @@ public class ApplicationUserDaoJpaTest {
   public void getApplicationUserByUsernameTest() {
     applicationUserDaoJpa.createUser(applicationUser);
 
-    ApplicationUser returnedUser =
-        applicationUserDaoJpa.loadUserByUsername(applicationUser.getUsername());
+    ApplicationUser returnedUser = applicationUserDaoJpa.loadUserByUsername(applicationUser
+        .getUsername());
+
     assertNotNull(returnedUser);
     applicationUser.setId(returnedUser.getId());
     assertEquals(applicationUser, returnedUser);
   }
 
   /**
-   * Test for getting a single ApplicationUser in the repository Exception flows.
+   * Test for getting a single ApplicationUser in the repository Exception
+   * flows.
    */
   @Test
   public void getApplicationUserNotFoundExceptionTest() {
@@ -119,16 +136,15 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void updateApplicationUserTest() {
-    applicationUserDaoJpa.createUser(applicationUser);
-    ApplicationUser userToUpdate = applicationUserDaoJpa.loadUserByUsername("goku");
+    Long createId = applicationUserDaoJpa.createUser(applicationUser);
+    ApplicationUser userToUpdate = applicationUserDaoJpa.getUser(createId);
     userToUpdate.setEmail("updatedGoku@dbz.com");
     userToUpdate.getAuthorities();
-    applicationUserDaoJpa.updateUser(userToUpdate);
-    ApplicationUser updatedUser = applicationUserDaoJpa.loadUserByUsername("goku");
 
-    assertEquals("goku", updatedUser.getUsername());
-    assertEquals("updatedGoku@dbz.com", updatedUser.getEmail());
-    assertEquals("goku", updatedUser.getPassword());
+    applicationUserDaoJpa.updateUser(userToUpdate);
+
+    ApplicationUser updatedUser = applicationUserDaoJpa.getUser(userToUpdate.getId());
+    assertEquals(userToUpdate, updatedUser);
   }
 
   /**
@@ -136,10 +152,11 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void updateApplicationUserNotFoundExceptionTest() {
-
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + 987L + " was not found in the repository.");
-    applicationUser.setId(987L);
+    thrown.expectMessage("ApplicationUser with id " + INVALID_ID
+        + " was not found in the repository.");
+    applicationUser.setId(INVALID_ID);
+
     applicationUserDaoJpa.updateUser(applicationUser);
   }
 
@@ -148,20 +165,12 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void deleteApplicationUserTest() {
+    Long userToDeleteId = applicationUserDaoJpa.createUser(applicationUser);
+    applicationUser.setId(userToDeleteId);
 
-    try {
-      applicationUserDaoJpa.createUser(applicationUser);
-      assertEquals(1, applicationUserDaoJpa.getAllUsers().size());
-      ApplicationUser deletedUser = applicationUserDaoJpa
-          .deleteUser(applicationUserDaoJpa.loadUserByUsername("goku").getId());
-      assertEquals(0, applicationUserDaoJpa.getAllUsers().size());
-      assertEquals("goku", deletedUser.getUsername());
-      assertEquals("goku@dbz.com", deletedUser.getEmail());
-      assertEquals("goku", deletedUser.getPassword());
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    ApplicationUser deletedUser = applicationUserDaoJpa.deleteUser(userToDeleteId);
+
+    assertEquals(applicationUser, deletedUser);
   }
 
   /**
@@ -169,27 +178,26 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void deleteApplicationUserNotFoundExceptionTest() {
-
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + 987L + " was not found in the repository.");
-    applicationUserDaoJpa.deleteUser(987L);
+    thrown.expectMessage("ApplicationUser with id " + INVALID_ID
+        + " was not found in the repository.");
+
+    applicationUserDaoJpa.deleteUser(INVALID_ID);
   }
 
   /**
    * Test for getting all the ApplicationUsers in the repository.
    */
   @Test
-  public void getAllApplicationUsersTest() {
-
-    applicationUserDaoJpa.createUser(applicationUsersList.get(0));
-    applicationUserDaoJpa.createUser(applicationUsersList.get(1));
-    applicationUserDaoJpa.createUser(applicationUsersList.get(2));
-    try {
-      List<ApplicationUser> usersList = applicationUserDaoJpa.getAllUsers();
-      assertEquals(3, usersList.size());
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
+  public void getAllApplicationUsersTest() { 
+    for(ApplicationUser applicationUser : applicationUsersList) {
+      Long createdId = applicationUserDaoJpa.createUser(applicationUser);
+      applicationUser.setId(createdId);
     }
+    
+    List<ApplicationUser> returnedUsersList = applicationUserDaoJpa.getAllUsers();
+    
+    assertEquals(3, returnedUsersList.size());
+    assertEquals(applicationUsersList, returnedUsersList);
   }
 }

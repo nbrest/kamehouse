@@ -13,6 +13,11 @@ import java.util.List;
 public interface ApplicationUserDao {
 
   /**
+   * Get an application user from the repository by it's id.
+   */
+  public ApplicationUser getUser(Long id);  
+  
+  /**
    * Get an application user from the repository by it's username.
    */
   public ApplicationUser loadUserByUsername(String username);
@@ -35,5 +40,5 @@ public interface ApplicationUserDao {
   /**
    * Get all application users.
    */
-  public List<ApplicationUser> getAllUsers();  
+  public List<ApplicationUser> getAllUsers();
 }

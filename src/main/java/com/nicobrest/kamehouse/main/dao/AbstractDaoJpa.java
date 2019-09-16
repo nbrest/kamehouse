@@ -146,8 +146,8 @@ public abstract class AbstractDaoJpa {
   /**
    * Merge the specified entity in the repository.
    */
-  protected <T> void mergeEntityInRepository(T entity) {
-    addEntityToRepository(entity, new MergeFunction<T>());
+  protected <T> T mergeEntityInRepository(T entity) {
+    return addEntityToRepository(entity, new MergeFunction<T>());
   }
 
   /**
@@ -212,27 +212,29 @@ public abstract class AbstractDaoJpa {
   /**
    * Add the specified entity in the repository.
    */
-  private <T> void addEntityToRepository(T entity,
-      BiFunction<EntityManager, T, Void> addFunction) {
+  private <T> T addEntityToRepository(T entity,
+      BiFunction<EntityManager, T, T> addFunction) {
+    T addedEntity = null;
     EntityManager em = getEntityManager();
     try {
       em.getTransaction().begin();
-      addFunction.apply(em, entity);
+      addedEntity = addFunction.apply(em, entity);
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } finally {
       em.close();
     }
+    return addedEntity;
   }
 
   /**
    * Persist() implementation of the BiFunction interface to add an entity to
    * the repository.
    */
-  private static class PersistFunction<T> implements BiFunction<EntityManager, T, Void> {
+  private static class PersistFunction<T> implements BiFunction<EntityManager, T, T> {
     @Override
-    public Void apply(EntityManager em, T entity) {
+    public T apply(EntityManager em, T entity) {
       em.persist(entity);
       return null;
     }
@@ -242,11 +244,10 @@ public abstract class AbstractDaoJpa {
    * Merge() implementation of the BiFunction interface to add an entity to the
    * repository.
    */
-  private static class MergeFunction<T> implements BiFunction<EntityManager, T, Void> {
+  private static class MergeFunction<T> implements BiFunction<EntityManager, T, T> {
     @Override
-    public Void apply(EntityManager em, T entity) {
-      em.merge(entity);
-      return null;
+    public T apply(EntityManager em, T entity) {
+      return em.merge(entity);
     }
   }
 

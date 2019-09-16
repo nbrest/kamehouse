@@ -22,6 +22,12 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
   }
 
   @Override
+  public ApplicationUser getUser(Long id) {
+    logger.trace("Loading ApplicationUser: {}", id);
+    return findById(ApplicationUser.class, id);
+  }
+  
+  @Override
   public ApplicationUser loadUserByUsername(String username) {
     logger.trace("Loading ApplicationUser: {}", username);
     return findByUsername(ApplicationUser.class, username);
@@ -35,8 +41,8 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
     }
     // Use merge instead of persist so it doesn't throw the object
     // detached exception for ApplicationRoles
-    mergeEntityInRepository(applicationUser);
-    return applicationUser.getId();
+    ApplicationUser mergedApplicationUser = mergeEntityInRepository(applicationUser);
+    return mergedApplicationUser.getId();
   }
 
   @Override

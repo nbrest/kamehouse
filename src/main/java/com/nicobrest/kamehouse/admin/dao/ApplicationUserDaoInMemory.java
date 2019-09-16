@@ -152,4 +152,13 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
       return Long.valueOf(sequence.getAndIncrement());
     }
   }
+
+  /**
+   * Get User by id is not supported for this InMemory repository.
+   */
+  @Override
+  public ApplicationUser getUser(Long id) {
+    throw new UnsupportedOperationException(
+        "This method is not supported. Use loadUserByUsername() for this repository.");
+  }
 }
