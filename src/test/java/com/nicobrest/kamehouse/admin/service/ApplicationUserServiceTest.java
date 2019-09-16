@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.admin.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,7 +30,7 @@ public class ApplicationUserServiceTest {
   private static ApplicationUser applicationUser;
   private static List<ApplicationUser> applicationUsersList;
   private static ApplicationUserDto applicationUserDto;
-  
+
   @InjectMocks
   private ApplicationUserService applicationUserService;
 
@@ -42,85 +41,72 @@ public class ApplicationUserServiceTest {
    * Resets mock objects and initializes test repository.
    */
   @Before
-  public void beforeTest() {   
+  public void beforeTest() {
     ApplicationUserTestUtils.initApplicationUserTestData();
     applicationUser = ApplicationUserTestUtils.getApplicationUser();
     applicationUsersList = ApplicationUserTestUtils.getApplicationUsersList();
     applicationUserDto = ApplicationUserTestUtils.getApplicationUserDto();
-    
+
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserDaoMock);
   }
 
   /**
-   * Test for calling the service to create an ApplicationUser in the
-   * repository.
+   * Test for calling the service to create an ApplicationUser in the repository.
    */
   @Test
   public void createUserTest() {
-    try {
-      Mockito.doReturn(1L).when(applicationUserDaoMock).createUser(applicationUser);
-      applicationUserService.createUser(applicationUserDto);
-      verify(applicationUserDaoMock, times(1)).createUser(applicationUser);
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    Mockito.doReturn(applicationUser.getId()).when(applicationUserDaoMock)
+        .createUser(applicationUser);
+
+    Long returnedId = applicationUserService.createUser(applicationUserDto);
+
+    assertEquals(applicationUser.getId(), returnedId);
+    verify(applicationUserDaoMock, times(1)).createUser(applicationUser);
   }
-  
+
   /**
    * Test for calling the service to get a single ApplicationUser in the
    * repository by username.
    */
   @Test
   public void loadUserByUsernameTest() {
+    when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername()))
+        .thenReturn(applicationUser);
 
-    try {
-      when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername()))
-          .thenReturn(applicationUser);
-      ApplicationUser user = applicationUserService.loadUserByUsername(applicationUser
-          .getUsername());
-      assertNotNull(user);
-      assertEquals("1001", user.getId().toString());
-      verify(applicationUserDaoMock, times(1)).loadUserByUsername(applicationUser
-          .getUsername());
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    ApplicationUser returnedUser =
+        applicationUserService.loadUserByUsername(applicationUser.getUsername());
+
+    assertNotNull(returnedUser);
+    assertEquals(applicationUser, returnedUser);
+    verify(applicationUserDaoMock, times(1)).loadUserByUsername(applicationUser.getUsername());
   }
 
   /**
    * Test for getting all users of the application.
    */
   @Test
-  public void getAllUsersTest() { 
-    try {
-      when(applicationUserDaoMock.getAllUsers()).thenReturn(applicationUsersList);
-      List<ApplicationUser> returnedApplicationUsers = applicationUserService.getAllUsers();
-      assertEquals(applicationUsersList.size(), returnedApplicationUsers.size());
-      verify(applicationUserDaoMock, times(1)).getAllUsers();
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+  public void getAllUsersTest() {
+    when(applicationUserDaoMock.getAllUsers()).thenReturn(applicationUsersList);
+
+    List<ApplicationUser> returnedApplicationUsers = applicationUserService.getAllUsers();
+
+    assertEquals(applicationUsersList.size(), returnedApplicationUsers.size());
+    assertEquals(applicationUsersList, returnedApplicationUsers);
+    verify(applicationUserDaoMock, times(1)).getAllUsers();
   }
-  
+
   /**
    * Test for calling the service to update an existing ApplicationUser in the
    * repository.
    */
   @Test
   public void updateUserTest() {
+    Mockito.doNothing().when(applicationUserDaoMock).updateUser(applicationUser);
 
-    try {
-      Mockito.doNothing().when(applicationUserDaoMock).updateUser(applicationUser);
-      applicationUserService.updateUser(applicationUserDto);
-      verify(applicationUserDaoMock, times(1)).updateUser(applicationUser);
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    applicationUserService.updateUser(applicationUserDto);
+
+    verify(applicationUserDaoMock, times(1)).updateUser(applicationUser);
   }
 
   /**
@@ -128,14 +114,11 @@ public class ApplicationUserServiceTest {
    */
   @Test
   public void deleteUserTest() {
+    when(applicationUserDaoMock.deleteUser(applicationUser.getId())).thenReturn(applicationUser);
 
-    try {
-      when(applicationUserDaoMock.deleteUser(1000L)).thenReturn(applicationUser);
-      applicationUserService.deleteUser(1000L);
-      verify(applicationUserDaoMock, times(1)).deleteUser(1000L);
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    ApplicationUser deletedUser = applicationUserService.deleteUser(applicationUser.getId());
+
+    assertEquals(applicationUser, deletedUser);
+    verify(applicationUserDaoMock, times(1)).deleteUser(applicationUser.getId());
   }
 }
