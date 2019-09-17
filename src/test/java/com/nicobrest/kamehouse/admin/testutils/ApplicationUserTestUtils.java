@@ -54,6 +54,7 @@ public class ApplicationUserTestUtils {
     ApplicationRole applicationRole = new ApplicationRole();
     applicationRole.setId(10L);
     applicationRole.setName("ADMIN_ROLE");
+    applicationRole.setApplicationUser(applicationUser);
     authorities.add(applicationRole);
     applicationUser.setAuthorities(authorities);
   }
@@ -75,6 +76,7 @@ public class ApplicationUserTestUtils {
     ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
     applicationRoleDto.setId(10L);
     applicationRoleDto.setName("ADMIN_ROLE");
+    applicationRoleDto.setApplicationUser(applicationUserDto);
     authoritiesDto.add(applicationRoleDto);
     applicationUserDto.setAuthorities(authoritiesDto);
   }
@@ -88,6 +90,7 @@ public class ApplicationUserTestUtils {
     Set<ApplicationRole> roles2 = new HashSet<ApplicationRole>();
     ApplicationRole userRole2 = new ApplicationRole();
     userRole2.setName("ROLE_USER");
+    userRole2.setApplicationUser(applicationUser2);
     roles2.add(userRole2);
     applicationUser2.setAuthorities(roles2);
     
@@ -99,6 +102,7 @@ public class ApplicationUserTestUtils {
     Set<ApplicationRole> roles3 = new HashSet<ApplicationRole>();
     ApplicationRole userRole3 = new ApplicationRole();
     userRole3.setName("ROLE_USER");
+    userRole3.setApplicationUser(applicationUser3);
     roles3.add(userRole3);
     applicationUser3.setAuthorities(roles3);
     

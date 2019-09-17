@@ -6,23 +6,18 @@ import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
+import com.nicobrest.kamehouse.main.dao.AbstractDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
 /**
  * Unit tests for the ApplicationUserDaoJpa class.
@@ -31,19 +26,13 @@ import javax.persistence.Query;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class ApplicationUserDaoJpaTest {
+public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
 
   private static ApplicationUser applicationUser;
   private static List<ApplicationUser> applicationUsersList;
 
   @Autowired
   private ApplicationUserDao applicationUserDaoJpa;
-
-  @Autowired
-  private EntityManagerFactory entityManagerFactory;
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Clear data from the repository before each test.
@@ -53,14 +42,8 @@ public class ApplicationUserDaoJpaTest {
     ApplicationUserTestUtils.initApplicationUserTestData();
     applicationUser = ApplicationUserTestUtils.getApplicationUser();
     applicationUsersList = ApplicationUserTestUtils.getApplicationUsersList();
-    EntityManager em = entityManagerFactory.createEntityManager();
-    em.getTransaction().begin();
-    Query deleteRoles = em.createNativeQuery("DELETE FROM APPLICATION_ROLE");
-    deleteRoles.executeUpdate();
-    Query deleteUsers = em.createNativeQuery("DELETE FROM APPLICATION_USER");
-    deleteUsers.executeUpdate();
-    em.getTransaction().commit();
-    em.close();
+    clearTable("APPLICATION_ROLE");
+    clearTable("APPLICATION_USER");
   }
 
   /**
@@ -71,7 +54,7 @@ public class ApplicationUserDaoJpaTest {
     Long returnedId = applicationUserDaoJpa.createUser(applicationUser);
 
     assertNotEquals(applicationUser.getId(), returnedId);
-    ApplicationUser returnedUser = applicationUserDaoJpa.getUser(returnedId);
+    ApplicationUser returnedUser = findById(ApplicationUser.class, returnedId);
     applicationUser.setId(returnedId);
     assertEquals(applicationUser, returnedUser);
   }
@@ -94,7 +77,7 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void getApplicationUserByIdTest() {
-    Long createId = applicationUserDaoJpa.createUser(applicationUser);
+    Long createId = mergeEntityInRepository(applicationUser).getId();
     applicationUser.setId(createId);
     
     ApplicationUser returnedUser = applicationUserDaoJpa.getUser(createId);
@@ -108,7 +91,7 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void getApplicationUserByUsernameTest() {
-    applicationUserDaoJpa.createUser(applicationUser);
+    mergeEntityInRepository(applicationUser);
 
     ApplicationUser returnedUser = applicationUserDaoJpa.loadUserByUsername(applicationUser
         .getUsername());
@@ -135,14 +118,13 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void updateApplicationUserTest() {
-    Long createId = applicationUserDaoJpa.createUser(applicationUser);
-    ApplicationUser userToUpdate = applicationUserDaoJpa.getUser(createId);
+    ApplicationUser userToUpdate = mergeEntityInRepository(applicationUser);
     userToUpdate.setEmail("updatedGoku@dbz.com");
     userToUpdate.getAuthorities();
 
     applicationUserDaoJpa.updateUser(userToUpdate);
 
-    ApplicationUser updatedUser = applicationUserDaoJpa.getUser(userToUpdate.getId());
+    ApplicationUser updatedUser = findById(ApplicationUser.class, userToUpdate.getId());
     assertEquals(userToUpdate, updatedUser);
   }
 
@@ -164,7 +146,7 @@ public class ApplicationUserDaoJpaTest {
    */
   @Test
   public void deleteApplicationUserTest() {
-    Long userToDeleteId = applicationUserDaoJpa.createUser(applicationUser);
+    Long userToDeleteId = mergeEntityInRepository(applicationUser).getId();
     applicationUser.setId(userToDeleteId);
 
     ApplicationUser deletedUser = applicationUserDaoJpa.deleteUser(userToDeleteId);
@@ -190,7 +172,7 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void getAllApplicationUsersTest() { 
     for(ApplicationUser applicationUser : applicationUsersList) {
-      Long createdId = applicationUserDaoJpa.createUser(applicationUser);
+      Long createdId = mergeEntityInRepository(applicationUser).getId();
       applicationUser.setId(createdId);
     }
     

@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import com.nicobrest.kamehouse.main.dao.AbstractDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 import org.junit.Before;
@@ -22,10 +22,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-
 /**
  * Unit tests for the DragonBallUserDaoJpa class.
  *
@@ -33,13 +29,10 @@ import javax.persistence.Query;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class DragonBallUserDaoJpaTest {
+public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    
   @Autowired
   private DragonBallUserDao dragonBallUserDaoJpa;
-
-  @Autowired
-  private EntityManagerFactory entityManagerFactory;
   
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -49,13 +42,7 @@ public class DragonBallUserDaoJpaTest {
    */
   @Before
   public void setUp() {
-    
-    EntityManager em = entityManagerFactory.createEntityManager();
-    em.getTransaction().begin();
-    Query query = em.createNativeQuery("DELETE FROM DRAGONBALL_USER");
-    query.executeUpdate();
-    em.getTransaction().commit();
-    em.close();
+    clearTable("DRAGONBALL_USER");
   }
 
   /**
@@ -68,7 +55,7 @@ public class DragonBallUserDaoJpaTest {
         1000);
 
     try {
-      assertEquals(0, dragonBallUserDaoJpa.getAllDragonBallUsers().size());
+      assertEquals(0, findAll(DragonBallUser.class).size());
       dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
       assertEquals(1, dragonBallUserDaoJpa.getAllDragonBallUsers().size());
       dragonBallUserDaoJpa
