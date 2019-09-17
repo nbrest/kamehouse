@@ -26,6 +26,7 @@ import javax.persistence.Query;
 public abstract class AbstractDaoJpa {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
+  
   private static final String NO_RESULT_EXCEPTION =
       "NoResultException: Entity not found in the repository.";
   private static final String CONSTRAINT_VIOLATION_EXCEPTION =
@@ -254,7 +255,7 @@ public abstract class AbstractDaoJpa {
   /**
    * Process the thrown persistent exception to throw the appropriate type.
    */
-  private void handlePersistentException(PersistenceException pe) {
+  private static void handlePersistentException(PersistenceException pe) {
     Throwable cause = pe;
     while (cause != null) {
       if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
@@ -272,7 +273,7 @@ public abstract class AbstractDaoJpa {
    * Return a bad request response if the code throws an
    * IllegalArgumentException.
    */
-  private void handleIllegalArgumentException(IllegalArgumentException ex) {
+  private static void handleIllegalArgumentException(IllegalArgumentException ex) {
     throw new KameHouseBadRequestException(ILLEGAL_ARGUMENT, ex);
   }
 }

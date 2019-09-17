@@ -1,15 +1,13 @@
 package com.nicobrest.kamehouse.testmodule.controller;
 
+import com.nicobrest.kamehouse.main.controller.AbstractController;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
-import com.nicobrest.kamehouse.utils.ControllerUtils;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,20 +33,10 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/dragonball")
-public class DragonBallController {
-
-  private final Logger logger = LoggerFactory.getLogger(getClass());
+public class DragonBallController extends AbstractController {
 
   @Autowired
   private DragonBallUserService dragonBallUserService;
-
-  public void setDragonBallUserService(DragonBallUserService dragonBallUserService) {
-    this.dragonBallUserService = dragonBallUserService;
-  }
-
-  public DragonBallUserService getDragonBallUserService() {
-    return this.dragonBallUserService;
-  }
 
   /**
    * /dragonball/model-and-view Returns the ModelAndView object for the test
@@ -147,7 +135,7 @@ public class DragonBallController {
   public ResponseEntity<Void> putUsers(@PathVariable Long id,
       @RequestBody DragonBallUserDto dragonBallUserDto) {
     logger.trace("In controller /dragonball/users/{id} (PUT)");
-    ControllerUtils.validatePathAndRequestBodyIds(id, dragonBallUserDto.getId());
+    validatePathAndRequestBodyIds(id, dragonBallUserDto.getId());
     dragonBallUserService.updateDragonBallUser(dragonBallUserDto);
     return new ResponseEntity<>(HttpStatus.OK);
   }

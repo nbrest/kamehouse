@@ -1,10 +1,9 @@
 package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.service.EhCacheService;
+import com.nicobrest.kamehouse.main.controller.AbstractController;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin/ehcache")
-public class EhCacheController {
-
-  private final Logger logger = LoggerFactory.getLogger(getClass());
+public class EhCacheController extends AbstractController {
 
   @Autowired
   private EhCacheService ehCacheService;

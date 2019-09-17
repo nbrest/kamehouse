@@ -2,12 +2,10 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
+import com.nicobrest.kamehouse.main.controller.AbstractController;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.utils.ControllerUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,9 +26,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin/power-management")
-public class PowerManagementController {
-
-  private final Logger logger = LoggerFactory.getLogger(getClass());
+public class PowerManagementController extends AbstractController {
 
   @Autowired
   private AdminCommandService adminCommandService;
@@ -49,7 +45,7 @@ public class PowerManagementController {
     }
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownSetAdminCommand);
-    return ControllerUtils.generateResponseEntity(commandOutputs);
+    return generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -62,7 +58,7 @@ public class PowerManagementController {
     AdminCommand shutdownCancelAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_CANCEL);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownCancelAdminCommand); 
-    return ControllerUtils.generateResponseEntity(commandOutputs);
+    return generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -75,7 +71,7 @@ public class PowerManagementController {
     AdminCommand shutdownStatusAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownStatusAdminCommand);
-    return ControllerUtils.generateResponseEntity(commandOutputs);
+    return generateResponseEntity(commandOutputs);
   }
   
   /**
@@ -88,6 +84,6 @@ public class PowerManagementController {
     AdminCommand adminCommand = new AdminCommand(AdminCommand.SUSPEND);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         adminCommand);
-    return ControllerUtils.generateResponseEntity(commandOutputs);
+    return generateResponseEntity(commandOutputs);
   }
 }

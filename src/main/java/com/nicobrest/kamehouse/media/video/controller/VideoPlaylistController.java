@@ -1,10 +1,9 @@
 package com.nicobrest.kamehouse.media.video.controller;
 
+import com.nicobrest.kamehouse.main.controller.AbstractController;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/media/video")
-public class VideoPlaylistController {
-
-  private final Logger logger = LoggerFactory.getLogger(getClass());
+public class VideoPlaylistController extends AbstractController {
 
   @Autowired
   private VideoPlaylistService videoPlaylistService;

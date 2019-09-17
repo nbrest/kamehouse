@@ -3,10 +3,8 @@ package com.nicobrest.kamehouse.admin.controller;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.utils.ControllerUtils;
+import com.nicobrest.kamehouse.main.controller.AbstractController;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,20 +27,10 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin/application")
-public class ApplicationUserController {
-
-  private final Logger logger = LoggerFactory.getLogger(getClass());
-
+public class ApplicationUserController extends AbstractController {
+ 
   @Autowired
   private ApplicationUserService applicationUserService;
-
-  public void setApplicationUserService(ApplicationUserService applicationUserService) {
-    this.applicationUserService = applicationUserService;
-  }
-
-  public ApplicationUserService getApplicationUserService() {
-    return this.applicationUserService;
-  }
 
   /**
    * Returns all application users.
@@ -91,7 +79,7 @@ public class ApplicationUserController {
   public ResponseEntity<Void> putUsersId(@PathVariable Long id,
       @RequestBody ApplicationUserDto applicationUserDto) {
     logger.trace("In controller /application/users/{id} (PUT)");
-    ControllerUtils.validatePathAndRequestBodyIds(id, applicationUserDto.getId());
+    validatePathAndRequestBodyIds(id, applicationUserDto.getId());
     applicationUserService.updateUser(applicationUserDto);
     return new ResponseEntity<>(HttpStatus.OK);
   }

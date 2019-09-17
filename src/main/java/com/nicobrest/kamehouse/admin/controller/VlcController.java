@@ -2,12 +2,10 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
+import com.nicobrest.kamehouse.main.controller.AbstractController;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.utils.ControllerUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,10 +26,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin")
-public class VlcController {
-
-  private final Logger logger = LoggerFactory.getLogger(getClass());
-
+public class VlcController extends AbstractController {
+ 
   @Autowired
   private AdminCommandService adminCommandService;
 
@@ -48,7 +44,7 @@ public class VlcController {
           .getCommand());
     }
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStartAdminCommand);
-    return ControllerUtils.generateResponseEntity(commandOutputs);
+    return generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -60,7 +56,7 @@ public class VlcController {
     logger.trace("In controller /api/v1/admin/vlc (DELETE)");
     AdminCommand vlcStopAdminCommand = new AdminCommand(AdminCommand.VLC_STOP);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStopAdminCommand);
-    return ControllerUtils.generateResponseEntity(commandOutputs);
+    return generateResponseEntity(commandOutputs);
   }
 
   /**
@@ -72,6 +68,6 @@ public class VlcController {
     logger.trace("In controller /api/v1/admin/vlc (GET)");
     AdminCommand vlcStatusAdminCommand = new AdminCommand(AdminCommand.VLC_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStatusAdminCommand);
-    return ControllerUtils.generateResponseEntity(commandOutputs);
+    return generateResponseEntity(commandOutputs);
   }
 }

@@ -30,9 +30,7 @@ public class VlcRcWebSocketController {
   @MessageMapping("/vlc-player/status-in")
   @SendTo("/topic/vlc-player/status-out")
   public VlcRcStatus getVlcRcStatus() {
-
     logger.trace("In WebSocket controller /vlc-player/status-in");
-
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
     if (vlcRcStatus == null) {
       // Return an empty object instead of null so the client receives a response and updates 
