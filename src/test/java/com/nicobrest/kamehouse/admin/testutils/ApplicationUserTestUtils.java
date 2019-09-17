@@ -13,6 +13,9 @@ import java.util.Set;
 
 public class ApplicationUserTestUtils {
 
+  public static final String API_V1_ADMIN_APPLICATION_USERS = "/api/v1/admin/application/users/";
+  public static final Long INVALID_ID = 987987L;
+  public static final String INVALID_USERNAME = "yukimura";
   private static ApplicationUser applicationUser;
   private static List<ApplicationUser> applicationUsersList;
   private static ApplicationUserDto applicationUserDto;

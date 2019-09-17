@@ -35,7 +35,6 @@ public class ApplicationUserDaoJpaTest {
 
   private static ApplicationUser applicationUser;
   private static List<ApplicationUser> applicationUsersList;
-  private static final Long INVALID_ID = 987987L;
 
   @Autowired
   private ApplicationUserDao applicationUserDaoJpa;
@@ -128,7 +127,7 @@ public class ApplicationUserDaoJpaTest {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("Entity not found in the repository.");
 
-    applicationUserDaoJpa.loadUserByUsername("yukimura");
+    applicationUserDaoJpa.loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
   }
 
   /**
@@ -153,9 +152,9 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void updateApplicationUserNotFoundExceptionTest() {
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + INVALID_ID
+    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
         + " was not found in the repository.");
-    applicationUser.setId(INVALID_ID);
+    applicationUser.setId(ApplicationUserTestUtils.INVALID_ID);
 
     applicationUserDaoJpa.updateUser(applicationUser);
   }
@@ -179,10 +178,10 @@ public class ApplicationUserDaoJpaTest {
   @Test
   public void deleteApplicationUserNotFoundExceptionTest() {
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + INVALID_ID
+    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
         + " was not found in the repository.");
 
-    applicationUserDaoJpa.deleteUser(INVALID_ID);
+    applicationUserDaoJpa.deleteUser(ApplicationUserTestUtils.INVALID_ID);
   }
 
   /**
