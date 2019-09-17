@@ -71,7 +71,7 @@ public class DragonBallController extends AbstractController {
         break;
     }
     List<DragonBallUser> dbUsers = dragonBallUserService.getAllDragonBallUsers();
-    return new ResponseEntity<>(dbUsers, HttpStatus.OK);
+    return generateGetResponseEntity(dbUsers);
   }
 
   /**
@@ -82,7 +82,7 @@ public class DragonBallController extends AbstractController {
   public ResponseEntity<Long> postUsers(@RequestBody DragonBallUserDto dragonBallUserDto) {
     logger.trace("In controller /dragonball/users (POST)");
     Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUserDto);
-    return new ResponseEntity<>(dbUserId, HttpStatus.CREATED);
+    return generatePostResponseEntity(dbUserId);
   }
 
   /**
@@ -94,7 +94,7 @@ public class DragonBallController extends AbstractController {
   public ResponseEntity<DragonBallUser> getUsersId(@PathVariable Long id) {
     logger.trace("In controller /dragonball/users/{id} (GET)");
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(id);
-    return new ResponseEntity<>(dbUser, HttpStatus.OK);
+    return generateGetResponseEntity(dbUser);
   }
 
   /**
@@ -109,7 +109,7 @@ public class DragonBallController extends AbstractController {
     // part following the first dot
     logger.trace("In controller /dragonball/users/username/{username:.+} (GET)");
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
-    return new ResponseEntity<>(dbUser, HttpStatus.OK);
+    return generateGetResponseEntity(dbUser);
   }
 
   /**
@@ -122,6 +122,7 @@ public class DragonBallController extends AbstractController {
     logger.trace("In controller /dragonball/users/emails/{email:.+} (GET)");
     DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
     String dbUserJson = JsonUtils.toJsonString(dbUser);
+    //Leaving this one as is as a test instead of using generateGetResponseEntity
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Type", "application/json;charset=UTF-8");
     return new ResponseEntity<>(dbUserJson, headers, HttpStatus.OK);
@@ -137,7 +138,7 @@ public class DragonBallController extends AbstractController {
     logger.trace("In controller /dragonball/users/{id} (PUT)");
     validatePathAndRequestBodyIds(id, dragonBallUserDto.getId());
     dragonBallUserService.updateDragonBallUser(dragonBallUserDto);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return generatePutResponseEntity();
   }
 
   /**
@@ -148,6 +149,6 @@ public class DragonBallController extends AbstractController {
   public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) {
     logger.trace("In controller /dragonball/users/{id} (DELETE)");
     DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
-    return new ResponseEntity<>(deletedDbUser, HttpStatus.OK);
+    return generateDeleteResponseEntity(deletedDbUser);
   }
 }

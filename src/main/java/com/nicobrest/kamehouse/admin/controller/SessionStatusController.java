@@ -34,6 +34,6 @@ public class SessionStatusController extends AbstractController {
   public ResponseEntity<Map<String, Object>> getSessionStatus() {
     logger.trace("In controller /api/v1/session/status (GET)");
     Map<String, Object> sessionStatus = sessionStatusService.getSessionStatus();
-    return new ResponseEntity<>(sessionStatus, HttpStatus.OK);
+    return generateGetResponseEntity(sessionStatus);
   }
 }

@@ -6,7 +6,6 @@ import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.main.controller.AbstractController;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +43,7 @@ public class ApplicationUserController extends AbstractController {
     for (ApplicationUser appUser : applicationUsers) {
       appUser.setPassword(null);
     }
-    return new ResponseEntity<>(applicationUsers, HttpStatus.OK);
+    return generateGetResponseEntity(applicationUsers);
   }
 
   /**
@@ -55,7 +54,7 @@ public class ApplicationUserController extends AbstractController {
   public ResponseEntity<Long> postUsers(@RequestBody ApplicationUserDto applicationUserDto) {
     logger.trace("In controller /application/users (POST)");
     Long applicationUserId = applicationUserService.createUser(applicationUserDto);
-    return new ResponseEntity<>(applicationUserId, HttpStatus.CREATED);
+    return generatePostResponseEntity(applicationUserId);
   }
 
   /**
@@ -68,7 +67,7 @@ public class ApplicationUserController extends AbstractController {
     ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
     // Don't return the password through the API.
     applicationUser.setPassword(null);
-    return new ResponseEntity<>(applicationUser, HttpStatus.OK);
+    return generateGetResponseEntity(applicationUser);
   }
 
   /**
@@ -81,7 +80,7 @@ public class ApplicationUserController extends AbstractController {
     logger.trace("In controller /application/users/{id} (PUT)");
     validatePathAndRequestBodyIds(id, applicationUserDto.getId());
     applicationUserService.updateUser(applicationUserDto);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return generatePutResponseEntity();
   }
 
   /**
@@ -94,6 +93,6 @@ public class ApplicationUserController extends AbstractController {
     ApplicationUser deletedAppUser = applicationUserService.deleteUser(id);
     // Don't return the passwords through the API.
     deletedAppUser.setPassword(null);
-    return new ResponseEntity<>(deletedAppUser, HttpStatus.OK);
+    return generateDeleteResponseEntity(deletedAppUser);
   }
 }
