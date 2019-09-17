@@ -1,14 +1,11 @@
 package com.nicobrest.kamehouse.main.controller;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 /**
  * Superclass to all controllers that groups common functionality to all of
@@ -23,20 +20,6 @@ public abstract class AbstractController {
 
   private static final ResponseEntity<Void> EMPTY_SUCCESS_RESPONSE =
       new ResponseEntity<>(HttpStatus.OK);
-
-  /**
-   * Generates a response entity for a list of SystemCommandOutputs.
-   */
-  public static ResponseEntity<List<SystemCommandOutput>>
-      generateResponseEntity(List<SystemCommandOutput> commandOutputs) {
-    HttpStatus httpStatus = HttpStatus.OK;
-    for (SystemCommandOutput commandOutput : commandOutputs) {
-      if (commandOutput.getExitCode() > 0) {
-        httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-      }
-    }
-    return new ResponseEntity<>(commandOutputs, httpStatus);
-  }
 
   /**
    * Generates a standard response entity for get requests.

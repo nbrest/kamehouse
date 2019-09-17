@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin/screen")
-public class ScreenController extends AbstractController {
+public class ScreenController extends AbstractSystemCommandController {
 
   @Autowired
   private AdminCommandService adminCommandService;
@@ -36,7 +36,7 @@ public class ScreenController extends AbstractController {
     logger.trace("In controller /api/v1/admin/screen/lock (POST)");
     AdminCommand lockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(lockScreenAdminCommand); 
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 
   /**
@@ -49,7 +49,7 @@ public class ScreenController extends AbstractController {
     AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         unlockScreenAdminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
   
   /**
@@ -63,6 +63,6 @@ public class ScreenController extends AbstractController {
     AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_WAKE_UP);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         unlockScreenAdminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 }

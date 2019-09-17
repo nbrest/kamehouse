@@ -2,8 +2,8 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
-import com.nicobrest.kamehouse.main.controller.AbstractController;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin")
-public class VlcController extends AbstractController {
+public class VlcController extends AbstractSystemCommandController {
  
   @Autowired
   private AdminCommandService adminCommandService;
@@ -44,7 +44,7 @@ public class VlcController extends AbstractController {
           .getCommand());
     }
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStartAdminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 
   /**
@@ -56,7 +56,7 @@ public class VlcController extends AbstractController {
     logger.trace("In controller /api/v1/admin/vlc (DELETE)");
     AdminCommand vlcStopAdminCommand = new AdminCommand(AdminCommand.VLC_STOP);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStopAdminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 
   /**
@@ -68,6 +68,6 @@ public class VlcController extends AbstractController {
     logger.trace("In controller /api/v1/admin/vlc (GET)");
     AdminCommand vlcStatusAdminCommand = new AdminCommand(AdminCommand.VLC_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStatusAdminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 }

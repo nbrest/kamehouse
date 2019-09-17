@@ -2,8 +2,8 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
-import com.nicobrest.kamehouse.main.controller.AbstractController;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin/power-management")
-public class PowerManagementController extends AbstractController {
+public class PowerManagementController extends AbstractSystemCommandController {
 
   @Autowired
   private AdminCommandService adminCommandService;
@@ -45,7 +45,7 @@ public class PowerManagementController extends AbstractController {
     }
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownSetAdminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 
   /**
@@ -58,7 +58,7 @@ public class PowerManagementController extends AbstractController {
     AdminCommand shutdownCancelAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_CANCEL);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownCancelAdminCommand); 
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 
   /**
@@ -71,7 +71,7 @@ public class PowerManagementController extends AbstractController {
     AdminCommand shutdownStatusAdminCommand = new AdminCommand(AdminCommand.SHUTDOWN_STATUS);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         shutdownStatusAdminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
   
   /**
@@ -84,6 +84,6 @@ public class PowerManagementController extends AbstractController {
     AdminCommand adminCommand = new AdminCommand(AdminCommand.SUSPEND);
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
         adminCommand);
-    return generateResponseEntity(commandOutputs);
+    return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 }
