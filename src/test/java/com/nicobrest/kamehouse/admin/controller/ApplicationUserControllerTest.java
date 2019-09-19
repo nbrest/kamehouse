@@ -81,13 +81,16 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     when(applicationUserServiceMock.getAllUsers()).thenReturn(applicationUsersList);
 
     MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS);
-    
+
     List<ApplicationUser> responseBody = getResponseBodyList(response, ApplicationUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK.value());
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8.toString());
     assertEquals(3, responseBody.size());
-    assertEquals(applicationUsersList, responseBody);
+    assertEquals(applicationUsersList.toString().replaceAll("\\s+", ""), response
+        .getContentAsString().replaceAll("\\s+", ""));
+    // Optionally create a method to iterate responseBody casting each to T and
+    // verifying each with equals.
     verify(applicationUserServiceMock, times(1)).getAllUsers();
   }
 
