@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -96,14 +95,13 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     when(applicationUserServiceMock.getAllUsers()).thenReturn(applicationUsersList);
 
     MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS);
-    List<ApplicationUser> responseBody = getResponseBody(response);
+    List<ApplicationUser> responseBody = getResponseBodyAsList(response, ApplicationUser.class);
     
     verifyResponseStatus(response, HttpStatus.OK.value());
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8.toString());
     assertEquals(3, responseBody.size());
     assertEquals(applicationUsersList, responseBody);
     verify(applicationUserServiceMock, times(1)).getAllUsers();
-    verifyNoMoreInteractions(applicationUserServiceMock);
   }
 
   /**
@@ -117,16 +115,12 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
         .thenReturn(applicationUser);
 
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
-    ResultActions requestResult =
-        mockMvc
-            .perform(post(API_V1_ADMIN_APPLICATION_USERS)
-                .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
-            .andDo(print());
-
-    requestResult.andExpect(status().isCreated());
-    requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-    requestResult.andExpect(content().bytes(JsonUtils.toJsonByteArray(applicationUserDto.getId())));
-    requestResult.andExpect(content().string(applicationUserDto.getId().toString()));
+    MockHttpServletResponse response = executePost(API_V1_ADMIN_APPLICATION_USERS, requestPayload);
+    Long responseBody = getResponseBody(response, Long.class);
+ 
+    verifyResponseStatus(response, HttpStatus.CREATED.value());
+    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8.toString());
+    assertEquals(applicationUserDto.getId(), responseBody);
     verify(applicationUserServiceMock, times(1)).createUser(applicationUserDto);
   }
 
