@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -135,14 +134,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
         .when(applicationUserServiceMock).createUser(applicationUserDto);
 
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
-    ResultActions requestResult =
-        mockMvc
-            .perform(post(API_V1_ADMIN_APPLICATION_USERS)
-                .contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
-            .andDo(print());
-
-    requestResult.andExpect(status().is4xxClientError());
-    verify(applicationUserServiceMock, times(1)).createUser(applicationUserDto);
+    executePost(API_V1_ADMIN_APPLICATION_USERS, requestPayload);
   }
 
   /**
