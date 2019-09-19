@@ -33,6 +33,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,7 +81,9 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     when(applicationUserServiceMock.getAllUsers()).thenReturn(applicationUsersList);
 
     MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS);
-    List<ApplicationUser> responseBody = getResponseBodyAsList(response, ApplicationUser.class);
+    List<ApplicationUser> l = new ArrayList<ApplicationUser>();
+    
+    List<ApplicationUser> responseBody = getResponseBodyList(response, ApplicationUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK.value());
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8.toString());

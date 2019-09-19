@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import com.fasterxml.jackson.core.type.ResolvedType;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
@@ -18,7 +19,13 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Super class to all controller test classes to group common attributes and
@@ -64,9 +71,9 @@ public abstract class AbstractControllerTest {
     assertEquals(expectedContentType, response.getContentType());
   }
 
-  protected static <T> List<T> getResponseBodyAsList(MockHttpServletResponse response,
-      Class<T> clazz) throws ClassNotFoundException, IOException {
-    TypeReference<T> typeReference = getTypeReference(clazz, true);
+  protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response,
+      Class<T> clazz) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException {
+    TypeReferenceListImpl<T> typeReference = new TypeReferenceListImpl<T>(clazz);
     List<T> responseBody = new ObjectMapper().readValue(response.getContentAsString(),
         typeReference);
     return (List<T>) responseBody;
@@ -74,36 +81,34 @@ public abstract class AbstractControllerTest {
 
   protected static <T> T getResponseBody(MockHttpServletResponse response, Class<T> clazz)
       throws ClassNotFoundException, IOException {
-    TypeReference<T> typeReference = getTypeReference(clazz, false);
+    TypeReferenceImpl<T> typeReference = new TypeReferenceImpl<T>(clazz);
     T responseBody = new ObjectMapper().readValue(response.getContentAsString(), typeReference);
     return responseBody;
   }
+  
+  private static class TypeReferenceImpl<T> extends TypeReference<T> {
+    protected final Type type;
+    protected TypeReferenceImpl(Class<T> clazz) {
+      type = clazz;
+    }
+    public Type getType() { return type; }
+  }
+  
+  private static class TypeReferenceListImpl<T> extends TypeReference<T> {
+    protected final Type type;
+    protected TypeReferenceListImpl(Class<T> clazz) throws InstantiationException, IllegalAccessException {
 
-  private static <T> TypeReference<T> getTypeReference(Class<T> clazz, boolean asList)
-      throws ClassNotFoundException {
-    String className = clazz.getSimpleName();
-    TypeReference<T> typeReference;
-    switch (className) {
-      case "ApplicationUser":
-        if (asList) {
-          typeReference = (TypeReference<T>) new TypeReference<List<ApplicationUser>>() {
-          };
-        } else {
-          typeReference = (TypeReference<T>) new TypeReference<ApplicationUser>() {
-          };
-        }
-        return typeReference;
-      case "Long":
-        if (asList) {
-          typeReference = (TypeReference<T>) new TypeReference<List<Long>>() {
-          };
-        } else {
-          typeReference = (TypeReference<T>) new TypeReference<Long>() {
-          };
-        }
-        return typeReference;
-      default:
-        throw new ClassNotFoundException(className + " not found");
+      T object = clazz.newInstance();
+      type = list(clazz).getClass();
+    }
+    public Type getType() { 
+      return type; 
     }
   }
+  
+  public static final <T> List<Class<T>> list(Class<T> c) {
+    final List<Class<T>> rv = new ArrayList<>();
+    rv.add(c);
+    return rv;
+}
 }
