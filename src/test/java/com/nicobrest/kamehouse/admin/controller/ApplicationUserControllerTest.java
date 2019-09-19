@@ -81,7 +81,6 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     when(applicationUserServiceMock.getAllUsers()).thenReturn(applicationUsersList);
 
     MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS);
-    List<ApplicationUser> l = new ArrayList<ApplicationUser>();
     
     List<ApplicationUser> responseBody = getResponseBodyList(response, ApplicationUser.class);
 

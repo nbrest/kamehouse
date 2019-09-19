@@ -7,8 +7,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.ResolvedType;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 
@@ -19,6 +21,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,10 +40,10 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 public abstract class AbstractControllerTest {
 
   protected MockMvc mockMvc;
-  
+
   @Rule
   public ExpectedException thrown = ExpectedException.none();
-  
+
   protected MockHttpServletResponse executeGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }
@@ -56,11 +59,11 @@ public abstract class AbstractControllerTest {
     return mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(
         requestPayload)).andDo(print()).andReturn().getResponse();
   }
-  
+
   protected MockHttpServletResponse executeDelete(String url) throws Exception {
     return mockMvc.perform(delete(url)).andDo(print()).andReturn().getResponse();
   }
-  
+
   protected static void verifyResponseStatus(MockHttpServletResponse response,
       int expectedStatus) {
     assertEquals(expectedStatus, response.getStatus());
@@ -72,7 +75,8 @@ public abstract class AbstractControllerTest {
   }
 
   protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response,
-      Class<T> clazz) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException {
+      Class<T> clazz) throws JsonParseException, JsonMappingException,
+      UnsupportedEncodingException, IOException, InstantiationException, IllegalAccessException {
     TypeReferenceListImpl<T> typeReference = new TypeReferenceListImpl<T>(clazz);
     List<T> responseBody = new ObjectMapper().readValue(response.getContentAsString(),
         typeReference);
@@ -80,35 +84,37 @@ public abstract class AbstractControllerTest {
   }
 
   protected static <T> T getResponseBody(MockHttpServletResponse response, Class<T> clazz)
-      throws ClassNotFoundException, IOException {
+      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException {
     TypeReferenceImpl<T> typeReference = new TypeReferenceImpl<T>(clazz);
     T responseBody = new ObjectMapper().readValue(response.getContentAsString(), typeReference);
     return responseBody;
   }
-  
+
   private static class TypeReferenceImpl<T> extends TypeReference<T> {
     protected final Type type;
+
     protected TypeReferenceImpl(Class<T> clazz) {
       type = clazz;
     }
-    public Type getType() { return type; }
+
+    public Type getType() {
+      return type;
+    }
   }
-  
+
   private static class TypeReferenceListImpl<T> extends TypeReference<T> {
     protected final Type type;
-    protected TypeReferenceListImpl(Class<T> clazz) throws InstantiationException, IllegalAccessException {
 
-      T object = clazz.newInstance();
-      type = list(clazz).getClass();
+    protected TypeReferenceListImpl(Class<T> clazz) throws InstantiationException,
+        IllegalAccessException {
+      List<T> list = new ArrayList<>();
+      list.add(clazz.newInstance());
+      type = list.getClass();
     }
-    public Type getType() { 
-      return type; 
+
+    public Type getType() {
+      return type;
     }
   }
-  
-  public static final <T> List<Class<T>> list(Class<T> c) {
-    final List<Class<T>> rv = new ArrayList<>();
-    rv.add(c);
-    return rv;
-}
+
 }
