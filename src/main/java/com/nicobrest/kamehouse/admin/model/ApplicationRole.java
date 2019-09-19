@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -35,6 +36,9 @@ public class ApplicationRole implements GrantedAuthority {
   
   @Column(name = "NAME", nullable = false)
   private String name;
+  
+  @JsonIgnore
+  private String authority;
   
   @ManyToOne(optional = false)
   @JoinColumn(name = "APPLICATION_USER_ID")

@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.controller;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,7 +36,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -93,23 +95,13 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   public void getUsersTest() throws Exception {
     when(applicationUserServiceMock.getAllUsers()).thenReturn(applicationUsersList);
 
-    ResultActions requestResult =
-        mockMvc.perform(get(API_V1_ADMIN_APPLICATION_USERS)).andDo(print());
-    requestResult.andExpect(status().isOk());
-    requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-    requestResult.andExpect(jsonPath("$", hasSize(3)));
-    requestResult.andExpect(jsonPath("$[0].id", equalTo(1001)));
-    requestResult.andExpect(jsonPath("$[0].username", equalTo("goku")));
-    requestResult.andExpect(jsonPath("$[0].email", equalTo("goku@dbz.com")));
-    requestResult.andExpect(jsonPath("$[0].password", equalTo(null)));
-    requestResult.andExpect(jsonPath("$[1].id", equalTo(1002)));
-    requestResult.andExpect(jsonPath("$[1].username", equalTo("gohan")));
-    requestResult.andExpect(jsonPath("$[1].email", equalTo("gohan@dbz.com")));
-    requestResult.andExpect(jsonPath("$[1].password", equalTo(null)));
-    requestResult.andExpect(jsonPath("$[2].id", equalTo(1003)));
-    requestResult.andExpect(jsonPath("$[2].username", equalTo("goten")));
-    requestResult.andExpect(jsonPath("$[2].email", equalTo("goten@dbz.com")));
-    requestResult.andExpect(jsonPath("$[2].password", equalTo(null)));
+    MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS);
+    List<ApplicationUser> responseBody = getResponseBody(response);
+    
+    verifyResponseStatus(response, HttpStatus.OK.value());
+    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8.toString());
+    assertEquals(3, responseBody.size());
+    assertEquals(applicationUsersList, responseBody);
     verify(applicationUserServiceMock, times(1)).getAllUsers();
     verifyNoMoreInteractions(applicationUserServiceMock);
   }
