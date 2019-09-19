@@ -37,9 +37,6 @@ public class ApplicationRole implements GrantedAuthority {
   @Column(name = "NAME", nullable = false)
   private String name;
   
-  @JsonIgnore
-  private String authority;
-  
   @ManyToOne(optional = false)
   @JoinColumn(name = "APPLICATION_USER_ID")
   @JsonBackReference
@@ -69,6 +66,7 @@ public class ApplicationRole implements GrantedAuthority {
     this.applicationUser = applicationUser;
   }
 
+  @JsonIgnore
   @Override
   public String getAuthority() {
     return this.name;
