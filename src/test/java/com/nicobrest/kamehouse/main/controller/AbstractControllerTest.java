@@ -1,14 +1,18 @@
 package com.nicobrest.kamehouse.main.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +30,10 @@ import java.util.List;
 public abstract class AbstractControllerTest {
 
   protected MockMvc mockMvc;
-
+  
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+  
   protected MockHttpServletResponse executeGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }
@@ -37,6 +44,16 @@ public abstract class AbstractControllerTest {
         requestPayload)).andDo(print()).andReturn().getResponse();
   }
 
+  protected MockHttpServletResponse executePut(String url, byte[] requestPayload)
+      throws Exception {
+    return mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(
+        requestPayload)).andDo(print()).andReturn().getResponse();
+  }
+  
+  protected MockHttpServletResponse executeDelete(String url) throws Exception {
+    return mockMvc.perform(delete(url)).andDo(print()).andReturn().getResponse();
+  }
+  
   protected static void verifyResponseStatus(MockHttpServletResponse response,
       int expectedStatus) {
     assertEquals(expectedStatus, response.getStatus());
@@ -89,5 +106,4 @@ public abstract class AbstractControllerTest {
         throw new ClassNotFoundException(className + " not found");
     }
   }
-
 }
