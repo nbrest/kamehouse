@@ -33,7 +33,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,10 +86,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     verifyResponseStatus(response, HttpStatus.OK.value());
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8.toString());
     assertEquals(3, responseBody.size());
-    assertEquals(applicationUsersList.toString().replaceAll("\\s+", ""), response
-        .getContentAsString().replaceAll("\\s+", ""));
-    // Optionally create a method to iterate responseBody casting each to T and
-    // verifying each with equals.
+    assertEquals(applicationUsersList, responseBody);
     verify(applicationUserServiceMock, times(1)).getAllUsers();
   }
 

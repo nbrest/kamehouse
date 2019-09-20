@@ -8,11 +8,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.ResolvedType;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -22,13 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Super class to all controller test classes to group common attributes and
@@ -44,77 +35,74 @@ public abstract class AbstractControllerTest {
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
+  /**
+   * Execute a get request for the specified url on the mock server.
+   */
   protected MockHttpServletResponse executeGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }
 
+  /**
+   * Execute a post request for the specified url and payload on the mock server.
+   */
   protected MockHttpServletResponse executePost(String url, byte[] requestPayload)
       throws Exception {
-    return mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(
-        requestPayload)).andDo(print()).andReturn().getResponse();
+    return mockMvc
+        .perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .andDo(print()).andReturn().getResponse();
   }
 
-  protected MockHttpServletResponse executePut(String url, byte[] requestPayload)
-      throws Exception {
-    return mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(
-        requestPayload)).andDo(print()).andReturn().getResponse();
+  /**
+   * Execute a put request for the specified url and payload on the mock server.
+   */
+  protected MockHttpServletResponse executePut(String url, byte[] requestPayload) throws Exception {
+    return mockMvc
+        .perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .andDo(print()).andReturn().getResponse();
   }
 
+  /**
+   * Execute a delete request for the specified url on the mock server.
+   */
   protected MockHttpServletResponse executeDelete(String url) throws Exception {
     return mockMvc.perform(delete(url)).andDo(print()).andReturn().getResponse();
   }
 
-  protected static void verifyResponseStatus(MockHttpServletResponse response,
-      int expectedStatus) {
+  /**
+   * Verify that the response's status code matches the expected one.
+   */
+  protected static void verifyResponseStatus(MockHttpServletResponse response, int expectedStatus) {
     assertEquals(expectedStatus, response.getStatus());
   }
 
+  /**
+   * Verify that the response's content type matches the expected one.
+   */
   protected static void verifyContentType(MockHttpServletResponse response,
       String expectedContentType) {
     assertEquals(expectedContentType, response.getContentType());
   }
 
-  protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response,
-      Class<T> clazz) throws JsonParseException, JsonMappingException,
-      UnsupportedEncodingException, IOException, InstantiationException, IllegalAccessException {
-    TypeReferenceListImpl<T> typeReference = new TypeReferenceListImpl<T>(clazz);
-    List<T> responseBody = new ObjectMapper().readValue(response.getContentAsString(),
-        typeReference);
-    return (List<T>) responseBody;
-  }
-
-  protected static <T> T getResponseBody(MockHttpServletResponse response, Class<T> clazz)
-      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException {
-    TypeReferenceImpl<T> typeReference = new TypeReferenceImpl<T>(clazz);
-    T responseBody = new ObjectMapper().readValue(response.getContentAsString(), typeReference);
+  /**
+   * Get the response body of the request as a list of objects of the specified class.
+   */
+  protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response, Class<T> clazz)
+      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException,
+      InstantiationException, IllegalAccessException {
+    ObjectMapper mapper = new ObjectMapper();
+    List<T> responseBody = mapper.readValue(response.getContentAsString(),
+        mapper.getTypeFactory().constructCollectionType(List.class, clazz));
     return responseBody;
   }
 
-  private static class TypeReferenceImpl<T> extends TypeReference<T> {
-    protected final Type type;
-
-    protected TypeReferenceImpl(Class<T> clazz) {
-      type = clazz;
-    }
-
-    public Type getType() {
-      return type;
-    }
+  /**
+   * Get the response body of the request as an object of the specified class.
+   */
+  protected static <T> T getResponseBody(MockHttpServletResponse response, Class<T> clazz)
+      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    T responseBody = mapper.readValue(response.getContentAsString(),
+        mapper.getTypeFactory().constructType(clazz));
+    return responseBody;
   }
-
-  private static class TypeReferenceListImpl<T> extends TypeReference<T> {
-    protected final Type type;
-
-    protected TypeReferenceListImpl(Class<T> clazz) throws InstantiationException,
-        IllegalAccessException {
-      List<T> list = new ArrayList<>();
-      list.add(clazz.newInstance());
-      type = list.getClass();
-    }
-
-    public Type getType() {
-      return type;
-    }
-  }
-
 }
