@@ -84,7 +84,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
 
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
-    assertEquals(3, responseBody.size());
+    assertEquals(applicationUsersList.size(), responseBody.size());
     assertEquals(applicationUsersList, responseBody);
     verify(applicationUserServiceMock, times(1)).getAllUsers();
   }
