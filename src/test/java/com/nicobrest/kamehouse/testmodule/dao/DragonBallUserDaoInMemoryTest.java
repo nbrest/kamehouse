@@ -155,7 +155,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
     dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
-    
+
     dragonBallUserDao.updateDragonBallUser(dragonBallUser);
   }
 
@@ -164,11 +164,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void deleteDragonBallUserTest() {
-      dragonBallUserDao.createDragonBallUser(dragonBallUser); 
-      
-      DragonBallUser deletedUser = dragonBallUserDao.deleteDragonBallUser(dragonBallUser.getId());
+    dragonBallUserDao.createDragonBallUser(dragonBallUser);
 
-      assertEquals(dragonBallUser, deletedUser);
+    DragonBallUser deletedUser = dragonBallUserDao.deleteDragonBallUser(dragonBallUser.getId());
+
+    assertEquals(dragonBallUser, deletedUser);
   }
 
   /**
@@ -179,7 +179,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
-    
+
     dragonBallUserDao.deleteDragonBallUser(DragonBallUserTestUtils.INVALID_ID);
   }
 
@@ -188,6 +188,6 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getAllDragonBallUsersTest() {
-      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
+    assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
   }
 }

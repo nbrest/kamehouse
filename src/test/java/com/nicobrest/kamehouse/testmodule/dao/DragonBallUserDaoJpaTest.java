@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.testmodule.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import com.nicobrest.kamehouse.main.dao.AbstractDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
@@ -41,6 +40,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   @Before
   public void setUp() {
     DragonBallUserTestUtils.initTestData();
+    DragonBallUserTestUtils.removeIds();
     dragonBallUser = DragonBallUserTestUtils.getSingleTestData();
     dragonBallUsersList = DragonBallUserTestUtils.getTestDataList();
 
@@ -65,9 +65,9 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   public void createDragonBallUserConflictExceptionTest() {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
-
     dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
     dragonBallUser.setId(null);
+
     dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
   }
 
@@ -76,19 +76,12 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void getDragonBallUserTest() {
+    persistEntityInRepository(dragonBallUser);
 
-    try {
-      dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
-      DragonBallUser userByUsername =
-          dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getUsername());
-      DragonBallUser user = dragonBallUserDaoJpa.getDragonBallUser(userByUsername.getId());
+    DragonBallUser returnedUser = dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getId());
 
-      assertNotNull(user);
-      assertEquals(userByUsername.getId().toString(), user.getId().toString());
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    assertNotNull(returnedUser);
+    assertEquals(dragonBallUser, returnedUser);
   }
 
   /**
@@ -96,18 +89,13 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
+    persistEntityInRepository(dragonBallUser);
 
-    try {
-      dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
+    DragonBallUser returnedUser =
+        dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getUsername());
 
-      DragonBallUser user = dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getUsername());
-
-      assertNotNull(user);
-      assertEquals(dragonBallUser.getUsername(), user.getUsername());
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    assertNotNull(returnedUser);
+    assertEquals(dragonBallUser, returnedUser);
   }
 
   /**
@@ -126,18 +114,13 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    try {
-      dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
+    persistEntityInRepository(dragonBallUser);
 
-      DragonBallUser user =
-          dragonBallUserDaoJpa.getDragonBallUserByEmail(dragonBallUser.getEmail());
+    DragonBallUser returnedUser =
+        dragonBallUserDaoJpa.getDragonBallUserByEmail(dragonBallUser.getEmail());
 
-      assertNotNull(user);
-      assertEquals(dragonBallUser.getUsername(), user.getUsername());
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    assertNotNull(returnedUser);
+    assertEquals(dragonBallUser, returnedUser);
   }
 
   /**
@@ -157,23 +140,13 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void updateDragonBallUserTest() {
+    persistEntityInRepository(dragonBallUser);
+    dragonBallUser.setEmail("gokuUpdated@dbz.com");
 
-    try {
-      dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
-      DragonBallUser originalUser =
-          dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getUsername());
-      originalUser.setEmail("gokuUpdated@dbz.com");
+    dragonBallUserDaoJpa.updateDragonBallUser(dragonBallUser);
 
-      dragonBallUserDaoJpa.updateDragonBallUser(originalUser);
-
-      DragonBallUser updatedUser = dragonBallUserDaoJpa.getDragonBallUser(originalUser.getId());
-      assertEquals(originalUser.getId().toString(), updatedUser.getId().toString());
-      assertEquals(originalUser.getUsername(), updatedUser.getUsername());
-      assertEquals(originalUser.getEmail(), updatedUser.getEmail());
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    DragonBallUser updatedUser = dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getId());
+    assertEquals(dragonBallUser, updatedUser);
   }
 
   /**
@@ -196,18 +169,16 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   public void updateDragonBallUserServerErrorExceptionTest() {
     thrown.expect(KameHouseServerErrorException.class);
     thrown.expectMessage("PersistenceException");
-    dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
-    DragonBallUser originalUser =
-        dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getUsername());
+    persistEntityInRepository(dragonBallUser);
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < 70; i++) {
       sb.append("goku");
     }
     String username = sb.toString();
-    originalUser.setUsername(username);
-    originalUser.setEmail("gokuUpdated@dbz.com");
+    dragonBallUser.setUsername(username);
+    dragonBallUser.setEmail("gokuUpdated@dbz.com");
 
-    dragonBallUserDaoJpa.updateDragonBallUser(originalUser);
+    dragonBallUserDaoJpa.updateDragonBallUser(dragonBallUser);
   }
 
   /**
@@ -215,11 +186,11 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void deleteDragonBallUserTest() {
-    dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
+    persistEntityInRepository(dragonBallUser);
+
     DragonBallUser deletedUser = dragonBallUserDaoJpa.deleteDragonBallUser(dragonBallUser.getId());
 
-    assertEquals(dragonBallUser.getUsername(), deletedUser.getUsername());
-    assertEquals(dragonBallUser.getEmail(), deletedUser.getEmail());
+    assertEquals(dragonBallUser, deletedUser);
   }
 
   /**
@@ -227,10 +198,10 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void deleteDragonBallUserNotFoundExceptionTest() {
-
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
+
     dragonBallUserDaoJpa.deleteDragonBallUser(DragonBallUserTestUtils.INVALID_ID);
   }
 
@@ -239,15 +210,13 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void getAllDragonBallUsersTest() {
-
-    dragonBallUserDaoJpa.createDragonBallUser(dragonBallUsersList.get(0));
-    dragonBallUserDaoJpa.createDragonBallUser(dragonBallUsersList.get(1));
-    try {
-      List<DragonBallUser> usersList = dragonBallUserDaoJpa.getAllDragonBallUsers();
-      assertEquals(2, usersList.size());
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
+    for (DragonBallUser dragonBallUserToAdd : dragonBallUsersList) {
+      persistEntityInRepository(dragonBallUserToAdd);
     }
+
+    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.getAllDragonBallUsers();
+
+    assertEquals(dragonBallUsersList.size(), returnedList.size());
+    assertEquals(dragonBallUsersList, returnedList);
   }
 }
