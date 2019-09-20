@@ -51,7 +51,6 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void autoWiredBeansTest() {
-
     DragonBallUser gohan = dragonBallUserDao.getGohanDragonBallUser();
     DragonBallUser goten = dragonBallUserDao.getGotenDragonBallUser();
 
@@ -66,11 +65,10 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void createDragonBallUserTest() {
-    assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
+    Long createdId = dragonBallUserDao.createDragonBallUser(dragonBallUser);
 
-    dragonBallUserDao.createDragonBallUser(dragonBallUser);
-
-    assertEquals(4, dragonBallUserDao.getAllDragonBallUsers().size());
+    DragonBallUser createdUser = dragonBallUserDao.getDragonBallUser(createdId);
+    assertEquals(dragonBallUser, createdUser);
   }
 
   /**
@@ -140,7 +138,6 @@ public class DragonBallUserDaoInMemoryTest {
   @Test
   public void updateDragonBallUserTest() {
     DragonBallUser originalUser = dragonBallUserDao.getDragonBallUser("goku");
-    assertEquals("goku", originalUser.getUsername());
     originalUser.setEmail("gokuUpdated@dbz.com");
 
     dragonBallUserDao.updateDragonBallUser(originalUser);
