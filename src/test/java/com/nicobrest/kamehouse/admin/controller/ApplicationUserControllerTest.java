@@ -83,8 +83,8 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
 
     List<ApplicationUser> responseBody = getResponseBodyList(response, ApplicationUser.class);
 
-    verifyResponseStatus(response, HttpStatus.OK.value());
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8.toString());
+    verifyResponseStatus(response, HttpStatus.OK);
+    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     assertEquals(3, responseBody.size());
     assertEquals(applicationUsersList, responseBody);
     verify(applicationUserServiceMock, times(1)).getAllUsers();
@@ -104,7 +104,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     MockHttpServletResponse response = executePost(API_V1_ADMIN_APPLICATION_USERS, requestPayload);
     Long responseBody = getResponseBody(response, Long.class);
 
-    verifyResponseStatus(response, HttpStatus.CREATED.value());
+    verifyResponseStatus(response, HttpStatus.CREATED);
     assertEquals(applicationUserDto.getId(), responseBody);
     verify(applicationUserServiceMock, times(1)).createUser(applicationUserDto);
   }
@@ -135,7 +135,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
         .getUsername());
     ApplicationUser responseBody = getResponseBody(response, ApplicationUser.class);
 
-    verifyResponseStatus(response, HttpStatus.OK.value());
+    verifyResponseStatus(response, HttpStatus.OK);
     assertEquals(applicationUser, responseBody);
   }
 
@@ -163,7 +163,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     MockHttpServletResponse response = executePut(API_V1_ADMIN_APPLICATION_USERS
         + applicationUserDto.getId(), requestPayload);
 
-    verifyResponseStatus(response, HttpStatus.OK.value());
+    verifyResponseStatus(response, HttpStatus.OK);
     verify(applicationUserServiceMock, times(1)).updateUser(any());
   }
 
@@ -206,7 +206,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
         + applicationUser.getId());
     ApplicationUser responseBody = getResponseBody(response, ApplicationUser.class);
 
-    verifyResponseStatus(response, HttpStatus.OK.value());
+    verifyResponseStatus(response, HttpStatus.OK);
     assertEquals(applicationUser, responseBody);
     verify(applicationUserServiceMock, times(1)).deleteUser(applicationUser.getId());
   }

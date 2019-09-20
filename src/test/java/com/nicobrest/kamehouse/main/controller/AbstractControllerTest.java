@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -71,28 +72,17 @@ public abstract class AbstractControllerTest {
   /**
    * Verify that the response's status code matches the expected one.
    */
-  protected static void verifyResponseStatus(MockHttpServletResponse response, int expectedStatus) {
-    assertEquals(expectedStatus, response.getStatus());
+  protected static void verifyResponseStatus(MockHttpServletResponse response,
+      HttpStatus expectedStatus) {
+    assertEquals(expectedStatus.value(), response.getStatus());
   }
 
   /**
    * Verify that the response's content type matches the expected one.
    */
   protected static void verifyContentType(MockHttpServletResponse response,
-      String expectedContentType) {
-    assertEquals(expectedContentType, response.getContentType());
-  }
-
-  /**
-   * Get the response body of the request as a list of objects of the specified class.
-   */
-  protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response, Class<T> clazz)
-      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException,
-      InstantiationException, IllegalAccessException {
-    ObjectMapper mapper = new ObjectMapper();
-    List<T> responseBody = mapper.readValue(response.getContentAsString(),
-        mapper.getTypeFactory().constructCollectionType(List.class, clazz));
-    return responseBody;
+      MediaType expectedContentType) {
+    assertEquals(expectedContentType.toString(), response.getContentType());
   }
 
   /**
@@ -103,6 +93,19 @@ public abstract class AbstractControllerTest {
     ObjectMapper mapper = new ObjectMapper();
     T responseBody = mapper.readValue(response.getContentAsString(),
         mapper.getTypeFactory().constructType(clazz));
+    return responseBody;
+  }
+
+  /**
+   * Get the response body of the request as a list of objects of the specified
+   * class.
+   */
+  protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response, Class<T> clazz)
+      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException,
+      InstantiationException, IllegalAccessException {
+    ObjectMapper mapper = new ObjectMapper();
+    List<T> responseBody = mapper.readValue(response.getContentAsString(),
+        mapper.getTypeFactory().constructCollectionType(List.class, clazz));
     return responseBody;
   }
 }
