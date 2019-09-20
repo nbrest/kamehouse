@@ -1,11 +1,9 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
-import com.nicobrest.kamehouse.admin.service.SessionStatusService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,49 +30,45 @@ import java.util.Map;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SessionStatusService.class})
+@PrepareForTest({ SessionStatusService.class })
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class SessionStatusServiceTest {
-  
+
   @InjectMocks
   private SessionStatusService sessionStatusService;
 
   @Mock
   private ApplicationUserService applicationUserServiceMock;
-  
+
   @Before
   public void init() {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserServiceMock);
   }
-  
+
   /**
    * Tests getting the current session information.
    */
   @Test
-  public void getSessionStatusTest() {
+  public void getSessionStatusTest() throws Exception {
+    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+        "anonymousUser", "anonymousUser");
+    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
+    SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
+    PowerMockito.when(sessionStatusServiceSpy, "getAuthentication").thenReturn(authentication);
+    ApplicationUser applicationUserMock = new ApplicationUser();
+    applicationUserMock.setFirstName(null);
+    applicationUserMock.setLastName(null);
+    applicationUserMock.setEmail(null);
+    when(applicationUserServiceMock.loadUserByUsername("anonymousUser")).thenReturn(
+        applicationUserMock);
+
+    Map<String, Object> returnedSessionStatus = sessionStatusServiceSpy.getSessionStatus();
     
-    try {       
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
-      authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
-      SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
-      PowerMockito.when(sessionStatusServiceSpy, "getAuthentication").thenReturn(authentication);
-      ApplicationUser applicationUserMock = new ApplicationUser();
-      applicationUserMock.setFirstName(null);
-      applicationUserMock.setLastName(null);
-      applicationUserMock.setEmail(null);
-      when(applicationUserServiceMock.loadUserByUsername("anonymousUser")).thenReturn(
-          applicationUserMock);
-      
-      Map<String, Object> returnedSessionStatus = sessionStatusServiceSpy.getSessionStatus();
-      assertEquals("anonymousUser", returnedSessionStatus.get("username"));
-      assertEquals(null, returnedSessionStatus.get("firstName"));
-      assertEquals(null, returnedSessionStatus.get("lastName"));
-      assertEquals(null, returnedSessionStatus.get("email"));
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    assertEquals("anonymousUser", returnedSessionStatus.get("username"));
+    assertEquals(null, returnedSessionStatus.get("firstName"));
+    assertEquals(null, returnedSessionStatus.get("lastName"));
+    assertEquals(null, returnedSessionStatus.get("email"));
   }
 }

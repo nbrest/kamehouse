@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.admin.web.filter;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,26 +34,22 @@ public class AddSecurityContextFilterTest {
   }
 
   /**
-   * Tests the filter to add the logged in username on each request as a parameter.
+   * Tests the filter to add the logged in username on each request as a
+   * parameter.
    */
   @Test
-  public void doFilterTest() {
-
+  public void doFilterTest() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
     MockFilterChain chain = new MockFilterChain();
-    try {
-      AddSecurityContextFilter addSecurityContextFilterSpy = PowerMockito.spy(
-          new AddSecurityContextFilter());
-      PowerMockito.doReturn(new UsernamePasswordAuthenticationToken("goku", "gohan")).when(
-          addSecurityContextFilterSpy, "getAuthentication");
+    AddSecurityContextFilter addSecurityContextFilterSpy = PowerMockito.spy(
+        new AddSecurityContextFilter());
+    PowerMockito.doReturn(new UsernamePasswordAuthenticationToken("goku", "gohan")).when(
+        addSecurityContextFilterSpy, "getAuthentication");
 
-      addSecurityContextFilterSpy.doFilter(request, response, chain);
-      PowerMockito.verifyPrivate(addSecurityContextFilterSpy, Mockito.times(1)).invoke(
-          "getAuthentication");
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    addSecurityContextFilterSpy.doFilter(request, response, chain);
+
+    PowerMockito.verifyPrivate(addSecurityContextFilterSpy, Mockito.times(1)).invoke(
+        "getAuthentication");
   }
 }

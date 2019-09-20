@@ -41,29 +41,24 @@ public class DragonBallUserAddActionServletTest {
   }
 
   /**
-   * Tests the method to add a DragonBallUser from the system through the servlet.
+   * Tests the method to add a DragonBallUser from the system through the
+   * servlet. 
    */
   @Test
-  public void doPostTest() {
+  public void doPostTest() throws ServletException, IOException {
+    DragonBallUserAddActionServlet dragonBallUserAddActionServlet =
+        new DragonBallUserAddActionServlet();
+    DragonBallUserAddActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
+    request.setParameter("username", "goku");
+    request.setParameter("email", "goku@dbz.com");
+    request.setParameter("age", "100");
+    request.setParameter("stamina", "100");
+    request.setParameter("powerLevel", "100");
+    when(dragonBallUserServiceMock.createDragonBallUser(any())).thenReturn(1L);
 
-    try {
-      DragonBallUserAddActionServlet dragonBallUserAddActionServlet =
-          new DragonBallUserAddActionServlet();
-      DragonBallUserAddActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
-      request.setParameter("username", "goku");
-      request.setParameter("email", "goku@dbz.com");
-      request.setParameter("age", "100");
-      request.setParameter("stamina", "100");
-      request.setParameter("powerLevel", "100");
-      when(dragonBallUserServiceMock.createDragonBallUser(any())).thenReturn(1L);
+    dragonBallUserAddActionServlet.doPost(request, response);
 
-      dragonBallUserAddActionServlet.doPost(request, response);
-      
-      verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(any());
-      assertEquals("users-list", response.getRedirectedUrl());
-    } catch (ServletException | IOException e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(any());
+    assertEquals("users-list", response.getRedirectedUrl());
   }
 }

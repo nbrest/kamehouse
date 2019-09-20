@@ -1,14 +1,11 @@
 package com.nicobrest.kamehouse.main.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import com.nicobrest.kamehouse.main.controller.ViewResolverController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -63,73 +60,77 @@ public class ViewResolverControllerTest {
   }
 
   /**
-   * Test all views handled by the ViewResolverController.
+   * Test all views handled by the ViewResolverController. 
    */
   @Test
-  public void allViewsTest() {
-    try {
-      ModelAndView returnedModelAndView = null;
-      // Home
-      when(request.getServletPath()).thenReturn("/");
-      returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
-      assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/index.html", returnedModelAndView.getModel().get(
-          "staticHtmlToLoad"));
+  public void allViewsTest() throws Exception {
+    ModelAndView returnedModelAndView = null;
+    // Home
+    when(request.getServletPath()).thenReturn("/");
+    
+    returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
+    
+    assertEquals("/include-static-html", returnedModelAndView.getViewName());
+    assertEquals("/index.html", returnedModelAndView.getModel().get("staticHtmlToLoad"));
 
-      // About
-      when(request.getServletPath()).thenReturn("/about");
-      returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
-      assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/about.html", returnedModelAndView.getModel().get(
-          "staticHtmlToLoad"));
+    // About
+    when(request.getServletPath()).thenReturn("/about");
+    
+    returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
+    
+    assertEquals("/include-static-html", returnedModelAndView.getViewName());
+    assertEquals("/about.html", returnedModelAndView.getModel().get("staticHtmlToLoad"));
 
-      // Admin
-      when(request.getServletPath()).thenReturn("/admin");
-      returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
-      assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/admin/index.html", returnedModelAndView.getModel().get(
-          "staticHtmlToLoad"));
+    // Admin
+    when(request.getServletPath()).thenReturn("/admin");
+    
+    returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
+    
+    assertEquals("/include-static-html", returnedModelAndView.getViewName());
+    assertEquals("/admin/index.html", returnedModelAndView.getModel().get("staticHtmlToLoad"));
 
-      // Contact Us
-      when(request.getServletPath()).thenReturn("/contact-us");
-      returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
-      assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/contact-us.html", returnedModelAndView.getModel().get(
-          "staticHtmlToLoad"));
+    // Contact Us
+    when(request.getServletPath()).thenReturn("/contact-us");
+    
+    returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
+    
+    assertEquals("/include-static-html", returnedModelAndView.getViewName());
+    assertEquals("/contact-us.html", returnedModelAndView.getModel().get("staticHtmlToLoad"));
 
-      // Login and Logout
-      ResultActions requestResult = mockMvc.perform(get("/login")).andDo(print());
-      requestResult.andExpect(status().isOk());
-      requestResult.andExpect(view().name("/login"));
-      requestResult = mockMvc.perform(get("/logout")).andDo(print());
-      requestResult.andExpect(status().is3xxRedirection());
-      requestResult.andExpect(view().name("redirect:/login?logout"));
+    // Login and Logout
+    ResultActions requestResult = mockMvc.perform(get("/login")).andDo(print());
+    
+    requestResult.andExpect(status().isOk());
+    requestResult.andExpect(view().name("/login"));
+    requestResult = mockMvc.perform(get("/logout")).andDo(print());
+    requestResult.andExpect(status().is3xxRedirection());
+    requestResult.andExpect(view().name("redirect:/login?logout"));
 
-      // Test module
-      when(request.getServletPath()).thenReturn("/test-module/");
-      returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
-      assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/test-module/index.html", returnedModelAndView.getModel().get(
-          "staticHtmlToLoad"));
+    // Test module
+    when(request.getServletPath()).thenReturn("/test-module/");
+    
+    returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
+    
+    assertEquals("/include-static-html", returnedModelAndView.getViewName());
+    assertEquals("/test-module/index.html", returnedModelAndView.getModel().get(
+        "staticHtmlToLoad"));
 
-      // Test Module - JSP
-      when(request.getServletPath()).thenReturn("/test-module/jsp/");
-      String testModuleJspIndex = viewResolverController.testModuleJsp(request, response);
-      assertEquals("/test-module/jsp/index", testModuleJspIndex);
-      when(request.getServletPath()).thenReturn("/test-module/jsp/trunks");
-      String testModuleJspSubpage = viewResolverController.testModuleJsp(request, response);
-      assertEquals("/test-module/jsp/trunks", testModuleJspSubpage);
+    // Test Module - JSP
+    when(request.getServletPath()).thenReturn("/test-module/jsp/");
+    String testModuleJspIndex = viewResolverController.testModuleJsp(request, response);
+    assertEquals("/test-module/jsp/index", testModuleJspIndex);
+    when(request.getServletPath()).thenReturn("/test-module/jsp/trunks");
+    
+    String testModuleJspSubpage = viewResolverController.testModuleJsp(request, response);
+    
+    assertEquals("/test-module/jsp/trunks", testModuleJspSubpage);
 
-      // Vlc Player
-      when(request.getServletPath()).thenReturn("/vlc-player");
-      returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
-      assertEquals("/include-static-html", returnedModelAndView.getViewName());
-      assertEquals("/vlc-player.html", returnedModelAndView.getModel().get(
-          "staticHtmlToLoad"));
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    // Vlc Player
+    when(request.getServletPath()).thenReturn("/vlc-player");
+    
+    returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
+    
+    assertEquals("/include-static-html", returnedModelAndView.getViewName());
+    assertEquals("/vlc-player.html", returnedModelAndView.getModel().get("staticHtmlToLoad"));
   }
 }

@@ -45,27 +45,21 @@ public class DragonBallUserEditActionServletTest {
    * servlet.
    */
   @Test
-  public void doPostTest() {
+  public void doPostTest() throws ServletException, IOException {
+    DragonBallUserEditActionServlet dragonBallUserEditActionServlet =
+        new DragonBallUserEditActionServlet();
+    DragonBallUserEditActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
+    request.setParameter("id", "100");
+    request.setParameter("username", "goku");
+    request.setParameter("email", "goku@dbz.com");
+    request.setParameter("age", "100");
+    request.setParameter("stamina", "100");
+    request.setParameter("powerLevel", "100");
+    doNothing().when(dragonBallUserServiceMock).updateDragonBallUser(any());
 
-    try {
-      DragonBallUserEditActionServlet dragonBallUserEditActionServlet =
-          new DragonBallUserEditActionServlet();
-      DragonBallUserEditActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
-      request.setParameter("id", "100");
-      request.setParameter("username", "goku");
-      request.setParameter("email", "goku@dbz.com");
-      request.setParameter("age", "100");
-      request.setParameter("stamina", "100");
-      request.setParameter("powerLevel", "100");
-      doNothing().when(dragonBallUserServiceMock).updateDragonBallUser(any());
+    dragonBallUserEditActionServlet.doPost(request, response);
 
-      dragonBallUserEditActionServlet.doPost(request, response);
-
-      verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(any());
-      assertEquals("users-list", response.getRedirectedUrl());
-    } catch (ServletException | IOException e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(any());
+    assertEquals("users-list", response.getRedirectedUrl());
   }
 }

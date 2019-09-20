@@ -1,8 +1,5 @@
 package com.nicobrest.kamehouse.admin.validator;
 
-import static org.junit.Assert.fail;
-
-import com.nicobrest.kamehouse.admin.validator.ApplicationUserValidator;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
 
 import org.junit.Rule;
@@ -21,48 +18,40 @@ public class ApplicationUserValidatorTest {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Test valid first name format.
+   * Test valid first name format. Should finish without throwing exceptions.
    */
   @Test
   public void validateFirstNameFormatTest() {
-    try {
-      ApplicationUserValidator.validateFirstNameFormat("Yukimura");  
-    } catch (Exception e) {
-      fail("Unexpected exception thrown.");
-    } 
+    ApplicationUserValidator.validateFirstNameFormat("Yukimura");
   }
-  
+
   /**
-   * Test valid last name format.
+   * Test valid last name format. Should finish without throwing exceptions.
    */
   @Test
   public void validateLastNameFormatTest() {
-    try {
-      ApplicationUserValidator.validateLastNameFormat("Seichi");
-    } catch (Exception e) {
-      fail("Unexpected exception thrown.");
-    }
+    ApplicationUserValidator.validateLastNameFormat("Seichi");
   }
-  
+
   /**
    * Test the failure flow of validateFirstNameFormat.
    */
   @Test
   public void validateFirstNameFormatExceptionTest() {
-    
     thrown.expect(KameHouseInvalidDataException.class);
     thrown.expectMessage("Invalid first name:");
-    ApplicationUserValidator.validateFirstNameFormat(".Yukimura"); 
+
+    ApplicationUserValidator.validateFirstNameFormat(".Yukimura");
   }
-  
+
   /**
    * Test the failure flow of validateLastNameFormat.
    */
   @Test
-  public void validateLastNameFormatExceptionTest() { 
-    
+  public void validateLastNameFormatExceptionTest() {
     thrown.expect(KameHouseInvalidDataException.class);
     thrown.expectMessage("Invalid last name: ");
+
     ApplicationUserValidator.validateLastNameFormat("Seichi9");
   }
 }

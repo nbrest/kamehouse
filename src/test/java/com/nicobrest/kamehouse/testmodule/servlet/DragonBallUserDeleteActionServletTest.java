@@ -41,27 +41,22 @@ public class DragonBallUserDeleteActionServletTest {
   }
 
   /**
-   * Tests the method to delete a DragonBallUser from the system through the servlet.
+   * Tests the method to delete a DragonBallUser from the system through the
+   * servlet. 
    */
   @Test
-  public void doPostTest() {
+  public void doPostTest() throws ServletException, IOException {
+    DragonBallUserDeleteActionServlet dragonBallUserDeleteActionServlet =
+        new DragonBallUserDeleteActionServlet();
+    DragonBallUserDeleteActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
+    request.setParameter("id", "100");
+    DragonBallUser deletedDragonBallUser = new DragonBallUser(100L, "goku", "goku@dbz.com", 100,
+        100, 100);
+    when(dragonBallUserServiceMock.deleteDragonBallUser(100L)).thenReturn(deletedDragonBallUser);
 
-    try {
-      DragonBallUserDeleteActionServlet dragonBallUserDeleteActionServlet =
-          new DragonBallUserDeleteActionServlet();
-      DragonBallUserDeleteActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
-      request.setParameter("id", "100");
-      DragonBallUser deletedDragonBallUser = new DragonBallUser(100L, "goku", "goku@dbz.com", 100,
-          100, 100);
-      when(dragonBallUserServiceMock.deleteDragonBallUser(100L)).thenReturn(deletedDragonBallUser);
+    dragonBallUserDeleteActionServlet.doPost(request, response);
 
-      dragonBallUserDeleteActionServlet.doPost(request, response);
-
-      verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(100L);
-      assertEquals("users-list", response.getRedirectedUrl());
-    } catch (ServletException | IOException e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(100L);
+    assertEquals("users-list", response.getRedirectedUrl());
   }
 }

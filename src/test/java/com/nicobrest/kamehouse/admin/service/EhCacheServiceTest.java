@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,32 +30,25 @@ public class EhCacheServiceTest {
    */
   @Test
   public void getAllCachesTest() {
+    List<Map<String, Object>> cacheList = ehCacheService.getAllCaches();
 
-    try {
-      List<Map<String, Object>> cacheList = ehCacheService.getAllCaches();
-      assertEquals(5, cacheList.size());
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    assertEquals(5, cacheList.size());
   }
 
   /**
-   * Tests clearing all caches. Should fail if an exception clearing caches is thrown.
+   * Tests clearing all caches. Should fail if an exception clearing caches is
+   * thrown.
    */
   @Test
   public void clearAllCachesTest() {
-    try {
-      List<String> emptyList = new ArrayList<>();
-      ehCacheService.clearAllCaches();
-      for (Map<String, Object> cacheMap : ehCacheService.getAllCaches()) {
-        if (cacheMap.get("name").equals("getAllDragonBallUsersCache")) {
-          assertEquals(emptyList, cacheMap.get("values"));
-        }
+    List<String> emptyList = new ArrayList<>();
+    
+    ehCacheService.clearAllCaches();
+    
+    for (Map<String, Object> cacheMap : ehCacheService.getAllCaches()) {
+      if (cacheMap.get("name").equals("getAllDragonBallUsersCache")) {
+        assertEquals(emptyList, cacheMap.get("values"));
       }
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      fail("Caught unexpected exception.");
     }
   }
 }

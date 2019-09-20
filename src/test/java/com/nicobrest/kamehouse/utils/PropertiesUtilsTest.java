@@ -16,6 +16,7 @@ public class PropertiesUtilsTest {
   @Test
   public void getMediaVideoPropertyTest() {
     String expectedPropertyValue = "/git/texts/video_playlists/linux/niko4tbusb";
+    
     String returnedPropertyValue = PropertiesUtils.getMediaVideoProperty("playlists.path.linux");
     
     assertEquals(expectedPropertyValue, returnedPropertyValue);

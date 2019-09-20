@@ -1,13 +1,10 @@
 package com.nicobrest.kamehouse.admin.security;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.security.ApplicationAuthenticationProvider;
-import com.nicobrest.kamehouse.admin.security.PasswordUtils;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 
 import org.junit.Before;
@@ -76,21 +73,18 @@ public class ApplicationAuthenticationProviderTest {
    */
   @Test
   public void authenticateTest() {
-    try {
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-          applicationUserMock.getUsername(), applicationUserMock.getPassword());
-      authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
-      applicationUserMock.setPassword(PasswordUtils.generateHashedPassword(applicationUserMock
-          .getPassword()));
-      when(applicationUserServiceMock.loadUserByUsername(applicationUserMock.getUsername()))
-          .thenReturn(applicationUserMock);
-      applicationAuthenticationProvider.authenticate(authentication);
-      verify(applicationUserServiceMock, times(1)).loadUserByUsername(applicationUserMock
-          .getUsername());
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+        applicationUserMock.getUsername(), applicationUserMock.getPassword());
+    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
+    applicationUserMock.setPassword(PasswordUtils.generateHashedPassword(applicationUserMock
+        .getPassword()));
+    when(applicationUserServiceMock.loadUserByUsername(applicationUserMock.getUsername()))
+        .thenReturn(applicationUserMock);
+
+    applicationAuthenticationProvider.authenticate(authentication);
+
+    verify(applicationUserServiceMock, times(1)).loadUserByUsername(applicationUserMock
+        .getUsername());
   }
 
   /**
@@ -98,17 +92,17 @@ public class ApplicationAuthenticationProviderTest {
    */
   @Test
   public void authenticateBadUsernameTest() {
-
     thrown.expect(BadCredentialsException.class);
     thrown.expectMessage("Username not found.");
-
     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
         badUsernameApplicationUserMock.getUsername(), badUsernameApplicationUserMock
             .getPassword());
     authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     when(applicationUserServiceMock.loadUserByUsername(badUsernameApplicationUserMock
         .getUsername())).thenReturn(badUsernameApplicationUserMock);
+
     applicationAuthenticationProvider.authenticate(authentication);
+
     verify(applicationUserServiceMock, times(1)).loadUserByUsername(badUsernameApplicationUserMock
         .getUsername());
   }
@@ -118,17 +112,17 @@ public class ApplicationAuthenticationProviderTest {
    */
   @Test
   public void authenticateBadPasswordTest() {
-
     thrown.expect(BadCredentialsException.class);
     thrown.expectMessage("Wrong password.");
-
     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
         badPasswordApplicationUserMock.getUsername(), badPasswordApplicationUserMock
             .getPassword());
     authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     when(applicationUserServiceMock.loadUserByUsername(badPasswordApplicationUserMock
         .getUsername())).thenReturn(badPasswordApplicationUserMock);
+
     applicationAuthenticationProvider.authenticate(authentication);
+
     verify(applicationUserServiceMock, times(1)).loadUserByUsername(badPasswordApplicationUserMock
         .getUsername());
   }
