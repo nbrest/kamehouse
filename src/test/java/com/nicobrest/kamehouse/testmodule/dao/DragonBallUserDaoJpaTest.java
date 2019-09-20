@@ -12,9 +12,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,9 +32,6 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   @Autowired
   private DragonBallUserDao dragonBallUserDaoJpa;
   
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   /**
    * Clear data from the repository before each test.
    */

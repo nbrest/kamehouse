@@ -40,7 +40,6 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
 
   @Override
   public Long createUser(ApplicationUser applicationUser) {
-
     applicationUser.setId(IdGenerator.getId());
     applicationUsers.put(applicationUser.getUsername(), applicationUser);
     return applicationUser.getId();
@@ -56,7 +55,6 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
 
   @Override
   public ApplicationUser deleteUser(Long id) {
-
     for (Map.Entry<String, ApplicationUser> applicationUserEntry : applicationUsers.entrySet()) {
       ApplicationUser userToDelete = applicationUserEntry.getValue();
       if (userToDelete.getId().equals(id)) {
@@ -76,7 +74,6 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
    * Initialize in-memory repository with test users.
    */
   private static void initRepository() {
-
     ApplicationRole userRole = new ApplicationRole();
     userRole.setName("ROLE_USER");
     ApplicationRole adminRole = new ApplicationRole();

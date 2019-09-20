@@ -11,6 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Test data and common test methods to test ApplicationUsers in all layers of the application.
+ * 
+ * @author nicolas.brest
+ *
+ */
 public class ApplicationUserTestUtils {
 
   public static final String API_V1_ADMIN_APPLICATION_USERS = "/api/v1/admin/application/users/";
