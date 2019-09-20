@@ -117,16 +117,9 @@ public class DragonBallControllerTest extends AbstractControllerTest {
   @Test
   public void getModelAndViewTest() throws Exception {
     MockHttpServletResponse response = executeGet("/api/v1/dragonball/model-and-view");
-    // ModelAndView responseBody = response.getContentAsByteArray(); -> Convert
-    // from byte[] to Object
 
     verifyResponseStatus(response, HttpStatus.OK);
-    // assertEquals("jsp/test-module/jsp/dragonball/model-and-view",
-    // responseBody.getViewName());
     assertEquals("jsp/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
-    // assertEquals("Goku", responseBody.getModel().get("name"));
-    // assertEquals("message: dragonball ModelAndView!",
-    // responseBody.getModel().get("message"));
     verifyZeroInteractions(dragonBallUserServiceMock);
   }
 
