@@ -30,8 +30,8 @@ public class ApplicationUserDaoInMemoryTest {
    */
   @Before
   public void init() {
-    ApplicationUserTestUtils.initApplicationUserTestData();
-    applicationUser = ApplicationUserTestUtils.getApplicationUser();
+    ApplicationUserTestUtils.initTestData();
+    applicationUser = ApplicationUserTestUtils.getSingleTestData();
     applicationUserDao = new ApplicationUserDaoInMemory();
   }
 

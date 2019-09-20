@@ -22,72 +22,72 @@ public class ApplicationUserTestUtils {
   public static final String API_V1_ADMIN_APPLICATION_USERS = "/api/v1/admin/application/users/";
   public static final Long INVALID_ID = 987987L;
   public static final String INVALID_USERNAME = "yukimura";
-  private static ApplicationUser applicationUser;
-  private static List<ApplicationUser> applicationUsersList;
-  private static ApplicationUserDto applicationUserDto;
+  private static ApplicationUser singleTestData;
+  private static List<ApplicationUser> testDataList;
+  private static ApplicationUserDto testDataDto;
   
   static {
-    initApplicationUserTestData();
+    initTestData();
   }
   
-  public static ApplicationUser getApplicationUser() {
-    return applicationUser;
+  public static ApplicationUser getSingleTestData() {
+    return singleTestData;
   }
 
-  public static List<ApplicationUser> getApplicationUsersList() {
-    return applicationUsersList;
+  public static List<ApplicationUser> getTestDataList() {
+    return testDataList;
   }
 
-  public static ApplicationUserDto getApplicationUserDto() {
-    return applicationUserDto;
+  public static ApplicationUserDto getTestDataDto() {
+    return testDataDto;
   }
 
-  public static void initApplicationUserTestData() {
-    initApplicationUser();
-    initApplicationUsersList();
-    initApplicationUserDto();
+  public static void initTestData() {
+    initSingleTestData();
+    initTestDataList();
+    initTestDataDto();
   }
   
-  public static void initApplicationUser() {
-    applicationUser = new ApplicationUser();
-    applicationUser.setId(1001L);
-    applicationUser.setEmail("goku@dbz.com");
-    applicationUser.setUsername("goku");
-    applicationUser.setPassword("goku");
-    applicationUser.setFirstName("Goku");
-    applicationUser.setLastName("Son");
+  public static void initSingleTestData() {
+    singleTestData = new ApplicationUser();
+    singleTestData.setId(1001L);
+    singleTestData.setEmail("goku@dbz.com");
+    singleTestData.setUsername("goku");
+    singleTestData.setPassword("goku");
+    singleTestData.setFirstName("Goku");
+    singleTestData.setLastName("Son");
     Set<ApplicationRole> authorities = new HashSet<>();
     ApplicationRole applicationRole = new ApplicationRole();
     applicationRole.setId(10L);
     applicationRole.setName("ADMIN_ROLE");
-    applicationRole.setApplicationUser(applicationUser);
+    applicationRole.setApplicationUser(singleTestData);
     authorities.add(applicationRole);
-    applicationUser.setAuthorities(authorities);
+    singleTestData.setAuthorities(authorities);
   }
   
-  public static void initApplicationUserDto() {
-    applicationUserDto = new ApplicationUserDto();
-    applicationUserDto.setId(1001L);
-    applicationUserDto.setEmail("goku@dbz.com");
-    applicationUserDto.setUsername("goku");
-    applicationUserDto.setPassword("goku");
-    applicationUserDto.setFirstName("Goku");
-    applicationUserDto.setLastName("Son");
-    applicationUserDto.setAccountNonExpired(true);
-    applicationUserDto.setAccountNonLocked(true);
-    applicationUserDto.setCredentialsNonExpired(true);
-    applicationUserDto.setEnabled(true);
-    applicationUserDto.setLastLogin(new Date());
+  public static void initTestDataDto() {
+    testDataDto = new ApplicationUserDto();
+    testDataDto.setId(1001L);
+    testDataDto.setEmail("goku@dbz.com");
+    testDataDto.setUsername("goku");
+    testDataDto.setPassword("goku");
+    testDataDto.setFirstName("Goku");
+    testDataDto.setLastName("Son");
+    testDataDto.setAccountNonExpired(true);
+    testDataDto.setAccountNonLocked(true);
+    testDataDto.setCredentialsNonExpired(true);
+    testDataDto.setEnabled(true);
+    testDataDto.setLastLogin(new Date());
     Set<ApplicationRoleDto> authoritiesDto = new HashSet<>();
     ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
     applicationRoleDto.setId(10L);
     applicationRoleDto.setName("ADMIN_ROLE");
-    applicationRoleDto.setApplicationUser(applicationUserDto);
+    applicationRoleDto.setApplicationUser(testDataDto);
     authoritiesDto.add(applicationRoleDto);
-    applicationUserDto.setAuthorities(authoritiesDto);
+    testDataDto.setAuthorities(authoritiesDto);
   }
   
-  public static void initApplicationUsersList() {
+  public static void initTestDataList() {
     ApplicationUser applicationUser2 = new ApplicationUser();
     applicationUser2.setId(1002L);
     applicationUser2.setEmail("gohan@dbz.com");
@@ -112,9 +112,39 @@ public class ApplicationUserTestUtils {
     roles3.add(userRole3);
     applicationUser3.setAuthorities(roles3);
     
-    applicationUsersList = new LinkedList<ApplicationUser>();
-    applicationUsersList.add(applicationUser);
-    applicationUsersList.add(applicationUser2);
-    applicationUsersList.add(applicationUser3);
+    testDataList = new LinkedList<ApplicationUser>();
+    testDataList.add(singleTestData);
+    testDataList.add(applicationUser2);
+    testDataList.add(applicationUser3);
+  }
+  
+  public static void setIds() {
+    if (testDataDto != null) {
+      testDataDto.setId(100L);
+    }
+    if (testDataList != null && testDataList.get(0) != null) {
+      testDataList.get(0).setId(100L);
+    }
+    if (testDataList != null && testDataList.get(1) != null) {
+      testDataList.get(1).setId(101L);
+    }
+    if (testDataList != null && testDataList.get(2) != null) {
+      testDataList.get(2).setId(102L);
+    } 
+  }
+  
+  public static void removeIds() {
+    if (testDataDto != null) {
+      testDataDto.setId(null);
+    }
+    if (testDataList != null && testDataList.get(0) != null) {
+      testDataList.get(0).setId(null);
+    }
+    if (testDataList != null && testDataList.get(1) != null) {
+      testDataList.get(1).setId(null);
+    }
+    if (testDataList != null && testDataList.get(2) != null) {
+      testDataList.get(2).setId(null);
+    } 
   }
 }

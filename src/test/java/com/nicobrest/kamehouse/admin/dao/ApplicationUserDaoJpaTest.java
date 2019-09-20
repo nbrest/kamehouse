@@ -39,9 +39,9 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Before
   public void setUp() {
-    ApplicationUserTestUtils.initApplicationUserTestData();
-    applicationUser = ApplicationUserTestUtils.getApplicationUser();
-    applicationUsersList = ApplicationUserTestUtils.getApplicationUsersList();
+    ApplicationUserTestUtils.initTestData();
+    applicationUser = ApplicationUserTestUtils.getSingleTestData();
+    applicationUsersList = ApplicationUserTestUtils.getTestDataList();
     clearTable("APPLICATION_ROLE");
     clearTable("APPLICATION_USER");
   }
@@ -178,7 +178,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
     
     List<ApplicationUser> returnedUsersList = applicationUserDaoJpa.getAllUsers();
     
-    assertEquals(3, returnedUsersList.size());
+    assertEquals(applicationUsersList.size(), returnedUsersList.size());
     assertEquals(applicationUsersList, returnedUsersList);
   }
 }

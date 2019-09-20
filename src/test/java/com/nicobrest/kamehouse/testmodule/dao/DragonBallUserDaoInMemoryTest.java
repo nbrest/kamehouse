@@ -2,14 +2,13 @@ package com.nicobrest.kamehouse.testmodule.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDaoInMemory;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -28,12 +27,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoInMemoryTest {
 
+  private static DragonBallUser dragonBallUser;
+
   @Autowired
   @Qualifier("dragonBallUserDaoInMemory")
   private DragonBallUserDaoInMemory dragonBallUserDao;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
+
+  /**
+   * Clear data from the repository before each test.
+   */
+  @Before
+  public void setUp() {
+    DragonBallUserTestUtils.initTestData();
+    dragonBallUser = DragonBallUserTestUtils.getSingleTestData();
+    DragonBallUserDaoInMemory.initRepository();
+  }
 
   /**
    * Test for the autowired beans.
@@ -43,7 +54,7 @@ public class DragonBallUserDaoInMemoryTest {
 
     DragonBallUser gohan = dragonBallUserDao.getGohanDragonBallUser();
     DragonBallUser goten = dragonBallUserDao.getGotenDragonBallUser();
-    
+
     assertNotNull(gohan);
     assertEquals("gohanBean", gohan.getUsername());
     assertNotNull(goten);
@@ -55,20 +66,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void createDragonBallUserTest() {
+    assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
 
-    DragonBallUser dragonBallUser = new DragonBallUser(0L, "vegeta", "vegeta@dbz.com", 49, 40,
-        1000);
+    dragonBallUserDao.createDragonBallUser(dragonBallUser);
 
-    try {
-      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
-      dragonBallUserDao.createDragonBallUser(dragonBallUser);
-      assertEquals(4, dragonBallUserDao.getAllDragonBallUsers().size());
-      dragonBallUserDao
-          .deleteDragonBallUser(dragonBallUserDao.getDragonBallUser("vegeta").getId());
-    } catch (KameHouseBadRequestException | KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    assertEquals(4, dragonBallUserDao.getAllDragonBallUsers().size());
   }
 
   /**
@@ -76,11 +78,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void createDragonBallUserConflictExceptionTest() {
-
-    DragonBallUser dragonBallUser = new DragonBallUser(0L, "goku", "goku@dbz.com", 49, 40, 1000);
-
     thrown.expect(KameHouseConflictException.class);
-    thrown.expectMessage("DragonBallUser with username goku already exists in the repository.");
+    thrown.expectMessage("DragonBallUser with username " + dragonBallUser.getUsername()
+        + " already exists in the repository.");
+    dragonBallUserDao.createDragonBallUser(dragonBallUser);
+
     dragonBallUserDao.createDragonBallUser(dragonBallUser);
   }
 
@@ -89,17 +91,12 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getDragonBallUserTest() {
+    DragonBallUser userByUsername = dragonBallUserDao.getDragonBallUser("goku");
 
-    try {
-      DragonBallUser userByUsername = dragonBallUserDao.getDragonBallUser("goku");
-      DragonBallUser user = dragonBallUserDao.getDragonBallUser(userByUsername.getId());
+    DragonBallUser userById = dragonBallUserDao.getDragonBallUser(userByUsername.getId());
 
-      assertNotNull(user);
-      assertEquals(userByUsername.getId().toString(), user.getId().toString());
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    assertNotNull(userById);
+    assertEquals(userByUsername, userById);
   }
 
   /**
@@ -107,16 +104,10 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
-    
-    try {
-      DragonBallUser user = dragonBallUserDao.getDragonBallUser("goku");
-      
-      assertNotNull(user);
-      assertEquals("goku", user.getUsername());
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    DragonBallUser userByUsername = dragonBallUserDao.getDragonBallUser("goku");
+
+    assertNotNull(userByUsername);
+    assertEquals("goku", userByUsername.getUsername());
   }
 
   /**
@@ -124,11 +115,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage(
         "This functionality is not implemented for the DragonBallUserInMemory repository.");
-    dragonBallUserDao.getDragonBallUserByEmail("yukimura");
+
+    dragonBallUserDao.getDragonBallUserByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
   }
 
   /**
@@ -136,10 +127,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getDragonBallUserByUsernameNotFoundExceptionTest() {
-
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with username yukimura was not found in the repository.");
-    dragonBallUserDao.getDragonBallUser("yukimura");
+    thrown.expectMessage("DragonBallUser with username " + DragonBallUserTestUtils.INVALID_EMAIL
+        + " was not found in the repository.");
+
+    dragonBallUserDao.getDragonBallUser(DragonBallUserTestUtils.INVALID_EMAIL);
   }
 
   /**
@@ -147,29 +139,14 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void updateDragonBallUserTest() {
+    DragonBallUser originalUser = dragonBallUserDao.getDragonBallUser("goku");
+    assertEquals("goku", originalUser.getUsername());
+    originalUser.setEmail("gokuUpdated@dbz.com");
 
-    try {
-      DragonBallUser originalUser = dragonBallUserDao.getDragonBallUser("goku");
-      assertEquals("goku", originalUser.getUsername());
+    dragonBallUserDao.updateDragonBallUser(originalUser);
 
-      DragonBallUser modifiedUser = new DragonBallUser(originalUser.getId(), "goku",
-          "gokuUpdated@dbz.com", 51, 52, 53);
-
-      dragonBallUserDao.updateDragonBallUser(modifiedUser);
-      DragonBallUser updatedUser = dragonBallUserDao.getDragonBallUser("goku");
-
-      assertEquals(originalUser.getId().toString(), updatedUser.getId().toString());
-      assertEquals("goku", updatedUser.getUsername());
-      assertEquals("gokuUpdated@dbz.com", updatedUser.getEmail());
-      assertEquals(51, updatedUser.getAge());
-      assertEquals(52, updatedUser.getPowerLevel());
-      assertEquals(53, updatedUser.getStamina());
-
-      dragonBallUserDao.updateDragonBallUser(originalUser);
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+    DragonBallUser updatedUser = dragonBallUserDao.getDragonBallUser("goku");
+    assertEquals(originalUser, updatedUser);
   }
 
   /**
@@ -177,11 +154,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void updateDragonBallUserNotFoundExceptionTest() {
-
-    DragonBallUser dragonBallUser = new DragonBallUser(0L, "yukimura", "yukimura@pot.com", 10, 10,
-        10);
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with id 0 was not found in the repository.");
+    thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
+        + " was not found in the repository.");
+    dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
+    
     dragonBallUserDao.updateDragonBallUser(dragonBallUser);
   }
 
@@ -190,24 +167,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void deleteDragonBallUserTest() {
+      dragonBallUserDao.createDragonBallUser(dragonBallUser); 
+      
+      DragonBallUser deletedUser = dragonBallUserDao.deleteDragonBallUser(dragonBallUser.getId());
 
-    try {
-      DragonBallUser userToDelete = new DragonBallUser(0L, "piccolo", "piccolo@dbz.com", 20, 21,
-          22);
-      dragonBallUserDao.createDragonBallUser(userToDelete);
-      assertEquals(4, dragonBallUserDao.getAllDragonBallUsers().size());
-      DragonBallUser deletedUser = dragonBallUserDao
-          .deleteDragonBallUser(dragonBallUserDao.getDragonBallUser("piccolo").getId());
-      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
-      assertEquals("piccolo", deletedUser.getUsername());
-      assertEquals("piccolo@dbz.com", deletedUser.getEmail());
-      assertEquals(20, deletedUser.getAge());
-      assertEquals(21, deletedUser.getPowerLevel());
-      assertEquals(22, deletedUser.getStamina());
-    } catch (KameHouseNotFoundException | KameHouseBadRequestException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
+      assertEquals(dragonBallUser, deletedUser);
   }
 
   /**
@@ -215,10 +179,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void deleteDragonBallUserNotFoundExceptionTest() {
-
     thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with id " + 987L + " was not found in the repository.");
-    dragonBallUserDao.deleteDragonBallUser(987L);
+    thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
+        + " was not found in the repository.");
+    
+    dragonBallUserDao.deleteDragonBallUser(DragonBallUserTestUtils.INVALID_ID);
   }
 
   /**
@@ -226,11 +191,6 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    try {
-      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size()); 
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+      assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
   }
 }

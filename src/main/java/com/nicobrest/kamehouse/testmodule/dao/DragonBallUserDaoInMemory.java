@@ -58,7 +58,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   /**
    * Initialize In-Memory repository.
    */
-  private static void initRepository() {
+  public static void initRepository() {
 
     dragonBallUsers = new HashMap<>();
     dragonBallUsernamesById = new HashMap<>();

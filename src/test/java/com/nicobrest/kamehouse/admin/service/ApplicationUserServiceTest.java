@@ -42,10 +42,10 @@ public class ApplicationUserServiceTest {
    */
   @Before
   public void beforeTest() {
-    ApplicationUserTestUtils.initApplicationUserTestData();
-    applicationUser = ApplicationUserTestUtils.getApplicationUser();
-    applicationUsersList = ApplicationUserTestUtils.getApplicationUsersList();
-    applicationUserDto = ApplicationUserTestUtils.getApplicationUserDto();
+    ApplicationUserTestUtils.initTestData();
+    applicationUser = ApplicationUserTestUtils.getSingleTestData();
+    applicationUsersList = ApplicationUserTestUtils.getTestDataList();
+    applicationUserDto = ApplicationUserTestUtils.getTestDataDto();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserDaoMock);

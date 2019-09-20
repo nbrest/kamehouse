@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.testmodule.controller;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.isA;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,12 +22,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.testmodule.controller.DragonBallController;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.junit.After;
@@ -40,15 +42,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -59,10 +61,11 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class DragonBallControllerTest {
+public class DragonBallControllerTest extends AbstractControllerTest {
 
-  private MockMvc mockMvc;
-
+  public static final String API_V1_DRAGONBALL_USERS =
+      DragonBallUserTestUtils.API_V1_DRAGONBALL_USERS;
+  private static DragonBallUser dragonBallUser;
   private static DragonBallUserDto dragonBallUserDto;
   private static List<DragonBallUser> dragonBallUsersList;
 
@@ -73,52 +76,27 @@ public class DragonBallControllerTest {
   private DragonBallUserService dragonBallUserServiceMock;
 
   /**
-   * Initializes test repositories.
+   * Actions to perform once before all tests.
    */
   @BeforeClass
   public static void beforeClassTest() {
-    /* Actions to perform ONCE before all tests in the class */
-
-    // Create test data to be returned by mock object dragonBallUserServiceMock
-    DragonBallUser user1 = new DragonBallUser(101L, "gokuTestMock", "gokuTestMock@dbz.com", 49, 30,
-        1000);
-    dragonBallUserDto = new DragonBallUserDto(101L, "gokuTestMock", "gokuTestMock@dbz.com", 49, 30,
-        1000);
-
-    DragonBallUser user2 = new DragonBallUser();
-    user2.setId(102L);
-    user2.setAge(29);
-    user2.setEmail("gohanTestMock@dbz.com");
-    user2.setUsername("gohanTestMock");
-    user2.setPowerLevel(20);
-    user2.setStamina(1000);
-
-    DragonBallUser user3 = new DragonBallUser();
-    user3.setId(103L);
-    user3.setAge(19);
-    user3.setEmail("gotenTestMock@dbz.com");
-    user3.setUsername("gotenTestMock");
-    user3.setPowerLevel(10);
-    user3.setStamina(1000);
-
-    dragonBallUsersList = new LinkedList<DragonBallUser>();
-    dragonBallUsersList.add(user1);
-    dragonBallUsersList.add(user2);
-    dragonBallUsersList.add(user3);
+    /* Initialization tasks that happen once for all tests. */
+    DragonBallUserTestUtils.initTestData();
   }
 
   /**
-   * Resets mock objects.
+   * Resets mock objects and test data.
    */
   @Before
   public void beforeTest() {
-    /* Actions to perform before each test in the class */
+    DragonBallUserTestUtils.initTestData();
+    DragonBallUserTestUtils.setIds();
+    dragonBallUser = DragonBallUserTestUtils.getSingleTestData();
+    dragonBallUserDto = DragonBallUserTestUtils.getTestDataDto();
+    dragonBallUsersList = DragonBallUserTestUtils.getTestDataList();
 
-    // Reset mock objects before each test
     MockitoAnnotations.initMocks(this);
     Mockito.reset(dragonBallUserServiceMock);
-
-    // Setup mockMvc test object
     mockMvc = MockMvcBuilders.standaloneSetup(dragonBallController).build();
   }
 
@@ -137,7 +115,6 @@ public class DragonBallControllerTest {
   @AfterClass
   public static void afterClassTest() {
     /* Actions to perform ONCE after all tests in the class */
-
   }
 
   /**
@@ -149,8 +126,8 @@ public class DragonBallControllerTest {
   public void getModelAndViewTest() {
 
     try {
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/dragonball/model-and-view"))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/dragonball/model-and-view")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(view().name("jsp/test-module/jsp/dragonball/model-and-view"));
       requestResult.andExpect(forwardedUrl("jsp/test-module/jsp/dragonball/model-and-view"));
@@ -182,21 +159,18 @@ public class DragonBallControllerTest {
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
       requestResult.andExpect(jsonPath("$", hasSize(3)));
-      requestResult.andExpect(jsonPath("$[0].id", equalTo(101)));
       requestResult.andExpect(jsonPath("$[0].username", equalTo("gokuTestMock")));
       requestResult.andExpect(jsonPath("$[0].email", equalTo("gokuTestMock@dbz.com")));
       requestResult.andExpect(jsonPath("$[0].age", equalTo(49)));
       requestResult.andExpect(jsonPath("$[0].powerLevel", equalTo(30)));
       requestResult.andExpect(jsonPath("$[0].stamina", equalTo(1000)));
 
-      requestResult.andExpect(jsonPath("$[1].id", equalTo(102)));
       requestResult.andExpect(jsonPath("$[1].username", equalTo("gohanTestMock")));
       requestResult.andExpect(jsonPath("$[1].email", equalTo("gohanTestMock@dbz.com")));
       requestResult.andExpect(jsonPath("$[1].age", equalTo(29)));
       requestResult.andExpect(jsonPath("$[1].powerLevel", equalTo(20)));
       requestResult.andExpect(jsonPath("$[1].stamina", equalTo(1000)));
 
-      requestResult.andExpect(jsonPath("$[2].id", equalTo(103)));
       requestResult.andExpect(jsonPath("$[2].username", equalTo("gotenTestMock")));
       requestResult.andExpect(jsonPath("$[2].email", equalTo("gotenTestMock@dbz.com")));
       requestResult.andExpect(jsonPath("$[2].age", equalTo(19)));
@@ -219,8 +193,8 @@ public class DragonBallControllerTest {
   public void getUsersExceptionTest() {
 
     try {
-      ResultActions requestResult = mockMvc
-          .perform(get("/api/v1/dragonball/users?action=KameHouseException")).andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/dragonball/users?action=KameHouseException")).andDo(print());
       requestResult.andExpect(status().isInternalServerError());
       requestResult.andExpect(view().name("error/error"));
       requestResult.andExpect(forwardedUrl("/WEB-INF/jsp/error/error.jsp"));
@@ -240,9 +214,9 @@ public class DragonBallControllerTest {
   public void getUsersNotFoundExceptionTest() {
 
     try {
-      ResultActions requestResult = mockMvc
-          .perform(get("/api/v1/dragonball/users?action=KameHouseNotFoundException"))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/dragonball/users?action=KameHouseNotFoundException"))
+              .andDo(print());
       requestResult.andExpect(status().isNotFound());
       fail("Expected an exception to be thrown.");
     } catch (Exception e) {
@@ -254,35 +228,22 @@ public class DragonBallControllerTest {
 
   /**
    * /dragonball/users (POST) Test creating a new DragonBallUser in the
-   * repository.
+   * repository. 
    */
   @Test
-  public void postUsersTest() {
+  public void postUsersTest() throws Exception {
+    Mockito.doReturn(dragonBallUser.getId()).when(dragonBallUserServiceMock)
+        .createDragonBallUser(dragonBallUserDto);
+    when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUser.getUsername()))
+        .thenReturn(dragonBallUser);
+    byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
-    // Normal flow
-    try {
-      // Setup mock object dragonBallUserServiceMock
-      Mockito.doReturn(dragonBallUserDto.getId()).when(dragonBallUserServiceMock)
-          .createDragonBallUser(dragonBallUserDto);
-      when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUserDto.getUsername()))
-          .thenReturn(dragonBallUsersList.get(0));
+    MockHttpServletResponse response = executePost(API_V1_DRAGONBALL_USERS, requestPayload);
+    Long responseBody = getResponseBody(response, Long.class);
 
-      // Execute HTTP POST on the /dragonball/users endpoint
-      ResultActions requestResult = mockMvc
-          .perform(post("/api/v1/dragonball/users").contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
-          .andDo(print());
-      requestResult.andExpect(status().isCreated());
-      requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-      requestResult.andExpect(
-          content().bytes(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0).getId())));
-      requestResult.andExpect(content().string(dragonBallUsersList.get(0).getId().toString()));
-
-      verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUserDto);
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    verifyResponseStatus(response, HttpStatus.CREATED);
+    assertEquals(dragonBallUserDto.getId(), responseBody);
+    verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUserDto);
   }
 
   /**
@@ -325,11 +286,10 @@ public class DragonBallControllerTest {
       when(dragonBallUserServiceMock.getDragonBallUser(101L))
           .thenReturn(dragonBallUsersList.get(0));
 
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/dragonball/users/101"))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/dragonball/users/101")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
-      requestResult.andExpect(jsonPath("$.id", equalTo(101)));
       requestResult.andExpect(jsonPath("$.username", equalTo("gokuTestMock")));
       requestResult.andExpect(jsonPath("$.email", equalTo("gokuTestMock@dbz.com")));
       requestResult.andExpect(jsonPath("$.age", equalTo(49)));
@@ -352,11 +312,10 @@ public class DragonBallControllerTest {
       when(dragonBallUserServiceMock.getDragonBallUser("gokuTestMock"))
           .thenReturn(dragonBallUsersList.get(0));
 
-      ResultActions requestResult = mockMvc
-          .perform(get("/api/v1/dragonball/users/username/gokuTestMock")).andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/dragonball/users/username/gokuTestMock")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
-      requestResult.andExpect(jsonPath("$.id", equalTo(101)));
       requestResult.andExpect(jsonPath("$.username", equalTo("gokuTestMock")));
       requestResult.andExpect(jsonPath("$.email", equalTo("gokuTestMock@dbz.com")));
       requestResult.andExpect(jsonPath("$.age", equalTo(49)));
@@ -373,8 +332,8 @@ public class DragonBallControllerTest {
       Mockito.doThrow(new KameHouseNotFoundException("User trunks not found"))
           .when(dragonBallUserServiceMock).getDragonBallUser("trunks");
 
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/dragonball/users/username/trunks"))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/dragonball/users/username/trunks")).andDo(print());
       requestResult.andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {
@@ -397,8 +356,8 @@ public class DragonBallControllerTest {
       Mockito.doThrow(new KameHouseNotFoundException("User trunks not found"))
           .when(dragonBallUserServiceMock).getDragonBallUser("trunks");
 
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/dragonball/users/username/trunks"))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/dragonball/users/username/trunks")).andDo(print());
       requestResult.andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1)).getDragonBallUser("trunks");
     } catch (Exception e) {
@@ -426,7 +385,6 @@ public class DragonBallControllerTest {
           .perform(get("/api/v1/dragonball/users/emails/gokuTestMock@dbz.com")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
-      requestResult.andExpect(jsonPath("$.id", equalTo(101)));
       requestResult.andExpect(jsonPath("$.username", equalTo("gokuTestMock")));
       requestResult.andExpect(jsonPath("$.email", equalTo("gokuTestMock@dbz.com")));
       requestResult.andExpect(jsonPath("$.age", equalTo(49)));
@@ -448,17 +406,15 @@ public class DragonBallControllerTest {
     // Normal flow
     try {
       // Setup mock object dragonBallUserServiceMock
-      Mockito.doNothing().when(dragonBallUserServiceMock)
-          .updateDragonBallUser(dragonBallUserDto);
+      Mockito.doNothing().when(dragonBallUserServiceMock).updateDragonBallUser(dragonBallUserDto);
       when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
           .thenReturn(dragonBallUsersList.get(0));
 
       // Execute HTTP PUT on the /dragonball/users/{id} endpoint
-      ResultActions requestResult = mockMvc
-          .perform(put("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId())
+      ResultActions requestResult =
+          mockMvc.perform(put("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId())
               .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
-          .andDo(print());
+              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0)))).andDo(print());
       requestResult.andExpect(status().isOk());
 
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUserDto);
@@ -482,12 +438,9 @@ public class DragonBallControllerTest {
           .when(dragonBallUserServiceMock).updateDragonBallUser(dragonBallUserDto);
 
       // Execute HTTP PUT on the /dragonball/users/{id} endpoint
-      ResultActions requestResult = mockMvc
-          .perform(put("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId())
-              .contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
-          .andDo(print());
-      requestResult.andExpect(status().is4xxClientError());
+      mockMvc.perform(put("/api/v1/dragonball/users/" + dragonBallUser.getId())
+          .contentType(MediaType.APPLICATION_JSON_UTF8)
+          .content(JsonUtils.toJsonByteArray(dragonBallUser))).andDo(print());
       verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(dragonBallUserDto);
     } catch (Exception e) {
       if (!(e.getCause() instanceof KameHouseNotFoundException)) {
@@ -507,16 +460,14 @@ public class DragonBallControllerTest {
     // Exception flows
     try {
       // Setup mock object dragonBallUserServiceMock
-      Mockito.doNothing().when(dragonBallUserServiceMock)
-          .updateDragonBallUser(dragonBallUserDto);
+      Mockito.doNothing().when(dragonBallUserServiceMock).updateDragonBallUser(dragonBallUserDto);
       when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUsersList.get(0).getUsername()))
           .thenReturn(dragonBallUsersList.get(0));
 
       // Execute HTTP PUT on the /dragonball/users/{id} endpoint
-      ResultActions requestResult = mockMvc
-          .perform(put("/dragonball/users/987").contentType(MediaType.APPLICATION_JSON_UTF8)
-              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0))))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(put("/dragonball/users/987").contentType(MediaType.APPLICATION_JSON_UTF8)
+              .content(JsonUtils.toJsonByteArray(dragonBallUsersList.get(0)))).andDo(print());
       requestResult.andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(0)).updateDragonBallUser(dragonBallUserDto);
       verify(dragonBallUserServiceMock, times(0))
@@ -541,9 +492,9 @@ public class DragonBallControllerTest {
           .thenReturn(dragonBallUsersList.get(0));
 
       // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
-      ResultActions requestResult = mockMvc
-          .perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
+              .andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult
@@ -571,9 +522,9 @@ public class DragonBallControllerTest {
           .when(dragonBallUserServiceMock).deleteDragonBallUser(dragonBallUsersList.get(0).getId());
 
       // Execute HTTP DELETE on the /dragonball/users/{id} endpoint
-      ResultActions requestResult = mockMvc
-          .perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(delete("/api/v1/dragonball/users/" + dragonBallUsersList.get(0).getId()))
+              .andDo(print());
       requestResult.andExpect(status().is4xxClientError());
       verify(dragonBallUserServiceMock, times(1))
           .deleteDragonBallUser(dragonBallUsersList.get(0).getId());

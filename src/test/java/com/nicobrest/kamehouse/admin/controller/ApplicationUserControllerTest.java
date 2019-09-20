@@ -62,10 +62,10 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Before
   public void beforeTest() {
-    ApplicationUserTestUtils.initApplicationUserTestData();
-    applicationUser = ApplicationUserTestUtils.getApplicationUser();
-    applicationUsersList = ApplicationUserTestUtils.getApplicationUsersList();
-    applicationUserDto = ApplicationUserTestUtils.getApplicationUserDto();
+    ApplicationUserTestUtils.initTestData();
+    applicationUser = ApplicationUserTestUtils.getSingleTestData();
+    applicationUsersList = ApplicationUserTestUtils.getTestDataList();
+    applicationUserDto = ApplicationUserTestUtils.getTestDataDto();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserServiceMock);
@@ -96,8 +96,6 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   public void postUsersTest() throws Exception {
     Mockito.doReturn(applicationUser.getId()).when(applicationUserServiceMock).createUser(
         applicationUserDto);
-    when(applicationUserServiceMock.loadUserByUsername(applicationUser.getUsername())).thenReturn(
-        applicationUser);
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
 
     MockHttpServletResponse response = executePost(API_V1_ADMIN_APPLICATION_USERS, requestPayload);
