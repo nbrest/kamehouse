@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.media.video.model.Playlist;
+import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
 import com.nicobrest.kamehouse.utils.PropertiesUtils;
 
 import org.junit.Before;
@@ -16,7 +17,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,11 +46,11 @@ public class VideoPlaylistServiceTest {
    */
   @Test
   public void getAllVideoPlaylistsTest() {
-    List<String> expectedPlaylists = Arrays.asList("dc.m3u", "marvel.m3u");
+    List<String> expectedPlaylists = VideoPlaylistTestUtils.TEST_PLAYLIST_NAMES;
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     when(PropertiesUtils.getUserHome()).thenReturn("./");
     when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
-        "src/test/resources/media.video/playlists/");
+        VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAllVideoPlaylists();
 

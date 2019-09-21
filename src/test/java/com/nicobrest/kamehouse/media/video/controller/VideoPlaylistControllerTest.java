@@ -1,20 +1,15 @@
 package com.nicobrest.kamehouse.media.video.controller;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
+import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,14 +18,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,58 +37,43 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class VideoPlaylistControllerTest {
-
-  private MockMvc mockMvc;
-
+public class VideoPlaylistControllerTest extends AbstractControllerTest {
+  
+  private static final String API_V1_MEDIA_VIDEO_PLAYLISTS =
+      VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLISTS;
+  
   @InjectMocks
   private VideoPlaylistController videoPlaylistController;
 
   @Mock
   private VideoPlaylistService videoPlaylistService;
 
-  private List<Playlist> videoPlaylistsListMock;
+  private List<Playlist> videoPlaylistsList;
 
   @Before
   public void beforeTest() {
+    VideoPlaylistTestUtils.initTestData(); 
+    videoPlaylistsList = VideoPlaylistTestUtils.getTestDataList();
+    
     MockitoAnnotations.initMocks(this);
     Mockito.reset(videoPlaylistService);
     mockMvc = MockMvcBuilders.standaloneSetup(videoPlaylistController).build();
-
-    videoPlaylistsListMock = new ArrayList<Playlist>();
-    for (int i = 0; i < 4; i++) {
-      Playlist playlist = new Playlist();
-      playlist.setCategory("heroes\\marvel\\" + i);
-      String playlistName = "marvel_movies_" + i + ".m3u";
-      playlist.setName(playlistName);
-      playlist.setPath("C:\\Users\\nbrest\\playlists\\" + playlistName);
-      videoPlaylistsListMock.add(playlist);
-    }
   }
 
   /**
    * Tests getting all video playlists.
    */
   @Test
-  public void getAllVideoPlaylistsTest() {
-    when(videoPlaylistService.getAllVideoPlaylists()).thenReturn(videoPlaylistsListMock);
+  public void getAllVideoPlaylistsTest() throws Exception {
+    when(videoPlaylistService.getAllVideoPlaylists()).thenReturn(videoPlaylistsList);
 
-    try {
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/media/video/playlists"))
-          .andDo(print());
-      requestResult.andExpect(status().isOk());
-      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
-      requestResult.andExpect(jsonPath("$", hasSize(4)));
-      requestResult
-          .andExpect(jsonPath("$[0].name", equalTo(videoPlaylistsListMock.get(0).getName())));
-      requestResult.andExpect(
-          jsonPath("$[0].category", equalTo(videoPlaylistsListMock.get(0).getCategory())));
-      requestResult
-          .andExpect(jsonPath("$[0].path", equalTo(videoPlaylistsListMock.get(0).getPath())));
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    MockHttpServletResponse response = executeGet(API_V1_MEDIA_VIDEO_PLAYLISTS);
+    List<Playlist> responseBody = getResponseBodyList(response, Playlist.class);
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    assertEquals(videoPlaylistsList.size(), responseBody.size());
+    assertEquals(videoPlaylistsList, responseBody);
     verify(videoPlaylistService, times(1)).getAllVideoPlaylists();
     verifyNoMoreInteractions(videoPlaylistService);
   }
