@@ -57,12 +57,12 @@ public class ApplicationUserServiceTest {
   @Test
   public void createUserTest() {
     Mockito.doReturn(applicationUser.getId()).when(applicationUserDaoMock)
-        .createUser(applicationUser);
+        .create(applicationUser);
 
-    Long returnedId = applicationUserService.createUser(applicationUserDto);
+    Long returnedId = applicationUserService.create(applicationUserDto);
 
     assertEquals(applicationUser.getId(), returnedId);
-    verify(applicationUserDaoMock, times(1)).createUser(applicationUser);
+    verify(applicationUserDaoMock, times(1)).create(applicationUser);
   }
 
   /**
@@ -87,13 +87,13 @@ public class ApplicationUserServiceTest {
    */
   @Test
   public void getAllUsersTest() {
-    when(applicationUserDaoMock.getAllUsers()).thenReturn(applicationUsersList);
+    when(applicationUserDaoMock.getAll()).thenReturn(applicationUsersList);
 
-    List<ApplicationUser> returnedApplicationUsers = applicationUserService.getAllUsers();
+    List<ApplicationUser> returnedApplicationUsers = applicationUserService.getAll();
 
     assertEquals(applicationUsersList.size(), returnedApplicationUsers.size());
     assertEquals(applicationUsersList, returnedApplicationUsers);
-    verify(applicationUserDaoMock, times(1)).getAllUsers();
+    verify(applicationUserDaoMock, times(1)).getAll();
   }
 
   /**
@@ -102,11 +102,11 @@ public class ApplicationUserServiceTest {
    */
   @Test
   public void updateUserTest() {
-    Mockito.doNothing().when(applicationUserDaoMock).updateUser(applicationUser);
+    Mockito.doNothing().when(applicationUserDaoMock).update(applicationUser);
 
-    applicationUserService.updateUser(applicationUserDto);
+    applicationUserService.update(applicationUserDto);
 
-    verify(applicationUserDaoMock, times(1)).updateUser(applicationUser);
+    verify(applicationUserDaoMock, times(1)).update(applicationUser);
   }
 
   /**
@@ -114,11 +114,11 @@ public class ApplicationUserServiceTest {
    */
   @Test
   public void deleteUserTest() {
-    when(applicationUserDaoMock.deleteUser(applicationUser.getId())).thenReturn(applicationUser);
+    when(applicationUserDaoMock.delete(applicationUser.getId())).thenReturn(applicationUser);
 
-    ApplicationUser deletedUser = applicationUserService.deleteUser(applicationUser.getId());
+    ApplicationUser deletedUser = applicationUserService.delete(applicationUser.getId());
 
     assertEquals(applicationUser, deletedUser);
-    verify(applicationUserDaoMock, times(1)).deleteUser(applicationUser.getId());
+    verify(applicationUserDaoMock, times(1)).delete(applicationUser.getId());
   }
 }

@@ -15,25 +15,25 @@ public interface VlcPlayerDao {
   /**
    * Creates a VLC player.
    */
-  public Long createVlcPlayer(VlcPlayer vlcPlayer);
+  public Long create(VlcPlayer entity);
   
   /**
    * Updates a VLC Player.
    */
-  public void updateVlcPlayer(VlcPlayer vlcPlayer);
+  public void update(VlcPlayer entity);
   
   /**
-   * Gets a VLC Player.
+   * Gets a VLC Player by hostname.
    */
-  public VlcPlayer getVlcPlayer(String vlcPlayerName);
+  public VlcPlayer getByHostname(String hostname);
   
   /**
    * Deletes a VLC Player.
    */
-  public VlcPlayer deleteVlcPlayer(Long vlcPlayerId);
+  public VlcPlayer delete(Long id);
   
   /**
    * Gets all VLC Players registered.
    */
-  public List<VlcPlayer> getAllVlcPlayers();
+  public List<VlcPlayer> getAll();
 }

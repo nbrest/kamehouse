@@ -31,7 +31,7 @@ public class DragonBallUserDeleteActionServlet extends AbstractDragonBallUserSer
       throws ServletException, IOException {
     try {
       Long userId = Long.parseLong(request.getParameter("id"));
-      getDragonBallUserService().deleteDragonBallUser(userId);
+      getDragonBallUserService().delete(userId);
       response.sendRedirect("users-list");
     } catch (NumberFormatException e) {
       logger.error("Error occurred processing request.", e);

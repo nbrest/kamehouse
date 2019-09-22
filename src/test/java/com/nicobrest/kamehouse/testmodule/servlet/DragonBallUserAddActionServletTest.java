@@ -54,11 +54,11 @@ public class DragonBallUserAddActionServletTest {
     request.setParameter("age", "100");
     request.setParameter("stamina", "100");
     request.setParameter("powerLevel", "100");
-    when(dragonBallUserServiceMock.createDragonBallUser(any())).thenReturn(1L);
+    when(dragonBallUserServiceMock.create(any())).thenReturn(1L);
 
     dragonBallUserAddActionServlet.doPost(request, response);
 
-    verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(any());
+    verify(dragonBallUserServiceMock, times(1)).create(any());
     assertEquals("users-list", response.getRedirectedUrl());
   }
 }

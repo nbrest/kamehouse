@@ -65,9 +65,9 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void createDragonBallUserTest() {
-    Long createdId = dragonBallUserDao.createDragonBallUser(dragonBallUser);
+    Long createdId = dragonBallUserDao.create(dragonBallUser);
 
-    DragonBallUser createdUser = dragonBallUserDao.getDragonBallUser(createdId);
+    DragonBallUser createdUser = dragonBallUserDao.read(createdId);
     assertEquals(dragonBallUser, createdUser);
   }
 
@@ -79,9 +79,9 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("DragonBallUser with username " + dragonBallUser.getUsername()
         + " already exists in the repository.");
-    dragonBallUserDao.createDragonBallUser(dragonBallUser);
+    dragonBallUserDao.create(dragonBallUser);
 
-    dragonBallUserDao.createDragonBallUser(dragonBallUser);
+    dragonBallUserDao.create(dragonBallUser);
   }
 
   /**
@@ -89,9 +89,9 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getDragonBallUserTest() {
-    DragonBallUser userByUsername = dragonBallUserDao.getDragonBallUser("goku");
+    DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
 
-    DragonBallUser userById = dragonBallUserDao.getDragonBallUser(userByUsername.getId());
+    DragonBallUser userById = dragonBallUserDao.read(userByUsername.getId());
 
     assertNotNull(userById);
     assertEquals(userByUsername, userById);
@@ -102,7 +102,7 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
-    DragonBallUser userByUsername = dragonBallUserDao.getDragonBallUser("goku");
+    DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
 
     assertNotNull(userByUsername);
     assertEquals("goku", userByUsername.getUsername());
@@ -117,7 +117,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expectMessage(
         "This functionality is not implemented for the DragonBallUserInMemory repository.");
 
-    dragonBallUserDao.getDragonBallUserByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+    dragonBallUserDao.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
   }
 
   /**
@@ -129,7 +129,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expectMessage("DragonBallUser with username " + DragonBallUserTestUtils.INVALID_EMAIL
         + " was not found in the repository.");
 
-    dragonBallUserDao.getDragonBallUser(DragonBallUserTestUtils.INVALID_EMAIL);
+    dragonBallUserDao.getByUsername(DragonBallUserTestUtils.INVALID_EMAIL);
   }
 
   /**
@@ -137,12 +137,12 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void updateDragonBallUserTest() {
-    DragonBallUser originalUser = dragonBallUserDao.getDragonBallUser("goku");
+    DragonBallUser originalUser = dragonBallUserDao.getByUsername("goku");
     originalUser.setEmail("gokuUpdated@dbz.com");
 
-    dragonBallUserDao.updateDragonBallUser(originalUser);
+    dragonBallUserDao.update(originalUser);
 
-    DragonBallUser updatedUser = dragonBallUserDao.getDragonBallUser("goku");
+    DragonBallUser updatedUser = dragonBallUserDao.getByUsername("goku");
     assertEquals(originalUser, updatedUser);
   }
 
@@ -156,7 +156,7 @@ public class DragonBallUserDaoInMemoryTest {
         + " was not found in the repository.");
     dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
 
-    dragonBallUserDao.updateDragonBallUser(dragonBallUser);
+    dragonBallUserDao.update(dragonBallUser);
   }
 
   /**
@@ -164,9 +164,9 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void deleteDragonBallUserTest() {
-    dragonBallUserDao.createDragonBallUser(dragonBallUser);
+    dragonBallUserDao.create(dragonBallUser);
 
-    DragonBallUser deletedUser = dragonBallUserDao.deleteDragonBallUser(dragonBallUser.getId());
+    DragonBallUser deletedUser = dragonBallUserDao.delete(dragonBallUser.getId());
 
     assertEquals(dragonBallUser, deletedUser);
   }
@@ -180,7 +180,7 @@ public class DragonBallUserDaoInMemoryTest {
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
 
-    dragonBallUserDao.deleteDragonBallUser(DragonBallUserTestUtils.INVALID_ID);
+    dragonBallUserDao.delete(DragonBallUserTestUtils.INVALID_ID);
   }
 
   /**
@@ -188,6 +188,6 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    assertEquals(3, dragonBallUserDao.getAllDragonBallUsers().size());
+    assertEquals(3, dragonBallUserDao.getAll().size());
   }
 }

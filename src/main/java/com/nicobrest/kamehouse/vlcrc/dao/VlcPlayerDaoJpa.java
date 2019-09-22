@@ -19,38 +19,38 @@ public class VlcPlayerDaoJpa extends AbstractDaoJpa implements VlcPlayerDao {
   private static final String GET_VLC_PLAYER_CACHE = "getVlcPlayer";
   
   @Override
-  public List<VlcPlayer> getAllVlcPlayers() {
+  public List<VlcPlayer> getAll() {
     logger.trace("Get all VlcPlayers");
     return findAll(VlcPlayer.class);
   }
   
   @Override
   @Cacheable(value = GET_VLC_PLAYER_CACHE)
-  public VlcPlayer getVlcPlayer(String vlcPlayerName) {
-    logger.trace("Get VlcPlayer: {}", vlcPlayerName);
-    return findByAttribute(VlcPlayer.class, "hostname", vlcPlayerName);
+  public VlcPlayer getByHostname(String hostname) {
+    logger.trace("Get VlcPlayer: {}", hostname);
+    return findByAttribute(VlcPlayer.class, "hostname", hostname);
   }
   
   @Override
   @CacheEvict(value = { GET_VLC_PLAYER_CACHE }, allEntries = true)
-  public Long createVlcPlayer(VlcPlayer vlcPlayer) {
-    logger.trace("Creating VlcPlayer: {}", vlcPlayer);
-    persistEntityInRepository(vlcPlayer);
-    return vlcPlayer.getId();
+  public Long create(VlcPlayer entity) {
+    logger.trace("Creating VlcPlayer: {}", entity);
+    persistEntityInRepository(entity);
+    return entity.getId();
   }
 
   @Override
   @CacheEvict(value = { GET_VLC_PLAYER_CACHE }, allEntries = true)
-  public void updateVlcPlayer(VlcPlayer vlcPlayer) {
-    logger.trace("Updating VlcPlayer: {}", vlcPlayer);
-    updateEntityInRepository(VlcPlayer.class, vlcPlayer, vlcPlayer.getId());
+  public void update(VlcPlayer entity) {
+    logger.trace("Updating VlcPlayer: {}", entity);
+    updateEntityInRepository(VlcPlayer.class, entity, entity.getId());
   } 
 
   @Override
   @CacheEvict(value = { GET_VLC_PLAYER_CACHE }, allEntries = true)
-  public VlcPlayer deleteVlcPlayer(Long vlcPlayerId) {
-    logger.trace("Deleting VlcPlayer: {}", vlcPlayerId);
-    return deleteEntityFromRepository(VlcPlayer.class, vlcPlayerId);
+  public VlcPlayer delete(Long id) {
+    logger.trace("Deleting VlcPlayer: {}", id);
+    return deleteEntityFromRepository(VlcPlayer.class, id);
   }
 
   @Override

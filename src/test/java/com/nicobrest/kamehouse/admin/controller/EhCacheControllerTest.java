@@ -89,8 +89,8 @@ public class EhCacheControllerTest {
   @Test
   public void getCacheTest() {
 
-    when(ehCacheServiceMock.getAllCaches()).thenReturn(cacheList);
-    when(ehCacheServiceMock.getCache("getAllDragonBallUsersCache")).thenReturn(cacheMap);
+    when(ehCacheServiceMock.getAll()).thenReturn(cacheList);
+    when(ehCacheServiceMock.get("getAllDragonBallUsersCache")).thenReturn(cacheMap);
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/ehcache")).andDo(print());
       requestResult.andExpect(status().isOk());
@@ -114,8 +114,8 @@ public class EhCacheControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(ehCacheServiceMock, times(1)).getAllCaches();
-    verify(ehCacheServiceMock, times(1)).getCache("getAllDragonBallUsersCache");
+    verify(ehCacheServiceMock, times(1)).getAll();
+    verify(ehCacheServiceMock, times(1)).get("getAllDragonBallUsersCache");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 
@@ -136,8 +136,8 @@ public class EhCacheControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(ehCacheServiceMock, times(1)).clearAllCaches();
-    verify(ehCacheServiceMock, times(1)).clearCache("getAllDragonBallUsersCache");
+    verify(ehCacheServiceMock, times(1)).clearAll();
+    verify(ehCacheServiceMock, times(1)).clear("getAllDragonBallUsersCache");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 }

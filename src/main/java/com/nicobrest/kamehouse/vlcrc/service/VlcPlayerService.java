@@ -22,7 +22,7 @@ public class VlcPlayerService {
   @Autowired
   @Qualifier("vlcPlayerDaoJpa")
   private VlcPlayerDao vlcPlayerDao;
-  
+
   public VlcPlayerDao getVlcPlayerDao() {
     return vlcPlayerDao;
   }
@@ -34,38 +34,38 @@ public class VlcPlayerService {
   /**
    * Get a VLC Player.
    */
-  public VlcPlayer getVlcPlayer(String vlcPlayerName) { 
-    return vlcPlayerDao.getVlcPlayer(vlcPlayerName);
+  public VlcPlayer getByHostname(String hostname) { 
+    return vlcPlayerDao.getByHostname(hostname);
   }
   
   /**
    * Create a VLC Player.
    */
-  public Long createVlcPlayer(VlcPlayerDto vlcPlayerDto) {
-    VlcPlayer vlcPlayer = getModel(vlcPlayerDto); 
-    return vlcPlayerDao.createVlcPlayer(vlcPlayer);
+  public Long create(VlcPlayerDto dto) {
+    VlcPlayer vlcPlayer = getModel(dto); 
+    return vlcPlayerDao.create(vlcPlayer);
   } 
   
   /**
    * Update a VLC Player.
    */
-  public void updateVlcPlayer(VlcPlayerDto vlcPlayerDto) {
-    VlcPlayer vlcPlayer = getModel(vlcPlayerDto);
-    vlcPlayerDao.updateVlcPlayer(vlcPlayer);
+  public void update(VlcPlayerDto dto) {
+    VlcPlayer vlcPlayer = getModel(dto);
+    vlcPlayerDao.update(vlcPlayer);
   } 
   
   /**
    * Delete a VLC Player.
    */
-  public VlcPlayer deleteVlcPlayer(Long vlcPlayerId) {
-    return vlcPlayerDao.deleteVlcPlayer(vlcPlayerId);
+  public VlcPlayer delete(Long id) {
+    return vlcPlayerDao.delete(id);
   }
   
   /**
    * Get all VLC Players.
    */
-  public List<VlcPlayer> getAllVlcPlayers() {
-    return vlcPlayerDao.getAllVlcPlayers();
+  public List<VlcPlayer> getAll() {
+    return vlcPlayerDao.getAll();
   }
   
   /**

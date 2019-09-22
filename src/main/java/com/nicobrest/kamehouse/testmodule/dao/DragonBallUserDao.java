@@ -15,35 +15,35 @@ public interface DragonBallUserDao {
    * Creates a DragonBallUser in the repository. Returns the ID of the newly
    * generated DragonBallUser.
    */
-  public Long createDragonBallUser(DragonBallUser dragonBallUser);
+  public Long create(DragonBallUser entity);
 
   /**
    * Gets a DragonBallUser from the repository by its id.
    */
-  public DragonBallUser getDragonBallUser(Long id);
+  public DragonBallUser read(Long id);
 
   /**
    * Gets a DragonBallUser from the repository by its username.
    */
-  public DragonBallUser getDragonBallUser(String username);
+  public DragonBallUser getByUsername(String username);
 
   /**
    * Gets a DragonBallUser from the repository by its email.
    */
-  public DragonBallUser getDragonBallUserByEmail(String email);
+  public DragonBallUser getByEmail(String email);
 
   /**
    * Updates a DragonBallUser on the repository.
    */
-  public void updateDragonBallUser(DragonBallUser dragonBallUser);
+  public void update(DragonBallUser entity);
 
   /**
    * Deletes a DragonBallUser from the repository.
    */
-  public DragonBallUser deleteDragonBallUser(Long id);
+  public DragonBallUser delete(Long id);
 
   /**
    * Gets all the DragonBallUsers from the repository.
    */
-  public List<DragonBallUser> getAllDragonBallUsers();
+  public List<DragonBallUser> getAll();
 }

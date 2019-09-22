@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class ApplicationUserDaoInMemory implements ApplicationUserDao {
 
-  private static Map<String, ApplicationUser> applicationUsers = new HashMap<>();
+  private static Map<String, ApplicationUser> repository = new HashMap<>();
 
   public ApplicationUserDaoInMemory() {
     initRepository();
@@ -31,7 +31,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
 
   @Override
   public ApplicationUser loadUserByUsername(final String username) {
-    ApplicationUser applicationUser = applicationUsers.get(username);
+    ApplicationUser applicationUser = repository.get(username);
     if (applicationUser == null) {
       throw new UsernameNotFoundException("User with username " + username + " not found.");
     }
@@ -39,26 +39,26 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
   }
 
   @Override
-  public Long createUser(ApplicationUser applicationUser) {
-    applicationUser.setId(IdGenerator.getId());
-    applicationUsers.put(applicationUser.getUsername(), applicationUser);
-    return applicationUser.getId();
+  public Long create(ApplicationUser entity) {
+    entity.setId(IdGenerator.getId());
+    repository.put(entity.getUsername(), entity);
+    return entity.getId();
   }
 
   @Override
-  public void updateUser(ApplicationUser applicationUser) {
-    ApplicationUser applicationUserToUpdate = loadUserByUsername(applicationUser.getUsername());
-    applicationUser.setId(applicationUserToUpdate.getId());
-    applicationUsers.remove(applicationUserToUpdate.getUsername());
-    applicationUsers.put(applicationUser.getUsername(), applicationUser);
+  public void update(ApplicationUser entity) {
+    ApplicationUser applicationUserToUpdate = loadUserByUsername(entity.getUsername());
+    entity.setId(applicationUserToUpdate.getId());
+    repository.remove(applicationUserToUpdate.getUsername());
+    repository.put(entity.getUsername(), entity);
   }
 
   @Override
-  public ApplicationUser deleteUser(Long id) {
-    for (Map.Entry<String, ApplicationUser> applicationUserEntry : applicationUsers.entrySet()) {
+  public ApplicationUser delete(Long id) {
+    for (Map.Entry<String, ApplicationUser> applicationUserEntry : repository.entrySet()) {
       ApplicationUser userToDelete = applicationUserEntry.getValue();
       if (userToDelete.getId().equals(id)) {
-        applicationUsers.remove(applicationUserEntry.getKey());
+        repository.remove(applicationUserEntry.getKey());
         return userToDelete;
       }
     }
@@ -66,8 +66,17 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
   }
 
   @Override
-  public List<ApplicationUser> getAllUsers() {
-    return new ArrayList<>(applicationUsers.values());
+  public List<ApplicationUser> getAll() {
+    return new ArrayList<>(repository.values());
+  }
+  
+  /**
+   * Get User by id is not supported for this InMemory repository.
+   */
+  @Override
+  public ApplicationUser read(Long id) {
+    throw new UnsupportedOperationException(
+        "This method is not supported. Use loadUserByUsername() for this repository.");
   }
 
   /**
@@ -91,7 +100,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     Set<ApplicationRole> userRoles = new HashSet<>();
     userRoles.add(userRole);
     user.setAuthorities(userRoles);
-    applicationUsers.put(user.getUsername(), user);
+    repository.put(user.getUsername(), user);
 
     ApplicationUser admin = new ApplicationUser();
     admin.setId(IdGenerator.getId());
@@ -103,7 +112,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     Set<ApplicationRole> adminRoles = new HashSet<>();
     adminRoles.add(adminRole);
     admin.setAuthorities(adminRoles);
-    applicationUsers.put(admin.getUsername(), admin);
+    repository.put(admin.getUsername(), admin);
 
     ApplicationUser superUser = new ApplicationUser();
     superUser.setId(IdGenerator.getId());
@@ -117,7 +126,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     superUserRoles.add(userRole);
     superUserRoles.add(guestRole);
     superUser.setAuthorities(superUserRoles);
-    applicationUsers.put(superUser.getUsername(), superUser);
+    repository.put(superUser.getUsername(), superUser);
 
     ApplicationUser guest = new ApplicationUser();
     guest.setId(IdGenerator.getId());
@@ -129,7 +138,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     Set<ApplicationRole> guestRoles = new HashSet<>();
     guestRoles.add(guestRole);
     guest.setAuthorities(guestRoles);
-    applicationUsers.put(guest.getUsername(), guest);
+    repository.put(guest.getUsername(), guest);
   }
 
   /**
@@ -148,14 +157,5 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     public static Long getId() {
       return Long.valueOf(sequence.getAndIncrement());
     }
-  }
-
-  /**
-   * Get User by id is not supported for this InMemory repository.
-   */
-  @Override
-  public ApplicationUser getUser(Long id) {
-    throw new UnsupportedOperationException(
-        "This method is not supported. Use loadUserByUsername() for this repository.");
   }
 }

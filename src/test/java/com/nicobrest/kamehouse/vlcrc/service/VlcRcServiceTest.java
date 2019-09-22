@@ -208,7 +208,7 @@ public class VlcRcServiceTest {
   public void getVlcRcStatusTest() {
 
     try {
-      when(vlcPlayerService.getVlcPlayer(any())).thenReturn(vlcPlayer);
+      when(vlcPlayerService.getByHostname(any())).thenReturn(vlcPlayer);
       when(vlcPlayer.getVlcRcStatus()).thenReturn(vlcRcStatusMock);
       VlcRcStatus returnedStatus = vlcRcService.getVlcRcStatus("niko-nba");
       assertEquals(vlcRcStatusMock.getInformation().getTitle(), returnedStatus.getInformation()
@@ -229,7 +229,7 @@ public class VlcRcServiceTest {
     try {
       VlcRcCommand vlcRcCommand = new VlcRcCommand();
       vlcRcCommand.setName("fullscreen");
-      when(vlcPlayerService.getVlcPlayer(any())).thenReturn(vlcPlayer);
+      when(vlcPlayerService.getByHostname(any())).thenReturn(vlcPlayer);
       when(vlcPlayer.execute(any())).thenReturn(vlcRcStatusMock);
       VlcRcStatus returnedStatus = vlcRcService.execute(vlcRcCommand, "niko-nba");
       assertEquals(vlcRcStatusMock.getInformation().getTitle(), returnedStatus.getInformation()
@@ -248,7 +248,7 @@ public class VlcRcServiceTest {
   public void getVlcRcPlaylistTest() {
 
     try {
-      when(vlcPlayerService.getVlcPlayer(any())).thenReturn(vlcPlayer);
+      when(vlcPlayerService.getByHostname(any())).thenReturn(vlcPlayer);
       when(vlcPlayer.getPlaylist()).thenReturn(vlcRcPlaylistMock);
       List<Map<String, Object>> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
       assertEquals(2, returnedPlaylist.size());
@@ -268,7 +268,7 @@ public class VlcRcServiceTest {
   public void browseTest() {
 
     try {
-      when(vlcPlayerService.getVlcPlayer(any())).thenReturn(vlcPlayer);
+      when(vlcPlayerService.getByHostname(any())).thenReturn(vlcPlayer);
       when(vlcPlayer.browse(any())).thenReturn(vlcRcFilelistMock);
       List<Map<String, Object>> returnedFilelist = vlcRcService.browse(null, "niko-nba");
       assertEquals(2, returnedFilelist.size());

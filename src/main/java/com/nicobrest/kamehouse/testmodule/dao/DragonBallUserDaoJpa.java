@@ -24,28 +24,28 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
 
   @Override
   @Cacheable(value = GET_ALL_DRAGONBALL_USERS_CACHE)
-  public List<DragonBallUser> getAllDragonBallUsers() {
+  public List<DragonBallUser> getAll() {
     logger.trace("Get all DragonBallUsers");
     return findAll(DragonBallUser.class);
   }
 
   @Override
   @Cacheable(value = GET_DRAGONBALL_USER_CACHE)
-  public DragonBallUser getDragonBallUser(Long id) {
+  public DragonBallUser read(Long id) {
     logger.trace(GET_DRAGONBALLUSER, id);
     return findById(DragonBallUser.class, id);
   }
 
   @Override
   @Cacheable(value = GET_DRAGONBALL_USER_BY_USERNAME_CACHE)
-  public DragonBallUser getDragonBallUser(String username) {
+  public DragonBallUser getByUsername(String username) {
     logger.trace(GET_DRAGONBALLUSER, username);
     return findByUsername(DragonBallUser.class, username);
   }
 
   @Override
   @Cacheable(value = GET_DRAGONBALL_USER_BY_EMAIL_CACHE)
-  public DragonBallUser getDragonBallUserByEmail(String email) {
+  public DragonBallUser getByEmail(String email) {
     logger.trace(GET_DRAGONBALLUSER, email);
     return findByEmail(DragonBallUser.class, email);
   }
@@ -54,26 +54,26 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   @CacheEvict(value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
       GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
       allEntries = true)
-  public Long createDragonBallUser(DragonBallUser dragonBallUser) {
-    logger.trace("Create DragonBallUser: {}", dragonBallUser);
-    persistEntityInRepository(dragonBallUser);
-    return dragonBallUser.getId();
+  public Long create(DragonBallUser entity) {
+    logger.trace("Create DragonBallUser: {}", entity);
+    persistEntityInRepository(entity);
+    return entity.getId();
   }
 
   @Override
   @CacheEvict(value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
       GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
       allEntries = true)
-  public void updateDragonBallUser(DragonBallUser dragonBallUser) {
-    logger.trace("Update DragonBallUser: {}", dragonBallUser);
-    updateEntityInRepository(DragonBallUser.class, dragonBallUser, dragonBallUser.getId());
+  public void update(DragonBallUser entity) {
+    logger.trace("Update DragonBallUser: {}", entity);
+    updateEntityInRepository(DragonBallUser.class, entity, entity.getId());
   }
 
   @Override
   @CacheEvict(value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
       GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
       allEntries = true)
-  public DragonBallUser deleteDragonBallUser(Long id) {
+  public DragonBallUser delete(Long id) {
     logger.trace("Delete DragonBallUser: {}", id);
     return deleteEntityFromRepository(DragonBallUser.class, id);
   }

@@ -19,6 +19,6 @@ public class DragonBallUserEditActionServlet extends AbstractDragonBallUserServl
 
   @Override
   void consumeDragonBallUserDto(DragonBallUserDto dragonBallUserDto) {
-    getDragonBallUserService().updateDragonBallUser(dragonBallUserDto);
+    getDragonBallUserService().update(dragonBallUserDto);
   }
 }

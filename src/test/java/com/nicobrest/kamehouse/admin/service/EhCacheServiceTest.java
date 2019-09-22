@@ -30,7 +30,7 @@ public class EhCacheServiceTest {
    */
   @Test
   public void getAllCachesTest() {
-    List<Map<String, Object>> cacheList = ehCacheService.getAllCaches();
+    List<Map<String, Object>> cacheList = ehCacheService.getAll();
 
     assertEquals(5, cacheList.size());
   }
@@ -43,9 +43,9 @@ public class EhCacheServiceTest {
   public void clearAllCachesTest() {
     List<String> emptyList = new ArrayList<>();
     
-    ehCacheService.clearAllCaches();
+    ehCacheService.clearAll();
     
-    for (Map<String, Object> cacheMap : ehCacheService.getAllCaches()) {
+    for (Map<String, Object> cacheMap : ehCacheService.getAll()) {
       if (cacheMap.get("name").equals("getAllDragonBallUsersCache")) {
         assertEquals(emptyList, cacheMap.get("values"));
       }

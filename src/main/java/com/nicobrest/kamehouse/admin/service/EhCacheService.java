@@ -40,7 +40,7 @@ public class EhCacheService {
   /**
    * Returns the cache information of the cache specified as a parameter.
    */
-  public Map<String, Object> getCache(String cacheName) {
+  public Map<String, Object> get(String cacheName) {
     logger.trace("Getting information for cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     Map<String, Object> cacheMap = new HashMap<>();
@@ -53,12 +53,12 @@ public class EhCacheService {
   /**
    * Returns the status of all the ehcaches.
    */
-  public List<Map<String, Object>> getAllCaches() {
+  public List<Map<String, Object>> getAll() {
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     List<Map<String, Object>> cacheList = new ArrayList<>();
 
     for (int i = 0; i < cacheNames.length; i++) {
-      Map<String, Object> cacheMap = getCache(cacheNames[i]);
+      Map<String, Object> cacheMap = get(cacheNames[i]);
       if (!cacheMap.isEmpty()) {
         cacheList.add(cacheMap);
       }
@@ -69,7 +69,7 @@ public class EhCacheService {
   /**
    * Clears the ehcache specified as a parameter.
    */
-  public void clearCache(String cacheName) {
+  public void clear(String cacheName) {
     logger.trace("Clearing cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     if (cache != null) {
@@ -80,10 +80,10 @@ public class EhCacheService {
   /**
    * Clears all the ehcaches.
    */
-  public void clearAllCaches() {
+  public void clearAll() {
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     for (int i = 0; i < cacheNames.length; i++) {
-      clearCache(cacheNames[i]);
+      clear(cacheNames[i]);
     }
   }
 

@@ -52,7 +52,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void createDragonBallUserTest() {
-    Long returnedId = dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
+    Long returnedId = dragonBallUserDaoJpa.create(dragonBallUser);
 
     DragonBallUser returnedUser = findById(DragonBallUser.class, returnedId);
     assertEquals(dragonBallUser, returnedUser);
@@ -65,10 +65,10 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   public void createDragonBallUserConflictExceptionTest() {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
-    dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
+    dragonBallUserDaoJpa.create(dragonBallUser);
     dragonBallUser.setId(null);
 
-    dragonBallUserDaoJpa.createDragonBallUser(dragonBallUser);
+    dragonBallUserDaoJpa.create(dragonBallUser);
   }
 
   /**
@@ -78,7 +78,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   public void getDragonBallUserTest() {
     persistEntityInRepository(dragonBallUser);
 
-    DragonBallUser returnedUser = dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getId());
+    DragonBallUser returnedUser = dragonBallUserDaoJpa.read(dragonBallUser.getId());
 
     assertNotNull(returnedUser);
     assertEquals(dragonBallUser, returnedUser);
@@ -92,7 +92,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
     persistEntityInRepository(dragonBallUser);
 
     DragonBallUser returnedUser =
-        dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getUsername());
+        dragonBallUserDaoJpa.getByUsername(dragonBallUser.getUsername());
 
     assertNotNull(returnedUser);
     assertEquals(dragonBallUser, returnedUser);
@@ -106,7 +106,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("Entity not found in the repository.");
 
-    dragonBallUserDaoJpa.getDragonBallUser(DragonBallUserTestUtils.INVALID_USERNAME);
+    dragonBallUserDaoJpa.getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
   }
 
   /**
@@ -117,7 +117,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
     persistEntityInRepository(dragonBallUser);
 
     DragonBallUser returnedUser =
-        dragonBallUserDaoJpa.getDragonBallUserByEmail(dragonBallUser.getEmail());
+        dragonBallUserDaoJpa.getByEmail(dragonBallUser.getEmail());
 
     assertNotNull(returnedUser);
     assertEquals(dragonBallUser, returnedUser);
@@ -132,7 +132,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("NoResultException: Entity not found in the repository.");
 
-    dragonBallUserDaoJpa.getDragonBallUserByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+    dragonBallUserDaoJpa.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
   }
 
   /**
@@ -143,9 +143,9 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
     persistEntityInRepository(dragonBallUser);
     dragonBallUser.setEmail("gokuUpdated@dbz.com");
 
-    dragonBallUserDaoJpa.updateDragonBallUser(dragonBallUser);
+    dragonBallUserDaoJpa.update(dragonBallUser);
 
-    DragonBallUser updatedUser = dragonBallUserDaoJpa.getDragonBallUser(dragonBallUser.getId());
+    DragonBallUser updatedUser = dragonBallUserDaoJpa.read(dragonBallUser.getId());
     assertEquals(dragonBallUser, updatedUser);
   }
 
@@ -159,7 +159,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
         + " was not found in the repository.");
     dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
 
-    dragonBallUserDaoJpa.updateDragonBallUser(dragonBallUser);
+    dragonBallUserDaoJpa.update(dragonBallUser);
   }
 
   /**
@@ -178,7 +178,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
     dragonBallUser.setUsername(username);
     dragonBallUser.setEmail("gokuUpdated@dbz.com");
 
-    dragonBallUserDaoJpa.updateDragonBallUser(dragonBallUser);
+    dragonBallUserDaoJpa.update(dragonBallUser);
   }
 
   /**
@@ -188,7 +188,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   public void deleteDragonBallUserTest() {
     persistEntityInRepository(dragonBallUser);
 
-    DragonBallUser deletedUser = dragonBallUserDaoJpa.deleteDragonBallUser(dragonBallUser.getId());
+    DragonBallUser deletedUser = dragonBallUserDaoJpa.delete(dragonBallUser.getId());
 
     assertEquals(dragonBallUser, deletedUser);
   }
@@ -202,7 +202,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
 
-    dragonBallUserDaoJpa.deleteDragonBallUser(DragonBallUserTestUtils.INVALID_ID);
+    dragonBallUserDaoJpa.delete(DragonBallUserTestUtils.INVALID_ID);
   }
 
   /**
@@ -214,7 +214,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
       persistEntityInRepository(dragonBallUserToAdd);
     }
 
-    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.getAllDragonBallUsers();
+    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.getAll();
 
     assertEquals(dragonBallUsersList.size(), returnedList.size());
     assertEquals(dragonBallUsersList, returnedList);

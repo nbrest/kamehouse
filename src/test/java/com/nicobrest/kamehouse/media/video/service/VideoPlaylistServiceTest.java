@@ -52,7 +52,7 @@ public class VideoPlaylistServiceTest {
     when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
         VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
 
-    List<Playlist> returnedPlaylists = videoPlaylistService.getAllVideoPlaylists();
+    List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
     for (Playlist returnedPlaylist : returnedPlaylists) {

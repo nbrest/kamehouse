@@ -40,7 +40,7 @@ public class ApplicationUserDaoInMemoryTest {
    */
   @Test
   public void createApplicationUserTest() {
-    applicationUserDao.createUser(applicationUser);
+    applicationUserDao.create(applicationUser);
 
     ApplicationUser createdUser =
         applicationUserDao.loadUserByUsername(applicationUser.getUsername());
@@ -79,7 +79,7 @@ public class ApplicationUserDaoInMemoryTest {
     applicationUser.setId(originalUser.getId());
     applicationUser.setUsername(originalUser.getUsername());
 
-    applicationUserDao.updateUser(applicationUser);
+    applicationUserDao.update(applicationUser);
 
     ApplicationUser updatedUser = applicationUserDao.loadUserByUsername("admin");
     assertEquals(applicationUser, updatedUser);
@@ -95,7 +95,7 @@ public class ApplicationUserDaoInMemoryTest {
     thrown.expectMessage(
         "User with username " + ApplicationUserTestUtils.INVALID_USERNAME + " not found.");
 
-    applicationUserDao.updateUser(applicationUser);
+    applicationUserDao.update(applicationUser);
   }
 
   /**
@@ -105,7 +105,7 @@ public class ApplicationUserDaoInMemoryTest {
   public void deleteApplicationUserTest() {
     ApplicationUser userToDelete = applicationUserDao.loadUserByUsername("admin");
 
-    ApplicationUser deletedUser = applicationUserDao.deleteUser(userToDelete.getId());
+    ApplicationUser deletedUser = applicationUserDao.delete(userToDelete.getId());
 
     assertEquals(userToDelete, deletedUser);
   }
@@ -118,7 +118,7 @@ public class ApplicationUserDaoInMemoryTest {
     thrown.expect(UsernameNotFoundException.class);
     thrown.expectMessage("User with id " + ApplicationUserTestUtils.INVALID_ID + " not found.");
 
-    applicationUserDao.deleteUser(ApplicationUserTestUtils.INVALID_ID);
+    applicationUserDao.delete(ApplicationUserTestUtils.INVALID_ID);
   }
 
   /**
@@ -126,6 +126,6 @@ public class ApplicationUserDaoInMemoryTest {
    */
   @Test
   public void getAllApplicationUsersTest() {
-    assertEquals(4, applicationUserDao.getAllUsers().size());
+    assertEquals(4, applicationUserDao.getAll().size());
   }
 }

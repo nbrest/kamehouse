@@ -16,13 +16,13 @@ import java.util.Set;
 public class ApplicationUserDaoJpa extends AbstractDaoJpa implements ApplicationUserDao {
 
   @Override
-  public List<ApplicationUser> getAllUsers() {
+  public List<ApplicationUser> getAll() {
     logger.trace("Loading all ApplicationUsers");
     return findAll(ApplicationUser.class);
   }
 
   @Override
-  public ApplicationUser getUser(Long id) {
+  public ApplicationUser read(Long id) {
     logger.trace("Loading ApplicationUser: {}", id);
     return findById(ApplicationUser.class, id);
   }
@@ -34,25 +34,25 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
   }
 
   @Override
-  public Long createUser(ApplicationUser applicationUser) {
-    logger.trace("Creating ApplicationUser: {}", applicationUser.getUsername());
-    for (ApplicationRole role : applicationUser.getAuthorities()) {
-      role.setApplicationUser(applicationUser);
+  public Long create(ApplicationUser entity) {
+    logger.trace("Creating ApplicationUser: {}", entity.getUsername());
+    for (ApplicationRole role : entity.getAuthorities()) {
+      role.setApplicationUser(entity);
     }
     // Use merge instead of persist so it doesn't throw the object
     // detached exception for ApplicationRoles
-    ApplicationUser mergedApplicationUser = mergeEntityInRepository(applicationUser);
+    ApplicationUser mergedApplicationUser = mergeEntityInRepository(entity);
     return mergedApplicationUser.getId();
   }
 
   @Override
-  public void updateUser(ApplicationUser applicationUser) {
-    logger.trace("Updating ApplicationUser: {}", applicationUser.getUsername());
-    updateEntityInRepository(ApplicationUser.class, applicationUser, applicationUser.getId());
+  public void update(ApplicationUser entity) {
+    logger.trace("Updating ApplicationUser: {}", entity.getUsername());
+    updateEntityInRepository(ApplicationUser.class, entity, entity.getId());
   }
 
   @Override
-  public ApplicationUser deleteUser(Long id) {
+  public ApplicationUser delete(Long id) {
     logger.trace("Deleting ApplicationUser: {}", id);
     return deleteEntityFromRepository(ApplicationUser.class, id);
   }

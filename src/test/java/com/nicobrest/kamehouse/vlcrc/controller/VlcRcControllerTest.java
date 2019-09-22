@@ -262,7 +262,7 @@ public class VlcRcControllerTest {
   public void createVlcPlayerTest() {
 
     try {
-      when(vlcPlayerServiceMock.createVlcPlayer(vlcPlayerDtoMock))
+      when(vlcPlayerServiceMock.create(vlcPlayerDtoMock))
           .thenReturn(vlcPlayerDtoMock.getId());
 
       ResultActions requestResult = mockMvc
@@ -275,7 +275,7 @@ public class VlcRcControllerTest {
           .andExpect(content().bytes(JsonUtils.toJsonByteArray(vlcPlayerDtoMock.getId())));
       requestResult.andExpect(content().string(vlcPlayerMock.getId().toString()));
 
-      verify(vlcPlayerServiceMock, times(1)).createVlcPlayer(vlcPlayerDtoMock);
+      verify(vlcPlayerServiceMock, times(1)).create(vlcPlayerDtoMock);
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -287,7 +287,7 @@ public class VlcRcControllerTest {
    */
   @Test
   public void getAllVlcPlayersTest() {
-    when(vlcPlayerServiceMock.getAllVlcPlayers()).thenReturn(vlcPlayerListMock);
+    when(vlcPlayerServiceMock.getAll()).thenReturn(vlcPlayerListMock);
 
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/vlc-rc/players")).andDo(print());
@@ -309,7 +309,7 @@ public class VlcRcControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(vlcPlayerServiceMock, times(1)).getAllVlcPlayers();
+    verify(vlcPlayerServiceMock, times(1)).getAll();
     verifyNoMoreInteractions(vlcPlayerServiceMock);
   }
 
@@ -320,7 +320,7 @@ public class VlcRcControllerTest {
   public void getVlcPlayerTest() {
 
     try {
-      when(vlcPlayerServiceMock.getVlcPlayer("localhost")).thenReturn(vlcPlayerMock);
+      when(vlcPlayerServiceMock.getByHostname("localhost")).thenReturn(vlcPlayerMock);
 
       ResultActions requestResult = mockMvc.perform(get("/api/v1/vlc-rc/players/localhost"))
           .andDo(print());
@@ -344,7 +344,7 @@ public class VlcRcControllerTest {
   public void updateVlcPlayerTest() {
 
     try {
-      Mockito.doNothing().when(vlcPlayerServiceMock).updateVlcPlayer(vlcPlayerDtoMock);
+      Mockito.doNothing().when(vlcPlayerServiceMock).update(vlcPlayerDtoMock);
 
       ResultActions requestResult = mockMvc
           .perform(put("/api/v1/vlc-rc/players/" + vlcPlayerDtoMock.getId())
@@ -353,7 +353,7 @@ public class VlcRcControllerTest {
           .andDo(print());
       requestResult.andExpect(status().isOk());
 
-      verify(vlcPlayerServiceMock, times(1)).updateVlcPlayer(vlcPlayerDtoMock);
+      verify(vlcPlayerServiceMock, times(1)).update(vlcPlayerDtoMock);
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
@@ -367,7 +367,7 @@ public class VlcRcControllerTest {
   public void deleteVlcPlayerTest() {
 
     try {
-      when(vlcPlayerServiceMock.deleteVlcPlayer(vlcPlayerMock.getId())).thenReturn(vlcPlayerMock);
+      when(vlcPlayerServiceMock.delete(vlcPlayerMock.getId())).thenReturn(vlcPlayerMock);
 
       ResultActions requestResult = mockMvc
           .perform(delete("/api/v1/vlc-rc/players/" + vlcPlayerMock.getId())).andDo(print());
@@ -375,7 +375,7 @@ public class VlcRcControllerTest {
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(content().bytes(JsonUtils.toJsonByteArray(vlcPlayerMock)));
 
-      verify(vlcPlayerServiceMock, times(1)).deleteVlcPlayer(vlcPlayerMock.getId());
+      verify(vlcPlayerServiceMock, times(1)).delete(vlcPlayerMock.getId());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");

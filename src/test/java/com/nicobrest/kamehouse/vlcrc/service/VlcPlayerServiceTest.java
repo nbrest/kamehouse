@@ -93,11 +93,11 @@ public class VlcPlayerServiceTest {
       vlcPlayerToAddDto.setHostname("playerAdded.localhost");
       vlcPlayerToAddDto.setPort(8080);
       
-      Mockito.doReturn(1L).when(vlcPlayerDaoMock).createVlcPlayer(playerToAdd);
+      Mockito.doReturn(1L).when(vlcPlayerDaoMock).create(playerToAdd);
 
-      vlcPlayerService.createVlcPlayer(vlcPlayerToAddDto);
+      vlcPlayerService.create(vlcPlayerToAddDto);
 
-      verify(vlcPlayerDaoMock, times(1)).createVlcPlayer(playerToAdd);
+      verify(vlcPlayerDaoMock, times(1)).create(playerToAdd);
     } catch (KameHouseBadRequestException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -112,13 +112,13 @@ public class VlcPlayerServiceTest {
   public void getVlcPlayerTest() {
 
     try {
-      when(vlcPlayerDaoMock.getVlcPlayer("player1")).thenReturn(vlcPlayersList.get(0));
+      when(vlcPlayerDaoMock.getByHostname("player1")).thenReturn(vlcPlayersList.get(0));
 
-      VlcPlayer vlcPlayerReturned = vlcPlayerService.getVlcPlayer("player1");
+      VlcPlayer vlcPlayerReturned = vlcPlayerService.getByHostname("player1");
 
       assertNotNull(vlcPlayerReturned);
       assertEquals("1000", vlcPlayerReturned.getId().toString());
-      verify(vlcPlayerDaoMock, times(1)).getVlcPlayer("player1");
+      verify(vlcPlayerDaoMock, times(1)).getByHostname("player1");
     } catch (KameHouseNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -147,11 +147,11 @@ public class VlcPlayerServiceTest {
       vlcPlayerToUpdateDto.setPort(9999);
       vlcPlayerToUpdateDto.setId(1000L);
       
-      Mockito.doNothing().when(vlcPlayerDaoMock).updateVlcPlayer(vlcPlayerToUpdate);
+      Mockito.doNothing().when(vlcPlayerDaoMock).update(vlcPlayerToUpdate);
 
-      vlcPlayerService.updateVlcPlayer(vlcPlayerToUpdateDto);
+      vlcPlayerService.update(vlcPlayerToUpdateDto);
 
-      verify(vlcPlayerDaoMock, times(1)).updateVlcPlayer(vlcPlayerToUpdate);
+      verify(vlcPlayerDaoMock, times(1)).update(vlcPlayerToUpdate);
     } catch (KameHouseNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -165,11 +165,11 @@ public class VlcPlayerServiceTest {
   public void deleteVlcPlayerTest() {
 
     try {
-      when(vlcPlayerDaoMock.deleteVlcPlayer(1000L)).thenReturn(vlcPlayersList.get(0));
+      when(vlcPlayerDaoMock.delete(1000L)).thenReturn(vlcPlayersList.get(0));
 
-      vlcPlayerService.deleteVlcPlayer(1000L);
+      vlcPlayerService.delete(1000L);
 
-      verify(vlcPlayerDaoMock, times(1)).deleteVlcPlayer(1000L);
+      verify(vlcPlayerDaoMock, times(1)).delete(1000L);
     } catch (KameHouseNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -182,9 +182,9 @@ public class VlcPlayerServiceTest {
   @Test
   public void getAllVlcPlayersTest() {
 
-    when(vlcPlayerDaoMock.getAllVlcPlayers()).thenReturn(vlcPlayersList);
+    when(vlcPlayerDaoMock.getAll()).thenReturn(vlcPlayersList);
 
-    List<VlcPlayer> vlcPlayersReturned = vlcPlayerService.getAllVlcPlayers();
+    List<VlcPlayer> vlcPlayersReturned = vlcPlayerService.getAll();
 
     assertEquals("player1", vlcPlayersReturned.get(0).getUsername());
     assertEquals("1000", vlcPlayersReturned.get(0).getId().toString());
@@ -195,6 +195,6 @@ public class VlcPlayerServiceTest {
     assertEquals("player3", vlcPlayersReturned.get(2).getUsername());
     assertEquals("1002", vlcPlayersReturned.get(2).getId().toString());
 
-    verify(vlcPlayerDaoMock, times(1)).getAllVlcPlayers();
+    verify(vlcPlayerDaoMock, times(1)).getAll();
   }
 }

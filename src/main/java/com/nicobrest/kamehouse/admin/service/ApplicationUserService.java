@@ -68,35 +68,35 @@ public class ApplicationUserService implements UserDetailsService {
   /**
    * Creates a new application user in the repository.
    */
-  public Long createUser(ApplicationUserDto applicationUserDto) {
-    ApplicationUser applicationUser = getModel(applicationUserDto);
+  public Long create(ApplicationUserDto dto) {
+    ApplicationUser applicationUser = getModel(dto);
     validateApplicationUser(applicationUser);
     applicationUser
         .setPassword(PasswordUtils.generateHashedPassword(applicationUser.getPassword()));
-    return applicationUserDao.createUser(applicationUser);
+    return applicationUserDao.create(applicationUser);
   }
 
   /**
    * Updates an application user in the repository.
    */
-  public void updateUser(ApplicationUserDto applicationUserDto) {
-    ApplicationUser applicationUser = getModel(applicationUserDto);
+  public void update(ApplicationUserDto dto) {
+    ApplicationUser applicationUser = getModel(dto);
     validateApplicationUser(applicationUser);
-    applicationUserDao.updateUser(applicationUser);
+    applicationUserDao.update(applicationUser);
   }
 
   /**
    * Deletes an application user from the repository.
    */
-  public ApplicationUser deleteUser(Long id) {
-    return applicationUserDao.deleteUser(id);
+  public ApplicationUser delete(Long id) {
+    return applicationUserDao.delete(id);
   }
 
   /**
    * Get all application users.
    */
-  public List<ApplicationUser> getAllUsers() {
-    return applicationUserDao.getAllUsers();
+  public List<ApplicationUser> getAll() {
+    return applicationUserDao.getAll();
   }
 
   /**

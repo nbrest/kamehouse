@@ -15,7 +15,7 @@ public interface ApplicationUserDao {
   /**
    * Get an application user from the repository by it's id.
    */
-  public ApplicationUser getUser(Long id);  
+  public ApplicationUser read(Long id);  
   
   /**
    * Get an application user from the repository by it's username.
@@ -25,20 +25,20 @@ public interface ApplicationUserDao {
   /**
    * Creates a new application user in the repository. Returns it's new id.
    */
-  public Long createUser(ApplicationUser applicationUser);
+  public Long create(ApplicationUser entity);
   
   /**
    * Updates an application user in the repository.
    */
-  public void updateUser(ApplicationUser applicationUser); 
+  public void update(ApplicationUser entity); 
   
   /**
    * Deletes the application user with the passed id from the repository.
    */
-  public ApplicationUser deleteUser(Long id);
+  public ApplicationUser delete(Long id);
   
   /**
    * Get all application users.
    */
-  public List<ApplicationUser> getAllUsers();
+  public List<ApplicationUser> getAll();
 }

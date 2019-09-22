@@ -32,28 +32,28 @@ public class VlcRcService {
   /**
    * Gets the status information of the specified VLC Player.
    */
-  public VlcRcStatus getVlcRcStatus(String vlcPlayerName) { 
-    return vlcPlayerService.getVlcPlayer(vlcPlayerName).getVlcRcStatus();
+  public VlcRcStatus getVlcRcStatus(String hostname) { 
+    return vlcPlayerService.getByHostname(hostname).getVlcRcStatus();
   }
 
   /**
    * Executes a command in the specified VLC Player.
    */
-  public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String vlcPlayerName) { 
-    return vlcPlayerService.getVlcPlayer(vlcPlayerName).execute(vlcRcCommand);
+  public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String hostname) { 
+    return vlcPlayerService.getByHostname(hostname).execute(vlcRcCommand);
   }
 
   /**
    * Gets the current playlist for the selected VLC Player.
    */
-  public List<Map<String, Object>> getPlaylist(String vlcPlayerName) {
-    return vlcPlayerService.getVlcPlayer(vlcPlayerName).getPlaylist();
+  public List<Map<String, Object>> getPlaylist(String hostname) {
+    return vlcPlayerService.getByHostname(hostname).getPlaylist();
   }
 
   /**
    * Browse the file system of the selected VLC Player.
    */
-  public List<Map<String, Object>> browse(String uri, String vlcPlayerName) {
-    return vlcPlayerService.getVlcPlayer(vlcPlayerName).browse(uri);
+  public List<Map<String, Object>> browse(String uri, String hostname) {
+    return vlcPlayerService.getByHostname(hostname).browse(uri);
   }
 }

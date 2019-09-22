@@ -130,7 +130,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUsersTest() throws Exception {
-    when(dragonBallUserServiceMock.getAllDragonBallUsers()).thenReturn(dragonBallUsersList);
+    when(dragonBallUserServiceMock.getAll()).thenReturn(dragonBallUsersList);
 
     MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS);
     List<DragonBallUser> responseBody = getResponseBodyList(response, DragonBallUser.class);
@@ -139,7 +139,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     assertEquals(dragonBallUsersList.size(), responseBody.size());
     assertEquals(dragonBallUsersList, responseBody);
-    verify(dragonBallUserServiceMock, times(1)).getAllDragonBallUsers();
+    verify(dragonBallUserServiceMock, times(1)).getAll();
     verifyNoMoreInteractions(dragonBallUserServiceMock);
   }
 
@@ -173,7 +173,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void postUsersTest() throws Exception {
-    Mockito.doReturn(dragonBallUser.getId()).when(dragonBallUserServiceMock).createDragonBallUser(
+    Mockito.doReturn(dragonBallUser.getId()).when(dragonBallUserServiceMock).create(
         dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
@@ -182,7 +182,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
 
     verifyResponseStatus(response, HttpStatus.CREATED);
     assertEquals(dragonBallUserDto.getId(), responseBody);
-    verify(dragonBallUserServiceMock, times(1)).createDragonBallUser(dragonBallUserDto);
+    verify(dragonBallUserServiceMock, times(1)).create(dragonBallUserDto);
   }
 
   /**
@@ -194,7 +194,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseConflictException.class));
     Mockito.doThrow(new KameHouseConflictException("")).when(dragonBallUserServiceMock)
-        .createDragonBallUser(dragonBallUserDto);
+        .create(dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     executePost(API_V1_DRAGONBALL_USERS, requestPayload);
@@ -206,7 +206,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUsersIdTest() throws Exception {
-    when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUser.getId())).thenReturn(
+    when(dragonBallUserServiceMock.read(dragonBallUser.getId())).thenReturn(
         dragonBallUser);
 
     MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + dragonBallUser
@@ -223,7 +223,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUsersUsernameTest() throws Exception {
-    when(dragonBallUserServiceMock.getDragonBallUser(dragonBallUser.getUsername())).thenReturn(
+    when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername())).thenReturn(
         dragonBallUser);
 
     MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "username/"
@@ -243,7 +243,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
-        .getDragonBallUser(DragonBallUserTestUtils.INVALID_USERNAME);
+        .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 
     executeGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
   }
@@ -254,7 +254,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUsersUsernameByEmailTest() throws Exception {
-    when(dragonBallUserServiceMock.getDragonBallUserByEmail(dragonBallUser.getEmail())).thenReturn(
+    when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail())).thenReturn(
         dragonBallUser);
 
     MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "emails/"
@@ -271,14 +271,14 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void putUsersUsernameTest() throws Exception {
-    Mockito.doNothing().when(dragonBallUserServiceMock).updateDragonBallUser(dragonBallUserDto);
+    Mockito.doNothing().when(dragonBallUserServiceMock).update(dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     MockHttpServletResponse response = executePut(API_V1_DRAGONBALL_USERS + dragonBallUserDto
         .getId(), requestPayload);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    verify(dragonBallUserServiceMock, times(1)).updateDragonBallUser(any());
+    verify(dragonBallUserServiceMock, times(1)).update(any());
   }
 
   /**
@@ -290,7 +290,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
-        .updateDragonBallUser(dragonBallUserDto);
+        .update(dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     executePut(API_V1_DRAGONBALL_USERS + dragonBallUserDto.getId(), requestPayload);
@@ -315,7 +315,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void deleteUsersIdTest() throws Exception {
-    when(dragonBallUserServiceMock.deleteDragonBallUser(dragonBallUserDto.getId())).thenReturn(
+    when(dragonBallUserServiceMock.delete(dragonBallUserDto.getId())).thenReturn(
         dragonBallUser);
 
     MockHttpServletResponse response = executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUserDto
@@ -324,7 +324,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals(dragonBallUser, responseBody);
-    verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(dragonBallUserDto.getId());
+    verify(dragonBallUserServiceMock, times(1)).delete(dragonBallUserDto.getId());
   }
 
   /**
@@ -336,7 +336,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
-        .deleteDragonBallUser(dragonBallUser.getId());
+        .delete(dragonBallUser.getId());
 
     executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUser.getId());
   }

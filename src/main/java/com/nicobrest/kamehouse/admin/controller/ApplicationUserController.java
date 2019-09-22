@@ -36,9 +36,9 @@ public class ApplicationUserController extends AbstractController {
    */
   @GetMapping(path = "/users")
   @ResponseBody
-  public ResponseEntity<List<ApplicationUser>> getUsers() {
+  public ResponseEntity<List<ApplicationUser>> getAll() {
     logger.trace("In controller /application/users/ (GET)");
-    List<ApplicationUser> applicationUsers = applicationUserService.getAllUsers();
+    List<ApplicationUser> applicationUsers = applicationUserService.getAll();
     // Don't return the passwords through the API.
     for (ApplicationUser appUser : applicationUsers) {
       appUser.setPassword(null);
@@ -51,9 +51,9 @@ public class ApplicationUserController extends AbstractController {
    */
   @PostMapping(path = "/users")
   @ResponseBody
-  public ResponseEntity<Long> postUsers(@RequestBody ApplicationUserDto applicationUserDto) {
+  public ResponseEntity<Long> create(@RequestBody ApplicationUserDto dto) {
     logger.trace("In controller /application/users (POST)");
-    Long applicationUserId = applicationUserService.createUser(applicationUserDto);
+    Long applicationUserId = applicationUserService.create(dto);
     return generatePostResponseEntity(applicationUserId);
   }
 
@@ -62,7 +62,7 @@ public class ApplicationUserController extends AbstractController {
    */
   @GetMapping(path = "/users/{username:.+}")
   @ResponseBody
-  public ResponseEntity<ApplicationUser> getUsersUsername(@PathVariable String username) {
+  public ResponseEntity<ApplicationUser> loadUserByUsername(@PathVariable String username) {
     logger.trace("In controller /application/users/{username:.+} (GET)");
     ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
     // Don't return the password through the API.
@@ -75,11 +75,10 @@ public class ApplicationUserController extends AbstractController {
    */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<Void> putUsersId(@PathVariable Long id,
-      @RequestBody ApplicationUserDto applicationUserDto) {
+  public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ApplicationUserDto dto) {
     logger.trace("In controller /application/users/{id} (PUT)");
-    validatePathAndRequestBodyIds(id, applicationUserDto.getId());
-    applicationUserService.updateUser(applicationUserDto);
+    validatePathAndRequestBodyIds(id, dto.getId());
+    applicationUserService.update(dto);
     return generatePutResponseEntity();
   }
 
@@ -88,9 +87,9 @@ public class ApplicationUserController extends AbstractController {
    */
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<ApplicationUser> deleteUsersId(@PathVariable Long id) {
+  public ResponseEntity<ApplicationUser> delete(@PathVariable Long id) {
     logger.trace("In controller /application/users/{id} (DELETE)");
-    ApplicationUser deletedAppUser = applicationUserService.deleteUser(id);
+    ApplicationUser deletedAppUser = applicationUserService.delete(id);
     // Don't return the passwords through the API.
     deletedAppUser.setPassword(null);
     return generateDeleteResponseEntity(deletedAppUser);

@@ -58,7 +58,7 @@ public class DragonBallController extends AbstractController {
    */
   @GetMapping(path = "/users")
   @ResponseBody
-  public ResponseEntity<List<DragonBallUser>> getUsers(@RequestParam(value = "action",
+  public ResponseEntity<List<DragonBallUser>> getAll(@RequestParam(value = "action",
       required = false, defaultValue = "goku") String action) {
     logger.trace("In controller /dragonball/users (GET)");
     // switch test to test parameters and exceptions
@@ -70,7 +70,7 @@ public class DragonBallController extends AbstractController {
       default:
         break;
     }
-    List<DragonBallUser> dbUsers = dragonBallUserService.getAllDragonBallUsers();
+    List<DragonBallUser> dbUsers = dragonBallUserService.getAll();
     return generateGetResponseEntity(dbUsers);
   }
 
@@ -79,9 +79,9 @@ public class DragonBallController extends AbstractController {
    */
   @PostMapping(path = "/users")
   @ResponseBody
-  public ResponseEntity<Long> postUsers(@RequestBody DragonBallUserDto dragonBallUserDto) {
+  public ResponseEntity<Long> create(@RequestBody DragonBallUserDto dto) {
     logger.trace("In controller /dragonball/users (POST)");
-    Long dbUserId = dragonBallUserService.createDragonBallUser(dragonBallUserDto);
+    Long dbUserId = dragonBallUserService.create(dto);
     return generatePostResponseEntity(dbUserId);
   }
 
@@ -91,9 +91,9 @@ public class DragonBallController extends AbstractController {
    */
   @GetMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<DragonBallUser> getUsersId(@PathVariable Long id) {
+  public ResponseEntity<DragonBallUser> read(@PathVariable Long id) {
     logger.trace("In controller /dragonball/users/{id} (GET)");
-    DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(id);
+    DragonBallUser dbUser = dragonBallUserService.read(id);
     return generateGetResponseEntity(dbUser);
   }
 
@@ -103,12 +103,12 @@ public class DragonBallController extends AbstractController {
    */
   @GetMapping(path = "/users/username/{username:.+}")
   @ResponseBody
-  public ResponseEntity<DragonBallUser> getUsersUsername(@PathVariable String username) {
+  public ResponseEntity<DragonBallUser> getByUsername(@PathVariable String username) {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first dot
     logger.trace("In controller /dragonball/users/username/{username:.+} (GET)");
-    DragonBallUser dbUser = dragonBallUserService.getDragonBallUser(username);
+    DragonBallUser dbUser = dragonBallUserService.getByUsername(username);
     return generateGetResponseEntity(dbUser);
   }
 
@@ -118,11 +118,12 @@ public class DragonBallController extends AbstractController {
    */
   @GetMapping(path = "/users/emails/{email:.+}")
   @ResponseBody
-  public ResponseEntity<String> getUsersByEmail(@PathVariable String email) {
+  public ResponseEntity<String> getByEmail(@PathVariable String email) {
     logger.trace("In controller /dragonball/users/emails/{email:.+} (GET)");
-    DragonBallUser dbUser = dragonBallUserService.getDragonBallUserByEmail(email);
+    DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
     String dbUserJson = JsonUtils.toJsonString(dbUser);
-    //Leaving this one as is as a test instead of using generateGetResponseEntity
+    // Leaving this one as is as a test instead of using
+    // generateGetResponseEntity
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Type", "application/json;charset=UTF-8");
     return new ResponseEntity<>(dbUserJson, headers, HttpStatus.OK);
@@ -133,11 +134,10 @@ public class DragonBallController extends AbstractController {
    */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<Void> putUsers(@PathVariable Long id,
-      @RequestBody DragonBallUserDto dragonBallUserDto) {
+  public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
     logger.trace("In controller /dragonball/users/{id} (PUT)");
-    validatePathAndRequestBodyIds(id, dragonBallUserDto.getId());
-    dragonBallUserService.updateDragonBallUser(dragonBallUserDto);
+    validatePathAndRequestBodyIds(id, dto.getId());
+    dragonBallUserService.update(dto);
     return generatePutResponseEntity();
   }
 
@@ -146,9 +146,9 @@ public class DragonBallController extends AbstractController {
    */
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<DragonBallUser> deleteUsersUsername(@PathVariable Long id) {
+  public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
     logger.trace("In controller /dragonball/users/{id} (DELETE)");
-    DragonBallUser deletedDbUser = dragonBallUserService.deleteDragonBallUser(id);
+    DragonBallUser deletedDbUser = dragonBallUserService.delete(id);
     return generateDeleteResponseEntity(deletedDbUser);
   }
 }

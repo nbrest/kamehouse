@@ -20,8 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
-  private static Map<String, DragonBallUser> dragonBallUsers;
-  private static Map<Long, String> dragonBallUsernamesById;
+  private static Map<String, DragonBallUser> repository;
+  private static Map<Long, String> usernamesById;
   private static final String ALREADY_IN_REPOSITORY = " already exists in the repository.";
   private static final String DBUSER_WITH_ID = "DragonBallUser with id ";
   private static final String DBUSER_WITH_USERNAME = "DragonBallUser with username ";
@@ -59,14 +59,13 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
    * Initialize In-Memory repository.
    */
   public static void initRepository() {
-
-    dragonBallUsers = new HashMap<>();
-    dragonBallUsernamesById = new HashMap<>();
+    repository = new HashMap<>();
+    usernamesById = new HashMap<>();
 
     DragonBallUser user1 = new DragonBallUser(IdGenerator.getId(), "goku", "goku@dbz.com", 49, 30,
         1000);
-    dragonBallUsers.put(user1.getUsername(), user1);
-    dragonBallUsernamesById.put(user1.getId(), user1.getUsername());
+    repository.put(user1.getUsername(), user1);
+    usernamesById.put(user1.getId(), user1.getUsername());
 
     DragonBallUser user2 = new DragonBallUser();
     user2.setId(IdGenerator.getId());
@@ -75,34 +74,31 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     user2.setUsername("gohan");
     user2.setPowerLevel(20);
     user2.setStamina(1000);
-    dragonBallUsers.put(user2.getUsername(), user2);
-    dragonBallUsernamesById.put(user2.getId(), user2.getUsername());
+    repository.put(user2.getUsername(), user2);
+    usernamesById.put(user2.getId(), user2.getUsername());
 
     DragonBallUser user3 = new DragonBallUser(IdGenerator.getId(), "goten", "goten@dbz.com", 19,
         10, 1000);
-    dragonBallUsers.put(user3.getUsername(), user3);
-    dragonBallUsernamesById.put(user3.getId(), user3.getUsername());
+    repository.put(user3.getUsername(), user3);
+    usernamesById.put(user3.getId(), user3.getUsername());
   }
 
   @Override
-  public Long createDragonBallUser(DragonBallUser dragonBallUser) {
-
-    if (dragonBallUsers.get(dragonBallUser.getUsername()) != null) {
-      throw new KameHouseConflictException(DBUSER_WITH_USERNAME + dragonBallUser.getUsername()
+  public Long create(DragonBallUser entity) {
+    if (repository.get(entity.getUsername()) != null) {
+      throw new KameHouseConflictException(DBUSER_WITH_USERNAME + entity.getUsername()
           + ALREADY_IN_REPOSITORY);
     }
-    dragonBallUser.setId(IdGenerator.getId());
-    dragonBallUsers.put(dragonBallUser.getUsername(), dragonBallUser);
-    dragonBallUsernamesById.put(dragonBallUser.getId(), dragonBallUser.getUsername());
-    return dragonBallUser.getId();
+    entity.setId(IdGenerator.getId());
+    repository.put(entity.getUsername(), entity);
+    usernamesById.put(entity.getId(), entity.getUsername());
+    return entity.getId();
   }
 
   @Override
-  public DragonBallUser getDragonBallUser(Long id) {
-
-    String username = dragonBallUsernamesById.get(id);
-    DragonBallUser dragonBallUser = dragonBallUsers.get(username);
-
+  public DragonBallUser read(Long id) {
+    String username = usernamesById.get(id);
+    DragonBallUser dragonBallUser = repository.get(username);
     if (username == null) {
       throw new KameHouseNotFoundException(DBUSER_WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
     }
@@ -110,10 +106,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   @Override
-  public DragonBallUser getDragonBallUser(String username) {
-
-    DragonBallUser user = dragonBallUsers.get(username);
-
+  public DragonBallUser getByUsername(String username) {
+    DragonBallUser user = repository.get(username);
     if (user == null) {
       throw new KameHouseNotFoundException(DBUSER_WITH_USERNAME + username
           + NOT_FOUND_IN_REPOSITORY);
@@ -122,51 +116,48 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   @Override
-  public DragonBallUser getDragonBallUserByEmail(String email) {
-
+  public DragonBallUser getByEmail(String email) {
     throw new UnsupportedOperationException(
         "This functionality is not implemented for the DragonBallUserInMemory repository.");
   }
 
   @Override
-  public void updateDragonBallUser(DragonBallUser dragonBallUser) {
-
+  public void update(DragonBallUser entity) {
     // Check that the user being updated exists in the repo
-    if (dragonBallUsernamesById.get(dragonBallUser.getId()) == null) {
-      throw new KameHouseNotFoundException(DBUSER_WITH_ID + dragonBallUser.getId()
+    if (usernamesById.get(entity.getId()) == null) {
+      throw new KameHouseNotFoundException(DBUSER_WITH_ID + entity.getId()
           + NOT_FOUND_IN_REPOSITORY);
     }
 
     // If the username changes, check that the new username doesn´t already
     // exist in the repo
-    if (!dragonBallUser.getUsername().equals(dragonBallUsernamesById.get(dragonBallUser.getId()))
-        && (dragonBallUsers.get(dragonBallUser.getUsername()) != null)) { 
-      throw new KameHouseConflictException(DBUSER_WITH_USERNAME + dragonBallUser.getUsername()
-          + ALREADY_IN_REPOSITORY); 
+    if (!entity.getUsername().equals(usernamesById.get(entity.getId()))
+        && (repository.get(entity.getUsername()) != null)) {
+      throw new KameHouseConflictException(DBUSER_WITH_USERNAME + entity.getUsername()
+          + ALREADY_IN_REPOSITORY);
     }
 
     // Remove old entry for the updated user
-    dragonBallUsers.remove(dragonBallUsernamesById.get(dragonBallUser.getId()));
-    dragonBallUsernamesById.remove(dragonBallUser.getId());
+    repository.remove(usernamesById.get(entity.getId()));
+    usernamesById.remove(entity.getId());
 
     // Insert the new entry for the updated user
-    dragonBallUsers.put(dragonBallUser.getUsername(), dragonBallUser);
-    dragonBallUsernamesById.put(dragonBallUser.getId(), dragonBallUser.getUsername());
+    repository.put(entity.getUsername(), entity);
+    usernamesById.put(entity.getId(), entity.getUsername());
   }
 
   @Override
-  public DragonBallUser deleteDragonBallUser(Long id) {
-
-    String username = dragonBallUsernamesById.remove(id);
+  public DragonBallUser delete(Long id) {
+    String username = usernamesById.remove(id);
     if (username == null) {
       throw new KameHouseNotFoundException(DBUSER_WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
     }
-    return dragonBallUsers.remove(username);
+    return repository.remove(username);
   }
 
   @Override
-  public List<DragonBallUser> getAllDragonBallUsers() {
-    return new ArrayList<>(dragonBallUsers.values());
+  public List<DragonBallUser> getAll() {
+    return new ArrayList<>(repository.values());
   }
 
   /**

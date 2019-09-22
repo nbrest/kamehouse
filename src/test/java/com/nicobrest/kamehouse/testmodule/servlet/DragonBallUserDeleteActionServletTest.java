@@ -52,11 +52,11 @@ public class DragonBallUserDeleteActionServletTest {
     request.setParameter("id", "100");
     DragonBallUser deletedDragonBallUser = new DragonBallUser(100L, "goku", "goku@dbz.com", 100,
         100, 100);
-    when(dragonBallUserServiceMock.deleteDragonBallUser(100L)).thenReturn(deletedDragonBallUser);
+    when(dragonBallUserServiceMock.delete(100L)).thenReturn(deletedDragonBallUser);
 
     dragonBallUserDeleteActionServlet.doPost(request, response);
 
-    verify(dragonBallUserServiceMock, times(1)).deleteDragonBallUser(100L);
+    verify(dragonBallUserServiceMock, times(1)).delete(100L);
     assertEquals("users-list", response.getRedirectedUrl());
   }
 }

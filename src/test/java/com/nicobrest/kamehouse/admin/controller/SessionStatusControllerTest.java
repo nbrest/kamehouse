@@ -83,7 +83,7 @@ public class SessionStatusControllerTest {
     sessionStatusMock.put("email", null);
     sessionStatusMock.put("roles", roleAnonymous);
 
-    when(sessionStatusServiceMock.getSessionStatus()).thenReturn(sessionStatusMock);
+    when(sessionStatusServiceMock.get()).thenReturn(sessionStatusMock);
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/session/status")).andDo(print());
       requestResult.andExpect(status().isOk());

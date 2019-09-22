@@ -37,62 +37,62 @@ public class DragonBallUserService {
   /**
    * Create a new DragonBallUser in the repository.
    */
-  public Long createDragonBallUser(DragonBallUserDto dragonBallUserDto) {
-    DragonBallUser dragonBallUser = getModel(dragonBallUserDto);
+  public Long create(DragonBallUserDto dto) {
+    DragonBallUser dragonBallUser = getModel(dto);
     try { 
       validateDragonBallUser(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
       throw new KameHouseBadRequestException(e.getMessage(), e);
     }
-    return dragonBallUserDao.createDragonBallUser(dragonBallUser);
+    return dragonBallUserDao.create(dragonBallUser);
   }
 
   /**
    * Returns a single instance of a DragonBallUser looking up by id.
    */
-  public DragonBallUser getDragonBallUser(Long id) {
-    return dragonBallUserDao.getDragonBallUser(id);
+  public DragonBallUser read(Long id) {
+    return dragonBallUserDao.read(id);
   }
 
   /**
    * Returns a single instance of a DragonBallUser looking up by username.
    */
-  public DragonBallUser getDragonBallUser(String username) {
-    return dragonBallUserDao.getDragonBallUser(username);
+  public DragonBallUser getByUsername(String username) {
+    return dragonBallUserDao.getByUsername(username);
   }
 
   /**
    * Returns a single instance of a DragonBallUser looking up by email.
    */
-  public DragonBallUser getDragonBallUserByEmail(String email) {
-    return dragonBallUserDao.getDragonBallUserByEmail(email);
+  public DragonBallUser getByEmail(String email) {
+    return dragonBallUserDao.getByEmail(email);
   }
 
   /**
    * Updates an existing DragonBallUser in the repository.
    */
-  public void updateDragonBallUser(DragonBallUserDto dragonBallUserDto) {
-    DragonBallUser dragonBallUser = getModel(dragonBallUserDto);
+  public void update(DragonBallUserDto dto) {
+    DragonBallUser dragonBallUser = getModel(dto);
     try {
       validateDragonBallUser(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
       throw new KameHouseBadRequestException(e.getMessage(), e);
     }
-    dragonBallUserDao.updateDragonBallUser(dragonBallUser);
+    dragonBallUserDao.update(dragonBallUser);
   }
 
   /**
    * Deletes an existing DragonBallUser in the repository.
    */
-  public DragonBallUser deleteDragonBallUser(Long id) {
-    return dragonBallUserDao.deleteDragonBallUser(id);
+  public DragonBallUser delete(Long id) {
+    return dragonBallUserDao.delete(id);
   }
 
   /**
    * Returns all the DragonBallUsers in the repository.
    */
-  public List<DragonBallUser> getAllDragonBallUsers() {
-    return dragonBallUserDao.getAllDragonBallUsers();
+  public List<DragonBallUser> getAll() {
+    return dragonBallUserDao.getAll();
   }
 
   /**

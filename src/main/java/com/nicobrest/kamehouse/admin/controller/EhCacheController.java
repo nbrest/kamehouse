@@ -37,18 +37,18 @@ public class EhCacheController extends AbstractController {
    */
   @GetMapping
   @ResponseBody
-  public ResponseEntity<List<Map<String, Object>>> getCache(@RequestParam(value = "name",
+  public ResponseEntity<List<Map<String, Object>>> get(@RequestParam(value = "name",
       required = false) String cacheName) {
     logger.trace("In controller /api/v1/admin/ehcache (GET)");
     List<Map<String, Object>> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
       cacheList = new ArrayList<>();
-      Map<String, Object> cache = ehCacheService.getCache(cacheName);
+      Map<String, Object> cache = ehCacheService.get(cacheName);
       if (!cache.isEmpty()) {
         cacheList.add(cache);
       }
     } else {
-      cacheList = ehCacheService.getAllCaches();
+      cacheList = ehCacheService.getAll();
     }
     return generateGetResponseEntity(cacheList);
   }
@@ -57,13 +57,13 @@ public class EhCacheController extends AbstractController {
    * Clears all the ehcaches or the cache specified as a parameter.
    */
   @DeleteMapping
-  public ResponseEntity<Void> clearCache(@RequestParam(value = "name",
+  public ResponseEntity<Void> clear(@RequestParam(value = "name",
       required = false) String cacheName) {
     logger.trace("In controller /api/v1/admin/ehcache (DELETE)");
     if (!StringUtils.isBlank(cacheName)) {
-      ehCacheService.clearCache(cacheName);
+      ehCacheService.clear(cacheName);
     } else {
-      ehCacheService.clearAllCaches();
+      ehCacheService.clearAll();
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }

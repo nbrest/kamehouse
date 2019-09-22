@@ -69,11 +69,11 @@ public class VlcPlayerDaoJpaTest {
     vlcPlayerCreated.setPassword("vegeta");
 
     try {
-      assertEquals(0, vlcPlayerDaoJpa.getAllVlcPlayers().size());
-      vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated);
-      assertEquals(1, vlcPlayerDaoJpa.getAllVlcPlayers().size());
+      assertEquals(0, vlcPlayerDaoJpa.getAll().size());
+      vlcPlayerDaoJpa.create(vlcPlayerCreated);
+      assertEquals(1, vlcPlayerDaoJpa.getAll().size());
       vlcPlayerDaoJpa
-          .deleteVlcPlayer(vlcPlayerDaoJpa.getVlcPlayer("playerCapsuleCorp").getId());
+          .delete(vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp").getId());
     } catch (KameHouseBadRequestException | KameHouseNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -103,8 +103,8 @@ public class VlcPlayerDaoJpaTest {
     vlcPlayerCreated2.setPassword("vegeta");
     vlcPlayerCreated2.setId(1000L);
 
-    vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated);
-    vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated2);
+    vlcPlayerDaoJpa.create(vlcPlayerCreated);
+    vlcPlayerDaoJpa.create(vlcPlayerCreated2);
   }
   
   /**
@@ -119,9 +119,9 @@ public class VlcPlayerDaoJpaTest {
       vlcPlayerCreated.setPort(8080);
       vlcPlayerCreated.setUsername("goku");
       vlcPlayerCreated.setPassword("vegeta");
-      vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated);
+      vlcPlayerDaoJpa.create(vlcPlayerCreated);
 
-      VlcPlayer vlcPlayerRetrieved = vlcPlayerDaoJpa.getVlcPlayer("playerCapsuleCorp");
+      VlcPlayer vlcPlayerRetrieved = vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp");
       
       assertNotNull(vlcPlayerRetrieved);
       assertEquals("playerCapsuleCorp", vlcPlayerRetrieved.getHostname());
@@ -139,7 +139,7 @@ public class VlcPlayerDaoJpaTest {
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("Entity not found in the repository.");
-    vlcPlayerDaoJpa.getVlcPlayer("yukimura");
+    vlcPlayerDaoJpa.getByHostname("yukimura");
   }  
   
   /**
@@ -154,9 +154,9 @@ public class VlcPlayerDaoJpaTest {
       vlcPlayerCreated.setPort(8080);
       vlcPlayerCreated.setUsername("goku");
       vlcPlayerCreated.setPassword("vegeta");
-      vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated);
+      vlcPlayerDaoJpa.create(vlcPlayerCreated);
 
-      VlcPlayer originalVlcPlayer = vlcPlayerDaoJpa.getVlcPlayer("playerCapsuleCorp");
+      VlcPlayer originalVlcPlayer = vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp");
       assertEquals("playerCapsuleCorp", originalVlcPlayer.getHostname());
  
       VlcPlayer vlcPlayerModified = new VlcPlayer();
@@ -166,14 +166,14 @@ public class VlcPlayerDaoJpaTest {
       vlcPlayerModified.setPassword("vegeta2");
       vlcPlayerModified.setId(originalVlcPlayer.getId());
       
-      vlcPlayerDaoJpa.updateVlcPlayer(vlcPlayerModified);
-      VlcPlayer updatedVlcPlayer = vlcPlayerDaoJpa.getVlcPlayer("playerCapsuleCorp2");
+      vlcPlayerDaoJpa.update(vlcPlayerModified);
+      VlcPlayer updatedVlcPlayer = vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp2");
 
       assertEquals(originalVlcPlayer.getId().toString(), updatedVlcPlayer.getId().toString());
       assertEquals("goku2", updatedVlcPlayer.getUsername());  
       assertEquals("playerCapsuleCorp2", updatedVlcPlayer.getHostname()); 
       
-      vlcPlayerDaoJpa.updateVlcPlayer(originalVlcPlayer);
+      vlcPlayerDaoJpa.update(originalVlcPlayer);
     } catch (KameHouseNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -195,7 +195,7 @@ public class VlcPlayerDaoJpaTest {
     
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("VlcPlayer with id 0 was not found in the repository.");
-    vlcPlayerDaoJpa.updateVlcPlayer(vlcPlayerCreated);
+    vlcPlayerDaoJpa.update(vlcPlayerCreated);
   }
 
   /**
@@ -213,9 +213,9 @@ public class VlcPlayerDaoJpaTest {
       vlcPlayerCreated.setPort(8080);
       vlcPlayerCreated.setUsername("goku");
       vlcPlayerCreated.setPassword("vegeta");
-      vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated);
+      vlcPlayerDaoJpa.create(vlcPlayerCreated);
 
-      VlcPlayer originalVlcPlayer = vlcPlayerDaoJpa.getVlcPlayer("playerCapsuleCorp");
+      VlcPlayer originalVlcPlayer = vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp");
       assertEquals("goku", originalVlcPlayer.getUsername());
       assertEquals("playerCapsuleCorp", originalVlcPlayer.getHostname());
       
@@ -232,7 +232,7 @@ public class VlcPlayerDaoJpaTest {
       vlcPlayerModified.setPassword("vegeta");
       vlcPlayerModified.setId(originalVlcPlayer.getId());
       
-      vlcPlayerDaoJpa.updateVlcPlayer(vlcPlayerModified);
+      vlcPlayerDaoJpa.update(vlcPlayerModified);
     } catch (KameHouseNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
@@ -251,11 +251,11 @@ public class VlcPlayerDaoJpaTest {
       vlcPlayerToDelete.setPort(8080);
       vlcPlayerToDelete.setUsername("goku");
       vlcPlayerToDelete.setPassword("vegeta");
-      vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerToDelete);
-      assertEquals(1, vlcPlayerDaoJpa.getAllVlcPlayers().size());
+      vlcPlayerDaoJpa.create(vlcPlayerToDelete);
+      assertEquals(1, vlcPlayerDaoJpa.getAll().size());
       VlcPlayer deletedVlcPlayer = vlcPlayerDaoJpa
-          .deleteVlcPlayer(vlcPlayerDaoJpa.getVlcPlayer("playerCapsuleCorp").getId());
-      assertEquals(0, vlcPlayerDaoJpa.getAllVlcPlayers().size());
+          .delete(vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp").getId());
+      assertEquals(0, vlcPlayerDaoJpa.getAll().size());
       assertEquals("goku", deletedVlcPlayer.getUsername()); 
       assertEquals("playerCapsuleCorp", deletedVlcPlayer.getHostname()); 
       
@@ -273,7 +273,7 @@ public class VlcPlayerDaoJpaTest {
 
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("VlcPlayer with id " + 987L + " was not found in the repository.");
-    vlcPlayerDaoJpa.deleteVlcPlayer(987L);
+    vlcPlayerDaoJpa.delete(987L);
   }
 
   /**
@@ -287,15 +287,15 @@ public class VlcPlayerDaoJpaTest {
     vlcPlayerCreated.setPort(8080);
     vlcPlayerCreated.setUsername("goku");
     vlcPlayerCreated.setPassword("vegeta");
-    vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated);
+    vlcPlayerDaoJpa.create(vlcPlayerCreated);
     VlcPlayer vlcPlayerCreated2 = new VlcPlayer();
     vlcPlayerCreated2.setHostname("playerCapsuleCorp2");
     vlcPlayerCreated2.setPort(8080);
     vlcPlayerCreated2.setUsername("goku2");
     vlcPlayerCreated2.setPassword("vegeta2");
-    vlcPlayerDaoJpa.createVlcPlayer(vlcPlayerCreated2);
+    vlcPlayerDaoJpa.create(vlcPlayerCreated2);
     try {
-      List<VlcPlayer> vlcPlayerList = vlcPlayerDaoJpa.getAllVlcPlayers();
+      List<VlcPlayer> vlcPlayerList = vlcPlayerDaoJpa.getAll();
       assertEquals(2, vlcPlayerList.size()); 
     } catch (Exception e) {
       e.printStackTrace();

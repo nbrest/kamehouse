@@ -51,7 +51,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void createApplicationUserTest() {
-    Long returnedId = applicationUserDaoJpa.createUser(applicationUser);
+    Long returnedId = applicationUserDaoJpa.create(applicationUser);
 
     assertNotEquals(applicationUser.getId(), returnedId);
     ApplicationUser returnedUser = findById(ApplicationUser.class, returnedId);
@@ -66,10 +66,10 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
   public void createApplicationUserConflictExceptionTest() {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
-    applicationUserDaoJpa.createUser(applicationUser);
+    applicationUserDaoJpa.create(applicationUser);
     applicationUser.setId(null);
 
-    applicationUserDaoJpa.createUser(applicationUser);
+    applicationUserDaoJpa.create(applicationUser);
   }
 
   /**
@@ -80,7 +80,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
     Long createId = mergeEntityInRepository(applicationUser).getId();
     applicationUser.setId(createId);
     
-    ApplicationUser returnedUser = applicationUserDaoJpa.getUser(createId);
+    ApplicationUser returnedUser = applicationUserDaoJpa.read(createId);
 
     assertNotNull(returnedUser);
     assertEquals(applicationUser, returnedUser);
@@ -122,7 +122,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
     userToUpdate.setEmail("updatedGoku@dbz.com");
     userToUpdate.getAuthorities();
 
-    applicationUserDaoJpa.updateUser(userToUpdate);
+    applicationUserDaoJpa.update(userToUpdate);
 
     ApplicationUser updatedUser = findById(ApplicationUser.class, userToUpdate.getId());
     assertEquals(userToUpdate, updatedUser);
@@ -138,7 +138,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
         + " was not found in the repository.");
     applicationUser.setId(ApplicationUserTestUtils.INVALID_ID);
 
-    applicationUserDaoJpa.updateUser(applicationUser);
+    applicationUserDaoJpa.update(applicationUser);
   }
 
   /**
@@ -149,7 +149,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
     Long userToDeleteId = mergeEntityInRepository(applicationUser).getId();
     applicationUser.setId(userToDeleteId);
 
-    ApplicationUser deletedUser = applicationUserDaoJpa.deleteUser(userToDeleteId);
+    ApplicationUser deletedUser = applicationUserDaoJpa.delete(userToDeleteId);
 
     assertEquals(applicationUser, deletedUser);
   }
@@ -163,7 +163,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
     thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
         + " was not found in the repository.");
 
-    applicationUserDaoJpa.deleteUser(ApplicationUserTestUtils.INVALID_ID);
+    applicationUserDaoJpa.delete(ApplicationUserTestUtils.INVALID_ID);
   }
 
   /**
@@ -176,7 +176,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
       applicationUser.setId(createdId);
     }
     
-    List<ApplicationUser> returnedUsersList = applicationUserDaoJpa.getAllUsers();
+    List<ApplicationUser> returnedUsersList = applicationUserDaoJpa.getAll();
     
     assertEquals(applicationUsersList.size(), returnedUsersList.size());
     assertEquals(applicationUsersList, returnedUsersList);

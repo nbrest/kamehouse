@@ -19,6 +19,6 @@ public class DragonBallUserAddActionServlet extends AbstractDragonBallUserServle
 
   @Override
   void consumeDragonBallUserDto(DragonBallUserDto dragonBallUserDto) {
-    getDragonBallUserService().createDragonBallUser(dragonBallUserDto);
+    getDragonBallUserService().create(dragonBallUserDto);
   }
 }

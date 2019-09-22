@@ -58,12 +58,12 @@ public class DragonBallUserServiceTest {
   @Test
   public void createDragonBallUserTest() {
     Mockito.doReturn(dragonBallUser.getId()).when(dragonBallUserDaoMock)
-        .createDragonBallUser(dragonBallUser);
+        .create(dragonBallUser);
 
-    Long createdId = dragonBallUserService.createDragonBallUser(dragonBallUserDto);
+    Long createdId = dragonBallUserService.create(dragonBallUserDto);
 
     assertEquals(dragonBallUser.getId(), createdId);
-    verify(dragonBallUserDaoMock, times(1)).createDragonBallUser(dragonBallUser);
+    verify(dragonBallUserDaoMock, times(1)).create(dragonBallUser);
   }
 
   /**
@@ -72,13 +72,13 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void getDragonBallUserTest() {
-    when(dragonBallUserDaoMock.getDragonBallUser(dragonBallUser.getId()))
+    when(dragonBallUserDaoMock.read(dragonBallUser.getId()))
         .thenReturn(dragonBallUser);
 
-    DragonBallUser returnedUser = dragonBallUserService.getDragonBallUser(dragonBallUser.getId());
+    DragonBallUser returnedUser = dragonBallUserService.read(dragonBallUser.getId());
 
     assertEquals(dragonBallUser, returnedUser);
-    verify(dragonBallUserDaoMock, times(1)).getDragonBallUser(dragonBallUser.getId());
+    verify(dragonBallUserDaoMock, times(1)).read(dragonBallUser.getId());
   }
 
   /**
@@ -87,14 +87,14 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void getDragonBallUserByUsernameTest() {
-    when(dragonBallUserDaoMock.getDragonBallUser(dragonBallUser.getUsername()))
+    when(dragonBallUserDaoMock.getByUsername(dragonBallUser.getUsername()))
         .thenReturn(dragonBallUser);
 
     DragonBallUser returnedUser =
-        dragonBallUserService.getDragonBallUser(dragonBallUser.getUsername());
+        dragonBallUserService.getByUsername(dragonBallUser.getUsername());
 
     assertEquals(dragonBallUser, returnedUser);
-    verify(dragonBallUserDaoMock, times(1)).getDragonBallUser(dragonBallUser.getUsername());
+    verify(dragonBallUserDaoMock, times(1)).getByUsername(dragonBallUser.getUsername());
   }
 
   /**
@@ -103,14 +103,14 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void getDragonBallUserByEmailTest() {
-    when(dragonBallUserDaoMock.getDragonBallUserByEmail(dragonBallUser.getEmail()))
+    when(dragonBallUserDaoMock.getByEmail(dragonBallUser.getEmail()))
         .thenReturn(dragonBallUser);
 
     DragonBallUser returnedUser =
-        dragonBallUserService.getDragonBallUserByEmail(dragonBallUser.getEmail());
+        dragonBallUserService.getByEmail(dragonBallUser.getEmail());
 
     assertEquals(dragonBallUser, returnedUser);
-    verify(dragonBallUserDaoMock, times(1)).getDragonBallUserByEmail(dragonBallUser.getEmail());
+    verify(dragonBallUserDaoMock, times(1)).getByEmail(dragonBallUser.getEmail());
   }
 
   /**
@@ -119,11 +119,11 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void updateDragonBallUserTest() {
-    Mockito.doNothing().when(dragonBallUserDaoMock).updateDragonBallUser(dragonBallUser);
+    Mockito.doNothing().when(dragonBallUserDaoMock).update(dragonBallUser);
 
-    dragonBallUserService.updateDragonBallUser(dragonBallUserDto);
+    dragonBallUserService.update(dragonBallUserDto);
 
-    verify(dragonBallUserDaoMock, times(1)).updateDragonBallUser(dragonBallUser);
+    verify(dragonBallUserDaoMock, times(1)).update(dragonBallUser);
   }
 
   /**
@@ -131,13 +131,13 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void deleteDragonBallUserTest() {
-    when(dragonBallUserDaoMock.deleteDragonBallUser(dragonBallUser.getId()))
+    when(dragonBallUserDaoMock.delete(dragonBallUser.getId()))
         .thenReturn(dragonBallUser);
 
-    DragonBallUser deletedUser = dragonBallUserService.deleteDragonBallUser(dragonBallUser.getId());
+    DragonBallUser deletedUser = dragonBallUserService.delete(dragonBallUser.getId());
 
     assertEquals(dragonBallUser, deletedUser);
-    verify(dragonBallUserDaoMock, times(1)).deleteDragonBallUser(dragonBallUser.getId());
+    verify(dragonBallUserDaoMock, times(1)).delete(dragonBallUser.getId());
   }
 
   /**
@@ -146,11 +146,11 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void getAllDragonBallUsersTest() {
-    when(dragonBallUserDaoMock.getAllDragonBallUsers()).thenReturn(dragonBallUsersList);
+    when(dragonBallUserDaoMock.getAll()).thenReturn(dragonBallUsersList);
 
-    List<DragonBallUser> returnedList = dragonBallUserService.getAllDragonBallUsers();
+    List<DragonBallUser> returnedList = dragonBallUserService.getAll();
 
     assertEquals(dragonBallUsersList, returnedList);
-    verify(dragonBallUserDaoMock, times(1)).getAllDragonBallUsers();
+    verify(dragonBallUserDaoMock, times(1)).getAll();
   }
 }
