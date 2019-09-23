@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
+import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "DRAGONBALL_USER")
-public class DragonBallUser implements Serializable {
+public class DragonBallUser implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 

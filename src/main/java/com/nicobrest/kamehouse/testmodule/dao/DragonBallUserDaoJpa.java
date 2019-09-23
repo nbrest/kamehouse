@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
-import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
+import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUserDao {
+public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBallUserDao {
 
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
   private static final String GET_ALL_DRAGONBALL_USERS_CACHE = "getAllDragonBallUsersCache";
@@ -23,17 +23,42 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
   private static final String GET_DRAGONBALL_USER_BY_EMAIL_CACHE = "getDragonBallUserByEmailCache";
 
   @Override
-  @Cacheable(value = GET_ALL_DRAGONBALL_USERS_CACHE)
-  public List<DragonBallUser> getAll() {
-    logger.trace("Get all DragonBallUsers");
-    return findAll(DragonBallUser.class);
+  @CacheEvict(
+      value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
+          GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
+      allEntries = true)
+  public Long create(DragonBallUser entity) {
+    return create(DragonBallUser.class, entity);
   }
-
+  
   @Override
   @Cacheable(value = GET_DRAGONBALL_USER_CACHE)
   public DragonBallUser read(Long id) {
-    logger.trace(GET_DRAGONBALLUSER, id);
-    return findById(DragonBallUser.class, id);
+    return read(DragonBallUser.class, id);
+  }
+
+  @Override
+  @CacheEvict(
+      value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
+          GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
+      allEntries = true)
+  public void update(DragonBallUser entity) {
+    update(DragonBallUser.class, entity);
+  }
+
+  @Override
+  @CacheEvict(
+      value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
+          GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
+      allEntries = true)
+  public DragonBallUser delete(Long id) {
+    return delete(DragonBallUser.class, id);
+  }
+
+  @Override
+  @Cacheable(value = GET_ALL_DRAGONBALL_USERS_CACHE)
+  public List<DragonBallUser> getAll() {
+    return getAll(DragonBallUser.class);
   }
 
   @Override
@@ -49,35 +74,7 @@ public class DragonBallUserDaoJpa extends AbstractDaoJpa implements DragonBallUs
     logger.trace(GET_DRAGONBALLUSER, email);
     return findByEmail(DragonBallUser.class, email);
   }
-
-  @Override
-  @CacheEvict(value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
-      GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
-      allEntries = true)
-  public Long create(DragonBallUser entity) {
-    logger.trace("Create DragonBallUser: {}", entity);
-    persistEntityInRepository(entity);
-    return entity.getId();
-  }
-
-  @Override
-  @CacheEvict(value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
-      GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
-      allEntries = true)
-  public void update(DragonBallUser entity) {
-    logger.trace("Update DragonBallUser: {}", entity);
-    updateEntityInRepository(DragonBallUser.class, entity, entity.getId());
-  }
-
-  @Override
-  @CacheEvict(value = { GET_ALL_DRAGONBALL_USERS_CACHE, GET_DRAGONBALL_USER_CACHE,
-      GET_DRAGONBALL_USER_BY_USERNAME_CACHE, GET_DRAGONBALL_USER_BY_EMAIL_CACHE },
-      allEntries = true)
-  public DragonBallUser delete(Long id) {
-    logger.trace("Delete DragonBallUser: {}", id);
-    return deleteEntityFromRepository(DragonBallUser.class, id);
-  }
-
+  
   @Override
   protected <T> void updateEntityValues(T persistedEntity, T entity) {
     DragonBallUser persistedDragonBallUser = (DragonBallUser) persistedEntity;
