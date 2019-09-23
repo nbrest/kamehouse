@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.testmodule.service;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.main.service.CrudService;
 import com.nicobrest.kamehouse.main.validator.UserValidator;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author nbrest
  */
 @Service
-public class DragonBallUserService {
+public class DragonBallUserService implements CrudService<DragonBallUser, DragonBallUserDto> {
 
   @Autowired
   @Qualifier("dragonBallUserDaoJpa")
@@ -34,12 +35,10 @@ public class DragonBallUserService {
     return this.dragonBallUserDao;
   }
 
-  /**
-   * Create a new DragonBallUser in the repository.
-   */
+  @Override
   public Long create(DragonBallUserDto dto) {
     DragonBallUser dragonBallUser = getModel(dto);
-    try { 
+    try {
       validate(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
       throw new KameHouseBadRequestException(e.getMessage(), e);
@@ -107,7 +106,7 @@ public class DragonBallUserService {
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getAge());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getPowerLevel());
   }
-  
+
   /**
    * Get a DragonBallUser model object from it's DTO.
    */

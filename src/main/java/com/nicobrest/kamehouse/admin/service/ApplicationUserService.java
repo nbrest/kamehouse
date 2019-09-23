@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.validator.ApplicationUserValidator;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.main.service.CrudService;
 import com.nicobrest.kamehouse.main.validator.UserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,8 @@ import java.util.Set;
  *
  */
 @Service
-public class ApplicationUserService implements UserDetailsService {
+public class ApplicationUserService implements
+    CrudService<ApplicationUser, ApplicationUserDto>, UserDetailsService {
 
   @Autowired
   @Qualifier("applicationUserDaoJpa")
@@ -53,14 +55,12 @@ public class ApplicationUserService implements UserDetailsService {
     return anonymousUser;
   }
 
-  /**
-   * Creates a new application user in the repository.
-   */
+  @Override
   public Long create(ApplicationUserDto dto) {
     ApplicationUser applicationUser = getModel(dto);
     validate(applicationUser);
-    applicationUser
-        .setPassword(PasswordUtils.generateHashedPassword(applicationUser.getPassword()));
+    applicationUser.setPassword(PasswordUtils.generateHashedPassword(applicationUser
+        .getPassword()));
     return applicationUserDao.create(applicationUser);
   }
 
@@ -70,14 +70,14 @@ public class ApplicationUserService implements UserDetailsService {
   public ApplicationUser read(Long id) {
     return applicationUserDao.read(id);
   }
-  
+
   /**
    * Read all application users.
    */
   public List<ApplicationUser> readAll() {
     return applicationUserDao.readAll();
   }
-  
+
   /**
    * Updates an application user in the repository.
    */
@@ -122,7 +122,7 @@ public class ApplicationUserService implements UserDetailsService {
   }
 
   /**
-   * Gets an ApplicationUser model object from it's DTO. 
+   * Gets an ApplicationUser model object from it's DTO.
    */
   private ApplicationUser getModel(ApplicationUserDto applicationUserDto) {
     ApplicationUser applicationUser = new ApplicationUser();

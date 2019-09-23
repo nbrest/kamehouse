@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
-import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.main.controller.AbstractCrudControllerTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
@@ -52,7 +52,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class DragonBallControllerTest extends AbstractControllerTest {
+public class DragonBallControllerTest extends AbstractCrudControllerTest {
 
   public static final String API_V1_DRAGONBALL_USERS =
       DragonBallUserTestUtils.API_V1_DRAGONBALL_USERS;
@@ -114,16 +114,8 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void createTest() throws Exception {
-    Mockito.doReturn(dragonBallUser.getId()).when(dragonBallUserServiceMock).create(
+    createTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, dragonBallUser,
         dragonBallUserDto);
-    byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
-
-    MockHttpServletResponse response = executePost(API_V1_DRAGONBALL_USERS, requestPayload);
-    Long responseBody = getResponseBody(response, Long.class);
-
-    verifyResponseStatus(response, HttpStatus.CREATED);
-    assertEquals(dragonBallUserDto.getId(), responseBody);
-    verify(dragonBallUserServiceMock, times(1)).create(dragonBallUserDto);
   }
 
   /**
@@ -134,8 +126,8 @@ public class DragonBallControllerTest extends AbstractControllerTest {
   public void createConflictExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseConflictException.class));
-    Mockito.doThrow(new KameHouseConflictException("")).when(dragonBallUserServiceMock)
-        .create(dragonBallUserDto);
+    Mockito.doThrow(new KameHouseConflictException("")).when(dragonBallUserServiceMock).create(
+        dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     executePost(API_V1_DRAGONBALL_USERS, requestPayload);
@@ -147,8 +139,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void readTest() throws Exception {
-    when(dragonBallUserServiceMock.read(dragonBallUser.getId())).thenReturn(
-        dragonBallUser);
+    when(dragonBallUserServiceMock.read(dragonBallUser.getId())).thenReturn(dragonBallUser);
 
     MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + dragonBallUser
         .getId());
@@ -177,7 +168,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     verify(dragonBallUserServiceMock, times(1)).readAll();
     verifyNoMoreInteractions(dragonBallUserServiceMock);
   }
-  
+
   /**
    * /dragonball/users (GET) Test the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
@@ -201,7 +192,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
 
     executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
   }
-  
+
   /**
    * /dragonball/users/{id} (PUT) Tests updating an existing user in the
    * repository.
@@ -226,8 +217,8 @@ public class DragonBallControllerTest extends AbstractControllerTest {
   public void updateNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
-        .update(dragonBallUserDto);
+    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock).update(
+        dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     executePut(API_V1_DRAGONBALL_USERS + dragonBallUserDto.getId(), requestPayload);
@@ -252,8 +243,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void deleteTest() throws Exception {
-    when(dragonBallUserServiceMock.delete(dragonBallUserDto.getId())).thenReturn(
-        dragonBallUser);
+    when(dragonBallUserServiceMock.delete(dragonBallUserDto.getId())).thenReturn(dragonBallUser);
 
     MockHttpServletResponse response = executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUserDto
         .getId());
@@ -272,8 +262,8 @@ public class DragonBallControllerTest extends AbstractControllerTest {
   public void deleteNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
-        .delete(dragonBallUser.getId());
+    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock).delete(
+        dragonBallUser.getId());
 
     executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUser.getId());
   }
@@ -340,7 +330,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     assertEquals("jsp/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
     verifyZeroInteractions(dragonBallUserServiceMock);
   }
-  
+
   /*
    * @Ignore("Disabled test example")
    *
