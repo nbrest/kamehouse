@@ -37,7 +37,7 @@ public class EhCacheController extends AbstractController {
    */
   @GetMapping
   @ResponseBody
-  public ResponseEntity<List<Map<String, Object>>> get(@RequestParam(value = "name",
+  public ResponseEntity<List<Map<String, Object>>> read(@RequestParam(value = "name",
       required = false) String cacheName) {
     logger.trace("In controller /api/v1/admin/ehcache (GET)");
     List<Map<String, Object>> cacheList;
