@@ -21,35 +21,29 @@ public class VlcPlayerDaoJpa extends AbstractCrudDaoJpa implements VlcPlayerDao 
   @Override
   @CacheEvict(value = { VLC_PLAYER_CACHE }, allEntries = true)
   public Long create(VlcPlayer entity) {
-    logger.trace("Creating VlcPlayer: {}", entity);
-    persistEntityInRepository(entity);
-    return entity.getId();
+    return create(VlcPlayer.class, entity);
   }
   
   @Override
   public VlcPlayer read(Long id) {
-    logger.trace("Read VlcPlayer: {}", id);
-    return findById(VlcPlayer.class, id);
+    return read(VlcPlayer.class, id);
   }
   
   @Override
   public List<VlcPlayer> readAll() {
-    logger.trace("Read all VlcPlayers");
-    return findAll(VlcPlayer.class);
+    return readAll(VlcPlayer.class);
   }
 
   @Override
   @CacheEvict(value = { VLC_PLAYER_CACHE }, allEntries = true)
   public void update(VlcPlayer entity) {
-    logger.trace("Updating VlcPlayer: {}", entity);
-    updateEntityInRepository(VlcPlayer.class, entity, entity.getId());
+    update(VlcPlayer.class, entity);
   } 
 
   @Override
   @CacheEvict(value = { VLC_PLAYER_CACHE }, allEntries = true)
   public VlcPlayer delete(Long id) {
-    logger.trace("Deleting VlcPlayer: {}", id);
-    return deleteEntityFromRepository(VlcPlayer.class, id);
+    return delete(VlcPlayer.class, id);
   }
   
   @Override

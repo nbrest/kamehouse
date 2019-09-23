@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.vlcrc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
@@ -52,7 +53,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "VLC_PLAYER")
-public class VlcPlayer implements Serializable {
+public class VlcPlayer implements Identifiable, Serializable {
 
   @JsonIgnore
   private static final long serialVersionUID = 1L;

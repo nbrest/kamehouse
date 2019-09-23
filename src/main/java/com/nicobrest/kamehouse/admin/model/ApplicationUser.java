@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -28,7 +29,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "APPLICATION_USER")
-public class ApplicationUser implements UserDetails {
+public class ApplicationUser implements Identifiable, UserDetails {
  
   private static final long serialVersionUID = 1L;
 

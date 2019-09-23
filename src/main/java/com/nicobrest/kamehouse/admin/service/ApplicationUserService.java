@@ -58,7 +58,7 @@ public class ApplicationUserService implements UserDetailsService {
    */
   public Long create(ApplicationUserDto dto) {
     ApplicationUser applicationUser = getModel(dto);
-    validateApplicationUser(applicationUser);
+    validate(applicationUser);
     applicationUser
         .setPassword(PasswordUtils.generateHashedPassword(applicationUser.getPassword()));
     return applicationUserDao.create(applicationUser);
@@ -83,7 +83,7 @@ public class ApplicationUserService implements UserDetailsService {
    */
   public void update(ApplicationUserDto dto) {
     ApplicationUser applicationUser = getModel(dto);
-    validateApplicationUser(applicationUser);
+    validate(applicationUser);
     applicationUserDao.update(applicationUser);
   }
 
@@ -109,7 +109,7 @@ public class ApplicationUserService implements UserDetailsService {
   /**
    * Validates the application user attributes.
    */
-  private void validateApplicationUser(ApplicationUser applicationUser) {
+  private void validate(ApplicationUser applicationUser) {
     ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
     ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
     UserValidator.validateUsernameFormat(applicationUser.getUsername());

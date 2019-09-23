@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.admin.dao;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.main.dao.AbstractDaoJpa;
+import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpa;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author nbrest
  */
-public class ApplicationUserDaoJpa extends AbstractDaoJpa implements ApplicationUserDao {
+public class ApplicationUserDaoJpa extends AbstractCrudDaoJpa implements ApplicationUserDao {
 
   @Override
   public Long create(ApplicationUser entity) {
@@ -29,26 +29,22 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
 
   @Override
   public ApplicationUser read(Long id) {
-    logger.trace("Loading ApplicationUser: {}", id);
-    return findById(ApplicationUser.class, id);
+    return read(ApplicationUser.class, id);
   }
   
   @Override
   public List<ApplicationUser> readAll() {
-    logger.trace("Loading all ApplicationUsers");
-    return findAll(ApplicationUser.class);
+    return readAll(ApplicationUser.class);
   }
   
   @Override
   public void update(ApplicationUser entity) {
-    logger.trace("Updating ApplicationUser: {}", entity.getUsername());
-    updateEntityInRepository(ApplicationUser.class, entity, entity.getId());
+    update(ApplicationUser.class, entity);
   }
 
   @Override
   public ApplicationUser delete(Long id) {
-    logger.trace("Deleting ApplicationUser: {}", id);
-    return deleteEntityFromRepository(ApplicationUser.class, id);
+    return delete(ApplicationUser.class, id);
   }
 
   @Override

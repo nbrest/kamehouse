@@ -106,19 +106,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   @Override
-  public DragonBallUser getByUsername(String username) {
-    DragonBallUser user = repository.get(username);
-    if (user == null) {
-      throw new KameHouseNotFoundException(DBUSER_WITH_USERNAME + username
-          + NOT_FOUND_IN_REPOSITORY);
-    }
-    return user;
-  }
-
-  @Override
-  public DragonBallUser getByEmail(String email) {
-    throw new UnsupportedOperationException(
-        "This functionality is not implemented for the DragonBallUserInMemory repository.");
+  public List<DragonBallUser> readAll() {
+    return new ArrayList<>(repository.values());
   }
 
   @Override
@@ -156,10 +145,21 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   @Override
-  public List<DragonBallUser> readAll() {
-    return new ArrayList<>(repository.values());
+  public DragonBallUser getByUsername(String username) {
+    DragonBallUser user = repository.get(username);
+    if (user == null) {
+      throw new KameHouseNotFoundException(DBUSER_WITH_USERNAME + username
+          + NOT_FOUND_IN_REPOSITORY);
+    }
+    return user;
   }
 
+  @Override
+  public DragonBallUser getByEmail(String email) {
+    throw new UnsupportedOperationException(
+        "This functionality is not implemented for the DragonBallUserInMemory repository.");
+  }
+  
   /**
    * Static inner class that generates Ids.
    */

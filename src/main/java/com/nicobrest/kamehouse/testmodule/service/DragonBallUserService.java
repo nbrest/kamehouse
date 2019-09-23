@@ -40,7 +40,7 @@ public class DragonBallUserService {
   public Long create(DragonBallUserDto dto) {
     DragonBallUser dragonBallUser = getModel(dto);
     try { 
-      validateDragonBallUser(dragonBallUser);
+      validate(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
       throw new KameHouseBadRequestException(e.getMessage(), e);
     }
@@ -67,7 +67,7 @@ public class DragonBallUserService {
   public void update(DragonBallUserDto dto) {
     DragonBallUser dragonBallUser = getModel(dto);
     try {
-      validateDragonBallUser(dragonBallUser);
+      validate(dragonBallUser);
     } catch (KameHouseInvalidDataException e) {
       throw new KameHouseBadRequestException(e.getMessage(), e);
     }
@@ -99,7 +99,7 @@ public class DragonBallUserService {
    * Performs all the input and logical validations on a DragonBallUser and
    * throw an exception if a validation fails.
    */
-  private void validateDragonBallUser(DragonBallUser dragonBallUser) {
+  private void validate(DragonBallUser dragonBallUser) {
     UserValidator.validateUsernameFormat(dragonBallUser.getUsername());
     UserValidator.validateEmailFormat(dragonBallUser.getEmail());
     UserValidator.validateStringLength(dragonBallUser.getUsername());
