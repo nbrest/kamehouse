@@ -109,70 +109,11 @@ public class DragonBallControllerTest extends AbstractControllerTest {
   }
 
   /**
-   * /dragonball/model-and-view (GET) Test the endpoint
-   * /dragonball/model-and-view with the HTTP method GET. The service should
-   * respond with HTTP status 200 OK and a view defined in
-   * dragonball/modelAndView.jsp.
-   */
-  @Test
-  public void getModelAndViewTest() throws Exception {
-    MockHttpServletResponse response = executeGet("/api/v1/dragonball/model-and-view");
-
-    verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals("jsp/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
-    verifyZeroInteractions(dragonBallUserServiceMock);
-  }
-
-  /**
-   * /dragonball/users (GET) Test the rest web service on the endpoint
-   * /dragonball/users with the HTTP method GET. The service should respond with
-   * HTTP status 200 OK and a json array in the response body.
-   */
-  @Test
-  public void getUsersTest() throws Exception {
-    when(dragonBallUserServiceMock.readAll()).thenReturn(dragonBallUsersList);
-
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS);
-    List<DragonBallUser> responseBody = getResponseBodyList(response, DragonBallUser.class);
-
-    verifyResponseStatus(response, HttpStatus.OK);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
-    assertEquals(dragonBallUsersList.size(), responseBody.size());
-    assertEquals(dragonBallUsersList, responseBody);
-    verify(dragonBallUserServiceMock, times(1)).readAll();
-    verifyNoMoreInteractions(dragonBallUserServiceMock);
-  }
-
-  /**
-   * /dragonball/users (GET) Test the rest web service on the endpoint
-   * /dragonball/users with the parameter to throw an exception.
-   */
-  @Test
-  public void getUsersExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseException.class));
-
-    executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
-  }
-
-  /**
-   * /dragonball/users (GET) Test the rest web service on the endpoint
-   * /dragonball/users with the parameter to throw an exception.
-   */
-  @Test
-  public void getUsersNotFoundExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
-
-    executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
-  }
-
-  /**
    * /dragonball/users (POST) Test creating a new DragonBallUser in the
    * repository.
    */
   @Test
-  public void postUsersTest() throws Exception {
+  public void createTest() throws Exception {
     Mockito.doReturn(dragonBallUser.getId()).when(dragonBallUserServiceMock).create(
         dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
@@ -190,7 +131,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    * repository that already exists.
    */
   @Test
-  public void postUsersConflictExceptionTest() throws Exception {
+  public void createConflictExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseConflictException.class));
     Mockito.doThrow(new KameHouseConflictException("")).when(dragonBallUserServiceMock)
@@ -205,7 +146,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    * repository.
    */
   @Test
-  public void getUsersIdTest() throws Exception {
+  public void readTest() throws Exception {
     when(dragonBallUserServiceMock.read(dragonBallUser.getId())).thenReturn(
         dragonBallUser);
 
@@ -218,59 +159,55 @@ public class DragonBallControllerTest extends AbstractControllerTest {
   }
 
   /**
-   * /dragonball/users/username/{username} (GET) Tests getting a specific user
-   * from the repository.
+   * /dragonball/users (GET) Test the rest web service on the endpoint
+   * /dragonball/users with the HTTP method GET. The service should respond with
+   * HTTP status 200 OK and a json array in the response body.
    */
   @Test
-  public void getUsersUsernameTest() throws Exception {
-    when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername())).thenReturn(
-        dragonBallUser);
+  public void readAllTest() throws Exception {
+    when(dragonBallUserServiceMock.readAll()).thenReturn(dragonBallUsersList);
 
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "username/"
-        + dragonBallUser.getUsername());
-    DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
+    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS);
+    List<DragonBallUser> responseBody = getResponseBodyList(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(dragonBallUser, responseBody);
+    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    assertEquals(dragonBallUsersList.size(), responseBody.size());
+    assertEquals(dragonBallUsersList, responseBody);
+    verify(dragonBallUserServiceMock, times(1)).readAll();
+    verifyNoMoreInteractions(dragonBallUserServiceMock);
+  }
+  
+  /**
+   * /dragonball/users (GET) Test the rest web service on the endpoint
+   * /dragonball/users with the parameter to throw an exception.
+   */
+  @Test
+  public void readAllExceptionTest() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseException.class));
+
+    executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
   }
 
   /**
-   * /dragonball/users/username/{username} (GET) Tests user not found when
-   * getting a specific user from the repository.
+   * /dragonball/users (GET) Test the rest web service on the endpoint
+   * /dragonball/users with the parameter to throw an exception.
    */
   @Test
-  public void getUsersUsernameNotFoundExceptionTest() throws Exception {
+  public void readAllNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
-        .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 
-    executeGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
+    executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
   }
-
-  /**
-   * /dragonball/users/emails/{email} (GET) Tests getting a specific user from
-   * the repository by email.
-   */
-  @Test
-  public void getUsersUsernameByEmailTest() throws Exception {
-    when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail())).thenReturn(
-        dragonBallUser);
-
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "emails/"
-        + dragonBallUser.getEmail());
-    DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
-
-    verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(dragonBallUser, responseBody);
-  }
-
+  
   /**
    * /dragonball/users/{id} (PUT) Tests updating an existing user in the
    * repository.
    */
   @Test
-  public void putUsersUsernameTest() throws Exception {
+  public void updateTest() throws Exception {
     Mockito.doNothing().when(dragonBallUserServiceMock).update(dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
@@ -286,7 +223,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    * the repository.
    */
   @Test
-  public void putUsersUsernameNotFoundExceptionTest() throws Exception {
+  public void updateNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
@@ -301,7 +238,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    * the repository with forbidden access.
    */
   @Test
-  public void putUsersUsernameForbiddenExceptionTest() throws IOException, Exception {
+  public void updateForbiddenExceptionTest() throws IOException, Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseBadRequestException.class));
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
@@ -314,7 +251,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    * the repository.
    */
   @Test
-  public void deleteUsersIdTest() throws Exception {
+  public void deleteTest() throws Exception {
     when(dragonBallUserServiceMock.delete(dragonBallUserDto.getId())).thenReturn(
         dragonBallUser);
 
@@ -332,7 +269,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    * repository.
    */
   @Test
-  public void deleteUsersIdNotFoundExceptionTest() throws Exception {
+  public void deleteNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
@@ -341,6 +278,69 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUser.getId());
   }
 
+  /**
+   * /dragonball/users/username/{username} (GET) Tests getting a specific user
+   * from the repository.
+   */
+  @Test
+  public void getByUsernameTest() throws Exception {
+    when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername())).thenReturn(
+        dragonBallUser);
+
+    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "username/"
+        + dragonBallUser.getUsername());
+    DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    assertEquals(dragonBallUser, responseBody);
+  }
+
+  /**
+   * /dragonball/users/username/{username} (GET) Tests user not found when
+   * getting a specific user from the repository.
+   */
+  @Test
+  public void getByUsernameNotFoundExceptionTest() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
+        .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
+
+    executeGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
+  }
+
+  /**
+   * /dragonball/users/emails/{email} (GET) Tests getting a specific user from
+   * the repository by email.
+   */
+  @Test
+  public void getByEmailTest() throws Exception {
+    when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail())).thenReturn(
+        dragonBallUser);
+
+    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "emails/"
+        + dragonBallUser.getEmail());
+    DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    assertEquals(dragonBallUser, responseBody);
+  }
+
+  /**
+   * /dragonball/model-and-view (GET) Test the endpoint
+   * /dragonball/model-and-view with the HTTP method GET. The service should
+   * respond with HTTP status 200 OK and a view defined in
+   * dragonball/modelAndView.jsp.
+   */
+  @Test
+  public void getModelAndViewTest() throws Exception {
+    MockHttpServletResponse response = executeGet("/api/v1/dragonball/model-and-view");
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    assertEquals("jsp/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
+    verifyZeroInteractions(dragonBallUserServiceMock);
+  }
+  
   /*
    * @Ignore("Disabled test example")
    *

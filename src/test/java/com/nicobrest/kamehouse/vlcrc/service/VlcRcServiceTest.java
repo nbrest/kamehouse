@@ -245,7 +245,7 @@ public class VlcRcServiceTest {
    * Tests getting the playlist from the VLC Player.
    */
   @Test
-  public void getVlcRcPlaylistTest() {
+  public void getPlaylistTest() {
 
     try {
       when(vlcPlayerService.getByHostname(any())).thenReturn(vlcPlayer);

@@ -50,7 +50,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for creating a ApplicationUser in the repository.
    */
   @Test
-  public void createApplicationUserTest() {
+  public void createTest() {
     Long returnedId = applicationUserDaoJpa.create(applicationUser);
 
     assertNotEquals(applicationUser.getId(), returnedId);
@@ -63,7 +63,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for creating a ApplicationUser in the repository Exception flows.
    */
   @Test
-  public void createApplicationUserConflictExceptionTest() {
+  public void createConflictExceptionTest() {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
     applicationUserDaoJpa.create(applicationUser);
@@ -76,7 +76,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for getting a single ApplicationUser in the repository by id.
    */
   @Test
-  public void getApplicationUserByIdTest() {
+  public void readTest() {
     Long createId = mergeEntityInRepository(applicationUser).getId();
     applicationUser.setId(createId);
     
@@ -84,86 +84,6 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
 
     assertNotNull(returnedUser);
     assertEquals(applicationUser, returnedUser);
-  }
-  
-  /**
-   * Test for getting a single ApplicationUser in the repository by username.
-   */
-  @Test
-  public void getApplicationUserByUsernameTest() {
-    mergeEntityInRepository(applicationUser);
-
-    ApplicationUser returnedUser = applicationUserDaoJpa.loadUserByUsername(applicationUser
-        .getUsername());
-
-    assertNotNull(returnedUser);
-    applicationUser.setId(returnedUser.getId());
-    assertEquals(applicationUser, returnedUser);
-  }
-
-  /**
-   * Test for getting a single ApplicationUser in the repository Exception
-   * flows.
-   */
-  @Test
-  public void getApplicationUserNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("Entity not found in the repository.");
-
-    applicationUserDaoJpa.loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
-  }
-
-  /**
-   * Test for updating an existing user in the repository.
-   */
-  @Test
-  public void updateApplicationUserTest() {
-    ApplicationUser userToUpdate = mergeEntityInRepository(applicationUser);
-    userToUpdate.setEmail("updatedGoku@dbz.com");
-    userToUpdate.getAuthorities();
-
-    applicationUserDaoJpa.update(userToUpdate);
-
-    ApplicationUser updatedUser = findById(ApplicationUser.class, userToUpdate.getId());
-    assertEquals(userToUpdate, updatedUser);
-  }
-
-  /**
-   * Test for updating an existing user in the repository Exception flows.
-   */
-  @Test
-  public void updateApplicationUserNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-    applicationUser.setId(ApplicationUserTestUtils.INVALID_ID);
-
-    applicationUserDaoJpa.update(applicationUser);
-  }
-
-  /**
-   * Test for deleting an existing user from the repository.
-   */
-  @Test
-  public void deleteApplicationUserTest() {
-    Long userToDeleteId = mergeEntityInRepository(applicationUser).getId();
-    applicationUser.setId(userToDeleteId);
-
-    ApplicationUser deletedUser = applicationUserDaoJpa.delete(userToDeleteId);
-
-    assertEquals(applicationUser, deletedUser);
-  }
-
-  /**
-   * Test for deleting an existing user from the repository Exception flows.
-   */
-  @Test
-  public void deleteApplicationUserNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-
-    applicationUserDaoJpa.delete(ApplicationUserTestUtils.INVALID_ID);
   }
 
   /**
@@ -180,5 +100,85 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
     
     assertEquals(applicationUsersList.size(), returnedUsersList.size());
     assertEquals(applicationUsersList, returnedUsersList);
+  }
+  
+  /**
+   * Test for updating an existing user in the repository.
+   */
+  @Test
+  public void updateTest() {
+    ApplicationUser userToUpdate = mergeEntityInRepository(applicationUser);
+    userToUpdate.setEmail("updatedGoku@dbz.com");
+    userToUpdate.getAuthorities();
+
+    applicationUserDaoJpa.update(userToUpdate);
+
+    ApplicationUser updatedUser = findById(ApplicationUser.class, userToUpdate.getId());
+    assertEquals(userToUpdate, updatedUser);
+  }
+
+  /**
+   * Test for updating an existing user in the repository Exception flows.
+   */
+  @Test
+  public void updateNotFoundExceptionTest() {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
+        + " was not found in the repository.");
+    applicationUser.setId(ApplicationUserTestUtils.INVALID_ID);
+
+    applicationUserDaoJpa.update(applicationUser);
+  }
+
+  /**
+   * Test for deleting an existing user from the repository.
+   */
+  @Test
+  public void deleteTest() {
+    Long userToDeleteId = mergeEntityInRepository(applicationUser).getId();
+    applicationUser.setId(userToDeleteId);
+
+    ApplicationUser deletedUser = applicationUserDaoJpa.delete(userToDeleteId);
+
+    assertEquals(applicationUser, deletedUser);
+  }
+
+  /**
+   * Test for deleting an existing user from the repository Exception flows.
+   */
+  @Test
+  public void deleteNotFoundExceptionTest() {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
+        + " was not found in the repository.");
+
+    applicationUserDaoJpa.delete(ApplicationUserTestUtils.INVALID_ID);
+  }
+  
+  /**
+   * Test for getting a single ApplicationUser in the repository by username.
+   */
+  @Test
+  public void loadUserByUsernameTest() {
+    mergeEntityInRepository(applicationUser);
+
+    ApplicationUser returnedUser = applicationUserDaoJpa.loadUserByUsername(applicationUser
+        .getUsername());
+
+    assertNotNull(returnedUser);
+    applicationUser.setId(returnedUser.getId());
+    assertEquals(applicationUser, returnedUser);
+  }
+
+  /**
+   * Test for getting a single ApplicationUser in the repository Exception
+   * flows.
+   */
+  @Test
+  public void loadUserByUsernameNotFoundExceptionTest() {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("Entity not found in the repository.");
+
+    applicationUserDaoJpa.loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
   }
 }

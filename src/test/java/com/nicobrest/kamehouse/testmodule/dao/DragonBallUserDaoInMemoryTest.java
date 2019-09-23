@@ -64,7 +64,7 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for creating a DragonBallUser in the repository.
    */
   @Test
-  public void createDragonBallUserTest() {
+  public void createTest() {
     Long createdId = dragonBallUserDao.create(dragonBallUser);
 
     DragonBallUser createdUser = dragonBallUserDao.read(createdId);
@@ -75,7 +75,7 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for creating a DragonBallUser in the repository Exception flows.
    */
   @Test
-  public void createDragonBallUserConflictExceptionTest() {
+  public void createConflictExceptionTest() {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("DragonBallUser with username " + dragonBallUser.getUsername()
         + " already exists in the repository.");
@@ -88,7 +88,7 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for getting a single DragonBallUser in the repository by its id.
    */
   @Test
-  public void getDragonBallUserTest() {
+  public void readTest() {
     DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
 
     DragonBallUser userById = dragonBallUserDao.read(userByUsername.getId());
@@ -98,45 +98,18 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by its username.
+   * Test for getting all the DragonBallUsers in the repository.
    */
   @Test
-  public void getDragonBallUserByUsernameTest() {
-    DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
-
-    assertNotNull(userByUsername);
-    assertEquals("goku", userByUsername.getUsername());
-  }
-
-  /**
-   * Test for getting a single DragonBallUser in the repository by email.
-   */
-  @Test
-  public void getDragonBallUserByEmailTest() {
-    thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage(
-        "This functionality is not implemented for the DragonBallUserInMemory repository.");
-
-    dragonBallUserDao.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
-  }
-
-  /**
-   * Test for getting a single DragonBallUser in the repository Exception flows.
-   */
-  @Test
-  public void getDragonBallUserByUsernameNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with username " + DragonBallUserTestUtils.INVALID_EMAIL
-        + " was not found in the repository.");
-
-    dragonBallUserDao.getByUsername(DragonBallUserTestUtils.INVALID_EMAIL);
+  public void readAllTest() {
+    assertEquals(3, dragonBallUserDao.readAll().size());
   }
 
   /**
    * Test for updating an existing user in the repository.
    */
   @Test
-  public void updateDragonBallUserTest() {
+  public void updateTest() {
     DragonBallUser originalUser = dragonBallUserDao.getByUsername("goku");
     originalUser.setEmail("gokuUpdated@dbz.com");
 
@@ -150,7 +123,7 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for updating an existing user in the repository Exception flows.
    */
   @Test
-  public void updateDragonBallUserNotFoundExceptionTest() {
+  public void updateNotFoundExceptionTest() {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
@@ -163,7 +136,7 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for deleting an existing user from the repository.
    */
   @Test
-  public void deleteDragonBallUserTest() {
+  public void deleteTest() {
     dragonBallUserDao.create(dragonBallUser);
 
     DragonBallUser deletedUser = dragonBallUserDao.delete(dragonBallUser.getId());
@@ -175,7 +148,7 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for deleting an existing user from the repository Exception flows.
    */
   @Test
-  public void deleteDragonBallUserNotFoundExceptionTest() {
+  public void deleteNotFoundExceptionTest() {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
@@ -184,10 +157,37 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting all the DragonBallUsers in the repository.
+   * Test for getting a single DragonBallUser in the repository by its username.
    */
   @Test
-  public void readAllTest() {
-    assertEquals(3, dragonBallUserDao.readAll().size());
+  public void getByUsernameTest() {
+    DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
+
+    assertNotNull(userByUsername);
+    assertEquals("goku", userByUsername.getUsername());
+  }
+
+  /**
+   * Test for getting a single DragonBallUser in the repository Exception flows.
+   */
+  @Test
+  public void getByUsernameNotFoundExceptionTest() {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("DragonBallUser with username " + DragonBallUserTestUtils.INVALID_EMAIL
+        + " was not found in the repository.");
+
+    dragonBallUserDao.getByUsername(DragonBallUserTestUtils.INVALID_EMAIL);
+  }
+
+  /**
+   * Test for getting a single DragonBallUser in the repository by email.
+   */
+  @Test
+  public void getByEmailTest() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage(
+        "This functionality is not implemented for the DragonBallUserInMemory repository.");
+
+    dragonBallUserDao.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
   }
 }

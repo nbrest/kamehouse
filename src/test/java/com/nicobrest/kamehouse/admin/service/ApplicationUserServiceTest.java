@@ -55,7 +55,7 @@ public class ApplicationUserServiceTest {
    * Test for calling the service to create an ApplicationUser in the repository.
    */
   @Test
-  public void createUserTest() {
+  public void createTest() {
     Mockito.doReturn(applicationUser.getId()).when(applicationUserDaoMock)
         .create(applicationUser);
 
@@ -63,23 +63,6 @@ public class ApplicationUserServiceTest {
 
     assertEquals(applicationUser.getId(), returnedId);
     verify(applicationUserDaoMock, times(1)).create(applicationUser);
-  }
-
-  /**
-   * Test for calling the service to get a single ApplicationUser in the
-   * repository by username.
-   */
-  @Test
-  public void loadUserByUsernameTest() {
-    when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername()))
-        .thenReturn(applicationUser);
-
-    ApplicationUser returnedUser =
-        applicationUserService.loadUserByUsername(applicationUser.getUsername());
-
-    assertNotNull(returnedUser);
-    assertEquals(applicationUser, returnedUser);
-    verify(applicationUserDaoMock, times(1)).loadUserByUsername(applicationUser.getUsername());
   }
 
   /**
@@ -101,7 +84,7 @@ public class ApplicationUserServiceTest {
    * repository.
    */
   @Test
-  public void updateUserTest() {
+  public void updateTest() {
     Mockito.doNothing().when(applicationUserDaoMock).update(applicationUser);
 
     applicationUserService.update(applicationUserDto);
@@ -113,12 +96,29 @@ public class ApplicationUserServiceTest {
    * Test for calling the service to delete an existing user in the repository.
    */
   @Test
-  public void deleteUserTest() {
+  public void deleteTest() {
     when(applicationUserDaoMock.delete(applicationUser.getId())).thenReturn(applicationUser);
 
     ApplicationUser deletedUser = applicationUserService.delete(applicationUser.getId());
 
     assertEquals(applicationUser, deletedUser);
     verify(applicationUserDaoMock, times(1)).delete(applicationUser.getId());
+  }
+  
+  /**
+   * Test for calling the service to get a single ApplicationUser in the
+   * repository by username.
+   */
+  @Test
+  public void loadUserByUsernameTest() {
+    when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername()))
+        .thenReturn(applicationUser);
+
+    ApplicationUser returnedUser =
+        applicationUserService.loadUserByUsername(applicationUser.getUsername());
+
+    assertNotNull(returnedUser);
+    assertEquals(applicationUser, returnedUser);
+    verify(applicationUserDaoMock, times(1)).loadUserByUsername(applicationUser.getUsername());
   }
 }

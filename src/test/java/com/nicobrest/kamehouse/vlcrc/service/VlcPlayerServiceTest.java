@@ -78,7 +78,7 @@ public class VlcPlayerServiceTest {
    * Test for calling the service to create a VlcPlayer in the repository.
    */
   @Test
-  public void createVlcPlayerTest() {
+  public void createTest() {
 
     try {
       VlcPlayer playerToAdd = new VlcPlayer();
@@ -92,85 +92,13 @@ public class VlcPlayerServiceTest {
       vlcPlayerToAddDto.setPassword("1");
       vlcPlayerToAddDto.setHostname("playerAdded.localhost");
       vlcPlayerToAddDto.setPort(8080);
-      
+
       Mockito.doReturn(1L).when(vlcPlayerDaoMock).create(playerToAdd);
 
       vlcPlayerService.create(vlcPlayerToAddDto);
 
       verify(vlcPlayerDaoMock, times(1)).create(playerToAdd);
     } catch (KameHouseBadRequestException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
-  }
-
-  /**
-   * Test for calling the service to get a single VlcPlayer in the repository by
-   * hostname.
-   */
-  @Test
-  public void getVlcPlayerTest() {
-
-    try {
-      when(vlcPlayerDaoMock.getByHostname("player1")).thenReturn(vlcPlayersList.get(0));
-
-      VlcPlayer vlcPlayerReturned = vlcPlayerService.getByHostname("player1");
-
-      assertNotNull(vlcPlayerReturned);
-      assertEquals("1000", vlcPlayerReturned.getId().toString());
-      verify(vlcPlayerDaoMock, times(1)).getByHostname("player1");
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
-  }
-
-  /**
-   * Test for calling the service to update an existing VlcPlayer in the
-   * repository.
-   */
-  @Test
-  public void updateVlcPlayerTest() {
-
-    try {
-      VlcPlayer vlcPlayerToUpdate = new VlcPlayer();
-      vlcPlayerToUpdate.setHostname("player1.localhost");
-      vlcPlayerToUpdate.setPort(9999);
-      vlcPlayerToUpdate.setId(1000L);
-      vlcPlayerToUpdate.setUsername("player1user");
-      vlcPlayerToUpdate.setPassword("1pass");
-
-      VlcPlayerDto vlcPlayerToUpdateDto = new VlcPlayerDto();
-      vlcPlayerToUpdateDto.setUsername("player1user");
-      vlcPlayerToUpdateDto.setPassword("1pass");
-      vlcPlayerToUpdateDto.setHostname("player1.localhost");
-      vlcPlayerToUpdateDto.setPort(9999);
-      vlcPlayerToUpdateDto.setId(1000L);
-      
-      Mockito.doNothing().when(vlcPlayerDaoMock).update(vlcPlayerToUpdate);
-
-      vlcPlayerService.update(vlcPlayerToUpdateDto);
-
-      verify(vlcPlayerDaoMock, times(1)).update(vlcPlayerToUpdate);
-    } catch (KameHouseNotFoundException e) {
-      e.printStackTrace();
-      fail("Caught unexpected exception.");
-    }
-  }
-
-  /**
-   * Test for calling the service to delete an existing user in the repository.
-   */
-  @Test
-  public void deleteVlcPlayerTest() {
-
-    try {
-      when(vlcPlayerDaoMock.delete(1000L)).thenReturn(vlcPlayersList.get(0));
-
-      vlcPlayerService.delete(1000L);
-
-      verify(vlcPlayerDaoMock, times(1)).delete(1000L);
-    } catch (KameHouseNotFoundException e) {
       e.printStackTrace();
       fail("Caught unexpected exception.");
     }
@@ -196,5 +124,77 @@ public class VlcPlayerServiceTest {
     assertEquals("1002", vlcPlayersReturned.get(2).getId().toString());
 
     verify(vlcPlayerDaoMock, times(1)).readAll();
+  }
+
+  /**
+   * Test for calling the service to update an existing VlcPlayer in the
+   * repository.
+   */
+  @Test
+  public void updateTest() {
+
+    try {
+      VlcPlayer vlcPlayerToUpdate = new VlcPlayer();
+      vlcPlayerToUpdate.setHostname("player1.localhost");
+      vlcPlayerToUpdate.setPort(9999);
+      vlcPlayerToUpdate.setId(1000L);
+      vlcPlayerToUpdate.setUsername("player1user");
+      vlcPlayerToUpdate.setPassword("1pass");
+
+      VlcPlayerDto vlcPlayerToUpdateDto = new VlcPlayerDto();
+      vlcPlayerToUpdateDto.setUsername("player1user");
+      vlcPlayerToUpdateDto.setPassword("1pass");
+      vlcPlayerToUpdateDto.setHostname("player1.localhost");
+      vlcPlayerToUpdateDto.setPort(9999);
+      vlcPlayerToUpdateDto.setId(1000L);
+
+      Mockito.doNothing().when(vlcPlayerDaoMock).update(vlcPlayerToUpdate);
+
+      vlcPlayerService.update(vlcPlayerToUpdateDto);
+
+      verify(vlcPlayerDaoMock, times(1)).update(vlcPlayerToUpdate);
+    } catch (KameHouseNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+
+  /**
+   * Test for calling the service to delete an existing user in the repository.
+   */
+  @Test
+  public void deleteTest() {
+
+    try {
+      when(vlcPlayerDaoMock.delete(1000L)).thenReturn(vlcPlayersList.get(0));
+
+      vlcPlayerService.delete(1000L);
+
+      verify(vlcPlayerDaoMock, times(1)).delete(1000L);
+    } catch (KameHouseNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
+  }
+
+  /**
+   * Test for calling the service to get a single VlcPlayer in the repository by
+   * hostname.
+   */
+  @Test
+  public void getByHostnameTest() {
+
+    try {
+      when(vlcPlayerDaoMock.getByHostname("player1")).thenReturn(vlcPlayersList.get(0));
+
+      VlcPlayer vlcPlayerReturned = vlcPlayerService.getByHostname("player1");
+
+      assertNotNull(vlcPlayerReturned);
+      assertEquals("1000", vlcPlayerReturned.getId().toString());
+      verify(vlcPlayerDaoMock, times(1)).getByHostname("player1");
+    } catch (KameHouseNotFoundException e) {
+      e.printStackTrace();
+      fail("Caught unexpected exception.");
+    }
   }
 }

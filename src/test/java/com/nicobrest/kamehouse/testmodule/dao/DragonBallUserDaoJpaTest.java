@@ -51,7 +51,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for creating a DragonBallUser in the repository.
    */
   @Test
-  public void createDragonBallUserTest() {
+  public void createTest() {
     Long returnedId = dragonBallUserDaoJpa.create(dragonBallUser);
 
     DragonBallUser returnedUser = findById(DragonBallUser.class, returnedId);
@@ -62,7 +62,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for creating a DragonBallUser in the repository Exception flows.
    */
   @Test
-  public void createDragonBallUserConflictExceptionTest() {
+  public void createConflictExceptionTest() {
     thrown.expect(KameHouseConflictException.class);
     thrown.expectMessage("ConstraintViolationException: Error inserting data");
     dragonBallUserDaoJpa.create(dragonBallUser);
@@ -75,7 +75,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for getting a single DragonBallUser in the repository by id.
    */
   @Test
-  public void getDragonBallUserTest() {
+  public void readTest() {
     persistEntityInRepository(dragonBallUser);
 
     DragonBallUser returnedUser = dragonBallUserDaoJpa.read(dragonBallUser.getId());
@@ -85,61 +85,25 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by username.
+   * Test for getting all the DragonBallUsers in the repository.
    */
   @Test
-  public void getDragonBallUserByUsernameTest() {
-    persistEntityInRepository(dragonBallUser);
+  public void readAllTest() {
+    for (DragonBallUser dragonBallUserToAdd : dragonBallUsersList) {
+      persistEntityInRepository(dragonBallUserToAdd);
+    }
 
-    DragonBallUser returnedUser =
-        dragonBallUserDaoJpa.getByUsername(dragonBallUser.getUsername());
+    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.readAll();
 
-    assertNotNull(returnedUser);
-    assertEquals(dragonBallUser, returnedUser);
-  }
-
-  /**
-   * Test for getting a single DragonBallUser in the repository Exception flows.
-   */
-  @Test
-  public void getDragonBallUserNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("Entity not found in the repository.");
-
-    dragonBallUserDaoJpa.getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
-  }
-
-  /**
-   * Test for getting a single DragonBallUser in the repository by its email.
-   */
-  @Test
-  public void getDragonBallUserByEmailTest() {
-    persistEntityInRepository(dragonBallUser);
-
-    DragonBallUser returnedUser =
-        dragonBallUserDaoJpa.getByEmail(dragonBallUser.getEmail());
-
-    assertNotNull(returnedUser);
-    assertEquals(dragonBallUser, returnedUser);
-  }
-
-  /**
-   * Test for getting a single DragonBallUser in the repository by its email
-   * Exception flows.
-   */
-  @Test
-  public void getDragonBallUserByEmailNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("NoResultException: Entity not found in the repository.");
-
-    dragonBallUserDaoJpa.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+    assertEquals(dragonBallUsersList.size(), returnedList.size());
+    assertEquals(dragonBallUsersList, returnedList);
   }
 
   /**
    * Test for updating an existing user in the repository.
    */
   @Test
-  public void updateDragonBallUserTest() {
+  public void updateTest() {
     persistEntityInRepository(dragonBallUser);
     dragonBallUser.setEmail("gokuUpdated@dbz.com");
 
@@ -153,7 +117,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for updating an existing user in the repository Exception flows.
    */
   @Test
-  public void updateDragonBallUserNotFoundExceptionTest() {
+  public void updateNotFoundExceptionTest() {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
@@ -166,7 +130,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for updating an existing user in the repository Exception flows.
    */
   @Test
-  public void updateDragonBallUserServerErrorExceptionTest() {
+  public void updateServerErrorExceptionTest() {
     thrown.expect(KameHouseServerErrorException.class);
     thrown.expectMessage("PersistenceException");
     persistEntityInRepository(dragonBallUser);
@@ -185,7 +149,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for deleting an existing user from the repository.
    */
   @Test
-  public void deleteDragonBallUserTest() {
+  public void deleteTest() {
     persistEntityInRepository(dragonBallUser);
 
     DragonBallUser deletedUser = dragonBallUserDaoJpa.delete(dragonBallUser.getId());
@@ -197,7 +161,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for deleting an existing user from the repository Exception flows.
    */
   @Test
-  public void deleteDragonBallUserNotFoundExceptionTest() {
+  public void deleteNotFoundExceptionTest() {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
         + " was not found in the repository.");
@@ -206,17 +170,51 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
   }
 
   /**
-   * Test for getting all the DragonBallUsers in the repository.
+   * Test for getting a single DragonBallUser in the repository by username.
    */
   @Test
-  public void readAllTest() {
-    for (DragonBallUser dragonBallUserToAdd : dragonBallUsersList) {
-      persistEntityInRepository(dragonBallUserToAdd);
-    }
+  public void getByUsernameTest() {
+    persistEntityInRepository(dragonBallUser);
 
-    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.readAll();
+    DragonBallUser returnedUser = dragonBallUserDaoJpa.getByUsername(dragonBallUser.getUsername());
 
-    assertEquals(dragonBallUsersList.size(), returnedList.size());
-    assertEquals(dragonBallUsersList, returnedList);
+    assertNotNull(returnedUser);
+    assertEquals(dragonBallUser, returnedUser);
+  }
+
+  /**
+   * Test for getting a single DragonBallUser in the repository Exception flows.
+   */
+  @Test
+  public void getByUsernameNotFoundExceptionTest() {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("Entity not found in the repository.");
+
+    dragonBallUserDaoJpa.getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
+  }
+
+  /**
+   * Test for getting a single DragonBallUser in the repository by its email.
+   */
+  @Test
+  public void getByEmailTest() {
+    persistEntityInRepository(dragonBallUser);
+
+    DragonBallUser returnedUser = dragonBallUserDaoJpa.getByEmail(dragonBallUser.getEmail());
+
+    assertNotNull(returnedUser);
+    assertEquals(dragonBallUser, returnedUser);
+  }
+
+  /**
+   * Test for getting a single DragonBallUser in the repository by its email
+   * Exception flows.
+   */
+  @Test
+  public void getByEmailNotFoundExceptionTest() {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("NoResultException: Entity not found in the repository.");
+
+    dragonBallUserDaoJpa.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
   }
 }

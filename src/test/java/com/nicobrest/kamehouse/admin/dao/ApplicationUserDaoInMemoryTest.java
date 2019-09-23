@@ -39,7 +39,7 @@ public class ApplicationUserDaoInMemoryTest {
    * Test for creating a ApplicationUser in the repository.
    */
   @Test
-  public void createApplicationUserTest() {
+  public void createTest() {
     applicationUserDao.create(applicationUser);
 
     ApplicationUser createdUser =
@@ -48,33 +48,18 @@ public class ApplicationUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single ApplicationUser in the repository by its username.
+   * Test for getting all the ApplicationUsers in the repository.
    */
   @Test
-  public void loadUserByUsernameTest() {
-    ApplicationUser user = applicationUserDao.loadUserByUsername("admin");
-
-    assertNotNull(user);
-    assertEquals("admin", user.getUsername());
-  }
-
-  /**
-   * Test for getting a single ApplicationUser in the repository Exception flows.
-   */
-  @Test
-  public void loadUserByUsernameNotFoundExceptionTest() {
-    thrown.expect(UsernameNotFoundException.class);
-    thrown.expectMessage(
-        "User with username " + ApplicationUserTestUtils.INVALID_USERNAME + " not found.");
-
-    applicationUserDao.loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
+  public void readAllTest() {
+    assertEquals(4, applicationUserDao.readAll().size());
   }
 
   /**
    * Test for updating an existing user in the repository.
    */
   @Test
-  public void updateApplicationUserTest() {
+  public void updateTest() {
     ApplicationUser originalUser = applicationUserDao.loadUserByUsername("admin");
     applicationUser.setId(originalUser.getId());
     applicationUser.setUsername(originalUser.getUsername());
@@ -89,7 +74,7 @@ public class ApplicationUserDaoInMemoryTest {
    * Test for updating an existing user in the repository Exception flows.
    */
   @Test
-  public void updateApplicationUserNotFoundExceptionTest() {
+  public void updateNotFoundExceptionTest() {
     applicationUser.setUsername(ApplicationUserTestUtils.INVALID_USERNAME);
     thrown.expect(UsernameNotFoundException.class);
     thrown.expectMessage(
@@ -102,7 +87,7 @@ public class ApplicationUserDaoInMemoryTest {
    * Test for deleting an existing user from the repository.
    */
   @Test
-  public void deleteApplicationUserTest() {
+  public void deleteTest() {
     ApplicationUser userToDelete = applicationUserDao.loadUserByUsername("admin");
 
     ApplicationUser deletedUser = applicationUserDao.delete(userToDelete.getId());
@@ -114,7 +99,7 @@ public class ApplicationUserDaoInMemoryTest {
    * Test for deleting an existing user from the repository Exception flows.
    */
   @Test
-  public void deleteApplicationUserNotFoundExceptionTest() {
+  public void deleteNotFoundExceptionTest() {
     thrown.expect(UsernameNotFoundException.class);
     thrown.expectMessage("User with id " + ApplicationUserTestUtils.INVALID_ID + " not found.");
 
@@ -122,10 +107,25 @@ public class ApplicationUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting all the ApplicationUsers in the repository.
+   * Test for getting a single ApplicationUser in the repository by its username.
    */
   @Test
-  public void readAllApplicationUsersTest() {
-    assertEquals(4, applicationUserDao.readAll().size());
+  public void loadUserByUsernameTest() {
+    ApplicationUser user = applicationUserDao.loadUserByUsername("admin");
+
+    assertNotNull(user);
+    assertEquals("admin", user.getUsername());
+  }
+  
+  /**
+   * Test for getting a single ApplicationUser in the repository Exception flows.
+   */
+  @Test
+  public void loadUserByUsernameNotFoundExceptionTest() {
+    thrown.expect(UsernameNotFoundException.class);
+    thrown.expectMessage(
+        "User with username " + ApplicationUserTestUtils.INVALID_USERNAME + " not found.");
+
+    applicationUserDao.loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
   }
 }
