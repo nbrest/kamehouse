@@ -29,8 +29,8 @@ public class EhCacheServiceTest {
    * Tests retrieving all caches.
    */
   @Test
-  public void getAllCachesTest() {
-    List<Map<String, Object>> cacheList = ehCacheService.getAll();
+  public void readAllTest() {
+    List<Map<String, Object>> cacheList = ehCacheService.readAll();
 
     assertEquals(5, cacheList.size());
   }
@@ -45,8 +45,8 @@ public class EhCacheServiceTest {
     
     ehCacheService.clearAll();
     
-    for (Map<String, Object> cacheMap : ehCacheService.getAll()) {
-      if (cacheMap.get("name").equals("getAllDragonBallUsersCache")) {
+    for (Map<String, Object> cacheMap : ehCacheService.readAll()) {
+      if (cacheMap.get("name").equals("dragonBallUsers")) {
         assertEquals(emptyList, cacheMap.get("values"));
       }
     }

@@ -187,7 +187,7 @@ public class DragonBallUserDaoInMemoryTest {
    * Test for getting all the DragonBallUsers in the repository.
    */
   @Test
-  public void getAllDragonBallUsersTest() {
-    assertEquals(3, dragonBallUserDao.getAll().size());
+  public void readAllTest() {
+    assertEquals(3, dragonBallUserDao.readAll().size());
   }
 }

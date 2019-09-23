@@ -145,12 +145,12 @@ public class DragonBallUserServiceTest {
    * repository.
    */
   @Test
-  public void getAllDragonBallUsersTest() {
-    when(dragonBallUserDaoMock.getAll()).thenReturn(dragonBallUsersList);
+  public void readAllTest() {
+    when(dragonBallUserDaoMock.readAll()).thenReturn(dragonBallUsersList);
 
-    List<DragonBallUser> returnedList = dragonBallUserService.getAll();
+    List<DragonBallUser> returnedList = dragonBallUserService.readAll();
 
     assertEquals(dragonBallUsersList, returnedList);
-    verify(dragonBallUserDaoMock, times(1)).getAll();
+    verify(dragonBallUserDaoMock, times(1)).readAll();
   }
 }

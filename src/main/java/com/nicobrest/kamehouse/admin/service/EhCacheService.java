@@ -40,7 +40,7 @@ public class EhCacheService {
   /**
    * Returns the cache information of the cache specified as a parameter.
    */
-  public Map<String, Object> get(String cacheName) {
+  public Map<String, Object> read(String cacheName) {
     logger.trace("Getting information for cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     Map<String, Object> cacheMap = new HashMap<>();
@@ -53,12 +53,12 @@ public class EhCacheService {
   /**
    * Returns the status of all the ehcaches.
    */
-  public List<Map<String, Object>> getAll() {
+  public List<Map<String, Object>> readAll() {
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     List<Map<String, Object>> cacheList = new ArrayList<>();
 
     for (int i = 0; i < cacheNames.length; i++) {
-      Map<String, Object> cacheMap = get(cacheNames[i]);
+      Map<String, Object> cacheMap = read(cacheNames[i]);
       if (!cacheMap.isEmpty()) {
         cacheList.add(cacheMap);
       }

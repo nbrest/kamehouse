@@ -48,24 +48,17 @@ public class DragonBallUserService {
   }
 
   /**
-   * Returns a single instance of a DragonBallUser looking up by id.
+   * Reads a single instance of a DragonBallUser looking up by id.
    */
   public DragonBallUser read(Long id) {
     return dragonBallUserDao.read(id);
   }
 
   /**
-   * Returns a single instance of a DragonBallUser looking up by username.
+   * Reads all the DragonBallUsers in the repository.
    */
-  public DragonBallUser getByUsername(String username) {
-    return dragonBallUserDao.getByUsername(username);
-  }
-
-  /**
-   * Returns a single instance of a DragonBallUser looking up by email.
-   */
-  public DragonBallUser getByEmail(String email) {
-    return dragonBallUserDao.getByEmail(email);
+  public List<DragonBallUser> readAll() {
+    return dragonBallUserDao.readAll();
   }
 
   /**
@@ -89,10 +82,17 @@ public class DragonBallUserService {
   }
 
   /**
-   * Returns all the DragonBallUsers in the repository.
+   * Returns a single instance of a DragonBallUser looking up by username.
    */
-  public List<DragonBallUser> getAll() {
-    return dragonBallUserDao.getAll();
+  public DragonBallUser getByUsername(String username) {
+    return dragonBallUserDao.getByUsername(username);
+  }
+
+  /**
+   * Returns a single instance of a DragonBallUser looking up by email.
+   */
+  public DragonBallUser getByEmail(String email) {
+    return dragonBallUserDao.getByEmail(email);
   }
 
   /**

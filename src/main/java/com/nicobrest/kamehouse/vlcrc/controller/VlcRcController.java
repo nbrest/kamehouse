@@ -50,27 +50,27 @@ public class VlcRcController extends AbstractController {
     Long vlcPlayerId = vlcPlayerService.create(dto);
     return generatePostResponseEntity(vlcPlayerId);
   }
-
+  
   /**
-   * Gets all VLC Player registered in the application.
+   * Reads a VLC Player by it's id.
    */
-  @GetMapping(path = "/players")
+  @GetMapping(path = "/players/{id}")
   @ResponseBody
-  public ResponseEntity<List<VlcPlayer>> getAll() {
-    logger.trace("In controller /vlc-rc/players/ (GET)");
-    List<VlcPlayer> vlcPlayers = vlcPlayerService.getAll();
-    return generateGetResponseEntity(vlcPlayers);
+  public ResponseEntity<VlcPlayer> read(@PathVariable Long id) {
+    logger.trace("In controller /vlc-rc/players/{id} (GET)");
+    VlcPlayer vlcPlayer = vlcPlayerService.read(id);
+    return generateGetResponseEntity(vlcPlayer);
   }
 
   /**
-   * Gets the VLC Player passed as a URL parameter.
+   * Reads all VLC Players registered in the application.
    */
-  @GetMapping(path = "/players/{hostname}")
+  @GetMapping(path = "/players")
   @ResponseBody
-  public ResponseEntity<VlcPlayer> getByHostname(@PathVariable String hostname) {
-    logger.trace("In controller /vlc-rc/players/{hostname} (GET)");
-    VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostname);
-    return generateGetResponseEntity(vlcPlayer);
+  public ResponseEntity<List<VlcPlayer>> readAll() {
+    logger.trace("In controller /vlc-rc/players/ (GET)");
+    List<VlcPlayer> vlcPlayers = vlcPlayerService.readAll();
+    return generateGetResponseEntity(vlcPlayers);
   }
 
   /**
@@ -95,6 +95,17 @@ public class VlcRcController extends AbstractController {
     return generateDeleteResponseEntity(vlcPlayer);
   }
 
+  /**
+   * Gets the VLC Player passed as a URL parameter.
+   */
+  @GetMapping(path = "/players/hostname/{hostname}")
+  @ResponseBody
+  public ResponseEntity<VlcPlayer> getByHostname(@PathVariable String hostname) {
+    logger.trace("In controller /vlc-rc/players/hostname/{hostname} (GET)");
+    VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostname);
+    return generateGetResponseEntity(vlcPlayer);
+  }
+  
   /**
    * Gets the status information of the VLC Player passed through the URL.
    */

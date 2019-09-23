@@ -30,21 +30,23 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
   }
 
   @Override
-  public ApplicationUser loadUserByUsername(final String username) {
-    ApplicationUser applicationUser = repository.get(username);
-    if (applicationUser == null) {
-      throw new UsernameNotFoundException("User with username " + username + " not found.");
-    }
-    return applicationUser;
-  }
-
-  @Override
   public Long create(ApplicationUser entity) {
     entity.setId(IdGenerator.getId());
     repository.put(entity.getUsername(), entity);
     return entity.getId();
   }
-
+  
+  @Override
+  public ApplicationUser read(Long id) {
+    throw new UnsupportedOperationException(
+        "This method is not supported. Use loadUserByUsername() for this repository.");
+  }
+  
+  @Override
+  public List<ApplicationUser> readAll() {
+    return new ArrayList<>(repository.values());
+  }
+  
   @Override
   public void update(ApplicationUser entity) {
     ApplicationUser applicationUserToUpdate = loadUserByUsername(entity.getUsername());
@@ -64,19 +66,14 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
     }
     throw new UsernameNotFoundException("User with id " + id + " not found.");
   }
-
+ 
   @Override
-  public List<ApplicationUser> getAll() {
-    return new ArrayList<>(repository.values());
-  }
-  
-  /**
-   * Get User by id is not supported for this InMemory repository.
-   */
-  @Override
-  public ApplicationUser read(Long id) {
-    throw new UnsupportedOperationException(
-        "This method is not supported. Use loadUserByUsername() for this repository.");
+  public ApplicationUser loadUserByUsername(final String username) {
+    ApplicationUser applicationUser = repository.get(username);
+    if (applicationUser == null) {
+      throw new UsernameNotFoundException("User with username " + username + " not found.");
+    }
+    return applicationUser;
   }
 
   /**

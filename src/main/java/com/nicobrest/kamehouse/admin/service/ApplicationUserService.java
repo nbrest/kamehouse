@@ -53,18 +53,6 @@ public class ApplicationUserService implements UserDetailsService {
     return anonymousUser;
   }
 
-  @Override
-  public ApplicationUser loadUserByUsername(String username) {
-    if (username.equals("anonymousUser")) {
-      return anonymousUser;
-    }
-    try {
-      return applicationUserDao.loadUserByUsername(username);
-    } catch (KameHouseNotFoundException e) {
-      throw new UsernameNotFoundException(e.getMessage(), e);
-    }
-  }
-
   /**
    * Creates a new application user in the repository.
    */
@@ -76,6 +64,20 @@ public class ApplicationUserService implements UserDetailsService {
     return applicationUserDao.create(applicationUser);
   }
 
+  /**
+   * Read an application user by its id from the repository.
+   */
+  public ApplicationUser read(Long id) {
+    return applicationUserDao.read(id);
+  }
+  
+  /**
+   * Read all application users.
+   */
+  public List<ApplicationUser> readAll() {
+    return applicationUserDao.readAll();
+  }
+  
   /**
    * Updates an application user in the repository.
    */
@@ -92,11 +94,16 @@ public class ApplicationUserService implements UserDetailsService {
     return applicationUserDao.delete(id);
   }
 
-  /**
-   * Get all application users.
-   */
-  public List<ApplicationUser> getAll() {
-    return applicationUserDao.getAll();
+  @Override
+  public ApplicationUser loadUserByUsername(String username) {
+    if (username.equals("anonymousUser")) {
+      return anonymousUser;
+    }
+    try {
+      return applicationUserDao.loadUserByUsername(username);
+    } catch (KameHouseNotFoundException e) {
+      throw new UsernameNotFoundException(e.getMessage(), e);
+    }
   }
 
   /**

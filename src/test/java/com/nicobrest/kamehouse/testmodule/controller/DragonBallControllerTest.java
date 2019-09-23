@@ -130,7 +130,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUsersTest() throws Exception {
-    when(dragonBallUserServiceMock.getAll()).thenReturn(dragonBallUsersList);
+    when(dragonBallUserServiceMock.readAll()).thenReturn(dragonBallUsersList);
 
     MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS);
     List<DragonBallUser> responseBody = getResponseBodyList(response, DragonBallUser.class);
@@ -139,7 +139,7 @@ public class DragonBallControllerTest extends AbstractControllerTest {
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     assertEquals(dragonBallUsersList.size(), responseBody.size());
     assertEquals(dragonBallUsersList, responseBody);
-    verify(dragonBallUserServiceMock, times(1)).getAll();
+    verify(dragonBallUserServiceMock, times(1)).readAll();
     verifyNoMoreInteractions(dragonBallUserServiceMock);
   }
 

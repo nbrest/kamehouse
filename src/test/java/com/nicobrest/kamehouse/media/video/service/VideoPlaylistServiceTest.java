@@ -45,14 +45,14 @@ public class VideoPlaylistServiceTest {
    * Get all video playlists successful test.
    */
   @Test
-  public void getAllVideoPlaylistsTest() {
+  public void readAllTest() {
     List<String> expectedPlaylists = VideoPlaylistTestUtils.TEST_PLAYLIST_NAMES;
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     when(PropertiesUtils.getUserHome()).thenReturn("./");
     when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
         VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
 
-    List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
+    List<Playlist> returnedPlaylists = videoPlaylistService.readAll();
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
     for (Playlist returnedPlaylist : returnedPlaylists) {

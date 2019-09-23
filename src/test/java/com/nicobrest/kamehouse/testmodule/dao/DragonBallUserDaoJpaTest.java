@@ -209,12 +209,12 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for getting all the DragonBallUsers in the repository.
    */
   @Test
-  public void getAllDragonBallUsersTest() {
+  public void readAllTest() {
     for (DragonBallUser dragonBallUserToAdd : dragonBallUsersList) {
       persistEntityInRepository(dragonBallUserToAdd);
     }
 
-    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.getAll();
+    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.readAll();
 
     assertEquals(dragonBallUsersList.size(), returnedList.size());
     assertEquals(dragonBallUsersList, returnedList);

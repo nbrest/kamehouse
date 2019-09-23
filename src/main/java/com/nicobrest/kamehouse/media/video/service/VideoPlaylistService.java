@@ -34,7 +34,7 @@ public class VideoPlaylistService {
   /**
    * Get all video playlists.
    */
-  public List<Playlist> getAll() {
+  public List<Playlist> readAll() {
     String userHome = PropertiesUtils.getUserHome();
     String videoPlaylistsHome;
     if (PropertiesUtils.isWindowsHost()) {

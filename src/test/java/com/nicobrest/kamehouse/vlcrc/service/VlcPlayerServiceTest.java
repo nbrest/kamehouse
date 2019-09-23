@@ -180,11 +180,11 @@ public class VlcPlayerServiceTest {
    * Test for calling the service to get all the VlcPlayers in the repository.
    */
   @Test
-  public void getAllVlcPlayersTest() {
+  public void readAllTest() {
 
-    when(vlcPlayerDaoMock.getAll()).thenReturn(vlcPlayersList);
+    when(vlcPlayerDaoMock.readAll()).thenReturn(vlcPlayersList);
 
-    List<VlcPlayer> vlcPlayersReturned = vlcPlayerService.getAll();
+    List<VlcPlayer> vlcPlayersReturned = vlcPlayerService.readAll();
 
     assertEquals("player1", vlcPlayersReturned.get(0).getUsername());
     assertEquals("1000", vlcPlayersReturned.get(0).getId().toString());
@@ -195,6 +195,6 @@ public class VlcPlayerServiceTest {
     assertEquals("player3", vlcPlayersReturned.get(2).getUsername());
     assertEquals("1002", vlcPlayersReturned.get(2).getId().toString());
 
-    verify(vlcPlayerDaoMock, times(1)).getAll();
+    verify(vlcPlayerDaoMock, times(1)).readAll();
   }
 }

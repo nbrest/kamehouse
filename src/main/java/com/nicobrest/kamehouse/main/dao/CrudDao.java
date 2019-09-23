@@ -3,14 +3,16 @@ package com.nicobrest.kamehouse.main.dao;
 import java.util.List;
 
 /**
- * Generic interface that all DAOs that support CRUD operations should implement.
+ * Generic interface that all DAOs that support CRUD operations should
+ * implement.
  * 
  * @author nicolas.brest
  */
-public  interface CrudDao<T> {
-  
+public interface CrudDao<T> {
+
   /**
-   * Creates an entity in the repository. Returns the ID of the newly created entity.
+   * Creates an entity in the repository. Returns the ID of the newly created
+   * entity.
    */
   public Long create(T entity);
 
@@ -20,6 +22,11 @@ public  interface CrudDao<T> {
   public T read(Long id);
 
   /**
+   * Reads all the entities from the repository of type T.
+   */
+  public List<T> readAll();
+  
+  /**
    * Updates an entity on the repository.
    */
   public void update(T entity);
@@ -28,9 +35,4 @@ public  interface CrudDao<T> {
    * Deletes an entity from the repository.
    */
   public T delete(Long id);
-
-  /**
-   * Gets all the entities from the repository of type T.
-   */
-  public List<T> getAll();
 }

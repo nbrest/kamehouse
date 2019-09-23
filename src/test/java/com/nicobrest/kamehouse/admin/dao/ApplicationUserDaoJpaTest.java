@@ -170,13 +170,13 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
    * Test for getting all the ApplicationUsers in the repository.
    */
   @Test
-  public void getAllApplicationUsersTest() { 
+  public void readAllTest() { 
     for(ApplicationUser applicationUser : applicationUsersList) {
       Long createdId = mergeEntityInRepository(applicationUser).getId();
       applicationUser.setId(createdId);
     }
     
-    List<ApplicationUser> returnedUsersList = applicationUserDaoJpa.getAll();
+    List<ApplicationUser> returnedUsersList = applicationUserDaoJpa.readAll();
     
     assertEquals(applicationUsersList.size(), returnedUsersList.size());
     assertEquals(applicationUsersList, returnedUsersList);

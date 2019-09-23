@@ -156,7 +156,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   @Override
-  public List<DragonBallUser> getAll() {
+  public List<DragonBallUser> readAll() {
     return new ArrayList<>(repository.values());
   }
 

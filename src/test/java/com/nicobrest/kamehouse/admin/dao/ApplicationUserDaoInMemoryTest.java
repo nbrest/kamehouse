@@ -125,7 +125,7 @@ public class ApplicationUserDaoInMemoryTest {
    * Test for getting all the ApplicationUsers in the repository.
    */
   @Test
-  public void getAllApplicationUsersTest() {
-    assertEquals(4, applicationUserDao.getAll().size());
+  public void readAllApplicationUsersTest() {
+    assertEquals(4, applicationUserDao.readAll().size());
   }
 }

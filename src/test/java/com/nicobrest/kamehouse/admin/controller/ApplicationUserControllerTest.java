@@ -77,7 +77,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUsersTest() throws Exception {
-    when(applicationUserServiceMock.getAll()).thenReturn(applicationUsersList);
+    when(applicationUserServiceMock.readAll()).thenReturn(applicationUsersList);
 
     MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS);
     List<ApplicationUser> responseBody = getResponseBodyList(response, ApplicationUser.class);
@@ -86,7 +86,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     assertEquals(applicationUsersList.size(), responseBody.size());
     assertEquals(applicationUsersList, responseBody);
-    verify(applicationUserServiceMock, times(1)).getAll();
+    verify(applicationUserServiceMock, times(1)).readAll();
   }
 
   /**
@@ -94,8 +94,8 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Test
   public void postUsersTest() throws Exception {
-    Mockito.doReturn(applicationUser.getId()).when(applicationUserServiceMock).create(
-        applicationUserDto);
+    Mockito.doReturn(applicationUser.getId()).when(applicationUserServiceMock)
+        .create(applicationUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
 
     MockHttpServletResponse response = executePost(API_V1_ADMIN_APPLICATION_USERS, requestPayload);
@@ -112,7 +112,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   @Test
   public void postUsersConflictExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseConflictException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseConflictException.class));
     Mockito.doThrow(new KameHouseConflictException("")).when(applicationUserServiceMock)
         .create(applicationUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
@@ -125,11 +125,11 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getUserTest() throws Exception {
-    when(applicationUserServiceMock.loadUserByUsername(applicationUser.getUsername())).thenReturn(
-        applicationUser);
+    when(applicationUserServiceMock.loadUserByUsername(applicationUser.getUsername()))
+        .thenReturn(applicationUser);
 
-    MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS + applicationUser
-        .getUsername());
+    MockHttpServletResponse response =
+        executeGet(API_V1_ADMIN_APPLICATION_USERS + "username/" + applicationUser.getUsername());
     ApplicationUser responseBody = getResponseBody(response, ApplicationUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -142,11 +142,12 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   @Test
   public void getUserNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(applicationUserServiceMock)
         .loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
 
-    executeGet(API_V1_ADMIN_APPLICATION_USERS + ApplicationUserTestUtils.INVALID_USERNAME);
+    executeGet(
+        API_V1_ADMIN_APPLICATION_USERS + "username/" + ApplicationUserTestUtils.INVALID_USERNAME);
   }
 
   /**
@@ -157,8 +158,8 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
     Mockito.doNothing().when(applicationUserServiceMock).update(applicationUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
 
-    MockHttpServletResponse response = executePut(API_V1_ADMIN_APPLICATION_USERS
-        + applicationUserDto.getId(), requestPayload);
+    MockHttpServletResponse response =
+        executePut(API_V1_ADMIN_APPLICATION_USERS + applicationUserDto.getId(), requestPayload);
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(applicationUserServiceMock, times(1)).update(any());
@@ -170,7 +171,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   @Test
   public void putUsersInvalidPathId() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseBadRequestException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseBadRequestException.class));
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
 
     executePut(API_V1_ADMIN_APPLICATION_USERS + ApplicationUserTestUtils.INVALID_ID,
@@ -183,7 +184,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   @Test
   public void putUsersUsernameNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(applicationUserServiceMock)
         .update(applicationUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(applicationUserDto);
@@ -196,11 +197,10 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
    */
   @Test
   public void deleteUserTest() throws Exception {
-    when(applicationUserServiceMock.delete(applicationUser.getId())).thenReturn(
-        applicationUser);
+    when(applicationUserServiceMock.delete(applicationUser.getId())).thenReturn(applicationUser);
 
-    MockHttpServletResponse response = executeDelete(API_V1_ADMIN_APPLICATION_USERS
-        + applicationUser.getId());
+    MockHttpServletResponse response =
+        executeDelete(API_V1_ADMIN_APPLICATION_USERS + applicationUser.getId());
     ApplicationUser responseBody = getResponseBody(response, ApplicationUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -214,7 +214,7 @@ public class ApplicationUserControllerTest extends AbstractControllerTest {
   @Test
   public void deleteUserNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(applicationUserServiceMock)
         .delete(applicationUser.getId());
 

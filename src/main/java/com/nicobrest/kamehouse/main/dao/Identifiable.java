@@ -13,9 +13,4 @@ public interface Identifiable {
    * Get the id of the entity.
    */
   public Long getId();
-
-  /**
-   * Set the id of the entity.
-   */
-  public void setId(Long id);
 }

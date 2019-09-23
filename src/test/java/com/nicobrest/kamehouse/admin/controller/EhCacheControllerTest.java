@@ -66,7 +66,7 @@ public class EhCacheControllerTest {
 
     cacheList = new LinkedList<Map<String, Object>>();
     cacheMap = new HashMap<String, Object>();
-    cacheMap.put("name", "getAllDragonBallUsersCache");
+    cacheMap.put("name", "dragonBallUsers");
     cacheMap.put("keys", "[]");
     cacheMap.put("values", "[ ]");
     cacheMap.put("status", "STATUS_ALIVE");
@@ -87,26 +87,26 @@ public class EhCacheControllerTest {
    * Test getting all caches.
    */
   @Test
-  public void getCacheTest() {
+  public void readAllTest() {
 
-    when(ehCacheServiceMock.getAll()).thenReturn(cacheList);
-    when(ehCacheServiceMock.get("getAllDragonBallUsersCache")).thenReturn(cacheMap);
+    when(ehCacheServiceMock.readAll()).thenReturn(cacheList);
+    when(ehCacheServiceMock.read("dragonBallUsers")).thenReturn(cacheMap);
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/ehcache")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].name", equalTo("getAllDragonBallUsersCache")));
+      requestResult.andExpect(jsonPath("$[0].name", equalTo("dragonBallUsers")));
       requestResult.andExpect(jsonPath("$[0].keys", equalTo("[]")));
       requestResult.andExpect(jsonPath("$[0].values", equalTo("[ ]")));
       requestResult.andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
 
-      requestResult = mockMvc.perform(get("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache"))
+      requestResult = mockMvc.perform(get("/api/v1/admin/ehcache?name=dragonBallUsers"))
           .andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].name", equalTo("getAllDragonBallUsersCache")));
+      requestResult.andExpect(jsonPath("$[0].name", equalTo("dragonBallUsers")));
       requestResult.andExpect(jsonPath("$[0].keys", equalTo("[]")));
       requestResult.andExpect(jsonPath("$[0].values", equalTo("[ ]")));
       requestResult.andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
@@ -114,8 +114,8 @@ public class EhCacheControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(ehCacheServiceMock, times(1)).getAll();
-    verify(ehCacheServiceMock, times(1)).get("getAllDragonBallUsersCache");
+    verify(ehCacheServiceMock, times(1)).readAll();
+    verify(ehCacheServiceMock, times(1)).read("dragonBallUsers");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 
@@ -123,21 +123,21 @@ public class EhCacheControllerTest {
    * Test clearing all caches.
    */
   @Test
-  public void clearCacheTest() {
+  public void clearAllTest() {
 
     try {
       ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/ehcache")).andDo(print());
       requestResult.andExpect(status().isOk());
 
       requestResult = mockMvc
-          .perform(delete("/api/v1/admin/ehcache?name=getAllDragonBallUsersCache")).andDo(print());
+          .perform(delete("/api/v1/admin/ehcache?name=dragonBallUsers")).andDo(print());
       requestResult.andExpect(status().isOk());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
     verify(ehCacheServiceMock, times(1)).clearAll();
-    verify(ehCacheServiceMock, times(1)).clear("getAllDragonBallUsersCache");
+    verify(ehCacheServiceMock, times(1)).clear("dragonBallUsers");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 }

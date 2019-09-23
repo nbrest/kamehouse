@@ -30,16 +30,9 @@ public class VlcPlayerService {
   public void setVlcPlayerDao(VlcPlayerDao vlcPlayerDao) {
     this.vlcPlayerDao = vlcPlayerDao;
   }
-
-  /**
-   * Get a VLC Player.
-   */
-  public VlcPlayer getByHostname(String hostname) { 
-    return vlcPlayerDao.getByHostname(hostname);
-  }
   
   /**
-   * Create a VLC Player.
+   * Creates a VLC Player.
    */
   public Long create(VlcPlayerDto dto) {
     VlcPlayer vlcPlayer = getModel(dto); 
@@ -47,7 +40,21 @@ public class VlcPlayerService {
   } 
   
   /**
-   * Update a VLC Player.
+   * Reads a VLC Player by id.
+   */
+  public VlcPlayer read(Long id) {
+    return vlcPlayerDao.read(id);
+  }
+  
+  /**
+   * Reads all VLC Players.
+   */
+  public List<VlcPlayer> readAll() {
+    return vlcPlayerDao.readAll();
+  }
+  
+  /**
+   * Updates a VLC Player.
    */
   public void update(VlcPlayerDto dto) {
     VlcPlayer vlcPlayer = getModel(dto);
@@ -55,21 +62,21 @@ public class VlcPlayerService {
   } 
   
   /**
-   * Delete a VLC Player.
+   * Deletes a VLC Player.
    */
   public VlcPlayer delete(Long id) {
     return vlcPlayerDao.delete(id);
   }
   
   /**
-   * Get all VLC Players.
+   * Gets a VLC Player by hostname.
    */
-  public List<VlcPlayer> getAll() {
-    return vlcPlayerDao.getAll();
+  public VlcPlayer getByHostname(String hostname) { 
+    return vlcPlayerDao.getByHostname(hostname);
   }
   
   /**
-   * Get VlcPlayer model object from it's DTO.
+   * Gets VlcPlayer model object from it's DTO.
    */
   private VlcPlayer getModel(VlcPlayerDto vlcPlayerDto) {
     VlcPlayer vlcPlayer = new VlcPlayer();

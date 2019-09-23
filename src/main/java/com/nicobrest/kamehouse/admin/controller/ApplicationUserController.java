@@ -32,21 +32,6 @@ public class ApplicationUserController extends AbstractController {
   private ApplicationUserService applicationUserService;
 
   /**
-   * Returns all application users.
-   */
-  @GetMapping(path = "/users")
-  @ResponseBody
-  public ResponseEntity<List<ApplicationUser>> getAll() {
-    logger.trace("In controller /application/users/ (GET)");
-    List<ApplicationUser> applicationUsers = applicationUserService.getAll();
-    // Don't return the passwords through the API.
-    for (ApplicationUser appUser : applicationUsers) {
-      appUser.setPassword(null);
-    }
-    return generateGetResponseEntity(applicationUsers);
-  }
-
-  /**
    * Creates a new ApplicationUser in the repository.
    */
   @PostMapping(path = "/users")
@@ -56,18 +41,33 @@ public class ApplicationUserController extends AbstractController {
     Long applicationUserId = applicationUserService.create(dto);
     return generatePostResponseEntity(applicationUserId);
   }
-
+  
   /**
-   * Returns a specific ApplicationUser from the repository based on the username.
+   * Reads an application user by it's id.
    */
-  @GetMapping(path = "/users/{username:.+}")
+  @GetMapping(path = "/users/{id}")
   @ResponseBody
-  public ResponseEntity<ApplicationUser> loadUserByUsername(@PathVariable String username) {
-    logger.trace("In controller /application/users/{username:.+} (GET)");
-    ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
-    // Don't return the password through the API.
+  public ResponseEntity<ApplicationUser> read(@PathVariable Long id) {
+    logger.trace("In controller /application/users/{id} (GET)");
+    ApplicationUser applicationUser = applicationUserService.read(id);
+    // Don't return the passwords through the API.
     applicationUser.setPassword(null);
     return generateGetResponseEntity(applicationUser);
+  }
+  
+  /**
+   * Reads all application users.
+   */
+  @GetMapping(path = "/users")
+  @ResponseBody
+  public ResponseEntity<List<ApplicationUser>> readAll() {
+    logger.trace("In controller /application/users/ (GET)");
+    List<ApplicationUser> applicationUsers = applicationUserService.readAll();
+    // Don't return the passwords through the API.
+    for (ApplicationUser appUser : applicationUsers) {
+      appUser.setPassword(null);
+    }
+    return generateGetResponseEntity(applicationUsers);
   }
 
   /**
@@ -93,5 +93,18 @@ public class ApplicationUserController extends AbstractController {
     // Don't return the passwords through the API.
     deletedAppUser.setPassword(null);
     return generateDeleteResponseEntity(deletedAppUser);
+  }
+  
+  /**
+   * Gets a specific ApplicationUser from the repository based on the username.
+   */
+  @GetMapping(path = "/users/username/{username:.+}")
+  @ResponseBody
+  public ResponseEntity<ApplicationUser> loadUserByUsername(@PathVariable String username) {
+    logger.trace("In controller /application/users/username/{username:.+} (GET)");
+    ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
+    // Don't return the password through the API.
+    applicationUser.setPassword(null);
+    return generateGetResponseEntity(applicationUser);
   }
 }

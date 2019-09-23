@@ -86,14 +86,14 @@ public class ApplicationUserServiceTest {
    * Test for getting all users of the application.
    */
   @Test
-  public void getAllUsersTest() {
-    when(applicationUserDaoMock.getAll()).thenReturn(applicationUsersList);
+  public void readAllTest() {
+    when(applicationUserDaoMock.readAll()).thenReturn(applicationUsersList);
 
-    List<ApplicationUser> returnedApplicationUsers = applicationUserService.getAll();
+    List<ApplicationUser> returnedApplicationUsers = applicationUserService.readAll();
 
     assertEquals(applicationUsersList.size(), returnedApplicationUsers.size());
     assertEquals(applicationUsersList, returnedApplicationUsers);
-    verify(applicationUserDaoMock, times(1)).getAll();
+    verify(applicationUserDaoMock, times(1)).readAll();
   }
 
   /**

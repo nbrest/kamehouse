@@ -69,9 +69,9 @@ public class VlcPlayerDaoJpaTest {
     vlcPlayerCreated.setPassword("vegeta");
 
     try {
-      assertEquals(0, vlcPlayerDaoJpa.getAll().size());
+      assertEquals(0, vlcPlayerDaoJpa.readAll().size());
       vlcPlayerDaoJpa.create(vlcPlayerCreated);
-      assertEquals(1, vlcPlayerDaoJpa.getAll().size());
+      assertEquals(1, vlcPlayerDaoJpa.readAll().size());
       vlcPlayerDaoJpa
           .delete(vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp").getId());
     } catch (KameHouseBadRequestException | KameHouseNotFoundException e) {
@@ -252,10 +252,10 @@ public class VlcPlayerDaoJpaTest {
       vlcPlayerToDelete.setUsername("goku");
       vlcPlayerToDelete.setPassword("vegeta");
       vlcPlayerDaoJpa.create(vlcPlayerToDelete);
-      assertEquals(1, vlcPlayerDaoJpa.getAll().size());
+      assertEquals(1, vlcPlayerDaoJpa.readAll().size());
       VlcPlayer deletedVlcPlayer = vlcPlayerDaoJpa
           .delete(vlcPlayerDaoJpa.getByHostname("playerCapsuleCorp").getId());
-      assertEquals(0, vlcPlayerDaoJpa.getAll().size());
+      assertEquals(0, vlcPlayerDaoJpa.readAll().size());
       assertEquals("goku", deletedVlcPlayer.getUsername()); 
       assertEquals("playerCapsuleCorp", deletedVlcPlayer.getHostname()); 
       
@@ -280,7 +280,7 @@ public class VlcPlayerDaoJpaTest {
    * Test for getting all the VlcPlayers in the repository.
    */
   @Test
-  public void getAllVlcPlayersTest() {
+  public void readAllTest() {
 
     VlcPlayer vlcPlayerCreated = new VlcPlayer();
     vlcPlayerCreated.setHostname("playerCapsuleCorp");
@@ -295,7 +295,7 @@ public class VlcPlayerDaoJpaTest {
     vlcPlayerCreated2.setPassword("vegeta2");
     vlcPlayerDaoJpa.create(vlcPlayerCreated2);
     try {
-      List<VlcPlayer> vlcPlayerList = vlcPlayerDaoJpa.getAll();
+      List<VlcPlayer> vlcPlayerList = vlcPlayerDaoJpa.readAll();
       assertEquals(2, vlcPlayerList.size()); 
     } catch (Exception e) {
       e.printStackTrace();

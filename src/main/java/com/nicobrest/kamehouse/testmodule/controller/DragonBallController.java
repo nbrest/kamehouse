@@ -39,42 +39,6 @@ public class DragonBallController extends AbstractController {
   private DragonBallUserService dragonBallUserService;
 
   /**
-   * /dragonball/model-and-view Returns the ModelAndView object for the test
-   * endpoint.
-   */
-  @GetMapping(path = "/model-and-view")
-  public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
-      defaultValue = "Goku") String name) {
-    logger.trace("In controller /dragonball/model-and-view (GET)");
-    String message = "message: dragonball ModelAndView!";
-    ModelAndView mv = new ModelAndView("jsp/test-module/jsp/dragonball/model-and-view");
-    mv.addObject("message", message);
-    mv.addObject("name", name);
-    return mv;
-  }
-
-  /**
-   * /dragonball/users Returns all DragonBallUsers.
-   */
-  @GetMapping(path = "/users")
-  @ResponseBody
-  public ResponseEntity<List<DragonBallUser>> getAll(@RequestParam(value = "action",
-      required = false, defaultValue = "goku") String action) {
-    logger.trace("In controller /dragonball/users (GET)");
-    // switch test to test parameters and exceptions
-    switch (action) {
-      case "KameHouseNotFoundException":
-        throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
-      case "KameHouseException":
-        throw new KameHouseException("*** KameHouseException in getUsers ***");
-      default:
-        break;
-    }
-    List<DragonBallUser> dbUsers = dragonBallUserService.getAll();
-    return generateGetResponseEntity(dbUsers);
-  }
-
-  /**
    * /dragonball/users Creates a new DragonBallUser in the repository.
    */
   @PostMapping(path = "/users")
@@ -97,6 +61,50 @@ public class DragonBallController extends AbstractController {
     return generateGetResponseEntity(dbUser);
   }
 
+  /**
+   * /dragonball/users Returns all DragonBallUsers.
+   */
+  @GetMapping(path = "/users")
+  @ResponseBody
+  public ResponseEntity<List<DragonBallUser>> readAll(@RequestParam(value = "action",
+      required = false, defaultValue = "goku") String action) {
+    logger.trace("In controller /dragonball/users (GET)");
+    // switch test to test parameters and exceptions
+    switch (action) {
+      case "KameHouseNotFoundException":
+        throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
+      case "KameHouseException":
+        throw new KameHouseException("*** KameHouseException in getUsers ***");
+      default:
+        break;
+    }
+    List<DragonBallUser> dbUsers = dragonBallUserService.readAll();
+    return generateGetResponseEntity(dbUsers);
+  }
+
+  /**
+   * /dragonball/users/{id} Updates a user in the repository.
+   */
+  @PutMapping(path = "/users/{id}")
+  @ResponseBody
+  public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
+    logger.trace("In controller /dragonball/users/{id} (PUT)");
+    validatePathAndRequestBodyIds(id, dto.getId());
+    dragonBallUserService.update(dto);
+    return generatePutResponseEntity();
+  }
+
+  /**
+   * /dragonball/users/{id} Deletes an existing user from the repository.
+   */
+  @DeleteMapping(path = "/users/{id}")
+  @ResponseBody
+  public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
+    logger.trace("In controller /dragonball/users/{id} (DELETE)");
+    DragonBallUser deletedDbUser = dragonBallUserService.delete(id);
+    return generateDeleteResponseEntity(deletedDbUser);
+  }
+  
   /**
    * /dragonball/users/username/{username} Returns a specific DragonBallUser
    * from the repository based on the username.
@@ -128,27 +136,19 @@ public class DragonBallController extends AbstractController {
     headers.add("Content-Type", "application/json;charset=UTF-8");
     return new ResponseEntity<>(dbUserJson, headers, HttpStatus.OK);
   }
-
+  
   /**
-   * /dragonball/users/{id} Updates a user in the repository.
+   * /dragonball/model-and-view Returns the ModelAndView object for the test
+   * endpoint.
    */
-  @PutMapping(path = "/users/{id}")
-  @ResponseBody
-  public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
-    logger.trace("In controller /dragonball/users/{id} (PUT)");
-    validatePathAndRequestBodyIds(id, dto.getId());
-    dragonBallUserService.update(dto);
-    return generatePutResponseEntity();
-  }
-
-  /**
-   * /dragonball/users/{id} Deletes an existing user from the repository.
-   */
-  @DeleteMapping(path = "/users/{id}")
-  @ResponseBody
-  public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
-    logger.trace("In controller /dragonball/users/{id} (DELETE)");
-    DragonBallUser deletedDbUser = dragonBallUserService.delete(id);
-    return generateDeleteResponseEntity(deletedDbUser);
+  @GetMapping(path = "/model-and-view")
+  public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
+      defaultValue = "Goku") String name) {
+    logger.trace("In controller /dragonball/model-and-view (GET)");
+    String message = "message: dragonball ModelAndView!";
+    ModelAndView mv = new ModelAndView("jsp/test-module/jsp/dragonball/model-and-view");
+    mv.addObject("message", message);
+    mv.addObject("name", name);
+    return mv;
   }
 }

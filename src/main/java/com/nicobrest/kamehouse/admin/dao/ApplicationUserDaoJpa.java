@@ -16,24 +16,6 @@ import java.util.Set;
 public class ApplicationUserDaoJpa extends AbstractDaoJpa implements ApplicationUserDao {
 
   @Override
-  public List<ApplicationUser> getAll() {
-    logger.trace("Loading all ApplicationUsers");
-    return findAll(ApplicationUser.class);
-  }
-
-  @Override
-  public ApplicationUser read(Long id) {
-    logger.trace("Loading ApplicationUser: {}", id);
-    return findById(ApplicationUser.class, id);
-  }
-  
-  @Override
-  public ApplicationUser loadUserByUsername(String username) {
-    logger.trace("Loading ApplicationUser: {}", username);
-    return findByUsername(ApplicationUser.class, username);
-  }
-
-  @Override
   public Long create(ApplicationUser entity) {
     logger.trace("Creating ApplicationUser: {}", entity.getUsername());
     for (ApplicationRole role : entity.getAuthorities()) {
@@ -46,6 +28,18 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
   }
 
   @Override
+  public ApplicationUser read(Long id) {
+    logger.trace("Loading ApplicationUser: {}", id);
+    return findById(ApplicationUser.class, id);
+  }
+  
+  @Override
+  public List<ApplicationUser> readAll() {
+    logger.trace("Loading all ApplicationUsers");
+    return findAll(ApplicationUser.class);
+  }
+  
+  @Override
   public void update(ApplicationUser entity) {
     logger.trace("Updating ApplicationUser: {}", entity.getUsername());
     updateEntityInRepository(ApplicationUser.class, entity, entity.getId());
@@ -57,6 +51,12 @@ public class ApplicationUserDaoJpa extends AbstractDaoJpa implements Application
     return deleteEntityFromRepository(ApplicationUser.class, id);
   }
 
+  @Override
+  public ApplicationUser loadUserByUsername(String username) {
+    logger.trace("Loading ApplicationUser: {}", username);
+    return findByUsername(ApplicationUser.class, username);
+  }
+  
   @Override
   protected <T> void updateEntityValues(T persistedEntity, T entity) {
     ApplicationUser persistedApplicationUser = (ApplicationUser) persistedEntity;
