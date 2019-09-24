@@ -1,12 +1,11 @@
 package com.nicobrest.kamehouse.admin.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
-import com.nicobrest.kamehouse.main.dao.AbstractDaoJpaTest;
+import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 
@@ -26,7 +25,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
+public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
 
   private static ApplicationUser applicationUser;
   private static List<ApplicationUser> applicationUsersList;
@@ -51,12 +50,7 @@ public class ApplicationUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void createTest() {
-    Long returnedId = applicationUserDaoJpa.create(applicationUser);
-
-    assertNotEquals(applicationUser.getId(), returnedId);
-    ApplicationUser returnedUser = findById(ApplicationUser.class, returnedId);
-    applicationUser.setId(returnedId);
-    assertEquals(applicationUser, returnedUser);
+    createTest(applicationUserDaoJpa, ApplicationUser.class, applicationUser);
   }
 
   /**

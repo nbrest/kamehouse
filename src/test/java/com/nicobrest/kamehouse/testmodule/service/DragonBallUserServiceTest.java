@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.main.service.AbstractCrudServiceTest;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class DragonBallUserServiceTest {
+public class DragonBallUserServiceTest extends AbstractCrudServiceTest {
 
   private static DragonBallUser dragonBallUser;
   private static DragonBallUserDto dragonBallUserDto;
@@ -57,12 +58,7 @@ public class DragonBallUserServiceTest {
    */
   @Test
   public void createTest() {
-    Mockito.doReturn(dragonBallUser.getId()).when(dragonBallUserDaoMock).create(dragonBallUser);
-
-    Long createdId = dragonBallUserService.create(dragonBallUserDto);
-
-    assertEquals(dragonBallUser.getId(), createdId);
-    verify(dragonBallUserDaoMock, times(1)).create(dragonBallUser);
+    createTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser, dragonBallUserDto);
   }
 
   /**

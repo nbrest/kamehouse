@@ -6,7 +6,7 @@ import java.util.List;
  * Generic interface that all DAOs that support CRUD operations should
  * implement.
  * 
- * @author nicolas.brest
+ * @author nbrest
  */
 public interface CrudDao<T> {
 

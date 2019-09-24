@@ -10,6 +10,7 @@ import com.nicobrest.kamehouse.admin.dao.ApplicationUserDao;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
+import com.nicobrest.kamehouse.main.service.AbstractCrudServiceTest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class ApplicationUserServiceTest {
+public class ApplicationUserServiceTest extends AbstractCrudServiceTest {
 
   private static ApplicationUser applicationUser;
   private static List<ApplicationUser> applicationUsersList;
@@ -56,13 +57,7 @@ public class ApplicationUserServiceTest {
    */
   @Test
   public void createTest() {
-    Mockito.doReturn(applicationUser.getId()).when(applicationUserDaoMock)
-        .create(applicationUser);
-
-    Long returnedId = applicationUserService.create(applicationUserDto);
-
-    assertEquals(applicationUser.getId(), returnedId);
-    verify(applicationUserDaoMock, times(1)).create(applicationUser);
+    createTest(applicationUserService, applicationUserDaoMock, applicationUser, applicationUserDto);
   }
 
   /**
@@ -104,7 +99,7 @@ public class ApplicationUserServiceTest {
     assertEquals(applicationUser, deletedUser);
     verify(applicationUserDaoMock, times(1)).delete(applicationUser.getId());
   }
-  
+
   /**
    * Test for calling the service to get a single ApplicationUser in the
    * repository by username.

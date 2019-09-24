@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.testmodule.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.nicobrest.kamehouse.main.dao.AbstractDaoJpaTest;
+import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
+public class DragonBallUserDaoJpaTest extends AbstractCrudDaoJpaTest {
 
   private static DragonBallUser dragonBallUser;
   private static List<DragonBallUser> dragonBallUsersList;
@@ -52,10 +52,7 @@ public class DragonBallUserDaoJpaTest extends AbstractDaoJpaTest {
    */
   @Test
   public void createTest() {
-    Long returnedId = dragonBallUserDaoJpa.create(dragonBallUser);
-
-    DragonBallUser returnedUser = findById(DragonBallUser.class, returnedId);
-    assertEquals(dragonBallUser, returnedUser);
+    createTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser);
   }
 
   /**
