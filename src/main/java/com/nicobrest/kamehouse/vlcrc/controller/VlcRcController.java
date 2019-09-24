@@ -34,6 +34,9 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcRcController extends AbstractCrudController {
 
+  private static final String VLC_PLAYERS = "/vlc-rc/players";
+  private static final String VLC_PLAYERS_ID = "/vlc-rc/players/{id}";
+  
   @Autowired
   private VlcRcService vlcRcService;
 
@@ -46,7 +49,7 @@ public class VlcRcController extends AbstractCrudController {
   @PostMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody VlcPlayerDto dto) {
-    return create("/vlc-rc/players", vlcPlayerService, dto);
+    return create(VLC_PLAYERS, vlcPlayerService, dto);
   }
   
   /**
@@ -55,7 +58,7 @@ public class VlcRcController extends AbstractCrudController {
   @GetMapping(path = "/players/{id}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> read(@PathVariable Long id) {
-    return read("/vlc-rc/players/{id}", vlcPlayerService, id);
+    return read(VLC_PLAYERS_ID, vlcPlayerService, id);
   }
 
   /**
@@ -64,7 +67,7 @@ public class VlcRcController extends AbstractCrudController {
   @GetMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<List<VlcPlayer>> readAll() {
-    return readAll("/vlc-rc/players", vlcPlayerService);
+    return readAll(VLC_PLAYERS, vlcPlayerService);
   }
 
   /**
@@ -72,7 +75,7 @@ public class VlcRcController extends AbstractCrudController {
    */
   @PutMapping(path = "/players/{id}")
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody VlcPlayerDto dto) {
-    return update("/vlc-rc/players/{id}", vlcPlayerService, id, dto);
+    return update(VLC_PLAYERS_ID, vlcPlayerService, id, dto);
   }
 
   /**
@@ -81,7 +84,7 @@ public class VlcRcController extends AbstractCrudController {
   @DeleteMapping(path = "/players/{id}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> delete(@PathVariable Long id) {
-    return delete("/vlc-rc/players/{id}", vlcPlayerService, id);
+    return delete(VLC_PLAYERS_ID, vlcPlayerService, id);
   }
 
   /**

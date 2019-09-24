@@ -35,6 +35,9 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/dragonball")
 public class DragonBallController extends AbstractCrudController {
 
+  private static final String DB_USERS = "/dragonball/users";
+  private static final String DB_USERS_ID = "/dragonball/users/{id}";
+  
   @Autowired
   private DragonBallUserService dragonBallUserService;
 
@@ -44,7 +47,7 @@ public class DragonBallController extends AbstractCrudController {
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody DragonBallUserDto dto) {
-    return create("/dragonball/users", dragonBallUserService, dto);
+    return create(DB_USERS, dragonBallUserService, dto);
   }
 
   /**
@@ -53,7 +56,7 @@ public class DragonBallController extends AbstractCrudController {
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> read(@PathVariable Long id) {
-    return read("/dragonball/users/{id}", dragonBallUserService, id);
+    return read(DB_USERS_ID, dragonBallUserService, id);
   }
 
   /**
@@ -72,7 +75,7 @@ public class DragonBallController extends AbstractCrudController {
       default:
         break;
     }
-    return readAll("/dragonball/users", dragonBallUserService);
+    return readAll(DB_USERS, dragonBallUserService);
   }
 
   /**
@@ -81,7 +84,7 @@ public class DragonBallController extends AbstractCrudController {
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
-    return update("/dragonball/users/{id}", dragonBallUserService, id, dto);
+    return update(DB_USERS_ID, dragonBallUserService, id, dto);
   }
 
   /**
@@ -90,7 +93,7 @@ public class DragonBallController extends AbstractCrudController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
-    return delete("/dragonball/users/{id}", dragonBallUserService, id);
+    return delete(DB_USERS_ID, dragonBallUserService, id);
   }
 
   /**

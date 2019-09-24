@@ -28,6 +28,9 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin/application")
 public class ApplicationUserController extends AbstractCrudController {
 
+  private static final String APP_USERS = "/application/users";
+  private static final String APP_USERS_ID = "/application/users/{id}";
+  
   @Autowired
   private ApplicationUserService applicationUserService;
 
@@ -37,7 +40,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody ApplicationUserDto dto) {
-    return create("/application/users", applicationUserService, dto);
+    return create(APP_USERS, applicationUserService, dto);
   }
 
   /**
@@ -47,7 +50,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<ApplicationUser> read(@PathVariable Long id) {
     ResponseEntity<ApplicationUser> responseEntity =
-        read("/application/users/{id}", applicationUserService, id);
+        read(APP_USERS_ID, applicationUserService, id);
     removePassword(responseEntity.getBody());
     return responseEntity;
   }
@@ -59,7 +62,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<List<ApplicationUser>> readAll() {
     ResponseEntity<List<ApplicationUser>> responseEntity =
-        readAll("/application/users", applicationUserService);
+        readAll(APP_USERS, applicationUserService);
     removePassword(responseEntity.getBody());
     return responseEntity;
   }
@@ -70,7 +73,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ApplicationUserDto dto) {
-    return update("/application/users/{id}", applicationUserService, id, dto);
+    return update(APP_USERS_ID, applicationUserService, id, dto);
   }
 
   /**
@@ -80,7 +83,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<ApplicationUser> delete(@PathVariable Long id) {
     ResponseEntity<ApplicationUser> responseEntity =
-        delete("/application/users/{id}", applicationUserService, id);
+        delete(APP_USERS_ID, applicationUserService, id);
     removePassword(responseEntity.getBody());
     return responseEntity;
   }
