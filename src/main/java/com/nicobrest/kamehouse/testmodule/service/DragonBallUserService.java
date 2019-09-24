@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.main.service.AbstractCrudService;
 import com.nicobrest.kamehouse.main.service.CrudService;
 import com.nicobrest.kamehouse.main.validator.UserValidator;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
@@ -21,7 +20,8 @@ import java.util.List;
  * @author nbrest
  */
 @Service
-public class DragonBallUserService implements CrudService<DragonBallUser, DragonBallUserDto> {
+public class DragonBallUserService extends AbstractCrudService
+    implements CrudService<DragonBallUser, DragonBallUserDto> {
 
   @Autowired
   @Qualifier("dragonBallUserDaoJpa")
@@ -37,13 +37,7 @@ public class DragonBallUserService implements CrudService<DragonBallUser, Dragon
 
   @Override
   public Long create(DragonBallUserDto dto) {
-    DragonBallUser dragonBallUser = getModel(dto);
-    try {
-      validate(dragonBallUser);
-    } catch (KameHouseInvalidDataException e) {
-      throw new KameHouseBadRequestException(e.getMessage(), e);
-    }
-    return dragonBallUserDao.create(dragonBallUser);
+    return create(dragonBallUserDao, dto);
   }
 
   /**
@@ -65,11 +59,7 @@ public class DragonBallUserService implements CrudService<DragonBallUser, Dragon
    */
   public void update(DragonBallUserDto dto) {
     DragonBallUser dragonBallUser = getModel(dto);
-    try {
-      validate(dragonBallUser);
-    } catch (KameHouseInvalidDataException e) {
-      throw new KameHouseBadRequestException(e.getMessage(), e);
-    }
+    validate(dragonBallUser);
     dragonBallUserDao.update(dragonBallUser);
   }
 
@@ -94,23 +84,9 @@ public class DragonBallUserService implements CrudService<DragonBallUser, Dragon
     return dragonBallUserDao.getByEmail(email);
   }
 
-  /**
-   * Performs all the input and logical validations on a DragonBallUser and
-   * throw an exception if a validation fails.
-   */
-  private void validate(DragonBallUser dragonBallUser) {
-    UserValidator.validateUsernameFormat(dragonBallUser.getUsername());
-    UserValidator.validateEmailFormat(dragonBallUser.getEmail());
-    UserValidator.validateStringLength(dragonBallUser.getUsername());
-    UserValidator.validateStringLength(dragonBallUser.getEmail());
-    DragonBallUserValidator.validatePositiveValue(dragonBallUser.getAge());
-    DragonBallUserValidator.validatePositiveValue(dragonBallUser.getPowerLevel());
-  }
-
-  /**
-   * Get a DragonBallUser model object from it's DTO.
-   */
-  private DragonBallUser getModel(DragonBallUserDto dragonBallUserDto) {
+  @Override
+  protected <E, D> E getModel(D dto) {
+    DragonBallUserDto dragonBallUserDto = (DragonBallUserDto) dto;
     DragonBallUser dragonBallUser = new DragonBallUser();
     dragonBallUser.setAge(dragonBallUserDto.getAge());
     dragonBallUser.setEmail(dragonBallUserDto.getEmail());
@@ -118,6 +94,17 @@ public class DragonBallUserService implements CrudService<DragonBallUser, Dragon
     dragonBallUser.setPowerLevel(dragonBallUserDto.getPowerLevel());
     dragonBallUser.setStamina(dragonBallUserDto.getStamina());
     dragonBallUser.setUsername(dragonBallUserDto.getUsername());
-    return dragonBallUser;
+    return (E) dragonBallUser;
+  }
+
+  @Override
+  protected <E> void validate(E entity) {
+    DragonBallUser dragonBallUser = (DragonBallUser) entity;
+    UserValidator.validateUsernameFormat(dragonBallUser.getUsername());
+    UserValidator.validateEmailFormat(dragonBallUser.getEmail());
+    UserValidator.validateStringLength(dragonBallUser.getUsername());
+    UserValidator.validateStringLength(dragonBallUser.getEmail());
+    DragonBallUserValidator.validatePositiveValue(dragonBallUser.getAge());
+    DragonBallUserValidator.validatePositiveValue(dragonBallUser.getPowerLevel());
   }
 }

@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.validator.ApplicationUserValidator;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.main.service.AbstractCrudService;
 import com.nicobrest.kamehouse.main.service.CrudService;
 import com.nicobrest.kamehouse.main.validator.UserValidator;
 
@@ -28,8 +29,8 @@ import java.util.Set;
  *
  */
 @Service
-public class ApplicationUserService implements
-    CrudService<ApplicationUser, ApplicationUserDto>, UserDetailsService {
+public class ApplicationUserService extends AbstractCrudService
+    implements CrudService<ApplicationUser, ApplicationUserDto>, UserDetailsService {
 
   @Autowired
   @Qualifier("applicationUserDaoJpa")
@@ -57,11 +58,8 @@ public class ApplicationUserService implements
 
   @Override
   public Long create(ApplicationUserDto dto) {
-    ApplicationUser applicationUser = getModel(dto);
-    validate(applicationUser);
-    applicationUser.setPassword(PasswordUtils.generateHashedPassword(applicationUser
-        .getPassword()));
-    return applicationUserDao.create(applicationUser);
+    dto.setPassword(PasswordUtils.generateHashedPassword(dto.getPassword()));
+    return create(applicationUserDao, dto);
   }
 
   /**
@@ -106,25 +104,9 @@ public class ApplicationUserService implements
     }
   }
 
-  /**
-   * Validates the application user attributes.
-   */
-  private void validate(ApplicationUser applicationUser) {
-    ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
-    ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
-    UserValidator.validateUsernameFormat(applicationUser.getUsername());
-    UserValidator.validateEmailFormat(applicationUser.getEmail());
-    UserValidator.validateStringLength(applicationUser.getFirstName());
-    UserValidator.validateStringLength(applicationUser.getLastName());
-    UserValidator.validateStringLength(applicationUser.getUsername());
-    UserValidator.validateStringLength(applicationUser.getEmail());
-    UserValidator.validateStringLength(applicationUser.getPassword());
-  }
-
-  /**
-   * Gets an ApplicationUser model object from it's DTO.
-   */
-  private ApplicationUser getModel(ApplicationUserDto applicationUserDto) {
+  @Override
+  protected <E, D> E getModel(D dto) {
+    ApplicationUserDto applicationUserDto = (ApplicationUserDto) dto;
     ApplicationUser applicationUser = new ApplicationUser();
     applicationUser.setAccountNonExpired(applicationUserDto.isAccountNonExpired());
     applicationUser.setAccountNonLocked(applicationUserDto.isAccountNonLocked());
@@ -149,6 +131,20 @@ public class ApplicationUserService implements
     applicationUser.setLastName(applicationUserDto.getLastName());
     applicationUser.setPassword(applicationUserDto.getPassword());
     applicationUser.setUsername(applicationUserDto.getUsername());
-    return applicationUser;
+    return (E) applicationUser;
+  }
+
+  @Override
+  protected <E> void validate(E entity) { 
+    ApplicationUser applicationUser = (ApplicationUser) entity;
+    ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
+    ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
+    UserValidator.validateUsernameFormat(applicationUser.getUsername());
+    UserValidator.validateEmailFormat(applicationUser.getEmail());
+    UserValidator.validateStringLength(applicationUser.getFirstName());
+    UserValidator.validateStringLength(applicationUser.getLastName());
+    UserValidator.validateStringLength(applicationUser.getUsername());
+    UserValidator.validateStringLength(applicationUser.getEmail());
+    UserValidator.validateStringLength(applicationUser.getPassword());
   }
 }
