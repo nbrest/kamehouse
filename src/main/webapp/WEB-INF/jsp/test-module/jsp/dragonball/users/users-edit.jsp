@@ -24,7 +24,7 @@
 <body> 
   <div class="default-layout main-body">
     <c:set var="username" value="${param.username}"></c:set>
-    <c:set var="dragonBallUser" value="${dragonBallUserService.getDragonBallUser(username)}"></c:set>
+    <c:set var="dragonBallUser" value="${dragonBallUserService.getByUsername(username)}"></c:set>
 
     <div class="panel panel-default">
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Edit DragonBall User</h3>
