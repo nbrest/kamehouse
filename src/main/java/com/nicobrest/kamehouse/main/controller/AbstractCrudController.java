@@ -18,7 +18,7 @@ public abstract class AbstractCrudController extends AbstractController {
   /**
    * Creates a new entity in the repository from the DTO.
    */
-  public <D, E> ResponseEntity<Long> create(String endpoint, CrudService<E, D> service, D dto) {
+  protected <D, E> ResponseEntity<Long> create(String endpoint, CrudService<E, D> service, D dto) {
     logger.trace("{} (POST)", endpoint);
     Long createdId = service.create(dto);
     return generatePostResponseEntity(createdId);
@@ -27,7 +27,7 @@ public abstract class AbstractCrudController extends AbstractController {
   /**
    * Reads an entity from the repository for the specified id.
    */
-  public <D, E> ResponseEntity<E> read(String endpoint, CrudService<E, D> service, Long id) {
+  protected <D, E> ResponseEntity<E> read(String endpoint, CrudService<E, D> service, Long id) {
     logger.trace("{} (GET)", endpoint);
     E entity = service.read(id);
     return generateGetResponseEntity(entity);
@@ -36,7 +36,7 @@ public abstract class AbstractCrudController extends AbstractController {
   /**
    * Reads all the entities from the repository for the specified service.
    */
-  public <D, E> ResponseEntity<List<E>> readAll(String endpoint, CrudService<E, D> service) {
+  protected <D, E> ResponseEntity<List<E>> readAll(String endpoint, CrudService<E, D> service) {
     logger.trace("{} (GET)", endpoint);
     List<E> listOfEntities = service.readAll();
     return generateGetResponseEntity(listOfEntities);
@@ -45,12 +45,21 @@ public abstract class AbstractCrudController extends AbstractController {
   /**
    * Updates an entity in the repository for the specified id and dto.
    */
-  public <D, E> ResponseEntity<Void> update(String endpoint, CrudService<E, D> service, Long id,
+  protected <D, E> ResponseEntity<Void> update(String endpoint, CrudService<E, D> service, Long id,
       D dto) {
     logger.trace("{} (PUT)", endpoint);
     Identifiable identifiableDto = (Identifiable) dto;
     validatePathAndRequestBodyIds(id, identifiableDto.getId());
     service.update(dto);
     return generatePutResponseEntity();
+  }
+  
+  /**
+   * Deletes an entity from the repository for the specified id.
+   */
+  protected <E, D> ResponseEntity<E> delete(String endpoint, CrudService<E, D> service, Long id) {
+    logger.trace("{} (DELETE)", endpoint);
+    E deletedEntity = service.delete(id); 
+    return generateDeleteResponseEntity(deletedEntity);
   }
 }

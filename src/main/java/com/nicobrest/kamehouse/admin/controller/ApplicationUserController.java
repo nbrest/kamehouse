@@ -79,11 +79,10 @@ public class ApplicationUserController extends AbstractCrudController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<ApplicationUser> delete(@PathVariable Long id) {
-    logger.trace("In controller /application/users/{id} (DELETE)");
-    ApplicationUser deletedAppUser = applicationUserService.delete(id);
-    // Don't return the passwords through the API.
-    deletedAppUser.setPassword(null);
-    return generateDeleteResponseEntity(deletedAppUser);
+    ResponseEntity<ApplicationUser> responseEntity =
+        delete("/application/users/{id}", applicationUserService, id);
+    removePassword(responseEntity.getBody());
+    return responseEntity;
   }
 
   /**

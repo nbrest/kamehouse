@@ -91,9 +91,7 @@ public class DragonBallController extends AbstractCrudController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
-    logger.trace("In controller /dragonball/users/{id} (DELETE)");
-    DragonBallUser deletedDbUser = dragonBallUserService.delete(id);
-    return generateDeleteResponseEntity(deletedDbUser);
+    return delete("/dragonball/users/{id}", dragonBallUserService, id);
   }
 
   /**
@@ -106,7 +104,7 @@ public class DragonBallController extends AbstractCrudController {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first dot
-    logger.trace("In controller /dragonball/users/username/{username:.+} (GET)");
+    logger.trace("/dragonball/users/username/{username:.+} (GET)");
     DragonBallUser dbUser = dragonBallUserService.getByUsername(username);
     return generateGetResponseEntity(dbUser);
   }
@@ -118,7 +116,7 @@ public class DragonBallController extends AbstractCrudController {
   @GetMapping(path = "/users/emails/{email:.+}")
   @ResponseBody
   public ResponseEntity<String> getByEmail(@PathVariable String email) {
-    logger.trace("In controller /dragonball/users/emails/{email:.+} (GET)");
+    logger.trace("/dragonball/users/emails/{email:.+} (GET)");
     DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
     String dbUserJson = JsonUtils.toJsonString(dbUser);
     // Leaving this one as is as a test instead of using
@@ -135,7 +133,7 @@ public class DragonBallController extends AbstractCrudController {
   @GetMapping(path = "/model-and-view")
   public ModelAndView getModelAndView(
       @RequestParam(value = "name", required = false, defaultValue = "Goku") String name) {
-    logger.trace("In controller /dragonball/model-and-view (GET)");
+    logger.trace("/dragonball/model-and-view (GET)");
     String message = "message: dragonball ModelAndView!";
     ModelAndView mv = new ModelAndView("jsp/test-module/jsp/dragonball/model-and-view");
     mv.addObject("message", message);
