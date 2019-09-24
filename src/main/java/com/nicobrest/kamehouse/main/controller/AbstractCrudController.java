@@ -53,13 +53,13 @@ public abstract class AbstractCrudController extends AbstractController {
     service.update(dto);
     return generatePutResponseEntity();
   }
-  
+
   /**
    * Deletes an entity from the repository for the specified id.
    */
   protected <E, D> ResponseEntity<E> delete(String endpoint, CrudService<E, D> service, Long id) {
     logger.trace("{} (DELETE)", endpoint);
-    E deletedEntity = service.delete(id); 
+    E deletedEntity = service.delete(id);
     return generateDeleteResponseEntity(deletedEntity);
   }
 }

@@ -64,24 +64,22 @@ public class ApplicationUserService extends AbstractCrudService
 
   @Override
   public ApplicationUser read(Long id) {
-    return applicationUserDao.read(id);
+    return read(applicationUserDao, id);
   }
 
   @Override
   public List<ApplicationUser> readAll() {
-    return applicationUserDao.readAll();
+    return readAll(applicationUserDao);
   }
 
   @Override
   public void update(ApplicationUserDto dto) {
-    ApplicationUser applicationUser = getModel(dto);
-    validate(applicationUser);
-    applicationUserDao.update(applicationUser);
+    update(applicationUserDao, dto);
   }
 
   @Override
   public ApplicationUser delete(Long id) {
-    return applicationUserDao.delete(id);
+    return delete(applicationUserDao, id);
   }
 
   @Override

@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.main.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/api/v1/vlc-rc")
-public class VlcRcController extends AbstractController {
+public class VlcRcController extends AbstractCrudController {
 
   @Autowired
   private VlcRcService vlcRcService;
@@ -46,9 +46,7 @@ public class VlcRcController extends AbstractController {
   @PostMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody VlcPlayerDto dto) {
-    logger.trace("In controller /vlc-rc/players (POST)");
-    Long vlcPlayerId = vlcPlayerService.create(dto);
-    return generatePostResponseEntity(vlcPlayerId);
+    return create("/vlc-rc/players", vlcPlayerService, dto);
   }
   
   /**
@@ -57,9 +55,7 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/players/{id}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> read(@PathVariable Long id) {
-    logger.trace("In controller /vlc-rc/players/{id} (GET)");
-    VlcPlayer vlcPlayer = vlcPlayerService.read(id);
-    return generateGetResponseEntity(vlcPlayer);
+    return read("/vlc-rc/players/{id}", vlcPlayerService, id);
   }
 
   /**
@@ -68,9 +64,7 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<List<VlcPlayer>> readAll() {
-    logger.trace("In controller /vlc-rc/players/ (GET)");
-    List<VlcPlayer> vlcPlayers = vlcPlayerService.readAll();
-    return generateGetResponseEntity(vlcPlayers);
+    return readAll("/vlc-rc/players", vlcPlayerService);
   }
 
   /**
@@ -78,10 +72,7 @@ public class VlcRcController extends AbstractController {
    */
   @PutMapping(path = "/players/{id}")
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody VlcPlayerDto dto) {
-    logger.trace("In controller /vlc-rc/players/{id} (PUT)");
-    validatePathAndRequestBodyIds(id, dto.getId());
-    vlcPlayerService.update(dto);
-    return generatePutResponseEntity();
+    return update("/vlc-rc/players/{id}", vlcPlayerService, id, dto);
   }
 
   /**
@@ -90,9 +81,7 @@ public class VlcRcController extends AbstractController {
   @DeleteMapping(path = "/players/{id}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> delete(@PathVariable Long id) {
-    logger.trace("In controller /vlc-rc/players/{id} (DELETE)");
-    VlcPlayer vlcPlayer = vlcPlayerService.delete(id);
-    return generateDeleteResponseEntity(vlcPlayer);
+    return delete("/vlc-rc/players/{id}", vlcPlayerService, id);
   }
 
   /**
@@ -101,7 +90,7 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/players/hostname/{hostname}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> getByHostname(@PathVariable String hostname) {
-    logger.trace("In controller /vlc-rc/players/hostname/{hostname} (GET)");
+    logger.trace("/vlc-rc/players/hostname/{hostname} (GET)");
     VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostname);
     return generateGetResponseEntity(vlcPlayer);
   }
@@ -112,7 +101,7 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/players/{hostname}/status")
   @ResponseBody
   public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String hostname) {
-    logger.trace("In controller /vlc-rc/players/{hostname}/status (GET)");
+    logger.trace("/vlc-rc/players/{hostname}/status (GET)");
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(hostname);
     return generateGetResponseEntity(vlcRcStatus);
   }
@@ -124,7 +113,7 @@ public class VlcRcController extends AbstractController {
   @ResponseBody
   public ResponseEntity<VlcRcStatus> executeCommand(@RequestBody VlcRcCommand vlcRcCommand,
       @PathVariable String hostname) {
-    logger.trace("In controller /vlc-rc/players/{hostname}/commands (POST)");
+    logger.trace("/vlc-rc/players/{hostname}/commands (POST)");
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostname);
     return generatePostResponseEntity(vlcRcStatus);
   }
@@ -135,7 +124,7 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/players/{hostname}/playlist")
   @ResponseBody
   public ResponseEntity<List<Map<String, Object>>> getPlaylist(@PathVariable String hostname) {
-    logger.trace("In controller /vlc-rc/players/{hostname}/playlist (GET)");
+    logger.trace("/vlc-rc/players/{hostname}/playlist (GET)");
     List<Map<String, Object>> vlcPlaylist = vlcRcService.getPlaylist(hostname);
     return generateGetResponseEntity(vlcPlaylist);
   }
@@ -147,7 +136,7 @@ public class VlcRcController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<Map<String, Object>>> browse(@RequestParam(value = "uri",
       required = false) String uri, @PathVariable String hostname) {
-    logger.trace("In controller /vlc-rc/players/{hostname}/browse (GET)");
+    logger.trace("/vlc-rc/players/{hostname}/browse (GET)");
     List<Map<String, Object>> vlcRcFileList = vlcRcService.browse(uri, hostname);
     return generateGetResponseEntity(vlcRcFileList);
   }

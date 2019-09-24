@@ -39,7 +39,7 @@ public class DragonBallController extends AbstractCrudController {
   private DragonBallUserService dragonBallUserService;
 
   /**
-   * /dragonball/users Creates a new DragonBallUser in the repository.
+   * Creates a new DragonBallUser in the repository.
    */
   @PostMapping(path = "/users")
   @ResponseBody
@@ -48,8 +48,7 @@ public class DragonBallController extends AbstractCrudController {
   }
 
   /**
-   * /dragonball/users/{id} Returns a specific DragonBallUser from the repository
-   * based on the id.
+   * Returns a specific DragonBallUser from the repository based on the id.
    */
   @GetMapping(path = "/users/{id}")
   @ResponseBody
@@ -58,12 +57,12 @@ public class DragonBallController extends AbstractCrudController {
   }
 
   /**
-   * /dragonball/users Returns all DragonBallUsers.
+   * Returns all DragonBallUsers.
    */
   @GetMapping(path = "/users")
   @ResponseBody
-  public ResponseEntity<List<DragonBallUser>> readAll(
-      @RequestParam(value = "action", required = false, defaultValue = "goku") String action) {
+  public ResponseEntity<List<DragonBallUser>> readAll(@RequestParam(value = "action",
+      required = false, defaultValue = "goku") String action) {
     // switch to test parameters and exceptions
     switch (action) {
       case "KameHouseNotFoundException":
@@ -77,7 +76,7 @@ public class DragonBallController extends AbstractCrudController {
   }
 
   /**
-   * /dragonball/users/{id} Updates a user in the repository.
+   * Updates a user in the repository.
    */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
@@ -86,7 +85,7 @@ public class DragonBallController extends AbstractCrudController {
   }
 
   /**
-   * /dragonball/users/{id} Deletes an existing user from the repository.
+   * Deletes an existing user from the repository.
    */
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
@@ -95,8 +94,8 @@ public class DragonBallController extends AbstractCrudController {
   }
 
   /**
-   * /dragonball/users/username/{username} Returns a specific DragonBallUser from
-   * the repository based on the username.
+   * Returns a specific DragonBallUser from the repository based on the
+   * username.
    */
   @GetMapping(path = "/users/username/{username:.+}")
   @ResponseBody
@@ -110,8 +109,8 @@ public class DragonBallController extends AbstractCrudController {
   }
 
   /**
-   * /dragonball/users/emails/{email:.+} Returns a specific DragonBallUser from
-   * the repository based on the email (URLEncoded with UTF-8).
+   * Returns a specific DragonBallUser from the repository based on the email
+   * (URLEncoded with UTF-8).
    */
   @GetMapping(path = "/users/emails/{email:.+}")
   @ResponseBody
@@ -127,12 +126,11 @@ public class DragonBallController extends AbstractCrudController {
   }
 
   /**
-   * /dragonball/model-and-view Returns the ModelAndView object for the test
-   * endpoint.
+   * Returns the ModelAndView object for the test endpoint.
    */
   @GetMapping(path = "/model-and-view")
-  public ModelAndView getModelAndView(
-      @RequestParam(value = "name", required = false, defaultValue = "Goku") String name) {
+  public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
+      defaultValue = "Goku") String name) {
     logger.trace("/dragonball/model-and-view (GET)");
     String message = "message: dragonball ModelAndView!";
     ModelAndView mv = new ModelAndView("jsp/test-module/jsp/dragonball/model-and-view");

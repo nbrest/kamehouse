@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
+import com.nicobrest.kamehouse.main.service.AbstractCrudService;
+import com.nicobrest.kamehouse.main.service.CrudService;
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
@@ -17,7 +19,8 @@ import java.util.List;
  *
  */
 @Service
-public class VlcPlayerService {
+public class VlcPlayerService extends AbstractCrudService implements
+    CrudService<VlcPlayer, VlcPlayerDto> {
 
   @Autowired
   @Qualifier("vlcPlayerDaoJpa")
@@ -30,61 +33,53 @@ public class VlcPlayerService {
   public void setVlcPlayerDao(VlcPlayerDao vlcPlayerDao) {
     this.vlcPlayerDao = vlcPlayerDao;
   }
-  
-  /**
-   * Creates a VLC Player.
-   */
+
+  @Override
   public Long create(VlcPlayerDto dto) {
-    VlcPlayer vlcPlayer = getModel(dto); 
-    return vlcPlayerDao.create(vlcPlayer);
-  } 
-  
-  /**
-   * Reads a VLC Player by id.
-   */
+    return create(vlcPlayerDao, dto);
+  }
+
+  @Override
   public VlcPlayer read(Long id) {
-    return vlcPlayerDao.read(id);
+    return read(vlcPlayerDao, id);
   }
-  
-  /**
-   * Reads all VLC Players.
-   */
+
+  @Override
   public List<VlcPlayer> readAll() {
-    return vlcPlayerDao.readAll();
+    return readAll(vlcPlayerDao);
   }
-  
-  /**
-   * Updates a VLC Player.
-   */
+
+  @Override
   public void update(VlcPlayerDto dto) {
-    VlcPlayer vlcPlayer = getModel(dto);
-    vlcPlayerDao.update(vlcPlayer);
-  } 
-  
-  /**
-   * Deletes a VLC Player.
-   */
-  public VlcPlayer delete(Long id) {
-    return vlcPlayerDao.delete(id);
+    update(vlcPlayerDao, dto);
   }
-  
+
+  @Override
+  public VlcPlayer delete(Long id) {
+    return delete(vlcPlayerDao, id);
+  }
+
   /**
    * Gets a VLC Player by hostname.
    */
-  public VlcPlayer getByHostname(String hostname) { 
+  public VlcPlayer getByHostname(String hostname) {
     return vlcPlayerDao.getByHostname(hostname);
   }
-  
-  /**
-   * Gets VlcPlayer model object from it's DTO.
-   */
-  private VlcPlayer getModel(VlcPlayerDto vlcPlayerDto) {
+
+  @Override
+  protected <E, D> E getModel(D dto) {
+    VlcPlayerDto vlcPlayerDto = (VlcPlayerDto) dto;
     VlcPlayer vlcPlayer = new VlcPlayer();
     vlcPlayer.setHostname(vlcPlayerDto.getHostname());
     vlcPlayer.setId(vlcPlayerDto.getId());
     vlcPlayer.setPassword(vlcPlayerDto.getPassword());
     vlcPlayer.setPort(vlcPlayerDto.getPort());
     vlcPlayer.setUsername(vlcPlayerDto.getUsername());
-    return vlcPlayer;
+    return (E) vlcPlayer;
+  }
+
+  @Override
+  protected <E> void validate(E entity) {
+    // No validations added yet to VlcPlayer.
   }
 }

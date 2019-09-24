@@ -40,34 +40,24 @@ public class DragonBallUserService extends AbstractCrudService
     return create(dragonBallUserDao, dto);
   }
 
-  /**
-   * Reads a single instance of a DragonBallUser looking up by id.
-   */
+  @Override
   public DragonBallUser read(Long id) {
-    return dragonBallUserDao.read(id);
+    return read(dragonBallUserDao, id);
   }
 
-  /**
-   * Reads all the DragonBallUsers in the repository.
-   */
+  @Override
   public List<DragonBallUser> readAll() {
-    return dragonBallUserDao.readAll();
+    return readAll(dragonBallUserDao);
   }
 
-  /**
-   * Updates an existing DragonBallUser in the repository.
-   */
+  @Override
   public void update(DragonBallUserDto dto) {
-    DragonBallUser dragonBallUser = getModel(dto);
-    validate(dragonBallUser);
-    dragonBallUserDao.update(dragonBallUser);
+    update(dragonBallUserDao, dto);
   }
 
-  /**
-   * Deletes an existing DragonBallUser in the repository.
-   */
+  @Override
   public DragonBallUser delete(Long id) {
-    return dragonBallUserDao.delete(id);
+    return delete(dragonBallUserDao, id);
   }
 
   /**

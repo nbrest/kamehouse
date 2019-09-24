@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -14,7 +15,7 @@ import java.io.Serializable;
  * @author nbrest
  *
  */ 
-public class VlcPlayerDto implements Serializable {
+public class VlcPlayerDto implements Identifiable, Serializable {
 
   @JsonIgnore
   private static final long serialVersionUID = 1L; 
