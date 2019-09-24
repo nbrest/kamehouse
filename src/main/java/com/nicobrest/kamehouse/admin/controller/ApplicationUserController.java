@@ -48,7 +48,7 @@ public class ApplicationUserController extends AbstractCrudController {
   public ResponseEntity<ApplicationUser> read(@PathVariable Long id) {
     ResponseEntity<ApplicationUser> responseEntity =
         read("/application/users/{id}", applicationUserService, id);
-    removePasswordFromResponse(responseEntity);
+    removePassword(responseEntity.getBody());
     return responseEntity;
   }
 
@@ -58,13 +58,10 @@ public class ApplicationUserController extends AbstractCrudController {
   @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<ApplicationUser>> readAll() {
-    logger.trace("In controller /application/users/ (GET)");
-    List<ApplicationUser> applicationUsers = applicationUserService.readAll();
-    // Don't return the passwords through the API.
-    for (ApplicationUser appUser : applicationUsers) {
-      appUser.setPassword(null);
-    }
-    return generateGetResponseEntity(applicationUsers);
+    ResponseEntity<List<ApplicationUser>> responseEntity =
+        readAll("/application/users", applicationUserService);
+    removePassword(responseEntity.getBody());
+    return responseEntity;
   }
 
   /**
@@ -73,10 +70,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ApplicationUserDto dto) {
-    logger.trace("In controller /application/users/{id} (PUT)");
-    validatePathAndRequestBodyIds(id, dto.getId());
-    applicationUserService.update(dto);
-    return generatePutResponseEntity();
+    return update("/application/users/{id}", applicationUserService, id, dto);
   }
 
   /**
@@ -104,14 +98,24 @@ public class ApplicationUserController extends AbstractCrudController {
     applicationUser.setPassword(null);
     return generateGetResponseEntity(applicationUser);
   }
-  
+
   /**
-   * Remove the password from the application user returned by the response entity. 
+   * Remove the password from the application user.
    */
-  private void removePasswordFromResponse(ResponseEntity<ApplicationUser> responseEntity) {
-    ApplicationUser applicationUser = responseEntity.getBody();
+  private void removePassword(ApplicationUser applicationUser) { 
     if (applicationUser != null) {
       applicationUser.setPassword(null);
+    }
+  }
+  
+  /**
+   * Remove the password from the application users.
+   */
+  private void removePassword(List<ApplicationUser> applicationUsers) { 
+    if (applicationUsers != null) {
+      for (ApplicationUser applicationUser : applicationUsers) {
+        applicationUser.setPassword(null);
+      }
     }
   }
 }

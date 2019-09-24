@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -16,7 +17,7 @@ import java.util.Set;
  * @author nbrest
  *
  */ 
-public class ApplicationUserDto implements Serializable {
+public class ApplicationUserDto implements Identifiable, Serializable {
    
   private static final long serialVersionUID = 1L;
  

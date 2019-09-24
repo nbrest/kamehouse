@@ -1,8 +1,11 @@
 package com.nicobrest.kamehouse.main.controller;
 
+import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.main.service.CrudService;
 
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 /**
  * Abstract class to group all CRUD functionality in the controller layer.
@@ -28,5 +31,26 @@ public abstract class AbstractCrudController extends AbstractController {
     logger.trace("{} (GET)", endpoint);
     E entity = service.read(id);
     return generateGetResponseEntity(entity);
+  }
+
+  /**
+   * Reads all the entities from the repository for the specified service.
+   */
+  public <D, E> ResponseEntity<List<E>> readAll(String endpoint, CrudService<E, D> service) {
+    logger.trace("{} (GET)", endpoint);
+    List<E> listOfEntities = service.readAll();
+    return generateGetResponseEntity(listOfEntities);
+  }
+
+  /**
+   * Updates an entity in the repository for the specified id and dto.
+   */
+  public <D, E> ResponseEntity<Void> update(String endpoint, CrudService<E, D> service, Long id,
+      D dto) {
+    logger.trace("{} (PUT)", endpoint);
+    Identifiable identifiableDto = (Identifiable) dto;
+    validatePathAndRequestBodyIds(id, identifiableDto.getId());
+    service.update(dto);
+    return generatePutResponseEntity();
   }
 }

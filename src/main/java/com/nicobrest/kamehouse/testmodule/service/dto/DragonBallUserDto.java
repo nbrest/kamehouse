@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.service.dto;
 
+import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -12,7 +13,7 @@ import java.io.Serializable;
  * 
  * @author nbrest
  */
-public class DragonBallUserDto implements Serializable {
+public class DragonBallUserDto implements Identifiable, Serializable {
  
   private static final long serialVersionUID = 159367676076449689L;
 
