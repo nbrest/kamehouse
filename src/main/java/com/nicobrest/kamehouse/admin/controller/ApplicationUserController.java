@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.admin.controller;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.main.controller.AbstractCrudController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin/application")
-public class ApplicationUserController extends AbstractController {
+public class ApplicationUserController extends AbstractCrudController {
  
   @Autowired
   private ApplicationUserService applicationUserService;
@@ -36,10 +36,8 @@ public class ApplicationUserController extends AbstractController {
    */
   @PostMapping(path = "/users")
   @ResponseBody
-  public ResponseEntity<Long> create(@RequestBody ApplicationUserDto dto) {
-    logger.trace("In controller /application/users (POST)");
-    Long applicationUserId = applicationUserService.create(dto);
-    return generatePostResponseEntity(applicationUserId);
+  public ResponseEntity<Long> create(@RequestBody ApplicationUserDto dto) { 
+    return create("/application/users", applicationUserService, dto);
   }
   
   /**

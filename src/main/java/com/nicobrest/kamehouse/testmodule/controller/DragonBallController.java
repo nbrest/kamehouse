@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.controller;
 
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.main.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/api/v1/dragonball")
-public class DragonBallController extends AbstractController {
+public class DragonBallController extends AbstractCrudController {
 
   @Autowired
   private DragonBallUserService dragonBallUserService;
@@ -44,9 +44,7 @@ public class DragonBallController extends AbstractController {
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody DragonBallUserDto dto) {
-    logger.trace("In controller /dragonball/users (POST)");
-    Long dbUserId = dragonBallUserService.create(dto);
-    return generatePostResponseEntity(dbUserId);
+    return create("/dragonball/users", dragonBallUserService, dto);
   }
 
   /**

@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-public class AbstractCrudControllerTest extends AbstractControllerTest {
+public abstract class AbstractCrudControllerTest extends AbstractControllerTest {
 
   protected <E, D> void createTest(String url, CrudService<E, D> service, E entity, D dto)
       throws Exception {
