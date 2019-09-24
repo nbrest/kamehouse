@@ -26,7 +26,7 @@ import java.util.List;
  * Super class to all controller test classes to group common attributes and
  * functionality to all controller test classes.
  * 
- * @author nicolas.brest
+ * @author nbrest
  *
  */
 public abstract class AbstractControllerTest {

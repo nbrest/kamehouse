@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * CRUD operations implementations for all Daos that support CRUD operations.
  * 
- * @author nicolas.brest
+ * @author nbrest
  *
  */
 public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {

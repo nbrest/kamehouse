@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Test data and common test methods to test DragonBallUsers in all layers of the application.
  * 
- * @author nicolas.brest
+ * @author nbrest
  *
  */
 public class DragonBallUserTestUtils {

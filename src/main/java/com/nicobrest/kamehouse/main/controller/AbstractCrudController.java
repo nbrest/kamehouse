@@ -4,6 +4,12 @@ import com.nicobrest.kamehouse.main.service.CrudService;
 
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Abstract class to group all CRUD functionality in the controller layer.
+ * 
+ * @author nbrest
+ *
+ */
 public abstract class AbstractCrudController extends AbstractController {
 
   /**

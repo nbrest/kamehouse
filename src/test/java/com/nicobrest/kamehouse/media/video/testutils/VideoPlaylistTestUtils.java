@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Test data and common test methods to test VideoPlaylists in all layers of the application.
  * 
- * @author nicolas.brest
+ * @author nbrest
  *
  */
 public class VideoPlaylistTestUtils {

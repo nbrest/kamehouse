@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
  * Superclass to all controllers that groups common functionality to all of
  * them.
  * 
- * @author nicolas.brest
+ * @author nbrest
  *
  */
 public abstract class AbstractController {

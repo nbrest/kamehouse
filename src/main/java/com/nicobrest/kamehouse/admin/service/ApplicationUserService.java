@@ -62,32 +62,24 @@ public class ApplicationUserService extends AbstractCrudService
     return create(applicationUserDao, dto);
   }
 
-  /**
-   * Read an application user by its id from the repository.
-   */
+  @Override
   public ApplicationUser read(Long id) {
     return applicationUserDao.read(id);
   }
 
-  /**
-   * Read all application users.
-   */
+  @Override
   public List<ApplicationUser> readAll() {
     return applicationUserDao.readAll();
   }
 
-  /**
-   * Updates an application user in the repository.
-   */
+  @Override
   public void update(ApplicationUserDto dto) {
     ApplicationUser applicationUser = getModel(dto);
     validate(applicationUser);
     applicationUserDao.update(applicationUser);
   }
 
-  /**
-   * Deletes an application user from the repository.
-   */
+  @Override
   public ApplicationUser delete(Long id) {
     return applicationUserDao.delete(id);
   }
@@ -135,7 +127,7 @@ public class ApplicationUserService extends AbstractCrudService
   }
 
   @Override
-  protected <E> void validate(E entity) { 
+  protected <E> void validate(E entity) {
     ApplicationUser applicationUser = (ApplicationUser) entity;
     ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
     ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());

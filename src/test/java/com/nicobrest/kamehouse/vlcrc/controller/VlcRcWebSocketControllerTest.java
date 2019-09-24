@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * Test class for the VlcRcWebSocketController.
  * 
- * @author nicolas.brest
+ * @author nbrest
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)

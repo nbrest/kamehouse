@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Test data and common test methods to test ApplicationUsers in all layers of the application.
  * 
- * @author nicolas.brest
+ * @author nbrest
  *
  */
 public class ApplicationUserTestUtils {
