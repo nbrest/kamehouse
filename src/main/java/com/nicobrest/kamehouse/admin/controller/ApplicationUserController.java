@@ -27,7 +27,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api/v1/admin/application")
 public class ApplicationUserController extends AbstractCrudController {
- 
+
   @Autowired
   private ApplicationUserService applicationUserService;
 
@@ -36,23 +36,22 @@ public class ApplicationUserController extends AbstractCrudController {
    */
   @PostMapping(path = "/users")
   @ResponseBody
-  public ResponseEntity<Long> create(@RequestBody ApplicationUserDto dto) { 
+  public ResponseEntity<Long> create(@RequestBody ApplicationUserDto dto) {
     return create("/application/users", applicationUserService, dto);
   }
-  
+
   /**
    * Reads an application user by it's id.
    */
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<ApplicationUser> read(@PathVariable Long id) {
-    logger.trace("In controller /application/users/{id} (GET)");
-    ApplicationUser applicationUser = applicationUserService.read(id);
-    // Don't return the passwords through the API.
-    applicationUser.setPassword(null);
-    return generateGetResponseEntity(applicationUser);
+    ResponseEntity<ApplicationUser> responseEntity =
+        read("/application/users/{id}", applicationUserService, id);
+    removePasswordFromResponse(responseEntity);
+    return responseEntity;
   }
-  
+
   /**
    * Reads all application users.
    */
@@ -92,7 +91,7 @@ public class ApplicationUserController extends AbstractCrudController {
     deletedAppUser.setPassword(null);
     return generateDeleteResponseEntity(deletedAppUser);
   }
-  
+
   /**
    * Gets a specific ApplicationUser from the repository based on the username.
    */
@@ -104,5 +103,15 @@ public class ApplicationUserController extends AbstractCrudController {
     // Don't return the password through the API.
     applicationUser.setPassword(null);
     return generateGetResponseEntity(applicationUser);
+  }
+  
+  /**
+   * Remove the password from the application user returned by the response entity. 
+   */
+  private void removePasswordFromResponse(ResponseEntity<ApplicationUser> responseEntity) {
+    ApplicationUser applicationUser = responseEntity.getBody();
+    if (applicationUser != null) {
+      applicationUser.setPassword(null);
+    }
   }
 }

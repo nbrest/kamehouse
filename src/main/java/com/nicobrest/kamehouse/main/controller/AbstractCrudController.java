@@ -20,4 +20,13 @@ public abstract class AbstractCrudController extends AbstractController {
     Long createdId = service.create(dto);
     return generatePostResponseEntity(createdId);
   }
+
+  /**
+   * Reads an entity from the repository for the specified id.
+   */
+  public <D, E> ResponseEntity<E> read(String endpoint, CrudService<E, D> service, Long id) {
+    logger.trace("{} (GET)", endpoint);
+    E entity = service.read(id);
+    return generateGetResponseEntity(entity);
+  }
 }

@@ -54,9 +54,7 @@ public class DragonBallController extends AbstractCrudController {
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> read(@PathVariable Long id) {
-    logger.trace("In controller /dragonball/users/{id} (GET)");
-    DragonBallUser dbUser = dragonBallUserService.read(id);
-    return generateGetResponseEntity(dbUser);
+    return read("/dragonball/users/{id}", dragonBallUserService, id);
   }
 
   /**
@@ -66,8 +64,7 @@ public class DragonBallController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<List<DragonBallUser>> readAll(@RequestParam(value = "action",
       required = false, defaultValue = "goku") String action) {
-    logger.trace("In controller /dragonball/users (GET)");
-    // switch test to test parameters and exceptions
+    // switch to test parameters and exceptions
     switch (action) {
       case "KameHouseNotFoundException":
         throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
@@ -76,6 +73,7 @@ public class DragonBallController extends AbstractCrudController {
       default:
         break;
     }
+    logger.trace("In controller /dragonball/users (GET)");
     List<DragonBallUser> dbUsers = dragonBallUserService.readAll();
     return generateGetResponseEntity(dbUsers);
   }
