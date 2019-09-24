@@ -9,8 +9,17 @@ import com.nicobrest.kamehouse.main.dao.Identifiable;
 
 import org.mockito.Mockito;
 
+/**
+ * Abstract class to group test functionality for all CRUD services.
+ * 
+ * @author nbrest
+ *
+ */
 public abstract class AbstractCrudServiceTest {
 
+  /**
+   * Create entity test.
+   */
   protected <E, D> void createTest(CrudService<E, D> service, CrudDao<E> dao, E entity, D dto) {
     Identifiable identifiableEntity = (Identifiable) entity;
     Mockito.doReturn(identifiableEntity.getId()).when(dao).create(entity);

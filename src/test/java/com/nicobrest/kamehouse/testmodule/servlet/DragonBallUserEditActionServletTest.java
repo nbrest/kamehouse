@@ -1,14 +1,12 @@
 package com.nicobrest.kamehouse.testmodule.servlet;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
-import com.nicobrest.kamehouse.testmodule.servlet.DragonBallUserEditActionServlet;
 
 import org.junit.Before;
 import org.junit.Test;

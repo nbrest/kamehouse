@@ -12,8 +12,17 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+/**
+ * Abstract class to group all CRUD controller common test functionality.
+ * 
+ * @author nbrest
+ *
+ */
 public abstract class AbstractCrudControllerTest extends AbstractControllerTest {
 
+  /**
+   * Create entity test.
+   */
   protected <E, D> void createTest(String url, CrudService<E, D> service, E entity, D dto)
       throws Exception {
     Identifiable identifiableEntity = (Identifiable) entity;
