@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.main.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
@@ -53,7 +52,6 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
 
     T returnedEntity = dao.read(identifiableEntity.getId());
 
-    assertNotNull(returnedEntity);
     assertEquals(entity, returnedEntity);
     testUtils.assertEqualsAllAttributes(entity, returnedEntity);
   }
@@ -84,7 +82,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     dao.update(updatedEntity);
 
     T returnedEntity = findById(clazz, identifiableUpdatedEntity.getId());
-    assertEquals(entity, returnedEntity);
+    assertEquals(updatedEntity, returnedEntity);
     testUtils.assertEqualsAllAttributes(updatedEntity, returnedEntity);
   }
 

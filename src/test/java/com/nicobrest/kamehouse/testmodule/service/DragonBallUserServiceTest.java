@@ -25,8 +25,8 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class DragonBallUserServiceTest
-    extends AbstractCrudServiceTest<DragonBallUser, DragonBallUserDto> {
+public class DragonBallUserServiceTest extends
+    AbstractCrudServiceTest<DragonBallUser, DragonBallUserDto> {
 
   private DragonBallUser dragonBallUser;
   private DragonBallUserDto dragonBallUserDto;
@@ -64,17 +64,12 @@ public class DragonBallUserServiceTest
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the repository
-   * by id.
+   * Test for calling the service to get a single DragonBallUser in the
+   * repository by id.
    */
   @Test
   public void readTest() {
-    when(dragonBallUserDaoMock.read(dragonBallUser.getId())).thenReturn(dragonBallUser);
-
-    DragonBallUser returnedUser = dragonBallUserService.read(dragonBallUser.getId());
-
-    assertEquals(dragonBallUser, returnedUser);
-    verify(dragonBallUserDaoMock, times(1)).read(dragonBallUser.getId());
+    readTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser);
   }
 
   /**
@@ -83,12 +78,7 @@ public class DragonBallUserServiceTest
    */
   @Test
   public void readAllTest() {
-    when(dragonBallUserDaoMock.readAll()).thenReturn(dragonBallUsersList);
-
-    List<DragonBallUser> returnedList = dragonBallUserService.readAll();
-
-    assertEquals(dragonBallUsersList, returnedList);
-    verify(dragonBallUserDaoMock, times(1)).readAll();
+    readAllTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUsersList);
   }
 
   /**
@@ -97,11 +87,7 @@ public class DragonBallUserServiceTest
    */
   @Test
   public void updateTest() {
-    Mockito.doNothing().when(dragonBallUserDaoMock).update(dragonBallUser);
-
-    dragonBallUserService.update(dragonBallUserDto);
-
-    verify(dragonBallUserDaoMock, times(1)).update(dragonBallUser);
+    updateTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser, dragonBallUserDto);
   }
 
   /**
@@ -109,32 +95,28 @@ public class DragonBallUserServiceTest
    */
   @Test
   public void deleteTest() {
-    when(dragonBallUserDaoMock.delete(dragonBallUser.getId())).thenReturn(dragonBallUser);
-
-    DragonBallUser deletedUser = dragonBallUserService.delete(dragonBallUser.getId());
-
-    assertEquals(dragonBallUser, deletedUser);
-    verify(dragonBallUserDaoMock, times(1)).delete(dragonBallUser.getId());
+    deleteTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser);
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the repository
-   * by username.
+   * Test for calling the service to get a single DragonBallUser in the
+   * repository by username.
    */
   @Test
   public void getByUsernameTest() {
-    when(dragonBallUserDaoMock.getByUsername(dragonBallUser.getUsername()))
-        .thenReturn(dragonBallUser);
+    when(dragonBallUserDaoMock.getByUsername(dragonBallUser.getUsername())).thenReturn(
+        dragonBallUser);
 
-    DragonBallUser returnedUser = dragonBallUserService.getByUsername(dragonBallUser.getUsername());
+    DragonBallUser returnedUser = dragonBallUserService.getByUsername(dragonBallUser
+        .getUsername());
 
     assertEquals(dragonBallUser, returnedUser);
     verify(dragonBallUserDaoMock, times(1)).getByUsername(dragonBallUser.getUsername());
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the repository
-   * by its email.
+   * Test for calling the service to get a single DragonBallUser in the
+   * repository by its email.
    */
   @Test
   public void getByEmailTest() {

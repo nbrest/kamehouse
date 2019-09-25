@@ -1,11 +1,16 @@
 package com.nicobrest.kamehouse.admin.testutils;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -19,8 +24,9 @@ import java.util.Set;
  * @author nbrest
  *
  */
-public class ApplicationUserTestUtils extends AbstractTestUtils<ApplicationUser, ApplicationUserDto>
-    implements TestUtils<ApplicationUser, ApplicationUserDto> {
+public class ApplicationUserTestUtils extends
+    AbstractTestUtils<ApplicationUser, ApplicationUserDto> implements
+    TestUtils<ApplicationUser, ApplicationUserDto> {
 
   public static final String API_V1_ADMIN_APPLICATION_USERS = "/api/v1/admin/application/users/";
   public static final Long INVALID_ID = 987987L;
@@ -36,8 +42,15 @@ public class ApplicationUserTestUtils extends AbstractTestUtils<ApplicationUser,
   @Override
   public void assertEqualsAllAttributes(ApplicationUser expectedEntity,
       ApplicationUser returnedEntity) {
-    // TODO Auto-generated method stub
-
+    assertEquals(expectedEntity.getId(), returnedEntity.getId());
+    assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername());
+    assertEquals(expectedEntity.getPassword(), returnedEntity.getPassword());
+    assertEquals(expectedEntity.getEmail(), returnedEntity.getEmail());
+    assertEquals(expectedEntity.getFirstName(), returnedEntity.getFirstName());
+    assertEquals(expectedEntity.getLastName(), returnedEntity.getLastName());
+    assertEquals(expectedEntity.getLastLogin(), returnedEntity.getLastLogin());
+    assertTrue(CollectionUtils.isEqualCollection(expectedEntity.getAuthorities(), returnedEntity
+        .getAuthorities()));
   }
 
   private void initSingleTestData() {

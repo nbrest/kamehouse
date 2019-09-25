@@ -26,8 +26,8 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class ApplicationUserServiceTest
-    extends AbstractCrudServiceTest<ApplicationUser, ApplicationUserDto> {
+public class ApplicationUserServiceTest extends
+    AbstractCrudServiceTest<ApplicationUser, ApplicationUserDto> {
 
   private ApplicationUser applicationUser;
   private List<ApplicationUser> applicationUsersList;
@@ -45,7 +45,7 @@ public class ApplicationUserServiceTest
   @Before
   public void beforeTest() {
     testUtils = new ApplicationUserTestUtils();
-    testUtils.initTestData(); 
+    testUtils.initTestData();
     applicationUser = testUtils.getSingleTestData();
     applicationUsersList = testUtils.getTestDataList();
     applicationUserDto = testUtils.getTestDataDto();
@@ -55,11 +55,21 @@ public class ApplicationUserServiceTest
   }
 
   /**
-   * Test for calling the service to create an ApplicationUser in the repository.
+   * Test for calling the service to create an ApplicationUser in the
+   * repository.
    */
   @Test
   public void createTest() {
-    createTest(applicationUserService, applicationUserDaoMock, applicationUser, applicationUserDto);
+    createTest(applicationUserService, applicationUserDaoMock, applicationUser,
+        applicationUserDto);
+  }
+
+  /**
+   * Test for calling the service to get a single ApplicationUser.
+   */
+  @Test
+  public void readTest() {
+    readTest(applicationUserService, applicationUserDaoMock, applicationUser);
   }
 
   /**
@@ -67,13 +77,7 @@ public class ApplicationUserServiceTest
    */
   @Test
   public void readAllTest() {
-    when(applicationUserDaoMock.readAll()).thenReturn(applicationUsersList);
-
-    List<ApplicationUser> returnedApplicationUsers = applicationUserService.readAll();
-
-    assertEquals(applicationUsersList.size(), returnedApplicationUsers.size());
-    assertEquals(applicationUsersList, returnedApplicationUsers);
-    verify(applicationUserDaoMock, times(1)).readAll();
+    readAllTest(applicationUserService, applicationUserDaoMock, applicationUsersList);
   }
 
   /**
@@ -82,11 +86,8 @@ public class ApplicationUserServiceTest
    */
   @Test
   public void updateTest() {
-    Mockito.doNothing().when(applicationUserDaoMock).update(applicationUser);
-
-    applicationUserService.update(applicationUserDto);
-
-    verify(applicationUserDaoMock, times(1)).update(applicationUser);
+    updateTest(applicationUserService, applicationUserDaoMock, applicationUser,
+        applicationUserDto);
   }
 
   /**
@@ -94,12 +95,7 @@ public class ApplicationUserServiceTest
    */
   @Test
   public void deleteTest() {
-    when(applicationUserDaoMock.delete(applicationUser.getId())).thenReturn(applicationUser);
-
-    ApplicationUser deletedUser = applicationUserService.delete(applicationUser.getId());
-
-    assertEquals(applicationUser, deletedUser);
-    verify(applicationUserDaoMock, times(1)).delete(applicationUser.getId());
+    deleteTest(applicationUserService, applicationUserDaoMock, applicationUser);
   }
 
   /**
@@ -108,11 +104,11 @@ public class ApplicationUserServiceTest
    */
   @Test
   public void loadUserByUsernameTest() {
-    when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername()))
-        .thenReturn(applicationUser);
+    when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername())).thenReturn(
+        applicationUser);
 
-    ApplicationUser returnedUser =
-        applicationUserService.loadUserByUsername(applicationUser.getUsername());
+    ApplicationUser returnedUser = applicationUserService.loadUserByUsername(applicationUser
+        .getUsername());
 
     assertNotNull(returnedUser);
     assertEquals(applicationUser, returnedUser);
