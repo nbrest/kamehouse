@@ -139,11 +139,7 @@ public class ApplicationUserDaoJpaTest
    */
   @Test
   public void deleteNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-
-    applicationUserDaoJpa.delete(ApplicationUserTestUtils.INVALID_ID);
+    deleteNotFoundExceptionTest(applicationUserDaoJpa, ApplicationUser.class);
   }
 
   /**

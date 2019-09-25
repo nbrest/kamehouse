@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
 import java.util.List;
 
@@ -99,5 +101,29 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     identifiableEntity.setId(INVALID_ID);
 
     dao.update(entity);
+  }
+
+  /**
+   * Delete entity test.
+   */
+  public void deleteTest(CrudDao<T> dao, T entity) {
+    persistEntityInRepository(entity);
+    Identifiable identifiableEntity = (Identifiable) entity;
+
+    T deletedEntity = dao.delete(identifiableEntity.getId());
+
+    assertEquals(entity, deletedEntity);
+    testUtils.assertEqualsAllAttributes(entity, deletedEntity);
+  }
+
+  /**
+   * Delete entity NotFoundException test.
+   */
+  public void deleteNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage(
+        clazz.getSimpleName() + " with id " + INVALID_ID + " was not found in the repository.");
+
+    dao.delete(INVALID_ID);
   }
 }

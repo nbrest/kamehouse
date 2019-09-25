@@ -89,9 +89,9 @@ public class DragonBallUserDaoJpaTest
   @Test
   public void updateTest() throws IllegalAccessException, InstantiationException,
       InvocationTargetException, NoSuchMethodException {
-    DragonBallUser updatedDragonBallUser = (DragonBallUser) BeanUtils.cloneBean(dragonBallUser);
-    updatedDragonBallUser.setEmail("gokuUpdated@dbz.com");
-    updateTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser, updatedDragonBallUser);
+    DragonBallUser updatedEntity = (DragonBallUser) BeanUtils.cloneBean(dragonBallUser);
+    updatedEntity.setEmail("gokuUpdated@dbz.com");
+    updateTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser, updatedEntity);
   }
 
   /**
@@ -126,11 +126,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void deleteTest() {
-    persistEntityInRepository(dragonBallUser);
-
-    DragonBallUser deletedUser = dragonBallUserDaoJpa.delete(dragonBallUser.getId());
-
-    assertEquals(dragonBallUser, deletedUser);
+    deleteTest(dragonBallUserDaoJpa, dragonBallUser);
   }
 
   /**
@@ -138,11 +134,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void deleteNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-
-    dragonBallUserDaoJpa.delete(DragonBallUserTestUtils.INVALID_ID);
+    deleteNotFoundExceptionTest(dragonBallUserDaoJpa, DragonBallUser.class);
   }
 
   /**

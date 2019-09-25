@@ -234,7 +234,7 @@ public class DragonBallControllerTest
     thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseBadRequestException.class));
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
-    executePut(API_V1_DRAGONBALL_USERS + ApplicationUserTestUtils.INVALID_ID, requestPayload);
+    executePut(API_V1_DRAGONBALL_USERS + DragonBallUserTestUtils.INVALID_ID, requestPayload);
   }
 
   /**
