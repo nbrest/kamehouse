@@ -15,9 +15,9 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
   private static final String NOT_IMPLEMENTED =
       "This method has not been implemented by this test utils class.";
 
-  protected T singleTestData;
-  protected List<T> testDataList;
-  protected D testDataDto;
+  protected T singleTestData = null;
+  protected List<T> testDataList = null;
+  protected D testDataDto = null;
   
   @Override
   public void initTestData() {

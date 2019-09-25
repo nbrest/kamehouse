@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.testutils;
 
+import static org.junit.Assert.assertEquals;
+
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
@@ -32,8 +34,12 @@ public class DragonBallUserTestUtils extends AbstractTestUtils<DragonBallUser, D
   @Override
   public void assertEqualsAllAttributes(DragonBallUser expectedEntity,
       DragonBallUser returnedEntity) {
-    // TODO Auto-generated method stub
-
+    assertEquals(expectedEntity.getId(), returnedEntity.getId());
+    assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername());
+    assertEquals(expectedEntity.getEmail(), returnedEntity.getEmail());
+    assertEquals(expectedEntity.getAge(), returnedEntity.getAge());
+    assertEquals(expectedEntity.getPowerLevel(), returnedEntity.getPowerLevel());
+    assertEquals(expectedEntity.getStamina(), returnedEntity.getStamina());
   }
 
   private void initSingleTestData() {

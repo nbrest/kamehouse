@@ -82,6 +82,6 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
 
     T returnedEntity = findById(clazz, identifiableUpdatedEntity.getId());
     assertEquals(entity, returnedEntity);
-    testUtils.assertEqualsAllAttributes(entity, returnedEntity);
+    testUtils.assertEqualsAllAttributes(updatedEntity, returnedEntity);
   }
 }
