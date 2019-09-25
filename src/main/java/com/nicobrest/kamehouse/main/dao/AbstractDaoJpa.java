@@ -36,7 +36,7 @@ public abstract class AbstractDaoJpa {
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
   private static final String ILLEGAL_ARGUMENT =
       "IllegalArgumentException. There was an error in the input of the request.";
-
+    
   @Autowired
   private EntityManagerFactory entityManagerFactory;
 
@@ -57,17 +57,17 @@ public abstract class AbstractDaoJpa {
    */
   protected <T> List<T> findAll(Class<T> clazz) {
     EntityManager em = getEntityManager();
-    List<T> listOfEntities = null;
+    List<T> entitiesList = null;
     try {
       em.getTransaction().begin();
-      listOfEntities = em.createQuery("from " + clazz.getSimpleName(), clazz).getResultList();
+      entitiesList = em.createQuery("from " + clazz.getSimpleName(), clazz).getResultList();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException(PERSISTENCE_EXCEPTION, pe);
     } finally {
       em.close();
     }
-    return listOfEntities;
+    return entitiesList;
   }
 
   /**

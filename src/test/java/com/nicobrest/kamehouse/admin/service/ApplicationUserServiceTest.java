@@ -26,11 +26,12 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class ApplicationUserServiceTest extends AbstractCrudServiceTest {
+public class ApplicationUserServiceTest
+    extends AbstractCrudServiceTest<ApplicationUser, ApplicationUserDto> {
 
-  private static ApplicationUser applicationUser;
-  private static List<ApplicationUser> applicationUsersList;
-  private static ApplicationUserDto applicationUserDto;
+  private ApplicationUser applicationUser;
+  private List<ApplicationUser> applicationUsersList;
+  private ApplicationUserDto applicationUserDto;
 
   @InjectMocks
   private ApplicationUserService applicationUserService;
@@ -43,10 +44,11 @@ public class ApplicationUserServiceTest extends AbstractCrudServiceTest {
    */
   @Before
   public void beforeTest() {
-    ApplicationUserTestUtils.initTestData();
-    applicationUser = ApplicationUserTestUtils.getSingleTestData();
-    applicationUsersList = ApplicationUserTestUtils.getTestDataList();
-    applicationUserDto = ApplicationUserTestUtils.getTestDataDto();
+    testUtils = new ApplicationUserTestUtils();
+    testUtils.initTestData(); 
+    applicationUser = testUtils.getSingleTestData();
+    applicationUsersList = testUtils.getTestDataList();
+    applicationUserDto = testUtils.getTestDataDto();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserDaoMock);

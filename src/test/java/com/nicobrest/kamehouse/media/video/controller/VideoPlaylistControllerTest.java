@@ -37,10 +37,11 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class VideoPlaylistControllerTest extends AbstractControllerTest {
+public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
   
   private static final String API_V1_MEDIA_VIDEO_PLAYLISTS =
       VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLISTS;
+  private List<Playlist> videoPlaylistsList;
   
   @InjectMocks
   private VideoPlaylistController videoPlaylistController;
@@ -48,12 +49,11 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest {
   @Mock
   private VideoPlaylistService videoPlaylistService;
 
-  private List<Playlist> videoPlaylistsList;
-
   @Before
   public void beforeTest() {
-    VideoPlaylistTestUtils.initTestData(); 
-    videoPlaylistsList = VideoPlaylistTestUtils.getTestDataList();
+    testUtils = new VideoPlaylistTestUtils();
+    testUtils.initTestData(); 
+    videoPlaylistsList = testUtils.getTestDataList();
     
     MockitoAnnotations.initMocks(this);
     Mockito.reset(videoPlaylistService);

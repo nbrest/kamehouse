@@ -5,7 +5,9 @@ import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
 import org.junit.Before;
@@ -27,7 +29,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoInMemoryTest {
 
-  private static DragonBallUser dragonBallUser;
+  private TestUtils<DragonBallUser, DragonBallUserDto> testUtils;
+  private DragonBallUser dragonBallUser;
 
   @Autowired
   @Qualifier("dragonBallUserDaoInMemory")
@@ -41,8 +44,9 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Before
   public void setUp() {
-    DragonBallUserTestUtils.initTestData();
-    dragonBallUser = DragonBallUserTestUtils.getSingleTestData();
+    testUtils = new DragonBallUserTestUtils();
+    testUtils.initTestData();
+    dragonBallUser = testUtils.getSingleTestData();
     DragonBallUserDaoInMemory.initRepository();
   }
 

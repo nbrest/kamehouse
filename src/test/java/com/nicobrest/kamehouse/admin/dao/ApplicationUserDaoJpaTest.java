@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
 import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
-import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 
 import org.junit.Before;
@@ -25,10 +25,11 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
+public class ApplicationUserDaoJpaTest
+    extends AbstractCrudDaoJpaTest<ApplicationUser, ApplicationUserDto> {
 
-  private static ApplicationUser applicationUser;
-  private static List<ApplicationUser> applicationUsersList;
+  private ApplicationUser applicationUser;
+  private List<ApplicationUser> applicationUsersList;
 
   @Autowired
   private ApplicationUserDao applicationUserDaoJpa;
@@ -38,9 +39,11 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Before
   public void setUp() {
-    ApplicationUserTestUtils.initTestData();
-    applicationUser = ApplicationUserTestUtils.getSingleTestData();
-    applicationUsersList = ApplicationUserTestUtils.getTestDataList();
+    testUtils = new ApplicationUserTestUtils();
+    testUtils.initTestData();
+    applicationUser = testUtils.getSingleTestData();
+    applicationUsersList = testUtils.getTestDataList();
+    
     clearTable("APPLICATION_ROLE");
     clearTable("APPLICATION_USER");
   }
@@ -58,12 +61,7 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Test
   public void createConflictExceptionTest() {
-    thrown.expect(KameHouseConflictException.class);
-    thrown.expectMessage("ConstraintViolationException: Error inserting data");
-    applicationUserDaoJpa.create(applicationUser);
-    applicationUser.setId(null);
-
-    applicationUserDaoJpa.create(applicationUser);
+    createConflictExceptionTest(applicationUserDaoJpa, applicationUser);
   }
 
   /**
@@ -71,9 +69,10 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Test
   public void readTest() {
+    // TODO: Use the abstracted method once I fix persistence in the model.
     Long createId = mergeEntityInRepository(applicationUser).getId();
     applicationUser.setId(createId);
-    
+
     ApplicationUser returnedUser = applicationUserDaoJpa.read(createId);
 
     assertNotNull(returnedUser);
@@ -84,23 +83,25 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    * Test for getting all the ApplicationUsers in the repository.
    */
   @Test
-  public void readAllTest() { 
-    for(ApplicationUser applicationUser : applicationUsersList) {
+  public void readAllTest() {
+    // TODO: Use the abstracted method once I fix persistence in the model.
+    for (ApplicationUser applicationUser : applicationUsersList) {
       Long createdId = mergeEntityInRepository(applicationUser).getId();
       applicationUser.setId(createdId);
     }
-    
+
     List<ApplicationUser> returnedUsersList = applicationUserDaoJpa.readAll();
-    
+
     assertEquals(applicationUsersList.size(), returnedUsersList.size());
     assertEquals(applicationUsersList, returnedUsersList);
   }
-  
+
   /**
    * Test for updating an existing user in the repository.
    */
   @Test
   public void updateTest() {
+    // TODO: Use the abstracted method once I fix persistence in the model.
     ApplicationUser userToUpdate = mergeEntityInRepository(applicationUser);
     userToUpdate.setEmail("updatedGoku@dbz.com");
     userToUpdate.getAuthorities();
@@ -129,6 +130,7 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Test
   public void deleteTest() {
+    // TODO: Use the abstracted method once I fix persistence in the model.
     Long userToDeleteId = mergeEntityInRepository(applicationUser).getId();
     applicationUser.setId(userToDeleteId);
 
@@ -148,7 +150,7 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
 
     applicationUserDaoJpa.delete(ApplicationUserTestUtils.INVALID_ID);
   }
-  
+
   /**
    * Test for getting a single ApplicationUser in the repository by username.
    */
@@ -156,8 +158,8 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
   public void loadUserByUsernameTest() {
     mergeEntityInRepository(applicationUser);
 
-    ApplicationUser returnedUser = applicationUserDaoJpa.loadUserByUsername(applicationUser
-        .getUsername());
+    ApplicationUser returnedUser =
+        applicationUserDaoJpa.loadUserByUsername(applicationUser.getUsername());
 
     assertNotNull(returnedUser);
     applicationUser.setId(returnedUser.getId());
@@ -165,8 +167,7 @@ public class ApplicationUserDaoJpaTest extends AbstractCrudDaoJpaTest {
   }
 
   /**
-   * Test for getting a single ApplicationUser in the repository Exception
-   * flows.
+   * Test for getting a single ApplicationUser in the repository Exception flows.
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {

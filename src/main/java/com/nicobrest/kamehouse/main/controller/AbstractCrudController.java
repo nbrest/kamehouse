@@ -38,8 +38,8 @@ public abstract class AbstractCrudController extends AbstractController {
    */
   protected <D, E> ResponseEntity<List<E>> readAll(String endpoint, CrudService<E, D> service) {
     logger.trace("{} (GET)", endpoint);
-    List<E> listOfEntities = service.readAll();
-    return generateGetResponseEntity(listOfEntities);
+    List<E> entitiesList = service.readAll();
+    return generateGetResponseEntity(entitiesList);
   }
 
   /**

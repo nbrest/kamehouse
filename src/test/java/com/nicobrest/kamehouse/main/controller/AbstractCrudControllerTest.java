@@ -18,12 +18,12 @@ import org.springframework.mock.web.MockHttpServletResponse;
  * @author nbrest
  *
  */
-public abstract class AbstractCrudControllerTest extends AbstractControllerTest {
+public abstract class AbstractCrudControllerTest<E, D> extends AbstractControllerTest<E, D> {
 
   /**
    * Create entity test.
    */
-  protected <E, D> void createTest(String url, CrudService<E, D> service, E entity, D dto)
+  protected void createTest(String url, CrudService<E, D> service, E entity, D dto)
       throws Exception {
     Identifiable identifiableEntity = (Identifiable) entity;
     Mockito.doReturn(identifiableEntity.getId()).when(service).create(dto);

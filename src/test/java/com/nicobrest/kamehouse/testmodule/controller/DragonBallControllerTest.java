@@ -52,13 +52,14 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class DragonBallControllerTest extends AbstractCrudControllerTest {
+public class DragonBallControllerTest
+    extends AbstractCrudControllerTest<DragonBallUser, DragonBallUserDto> {
 
   public static final String API_V1_DRAGONBALL_USERS =
       DragonBallUserTestUtils.API_V1_DRAGONBALL_USERS;
-  private static DragonBallUser dragonBallUser;
-  private static DragonBallUserDto dragonBallUserDto;
-  private static List<DragonBallUser> dragonBallUsersList;
+  private DragonBallUser dragonBallUser;
+  private DragonBallUserDto dragonBallUserDto;
+  private List<DragonBallUser> dragonBallUsersList;
 
   @InjectMocks
   private DragonBallController dragonBallController;
@@ -72,7 +73,6 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   @BeforeClass
   public static void beforeClassTest() {
     /* Initialization tasks that happen once for all tests. */
-    DragonBallUserTestUtils.initTestData();
   }
 
   /**
@@ -80,11 +80,12 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
    */
   @Before
   public void beforeTest() {
-    DragonBallUserTestUtils.initTestData();
-    DragonBallUserTestUtils.setIds();
-    dragonBallUser = DragonBallUserTestUtils.getSingleTestData();
-    dragonBallUserDto = DragonBallUserTestUtils.getTestDataDto();
-    dragonBallUsersList = DragonBallUserTestUtils.getTestDataList();
+    testUtils = new DragonBallUserTestUtils(); 
+    testUtils.initTestData();
+    testUtils.setIds();
+    dragonBallUser = testUtils.getSingleTestData();
+    dragonBallUserDto = testUtils.getTestDataDto();
+    dragonBallUsersList = testUtils.getTestDataList();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(dragonBallUserServiceMock);
@@ -119,15 +120,15 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   }
 
   /**
-   * /dragonball/users (POST) Test creating a new DragonBallUser in the
-   * repository that already exists.
+   * /dragonball/users (POST) Test creating a new DragonBallUser in the repository
+   * that already exists.
    */
   @Test
   public void createConflictExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseConflictException.class));
-    Mockito.doThrow(new KameHouseConflictException("")).when(dragonBallUserServiceMock).create(
-        dragonBallUserDto);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseConflictException.class));
+    Mockito.doThrow(new KameHouseConflictException("")).when(dragonBallUserServiceMock)
+        .create(dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     executePost(API_V1_DRAGONBALL_USERS, requestPayload);
@@ -141,8 +142,7 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   public void readTest() throws Exception {
     when(dragonBallUserServiceMock.read(dragonBallUser.getId())).thenReturn(dragonBallUser);
 
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + dragonBallUser
-        .getId());
+    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + dragonBallUser.getId());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -176,7 +176,7 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   @Test
   public void readAllExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseException.class));
 
     executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
   }
@@ -188,7 +188,7 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   @Test
   public void readAllNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
 
     executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
   }
@@ -202,8 +202,8 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
     Mockito.doNothing().when(dragonBallUserServiceMock).update(dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
-    MockHttpServletResponse response = executePut(API_V1_DRAGONBALL_USERS + dragonBallUserDto
-        .getId(), requestPayload);
+    MockHttpServletResponse response =
+        executePut(API_V1_DRAGONBALL_USERS + dragonBallUserDto.getId(), requestPayload);
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(dragonBallUserServiceMock, times(1)).update(any());
@@ -216,37 +216,37 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock).update(
-        dragonBallUserDto);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
+    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
+        .update(dragonBallUserDto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     executePut(API_V1_DRAGONBALL_USERS + dragonBallUserDto.getId(), requestPayload);
   }
 
   /**
-   * /dragonball/users/{id} (PUT) Tests failing to update an existing user in
-   * the repository with forbidden access.
+   * /dragonball/users/{id} (PUT) Tests failing to update an existing user in the
+   * repository with forbidden access.
    */
   @Test
   public void updateForbiddenExceptionTest() throws IOException, Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseBadRequestException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseBadRequestException.class));
     byte[] requestPayload = JsonUtils.toJsonByteArray(dragonBallUserDto);
 
     executePut(API_V1_DRAGONBALL_USERS + ApplicationUserTestUtils.INVALID_ID, requestPayload);
   }
 
   /**
-   * /dragonball/users/{id} (DELETE) Tests for deleting an existing user from
-   * the repository.
+   * /dragonball/users/{id} (DELETE) Tests for deleting an existing user from the
+   * repository.
    */
   @Test
   public void deleteTest() throws Exception {
     when(dragonBallUserServiceMock.delete(dragonBallUserDto.getId())).thenReturn(dragonBallUser);
 
-    MockHttpServletResponse response = executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUserDto
-        .getId());
+    MockHttpServletResponse response =
+        executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUserDto.getId());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -261,9 +261,9 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   @Test
   public void deleteNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock).delete(
-        dragonBallUser.getId());
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
+    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
+        .delete(dragonBallUser.getId());
 
     executeDelete(API_V1_DRAGONBALL_USERS + dragonBallUser.getId());
   }
@@ -274,11 +274,11 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
    */
   @Test
   public void getByUsernameTest() throws Exception {
-    when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername())).thenReturn(
-        dragonBallUser);
+    when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername()))
+        .thenReturn(dragonBallUser);
 
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "username/"
-        + dragonBallUser.getUsername());
+    MockHttpServletResponse response =
+        executeGet(API_V1_DRAGONBALL_USERS + "username/" + dragonBallUser.getUsername());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -286,13 +286,13 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   }
 
   /**
-   * /dragonball/users/username/{username} (GET) Tests user not found when
-   * getting a specific user from the repository.
+   * /dragonball/users/username/{username} (GET) Tests user not found when getting
+   * a specific user from the repository.
    */
   @Test
   public void getByUsernameNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
         .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 
@@ -300,16 +300,16 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   }
 
   /**
-   * /dragonball/users/emails/{email} (GET) Tests getting a specific user from
-   * the repository by email.
+   * /dragonball/users/emails/{email} (GET) Tests getting a specific user from the
+   * repository by email.
    */
   @Test
   public void getByEmailTest() throws Exception {
-    when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail())).thenReturn(
-        dragonBallUser);
+    when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail()))
+        .thenReturn(dragonBallUser);
 
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "emails/"
-        + dragonBallUser.getEmail());
+    MockHttpServletResponse response =
+        executeGet(API_V1_DRAGONBALL_USERS + "emails/" + dragonBallUser.getEmail());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -317,10 +317,9 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
   }
 
   /**
-   * /dragonball/model-and-view (GET) Test the endpoint
-   * /dragonball/model-and-view with the HTTP method GET. The service should
-   * respond with HTTP status 200 OK and a view defined in
-   * dragonball/modelAndView.jsp.
+   * /dragonball/model-and-view (GET) Test the endpoint /dragonball/model-and-view
+   * with the HTTP method GET. The service should respond with HTTP status 200 OK
+   * and a view defined in dragonball/modelAndView.jsp.
    */
   @Test
   public void getModelAndViewTest() throws Exception {
@@ -343,7 +342,7 @@ public class DragonBallControllerTest extends AbstractCrudControllerTest {
    * assertFalse([message,] boolean condition) assertEquals([message,] //
    * expected, actual) assertEquals([message,] expected, actual, tolerance) //
    * assertNull([message,] object) assertNotNull([message,] object) //
-   * assertSame([message,] expected, actual) assertNotSame([message,] //
-   * expected, actual) }
+   * assertSame([message,] expected, actual) assertNotSame([message,] // expected,
+   * actual) }
    */
 }

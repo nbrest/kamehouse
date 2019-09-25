@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
+import com.nicobrest.kamehouse.main.testutils.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,7 +21,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class ApplicationUserDaoInMemoryTest {
 
-  private static ApplicationUser applicationUser;
+  private TestUtils<ApplicationUser, ApplicationUserDto> testUtils;
+  private ApplicationUser applicationUser;
   private ApplicationUserDaoInMemory applicationUserDao;
 
   @Rule
@@ -30,8 +33,9 @@ public class ApplicationUserDaoInMemoryTest {
    */
   @Before
   public void init() {
-    ApplicationUserTestUtils.initTestData();
-    applicationUser = ApplicationUserTestUtils.getSingleTestData();
+    testUtils = new ApplicationUserTestUtils();
+    testUtils.initTestData();
+    applicationUser = testUtils.getSingleTestData();
     applicationUserDao = new ApplicationUserDaoInMemory();
   }
 
@@ -116,7 +120,7 @@ public class ApplicationUserDaoInMemoryTest {
     assertNotNull(user);
     assertEquals("admin", user.getUsername());
   }
-  
+
   /**
    * Test for getting a single ApplicationUser in the repository Exception flows.
    */

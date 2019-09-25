@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.main.testutils.TestUtils;
 
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -29,9 +30,10 @@ import java.util.List;
  * @author nbrest
  *
  */
-public abstract class AbstractControllerTest {
+public abstract class AbstractControllerTest<E, D> {
 
   protected MockMvc mockMvc;
+  protected TestUtils<E, D> testUtils;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();

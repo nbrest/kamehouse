@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 
 import com.nicobrest.kamehouse.main.dao.CrudDao;
 import com.nicobrest.kamehouse.main.dao.Identifiable;
+import com.nicobrest.kamehouse.main.testutils.TestUtils;
 
 import org.mockito.Mockito;
 
@@ -15,12 +16,14 @@ import org.mockito.Mockito;
  * @author nbrest
  *
  */
-public abstract class AbstractCrudServiceTest {
+public abstract class AbstractCrudServiceTest<E, D> {
 
+  protected TestUtils<E, D> testUtils;
+  
   /**
    * Create entity test.
    */
-  protected <E, D> void createTest(CrudService<E, D> service, CrudDao<E> dao, E entity, D dto) {
+  protected void createTest(CrudService<E, D> service, CrudDao<E> dao, E entity, D dto) {
     Identifiable identifiableEntity = (Identifiable) entity;
     Mockito.doReturn(identifiableEntity.getId()).when(dao).create(entity);
 

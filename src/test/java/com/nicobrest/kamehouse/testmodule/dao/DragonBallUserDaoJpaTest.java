@@ -4,12 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
-import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -26,10 +28,11 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class DragonBallUserDaoJpaTest extends AbstractCrudDaoJpaTest {
+public class DragonBallUserDaoJpaTest
+    extends AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
 
-  private static DragonBallUser dragonBallUser;
-  private static List<DragonBallUser> dragonBallUsersList;
+  private DragonBallUser dragonBallUser;
+  private List<DragonBallUser> dragonBallUsersList;
 
   @Autowired
   private DragonBallUserDao dragonBallUserDaoJpa;
@@ -39,10 +42,11 @@ public class DragonBallUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Before
   public void setUp() {
-    DragonBallUserTestUtils.initTestData();
-    DragonBallUserTestUtils.removeIds();
-    dragonBallUser = DragonBallUserTestUtils.getSingleTestData();
-    dragonBallUsersList = DragonBallUserTestUtils.getTestDataList();
+    testUtils = new DragonBallUserTestUtils();
+    testUtils.initTestData();
+    testUtils.removeIds();
+    dragonBallUser = testUtils.getSingleTestData();
+    dragonBallUsersList = testUtils.getTestDataList();
 
     clearTable("DRAGONBALL_USER");
   }
@@ -60,12 +64,7 @@ public class DragonBallUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Test
   public void createConflictExceptionTest() {
-    thrown.expect(KameHouseConflictException.class);
-    thrown.expectMessage("ConstraintViolationException: Error inserting data");
-    dragonBallUserDaoJpa.create(dragonBallUser);
-    dragonBallUser.setId(null);
-
-    dragonBallUserDaoJpa.create(dragonBallUser);
+    createConflictExceptionTest(dragonBallUserDaoJpa, dragonBallUser);
   }
 
   /**
@@ -73,12 +72,7 @@ public class DragonBallUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Test
   public void readTest() {
-    persistEntityInRepository(dragonBallUser);
-
-    DragonBallUser returnedUser = dragonBallUserDaoJpa.read(dragonBallUser.getId());
-
-    assertNotNull(returnedUser);
-    assertEquals(dragonBallUser, returnedUser);
+    readTest(dragonBallUserDaoJpa, dragonBallUser);
   }
 
   /**
@@ -86,28 +80,18 @@ public class DragonBallUserDaoJpaTest extends AbstractCrudDaoJpaTest {
    */
   @Test
   public void readAllTest() {
-    for (DragonBallUser dragonBallUserToAdd : dragonBallUsersList) {
-      persistEntityInRepository(dragonBallUserToAdd);
-    }
-
-    List<DragonBallUser> returnedList = dragonBallUserDaoJpa.readAll();
-
-    assertEquals(dragonBallUsersList.size(), returnedList.size());
-    assertEquals(dragonBallUsersList, returnedList);
+    readAllTest(dragonBallUserDaoJpa, dragonBallUsersList);
   }
 
   /**
    * Test for updating an existing user in the repository.
    */
   @Test
-  public void updateTest() {
-    persistEntityInRepository(dragonBallUser);
-    dragonBallUser.setEmail("gokuUpdated@dbz.com");
-
-    dragonBallUserDaoJpa.update(dragonBallUser);
-
-    DragonBallUser updatedUser = dragonBallUserDaoJpa.read(dragonBallUser.getId());
-    assertEquals(dragonBallUser, updatedUser);
+  public void updateTest() throws IllegalAccessException, InstantiationException,
+      InvocationTargetException, NoSuchMethodException {
+    DragonBallUser updatedDragonBallUser = (DragonBallUser) BeanUtils.cloneBean(dragonBallUser);
+    updatedDragonBallUser.setEmail("gokuUpdated@dbz.com");
+    updateTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser, updatedDragonBallUser);
   }
 
   /**

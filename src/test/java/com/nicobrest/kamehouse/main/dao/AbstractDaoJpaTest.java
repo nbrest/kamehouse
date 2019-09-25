@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.main.dao;
 
+import com.nicobrest.kamehouse.main.testutils.TestUtils;
+
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -14,11 +16,13 @@ import javax.persistence.Query;
  * @author nbrest
  *
  */
-public abstract class AbstractDaoJpaTest extends AbstractDaoJpa {
+public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
+  protected TestUtils<T, D> testUtils;
+  
   /**
    * Clear all table data for the specified table.
    */
@@ -32,7 +36,7 @@ public abstract class AbstractDaoJpaTest extends AbstractDaoJpa {
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    // Method defined here as it's not required in child test classes.
+  protected <E> void updateEntityValues(E persistedEntity, E entity) {
+    // Method required by AbstractDaoJpa overriden here as it's not needed in child test classes.
   }
 }
