@@ -5,8 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
-import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
 import java.util.List;
 
