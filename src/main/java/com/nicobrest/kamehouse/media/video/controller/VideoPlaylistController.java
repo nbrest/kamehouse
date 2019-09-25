@@ -31,7 +31,7 @@ public class VideoPlaylistController extends AbstractController {
   @GetMapping(path = "/playlists")
   @ResponseBody
   public ResponseEntity<List<Playlist>> readAll() {
-    logger.trace("In controller /api/v1/media/video/playlists (GET)");
+    logger.trace("/api/v1/media/video/playlists (GET)");
     List<Playlist> videoPlaylists = videoPlaylistService.readAll();
     return generateGetResponseEntity(videoPlaylists);
   }

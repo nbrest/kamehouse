@@ -37,7 +37,7 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> startVlcPlayer(
       @RequestBody AdminCommand vlcStartAdminCommand) {
-    logger.trace("In controller /api/v1/admin/vlc (POST)");
+    logger.trace("/api/v1/admin/vlc (POST)");
     return executeAdminCommand(adminCommandService, vlcStartAdminCommand, AdminCommand.VLC_START);
   }
 

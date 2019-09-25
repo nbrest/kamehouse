@@ -39,7 +39,7 @@ public class EhCacheController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<Map<String, Object>>> read(@RequestParam(value = "name",
       required = false) String cacheName) {
-    logger.trace("In controller /api/v1/admin/ehcache (GET)");
+    logger.trace("/api/v1/admin/ehcache (GET)");
     List<Map<String, Object>> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
       cacheList = new ArrayList<>();
@@ -59,7 +59,7 @@ public class EhCacheController extends AbstractController {
   @DeleteMapping
   public ResponseEntity<Void> clear(@RequestParam(value = "name",
       required = false) String cacheName) {
-    logger.trace("In controller /api/v1/admin/ehcache (DELETE)");
+    logger.trace("/api/v1/admin/ehcache (DELETE)");
     if (!StringUtils.isBlank(cacheName)) {
       ehCacheService.clear(cacheName);
     } else {

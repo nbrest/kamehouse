@@ -51,7 +51,7 @@ public class ViewResolverController extends AbstractController {
       staticHtmlToLoad = staticHtmlToLoad + ".html";
     }
 
-    logger.trace("In controller import-static (GET) with request '{}' Loading static html: '{}'",
+    logger.trace("/include-static (GET) with request '{}' Loading static html: '{}'",
         request.getServletPath(), staticHtmlToLoad);
 
     ModelAndView modelAndView = new ModelAndView();
@@ -65,7 +65,7 @@ public class ViewResolverController extends AbstractController {
    */
   @GetMapping(path = "/login")
   public String loginPage() {
-    logger.trace("In controller /login (GET)");
+    logger.trace("/login (GET)");
     return "/login";
   }
 
@@ -74,7 +74,7 @@ public class ViewResolverController extends AbstractController {
    */
   @GetMapping(path = "/logout")
   public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /logout (GET)");
+    logger.trace("/logout (GET)");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
       new SecurityContextLogoutHandler().logout(request, response, authentication);
@@ -89,7 +89,7 @@ public class ViewResolverController extends AbstractController {
    */
   @GetMapping(path = "/test-module/jsp/**")
   public String testModuleJsp(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("In controller /test-module/jsp/** (GET) with path: {}", request.getServletPath());
+    logger.trace("/test-module/jsp/** (GET) with path: {}", request.getServletPath());
     if (request.getServletPath().equals("/test-module/jsp/")) {
       return "/test-module/jsp/index";
     } else {
