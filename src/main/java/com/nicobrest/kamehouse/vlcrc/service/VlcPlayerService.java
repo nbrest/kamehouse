@@ -19,7 +19,7 @@ import java.util.List;
  *
  */
 @Service
-public class VlcPlayerService extends AbstractCrudService implements
+public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDto> implements
     CrudService<VlcPlayer, VlcPlayerDto> {
 
   @Autowired
@@ -67,19 +67,18 @@ public class VlcPlayerService extends AbstractCrudService implements
   }
 
   @Override
-  protected <E, D> E getModel(D dto) {
-    VlcPlayerDto vlcPlayerDto = (VlcPlayerDto) dto;
+  protected VlcPlayer getModel(VlcPlayerDto vlcPlayerDto) {
     VlcPlayer vlcPlayer = new VlcPlayer();
     vlcPlayer.setHostname(vlcPlayerDto.getHostname());
     vlcPlayer.setId(vlcPlayerDto.getId());
     vlcPlayer.setPassword(vlcPlayerDto.getPassword());
     vlcPlayer.setPort(vlcPlayerDto.getPort());
     vlcPlayer.setUsername(vlcPlayerDto.getUsername());
-    return (E) vlcPlayer;
+    return vlcPlayer;
   }
 
   @Override
-  protected <E> void validate(E entity) {
+  protected void validate(VlcPlayer entity) {
     // No validations added yet to VlcPlayer.
   }
 }

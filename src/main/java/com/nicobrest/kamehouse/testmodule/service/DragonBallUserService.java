@@ -20,7 +20,7 @@ import java.util.List;
  * @author nbrest
  */
 @Service
-public class DragonBallUserService extends AbstractCrudService
+public class DragonBallUserService extends AbstractCrudService<DragonBallUser, DragonBallUserDto>
     implements CrudService<DragonBallUser, DragonBallUserDto> {
 
   @Autowired
@@ -75,8 +75,7 @@ public class DragonBallUserService extends AbstractCrudService
   }
 
   @Override
-  protected <E, D> E getModel(D dto) {
-    DragonBallUserDto dragonBallUserDto = (DragonBallUserDto) dto;
+  protected DragonBallUser getModel(DragonBallUserDto dragonBallUserDto) {
     DragonBallUser dragonBallUser = new DragonBallUser();
     dragonBallUser.setAge(dragonBallUserDto.getAge());
     dragonBallUser.setEmail(dragonBallUserDto.getEmail());
@@ -84,12 +83,11 @@ public class DragonBallUserService extends AbstractCrudService
     dragonBallUser.setPowerLevel(dragonBallUserDto.getPowerLevel());
     dragonBallUser.setStamina(dragonBallUserDto.getStamina());
     dragonBallUser.setUsername(dragonBallUserDto.getUsername());
-    return (E) dragonBallUser;
+    return dragonBallUser;
   }
 
   @Override
-  protected <E> void validate(E entity) {
-    DragonBallUser dragonBallUser = (DragonBallUser) entity;
+  protected void validate(DragonBallUser dragonBallUser) {
     UserValidator.validateUsernameFormat(dragonBallUser.getUsername());
     UserValidator.validateEmailFormat(dragonBallUser.getEmail());
     UserValidator.validateStringLength(dragonBallUser.getUsername());

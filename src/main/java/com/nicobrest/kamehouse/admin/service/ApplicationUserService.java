@@ -29,8 +29,9 @@ import java.util.Set;
  *
  */
 @Service
-public class ApplicationUserService extends AbstractCrudService
-    implements CrudService<ApplicationUser, ApplicationUserDto>, UserDetailsService {
+public class ApplicationUserService extends
+    AbstractCrudService<ApplicationUser, ApplicationUserDto> implements
+    CrudService<ApplicationUser, ApplicationUserDto>, UserDetailsService {
 
   @Autowired
   @Qualifier("applicationUserDaoJpa")
@@ -95,8 +96,7 @@ public class ApplicationUserService extends AbstractCrudService
   }
 
   @Override
-  protected <E, D> E getModel(D dto) {
-    ApplicationUserDto applicationUserDto = (ApplicationUserDto) dto;
+  protected ApplicationUser getModel(ApplicationUserDto applicationUserDto) {
     ApplicationUser applicationUser = new ApplicationUser();
     applicationUser.setAccountNonExpired(applicationUserDto.isAccountNonExpired());
     applicationUser.setAccountNonLocked(applicationUserDto.isAccountNonLocked());
@@ -121,12 +121,11 @@ public class ApplicationUserService extends AbstractCrudService
     applicationUser.setLastName(applicationUserDto.getLastName());
     applicationUser.setPassword(applicationUserDto.getPassword());
     applicationUser.setUsername(applicationUserDto.getUsername());
-    return (E) applicationUser;
+    return applicationUser;
   }
 
   @Override
-  protected <E> void validate(E entity) {
-    ApplicationUser applicationUser = (ApplicationUser) entity;
+  protected void validate(ApplicationUser applicationUser) {
     ApplicationUserValidator.validateFirstNameFormat(applicationUser.getFirstName());
     ApplicationUserValidator.validateLastNameFormat(applicationUser.getLastName());
     UserValidator.validateUsernameFormat(applicationUser.getUsername());
