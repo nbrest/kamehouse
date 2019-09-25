@@ -33,10 +33,8 @@ public class ScreenController extends AbstractSystemCommandController {
   @PostMapping(path = "/lock")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> lockScreen() {
-    logger.trace("In controller /api/v1/admin/screen/lock (POST)");
-    AdminCommand lockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_LOCK);
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(lockScreenAdminCommand); 
-    return generateSystemCommandOutputsResponseEntity(commandOutputs);
+    logger.trace("/api/v1/admin/screen/lock (POST)");
+    return executeAdminCommand(adminCommandService, AdminCommand.SCREEN_LOCK);
   }
 
   /**
@@ -45,11 +43,8 @@ public class ScreenController extends AbstractSystemCommandController {
   @PostMapping(path = "/unlock")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> unlockScreen() {
-    logger.trace("In controller /api/v1/admin/screen/unlock (POST)");
-    AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_UNLOCK);
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
-        unlockScreenAdminCommand);
-    return generateSystemCommandOutputsResponseEntity(commandOutputs);
+    logger.trace("/api/v1/admin/screen/unlock (POST)");
+    return executeAdminCommand(adminCommandService, AdminCommand.SCREEN_UNLOCK);
   }
   
   /**
@@ -58,11 +53,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @PostMapping(path = "/wake-up")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> wakeUpScreen() {
-
-    logger.trace("In controller /api/v1/admin/screen/wake-up (POST)");
-    AdminCommand unlockScreenAdminCommand = new AdminCommand(AdminCommand.SCREEN_WAKE_UP);
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(
-        unlockScreenAdminCommand);
-    return generateSystemCommandOutputsResponseEntity(commandOutputs);
+    logger.trace("/api/v1/admin/screen/wake-up (POST)");
+    return executeAdminCommand(adminCommandService, AdminCommand.SCREEN_WAKE_UP);
   }
 }

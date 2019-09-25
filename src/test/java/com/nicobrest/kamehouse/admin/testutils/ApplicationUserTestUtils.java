@@ -49,8 +49,11 @@ public class ApplicationUserTestUtils extends
     assertEquals(expectedEntity.getFirstName(), returnedEntity.getFirstName());
     assertEquals(expectedEntity.getLastName(), returnedEntity.getLastName());
     assertEquals(expectedEntity.getLastLogin(), returnedEntity.getLastLogin());
-    assertTrue(CollectionUtils.isEqualCollection(expectedEntity.getAuthorities(), returnedEntity
-        .getAuthorities()));
+    assertEquals(expectedEntity.getAuthorities(), returnedEntity.getAuthorities());
+    if (expectedEntity.getAuthorities() != null && returnedEntity.getAuthorities() != null) {
+      assertTrue(CollectionUtils.isEqualCollection(expectedEntity.getAuthorities(), returnedEntity
+          .getAuthorities()));
+    }
   }
 
   private void initSingleTestData() {

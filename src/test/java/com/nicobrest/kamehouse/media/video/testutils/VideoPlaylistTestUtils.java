@@ -1,8 +1,13 @@
 package com.nicobrest.kamehouse.media.video.testutils;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -26,6 +31,18 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
   public void initTestData() {
     initSingleTestData();
     initTestDataList();
+  }
+  
+  @Override
+  public void assertEqualsAllAttributes(Playlist expectedPlaylist, Playlist returnedPlaylist) {
+    assertEquals(expectedPlaylist.getName(), returnedPlaylist.getName());
+    assertEquals(expectedPlaylist.getPath(), returnedPlaylist.getPath());
+    assertEquals(expectedPlaylist.getCategory(), returnedPlaylist.getCategory());
+    assertEquals(expectedPlaylist.getFiles(), returnedPlaylist.getFiles());
+    if (expectedPlaylist.getFiles() != null && returnedPlaylist.getFiles() != null) {
+      assertTrue(CollectionUtils.isEqualCollection(expectedPlaylist.getFiles(), returnedPlaylist
+          .getFiles()));
+    } 
   }
 
   private void initSingleTestData() {

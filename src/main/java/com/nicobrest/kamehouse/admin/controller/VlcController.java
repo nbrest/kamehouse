@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
@@ -39,12 +38,7 @@ public class VlcController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommandOutput>> startVlcPlayer(
       @RequestBody AdminCommand vlcStartAdminCommand) {
     logger.trace("In controller /api/v1/admin/vlc (POST)");
-    if (!AdminCommand.VLC_START.equals(vlcStartAdminCommand.getCommand())) {
-      throw new KameHouseInvalidCommandException("Invalid AdminCommand " + vlcStartAdminCommand
-          .getCommand());
-    }
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStartAdminCommand);
-    return generateSystemCommandOutputsResponseEntity(commandOutputs);
+    return executeAdminCommand(adminCommandService, vlcStartAdminCommand, AdminCommand.VLC_START);
   }
 
   /**
@@ -53,10 +47,8 @@ public class VlcController extends AbstractSystemCommandController {
   @DeleteMapping(path = "/vlc")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> stopVlcPlayer() {
-    logger.trace("In controller /api/v1/admin/vlc (DELETE)");
-    AdminCommand vlcStopAdminCommand = new AdminCommand(AdminCommand.VLC_STOP);
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStopAdminCommand);
-    return generateSystemCommandOutputsResponseEntity(commandOutputs);
+    logger.trace("/api/v1/admin/vlc (DELETE)");
+    return executeAdminCommand(adminCommandService, AdminCommand.VLC_STOP);
   }
 
   /**
@@ -65,9 +57,7 @@ public class VlcController extends AbstractSystemCommandController {
   @GetMapping(path = "/vlc")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusVlcPlayer() {
-    logger.trace("In controller /api/v1/admin/vlc (GET)");
-    AdminCommand vlcStatusAdminCommand = new AdminCommand(AdminCommand.VLC_STATUS);
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(vlcStatusAdminCommand);
-    return generateSystemCommandOutputsResponseEntity(commandOutputs);
+    logger.trace("/api/v1/admin/vlc (GET)");
+    return executeAdminCommand(adminCommandService, AdminCommand.VLC_STATUS);
   }
 }
