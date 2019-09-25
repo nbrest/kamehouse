@@ -20,11 +20,6 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
   protected D testDataDto = null;
   
   @Override
-  public void initTestData() {
-    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
-  }
-  
-  @Override
   public T getSingleTestData() {
     return singleTestData;
   }
