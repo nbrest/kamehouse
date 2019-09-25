@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 
 import java.util.List;
 
@@ -15,19 +16,21 @@ import java.util.List;
  */
 public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T, D> {
 
+  public static final Long INVALID_ID = 987987L;
+
   /**
    * Create entity test.
    */
   protected void createTest(CrudDao<T> dao, Class<T> clazz, T entity) {
     Long createdId = dao.create(entity);
-    
+
     Identifiable identifiableEntity = (Identifiable) entity;
     identifiableEntity.setId(createdId);
     T createdEntity = findById(clazz, createdId);
     assertEquals(entity, createdEntity);
     testUtils.assertEqualsAllAttributes(entity, createdEntity);
   }
-  
+
   /**
    * Create entity ConflictException test.
    */
@@ -40,21 +43,21 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
 
     dao.create(entity);
   }
-  
+
   /**
    * Read entity test.
    */
   public void readTest(CrudDao<T> dao, T entity) {
     persistEntityInRepository(entity);
     Identifiable identifiableEntity = (Identifiable) entity;
-    
+
     T returnedEntity = dao.read(identifiableEntity.getId());
 
     assertNotNull(returnedEntity);
     assertEquals(entity, returnedEntity);
     testUtils.assertEqualsAllAttributes(entity, returnedEntity);
   }
-  
+
   /**
    * Read all entities test.
    */
@@ -68,7 +71,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     assertEquals(entitiesList, returnedList);
     testUtils.assertEqualsAllAttributesList(entitiesList, returnedList);
   }
-  
+
   /**
    * Update entity test.
    */
@@ -77,11 +80,24 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     Identifiable identifiableEntity = (Identifiable) entity;
     Identifiable identifiableUpdatedEntity = (Identifiable) updatedEntity;
     identifiableUpdatedEntity.setId(identifiableEntity.getId());
-    
+
     dao.update(updatedEntity);
 
     T returnedEntity = findById(clazz, identifiableUpdatedEntity.getId());
     assertEquals(entity, returnedEntity);
     testUtils.assertEqualsAllAttributes(updatedEntity, returnedEntity);
+  }
+
+  /**
+   * Update entity NotFoundException test.
+   */
+  public void updateNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz, T entity) {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage(
+        clazz.getSimpleName() + " with id " + INVALID_ID + " was not found in the repository.");
+    Identifiable identifiableEntity = (Identifiable) entity;
+    identifiableEntity.setId(INVALID_ID);
+
+    dao.update(entity);
   }
 }

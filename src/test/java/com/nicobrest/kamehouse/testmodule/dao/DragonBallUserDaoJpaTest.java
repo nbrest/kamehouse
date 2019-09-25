@@ -99,12 +99,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void updateNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-    dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
-
-    dragonBallUserDaoJpa.update(dragonBallUser);
+    updateNotFoundExceptionTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser);
   }
 
   /**

@@ -14,13 +14,10 @@ import java.util.List;
  */
 public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
 
-  private static final String NOT_IMPLEMENTED =
-      "This method has not been implemented by this test utils class.";
-
   protected T singleTestData = null;
   protected List<T> testDataList = null;
   protected D testDataDto = null;
-  
+
   @Override
   public T getSingleTestData() {
     return singleTestData;
@@ -43,7 +40,7 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
       identifiableDto.setId(100L);
     }
     if (testDataList != null) {
-      for (int i = 0 ; i < testDataList.size(); i++) {
+      for (int i = 0; i < testDataList.size(); i++) {
         Identifiable identifiableTestDataEntry = (Identifiable) testDataList.get(i);
         Long id = 100L + i;
         identifiableTestDataEntry.setId(id);
@@ -58,8 +55,8 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
       identifiableDto.setId(null);
     }
     if (testDataList != null) {
-      for (int i = 0 ; i < testDataList.size(); i++) {
-        Identifiable identifiableTestDataEntry = (Identifiable) testDataList.get(i); 
+      for (int i = 0; i < testDataList.size(); i++) {
+        Identifiable identifiableTestDataEntry = (Identifiable) testDataList.get(i);
         identifiableTestDataEntry.setId(null);
       }
     }
@@ -67,9 +64,9 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
 
   @Override
   public void assertEqualsAllAttributes(T expectedEntity, T returnedEntity) {
-    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+    fail("This method needs to be overriden in the concrete test utils to be used.");
   }
-  
+
   @Override
   public void assertEqualsAllAttributesList(List<T> expectedList, List<T> returnedList) {
     if (expectedList == null || returnedList == null) {
@@ -78,7 +75,7 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
     if (expectedList.size() != returnedList.size()) {
       fail("Lists have different sizes");
     }
-    for (int i = 0 ; i < expectedList.size() ; i++) {
+    for (int i = 0; i < expectedList.size(); i++) {
       assertEqualsAllAttributes(expectedList.get(i), returnedList.get(i));
     }
   }

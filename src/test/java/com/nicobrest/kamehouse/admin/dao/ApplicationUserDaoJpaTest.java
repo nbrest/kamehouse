@@ -117,12 +117,7 @@ public class ApplicationUserDaoJpaTest
    */
   @Test
   public void updateNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("ApplicationUser with id " + ApplicationUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-    applicationUser.setId(ApplicationUserTestUtils.INVALID_ID);
-
-    applicationUserDaoJpa.update(applicationUser);
+    updateNotFoundExceptionTest(applicationUserDaoJpa, ApplicationUser.class, applicationUser);
   }
 
   /**
