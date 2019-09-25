@@ -29,7 +29,7 @@ public interface TestUtils<T, D> {
    * Returns a single test data DTO.
    */
   public D getTestDataDto();
-    
+
   /**
    * Sets the ids of all test data.
    */
@@ -45,4 +45,10 @@ public interface TestUtils<T, D> {
    * expected entity.
    */
   public void assertEqualsAllAttributes(T expectedEntity, T returnedEntity);
+
+  /**
+   * Verifies that the lists are identical, checking it's size, and for each
+   * element, checking that all their attributes match.
+   */
+  public void assertEqualsAllAttributesList(List<T> expectedList, List<T> returnedList);
 }

@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.main.testutils;
 
+import static org.junit.Assert.fail;
+
 import com.nicobrest.kamehouse.main.dao.Identifiable;
 
 import java.util.List;
@@ -66,5 +68,18 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
   @Override
   public void assertEqualsAllAttributes(T expectedEntity, T returnedEntity) {
     throw new UnsupportedOperationException(NOT_IMPLEMENTED);
+  }
+  
+  @Override
+  public void assertEqualsAllAttributesList(List<T> expectedList, List<T> returnedList) {
+    if (expectedList == null || returnedList == null) {
+      fail("Received a null list");
+    }
+    if (expectedList.size() != returnedList.size()) {
+      fail("Lists have different sizes");
+    }
+    for (int i = 0 ; i < expectedList.size() ; i++) {
+      assertEqualsAllAttributes(expectedList.get(i), returnedList.get(i));
+    }
   }
 }

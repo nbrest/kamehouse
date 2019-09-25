@@ -65,8 +65,8 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
 
     List<T> returnedList = dao.readAll();
 
-    assertEquals(entitiesList.size(), returnedList.size());
     assertEquals(entitiesList, returnedList);
+    testUtils.assertEqualsAllAttributesList(entitiesList, returnedList);
   }
   
   /**
