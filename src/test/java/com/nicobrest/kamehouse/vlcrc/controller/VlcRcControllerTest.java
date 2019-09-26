@@ -207,15 +207,12 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Test
   public void getPlaylistTest() throws Exception {
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
-
+    List<Map<String, Object>> listClass = new ArrayList<>();
+    
     MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/playlist");
-    List<Map<String, Object>> list = new ArrayList<>();
-    List<Map<String, Object>> responseBody = getResponseBody(response, list.getClass());
+    List<Map<String, Object>> responseBody = getResponseBody(response, listClass.getClass());
 
-    assertEquals(2, responseBody.size());
-    // TODO verify all attributes with test utils.
-    assertEquals(vlcRcPlaylist.get(0).get("name"), responseBody.get(0).get("name"));
-    assertEquals(vlcRcPlaylist.get(1).get("name"), responseBody.get(1).get("name"));
+    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody); 
     verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());
   }
 
@@ -225,19 +222,12 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Test
   public void browseTest() throws Exception {
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
-
+    List<Map<String, Object>> listClass = new ArrayList<>();
+    
     MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/browse");
-    List<Map<String, Object>> list = new ArrayList<>();
-    List<Map<String, Object>> responseBody = getResponseBody(response, list.getClass());
-
-    assertEquals(2, responseBody.size());
-    // TODO verify all attributes with test utils.
-    assertEquals(vlcRcFileList.get(0).get("name"), responseBody.get(0).get("name"));
-    assertEquals(vlcRcFileList.get(0).get("type"), responseBody.get(0).get("type"));
-    assertEquals(vlcRcFileList.get(0).get("uri"), responseBody.get(0).get("uri"));
-    assertEquals(vlcRcFileList.get(1).get("name"), responseBody.get(1).get("name"));
-    assertEquals(vlcRcFileList.get(1).get("type"), responseBody.get(1).get("type"));
-    assertEquals(vlcRcFileList.get(1).get("uri"), responseBody.get(1).get("uri"));
+    List<Map<String, Object>> responseBody = getResponseBody(response, listClass.getClass());
+ 
+    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody); 
     verify(vlcRcServiceMock, times(1)).browse(any(), anyString());
   }
 }

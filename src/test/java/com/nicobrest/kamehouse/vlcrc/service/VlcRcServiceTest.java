@@ -105,10 +105,7 @@ public class VlcRcServiceTest {
 
     List<Map<String, Object>> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
 
-    assertEquals(2, returnedPlaylist.size());
-    // TODO verify all attributes with test utils.
-    assertEquals(vlcRcPlaylist.get(0).get("name"), returnedPlaylist.get(0).get("name"));
-    assertEquals(vlcRcPlaylist.get(1).get("name"), returnedPlaylist.get(1).get("name"));
+    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, returnedPlaylist);
     verify(vlcPlayer, times(1)).getPlaylist();
   }
 
@@ -121,14 +118,7 @@ public class VlcRcServiceTest {
 
     List<Map<String, Object>> returnedFilelist = vlcRcService.browse(null, "niko-nba");
 
-    assertEquals(2, returnedFilelist.size());
-    //TODO verify all attributes with test utils.
-    assertEquals(vlcRcFileList.get(0).get("name"), returnedFilelist.get(0).get("name"));
-    assertEquals(vlcRcFileList.get(0).get("type"), returnedFilelist.get(0).get("type"));
-    assertEquals(vlcRcFileList.get(0).get("uri"), returnedFilelist.get(0).get("uri"));
-    assertEquals(vlcRcFileList.get(1).get("name"), returnedFilelist.get(1).get("name"));
-    assertEquals(vlcRcFileList.get(1).get("type"), returnedFilelist.get(1).get("type"));
-    assertEquals(vlcRcFileList.get(1).get("uri"), returnedFilelist.get(1).get("uri"));
+    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
     verify(vlcPlayer, times(1)).browse(any());
   }
 }

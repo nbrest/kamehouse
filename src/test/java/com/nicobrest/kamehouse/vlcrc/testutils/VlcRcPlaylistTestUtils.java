@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.testutils;
 
+import static org.junit.Assert.assertEquals;
+
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 
@@ -17,10 +19,27 @@ import java.util.Map;
  */
 public class VlcRcPlaylistTestUtils extends AbstractTestUtils<List<Map<String, Object>>, Object>
     implements TestUtils<List<Map<String, Object>>, Object> {
-  
+
   @Override
   public void initTestData() {
     initSingleTestData();
+  }
+
+  @Override
+  public void assertEqualsAllAttributes(List<Map<String, Object>> expected,
+      List<Map<String, Object>> returned) {
+    assertEquals(expected, returned);
+    if (expected != null && returned != null) {
+      assertEquals(expected.size(), returned.size());
+      for (int i = 0; i < expected.size(); i++) {
+        Map<String, Object> expectedItem = expected.get(i);
+        Map<String, Object> returnedItem = returned.get(i);
+        assertEquals(expectedItem.get("id"), returnedItem.get("id"));
+        assertEquals(expectedItem.get("name"), returnedItem.get("name"));
+        assertEquals(expectedItem.get("uri"), returnedItem.get("uri"));
+        assertEquals(expectedItem.get("duration"), returnedItem.get("duration"));
+      }
+    }
   }
 
   private void initSingleTestData() {
