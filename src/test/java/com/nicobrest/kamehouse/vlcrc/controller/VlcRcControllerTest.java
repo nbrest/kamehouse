@@ -249,6 +249,14 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   }
 
   /**
+   * Tests reading a single vlc player.
+   */
+  @Test
+  public void readTest() throws Exception {
+    readTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class, vlcPlayer);
+  }
+
+  /**
    * Tests getting all VLC Players.
    */
   @Test
@@ -273,15 +281,14 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   }
 
   /**
-   * Tests getting a specific VLC Player. 
+   * Tests getting a specific VLC Player.
    */
   @Test
   public void getByHostnameTest() throws Exception {
-    when(vlcPlayerServiceMock.getByHostname(vlcPlayer.getHostname())).thenReturn(
-        vlcPlayer);
+    when(vlcPlayerServiceMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 
-    MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "hostname/"
-        + vlcPlayer.getHostname());
+    MockHttpServletResponse response =
+        executeGet(API_V1_VLCPLAYERS + "hostname/" + vlcPlayer.getHostname());
     VlcPlayer responseBody = getResponseBody(response, VlcPlayer.class);
 
     verifyResponseStatus(response, HttpStatus.OK);

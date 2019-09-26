@@ -111,6 +111,7 @@ public class DragonBallUserServiceTest extends
         .getUsername());
 
     assertEquals(dragonBallUser, returnedUser);
+    testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
     verify(dragonBallUserDaoMock, times(1)).getByUsername(dragonBallUser.getUsername());
   }
 
@@ -125,6 +126,7 @@ public class DragonBallUserServiceTest extends
     DragonBallUser returnedUser = dragonBallUserService.getByEmail(dragonBallUser.getEmail());
 
     assertEquals(dragonBallUser, returnedUser);
+    testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
     verify(dragonBallUserDaoMock, times(1)).getByEmail(dragonBallUser.getEmail());
   }
 }
