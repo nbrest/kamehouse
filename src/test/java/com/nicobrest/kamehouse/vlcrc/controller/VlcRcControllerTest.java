@@ -293,6 +293,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals(vlcPlayer, responseBody);
+    testUtils.assertEqualsAllAttributes(vlcPlayer, responseBody);
   }
 
   /**

@@ -112,6 +112,7 @@ public class ApplicationUserServiceTest extends
 
     assertNotNull(returnedUser);
     assertEquals(applicationUser, returnedUser);
+    testUtils.assertEqualsAllAttributes(applicationUser, returnedUser);
     verify(applicationUserDaoMock, times(1)).loadUserByUsername(applicationUser.getUsername());
   }
 }

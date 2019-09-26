@@ -159,6 +159,7 @@ public class ApplicationUserControllerTest extends
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals(applicationUser, responseBody);
+    testUtils.assertEqualsAllAttributes(applicationUser, responseBody);
   }
 
   /**
