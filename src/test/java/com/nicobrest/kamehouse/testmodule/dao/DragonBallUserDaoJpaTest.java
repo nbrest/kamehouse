@@ -68,7 +68,7 @@ public class DragonBallUserDaoJpaTest
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by id.
+   * Test for getting a single DragonBallUser from the repository by id.
    */
   @Test
   public void readTest() {
@@ -148,6 +148,7 @@ public class DragonBallUserDaoJpaTest
 
     assertNotNull(returnedUser);
     assertEquals(dragonBallUser, returnedUser);
+    testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
   }
 
   /**
@@ -172,6 +173,7 @@ public class DragonBallUserDaoJpaTest
 
     assertNotNull(returnedUser);
     assertEquals(dragonBallUser, returnedUser);
+    testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
   }
 
   /**

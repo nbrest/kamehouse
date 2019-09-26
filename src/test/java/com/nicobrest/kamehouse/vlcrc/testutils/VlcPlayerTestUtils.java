@@ -20,7 +20,7 @@ public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDt
     implements TestUtils<VlcPlayer, VlcPlayerDto> {
 
   public static final String API_V1_VLCPLAYERS = "/api/v1/vlc-rc/players/";
-  public static final Long INVALID_ID = 987987L;
+  public static final String INVALID_HOSTNAME = "yukimura";
 
   @Override
   public void initTestData() {
