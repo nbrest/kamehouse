@@ -26,8 +26,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
-import java.util.List;
-
 /**
  * Unit tests for the ApplicationUserController class.
  *
@@ -42,8 +40,6 @@ public class ApplicationUserControllerTest extends
   private static final String API_V1_ADMIN_APPLICATION_USERS =
       ApplicationUserTestUtils.API_V1_ADMIN_APPLICATION_USERS;
   private ApplicationUser applicationUser;
-  private List<ApplicationUser> applicationUsersList;
-  private ApplicationUserDto applicationUserDto;
 
   @InjectMocks
   private ApplicationUserController applicationUserController;
@@ -60,8 +56,6 @@ public class ApplicationUserControllerTest extends
     testUtils.initTestData();
     testUtils.setIds();
     applicationUser = testUtils.getSingleTestData();
-    applicationUsersList = testUtils.getTestDataList();
-    applicationUserDto = testUtils.getTestDataDto();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserServiceMock);
@@ -73,8 +67,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void createTest() throws Exception {
-    createTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, applicationUser,
-        applicationUserDto);
+    createTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock);
   }
 
   /**
@@ -82,8 +75,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void createConflictExceptionTest() throws Exception {
-    createConflictExceptionTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock,
-        applicationUserDto);
+    createConflictExceptionTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock);
   }
 
   /**
@@ -91,8 +83,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void readTest() throws Exception {
-    readTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, ApplicationUser.class,
-        applicationUser);
+    readTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, ApplicationUser.class);
   }
 
   /**
@@ -100,8 +91,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void readAllTest() throws Exception {
-    readAllTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, ApplicationUser.class,
-        applicationUsersList);
+    readAllTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, ApplicationUser.class);
   }
 
   /**
@@ -109,7 +99,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void updateTest() throws Exception {
-    updateTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, applicationUserDto);
+    updateTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock);
   }
 
   /**
@@ -117,7 +107,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void updateInvalidPathId() throws Exception {
-    updateInvalidPathId(API_V1_ADMIN_APPLICATION_USERS, applicationUserDto);
+    updateInvalidPathId(API_V1_ADMIN_APPLICATION_USERS);
   }
 
   /**
@@ -125,8 +115,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
-    updateNotFoundExceptionTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock,
-        applicationUserDto);
+    updateNotFoundExceptionTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock);
   }
 
   /**
@@ -134,8 +123,7 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void deleteTest() throws Exception {
-    deleteTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, ApplicationUser.class,
-        applicationUser);
+    deleteTest(API_V1_ADMIN_APPLICATION_USERS, applicationUserServiceMock, ApplicationUser.class);
   }
 
   /**

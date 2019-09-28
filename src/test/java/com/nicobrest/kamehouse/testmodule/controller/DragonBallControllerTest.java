@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Unit tests for the DragonBallController class.
@@ -49,8 +48,6 @@ public class DragonBallControllerTest extends
   private static final String API_V1_DRAGONBALL_USERS =
       DragonBallUserTestUtils.API_V1_DRAGONBALL_USERS;
   private DragonBallUser dragonBallUser;
-  private DragonBallUserDto dragonBallUserDto;
-  private List<DragonBallUser> dragonBallUsersList;
 
   @InjectMocks
   private DragonBallController dragonBallController;
@@ -75,8 +72,6 @@ public class DragonBallControllerTest extends
     testUtils.initTestData();
     testUtils.setIds();
     dragonBallUser = testUtils.getSingleTestData();
-    dragonBallUserDto = testUtils.getTestDataDto();
-    dragonBallUsersList = testUtils.getTestDataList();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(dragonBallUserServiceMock);
@@ -106,8 +101,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void createTest() throws Exception {
-    createTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, dragonBallUser,
-        dragonBallUserDto);
+    createTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock);
   }
 
   /**
@@ -116,8 +110,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void createConflictExceptionTest() throws Exception {
-    createConflictExceptionTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock,
-        dragonBallUserDto);
+    createConflictExceptionTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock);
   }
 
   /**
@@ -126,8 +119,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void readTest() throws Exception {
-    readTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, DragonBallUser.class,
-        dragonBallUser);
+    readTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, DragonBallUser.class);
   }
 
   /**
@@ -137,8 +129,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void readAllTest() throws Exception {
-    readAllTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, DragonBallUser.class,
-        dragonBallUsersList);
+    readAllTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, DragonBallUser.class);
   }
 
   /**
@@ -171,7 +162,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void updateTest() throws Exception {
-    updateTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, dragonBallUserDto);
+    updateTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock);
   }
 
   /**
@@ -180,7 +171,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void updateInvalidPathId() throws IOException, Exception {
-    updateInvalidPathId(API_V1_DRAGONBALL_USERS, dragonBallUserDto);
+    updateInvalidPathId(API_V1_DRAGONBALL_USERS);
   }
 
   /**
@@ -189,8 +180,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
-    updateNotFoundExceptionTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock,
-        dragonBallUserDto);
+    updateNotFoundExceptionTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock);
   }
 
   /**
@@ -199,8 +189,7 @@ public class DragonBallControllerTest extends
    */
   @Test
   public void deleteTest() throws Exception {
-    deleteTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, DragonBallUser.class,
-        dragonBallUser);
+    deleteTest(API_V1_DRAGONBALL_USERS, dragonBallUserServiceMock, DragonBallUser.class);
   }
 
   /**

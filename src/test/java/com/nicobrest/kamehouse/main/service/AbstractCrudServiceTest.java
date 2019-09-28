@@ -26,7 +26,9 @@ public abstract class AbstractCrudServiceTest<E, D> {
   /**
    * Create entity test.
    */
-  protected void createTest(CrudService<E, D> service, CrudDao<E> dao, E entity, D dto) {
+  protected void createTest(CrudService<E, D> service, CrudDao<E> dao) {
+    E entity = testUtils.getSingleTestData();
+    D dto = testUtils.getTestDataDto();
     Identifiable identifiableEntity = (Identifiable) entity;
     Mockito.doReturn(identifiableEntity.getId()).when(dao).create(entity);
 
@@ -39,7 +41,8 @@ public abstract class AbstractCrudServiceTest<E, D> {
   /**
    * Read entity test.
    */
-  protected void readTest(CrudService<E, D> service, CrudDao<E> dao, E entity) {
+  protected void readTest(CrudService<E, D> service, CrudDao<E> dao) {
+    E entity = testUtils.getSingleTestData(); 
     Identifiable identifiableEntity = (Identifiable) entity;
     when(dao.read(identifiableEntity.getId())).thenReturn(entity);
 
@@ -53,7 +56,8 @@ public abstract class AbstractCrudServiceTest<E, D> {
   /**
    * Read all entities test.
    */
-  public void readAllTest(CrudService<E, D> service, CrudDao<E> dao, List<E> entityList) {
+  public void readAllTest(CrudService<E, D> service, CrudDao<E> dao) {
+    List<E> entityList = testUtils.getTestDataList();
     when(dao.readAll()).thenReturn(entityList);
 
     List<E> returnedList = service.readAll();
@@ -66,7 +70,9 @@ public abstract class AbstractCrudServiceTest<E, D> {
   /**
    * Update entity test.
    */
-  public void updateTest(CrudService<E, D> service, CrudDao<E> dao, E entity, D dto) {
+  public void updateTest(CrudService<E, D> service, CrudDao<E> dao) {
+    E entity = testUtils.getSingleTestData();
+    D dto = testUtils.getTestDataDto();
     Mockito.doNothing().when(dao).update(entity);
 
     service.update(dto);
@@ -77,7 +83,8 @@ public abstract class AbstractCrudServiceTest<E, D> {
   /**
    * Delete entity test.
    */
-  public void deleteTest(CrudService<E, D> service, CrudDao<E> dao, E entity) {
+  public void deleteTest(CrudService<E, D> service, CrudDao<E> dao) {
+    E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
     when(dao.delete(identifiableEntity.getId())).thenReturn(entity);
 

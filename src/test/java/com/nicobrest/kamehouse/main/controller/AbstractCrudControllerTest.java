@@ -37,8 +37,9 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Create entity test.
    */
-  protected void createTest(String url, CrudService<E, D> service, E entity, D dto)
-      throws Exception {
+  protected void createTest(String url, CrudService<E, D> service) throws Exception {
+    E entity = testUtils.getSingleTestData();
+    D dto = testUtils.getTestDataDto();
     Identifiable identifiableEntity = (Identifiable) entity;
     Mockito.doReturn(identifiableEntity.getId()).when(service).create(dto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
@@ -54,8 +55,9 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Create entity ConflictException test.
    */
-  protected void createConflictExceptionTest(String url, CrudService<E, D> service, D dto)
+  protected void createConflictExceptionTest(String url, CrudService<E, D> service)
       throws Exception {
+    D dto = testUtils.getTestDataDto();
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseConflictException.class));
     Mockito.doThrow(new KameHouseConflictException("")).when(service).create(dto);
@@ -67,8 +69,9 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Read entity test.
    */
-  protected void readTest(String url, CrudService<E, D> service, Class<E> clazz, E entity)
+  protected void readTest(String url, CrudService<E, D> service, Class<E> clazz)
       throws Exception {
+    E entity = testUtils.getSingleTestData(); 
     Identifiable identifiableEntity = (Identifiable) entity;
     when(service.read(identifiableEntity.getId())).thenReturn(entity);
 
@@ -83,8 +86,9 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Read entity test.
    */
-  protected void readAllTest(String url, CrudService<E, D> service, Class<E> clazz,
-      List<E> entityList) throws Exception {
+  protected void readAllTest(String url, CrudService<E, D> service, Class<E> clazz)
+      throws Exception {
+    List<E> entityList = testUtils.getTestDataList();
     when(service.readAll()).thenReturn(entityList);
 
     MockHttpServletResponse response = executeGet(url);
@@ -101,7 +105,8 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Update entity test.
    */
-  protected void updateTest(String url, CrudService<E, D> service, D dto) throws Exception {
+  protected void updateTest(String url, CrudService<E, D> service) throws Exception {
+    D dto = testUtils.getTestDataDto();
     Identifiable identifiableDto = (Identifiable) dto;
     Mockito.doNothing().when(service).update(dto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
@@ -115,7 +120,8 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Update entity invalid path id test.
    */
-  protected void updateInvalidPathId(String url, D dto) throws IOException, Exception {
+  protected void updateInvalidPathId(String url) throws IOException, Exception {
+    D dto = testUtils.getTestDataDto();
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseBadRequestException.class));
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
@@ -126,8 +132,9 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Update entity not found test.
    */
-  protected void updateNotFoundExceptionTest(String url, CrudService<E, D> service, D dto)
+  protected void updateNotFoundExceptionTest(String url, CrudService<E, D> service)
       throws Exception {
+    D dto = testUtils.getTestDataDto();
     Identifiable identifiableDto = (Identifiable) dto;
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
@@ -140,8 +147,9 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   /**
    * Delete entity test.
    */
-  protected void deleteTest(String url, CrudService<E, D> service, Class<E> clazz, E entity)
+  protected void deleteTest(String url, CrudService<E, D> service, Class<E> clazz)
       throws Exception {
+    E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
     when(service.delete(identifiableEntity.getId())).thenReturn(entity);
 

@@ -18,8 +18,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
 /**
  * Unit tests for the DragonBallUserService class.
  *
@@ -29,8 +27,6 @@ public class DragonBallUserServiceTest extends
     AbstractCrudServiceTest<DragonBallUser, DragonBallUserDto> {
 
   private DragonBallUser dragonBallUser;
-  private DragonBallUserDto dragonBallUserDto;
-  private List<DragonBallUser> dragonBallUsersList;
 
   @InjectMocks
   private DragonBallUserService dragonBallUserService;
@@ -47,8 +43,6 @@ public class DragonBallUserServiceTest extends
     testUtils.initTestData();
     testUtils.setIds();
     dragonBallUser = testUtils.getSingleTestData();
-    dragonBallUserDto = testUtils.getTestDataDto();
-    dragonBallUsersList = testUtils.getTestDataList();
 
     // Reset mock objects before each test
     MockitoAnnotations.initMocks(this);
@@ -60,7 +54,7 @@ public class DragonBallUserServiceTest extends
    */
   @Test
   public void createTest() {
-    createTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser, dragonBallUserDto);
+    createTest(dragonBallUserService, dragonBallUserDaoMock);
   }
 
   /**
@@ -69,7 +63,7 @@ public class DragonBallUserServiceTest extends
    */
   @Test
   public void readTest() {
-    readTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser);
+    readTest(dragonBallUserService, dragonBallUserDaoMock);
   }
 
   /**
@@ -78,7 +72,7 @@ public class DragonBallUserServiceTest extends
    */
   @Test
   public void readAllTest() {
-    readAllTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUsersList);
+    readAllTest(dragonBallUserService, dragonBallUserDaoMock);
   }
 
   /**
@@ -87,7 +81,7 @@ public class DragonBallUserServiceTest extends
    */
   @Test
   public void updateTest() {
-    updateTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser, dragonBallUserDto);
+    updateTest(dragonBallUserService, dragonBallUserDaoMock);
   }
 
   /**
@@ -95,7 +89,7 @@ public class DragonBallUserServiceTest extends
    */
   @Test
   public void deleteTest() {
-    deleteTest(dragonBallUserService, dragonBallUserDaoMock, dragonBallUser);
+    deleteTest(dragonBallUserService, dragonBallUserDaoMock);
   }
 
   /**

@@ -50,8 +50,6 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
 
   private static final String API_V1_VLCPLAYERS = VlcPlayerTestUtils.API_V1_VLCPLAYERS;
   private VlcPlayer vlcPlayer;
-  private List<VlcPlayer> vlcPlayerList;
-  private VlcPlayerDto vlcPlayerDto;
 
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
@@ -75,8 +73,6 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     testUtils.initTestData();
     testUtils.setIds();
     vlcPlayer = testUtils.getSingleTestData();
-    vlcPlayerList = testUtils.getTestDataList();
-    vlcPlayerDto = testUtils.getTestDataDto();
 
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
@@ -96,7 +92,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
    */
   @Test
   public void createTest() throws Exception {
-    createTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, vlcPlayer, vlcPlayerDto);
+    createTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock);
   }
 
   /**
@@ -104,7 +100,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
    */
   @Test
   public void readTest() throws Exception {
-    readTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class, vlcPlayer);
+    readTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
   }
 
   /**
@@ -112,7 +108,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
    */
   @Test
   public void readAllTest() throws Exception {
-    readAllTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class, vlcPlayerList);
+    readAllTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
   }
 
   /**
@@ -120,7 +116,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
    */
   @Test
   public void updateTest() throws Exception {
-    updateTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, vlcPlayerDto);
+    updateTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock);
   }
 
   /**
@@ -128,7 +124,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
    */
   @Test
   public void deleteTest() throws Exception {
-    deleteTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class, vlcPlayer);
+    deleteTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
   }
 
   /**
@@ -202,11 +198,11 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   public void getPlaylistTest() throws Exception {
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
     List<Map<String, Object>> listClass = new ArrayList<>();
-    
+
     MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/playlist");
     List<Map<String, Object>> responseBody = getResponseBody(response, listClass.getClass());
 
-    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody); 
+    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody);
     verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());
   }
 
@@ -217,11 +213,11 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   public void browseTest() throws Exception {
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
     List<Map<String, Object>> listClass = new ArrayList<>();
-    
+
     MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/browse");
     List<Map<String, Object>> responseBody = getResponseBody(response, listClass.getClass());
- 
-    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody); 
+
+    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody);
     verify(vlcRcServiceMock, times(1)).browse(any(), anyString());
   }
 }

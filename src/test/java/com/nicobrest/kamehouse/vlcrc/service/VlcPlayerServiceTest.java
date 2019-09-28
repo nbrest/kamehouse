@@ -18,18 +18,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
 /**
  * Unit tests for the VlcPlayerService class.
  *
  * @author nbrest
  */
-public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, VlcPlayerDto>{
+public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, VlcPlayerDto> {
 
   private VlcPlayer vlcPlayer;
-  private List<VlcPlayer> vlcPlayerList;
-  private VlcPlayerDto vlcPlayerDto;
 
   @InjectMocks
   private VlcPlayerService vlcPlayerService;
@@ -46,8 +42,6 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
     testUtils.initTestData();
     testUtils.setIds();
     vlcPlayer = testUtils.getSingleTestData();
-    vlcPlayerList = testUtils.getTestDataList();
-    vlcPlayerDto = testUtils.getTestDataDto();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(vlcPlayerDaoMock);
@@ -58,7 +52,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
    */
   @Test
   public void createTest() {
-    createTest(vlcPlayerService, vlcPlayerDaoMock, vlcPlayer, vlcPlayerDto);
+    createTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
   /**
@@ -66,15 +60,15 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
    */
   @Test
   public void readTest() {
-    readTest(vlcPlayerService, vlcPlayerDaoMock, vlcPlayer);
+    readTest(vlcPlayerService, vlcPlayerDaoMock);
   }
-  
+
   /**
    * Test for calling the service to get all the VlcPlayers in the repository.
    */
   @Test
   public void readAllTest() {
-    readAllTest(vlcPlayerService, vlcPlayerDaoMock, vlcPlayerList);
+    readAllTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
   /**
@@ -83,15 +77,16 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
    */
   @Test
   public void updateTest() {
-    updateTest(vlcPlayerService, vlcPlayerDaoMock, vlcPlayer, vlcPlayerDto);
+    updateTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
   /**
-   * Test for calling the service to delete an existing entity in the repository.
+   * Test for calling the service to delete an existing entity in the
+   * repository.
    */
   @Test
   public void deleteTest() {
-    deleteTest(vlcPlayerService, vlcPlayerDaoMock, vlcPlayer);
+    deleteTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
   /**
@@ -100,11 +95,9 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
    */
   @Test
   public void getByHostnameTest() {
-    when(vlcPlayerDaoMock.getByHostname(vlcPlayer.getHostname())).thenReturn(
-        vlcPlayer);
+    when(vlcPlayerDaoMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 
-    VlcPlayer returnedEntity = vlcPlayerService.getByHostname(vlcPlayer
-        .getHostname());
+    VlcPlayer returnedEntity = vlcPlayerService.getByHostname(vlcPlayer.getHostname());
 
     assertEquals(vlcPlayer, returnedEntity);
     testUtils.assertEqualsAllAttributes(vlcPlayer, returnedEntity);

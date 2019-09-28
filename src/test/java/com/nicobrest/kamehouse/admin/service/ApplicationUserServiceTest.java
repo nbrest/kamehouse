@@ -19,8 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
 /**
  * Unit tests for the ApplicationUserService class.
  *
@@ -30,8 +28,6 @@ public class ApplicationUserServiceTest extends
     AbstractCrudServiceTest<ApplicationUser, ApplicationUserDto> {
 
   private ApplicationUser applicationUser;
-  private List<ApplicationUser> applicationUsersList;
-  private ApplicationUserDto applicationUserDto;
 
   @InjectMocks
   private ApplicationUserService applicationUserService;
@@ -47,8 +43,6 @@ public class ApplicationUserServiceTest extends
     testUtils = new ApplicationUserTestUtils();
     testUtils.initTestData();
     applicationUser = testUtils.getSingleTestData();
-    applicationUsersList = testUtils.getTestDataList();
-    applicationUserDto = testUtils.getTestDataDto();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserDaoMock);
@@ -60,8 +54,7 @@ public class ApplicationUserServiceTest extends
    */
   @Test
   public void createTest() {
-    createTest(applicationUserService, applicationUserDaoMock, applicationUser,
-        applicationUserDto);
+    createTest(applicationUserService, applicationUserDaoMock);
   }
 
   /**
@@ -69,7 +62,7 @@ public class ApplicationUserServiceTest extends
    */
   @Test
   public void readTest() {
-    readTest(applicationUserService, applicationUserDaoMock, applicationUser);
+    readTest(applicationUserService, applicationUserDaoMock);
   }
 
   /**
@@ -77,7 +70,7 @@ public class ApplicationUserServiceTest extends
    */
   @Test
   public void readAllTest() {
-    readAllTest(applicationUserService, applicationUserDaoMock, applicationUsersList);
+    readAllTest(applicationUserService, applicationUserDaoMock);
   }
 
   /**
@@ -86,8 +79,7 @@ public class ApplicationUserServiceTest extends
    */
   @Test
   public void updateTest() {
-    updateTest(applicationUserService, applicationUserDaoMock, applicationUser,
-        applicationUserDto);
+    updateTest(applicationUserService, applicationUserDaoMock);
   }
 
   /**
@@ -95,7 +87,7 @@ public class ApplicationUserServiceTest extends
    */
   @Test
   public void deleteTest() {
-    deleteTest(applicationUserService, applicationUserDaoMock, applicationUser);
+    deleteTest(applicationUserService, applicationUserDaoMock);
   }
 
   /**
