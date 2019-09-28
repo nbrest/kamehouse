@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.main.testutils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import com.nicobrest.kamehouse.main.dao.Identifiable;
@@ -27,6 +28,10 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
     ClassLoader classLoader = AbstractTestUtils.class.getClassLoader();
     InputStream inputStream = classLoader.getResourceAsStream(resourceName);
     return inputStream;
+  }
+  
+  protected static void assertEqualsAsString(Object expected, Object returned) {
+    assertEquals(expected.toString(), returned.toString());
   }
 
   @Override

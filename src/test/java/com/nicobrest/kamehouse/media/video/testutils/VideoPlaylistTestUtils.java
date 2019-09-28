@@ -1,13 +1,12 @@
 package com.nicobrest.kamehouse.media.video.testutils;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
 
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
-
-import org.apache.commons.collections.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -20,8 +19,8 @@ import java.util.List;
  * @author nbrest
  *
  */
-public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
-    implements TestUtils<Playlist, Object> {
+public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> implements
+    TestUtils<Playlist, Object> {
 
   public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
   public static final String TEST_PLAYLISTS_ROOT_DIR = "src/test/resources/media.video/playlists/";
@@ -32,17 +31,13 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     initSingleTestData();
     initTestDataList();
   }
-  
+
   @Override
   public void assertEqualsAllAttributes(Playlist expectedPlaylist, Playlist returnedPlaylist) {
     assertEquals(expectedPlaylist.getName(), returnedPlaylist.getName());
     assertEquals(expectedPlaylist.getPath(), returnedPlaylist.getPath());
     assertEquals(expectedPlaylist.getCategory(), returnedPlaylist.getCategory());
-    assertEquals(expectedPlaylist.getFiles(), returnedPlaylist.getFiles());
-    if (expectedPlaylist.getFiles() != null && returnedPlaylist.getFiles() != null) {
-      assertTrue(CollectionUtils.isEqualCollection(expectedPlaylist.getFiles(), returnedPlaylist
-          .getFiles()));
-    } 
+    assertThat(expectedPlaylist.getFiles(), is(returnedPlaylist.getFiles()));
   }
 
   private void initSingleTestData() {

@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -57,9 +56,7 @@ public class VlcRcWebSocketControllerTest {
     VlcRcStatus returnedVlcRcStatus = vlcRcWebSocketController.getVlcRcStatus();
 
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus("localhost");
-    assertEquals(vlcRcStatus, returnedVlcRcStatus);
-    // TODO: Enable this after overriding assertEqualsAllAttributes.
-    //vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
   }
 
   /**
@@ -73,11 +70,6 @@ public class VlcRcWebSocketControllerTest {
     VlcRcStatus returnedVlcRcStatus = vlcRcWebSocketController.getVlcRcStatus();
 
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus("localhost");
-    assertEquals(emptyVlcRcStatus.getInformation(), returnedVlcRcStatus.getInformation());
-    assertEquals(emptyVlcRcStatus.getAspectRatio(), returnedVlcRcStatus.getAspectRatio());
-    assertEquals(emptyVlcRcStatus.getFullscreen(), returnedVlcRcStatus.getFullscreen());
-    assertEquals(emptyVlcRcStatus.getApiVersion(), returnedVlcRcStatus.getApiVersion());
-    // TODO: Enable this after overriding assertEqualsAllAttributes.
-    //vlcRcStatusTestUtils.assertEqualsAllAttributes(emptyVlcRcStatus, returnedVlcRcStatus);
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(emptyVlcRcStatus, returnedVlcRcStatus);
   }
 }

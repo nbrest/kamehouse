@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -73,9 +72,7 @@ public class VlcRcServiceTest {
 
     VlcRcStatus returnedStatus = vlcRcService.getVlcRcStatus("niko-nba");
 
-    assertEquals(vlcRcStatus.getInformation().getTitle(), returnedStatus.getInformation()
-        .getTitle());
-    //TODO verify all attributes with test utils.
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedStatus);
     verify(vlcPlayer, times(1)).getVlcRcStatus();
   }
 
@@ -90,9 +87,7 @@ public class VlcRcServiceTest {
 
     VlcRcStatus returnedStatus = vlcRcService.execute(vlcRcCommand, "niko-nba");
 
-    assertEquals(vlcRcStatus.getInformation().getTitle(), returnedStatus.getInformation()
-        .getTitle());
-    // TODO verify all attributes with test utils.
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedStatus);
     verify(vlcPlayer, times(1)).execute(any());
   }
 

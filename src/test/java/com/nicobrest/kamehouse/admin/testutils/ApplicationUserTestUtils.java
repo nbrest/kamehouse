@@ -1,7 +1,8 @@
 package com.nicobrest.kamehouse.admin.testutils;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
@@ -9,8 +10,6 @@ import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
-
-import org.apache.commons.collections.CollectionUtils;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -49,11 +48,7 @@ public class ApplicationUserTestUtils extends
     assertEquals(expectedEntity.getFirstName(), returnedEntity.getFirstName());
     assertEquals(expectedEntity.getLastName(), returnedEntity.getLastName());
     assertEquals(expectedEntity.getLastLogin(), returnedEntity.getLastLogin());
-    assertEquals(expectedEntity.getAuthorities(), returnedEntity.getAuthorities());
-    if (expectedEntity.getAuthorities() != null && returnedEntity.getAuthorities() != null) {
-      assertTrue(CollectionUtils.isEqualCollection(expectedEntity.getAuthorities(), returnedEntity
-          .getAuthorities()));
-    }
+    assertThat(expectedEntity.getAuthorities(), is(returnedEntity.getAuthorities()));
   }
 
   private void initSingleTestData() {

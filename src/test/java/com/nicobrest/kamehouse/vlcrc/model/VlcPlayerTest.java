@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
+import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
+import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
+import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,7 +36,13 @@ import java.util.Map;
 public class VlcPlayerTest {
 
   private VlcPlayerTestUtils vlcPlayerTestUtils = new VlcPlayerTestUtils();
+  private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
+  private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
+  private VlcRcFileListTestUtils vlcRcFileListTestUtils = new VlcRcFileListTestUtils();
   private VlcPlayer vlcPlayer;
+  private VlcRcStatus vlcRcStatus;
+  private List<Map<String, Object>> vlcRcPlaylist;
+  private List<Map<String, Object>> vlcRcFileList;
 
   @Mock
   VlcPlayer vlcPlayerMock;
@@ -48,6 +57,12 @@ public class VlcPlayerTest {
   public void init() throws Exception {
     vlcPlayerTestUtils.initTestData();
     vlcPlayer = PowerMockito.spy(vlcPlayerTestUtils.getSingleTestData());
+    vlcRcStatusTestUtils.initTestData();
+    vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
+    vlcRcPlaylistTestUtils.initTestData();
+    vlcRcPlaylist = vlcRcPlaylistTestUtils.getSingleTestData();
+    vlcRcFileListTestUtils.initTestData();
+    vlcRcFileList = vlcRcFileListTestUtils.getSingleTestData();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(vlcPlayerMock);
@@ -67,22 +82,9 @@ public class VlcPlayerTest {
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
     vlcRcCommand.setName("fullscreen");
 
-    VlcRcStatus vlcRcStatus = vlcPlayer.execute(vlcRcCommand);
+    VlcRcStatus returnedVlcRcStatus = vlcPlayer.execute(vlcRcCommand);
 
-    assertEquals("16:9", vlcRcStatus.getAspectRatio());
-    assertTrue(vlcRcStatus.getFullscreen());
-    assertEquals("1988", vlcRcStatus.getStats().get("displayedPictures").toString());
-    List<Map<String, Object>> categoryMapList = vlcRcStatus.getInformation().getCategory();
-    Map<String, Object> meta = null;
-    for (Map<String, Object> categoryMap : categoryMapList) {
-      if (categoryMap.get("name").equals("meta")) {
-        meta = categoryMap;
-      }
-    }
-    assertEquals("\"1 - Winter Is Coming.avi\"", meta.get("filename").toString());
-    // TODO add a VlcRcStatus object in VlcRcStatusTestUtils with the values
-    // from the file vlcrc/vlc-rc-status.json and assert all attributes with the
-    // test util.
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
   }
 
   /**
@@ -111,9 +113,7 @@ public class VlcPlayerTest {
         meta = categoryMap;
       }
     }
-    assertEquals("\"1 - Winter Is Coming.avi\"", meta.get("filename").toString());
-    // TODO add a VlcRcStatus object in VlcRcStatusTestUtils with the values
-    // from the file loaded and assert all attributes with the test util.
+    assertEquals("1 - Winter Is Coming.avi", meta.get("filename"));
   }
 
   /**
@@ -136,21 +136,9 @@ public class VlcPlayerTest {
   public void getVlcRcStatusTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-status.json");
 
-    VlcRcStatus vlcRcStatus = vlcPlayer.getVlcRcStatus();
+    VlcRcStatus returnedVlcRcStatus = vlcPlayer.getVlcRcStatus();
 
-    assertEquals("16:9", vlcRcStatus.getAspectRatio());
-    assertTrue(vlcRcStatus.getFullscreen());
-    assertEquals("1988", vlcRcStatus.getStats().get("displayedPictures").toString());
-    List<Map<String, Object>> categoryMapList = vlcRcStatus.getInformation().getCategory();
-    Map<String, Object> meta = null;
-    for (Map<String, Object> categoryMap : categoryMapList) {
-      if (categoryMap.get("name").equals("meta")) {
-        meta = categoryMap;
-      }
-    }
-    assertEquals("\"1 - Winter Is Coming.avi\"", meta.get("filename").toString());
-    // TODO add a VlcRcStatus object in VlcRcStatusTestUtils with the values
-    // from the file loaded and assert all attributes with the test util.
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
   }
 
   /**
@@ -162,13 +150,7 @@ public class VlcPlayerTest {
 
     List<Map<String, Object>> returnedPlaylist = vlcPlayer.getPlaylist();
 
-    assertEquals(3, returnedPlaylist.size());
-    assertEquals("Lleyton Hewitt- Brash teenager to Aussie great.mp4", returnedPlaylist.get(0).get(
-        "name"));
-    assertEquals("Lleyton Hewitt Special.mp4", returnedPlaylist.get(1).get("name"));
-    assertEquals("Lleyton Last On Court Interview.mp4", returnedPlaylist.get(2).get("name"));
-    // TODO add a Playlist object in VlcRcPlaylistTestUtils with the values
-    // from the file loaded and assert all attributes with the test util.
+    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, returnedPlaylist);
   }
 
   /**
@@ -180,9 +162,7 @@ public class VlcPlayerTest {
 
     List<Map<String, Object>> returnedFilelist = vlcPlayer.browse("C:/");
 
-    assertEquals(2, returnedFilelist.size());
-    // TODO add a filelist object in VlcRcFileListTestUtils with the values
-    // from the file loaded and assert all attributes with the test util.
+    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
   }
 
   /**
@@ -194,15 +174,7 @@ public class VlcPlayerTest {
 
     List<Map<String, Object>> returnedFilelist = vlcPlayer.browse(null);
 
-    assertEquals(2, returnedFilelist.size());
-    assertEquals("C:/", returnedFilelist.get(0).get("name"));
-    assertEquals("file:///C:/", returnedFilelist.get(0).get("uri"));
-    assertEquals(315543600, returnedFilelist.get(0).get("accessTime"));
-    assertEquals("D:/", returnedFilelist.get(1).get("name"));
-    assertEquals("file:///D:/", returnedFilelist.get(1).get("uri"));
-    assertEquals(315543600, returnedFilelist.get(1).get("accessTime"));
-    // TODO add a filelist object in VlcRcFileListTestUtils with the values
-    // from the file loaded and assert all attributes with the test util.
+    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
   }
 
   /**

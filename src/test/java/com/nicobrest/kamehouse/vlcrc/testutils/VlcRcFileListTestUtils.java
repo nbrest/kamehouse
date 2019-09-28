@@ -50,11 +50,12 @@ public class VlcRcFileListTestUtils extends AbstractTestUtils<List<Map<String, O
   }
 
   private void initSingleTestData() {
+    // Mapped to the contents of test/resources/vlcrc/vlc-rc-filelist.json
     singleTestData = new ArrayList<>();
     Map<String, Object> fileListItem1 = new HashMap<>();
     fileListItem1.put("type", "dir");
-    fileListItem1.put("path", "C:\\");
-    fileListItem1.put("name", "C:\\");
+    fileListItem1.put("path", "C:/");
+    fileListItem1.put("name", "C:/");
     fileListItem1.put("uri", "file:///C:/");
     fileListItem1.put("accessTime", 315543600);
     fileListItem1.put("uid", 0);
@@ -66,8 +67,8 @@ public class VlcRcFileListTestUtils extends AbstractTestUtils<List<Map<String, O
     singleTestData.add(fileListItem1);
     Map<String, Object> fileListItem2 = new HashMap<>();
     fileListItem2.put("type", "dir");
-    fileListItem2.put("path", "D:\\");
-    fileListItem2.put("name", "D:\\");
+    fileListItem2.put("path", "D:/");
+    fileListItem2.put("name", "D:/");
     fileListItem2.put("uri", "file:///D:/");
     fileListItem2.put("accessTime", 315543600);
     fileListItem2.put("uid", 0);

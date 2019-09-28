@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -144,7 +143,6 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     VlcPlayer responseBody = getResponseBody(response, VlcPlayer.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(vlcPlayer, responseBody);
     testUtils.assertEqualsAllAttributes(vlcPlayer, responseBody);
   }
 
@@ -160,9 +158,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(vlcRcStatus.getVersion(), responseBody.getVersion());
-    assertEquals(vlcRcStatus.getApiVersion(), responseBody.getApiVersion());
-    // TODO verify all attributes with test utils.
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, responseBody);
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
   }
 
@@ -195,9 +191,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
-    assertEquals(vlcRcStatus.getVersion(), responseBody.getVersion());
-    assertEquals(vlcRcStatus.getApiVersion(), responseBody.getApiVersion());
-    // TODO assert all attributes with test utils.
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, responseBody);
     verify(vlcRcServiceMock, times(1)).execute(any(), anyString());
   }
 

@@ -365,7 +365,7 @@ public class VlcPlayer implements Identifiable, Serializable {
       vlcRcStatus.setLoop(vlcStatusResponseJson.get("loop").asBoolean());
     }
   }
-  
+
   /**
    * Set VlcRcStatus root additional attributes.
    */
@@ -385,12 +385,12 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
     if (vlcStatusResponseJson.get("subtitledelay") != null) {
       vlcRcStatus.setSubtitleDelay(vlcStatusResponseJson.get("subtitledelay").asInt());
-    } 
+    }
     if (vlcStatusResponseJson.get("version") != null) {
       vlcRcStatus.setVersion(vlcStatusResponseJson.get("version").asText());
     }
   }
-  
+
   /**
    * Set VlcRcStatus stats.
    */
@@ -519,37 +519,55 @@ public class VlcPlayer implements Identifiable, Serializable {
         Map<String, Object> informationCategory = new HashMap<>();
         Entry<String, JsonNode> categoryEntry = categoryIterator.next();
         String name = categoryEntry.getKey();
+        JsonNode categoryNode = categoryEntry.getValue();
         informationCategory.put("name", name);
         if (name.equals("meta")) {
-          informationCategory.put("filename", categoryEntry.getValue().get("filename"));
-          informationCategory.put(TITLE, categoryEntry.getValue().get(TITLE));
-          informationCategory.put("artist", categoryEntry.getValue().get("artist"));
-          informationCategory.put("setting", categoryEntry.getValue().get("setting"));
-          informationCategory.put("software", categoryEntry.getValue().get("Software"));
+          if (categoryNode.get("filename") != null) {
+            informationCategory.put("filename", categoryNode.get("filename").asText());
+          }
+          if (categoryNode.get(TITLE) != null) {
+            informationCategory.put(TITLE, categoryNode.get(TITLE).asText());
+          }
+          if (categoryNode.get("artist") != null) {
+            informationCategory.put("artist", categoryNode.get("artist").asText());
+          }
+          if (categoryNode.get("setting") != null) {
+            informationCategory.put("setting", categoryNode.get("setting").asText());
+          }
+          if (categoryNode.get("Software") != null) {
+            informationCategory.put("software", categoryNode.get("Software").asText());
+          }
         } else {
-          String type = categoryEntry.getValue().get("Type").asText();
+          String type = categoryNode.get("Type").asText();
           informationCategory.put("type", type);
+          if (categoryNode.get(CODEC_CAMEL_CASE) != null) {
+            informationCategory.put(CODEC, categoryNode.get(CODEC_CAMEL_CASE).asText());
+          }
+          if (categoryNode.get(LANGUAGE_CAMEL_CASE) != null) {
+            informationCategory.put(LANGUAGE, categoryNode.get(LANGUAGE_CAMEL_CASE).asText());
+          }
           switch (type) {
             case "Video":
-              informationCategory.put("frameRate", categoryEntry.getValue().get("Frame_rate"));
-              informationCategory.put("decodedFormat", categoryEntry.getValue().get(
-                  "Decoded_format"));
-              informationCategory.put("displayResolution", categoryEntry.getValue().get(
-                  "Display_resolution"));
-              informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-              informationCategory.put(LANGUAGE, categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
-              informationCategory.put("resolution", categoryEntry.getValue().get("Resolution"));
+              if (categoryNode.get("Frame_rate") != null) {
+                informationCategory.put("frameRate", categoryNode.get("Frame_rate").asText());
+              }
+              if (categoryNode.get("Decoded_format") != null) {
+                informationCategory.put("decodedFormat", categoryNode.get("Decoded_format")
+                    .asText());
+              }
+              informationCategory.put("displayResolution", categoryNode.get("Display_resolution"));
+              informationCategory.put("resolution", categoryNode.get("Resolution"));
               break;
             case "Audio":
-              informationCategory.put("bitrate", categoryEntry.getValue().get("Bitrate"));
-              informationCategory.put("channels", categoryEntry.getValue().get("Channels"));
-              informationCategory.put("sampleRate", categoryEntry.getValue().get("Sample_rate"));
-              informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-              informationCategory.put(LANGUAGE, categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
-              break;
-            case "Subtitle":
-              informationCategory.put(CODEC, categoryEntry.getValue().get(CODEC_CAMEL_CASE));
-              informationCategory.put(LANGUAGE, categoryEntry.getValue().get(LANGUAGE_CAMEL_CASE));
+              if (categoryNode.get("Bitrate") != null) {
+                informationCategory.put("bitrate", categoryNode.get("Bitrate").asText());
+              }
+              if (categoryNode.get("Channels") != null) {
+                informationCategory.put("channels", categoryNode.get("Channels").asText());
+              }
+              if (categoryNode.get("Sample_rate") != null) {
+                informationCategory.put("sampleRate", categoryNode.get("Sample_rate").asText());
+              }
               break;
             default:
               logger.warn("Unrecognized Type returned by VLC: {}", type);
