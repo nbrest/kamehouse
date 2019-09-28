@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.main.service.AbstractCrudServiceTest;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
-import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
 import org.junit.Before;

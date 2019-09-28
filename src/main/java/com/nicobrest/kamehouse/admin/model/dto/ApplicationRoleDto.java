@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.admin.service.dto;
+package com.nicobrest.kamehouse.admin.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.nicobrest.kamehouse.utils.JsonUtils;

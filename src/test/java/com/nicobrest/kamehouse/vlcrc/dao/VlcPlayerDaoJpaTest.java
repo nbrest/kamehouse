@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
-import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
+import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -18,7 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 /**
  * Unit tests for the VlcPlayerDaoJpa class.
@@ -30,7 +29,6 @@ import java.util.List;
 public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPlayerDto> {
 
   private VlcPlayer vlcPlayer;
-  private List<VlcPlayer> vlcPlayerList;
 
   @Autowired
   private VlcPlayerDao vlcPlayerDaoJpa;
@@ -44,7 +42,6 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
     testUtils.initTestData();
     testUtils.removeIds();
     vlcPlayer = testUtils.getSingleTestData();
-    vlcPlayerList = testUtils.getTestDataList();
 
     clearTable("VLC_PLAYER");
   }
@@ -54,7 +51,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    */
   @Test
   public void createTest() {
-    createTest(vlcPlayerDaoJpa, VlcPlayer.class, vlcPlayer);
+    createTest(vlcPlayerDaoJpa, VlcPlayer.class);
   }
 
   /**
@@ -62,7 +59,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    */
   @Test
   public void createConflictExceptionTest() {
-    createConflictExceptionTest(vlcPlayerDaoJpa, vlcPlayer);
+    createConflictExceptionTest(vlcPlayerDaoJpa);
   }
 
   /**
@@ -70,7 +67,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    */
   @Test
   public void readTest() {
-    readTest(vlcPlayerDaoJpa, vlcPlayer);
+    readTest(vlcPlayerDaoJpa);
   }
 
   /**
@@ -78,7 +75,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    */
   @Test
   public void readAllTest() {
-    readAllTest(vlcPlayerDaoJpa, vlcPlayerList);
+    readAllTest(vlcPlayerDaoJpa);
   }
 
   /**
@@ -89,7 +86,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
       InvocationTargetException, NoSuchMethodException {
     VlcPlayer updatedEntity = (VlcPlayer) BeanUtils.cloneBean(vlcPlayer);
     updatedEntity.setHostname("kamehameha-updated-hostname");
-    updateTest(vlcPlayerDaoJpa, VlcPlayer.class, vlcPlayer, updatedEntity);
+    updateTest(vlcPlayerDaoJpa, VlcPlayer.class, updatedEntity);
   }
 
   /**
@@ -97,7 +94,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    */
   @Test
   public void updateNotFoundExceptionTest() {
-    updateNotFoundExceptionTest(vlcPlayerDaoJpa, VlcPlayer.class, vlcPlayer);
+    updateNotFoundExceptionTest(vlcPlayerDaoJpa, VlcPlayer.class);
   }
 
   /**
@@ -105,7 +102,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    */
   @Test
   public void deleteTest() {
-    deleteTest(vlcPlayerDaoJpa, vlcPlayer);
+    deleteTest(vlcPlayerDaoJpa);
   }
 
   /**

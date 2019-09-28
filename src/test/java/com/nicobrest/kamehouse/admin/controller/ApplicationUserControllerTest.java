@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
-import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
 import com.nicobrest.kamehouse.main.controller.AbstractCrudControllerTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
@@ -58,6 +58,7 @@ public class ApplicationUserControllerTest extends
   public void beforeTest() {
     testUtils = new ApplicationUserTestUtils();
     testUtils.initTestData();
+    testUtils.setIds();
     applicationUser = testUtils.getSingleTestData();
     applicationUsersList = testUtils.getTestDataList();
     applicationUserDto = testUtils.getTestDataDto();

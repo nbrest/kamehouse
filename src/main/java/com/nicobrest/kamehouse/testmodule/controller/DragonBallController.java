@@ -4,8 +4,8 @@ import com.nicobrest.kamehouse.main.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
-import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;

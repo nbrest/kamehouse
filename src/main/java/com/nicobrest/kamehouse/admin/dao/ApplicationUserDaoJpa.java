@@ -17,15 +17,7 @@ public class ApplicationUserDaoJpa extends AbstractCrudDaoJpa implements Applica
 
   @Override
   public Long create(ApplicationUser entity) {
-    //TODO: use the abstracted method once I fix the persistence issue in the model.
-    logger.trace("Creating ApplicationUser: {}", entity.getUsername());
-    for (ApplicationRole role : entity.getAuthorities()) {
-      role.setApplicationUser(entity);
-    }
-    // Use merge instead of persist so it doesn't throw the object
-    // detached exception for ApplicationRoles
-    ApplicationUser mergedApplicationUser = mergeEntityInRepository(entity);
-    return mergedApplicationUser.getId();
+    return create(ApplicationUser.class, entity);
   }
 
   @Override

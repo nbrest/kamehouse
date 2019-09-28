@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.testmodule.service.dto;
+package com.nicobrest.kamehouse.testmodule.model.dto;
 
 import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.utils.JsonUtils;

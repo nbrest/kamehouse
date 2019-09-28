@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
-import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
+import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 
 import java.util.LinkedList;
 

@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.servlet;
 
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
-import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.servlet;
 
-import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 
 import javax.servlet.annotation.WebServlet;
 

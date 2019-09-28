@@ -7,7 +7,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
-import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
 import org.junit.Before;

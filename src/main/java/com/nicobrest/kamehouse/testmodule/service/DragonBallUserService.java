@@ -5,7 +5,7 @@ import com.nicobrest.kamehouse.main.service.CrudService;
 import com.nicobrest.kamehouse.main.validator.UserValidator;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
-import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.validator.DragonBallUserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;

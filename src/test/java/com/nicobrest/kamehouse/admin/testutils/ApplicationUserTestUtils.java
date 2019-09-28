@@ -6,8 +6,8 @@ import static org.junit.Assert.assertThat;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.service.dto.ApplicationRoleDto;
-import com.nicobrest.kamehouse.admin.service.dto.ApplicationUserDto;
+import com.nicobrest.kamehouse.admin.model.dto.ApplicationRoleDto;
+import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 
@@ -53,7 +53,7 @@ public class ApplicationUserTestUtils extends
 
   private void initSingleTestData() {
     singleTestData = new ApplicationUser();
-    singleTestData.setId(1001L);
+    singleTestData.setId(null);
     singleTestData.setEmail("goku@dbz.com");
     singleTestData.setUsername("goku");
     singleTestData.setPassword("goku");
@@ -61,7 +61,7 @@ public class ApplicationUserTestUtils extends
     singleTestData.setLastName("Son");
     Set<ApplicationRole> authorities = new HashSet<>();
     ApplicationRole applicationRole = new ApplicationRole();
-    applicationRole.setId(10L);
+    applicationRole.setId(null);
     applicationRole.setName("ADMIN_ROLE");
     applicationRole.setApplicationUser(singleTestData);
     authorities.add(applicationRole);
@@ -70,7 +70,7 @@ public class ApplicationUserTestUtils extends
 
   private void initTestDataDto() {
     testDataDto = new ApplicationUserDto();
-    testDataDto.setId(1001L);
+    testDataDto.setId(null);
     testDataDto.setEmail("goku@dbz.com");
     testDataDto.setUsername("goku");
     testDataDto.setPassword("goku");
@@ -83,7 +83,7 @@ public class ApplicationUserTestUtils extends
     testDataDto.setLastLogin(new Date());
     Set<ApplicationRoleDto> authoritiesDto = new HashSet<>();
     ApplicationRoleDto applicationRoleDto = new ApplicationRoleDto();
-    applicationRoleDto.setId(10L);
+    applicationRoleDto.setId(null);
     applicationRoleDto.setName("ADMIN_ROLE");
     applicationRoleDto.setApplicationUser(testDataDto);
     authoritiesDto.add(applicationRoleDto);
@@ -92,7 +92,7 @@ public class ApplicationUserTestUtils extends
 
   private void initTestDataList() {
     ApplicationUser applicationUser2 = new ApplicationUser();
-    applicationUser2.setId(1002L);
+    applicationUser2.setId(null);
     applicationUser2.setEmail("gohan@dbz.com");
     applicationUser2.setUsername("gohan");
     applicationUser2.setPassword("gohan");
@@ -104,7 +104,7 @@ public class ApplicationUserTestUtils extends
     applicationUser2.setAuthorities(roles2);
 
     ApplicationUser applicationUser3 = new ApplicationUser();
-    applicationUser3.setId(1003L);
+    applicationUser3.setId(null);
     applicationUser3.setEmail("goten@dbz.com");
     applicationUser3.setUsername("goten");
     applicationUser3.setPassword("goten");

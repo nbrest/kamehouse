@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.vlcrc.service.dto;
+package com.nicobrest.kamehouse.vlcrc.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.main.dao.Identifiable;

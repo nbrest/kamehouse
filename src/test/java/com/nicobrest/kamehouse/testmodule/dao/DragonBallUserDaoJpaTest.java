@@ -7,7 +7,7 @@ import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
-import com.nicobrest.kamehouse.testmodule.service.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -19,7 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 /**
  * Unit tests for the DragonBallUserDaoJpa class.
@@ -32,7 +31,6 @@ public class DragonBallUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
 
   private DragonBallUser dragonBallUser;
-  private List<DragonBallUser> dragonBallUsersList;
 
   @Autowired
   private DragonBallUserDao dragonBallUserDaoJpa;
@@ -46,7 +44,6 @@ public class DragonBallUserDaoJpaTest
     testUtils.initTestData();
     testUtils.removeIds();
     dragonBallUser = testUtils.getSingleTestData();
-    dragonBallUsersList = testUtils.getTestDataList();
 
     clearTable("DRAGONBALL_USER");
   }
@@ -56,7 +53,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void createTest() {
-    createTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser);
+    createTest(dragonBallUserDaoJpa, DragonBallUser.class);
   }
 
   /**
@@ -64,7 +61,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void createConflictExceptionTest() {
-    createConflictExceptionTest(dragonBallUserDaoJpa, dragonBallUser);
+    createConflictExceptionTest(dragonBallUserDaoJpa);
   }
 
   /**
@@ -72,7 +69,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void readTest() {
-    readTest(dragonBallUserDaoJpa, dragonBallUser);
+    readTest(dragonBallUserDaoJpa);
   }
 
   /**
@@ -80,7 +77,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void readAllTest() {
-    readAllTest(dragonBallUserDaoJpa, dragonBallUsersList);
+    readAllTest(dragonBallUserDaoJpa);
   }
 
   /**
@@ -91,7 +88,8 @@ public class DragonBallUserDaoJpaTest
       InvocationTargetException, NoSuchMethodException {
     DragonBallUser updatedEntity = (DragonBallUser) BeanUtils.cloneBean(dragonBallUser);
     updatedEntity.setEmail("gokuUpdated@dbz.com");
-    updateTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser, updatedEntity);
+    
+    updateTest(dragonBallUserDaoJpa, DragonBallUser.class, updatedEntity);
   }
 
   /**
@@ -99,7 +97,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void updateNotFoundExceptionTest() {
-    updateNotFoundExceptionTest(dragonBallUserDaoJpa, DragonBallUser.class, dragonBallUser);
+    updateNotFoundExceptionTest(dragonBallUserDaoJpa, DragonBallUser.class);
   }
 
   /**
@@ -126,7 +124,7 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void deleteTest() {
-    deleteTest(dragonBallUserDaoJpa, dragonBallUser);
+    deleteTest(dragonBallUserDaoJpa);
   }
 
   /**

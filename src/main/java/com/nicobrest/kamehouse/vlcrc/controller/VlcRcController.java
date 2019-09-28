@@ -4,9 +4,9 @@ import com.nicobrest.kamehouse.main.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
+import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
-import com.nicobrest.kamehouse.vlcrc.service.dto.VlcPlayerDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
