@@ -79,7 +79,6 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     E responseBody = getResponseBody(response, clazz);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(entity, responseBody);
     testUtils.assertEqualsAllAttributes(entity, responseBody);
   }
 
@@ -96,7 +95,6 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
 
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
-    assertEquals(entityList, responseBody);
     testUtils.assertEqualsAllAttributesList(entityList, responseBody);
     verify(service, times(1)).readAll();
     verifyNoMoreInteractions(service);
@@ -157,7 +155,6 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     E responseBody = getResponseBody(response, clazz);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(entity, responseBody);
     testUtils.assertEqualsAllAttributes(entity, responseBody);
     verify(service, times(1)).delete(identifiableEntity.getId());
   }

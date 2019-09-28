@@ -48,7 +48,6 @@ public abstract class AbstractCrudServiceTest<E, D> {
 
     E returnedEntity = service.read(identifiableEntity.getId());
 
-    assertEquals(entity, returnedEntity);
     testUtils.assertEqualsAllAttributes(entity, returnedEntity);
     verify(dao, times(1)).read(identifiableEntity.getId());
   }
@@ -62,7 +61,6 @@ public abstract class AbstractCrudServiceTest<E, D> {
 
     List<E> returnedList = service.readAll();
 
-    assertEquals(entityList, returnedList);
     testUtils.assertEqualsAllAttributesList(entityList, returnedList);
     verify(dao, times(1)).readAll();
   }
@@ -90,7 +88,6 @@ public abstract class AbstractCrudServiceTest<E, D> {
 
     E deletedEntity = service.delete(identifiableEntity.getId());
 
-    assertEquals(entity, deletedEntity);
     testUtils.assertEqualsAllAttributes(entity, deletedEntity);
     verify(dao, times(1)).delete(identifiableEntity.getId());
   }
