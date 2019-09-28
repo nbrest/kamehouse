@@ -39,7 +39,7 @@ public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDt
   }
 
   private void initSingleTestData() {
-    singleTestData =  new VlcPlayer();
+    singleTestData = new VlcPlayer();
     singleTestData.setId(null);
     singleTestData.setHostname("localhost");
     singleTestData.setPort(8080);
@@ -57,14 +57,14 @@ public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDt
   }
 
   private void initTestDataList() {
-    VlcPlayer vlcPlayer2 =  new VlcPlayer();
+    VlcPlayer vlcPlayer2 = new VlcPlayer();
     vlcPlayer2.setId(null);
     vlcPlayer2.setHostname("kamehouse");
     vlcPlayer2.setPort(9000);
     vlcPlayer2.setUsername("user-kame");
     vlcPlayer2.setPassword("pass-kame");
     
-    VlcPlayer vlcPlayer3 =  new VlcPlayer();
+    VlcPlayer vlcPlayer3 = new VlcPlayer();
     vlcPlayer3.setId(null);
     vlcPlayer3.setHostname("namek");
     vlcPlayer3.setPort(9999);

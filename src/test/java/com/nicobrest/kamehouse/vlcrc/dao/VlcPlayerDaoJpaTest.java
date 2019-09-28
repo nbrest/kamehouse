@@ -1,8 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
@@ -86,6 +83,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
       InvocationTargetException, NoSuchMethodException {
     VlcPlayer updatedEntity = (VlcPlayer) BeanUtils.cloneBean(vlcPlayer);
     updatedEntity.setHostname("kamehameha-updated-hostname");
+
     updateTest(vlcPlayerDaoJpa, VlcPlayer.class, updatedEntity);
   }
 
@@ -122,8 +120,6 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
 
     VlcPlayer returnedEntity = vlcPlayerDaoJpa.getByHostname(vlcPlayer.getHostname());
 
-    assertNotNull(returnedEntity);
-    assertEquals(vlcPlayer, returnedEntity);
     testUtils.assertEqualsAllAttributes(vlcPlayer, returnedEntity);
   }
 
@@ -134,7 +130,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   public void getByHostnameNotFoundExceptionTest() {
     thrown.expect(KameHouseNotFoundException.class);
     thrown.expectMessage("Entity not found in the repository.");
-    
+
     vlcPlayerDaoJpa.getByHostname(VlcPlayerTestUtils.INVALID_HOSTNAME);
   }
 }

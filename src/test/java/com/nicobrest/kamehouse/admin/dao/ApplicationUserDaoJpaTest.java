@@ -126,9 +126,7 @@ public class ApplicationUserDaoJpaTest
     ApplicationUser returnedUser =
         applicationUserDaoJpa.loadUserByUsername(applicationUser.getUsername());
 
-    assertNotNull(returnedUser);
     applicationUser.setId(returnedUser.getId());
-    assertEquals(applicationUser, returnedUser);
     testUtils.assertEqualsAllAttributes(applicationUser, returnedUser);
   }
 

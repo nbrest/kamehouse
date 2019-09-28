@@ -197,10 +197,10 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Test
   public void getPlaylistTest() throws Exception {
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
-    List<Map<String, Object>> listClass = new ArrayList<>();
+    List<Map<String, Object>> emptyList = new ArrayList<>();
 
     MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/playlist");
-    List<Map<String, Object>> responseBody = getResponseBody(response, listClass.getClass());
+    List<Map<String, Object>> responseBody = getResponseBody(response, emptyList.getClass());
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody);
     verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());
@@ -212,10 +212,10 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Test
   public void browseTest() throws Exception {
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
-    List<Map<String, Object>> listClass = new ArrayList<>();
+    List<Map<String, Object>> emtpyList = new ArrayList<>();
 
     MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/browse");
-    List<Map<String, Object>> responseBody = getResponseBody(response, listClass.getClass());
+    List<Map<String, Object>> responseBody = getResponseBody(response, emtpyList.getClass());
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody);
     verify(vlcRcServiceMock, times(1)).browse(any(), anyString());

@@ -1,8 +1,5 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
@@ -27,8 +24,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class DragonBallUserDaoJpaTest
-    extends AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
+public class DragonBallUserDaoJpaTest extends
+    AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
 
   private DragonBallUser dragonBallUser;
 
@@ -88,7 +85,7 @@ public class DragonBallUserDaoJpaTest
       InvocationTargetException, NoSuchMethodException {
     DragonBallUser updatedEntity = (DragonBallUser) BeanUtils.cloneBean(dragonBallUser);
     updatedEntity.setEmail("gokuUpdated@dbz.com");
-    
+
     updateTest(dragonBallUserDaoJpa, DragonBallUser.class, updatedEntity);
   }
 
@@ -144,8 +141,6 @@ public class DragonBallUserDaoJpaTest
 
     DragonBallUser returnedUser = dragonBallUserDaoJpa.getByUsername(dragonBallUser.getUsername());
 
-    assertNotNull(returnedUser);
-    assertEquals(dragonBallUser, returnedUser);
     testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
   }
 
@@ -169,8 +164,6 @@ public class DragonBallUserDaoJpaTest
 
     DragonBallUser returnedUser = dragonBallUserDaoJpa.getByEmail(dragonBallUser.getEmail());
 
-    assertNotNull(returnedUser);
-    assertEquals(dragonBallUser, returnedUser);
     testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
   }
 

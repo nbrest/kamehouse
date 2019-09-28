@@ -215,7 +215,6 @@ public class DragonBallControllerTest extends
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(dragonBallUser, responseBody);
     testUtils.assertEqualsAllAttributes(dragonBallUser, responseBody);
   }
 
@@ -247,7 +246,6 @@ public class DragonBallControllerTest extends
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals(dragonBallUser, responseBody);
     testUtils.assertEqualsAllAttributes(dragonBallUser, responseBody);
   }
 

@@ -72,6 +72,7 @@ public class DragonBallUserDaoInMemoryTest {
     Long createdId = dragonBallUserDao.create(dragonBallUser);
 
     DragonBallUser createdUser = dragonBallUserDao.read(createdId);
+    
     assertEquals(dragonBallUser, createdUser);
   }
 

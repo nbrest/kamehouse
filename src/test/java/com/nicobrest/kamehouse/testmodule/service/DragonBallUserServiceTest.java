@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -104,7 +103,6 @@ public class DragonBallUserServiceTest extends
     DragonBallUser returnedUser = dragonBallUserService.getByUsername(dragonBallUser
         .getUsername());
 
-    assertEquals(dragonBallUser, returnedUser);
     testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
     verify(dragonBallUserDaoMock, times(1)).getByUsername(dragonBallUser.getUsername());
   }
@@ -119,7 +117,6 @@ public class DragonBallUserServiceTest extends
 
     DragonBallUser returnedUser = dragonBallUserService.getByEmail(dragonBallUser.getEmail());
 
-    assertEquals(dragonBallUser, returnedUser);
     testUtils.assertEqualsAllAttributes(dragonBallUser, returnedUser);
     verify(dragonBallUserDaoMock, times(1)).getByEmail(dragonBallUser.getEmail());
   }

@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -102,8 +100,6 @@ public class ApplicationUserServiceTest extends
     ApplicationUser returnedUser = applicationUserService.loadUserByUsername(applicationUser
         .getUsername());
 
-    assertNotNull(returnedUser);
-    assertEquals(applicationUser, returnedUser);
     testUtils.assertEqualsAllAttributes(applicationUser, returnedUser);
     verify(applicationUserDaoMock, times(1)).loadUserByUsername(applicationUser.getUsername());
   }

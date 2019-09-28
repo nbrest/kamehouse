@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -99,7 +98,6 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
 
     VlcPlayer returnedEntity = vlcPlayerService.getByHostname(vlcPlayer.getHostname());
 
-    assertEquals(vlcPlayer, returnedEntity);
     testUtils.assertEqualsAllAttributes(vlcPlayer, returnedEntity);
     verify(vlcPlayerDaoMock, times(1)).getByHostname(vlcPlayer.getHostname());
   }

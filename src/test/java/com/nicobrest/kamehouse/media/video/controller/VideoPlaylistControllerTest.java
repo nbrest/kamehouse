@@ -72,8 +72,6 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
 
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
-    assertEquals(videoPlaylistsList.size(), responseBody.size());
-    assertEquals(videoPlaylistsList, responseBody);
     testUtils.assertEqualsAllAttributesList(videoPlaylistsList, responseBody);
     verify(videoPlaylistService, times(1)).readAll();
     verifyNoMoreInteractions(videoPlaylistService);
