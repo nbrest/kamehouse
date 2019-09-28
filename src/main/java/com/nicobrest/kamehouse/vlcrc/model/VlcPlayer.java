@@ -68,6 +68,12 @@ public class VlcPlayer implements Identifiable, Serializable {
   @JsonIgnore
   private static final String BROWSE_URL = "/requests/browse.json";
   @JsonIgnore
+  private static final String FILENAME = "filename";
+  @JsonIgnore
+  private static final String ARTIST = "artist";
+  @JsonIgnore
+  private static final String SETTING = "setting";
+  @JsonIgnore
   private static final String TITLE = "title";
   @JsonIgnore
   private static final String CODEC = "codec";
@@ -505,79 +511,108 @@ public class VlcPlayer implements Identifiable, Serializable {
       String[] chaptersArray = informationJson.get("chapters").asText().split(",");
       chapters.addAll(Arrays.asList(chaptersArray));
       information.setChapters(chapters);
-
       information.setTitle(informationJson.get(TITLE).asText());
       List<String> titles = new ArrayList<>();
       String[] titlesArray = informationJson.get("titles").asText().split(",");
       titles.addAll(Arrays.asList(titlesArray));
       information.setTitles(titles);
-
-      JsonNode categoryJson = informationJson.get("category");
-      Iterator<Entry<String, JsonNode>> categoryIterator = categoryJson.fields();
-      List<Map<String, Object>> informationCategories = new ArrayList<>();
-      while (categoryIterator.hasNext()) {
-        Map<String, Object> informationCategory = new HashMap<>();
-        Entry<String, JsonNode> categoryEntry = categoryIterator.next();
-        String name = categoryEntry.getKey();
-        JsonNode categoryNode = categoryEntry.getValue();
-        informationCategory.put("name", name);
-        if (name.equals("meta")) {
-          if (categoryNode.get("filename") != null) {
-            informationCategory.put("filename", categoryNode.get("filename").asText());
-          }
-          if (categoryNode.get(TITLE) != null) {
-            informationCategory.put(TITLE, categoryNode.get(TITLE).asText());
-          }
-          if (categoryNode.get("artist") != null) {
-            informationCategory.put("artist", categoryNode.get("artist").asText());
-          }
-          if (categoryNode.get("setting") != null) {
-            informationCategory.put("setting", categoryNode.get("setting").asText());
-          }
-          if (categoryNode.get("Software") != null) {
-            informationCategory.put("software", categoryNode.get("Software").asText());
-          }
-        } else {
-          String type = categoryNode.get("Type").asText();
-          informationCategory.put("type", type);
-          if (categoryNode.get(CODEC_CAMEL_CASE) != null) {
-            informationCategory.put(CODEC, categoryNode.get(CODEC_CAMEL_CASE).asText());
-          }
-          if (categoryNode.get(LANGUAGE_CAMEL_CASE) != null) {
-            informationCategory.put(LANGUAGE, categoryNode.get(LANGUAGE_CAMEL_CASE).asText());
-          }
-          switch (type) {
-            case "Video":
-              if (categoryNode.get("Frame_rate") != null) {
-                informationCategory.put("frameRate", categoryNode.get("Frame_rate").asText());
-              }
-              if (categoryNode.get("Decoded_format") != null) {
-                informationCategory.put("decodedFormat", categoryNode.get("Decoded_format")
-                    .asText());
-              }
-              informationCategory.put("displayResolution", categoryNode.get("Display_resolution"));
-              informationCategory.put("resolution", categoryNode.get("Resolution"));
-              break;
-            case "Audio":
-              if (categoryNode.get("Bitrate") != null) {
-                informationCategory.put("bitrate", categoryNode.get("Bitrate").asText());
-              }
-              if (categoryNode.get("Channels") != null) {
-                informationCategory.put("channels", categoryNode.get("Channels").asText());
-              }
-              if (categoryNode.get("Sample_rate") != null) {
-                informationCategory.put("sampleRate", categoryNode.get("Sample_rate").asText());
-              }
-              break;
-            default:
-              logger.warn("Unrecognized Type returned by VLC: {}", type);
-              break;
-          }
-        }
-        informationCategories.add(informationCategory);
-      }
-      information.setCategory(informationCategories);
+      setInformationCategories(informationJson, information);
       vlcRcStatus.setInformation(information);
+    }
+  }
+
+  /**
+   * Set information categories.
+   */
+  private void setInformationCategories(JsonNode informationJson,
+      VlcRcStatus.Information information) {
+    JsonNode categoryJson = informationJson.get("category");
+    Iterator<Entry<String, JsonNode>> categoryIterator = categoryJson.fields();
+    List<Map<String, Object>> informationCategories = new ArrayList<>();
+    while (categoryIterator.hasNext()) {
+      Map<String, Object> informationCategory = new HashMap<>();
+      Entry<String, JsonNode> categoryEntry = categoryIterator.next();
+      String name = categoryEntry.getKey();
+      JsonNode categoryNode = categoryEntry.getValue();
+      informationCategory.put("name", name);
+      if (name.equals("meta")) {
+        setInformationMetaCategory(categoryNode, informationCategory);
+      } else {
+        String type = categoryNode.get("Type").asText();
+        informationCategory.put("type", type);
+        if (categoryNode.get(CODEC_CAMEL_CASE) != null) {
+          informationCategory.put(CODEC, categoryNode.get(CODEC_CAMEL_CASE).asText());
+        }
+        if (categoryNode.get(LANGUAGE_CAMEL_CASE) != null) {
+          informationCategory.put(LANGUAGE, categoryNode.get(LANGUAGE_CAMEL_CASE).asText());
+        }
+        switch (type) {
+          case "Video":
+            setInformationVideoCategory(categoryNode, informationCategory);
+            break;
+          case "Audio":
+            setInformationAudioCategory(categoryNode, informationCategory);
+            break;
+          default:
+            logger.warn("Unrecognized Type returned by VLC: {}", type);
+            break;
+        }
+      }
+      informationCategories.add(informationCategory);
+    }
+    information.setCategory(informationCategories);
+  }
+
+  /**
+   * Set meta category.
+   */
+  private void setInformationMetaCategory(JsonNode categoryNode,
+      Map<String, Object> informationCategory) {
+    if (categoryNode.get(FILENAME) != null) {
+      informationCategory.put(FILENAME, categoryNode.get(FILENAME).asText());
+    }
+    if (categoryNode.get(TITLE) != null) {
+      informationCategory.put(TITLE, categoryNode.get(TITLE).asText());
+    }
+    if (categoryNode.get(ARTIST) != null) {
+      informationCategory.put(ARTIST, categoryNode.get(ARTIST).asText());
+    }
+    if (categoryNode.get(SETTING) != null) {
+      informationCategory.put(SETTING, categoryNode.get(SETTING).asText());
+    }
+    if (categoryNode.get("Software") != null) {
+      informationCategory.put("software", categoryNode.get("Software").asText());
+    }
+  }
+
+  /**
+   * Set video category.
+   */
+  private void setInformationVideoCategory(JsonNode categoryNode,
+      Map<String, Object> informationCategory) {
+    if (categoryNode.get("Frame_rate") != null) {
+      informationCategory.put("frameRate", categoryNode.get("Frame_rate").asText());
+    }
+    if (categoryNode.get("Decoded_format") != null) {
+      informationCategory.put("decodedFormat", categoryNode.get("Decoded_format").asText());
+    }
+    informationCategory.put("displayResolution", categoryNode.get("Display_resolution"));
+    informationCategory.put("resolution", categoryNode.get("Resolution"));
+  }
+
+  /**
+   * Set audio category.
+   */
+  private void setInformationAudioCategory(JsonNode categoryNode,
+      Map<String, Object> informationCategory) {
+    if (categoryNode.get("Bitrate") != null) {
+      informationCategory.put("bitrate", categoryNode.get("Bitrate").asText());
+    }
+    if (categoryNode.get("Channels") != null) {
+      informationCategory.put("channels", categoryNode.get("Channels").asText());
+    }
+    if (categoryNode.get("Sample_rate") != null) {
+      informationCategory.put("sampleRate", categoryNode.get("Sample_rate").asText());
     }
   }
 
