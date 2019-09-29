@@ -15,11 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
@@ -66,7 +64,7 @@ public class VlcControllerTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
-  
+
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
@@ -80,14 +78,11 @@ public class VlcControllerTest {
   @Test
   public void startVlcPlayerTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStartVlcCommandOutputs();
-    AdminCommand adminVlcCommand = new AdminCommand();
-    adminVlcCommand.setCommand(AdminCommand.VLC_START);
-    adminVlcCommand.setFile("marvel.m3u");
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/vlc").contentType(
-          MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.toJsonByteArray(
-              adminVlcCommand))).andDo(print());
+      ResultActions requestResult = mockMvc.perform(post(
+          "/api/v1/admin/vlc?file=src/test/resources/media.video/"
+              + "playlists/heroes/marvel/marvel.m3u")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -116,13 +111,10 @@ public class VlcControllerTest {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
         KameHouseInvalidCommandException.class));
- 
-    AdminCommand adminCommand = new AdminCommand("INVALID_SET");
 
-    mockMvc.perform(post("/api/v1/admin/vlc").contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(JsonUtils.toJsonByteArray(adminCommand))).andDo(print());
-  }  
-  
+    mockMvc.perform(post("/api/v1/admin/vlc?file=invalid-file")).andDo(print());
+  }
+
   /**
    * Stop VLC player successful test.
    */
@@ -131,8 +123,7 @@ public class VlcControllerTest {
     List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(
-          print());
+      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -152,7 +143,7 @@ public class VlcControllerTest {
     verify(adminCommandService, times(1)).execute(Mockito.any());
     verifyNoMoreInteractions(adminCommandService);
   }
-  
+
   /**
    * Stop VLC server error test.
    */
@@ -162,8 +153,7 @@ public class VlcControllerTest {
     mockCommandOutputs.get(0).setExitCode(1);
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(
-          print());
+      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(print());
       requestResult.andExpect(status().is5xxServerError());
     } catch (Exception e) {
       e.printStackTrace();
@@ -208,7 +198,8 @@ public class VlcControllerTest {
   private List<SystemCommandOutput> mockStartVlcCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
-    commandOutput.setCommand("[cmd.exe, /c, start, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
+    commandOutput.setCommand(
+        "[cmd.exe, /c, start, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
     commandOutput.setExitCode(-1);
     commandOutput.setPid(-1);
     commandOutput.setStatus("running");
@@ -250,4 +241,4 @@ public class VlcControllerTest {
     commandOutputs.add(commandOutput);
     return commandOutputs;
   }
-}  
+}

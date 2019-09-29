@@ -1,6 +1,8 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.AdminCommand;
+import com.nicobrest.kamehouse.admin.model.VlcStartAdminCommand;
+import com.nicobrest.kamehouse.admin.model.VlcStatusAdminCommand;
+import com.nicobrest.kamehouse.admin.model.VlcStopAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
@@ -11,8 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api/v1/admin")
 public class VlcController extends AbstractSystemCommandController {
- 
+
   @Autowired
   private AdminCommandService adminCommandService;
 
@@ -35,10 +37,10 @@ public class VlcController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/vlc")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> startVlcPlayer(
-      @RequestBody AdminCommand vlcStartAdminCommand) {
-    logger.trace("/api/v1/admin/vlc (POST)");
-    return executeAdminCommand(adminCommandService, vlcStartAdminCommand, AdminCommand.VLC_START);
+  public ResponseEntity<List<SystemCommandOutput>> startVlcPlayer(@RequestParam(value = "file",
+      required = false) String file) {
+    logger.trace("/api/v1/admin/vlc?file=value (POST)");
+    return executeAdminCommand(adminCommandService, new VlcStartAdminCommand(file));
   }
 
   /**
@@ -48,7 +50,7 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> stopVlcPlayer() {
     logger.trace("/api/v1/admin/vlc (DELETE)");
-    return executeAdminCommand(adminCommandService, AdminCommand.VLC_STOP);
+    return executeAdminCommand(adminCommandService, new VlcStopAdminCommand());
   }
 
   /**
@@ -58,6 +60,6 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusVlcPlayer() {
     logger.trace("/api/v1/admin/vlc (GET)");
-    return executeAdminCommand(adminCommandService, AdminCommand.VLC_STATUS);
+    return executeAdminCommand(adminCommandService, new VlcStatusAdminCommand());
   }
 }

@@ -1,59 +1,29 @@
 package com.nicobrest.kamehouse.admin.model;
 
+import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Represents Admin Commands in the application.
- * These are commands that are usually translated to system commands executed
- * through the command line.
+ * Base class for Admin Commands in the application. Admin commands are
+ * translated to one or more System Commands specific to the operating system
+ * running the application to be executed through the command line. These System
+ * Commands together, executed one after the other, achieve the goal of the
+ * Admin Command.
  * 
  * @author nbrest
  *
  */
-public class AdminCommand {
+public abstract class AdminCommand {
 
-  public static final String SCREEN_LOCK = "screen_lock";
-  public static final String SCREEN_UNLOCK = "screen_unlock";
-  public static final String SCREEN_WAKE_UP = "screen_wake_up";
-  public static final String SHUTDOWN_CANCEL = "shutdown_cancel";
-  public static final String SHUTDOWN_SET = "shutdown_set";
-  public static final String SHUTDOWN_STATUS = "shutdown_status";
-  public static final String SUSPEND = "suspend";
-  public static final String VLC_START = "vlc_start";
-  public static final String VLC_STATUS = "vlc_status";
-  public static final String VLC_STOP = "vlc_stop";
+  protected List<SystemCommand> systemCommands = new ArrayList<>();
 
-  private String command;
-  private String file;
-  // Time in seconds (delay to shutdown)
-  private int time;
-
-  public AdminCommand() {
-  }
-
-  public AdminCommand(String command) {
-    this.command = command;
-  }
-
-  public String getCommand() {
-    return command;
-  }
-
-  public void setCommand(String command) {
-    this.command = command;
-  }
-
-  public String getFile() {
-    return file;
-  }
-
-  public void setFile(String file) {
-    this.file = file;
-  }
-
-  public int getTime() {
-    return time;
-  }
-
-  public void setTime(int time) {
-    this.time = time;
+  /**
+   * Get the list of system commands required to execute to perform this admin
+   * command.
+   */
+  public List<SystemCommand> getSystemCommands() {
+    return systemCommands;
   }
 }

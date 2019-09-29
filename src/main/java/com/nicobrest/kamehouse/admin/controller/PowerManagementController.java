@@ -1,6 +1,9 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.AdminCommand;
+import com.nicobrest.kamehouse.admin.model.ShutdownAdminCommand;
+import com.nicobrest.kamehouse.admin.model.ShutdownCancelAdminCommand;
+import com.nicobrest.kamehouse.admin.model.ShutdownStatusAdminCommand;
+import com.nicobrest.kamehouse.admin.model.SuspendAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
@@ -11,8 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -35,11 +38,10 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/shutdown")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> setShutdown(
-      @RequestBody AdminCommand shutdownSetAdminCommand) {
-    logger.trace("/api/v1/admin/power-management/shutdown (POST)");
-    return executeAdminCommand(adminCommandService, shutdownSetAdminCommand,
-        AdminCommand.SHUTDOWN_SET);
+  public ResponseEntity<List<SystemCommandOutput>> setShutdown(@RequestParam(value = "delay",
+      required = true) Integer delay) {
+    logger.trace("/api/v1/admin/power-management/shutdown?delay=value (POST)");
+    return executeAdminCommand(adminCommandService, new ShutdownAdminCommand(delay));
   }
 
   /**
@@ -49,7 +51,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> cancelShutdown() {
     logger.trace("/api/v1/admin/power-management/shutdown (DELETE)");
-    return executeAdminCommand(adminCommandService, AdminCommand.SHUTDOWN_CANCEL);
+    return executeAdminCommand(adminCommandService, new ShutdownCancelAdminCommand());
   }
 
   /**
@@ -59,7 +61,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusShutdown() {
     logger.trace("/api/v1/admin/power-management/shutdown (GET)");
-    return executeAdminCommand(adminCommandService, AdminCommand.SHUTDOWN_STATUS);
+    return executeAdminCommand(adminCommandService, new ShutdownStatusAdminCommand());
   }
 
   /**
@@ -69,6 +71,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> suspend() {
     logger.trace("/api/v1/admin/power-management/suspend (POST)");
-    return executeAdminCommand(adminCommandService, AdminCommand.SUSPEND);
+    return executeAdminCommand(adminCommandService, new SuspendAdminCommand());
   }
 }

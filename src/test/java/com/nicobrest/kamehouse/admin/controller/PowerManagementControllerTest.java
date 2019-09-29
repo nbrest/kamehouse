@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
+import com.nicobrest.kamehouse.admin.model.ShutdownAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
@@ -80,14 +81,10 @@ public class PowerManagementControllerTest {
   @Test
   public void setShutdownTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockSetShutdownCommandOutputs();
-    AdminCommand adminShutdownCommand = new AdminCommand();
-    adminShutdownCommand.setCommand(AdminCommand.SHUTDOWN_SET);
-    adminShutdownCommand.setTime(5400);
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/power-management/shutdown")
-          .contentType(MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.toJsonByteArray(
-              adminShutdownCommand))).andDo(print());
+      ResultActions requestResult = mockMvc.perform(post(
+          "/api/v1/admin/power-management/shutdown?delay=5400")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -117,11 +114,7 @@ public class PowerManagementControllerTest {
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
         KameHouseInvalidCommandException.class));
 
-    AdminCommand adminShutdownCommand = new AdminCommand("INVALID_SET");
-
-    mockMvc.perform(post("/api/v1/admin/power-management/shutdown").contentType(
-        MediaType.APPLICATION_JSON_UTF8).content(JsonUtils.toJsonByteArray(
-            adminShutdownCommand))).andDo(print());
+    mockMvc.perform(post("/api/v1/admin/power-management/shutdown?delay=0")).andDo(print());
   }
 
   /**
@@ -212,8 +205,8 @@ public class PowerManagementControllerTest {
     List<SystemCommandOutput> mockCommandOutputs = mockSuspendCommandOutputs();
     when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post(
-          "/api/v1/admin/power-management/suspend")).andDo(print());
+      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/power-management/suspend"))
+          .andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
@@ -233,7 +226,7 @@ public class PowerManagementControllerTest {
     verify(adminCommandService, times(1)).execute(Mockito.any());
     verifyNoMoreInteractions(adminCommandService);
   }
-  
+
   /**
    * Mock set shutdown command outputs.
    */
@@ -282,14 +275,15 @@ public class PowerManagementControllerTest {
     commandOutputs.add(commandOutput);
     return commandOutputs;
   }
-  
+
   /**
    * Mock suspend command outputs.
    */
   private List<SystemCommandOutput> mockSuspendCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
-    commandOutput.setCommand("[cmd.exe, /c, start, rundll32.exe, powrprof.dll,SetSuspendState, 0,1,0]");
+    commandOutput.setCommand(
+        "[cmd.exe, /c, start, rundll32.exe, powrprof.dll,SetSuspendState, 0,1,0]");
     commandOutput.setExitCode(-1);
     commandOutput.setPid(-1);
     commandOutput.setStatus("running");

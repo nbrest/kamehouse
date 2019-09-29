@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.service;
 
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommand;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.systemcommand.service.SystemCommandService;
 
@@ -34,7 +33,6 @@ public class AdminCommandService {
    * Execute AdminCommand. Translate it to system commands and execute them.
    */
   public List<SystemCommandOutput> execute(AdminCommand adminCommand) {
-    List<SystemCommand> systemCommands = systemCommandService.getSystemCommands(adminCommand);
-    return systemCommandService.execute(systemCommands);
+    return systemCommandService.execute(adminCommand.getSystemCommands());
   }
 }

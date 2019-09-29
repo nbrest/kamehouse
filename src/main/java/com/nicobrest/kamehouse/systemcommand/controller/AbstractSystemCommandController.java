@@ -3,7 +3,6 @@ package com.nicobrest.kamehouse.systemcommand.controller;
 import com.nicobrest.kamehouse.admin.model.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.main.controller.AbstractController;
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.http.HttpStatus;
@@ -25,23 +24,7 @@ public class AbstractSystemCommandController extends AbstractController {
    * list.
    */
   public static ResponseEntity<List<SystemCommandOutput>> executeAdminCommand(
-      AdminCommandService adminCommandService, String adminCommandName) {
-    AdminCommand adminCommand = new AdminCommand(adminCommandName);
-    List<SystemCommandOutput> commandOutputs = adminCommandService.execute(adminCommand);
-    return generateSystemCommandOutputsResponseEntity(commandOutputs);
-  }
-
-  /**
-   * Executes the specified admin command and returns the sytem command ouputs
-   * list.
-   */
-  public static ResponseEntity<List<SystemCommandOutput>> executeAdminCommand(
-      AdminCommandService adminCommandService, AdminCommand adminCommand,
-      String adminCommandName) {
-    if (!adminCommandName.equals(adminCommand.getCommand())) {
-      throw new KameHouseInvalidCommandException("Invalid AdminCommand " + adminCommand
-          .getCommand());
-    }
+      AdminCommandService adminCommandService, AdminCommand adminCommand) {
     List<SystemCommandOutput> commandOutputs = adminCommandService.execute(adminCommand);
     return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }

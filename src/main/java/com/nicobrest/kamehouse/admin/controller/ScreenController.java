@@ -1,6 +1,8 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.AdminCommand;
+import com.nicobrest.kamehouse.admin.model.ScreenLockAdminCommand;
+import com.nicobrest.kamehouse.admin.model.ScreenUnlockAdminCommand;
+import com.nicobrest.kamehouse.admin.model.ScreenWakeUpAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
@@ -34,7 +36,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> lockScreen() {
     logger.trace("/api/v1/admin/screen/lock (POST)");
-    return executeAdminCommand(adminCommandService, AdminCommand.SCREEN_LOCK);
+    return executeAdminCommand(adminCommandService, new ScreenLockAdminCommand());
   }
 
   /**
@@ -44,16 +46,17 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> unlockScreen() {
     logger.trace("/api/v1/admin/screen/unlock (POST)");
-    return executeAdminCommand(adminCommandService, AdminCommand.SCREEN_UNLOCK);
+    return executeAdminCommand(adminCommandService, new ScreenUnlockAdminCommand());
   }
-  
+
   /**
-   * Wake up the screen. Run it when the screen goes dark after being idle for a while.
+   * Wake up the screen. Run it when the screen goes dark after being idle for a
+   * while.
    */
   @PostMapping(path = "/wake-up")
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> wakeUpScreen() {
     logger.trace("/api/v1/admin/screen/wake-up (POST)");
-    return executeAdminCommand(adminCommandService, AdminCommand.SCREEN_WAKE_UP);
+    return executeAdminCommand(adminCommandService, new ScreenWakeUpAdminCommand());
   }
 }
