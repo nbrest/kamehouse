@@ -1,8 +1,7 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import com.nicobrest.kamehouse.admin.model.AdminCommand;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.systemcommand.service.SystemCommandService;
+import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

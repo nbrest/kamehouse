@@ -1,11 +1,10 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.ScreenLockAdminCommand;
-import com.nicobrest.kamehouse.admin.model.ScreenUnlockAdminCommand;
-import com.nicobrest.kamehouse.admin.model.ScreenWakeUpAdminCommand;
+import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.admin.model.admincommand.ScreenLockAdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.ScreenUnlockAdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
-import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

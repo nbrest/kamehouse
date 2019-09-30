@@ -4,10 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.admin.model.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.ShutdownAdminCommand;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.systemcommand.service.SystemCommandService;
+import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
 
 import org.junit.Before;
 import org.junit.Test;

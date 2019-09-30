@@ -1,11 +1,10 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.VlcStartAdminCommand;
-import com.nicobrest.kamehouse.admin.model.VlcStatusAdminCommand;
-import com.nicobrest.kamehouse.admin.model.VlcStopAdminCommand;
+import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.admin.model.admincommand.VlcStartAdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.VlcStatusAdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.VlcStopAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
-import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

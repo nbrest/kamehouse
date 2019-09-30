@@ -57,7 +57,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- systemcommand beans -->
   <bean id="systemCommandService"
-    class="com.nicobrest.kamehouse.systemcommand.service.SystemCommandService" />
+    class="com.nicobrest.kamehouse.admin.service.SystemCommandService" />
 
   <!-- vlc-rc beans -->
   <bean id="vlcRcService"

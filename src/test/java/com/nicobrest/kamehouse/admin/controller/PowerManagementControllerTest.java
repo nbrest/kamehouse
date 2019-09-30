@@ -15,11 +15,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nicobrest.kamehouse.admin.model.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.ShutdownAdminCommand;
+import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.utils.JsonUtils;
 
 import org.hamcrest.core.IsInstanceOf;

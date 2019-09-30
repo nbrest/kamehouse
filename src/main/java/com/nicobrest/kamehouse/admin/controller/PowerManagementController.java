@@ -1,12 +1,11 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.ShutdownAdminCommand;
-import com.nicobrest.kamehouse.admin.model.ShutdownCancelAdminCommand;
-import com.nicobrest.kamehouse.admin.model.ShutdownStatusAdminCommand;
-import com.nicobrest.kamehouse.admin.model.SuspendAdminCommand;
+import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownCancelAdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownStatusAdminCommand;
+import com.nicobrest.kamehouse.admin.model.admincommand.SuspendAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
-import com.nicobrest.kamehouse.systemcommand.controller.AbstractSystemCommandController;
-import com.nicobrest.kamehouse.systemcommand.model.SystemCommandOutput;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
