@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.media.video.service;
 
+import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.model.PlaylistComparator;
-import com.nicobrest.kamehouse.utils.PropertiesUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

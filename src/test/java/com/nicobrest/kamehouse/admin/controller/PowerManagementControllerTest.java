@@ -20,7 +20,7 @@ import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
 import com.nicobrest.kamehouse.admin.service.AdminCommandService;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.utils.JsonUtils;
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;

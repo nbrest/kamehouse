@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.main.dao.Identifiable;
-import com.nicobrest.kamehouse.utils.JsonUtils;
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;

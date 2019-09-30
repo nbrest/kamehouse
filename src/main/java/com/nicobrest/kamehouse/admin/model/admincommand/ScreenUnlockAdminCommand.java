@@ -3,8 +3,8 @@ package com.nicobrest.kamehouse.admin.model.admincommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.ScreenLockSystemCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoKeyPressSystemCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoTypeSystemCommand;
-import com.nicobrest.kamehouse.utils.FileUtils;
-import com.nicobrest.kamehouse.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.main.utils.FileUtils;
+import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 
 /**
  * AdminCommand to unlock the screen.

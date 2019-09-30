@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
-import com.nicobrest.kamehouse.utils.PropertiesUtils;
 
 import org.junit.Before;
 import org.junit.BeforeClass;

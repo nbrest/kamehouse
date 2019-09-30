@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
-import com.nicobrest.kamehouse.utils.JsonUtils;
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.httpclient.URIException;

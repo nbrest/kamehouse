@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.utils;
+package com.nicobrest.kamehouse.main.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

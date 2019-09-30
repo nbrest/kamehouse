@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.utils;
+package com.nicobrest.kamehouse.main.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

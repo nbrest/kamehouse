@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.utils;
+package com.nicobrest.kamehouse.main.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;

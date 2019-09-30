@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.utils.FileUtils;
-import com.nicobrest.kamehouse.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.main.utils.FileUtils;
+import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 
 import java.util.Arrays;
 

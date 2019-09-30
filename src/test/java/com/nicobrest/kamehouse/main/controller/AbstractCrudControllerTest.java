@@ -12,7 +12,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.service.CrudService;
-import com.nicobrest.kamehouse.utils.JsonUtils;
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.mockito.Mockito;
