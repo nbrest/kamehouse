@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
@@ -34,8 +33,8 @@ import org.springframework.web.util.NestedServletException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class ApplicationUserControllerTest extends
-    AbstractCrudControllerTest<ApplicationUser, ApplicationUserDto> {
+public class ApplicationUserControllerTest
+    extends AbstractCrudControllerTest<ApplicationUser, ApplicationUserDto> {
 
   private static final String API_V1_ADMIN_APPLICATION_USERS =
       ApplicationUserTestUtils.API_V1_ADMIN_APPLICATION_USERS;
@@ -139,11 +138,11 @@ public class ApplicationUserControllerTest extends
    */
   @Test
   public void loadUserByUsernameTest() throws Exception {
-    when(applicationUserServiceMock.loadUserByUsername(applicationUser.getUsername())).thenReturn(
-        applicationUser);
+    when(applicationUserServiceMock.loadUserByUsername(applicationUser.getUsername()))
+        .thenReturn(applicationUser);
 
-    MockHttpServletResponse response = executeGet(API_V1_ADMIN_APPLICATION_USERS + "username/"
-        + applicationUser.getUsername());
+    MockHttpServletResponse response =
+        executeGet(API_V1_ADMIN_APPLICATION_USERS + "username/" + applicationUser.getUsername());
     ApplicationUser responseBody = getResponseBody(response, ApplicationUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -156,11 +155,11 @@ public class ApplicationUserControllerTest extends
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(applicationUserServiceMock)
         .loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
 
-    executeGet(API_V1_ADMIN_APPLICATION_USERS + "username/"
-        + ApplicationUserTestUtils.INVALID_USERNAME);
+    executeGet(
+        API_V1_ADMIN_APPLICATION_USERS + "username/" + ApplicationUserTestUtils.INVALID_USERNAME);
   }
 }

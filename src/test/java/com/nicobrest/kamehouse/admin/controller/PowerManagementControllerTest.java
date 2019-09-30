@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,23 +19,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.service.SystemCommandService;
+import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
@@ -53,18 +53,14 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class PowerManagementControllerTest {
-
-  private MockMvc mockMvc;
+public class PowerManagementControllerTest
+    extends AbstractControllerTest<List<SystemCommandOutput>, Object> {
 
   @InjectMocks
   private PowerManagementController adminPowerManagementController;
 
   @Mock
   private SystemCommandService systemCommandService;
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void beforeTest() {
@@ -77,29 +73,18 @@ public class PowerManagementControllerTest {
    * Set shutdown successful test.
    */
   @Test
-  public void setShutdownTest() {
+  public void setShutdownTest() throws Exception {
     List<SystemCommandOutput> mockCommandOutputs = mockSetShutdownCommandOutputs();
     when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
         .thenReturn(mockCommandOutputs);
-    try {
-      ResultActions requestResult = mockMvc
-          .perform(post("/api/v1/admin/power-management/shutdown?delay=5400")).andDo(print());
-      requestResult.andExpect(status().isOk());
-      requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-      requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult
-          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
-      requestResult
-          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
-      requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(
-          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
-      requestResult.andExpect(
-          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+
+    MockHttpServletResponse response =
+        executePost("/api/v1/admin/power-management/shutdown?delay=5400");
+    List<SystemCommandOutput> responseBody =
+        getResponseBodyList(response, SystemCommandOutput.class);
+
+    assertEquals(mockCommandOutputs.get(0).getCommand().toString(),
+        responseBody.get(0).getCommand().toString());
     verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
     verifyNoMoreInteractions(systemCommandService);
   }

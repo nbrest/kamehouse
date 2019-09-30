@@ -54,6 +54,14 @@ public abstract class AbstractControllerTest<E, D> {
         .perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
         .andDo(print()).andReturn().getResponse();
   }
+  
+  /**
+   * Execute a post request for the specified url with an empty payload.
+   */
+  protected MockHttpServletResponse executePost(String url)
+      throws Exception {
+    return mockMvc.perform(post(url)).andDo(print()).andReturn().getResponse();
+  }
 
   /**
    * Execute a put request for the specified url and payload on the mock server.
