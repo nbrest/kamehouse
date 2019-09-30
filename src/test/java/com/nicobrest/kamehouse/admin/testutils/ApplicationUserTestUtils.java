@@ -115,7 +115,7 @@ public class ApplicationUserTestUtils extends
     roles3.add(userRole3);
     applicationUser3.setAuthorities(roles3);
 
-    testDataList = new LinkedList<ApplicationUser>();
+    testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
     testDataList.add(applicationUser2);
     testDataList.add(applicationUser3);

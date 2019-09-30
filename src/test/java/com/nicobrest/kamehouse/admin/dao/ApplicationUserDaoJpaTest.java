@@ -1,8 +1,5 @@
 package com.nicobrest.kamehouse.admin.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
@@ -26,8 +23,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class ApplicationUserDaoJpaTest
-    extends AbstractCrudDaoJpaTest<ApplicationUser, ApplicationUserDto> {
+public class ApplicationUserDaoJpaTest extends
+    AbstractCrudDaoJpaTest<ApplicationUser, ApplicationUserDto> {
 
   private ApplicationUser applicationUser;
 
@@ -43,7 +40,7 @@ public class ApplicationUserDaoJpaTest
     testUtils.initTestData();
     testUtils.removeIds();
     applicationUser = testUtils.getSingleTestData();
-    
+
     clearTable("APPLICATION_ROLE");
     clearTable("APPLICATION_USER");
   }
@@ -88,7 +85,7 @@ public class ApplicationUserDaoJpaTest
       InvocationTargetException, NoSuchMethodException {
     ApplicationUser updatedEntity = (ApplicationUser) BeanUtils.cloneBean(applicationUser);
     updatedEntity.setEmail("gokuUpdatedEmail@dbz.com");
-    
+
     updateTest(applicationUserDaoJpa, ApplicationUser.class, updatedEntity);
   }
 
@@ -123,15 +120,16 @@ public class ApplicationUserDaoJpaTest
   public void loadUserByUsernameTest() {
     mergeEntityInRepository(applicationUser);
 
-    ApplicationUser returnedUser =
-        applicationUserDaoJpa.loadUserByUsername(applicationUser.getUsername());
+    ApplicationUser returnedUser = applicationUserDaoJpa.loadUserByUsername(applicationUser
+        .getUsername());
 
     applicationUser.setId(returnedUser.getId());
     testUtils.assertEqualsAllAttributes(applicationUser, returnedUser);
   }
 
   /**
-   * Test for getting a single ApplicationUser in the repository Exception flows.
+   * Test for getting a single ApplicationUser in the repository Exception
+   * flows.
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {

@@ -23,8 +23,7 @@ public abstract class VncDoSystemCommand extends SystemCommand {
         + vncServerPassword + " " + action + " " + parameter;
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", vncDoCommandLinux));
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "vncdo", "--server", hostname,
-        "--password", vncServerPassword, action));
-    windowsCommand.add(parameter);
+        "--password", vncServerPassword, action, parameter));
   }
 
   /**

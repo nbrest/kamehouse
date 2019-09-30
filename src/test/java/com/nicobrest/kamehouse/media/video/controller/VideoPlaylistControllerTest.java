@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.media.video.controller;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -38,11 +37,11 @@ import java.util.List;
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
-  
+
   private static final String API_V1_MEDIA_VIDEO_PLAYLISTS =
       VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLISTS;
   private List<Playlist> videoPlaylistsList;
-  
+
   @InjectMocks
   private VideoPlaylistController videoPlaylistController;
 
@@ -52,9 +51,9 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
   @Before
   public void beforeTest() {
     testUtils = new VideoPlaylistTestUtils();
-    testUtils.initTestData(); 
+    testUtils.initTestData();
     videoPlaylistsList = testUtils.getTestDataList();
-    
+
     MockitoAnnotations.initMocks(this);
     Mockito.reset(videoPlaylistService);
     mockMvc = MockMvcBuilders.standaloneSetup(videoPlaylistController).build();

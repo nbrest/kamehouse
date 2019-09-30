@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
- 
 
 /**
  * Unit tests for the SystemCommandService class. If this class becomes too big,
@@ -46,8 +45,8 @@ import java.util.List;
 public class SystemCommandServiceTest {
 
   private SystemCommandService systemCommandService;
-  InputStream processInputStream;
-  InputStream processErrorStream;
+  private InputStream processInputStream;
+  private InputStream processErrorStream;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -92,6 +91,7 @@ public class SystemCommandServiceTest {
     
     List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
 
+    assertEquals(systemCommands.size(), systemCommandOutputs.size());
     assertEquals(systemCommand.getCommand().toString(), systemCommandOutputs.get(0).getCommand());
     assertEquals("completed", systemCommandOutputs.get(0).getStatus());
     assertEquals(-1, systemCommandOutputs.get(0).getPid());
@@ -114,6 +114,7 @@ public class SystemCommandServiceTest {
     
     List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
 
+    assertEquals(systemCommands.size(), systemCommandOutputs.size());
     assertEquals("[vncdo (hidden from logs as it contains passwords)]",
         systemCommandOutputs.get(0).getCommand());
     assertEquals("failed", systemCommandOutputs.get(0).getStatus());
@@ -152,6 +153,7 @@ public class SystemCommandServiceTest {
 
     List<SystemCommandOutput> systemCommandOutputs = systemCommandService.execute(systemCommands);
 
+    assertEquals(systemCommands.size(), systemCommandOutputs.size());
     assertEquals(systemCommand.getCommand().toString(), systemCommandOutputs.get(0).getCommand());
     assertEquals("failed", systemCommandOutputs.get(0).getStatus());
     assertEquals(-1, systemCommandOutputs.get(0).getPid());
@@ -161,6 +163,9 @@ public class SystemCommandServiceTest {
         systemCommandOutputs.get(0).getStandardError().get(0));
   }
   
+  /**
+   * Setup mock input and error streams.
+   */
   private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent) {
     processInputStream = new ByteArrayInputStream(inputStreamContent.getBytes());
     processErrorStream = new ByteArrayInputStream(errorStreamContent.getBytes());

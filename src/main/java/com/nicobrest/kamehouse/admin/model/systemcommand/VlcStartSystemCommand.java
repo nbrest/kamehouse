@@ -23,7 +23,7 @@ public class VlcStartSystemCommand extends SystemCommand {
     if (filename != null) {
       File fileToPlay = new File(filename);
       if (!fileToPlay.exists()) {
-        throw new KameHouseInvalidCommandException("File to play doesn't exist on the server "
+        throw new KameHouseInvalidCommandException("File to play doesn't exist on the server: "
             + filename);
       }
       linuxCommand.add(filename);
