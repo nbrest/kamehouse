@@ -14,7 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.admin.service.AdminCommandService;
+import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
+import com.nicobrest.kamehouse.admin.service.SystemCommandService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,12 +52,12 @@ public class ScreenControllerTest {
   private ScreenController screenController;
 
   @Mock
-  private AdminCommandService adminCommandService;
+  private SystemCommandService systemCommandService;
 
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(adminCommandService);
+    Mockito.reset(systemCommandService);
     mockMvc = MockMvcBuilders.standaloneSetup(screenController).build();
   }
 
@@ -66,28 +67,29 @@ public class ScreenControllerTest {
   @Test
   public void lockScreenSuccessfulTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockLockScreenCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/screen/lock")).andDo(
-          print());
+      ResultActions requestResult =
+          mockMvc.perform(post("/api/v1/admin/screen/lock")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -96,28 +98,29 @@ public class ScreenControllerTest {
   @Test
   public void unlockScreenSuccessfulTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockUnlockScreenCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/screen/unlock")).andDo(
-          print());
+      ResultActions requestResult =
+          mockMvc.perform(post("/api/v1/admin/screen/unlock")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -126,28 +129,29 @@ public class ScreenControllerTest {
   @Test
   public void wakeUpScreenSuccessfulTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockWakeUpScreenCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/screen/wake-up")).andDo(
-          print());
+      ResultActions requestResult =
+          mockMvc.perform(post("/api/v1/admin/screen/wake-up")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**

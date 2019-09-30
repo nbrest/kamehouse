@@ -46,18 +46,12 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
     <property name="cacheManager" ref="cacheManager" />
   </bean>
 
-  <bean id="adminCommandService"
-    class="com.nicobrest.kamehouse.admin.service.AdminCommandService">
-    <property name="systemCommandService" ref="systemCommandService" />
-  </bean>
-
+  <bean id="systemCommandService"
+    class="com.nicobrest.kamehouse.admin.service.SystemCommandService" />
+    
   <!-- media.video beans -->
   <bean id="videoPlaylistService"
     class="com.nicobrest.kamehouse.media.video.service.VideoPlaylistService" />
-
-  <!-- systemcommand beans -->
-  <bean id="systemCommandService"
-    class="com.nicobrest.kamehouse.admin.service.SystemCommandService" />
 
   <!-- vlc-rc beans -->
   <bean id="vlcRcService"

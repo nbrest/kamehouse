@@ -16,7 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
-import com.nicobrest.kamehouse.admin.service.AdminCommandService;
+import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
+import com.nicobrest.kamehouse.admin.service.SystemCommandService;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
 
 import org.hamcrest.core.IsInstanceOf;
@@ -60,7 +61,7 @@ public class VlcControllerTest {
   private VlcController adminVlcController;
 
   @Mock
-  private AdminCommandService adminCommandService;
+  private SystemCommandService systemCommandService;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -68,7 +69,7 @@ public class VlcControllerTest {
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(adminCommandService);
+    Mockito.reset(systemCommandService);
     mockMvc = MockMvcBuilders.standaloneSetup(adminVlcController).build();
   }
 
@@ -78,29 +79,30 @@ public class VlcControllerTest {
   @Test
   public void startVlcPlayerTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStartVlcCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post(
-          "/api/v1/admin/vlc?file=src/test/resources/media.video/"
+      ResultActions requestResult =
+          mockMvc.perform(post("/api/v1/admin/vlc?file=src/test/resources/media.video/"
               + "playlists/heroes/marvel/marvel.m3u")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -109,8 +111,7 @@ public class VlcControllerTest {
   @Test
   public void startVlcExceptionTest() throws IOException, Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseInvalidCommandException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseInvalidCommandException.class));
 
     mockMvc.perform(post("/api/v1/admin/vlc?file=invalid-file")).andDo(print());
   }
@@ -121,27 +122,28 @@ public class VlcControllerTest {
   @Test
   public void stopVlcPlayerTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -151,7 +153,8 @@ public class VlcControllerTest {
   public void stopVlcPlayerServerErrorTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStopVlcCommandOutputs();
     mockCommandOutputs.get(0).setExitCode(1);
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/vlc")).andDo(print());
       requestResult.andExpect(status().is5xxServerError());
@@ -159,8 +162,8 @@ public class VlcControllerTest {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -169,27 +172,28 @@ public class VlcControllerTest {
   @Test
   public void statusVlcPlayerTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStatusVlcPlayerCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
       ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/vlc")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -198,8 +202,8 @@ public class VlcControllerTest {
   private List<SystemCommandOutput> mockStartVlcCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
-    commandOutput.setCommand(
-        "[cmd.exe, /c, start, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
+    commandOutput
+        .setCommand("[cmd.exe, /c, start, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
     commandOutput.setExitCode(-1);
     commandOutput.setPid(-1);
     commandOutput.setStatus("running");
@@ -235,8 +239,8 @@ public class VlcControllerTest {
     commandOutput.setExitCode(0);
     commandOutput.setPid(-1);
     commandOutput.setStatus("completed");
-    commandOutput.setStandardOutput(Arrays.asList(
-        "INFO: No tasks are running which match the specified criteria."));
+    commandOutput.setStandardOutput(
+        Arrays.asList("INFO: No tasks are running which match the specified criteria."));
     commandOutput.setStandardError(new ArrayList<String>());
     commandOutputs.add(commandOutput);
     return commandOutputs;

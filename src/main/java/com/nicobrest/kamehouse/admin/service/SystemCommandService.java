@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.service;
 
 import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.main.utils.ProcessUtils;
 
@@ -34,6 +35,13 @@ public class SystemCommandService {
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Exception occurred while executing the process. Message: {}";
 
+  /**
+   * Execute AdminCommand. Translate it to system commands and execute them.
+   */
+  public List<SystemCommandOutput> execute(AdminCommand adminCommand) {
+    return execute(adminCommand.getSystemCommands());
+  }
+  
   /**
    * Execute the specified SystemCommand.
    */

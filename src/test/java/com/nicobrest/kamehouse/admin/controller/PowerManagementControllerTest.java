@@ -17,10 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
-import com.nicobrest.kamehouse.admin.service.AdminCommandService;
+import com.nicobrest.kamehouse.admin.service.SystemCommandService;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
@@ -63,7 +61,7 @@ public class PowerManagementControllerTest {
   private PowerManagementController adminPowerManagementController;
 
   @Mock
-  private AdminCommandService adminCommandService;
+  private SystemCommandService systemCommandService;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -71,7 +69,7 @@ public class PowerManagementControllerTest {
   @Before
   public void beforeTest() {
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(adminCommandService);
+    Mockito.reset(systemCommandService);
     mockMvc = MockMvcBuilders.standaloneSetup(adminPowerManagementController).build();
   }
 
@@ -81,28 +79,29 @@ public class PowerManagementControllerTest {
   @Test
   public void setShutdownTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockSetShutdownCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post(
-          "/api/v1/admin/power-management/shutdown?delay=5400")).andDo(print());
+      ResultActions requestResult = mockMvc
+          .perform(post("/api/v1/admin/power-management/shutdown?delay=5400")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -111,8 +110,7 @@ public class PowerManagementControllerTest {
   @Test
   public void setShutdownExceptionTest() throws IOException, Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseInvalidCommandException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseInvalidCommandException.class));
 
     mockMvc.perform(post("/api/v1/admin/power-management/shutdown?delay=0")).andDo(print());
   }
@@ -123,28 +121,29 @@ public class PowerManagementControllerTest {
   @Test
   public void cancelShutdownTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete(
-          "/api/v1/admin/power-management/shutdown")).andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(delete("/api/v1/admin/power-management/shutdown")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -154,17 +153,18 @@ public class PowerManagementControllerTest {
   public void cancelShutdownServerErrorTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockCancelShutdownCommandOutputs();
     mockCommandOutputs.get(0).setExitCode(1);
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(delete(
-          "/api/v1/admin/power-management/shutdown")).andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(delete("/api/v1/admin/power-management/shutdown")).andDo(print());
       requestResult.andExpect(status().is5xxServerError());
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -173,28 +173,29 @@ public class PowerManagementControllerTest {
   @Test
   public void statusShutdownTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockStatusShutdownCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/power-management/shutdown"))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(get("/api/v1/admin/power-management/shutdown")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -203,28 +204,29 @@ public class PowerManagementControllerTest {
   @Test
   public void suspendTest() {
     List<SystemCommandOutput> mockCommandOutputs = mockSuspendCommandOutputs();
-    when(adminCommandService.execute(Mockito.any())).thenReturn(mockCommandOutputs);
+    when(systemCommandService.execute(Mockito.any(AdminCommand.class)))
+        .thenReturn(mockCommandOutputs);
     try {
-      ResultActions requestResult = mockMvc.perform(post("/api/v1/admin/power-management/suspend"))
-          .andDo(print());
+      ResultActions requestResult =
+          mockMvc.perform(post("/api/v1/admin/power-management/suspend")).andDo(print());
       requestResult.andExpect(status().isOk());
       requestResult.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
       requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0)
-          .getCommand())));
-      requestResult.andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0)
-          .getExitCode())));
+      requestResult
+          .andExpect(jsonPath("$[0].command", equalTo(mockCommandOutputs.get(0).getCommand())));
+      requestResult
+          .andExpect(jsonPath("$[0].exitCode", equalTo(mockCommandOutputs.get(0).getExitCode())));
       requestResult.andExpect(jsonPath("$[0].pid", equalTo(mockCommandOutputs.get(0).getPid())));
-      requestResult.andExpect(jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0)
-          .getStandardOutput())));
-      requestResult.andExpect(jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0)
-          .getStandardError())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardOutput", equalTo(mockCommandOutputs.get(0).getStandardOutput())));
+      requestResult.andExpect(
+          jsonPath("$[0].standardError", equalTo(mockCommandOutputs.get(0).getStandardError())));
     } catch (Exception e) {
       e.printStackTrace();
       fail("Unexpected exception thrown.");
     }
-    verify(adminCommandService, times(1)).execute(Mockito.any());
-    verifyNoMoreInteractions(adminCommandService);
+    verify(systemCommandService, times(1)).execute(Mockito.any(AdminCommand.class));
+    verifyNoMoreInteractions(systemCommandService);
   }
 
   /**
@@ -269,8 +271,8 @@ public class PowerManagementControllerTest {
     commandOutput.setExitCode(0);
     commandOutput.setPid(-1);
     commandOutput.setStatus("completed");
-    commandOutput.setStandardOutput(Arrays.asList(
-        "INFO: No tasks are running which match the specified criteria."));
+    commandOutput.setStandardOutput(
+        Arrays.asList("INFO: No tasks are running which match the specified criteria."));
     commandOutput.setStandardError(new ArrayList<String>());
     commandOutputs.add(commandOutput);
     return commandOutputs;
@@ -282,8 +284,8 @@ public class PowerManagementControllerTest {
   private List<SystemCommandOutput> mockSuspendCommandOutputs() {
     List<SystemCommandOutput> commandOutputs = new ArrayList<SystemCommandOutput>();
     SystemCommandOutput commandOutput = new SystemCommandOutput();
-    commandOutput.setCommand(
-        "[cmd.exe, /c, start, rundll32.exe, powrprof.dll,SetSuspendState, 0,1,0]");
+    commandOutput
+        .setCommand("[cmd.exe, /c, start, rundll32.exe, powrprof.dll,SetSuspendState, 0,1,0]");
     commandOutput.setExitCode(-1);
     commandOutput.setPid(-1);
     commandOutput.setStatus("running");
