@@ -15,7 +15,7 @@ import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 public class ScreenUnlockAdminCommand extends AdminCommand {
 
   /**
-   * Default constructor.
+   * Set the required SystemCommands to achieve this AdminCommand.
    */
   public ScreenUnlockAdminCommand() {
     String decodedPassword = getUnlockScreenPassword();

@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {
 
   /**
-   * Default constructor.
+   * Set the command line for each operation system required for this SystemCommand.
    */
   public VncDoMouseClickSystemCommand(String numberOfClicks, String horizontalPosition,
       String verticalPosition) {

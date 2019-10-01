@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class SuspendSystemCommand extends SystemCommand {
 
   /**
-   * Default constructor.
+   * Set the command line for each operation system required for this SystemCommand.
    */
   public SuspendSystemCommand() {
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "sudo /bin/systemctl suspend -i"));

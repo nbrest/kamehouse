@@ -11,7 +11,7 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoMouseClickSystemCo
 public class ScreenWakeUpAdminCommand extends AdminCommand {
 
   /**
-   * Default constructor.
+   * Set the required SystemCommands to achieve this AdminCommand.
    */
   public ScreenWakeUpAdminCommand() {
     systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));

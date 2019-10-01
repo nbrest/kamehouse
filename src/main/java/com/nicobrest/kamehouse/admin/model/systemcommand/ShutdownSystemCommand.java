@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class ShutdownSystemCommand extends SystemCommand {
 
   /**
-   * Default constructor.
+   * Set the command line for each operation system required for this SystemCommand.
    */
   public ShutdownSystemCommand(int shutdownDelaySeconds) {
     if (shutdownDelaySeconds <= 0) {

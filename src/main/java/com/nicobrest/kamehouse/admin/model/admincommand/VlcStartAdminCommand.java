@@ -11,6 +11,9 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStopSystemCommand;
  */
 public class VlcStartAdminCommand extends AdminCommand {
 
+  /**
+   * Set the required SystemCommands to achieve this AdminCommand.
+   */
   public VlcStartAdminCommand(String fileToPlay) {
     systemCommands.add(new VlcStopSystemCommand());
     systemCommands.add(new VlcStartSystemCommand(fileToPlay));

@@ -8,6 +8,9 @@ package com.nicobrest.kamehouse.admin.model.systemcommand;
  */
 public class VncDoTypeSystemCommand extends VncDoSystemCommand {
 
+  /**
+   * Set the command line for each operation system required for this SystemCommand.
+   */
   public VncDoTypeSystemCommand(String content) {
     setVncDoSystemCommand("type", content);
   }

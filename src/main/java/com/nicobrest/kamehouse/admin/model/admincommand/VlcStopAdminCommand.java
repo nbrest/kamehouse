@@ -10,6 +10,9 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStopSystemCommand;
  */
 public class VlcStopAdminCommand extends AdminCommand {
 
+  /**
+   * Set the required SystemCommands to achieve this AdminCommand.
+   */
   public VlcStopAdminCommand() {
     systemCommands.add(new VlcStopSystemCommand());
   }
