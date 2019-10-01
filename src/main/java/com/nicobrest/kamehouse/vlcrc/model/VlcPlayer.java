@@ -193,7 +193,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   /**
    * Browse through the server running vlc.
    */
-  public List<Map<String, Object>> browse(String uri) {
+  public List<VlcRcFileListItem> browse(String uri) {
     StringBuilder browseUrl = new StringBuilder();
     browseUrl.append(PROTOCOL);
     browseUrl.append(hostname);
@@ -672,8 +672,8 @@ public class VlcPlayer implements Identifiable, Serializable {
    * Converts the file list returned by the VLC Player into an internal file
    * list format.
    */
-  private List<Map<String, Object>> buildVlcRcFilelist(String vlcRcFileListResponse) {
-    List<Map<String, Object>> vlcRcFilelist = new ArrayList<>();
+  private List<VlcRcFileListItem> buildVlcRcFilelist(String vlcRcFileListResponse) {
+    List<VlcRcFileListItem> vlcRcFilelist = new ArrayList<>();
     if (vlcRcFileListResponse == null) {
       return vlcRcFilelist;
     }
@@ -684,18 +684,18 @@ public class VlcPlayer implements Identifiable, Serializable {
       JsonNode elementArray = vlcRcFileListResponseJson.get("element");
       if (elementArray != null && elementArray.isArray()) {
         for (JsonNode fileListItemNode : elementArray) {
-          Map<String, Object> fileListItem = new HashMap<>();
-          fileListItem.put("type", fileListItemNode.get("type").asText());
-          fileListItem.put("name", fileListItemNode.get("name").asText());
-          fileListItem.put("path", fileListItemNode.get("path").asText());
-          fileListItem.put("uri", fileListItemNode.get("uri").asText());
-          fileListItem.put("size", fileListItemNode.get("size").asInt());
-          fileListItem.put("accessTime", fileListItemNode.get("access_time").asInt());
-          fileListItem.put("creationTime", fileListItemNode.get("creation_time").asInt());
-          fileListItem.put("modificationTime", fileListItemNode.get("modification_time").asInt());
-          fileListItem.put("uid", fileListItemNode.get("uid").asInt());
-          fileListItem.put("gid", fileListItemNode.get("gid").asInt());
-          fileListItem.put("mode", fileListItemNode.get("mode").asInt());
+          VlcRcFileListItem fileListItem = new VlcRcFileListItem();
+          fileListItem.setType(fileListItemNode.get("type").asText());
+          fileListItem.setName(fileListItemNode.get("name").asText());
+          fileListItem.setPath(fileListItemNode.get("path").asText());
+          fileListItem.setUri(fileListItemNode.get("uri").asText());
+          fileListItem.setSize(fileListItemNode.get("size").asInt());
+          fileListItem.setAccessTime(fileListItemNode.get("access_time").asInt());
+          fileListItem.setCreationTime(fileListItemNode.get("creation_time").asInt());
+          fileListItem.setModificationTime(fileListItemNode.get("modification_time").asInt());
+          fileListItem.setUid(fileListItemNode.get("uid").asInt());
+          fileListItem.setGid(fileListItemNode.get("gid").asInt());
+          fileListItem.setMode(fileListItemNode.get("mode").asInt());
           vlcRcFilelist.add(fileListItem);
         }
       }

@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 import com.nicobrest.kamehouse.main.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Controller to manage the VLC Players registered in the application.
@@ -37,7 +37,7 @@ public class VlcRcController extends AbstractCrudController {
 
   private static final String VLC_PLAYERS = "/vlc-rc/players";
   private static final String VLC_PLAYERS_ID = "/vlc-rc/players/{id}";
-  
+
   @Autowired
   private VlcRcService vlcRcService;
 
@@ -52,7 +52,7 @@ public class VlcRcController extends AbstractCrudController {
   public ResponseEntity<Long> create(@RequestBody VlcPlayerDto dto) {
     return create(VLC_PLAYERS, vlcPlayerService, dto);
   }
-  
+
   /**
    * Reads a VLC Player by it's id.
    */
@@ -98,7 +98,7 @@ public class VlcRcController extends AbstractCrudController {
     VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostname);
     return generateGetResponseEntity(vlcPlayer);
   }
-  
+
   /**
    * Gets the status information of the VLC Player passed through the URL.
    */
@@ -138,10 +138,10 @@ public class VlcRcController extends AbstractCrudController {
    */
   @GetMapping(path = "/players/{hostname}/browse")
   @ResponseBody
-  public ResponseEntity<List<Map<String, Object>>> browse(@RequestParam(value = "uri",
+  public ResponseEntity<List<VlcRcFileListItem>> browse(@RequestParam(value = "uri",
       required = false) String uri, @PathVariable String hostname) {
     logger.trace("/vlc-rc/players/{hostname}/browse (GET)");
-    List<Map<String, Object>> vlcRcFileList = vlcRcService.browse(uri, hostname);
+    List<VlcRcFileListItem> vlcRcFileList = vlcRcService.browse(uri, hostname);
     return generateGetResponseEntity(vlcRcFileList);
   }
 }

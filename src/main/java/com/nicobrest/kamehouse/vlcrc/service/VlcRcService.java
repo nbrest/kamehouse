@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Service layer to interact with the registered VLC Players in the application.
@@ -33,14 +33,14 @@ public class VlcRcService {
   /**
    * Gets the status information of the specified VLC Player.
    */
-  public VlcRcStatus getVlcRcStatus(String hostname) { 
+  public VlcRcStatus getVlcRcStatus(String hostname) {
     return vlcPlayerService.getByHostname(hostname).getVlcRcStatus();
   }
 
   /**
    * Executes a command in the specified VLC Player.
    */
-  public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String hostname) { 
+  public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String hostname) {
     return vlcPlayerService.getByHostname(hostname).execute(vlcRcCommand);
   }
 
@@ -54,7 +54,7 @@ public class VlcRcService {
   /**
    * Browse the file system of the selected VLC Player.
    */
-  public List<Map<String, Object>> browse(String uri, String hostname) {
+  public List<VlcRcFileListItem> browse(String uri, String hostname) {
     return vlcPlayerService.getByHostname(hostname).browse(uri);
   }
 }

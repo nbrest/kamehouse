@@ -42,7 +42,7 @@ public class VlcPlayerTest {
   private VlcPlayer vlcPlayer;
   private VlcRcStatus vlcRcStatus;
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
-  private List<Map<String, Object>> vlcRcFileList;
+  private List<VlcRcFileListItem> vlcRcFileList;
 
   @Mock
   VlcPlayer vlcPlayerMock;
@@ -160,7 +160,7 @@ public class VlcPlayerTest {
   public void browseTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-filelist.json");
 
-    List<Map<String, Object>> returnedFilelist = vlcPlayer.browse("C:/");
+    List<VlcRcFileListItem> returnedFilelist = vlcPlayer.browse("C:/");
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
   }
@@ -172,7 +172,7 @@ public class VlcPlayerTest {
   public void browseEmptyParameterTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-filelist.json");
 
-    List<Map<String, Object>> returnedFilelist = vlcPlayer.browse(null);
+    List<VlcRcFileListItem> returnedFilelist = vlcPlayer.browse(null);
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
   }

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
@@ -21,7 +22,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Test class for the VlcRcService.
@@ -36,7 +36,7 @@ public class VlcRcServiceTest {
   private VlcRcFileListTestUtils vlcRcFileListTestUtils = new VlcRcFileListTestUtils();
   private VlcRcStatus vlcRcStatus;
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
-  private List<Map<String, Object>> vlcRcFileList;
+  private List<VlcRcFileListItem> vlcRcFileList;
 
   @InjectMocks
   private VlcRcService vlcRcService;
@@ -112,7 +112,7 @@ public class VlcRcServiceTest {
   public void browseTest() {
     when(vlcPlayer.browse(any())).thenReturn(vlcRcFileList);
 
-    List<Map<String, Object>> returnedFilelist = vlcRcService.browse(null, "niko-nba");
+    List<VlcRcFileListItem> returnedFilelist = vlcRcService.browse(null, "niko-nba");
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
     verify(vlcPlayer, times(1)).browse(any());
