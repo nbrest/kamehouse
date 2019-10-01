@@ -17,5 +17,6 @@ public class SuspendSystemCommand extends SystemCommand {
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "sudo /bin/systemctl suspend -i"));
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "rundll32.exe",
         "powrprof.dll,SetSuspendState", "0,1,0"));
+    setOutputCommand();
   }
 }

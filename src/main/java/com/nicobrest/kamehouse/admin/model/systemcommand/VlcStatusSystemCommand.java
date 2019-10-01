@@ -17,5 +17,6 @@ public class VlcStatusSystemCommand extends SystemCommand {
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c",
         "ps aux | grep -e \"vlc\\|COMMAND\" | grep -v grep"));
     windowsCommand.addAll(Arrays.asList("tasklist", "/FI", "IMAGENAME eq vlc.exe"));
+    setOutputCommand();
   }
 }

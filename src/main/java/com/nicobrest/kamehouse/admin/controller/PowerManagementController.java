@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.admin.controller;
-
-import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+ 
 import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownCancelAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownStatusAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.SuspendAdminCommand;
+import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/shutdown")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>>
+  public ResponseEntity<List<SystemCommand.Output>>
       setShutdown(@RequestParam(value = "delay", required = true) Integer delay) {
     logger.trace("/api/v1/admin/power-management/shutdown?delay=value (POST)");
     return executeAdminCommand(new ShutdownAdminCommand(delay));
@@ -43,7 +43,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @DeleteMapping(path = "/shutdown")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> cancelShutdown() {
+  public ResponseEntity<List<SystemCommand.Output>> cancelShutdown() {
     logger.trace("/api/v1/admin/power-management/shutdown (DELETE)");
     return executeAdminCommand(new ShutdownCancelAdminCommand());
   }
@@ -53,7 +53,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @GetMapping(path = "/shutdown")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> statusShutdown() {
+  public ResponseEntity<List<SystemCommand.Output>> statusShutdown() {
     logger.trace("/api/v1/admin/power-management/shutdown (GET)");
     return executeAdminCommand(new ShutdownStatusAdminCommand());
   }
@@ -63,7 +63,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/suspend")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> suspend() {
+  public ResponseEntity<List<SystemCommand.Output>> suspend() {
     logger.trace("/api/v1/admin/power-management/suspend (POST)");
     return executeAdminCommand(new SuspendAdminCommand());
   }

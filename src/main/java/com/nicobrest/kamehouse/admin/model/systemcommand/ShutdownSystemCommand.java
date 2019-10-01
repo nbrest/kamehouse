@@ -24,5 +24,6 @@ public class ShutdownSystemCommand extends SystemCommand {
         .valueOf(shutdownDelaySeconds / 60)));
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "shutdown", "/s", "/t ", String
         .valueOf(shutdownDelaySeconds)));
+    setOutputCommand();
   }
 }

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.admincommand;
 
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,5 +26,10 @@ public abstract class AdminCommand {
    */
   public List<SystemCommand> getSystemCommands() {
     return systemCommands;
+  }
+  
+  @Override
+  public String toString() {
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

@@ -29,5 +29,6 @@ public class VlcStartSystemCommand extends SystemCommand {
       linuxCommand.add(filename);
       windowsCommand.add(filename);
     }
+    setOutputCommand();
   }
 }

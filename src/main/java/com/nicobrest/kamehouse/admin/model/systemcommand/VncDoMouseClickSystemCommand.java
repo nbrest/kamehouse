@@ -27,5 +27,6 @@ public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "vncdo", "--server", hostname,
         "--password", vncServerPassword, "move", horizontalPosition, verticalPosition, "click",
         numberOfClicks));
+    setOutputCommand();
   }
 }

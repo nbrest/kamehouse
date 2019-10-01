@@ -13,5 +13,6 @@ public class VncDoKeyPressSystemCommand extends VncDoSystemCommand {
    */
   public VncDoKeyPressSystemCommand(String key) {
     setVncDoSystemCommand("key", key);
+    setOutputCommand();
   }
 }

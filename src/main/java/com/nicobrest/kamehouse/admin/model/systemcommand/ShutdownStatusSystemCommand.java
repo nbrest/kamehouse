@@ -17,5 +17,6 @@ public class ShutdownStatusSystemCommand extends SystemCommand {
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c",
         "ps aux | grep -e \"shutdown\\|COMMAND\" | grep -v grep"));
     windowsCommand.addAll(Arrays.asList("tasklist", "/FI", "IMAGENAME eq shutdown.exe"));
+    setOutputCommand();
   }
 }

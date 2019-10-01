@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.admin.service;
-
-import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+ 
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.main.utils.ProcessUtils;
@@ -38,27 +37,18 @@ public class SystemCommandService {
   /**
    * Execute AdminCommand. Translate it to system commands and execute them.
    */
-  public List<SystemCommandOutput> execute(AdminCommand adminCommand) {
+  public List<SystemCommand.Output> execute(AdminCommand adminCommand) {
     return execute(adminCommand.getSystemCommands());
   }
 
   /**
    * Execute the specified SystemCommand.
    */
-  public SystemCommandOutput execute(SystemCommand systemCommand) {
-    SystemCommandOutput commandOutput = new SystemCommandOutput();
+  public SystemCommand.Output execute(SystemCommand systemCommand) {
+    SystemCommand.Output commandOutput = systemCommand.getOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
-    if (isVncdoCommand(systemCommand)) {
-      // Don't show the command in the logs or the output for vncdo commands as
-      // it may contain passwords
-      commandOutput.setCommand("[vncdo (hidden from logs as it contains passwords)]");
-      logger.trace("Executing system command [vncdo (hidden from logs as it contains passwords)]");
-    } else {
-      String command = processBuilder.command().toString();
-      commandOutput.setCommand(command);
-      logger.trace("Executing system command {}", command);
-    }
+    logger.trace("Executing system command {}", commandOutput.getCommand());
     Process process;
     try {
       process = ProcessUtils.startProcess(processBuilder);
@@ -94,28 +84,20 @@ public class SystemCommandService {
   /**
    * Execute the specified list of system commands.
    */
-  public List<SystemCommandOutput> execute(List<SystemCommand> systemCommands) {
-    List<SystemCommandOutput> systemCommandOutputs = new ArrayList<>();
+  public List<SystemCommand.Output> execute(List<SystemCommand> systemCommands) {
+    List<SystemCommand.Output> systemCommandOutputs = new ArrayList<>();
     for (SystemCommand systemCommand : systemCommands) {
-      SystemCommandOutput systemCommandOutput = execute(systemCommand);
+      SystemCommand.Output systemCommandOutput = execute(systemCommand);
       systemCommandOutputs.add(systemCommandOutput);
     }
     return systemCommandOutputs;
   }
 
   /**
-   * Returns true if the command is a vncdo command.
-   */
-  private boolean isVncdoCommand(SystemCommand systemCommand) {
-    return systemCommand.getCommand().contains("vncdo") || (systemCommand.getCommand().size() >= 3
-        && systemCommand.getCommand().get(2).contains("vncdo"));
-  }
-
-  /**
    * Get input and error streams from process and add them to the system command
    * output.
    */
-  private void getStreamsFromProcess(Process process, SystemCommandOutput commandOutput)
+  private void getStreamsFromProcess(Process process, SystemCommand.Output commandOutput)
       throws IOException {
     try (InputStream processInputStream = ProcessUtils.getInputStreamFromProcess(process);
         BufferedReader processBufferedReader =

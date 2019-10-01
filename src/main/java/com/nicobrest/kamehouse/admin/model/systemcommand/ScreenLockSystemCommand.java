@@ -17,5 +17,6 @@ public class ScreenLockSystemCommand extends SystemCommand {
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "gnome-screensaver-command -l"));
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "rundll32.exe",
         "user32.dll,LockWorkStation"));
+    setOutputCommand();
   }
 }

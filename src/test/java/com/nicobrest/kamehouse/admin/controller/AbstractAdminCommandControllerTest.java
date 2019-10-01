@@ -3,9 +3,9 @@ package com.nicobrest.kamehouse.admin.controller;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+ 
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
+import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.admin.service.SystemCommandService;
 import com.nicobrest.kamehouse.admin.testutils.SystemCommandOutputTestUtils;
 import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
@@ -29,9 +29,9 @@ import java.util.List;
  *
  */
 public abstract class AbstractAdminCommandControllerTest extends
-    AbstractControllerTest<SystemCommandOutput, Object> {
+    AbstractControllerTest<SystemCommand.Output, Object> {
 
-  protected List<SystemCommandOutput> systemCommandOutputList;
+  protected List<SystemCommand.Output> systemCommandOutputList;
 
   @Mock
   protected SystemCommandService systemCommandService;
@@ -56,8 +56,8 @@ public abstract class AbstractAdminCommandControllerTest extends
   protected void executeGetAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
     MockHttpServletResponse response = executeGet(url);
-    List<SystemCommandOutput> responseBody = getResponseBodyList(response,
-        SystemCommandOutput.class);
+    List<SystemCommand.Output> responseBody = getResponseBodyList(response,
+        SystemCommand.Output.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);
@@ -70,8 +70,8 @@ public abstract class AbstractAdminCommandControllerTest extends
   protected void executePostAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
     MockHttpServletResponse response = executePost(url);
-    List<SystemCommandOutput> responseBody = getResponseBodyList(response,
-        SystemCommandOutput.class);
+    List<SystemCommand.Output> responseBody = getResponseBodyList(response,
+        SystemCommand.Output.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);
@@ -96,8 +96,8 @@ public abstract class AbstractAdminCommandControllerTest extends
   protected void executeDeleteAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
     MockHttpServletResponse response = executeDelete(url);
-    List<SystemCommandOutput> responseBody = getResponseBodyList(response,
-        SystemCommandOutput.class);
+    List<SystemCommand.Output> responseBody = getResponseBodyList(response,
+        SystemCommand.Output.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);
@@ -113,8 +113,8 @@ public abstract class AbstractAdminCommandControllerTest extends
     systemCommandOutputList.get(0).setExitCode(1);
 
     MockHttpServletResponse response = executeDelete(url);
-    List<SystemCommandOutput> responseBody = getResponseBodyList(response,
-        SystemCommandOutput.class);
+    List<SystemCommand.Output> responseBody = getResponseBodyList(response,
+        SystemCommand.Output.class);
 
     verifyResponseStatus(response, HttpStatus.INTERNAL_SERVER_ERROR);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);

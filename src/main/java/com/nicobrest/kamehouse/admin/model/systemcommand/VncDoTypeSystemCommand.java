@@ -13,5 +13,6 @@ public class VncDoTypeSystemCommand extends VncDoSystemCommand {
    */
   public VncDoTypeSystemCommand(String content) {
     setVncDoSystemCommand("type", content);
+    setOutputCommand();
   }
 }

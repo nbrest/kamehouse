@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.admin.service;
 
 import static org.powermock.api.mockito.PowerMockito.when;
 
-import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
@@ -69,7 +68,7 @@ public class SystemCommandServiceTest {
     setupProcessStreamMocks(inputStream.get(0), "");
     AdminCommand adminCommand = new ScreenWakeUpAdminCommand();
 
-    List<SystemCommandOutput> returnedList = systemCommandService.execute(adminCommand);
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(adminCommand);
 
     testUtils.assertCommandExecutedMatch(adminCommand, returnedList);
     testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, inputStream, EMPTY_LIST,
@@ -91,7 +90,7 @@ public class SystemCommandServiceTest {
     SystemCommand systemCommand = new VlcStatusSystemCommand();
     List<SystemCommand> systemCommands = Arrays.asList(systemCommand);
 
-    List<SystemCommandOutput> returnedList = systemCommandService.execute(systemCommands);
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
     testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, inputStream, EMPTY_LIST,
@@ -110,11 +109,11 @@ public class SystemCommandServiceTest {
     SystemCommand systemCommand = new VncDoKeyPressSystemCommand("esc");
     List<SystemCommand> systemCommands = Arrays.asList(systemCommand);
 
-    List<SystemCommandOutput> returnedList = systemCommandService.execute(systemCommands);
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, inputStream, errorStream,
-        returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, inputStream, errorStream, returnedList
+        .get(0));
   }
 
   /**
@@ -125,9 +124,9 @@ public class SystemCommandServiceTest {
     setupProcessStreamMocks("", "");
     SystemCommand systemCommand = new VlcStartSystemCommand(null);
 
-    SystemCommandOutput returnedCommandOutput = systemCommandService.execute(systemCommand);
+    SystemCommand.Output returnedCommandOutput = systemCommandService.execute(systemCommand);
 
-    testUtils.assertCommandExecutedMatch(systemCommand.getCommand(), returnedCommandOutput);
+    testUtils.assertCommandExecutedMatch(systemCommand, returnedCommandOutput);
     testUtils.assertSystemCommandOutputFields(-1, -1, RUNNING, null, null, returnedCommandOutput);
   }
 
@@ -141,11 +140,11 @@ public class SystemCommandServiceTest {
     SystemCommand systemCommand = new VlcStatusSystemCommand();
     List<SystemCommand> systemCommands = Arrays.asList(systemCommand);
 
-    List<SystemCommandOutput> returnedList = systemCommandService.execute(systemCommands);
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, null, errorStream,
-        returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, null, errorStream, returnedList.get(
+        0));
   }
 
   /**

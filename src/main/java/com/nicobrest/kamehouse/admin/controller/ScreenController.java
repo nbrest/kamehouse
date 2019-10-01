@@ -1,9 +1,9 @@
 package com.nicobrest.kamehouse.admin.controller;
-
-import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
+ 
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenLockAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenUnlockAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
+import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class ScreenController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/lock")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> lockScreen() {
+  public ResponseEntity<List<SystemCommand.Output>> lockScreen() {
     logger.trace("/api/v1/admin/screen/lock (POST)");
     return executeAdminCommand(new ScreenLockAdminCommand());
   }
@@ -38,7 +38,7 @@ public class ScreenController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/unlock")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> unlockScreen() {
+  public ResponseEntity<List<SystemCommand.Output>> unlockScreen() {
     logger.trace("/api/v1/admin/screen/unlock (POST)");
     return executeAdminCommand(new ScreenUnlockAdminCommand());
   }
@@ -49,7 +49,7 @@ public class ScreenController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/wake-up")
   @ResponseBody
-  public ResponseEntity<List<SystemCommandOutput>> wakeUpScreen() {
+  public ResponseEntity<List<SystemCommand.Output>> wakeUpScreen() {
     logger.trace("/api/v1/admin/screen/wake-up (POST)");
     return executeAdminCommand(new ScreenWakeUpAdminCommand());
   }
