@@ -1,22 +1,16 @@
 package com.nicobrest.kamehouse.admin.service;
  
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.admin.model.SessionStatus;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service layer to get the session status.
@@ -43,30 +37,18 @@ public class SessionStatusService {
   /**
    * Returns the current session's status.
    */
-  public Map<String, Object> get() {
+  public SessionStatus get() {
     logger.trace("Getting current session status");
     Authentication authentication = getAuthentication();
     String username = authentication.getName();
-    WebAuthenticationDetails sessionDetails = (WebAuthenticationDetails) authentication
-        .getDetails();
-    Map<String, Object> sessionStatus = new HashMap<>();
-    sessionStatus.put("username", StringEscapeUtils.escapeHtml(username));
-    sessionStatus.put("session-id", sessionDetails.getSessionId());
-    List<String> roles = new ArrayList<>();
-    for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
-      roles.add(grantedAuthority.getAuthority());
-    }
-    sessionStatus.put("roles", roles);
+    SessionStatus sessionStatus = new SessionStatus();
+    sessionStatus.setUsername(StringEscapeUtils.escapeHtml(username)); 
     try {
       ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
-      sessionStatus.put("firstName", applicationUser.getFirstName());
-      sessionStatus.put("lastName", applicationUser.getLastName());
-      sessionStatus.put("email", applicationUser.getEmail());
+      sessionStatus.setFirstName(applicationUser.getFirstName());
+      sessionStatus.setLastName(applicationUser.getLastName()); 
     } catch (UsernameNotFoundException e) {
       logger.trace(e.getMessage());
-      sessionStatus.put("firstName", null);
-      sessionStatus.put("lastName", null);
-      sessionStatus.put("email", null);
     }
     return sessionStatus;
   }

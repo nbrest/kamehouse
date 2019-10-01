@@ -1,9 +1,10 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.admin.model.SessionStatus;
+import com.nicobrest.kamehouse.admin.testutils.SessionStatusTestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +22,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.Map;
-
 /**
  * Test class for the SessionStatusService.
  * 
@@ -35,6 +34,9 @@ import java.util.Map;
 @WebAppConfiguration
 public class SessionStatusServiceTest {
 
+  private SessionStatusTestUtils testUtils = new SessionStatusTestUtils();
+  private SessionStatus sessionStatus;
+
   @InjectMocks
   private SessionStatusService sessionStatusService;
 
@@ -43,6 +45,9 @@ public class SessionStatusServiceTest {
 
   @Before
   public void init() {
+    testUtils.initTestData();
+    sessionStatus = testUtils.getSingleTestData();
+
     MockitoAnnotations.initMocks(this);
     Mockito.reset(applicationUserServiceMock);
   }
@@ -52,23 +57,17 @@ public class SessionStatusServiceTest {
    */
   @Test
   public void getSessionStatusTest() throws Exception {
-    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-        "anonymousUser", "anonymousUser");
+    UsernamePasswordAuthenticationToken authentication =
+        new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
     authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
     PowerMockito.when(sessionStatusServiceSpy, "getAuthentication").thenReturn(authentication);
     ApplicationUser applicationUserMock = new ApplicationUser();
-    applicationUserMock.setFirstName(null);
-    applicationUserMock.setLastName(null);
-    applicationUserMock.setEmail(null);
-    when(applicationUserServiceMock.loadUserByUsername("anonymousUser")).thenReturn(
-        applicationUserMock);
+    when(applicationUserServiceMock.loadUserByUsername("anonymousUser"))
+        .thenReturn(applicationUserMock);
 
-    Map<String, Object> returnedSessionStatus = sessionStatusServiceSpy.get();
-    
-    assertEquals("anonymousUser", returnedSessionStatus.get("username"));
-    assertEquals(null, returnedSessionStatus.get("firstName"));
-    assertEquals(null, returnedSessionStatus.get("lastName"));
-    assertEquals(null, returnedSessionStatus.get("email"));
+    SessionStatus returnedSessionStatus = sessionStatusServiceSpy.get();
+
+    testUtils.assertEqualsAllAttributes(sessionStatus, returnedSessionStatus);
   }
 }

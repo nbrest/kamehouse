@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import com.nicobrest.kamehouse.admin.model.SessionStatus;
 import com.nicobrest.kamehouse.admin.service.SessionStatusService;
 import com.nicobrest.kamehouse.main.controller.AbstractController;
 
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Map;
 
 /**
  * Controller to obtain current session information.
@@ -30,9 +29,9 @@ public class SessionStatusController extends AbstractController {
    */
   @GetMapping(path = "/status")
   @ResponseBody
-  public ResponseEntity<Map<String, Object>> getSessionStatus() {
+  public ResponseEntity<SessionStatus> getSessionStatus() {
     logger.trace("/api/v1/session/status (GET)");
-    Map<String, Object> sessionStatus = sessionStatusService.get();
+    SessionStatus sessionStatus = sessionStatusService.get();
     return generateGetResponseEntity(sessionStatus);
   }
 }
