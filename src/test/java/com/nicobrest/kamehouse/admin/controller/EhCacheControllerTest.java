@@ -1,41 +1,31 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nicobrest.kamehouse.admin.controller.EhCacheController;
+import com.nicobrest.kamehouse.admin.model.ApplicationCache;
 import com.nicobrest.kamehouse.admin.service.EhCacheService;
+import com.nicobrest.kamehouse.admin.testutils.ApplicationCacheTestUtils;
+import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Unit tests for the EhCacheController class.
@@ -45,12 +35,10 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class EhCacheControllerTest {
+public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCache, Object> {
 
-  private MockMvc mockMvc;
-
-  private static List<Map<String, Object>> cacheList;
-  private static Map<String, Object> cacheMap;
+  private ApplicationCache applicationCache;
+  private List<ApplicationCache> applicationCacheList;
 
   @InjectMocks
   private EhCacheController ehCacheController;
@@ -59,25 +47,15 @@ public class EhCacheControllerTest {
   private EhCacheService ehCacheServiceMock;
 
   /**
-   * Initializes test repositories.
-   */
-  @BeforeClass
-  public static void beforeClassTest() {
-
-    cacheList = new LinkedList<Map<String, Object>>();
-    cacheMap = new HashMap<String, Object>();
-    cacheMap.put("name", "dragonBallUsers");
-    cacheMap.put("keys", "[]");
-    cacheMap.put("values", "[ ]");
-    cacheMap.put("status", "STATUS_ALIVE");
-    cacheList.add(cacheMap);
-  }
-
-  /**
    * Resets mock objects.
    */
   @Before
   public void beforeTest() {
+    testUtils = new ApplicationCacheTestUtils();
+    testUtils.initTestData();
+    applicationCache = testUtils.getSingleTestData();
+    applicationCacheList = testUtils.getTestDataList();
+
     MockitoAnnotations.initMocks(this);
     Mockito.reset(ehCacheServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(ehCacheController).build();
@@ -87,34 +65,31 @@ public class EhCacheControllerTest {
    * Test getting all caches.
    */
   @Test
-  public void readAllTest() {
+  public void readAllTest() throws Exception {
+    when(ehCacheServiceMock.readAll()).thenReturn(applicationCacheList);
 
-    when(ehCacheServiceMock.readAll()).thenReturn(cacheList);
-    when(ehCacheServiceMock.read("dragonBallUsers")).thenReturn(cacheMap);
-    try {
-      ResultActions requestResult = mockMvc.perform(get("/api/v1/admin/ehcache")).andDo(print());
-      requestResult.andExpect(status().isOk());
-      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
-      requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].name", equalTo("dragonBallUsers")));
-      requestResult.andExpect(jsonPath("$[0].keys", equalTo("[]")));
-      requestResult.andExpect(jsonPath("$[0].values", equalTo("[ ]")));
-      requestResult.andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
+    MockHttpServletResponse response = executeGet("/api/v1/admin/ehcache");
+    List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
 
-      requestResult = mockMvc.perform(get("/api/v1/admin/ehcache?name=dragonBallUsers"))
-          .andDo(print());
-      requestResult.andExpect(status().isOk());
-      requestResult.andExpect(content().contentType("application/json;charset=UTF-8"));
-      requestResult.andExpect(jsonPath("$", hasSize(1)));
-      requestResult.andExpect(jsonPath("$[0].name", equalTo("dragonBallUsers")));
-      requestResult.andExpect(jsonPath("$[0].keys", equalTo("[]")));
-      requestResult.andExpect(jsonPath("$[0].values", equalTo("[ ]")));
-      requestResult.andExpect(jsonPath("$[0].status", equalTo("STATUS_ALIVE")));
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    verifyResponseStatus(response, HttpStatus.OK);
+    testUtils.assertEqualsAllAttributesList(applicationCacheList, responseBody);
     verify(ehCacheServiceMock, times(1)).readAll();
+    verifyNoMoreInteractions(ehCacheServiceMock);
+  }
+
+  /**
+   * Test getting a single cache.
+   */
+  @Test
+  public void readSingleCacheTest() throws Exception {
+    when(ehCacheServiceMock.read("dragonBallUsers")).thenReturn(applicationCache);
+
+    MockHttpServletResponse response = executeGet("/api/v1/admin/ehcache?name=dragonBallUsers");
+    List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    assertEquals(1, responseBody.size());
+    testUtils.assertEqualsAllAttributes(applicationCache, responseBody.get(0));
     verify(ehCacheServiceMock, times(1)).read("dragonBallUsers");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
@@ -123,20 +98,22 @@ public class EhCacheControllerTest {
    * Test clearing all caches.
    */
   @Test
-  public void clearAllTest() {
+  public void clearAllTest() throws Exception {
+    MockHttpServletResponse response = executeDelete("/api/v1/admin/ehcache");
 
-    try {
-      ResultActions requestResult = mockMvc.perform(delete("/api/v1/admin/ehcache")).andDo(print());
-      requestResult.andExpect(status().isOk());
-
-      requestResult = mockMvc
-          .perform(delete("/api/v1/admin/ehcache?name=dragonBallUsers")).andDo(print());
-      requestResult.andExpect(status().isOk());
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Unexpected exception thrown.");
-    }
+    verifyResponseStatus(response, HttpStatus.OK);
     verify(ehCacheServiceMock, times(1)).clearAll();
+    verifyNoMoreInteractions(ehCacheServiceMock);
+  }
+
+  /**
+   * Test clearing a single cache.
+   */
+  @Test
+  public void clearSingleCacheTest() throws Exception {
+    MockHttpServletResponse response = executeDelete("/api/v1/admin/ehcache?name=dragonBallUsers");
+
+    verifyResponseStatus(response, HttpStatus.OK);
     verify(ehCacheServiceMock, times(1)).clear("dragonBallUsers");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }

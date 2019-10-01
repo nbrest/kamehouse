@@ -2,6 +2,8 @@ package com.nicobrest.kamehouse.admin.service;
 
 import static org.junit.Assert.assertEquals;
 
+import com.nicobrest.kamehouse.admin.model.ApplicationCache;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Unit tests for the EhCacheService class.
@@ -30,7 +31,7 @@ public class EhCacheServiceTest {
    */
   @Test
   public void readAllTest() {
-    List<Map<String, Object>> cacheList = ehCacheService.readAll();
+    List<ApplicationCache> cacheList = ehCacheService.readAll();
 
     assertEquals(5, cacheList.size());
   }
@@ -45,9 +46,9 @@ public class EhCacheServiceTest {
     
     ehCacheService.clearAll();
     
-    for (Map<String, Object> cacheMap : ehCacheService.readAll()) {
-      if (cacheMap.get("name").equals("dragonBallUsers")) {
-        assertEquals(emptyList, cacheMap.get("values"));
+    for (ApplicationCache applicationCache : ehCacheService.readAll()) {
+      if ("dragonBallUsers".equals(applicationCache.getName())) {
+        assertEquals(emptyList, applicationCache.getValues());
       }
     }
   }

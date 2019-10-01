@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.admin.service;
 
+import com.nicobrest.kamehouse.admin.model.ApplicationCache;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.slf4j.Logger;
@@ -10,9 +12,7 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Service class to manage the ehcache in the system.
@@ -36,31 +36,27 @@ public class EhCacheService {
   public EhCacheCacheManager getCacheManager() {
     return cacheManager;
   }
-  
+
   /**
    * Returns the cache information of the cache specified as a parameter.
    */
-  public Map<String, Object> read(String cacheName) {
+  public ApplicationCache read(String cacheName) {
     logger.trace("Getting information for cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
-    Map<String, Object> cacheMap = new HashMap<>();
-    if (cache != null) {
-      populateCacheMap(cacheMap, cache);
-    }
-    return cacheMap;
+    return getCacheInformation(cache);
   }
 
   /**
    * Returns the status of all the ehcaches.
    */
-  public List<Map<String, Object>> readAll() {
+  public List<ApplicationCache> readAll() {
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
-    List<Map<String, Object>> cacheList = new ArrayList<>();
+    List<ApplicationCache> cacheList = new ArrayList<>();
 
     for (int i = 0; i < cacheNames.length; i++) {
-      Map<String, Object> cacheMap = read(cacheNames[i]);
-      if (!cacheMap.isEmpty()) {
-        cacheList.add(cacheMap);
+      ApplicationCache applicationCache = read(cacheNames[i]);
+      if (applicationCache != null) {
+        cacheList.add(applicationCache);
       }
     }
     return cacheList;
@@ -90,18 +86,22 @@ public class EhCacheService {
   /**
    * Populate the map that represents the cache with the cache information.
    */
-  private void populateCacheMap(Map<String, Object> cacheMap, Cache cache) {
-    cacheMap.put("name", cache.getName());
-    cacheMap.put("status", cache.getStatus().toString());
-    List<String> cacheValues = new ArrayList<>();
-    List<?> cacheKeys = cache.getKeys();
-    for (Object key : cacheKeys) {
-      Element cacheElement = cache.get(key);
-      if (cacheElement != null) {
-        cacheValues.add(cacheElement.getObjectValue().toString());
+  private ApplicationCache getCacheInformation(Cache cache) {
+    ApplicationCache applicationCache = null;
+    if (cache != null) {
+      applicationCache = new ApplicationCache();
+      applicationCache.setName(cache.getName());
+      applicationCache.setStatus(cache.getStatus().toString());
+      List<String> cacheValues = applicationCache.getValues();
+      List<?> cacheKeys = cache.getKeys();
+      for (Object key : cacheKeys) {
+        Element cacheElement = cache.get(key);
+        if (cacheElement != null) {
+          cacheValues.add(cacheElement.getObjectValue().toString());
+        }
       }
+      applicationCache.setKeys(cache.getKeys().toString());
     }
-    cacheMap.put("keys", cache.getKeys().toString());
-    cacheMap.put("values", cacheValues);
+    return applicationCache;
   }
 }

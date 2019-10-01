@@ -1,11 +1,11 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import com.nicobrest.kamehouse.admin.model.ApplicationCache;
 import com.nicobrest.kamehouse.admin.service.EhCacheService;
 import com.nicobrest.kamehouse.main.controller.AbstractController;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Controller to check the status and clear all the ehcaches.
@@ -32,20 +31,19 @@ public class EhCacheController extends AbstractController {
   private EhCacheService ehCacheService;
 
   /**
-   * Returns the status of all the ehcaches or the cache specified as a
-   * parameter.
+   * Returns the status of all the ehcaches or the cache specified as a parameter.
    */
   @GetMapping
   @ResponseBody
-  public ResponseEntity<List<Map<String, Object>>> read(@RequestParam(value = "name",
-      required = false) String cacheName) {
+  public ResponseEntity<List<ApplicationCache>>
+      read(@RequestParam(value = "name", required = false) String cacheName) {
     logger.trace("/api/v1/admin/ehcache (GET)");
-    List<Map<String, Object>> cacheList;
+    List<ApplicationCache> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
       cacheList = new ArrayList<>();
-      Map<String, Object> cache = ehCacheService.read(cacheName);
-      if (!cache.isEmpty()) {
-        cacheList.add(cache);
+      ApplicationCache applicationCache = ehCacheService.read(cacheName);
+      if (applicationCache != null) {
+        cacheList.add(applicationCache);
       }
     } else {
       cacheList = ehCacheService.readAll();
@@ -57,14 +55,14 @@ public class EhCacheController extends AbstractController {
    * Clears all the ehcaches or the cache specified as a parameter.
    */
   @DeleteMapping
-  public ResponseEntity<Void> clear(@RequestParam(value = "name",
-      required = false) String cacheName) {
+  public ResponseEntity<Void>
+      clear(@RequestParam(value = "name", required = false) String cacheName) {
     logger.trace("/api/v1/admin/ehcache (DELETE)");
     if (!StringUtils.isBlank(cacheName)) {
       ehCacheService.clear(cacheName);
     } else {
       ehCacheService.clearAll();
     }
-    return new ResponseEntity<>(HttpStatus.OK);
+    return EMPTY_SUCCESS_RESPONSE;
   }
 }

@@ -18,7 +18,7 @@ public abstract class AbstractController {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private static final ResponseEntity<Void> EMPTY_SUCCESS_RESPONSE =
+  protected static final ResponseEntity<Void> EMPTY_SUCCESS_RESPONSE =
       new ResponseEntity<>(HttpStatus.OK);
 
   /**
