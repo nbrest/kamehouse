@@ -35,17 +35,17 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
   public void assertEqualsAllAttributes(VlcRcStatus expected, VlcRcStatus returned) {
     assertRootAttributes(expected, returned);
     // AudioFilters
-    assertThat(expected.getAudioFilters(), is(returned.getAudioFilters()));
+    assertThat(returned.getAudioFilters(), is(expected.getAudioFilters()));
     // VideoEffects
-    assertThat(expected.getVideoEffects(), is(returned.getVideoEffects()));
+    assertThat(returned.getVideoEffects(), is(expected.getVideoEffects()));
     assertStats(expected, returned);
     // Equalizer
     Equalizer expectedEqualizer = expected.getEqualizer();
     Equalizer returnedEqualizer = returned.getEqualizer();
     if (expectedEqualizer != null && returnedEqualizer != null) {
       assertEquals(expectedEqualizer.getPreAmp(), returnedEqualizer.getPreAmp());
-      assertThat(expectedEqualizer.getBands(), is(returnedEqualizer.getBands()));
-      assertThat(expectedEqualizer.getPresets(), is(returnedEqualizer.getPresets()));
+      assertThat(returnedEqualizer.getBands(), is(expectedEqualizer.getBands()));
+      assertThat(returnedEqualizer.getPresets(), is(expectedEqualizer.getPresets()));
     } else {
       // Check that they are both null
       assertEquals(expectedEqualizer, returnedEqualizer);
@@ -114,9 +114,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     Information returnedInformation = returned.getInformation();
     if (expectedInformation != null && returnedInformation != null) {
       assertEquals(expectedInformation.getChapter(), returnedInformation.getChapter());
-      assertThat(expectedInformation.getChapters(), is(returnedInformation.getChapters()));
+      assertThat(returnedInformation.getChapters(), is(expectedInformation.getChapters()));
       assertEquals(expectedInformation.getTitle(), returnedInformation.getTitle());
-      assertThat(expectedInformation.getTitles(), is(returnedInformation.getTitles()));
+      assertThat(returnedInformation.getTitles(), is(expectedInformation.getTitles()));
       List<Map<String, Object>> expectedCategoryList = expectedInformation.getCategory();
       List<Map<String, Object>> returnedCategoryList = returnedInformation.getCategory();
       if (expectedCategoryList != null && returnedCategoryList != null) {
@@ -127,7 +127,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
       } else {
         assertEquals(expectedCategoryList, returnedCategoryList);
       }
-      assertThat(expectedInformation.getCategory(), is(returnedInformation.getCategory()));
+      assertThat(returnedInformation.getCategory(), is(expectedInformation.getCategory()));
     } else {
       // Check that they are both null
       assertEquals(expectedInformation, returnedInformation);

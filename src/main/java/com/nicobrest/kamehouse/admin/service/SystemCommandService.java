@@ -41,7 +41,7 @@ public class SystemCommandService {
   public List<SystemCommandOutput> execute(AdminCommand adminCommand) {
     return execute(adminCommand.getSystemCommands());
   }
-  
+
   /**
    * Execute the specified SystemCommand.
    */
@@ -118,29 +118,31 @@ public class SystemCommandService {
   private void getStreamsFromProcess(Process process, SystemCommandOutput commandOutput)
       throws IOException {
     try (InputStream processInputStream = ProcessUtils.getInputStreamFromProcess(process);
-        BufferedReader processBufferedReader = new BufferedReader(new InputStreamReader(
-            processInputStream, StandardCharsets.UTF_8)); 
+        BufferedReader processBufferedReader =
+            new BufferedReader(new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
         InputStream processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
-        BufferedReader processErrorBufferedReader = new BufferedReader(new InputStreamReader(
-            processErrorStream, StandardCharsets.UTF_8))) {
+        BufferedReader processErrorBufferedReader =
+            new BufferedReader(new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
       // Read command standard output stream
-      List<String> processStandardOuputList = new ArrayList<>();
-      String inputStreamLine;
-      while ((inputStreamLine = processBufferedReader.readLine()) != null) {
-        if (!StringUtils.isEmpty(inputStreamLine)) {
-          processStandardOuputList.add(inputStreamLine);
-        }
-      }
+      List<String> processStandardOuputList = readStreamIntoList(processBufferedReader);
       commandOutput.setStandardOutput(processStandardOuputList);
       // Read command standard error stream
-      List<String> processStandardErrorList = new ArrayList<>();
-      String errorStreamLine;
-      while ((errorStreamLine = processErrorBufferedReader.readLine()) != null) {
-        if (!StringUtils.isEmpty(errorStreamLine)) {
-          processStandardErrorList.add(errorStreamLine);
-        }
-      }
+      List<String> processStandardErrorList = readStreamIntoList(processErrorBufferedReader);
       commandOutput.setStandardError(processStandardErrorList);
     }
+  }
+
+  /**
+   * Read the stream from a buffered reader and store it in a List of Strings.
+   */
+  private List<String> readStreamIntoList(BufferedReader bufferedReader) throws IOException {
+    List<String> streamAsList = new ArrayList<>();
+    String streamLine;
+    while ((streamLine = bufferedReader.readLine()) != null) {
+      if (!StringUtils.isEmpty(streamLine)) {
+        streamAsList.add(streamLine);
+      }
+    }
+    return streamAsList;
   }
 }

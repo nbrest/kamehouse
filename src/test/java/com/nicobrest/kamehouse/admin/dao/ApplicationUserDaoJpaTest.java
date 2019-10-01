@@ -23,8 +23,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class ApplicationUserDaoJpaTest extends
-    AbstractCrudDaoJpaTest<ApplicationUser, ApplicationUserDto> {
+public class ApplicationUserDaoJpaTest
+    extends AbstractCrudDaoJpaTest<ApplicationUser, ApplicationUserDto> {
 
   private ApplicationUser applicationUser;
 
@@ -120,16 +120,15 @@ public class ApplicationUserDaoJpaTest extends
   public void loadUserByUsernameTest() {
     mergeEntityInRepository(applicationUser);
 
-    ApplicationUser returnedUser = applicationUserDaoJpa.loadUserByUsername(applicationUser
-        .getUsername());
+    ApplicationUser returnedUser =
+        applicationUserDaoJpa.loadUserByUsername(applicationUser.getUsername());
 
     applicationUser.setId(returnedUser.getId());
     testUtils.assertEqualsAllAttributes(applicationUser, returnedUser);
   }
 
   /**
-   * Test for getting a single ApplicationUser in the repository Exception
-   * flows.
+   * Test for getting a single ApplicationUser in the repository Exception flows.
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {

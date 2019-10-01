@@ -48,7 +48,7 @@ public class ApplicationUserTestUtils extends
     assertEquals(expectedEntity.getFirstName(), returnedEntity.getFirstName());
     assertEquals(expectedEntity.getLastName(), returnedEntity.getLastName());
     assertEquals(expectedEntity.getLastLogin(), returnedEntity.getLastLogin());
-    assertThat(expectedEntity.getAuthorities(), is(returnedEntity.getAuthorities()));
+    assertThat(returnedEntity.getAuthorities(), is(expectedEntity.getAuthorities()));
   }
 
   private void initSingleTestData() {

@@ -37,7 +37,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
     assertEquals(expectedPlaylist.getName(), returnedPlaylist.getName());
     assertEquals(expectedPlaylist.getPath(), returnedPlaylist.getPath());
     assertEquals(expectedPlaylist.getCategory(), returnedPlaylist.getCategory());
-    assertThat(expectedPlaylist.getFiles(), is(returnedPlaylist.getFiles()));
+    assertThat(returnedPlaylist.getFiles(), is(expectedPlaylist.getFiles()));
   }
 
   private void initSingleTestData() {

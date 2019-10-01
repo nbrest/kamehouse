@@ -4,9 +4,7 @@ import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenLockAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenUnlockAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
-import com.nicobrest.kamehouse.admin.service.SystemCommandService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +23,6 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin/screen")
 public class ScreenController extends AbstractSystemCommandController {
 
-  @Autowired
-  private SystemCommandService systemCommandService;
-
   /**
    * Lock screen in the server running the application.
    */
@@ -35,7 +30,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> lockScreen() {
     logger.trace("/api/v1/admin/screen/lock (POST)");
-    return executeAdminCommand(systemCommandService, new ScreenLockAdminCommand());
+    return executeAdminCommand(new ScreenLockAdminCommand());
   }
 
   /**
@@ -45,7 +40,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> unlockScreen() {
     logger.trace("/api/v1/admin/screen/unlock (POST)");
-    return executeAdminCommand(systemCommandService, new ScreenUnlockAdminCommand());
+    return executeAdminCommand(new ScreenUnlockAdminCommand());
   }
 
   /**
@@ -56,6 +51,6 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> wakeUpScreen() {
     logger.trace("/api/v1/admin/screen/wake-up (POST)");
-    return executeAdminCommand(systemCommandService, new ScreenWakeUpAdminCommand());
+    return executeAdminCommand(new ScreenWakeUpAdminCommand());
   }
 }

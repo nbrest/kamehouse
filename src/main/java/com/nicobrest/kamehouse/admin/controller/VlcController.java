@@ -4,9 +4,7 @@ import com.nicobrest.kamehouse.admin.model.SystemCommandOutput;
 import com.nicobrest.kamehouse.admin.model.admincommand.VlcStartAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.VlcStatusAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.VlcStopAdminCommand;
-import com.nicobrest.kamehouse.admin.service.SystemCommandService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,9 +26,6 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin")
 public class VlcController extends AbstractSystemCommandController {
 
-  @Autowired
-  private SystemCommandService systemCommandService;
-
   /**
    * Start a vlc player in the local server.
    */
@@ -39,7 +34,7 @@ public class VlcController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommandOutput>>
       startVlcPlayer(@RequestParam(value = "file", required = false) String file) {
     logger.trace("/api/v1/admin/vlc?file=value (POST)");
-    return executeAdminCommand(systemCommandService, new VlcStartAdminCommand(file));
+    return executeAdminCommand(new VlcStartAdminCommand(file));
   }
 
   /**
@@ -49,7 +44,7 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> stopVlcPlayer() {
     logger.trace("/api/v1/admin/vlc (DELETE)");
-    return executeAdminCommand(systemCommandService, new VlcStopAdminCommand());
+    return executeAdminCommand(new VlcStopAdminCommand());
   }
 
   /**
@@ -59,6 +54,6 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommandOutput>> statusVlcPlayer() {
     logger.trace("/api/v1/admin/vlc (GET)");
-    return executeAdminCommand(systemCommandService, new VlcStatusAdminCommand());
+    return executeAdminCommand(new VlcStatusAdminCommand());
   }
 }
