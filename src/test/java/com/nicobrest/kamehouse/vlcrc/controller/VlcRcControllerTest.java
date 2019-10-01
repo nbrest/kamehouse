@@ -10,6 +10,7 @@ import com.nicobrest.kamehouse.main.controller.AbstractCrudControllerTest;
 import com.nicobrest.kamehouse.main.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
@@ -55,7 +56,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
   private VlcRcFileListTestUtils vlcRcFileListTestUtils = new VlcRcFileListTestUtils();
   private VlcRcStatus vlcRcStatus;
-  private List<Map<String, Object>> vlcRcPlaylist;
+  private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<Map<String, Object>> vlcRcFileList;
 
   @InjectMocks
@@ -197,10 +198,9 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Test
   public void getPlaylistTest() throws Exception {
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
-    List<Map<String, Object>> emptyList = new ArrayList<>();
 
     MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/playlist");
-    List<Map<String, Object>> responseBody = getResponseBody(response, emptyList.getClass());
+    List<VlcRcPlaylistItem> responseBody = getResponseBodyList(response, VlcRcPlaylistItem.class);
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody);
     verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());

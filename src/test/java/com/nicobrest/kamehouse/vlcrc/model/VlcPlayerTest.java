@@ -41,7 +41,7 @@ public class VlcPlayerTest {
   private VlcRcFileListTestUtils vlcRcFileListTestUtils = new VlcRcFileListTestUtils();
   private VlcPlayer vlcPlayer;
   private VlcRcStatus vlcRcStatus;
-  private List<Map<String, Object>> vlcRcPlaylist;
+  private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<Map<String, Object>> vlcRcFileList;
 
   @Mock
@@ -148,7 +148,7 @@ public class VlcPlayerTest {
   public void getVlcRcPlaylistTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-playlist.json");
 
-    List<Map<String, Object>> returnedPlaylist = vlcPlayer.getPlaylist();
+    List<VlcRcPlaylistItem> returnedPlaylist = vlcPlayer.getPlaylist();
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, returnedPlaylist);
   }

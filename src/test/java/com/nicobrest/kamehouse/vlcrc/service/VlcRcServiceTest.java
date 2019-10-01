@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
@@ -34,7 +35,7 @@ public class VlcRcServiceTest {
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
   private VlcRcFileListTestUtils vlcRcFileListTestUtils = new VlcRcFileListTestUtils();
   private VlcRcStatus vlcRcStatus;
-  private List<Map<String, Object>> vlcRcPlaylist;
+  private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<Map<String, Object>> vlcRcFileList;
 
   @InjectMocks
@@ -98,7 +99,7 @@ public class VlcRcServiceTest {
   public void getPlaylistTest() {
     when(vlcPlayer.getPlaylist()).thenReturn(vlcRcPlaylist);
 
-    List<Map<String, Object>> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
+    List<VlcRcPlaylistItem> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, returnedPlaylist);
     verify(vlcPlayer, times(1)).getPlaylist();

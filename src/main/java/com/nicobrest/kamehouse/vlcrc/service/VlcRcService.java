@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class VlcRcService {
   /**
    * Gets the current playlist for the selected VLC Player.
    */
-  public List<Map<String, Object>> getPlaylist(String hostname) {
+  public List<VlcRcPlaylistItem> getPlaylist(String hostname) {
     return vlcPlayerService.getByHostname(hostname).getPlaylist();
   }
 

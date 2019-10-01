@@ -1,5 +1,10 @@
 package com.nicobrest.kamehouse.admin.model;
 
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,5 +59,26 @@ public class ApplicationCache {
 
   public void setValues(List<String> values) {
     this.values = values;
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(name).append(status).append(keys).toHashCode();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj instanceof ApplicationCache) {
+      final ApplicationCache other = (ApplicationCache) obj;
+      return new EqualsBuilder().append(name, other.getName()).append(status, other.getStatus())
+          .append(keys, other.getKeys()).isEquals();
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public String toString() {
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

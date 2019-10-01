@@ -179,7 +179,7 @@ public class VlcPlayer implements Identifiable, Serializable {
    * Gets the current playlist.
    */
   @JsonIgnore
-  public List<Map<String, Object>> getPlaylist() {
+  public List<VlcRcPlaylistItem> getPlaylist() {
     StringBuilder playlistUrl = new StringBuilder();
     playlistUrl.append(PROTOCOL);
     playlistUrl.append(hostname);
@@ -620,8 +620,8 @@ public class VlcPlayer implements Identifiable, Serializable {
    * Converts the playlist returned by the VLC Player into an internal playlist
    * format.
    */
-  private List<Map<String, Object>> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
-    List<Map<String, Object>> vlcRcPlaylist = new ArrayList<>();
+  private List<VlcRcPlaylistItem> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
+    List<VlcRcPlaylistItem> vlcRcPlaylist = new ArrayList<>();
     if (vlcRcPlaylistResponse == null) {
       return vlcRcPlaylist;
     }
@@ -655,14 +655,14 @@ public class VlcPlayer implements Identifiable, Serializable {
   /**
    * Iterate through the JsonNode array and generate the VlcRcPlaylist.
    */
-  private List<Map<String, Object>> getVlcRcPlaylistFromJsonNode(JsonNode playlistArrayNode) {
-    List<Map<String, Object>> vlcRcPlaylist = new ArrayList<>();
+  private List<VlcRcPlaylistItem> getVlcRcPlaylistFromJsonNode(JsonNode playlistArrayNode) {
+    List<VlcRcPlaylistItem> vlcRcPlaylist = new ArrayList<>();
     for (JsonNode playlistItemNode : playlistArrayNode) {
-      Map<String, Object> playlistItem = new HashMap<>();
-      playlistItem.put("id", playlistItemNode.get("id").asInt());
-      playlistItem.put("name", playlistItemNode.get("name").asText());
-      playlistItem.put("uri", playlistItemNode.get("uri").asText());
-      playlistItem.put("duration", playlistItemNode.get("duration").asInt());
+      VlcRcPlaylistItem playlistItem = new VlcRcPlaylistItem();
+      playlistItem.setId(playlistItemNode.get("id").asInt());
+      playlistItem.setName(playlistItemNode.get("name").asText());
+      playlistItem.setUri(playlistItemNode.get("uri").asText());
+      playlistItem.setDuration(playlistItemNode.get("duration").asInt());
       vlcRcPlaylist.add(playlistItem);
     }
     return vlcRcPlaylist;

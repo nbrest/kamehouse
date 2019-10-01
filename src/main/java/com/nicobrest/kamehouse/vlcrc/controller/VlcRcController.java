@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 import com.nicobrest.kamehouse.main.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
@@ -126,9 +127,9 @@ public class VlcRcController extends AbstractCrudController {
    */
   @GetMapping(path = "/players/{hostname}/playlist")
   @ResponseBody
-  public ResponseEntity<List<Map<String, Object>>> getPlaylist(@PathVariable String hostname) {
+  public ResponseEntity<List<VlcRcPlaylistItem>> getPlaylist(@PathVariable String hostname) {
     logger.trace("/vlc-rc/players/{hostname}/playlist (GET)");
-    List<Map<String, Object>> vlcPlaylist = vlcRcService.getPlaylist(hostname);
+    List<VlcRcPlaylistItem> vlcPlaylist = vlcRcService.getPlaylist(hostname);
     return generateGetResponseEntity(vlcPlaylist);
   }
 
