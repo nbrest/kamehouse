@@ -59,7 +59,7 @@ public class HttpClientUtils {
   /**
    * Create an HTTP Get request to the specified URL.
    */
-  public static HttpGet get(String url) {
+  public static HttpGet httpGet(String url) {
     return new HttpGet(url);
   }
 

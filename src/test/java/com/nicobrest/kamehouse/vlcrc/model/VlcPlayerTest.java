@@ -25,7 +25,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Test class for the VlcPlayer.
@@ -70,7 +69,7 @@ public class VlcPlayerTest {
     when(HttpClientUtils.getClient(any(), any())).thenReturn(httpClientMock);
     when(HttpClientUtils.executeRequest(any(), any())).thenReturn(httpResponseMock);
     when(HttpClientUtils.urlEncode(any())).thenCallRealMethod();
-    when(HttpClientUtils.get(any())).thenCallRealMethod();
+    when(HttpClientUtils.httpGet(any())).thenCallRealMethod();
   }
 
   /**
@@ -106,14 +105,7 @@ public class VlcPlayerTest {
     assertEquals(null, vlcRcStatus.getAspectRatio());
     assertTrue(!vlcRcStatus.getFullscreen());
     assertEquals(0, vlcRcStatus.getStats().getDisplayedPictures());
-    List<Map<String, Object>> categoryMapList = vlcRcStatus.getInformation().getCategory();
-    Map<String, Object> meta = null;
-    for (Map<String, Object> categoryMap : categoryMapList) {
-      if (categoryMap.get("name").equals("meta")) {
-        meta = categoryMap;
-      }
-    }
-    assertEquals("1 - Winter Is Coming.avi", meta.get("filename"));
+    assertEquals("1 - Winter Is Coming.avi", vlcRcStatus.getInformation().getMeta().getFilename());
   }
 
   /**

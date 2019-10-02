@@ -8,10 +8,8 @@ import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,8 +19,8 @@ import java.util.Map;
  * @author nbrest
  *
  */
-public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
-    implements TestUtils<VlcRcStatus, Object> {
+public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object> implements
+    TestUtils<VlcRcStatus, Object> {
 
   @Override
   public void initTestData() {
@@ -122,20 +120,83 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
       assertThat(returnedInformation.getChapters(), is(expectedInformation.getChapters()));
       assertEquals(expectedInformation.getTitle(), returnedInformation.getTitle());
       assertThat(returnedInformation.getTitles(), is(expectedInformation.getTitles()));
-      List<Map<String, Object>> expectedCategoryList = expectedInformation.getCategory();
-      List<Map<String, Object>> returnedCategoryList = returnedInformation.getCategory();
-      if (expectedCategoryList != null && returnedCategoryList != null) {
-        assertEquals(expectedCategoryList.size(), returnedCategoryList.size());
-        for (int i = 0; i < expectedCategoryList.size(); i++) {
-          assertEquals(expectedCategoryList.get(i), returnedCategoryList.get(i));
-        }
-      } else {
-        assertEquals(expectedCategoryList, returnedCategoryList);
-      }
-      assertThat(returnedInformation.getCategory(), is(expectedInformation.getCategory()));
+      assertMeta(expectedInformation, returnedInformation);
+      assertAudio(expectedInformation, returnedInformation);
+      assertVideo(expectedInformation, returnedInformation);
+      assertSubtitle(expectedInformation, returnedInformation);
     } else {
       // Check that they are both null
       assertEquals(expectedInformation, returnedInformation);
+    }
+  }
+
+  private void assertMeta(VlcRcStatus.Information expectedInformation,
+      VlcRcStatus.Information returnedInformation) {
+    VlcRcStatus.Information.Meta expected = expectedInformation.getMeta();
+    VlcRcStatus.Information.Meta returned = returnedInformation.getMeta();
+    if (expected != null && returned != null) {
+      assertEquals(expected.getArtist(), returned.getArtist());
+      assertEquals(expected.getArtworkUrl(), returned.getArtworkUrl());
+      assertEquals(expected.getFilename(), returned.getFilename());
+      assertEquals(expected.getName(), returned.getName());
+      assertEquals(expected.getSetting(), returned.getSetting());
+      assertEquals(expected.getSoftware(), returned.getSoftware());
+      assertEquals(expected.getTitle(), returned.getTitle());
+    } else {
+      // Check they are both null
+      assertEquals(expected, returned);
+    }
+  }
+
+  private void assertAudio(VlcRcStatus.Information expectedInformation,
+      VlcRcStatus.Information returnedInformation) {
+    VlcRcStatus.Information.Audio expected = expectedInformation.getAudio();
+    VlcRcStatus.Information.Audio returned = returnedInformation.getAudio();
+    if (expected != null && returned != null) {
+      assertEquals(expected.getBitrate(), returned.getBitrate());
+      assertEquals(expected.getChannels(), returned.getChannels());
+      assertEquals(expected.getCodec(), returned.getCodec());
+      assertEquals(expected.getLanguage(), returned.getLanguage());
+      assertEquals(expected.getName(), returned.getName());
+      assertEquals(expected.getSampleRate(), returned.getSampleRate());
+      assertEquals(expected.getType(), returned.getType());
+    } else {
+      // Check they are both null
+      assertEquals(expected, returned);
+    }
+  }
+
+  private void assertVideo(VlcRcStatus.Information expectedInformation,
+      VlcRcStatus.Information returnedInformation) {
+    VlcRcStatus.Information.Video expected = expectedInformation.getVideo();
+    VlcRcStatus.Information.Video returned = returnedInformation.getVideo();
+    if (expected != null && returned != null) {
+      assertEquals(expected.getCodec(), returned.getCodec());
+      assertEquals(expected.getLanguage(), returned.getLanguage());
+      assertEquals(expected.getName(), returned.getName());
+      assertEquals(expected.getType(), returned.getType());
+      assertEquals(expected.getDecodedFormat(), returned.getDecodedFormat());
+      assertEquals(expected.getDisplayResolution(), returned.getDisplayResolution());
+      assertEquals(expected.getFrameRate(), returned.getFrameRate());
+      assertEquals(expected.getResolution(), returned.getResolution());
+    } else {
+      // Check they are both null
+      assertEquals(expected, returned);
+    }
+  }
+
+  private void assertSubtitle(VlcRcStatus.Information expectedInformation,
+      VlcRcStatus.Information returnedInformation) {
+    VlcRcStatus.Information.Subtitle expected = expectedInformation.getSubtitle();
+    VlcRcStatus.Information.Subtitle returned = returnedInformation.getSubtitle();
+    if (expected != null && returned != null) {
+      assertEquals(expected.getCodec(), returned.getCodec());
+      assertEquals(expected.getLanguage(), returned.getLanguage());
+      assertEquals(expected.getName(), returned.getName());
+      assertEquals(expected.getType(), returned.getType());
+    } else {
+      // Check they are both null
+      assertEquals(expected, returned);
     }
   }
 
@@ -203,43 +264,45 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     information.setChapters(Arrays.asList(""));
     information.setTitle("0");
     information.setTitles(Arrays.asList(""));
-    List<Map<String, Object>> informationCategories = new ArrayList<Map<String, Object>>();
-    Map<String, Object> stream0 = new HashMap<String, Object>();
-    stream0.put("name", "Stream 0");
-    stream0.put("type", "Video");
-    stream0.put("frameRate", "23.976024");
-    stream0.put("decodedFormat", "Planar 4:2:0 YUV");
-    stream0.put("displayResolution", null);
-    stream0.put("codec", "Xvid MPEG-4 Video (XVID)");
-    stream0.put("resolution", null);
-    stream0.put("language", null);
-    informationCategories.add(stream0);
-    Map<String, Object> stream1 = new HashMap<String, Object>();
-    stream1.put("name", "Stream 1");
-    stream1.put("type", "Audio");
-    stream1.put("bitrate", "128 kb/s");
-    stream1.put("channels", "Stereo");
-    stream1.put("sampleRate", "48000 Hz");
-    stream1.put("codec", "MPEG Audio layer 3 (mp3 )");
-    stream1.put("language", null);
-    informationCategories.add(stream1);
-    Map<String, Object> meta = new HashMap<String, Object>();
-    meta.put("name", "meta");
-    meta.put("filename", "1 - Winter Is Coming.avi");
-    meta.put("title", "Winter Is Coming.avi");
-    meta.put("artist", "1");
-    meta.put("artworkUrl", "file:///C:/Users/nbrest/AppData/Roaming/vlc"
+    // Information Video
+    VlcRcStatus.Information.Video video = new VlcRcStatus.Information.Video();
+    video.setName("Stream 0");
+    video.setType("Video");
+    video.setFrameRate("23.976024");
+    video.setDecodedFormat("Planar 4:2:0 YUV");
+    video.setDisplayResolution(null);
+    video.setCodec("Xvid MPEG-4 Video (XVID)");
+    video.setResolution(null);
+    video.setLanguage(null);
+    information.setVideo(video);
+    // Information Audio
+    VlcRcStatus.Information.Audio audio = new VlcRcStatus.Information.Audio();
+    audio.setName("Stream 1");
+    audio.setType("Audio");
+    audio.setBitrate("128 kb/s");
+    audio.setChannels("Stereo");
+    audio.setSampleRate("48000 Hz");
+    audio.setCodec("MPEG Audio layer 3 (mp3 )");
+    audio.setLanguage(null);
+    information.setAudio(audio);
+    // Information Meta
+    VlcRcStatus.Information.Meta meta = new VlcRcStatus.Information.Meta();
+    meta.setName("meta");
+    meta.setFilename("1 - Winter Is Coming.avi");
+    meta.setTitle("Winter Is Coming.avi");
+    meta.setArtist("1");
+    meta.setArtworkUrl("file:///C:/Users/nbrest/AppData/Roaming/vlc"
         + "/art/arturl/939adb7ed723657d6a078ce9085e83ab/art");
-    meta.put("setting", " HAS_INDEX IS_INTERLEAVED");
-    meta.put("software", "Nandub v1.0rc2");
-    informationCategories.add(meta);
-    Map<String, Object> stream2 = new HashMap<String, Object>();
-    stream2.put("name", "Stream 2");
-    stream2.put("type", "Subtitle");
-    stream2.put("codec", "Text subtitles with various tags (subt)");
-    stream2.put("language", "\\subs\\1 - Winter Is Coming");
-    informationCategories.add(stream2);
-    information.setCategory(informationCategories);
+    meta.setSetting(" HAS_INDEX IS_INTERLEAVED");
+    meta.setSoftware("Nandub v1.0rc2");
+    information.setMeta(meta);
+    // Information Subtitle
+    VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();
+    subtitle.setName("Stream 2");
+    subtitle.setType("Subtitle");
+    subtitle.setCodec("Text subtitles with various tags (subt)");
+    subtitle.setLanguage("\\subs\\1 - Winter Is Coming");
+    information.setSubtitle(subtitle);
     singleTestData.setInformation(information);
   }
 }

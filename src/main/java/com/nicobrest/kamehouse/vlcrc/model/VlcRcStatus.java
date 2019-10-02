@@ -477,7 +477,6 @@ public class VlcRcStatus {
     private List<String> chapters;
     private String title;
     private List<String> titles;
-    private List<Map<String, Object>> category;
     private Audio audio;
     private Meta meta;
     private Subtitle subtitle;
@@ -513,14 +512,6 @@ public class VlcRcStatus {
 
     public void setTitles(List<String> titles) {
       this.titles = titles;
-    }
-
-    public List<Map<String, Object>> getCategory() {
-      return category;
-    }
-
-    public void setCategory(List<Map<String, Object>> category) {
-      this.category = category;
     }
 
     public Audio getAudio() {
@@ -634,6 +625,7 @@ public class VlcRcStatus {
       private String artist;
       private String setting;
       private String software;
+      private String artworkUrl;
 
       public String getName() {
         return name;
@@ -681,6 +673,14 @@ public class VlcRcStatus {
 
       public void setSoftware(String software) {
         this.software = software;
+      }
+
+      public String getArtworkUrl() {
+        return artworkUrl;
+      }
+
+      public void setArtworkUrl(String artworkUrl) {
+        this.artworkUrl = artworkUrl;
       }
     }
 

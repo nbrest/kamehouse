@@ -73,12 +73,13 @@ public class VlcPlayer implements Identifiable, Serializable {
   @JsonIgnore
   private static final String CODEC = "codec";
   @JsonIgnore
-  private static final String CODEC_CAMEL_CASE = "Codec";
+  private static final String CODEC_CC = "Codec";
   @JsonIgnore
   private static final String LANGUAGE = "language";
   @JsonIgnore
-  private static final String LANGUAGE_CAMEL_CASE = "Language";
-
+  private static final String LANGUAGE_CC = "Language";
+  @JsonIgnore
+  private static final String TYPE_CC = "Type";
   @Id
   @Column(name = "ID", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -247,7 +248,7 @@ public class VlcPlayer implements Identifiable, Serializable {
           + "look at alternatives")
   private String executeRequestToVlcServer(String url) {
     HttpClient client = HttpClientUtils.getClient(username, password);
-    HttpGet request = HttpClientUtils.get(url);
+    HttpGet request = HttpClientUtils.httpGet(url);
     HttpResponse response;
     try {
       response = HttpClientUtils.executeRequest(client, request);
@@ -447,75 +448,99 @@ public class VlcPlayer implements Identifiable, Serializable {
   }
 
   /**
-   * Set information categories.
+   * Set vlcRcStatus information categories. Current ones are subclasses Audio, Video,
+   * Subtitle and Meta.
    */
   private void setInformationCategories(JsonNode informationJson,
       VlcRcStatus.Information information) {
     JsonNode categoryJson = informationJson.get("category");
     Iterator<Entry<String, JsonNode>> categoryIterator = categoryJson.fields();
-    List<Map<String, Object>> informationCategories = new ArrayList<>();
     while (categoryIterator.hasNext()) {
-      Map<String, Object> informationCategory = new HashMap<>();
       Entry<String, JsonNode> categoryEntry = categoryIterator.next();
       String name = categoryEntry.getKey();
       JsonNode categoryNode = categoryEntry.getValue();
-      informationCategory.put("name", name);
       if ("meta".equals(name)) {
-        setInformationMetaCategory(categoryNode, informationCategory);
+        setInformationMeta(categoryNode, name, information);
       } else {
-        String type = JsonUtils.getText(categoryNode, "Type");
-        informationCategory.put("type", type);
-        informationCategory.put(CODEC, JsonUtils.getText(categoryNode, CODEC_CAMEL_CASE));
-        informationCategory.put(LANGUAGE, JsonUtils.getText(categoryNode, LANGUAGE_CAMEL_CASE));
+        String type = JsonUtils.getText(categoryNode, TYPE_CC);
         switch (type) {
           case "Video":
-            setInformationVideoCategory(categoryNode, informationCategory);
+            setInformationVideo(categoryNode, name, information);
             break;
           case "Audio":
-            setInformationAudioCategory(categoryNode, informationCategory);
+            setInformationAudio(categoryNode, name, information);
+            break;
+          case "Subtitle":
+            setInformationSubtitle(categoryNode, name, information);
             break;
           default:
-            logger.warn("Unrecognized Type returned by VLC: {}", type);
+            logger.warn("Unrecognized Information category Type returned by VLC: {}", type);
             break;
         }
       }
-      informationCategories.add(informationCategory);
     }
-    information.setCategory(informationCategories);
   }
 
   /**
-   * Set meta category.
+   * Set vlcRcStatus information meta category.
    */
-  private void setInformationMetaCategory(JsonNode jsonNode,
-      Map<String, Object> informationCategory) {
-    informationCategory.put(FILENAME, JsonUtils.getText(jsonNode, FILENAME));
-    informationCategory.put(TITLE, JsonUtils.getText(jsonNode, TITLE));
-    informationCategory.put(ARTIST, JsonUtils.getText(jsonNode, ARTIST));
-    informationCategory.put(SETTING, JsonUtils.getText(jsonNode, SETTING));
-    informationCategory.put("software", JsonUtils.getText(jsonNode, "Software"));
-    informationCategory.put("artworkUrl", JsonUtils.getText(jsonNode, "artwork_url"));
+  private void setInformationMeta(JsonNode jsonNode, String name, 
+      VlcRcStatus.Information information) {
+    VlcRcStatus.Information.Meta meta = new VlcRcStatus.Information.Meta();
+    meta.setArtist(JsonUtils.getText(jsonNode, ARTIST));
+    meta.setFilename(JsonUtils.getText(jsonNode, FILENAME));
+    meta.setName(name);
+    meta.setSetting(JsonUtils.getText(jsonNode, SETTING));
+    meta.setSoftware(JsonUtils.getText(jsonNode, "Software"));
+    meta.setTitle(JsonUtils.getText(jsonNode, TITLE));
+    meta.setArtworkUrl(JsonUtils.getText(jsonNode, "artwork_url"));
+    information.setMeta(meta);
   }
 
   /**
-   * Set video category.
+   * Set vlcRcStatus information video category.
    */
-  private void setInformationVideoCategory(JsonNode jsonNode,
-      Map<String, Object> informationCategory) {
-    informationCategory.put("frameRate", JsonUtils.getText(jsonNode, "Frame_rate"));
-    informationCategory.put("decodedFormat", JsonUtils.getText(jsonNode, "Decoded_format"));
-    informationCategory.put("displayResolution", jsonNode.get("Display_resolution"));
-    informationCategory.put("resolution", jsonNode.get("Resolution"));
+  private void setInformationVideo(JsonNode jsonNode, String name,
+      VlcRcStatus.Information information) {
+    VlcRcStatus.Information.Video video = new VlcRcStatus.Information.Video();
+    video.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
+    video.setDecodedFormat(JsonUtils.getText(jsonNode, "Decoded_format"));
+    video.setDisplayResolution(JsonUtils.getText(jsonNode, "Display_resolution"));
+    video.setFrameRate(JsonUtils.getText(jsonNode, "Frame_rate"));
+    video.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
+    video.setName(name);
+    video.setResolution(JsonUtils.getText(jsonNode, "Resolution"));
+    video.setType(JsonUtils.getText(jsonNode, TYPE_CC));
+    information.setVideo(video);
   }
 
   /**
-   * Set audio category.
+   * Set vlcRcStatus information audio category.
    */
-  private void setInformationAudioCategory(JsonNode jsonNode,
-      Map<String, Object> informationCategory) {
-    informationCategory.put("bitrate", JsonUtils.getText(jsonNode, "Bitrate"));
-    informationCategory.put("channels", JsonUtils.getText(jsonNode, "Channels"));
-    informationCategory.put("sampleRate", JsonUtils.getText(jsonNode, "Sample_rate"));
+  private void setInformationAudio(JsonNode jsonNode,String name,
+      VlcRcStatus.Information information) {
+    VlcRcStatus.Information.Audio audio = new VlcRcStatus.Information.Audio();
+    audio.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
+    audio.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
+    audio.setType(JsonUtils.getText(jsonNode, TYPE_CC));
+    audio.setName(name);
+    audio.setBitrate(JsonUtils.getText(jsonNode, "Bitrate"));
+    audio.setChannels(JsonUtils.getText(jsonNode, "Channels"));
+    audio.setSampleRate(JsonUtils.getText(jsonNode, "Sample_rate"));
+    information.setAudio(audio);
+  }
+  
+  /**
+   * Set vlcRcStatus information audio category.
+   */
+  private void setInformationSubtitle(JsonNode jsonNode,String name,
+      VlcRcStatus.Information information) {
+    VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();
+    subtitle.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
+    subtitle.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
+    subtitle.setType(JsonUtils.getText(jsonNode, TYPE_CC));
+    subtitle.setName(name);
+    information.setSubtitle(subtitle);
   }
 
   /**
