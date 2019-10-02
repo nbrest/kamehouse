@@ -204,6 +204,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     stream0.put("displayResolution", null);
     stream0.put("codec", "Xvid MPEG-4 Video (XVID)");
     stream0.put("resolution", null);
+    stream0.put("language", null);
     informationCategories.add(stream0);
     Map<String, Object> stream1 = new HashMap<String, Object>();
     stream1.put("name", "Stream 1");
@@ -212,6 +213,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     stream1.put("channels", "Stereo");
     stream1.put("sampleRate", "48000 Hz");
     stream1.put("codec", "MPEG Audio layer 3 (mp3 )");
+    stream1.put("language", null);
     informationCategories.add(stream1);
     Map<String, Object> meta = new HashMap<String, Object>();
     meta.put("name", "meta");
