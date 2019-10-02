@@ -211,7 +211,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     singleTestData.setFullscreen(true);
     singleTestData.setLength(3695);
     singleTestData.setLoop(false);
-    singleTestData.setPosition(0.1);
+    singleTestData.setPosition(0.11406684666872);
     singleTestData.setRandom(false);
     singleTestData.setRate(1);
     singleTestData.setRepeat(false);

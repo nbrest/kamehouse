@@ -315,7 +315,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   private void setVlcRcStatusRootAdditionalAttributes(JsonNode jsonNode, VlcRcStatus vlcRcStatus) {
     vlcRcStatus.setApiVersion(JsonUtils.getInt(jsonNode, "apiversion"));
     vlcRcStatus.setAudioDelay(JsonUtils.getInt(jsonNode, "audiodelay"));
-    vlcRcStatus.setPosition(JsonUtils.getInt(jsonNode, "position"));
+    vlcRcStatus.setPosition(JsonUtils.getDouble(jsonNode, "position"));
     vlcRcStatus.setRate(JsonUtils.getInt(jsonNode, "rate"));
     vlcRcStatus.setSubtitleDelay(JsonUtils.getInt(jsonNode, "subtitledelay"));
     vlcRcStatus.setVersion(JsonUtils.getText(jsonNode, "version"));
