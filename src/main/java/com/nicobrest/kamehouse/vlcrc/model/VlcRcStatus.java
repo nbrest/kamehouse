@@ -31,13 +31,7 @@ public class VlcRcStatus {
   // audioFilters: Don't come with fixed key names, so I keep it as a Map
   private Map<String, String> audioFilters;
   private Stats stats;
-
-  /*
-   * videoEffects:
-   * 
-   * hue; saturation; contrast; brightness; gamma
-   */
-  private Map<String, Integer> videoEffects;
+  private VideoEffects videoEffects;
 
   private Information information;
 
@@ -193,11 +187,11 @@ public class VlcRcStatus {
     this.stats = stats;
   }
 
-  public Map<String, Integer> getVideoEffects() {
+  public VideoEffects getVideoEffects() {
     return videoEffects;
   }
 
-  public void setVideoEffects(Map<String, Integer> videoEffects) {
+  public void setVideoEffects(VideoEffects videoEffects) {
     this.videoEffects = videoEffects;
   }
 
@@ -237,6 +231,58 @@ public class VlcRcStatus {
 
     public void setPreAmp(int preAmp) {
       this.preAmp = preAmp;
+    }
+  }
+
+  /**
+   * Video effects of the VlcRcStatus.
+   */
+  public static class VideoEffects {
+
+    private int hue;
+    private int saturation;
+    private int contrast;
+    private int brightness;
+    private int gamma;
+
+    public int getHue() {
+      return hue;
+    }
+
+    public void setHue(int hue) {
+      this.hue = hue;
+    }
+
+    public int getSaturation() {
+      return saturation;
+    }
+
+    public void setSaturation(int saturation) {
+      this.saturation = saturation;
+    }
+
+    public int getContrast() {
+      return contrast;
+    }
+
+    public void setContrast(int contrast) {
+      this.contrast = contrast;
+    }
+
+    public int getBrightness() {
+      return brightness;
+    }
+
+    public void setBrightness(int brightness) {
+      this.brightness = brightness;
+    }
+
+    public int getGamma() {
+      return gamma;
+    }
+
+    public void setGamma(int gamma) {
+      this.gamma = gamma;
     }
   }
 

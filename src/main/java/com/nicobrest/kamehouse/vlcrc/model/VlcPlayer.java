@@ -411,14 +411,14 @@ public class VlcPlayer implements Identifiable, Serializable {
    * Set VlcRcStatus video filters.
    */
   private void setVlcRcStatusVideoEffects(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
-    Map<String, Integer> videoEffects = new HashMap<>();
-    JsonNode videoEffectsJson = vlcStatusResponseJson.get("videoeffects");
-    if (videoEffectsJson != null) {
-      Iterator<Entry<String, JsonNode>> videoEffectsIterator = videoEffectsJson.fields();
-      while (videoEffectsIterator.hasNext()) {
-        Entry<String, JsonNode> videoEffectsEntry = videoEffectsIterator.next();
-        videoEffects.put(videoEffectsEntry.getKey(), videoEffectsEntry.getValue().asInt());
-      }
+    VlcRcStatus.VideoEffects videoEffects = new VlcRcStatus.VideoEffects();
+    JsonNode jsonNode = vlcStatusResponseJson.get("videoeffects");
+    if (jsonNode != null) {
+      videoEffects.setBrightness(JsonUtils.getInt(jsonNode, "brightness"));
+      videoEffects.setContrast(JsonUtils.getInt(jsonNode, "contrast"));
+      videoEffects.setGamma(JsonUtils.getInt(jsonNode, "gamma"));
+      videoEffects.setHue(JsonUtils.getInt(jsonNode, "hue"));
+      videoEffects.setSaturation(JsonUtils.getInt(jsonNode, "saturation"));
       vlcRcStatus.setVideoEffects(videoEffects);
     }
   }

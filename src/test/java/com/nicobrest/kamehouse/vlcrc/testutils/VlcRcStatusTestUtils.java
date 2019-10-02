@@ -7,8 +7,6 @@ import static org.junit.Assert.assertThat;
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
-import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus.Equalizer;
-import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus.Information;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,12 +34,12 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     assertRootAttributes(expected, returned);
     // AudioFilters
     assertThat(returned.getAudioFilters(), is(expected.getAudioFilters()));
-    // VideoEffects
-    assertThat(returned.getVideoEffects(), is(expected.getVideoEffects()));
+    // VideoEffects 
+    assertVideoEffects(expected, returned);
     assertStats(expected, returned);
     // Equalizer
-    Equalizer expectedEqualizer = expected.getEqualizer();
-    Equalizer returnedEqualizer = returned.getEqualizer();
+    VlcRcStatus.Equalizer expectedEqualizer = expected.getEqualizer();
+    VlcRcStatus.Equalizer returnedEqualizer = returned.getEqualizer();
     if (expectedEqualizer != null && returnedEqualizer != null) {
       assertEquals(expectedEqualizer.getPreAmp(), returnedEqualizer.getPreAmp());
       assertThat(returnedEqualizer.getBands(), is(expectedEqualizer.getBands()));
@@ -51,6 +49,22 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
       assertEquals(expectedEqualizer, returnedEqualizer);
     }
     assertInformation(expected, returned);
+  }
+
+  private void assertVideoEffects(VlcRcStatus expectedEntity,
+      VlcRcStatus returnedEntity) {
+    VlcRcStatus.VideoEffects expected = expectedEntity.getVideoEffects();
+    VlcRcStatus.VideoEffects returned = returnedEntity.getVideoEffects();
+    if (expected != null && returned != null) {
+      assertEquals(expected.getBrightness(), returned.getBrightness()); 
+      assertEquals(expected.getContrast(), returned.getContrast()); 
+      assertEquals(expected.getGamma(), returned.getGamma()); 
+      assertEquals(expected.getHue(), returned.getHue()); 
+      assertEquals(expected.getSaturation(), returned.getSaturation()); 
+    } else {
+      // Check they are both null
+      assertEquals(expected, returned);
+    }
   }
 
   private void assertRootAttributes(VlcRcStatus expected, VlcRcStatus returned) {
@@ -76,30 +90,30 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     VlcRcStatus.Stats expectedStats = expected.getStats();
     VlcRcStatus.Stats returnedStats = returned.getStats();
     if (expectedStats != null && returnedStats != null) {
-      assertEqualsAsString(expectedStats.getInputBitrate(), returnedStats.getInputBitrate());
-      assertEqualsAsString(expectedStats.getSentBytes(), returnedStats.getSentBytes());
-      assertEqualsAsString(expectedStats.getLostaBuffers(), returnedStats.getLostaBuffers());
-      assertEqualsAsString(expectedStats.getAverageDemuxBitrate(),
+      assertEquals(expectedStats.getInputBitrate(), returnedStats.getInputBitrate());
+      assertEquals(expectedStats.getSentBytes(), returnedStats.getSentBytes());
+      assertEquals(expectedStats.getLostaBuffers(), returnedStats.getLostaBuffers());
+      assertEquals(expectedStats.getAverageDemuxBitrate(),
           returnedStats.getAverageDemuxBitrate());
-      assertEqualsAsString(expectedStats.getReadPackets(), returnedStats.getReadPackets());
-      assertEqualsAsString(expectedStats.getDemuxReadPackets(),
+      assertEquals(expectedStats.getReadPackets(), returnedStats.getReadPackets());
+      assertEquals(expectedStats.getDemuxReadPackets(),
           returnedStats.getDemuxReadPackets());
-      assertEqualsAsString(expectedStats.getLostPictures(), returnedStats.getLostPictures());
-      assertEqualsAsString(expectedStats.getDisplayedPictures(),
+      assertEquals(expectedStats.getLostPictures(), returnedStats.getLostPictures());
+      assertEquals(expectedStats.getDisplayedPictures(),
           returnedStats.getDisplayedPictures());
-      assertEqualsAsString(expectedStats.getSentPackets(), returnedStats.getSentPackets());
-      assertEqualsAsString(expectedStats.getDemuxReadBytes(), returnedStats.getDemuxReadBytes());
-      assertEqualsAsString(expectedStats.getDemuxBitrate(), returnedStats.getDemuxBitrate());
-      assertEqualsAsString(expectedStats.getPlayedaBuffers(), returnedStats.getPlayedaBuffers());
-      assertEqualsAsString(expectedStats.getDemuxDiscontinuity(),
+      assertEquals(expectedStats.getSentPackets(), returnedStats.getSentPackets());
+      assertEquals(expectedStats.getDemuxReadBytes(), returnedStats.getDemuxReadBytes());
+      assertEquals(expectedStats.getDemuxBitrate(), returnedStats.getDemuxBitrate());
+      assertEquals(expectedStats.getPlayedaBuffers(), returnedStats.getPlayedaBuffers());
+      assertEquals(expectedStats.getDemuxDiscontinuity(),
           returnedStats.getDemuxDiscontinuity());
-      assertEqualsAsString(expectedStats.getDecodedAudio(), returnedStats.getDecodedAudio());
-      assertEqualsAsString(expectedStats.getSendBitrate(), returnedStats.getSendBitrate());
-      assertEqualsAsString(expectedStats.getReadBytes(), returnedStats.getReadBytes());
-      assertEqualsAsString(expectedStats.getAverageInputBitrate(),
+      assertEquals(expectedStats.getDecodedAudio(), returnedStats.getDecodedAudio());
+      assertEquals(expectedStats.getSendBitrate(), returnedStats.getSendBitrate());
+      assertEquals(expectedStats.getReadBytes(), returnedStats.getReadBytes());
+      assertEquals(expectedStats.getAverageInputBitrate(),
           returnedStats.getAverageInputBitrate());
-      assertEqualsAsString(expectedStats.getDemuxCorrupted(), returnedStats.getDemuxCorrupted());
-      assertEqualsAsString(expectedStats.getDecodedVideo(), returnedStats.getDecodedVideo());
+      assertEquals(expectedStats.getDemuxCorrupted(), returnedStats.getDemuxCorrupted());
+      assertEquals(expectedStats.getDecodedVideo(), returnedStats.getDecodedVideo());
     } else {
       // Check they are both null
       assertEquals(expectedStats, returnedStats);
@@ -107,8 +121,8 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
   }
 
   private void assertInformation(VlcRcStatus expected, VlcRcStatus returned) {
-    Information expectedInformation = expected.getInformation();
-    Information returnedInformation = returned.getInformation();
+    VlcRcStatus.Information expectedInformation = expected.getInformation();
+    VlcRcStatus.Information returnedInformation = returned.getInformation();
     if (expectedInformation != null && returnedInformation != null) {
       assertEquals(expectedInformation.getChapter(), returnedInformation.getChapter());
       assertThat(returnedInformation.getChapters(), is(expectedInformation.getChapters()));
@@ -156,12 +170,12 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     audioFilters.put("filter_0", "");
     singleTestData.setAudioFilters(audioFilters);
     // video effects
-    Map<String, Integer> videoEffects = new HashMap<String, Integer>();
-    videoEffects.put("saturation", 1);
-    videoEffects.put("brightness", 1);
-    videoEffects.put("contrast", 1);
-    videoEffects.put("hue", 0);
-    videoEffects.put("gamma", 1);
+    VlcRcStatus.VideoEffects videoEffects = new VlcRcStatus.VideoEffects();
+    videoEffects.setSaturation(1);
+    videoEffects.setBrightness(1);
+    videoEffects.setContrast(1);
+    videoEffects.setHue(0);
+    videoEffects.setGamma(1);
     singleTestData.setVideoEffects(videoEffects);
     // stats
     VlcRcStatus.Stats stats = new VlcRcStatus.Stats();
@@ -186,11 +200,11 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     stats.setDecodedVideo(12263);
     singleTestData.setStats(stats);
     // equalizer
-    Equalizer equalizer = new VlcRcStatus.Equalizer();
+    VlcRcStatus.Equalizer equalizer = new VlcRcStatus.Equalizer();
     equalizer.setPreAmp(0);
     singleTestData.setEqualizer(equalizer);
     // information
-    Information information = new VlcRcStatus.Information();
+    VlcRcStatus.Information information = new VlcRcStatus.Information();
     information.setChapter("0");
     information.setChapters(Arrays.asList(""));
     information.setTitle("0");
