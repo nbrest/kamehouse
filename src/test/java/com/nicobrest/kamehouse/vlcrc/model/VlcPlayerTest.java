@@ -3,7 +3,9 @@ package com.nicobrest.kamehouse.vlcrc.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
@@ -32,7 +34,7 @@ import java.util.Map;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ VlcPlayer.class })
+@PrepareForTest({ HttpClientUtils.class })
 public class VlcPlayerTest {
 
   private VlcPlayerTestUtils vlcPlayerTestUtils = new VlcPlayerTestUtils();
@@ -43,9 +45,6 @@ public class VlcPlayerTest {
   private VlcRcStatus vlcRcStatus;
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<VlcRcFileListItem> vlcRcFileList;
-
-  @Mock
-  VlcPlayer vlcPlayerMock;
 
   @Mock
   HttpClient httpClientMock;
@@ -65,12 +64,13 @@ public class VlcPlayerTest {
     vlcRcFileList = vlcRcFileListTestUtils.getSingleTestData();
 
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(vlcPlayerMock);
     Mockito.reset(httpClientMock);
     Mockito.reset(httpResponseMock);
-
-    PowerMockito.doReturn(httpClientMock).when(vlcPlayer, "createHttpClient", any());
-    PowerMockito.doReturn(httpResponseMock).when(vlcPlayer, "executeGetRequest", any(), any());
+    PowerMockito.mockStatic(HttpClientUtils.class);
+    when(HttpClientUtils.getClient(any(), any())).thenReturn(httpClientMock);
+    when(HttpClientUtils.executeRequest(any(), any())).thenReturn(httpResponseMock);
+    when(HttpClientUtils.urlEncode(any())).thenCallRealMethod();
+    when(HttpClientUtils.get(any())).thenCallRealMethod();
   }
 
   /**
@@ -183,7 +183,6 @@ public class VlcPlayerTest {
   private void setupInputStreamMock(String resourceName) throws Exception {
     InputStream vlcRcFilelistInputStream = VlcPlayerTestUtils.getInputStreamFromResource(
         resourceName);
-    PowerMockito.doReturn(vlcRcFilelistInputStream).when(vlcPlayer, "getInputStreamFromResponse",
-        any());
+    when(HttpClientUtils.getInputStreamFromResponse(any())).thenReturn(vlcRcFilelistInputStream);
   }
 }

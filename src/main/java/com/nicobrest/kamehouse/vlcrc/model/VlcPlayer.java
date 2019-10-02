@@ -5,21 +5,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.main.dao.Identifiable;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
+import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -201,7 +196,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     browseUrl.append(port);
     browseUrl.append(BROWSE_URL);
     if (uri != null) {
-      browseUrl.append("?uri=" + urlEncode(uri));
+      browseUrl.append("?uri=" + HttpClientUtils.urlEncode(uri));
     } else {
       browseUrl.append("?uri=file:///");
     }
@@ -210,10 +205,11 @@ public class VlcPlayer implements Identifiable, Serializable {
   }
 
   /**
-   * Builds the URL to execute the command in the VLC Player through its web API.
+   * Builds the URL to execute the command in the VLC Player through its web
+   * API.
    */
   private String buildCommandUrl(VlcRcCommand command) {
-    String encodedCommand = urlEncode(command.getName());
+    String encodedCommand = HttpClientUtils.urlEncode(command.getName());
     if (encodedCommand == null) {
       return null;
     }
@@ -225,33 +221,21 @@ public class VlcPlayer implements Identifiable, Serializable {
     commandUrl.append(STATUS_URL);
     commandUrl.append("?command=" + encodedCommand);
     if (command.getInput() != null) {
-      commandUrl.append("&input=" + urlEncode(command.getInput()));
+      commandUrl.append("&input=" + HttpClientUtils.urlEncode(command.getInput()));
     }
     if (command.getOption() != null) {
-      commandUrl.append("&option=" + urlEncode(command.getOption()));
+      commandUrl.append("&option=" + HttpClientUtils.urlEncode(command.getOption()));
     }
     if (command.getVal() != null) {
-      commandUrl.append("&val=" + urlEncode(command.getVal()));
+      commandUrl.append("&val=" + HttpClientUtils.urlEncode(command.getVal()));
     }
     if (command.getId() != null) {
-      commandUrl.append("&id=" + urlEncode(command.getId()));
+      commandUrl.append("&id=" + HttpClientUtils.urlEncode(command.getId()));
     }
     if (command.getBand() != null) {
-      commandUrl.append("&band=" + urlEncode(command.getBand()));
+      commandUrl.append("&band=" + HttpClientUtils.urlEncode(command.getBand()));
     }
     return commandUrl.toString();
-  }
-
-  /**
-   * Encode the specified parameter to use as a URL.
-   */
-  private String urlEncode(String parameter) {
-    try {
-      return URIUtil.encodeQuery(parameter);
-    } catch (URIException | IllegalArgumentException e) {
-      logger.error("Failed to encode parameter: {}", parameter);
-      return null;
-    }
   }
 
   /**
@@ -262,17 +246,13 @@ public class VlcPlayer implements Identifiable, Serializable {
       justification = "Currently it's a limitation by using apache HttpClient. Created a task to "
           + "look at alternatives")
   private String executeRequestToVlcServer(String url) {
-    CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-    UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
-    credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-    HttpClient client = createHttpClient(credentialsProvider);
-    HttpGet request = new HttpGet(url);
+    HttpClient client = HttpClientUtils.getClient(username, password);
+    HttpGet request = HttpClientUtils.get(url);
     HttpResponse response;
     try {
-      response = executeGetRequest(client, request);
-      try (InputStream inputStreamFromResponse = getInputStreamFromResponse(response);
-          BufferedReader responseReader =
-              new BufferedReader(new InputStreamReader(inputStreamFromResponse))) {
+      response = HttpClientUtils.executeRequest(client, request);
+      try (InputStream resInStream = HttpClientUtils.getInputStreamFromResponse(response);
+          BufferedReader responseReader = new BufferedReader(new InputStreamReader(resInStream))) {
         StringBuilder responseBody = new StringBuilder();
         String line = "";
         while ((line = responseReader.readLine()) != null) {
@@ -284,27 +264,6 @@ public class VlcPlayer implements Identifiable, Serializable {
       logger.error("Error executing request. Message: {}", e.getMessage());
       return null;
     }
-  }
-
-  /**
-   * Creates an instance of HttpClient with the provided credentials.
-   */
-  private HttpClient createHttpClient(CredentialsProvider credentialsProvider) {
-    return HttpClientBuilder.create().setDefaultCredentialsProvider(credentialsProvider).build();
-  }
-
-  /**
-   * Execute the HTTP Get request to the specified HttpClient.
-   */
-  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest) throws IOException {
-    return client.execute(getRequest);
-  }
-
-  /**
-   * Returns the response content as an InputStream.
-   */
-  private InputStream getInputStreamFromResponse(HttpResponse response) throws IOException {
-    return response.getEntity().getContent();
   }
 
   /**
@@ -394,7 +353,8 @@ public class VlcPlayer implements Identifiable, Serializable {
   /**
    * Set VlcRcStatus audio filters.
    */
-  private void setVlcRcStatusAudioFilters(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
+  private void setVlcRcStatusAudioFilters(JsonNode vlcStatusResponseJson,
+      VlcRcStatus vlcRcStatus) {
     Map<String, String> audioFilters = new HashMap<>();
     JsonNode audioFiltersJson = vlcStatusResponseJson.get("audiofilters");
     if (audioFiltersJson != null) {
@@ -410,7 +370,8 @@ public class VlcPlayer implements Identifiable, Serializable {
   /**
    * Set VlcRcStatus video filters.
    */
-  private void setVlcRcStatusVideoEffects(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
+  private void setVlcRcStatusVideoEffects(JsonNode vlcStatusResponseJson,
+      VlcRcStatus vlcRcStatus) {
     VlcRcStatus.VideoEffects videoEffects = new VlcRcStatus.VideoEffects();
     JsonNode jsonNode = vlcStatusResponseJson.get("videoeffects");
     if (jsonNode != null) {
@@ -603,8 +564,8 @@ public class VlcPlayer implements Identifiable, Serializable {
   }
 
   /**
-   * Converts the file list returned by the VLC Player into an internal file list
-   * format.
+   * Converts the file list returned by the VLC Player into an internal file
+   * list format.
    */
   private List<VlcRcFileListItem> buildVlcRcFilelist(String vlcRcFileListResponse) {
     List<VlcRcFileListItem> vlcRcFilelist = new ArrayList<>();
