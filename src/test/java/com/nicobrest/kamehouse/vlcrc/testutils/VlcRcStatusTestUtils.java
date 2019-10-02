@@ -34,7 +34,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     assertRootAttributes(expected, returned);
     // AudioFilters
     assertThat(returned.getAudioFilters(), is(expected.getAudioFilters()));
-    // VideoEffects 
+    // VideoEffects
     assertVideoEffects(expected, returned);
     assertStats(expected, returned);
     // Equalizer
@@ -51,16 +51,15 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     assertInformation(expected, returned);
   }
 
-  private void assertVideoEffects(VlcRcStatus expectedEntity,
-      VlcRcStatus returnedEntity) {
+  private void assertVideoEffects(VlcRcStatus expectedEntity, VlcRcStatus returnedEntity) {
     VlcRcStatus.VideoEffects expected = expectedEntity.getVideoEffects();
     VlcRcStatus.VideoEffects returned = returnedEntity.getVideoEffects();
     if (expected != null && returned != null) {
-      assertEquals(expected.getBrightness(), returned.getBrightness()); 
-      assertEquals(expected.getContrast(), returned.getContrast()); 
-      assertEquals(expected.getGamma(), returned.getGamma()); 
-      assertEquals(expected.getHue(), returned.getHue()); 
-      assertEquals(expected.getSaturation(), returned.getSaturation()); 
+      assertEquals(expected.getBrightness(), returned.getBrightness());
+      assertEquals(expected.getContrast(), returned.getContrast());
+      assertEquals(expected.getGamma(), returned.getGamma());
+      assertEquals(expected.getHue(), returned.getHue());
+      assertEquals(expected.getSaturation(), returned.getSaturation());
     } else {
       // Check they are both null
       assertEquals(expected, returned);
@@ -93,25 +92,20 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
       assertEquals(expectedStats.getInputBitrate(), returnedStats.getInputBitrate());
       assertEquals(expectedStats.getSentBytes(), returnedStats.getSentBytes());
       assertEquals(expectedStats.getLostaBuffers(), returnedStats.getLostaBuffers());
-      assertEquals(expectedStats.getAverageDemuxBitrate(),
-          returnedStats.getAverageDemuxBitrate());
+      assertEquals(expectedStats.getAverageDemuxBitrate(), returnedStats.getAverageDemuxBitrate());
       assertEquals(expectedStats.getReadPackets(), returnedStats.getReadPackets());
-      assertEquals(expectedStats.getDemuxReadPackets(),
-          returnedStats.getDemuxReadPackets());
+      assertEquals(expectedStats.getDemuxReadPackets(), returnedStats.getDemuxReadPackets());
       assertEquals(expectedStats.getLostPictures(), returnedStats.getLostPictures());
-      assertEquals(expectedStats.getDisplayedPictures(),
-          returnedStats.getDisplayedPictures());
+      assertEquals(expectedStats.getDisplayedPictures(), returnedStats.getDisplayedPictures());
       assertEquals(expectedStats.getSentPackets(), returnedStats.getSentPackets());
       assertEquals(expectedStats.getDemuxReadBytes(), returnedStats.getDemuxReadBytes());
       assertEquals(expectedStats.getDemuxBitrate(), returnedStats.getDemuxBitrate());
       assertEquals(expectedStats.getPlayedaBuffers(), returnedStats.getPlayedaBuffers());
-      assertEquals(expectedStats.getDemuxDiscontinuity(),
-          returnedStats.getDemuxDiscontinuity());
+      assertEquals(expectedStats.getDemuxDiscontinuity(), returnedStats.getDemuxDiscontinuity());
       assertEquals(expectedStats.getDecodedAudio(), returnedStats.getDecodedAudio());
       assertEquals(expectedStats.getSendBitrate(), returnedStats.getSendBitrate());
       assertEquals(expectedStats.getReadBytes(), returnedStats.getReadBytes());
-      assertEquals(expectedStats.getAverageInputBitrate(),
-          returnedStats.getAverageInputBitrate());
+      assertEquals(expectedStats.getAverageInputBitrate(), returnedStats.getAverageInputBitrate());
       assertEquals(expectedStats.getDemuxCorrupted(), returnedStats.getDemuxCorrupted());
       assertEquals(expectedStats.getDecodedVideo(), returnedStats.getDecodedVideo());
     } else {
@@ -234,6 +228,8 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     meta.put("filename", "1 - Winter Is Coming.avi");
     meta.put("title", "Winter Is Coming.avi");
     meta.put("artist", "1");
+    meta.put("artworkUrl", "file:///C:/Users/nbrest/AppData/Roaming/vlc"
+        + "/art/arturl/939adb7ed723657d6a078ce9085e83ab/art");
     meta.put("setting", " HAS_INDEX IS_INTERLEAVED");
     meta.put("software", "Nandub v1.0rc2");
     informationCategories.add(meta);

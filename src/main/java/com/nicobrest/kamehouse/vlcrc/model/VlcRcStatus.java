@@ -32,7 +32,6 @@ public class VlcRcStatus {
   private Map<String, String> audioFilters;
   private Stats stats;
   private VideoEffects videoEffects;
-
   private Information information;
 
   public Boolean getFullscreen() {
@@ -203,9 +202,14 @@ public class VlcRcStatus {
     this.information = information;
   }
 
+  /**
+   * Equalizer element of the VlcRcStatus.
+   */
   public static class Equalizer {
 
+    // presets: Don't come with fixed key names, so I keep it as a Map
     private Map<String, String> presets;
+    // bands: Don't come with fixed key names, so I keep it as a Map
     private Map<String, Integer> bands;
     private int preAmp;
 
@@ -474,6 +478,10 @@ public class VlcRcStatus {
     private String title;
     private List<String> titles;
     private List<Map<String, Object>> category;
+    private Audio audio;
+    private Meta meta;
+    private Subtitle subtitle;
+    private Video video;
 
     public String getChapter() {
       return chapter;
@@ -513,6 +521,287 @@ public class VlcRcStatus {
 
     public void setCategory(List<Map<String, Object>> category) {
       this.category = category;
+    }
+
+    public Audio getAudio() {
+      return audio;
+    }
+
+    public void setAudio(Audio audio) {
+      this.audio = audio;
+    }
+
+    public Meta getMeta() {
+      return meta;
+    }
+
+    public void setMeta(Meta meta) {
+      this.meta = meta;
+    }
+
+    public Subtitle getSubtitle() {
+      return subtitle;
+    }
+
+    public void setSubtitle(Subtitle subtitle) {
+      this.subtitle = subtitle;
+    }
+
+    public Video getVideo() {
+      return video;
+    }
+
+    public void setVideo(Video video) {
+      this.video = video;
+    }
+
+    /**
+     * Audio element of the Information class of VlcRcStatus.
+     */
+    public static class Audio {
+      private String name;
+      private String type;
+      private String bitrate;
+      private String channels;
+      private String sampleRate;
+      private String codec;
+      private String language;
+
+      public String getName() {
+        return name;
+      }
+
+      public void setName(String name) {
+        this.name = name;
+      }
+
+      public String getType() {
+        return type;
+      }
+
+      public void setType(String type) {
+        this.type = type;
+      }
+
+      public String getBitrate() {
+        return bitrate;
+      }
+
+      public void setBitrate(String bitrate) {
+        this.bitrate = bitrate;
+      }
+
+      public String getChannels() {
+        return channels;
+      }
+
+      public void setChannels(String channels) {
+        this.channels = channels;
+      }
+
+      public String getSampleRate() {
+        return sampleRate;
+      }
+
+      public void setSampleRate(String sampleRate) {
+        this.sampleRate = sampleRate;
+      }
+
+      public String getCodec() {
+        return codec;
+      }
+
+      public void setCodec(String codec) {
+        this.codec = codec;
+      }
+
+      public String getLanguage() {
+        return language;
+      }
+
+      public void setLanguage(String language) {
+        this.language = language;
+      }
+    }
+
+    /**
+     * Meta element of the Information class of VlcRcStatus.
+     */
+    public static class Meta {
+      private String name;
+      private String filename;
+      private String title;
+      private String artist;
+      private String setting;
+      private String software;
+
+      public String getName() {
+        return name;
+      }
+
+      public void setName(String name) {
+        this.name = name;
+      }
+
+      public String getFilename() {
+        return filename;
+      }
+
+      public void setFilename(String filename) {
+        this.filename = filename;
+      }
+
+      public String getTitle() {
+        return title;
+      }
+
+      public void setTitle(String title) {
+        this.title = title;
+      }
+
+      public String getArtist() {
+        return artist;
+      }
+
+      public void setArtist(String artist) {
+        this.artist = artist;
+      }
+
+      public String getSetting() {
+        return setting;
+      }
+
+      public void setSetting(String setting) {
+        this.setting = setting;
+      }
+
+      public String getSoftware() {
+        return software;
+      }
+
+      public void setSoftware(String software) {
+        this.software = software;
+      }
+    }
+
+    /**
+     * Subtitle element of the Information class of VlcRcStatus.
+     */
+    public static class Subtitle {
+      private String name;
+      private String type;
+      private String codec;
+      private String language;
+
+      public String getName() {
+        return name;
+      }
+
+      public void setName(String name) {
+        this.name = name;
+      }
+
+      public String getType() {
+        return type;
+      }
+
+      public void setType(String type) {
+        this.type = type;
+      }
+
+      public String getCodec() {
+        return codec;
+      }
+
+      public void setCodec(String codec) {
+        this.codec = codec;
+      }
+
+      public String getLanguage() {
+        return language;
+      }
+
+      public void setLanguage(String language) {
+        this.language = language;
+      }
+    }
+
+    /**
+     * Video element of the Information class of VlcRcStatus.
+     */
+    public static class Video {
+      private String name;
+      private String type;
+      private String frameRate;
+      private String decodedFormat;
+      private String displayResolution;
+      private String codec;
+      private String resolution;
+      private String language;
+
+      public String getName() {
+        return name;
+      }
+
+      public void setName(String name) {
+        this.name = name;
+      }
+
+      public String getType() {
+        return type;
+      }
+
+      public void setType(String type) {
+        this.type = type;
+      }
+
+      public String getFrameRate() {
+        return frameRate;
+      }
+
+      public void setFrameRate(String frameRate) {
+        this.frameRate = frameRate;
+      }
+
+      public String getDecodedFormat() {
+        return decodedFormat;
+      }
+
+      public void setDecodedFormat(String decodedFormat) {
+        this.decodedFormat = decodedFormat;
+      }
+
+      public String getDisplayResolution() {
+        return displayResolution;
+      }
+
+      public void setDisplayResolution(String displayResolution) {
+        this.displayResolution = displayResolution;
+      }
+
+      public String getCodec() {
+        return codec;
+      }
+
+      public void setCodec(String codec) {
+        this.codec = codec;
+      }
+
+      public String getResolution() {
+        return resolution;
+      }
+
+      public void setResolution(String resolution) {
+        this.resolution = resolution;
+      }
+
+      public String getLanguage() {
+        return language;
+      }
+
+      public void setLanguage(String language) {
+        this.language = language;
+      }
     }
   }
 }

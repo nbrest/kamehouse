@@ -533,6 +533,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     informationCategory.put(ARTIST, JsonUtils.getText(jsonNode, ARTIST));
     informationCategory.put(SETTING, JsonUtils.getText(jsonNode, SETTING));
     informationCategory.put("software", JsonUtils.getText(jsonNode, "Software"));
+    informationCategory.put("artworkUrl", JsonUtils.getText(jsonNode, "artwork_url"));
   }
 
   /**
