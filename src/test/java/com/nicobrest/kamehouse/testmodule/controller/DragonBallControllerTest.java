@@ -260,7 +260,7 @@ public class DragonBallControllerTest extends
     MockHttpServletResponse response = executeGet("/api/v1/dragonball/model-and-view");
 
     verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals("jsp/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
+    assertEquals("/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
     verifyZeroInteractions(dragonBallUserServiceMock);
   }
 
