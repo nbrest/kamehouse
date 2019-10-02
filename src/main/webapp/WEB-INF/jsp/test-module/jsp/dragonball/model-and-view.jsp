@@ -18,7 +18,10 @@
 <body>
   <div class="default-layout main-body"> 
       <h2>dragonball ModelAndView Test Endpoint</h2>
-      <h2>${message}${name}</h2> 
+      <h3>name: ${name}</h3>
+      <h3>message: ${message}</h3>
+      <p>Call this view from the <a href="/kame-house/api/v1/dragonball/model-and-view?name=gohan">Model And View Test API</a>
+      to test it with parameters</p>
   </div>
 </body>
 </html>

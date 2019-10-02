@@ -28,6 +28,9 @@
     <br>
     <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary"
       onclick="window.location.href='dragonball/users/users-list'">
+    <br>
+    <input type="button" value="DragonBall Model And View" class="btn btn-block btn-outline-secondary"
+      onclick="window.location.href='dragonball/model-and-view'">  
   </div>
   </div>
 </body>
