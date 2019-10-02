@@ -210,8 +210,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   }
 
   /**
-   * Builds the URL to execute the command in the VLC Player through its web
-   * API.
+   * Builds the URL to execute the command in the VLC Player through its web API.
    */
   private String buildCommandUrl(VlcRcCommand command) {
     String encodedCommand = urlEncode(command.getName());
@@ -272,8 +271,8 @@ public class VlcPlayer implements Identifiable, Serializable {
     try {
       response = executeGetRequest(client, request);
       try (InputStream inputStreamFromResponse = getInputStreamFromResponse(response);
-          BufferedReader responseReader = new BufferedReader(new InputStreamReader(
-              inputStreamFromResponse))) {
+          BufferedReader responseReader =
+              new BufferedReader(new InputStreamReader(inputStreamFromResponse))) {
         StringBuilder responseBody = new StringBuilder();
         String line = "";
         while ((line = responseReader.readLine()) != null) {
@@ -297,8 +296,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   /**
    * Execute the HTTP Get request to the specified HttpClient.
    */
-  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest)
-      throws IOException {
+  private HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest) throws IOException {
     return client.execute(getRequest);
   }
 
@@ -340,34 +338,34 @@ public class VlcPlayer implements Identifiable, Serializable {
    */
   private void setVlcRcStatusRootMainAttributes(JsonNode vlcStatusResponseJson,
       VlcRcStatus vlcRcStatus) {
-    if (vlcStatusResponseJson.get("fullscreen") != null) {
+    if (vlcStatusResponseJson.has("fullscreen")) {
       vlcRcStatus.setFullscreen(vlcStatusResponseJson.get("fullscreen").asBoolean());
     }
-    if (vlcStatusResponseJson.get("repeat") != null) {
+    if (vlcStatusResponseJson.has("repeat")) {
       vlcRcStatus.setRepeat(vlcStatusResponseJson.get("repeat").asBoolean());
     }
-    if (vlcStatusResponseJson.get("aspectratio") != null) {
+    if (vlcStatusResponseJson.has("aspectratio")) {
       vlcRcStatus.setAspectRatio(vlcStatusResponseJson.get("aspectratio").asText());
     }
-    if (vlcStatusResponseJson.get("currentplid") != null) {
+    if (vlcStatusResponseJson.has("currentplid")) {
       vlcRcStatus.setCurrentPlId(vlcStatusResponseJson.get("currentplid").asInt());
     }
-    if (vlcStatusResponseJson.get("time") != null) {
+    if (vlcStatusResponseJson.has("time")) {
       vlcRcStatus.setTime(vlcStatusResponseJson.get("time").asInt());
     }
-    if (vlcStatusResponseJson.get("volume") != null) {
+    if (vlcStatusResponseJson.has("volume")) {
       vlcRcStatus.setVolume(vlcStatusResponseJson.get("volume").asInt());
     }
-    if (vlcStatusResponseJson.get("length") != null) {
+    if (vlcStatusResponseJson.has("length")) {
       vlcRcStatus.setLength(vlcStatusResponseJson.get("length").asInt());
     }
-    if (vlcStatusResponseJson.get("random") != null) {
+    if (vlcStatusResponseJson.has("random")) {
       vlcRcStatus.setRandom(vlcStatusResponseJson.get("random").asBoolean());
     }
-    if (vlcStatusResponseJson.get("state") != null) {
+    if (vlcStatusResponseJson.has("state")) {
       vlcRcStatus.setState(vlcStatusResponseJson.get("state").asText());
     }
-    if (vlcStatusResponseJson.get("loop") != null) {
+    if (vlcStatusResponseJson.has("loop")) {
       vlcRcStatus.setLoop(vlcStatusResponseJson.get("loop").asBoolean());
     }
   }
@@ -377,22 +375,22 @@ public class VlcPlayer implements Identifiable, Serializable {
    */
   private void setVlcRcStatusRootAdditionalAttributes(JsonNode vlcStatusResponseJson,
       VlcRcStatus vlcRcStatus) {
-    if (vlcStatusResponseJson.get("apiversion") != null) {
+    if (vlcStatusResponseJson.has("apiversion")) {
       vlcRcStatus.setApiVersion(vlcStatusResponseJson.get("apiversion").asInt());
     }
-    if (vlcStatusResponseJson.get("audiodelay") != null) {
+    if (vlcStatusResponseJson.has("audiodelay")) {
       vlcRcStatus.setAudioDelay(vlcStatusResponseJson.get("audiodelay").asInt());
     }
-    if (vlcStatusResponseJson.get("position") != null) {
+    if (vlcStatusResponseJson.has("position")) {
       vlcRcStatus.setPosition(vlcStatusResponseJson.get("position").asInt());
     }
-    if (vlcStatusResponseJson.get("rate") != null) {
+    if (vlcStatusResponseJson.has("rate")) {
       vlcRcStatus.setRate(vlcStatusResponseJson.get("rate").asInt());
     }
-    if (vlcStatusResponseJson.get("subtitledelay") != null) {
+    if (vlcStatusResponseJson.has("subtitledelay")) {
       vlcRcStatus.setSubtitleDelay(vlcStatusResponseJson.get("subtitledelay").asInt());
     }
-    if (vlcStatusResponseJson.get("version") != null) {
+    if (vlcStatusResponseJson.has("version")) {
       vlcRcStatus.setVersion(vlcStatusResponseJson.get("version").asText());
     }
   }
@@ -401,28 +399,66 @@ public class VlcPlayer implements Identifiable, Serializable {
    * Set VlcRcStatus stats.
    */
   private void setVlcRcStatusStats(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
+    VlcRcStatus.Stats stats = new VlcRcStatus.Stats();
     JsonNode statsJson = vlcStatusResponseJson.get("stats");
-    Map<String, Object> stats = new HashMap<>();
     if (statsJson != null) {
-      stats.put("inputBitrate", statsJson.get("inputbitrate"));
-      stats.put("sentBytes", statsJson.get("sentbytes"));
-      stats.put("lostaBuffers", statsJson.get("lostabuffers"));
-      stats.put("averageDemuxBitrate", statsJson.get("averagedemuxbitrate"));
-      stats.put("readPackets", statsJson.get("readpackets"));
-      stats.put("demuxReadPackets", statsJson.get("demuxreadpackets"));
-      stats.put("lostPictures", statsJson.get("lostpictures"));
-      stats.put("displayedPictures", statsJson.get("displayedpictures"));
-      stats.put("sentPackets", statsJson.get("sentpackets"));
-      stats.put("demuxReadBytes", statsJson.get("demuxreadbytes"));
-      stats.put("demuxBitrate", statsJson.get("demuxbitrate"));
-      stats.put("playedaBuffers", statsJson.get("playedabuffers"));
-      stats.put("demuxDiscontinuity", statsJson.get("demuxdiscontinuity"));
-      stats.put("decodedAudio", statsJson.get("decodedaudio"));
-      stats.put("sendBitrate", statsJson.get("sendbitrate"));
-      stats.put("readBytes", statsJson.get("readbytes"));
-      stats.put("averageInputBitrate", statsJson.get("averageinputbitrate"));
-      stats.put("demuxCorrupted", statsJson.get("demuxcorrupted"));
-      stats.put("decodedVideo", statsJson.get("decodedvideo"));
+      if (statsJson.has("inputbitrate")) {
+        stats.setInputBitrate(statsJson.get("inputbitrate").asDouble());
+      } 
+      if (statsJson.has("sentbytes")) {
+        stats.setSentBytes(statsJson.get("sentbytes").asInt());
+      } 
+      if (statsJson.has("lostabuffers")) {
+        stats.setLostaBuffers(statsJson.get("lostabuffers").asInt());
+      } 
+      if (statsJson.has("averagedemuxbitrate")) {
+        stats.setAverageDemuxBitrate(statsJson.get("averagedemuxbitrate").asDouble());
+      } 
+      if (statsJson.has("readpackets")) {
+        stats.setReadPackets(statsJson.get("readpackets").asInt());
+      }
+      if (statsJson.has("demuxreadpackets")) {
+        stats.setDemuxReadPackets(statsJson.get("demuxreadpackets").asInt());
+      }
+      if (statsJson.has("lostpictures")) {
+        stats.setLostPictures(statsJson.get("lostpictures").asInt());
+      } 
+      if (statsJson.has("displayedpictures")) {
+        stats.setDisplayedPictures(statsJson.get("displayedpictures").asInt());
+      } 
+      if (statsJson.has("sentpackets")) {
+        stats.setSentPackets(statsJson.get("sentpackets").asInt());
+      }
+      if (statsJson.has("demuxreadbytes")) {
+        stats.setDemuxReadBytes(statsJson.get("demuxreadbytes").asInt());
+      }
+      if (statsJson.has("demuxbitrate")) {
+        stats.setDemuxBitrate(statsJson.get("demuxbitrate").asDouble());
+      }
+      if (statsJson.has("playedabuffers")) {
+        stats.setPlayedaBuffers(statsJson.get("playedabuffers").asInt());
+      }
+      if (statsJson.has("demuxdiscontinuity")) {
+        stats.setDemuxDiscontinuity(statsJson.get("demuxdiscontinuity").asInt());
+      }
+      if (statsJson.has("decodedaudio")) {
+        stats.setDecodedAudio(statsJson.get("decodedaudio").asInt());
+      }
+      if (statsJson.has("sendbitrate")) {
+        stats.setSendBitrate(statsJson.get("sendbitrate").asDouble());
+      }
+      if (statsJson.has("readbytes")) {
+        stats.setReadBytes(statsJson.get("readbytes").asInt());
+      }
+      if (statsJson.has("averageinputbitrate")) {
+        stats.setAverageInputBitrate(statsJson.get("averageinputbitrate").asDouble());
+      }
+      if (statsJson.has("demuxcorrupted")) {
+        stats.setDemuxCorrupted(statsJson.get("demuxcorrupted").asInt());
+      }
+      if (statsJson.has("decodedvideo")) {
+        stats.setDecodedVideo(statsJson.get("decodedvideo").asInt());
+      }
     }
     vlcRcStatus.setStats(stats);
   }
@@ -430,8 +466,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   /**
    * Set VlcRcStatus audio filters.
    */
-  private void setVlcRcStatusAudioFilters(JsonNode vlcStatusResponseJson,
-      VlcRcStatus vlcRcStatus) {
+  private void setVlcRcStatusAudioFilters(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     Map<String, String> audioFilters = new HashMap<>();
     JsonNode audioFiltersJson = vlcStatusResponseJson.get("audiofilters");
     if (audioFiltersJson != null) {
@@ -447,8 +482,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   /**
    * Set VlcRcStatus video filters.
    */
-  private void setVlcRcStatusVideoEffects(JsonNode vlcStatusResponseJson,
-      VlcRcStatus vlcRcStatus) {
+  private void setVlcRcStatusVideoEffects(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     Map<String, Integer> videoEffects = new HashMap<>();
     JsonNode videoEffectsJson = vlcStatusResponseJson.get("videoeffects");
     if (videoEffectsJson != null) {
@@ -540,10 +574,10 @@ public class VlcPlayer implements Identifiable, Serializable {
       } else {
         String type = categoryNode.get("Type").asText();
         informationCategory.put("type", type);
-        if (categoryNode.get(CODEC_CAMEL_CASE) != null) {
+        if (categoryNode.has(CODEC_CAMEL_CASE)) {
           informationCategory.put(CODEC, categoryNode.get(CODEC_CAMEL_CASE).asText());
         }
-        if (categoryNode.get(LANGUAGE_CAMEL_CASE) != null) {
+        if (categoryNode.has(LANGUAGE_CAMEL_CASE)) {
           informationCategory.put(LANGUAGE, categoryNode.get(LANGUAGE_CAMEL_CASE).asText());
         }
         switch (type) {
@@ -568,19 +602,19 @@ public class VlcPlayer implements Identifiable, Serializable {
    */
   private void setInformationMetaCategory(JsonNode categoryNode,
       Map<String, Object> informationCategory) {
-    if (categoryNode.get(FILENAME) != null) {
+    if (categoryNode.has(FILENAME)) {
       informationCategory.put(FILENAME, categoryNode.get(FILENAME).asText());
     }
-    if (categoryNode.get(TITLE) != null) {
+    if (categoryNode.has(TITLE)) {
       informationCategory.put(TITLE, categoryNode.get(TITLE).asText());
     }
-    if (categoryNode.get(ARTIST) != null) {
+    if (categoryNode.has(ARTIST)) {
       informationCategory.put(ARTIST, categoryNode.get(ARTIST).asText());
     }
-    if (categoryNode.get(SETTING) != null) {
+    if (categoryNode.has(SETTING)) {
       informationCategory.put(SETTING, categoryNode.get(SETTING).asText());
     }
-    if (categoryNode.get("Software") != null) {
+    if (categoryNode.has("Software")) {
       informationCategory.put("software", categoryNode.get("Software").asText());
     }
   }
@@ -590,10 +624,10 @@ public class VlcPlayer implements Identifiable, Serializable {
    */
   private void setInformationVideoCategory(JsonNode categoryNode,
       Map<String, Object> informationCategory) {
-    if (categoryNode.get("Frame_rate") != null) {
+    if (categoryNode.has("Frame_rate")) {
       informationCategory.put("frameRate", categoryNode.get("Frame_rate").asText());
     }
-    if (categoryNode.get("Decoded_format") != null) {
+    if (categoryNode.has("Decoded_format")) {
       informationCategory.put("decodedFormat", categoryNode.get("Decoded_format").asText());
     }
     informationCategory.put("displayResolution", categoryNode.get("Display_resolution"));
@@ -605,13 +639,13 @@ public class VlcPlayer implements Identifiable, Serializable {
    */
   private void setInformationAudioCategory(JsonNode categoryNode,
       Map<String, Object> informationCategory) {
-    if (categoryNode.get("Bitrate") != null) {
+    if (categoryNode.has("Bitrate")) {
       informationCategory.put("bitrate", categoryNode.get("Bitrate").asText());
     }
-    if (categoryNode.get("Channels") != null) {
+    if (categoryNode.has("Channels")) {
       informationCategory.put("channels", categoryNode.get("Channels").asText());
     }
-    if (categoryNode.get("Sample_rate") != null) {
+    if (categoryNode.has("Sample_rate")) {
       informationCategory.put("sampleRate", categoryNode.get("Sample_rate").asText());
     }
   }
@@ -657,20 +691,28 @@ public class VlcPlayer implements Identifiable, Serializable {
    */
   private List<VlcRcPlaylistItem> getVlcRcPlaylistFromJsonNode(JsonNode playlistArrayNode) {
     List<VlcRcPlaylistItem> vlcRcPlaylist = new ArrayList<>();
-    for (JsonNode playlistItemNode : playlistArrayNode) {
+    for (JsonNode jsonNode : playlistArrayNode) {
       VlcRcPlaylistItem playlistItem = new VlcRcPlaylistItem();
-      playlistItem.setId(playlistItemNode.get("id").asInt());
-      playlistItem.setName(playlistItemNode.get("name").asText());
-      playlistItem.setUri(playlistItemNode.get("uri").asText());
-      playlistItem.setDuration(playlistItemNode.get("duration").asInt());
+      if (jsonNode.has("id")) {
+        playlistItem.setId(jsonNode.get("id").asInt());
+      } 
+      if (jsonNode.has("name")) {
+        playlistItem.setName(jsonNode.get("name").asText());
+      }
+      if (jsonNode.has("uri")) {
+        playlistItem.setUri(jsonNode.get("uri").asText());
+      }
+      if (jsonNode.has("duration")) {
+        playlistItem.setDuration(jsonNode.get("duration").asInt());
+      }
       vlcRcPlaylist.add(playlistItem);
     }
     return vlcRcPlaylist;
   }
 
   /**
-   * Converts the file list returned by the VLC Player into an internal file
-   * list format.
+   * Converts the file list returned by the VLC Player into an internal file list
+   * format.
    */
   private List<VlcRcFileListItem> buildVlcRcFilelist(String vlcRcFileListResponse) {
     List<VlcRcFileListItem> vlcRcFilelist = new ArrayList<>();
@@ -683,19 +725,41 @@ public class VlcPlayer implements Identifiable, Serializable {
       JsonNode vlcRcFileListResponseJson = mapper.readTree(parsedVlcRcPlaylistResponse);
       JsonNode elementArray = vlcRcFileListResponseJson.get("element");
       if (elementArray != null && elementArray.isArray()) {
-        for (JsonNode fileListItemNode : elementArray) {
+        for (JsonNode jsonNode : elementArray) {
           VlcRcFileListItem fileListItem = new VlcRcFileListItem();
-          fileListItem.setType(fileListItemNode.get("type").asText());
-          fileListItem.setName(fileListItemNode.get("name").asText());
-          fileListItem.setPath(fileListItemNode.get("path").asText());
-          fileListItem.setUri(fileListItemNode.get("uri").asText());
-          fileListItem.setSize(fileListItemNode.get("size").asInt());
-          fileListItem.setAccessTime(fileListItemNode.get("access_time").asInt());
-          fileListItem.setCreationTime(fileListItemNode.get("creation_time").asInt());
-          fileListItem.setModificationTime(fileListItemNode.get("modification_time").asInt());
-          fileListItem.setUid(fileListItemNode.get("uid").asInt());
-          fileListItem.setGid(fileListItemNode.get("gid").asInt());
-          fileListItem.setMode(fileListItemNode.get("mode").asInt());
+          if (jsonNode.has("type")) {
+            fileListItem.setType(jsonNode.get("type").asText());
+          }
+          if (jsonNode.has("name")) {
+            fileListItem.setName(jsonNode.get("name").asText());
+          }
+          if (jsonNode.has("path")) {
+            fileListItem.setPath(jsonNode.get("path").asText());
+          }
+          if (jsonNode.has("uri")) {
+            fileListItem.setUri(jsonNode.get("uri").asText());
+          }
+          if (jsonNode.has("size")) {
+            fileListItem.setSize(jsonNode.get("size").asInt());
+          }
+          if (jsonNode.has("access_time")) {
+            fileListItem.setAccessTime(jsonNode.get("access_time").asInt());
+          }
+          if (jsonNode.has("creation_time")) {
+            fileListItem.setCreationTime(jsonNode.get("creation_time").asInt());
+          }
+          if (jsonNode.has("modification_time")) {
+            fileListItem.setModificationTime(jsonNode.get("modification_time").asInt());
+          }
+          if (jsonNode.has("uid")) {
+            fileListItem.setUid(jsonNode.get("uid").asInt());
+          }
+          if (jsonNode.has("gid")) {
+            fileListItem.setGid(jsonNode.get("gid").asInt());
+          }
+          if (jsonNode.has("mode")) {
+            fileListItem.setMode(jsonNode.get("mode").asInt());
+          }
           vlcRcFilelist.add(fileListItem);
         }
       }

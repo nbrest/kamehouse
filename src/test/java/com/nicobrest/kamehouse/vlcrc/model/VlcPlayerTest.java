@@ -105,7 +105,7 @@ public class VlcPlayerTest {
 
     assertEquals(null, vlcRcStatus.getAspectRatio());
     assertTrue(!vlcRcStatus.getFullscreen());
-    assertEquals("0", vlcRcStatus.getStats().get("displayedPictures").toString());
+    assertEquals(0, vlcRcStatus.getStats().getDisplayedPictures());
     List<Map<String, Object>> categoryMapList = vlcRcStatus.getInformation().getCategory();
     Map<String, Object> meta = null;
     for (Map<String, Object> categoryMap : categoryMapList) {

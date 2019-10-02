@@ -28,24 +28,9 @@ public class VlcRcStatus {
   private double position;
   private String version;
   private Equalizer equalizer;
-
-  /*
-   * audioFilters:
-   * 
-   * filterName : value
-   */
+  // audioFilters: Don't come with fixed key names, so I keep it as a Map
   private Map<String, String> audioFilters;
-
-  /*
-   * stats:
-   * 
-   * inputBitrate, sentBytes, lostaBuffers, averageDemuxBitrate, readPackets,
-   * demuxReadPackets, lostPictures, displayedPictures, sentPackets,
-   * demuxReadBytes, demuxBitrate, playedaBuffers, demuxDiscontinuity,
-   * decodedAudio, sendBitrate, readBytes, averageInputBitrate, demuxCorrupted,
-   * decodedVideo.
-   */
-  private Map<String, Object> stats;
+  private Stats stats;
 
   /*
    * videoEffects:
@@ -200,11 +185,11 @@ public class VlcRcStatus {
     this.audioFilters = audioFilters;
   }
 
-  public Map<String, Object> getStats() {
+  public Stats getStats() {
     return stats;
   }
 
-  public void setStats(Map<String, Object> stats) {
+  public void setStats(Stats stats) {
     this.stats = stats;
   }
 
@@ -255,6 +240,187 @@ public class VlcRcStatus {
     }
   }
 
+  /**
+   * Stats element of the VlcRcStatus.
+   */
+  public static class Stats {
+
+    private Double inputBitrate;
+    private int sentBytes;
+    private int lostaBuffers;
+    private Double averageDemuxBitrate;
+    private int readPackets;
+    private int demuxReadPackets;
+    private int lostPictures;
+    private int displayedPictures;
+    private int sentPackets;
+    private int demuxReadBytes;
+    private Double demuxBitrate;
+    private int playedaBuffers;
+    private int demuxDiscontinuity;
+    private int decodedAudio;
+    private Double sendBitrate;
+    private int readBytes;
+    private Double averageInputBitrate;
+    private int demuxCorrupted;
+    private int decodedVideo;
+
+    public Double getInputBitrate() {
+      return inputBitrate;
+    }
+
+    public void setInputBitrate(Double inputBitrate) {
+      this.inputBitrate = inputBitrate;
+    }
+
+    public int getSentBytes() {
+      return sentBytes;
+    }
+
+    public void setSentBytes(int sentBytes) {
+      this.sentBytes = sentBytes;
+    }
+
+    public int getLostaBuffers() {
+      return lostaBuffers;
+    }
+
+    public void setLostaBuffers(int lostaBuffers) {
+      this.lostaBuffers = lostaBuffers;
+    }
+
+    public Double getAverageDemuxBitrate() {
+      return averageDemuxBitrate;
+    }
+
+    public void setAverageDemuxBitrate(Double averageDemuxBitrate) {
+      this.averageDemuxBitrate = averageDemuxBitrate;
+    }
+
+    public int getReadPackets() {
+      return readPackets;
+    }
+
+    public void setReadPackets(int readPackets) {
+      this.readPackets = readPackets;
+    }
+
+    public int getDemuxReadPackets() {
+      return demuxReadPackets;
+    }
+
+    public void setDemuxReadPackets(int demuxReadPackets) {
+      this.demuxReadPackets = demuxReadPackets;
+    }
+
+    public int getLostPictures() {
+      return lostPictures;
+    }
+
+    public void setLostPictures(int lostPictures) {
+      this.lostPictures = lostPictures;
+    }
+
+    public int getDisplayedPictures() {
+      return displayedPictures;
+    }
+
+    public void setDisplayedPictures(int displayedPictures) {
+      this.displayedPictures = displayedPictures;
+    }
+
+    public int getSentPackets() {
+      return sentPackets;
+    }
+
+    public void setSentPackets(int sentPackets) {
+      this.sentPackets = sentPackets;
+    }
+
+    public int getDemuxReadBytes() {
+      return demuxReadBytes;
+    }
+
+    public void setDemuxReadBytes(int demuxReadBytes) {
+      this.demuxReadBytes = demuxReadBytes;
+    }
+
+    public Double getDemuxBitrate() {
+      return demuxBitrate;
+    }
+
+    public void setDemuxBitrate(Double demuxBitrate) {
+      this.demuxBitrate = demuxBitrate;
+    }
+
+    public int getPlayedaBuffers() {
+      return playedaBuffers;
+    }
+
+    public void setPlayedaBuffers(int playedaBuffers) {
+      this.playedaBuffers = playedaBuffers;
+    }
+
+    public int getDemuxDiscontinuity() {
+      return demuxDiscontinuity;
+    }
+
+    public void setDemuxDiscontinuity(int demuxDiscontinuity) {
+      this.demuxDiscontinuity = demuxDiscontinuity;
+    }
+
+    public int getDecodedAudio() {
+      return decodedAudio;
+    }
+
+    public void setDecodedAudio(int decodedAudio) {
+      this.decodedAudio = decodedAudio;
+    }
+
+    public Double getSendBitrate() {
+      return sendBitrate;
+    }
+
+    public void setSendBitrate(Double sendBitrate) {
+      this.sendBitrate = sendBitrate;
+    }
+
+    public int getReadBytes() {
+      return readBytes;
+    }
+
+    public void setReadBytes(int readBytes) {
+      this.readBytes = readBytes;
+    }
+
+    public Double getAverageInputBitrate() {
+      return averageInputBitrate;
+    }
+
+    public void setAverageInputBitrate(Double averageInputBitrate) {
+      this.averageInputBitrate = averageInputBitrate;
+    }
+
+    public int getDemuxCorrupted() {
+      return demuxCorrupted;
+    }
+
+    public void setDemuxCorrupted(int demuxCorrupted) {
+      this.demuxCorrupted = demuxCorrupted;
+    }
+
+    public int getDecodedVideo() {
+      return decodedVideo;
+    }
+
+    public void setDecodedVideo(int decodedVideo) {
+      this.decodedVideo = decodedVideo;
+    }
+  }
+
+  /**
+   * Information element of the VlcRcStatus.
+   */
   public static class Information {
 
     private String chapter;

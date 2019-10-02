@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.vlcrc.testutils;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 
 import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
@@ -23,8 +23,8 @@ import java.util.Map;
  * @author nbrest
  *
  */
-public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object> implements
-    TestUtils<VlcRcStatus, Object> {
+public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
+    implements TestUtils<VlcRcStatus, Object> {
 
   @Override
   public void initTestData() {
@@ -73,36 +73,33 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
   }
 
   private void assertStats(VlcRcStatus expected, VlcRcStatus returned) {
-    Map<String, Object> expectedStats = expected.getStats();
-    Map<String, Object> returnedStats = returned.getStats();
+    VlcRcStatus.Stats expectedStats = expected.getStats();
+    VlcRcStatus.Stats returnedStats = returned.getStats();
     if (expectedStats != null && returnedStats != null) {
-      assertEqualsAsString(expectedStats.get("inputBitrate"), returnedStats.get("inputBitrate"));
-      assertEqualsAsString(expectedStats.get("sentBytes"), returnedStats.get("sentBytes"));
-      assertEqualsAsString(expectedStats.get("lostaBuffers"), returnedStats.get("lostaBuffers"));
-      assertEqualsAsString(expectedStats.get("averageDemuxBitrate"), returnedStats.get(
-          "averageDemuxBitrate"));
-      assertEqualsAsString(expectedStats.get("readPackets"), returnedStats.get("readPackets"));
-      assertEqualsAsString(expectedStats.get("demuxReadPackets"), returnedStats.get(
-          "demuxReadPackets"));
-      assertEqualsAsString(expectedStats.get("lostPictures"), returnedStats.get("lostPictures"));
-      assertEqualsAsString(expectedStats.get("displayedPictures"), returnedStats.get(
-          "displayedPictures"));
-      assertEqualsAsString(expectedStats.get("sentPackets"), returnedStats.get("sentPackets"));
-      assertEqualsAsString(expectedStats.get("demuxReadBytes"), returnedStats.get(
-          "demuxReadBytes"));
-      assertEqualsAsString(expectedStats.get("demuxBitrate"), returnedStats.get("demuxBitrate"));
-      assertEqualsAsString(expectedStats.get("playedaBuffers"), returnedStats.get(
-          "playedaBuffers"));
-      assertEqualsAsString(expectedStats.get("demuxDiscontinuity"), returnedStats.get(
-          "demuxDiscontinuity"));
-      assertEqualsAsString(expectedStats.get("decodedAudio"), returnedStats.get("decodedAudio"));
-      assertEqualsAsString(expectedStats.get("sendBitrate"), returnedStats.get("sendBitrate"));
-      assertEqualsAsString(expectedStats.get("readBytes"), returnedStats.get("readBytes"));
-      assertEqualsAsString(expectedStats.get("averageInputBitrate"), returnedStats.get(
-          "averageInputBitrate"));
-      assertEqualsAsString(expectedStats.get("demuxCorrupted"), returnedStats.get(
-          "demuxCorrupted"));
-      assertEqualsAsString(expectedStats.get("decodedVideo"), returnedStats.get("decodedVideo"));
+      assertEqualsAsString(expectedStats.getInputBitrate(), returnedStats.getInputBitrate());
+      assertEqualsAsString(expectedStats.getSentBytes(), returnedStats.getSentBytes());
+      assertEqualsAsString(expectedStats.getLostaBuffers(), returnedStats.getLostaBuffers());
+      assertEqualsAsString(expectedStats.getAverageDemuxBitrate(),
+          returnedStats.getAverageDemuxBitrate());
+      assertEqualsAsString(expectedStats.getReadPackets(), returnedStats.getReadPackets());
+      assertEqualsAsString(expectedStats.getDemuxReadPackets(),
+          returnedStats.getDemuxReadPackets());
+      assertEqualsAsString(expectedStats.getLostPictures(), returnedStats.getLostPictures());
+      assertEqualsAsString(expectedStats.getDisplayedPictures(),
+          returnedStats.getDisplayedPictures());
+      assertEqualsAsString(expectedStats.getSentPackets(), returnedStats.getSentPackets());
+      assertEqualsAsString(expectedStats.getDemuxReadBytes(), returnedStats.getDemuxReadBytes());
+      assertEqualsAsString(expectedStats.getDemuxBitrate(), returnedStats.getDemuxBitrate());
+      assertEqualsAsString(expectedStats.getPlayedaBuffers(), returnedStats.getPlayedaBuffers());
+      assertEqualsAsString(expectedStats.getDemuxDiscontinuity(),
+          returnedStats.getDemuxDiscontinuity());
+      assertEqualsAsString(expectedStats.getDecodedAudio(), returnedStats.getDecodedAudio());
+      assertEqualsAsString(expectedStats.getSendBitrate(), returnedStats.getSendBitrate());
+      assertEqualsAsString(expectedStats.getReadBytes(), returnedStats.getReadBytes());
+      assertEqualsAsString(expectedStats.getAverageInputBitrate(),
+          returnedStats.getAverageInputBitrate());
+      assertEqualsAsString(expectedStats.getDemuxCorrupted(), returnedStats.getDemuxCorrupted());
+      assertEqualsAsString(expectedStats.getDecodedVideo(), returnedStats.getDecodedVideo());
     } else {
       // Check they are both null
       assertEquals(expectedStats, returnedStats);
@@ -167,26 +164,26 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     videoEffects.put("gamma", 1);
     singleTestData.setVideoEffects(videoEffects);
     // stats
-    Map<String, Object> stats = new HashMap<String, Object>();
-    stats.put("inputBitrate", 0.085485093295574);
-    stats.put("sentBytes", 0);
-    stats.put("lostaBuffers", 0);
-    stats.put("averageDemuxBitrate", 0);
-    stats.put("readPackets", 4286);
-    stats.put("demuxReadPackets", 0);
-    stats.put("lostPictures", 18);
-    stats.put("displayedPictures", 1988);
-    stats.put("sentPackets", 0);
-    stats.put("demuxReadBytes", 55350686);
-    stats.put("demuxBitrate", 0.096156001091003);
-    stats.put("playedaBuffers", 17618);
-    stats.put("demuxDiscontinuity", 4);
-    stats.put("decodedAudio", 35587);
-    stats.put("sendBitrate", 0);
-    stats.put("readBytes", 59057789);
-    stats.put("averageInputBitrate", 0);
-    stats.put("demuxCorrupted", 0);
-    stats.put("decodedVideo", 12263);
+    VlcRcStatus.Stats stats = new VlcRcStatus.Stats();
+    stats.setInputBitrate(0.085485093295574);
+    stats.setSentBytes(0);
+    stats.setLostaBuffers(0);
+    stats.setAverageDemuxBitrate(0D);
+    stats.setReadPackets(4286);
+    stats.setDemuxReadPackets(0);
+    stats.setLostPictures(18);
+    stats.setDisplayedPictures(1988);
+    stats.setSentPackets(0);
+    stats.setDemuxReadBytes(55350686);
+    stats.setDemuxBitrate(0.096156001091003);
+    stats.setPlayedaBuffers(17618);
+    stats.setDemuxDiscontinuity(4);
+    stats.setDecodedAudio(35587);
+    stats.setSendBitrate(0D);
+    stats.setReadBytes(59057789);
+    stats.setAverageInputBitrate(0D);
+    stats.setDemuxCorrupted(0);
+    stats.setDecodedVideo(12263);
     singleTestData.setStats(stats);
     // equalizer
     Equalizer equalizer = new VlcRcStatus.Equalizer();
