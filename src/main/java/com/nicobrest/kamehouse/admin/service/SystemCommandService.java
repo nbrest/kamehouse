@@ -35,14 +35,14 @@ public class SystemCommandService {
       "Exception occurred while executing the process. Message: {}";
 
   /**
-   * Execute AdminCommand. Translate it to system commands and execute them.
+   * Executes an AdminCommand. Translates it to system commands and executes them.
    */
   public List<SystemCommand.Output> execute(AdminCommand adminCommand) {
     return execute(adminCommand.getSystemCommands());
   }
 
   /**
-   * Execute the specified SystemCommand.
+   * Executes the specified SystemCommand.
    */
   public SystemCommand.Output execute(SystemCommand systemCommand) {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
@@ -82,7 +82,7 @@ public class SystemCommandService {
   }
 
   /**
-   * Execute the specified list of system commands.
+   * Executes the specified list of system commands.
    */
   public List<SystemCommand.Output> execute(List<SystemCommand> systemCommands) {
     List<SystemCommand.Output> systemCommandOutputs = new ArrayList<>();
@@ -94,7 +94,7 @@ public class SystemCommandService {
   }
 
   /**
-   * Get input and error streams from process and add them to the system command
+   * Gets input and error streams from process and add them to the system command
    * output.
    */
   private void getStreamsFromProcess(Process process, SystemCommand.Output commandOutput)
@@ -115,7 +115,7 @@ public class SystemCommandService {
   }
 
   /**
-   * Read the stream from a buffered reader and store it in a List of Strings.
+   * Reads the stream from a buffered reader and store it in a List of Strings.
    */
   private List<String> readStreamIntoList(BufferedReader bufferedReader) throws IOException {
     List<String> streamAsList = new ArrayList<>();

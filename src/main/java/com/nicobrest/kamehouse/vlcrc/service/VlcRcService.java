@@ -52,7 +52,7 @@ public class VlcRcService {
   }
 
   /**
-   * Browse the file system of the selected VLC Player.
+   * Browses the file system of the selected VLC Player.
    */
   public List<VlcRcFileListItem> browse(String uri, String hostname) {
     return vlcPlayerService.getByHostname(hostname).browse(uri);

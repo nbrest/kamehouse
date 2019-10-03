@@ -56,7 +56,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   }
 
   /**
-   * Initialize In-Memory repository.
+   * Initializes In-Memory repository.
    */
   public static void initRepository() {
     repository = new HashMap<>();
@@ -171,7 +171,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     }
 
     /**
-     * Return next number in the sequence.
+     * Returns next number in the sequence.
      */
     public static Long getId() {
       return Long.valueOf(sequence.getAndIncrement());

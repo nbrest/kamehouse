@@ -39,7 +39,7 @@ public class DragonBallUserDeleteActionServlet extends AbstractDragonBallUserSer
   }
 
   @Override
-  void consumeDragonBallUserDto(DragonBallUserDto dragonBallUserDto) {
+  void processDto(DragonBallUserDto dragonBallUserDto) {
     // Method not needed in this class.
   }
 }

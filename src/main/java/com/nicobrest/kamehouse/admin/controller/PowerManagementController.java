@@ -28,7 +28,7 @@ import java.util.List;
 public class PowerManagementController extends AbstractSystemCommandController {
 
   /**
-   * Shutdown the local server with the specified delay in seconds.
+   * Shutdowns the local server with the specified delay in seconds.
    */
   @PostMapping(path = "/shutdown")
   @ResponseBody
@@ -39,7 +39,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   }
 
   /**
-   * Cancel a shutdown command.
+   * Cancels a shutdown command.
    */
   @DeleteMapping(path = "/shutdown")
   @ResponseBody
@@ -49,7 +49,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   }
 
   /**
-   * Get the status of a shutdown command.
+   * Gets the status of a shutdown command.
    */
   @GetMapping(path = "/shutdown")
   @ResponseBody
@@ -59,7 +59,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   }
 
   /**
-   * Suspend the server.
+   * Suspends the server.
    */
   @PostMapping(path = "/suspend")
   @ResponseBody

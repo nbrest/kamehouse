@@ -66,14 +66,14 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
    */
   @Test
   public void readAllTest() throws Exception {
-    when(ehCacheServiceMock.readAll()).thenReturn(applicationCacheList);
+    when(ehCacheServiceMock.getAll()).thenReturn(applicationCacheList);
 
     MockHttpServletResponse response = executeGet("/api/v1/admin/ehcache");
     List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributesList(applicationCacheList, responseBody);
-    verify(ehCacheServiceMock, times(1)).readAll();
+    verify(ehCacheServiceMock, times(1)).getAll();
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 
@@ -82,7 +82,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
    */
   @Test
   public void readSingleCacheTest() throws Exception {
-    when(ehCacheServiceMock.read("dragonBallUsers")).thenReturn(applicationCache);
+    when(ehCacheServiceMock.get("dragonBallUsers")).thenReturn(applicationCache);
 
     MockHttpServletResponse response = executeGet("/api/v1/admin/ehcache?name=dragonBallUsers");
     List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
@@ -90,7 +90,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals(1, responseBody.size());
     testUtils.assertEqualsAllAttributes(applicationCache, responseBody.get(0));
-    verify(ehCacheServiceMock, times(1)).read("dragonBallUsers");
+    verify(ehCacheServiceMock, times(1)).get("dragonBallUsers");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 

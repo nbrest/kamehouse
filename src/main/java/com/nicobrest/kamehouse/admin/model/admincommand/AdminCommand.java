@@ -21,7 +21,7 @@ public abstract class AdminCommand {
   protected List<SystemCommand> systemCommands = new ArrayList<>();
 
   /**
-   * Get the list of system commands required to execute to perform this admin
+   * Gets the list of system commands required to execute to perform this admin
    * command.
    */
   public List<SystemCommand> getSystemCommands() {

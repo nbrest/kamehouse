@@ -14,7 +14,7 @@ import java.util.Arrays;
 public abstract class VncDoSystemCommand extends SystemCommand {
 
   /**
-   * Set a VncDo system command that is specified by an action and a parameter.
+   * Sets a VncDo system command that is specified by an action and a parameter.
    */
   protected void setVncDoSystemCommand(String action, String parameter) {
     String hostname = PropertiesUtils.getHostname();
@@ -28,7 +28,7 @@ public abstract class VncDoSystemCommand extends SystemCommand {
   }
 
   /**
-   * Get the vnc server password from a file.
+   * Gets the vnc server password from a file.
    */
   protected String getVncServerPassword() {
     String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils

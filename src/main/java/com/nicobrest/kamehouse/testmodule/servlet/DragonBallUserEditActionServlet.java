@@ -18,7 +18,7 @@ public class DragonBallUserEditActionServlet extends AbstractDragonBallUserServl
   private static final long serialVersionUID = 1L;
 
   @Override
-  void consumeDragonBallUserDto(DragonBallUserDto dragonBallUserDto) {
+  void processDto(DragonBallUserDto dragonBallUserDto) {
     getDragonBallUserService().update(dragonBallUserDto);
   }
 }

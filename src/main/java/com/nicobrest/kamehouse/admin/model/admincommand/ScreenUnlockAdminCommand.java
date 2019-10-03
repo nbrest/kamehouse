@@ -15,7 +15,7 @@ import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 public class ScreenUnlockAdminCommand extends AdminCommand {
 
   /**
-   * Set the required SystemCommands to achieve this AdminCommand.
+   * Sets the required SystemCommands to achieve this AdminCommand.
    */
   public ScreenUnlockAdminCommand() {
     String decodedPassword = getUnlockScreenPassword();
@@ -26,7 +26,7 @@ public class ScreenUnlockAdminCommand extends AdminCommand {
   }
   
   /**
-   * Get the unlock screen password.
+   * Gets the unlock screen password.
    */
   private String getUnlockScreenPassword() {
     String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils

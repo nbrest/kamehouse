@@ -64,6 +64,11 @@ public class Playlist implements Comparable<Playlist> {
   }
 
   @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(name).append(path).append(category).toHashCode();
+  }
+  
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof Playlist) {
       final Playlist other = (Playlist) obj;
@@ -72,11 +77,6 @@ public class Playlist implements Comparable<Playlist> {
     } else {
       return false;
     }
-  }
-
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(name).append(path).append(category).toHashCode();
   }
   
   @Override

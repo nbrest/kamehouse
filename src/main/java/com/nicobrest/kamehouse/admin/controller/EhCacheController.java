@@ -41,12 +41,12 @@ public class EhCacheController extends AbstractController {
     List<ApplicationCache> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
       cacheList = new ArrayList<>();
-      ApplicationCache applicationCache = ehCacheService.read(cacheName);
+      ApplicationCache applicationCache = ehCacheService.get(cacheName);
       if (applicationCache != null) {
         cacheList.add(applicationCache);
       }
     } else {
-      cacheList = ehCacheService.readAll();
+      cacheList = ehCacheService.getAll();
     }
     return generateGetResponseEntity(cacheList);
   }

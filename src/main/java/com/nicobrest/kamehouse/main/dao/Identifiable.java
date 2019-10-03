@@ -10,12 +10,12 @@ package com.nicobrest.kamehouse.main.dao;
 public interface Identifiable {
 
   /**
-   * Get the id of the entity.
+   * Gets the id of the entity.
    */
   public Long getId();
   
   /**
-   * Set the id of the entity.
+   * Sets the id of the entity.
    */
   public void setId(Long id);
 }

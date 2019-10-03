@@ -54,7 +54,7 @@ public class SessionStatusService {
   }
   
   /**
-   * Get the Authentication object from the spring security context.
+   * Gets the Authentication object from the spring security context.
    */
   private Authentication getAuthentication() {
     return SecurityContextHolder.getContext().getAuthentication();

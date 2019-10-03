@@ -11,7 +11,7 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.ShutdownStatusSystemCom
 public class ShutdownStatusAdminCommand extends AdminCommand {
 
   /**
-   * Set the required SystemCommands to achieve this AdminCommand.
+   * Sets the required SystemCommands to achieve this AdminCommand.
    */
   public ShutdownStatusAdminCommand() {
     systemCommands.add(new ShutdownStatusSystemCommand());

@@ -31,7 +31,7 @@ public class EhCacheServiceTest {
    */
   @Test
   public void readAllTest() {
-    List<ApplicationCache> cacheList = ehCacheService.readAll();
+    List<ApplicationCache> cacheList = ehCacheService.getAll();
 
     assertEquals(5, cacheList.size());
   }
@@ -46,7 +46,7 @@ public class EhCacheServiceTest {
     
     ehCacheService.clearAll();
     
-    for (ApplicationCache applicationCache : ehCacheService.readAll()) {
+    for (ApplicationCache applicationCache : ehCacheService.getAll()) {
       if ("dragonBallUsers".equals(applicationCache.getName())) {
         assertEquals(emptyList, applicationCache.getValues());
       }

@@ -22,7 +22,7 @@ public class TestWebSocketController {
   private TestWebSocketService testWebSocketService;
 
   /**
-   * Process the websocket input request.
+   * Processes the websocket input request.
    */
   @MessageMapping("/test-module/websocket-in")
   @SendTo("/topic/test-module/websocket-out")

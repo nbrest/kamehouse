@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class VlcStatusSystemCommand extends SystemCommand {
 
   /**
-   * Set the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation system required for this SystemCommand.
    */
   public VlcStatusSystemCommand() {
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c",

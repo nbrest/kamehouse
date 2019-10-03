@@ -77,7 +77,7 @@ public class ApplicationUserDaoInMemory implements ApplicationUserDao {
   }
 
   /**
-   * Initialize in-memory repository with test users.
+   * Initializes in-memory repository with test users.
    */
   private static void initRepository() {
     ApplicationRole userRole = new ApplicationRole();

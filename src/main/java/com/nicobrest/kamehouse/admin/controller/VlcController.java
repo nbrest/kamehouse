@@ -27,7 +27,7 @@ import java.util.List;
 public class VlcController extends AbstractSystemCommandController {
 
   /**
-   * Start a vlc player in the local server.
+   * Starts a vlc player in the local server.
    */
   @PostMapping(path = "/vlc")
   @ResponseBody
@@ -38,7 +38,7 @@ public class VlcController extends AbstractSystemCommandController {
   }
 
   /**
-   * Stop vlc player in the local server.
+   * Stops vlc player in the local server.
    */
   @DeleteMapping(path = "/vlc")
   @ResponseBody
@@ -48,7 +48,7 @@ public class VlcController extends AbstractSystemCommandController {
   }
 
   /**
-   * Get the status of vlc player in the local server.
+   * Gets the status of vlc player in the local server.
    */
   @GetMapping(path = "/vlc")
   @ResponseBody

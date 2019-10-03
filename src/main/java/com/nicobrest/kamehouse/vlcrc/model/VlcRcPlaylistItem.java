@@ -6,7 +6,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Playlist item returned by a vlc player.
+ * Playlist item returned by a vlc player. The playlist returned by VLC in
+ * itself is not an entity, as it doesn't have a name, category or anything else
+ * that requires identification, so it's a List made of these playlist items.
  * 
  * @author nbrest
  *
@@ -59,8 +61,8 @@ public class VlcRcPlaylistItem {
   public boolean equals(final Object obj) {
     if (obj instanceof VlcRcPlaylistItem) {
       final VlcRcPlaylistItem other = (VlcRcPlaylistItem) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(name, other.getName()).append(
-          uri, other.getUri()).append(duration, other.getDuration()).isEquals();
+      return new EqualsBuilder().append(id, other.getId()).append(name, other.getName())
+          .append(uri, other.getUri()).append(duration, other.getDuration()).isEquals();
     } else {
       return false;
     }

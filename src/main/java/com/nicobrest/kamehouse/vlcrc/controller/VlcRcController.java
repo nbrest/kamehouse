@@ -134,7 +134,7 @@ public class VlcRcController extends AbstractCrudController {
   }
 
   /**
-   * Browse the VLC Player server's file system.
+   * Browses the VLC Player server's file system.
    */
   @GetMapping(path = "/players/{hostname}/browse")
   @ResponseBody

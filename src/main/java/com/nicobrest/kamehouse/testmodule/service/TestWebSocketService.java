@@ -17,7 +17,7 @@ import java.util.Date;
 public class TestWebSocketService {
 
   /**
-   * Generate a websocket response message for the specified request input.
+   * Generates a websocket response message for the specified request input.
    */
   public TestWebSocketResponseMessage generateTestWebSocketResponseMessage(
       TestWebSocketRequestMessage inputMessage) {

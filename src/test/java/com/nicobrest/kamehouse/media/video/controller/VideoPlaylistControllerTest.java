@@ -64,7 +64,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
    */
   @Test
   public void readAllTest() throws Exception {
-    when(videoPlaylistService.readAll()).thenReturn(videoPlaylistsList);
+    when(videoPlaylistService.getAll()).thenReturn(videoPlaylistsList);
 
     MockHttpServletResponse response = executeGet(API_V1_MEDIA_VIDEO_PLAYLISTS);
     List<Playlist> responseBody = getResponseBodyList(response, Playlist.class);
@@ -72,7 +72,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     testUtils.assertEqualsAllAttributesList(videoPlaylistsList, responseBody);
-    verify(videoPlaylistService, times(1)).readAll();
+    verify(videoPlaylistService, times(1)).getAll();
     verifyNoMoreInteractions(videoPlaylistService);
   }
 }

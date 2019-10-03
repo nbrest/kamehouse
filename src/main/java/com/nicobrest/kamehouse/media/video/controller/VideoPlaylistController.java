@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+
 /**
  * Controller to manage the video playlists in the local system.
  * 
@@ -26,13 +27,13 @@ public class VideoPlaylistController extends AbstractController {
   private VideoPlaylistService videoPlaylistService;
 
   /**
-   * Get all video playlists.
+   * Gets all video playlists.
    */
   @GetMapping(path = "/playlists")
   @ResponseBody
-  public ResponseEntity<List<Playlist>> readAll() {
+  public ResponseEntity<List<Playlist>> getAll() {
     logger.trace("/api/v1/media/video/playlists (GET)");
-    List<Playlist> videoPlaylists = videoPlaylistService.readAll();
+    List<Playlist> videoPlaylists = videoPlaylistService.getAll();
     return generateGetResponseEntity(videoPlaylists);
   }
 }

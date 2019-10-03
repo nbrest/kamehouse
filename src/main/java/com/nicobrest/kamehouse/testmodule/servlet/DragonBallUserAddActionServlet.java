@@ -18,7 +18,7 @@ public class DragonBallUserAddActionServlet extends AbstractDragonBallUserServle
   private static final long serialVersionUID = 1L;
 
   @Override
-  void consumeDragonBallUserDto(DragonBallUserDto dragonBallUserDto) {
+  void processDto(DragonBallUserDto dragonBallUserDto) {
     getDragonBallUserService().create(dragonBallUserDto);
   }
 }

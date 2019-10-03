@@ -25,7 +25,7 @@ public class VlcRcWebSocketController {
   private VlcRcService vlcRcService;
 
   /**
-   * Process the websocket input request for vlc player status.
+   * Processes the websocket input request for vlc player status.
    */
   @MessageMapping("/vlc-player/status-in")
   @SendTo("/topic/vlc-player/status-out")
@@ -33,8 +33,8 @@ public class VlcRcWebSocketController {
     logger.trace("/vlc-player/status-in (WEBSOCKET)");
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
     if (vlcRcStatus == null) {
-      // Return an empty object instead of null so the client receives a response and updates 
-      // accordingly. Null doesn't even send a response to the channel.
+      // Return an empty object instead of null so the client receives a response and
+      // updates the status view. Null doesn't even send a response to the channel.
       vlcRcStatus = new VlcRcStatus();
     }
     return vlcRcStatus;

@@ -26,7 +26,7 @@ import javax.persistence.Query;
 public abstract class AbstractDaoJpa {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
-  
+
   private static final String NO_RESULT_EXCEPTION =
       "NoResultException: Entity not found in the repository.";
   private static final String CONSTRAINT_VIOLATION_EXCEPTION =
@@ -36,7 +36,7 @@ public abstract class AbstractDaoJpa {
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
   private static final String ILLEGAL_ARGUMENT =
       "IllegalArgumentException. There was an error in the input of the request.";
-    
+
   @Autowired
   private EntityManagerFactory entityManagerFactory;
 
@@ -53,7 +53,7 @@ public abstract class AbstractDaoJpa {
   }
 
   /**
-   * Find all objects of the specified class from the repository.
+   * Finds all objects of the specified class from the repository.
    */
   protected <T> List<T> findAll(Class<T> clazz) {
     EntityManager em = getEntityManager();
@@ -79,17 +79,16 @@ public abstract class AbstractDaoJpa {
     try {
       em.getTransaction().begin();
       /*
-       * find: returns the entity from the EntityManager if its already in
-       * memory. Otherwise it goes to the database to find it. getReference:
-       * Returns a proxy to the real entity. Useful if you need to access the
-       * primary key used to look up the entity but not the other data of the
-       * object.
+       * find: returns the entity from the EntityManager if its already in memory.
+       * Otherwise it goes to the database to find it. getReference: Returns a proxy
+       * to the real entity. Useful if you need to access the primary key used to look
+       * up the entity but not the other data of the object.
        */
       entity = em.find(clazz, id);
       em.getTransaction().commit();
       if (entity == null) {
-        throw new KameHouseNotFoundException(clazz.getSimpleName() + WITH_ID + id
-            + NOT_FOUND_IN_REPOSITORY);
+        throw new KameHouseNotFoundException(
+            clazz.getSimpleName() + WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
@@ -138,21 +137,21 @@ public abstract class AbstractDaoJpa {
   }
 
   /**
-   * Persist the specified entity in the repository.
+   * Persists the specified entity in the repository.
    */
   protected <T> void persistEntityInRepository(T entity) {
     addEntityToRepository(entity, new PersistFunction<T>());
   }
 
   /**
-   * Merge the specified entity in the repository.
+   * Merges the specified entity in the repository.
    */
   protected <T> T mergeEntityInRepository(T entity) {
     return addEntityToRepository(entity, new MergeFunction<T>());
   }
 
   /**
-   * Update the specified entity in the repository.
+   * Updates the specified entity in the repository.
    */
   protected <T> void updateEntityInRepository(Class<T> clazz, T entity, Long entityId) {
     EntityManager em = getEntityManager();
@@ -165,26 +164,26 @@ public abstract class AbstractDaoJpa {
       }
       em.getTransaction().commit();
       if (persistedEntity == null) {
-        throw new KameHouseNotFoundException(clazz.getSimpleName() + WITH_ID + entityId
-            + NOT_FOUND_IN_REPOSITORY);
+        throw new KameHouseNotFoundException(
+            clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } catch (IllegalArgumentException e) {
       handleIllegalArgumentException(e);
-    }  finally {
+    } finally {
       em.close();
     }
   }
 
   /**
-   * Abstract method to update the values of the persistedEntity with the object
-   * received as a second parameter.
+   * Updates the values of the persistedEntity with the object received as a
+   * second parameter.
    */
   protected abstract <T> void updateEntityValues(T persistedEntity, T entity);
 
   /**
-   * Delete the entity of the specified class from the repository.
+   * Deletes the entity of the specified class from the repository.
    */
   protected <T> T deleteEntityFromRepository(Class<T> clazz, Long entityId) {
     EntityManager em = getEntityManager();
@@ -197,24 +196,23 @@ public abstract class AbstractDaoJpa {
       }
       em.getTransaction().commit();
       if (entityToRemove == null) {
-        throw new KameHouseNotFoundException(clazz.getSimpleName() + WITH_ID + entityId
-            + NOT_FOUND_IN_REPOSITORY);
+        throw new KameHouseNotFoundException(
+            clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
       throw new KameHouseServerErrorException(PERSISTENCE_EXCEPTION, pe);
     } catch (IllegalArgumentException e) {
       handleIllegalArgumentException(e);
-    }  finally {
+    } finally {
       em.close();
     }
     return entityToRemove;
   }
 
   /**
-   * Add the specified entity in the repository.
+   * Adds the specified entity in the repository.
    */
-  private <T> T addEntityToRepository(T entity,
-      BiFunction<EntityManager, T, T> addFunction) {
+  private <T> T addEntityToRepository(T entity, BiFunction<EntityManager, T, T> addFunction) {
     T addedEntity = null;
     EntityManager em = getEntityManager();
     try {
@@ -230,8 +228,8 @@ public abstract class AbstractDaoJpa {
   }
 
   /**
-   * Persist() implementation of the BiFunction interface to add an entity to
-   * the repository.
+   * Persist() implementation of the BiFunction interface to add an entity to the
+   * repository.
    */
   private static class PersistFunction<T> implements BiFunction<EntityManager, T, T> {
     @Override
@@ -253,7 +251,8 @@ public abstract class AbstractDaoJpa {
   }
 
   /**
-   * Process the thrown persistent exception to throw the appropriate type.
+   * Processes the thrown persistent exception to throw the appropriate exception
+   * type.
    */
   private static void handlePersistentException(PersistenceException pe) {
     Throwable cause = pe;
@@ -270,7 +269,7 @@ public abstract class AbstractDaoJpa {
   }
 
   /**
-   * Return a bad request response if the code throws an
+   * Returns a bad request response if the code throws an
    * IllegalArgumentException.
    */
   private static void handleIllegalArgumentException(IllegalArgumentException ex) {

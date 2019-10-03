@@ -12,7 +12,7 @@ import com.nicobrest.kamehouse.main.dao.CrudDao;
 public interface ApplicationUserDao extends CrudDao<ApplicationUser> {
 
   /**
-   * Get an application user from the repository by it's username.
+   * Gets an application user from the repository by it's username.
    */
   public ApplicationUser loadUserByUsername(String username);
 }

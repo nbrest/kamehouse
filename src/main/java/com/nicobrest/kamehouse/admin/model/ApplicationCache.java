@@ -20,14 +20,7 @@ public class ApplicationCache {
   private String name;
   private String status;
   private String keys;
-  private List<String> values;
-
-  /**
-   * Default constructor.
-   */
-  public ApplicationCache() {
-    values = new ArrayList<>();
-  }
+  private List<String> values = new ArrayList<>();
 
   public String getName() {
     return name;

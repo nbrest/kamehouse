@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class VlcStartSystemCommand extends SystemCommand {
 
   /**
-   * Set the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation system required for this SystemCommand.
    */
   public VlcStartSystemCommand(String filename) {
     isDaemon = true;

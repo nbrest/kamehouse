@@ -42,14 +42,6 @@ public class HttpClientUtils {
   }
 
   /**
-   * Execute the HTTP Get request to the specified HttpClient.
-   */
-  public static HttpResponse executeGetRequest(HttpClient client, HttpGet getRequest)
-      throws IOException {
-    return client.execute(getRequest);
-  }
-
-  /**
    * Returns the response content as an InputStream.
    */
   public static InputStream getInputStreamFromResponse(HttpResponse response) throws IOException {
@@ -57,14 +49,14 @@ public class HttpClientUtils {
   }
 
   /**
-   * Create an HTTP Get request to the specified URL.
+   * Creates an HTTP Get request to the specified URL.
    */
   public static HttpGet httpGet(String url) {
     return new HttpGet(url);
   }
 
   /**
-   * Execute the HTTP request to the specified HttpClient.
+   * Executes the HTTP request to the specified HttpClient.
    */
   public static HttpResponse executeRequest(HttpClient client, HttpUriRequest request)
       throws IOException {

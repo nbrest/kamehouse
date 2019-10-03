@@ -15,7 +15,7 @@ public class DragonBallUserValidator {
   }
   
   /**
-   * Validate that the integer has a positive value.
+   * Validates that the integer has a positive value.
    */
   public static void validatePositiveValue(int value) {
     if (value < 0) {

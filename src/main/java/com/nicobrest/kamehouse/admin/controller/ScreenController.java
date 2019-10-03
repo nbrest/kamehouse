@@ -24,7 +24,7 @@ import java.util.List;
 public class ScreenController extends AbstractSystemCommandController {
 
   /**
-   * Lock screen in the server running the application.
+   * Locks screen in the server running the application.
    */
   @PostMapping(path = "/lock")
   @ResponseBody
@@ -34,7 +34,7 @@ public class ScreenController extends AbstractSystemCommandController {
   }
 
   /**
-   * Unlock screen in the server running the application.
+   * Unlocks screen in the server running the application.
    */
   @PostMapping(path = "/unlock")
   @ResponseBody
@@ -44,7 +44,7 @@ public class ScreenController extends AbstractSystemCommandController {
   }
 
   /**
-   * Wake up the screen. Run it when the screen goes dark after being idle for a
+   * Wakes up the screen. Run it when the screen goes dark after being idle for a
    * while.
    */
   @PostMapping(path = "/wake-up")

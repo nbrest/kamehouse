@@ -11,7 +11,7 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.ScreenLockSystemCommand
 public class ScreenLockAdminCommand extends AdminCommand {
 
   /**
-   * Set the required SystemCommands to achieve this AdminCommand.
+   * Sets the required SystemCommands to achieve this AdminCommand.
    */
   public ScreenLockAdminCommand() {
     systemCommands.add(new ScreenLockSystemCommand());

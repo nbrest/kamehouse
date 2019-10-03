@@ -56,7 +56,7 @@ public abstract class AbstractController {
   }
 
   /**
-   * Check that the id in the path of the url matches the id of the request body.
+   * Checks that the id in the path of the url matches the id of the request body.
    * This is to avoid updating a wrong entity if they don't match.
    */
   protected static void validatePathAndRequestBodyIds(Long pathId, Long requestBodyId) {

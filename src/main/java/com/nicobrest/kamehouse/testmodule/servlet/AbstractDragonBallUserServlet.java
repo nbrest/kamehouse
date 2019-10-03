@@ -39,19 +39,19 @@ public abstract class AbstractDragonBallUserServlet extends HttpServlet {
 
   /**
    * Configures private static dragonBallUserService. @Autowired doesn't work
-   * because the servlet is not managed by spring and the initialization of
-   * static fields probably happens before the spring context loads. The only
-   * way for @Autowired to work was to have the property non-static and use
+   * because the servlet is not managed by spring and the initialization of static
+   * fields probably happens before the spring context loads. The only way
+   * for @Autowired to work was to have the property non-static and use
    * SpringBeanAutowiringSupport in the init method, but findbugs reports having
    * non-static fields in a Servlet as a bug.
    */
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
-    ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this
-        .getServletContext());
-    DragonBallUserService dragonBallUserServiceBean = (DragonBallUserService) context.getBean(
-        "dragonBallUserService");
+    ApplicationContext context =
+        WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+    DragonBallUserService dragonBallUserServiceBean =
+        (DragonBallUserService) context.getBean("dragonBallUserService");
     setDragonBallUserService(dragonBallUserServiceBean);
   }
 
@@ -64,19 +64,22 @@ public abstract class AbstractDragonBallUserServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     try {
-      DragonBallUserDto dragonBallUserDto = getDragonBallUserDtoFromRequest(request);
-      consumeDragonBallUserDto(dragonBallUserDto);
+      DragonBallUserDto dragonBallUserDto = getDtoFromRequest(request);
+      processDto(dragonBallUserDto);
       response.sendRedirect("users-list");
     } catch (NumberFormatException | IOException e) {
       logger.error("Error occurred processing request.", e);
     }
   }
 
-  private DragonBallUserDto getDragonBallUserDtoFromRequest(HttpServletRequest request) {
+  /**
+   * Gets the DTO object from the request parameters.
+   */
+  private DragonBallUserDto getDtoFromRequest(HttpServletRequest request) {
     DragonBallUserDto dragonBallUserDto = new DragonBallUserDto();
     if (request.getParameter("id") != null) {
       dragonBallUserDto.setId(Long.parseLong(request.getParameter("id")));
-    } 
+    }
     dragonBallUserDto.setUsername(request.getParameter("username"));
     dragonBallUserDto.setEmail(request.getParameter("email"));
     dragonBallUserDto.setAge(Integer.parseInt(request.getParameter("age")));
@@ -85,5 +88,8 @@ public abstract class AbstractDragonBallUserServlet extends HttpServlet {
     return dragonBallUserDto;
   }
 
-  abstract void consumeDragonBallUserDto(DragonBallUserDto dragonBallUserDto);
+  /**
+   * Processes the DTO from the request.
+   */
+  abstract void processDto(DragonBallUserDto dragonBallUserDto);
 }

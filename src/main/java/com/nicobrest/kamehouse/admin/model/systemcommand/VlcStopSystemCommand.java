@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class VlcStopSystemCommand extends SystemCommand {
 
   /**
-   * Set the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation system required for this SystemCommand.
    */
   public VlcStopSystemCommand() {
     linuxCommand.addAll(Arrays.asList("skill", "-9", "vlc"));

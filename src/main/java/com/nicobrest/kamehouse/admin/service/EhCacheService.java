@@ -40,7 +40,7 @@ public class EhCacheService {
   /**
    * Returns the cache information of the cache specified as a parameter.
    */
-  public ApplicationCache read(String cacheName) {
+  public ApplicationCache get(String cacheName) {
     logger.trace("Getting information for cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     return getCacheInformation(cache);
@@ -49,12 +49,12 @@ public class EhCacheService {
   /**
    * Returns the status of all the ehcaches.
    */
-  public List<ApplicationCache> readAll() {
+  public List<ApplicationCache> getAll() {
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     List<ApplicationCache> cacheList = new ArrayList<>();
 
     for (int i = 0; i < cacheNames.length; i++) {
-      ApplicationCache applicationCache = read(cacheNames[i]);
+      ApplicationCache applicationCache = get(cacheNames[i]);
       if (applicationCache != null) {
         cacheList.add(applicationCache);
       }
@@ -84,7 +84,7 @@ public class EhCacheService {
   }
 
   /**
-   * Populate the map that represents the cache with the cache information.
+   * Populates the map that represents the cache with the cache information.
    */
   private ApplicationCache getCacheInformation(Cache cache) {
     ApplicationCache applicationCache = null;

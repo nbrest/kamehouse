@@ -11,7 +11,7 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.ShutdownCancelSystemCom
 public class ShutdownCancelAdminCommand extends AdminCommand {
 
   /**
-   * Set the required SystemCommands to achieve this AdminCommand.
+   * Sets the required SystemCommands to achieve this AdminCommand.
    */
   public ShutdownCancelAdminCommand() {
     systemCommands.add(new ShutdownCancelSystemCommand());

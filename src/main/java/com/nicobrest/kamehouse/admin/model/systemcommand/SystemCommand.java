@@ -36,7 +36,7 @@ public abstract class SystemCommand {
   }
 
   /**
-   * Get the specified system command for the correct operating system.
+   * Gets the specified system command for the correct operating system.
    */
   public List<String> getCommand() {
     if (PropertiesUtils.isWindowsHost()) {
@@ -47,7 +47,7 @@ public abstract class SystemCommand {
   }
 
   /**
-   * Set the Output command, hiding it if its is a vncdo command, as it contains
+   * Sets the Output command, hiding it if its is a vncdo command, as it contains
    * passwords. Call this method in the constructor of <b>EVERY</b> concrete subclass,
    * after initializing the command lists.
    */

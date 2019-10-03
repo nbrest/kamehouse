@@ -111,7 +111,7 @@ public class DragonBallUser implements Identifiable, Serializable {
   }
 
   /**
-   * Attack another DragonBallUser.
+   * Attacks another DragonBallUser.
    */
   public void attack(DragonBallUser opponent) {
     /*
@@ -131,7 +131,7 @@ public class DragonBallUser implements Identifiable, Serializable {
   }
 
   /**
-   * Recover stamina.
+   * Recovers stamina.
    */
   public void recoverStamina() {
     stamina = stamina + powerLevel;

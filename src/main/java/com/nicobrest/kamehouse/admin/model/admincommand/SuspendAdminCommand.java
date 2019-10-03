@@ -11,7 +11,7 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.SuspendSystemCommand;
 public class SuspendAdminCommand extends AdminCommand {
 
   /**
-   * Set the required SystemCommands to achieve this AdminCommand.
+   * Sets the required SystemCommands to achieve this AdminCommand.
    */
   public SuspendAdminCommand() {
     systemCommands.add(new SuspendSystemCommand());

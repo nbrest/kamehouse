@@ -32,9 +32,9 @@ public class VideoPlaylistService {
   private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
 
   /**
-   * Get all video playlists.
+   * Gets all video playlists.
    */
-  public List<Playlist> readAll() {
+  public List<Playlist> getAll() {
     String userHome = PropertiesUtils.getUserHome();
     String videoPlaylistsHome;
     if (PropertiesUtils.isWindowsHost()) {
@@ -73,7 +73,7 @@ public class VideoPlaylistService {
   }
 
   /**
-   * Get the category of the playlist based on the base path.
+   * Gets the category of the playlist based on the base path.
    */
   private String getCategory(Path basePath, Path filePath) {
     int basePathLength = basePath.toFile().getAbsolutePath().length();

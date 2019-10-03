@@ -51,6 +51,7 @@ public class ApplicationUserController extends AbstractCrudController {
   public ResponseEntity<ApplicationUser> read(@PathVariable Long id) {
     ResponseEntity<ApplicationUser> responseEntity =
         read(APP_USERS_ID, applicationUserService, id);
+    // Don't return the password through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;
   }
@@ -63,6 +64,7 @@ public class ApplicationUserController extends AbstractCrudController {
   public ResponseEntity<List<ApplicationUser>> readAll() {
     ResponseEntity<List<ApplicationUser>> responseEntity =
         readAll(APP_USERS, applicationUserService);
+    // Don't return the passwords through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;
   }
@@ -84,6 +86,7 @@ public class ApplicationUserController extends AbstractCrudController {
   public ResponseEntity<ApplicationUser> delete(@PathVariable Long id) {
     ResponseEntity<ApplicationUser> responseEntity =
         delete(APP_USERS_ID, applicationUserService, id);
+    // Don't return the password through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;
   }
@@ -102,7 +105,7 @@ public class ApplicationUserController extends AbstractCrudController {
   }
 
   /**
-   * Remove the password from the application user.
+   * Removes the password from the application user.
    */
   private void removePassword(ApplicationUser applicationUser) { 
     if (applicationUser != null) {
@@ -111,7 +114,7 @@ public class ApplicationUserController extends AbstractCrudController {
   }
   
   /**
-   * Remove the password from the application users.
+   * Removes the password from the application users.
    */
   private void removePassword(List<ApplicationUser> applicationUsers) { 
     if (applicationUsers != null) {

@@ -26,7 +26,7 @@ public class FileUtils {
   }
   
   /**
-   * Decode the contents of the encoded file and return it as a string.
+   * Decodes the contents of the encoded file and return it as a string.
    */
   public static String getDecodedFileContent(String filename) {
     String decodedFileContent = null;
