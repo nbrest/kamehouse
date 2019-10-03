@@ -293,12 +293,8 @@ function getMediaName() {
   mediaNameLocal.filename = "No media loaded";
   mediaNameLocal.title = "No media loaded";
   if (!isEmpty(global.vlcRcStatus.information)) {
-      global.vlcRcStatus.information.category.forEach(function (category) {
-        if (!isEmpty(category.filename)) {
-          mediaNameLocal.filename = category.filename;
-          mediaNameLocal.title = category.title;
-        }
-    });
+	mediaNameLocal.filename = global.vlcRcStatus.information.meta.filename;
+	mediaNameLocal.title = global.vlcRcStatus.information.meta.title;    
   }  
   return mediaNameLocal;
 }
