@@ -10,8 +10,7 @@ import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import java.util.LinkedList;
 
 /**
- * Test data and common test methods to test DragonBallUsers in all layers of
- * the application.
+ * Test data and common test methods to test VlcPlayers.
  * 
  * @author nbrest
  *
@@ -31,6 +30,7 @@ public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDt
 
   @Override
   public void assertEqualsAllAttributes(VlcPlayer expectedEntity, VlcPlayer returnedEntity) {
+    assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
     assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername()); 
     assertEquals(expectedEntity.getPassword(), returnedEntity.getPassword()); 

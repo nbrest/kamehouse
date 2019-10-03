@@ -34,7 +34,7 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Lock screen successful test.
+   * Locks screen successful test.
    */
   @Test
   public void lockScreenSuccessfulTest() throws Exception {
@@ -42,7 +42,7 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Unlock screen successful test.
+   * Unlocks screen successful test.
    */
   @Test
   public void unlockScreenSuccessfulTest() throws Exception {
@@ -50,7 +50,7 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Wake Up screen successful test.
+   * Wakes Up screen successful test.
    */
   @Test
   public void wakeUpScreenSuccessfulTest() throws Exception {

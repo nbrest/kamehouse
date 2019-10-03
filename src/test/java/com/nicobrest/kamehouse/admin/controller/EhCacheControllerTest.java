@@ -62,7 +62,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   }
 
   /**
-   * Test getting all caches.
+   * Tests getting all caches.
    */
   @Test
   public void readAllTest() throws Exception {
@@ -78,7 +78,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   }
 
   /**
-   * Test getting a single cache.
+   * Tests getting a single cache.
    */
   @Test
   public void readSingleCacheTest() throws Exception {
@@ -95,7 +95,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   }
 
   /**
-   * Test clearing all caches.
+   * Tests clearing all caches.
    */
   @Test
   public void clearAllTest() throws Exception {
@@ -107,7 +107,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   }
 
   /**
-   * Test clearing a single cache.
+   * Tests clearing a single cache.
    */
   @Test
   public void clearSingleCacheTest() throws Exception {

@@ -51,7 +51,7 @@ public abstract class AbstractAdminCommandControllerTest extends
   }
   
   /**
-   * Test executing an AdminCommand through a get request.
+   * Tests executing an AdminCommand through a get request.
    */
   protected void executeGetAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
@@ -65,7 +65,7 @@ public abstract class AbstractAdminCommandControllerTest extends
   }
   
   /**
-   * Test executing an AdminCommand through a post request without request body.
+   * Tests executing an AdminCommand through a post request without request body.
    */
   protected void executePostAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
@@ -79,7 +79,7 @@ public abstract class AbstractAdminCommandControllerTest extends
   }
 
   /**
-   * Test executing an invalid AdminCommand through a post request without
+   * Tests executing an invalid AdminCommand through a post request without
    * request body.
    */
   protected void executePostInvalidAdminCommandTest(String url) throws Exception {
@@ -91,7 +91,7 @@ public abstract class AbstractAdminCommandControllerTest extends
   }
 
   /**
-   * Test executing an AdminCommand through a delete request.
+   * Tests executing an AdminCommand through a delete request.
    */
   protected void executeDeleteAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
@@ -105,7 +105,7 @@ public abstract class AbstractAdminCommandControllerTest extends
   }
 
   /**
-   * Test executing an AdminCommand through a delete request with a Server
+   * Tests executing an AdminCommand through a delete request with a Server
    * Error.
    */
   protected void executeDeleteServerErrorAdminCommandTest(String url,

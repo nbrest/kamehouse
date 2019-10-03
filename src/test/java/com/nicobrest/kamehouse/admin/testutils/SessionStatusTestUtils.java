@@ -23,6 +23,7 @@ public class SessionStatusTestUtils extends AbstractTestUtils<SessionStatus, Obj
 
   @Override
   public void assertEqualsAllAttributes(SessionStatus expected, SessionStatus returned) {
+    assertEquals(expected, returned);
     assertEquals(expected.getUsername(), returned.getUsername());
     assertEquals(expected.getFirstName(), returned.getFirstName());
     assertEquals(expected.getLastName(), returned.getLastName());

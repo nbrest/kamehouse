@@ -24,8 +24,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
-public class DragonBallUserDaoJpaTest extends
-    AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
+public class DragonBallUserDaoJpaTest
+    extends AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
 
   private DragonBallUser dragonBallUser;
 
@@ -33,7 +33,7 @@ public class DragonBallUserDaoJpaTest extends
   private DragonBallUserDao dragonBallUserDaoJpa;
 
   /**
-   * Clear data from the repository before each test.
+   * Clears data from the repository before each test.
    */
   @Before
   public void setUp() {
@@ -46,7 +46,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for creating a DragonBallUser in the repository.
+   * Tests creating a DragonBallUser in the repository.
    */
   @Test
   public void createTest() {
@@ -54,7 +54,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for creating a DragonBallUser in the repository Exception flows.
+   * Tests creating a DragonBallUser in the repository Exception flows.
    */
   @Test
   public void createConflictExceptionTest() {
@@ -62,7 +62,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for getting a single DragonBallUser from the repository by id.
+   * Tests getting a single DragonBallUser from the repository by id.
    */
   @Test
   public void readTest() {
@@ -70,7 +70,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for getting all the DragonBallUsers in the repository.
+   * Tests getting all the DragonBallUsers in the repository.
    */
   @Test
   public void readAllTest() {
@@ -78,7 +78,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for updating an existing user in the repository.
+   * Tests updating an existing user in the repository.
    */
   @Test
   public void updateTest() throws IllegalAccessException, InstantiationException,
@@ -90,7 +90,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for updating an existing user in the repository Exception flows.
+   * Tests updating an existing user in the repository Exception flows.
    */
   @Test
   public void updateNotFoundExceptionTest() {
@@ -98,7 +98,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for updating an existing user in the repository Exception flows.
+   * Tests updating an existing user in the repository Exception flows.
    */
   @Test
   public void updateServerErrorExceptionTest() {
@@ -117,7 +117,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for deleting an existing user from the repository.
+   * Tests deleting an existing user from the repository.
    */
   @Test
   public void deleteTest() {
@@ -125,7 +125,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for deleting an existing user from the repository Exception flows.
+   * Tests deleting an existing user from the repository Exception flows.
    */
   @Test
   public void deleteNotFoundExceptionTest() {
@@ -133,7 +133,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by username.
+   * Tests getting a single DragonBallUser in the repository by username.
    */
   @Test
   public void getByUsernameTest() {
@@ -145,7 +145,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository Exception flows.
+   * Tests getting a single DragonBallUser in the repository Exception flows.
    */
   @Test
   public void getByUsernameNotFoundExceptionTest() {
@@ -156,7 +156,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by its email.
+   * Tests getting a single DragonBallUser in the repository by its email.
    */
   @Test
   public void getByEmailTest() {
@@ -168,7 +168,7 @@ public class DragonBallUserDaoJpaTest extends
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by its email
+   * Tests getting a single DragonBallUser in the repository by its email
    * Exception flows.
    */
   @Test

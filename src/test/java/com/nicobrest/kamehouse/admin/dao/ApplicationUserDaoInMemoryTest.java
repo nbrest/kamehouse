@@ -40,7 +40,7 @@ public class ApplicationUserDaoInMemoryTest {
   }
 
   /**
-   * Test for creating a ApplicationUser in the repository.
+   * Tests creating a ApplicationUser in the repository.
    */
   @Test
   public void createTest() {
@@ -49,11 +49,11 @@ public class ApplicationUserDaoInMemoryTest {
     ApplicationUser createdUser =
         applicationUserDao.loadUserByUsername(applicationUser.getUsername());
     
-    assertEquals(applicationUser, createdUser);
+    testUtils.assertEqualsAllAttributes(applicationUser, createdUser);
   }
 
   /**
-   * Test for getting all the ApplicationUsers in the repository.
+   * Tests getting all the ApplicationUsers in the repository.
    */
   @Test
   public void readAllTest() {
@@ -61,7 +61,7 @@ public class ApplicationUserDaoInMemoryTest {
   }
 
   /**
-   * Test for updating an existing user in the repository.
+   * Tests updating an existing user in the repository.
    */
   @Test
   public void updateTest() {
@@ -72,11 +72,11 @@ public class ApplicationUserDaoInMemoryTest {
     applicationUserDao.update(applicationUser);
 
     ApplicationUser updatedUser = applicationUserDao.loadUserByUsername("admin");
-    assertEquals(applicationUser, updatedUser);
+    testUtils.assertEqualsAllAttributes(applicationUser, updatedUser);
   }
 
   /**
-   * Test for updating an existing user in the repository Exception flows.
+   * Tests updating an existing user in the repository Exception flows.
    */
   @Test
   public void updateNotFoundExceptionTest() {
@@ -89,7 +89,7 @@ public class ApplicationUserDaoInMemoryTest {
   }
 
   /**
-   * Test for deleting an existing user from the repository.
+   * Tests deleting an existing user from the repository.
    */
   @Test
   public void deleteTest() {
@@ -97,11 +97,11 @@ public class ApplicationUserDaoInMemoryTest {
 
     ApplicationUser deletedUser = applicationUserDao.delete(userToDelete.getId());
 
-    assertEquals(userToDelete, deletedUser);
+    testUtils.assertEqualsAllAttributes(userToDelete, deletedUser);
   }
 
   /**
-   * Test for deleting an existing user from the repository Exception flows.
+   * Tests deleting an existing user from the repository Exception flows.
    */
   @Test
   public void deleteNotFoundExceptionTest() {
@@ -112,7 +112,7 @@ public class ApplicationUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single ApplicationUser in the repository by its username.
+   * Tests getting a single ApplicationUser in the repository by its username.
    */
   @Test
   public void loadUserByUsernameTest() {
@@ -123,7 +123,7 @@ public class ApplicationUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single ApplicationUser in the repository Exception flows.
+   * Tests getting a single ApplicationUser in the repository Exception flows.
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {

@@ -13,8 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Test data and common test methods to test DragonBallUsers in all layers of
- * the application.
+ * Test data and common test methods to test VlcRcStatus.
  * 
  * @author nbrest
  *
@@ -49,21 +48,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     assertInformation(expected, returned);
   }
 
-  private void assertVideoEffects(VlcRcStatus expectedEntity, VlcRcStatus returnedEntity) {
-    VlcRcStatus.VideoEffects expected = expectedEntity.getVideoEffects();
-    VlcRcStatus.VideoEffects returned = returnedEntity.getVideoEffects();
-    if (expected != null && returned != null) {
-      assertEquals(expected.getBrightness(), returned.getBrightness());
-      assertEquals(expected.getContrast(), returned.getContrast());
-      assertEquals(expected.getGamma(), returned.getGamma());
-      assertEquals(expected.getHue(), returned.getHue());
-      assertEquals(expected.getSaturation(), returned.getSaturation());
-    } else {
-      // Check they are both null
-      assertEquals(expected, returned);
-    }
-  }
-
+  /**
+   * Assert root attributes of VlcRcStatus.
+   */
   private void assertRootAttributes(VlcRcStatus expected, VlcRcStatus returned) {
     assertEquals(expected.getApiVersion(), returned.getApiVersion());
     assertEquals(expected.getAspectRatio(), returned.getAspectRatio());
@@ -82,7 +69,10 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     assertEquals(expected.getVersion(), returned.getVersion());
     assertEquals(expected.getVolume(), returned.getVolume());
   }
-
+  
+  /**
+   * Assert stats of VlcRcStatus.
+   */
   private void assertStats(VlcRcStatus expected, VlcRcStatus returned) {
     VlcRcStatus.Stats expectedStats = expected.getStats();
     VlcRcStatus.Stats returnedStats = returned.getStats();
@@ -112,6 +102,27 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
+  /**
+   * Assert video effects of VlcRcStatus.
+   */
+  private void assertVideoEffects(VlcRcStatus expectedEntity, VlcRcStatus returnedEntity) {
+    VlcRcStatus.VideoEffects expected = expectedEntity.getVideoEffects();
+    VlcRcStatus.VideoEffects returned = returnedEntity.getVideoEffects();
+    if (expected != null && returned != null) {
+      assertEquals(expected.getBrightness(), returned.getBrightness());
+      assertEquals(expected.getContrast(), returned.getContrast());
+      assertEquals(expected.getGamma(), returned.getGamma());
+      assertEquals(expected.getHue(), returned.getHue());
+      assertEquals(expected.getSaturation(), returned.getSaturation());
+    } else {
+      // Check they are both null
+      assertEquals(expected, returned);
+    }
+  }
+  
+  /**
+   * Assert information attribute of VlcRcStatus.
+   */
   private void assertInformation(VlcRcStatus expected, VlcRcStatus returned) {
     VlcRcStatus.Information expectedInformation = expected.getInformation();
     VlcRcStatus.Information returnedInformation = returned.getInformation();
@@ -130,6 +141,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
+  /**
+   * Assert meta attribute of information of VlcRcStatus.
+   */
   private void assertMeta(VlcRcStatus.Information expectedInformation,
       VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Meta expected = expectedInformation.getMeta();
@@ -148,6 +162,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
+  /**
+   * Assert audio attribute of information of VlcRcStatus.
+   */
   private void assertAudio(VlcRcStatus.Information expectedInformation,
       VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Audio expected = expectedInformation.getAudio();
@@ -166,6 +183,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
+  /**
+   * Assert video attribute of information of VlcRcStatus.
+   */
   private void assertVideo(VlcRcStatus.Information expectedInformation,
       VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Video expected = expectedInformation.getVideo();
@@ -185,6 +205,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
+  /**
+   * Assert subtitle attribute of information of VlcRcStatus.
+   */
   private void assertSubtitle(VlcRcStatus.Information expectedInformation,
       VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Subtitle expected = expectedInformation.getSubtitle();

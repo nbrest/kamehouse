@@ -18,7 +18,7 @@ public class UserValidatorTest {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Test valid username format.
+   * Tests valid username format. Should finish without throwing exceptions.
    */
   @Test
   public void validateUsernameFormatTest() {
@@ -26,7 +26,7 @@ public class UserValidatorTest {
   }
 
   /**
-   * Test valid email format.
+   * Tests valid email format. Should finish without throwing exceptions.
    */
   @Test
   public void validateEmailFormatTest() {
@@ -34,7 +34,7 @@ public class UserValidatorTest {
   }
 
   /**
-   * Test valid string length.
+   * Tests valid string length. Should finish without throwing exceptions.
    */
   @Test
   public void validateStringLength() {
@@ -42,29 +42,29 @@ public class UserValidatorTest {
   }
 
   /**
-   * Test the failure flow of validateUsernameFormat.
+   * Tests the failure flow of validateUsernameFormat.
    */
   @Test
   public void validateUsernameFormatExceptionTest() {
     thrown.expect(KameHouseInvalidDataException.class);
     thrown.expectMessage("Invalid username format:");
-    
+
     UserValidator.validateUsernameFormat(".goku.9.enzo");
   }
 
   /**
-   * Test the failure flow of validateEmailFormat.
+   * Tests the failure flow of validateEmailFormat.
    */
   @Test
   public void validateEmailFormatExceptionTest() {
     thrown.expect(KameHouseInvalidDataException.class);
     thrown.expectMessage("Invalid email address: ");
-    
+
     UserValidator.validateEmailFormat("goku.9.enzo@@dbz.com");
   }
 
   /**
-   * Test the failure flow of validateStringLength.
+   * Tests the failure flow of validateStringLength.
    */
   @Test
   public void validateStringLengthExceptionTest() {
@@ -75,7 +75,7 @@ public class UserValidatorTest {
       sb.append("goku");
     }
     String username = sb.toString();
-    
+
     UserValidator.validateStringLength(username);
   }
 }

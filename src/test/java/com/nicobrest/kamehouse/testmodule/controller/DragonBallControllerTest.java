@@ -42,8 +42,8 @@ import java.io.IOException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class DragonBallControllerTest extends
-    AbstractCrudControllerTest<DragonBallUser, DragonBallUserDto> {
+public class DragonBallControllerTest
+    extends AbstractCrudControllerTest<DragonBallUser, DragonBallUserDto> {
 
   private static final String API_V1_DRAGONBALL_USERS =
       DragonBallUserTestUtils.API_V1_DRAGONBALL_USERS;
@@ -96,8 +96,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users (POST) Test creating a new DragonBallUser in the
-   * repository.
+   * Tests creating a new DragonBallUser in the repository.
    */
   @Test
   public void createTest() throws Exception {
@@ -105,8 +104,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users (POST) Test creating a new DragonBallUser in the
-   * repository that already exists.
+   * Tests creating a new DragonBallUser in the repository that already exists.
    */
   @Test
   public void createConflictExceptionTest() throws Exception {
@@ -114,8 +112,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/{id} (GET) Tests getting a specific user from the
-   * repository.
+   * Tests getting a specific user from the repository.
    */
   @Test
   public void readTest() throws Exception {
@@ -123,7 +120,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users (GET) Test the rest web service on the endpoint
+   * Tests the rest web service on the endpoint
    * /dragonball/users with the HTTP method GET. The service should respond with
    * HTTP status 200 OK and a json array in the response body.
    */
@@ -133,32 +130,31 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users (GET) Test the rest web service on the endpoint
+   * Tests the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
    */
   @Test
   public void readAllExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseException.class));
 
     executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
   }
 
   /**
-   * /dragonball/users (GET) Test the rest web service on the endpoint
+   * Tests the rest web service on the endpoint
    * /dragonball/users with the parameter to throw an exception.
    */
   @Test
   public void readAllNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
 
     executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
   }
 
   /**
-   * /dragonball/users/{id} (PUT) Tests updating an existing user in the
-   * repository.
+   * Tests updating an existing user in the repository.
    */
   @Test
   public void updateTest() throws Exception {
@@ -166,8 +162,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/{id} (PUT) Tests failing to update an existing user in
-   * the repository with bad request.
+   * Tests failing to update an existing user in the repository with bad request.
    */
   @Test
   public void updateInvalidPathId() throws IOException, Exception {
@@ -175,8 +170,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/{id} (PUT) Tests trying to update a non existing user in
-   * the repository.
+   * Tests trying to update a non existing user in the repository.
    */
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
@@ -184,8 +178,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/{id} (DELETE) Tests for deleting an existing user from
-   * the repository.
+   * Tests for deleting an existing user from the repository.
    */
   @Test
   public void deleteTest() throws Exception {
@@ -193,8 +186,7 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/{id} (DELETE) Tests for deleting an user not found in the
-   * repository.
+   * Tests for deleting an user not found in the repository.
    */
   @Test
   public void deleteNotFoundExceptionTest() throws Exception {
@@ -202,16 +194,15 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/username/{username} (GET) Tests getting a specific user
-   * from the repository.
+   * Tests getting a specific user from the repository.
    */
   @Test
   public void getByUsernameTest() throws Exception {
-    when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername())).thenReturn(
-        dragonBallUser);
+    when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername()))
+        .thenReturn(dragonBallUser);
 
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "username/"
-        + dragonBallUser.getUsername());
+    MockHttpServletResponse response =
+        executeGet(API_V1_DRAGONBALL_USERS + "username/" + dragonBallUser.getUsername());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -219,13 +210,12 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/username/{username} (GET) Tests user not found when
-   * getting a specific user from the repository.
+   * Tests user not found when getting a specific user from the repository.
    */
   @Test
   public void getByUsernameNotFoundExceptionTest() throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
         .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 
@@ -233,16 +223,15 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/users/emails/{email} (GET) Tests getting a specific user from
-   * the repository by email.
+   * Tests getting a specific user from the repository by email.
    */
   @Test
   public void getByEmailTest() throws Exception {
-    when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail())).thenReturn(
-        dragonBallUser);
+    when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail()))
+        .thenReturn(dragonBallUser);
 
-    MockHttpServletResponse response = executeGet(API_V1_DRAGONBALL_USERS + "emails/"
-        + dragonBallUser.getEmail());
+    MockHttpServletResponse response =
+        executeGet(API_V1_DRAGONBALL_USERS + "emails/" + dragonBallUser.getEmail());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -250,10 +239,9 @@ public class DragonBallControllerTest extends
   }
 
   /**
-   * /dragonball/model-and-view (GET) Test the endpoint
-   * /dragonball/model-and-view with the HTTP method GET. The service should
-   * respond with HTTP status 200 OK and a view defined in
-   * dragonball/modelAndView.jsp.
+   * Tests the endpoint /dragonball/model-and-view
+   * with the HTTP method GET. The service should respond with HTTP status 200 OK
+   * and a view defined in dragonball/modelAndView.jsp.
    */
   @Test
   public void getModelAndViewTest() throws Exception {
@@ -276,7 +264,7 @@ public class DragonBallControllerTest extends
    * assertFalse([message,] boolean condition) assertEquals([message,] //
    * expected, actual) assertEquals([message,] expected, actual, tolerance) //
    * assertNull([message,] object) assertNotNull([message,] object) //
-   * assertSame([message,] expected, actual) assertNotSame([message,] //
-   * expected, actual) }
+   * assertSame([message,] expected, actual) assertNotSame([message,] // expected,
+   * actual) }
    */
 }

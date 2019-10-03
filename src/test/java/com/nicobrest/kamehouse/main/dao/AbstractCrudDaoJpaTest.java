@@ -16,7 +16,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   public static final Long INVALID_ID = 987987L;
 
   /**
-   * Create entity test.
+   * Creates entity test.
    */
   protected void createTest(CrudDao<T> dao, Class<T> clazz) {
     T entity = testUtils.getSingleTestData();
@@ -29,7 +29,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   }
 
   /**
-   * Create entity ConflictException test.
+   * Creates entity ConflictException test.
    */
   public void createConflictExceptionTest(CrudDao<T> dao) {
     thrown.expect(KameHouseConflictException.class);
@@ -41,7 +41,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   }
 
   /**
-   * Read entity test.
+   * Reads entity test.
    */
   public void readTest(CrudDao<T> dao) {
     T entity = testUtils.getSingleTestData();
@@ -54,7 +54,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   }
 
   /**
-   * Read all entities test.
+   * Reads all entities test.
    */
   public void readAllTest(CrudDao<T> dao) {
     List<T> entitiesList = testUtils.getTestDataList();
@@ -68,7 +68,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   }
 
   /**
-   * Update entity test.
+   * Updates entity test.
    */
   public void updateTest(CrudDao<T> dao, Class<T> clazz, T updatedEntity) {
     T entity = testUtils.getSingleTestData();
@@ -84,7 +84,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   }
 
   /**
-   * Update entity NotFoundException test.
+   * Updates entity NotFoundException test.
    */
   public void updateNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
     thrown.expect(KameHouseNotFoundException.class);
@@ -98,7 +98,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   }
 
   /**
-   * Delete entity test.
+   * Deletes entity test.
    */
   public void deleteTest(CrudDao<T> dao) {
     T entity = testUtils.getSingleTestData();
@@ -111,7 +111,7 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   }
 
   /**
-   * Delete entity NotFoundException test.
+   * Deletes entity NotFoundException test.
    */
   public void deleteNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
     thrown.expect(KameHouseNotFoundException.class);

@@ -22,8 +22,8 @@ import org.mockito.MockitoAnnotations;
  *
  * @author nbrest
  */
-public class ApplicationUserServiceTest extends
-    AbstractCrudServiceTest<ApplicationUser, ApplicationUserDto> {
+public class ApplicationUserServiceTest
+    extends AbstractCrudServiceTest<ApplicationUser, ApplicationUserDto> {
 
   private ApplicationUser applicationUser;
 
@@ -47,8 +47,7 @@ public class ApplicationUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to create an ApplicationUser in the
-   * repository.
+   * Tests calling the service to create an ApplicationUser in the repository.
    */
   @Test
   public void createTest() {
@@ -56,7 +55,7 @@ public class ApplicationUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to get a single ApplicationUser.
+   * Tests calling the service to get a single ApplicationUser.
    */
   @Test
   public void readTest() {
@@ -64,7 +63,7 @@ public class ApplicationUserServiceTest extends
   }
 
   /**
-   * Test for getting all users of the application.
+   * Tests getting all users of the application.
    */
   @Test
   public void readAllTest() {
@@ -72,7 +71,7 @@ public class ApplicationUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to update an existing ApplicationUser in the
+   * Tests calling the service to update an existing ApplicationUser in the
    * repository.
    */
   @Test
@@ -81,7 +80,7 @@ public class ApplicationUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to delete an existing user in the repository.
+   * Tests calling the service to delete an existing user in the repository.
    */
   @Test
   public void deleteTest() {
@@ -89,16 +88,16 @@ public class ApplicationUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to get a single ApplicationUser in the
-   * repository by username.
+   * Tests calling the service to get a single ApplicationUser in the repository
+   * by username.
    */
   @Test
   public void loadUserByUsernameTest() {
-    when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername())).thenReturn(
-        applicationUser);
+    when(applicationUserDaoMock.loadUserByUsername(applicationUser.getUsername()))
+        .thenReturn(applicationUser);
 
-    ApplicationUser returnedUser = applicationUserService.loadUserByUsername(applicationUser
-        .getUsername());
+    ApplicationUser returnedUser =
+        applicationUserService.loadUserByUsername(applicationUser.getUsername());
 
     testUtils.assertEqualsAllAttributes(applicationUser, returnedUser);
     verify(applicationUserDaoMock, times(1)).loadUserByUsername(applicationUser.getUsername());

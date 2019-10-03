@@ -35,7 +35,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   private static final Long INVALID_ID = 987987L;
 
   /**
-   * Create entity test.
+   * Creates entity test.
    */
   protected void createTest(String url, CrudService<E, D> service) throws Exception {
     E entity = testUtils.getSingleTestData();
@@ -53,7 +53,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Create entity ConflictException test.
+   * Creates entity ConflictException test.
    */
   protected void createConflictExceptionTest(String url, CrudService<E, D> service)
       throws Exception {
@@ -67,7 +67,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Read entity test.
+   * Reads entity test.
    */
   protected void readTest(String url, CrudService<E, D> service, Class<E> clazz)
       throws Exception {
@@ -83,7 +83,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Read entity test.
+   * Reads all entities test.
    */
   protected void readAllTest(String url, CrudService<E, D> service, Class<E> clazz)
       throws Exception {
@@ -101,7 +101,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Update entity test.
+   * Updates entity test.
    */
   protected void updateTest(String url, CrudService<E, D> service) throws Exception {
     D dto = testUtils.getTestDataDto();
@@ -116,7 +116,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Update entity invalid path id test.
+   * Updates entity invalid path id test.
    */
   protected void updateInvalidPathId(String url) throws IOException, Exception {
     D dto = testUtils.getTestDataDto();
@@ -128,7 +128,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Update entity not found test.
+   * Updates entity not found test.
    */
   protected void updateNotFoundExceptionTest(String url, CrudService<E, D> service)
       throws Exception {
@@ -143,7 +143,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Delete entity test.
+   * Deletes entity test.
    */
   protected void deleteTest(String url, CrudService<E, D> service, Class<E> clazz)
       throws Exception {
@@ -160,7 +160,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   }
 
   /**
-   * Delete entity not found test.
+   * Deletes entity not found test.
    */
   protected void deleteNotFoundExceptionTest(String url, CrudService<E, D> service)
       throws Exception {

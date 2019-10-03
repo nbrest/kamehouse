@@ -34,6 +34,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
 
   @Override
   public void assertEqualsAllAttributes(Playlist expectedPlaylist, Playlist returnedPlaylist) {
+    assertEquals(expectedPlaylist, returnedPlaylist);
     assertEquals(expectedPlaylist.getName(), returnedPlaylist.getName());
     assertEquals(expectedPlaylist.getPath(), returnedPlaylist.getPath());
     assertEquals(expectedPlaylist.getCategory(), returnedPlaylist.getCategory());

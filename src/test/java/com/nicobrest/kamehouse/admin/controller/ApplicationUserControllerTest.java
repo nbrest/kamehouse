@@ -62,7 +62,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Create a user test.
+   * Creates a user.
    */
   @Test
   public void createTest() throws Exception {
@@ -70,7 +70,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Create an user conflict exception test.
+   * Creates an user conflict exception.
    */
   @Test
   public void createConflictExceptionTest() throws Exception {
@@ -78,7 +78,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Tests getting a specific user from the repository.
+   * Gets a specific user from the repository.
    */
   @Test
   public void readTest() throws Exception {
@@ -86,7 +86,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Test getting all ApplicationUsers.
+   * Gets all ApplicationUsers.
    */
   @Test
   public void readAllTest() throws Exception {
@@ -94,7 +94,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Update an user test.
+   * Updates an user.
    */
   @Test
   public void updateTest() throws Exception {
@@ -102,7 +102,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Update an user with invalid path id. Exception expected.
+   * Updates an user with invalid path id. Exception expected.
    */
   @Test
   public void updateInvalidPathId() throws Exception {
@@ -110,7 +110,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Update an user not found test.
+   * Updates an user not found.
    */
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
@@ -118,7 +118,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Delete an user test.
+   * Deletes an user.
    */
   @Test
   public void deleteTest() throws Exception {
@@ -126,7 +126,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Delete an user not found test.
+   * Deletes an user not found.
    */
   @Test
   public void deleteNotFoundExceptionTest() throws Exception {
@@ -134,7 +134,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Get an application user test.
+   * Gets an application user.
    */
   @Test
   public void loadUserByUsernameTest() throws Exception {
@@ -150,7 +150,7 @@ public class ApplicationUserControllerTest
   }
 
   /**
-   * Test get user not found exception.
+   * Tests get user not found exception.
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {

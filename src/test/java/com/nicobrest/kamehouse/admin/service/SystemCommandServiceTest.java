@@ -30,10 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Unit tests for the SystemCommandService class. If this class becomes too big,
- * split it into separate test classes. For example, one test class for the
- * execute methods, another for shutdown commands, another for vlc commands,
- * another for lock/unlock screen, etc.
+ * Unit tests for the SystemCommandService class.
  * 
  * @author nbrest
  *
@@ -48,6 +45,7 @@ public class SystemCommandServiceTest {
   private static final String COMPLETED = "completed";
   private static final String FAILED = "failed";
   private static final String RUNNING = "running";
+  private static final List<String> INPUT_STREAM_LIST = Arrays.asList("/home /bin /opt");
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -60,18 +58,17 @@ public class SystemCommandServiceTest {
   }
 
   /**
-   * Execute process successful test.
+   * Executes process successful test.
    */
   @Test
   public void executeAdminCommandTest() throws Exception {
-    List<String> inputStream = Arrays.asList("/home /bin /opt");
-    setupProcessStreamMocks(inputStream.get(0), "");
+    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     AdminCommand adminCommand = new ScreenWakeUpAdminCommand();
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(adminCommand);
 
     testUtils.assertCommandExecutedMatch(adminCommand, returnedList);
-    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, inputStream, EMPTY_LIST,
+    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST,
         returnedList.get(0));
     testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST,
         returnedList.get(1));
@@ -80,44 +77,40 @@ public class SystemCommandServiceTest {
   }
 
   /**
-   * Execute process successful for linux test.
+   * Executes process successful for linux test.
    */
   @Test
   public void executeLinuxCommandTest() throws Exception {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    List<String> inputStream = Arrays.asList("/home /bin /opt");
-    setupProcessStreamMocks(inputStream.get(0), "");
-    SystemCommand systemCommand = new VlcStatusSystemCommand();
-    List<SystemCommand> systemCommands = Arrays.asList(systemCommand);
+    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), ""); 
+    List<SystemCommand> systemCommands = Arrays.asList(new VlcStatusSystemCommand());
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, inputStream, EMPTY_LIST,
+    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST,
         returnedList.get(0));
   }
 
   /**
-   * Execute process with failing VncDo command test.
+   * Executes process with failing VncDo command test.
    */
   @Test
   public void executeVncDoFailedTest() throws Exception {
-    List<String> inputStream = Arrays.asList("/home /bin /opt");
     List<String> errorStream = Arrays.asList("no errors");
-    setupProcessStreamMocks(inputStream.get(0), errorStream.get(0));
+    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), errorStream.get(0));
     when(ProcessUtils.getExitValue(Mockito.any())).thenReturn(1);
-    SystemCommand systemCommand = new VncDoKeyPressSystemCommand("esc");
-    List<SystemCommand> systemCommands = Arrays.asList(systemCommand);
+    List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("esc"));
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, inputStream, errorStream, returnedList
-        .get(0));
+    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, INPUT_STREAM_LIST, errorStream,
+        returnedList.get(0));
   }
 
   /**
-   * Execute daemon process successful test.
+   * Executes daemon process successful test.
    */
   @Test
   public void executeDaemonTest() throws Exception {
@@ -131,20 +124,19 @@ public class SystemCommandServiceTest {
   }
 
   /**
-   * Execute process throwing an IOException test.
+   * Executes process throwing an IOException test.
    */
   @Test
   public void executeIOExceptionTest() throws Exception {
     when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenThrow(IOException.class);
     List<String> errorStream = Arrays.asList("An error occurred executing the command");
-    SystemCommand systemCommand = new VlcStatusSystemCommand();
-    List<SystemCommand> systemCommands = Arrays.asList(systemCommand);
+    List<SystemCommand> systemCommands = Arrays.asList(new VlcStatusSystemCommand());
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, null, errorStream, returnedList.get(
-        0));
+    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, null, errorStream,
+        returnedList.get(0));
   }
 
   /**

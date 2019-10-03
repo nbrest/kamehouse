@@ -31,7 +31,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   private VlcPlayerDao vlcPlayerDaoJpa;
 
   /**
-   * Clear data from the repository before each test.
+   * Clears data from the repository before each test.
    */
   @Before
   public void setUp() {
@@ -44,7 +44,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for creating a VlcPlayer in the repository.
+   * Tests creating a VlcPlayer in the repository.
    */
   @Test
   public void createTest() {
@@ -52,7 +52,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for creating a VlcPlayer in the repository Exception flows.
+   * Tests creating a VlcPlayer in the repository Exception flows.
    */
   @Test
   public void createConflictExceptionTest() {
@@ -60,7 +60,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for getting a single entity from the repository by id.
+   * Tests getting a single entity from the repository by id.
    */
   @Test
   public void readTest() {
@@ -68,7 +68,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for getting all the VlcPlayers in the repository.
+   * Tests getting all the VlcPlayers in the repository.
    */
   @Test
   public void readAllTest() {
@@ -76,7 +76,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for updating an existing user in the repository.
+   * Tests updating an existing user in the repository.
    */
   @Test
   public void updateTest() throws IllegalAccessException, InstantiationException,
@@ -88,7 +88,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for updating an existing entity in the repository Exception flows.
+   * Tests updating an existing entity in the repository Exception flows.
    */
   @Test
   public void updateNotFoundExceptionTest() {
@@ -96,7 +96,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for deleting an existing entity from the repository.
+   * Tests deleting an existing entity from the repository.
    */
   @Test
   public void deleteTest() {
@@ -104,7 +104,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for deleting an existing entity from the repository Exception flows.
+   * Tests deleting an existing entity from the repository Exception flows.
    */
   @Test
   public void deleteNotFoundExceptionTest() {
@@ -112,7 +112,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for getting a single VlcPlayer in the repository by hostname.
+   * Tests getting a single VlcPlayer in the repository by hostname.
    */
   @Test
   public void getByHostnameTest() {
@@ -124,7 +124,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   }
 
   /**
-   * Test for getting a single VlcPlayer in the repository Exception flows.
+   * Tests getting a single VlcPlayer in the repository Exception flows.
    */
   @Test
   public void getByHostnameNotFoundExceptionTest() {

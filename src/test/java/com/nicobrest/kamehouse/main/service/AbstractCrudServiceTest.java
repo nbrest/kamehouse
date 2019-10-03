@@ -24,7 +24,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
   protected TestUtils<E, D> testUtils;
   
   /**
-   * Create entity test.
+   * Creates entity test.
    */
   protected void createTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
@@ -39,7 +39,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
   }
   
   /**
-   * Read entity test.
+   * Reads entity test.
    */
   protected void readTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData(); 
@@ -53,7 +53,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
   }
   
   /**
-   * Read all entities test.
+   * Reads all entities test.
    */
   public void readAllTest(CrudService<E, D> service, CrudDao<E> dao) {
     List<E> entityList = testUtils.getTestDataList();
@@ -66,7 +66,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
   }
   
   /**
-   * Update entity test.
+   * Updates entity test.
    */
   public void updateTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
@@ -79,7 +79,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
   }
   
   /**
-   * Delete entity test.
+   * Deletes entity test.
    */
   public void deleteTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();

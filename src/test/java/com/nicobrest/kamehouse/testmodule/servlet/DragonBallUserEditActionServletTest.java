@@ -6,14 +6,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
 
@@ -25,16 +20,11 @@ import javax.servlet.ServletException;
  * @author nbrest
  *
  */
-public class DragonBallUserEditActionServletTest {
-
-  @Mock
-  private static DragonBallUserService dragonBallUserServiceMock;
-
-  private MockHttpServletRequest request = new MockHttpServletRequest();
-  private MockHttpServletResponse response = new MockHttpServletResponse();
+public class DragonBallUserEditActionServletTest extends AbstractDragonBallUserServletTest {
 
   @Before
   public void init() {
+    initTestData();
     MockitoAnnotations.initMocks(this);
   }
 
@@ -47,12 +37,8 @@ public class DragonBallUserEditActionServletTest {
     DragonBallUserEditActionServlet dragonBallUserEditActionServlet =
         new DragonBallUserEditActionServlet();
     DragonBallUserEditActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
-    request.setParameter("id", "100");
-    request.setParameter("username", "goku");
-    request.setParameter("email", "goku@dbz.com");
-    request.setParameter("age", "100");
-    request.setParameter("stamina", "100");
-    request.setParameter("powerLevel", "100");
+    setIdRequestParameter();
+    setDragonBallUserRequestParameters();
     doNothing().when(dragonBallUserServiceMock).update(any());
 
     dragonBallUserEditActionServlet.doPost(request, response);

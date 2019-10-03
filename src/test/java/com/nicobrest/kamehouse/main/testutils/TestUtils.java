@@ -11,7 +11,7 @@ import java.util.List;
 public interface TestUtils<T, D> {
 
   /**
-   * Initialize test data.
+   * Initializes test data.
    */
   public void initTestData();
 

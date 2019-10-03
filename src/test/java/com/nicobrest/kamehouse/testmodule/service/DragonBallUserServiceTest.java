@@ -49,7 +49,7 @@ public class DragonBallUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to create a DragonBallUser in the repository.
+   * Tests calling the service to create a DragonBallUser in the repository.
    */
   @Test
   public void createTest() {
@@ -57,7 +57,7 @@ public class DragonBallUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the
+   * Tests calling the service to get a single DragonBallUser in the
    * repository by id.
    */
   @Test
@@ -66,7 +66,7 @@ public class DragonBallUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to get all the DragonBallUsers in the
+   * Tests calling the service to get all the DragonBallUsers in the
    * repository.
    */
   @Test
@@ -75,7 +75,7 @@ public class DragonBallUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to update an existing DragonBallUser in the
+   * Tests calling the service to update an existing DragonBallUser in the
    * repository.
    */
   @Test
@@ -84,7 +84,7 @@ public class DragonBallUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to delete an existing user in the repository.
+   * Tests calling the service to delete an existing user in the repository.
    */
   @Test
   public void deleteTest() {
@@ -92,7 +92,7 @@ public class DragonBallUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the
+   * Tests calling the service to get a single DragonBallUser in the
    * repository by username.
    */
   @Test
@@ -108,7 +108,7 @@ public class DragonBallUserServiceTest extends
   }
 
   /**
-   * Test for calling the service to get a single DragonBallUser in the
+   * Tests calling the service to get a single DragonBallUser in the
    * repository by its email.
    */
   @Test

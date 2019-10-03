@@ -33,6 +33,7 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   @Override
   public void assertEqualsAllAttributes(SystemCommand.Output expectedEntity,
       SystemCommand.Output returnedEntity) {
+    assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getCommand(), returnedEntity.getCommand());
     assertEquals(expectedEntity.getExitCode(), returnedEntity.getExitCode());
     assertEquals(expectedEntity.getPid(), returnedEntity.getPid());
@@ -42,7 +43,7 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   }
 
   /**
-   * Check that the commands in the SystemCommandOutput list match the executed
+   * Checks that the commands in the SystemCommandOutput list match the executed
    * AdminCommand.
    */
   public void assertCommandExecutedMatch(AdminCommand adminCommand,
@@ -51,7 +52,7 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   }
 
   /**
-   * Check that the commands in the SystemCommandOutput list match the executed
+   * Checks that the commands in the SystemCommandOutput list match the executed
    * SystemCommands.
    */
   public void assertCommandExecutedMatch(List<SystemCommand> systemCommands,
@@ -63,7 +64,7 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   }
 
   /**
-   * Check that the command in the SystemCommandOutput matches the executed
+   * Checks that the command in the SystemCommandOutput matches the executed
    * command.
    */
   public void assertCommandExecutedMatch(SystemCommand systemCommand,
@@ -74,7 +75,7 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   }
 
   /**
-   * Check the SystemCommandOutput fields, except the command string.
+   * Checks the SystemCommandOutput fields, except the command string.
    */
   public void assertSystemCommandOutputFields(int expectedExitCode, int expectedPid,
       String expectedStatus, List<String> expectedStandardOutput,

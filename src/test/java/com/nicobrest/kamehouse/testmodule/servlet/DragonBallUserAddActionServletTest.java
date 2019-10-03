@@ -6,14 +6,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
 
@@ -25,34 +20,24 @@ import javax.servlet.ServletException;
  * @author nbrest
  *
  */
-public class DragonBallUserAddActionServletTest {
-
-  @Mock
-  private static DragonBallUserService dragonBallUserServiceMock;
-
-  private MockHttpServletRequest request = new MockHttpServletRequest();
-  private MockHttpServletResponse response = new MockHttpServletResponse();
+public class DragonBallUserAddActionServletTest extends AbstractDragonBallUserServletTest {
 
   @Before
   public void init() {
+    initTestData();
     MockitoAnnotations.initMocks(this);
   }
 
   /**
-   * Tests the method to add a DragonBallUser from the system through the
-   * servlet. 
+   * Tests the method to add a DragonBallUser from the system through the servlet.
    */
   @Test
   public void doPostTest() throws ServletException, IOException {
     DragonBallUserAddActionServlet dragonBallUserAddActionServlet =
         new DragonBallUserAddActionServlet();
     DragonBallUserAddActionServlet.setDragonBallUserService(dragonBallUserServiceMock);
-    request.setParameter("username", "goku");
-    request.setParameter("email", "goku@dbz.com");
-    request.setParameter("age", "100");
-    request.setParameter("stamina", "100");
-    request.setParameter("powerLevel", "100");
-    when(dragonBallUserServiceMock.create(any())).thenReturn(1L);
+    setDragonBallUserRequestParameters();
+    when(dragonBallUserServiceMock.create(any())).thenReturn(dragonBallUser.getId());
 
     dragonBallUserAddActionServlet.doPost(request, response);
 

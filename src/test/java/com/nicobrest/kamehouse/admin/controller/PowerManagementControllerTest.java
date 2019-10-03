@@ -37,7 +37,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
   }
 
   /**
-   * Set shutdown successful test.
+   * Sets shutdown successful test.
    */
   @Test
   public void setShutdownTest() throws Exception {
@@ -46,7 +46,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
   }
 
   /**
-   * Set shutdown exception test.
+   * Sets shutdown exception test.
    */
   @Test
   public void setShutdownExceptionTest() throws IOException, Exception {
@@ -54,7 +54,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
   }
 
   /**
-   * Cancel shutdown successful test.
+   * Cancels shutdown successful test.
    */
   @Test
   public void cancelShutdownTest() throws Exception {
@@ -63,7 +63,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
   }
 
   /**
-   * Cancel shutdown server error test.
+   * Cancels shutdown server error test.
    */
   @Test
   public void cancelShutdownServerErrorTest() throws Exception {
@@ -72,7 +72,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
   }
 
   /**
-   * Shutdown status successful test.
+   * Shutdowns status successful test.
    */
   @Test
   public void statusShutdownTest() throws Exception {
@@ -81,7 +81,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
   }
 
   /**
-   * Suspend server successful test.
+   * Suspends server successful test.
    */
   @Test
   public void suspendTest() throws Exception {

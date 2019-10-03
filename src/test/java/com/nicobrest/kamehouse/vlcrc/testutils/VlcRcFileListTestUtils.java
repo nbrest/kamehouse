@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Test data and common test methods to test DragonBallUsers in all layers of
- * the application.
+ * Test data and common test methods to test VlcRcFileLists.
  * 
  * @author nbrest
  *

@@ -47,7 +47,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
   }
 
   /**
-   * Test for calling the service to create a VlcPlayer in the repository.
+   * Tests calling the service to create a VlcPlayer in the repository.
    */
   @Test
   public void createTest() {
@@ -55,7 +55,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
   }
 
   /**
-   * Read an entity test.
+   * Reads an entity test.
    */
   @Test
   public void readTest() {
@@ -63,7 +63,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
   }
 
   /**
-   * Test for calling the service to get all the VlcPlayers in the repository.
+   * Tests calling the service to get all the VlcPlayers in the repository.
    */
   @Test
   public void readAllTest() {
@@ -71,7 +71,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
   }
 
   /**
-   * Test for calling the service to update an existing VlcPlayer in the
+   * Tests calling the service to update an existing VlcPlayer in the
    * repository.
    */
   @Test
@@ -80,7 +80,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
   }
 
   /**
-   * Test for calling the service to delete an existing entity in the
+   * Tests calling the service to delete an existing entity in the
    * repository.
    */
   @Test
@@ -89,7 +89,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
   }
 
   /**
-   * Test for calling the service to get a single VlcPlayer in the repository by
+   * Tests calling the service to get a single VlcPlayer in the repository by
    * hostname.
    */
   @Test

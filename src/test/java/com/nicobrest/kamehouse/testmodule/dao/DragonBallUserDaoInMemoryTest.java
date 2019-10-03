@@ -40,7 +40,7 @@ public class DragonBallUserDaoInMemoryTest {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Clear data from the repository before each test.
+   * Clears data from the repository before each test.
    */
   @Before
   public void setUp() {
@@ -51,7 +51,7 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for the autowired beans.
+   * Tests the autowired beans.
    */
   @Test
   public void autoWiredBeansTest() {
@@ -65,19 +65,19 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for creating a DragonBallUser in the repository.
+   * Tests creating a DragonBallUser in the repository.
    */
   @Test
   public void createTest() {
     Long createdId = dragonBallUserDao.create(dragonBallUser);
 
     DragonBallUser createdUser = dragonBallUserDao.read(createdId);
-    
-    assertEquals(dragonBallUser, createdUser);
+
+    testUtils.assertEqualsAllAttributes(dragonBallUser, createdUser);
   }
 
   /**
-   * Test for creating a DragonBallUser in the repository Exception flows.
+   * Tests creating a DragonBallUser in the repository Exception flows.
    */
   @Test
   public void createConflictExceptionTest() {
@@ -90,7 +90,7 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by its id.
+   * Tests getting a single DragonBallUser in the repository by its id.
    */
   @Test
   public void readTest() {
@@ -99,11 +99,11 @@ public class DragonBallUserDaoInMemoryTest {
     DragonBallUser userById = dragonBallUserDao.read(userByUsername.getId());
 
     assertNotNull(userById);
-    assertEquals(userByUsername, userById);
+    testUtils.assertEqualsAllAttributes(userByUsername, userById);
   }
 
   /**
-   * Test for getting all the DragonBallUsers in the repository.
+   * Tests getting all the DragonBallUsers in the repository.
    */
   @Test
   public void readAllTest() {
@@ -111,7 +111,7 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for updating an existing user in the repository.
+   * Tests updating an existing user in the repository.
    */
   @Test
   public void updateTest() {
@@ -121,11 +121,11 @@ public class DragonBallUserDaoInMemoryTest {
     dragonBallUserDao.update(originalUser);
 
     DragonBallUser updatedUser = dragonBallUserDao.getByUsername("goku");
-    assertEquals(originalUser, updatedUser);
+    testUtils.assertEqualsAllAttributes(originalUser, updatedUser);
   }
 
   /**
-   * Test for updating an existing user in the repository Exception flows.
+   * Tests updating an existing user in the repository Exception flows.
    */
   @Test
   public void updateNotFoundExceptionTest() {
@@ -138,7 +138,7 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for deleting an existing user from the repository.
+   * Tests deleting an existing user from the repository.
    */
   @Test
   public void deleteTest() {
@@ -146,11 +146,11 @@ public class DragonBallUserDaoInMemoryTest {
 
     DragonBallUser deletedUser = dragonBallUserDao.delete(dragonBallUser.getId());
 
-    assertEquals(dragonBallUser, deletedUser);
+    testUtils.assertEqualsAllAttributes(dragonBallUser, deletedUser);
   }
 
   /**
-   * Test for deleting an existing user from the repository Exception flows.
+   * Tests deleting an existing user from the repository Exception flows.
    */
   @Test
   public void deleteNotFoundExceptionTest() {
@@ -162,7 +162,7 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by its username.
+   * Tests getting a single DragonBallUser in the repository by its username.
    */
   @Test
   public void getByUsernameTest() {
@@ -173,7 +173,7 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository Exception flows.
+   * Tests getting a single DragonBallUser in the repository Exception flows.
    */
   @Test
   public void getByUsernameNotFoundExceptionTest() {
@@ -185,7 +185,7 @@ public class DragonBallUserDaoInMemoryTest {
   }
 
   /**
-   * Test for getting a single DragonBallUser in the repository by email.
+   * Tests getting a single DragonBallUser in the repository by email.
    */
   @Test
   public void getByEmailTest() {

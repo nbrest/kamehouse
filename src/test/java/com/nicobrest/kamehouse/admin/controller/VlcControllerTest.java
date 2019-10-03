@@ -36,7 +36,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Start VLC player successful test.
+   * Starts VLC player successful test.
    */
   @Test
   public void startVlcPlayerTest() throws Exception {
@@ -45,7 +45,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Start vlc exception test.
+   * Starts vlc exception test.
    */
   @Test
   public void startVlcExceptionTest() throws IOException, Exception {
@@ -53,7 +53,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Stop VLC player successful test.
+   * Stops VLC player successful test.
    */
   @Test
   public void stopVlcPlayerTest() throws Exception {
@@ -61,7 +61,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Stop VLC server error test.
+   * Stops VLC server error test.
    */
   @Test
   public void stopVlcPlayerServerErrorTest() throws Exception {
@@ -69,7 +69,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
   }
 
   /**
-   * Status VLC successful test.
+   * Gets the status of VLC successful test.
    */
   @Test
   public void statusVlcPlayerTest() throws Exception {

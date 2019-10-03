@@ -7,6 +7,12 @@ import com.nicobrest.kamehouse.testmodule.model.TestWebSocketResponseMessage;
 
 import org.junit.Test;
 
+/**
+ * Test class for the test module websocket service.
+ * 
+ * @author nbrest
+ *
+ */
 public class TestWebSocketServiceTest {
 
   @Test

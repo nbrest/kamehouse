@@ -10,6 +10,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
+import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcCommandTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
@@ -34,6 +35,7 @@ public class VlcRcServiceTest {
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
   private VlcRcFileListTestUtils vlcRcFileListTestUtils = new VlcRcFileListTestUtils();
+  private VlcRcCommandTestUtils vlcRcCommandTestUtils = new VlcRcCommandTestUtils();
   private VlcRcStatus vlcRcStatus;
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<VlcRcFileListItem> vlcRcFileList;
@@ -55,7 +57,8 @@ public class VlcRcServiceTest {
     vlcRcPlaylist = vlcRcPlaylistTestUtils.getSingleTestData();
     vlcRcFileListTestUtils.initTestData();
     vlcRcFileList = vlcRcFileListTestUtils.getSingleTestData();
-
+    vlcRcCommandTestUtils.initTestData();
+    
     MockitoAnnotations.initMocks(this);
     Mockito.reset(vlcPlayer);
     Mockito.reset(vlcPlayerService);
@@ -83,8 +86,7 @@ public class VlcRcServiceTest {
   @Test
   public void executeCommandTest() {
     when(vlcPlayer.execute(any())).thenReturn(vlcRcStatus);
-    VlcRcCommand vlcRcCommand = new VlcRcCommand();
-    vlcRcCommand.setName("fullscreen");
+    VlcRcCommand vlcRcCommand = vlcRcCommandTestUtils.getSingleTestData();
 
     VlcRcStatus returnedStatus = vlcRcService.execute(vlcRcCommand, "niko-nba");
 

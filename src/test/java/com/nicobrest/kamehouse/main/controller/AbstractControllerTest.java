@@ -39,14 +39,14 @@ public abstract class AbstractControllerTest<E, D> {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Execute a get request for the specified url on the mock server.
+   * Executes a get request for the specified url on the mock server.
    */
   protected MockHttpServletResponse executeGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }
 
   /**
-   * Execute a post request for the specified url and payload on the mock server.
+   * Executes a post request for the specified url and payload on the mock server.
    */
   protected MockHttpServletResponse executePost(String url, byte[] requestPayload)
       throws Exception {
@@ -54,17 +54,16 @@ public abstract class AbstractControllerTest<E, D> {
         .perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
         .andDo(print()).andReturn().getResponse();
   }
-  
+
   /**
-   * Execute a post request for the specified url with an empty payload.
+   * Executes a post request for the specified url with an empty payload.
    */
-  protected MockHttpServletResponse executePost(String url)
-      throws Exception {
+  protected MockHttpServletResponse executePost(String url) throws Exception {
     return mockMvc.perform(post(url)).andDo(print()).andReturn().getResponse();
   }
 
   /**
-   * Execute a put request for the specified url and payload on the mock server.
+   * Executes a put request for the specified url and payload on the mock server.
    */
   protected MockHttpServletResponse executePut(String url, byte[] requestPayload) throws Exception {
     return mockMvc
@@ -73,14 +72,14 @@ public abstract class AbstractControllerTest<E, D> {
   }
 
   /**
-   * Execute a delete request for the specified url on the mock server.
+   * Executes a delete request for the specified url on the mock server.
    */
   protected MockHttpServletResponse executeDelete(String url) throws Exception {
     return mockMvc.perform(delete(url)).andDo(print()).andReturn().getResponse();
   }
 
   /**
-   * Verify that the response's status code matches the expected one.
+   * Verifies that the response's status code matches the expected one.
    */
   protected static void verifyResponseStatus(MockHttpServletResponse response,
       HttpStatus expectedStatus) {
@@ -88,7 +87,7 @@ public abstract class AbstractControllerTest<E, D> {
   }
 
   /**
-   * Verify that the response's content type matches the expected one.
+   * Verifies that the response's content type matches the expected one.
    */
   protected static void verifyContentType(MockHttpServletResponse response,
       MediaType expectedContentType) {
@@ -96,7 +95,7 @@ public abstract class AbstractControllerTest<E, D> {
   }
 
   /**
-   * Get the response body of the request as an object of the specified class.
+   * Gets the response body of the request as an object of the specified class.
    */
   protected static <T> T getResponseBody(MockHttpServletResponse response, Class<T> clazz)
       throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException {
@@ -107,7 +106,7 @@ public abstract class AbstractControllerTest<E, D> {
   }
 
   /**
-   * Get the response body of the request as a list of objects of the specified
+   * Gets the response body of the request as a list of objects of the specified
    * class.
    */
   protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response, Class<T> clazz)

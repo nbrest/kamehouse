@@ -28,6 +28,7 @@ public class ApplicationCacheTestUtils extends AbstractTestUtils<ApplicationCach
 
   @Override
   public void assertEqualsAllAttributes(ApplicationCache expected, ApplicationCache returned) {
+    assertEquals(expected, returned);
     assertEquals(expected.getName(), returned.getName());
     assertEquals(expected.getStatus(), returned.getStatus());
     assertEquals(expected.getKeys(), returned.getKeys());

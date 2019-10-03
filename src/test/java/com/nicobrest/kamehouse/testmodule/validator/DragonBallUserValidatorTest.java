@@ -18,7 +18,7 @@ public class DragonBallUserValidatorTest {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Test valid positive value. Should execute without throwing exceptions.
+   * Tests valid positive value. Should execute without throwing exceptions.
    */
   @Test
   public void validatePositiveValueTest() {
@@ -26,7 +26,7 @@ public class DragonBallUserValidatorTest {
   }
 
   /**
-   * Test the failure flow of validatePositiveValue.
+   * Tests the failure flow of validatePositiveValue.
    */
   @Test
   public void validatePositiveValueExceptionTest() {

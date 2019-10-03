@@ -42,7 +42,7 @@ public class VideoPlaylistServiceTest {
   }
 
   /**
-   * Get all video playlists successful test.
+   * Gets all video playlists successful test.
    */
   @Test
   public void readAllTest() {

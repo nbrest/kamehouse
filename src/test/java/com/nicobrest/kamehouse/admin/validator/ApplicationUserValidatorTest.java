@@ -18,7 +18,7 @@ public class ApplicationUserValidatorTest {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Test valid first name format. Should finish without throwing exceptions.
+   * Tests valid first name format. Should finish without throwing exceptions.
    */
   @Test
   public void validateFirstNameFormatTest() {
@@ -26,7 +26,7 @@ public class ApplicationUserValidatorTest {
   }
 
   /**
-   * Test valid last name format. Should finish without throwing exceptions.
+   * Tests valid last name format. Should finish without throwing exceptions.
    */
   @Test
   public void validateLastNameFormatTest() {
@@ -34,7 +34,7 @@ public class ApplicationUserValidatorTest {
   }
 
   /**
-   * Test the failure flow of validateFirstNameFormat.
+   * Tests the failure flow of validateFirstNameFormat.
    */
   @Test
   public void validateFirstNameFormatExceptionTest() {
@@ -45,7 +45,7 @@ public class ApplicationUserValidatorTest {
   }
 
   /**
-   * Test the failure flow of validateLastNameFormat.
+   * Tests the failure flow of validateLastNameFormat.
    */
   @Test
   public void validateLastNameFormatExceptionTest() {

@@ -34,6 +34,7 @@ public class DragonBallUserTestUtils extends AbstractTestUtils<DragonBallUser, D
   @Override
   public void assertEqualsAllAttributes(DragonBallUser expectedEntity,
       DragonBallUser returnedEntity) {
+    assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
     assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername());
     assertEquals(expectedEntity.getEmail(), returnedEntity.getEmail());

@@ -41,6 +41,7 @@ public class ApplicationUserTestUtils extends
   @Override
   public void assertEqualsAllAttributes(ApplicationUser expectedEntity,
       ApplicationUser returnedEntity) {
+    assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
     assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername());
     assertEquals(expectedEntity.getPassword(), returnedEntity.getPassword());
@@ -51,6 +52,30 @@ public class ApplicationUserTestUtils extends
     assertThat(returnedEntity.getAuthorities(), is(expectedEntity.getAuthorities()));
   }
 
+  /**
+   * Returns an application user with an invalid username.
+   */
+  public ApplicationUser getBadUsernameApplicationUser() {
+    ApplicationUser badUsernameApplicationUser = new ApplicationUser();
+    badUsernameApplicationUser.setId(1000L);
+    badUsernameApplicationUser.setEmail("goku@dbz.com");
+    badUsernameApplicationUser.setUsername(null);
+    badUsernameApplicationUser.setPassword("gokupass");
+    return badUsernameApplicationUser;
+  }
+  
+  /**
+   * Returns an application user with an invalid password.
+   */
+  public ApplicationUser getBadPasswordApplicationUser() {
+    ApplicationUser badPasswordApplicationUser = new ApplicationUser();
+    badPasswordApplicationUser.setId(1000L);
+    badPasswordApplicationUser.setEmail("goku@dbz.com");
+    badPasswordApplicationUser.setUsername("gokuuser");
+    badPasswordApplicationUser.setPassword(null);
+    return badPasswordApplicationUser;
+  }
+  
   private void initSingleTestData() {
     singleTestData = new ApplicationUser();
     singleTestData.setId(null);

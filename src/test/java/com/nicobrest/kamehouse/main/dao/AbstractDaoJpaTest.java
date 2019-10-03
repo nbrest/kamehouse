@@ -24,7 +24,7 @@ public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
   protected TestUtils<T, D> testUtils;
   
   /**
-   * Clear all table data for the specified table.
+   * Clears all table data for the specified table.
    */
   protected void clearTable(String tableName) {
     EntityManager em = getEntityManager();
