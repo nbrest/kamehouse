@@ -231,7 +231,7 @@ public class DragonBallControllerTest
         .thenReturn(dragonBallUser);
 
     MockHttpServletResponse response =
-        doGet(API_V1_DRAGONBALL_USERS + "emails/" + dragonBallUser.getEmail());
+        doGet(API_V1_DRAGONBALL_USERS + "emails?email=" + dragonBallUser.getEmail());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);

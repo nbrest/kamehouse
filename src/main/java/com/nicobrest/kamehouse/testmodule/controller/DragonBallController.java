@@ -115,10 +115,11 @@ public class DragonBallController extends AbstractCrudController {
    * Returns a specific DragonBallUser from the repository based on the email
    * (URLEncoded with UTF-8).
    */
-  @GetMapping(path = "/users/emails/{email:.+}")
+  @GetMapping(path = "/users/emails")
   @ResponseBody
-  public ResponseEntity<String> getByEmail(@PathVariable String email) {
-    logger.trace("/dragonball/users/emails/{email:.+} (GET)");
+  public ResponseEntity<String> getByEmail(@RequestParam(value = "email",
+      required = true) String email) {
+    logger.trace("/dragonball/users/emails?email=value (GET)");
     DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
     String dbUserJson = JsonUtils.toJsonString(dbUser);
     // Leaving this one as is as a test instead of using
