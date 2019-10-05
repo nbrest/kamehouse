@@ -35,7 +35,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommand.Output>>
       setShutdown(@RequestParam(value = "delay", required = true) Integer delay) {
     logger.trace("/api/v1/admin/power-management/shutdown?delay=value (POST)");
-    return executeAdminCommand(new ShutdownAdminCommand(delay));
+    return execAdminCommand(new ShutdownAdminCommand(delay));
   }
 
   /**
@@ -45,7 +45,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> cancelShutdown() {
     logger.trace("/api/v1/admin/power-management/shutdown (DELETE)");
-    return executeAdminCommand(new ShutdownCancelAdminCommand());
+    return execAdminCommand(new ShutdownCancelAdminCommand());
   }
 
   /**
@@ -55,7 +55,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> statusShutdown() {
     logger.trace("/api/v1/admin/power-management/shutdown (GET)");
-    return executeAdminCommand(new ShutdownStatusAdminCommand());
+    return execAdminCommand(new ShutdownStatusAdminCommand());
   }
 
   /**
@@ -65,6 +65,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> suspend() {
     logger.trace("/api/v1/admin/power-management/suspend (POST)");
-    return executeAdminCommand(new SuspendAdminCommand());
+    return execAdminCommand(new SuspendAdminCommand());
   }
 }

@@ -34,7 +34,7 @@ public class VlcController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommand.Output>>
       startVlcPlayer(@RequestParam(value = "file", required = false) String file) {
     logger.trace("/api/v1/admin/vlc?file=value (POST)");
-    return executeAdminCommand(new VlcStartAdminCommand(file));
+    return execAdminCommand(new VlcStartAdminCommand(file));
   }
 
   /**
@@ -44,7 +44,7 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> stopVlcPlayer() {
     logger.trace("/api/v1/admin/vlc (DELETE)");
-    return executeAdminCommand(new VlcStopAdminCommand());
+    return execAdminCommand(new VlcStopAdminCommand());
   }
 
   /**
@@ -54,6 +54,6 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> statusVlcPlayer() {
     logger.trace("/api/v1/admin/vlc (GET)");
-    return executeAdminCommand(new VlcStatusAdminCommand());
+    return execAdminCommand(new VlcStatusAdminCommand());
   }
 }

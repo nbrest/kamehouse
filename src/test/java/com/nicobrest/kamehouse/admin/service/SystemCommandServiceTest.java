@@ -61,7 +61,7 @@ public class SystemCommandServiceTest {
    * Executes process successful test.
    */
   @Test
-  public void executeAdminCommandTest() throws Exception {
+  public void execAdminCommandTest() throws Exception {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     AdminCommand adminCommand = new ScreenWakeUpAdminCommand();
 
@@ -80,7 +80,7 @@ public class SystemCommandServiceTest {
    * Executes process successful for linux test.
    */
   @Test
-  public void executeLinuxCommandTest() throws Exception {
+  public void execLinuxCommandTest() throws Exception {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), ""); 
     List<SystemCommand> systemCommands = Arrays.asList(new VlcStatusSystemCommand());
@@ -96,7 +96,7 @@ public class SystemCommandServiceTest {
    * Executes process with failing VncDo command test.
    */
   @Test
-  public void executeVncDoFailedTest() throws Exception {
+  public void execVncDoFailedTest() throws Exception {
     List<String> errorStream = Arrays.asList("no errors");
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), errorStream.get(0));
     when(ProcessUtils.getExitValue(Mockito.any())).thenReturn(1);
@@ -113,7 +113,7 @@ public class SystemCommandServiceTest {
    * Executes daemon process successful test.
    */
   @Test
-  public void executeDaemonTest() throws Exception {
+  public void execDaemonTest() throws Exception {
     setupProcessStreamMocks("", "");
     SystemCommand systemCommand = new VlcStartSystemCommand(null);
 
@@ -127,8 +127,8 @@ public class SystemCommandServiceTest {
    * Executes process throwing an IOException test.
    */
   @Test
-  public void executeIOExceptionTest() throws Exception {
-    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenThrow(IOException.class);
+  public void execIOExceptionTest() throws Exception {
+    when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
     List<String> errorStream = Arrays.asList("An error occurred executing the command");
     List<SystemCommand> systemCommands = Arrays.asList(new VlcStatusSystemCommand());
 
@@ -145,7 +145,7 @@ public class SystemCommandServiceTest {
   private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent) {
     InputStream processInputStream = new ByteArrayInputStream(inputStreamContent.getBytes());
     InputStream processErrorStream = new ByteArrayInputStream(errorStreamContent.getBytes());
-    when(ProcessUtils.getInputStreamFromProcess(Mockito.any())).thenReturn(processInputStream);
-    when(ProcessUtils.getErrorStreamFromProcess(Mockito.any())).thenReturn(processErrorStream);
+    when(ProcessUtils.getInputStream(Mockito.any())).thenReturn(processInputStream);
+    when(ProcessUtils.getErrorStream(Mockito.any())).thenReturn(processErrorStream);
   }
 }

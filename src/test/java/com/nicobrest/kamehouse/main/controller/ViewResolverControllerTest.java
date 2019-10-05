@@ -79,7 +79,7 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
    */
   @Test
   public void loginTest() throws Exception {
-    MockHttpServletResponse response = executeGet("/login");
+    MockHttpServletResponse response = doGet("/login");
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("/WEB-INF/jsp/login.jsp", response.getForwardedUrl());
@@ -90,7 +90,7 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
    */
   @Test
   public void logoutTest() throws Exception {
-    MockHttpServletResponse response = executeGet("/logout");
+    MockHttpServletResponse response = doGet("/logout");
 
     verifyResponseStatus(response, HttpStatus.FOUND);
     assertEquals("/login?logout", response.getRedirectedUrl());

@@ -44,7 +44,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Mockito.doReturn(identifiableEntity.getId()).when(service).create(dto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    MockHttpServletResponse response = executePost(url, requestPayload);
+    MockHttpServletResponse response = doPost(url, requestPayload);
     Long responseBody = getResponseBody(response, Long.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
@@ -63,7 +63,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Mockito.doThrow(new KameHouseConflictException("")).when(service).create(dto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    executePost(url, requestPayload);
+    doPost(url, requestPayload);
   }
 
   /**
@@ -75,7 +75,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Identifiable identifiableEntity = (Identifiable) entity;
     when(service.read(identifiableEntity.getId())).thenReturn(entity);
 
-    MockHttpServletResponse response = executeGet(url + identifiableEntity.getId());
+    MockHttpServletResponse response = doGet(url + identifiableEntity.getId());
     E responseBody = getResponseBody(response, clazz);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -90,7 +90,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     List<E> entityList = testUtils.getTestDataList();
     when(service.readAll()).thenReturn(entityList);
 
-    MockHttpServletResponse response = executeGet(url);
+    MockHttpServletResponse response = doGet(url);
     List<E> responseBody = getResponseBodyList(response, clazz);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -109,7 +109,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Mockito.doNothing().when(service).update(dto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    MockHttpServletResponse response = executePut(url + identifiableDto.getId(), requestPayload);
+    MockHttpServletResponse response = doPut(url + identifiableDto.getId(), requestPayload);
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(service, times(1)).update(any());
@@ -124,7 +124,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseBadRequestException.class));
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    executePut(url + INVALID_ID, requestPayload);
+    doPut(url + INVALID_ID, requestPayload);
   }
 
   /**
@@ -139,7 +139,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Mockito.doThrow(new KameHouseNotFoundException("")).when(service).update(dto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    executePut(url + identifiableDto.getId(), requestPayload);
+    doPut(url + identifiableDto.getId(), requestPayload);
   }
 
   /**
@@ -151,7 +151,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Identifiable identifiableEntity = (Identifiable) entity;
     when(service.delete(identifiableEntity.getId())).thenReturn(entity);
 
-    MockHttpServletResponse response = executeDelete(url + identifiableEntity.getId());
+    MockHttpServletResponse response = doDelete(url + identifiableEntity.getId());
     E responseBody = getResponseBody(response, clazz);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -168,6 +168,6 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(KameHouseNotFoundException.class));
     Mockito.doThrow(new KameHouseNotFoundException("")).when(service).delete(INVALID_ID);
 
-    executeDelete(url + INVALID_ID);
+    doDelete(url + INVALID_ID);
   }
 }

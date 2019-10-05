@@ -40,7 +40,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void startVlcPlayerTest() throws Exception {
-    executePostAdminCommandTest("/api/v1/admin/vlc?file=src/test/resources/media.video/"
+    execPostAdminCommandTest("/api/v1/admin/vlc?file=src/test/resources/media.video/"
         + "playlists/heroes/marvel/marvel.m3u", VlcStartAdminCommand.class);
   }
 
@@ -49,7 +49,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void startVlcExceptionTest() throws IOException, Exception {
-    executePostInvalidAdminCommandTest("/api/v1/admin/vlc?file=invalid-file");
+    execPostInvalidAdminCommandTest("/api/v1/admin/vlc?file=invalid-file");
   }
 
   /**
@@ -57,7 +57,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void stopVlcPlayerTest() throws Exception {
-    executeDeleteAdminCommandTest("/api/v1/admin/vlc", VlcStopAdminCommand.class);
+    execDeleteAdminCommandTest("/api/v1/admin/vlc", VlcStopAdminCommand.class);
   }
 
   /**
@@ -65,7 +65,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void stopVlcPlayerServerErrorTest() throws Exception {
-    executeDeleteServerErrorAdminCommandTest("/api/v1/admin/vlc", VlcStopAdminCommand.class);
+    execDeleteServerErrorAdminCommandTest("/api/v1/admin/vlc", VlcStopAdminCommand.class);
   }
 
   /**
@@ -73,6 +73,6 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void statusVlcPlayerTest() throws Exception {
-    executeGetAdminCommandTest("/api/v1/admin/vlc", VlcStatusAdminCommand.class);
+    execGetAdminCommandTest("/api/v1/admin/vlc", VlcStatusAdminCommand.class);
   }
 }

@@ -70,7 +70,7 @@ public class VlcPlayerTest {
     Mockito.reset(httpResponseMock);
     PowerMockito.mockStatic(HttpClientUtils.class);
     when(HttpClientUtils.getClient(any(), any())).thenReturn(httpClientMock);
-    when(HttpClientUtils.executeRequest(any(), any())).thenReturn(httpResponseMock);
+    when(HttpClientUtils.execRequest(any(), any())).thenReturn(httpResponseMock);
     when(HttpClientUtils.urlEncode(any())).thenCallRealMethod();
     when(HttpClientUtils.httpGet(any())).thenCallRealMethod();
   }

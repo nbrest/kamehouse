@@ -30,7 +30,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> lockScreen() {
     logger.trace("/api/v1/admin/screen/lock (POST)");
-    return executeAdminCommand(new ScreenLockAdminCommand());
+    return execAdminCommand(new ScreenLockAdminCommand());
   }
 
   /**
@@ -40,7 +40,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> unlockScreen() {
     logger.trace("/api/v1/admin/screen/unlock (POST)");
-    return executeAdminCommand(new ScreenUnlockAdminCommand());
+    return execAdminCommand(new ScreenUnlockAdminCommand());
   }
 
   /**
@@ -51,6 +51,6 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> wakeUpScreen() {
     logger.trace("/api/v1/admin/screen/wake-up (POST)");
-    return executeAdminCommand(new ScreenWakeUpAdminCommand());
+    return execAdminCommand(new ScreenWakeUpAdminCommand());
   }
 }

@@ -41,14 +41,14 @@ public abstract class AbstractControllerTest<E, D> {
   /**
    * Executes a get request for the specified url on the mock server.
    */
-  protected MockHttpServletResponse executeGet(String url) throws Exception {
+  protected MockHttpServletResponse doGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }
 
   /**
    * Executes a post request for the specified url and payload on the mock server.
    */
-  protected MockHttpServletResponse executePost(String url, byte[] requestPayload)
+  protected MockHttpServletResponse doPost(String url, byte[] requestPayload)
       throws Exception {
     return mockMvc
         .perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
@@ -58,14 +58,14 @@ public abstract class AbstractControllerTest<E, D> {
   /**
    * Executes a post request for the specified url with an empty payload.
    */
-  protected MockHttpServletResponse executePost(String url) throws Exception {
+  protected MockHttpServletResponse doPost(String url) throws Exception {
     return mockMvc.perform(post(url)).andDo(print()).andReturn().getResponse();
   }
 
   /**
    * Executes a put request for the specified url and payload on the mock server.
    */
-  protected MockHttpServletResponse executePut(String url, byte[] requestPayload) throws Exception {
+  protected MockHttpServletResponse doPut(String url, byte[] requestPayload) throws Exception {
     return mockMvc
         .perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
         .andDo(print()).andReturn().getResponse();
@@ -74,7 +74,7 @@ public abstract class AbstractControllerTest<E, D> {
   /**
    * Executes a delete request for the specified url on the mock server.
    */
-  protected MockHttpServletResponse executeDelete(String url) throws Exception {
+  protected MockHttpServletResponse doDelete(String url) throws Exception {
     return mockMvc.perform(delete(url)).andDo(print()).andReturn().getResponse();
   }
 

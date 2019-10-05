@@ -41,7 +41,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
    */
   @Test
   public void setShutdownTest() throws Exception {
-    executePostAdminCommandTest("/api/v1/admin/power-management/shutdown?delay=5400",
+    execPostAdminCommandTest("/api/v1/admin/power-management/shutdown?delay=5400",
         ShutdownAdminCommand.class);
   }
 
@@ -50,7 +50,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
    */
   @Test
   public void setShutdownExceptionTest() throws IOException, Exception {
-    executePostInvalidAdminCommandTest("/api/v1/admin/power-management/shutdown?delay=0");
+    execPostInvalidAdminCommandTest("/api/v1/admin/power-management/shutdown?delay=0");
   }
 
   /**
@@ -58,7 +58,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
    */
   @Test
   public void cancelShutdownTest() throws Exception {
-    executeDeleteAdminCommandTest("/api/v1/admin/power-management/shutdown",
+    execDeleteAdminCommandTest("/api/v1/admin/power-management/shutdown",
         ShutdownCancelAdminCommand.class);
   }
 
@@ -67,7 +67,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
    */
   @Test
   public void cancelShutdownServerErrorTest() throws Exception {
-    executeDeleteServerErrorAdminCommandTest("/api/v1/admin/power-management/shutdown",
+    execDeleteServerErrorAdminCommandTest("/api/v1/admin/power-management/shutdown",
         ShutdownCancelAdminCommand.class);
   }
 
@@ -76,7 +76,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
    */
   @Test
   public void statusShutdownTest() throws Exception {
-    executeGetAdminCommandTest("/api/v1/admin/power-management/shutdown",
+    execGetAdminCommandTest("/api/v1/admin/power-management/shutdown",
         ShutdownStatusAdminCommand.class);
   }
 
@@ -85,7 +85,6 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
    */
   @Test
   public void suspendTest() throws Exception {
-    executePostAdminCommandTest("/api/v1/admin/power-management/suspend",
-        SuspendAdminCommand.class);
+    execPostAdminCommandTest("/api/v1/admin/power-management/suspend", SuspendAdminCommand.class);
   }
 }

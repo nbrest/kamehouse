@@ -53,9 +53,9 @@ public abstract class AbstractAdminCommandControllerTest extends
   /**
    * Tests executing an AdminCommand through a get request.
    */
-  protected void executeGetAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
+  protected void execGetAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
-    MockHttpServletResponse response = executeGet(url);
+    MockHttpServletResponse response = doGet(url);
     List<SystemCommand.Output> responseBody = getResponseBodyList(response,
         SystemCommand.Output.class);
 
@@ -67,9 +67,9 @@ public abstract class AbstractAdminCommandControllerTest extends
   /**
    * Tests executing an AdminCommand through a post request without request body.
    */
-  protected void executePostAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
+  protected void execPostAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
-    MockHttpServletResponse response = executePost(url);
+    MockHttpServletResponse response = doPost(url);
     List<SystemCommand.Output> responseBody = getResponseBodyList(response,
         SystemCommand.Output.class);
 
@@ -82,20 +82,20 @@ public abstract class AbstractAdminCommandControllerTest extends
    * Tests executing an invalid AdminCommand through a post request without
    * request body.
    */
-  protected void executePostInvalidAdminCommandTest(String url) throws Exception {
+  protected void execPostInvalidAdminCommandTest(String url) throws Exception {
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
         KameHouseInvalidCommandException.class));
 
-    executePost(url);
+    doPost(url);
   }
 
   /**
    * Tests executing an AdminCommand through a delete request.
    */
-  protected void executeDeleteAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
+  protected void execDeleteAdminCommandTest(String url, Class<? extends AdminCommand> clazz)
       throws Exception {
-    MockHttpServletResponse response = executeDelete(url);
+    MockHttpServletResponse response = doDelete(url);
     List<SystemCommand.Output> responseBody = getResponseBodyList(response,
         SystemCommand.Output.class);
 
@@ -108,11 +108,11 @@ public abstract class AbstractAdminCommandControllerTest extends
    * Tests executing an AdminCommand through a delete request with a Server
    * Error.
    */
-  protected void executeDeleteServerErrorAdminCommandTest(String url,
+  protected void execDeleteServerErrorAdminCommandTest(String url,
       Class<? extends AdminCommand> clazz) throws Exception {
     systemCommandOutputList.get(0).setExitCode(1);
 
-    MockHttpServletResponse response = executeDelete(url);
+    MockHttpServletResponse response = doDelete(url);
     List<SystemCommand.Output> responseBody = getResponseBodyList(response,
         SystemCommand.Output.class);
 

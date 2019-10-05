@@ -71,7 +71,7 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
   public void getSessionStatusTest() throws Exception { 
     when(sessionStatusServiceMock.get()).thenReturn(sessionStatus);
 
-    MockHttpServletResponse response = executeGet("/api/v1/session/status");
+    MockHttpServletResponse response = doGet("/api/v1/session/status");
     SessionStatus responseBody = getResponseBody(response, SessionStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);

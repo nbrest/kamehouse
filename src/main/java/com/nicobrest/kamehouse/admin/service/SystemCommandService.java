@@ -51,11 +51,11 @@ public class SystemCommandService {
     logger.trace("Executing system command {}", commandOutput.getCommand());
     Process process;
     try {
-      process = ProcessUtils.startProcess(processBuilder);
+      process = ProcessUtils.start(processBuilder);
       if (!systemCommand.isDaemon()) {
         // Not an ongoing process. Wait until the process finishes and then read
         // standard ouput and error streams.
-        ProcessUtils.waitForProcess(process);
+        ProcessUtils.waitFor(process);
         getStreamsFromProcess(process, commandOutput);
         int exitValue = ProcessUtils.getExitValue(process);
         commandOutput.setExitCode(exitValue);
@@ -99,10 +99,10 @@ public class SystemCommandService {
    */
   private void getStreamsFromProcess(Process process, SystemCommand.Output commandOutput)
       throws IOException {
-    try (InputStream processInputStream = ProcessUtils.getInputStreamFromProcess(process);
+    try (InputStream processInputStream = ProcessUtils.getInputStream(process);
         BufferedReader processBufferedReader =
             new BufferedReader(new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
-        InputStream processErrorStream = ProcessUtils.getErrorStreamFromProcess(process);
+        InputStream processErrorStream = ProcessUtils.getErrorStream(process);
         BufferedReader processErrorBufferedReader =
             new BufferedReader(new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
       // Read command standard output stream

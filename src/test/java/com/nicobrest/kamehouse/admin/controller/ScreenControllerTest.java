@@ -38,7 +38,7 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void lockScreenSuccessfulTest() throws Exception {
-    executePostAdminCommandTest("/api/v1/admin/screen/lock", ScreenLockAdminCommand.class);
+    execPostAdminCommandTest("/api/v1/admin/screen/lock", ScreenLockAdminCommand.class);
   }
 
   /**
@@ -46,7 +46,7 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void unlockScreenSuccessfulTest() throws Exception {
-    executePostAdminCommandTest("/api/v1/admin/screen/unlock", ScreenUnlockAdminCommand.class);
+    execPostAdminCommandTest("/api/v1/admin/screen/unlock", ScreenUnlockAdminCommand.class);
   }
 
   /**
@@ -54,6 +54,6 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void wakeUpScreenSuccessfulTest() throws Exception {
-    executePostAdminCommandTest("/api/v1/admin/screen/wake-up", ScreenWakeUpAdminCommand.class);
+    execPostAdminCommandTest("/api/v1/admin/screen/wake-up", ScreenWakeUpAdminCommand.class);
   }
 }

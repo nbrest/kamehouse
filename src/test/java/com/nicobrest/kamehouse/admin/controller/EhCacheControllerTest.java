@@ -68,7 +68,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   public void readAllTest() throws Exception {
     when(ehCacheServiceMock.getAll()).thenReturn(applicationCacheList);
 
-    MockHttpServletResponse response = executeGet("/api/v1/admin/ehcache");
+    MockHttpServletResponse response = doGet("/api/v1/admin/ehcache");
     List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -84,7 +84,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   public void readSingleCacheTest() throws Exception {
     when(ehCacheServiceMock.get("dragonBallUsers")).thenReturn(applicationCache);
 
-    MockHttpServletResponse response = executeGet("/api/v1/admin/ehcache?name=dragonBallUsers");
+    MockHttpServletResponse response = doGet("/api/v1/admin/ehcache?name=dragonBallUsers");
     List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -99,7 +99,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
    */
   @Test
   public void clearAllTest() throws Exception {
-    MockHttpServletResponse response = executeDelete("/api/v1/admin/ehcache");
+    MockHttpServletResponse response = doDelete("/api/v1/admin/ehcache");
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(ehCacheServiceMock, times(1)).clearAll();
@@ -111,7 +111,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
    */
   @Test
   public void clearSingleCacheTest() throws Exception {
-    MockHttpServletResponse response = executeDelete("/api/v1/admin/ehcache?name=dragonBallUsers");
+    MockHttpServletResponse response = doDelete("/api/v1/admin/ehcache?name=dragonBallUsers");
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(ehCacheServiceMock, times(1)).clear("dragonBallUsers");

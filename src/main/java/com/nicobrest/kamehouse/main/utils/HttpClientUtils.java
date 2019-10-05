@@ -58,7 +58,7 @@ public class HttpClientUtils {
   /**
    * Executes the HTTP request to the specified HttpClient.
    */
-  public static HttpResponse executeRequest(HttpClient client, HttpUriRequest request)
+  public static HttpResponse execRequest(HttpClient client, HttpUriRequest request)
       throws IOException {
     return client.execute(request);
   }

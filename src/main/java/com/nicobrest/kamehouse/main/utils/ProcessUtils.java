@@ -20,14 +20,14 @@ public class ProcessUtils {
   /**
    * Starts the specified process. 
    */
-  public static Process startProcess(ProcessBuilder processBuilder) throws IOException {
+  public static Process start(ProcessBuilder processBuilder) throws IOException {
     return processBuilder.start();
   }
   
   /**
    * Waits for the specified process to finish.
    */
-  public static void waitForProcess(Process process) throws InterruptedException {
+  public static void waitFor(Process process) throws InterruptedException {
     process.waitFor();
   }
   
@@ -41,14 +41,14 @@ public class ProcessUtils {
   /**
    * Gets the input stream from the specified process.
    */
-  public static InputStream getInputStreamFromProcess(Process process) {
+  public static InputStream getInputStream(Process process) {
     return process.getInputStream();
   }
 
   /**
    * Gets the error stream from the specified process. 
    */
-  public static InputStream getErrorStreamFromProcess(Process process) {
+  public static InputStream getErrorStream(Process process) {
     return process.getErrorStream();
   }
 }

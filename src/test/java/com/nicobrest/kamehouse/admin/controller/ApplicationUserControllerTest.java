@@ -142,7 +142,7 @@ public class ApplicationUserControllerTest
         .thenReturn(applicationUser);
 
     MockHttpServletResponse response =
-        executeGet(API_V1_ADMIN_APPLICATION_USERS + "username/" + applicationUser.getUsername());
+        doGet(API_V1_ADMIN_APPLICATION_USERS + "username/" + applicationUser.getUsername());
     ApplicationUser responseBody = getResponseBody(response, ApplicationUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -159,7 +159,7 @@ public class ApplicationUserControllerTest
     Mockito.doThrow(new KameHouseNotFoundException("")).when(applicationUserServiceMock)
         .loadUserByUsername(ApplicationUserTestUtils.INVALID_USERNAME);
 
-    executeGet(
+    doGet(
         API_V1_ADMIN_APPLICATION_USERS + "username/" + ApplicationUserTestUtils.INVALID_USERNAME);
   }
 }

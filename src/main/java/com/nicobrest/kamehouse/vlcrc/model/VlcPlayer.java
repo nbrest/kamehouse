@@ -126,7 +126,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   public VlcRcStatus execute(VlcRcCommand command) {
     String commandUrl = buildCommandUrl(command);
     if (commandUrl != null) {
-      String vlcServerResponse = executeRequestToVlcServer(commandUrl);
+      String vlcServerResponse = execRequestToVlcServer(commandUrl);
       return VlcRcStatusBuilder.build(vlcServerResponse);
     } else {
       return null;
@@ -145,7 +145,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     statusUrl.append(port);
     statusUrl.append(STATUS_URL);
     VlcRcStatus vlcRcStatus = null;
-    String vlcServerResponse = executeRequestToVlcServer(statusUrl.toString());
+    String vlcServerResponse = execRequestToVlcServer(statusUrl.toString());
     vlcRcStatus = VlcRcStatusBuilder.build(vlcServerResponse);
     return vlcRcStatus;
   }
@@ -161,7 +161,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     playlistUrl.append(":");
     playlistUrl.append(port);
     playlistUrl.append(PLAYLIST_URL);
-    String vlcServerResponse = executeRequestToVlcServer(playlistUrl.toString());
+    String vlcServerResponse = execRequestToVlcServer(playlistUrl.toString());
     return buildVlcRcPlaylist(vlcServerResponse);
   }
 
@@ -180,7 +180,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     } else {
       browseUrl.append("?uri=file:///");
     }
-    String vlcServerResponse = executeRequestToVlcServer(browseUrl.toString());
+    String vlcServerResponse = execRequestToVlcServer(browseUrl.toString());
     return buildVlcRcFilelist(vlcServerResponse);
   }
 
@@ -224,12 +224,12 @@ public class VlcPlayer implements Identifiable, Serializable {
   @SuppressFBWarnings(value = "DM_DEFAULT_ENCODING",
       justification = "Currently it's a limitation by using apache HttpClient. Created a task to "
           + "look at alternatives")
-  private String executeRequestToVlcServer(String url) {
+  private String execRequestToVlcServer(String url) {
     HttpClient client = HttpClientUtils.getClient(username, password);
     HttpGet request = HttpClientUtils.httpGet(url);
     HttpResponse response;
     try {
-      response = HttpClientUtils.executeRequest(client, request);
+      response = HttpClientUtils.execRequest(client, request);
       try (InputStream resInStream = HttpClientUtils.getInputStreamFromResponse(response);
           BufferedReader responseReader = new BufferedReader(new InputStreamReader(resInStream))) {
         StringBuilder responseBody = new StringBuilder();

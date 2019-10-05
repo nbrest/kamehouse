@@ -138,7 +138,7 @@ public class DragonBallControllerTest
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseException.class));
 
-    executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
+    doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
   }
 
   /**
@@ -150,7 +150,7 @@ public class DragonBallControllerTest
     thrown.expect(NestedServletException.class);
     thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
 
-    executeGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
+    doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
   }
 
   /**
@@ -202,7 +202,7 @@ public class DragonBallControllerTest
         .thenReturn(dragonBallUser);
 
     MockHttpServletResponse response =
-        executeGet(API_V1_DRAGONBALL_USERS + "username/" + dragonBallUser.getUsername());
+        doGet(API_V1_DRAGONBALL_USERS + "username/" + dragonBallUser.getUsername());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -219,7 +219,7 @@ public class DragonBallControllerTest
     Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
         .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 
-    executeGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
+    doGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
   }
 
   /**
@@ -231,7 +231,7 @@ public class DragonBallControllerTest
         .thenReturn(dragonBallUser);
 
     MockHttpServletResponse response =
-        executeGet(API_V1_DRAGONBALL_USERS + "emails/" + dragonBallUser.getEmail());
+        doGet(API_V1_DRAGONBALL_USERS + "emails/" + dragonBallUser.getEmail());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -245,7 +245,7 @@ public class DragonBallControllerTest
    */
   @Test
   public void getModelAndViewTest() throws Exception {
-    MockHttpServletResponse response = executeGet("/api/v1/dragonball/model-and-view");
+    MockHttpServletResponse response = doGet("/api/v1/dragonball/model-and-view");
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());

@@ -134,7 +134,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   public void getByHostnameTest() throws Exception {
     when(vlcPlayerServiceMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 
-    MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "hostname/" + vlcPlayer
+    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "hostname/" + vlcPlayer
         .getHostname());
     VlcPlayer responseBody = getResponseBody(response, VlcPlayer.class);
 
@@ -150,7 +150,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   public void getVlcRcStatusTest() throws Exception {
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatus);
 
-    MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/status");
+    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/status");
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -166,7 +166,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   public void getVlcRcStatusNotFoundTest() throws Exception {
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(null);
 
-    MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/status");
+    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/status");
 
     verifyResponseStatus(response, HttpStatus.NOT_FOUND);
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
@@ -176,13 +176,13 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
    * Tests Executing a command in the selected VLC Player.
    */
   @Test
-  public void executeCommandTest() throws Exception {
+  public void execCommandTest() throws Exception {
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
     vlcRcCommand.setName("fullscreen");
     when(vlcRcServiceMock.execute(any(), anyString())).thenReturn(vlcRcStatus);
     byte[] requestPayload = JsonUtils.toJsonByteArray(vlcRcCommand);
 
-    MockHttpServletResponse response = executePost(API_V1_VLCPLAYERS + "niko-nba/commands",
+    MockHttpServletResponse response = doPost(API_V1_VLCPLAYERS + "niko-nba/commands",
         requestPayload);
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
@@ -198,7 +198,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   public void getPlaylistTest() throws Exception {
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
 
-    MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/playlist");
+    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/playlist");
     List<VlcRcPlaylistItem> responseBody = getResponseBodyList(response, VlcRcPlaylistItem.class);
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody);
@@ -212,7 +212,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   public void browseTest() throws Exception {
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
 
-    MockHttpServletResponse response = executeGet(API_V1_VLCPLAYERS + "niko-nba/browse");
+    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/browse");
     List<VlcRcFileListItem> responseBody = getResponseBodyList(response, VlcRcFileListItem.class);
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody);

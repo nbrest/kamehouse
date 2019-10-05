@@ -115,7 +115,7 @@ public class VlcRcController extends AbstractCrudController {
    */
   @PostMapping(path = "/players/{hostname}/commands")
   @ResponseBody
-  public ResponseEntity<VlcRcStatus> executeCommand(@RequestBody VlcRcCommand vlcRcCommand,
+  public ResponseEntity<VlcRcStatus> execCommand(@RequestBody VlcRcCommand vlcRcCommand,
       @PathVariable String hostname) {
     logger.trace("/vlc-rc/players/{hostname}/commands (POST)");
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostname);

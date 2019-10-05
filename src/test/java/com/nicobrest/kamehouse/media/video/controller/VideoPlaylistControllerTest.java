@@ -66,7 +66,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
   public void readAllTest() throws Exception {
     when(videoPlaylistService.getAll()).thenReturn(videoPlaylistsList);
 
-    MockHttpServletResponse response = executeGet(API_V1_MEDIA_VIDEO_PLAYLISTS);
+    MockHttpServletResponse response = doGet(API_V1_MEDIA_VIDEO_PLAYLISTS);
     List<Playlist> responseBody = getResponseBodyList(response, Playlist.class);
 
     verifyResponseStatus(response, HttpStatus.OK);

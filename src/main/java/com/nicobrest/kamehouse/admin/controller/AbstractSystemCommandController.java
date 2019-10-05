@@ -28,7 +28,7 @@ public class AbstractSystemCommandController extends AbstractController {
    * Executes the specified admin command and returns the sytem command ouputs
    * list.
    */
-  public ResponseEntity<List<SystemCommand.Output>> executeAdminCommand(AdminCommand adminCommand) {
+  public ResponseEntity<List<SystemCommand.Output>> execAdminCommand(AdminCommand adminCommand) {
     List<SystemCommand.Output> commandOutputs = systemCommandService.execute(adminCommand);
     return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
