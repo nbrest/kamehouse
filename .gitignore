@@ -1,5 +1,5 @@
 ###################
-# Added by me     #
+# Added by me     
 ###################
 .checkstyle
 logs/**
@@ -7,16 +7,14 @@ data/**
 tmp/**
 
 ###################
-# Directories #
+# Directories 
+###################
 /build/
 /bin/
 target/
- 
 # OS Files #
 .DS_Store
- 
 *.class
- 
 # Package Files #
 #*.jar
 *.war
@@ -26,32 +24,30 @@ target/
 ######################
 # Windows
 ######################
- 
 # Windows image file caches
 Thumbs.db 
- 
 # Folder config file
 Desktop.ini
  
 ######################
 # OSX
 ######################
- 
 .DS_Store
 .svn
- 
 # Thumbnails
 ._*
- 
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
- 
+
+######################
+# VS Code
+######################
+.factorypath
  
 ######################
 # Eclipse
 ######################
- 
 *.pydevproject
 .project
 .metadata
@@ -69,16 +65,12 @@ local.properties
 /src/main/resources/rebel.xml
 # External tool builders
 .externalToolBuilders/
- 
 # Locally stored "Eclipse launch configurations"
 *.launch
- 
 # CDT-specific
 .cproject
- 
 # PDT-specific
 .buildpath
-
 # Internal tomcat deployment
 WebContent/
 /target/

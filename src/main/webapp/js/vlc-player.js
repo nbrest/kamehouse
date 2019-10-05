@@ -27,7 +27,7 @@ var main = function() {
 /** ---- General REST request functions --------------------------------------------- **/
 
 /** Execute get on the specified url and display the output in the debug table. */
-function executeGet(url) {
+function doGet(url) {
   log("DEBUG", "Executing GET on " + url); 
   $.get(url)
     .success(function(result) {
@@ -44,38 +44,10 @@ function executeGet(url) {
   setCollapsibleContent();
 }
 
-/** Reload VLC with the current selected playlist from the dropdowns. */
-function executeAdminVlcPostWithSelectedPlaylist(url, command) {
-  var playlistSelected = document.getElementById("playlist-dropdown").value;
-  log("DEBUG", "Playlist selected: " + playlistSelected);
-  var requestBody = {
-    command: command,
-    file: playlistSelected
-  };
-  executePost(url, requestBody);
-}
-
-/** Create a vlcrc command with the parameters and execute the request to the server. */
-function executeVlcRcCommandPost(url, name) {
-  var requestBody = {
-    name: name
-  };
-  executePost(url, requestBody);
-}
-
-/** Create a vlcrc command with the parameters and execute the request to the server. */
-function executeVlcRcCommandWithValuePost(url, name, val) {
-  var requestBody = {
-    name: name,
-    val: val
-  };
-  executePost(url, requestBody);
-}
-
 /** Execute a POST request to the specified url with the specified request body. */
-function executePost(url, requestBody) {
+function doPost(url, requestBody) {
   log("DEBUG", "Executing POST on " + url + " with requestBody " + JSON.stringify(requestBody));
-  var requestHeaders = getCsrfRequestHeadersObject();
+  var requestHeaders = getApplicationJsonHeaders();
   $.ajax({
     type: "POST",
     url: url,
@@ -100,10 +72,32 @@ function executePost(url, requestBody) {
   setCollapsibleContent();
 }
 
+/** Execute a POST request to the specified url with the specified request url parameters. */
+function doPostUrlEncoded(url, requestParam) {
+  log("DEBUG", "Executing POST on " + url + " with requestParam " + JSON.stringify(requestParam));
+  var requestHeaders = getUrlEncodedHeaders();
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: requestParam,
+    headers: requestHeaders,
+    success: function (data) {
+      log("TRACE", JSON.stringify(data, null, 2));
+      getVlcRcStatus();
+      displayRequestPayload(data, url, "POST", requestBody);
+    },
+    error: function (data) {
+      log("ERROR", JSON.stringify(data));
+      displayErrorExecutingRequest();
+    }
+  });
+  setCollapsibleContent();
+}
+
 /** Execute a DELETE request to the specified url with the specified request body. */
-function executeDelete(url, requestBody) {
+function doDelete(url, requestBody) {
   log("DEBUG", "Executing DELETE on " + url + " with requestBody " + JSON.stringify(requestBody));
-  var requestHeaders = getCsrfRequestHeadersObject();
+  var requestHeaders = getApplicationJsonHeaders();
   $.ajax({
     type: "DELETE",
     url: url,
@@ -120,6 +114,35 @@ function executeDelete(url, requestBody) {
       displayErrorExecutingRequest(); 
     }
   }); 
+}
+
+/** ---- Calls to rest functions to perform commands ------------------------------- **/
+
+/** Create a vlcrc command with the parameters and execute the request to the server. */
+function execVlcRcCommand(url, name) {
+  var requestBody = {
+    name: name
+  };
+  doPost(url, requestBody);
+}
+
+/** Create a vlcrc command with the parameters and execute the request to the server. */
+function execVlcRcCommandWithValue(url, name, val) {
+  var requestBody = {
+    name: name,
+    val: val
+  };
+  doPost(url, requestBody);
+}
+
+/** Reload VLC with the current selected playlist from the dropdowns. */
+function loadSelectedPlaylist(url) {
+  var playlistSelected = document.getElementById("playlist-dropdown").value;
+  log("DEBUG", "Playlist selected: " + playlistSelected);
+  var requestParam = "file=" + playlistSelected;
+  doPostUrlEncoded(url, requestParam);
+  // Wait a few seconds for Vlc Player to restart and reload the playlist.
+  asyncReloadPlaylist(5000);
 }
 
 /** ---- Populate playlists functions --------------------------------------------- **/
@@ -278,7 +301,7 @@ function updateVlcPlayerStatus(vlcRcStatusResponse) {
 /** Set the current time from the slider's value. */
 function setTimeFromSlider(value) {
   $("#current-time").text(convertSecondsToHsMsSs(value)); 
-  executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', value);
+  execVlcRcCommandWithValue('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'seek', value);
 }
 /** Update the displayed current time while I'm sliding */
 function updateTimeWhileSliding(value) {
@@ -303,7 +326,7 @@ function getMediaName() {
 function setVolumeFromSlider(value) {
   log("TRACE", "Current volume value: " + value); 
   updateVolumePercentage(value);
-  executeVlcRcCommandWithValuePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
+  execVlcRcCommandWithValue('/kame-house/api/v1/vlc-rc/players/localhost/commands', 'volume', value);
 }
 
 /** Update volume percentage to display with the specified value. */
@@ -472,7 +495,7 @@ function clickEventOnPlaylistRow(event) {
     name: 'pl_play',
     id: event.data.id
   };
-  executePost('/kame-house/api/v1/vlc-rc/players/localhost/commands', requestBody);
+  doPost('/kame-house/api/v1/vlc-rc/players/localhost/commands', requestBody);
 }
 
 /** Display error getting playlist from the server. */

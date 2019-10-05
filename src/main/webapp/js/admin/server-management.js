@@ -12,29 +12,23 @@ function importServerManagementCss() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
 }
 
-function executeGet(url) {
-  console.debug(getTimestamp() + " : Executing GET on " + url);
+/** General REST function calls ---------------------------------------------------------- */
+
+function doGet(url) {
+  log("DEBUG", "Executing GET on " + url);
   $.get(url)
     .success(function(result) {
       displayRequestPayload(result, url, "GET", null);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
-      console.error(JSON.stringify(jqXHR));
+      log("ERROR", JSON.stringify(jqXHR));
       displayErrorExecutingRequest();
     });
   setCollapsibleContent();
 }
 
-function executeAdminShutdownPost(url, command, time) {
-  var requestBody = JSON.stringify({
-    command: command,
-    time: time
-  });
-  executePost(url, requestBody);
-}
-
-function executePost(url, requestBody) {
-  console.debug(getTimestamp() + " : Executing POST on " + url);
+function doPost(url, requestBody) {
+  log("DEBUG", "Executing POST on " + url);
   var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
@@ -45,15 +39,35 @@ function executePost(url, requestBody) {
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function(data) {
-      console.error(JSON.stringify(data));
+      log("ERROR", JSON.stringify(data));
       displayErrorExecutingRequest(); 
     }
     });
   setCollapsibleContent();
 }
 
-function executeDelete(url, requestBody) {
-  console.debug(getTimestamp() + " : Executing DELETE on " + url);
+/** Execute a POST request to the specified url with the specified request url parameters. */
+function doPostUrlEncoded(url, requestParam) {
+  log("DEBUG", "Executing POST on " + url + " with requestParam " + JSON.stringify(requestParam));
+  var requestHeaders = getUrlEncodedHeaders();
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: requestParam,
+    headers: requestHeaders,
+    success: function (data) {
+      displayRequestPayload(data, url, "POST", requestParam);
+    },
+    error: function (data) {
+      log("ERROR", JSON.stringify(data));
+      displayErrorExecutingRequest();
+    }
+  });
+  setCollapsibleContent();
+}
+
+function doDelete(url, requestBody) {
+  log("DEBUG", "Executing DELETE on " + url);
   var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "DELETE",
@@ -64,10 +78,18 @@ function executeDelete(url, requestBody) {
       displayRequestPayload(data, url, "DELETE", requestBody);
     },
     error: function(data) {
-      console.error(JSON.stringify(data));
+      log("ERROR", JSON.stringify(data));
       displayErrorExecutingRequest(); 
     }
     });
+}
+
+/** Power management functions ---------------------------------------------------------- */
+
+function execAdminShutdown(url, time) {
+  log("TRACE", "Shutdown delay: " + time);
+  var requestParam = "delay=" + time;
+  doPostUrlEncoded(url, requestParam);
 }
 
 /**

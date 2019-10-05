@@ -105,6 +105,24 @@ function getCsrfRequestHeadersObject() {
   return requestHeaders;
 }
 
+/** Get request headers object with Url Encoded content type. */
+function getUrlEncodedHeaders() { 
+  var requestHeaders = {}; 
+  requestHeaders.Accept = '*/*';
+  requestHeaders['Content-Type'] = "application/x-www-form-urlencoded"; 
+  log("TRACE", JSON.stringify(requestHeaders));
+  return requestHeaders;
+}
+
+/** Get request headers object with application json content type. */
+function getApplicationJsonHeaders() {
+  var requestHeaders = {};
+  requestHeaders.Accept = '*/*';
+  requestHeaders['Content-Type'] = 'application/json';
+  log("TRACE", JSON.stringify(requestHeaders));
+  return requestHeaders;
+}
+
 /** Checks if a variable is undefined or null, an empty array [] or an empty object {} */
 function isEmpty(val) {
   return (val === undefined || val == null || val.length <= 0 
