@@ -3,8 +3,7 @@
  * 
  * @author nbrest
  */
-
-var main = function() {
+var main = function () {
   importTestApisCss();
 };
 
@@ -13,21 +12,14 @@ function importTestApisCss() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/test-apis.css">');
 }
 
-function executeAdminVlcPost(url, command, file) {
-  var requestBody = JSON.stringify({
-    command: command,
-    file: file
-  });
-  executePost(url, requestBody);
-}
-
-function executeGet(url) {
-  console.debug(getTimestamp() + " : Executing GET on " + url); 
+/** Executes a get request and displays the api call output. */
+function doGet(url) {
+  console.debug(getTimestamp() + " : Executing GET on " + url);
   $.get(url)
-    .success(function(result) {
+    .success(function (result) {
       displayRequestPayload(result, url, "GET", null);
     })
-    .error(function(jqXHR, textStatus, errorThrown) {
+    .error(function (jqXHR, textStatus, errorThrown) {
       console.error(JSON.stringify(jqXHR));
       displayErrorExecutingRequest();
     });
@@ -35,54 +27,40 @@ function executeGet(url) {
   setCollapsibleContent();
 }
 
-function executePost(url, requestBody) {
-  console.debug(getTimestamp() + " : Executing POST on " + url);
-  var requestHeaders = getCsrfRequestHeadersObject();
+/** Execute a POST request to the specified url with the specified request url parameters. */
+function doPostUrlEncoded(url, requestParam) {
+  log("DEBUG", "Executing POST on " + url + " with requestParam " + JSON.stringify(requestParam));
+  var requestHeaders = getUrlEncodedHeaders();
   $.ajax({
     type: "POST",
     url: url,
-    data: requestBody,
+    data: requestParam,
     headers: requestHeaders,
-    success: function(data) {
-      //console.debug(JSON.stringify(data));
-      //console.debug(JSON.stringify(data, null, 2));
-      displayRequestPayload(data, url, "POST", requestBody);
+    success: function (data) {
+      displayRequestPayload(data, url, "POST", requestParam);
     },
-    error: function(data) {
-      console.error(JSON.stringify(data));
-      displayErrorExecutingRequest(); 
+    error: function (data) {
+      log("ERROR", JSON.stringify(data));
+      displayErrorExecutingRequest();
     }
-    });
-  scrollToTop();
+  });
   setCollapsibleContent();
 }
 
-function executeDelete(url, requestBody) {
-  console.debug(getTimestamp() + " : Executing DELETE on " + url);
-  var requestHeaders = getCsrfRequestHeadersObject();
-  $.ajax({
-    type: "DELETE",
-    url: url,
-    data: requestBody,
-    headers: requestHeaders,
-    success: function(data) {
-      //console.debug(JSON.stringify(data));
-      displayRequestPayload(data, url, "DELETE", requestBody);
-    },
-    error: function(data) {
-      console.error(JSON.stringify(data));
-      displayErrorExecutingRequest(); 
-    }
-    });
-  scrollToTop();
-  setCollapsibleContent();
+/** Reload VLC with the file passed as a parameter. */
+function loadFileInVlc(url, file) {
+  log("DEBUG", "Selected file: " + file);
+  var requestParam = "file=" + file;
+  doPostUrlEncoded(url, requestParam);
 }
 
 /**
  * Scroll to the top of the screen.
  */
 function scrollToTop() {
-  $('html, body').animate({scrollTop:0}, '10');
+  $('html, body').animate({
+    scrollTop: 0
+  }, '10');
 }
 
 /**
