@@ -4,7 +4,9 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/badge/dev)](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/overview/dev)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9e85a73da34684b042a6c85bd35607)](https://www.codacy.com/manual/nbrest/java.web.kamehouse?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nbrest/java.web.kamehouse&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/nbrest/java.web.kamehouse/branch/dev/graph/badge.svg)](https://codecov.io/gh/nbrest/java.web.kamehouse)
+
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev)
+
 # Description:
 
 This application (still heavily under construction) will contain the following modules: 
@@ -114,9 +116,39 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 *********************
 # ChangeLog:
 
-#### v0.23
+#### v1.00
 
-* Fixed issues reported by sonar cloud
+##### Huge backend code refactor to improve the code quality and make it easier to add new entities, commands and tests with much less overhead. The backend code is very different from the previous version to this one.
+
+* Implemented fixes to issues reported by sonarcloud
+* Added abstract classes in all layers to group common functionality
+* Removed a lot of duplicated code
+* Refactored tests in all layers to reduce the overhead of adding new tests
+* Created abstract test classes to group common test functionality
+* Created test utils for each entity in the application to simplify creation of test data and validation of all attributes of the entities
+* Refactored system command service and admin and system commands to make it easier to add new commands
+* Refactored admin command controllers to group common functionality
+* Decoupled functionality to separate classes and utility classes
+* Fixed exception handling
+* Added DTOs in the controller layer where needed
+* Replaced maps with proper entities in the application
+* Fixed several bugs
+* Moved angular app to static html from jsp
+* Added meta tag to load app in fullscreen from android home
+* Fixed header and footer not loading when backend is down
+* Removed need for symlinks for static files in the project setup
+* Moved error pages content to static html from jsps
+* Changed site under construction alert to a modal
+* Fixed exception type returned in update entity errors
+* Refactored a lot of methods name to make them more standard and readable
+* Grouped CRUD operations in abstract classes in all layers in the main code and tests to make it much easier to add new entities
+* Fixed @oneToMany persistence issues with ApplicationUsers and ApplicationRoles
+* Fixed model-and-view test page
+* Removed sensitive session information sent through the session status API
+* Made vlc player volume slider rounded
+* Split vlc control icons into more rows
+* Changed vlc update idle time from 15s to 4s
+* Fixed position always coming as 0 bug
 
 #### v0.22
 
