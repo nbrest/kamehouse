@@ -1,5 +1,5 @@
 package com.nicobrest.kamehouse.admin.controller;
- 
+
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand.Output;

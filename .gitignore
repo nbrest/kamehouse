@@ -43,11 +43,12 @@ Desktop.ini
 ######################
 # VS Code
 ######################
-.factorypath
+.vscode/**
  
 ######################
 # Eclipse
 ######################
+.factorypath
 *.pydevproject
 .project
 .metadata
