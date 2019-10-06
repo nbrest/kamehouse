@@ -56,12 +56,6 @@ function doPost(url, requestBody) {
     success: function (data) {
       log("TRACE", JSON.stringify(data, null, 2));
       getVlcRcStatus();
-      if ((!isEmpty(requestBody.command) && requestBody.command == 'vlc_start') ||
-        (!isEmpty(requestBody.name) && requestBody.name == 'pl_stop')) {
-        // If command is vlc_start or pl_stop I'm restarting vlc or stopping it. 
-        // Relad playlist (after a few seconds to give it time to restart vlc).
-        asyncReloadPlaylist(5000);
-      }
       displayRequestPayload(data, url, "POST", requestBody);
     },
     error: function (data) {
@@ -84,7 +78,7 @@ function doPostUrlEncoded(url, requestParam) {
     success: function (data) {
       log("TRACE", JSON.stringify(data, null, 2));
       getVlcRcStatus();
-      displayRequestPayload(data, url, "POST", requestBody);
+      displayRequestPayload(data, url, "POST", requestParam);
     },
     error: function (data) {
       log("ERROR", JSON.stringify(data));
