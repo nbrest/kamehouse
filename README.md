@@ -149,6 +149,7 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 * Split vlc control icons into more rows
 * Changed vlc update idle time from 15s to 4s
 * Fixed position always coming as 0 bug
+* Updated Spring version to 4.3.25 and Spring security to 4.2.13 and other dependencies
 
 #### v0.22
 
