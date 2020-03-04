@@ -23,7 +23,7 @@
     <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>          <!-- Updated 2016/02 -->
     <hsql.version>2.3.2</hsql.version>                                  <!-- Updated 2016/02 -->
     <httpclient.version>4.5.3</httpclient.version>                      <!-- Updated 2017/10 -->
-    <jackson.version>2.9.9</jackson.version>                            <!-- Updated 2019/09 -->
+    <jackson.version>2.10.3</jackson.version>                            <!-- Updated 2019/09 -->
     <javax.servlet.version>3.0.1</javax.servlet.version>                <!-- Updated 2016/02 -->
     <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
     <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
