@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * Utility class to process jsons used in the test classes. This code is not
- * necessary in the application. Only in the test classes. Had to move it to the
- * main package because eclipse randomly stops finding it in /src/test/java
+ * Utility class to process jsons.
  * 
  * @author nbrest
  */
