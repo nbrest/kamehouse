@@ -4,8 +4,8 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/badge/dev)](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/overview/dev)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9e85a73da34684b042a6c85bd35607)](https://www.codacy.com/manual/nbrest/java.web.kamehouse?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nbrest/java.web.kamehouse&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/nbrest/java.web.kamehouse/branch/dev/graph/badge.svg)](https://codecov.io/gh/nbrest/java.web.kamehouse)
-
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev)
+[![GitHub last commit (branch)](https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev)](https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev)
+ 
 
 # Description:
 
@@ -44,6 +44,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * Trello for organizing development tasks
 
 *********************
+
 # Compilation:
 
 * Compile using `mvn clean install [compilation option]` .
@@ -53,16 +54,19 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 | -P | -P:prod -P:qa -P:dev | Default profile is prod. It uses mysql.qa uses oracle and dev uses hsql in memory db |
 
 *********************
+
 # Execution in eclipse:
 
 * To run from eclipse, deploy into a configured tomcat server inside eclipse.
 
 *************
+
 # Installation:
 
 * Deploy copying the war into the webapps directory of your tomcat installation
 
 *************
+
 # External dependencies:
 
 This web application interacts with other applications that need to be installed on the server to execute certain functionality. These external dependencies are:
@@ -75,6 +79,7 @@ This web application interacts with other applications that need to be installed
 The application will load even without these installed, however some functionality will not work without them.
 
 *********************
+
 # Live demo:
 
 This application is hosted in https://www.nicobrest.com/kame-house/ so you can check it out and play around with it and report any issues :) It's hosted in an Amazon AWS Free Tier EC2 Ubuntu 18 running with mysql. Most of the external dependencies are not installed though and it's not configured to execute shutdown or lock commands. So you can test the UI (remember I'm a backend developer :p) and some of the functionality in the VLC player and test module with some limitations. For example, AWS EC2 Ubuntu's kernel isn't compiled with audio modules (not even dummy), so audio will always revert to 0%, even if you update it with the buttons or slider.
@@ -82,6 +87,7 @@ This application is hosted in https://www.nicobrest.com/kame-house/ so you can c
 The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel 2 using chrome dev tools). It's neither tested nor supported in other mobile devices. It was also tested mainly on Chrome and Firefox on desktop. It most certainly needs several more breakpoints and fixes for other devices and browsers.
 
 *********************
+
 # Other notes:
 
 ### Setup/Troubleshoot linux commands:
@@ -113,8 +119,27 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 * Using a vnc server and vncdotool is the only way I found to unlock the screen remotely on windows 10 (also works on ubuntu). If you are reading this and have a better solution, please contact me.
 * Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu 16).
 
+### Backend logging strategy
+
+The goals of logging in my application are being able to troubleshoot issues quickly when they happen and knowing exactly what's happening in the application.
+
+* **TRACE** I need to be able to see what methods are called with what parameters on all layers to troubleshoot issues.
+
+* **DEBUG** Responses from database or other external connections (except for example, vlcRcStatus, which is once a second, so its more sensible to put it on trace) on actions and tasks that I perform. For example adding a new VlcPlayer to the database or updating tables or using the video player from the ui.
+
+* **INFO:** Application configuration information or general application status, not specific to a task. During startup or if I change an application setting dynamically.
+
+* **WARN:** Only show behaviour that didn't go as expected but is recoverable and the process can continue. For example, user not found when trying to delete or load a user.
+
+* **ERROR:** Unrecoverable unexpected behaviour. If I throw an exception, I usually need to log an ERROR too or in some cases a WARN. For example, when I don't get a response from VlcPlayer.
+
 *********************
+
 # ChangeLog:
+
+#### v1.01
+
+* Updated logging strategy in the backend. Added a lot more logging in all layers.
 
 #### v1.00
 

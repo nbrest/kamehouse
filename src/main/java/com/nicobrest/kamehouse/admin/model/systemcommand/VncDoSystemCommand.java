@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.main.utils.FileUtils;
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
 import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 
 import java.util.Arrays;
@@ -34,5 +35,21 @@ public abstract class VncDoSystemCommand extends SystemCommand {
     String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getAdminProperty("vnc.server.pwd.file");
     return FileUtils.getDecodedFileContent(vncServerPwdFile);
+  }
+
+  /**
+   * Hide the output of vncdo commands, as it contains passwords.
+   * Call this method in the constructor of <b>EVERY</b> concrete subclass,
+   * after initializing the command lists.
+   */
+  @Override
+  protected void setOutputCommand() {
+    output.setCommand("[vncdo (hidden as it contains passwords)]");
+  }
+
+  @Override
+  public String toString() {
+    String[] hiddenFields = { "linuxCommand", "windowsCommand" };
+    return JsonUtils.toJsonString(this, super.toString(), hiddenFields);
   }
 }

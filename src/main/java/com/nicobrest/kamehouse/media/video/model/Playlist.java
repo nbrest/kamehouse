@@ -5,6 +5,8 @@ import com.nicobrest.kamehouse.main.utils.JsonUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -82,5 +84,18 @@ public class Playlist implements Comparable<Playlist> {
   @Override
   public String toString() {
     return JsonUtils.toJsonString(this, super.toString());
+  }
+
+  /**
+   * Compares playlists based on its compareTo implementation.
+   */
+  public static class Comparator implements java.util.Comparator<Playlist>, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public int compare(Playlist playlist1, Playlist playlist2) {
+      return playlist1.compareTo(playlist2);
+    }
   }
 }

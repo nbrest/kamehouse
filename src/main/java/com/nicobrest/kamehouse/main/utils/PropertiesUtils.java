@@ -21,7 +21,7 @@ import java.util.Properties;
  */
 public class PropertiesUtils {
 
-  private static final Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
 
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
   private static final Properties mediaVideoProperties = new Properties();
@@ -42,7 +42,7 @@ public class PropertiesUtils {
           .loadProperties(adminPropertiesResource);
       adminProperties.putAll(adminPropertiesFromFile);
     } catch (IOException e) {
-      logger.error("Exception loading properties files. Message: {}", e.getMessage());
+      LOGGER.error("Error loading properties files.", e);
     }
   }
 
@@ -79,7 +79,7 @@ public class PropertiesUtils {
           Runtime.getRuntime().exec("hostname").getInputStream(), StandardCharsets.UTF_8))) {
         return reader.readLine();
       } catch (IOException e) {
-        logger.error("Error getting hostname. Message: {}", e.getMessage());
+        LOGGER.error("Error getting hostname.", e);
         return "INVALID_HOSTNAME";
       }
     }

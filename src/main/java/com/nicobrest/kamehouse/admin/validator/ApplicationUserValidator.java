@@ -1,6 +1,8 @@
 package com.nicobrest.kamehouse.admin.validator;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +14,8 @@ import java.util.regex.Pattern;
  *
  */
 public class ApplicationUserValidator {
-  
+
+  protected static final Logger LOGGER = LoggerFactory.getLogger(ApplicationUserValidator.class);
   private static final String FIRST_NAME_REGEX = "^[A-Za-z]+";
   private static final Pattern FIRST_NAME_PATTERN = Pattern.compile(FIRST_NAME_REGEX);
   private static final String LAST_NAME_REGEX = "^[A-Za-z]+";
@@ -28,7 +31,9 @@ public class ApplicationUserValidator {
   public static void validateFirstNameFormat(String firstName) {
     Matcher matcher = FIRST_NAME_PATTERN.matcher(firstName);
     if (!matcher.matches()) {
-      throw new KameHouseInvalidDataException("Invalid first name: " + firstName);
+      String errorMessage = "Invalid first name: " + firstName;
+      LOGGER.error(errorMessage);
+      throw new KameHouseInvalidDataException(errorMessage);
     }
   }   
 
@@ -38,7 +43,9 @@ public class ApplicationUserValidator {
   public static void validateLastNameFormat(String lastName) {
     Matcher matcher = LAST_NAME_PATTERN.matcher(lastName);
     if (!matcher.matches()) {
-      throw new KameHouseInvalidDataException("Invalid last name: " + lastName);
+      String errorMessage = "Invalid last name: " + lastName;
+      LOGGER.error(errorMessage);
+      throw new KameHouseInvalidDataException(errorMessage);
     }
   }
 }

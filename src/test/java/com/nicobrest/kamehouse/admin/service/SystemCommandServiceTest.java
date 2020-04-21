@@ -129,7 +129,8 @@ public class SystemCommandServiceTest {
   @Test
   public void execIOExceptionTest() throws Exception {
     when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
-    List<String> errorStream = Arrays.asList("An error occurred executing the command");
+    List<String> errorStream = Arrays.asList("An error occurred executing the command. Message: " +
+        "null");
     List<SystemCommand> systemCommands = Arrays.asList(new VlcStatusSystemCommand());
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);

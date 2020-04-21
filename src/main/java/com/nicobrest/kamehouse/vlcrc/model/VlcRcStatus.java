@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
+import com.nicobrest.kamehouse.main.utils.JsonUtils;
+
 import java.util.List;
 import java.util.Map;
 
@@ -202,6 +204,11 @@ public class VlcRcStatus {
     this.information = information;
   }
 
+  @Override
+  public String toString() {
+    return JsonUtils.toJsonString(this, super.toString());
+  }
+
   /**
    * Equalizer element of the VlcRcStatus.
    */
@@ -235,6 +242,11 @@ public class VlcRcStatus {
 
     public void setPreAmp(int preAmp) {
       this.preAmp = preAmp;
+    }
+
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
     }
   }
 
@@ -287,6 +299,11 @@ public class VlcRcStatus {
 
     public void setGamma(int gamma) {
       this.gamma = gamma;
+    }
+
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
     }
   }
 
@@ -466,6 +483,11 @@ public class VlcRcStatus {
     public void setDecodedVideo(int decodedVideo) {
       this.decodedVideo = decodedVideo;
     }
+
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
+    }
   }
 
   /**
@@ -546,6 +568,11 @@ public class VlcRcStatus {
       this.video = video;
     }
 
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
+    }
+
     /**
      * Audio element of the Information class of VlcRcStatus.
      */
@@ -612,6 +639,11 @@ public class VlcRcStatus {
 
       public void setLanguage(String language) {
         this.language = language;
+      }
+
+      @Override
+      public String toString() {
+        return JsonUtils.toJsonString(this, super.toString());
       }
     }
 
@@ -682,6 +714,11 @@ public class VlcRcStatus {
       public void setArtworkUrl(String artworkUrl) {
         this.artworkUrl = artworkUrl;
       }
+
+      @Override
+      public String toString() {
+        return JsonUtils.toJsonString(this, super.toString());
+      }
     }
 
     /**
@@ -723,6 +760,11 @@ public class VlcRcStatus {
 
       public void setLanguage(String language) {
         this.language = language;
+      }
+
+      @Override
+      public String toString() {
+        return JsonUtils.toJsonString(this, super.toString());
       }
     }
 
@@ -801,6 +843,11 @@ public class VlcRcStatus {
 
       public void setLanguage(String language) {
         this.language = language;
+      }
+
+      @Override
+      public String toString() {
+        return JsonUtils.toJsonString(this, super.toString());
       }
     }
   }

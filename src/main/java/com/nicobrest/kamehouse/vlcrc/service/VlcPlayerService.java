@@ -63,6 +63,7 @@ public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDt
    * Gets a VLC Player by hostname.
    */
   public VlcPlayer getByHostname(String hostname) {
+    logger.trace("Getting VlcPlayer {}", hostname);
     return vlcPlayerDao.getByHostname(hostname);
   }
 

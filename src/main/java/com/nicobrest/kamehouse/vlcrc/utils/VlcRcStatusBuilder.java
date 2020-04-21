@@ -28,7 +28,7 @@ import java.util.Map.Entry;
  */
 public class VlcRcStatusBuilder {
 
-  private static final Logger logger = LoggerFactory.getLogger(VlcRcStatusBuilder.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(VlcRcStatusBuilder.class);
   private static final String FILENAME = "filename";
   private static final String ARTIST = "artist";
   private static final String SETTING = "setting";
@@ -61,7 +61,7 @@ public class VlcRcStatusBuilder {
       setVlcRcStatusEqualizer(vlcStatusResponseJson, vlcRcStatus);
       setVlcRcStatusInformation(vlcStatusResponseJson, vlcRcStatus);
     } catch (IOException e) {
-      logger.error("Error parsing input VlcRcStatus", e);
+      LOGGER.error("Error parsing input VlcRcStatus", e);
       vlcRcStatus = null;
     }
     return vlcRcStatus;
@@ -251,7 +251,7 @@ public class VlcRcStatusBuilder {
             setInformationSubtitle(categoryNode, name, information);
             break;
           default:
-            logger.warn("Unrecognized Information category Type returned by VLC: {}", type);
+            LOGGER.warn("Unrecognized Information category Type returned by VLC: {}", type);
             break;
         }
       }

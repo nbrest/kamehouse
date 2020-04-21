@@ -34,7 +34,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>>
       setShutdown(@RequestParam(value = "delay", required = true) Integer delay) {
-    logger.trace("/api/v1/admin/power-management/shutdown?delay=value (POST)");
+    logger.trace("/api/v1/admin/power-management/shutdown?delay={} (POST)", delay);
     return execAdminCommand(new ShutdownAdminCommand(delay));
   }
 

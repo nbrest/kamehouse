@@ -49,7 +49,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   @JsonIgnore
   private static final long serialVersionUID = 1L;
   @JsonIgnore
-  private static final Logger logger = LoggerFactory.getLogger(VlcPlayer.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(VlcPlayer.class);
   @JsonIgnore
   private static final String PROTOCOL = "http://";
   @JsonIgnore
@@ -228,6 +228,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     HttpClient client = HttpClientUtils.getClient(username, password);
     HttpGet request = HttpClientUtils.httpGet(url);
     HttpResponse response;
+    LOGGER.trace("Request to VLC: {}", url);
     try {
       response = HttpClientUtils.execRequest(client, request);
       try (InputStream resInStream = HttpClientUtils.getInputStreamFromResponse(response);
@@ -237,10 +238,12 @@ public class VlcPlayer implements Identifiable, Serializable {
         while ((line = responseReader.readLine()) != null) {
           responseBody.append(line);
         }
-        return responseBody.toString();
+        String responseFromVlc = responseBody.toString();
+        LOGGER.trace("Response from VLC: {}", responseFromVlc);
+        return responseFromVlc;
       }
     } catch (IOException e) {
-      logger.error("Error executing request. Message: {}", e.getMessage());
+      LOGGER.error("Error executing request. Message: {}", e.getMessage());
       return null;
     }
   }
@@ -270,6 +273,7 @@ public class VlcPlayer implements Identifiable, Serializable {
       }
       return vlcRcPlaylist;
     } catch (IOException e) {
+      LOGGER.error("Unable to build VlcRC playlist", e);
       throw new KameHouseException(e);
     }
   }
@@ -323,6 +327,7 @@ public class VlcPlayer implements Identifiable, Serializable {
       }
       return vlcRcFilelist;
     } catch (IOException e) {
+      LOGGER.error("Unable to build VlcRC file list", e);
       throw new KameHouseException(e);
     }
   }
@@ -345,6 +350,7 @@ public class VlcPlayer implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    return JsonUtils.toJsonString(this, super.toString());
+    String[] hiddenFields = { "password" };
+    return JsonUtils.toJsonString(this, super.toString(), hiddenFields);
   }
 }

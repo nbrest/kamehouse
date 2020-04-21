@@ -36,7 +36,7 @@ import java.util.List;
 public class DragonBallController extends AbstractCrudController {
 
   private static final String DB_USERS = "/dragonball/users";
-  private static final String DB_USERS_ID = "/dragonball/users/{id}";
+  private static final String DB_USERS_ID = "/dragonball/users/";
   
   @Autowired
   private DragonBallUserService dragonBallUserService;
@@ -56,7 +56,7 @@ public class DragonBallController extends AbstractCrudController {
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> read(@PathVariable Long id) {
-    return read(DB_USERS_ID, dragonBallUserService, id);
+    return read(DB_USERS_ID + id, dragonBallUserService, id);
   }
 
   /**
@@ -84,7 +84,7 @@ public class DragonBallController extends AbstractCrudController {
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
-    return update(DB_USERS_ID, dragonBallUserService, id, dto);
+    return update(DB_USERS_ID + id, dragonBallUserService, id, dto);
   }
 
   /**
@@ -93,7 +93,7 @@ public class DragonBallController extends AbstractCrudController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
-    return delete(DB_USERS_ID, dragonBallUserService, id);
+    return delete(DB_USERS_ID + id, dragonBallUserService, id);
   }
 
   /**
@@ -106,7 +106,7 @@ public class DragonBallController extends AbstractCrudController {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first dot
-    logger.trace("/dragonball/users/username/{username:.+} (GET)");
+    logger.trace("/dragonball/users/username/{} (GET)", username);
     DragonBallUser dbUser = dragonBallUserService.getByUsername(username);
     return generateGetResponseEntity(dbUser);
   }
@@ -119,7 +119,7 @@ public class DragonBallController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<String> getByEmail(@RequestParam(value = "email",
       required = true) String email) {
-    logger.trace("/dragonball/users/emails?email=value (GET)");
+    logger.trace("/dragonball/users/emails?email={} (GET)", email);
     DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
     String dbUserJson = JsonUtils.toJsonString(dbUser);
     // Leaving this one as is as a test instead of using
@@ -135,7 +135,7 @@ public class DragonBallController extends AbstractCrudController {
   @GetMapping(path = "/model-and-view")
   public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
       defaultValue = "Goku") String name) {
-    logger.trace("/dragonball/model-and-view (GET)");
+    logger.trace("/dragonball/model-and-view?name={} (GET)", name);
     String message = "dragonball ModelAndView!";
     ModelAndView mv = new ModelAndView("/test-module/jsp/dragonball/model-and-view");
     mv.addObject("message", message);

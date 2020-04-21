@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,12 +12,13 @@ import java.io.IOException;
 
 /**
  * Utility class to process jsons.
- * 
+ *
  * @author nbrest
  */
 public class JsonUtils {
 
-  private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
+  private static final String HIDDEN_FROM_LOGS = "Field content hidden from logs.";
 
   private JsonUtils() {
     throw new IllegalStateException("Utility class");
@@ -32,14 +34,40 @@ public class JsonUtils {
   }
 
   /**
+   * Converts an object to a JSON string filtering the specified hidden fields.
+   * Returns the specified default value if the conversion to JSON fails.
+   */
+  public static String toJsonString(Object object, String defaultValue, String[] hiddenFields) {
+    try {
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectNode objectNode = objectMapper.valueToTree(object);
+      for (String hiddenField : hiddenFields) {
+        if (objectNode.has(hiddenField)) {
+          objectNode.remove(hiddenField);
+          objectNode.put(hiddenField, HIDDEN_FROM_LOGS);
+        }
+      }
+      return objectMapper.writer().writeValueAsString(objectNode);
+    } catch (IOException e) {
+      LOGGER.error("Error formatting object as json", e);
+      return defaultValue;
+    }
+  }
+
+  /**
    * Converts an object to a JSON string. Returns the specified default value if
    * the conversion to JSON fails.
    */
   public static String toJsonString(Object object, String defaultValue) {
     try {
-      return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
+      /*
+        If I ever need output with pretty print, create a new method
+        toJsonStringPrettyPrint that uses the pretty print writer;
+        new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
+      */
+      return new ObjectMapper().writer().writeValueAsString(object);
     } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-      logger.error("Error formatting object as json", e);
+      LOGGER.error("Error formatting object as json", e);
       return defaultValue;
     }
   }

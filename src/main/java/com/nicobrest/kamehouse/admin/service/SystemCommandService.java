@@ -1,5 +1,5 @@
 package com.nicobrest.kamehouse.admin.service;
- 
+
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.main.utils.ProcessUtils;
@@ -20,9 +20,8 @@ import java.util.List;
 
 /**
  * Service to execute and manage system commands.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Service
 public class SystemCommandService {
@@ -32,7 +31,7 @@ public class SystemCommandService {
   private static final String FAILED = "failed";
   private static final String RUNNING = "running";
   private static final String EXCEPTION_EXECUTING_PROCESS =
-      "Exception occurred while executing the process. Message: {}";
+      "Error occurred while executing the process.";
 
   /**
    * Executes an AdminCommand. Translates it to system commands and executes them.
@@ -48,7 +47,7 @@ public class SystemCommandService {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
-    logger.trace("Executing system command {}", commandOutput.getCommand());
+    logger.debug("Executing system command {}", commandOutput.getCommand());
     Process process;
     try {
       process = ProcessUtils.start(processBuilder);
@@ -70,13 +69,19 @@ public class SystemCommandService {
         commandOutput.setStatus(RUNNING);
       }
     } catch (IOException e) {
-      logger.error(EXCEPTION_EXECUTING_PROCESS, e.getMessage());
+      logger.error(EXCEPTION_EXECUTING_PROCESS, e);
       commandOutput.setExitCode(1);
       commandOutput.setStatus(FAILED);
-      commandOutput.setStandardError(Arrays.asList("An error occurred executing the command"));
+      commandOutput.setStandardError(Arrays.asList(
+          "An error occurred executing the command. Message: " + e.getMessage()));
     } catch (InterruptedException e) {
-      logger.error(EXCEPTION_EXECUTING_PROCESS, e.getMessage());
+      logger.error(EXCEPTION_EXECUTING_PROCESS, e);
       Thread.currentThread().interrupt();
+    }
+    if (FAILED.equals(commandOutput.getStatus())) {
+      logger.error("Command output: {}", commandOutput.toString());
+    } else {
+      logger.trace("Command output: {}", commandOutput.toString());
     }
     return commandOutput;
   }
@@ -100,11 +105,11 @@ public class SystemCommandService {
   private void getStreamsFromProcess(Process process, SystemCommand.Output commandOutput)
       throws IOException {
     try (InputStream processInputStream = ProcessUtils.getInputStream(process);
-        BufferedReader processBufferedReader =
-            new BufferedReader(new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
-        InputStream processErrorStream = ProcessUtils.getErrorStream(process);
-        BufferedReader processErrorBufferedReader =
-            new BufferedReader(new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
+         BufferedReader processBufferedReader =
+             new BufferedReader(new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
+         InputStream processErrorStream = ProcessUtils.getErrorStream(process);
+         BufferedReader processErrorBufferedReader = new BufferedReader(
+             new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
       // Read command standard output stream
       List<String> processStandardOuputList = readStreamIntoList(processBufferedReader);
       commandOutput.setStandardOutput(processStandardOuputList);

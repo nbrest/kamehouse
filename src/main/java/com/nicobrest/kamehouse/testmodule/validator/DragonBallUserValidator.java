@@ -1,6 +1,8 @@
 package com.nicobrest.kamehouse.testmodule.validator;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class to validate the attributes of a DragonBallUser.
@@ -9,7 +11,9 @@ import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
  *
  */
 public class DragonBallUserValidator {
-  
+
+  protected static final Logger LOGGER = LoggerFactory.getLogger(DragonBallUserValidator.class);
+
   private DragonBallUserValidator() {
     throw new IllegalStateException("Utility class");
   }
@@ -19,8 +23,9 @@ public class DragonBallUserValidator {
    */
   public static void validatePositiveValue(int value) {
     if (value < 0) {
-      throw new KameHouseInvalidDataException(
-          "The attribute should be a positive value. Current value: " + value);
+      String errorMessage = "The attribute should be a positive value. Current value: " + value;
+      LOGGER.error(errorMessage);
+      throw new KameHouseInvalidDataException(errorMessage);
     }
   }
 }

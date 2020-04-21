@@ -5,6 +5,8 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.List;
  */
 @Service
 public class VlcRcService {
+
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private VlcPlayerService vlcPlayerService;
@@ -34,6 +38,7 @@ public class VlcRcService {
    * Gets the status information of the specified VLC Player.
    */
   public VlcRcStatus getVlcRcStatus(String hostname) {
+    logger.trace("Getting VlcRcStatus from {}", hostname);
     return vlcPlayerService.getByHostname(hostname).getVlcRcStatus();
   }
 
@@ -41,6 +46,7 @@ public class VlcRcService {
    * Executes a command in the specified VLC Player.
    */
   public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String hostname) {
+    logger.trace("Executing VlcRcCommand {} in {}", vlcRcCommand.toString(), hostname);
     return vlcPlayerService.getByHostname(hostname).execute(vlcRcCommand);
   }
 
@@ -48,6 +54,7 @@ public class VlcRcService {
    * Gets the current playlist for the selected VLC Player.
    */
   public List<VlcRcPlaylistItem> getPlaylist(String hostname) {
+    logger.trace("Getting playlist from {}", hostname);
     return vlcPlayerService.getByHostname(hostname).getPlaylist();
   }
 
@@ -55,6 +62,7 @@ public class VlcRcService {
    * Browses the file system of the selected VLC Player.
    */
   public List<VlcRcFileListItem> browse(String uri, String hostname) {
+    logger.trace("Browsing {} in {}", uri, hostname);
     return vlcPlayerService.getByHostname(hostname).browse(uri);
   }
 }

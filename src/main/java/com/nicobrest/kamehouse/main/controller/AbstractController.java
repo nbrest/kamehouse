@@ -16,10 +16,10 @@ import org.springframework.http.ResponseEntity;
  */
 public abstract class AbstractController {
 
-  protected final Logger logger = LoggerFactory.getLogger(getClass());
-
   protected static final ResponseEntity<Void> EMPTY_SUCCESS_RESPONSE =
       new ResponseEntity<>(HttpStatus.OK);
+  protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
    * Generates a standard response entity for get requests.
@@ -48,8 +48,10 @@ public abstract class AbstractController {
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
+      LOGGER.trace("response {}", entity.toString());
       responseEntity = new ResponseEntity<>(entity, HttpStatus.CREATED);
     } else {
+      LOGGER.warn("Empty response. Entity not found.");
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;
@@ -61,11 +63,14 @@ public abstract class AbstractController {
    */
   protected static void validatePathAndRequestBodyIds(Long pathId, Long requestBodyId) {
     if (pathId == null) {
-      throw new KameHouseBadRequestException("Invalid id in path.");
+      String errorMessage = "Invalid id in path.";
+      LOGGER.error(errorMessage);
+      throw new KameHouseBadRequestException(errorMessage);
     }
     if (!pathId.equals(requestBodyId)) {
-      throw new KameHouseBadRequestException(
-          "Id in path variable doesn't match id in request body.");
+      String errorMessage = "Id in path variable doesn't match id in request body.";
+      LOGGER.error(errorMessage);
+      throw new KameHouseBadRequestException(errorMessage);
     }
   }
 
@@ -76,8 +81,10 @@ public abstract class AbstractController {
   private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
+      LOGGER.trace("response {}", entity.toString());
       responseEntity = ResponseEntity.ok(entity);
     } else {
+      LOGGER.warn("Empty response. Entity not found.");
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;

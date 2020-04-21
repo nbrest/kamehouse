@@ -25,7 +25,7 @@ import java.io.InputStream;
  */
 public class HttpClientUtils {
 
-  private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtils.class);
 
   private HttpClientUtils() {
     throw new IllegalStateException("Utility class");
@@ -70,7 +70,7 @@ public class HttpClientUtils {
     try {
       return URIUtil.encodeQuery(parameter);
     } catch (URIException | IllegalArgumentException e) {
-      logger.error("Failed to encode parameter: {}", parameter);
+      LOGGER.error("Failed to encode parameter: " + parameter, e);
       return null;
     }
   }

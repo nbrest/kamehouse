@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class FileUtils {
 
-  private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
 
   private FileUtils() {
     throw new IllegalStateException("Utility class");
@@ -38,7 +38,7 @@ public class FileUtils {
         decodedFileContent = new String(decodedFileContentBytes, StandardCharsets.UTF_8);
       }
     } catch (IOException | IllegalArgumentException e) {
-      logger.error("Error decoding file {}", filename, e);
+      LOGGER.error("Error decoding file " + filename, e);
       decodedFileContent = "ERROR_READING_FILE";
     }
     if (StringUtils.isEmpty(decodedFileContent)) {

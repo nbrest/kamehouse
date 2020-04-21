@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.media.video.service;
 
 import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
-import com.nicobrest.kamehouse.media.video.model.PlaylistComparator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +34,7 @@ public class VideoPlaylistService {
    * Gets all video playlists.
    */
   public List<Playlist> getAll() {
+    logger.trace("Getting all playlists");
     String userHome = PropertiesUtils.getUserHome();
     String videoPlaylistsHome;
     if (PropertiesUtils.isWindowsHost()) {
@@ -65,10 +65,10 @@ public class VideoPlaylistService {
         }
       }
     } catch (IOException e) {
-      logger.error("An exception occurred while getting all the video playlists. Message: {}", e
-          .getMessage());
+      logger.error("An error occurred while getting all the video playlists", e);
     }
-    videoPlaylists.sort(new PlaylistComparator());
+    videoPlaylists.sort(new Playlist.Comparator());
+    logger.trace(videoPlaylists.toString());
     return videoPlaylists;
   }
 

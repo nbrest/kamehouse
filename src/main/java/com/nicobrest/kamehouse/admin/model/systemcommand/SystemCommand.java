@@ -21,7 +21,7 @@ public abstract class SystemCommand {
   protected boolean isDaemon = false;
   protected List<String> linuxCommand = new ArrayList<>();
   protected List<String> windowsCommand = new ArrayList<>();
-  private Output output = new Output();
+  protected Output output = new Output();
 
   public boolean isDaemon() {
     return isDaemon;
@@ -47,23 +47,11 @@ public abstract class SystemCommand {
   }
 
   /**
-   * Sets the Output command, hiding it if its is a vncdo command, as it contains
-   * passwords. Call this method in the constructor of <b>EVERY</b> concrete subclass,
+   * Sets the Output command. Call this method in the constructor of <b>EVERY</b> concrete subclass,
    * after initializing the command lists.
    */
   protected void setOutputCommand() {
-    if (isVncdoCommand(getCommand())) {
-      output.setCommand("[vncdo (hidden from logs as it contains passwords)]");
-    } else {
-      output.setCommand(getCommand().toString());
-    }
-  }
-  
-  /**
-   * Returns true if the command is a vncdo command.
-   */
-  private boolean isVncdoCommand(List<String> command) {
-    return command.contains("vncdo") || (command.size() >= 3 && command.get(2).contains("vncdo"));
+    output.setCommand(getCommand().toString());
   }
   
   @Override

@@ -29,7 +29,7 @@ import java.util.List;
 public class ApplicationUserController extends AbstractCrudController {
 
   private static final String APP_USERS = "/application/users";
-  private static final String APP_USERS_ID = "/application/users/{id}";
+  private static final String APP_USERS_ID = "/application/users/";
   
   @Autowired
   private ApplicationUserService applicationUserService;
@@ -50,7 +50,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<ApplicationUser> read(@PathVariable Long id) {
     ResponseEntity<ApplicationUser> responseEntity =
-        read(APP_USERS_ID, applicationUserService, id);
+        read(APP_USERS_ID + id, applicationUserService, id);
     // Don't return the password through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;
@@ -75,7 +75,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ApplicationUserDto dto) {
-    return update(APP_USERS_ID, applicationUserService, id, dto);
+    return update(APP_USERS_ID + id, applicationUserService, id, dto);
   }
 
   /**
@@ -85,7 +85,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<ApplicationUser> delete(@PathVariable Long id) {
     ResponseEntity<ApplicationUser> responseEntity =
-        delete(APP_USERS_ID, applicationUserService, id);
+        delete(APP_USERS_ID + id, applicationUserService, id);
     // Don't return the password through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;
@@ -97,10 +97,10 @@ public class ApplicationUserController extends AbstractCrudController {
   @GetMapping(path = "/users/username/{username:.+}")
   @ResponseBody
   public ResponseEntity<ApplicationUser> loadUserByUsername(@PathVariable String username) {
-    logger.trace("/application/users/username/{username:.+} (GET)");
+    logger.trace("/application/users/username/{} (GET)", username);
     ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
     // Don't return the password through the API.
-    applicationUser.setPassword(null);
+    removePassword(applicationUser);
     return generateGetResponseEntity(applicationUser);
   }
 

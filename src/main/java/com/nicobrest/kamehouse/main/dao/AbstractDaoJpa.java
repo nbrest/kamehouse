@@ -25,8 +25,6 @@ import javax.persistence.Query;
  */
 public abstract class AbstractDaoJpa {
 
-  protected final Logger logger = LoggerFactory.getLogger(getClass());
-
   private static final String NO_RESULT_EXCEPTION =
       "NoResultException: Entity not found in the repository.";
   private static final String CONSTRAINT_VIOLATION_EXCEPTION =
@@ -36,6 +34,8 @@ public abstract class AbstractDaoJpa {
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
   private static final String ILLEGAL_ARGUMENT =
       "IllegalArgumentException. There was an error in the input of the request.";
+  protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractDaoJpa.class);
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private EntityManagerFactory entityManagerFactory;
@@ -63,10 +63,11 @@ public abstract class AbstractDaoJpa {
       entitiesList = em.createQuery("from " + clazz.getSimpleName(), clazz).getResultList();
       em.getTransaction().commit();
     } catch (PersistenceException pe) {
-      throw new KameHouseServerErrorException(PERSISTENCE_EXCEPTION, pe);
+      handlePersistentException(pe);
     } finally {
       em.close();
     }
+    LOGGER.debug("findAll {}", entitiesList.toString());
     return entitiesList;
   }
 
@@ -87,6 +88,7 @@ public abstract class AbstractDaoJpa {
       entity = em.find(clazz, id);
       em.getTransaction().commit();
       if (entity == null) {
+        logger.warn(clazz.getSimpleName() + WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
         throw new KameHouseNotFoundException(
             clazz.getSimpleName() + WITH_ID + id + NOT_FOUND_IN_REPOSITORY);
       }
@@ -97,6 +99,7 @@ public abstract class AbstractDaoJpa {
     } finally {
       em.close();
     }
+    LOGGER.debug("findById {}", entity.toString());
     return entity;
   }
 
@@ -133,6 +136,9 @@ public abstract class AbstractDaoJpa {
     } finally {
       em.close();
     }
+    if (entity != null) {
+      LOGGER.debug("findByAttribute {} {}", attributeName, entity.toString());
+    }
     return entity;
   }
 
@@ -156,6 +162,7 @@ public abstract class AbstractDaoJpa {
   protected <T> void updateEntityInRepository(Class<T> clazz, T entity, Long entityId) {
     EntityManager em = getEntityManager();
     try {
+      LOGGER.debug("updateEntityInRepository {}", entity.toString());
       em.getTransaction().begin();
       T persistedEntity = em.find(clazz, entityId);
       if (persistedEntity != null) {
@@ -164,6 +171,7 @@ public abstract class AbstractDaoJpa {
       }
       em.getTransaction().commit();
       if (persistedEntity == null) {
+        logger.warn(clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY);
         throw new KameHouseNotFoundException(
             clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY);
       }
@@ -196,16 +204,18 @@ public abstract class AbstractDaoJpa {
       }
       em.getTransaction().commit();
       if (entityToRemove == null) {
+        logger.warn(clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY);
         throw new KameHouseNotFoundException(
             clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY);
       }
     } catch (PersistenceException pe) {
-      throw new KameHouseServerErrorException(PERSISTENCE_EXCEPTION, pe);
+      handlePersistentException(pe);
     } catch (IllegalArgumentException e) {
       handleIllegalArgumentException(e);
     } finally {
       em.close();
     }
+    LOGGER.debug("deleteEntityFromRepository {}", entityToRemove.toString());
     return entityToRemove;
   }
 
@@ -223,6 +233,9 @@ public abstract class AbstractDaoJpa {
       handlePersistentException(pe);
     } finally {
       em.close();
+    }
+    if (addedEntity != null) {
+      LOGGER.debug("addEntityToRepository {}", addedEntity.toString());
     }
     return addedEntity;
   }
@@ -256,6 +269,7 @@ public abstract class AbstractDaoJpa {
    */
   private static void handlePersistentException(PersistenceException pe) {
     Throwable cause = pe;
+    LOGGER.error(pe.getMessage(), pe);
     while (cause != null) {
       if (cause instanceof org.hibernate.exception.ConstraintViolationException) {
         throw new KameHouseConflictException(CONSTRAINT_VIOLATION_EXCEPTION, pe);
@@ -273,6 +287,7 @@ public abstract class AbstractDaoJpa {
    * IllegalArgumentException.
    */
   private static void handleIllegalArgumentException(IllegalArgumentException ex) {
+    LOGGER.error(ex.getMessage(), ex);
     throw new KameHouseBadRequestException(ILLEGAL_ARGUMENT, ex);
   }
 }

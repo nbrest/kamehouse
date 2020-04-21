@@ -48,7 +48,7 @@ public class SessionStatusService {
       sessionStatus.setFirstName(applicationUser.getFirstName());
       sessionStatus.setLastName(applicationUser.getLastName()); 
     } catch (UsernameNotFoundException e) {
-      logger.trace(e.getMessage());
+      logger.warn(e.getMessage());
     }
     return sessionStatus;
   }

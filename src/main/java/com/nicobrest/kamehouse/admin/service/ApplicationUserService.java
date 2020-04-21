@@ -85,6 +85,7 @@ public class ApplicationUserService extends
 
   @Override
   public ApplicationUser loadUserByUsername(String username) {
+    logger.trace("Loading ApplicationUser {}", username);
     if (username.equals("anonymousUser")) {
       return anonymousUser;
     }

@@ -33,7 +33,7 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>>
       startVlcPlayer(@RequestParam(value = "file", required = false) String file) {
-    logger.trace("/api/v1/admin/vlc?file=value (POST)");
+    logger.trace("/api/v1/admin/vlc?file={} (POST)", file);
     return execAdminCommand(new VlcStartAdminCommand(file));
   }
 

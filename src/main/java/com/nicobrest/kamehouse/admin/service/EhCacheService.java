@@ -43,13 +43,18 @@ public class EhCacheService {
   public ApplicationCache get(String cacheName) {
     logger.trace("Getting information for cache: {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
-    return getCacheInformation(cache);
+    ApplicationCache applicationCache = getCacheInformation(cache);
+    if (applicationCache != null) {
+      logger.trace(applicationCache.toString());
+    }
+    return applicationCache;
   }
 
   /**
    * Returns the status of all the ehcaches.
    */
   public List<ApplicationCache> getAll() {
+    logger.trace("Getting information for all caches");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     List<ApplicationCache> cacheList = new ArrayList<>();
 
@@ -59,6 +64,7 @@ public class EhCacheService {
         cacheList.add(applicationCache);
       }
     }
+    logger.trace(cacheList.toString());
     return cacheList;
   }
 
@@ -77,6 +83,7 @@ public class EhCacheService {
    * Clears all the ehcaches.
    */
   public void clearAll() {
+    logger.trace("Clearing all caches");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     for (int i = 0; i < cacheNames.length; i++) {
       clear(cacheNames[i]);

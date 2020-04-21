@@ -14,7 +14,7 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    * Creates an entity of the specified type in the repository.
    */
   public <T> Long create(Class<T> clazz, T entity) {
-    logger.trace("Create {}", clazz.getSimpleName());
+    logger.trace("Create {} {}", clazz.getSimpleName(), entity.toString());
     persistEntityInRepository(entity);
     Identifiable identifiableEntity = (Identifiable) entity;
     return identifiableEntity.getId();
@@ -24,7 +24,7 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    * Reads an entity of the specified type from the repository.
    */
   public <T> T read(Class<T> clazz, Long id) {
-    logger.trace("Read {}", clazz.getSimpleName());
+    logger.trace("Read {} {}", clazz.getSimpleName(), id);
     return findById(clazz, id);
   }
   
@@ -32,7 +32,7 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    * Reads all entities of the specified type from the repository.
    */
   public <T> List<T> readAll(Class<T> clazz) {
-    logger.trace("Read all  {}", clazz.getSimpleName());
+    logger.trace("ReadAll {}", clazz.getSimpleName());
     return findAll(clazz);
   }
   
@@ -49,7 +49,7 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    * Deletes an entity of the specified type from the repository.
    */
   public <T> T delete(Class<T> clazz, Long id) {
-    logger.trace("Delete {}", clazz.getSimpleName());
+    logger.trace("Delete {} {}", clazz.getSimpleName(), id);
     return deleteEntityFromRepository(clazz, id);
   }
 }

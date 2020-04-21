@@ -84,6 +84,7 @@ public class VlcPlayerDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    return JsonUtils.toJsonString(this, super.toString());
+    String[] hiddenFields = { "password" };
+    return JsonUtils.toJsonString(this, super.toString(), hiddenFields);
   }
 }

@@ -64,6 +64,7 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
    * Returns a single instance of a DragonBallUser looking up by username.
    */
   public DragonBallUser getByUsername(String username) {
+    logger.trace("Getting dragonBallUser {}", username);
     return dragonBallUserDao.getByUsername(username);
   }
 
@@ -71,6 +72,7 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
    * Returns a single instance of a DragonBallUser looking up by email.
    */
   public DragonBallUser getByEmail(String email) {
+    logger.trace("Getting dragonBallUser {}", email);
     return dragonBallUserDao.getByEmail(email);
   }
 

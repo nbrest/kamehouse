@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  */
 public class PasswordUtils {
   
-  private static final Logger logger = LoggerFactory.getLogger(PasswordUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PasswordUtils.class);
   private static final int LOG_ROUNDS = 12;
 
   private PasswordUtils() {
@@ -34,7 +34,7 @@ public class PasswordUtils {
     try {
       isValidPassword = BCrypt.checkpw(plainTextPassword, hashedPassword);
     } catch (IllegalArgumentException e) {
-      logger.error("Exception validating password.", e);
+      LOGGER.error("Error validating password.", e);
     }
     return isValidPassword;
   }
