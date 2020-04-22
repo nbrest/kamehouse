@@ -14,10 +14,12 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    * Creates an entity of the specified type in the repository.
    */
   public <T> Long create(Class<T> clazz, T entity) {
-    logger.trace("Create {} {}", clazz.getSimpleName(), entity.toString());
+    logger.trace("Create {} {}", clazz.getSimpleName(), entity);
     persistEntityInRepository(entity);
     Identifiable identifiableEntity = (Identifiable) entity;
-    return identifiableEntity.getId();
+    Long createdId = identifiableEntity.getId();
+    logger.trace("Create {} {} response {}", clazz.getSimpleName(), entity, createdId);
+    return createdId;
   }
 
   /**
@@ -25,7 +27,9 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    */
   public <T> T read(Class<T> clazz, Long id) {
     logger.trace("Read {} {}", clazz.getSimpleName(), id);
-    return findById(clazz, id);
+    T entity = findById(clazz, id);
+    logger.trace("Read {} {} response {}", clazz.getSimpleName(), id, entity);
+    return entity;
   }
   
   /**
@@ -33,7 +37,9 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    */
   public <T> List<T> readAll(Class<T> clazz) {
     logger.trace("ReadAll {}", clazz.getSimpleName());
-    return findAll(clazz);
+    List<T> returnedEntities = findAll(clazz);
+    logger.trace("ReadAll {} response {}", clazz.getSimpleName(), returnedEntities);
+    return returnedEntities;
   }
   
   /**
@@ -43,6 +49,7 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
     logger.trace("Update {}", entity);
     Identifiable identifiableEntity = (Identifiable) entity;
     updateEntityInRepository(clazz, entity, identifiableEntity.getId());
+    logger.trace("Update {} completed successfully", entity);
   }
 
   /**
@@ -50,6 +57,8 @@ public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
    */
   public <T> T delete(Class<T> clazz, Long id) {
     logger.trace("Delete {} {}", clazz.getSimpleName(), id);
-    return deleteEntityFromRepository(clazz, id);
+    T deletedEntity = deleteEntityFromRepository(clazz, id);
+    logger.trace("Delete {} {} response {}", clazz.getSimpleName(), id, deletedEntity);
+    return deletedEntity;
   }
 }

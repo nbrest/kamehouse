@@ -23,6 +23,9 @@ import java.util.List;
 public class DragonBallUserService extends AbstractCrudService<DragonBallUser, DragonBallUserDto>
     implements CrudService<DragonBallUser, DragonBallUserDto> {
 
+  private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
+  private static final String GET_DRAGONBALLUSER_RESPONSE = "Get DragonBallUser: {} response {}";
+
   @Autowired
   @Qualifier("dragonBallUserDaoJpa")
   private DragonBallUserDao dragonBallUserDao;
@@ -64,16 +67,20 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
    * Returns a single instance of a DragonBallUser looking up by username.
    */
   public DragonBallUser getByUsername(String username) {
-    logger.trace("Getting dragonBallUser {}", username);
-    return dragonBallUserDao.getByUsername(username);
+    logger.trace(GET_DRAGONBALLUSER, username);
+    DragonBallUser dragonBallUser = dragonBallUserDao.getByUsername(username);
+    logger.trace(GET_DRAGONBALLUSER_RESPONSE, username, dragonBallUser);
+    return dragonBallUser;
   }
 
   /**
    * Returns a single instance of a DragonBallUser looking up by email.
    */
   public DragonBallUser getByEmail(String email) {
-    logger.trace("Getting dragonBallUser {}", email);
-    return dragonBallUserDao.getByEmail(email);
+    logger.trace(GET_DRAGONBALLUSER, email);
+    DragonBallUser dragonBallUser = dragonBallUserDao.getByEmail(email);
+    logger.trace(GET_DRAGONBALLUSER_RESPONSE, email, dragonBallUser);
+    return dragonBallUser;
   }
 
   @Override

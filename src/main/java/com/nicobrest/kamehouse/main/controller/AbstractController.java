@@ -10,15 +10,15 @@ import org.springframework.http.ResponseEntity;
 /**
  * Superclass to all controllers that groups common functionality to all of
  * them.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public abstract class AbstractController {
 
   protected static final ResponseEntity<Void> EMPTY_SUCCESS_RESPONSE =
       new ResponseEntity<>(HttpStatus.OK);
-  protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
+  protected static final Logger STATIC_LOGGER = LoggerFactory.getLogger(AbstractController.class);
+  // I define the non static logger here to avoid having to define it in every controller
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
@@ -39,6 +39,7 @@ public abstract class AbstractController {
    * Generates a standard response entity for put requests.
    */
   protected static ResponseEntity<Void> generatePutResponseEntity() {
+    STATIC_LOGGER.trace("PUT operation executed successfully");
     return EMPTY_SUCCESS_RESPONSE;
   }
 
@@ -48,10 +49,10 @@ public abstract class AbstractController {
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
-      LOGGER.trace("response {}", entity.toString());
+      STATIC_LOGGER.trace("Response {}", entity);
       responseEntity = new ResponseEntity<>(entity, HttpStatus.CREATED);
     } else {
-      LOGGER.warn("Empty response. Entity not found.");
+      STATIC_LOGGER.warn("Empty response. Entity not found.");
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;
@@ -63,13 +64,14 @@ public abstract class AbstractController {
    */
   protected static void validatePathAndRequestBodyIds(Long pathId, Long requestBodyId) {
     if (pathId == null) {
-      String errorMessage = "Invalid id in path.";
-      LOGGER.error(errorMessage);
+      String errorMessage = "Id is required in the path.";
+      STATIC_LOGGER.error(errorMessage);
       throw new KameHouseBadRequestException(errorMessage);
     }
     if (!pathId.equals(requestBodyId)) {
-      String errorMessage = "Id in path variable doesn't match id in request body.";
-      LOGGER.error(errorMessage);
+      String errorMessage = "Id in path " + pathId
+          + " doesn't match id in request body " + requestBodyId;
+      STATIC_LOGGER.error(errorMessage);
       throw new KameHouseBadRequestException(errorMessage);
     }
   }
@@ -81,10 +83,10 @@ public abstract class AbstractController {
   private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
-      LOGGER.trace("response {}", entity.toString());
+      STATIC_LOGGER.trace("Response {}", entity);
       responseEntity = ResponseEntity.ok(entity);
     } else {
-      LOGGER.warn("Empty response. Entity not found.");
+      STATIC_LOGGER.warn("Empty response. Entity not found.");
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;

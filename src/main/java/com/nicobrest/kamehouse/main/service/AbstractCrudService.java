@@ -20,10 +20,12 @@ public abstract class AbstractCrudService<E, D> {
    * Creates an entity in the repository from the DTO.
    */
   protected Long create(CrudDao<E> dao, D dto) {
-    logger.trace("Create {}", dto.toString());
+    logger.trace("Create {}", dto);
     E entity = getModel(dto);
     validate(entity);
-    return dao.create(entity);
+    Long createdId = dao.create(entity);
+    logger.trace("Create {} response {}", dto, createdId);
+    return createdId;
   }
 
   /**
@@ -31,7 +33,9 @@ public abstract class AbstractCrudService<E, D> {
    */
   protected E read(CrudDao<E> dao, Long id) {
     logger.trace("Read {}", id);
-    return dao.read(id);
+    E entity = dao.read(id);
+    logger.trace("Read {} response {}", id, entity);
+    return entity;
   }
 
   /**
@@ -39,17 +43,20 @@ public abstract class AbstractCrudService<E, D> {
    */
   protected List<E> readAll(CrudDao<E> dao) {
     logger.trace("ReadAll");
-    return dao.readAll();
+    List<E> returnedEntities = dao.readAll();
+    logger.trace("ReadAll response {}", returnedEntities);
+    return returnedEntities;
   }
 
   /**
    * Updates an entity in the repository from the DTO.
    */
   protected void update(CrudDao<E> dao, D dto) {
-    logger.trace("Update {}", dto.toString());
+    logger.trace("Update {}", dto);
     E entity = getModel(dto);
     validate(entity);
     dao.update(entity);
+    logger.trace("Update {} completed successfully", dto);
   }
 
   /**
@@ -57,7 +64,9 @@ public abstract class AbstractCrudService<E, D> {
    */
   protected E delete(CrudDao<E> dao, Long id) {
     logger.trace("Delete {}", id);
-    return dao.delete(id);
+    E deletedEntity = dao.delete(id);
+    logger.trace("Delete {} response {}", id, deletedEntity);
+    return deletedEntity;
   }
 
   /**

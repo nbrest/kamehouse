@@ -16,6 +16,7 @@ import java.util.List;
 public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBallUserDao {
 
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
+  private static final String GET_DRAGONBALLUSER_RESPONSE = "Get DragonBallUser: {} response {}";
   private static final String DRAGONBALL_USERS_CACHE = "dragonBallUsers";
   private static final String DRAGONBALL_USER_CACHE = "dragonBallUser";
   private static final String DRAGONBALL_USER_BY_USERNAME_CACHE = "dragonBallUserByUsername";
@@ -58,14 +59,18 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBa
   @Cacheable(value = DRAGONBALL_USER_BY_USERNAME_CACHE)
   public DragonBallUser getByUsername(String username) {
     logger.trace(GET_DRAGONBALLUSER, username);
-    return findByUsername(DragonBallUser.class, username);
+    DragonBallUser dragonBallUser = findByUsername(DragonBallUser.class, username);
+    logger.trace(GET_DRAGONBALLUSER_RESPONSE, username, dragonBallUser);
+    return dragonBallUser;
   }
 
   @Override
   @Cacheable(value = DRAGONBALL_USER_BY_EMAIL_CACHE)
   public DragonBallUser getByEmail(String email) {
     logger.trace(GET_DRAGONBALLUSER, email);
-    return findByEmail(DragonBallUser.class, email);
+    DragonBallUser dragonBallUser = findByEmail(DragonBallUser.class, email);
+    logger.trace(GET_DRAGONBALLUSER_RESPONSE, email, dragonBallUser);
+    return dragonBallUser;
   }
 
   @Override

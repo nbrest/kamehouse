@@ -85,12 +85,15 @@ public class ApplicationUserService extends
 
   @Override
   public ApplicationUser loadUserByUsername(String username) {
-    logger.trace("Loading ApplicationUser {}", username);
+    logger.trace("loadUserByUsername {}", username);
     if (username.equals("anonymousUser")) {
+      logger.trace("loadUserByUsername {} response {}", username, anonymousUser);
       return anonymousUser;
     }
     try {
-      return applicationUserDao.loadUserByUsername(username);
+      ApplicationUser applicationUser = applicationUserDao.loadUserByUsername(username);
+      logger.trace("loadUserByUsername {} response {}", username, applicationUser);
+      return applicationUser;
     } catch (KameHouseNotFoundException e) {
       throw new UsernameNotFoundException(e.getMessage(), e);
     }

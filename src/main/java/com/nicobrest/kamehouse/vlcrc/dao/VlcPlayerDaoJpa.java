@@ -49,8 +49,10 @@ public class VlcPlayerDaoJpa extends AbstractCrudDaoJpa implements VlcPlayerDao 
   @Override
   @Cacheable(value = VLC_PLAYER_CACHE)
   public VlcPlayer getByHostname(String hostname) {
-    logger.trace("Get VlcPlayer: {}", hostname);
-    return findByAttribute(VlcPlayer.class, "hostname", hostname);
+    logger.trace("Get VlcPlayer {}", hostname);
+    VlcPlayer response = findByAttribute(VlcPlayer.class, "hostname", hostname);
+    logger.trace("Get VlcPlayer {} response {}", hostname, response);
+    return response;
   }
 
   @Override

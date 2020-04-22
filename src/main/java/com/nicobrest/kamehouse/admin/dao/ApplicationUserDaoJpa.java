@@ -42,8 +42,10 @@ public class ApplicationUserDaoJpa extends AbstractCrudDaoJpa implements Applica
 
   @Override
   public ApplicationUser loadUserByUsername(String username) {
-    logger.trace("Loading ApplicationUser: {}", username);
-    return findByUsername(ApplicationUser.class, username);
+    logger.trace("loadUserByUsername {}", username);
+    ApplicationUser applicationUser = findByUsername(ApplicationUser.class, username);
+    logger.trace("loadUserByUsername {} response {}", username, applicationUser);
+    return applicationUser;
   }
   
   @Override

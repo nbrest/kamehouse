@@ -38,7 +38,7 @@ public class SessionStatusService {
    * Returns the current session's status.
    */
   public SessionStatus get() {
-    logger.trace("Getting current session status");
+    logger.trace("get");
     Authentication authentication = getAuthentication();
     String username = authentication.getName();
     SessionStatus sessionStatus = new SessionStatus();
@@ -50,6 +50,7 @@ public class SessionStatusService {
     } catch (UsernameNotFoundException e) {
       logger.warn(e.getMessage());
     }
+    logger.trace("get response {}", sessionStatus);
     return sessionStatus;
   }
   

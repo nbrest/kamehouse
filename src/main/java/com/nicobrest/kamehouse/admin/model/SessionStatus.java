@@ -7,9 +7,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Represents the session status information that can be returned by the API.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class SessionStatus {
 

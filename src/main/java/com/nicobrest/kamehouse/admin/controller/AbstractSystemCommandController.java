@@ -29,7 +29,7 @@ public class AbstractSystemCommandController extends AbstractController {
    * list.
    */
   public ResponseEntity<List<SystemCommand.Output>> execAdminCommand(AdminCommand adminCommand) {
-    logger.trace("Executing admin command {}", adminCommand.toString());
+    logger.trace("Executing admin command {}", adminCommand);
     List<SystemCommand.Output> commandOutputs = systemCommandService.execute(adminCommand);
     return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
@@ -46,9 +46,9 @@ public class AbstractSystemCommandController extends AbstractController {
       }
     }
     if (httpStatus.equals(HttpStatus.OK)) {
-      LOGGER.trace("response {}", commandOutputs.toString());
+      STATIC_LOGGER.trace("Response {}", commandOutputs);
     } else {
-      LOGGER.error("response {}", commandOutputs.toString());
+      STATIC_LOGGER.error("Response {}", commandOutputs);
     }
     return new ResponseEntity<>(commandOutputs, httpStatus);
   }

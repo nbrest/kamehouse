@@ -41,12 +41,10 @@ public class EhCacheService {
    * Returns the cache information of the cache specified as a parameter.
    */
   public ApplicationCache get(String cacheName) {
-    logger.trace("Getting information for cache: {}", cacheName);
+    logger.trace("get {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     ApplicationCache applicationCache = getCacheInformation(cache);
-    if (applicationCache != null) {
-      logger.trace(applicationCache.toString());
-    }
+    logger.trace("get {} response {}", applicationCache);
     return applicationCache;
   }
 
@@ -54,17 +52,16 @@ public class EhCacheService {
    * Returns the status of all the ehcaches.
    */
   public List<ApplicationCache> getAll() {
-    logger.trace("Getting information for all caches");
+    logger.trace("getAll");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     List<ApplicationCache> cacheList = new ArrayList<>();
-
     for (int i = 0; i < cacheNames.length; i++) {
       ApplicationCache applicationCache = get(cacheNames[i]);
       if (applicationCache != null) {
         cacheList.add(applicationCache);
       }
     }
-    logger.trace(cacheList.toString());
+    logger.trace("getAll response {}", cacheList);
     return cacheList;
   }
 
@@ -72,10 +69,13 @@ public class EhCacheService {
    * Clears the ehcache specified as a parameter.
    */
   public void clear(String cacheName) {
-    logger.trace("Clearing cache: {}", cacheName);
+    logger.trace("clear {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     if (cache != null) {
       cache.removeAll();
+      logger.trace("clear {} successfully", cacheName);
+    } else {
+      logger.warn("cache {} not found", cacheName);
     }
   }
 
@@ -83,7 +83,7 @@ public class EhCacheService {
    * Clears all the ehcaches.
    */
   public void clearAll() {
-    logger.trace("Clearing all caches");
+    logger.trace("clearAll");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
     for (int i = 0; i < cacheNames.length; i++) {
       clear(cacheNames[i]);

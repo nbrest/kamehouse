@@ -47,7 +47,7 @@ public class SystemCommandService {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
-    logger.debug("Executing system command {}", commandOutput.getCommand());
+    logger.debug("execute {}", commandOutput.getCommand());
     Process process;
     try {
       process = ProcessUtils.start(processBuilder);
@@ -79,9 +79,9 @@ public class SystemCommandService {
       Thread.currentThread().interrupt();
     }
     if (FAILED.equals(commandOutput.getStatus())) {
-      logger.error("Command output: {}", commandOutput.toString());
+      logger.error("execute {} response {}", systemCommand, commandOutput);
     } else {
-      logger.trace("Command output: {}", commandOutput.toString());
+      logger.trace("execute {} response {}", systemCommand, commandOutput);
     }
     return commandOutput;
   }

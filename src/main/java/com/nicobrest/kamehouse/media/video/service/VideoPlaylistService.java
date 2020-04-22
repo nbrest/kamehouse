@@ -34,7 +34,7 @@ public class VideoPlaylistService {
    * Gets all video playlists.
    */
   public List<Playlist> getAll() {
-    logger.trace("Getting all playlists");
+    logger.trace("getAll");
     String userHome = PropertiesUtils.getUserHome();
     String videoPlaylistsHome;
     if (PropertiesUtils.isWindowsHost()) {
@@ -68,7 +68,7 @@ public class VideoPlaylistService {
       logger.error("An error occurred while getting all the video playlists", e);
     }
     videoPlaylists.sort(new Playlist.Comparator());
-    logger.trace(videoPlaylists.toString());
+    logger.trace("getAll response {}", videoPlaylists);
     return videoPlaylists;
   }
 
