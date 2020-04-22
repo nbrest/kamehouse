@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.nicobrest.kamehouse.main.utils.StringUtils.sanitizeInput;
+
 /**
  * Service class to manage the ehcache in the system.
  * 
@@ -75,7 +77,7 @@ public class EhCacheService {
       cache.removeAll();
       logger.trace("clear {} successfully", cacheName);
     } else {
-      logger.warn("cache {} not found", cacheName);
+      logger.warn("cache {} not found", sanitizeInput(cacheName));
     }
   }
 
