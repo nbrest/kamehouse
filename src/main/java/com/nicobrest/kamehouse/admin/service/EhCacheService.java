@@ -44,7 +44,7 @@ public class EhCacheService {
     logger.trace("get {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
     ApplicationCache applicationCache = getCacheInformation(cache);
-    logger.trace("get {} response {}", applicationCache);
+    logger.trace("get {} response {}", cacheName, applicationCache);
     return applicationCache;
   }
 
