@@ -274,7 +274,7 @@ public class VlcPlayer implements Identifiable, Serializable {
       return vlcRcPlaylist;
     } catch (IOException e) {
       LOGGER.error("Unable to build VlcRC playlist", e);
-      throw new KameHouseException(e);
+      throw new KameHouseException(e.getMessage(), e);
     }
   }
 
@@ -328,7 +328,7 @@ public class VlcPlayer implements Identifiable, Serializable {
       return vlcRcFilelist;
     } catch (IOException e) {
       LOGGER.error("Unable to build VlcRC file list", e);
-      throw new KameHouseException(e);
+      throw new KameHouseException(e.getMessage(), e);
     }
   }
 

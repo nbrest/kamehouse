@@ -284,9 +284,11 @@ public abstract class AbstractDaoJpa {
       }
       cause = cause.getCause();
     }
-    String errorMessage = PERSISTENCE_EXCEPTION + pe.getMessage();
-    STATIC_LOGGER.error(errorMessage, pe);
-    throw new KameHouseServerErrorException(errorMessage, pe);
+    if (pe != null) {
+      String errorMessage = PERSISTENCE_EXCEPTION + pe.getMessage();
+      STATIC_LOGGER.error(errorMessage, pe);
+      throw new KameHouseServerErrorException(errorMessage, pe);
+    }
   }
 
   /**
