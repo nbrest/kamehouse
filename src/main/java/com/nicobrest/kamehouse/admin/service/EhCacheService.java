@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.admin.service;
 
+import static com.nicobrest.kamehouse.main.utils.StringUtils.sanitizeInput;
+
 import com.nicobrest.kamehouse.admin.model.ApplicationCache;
 
 import net.sf.ehcache.Cache;
@@ -14,13 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.nicobrest.kamehouse.main.utils.StringUtils.sanitizeInput;
-
 /**
  * Service class to manage the ehcache in the system.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Service
 public class EhCacheService {
