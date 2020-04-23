@@ -79,9 +79,9 @@ public class SystemCommandService {
       Thread.currentThread().interrupt();
     }
     if (FAILED.equals(commandOutput.getStatus())) {
-      logger.error("execute {} response {}", systemCommand, commandOutput);
+      logger.error("execute {} response {}", commandOutput.getCommand(), commandOutput);
     } else {
-      logger.trace("execute {} response {}", systemCommand, commandOutput);
+      logger.trace("execute {} response {}", commandOutput.getCommand(), commandOutput);
     }
     return commandOutput;
   }
