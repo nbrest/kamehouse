@@ -16,9 +16,11 @@ function importServerManagementCss() {
 
 function doGet(url) {
   log("DEBUG", "Executing GET on " + url);
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "GET", null, null, null);
   $.get(url)
     .success(function(result) {
-      displayRequestPayload(result, url, "GET", null);
+      displayRequestPayload(requestTimestamp, url, "GET", null, getTimestamp(), result);
     })
     .error(function(jqXHR, textStatus, errorThrown) {
       log("ERROR", JSON.stringify(jqXHR));
@@ -29,6 +31,8 @@ function doGet(url) {
 
 function doPost(url, requestBody) {
   log("DEBUG", "Executing POST on " + url);
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "POST", requestBody, null, null);
   var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "POST",
@@ -36,7 +40,7 @@ function doPost(url, requestBody) {
     data: requestBody,
     headers: requestHeaders,
     success: function(data) {
-      displayRequestPayload(data, url, "POST", requestBody);
+      displayRequestPayload(requestTimestamp, url, "POST", requestBody, getTimestamp(), data);
     },
     error: function(data) {
       log("ERROR", JSON.stringify(data));
@@ -49,6 +53,8 @@ function doPost(url, requestBody) {
 /** Execute a POST request to the specified url with the specified request url parameters. */
 function doPostUrlEncoded(url, requestParam) {
   log("DEBUG", "Executing POST on " + url + " with requestParam " + JSON.stringify(requestParam));
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "POST", requestParam, null, null);
   var requestHeaders = getUrlEncodedHeaders();
   $.ajax({
     type: "POST",
@@ -56,7 +62,7 @@ function doPostUrlEncoded(url, requestParam) {
     data: requestParam,
     headers: requestHeaders,
     success: function (data) {
-      displayRequestPayload(data, url, "POST", requestParam);
+      displayRequestPayload(requestTimestamp, url, "POST", requestParam, getTimestamp(), data);
     },
     error: function (data) {
       log("ERROR", JSON.stringify(data));
@@ -68,6 +74,8 @@ function doPostUrlEncoded(url, requestParam) {
 
 function doDelete(url, requestBody) {
   log("DEBUG", "Executing DELETE on " + url);
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "DELETE", requestBody, null, null);
   var requestHeaders = getCsrfRequestHeadersObject();
   $.ajax({
     type: "DELETE",
@@ -75,7 +83,7 @@ function doDelete(url, requestBody) {
     data: requestBody,
     headers: requestHeaders,
     success: function(data) {
-      displayRequestPayload(data, url, "DELETE", requestBody);
+      displayRequestPayload(requestTimestamp, url, "DELETE", requestBody, getTimestamp(), data);
     },
     error: function(data) {
       log("ERROR", JSON.stringify(data));

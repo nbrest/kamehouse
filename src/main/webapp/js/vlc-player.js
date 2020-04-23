@@ -29,9 +29,11 @@ var main = function () {
 /** Execute get on the specified url and display the output in the debug table. */
 function doGet(url) {
   log("DEBUG", "Executing GET on " + url);
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "GET", null, null, null);
   $.get(url)
     .success(function (result) {
-      displayRequestPayload(result, url, "GET", null);
+      displayRequestPayload(requestTimestamp, url, "GET", null, getTimestamp(), result);
     })
     .error(function (jqXHR, textStatus, errorThrown) {
       log("ERROR", JSON.stringify(jqXHR));
@@ -47,6 +49,8 @@ function doGet(url) {
 /** Execute a POST request to the specified url with the specified request body. */
 function doPost(url, requestBody) {
   log("DEBUG", "Executing POST on " + url + " with requestBody " + JSON.stringify(requestBody));
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "POST", requestBody, null, null);
   var requestHeaders = getApplicationJsonHeaders();
   $.ajax({
     type: "POST",
@@ -56,7 +60,7 @@ function doPost(url, requestBody) {
     success: function (data) {
       log("TRACE", JSON.stringify(data, null, 2));
       getVlcRcStatus();
-      displayRequestPayload(data, url, "POST", requestBody);
+      displayRequestPayload(requestTimestamp, url, "POST", requestBody, getTimestamp(), data);
     },
     error: function (data) {
       log("ERROR", JSON.stringify(data));
@@ -69,6 +73,8 @@ function doPost(url, requestBody) {
 /** Execute a POST request to the specified url with the specified request url parameters. */
 function doPostUrlEncoded(url, requestParam) {
   log("DEBUG", "Executing POST on " + url + " with requestParam " + JSON.stringify(requestParam));
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "POST", requestParam, null, null);
   var requestHeaders = getUrlEncodedHeaders();
   $.ajax({
     type: "POST",
@@ -78,7 +84,7 @@ function doPostUrlEncoded(url, requestParam) {
     success: function (data) {
       log("TRACE", JSON.stringify(data, null, 2));
       getVlcRcStatus();
-      displayRequestPayload(data, url, "POST", requestParam);
+      displayRequestPayload(requestTimestamp, url, "POST", requestParam, getTimestamp(), data);
     },
     error: function (data) {
       log("ERROR", JSON.stringify(data));
@@ -91,6 +97,8 @@ function doPostUrlEncoded(url, requestParam) {
 /** Execute a DELETE request to the specified url with the specified request body. */
 function doDelete(url, requestBody) {
   log("DEBUG", "Executing DELETE on " + url + " with requestBody " + JSON.stringify(requestBody));
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "DELETE", requestBody, null, null);
   var requestHeaders = getApplicationJsonHeaders();
   $.ajax({
     type: "DELETE",
@@ -101,7 +109,7 @@ function doDelete(url, requestBody) {
       log("TRACE", JSON.stringify(data));
       getVlcRcStatus();
       asyncReloadPlaylist(5000);
-      displayRequestPayload(data, url, "DELETE", requestBody);
+      displayRequestPayload(requestTimestamp, url, "DELETE", requestBody, getTimestamp(), data);
     },
     error: function (data) {
       log("ERROR", JSON.stringify(data));
@@ -418,10 +426,12 @@ function setMuteButtonUnpressed(mediaButtonId) {
 function reloadPlaylist() {
   var getPlaylistUrl = '/kame-house/api/v1/vlc-rc/players/localhost/playlist';
   log("DEBUG", "Reloading playlist");
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, getPlaylistUrl, "GET", null, null, null);
   $.get(getPlaylistUrl)
     .success(function (result) {
       displayPlaylist(result);
-      displayRequestPayload(result, getPlaylistUrl, "GET", null);
+      displayRequestPayload(requestTimestamp, getPlaylistUrl, "GET", null, getTimestamp(), result);
     })
     .error(function (jqXHR, textStatus, errorThrown) {
       log("ERROR", JSON.stringify(jqXHR));

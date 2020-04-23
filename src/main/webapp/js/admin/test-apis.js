@@ -15,9 +15,11 @@ function importTestApisCss() {
 /** Executes a get request and displays the api call output. */
 function doGet(url) {
   console.debug(getTimestamp() + " : Executing GET on " + url);
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "GET", null, null, null);
   $.get(url)
     .success(function (result) {
-      displayRequestPayload(result, url, "GET", null);
+      displayRequestPayload(requestTimestamp, url, "GET", null, getTimestamp(), result);
     })
     .error(function (jqXHR, textStatus, errorThrown) {
       console.error(JSON.stringify(jqXHR));
@@ -30,6 +32,8 @@ function doGet(url) {
 /** Execute a POST request to the specified url with the specified request url parameters. */
 function doPostUrlEncoded(url, requestParam) {
   log("DEBUG", "Executing POST on " + url + " with requestParam " + JSON.stringify(requestParam));
+  var requestTimestamp = getTimestamp();
+  displayRequestPayload(requestTimestamp, url, "POST", requestParam, null, null);
   var requestHeaders = getUrlEncodedHeaders();
   $.ajax({
     type: "POST",
@@ -37,7 +41,7 @@ function doPostUrlEncoded(url, requestParam) {
     data: requestParam,
     headers: requestHeaders,
     success: function (data) {
-      displayRequestPayload(data, url, "POST", requestParam);
+      displayRequestPayload(requestTimestamp, url, "POST", requestParam, getTimestamp(), data);
     },
     error: function (data) {
       log("ERROR", JSON.stringify(data));

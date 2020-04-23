@@ -3,7 +3,7 @@
  */
 function main() { 
   importApiCallOutputCss();
-  displayRequestPayload(null, null, null, null);
+  displayRequestPayload(null, null, null, null, null, null);
 }
 
 /** Import api-call-output css*/
@@ -14,31 +14,36 @@ function importApiCallOutputCss() {
 /**
  * Display api call output.
  */
-function displayRequestPayload(apiResponsePayload, url, requestType, requestBody) {
+function displayRequestPayload(requestTimestamp, url, requestType, requestBody, responseTimestamp, apiResponsePayload) {
   emptyApiCallOutputDiv();
   //console.debug(apiResponsePayload);
   var $apiCallOutput = $("#api-call-output");
   var $apiCallOutputTable = $('<table class="table table-bordered table-responsive table-bordered-kh">');
+  // Request Timestamp row.
+  var $requestTimestampRow = $("<tr>");
+  $requestTimestampRow.append($('<td>').text("Request Timestamp"));
+  $requestTimestampRow.append($('<td>').text(requestTimestamp));
+  $apiCallOutputTable.append($requestTimestampRow);
+  // Url row.
+  var $urlRow = $("<tr>");
+  $urlRow.append($('<td>').text("Request Url"));
+  $urlRow.append($('<td>').text(url));
+  $apiCallOutputTable.append($urlRow);
   // Request Type row.
   var $requestTypeRow = $("<tr>");
   $requestTypeRow.append($('<td>').text("Request Type"));
   $requestTypeRow.append($('<td>').text(requestType));
   $apiCallOutputTable.append($requestTypeRow);
-  // Url row.
-  var $urlRow = $("<tr>");
-  $urlRow.append($('<td>').text("Url"));
-  $urlRow.append($('<td>').text(url));
-  $apiCallOutputTable.append($urlRow);
   // Request Body row.
   var $requestBodyRow = $("<tr>");
   $requestBodyRow.append($('<td>').text("Request Body"));
   $requestBodyRow.append($('<td>').text(JSON.stringify(requestBody, null, 2)));
   $apiCallOutputTable.append($requestBodyRow);
   // Time row.
-  var $timeRow = $("<tr>");
-  $timeRow.append($('<td>').text("Time"));
-  $timeRow.append($('<td>').text(getTimestamp()));
-  $apiCallOutputTable.append($timeRow);
+  var $responseTimestampRow = $("<tr>");
+  $responseTimestampRow.append($('<td>').text("Response Timestamp"));
+  $responseTimestampRow.append($('<td>').text(responseTimestamp));
+  $apiCallOutputTable.append($responseTimestampRow);
   $apiCallOutput.append($apiCallOutputTable);
   // Output payload.
   var $outputPayloadButton = $('<button class="collapsible-kh">');
