@@ -139,6 +139,8 @@ The goals of logging in my application are being able to troubleshoot issues qui
 #### v1.01
 
 * Updated logging strategy in the backend. Added a lot more logging in all layers.
+* Rewrote a lot of the frontend code. Started splitting into prototypes (Logger, HttpClient, TimeUtils, etc) and moving away from global functions and variables
+* Updated logging in the frontend. Created a Logger prototype standard log methods and methods to trace/debug function calls.
 
 #### v1.00
 

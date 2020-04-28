@@ -10,10 +10,11 @@ var SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
  * Render header and footer.
  */
 function renderHeaderAndFooter() {
+  logger.traceFunctionCall();
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
   $("body").prepend('<div id="headerContainer"></div>');
   $("#headerContainer").load("/kame-house/html-snippets/header.html", function() {
-	updateHeaderLoginStatus();
+	  updateHeaderLoginStatus();
     updateActiveTab();
     updateSessionStatus(); 
   });
@@ -26,6 +27,7 @@ function renderHeaderAndFooter() {
  * Set active tab in the menu.
  */
 function updateActiveTab() {
+  logger.traceFunctionCall();
   var pageUrl = window.location.pathname; 
   $("#headerContainer header .default-layout #header-menu a").toArray().forEach(function(navItem) {
     $(navItem).removeClass("active");  
@@ -66,8 +68,11 @@ function updateActiveTab() {
   });
 }
 
-/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+/** 
+ * Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon 
+ */
 function toggleHeaderNav() {
+  logger.traceFunctionCall();
   var x = document.getElementById("header-menu");
   if (x.className === "header-nav") {
     x.className += " responsive";
@@ -76,23 +81,27 @@ function toggleHeaderNav() {
   }
 }
 
-/** Update session status. */
+/** 
+ * Update session status. 
+ */
 function updateSessionStatus() {
-  $.get(SESSION_STATUS_URL)
-  .success(function(data) {
-	log("TRACE", JSON.stringify(data));
-	global.session = data;
-	updateHeaderLoginStatus(); 
-  })
-  .error(function(jqXHR, textStatus, errorThrown) {
-    log("ERROR", "Error retrieving current session information.");
-  });
+  logger.traceFunctionCall();
+  httpClient.get(SESSION_STATUS_URL, null,
+    function success(responseBody, responseCode, responseDescription) {
+      logger.trace("Sessin Status: " + JSON.stringify(responseBody));
+      global.session = responseBody;
+      updateHeaderLoginStatus();
+    },
+    function error(responseBody, responseCode, responseDescription) {
+      logger.error("Error retrieving current session information.");
+    });
 }
 
 /**
  * Update header login status.
  */
 function updateHeaderLoginStatus() {
+  logger.traceFunctionCall();
   var $loginStatus = $("#login-status");
   $loginStatus.empty();
   if (isEmpty(global.session.username) || global.session.username.trim() == "" 

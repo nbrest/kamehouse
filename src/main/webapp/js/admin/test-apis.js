@@ -14,46 +14,37 @@ function importTestApisCss() {
 
 /** Executes a get request and displays the api call output. */
 function doGet(url) {
-  console.debug(getTimestamp() + " : Executing GET on " + url);
-  var requestTimestamp = getTimestamp();
-  displayRequestPayload(requestTimestamp, url, "GET", null, null, null);
-  $.get(url)
-    .success(function (result) {
-      displayRequestPayload(requestTimestamp, url, "GET", null, getTimestamp(), result);
-    })
-    .error(function (jqXHR, textStatus, errorThrown) {
-      console.error(JSON.stringify(jqXHR));
-      displayErrorExecutingRequest();
+  logger.traceFunctionCall();
+  displayRequestData(url, "GET", null);
+  httpClient.get(url, null,
+    function success(responseBody, responseCode, responseDescription) {
+      displayResponseData(responseBody, responseCode);
+    },
+    function error(responseBody, responseCode, responseDescription) {
+      displayResponseData(responseBody, responseCode);
     });
   scrollToTop();
-  setCollapsibleContent();
 }
 
 /** Execute a POST request to the specified url with the specified request url parameters. */
 function doPostUrlEncoded(url, requestParam) {
-  log("DEBUG", "Executing POST on " + url + " with requestParam " + JSON.stringify(requestParam));
-  var requestTimestamp = getTimestamp();
-  displayRequestPayload(requestTimestamp, url, "POST", requestParam, null, null);
-  var requestHeaders = getUrlEncodedHeaders();
-  $.ajax({
-    type: "POST",
-    url: url,
-    data: requestParam,
-    headers: requestHeaders,
-    success: function (data) {
-      displayRequestPayload(requestTimestamp, url, "POST", requestParam, getTimestamp(), data);
+  logger.traceFunctionCall();
+  var urlEncoded = encodeURI(url + "?" + requestParam);
+  displayRequestData(urlEncoded, "POST", null);
+  var requestHeaders = httpClient.getUrlEncodedHeaders();
+  httpClient.post(urlEncoded, requestHeaders, null,
+    function success(responseBody, responseCode, responseDescription) {
+      displayResponseData(responseBody, responseCode);
     },
-    error: function (data) {
-      log("ERROR", JSON.stringify(data));
-      displayErrorExecutingRequest();
-    }
-  });
-  setCollapsibleContent();
+    function error(responseBody, responseCode, responseDescription) {
+      displayResponseData(responseBody, responseCode);
+    });
 }
 
 /** Reload VLC with the file passed as a parameter. */
 function loadFileInVlc(url, file) {
-  log("DEBUG", "Selected file: " + file);
+  logger.traceFunctionCall();
+  logger.debug("Selected file: " + file);
   var requestParam = "file=" + file;
   doPostUrlEncoded(url, requestParam);
 }

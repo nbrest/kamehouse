@@ -1,5 +1,5 @@
 function main() {
-	importSiteUnderConstructionModal();
+  initKameHouse(importSiteUnderConstructionModal);
 }
 
 /**
@@ -25,6 +25,7 @@ function importSiteUnderConstructionModal() {
 
 /** Open site under construction modal. */
 function openSiteUnderCostructionModal() {
+  logger.traceFunctionCall();
 	var siteUnderConstructionModal = document.getElementById("site-under-construction-modal");
 	siteUnderConstructionModal.style.display = "block";
 }

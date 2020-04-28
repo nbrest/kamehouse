@@ -8,7 +8,7 @@ var EHCACHE_REST_API = '/kame-house/api/v1/admin/ehcache';
 
 var main = function() {
   importEhcacheCss();
-  getCacheData();
+  initKameHouse(getCacheData);
 };
 
 /** Import ehcache css */
@@ -20,11 +20,12 @@ function importEhcacheCss() {
  * Get cache data.
  */
 function getCacheData() {
-  $.get(EHCACHE_REST_API)
-    .success(function(result) {
-      displayCacheData(result);
-    })
-    .error(function(jqXHR, textStatus, errorThrown) {
+  logger.traceFunctionCall();
+  httpClient.get(EHCACHE_REST_API, null,
+    function success(responseBody, responseCode, responseDescription) {
+      displayCacheData(responseBody);
+    },
+    function error(responseBody, responseCode, responseDescription) {
       displayErrorGettingCache();
     });
 }
@@ -33,6 +34,7 @@ function getCacheData() {
  * Display cache data.
  */
 function displayCacheData(caches) {
+  logger.traceFunctionCall();
   emptyCacheDataDiv();
   ehcacheToggleTableRowIds = [];
   var $cacheData = $("#cache-data");
@@ -77,55 +79,49 @@ function displayCacheData(caches) {
  * Display error getting cache data.
  */
 function displayErrorGettingCache() {
+  logger.traceFunctionCall();
   emptyCacheDataDiv();
   var $cacheData = $("#cache-data");
   var $errorTable = $('<table class="table table-bordered table-responsive table-ehcache">');
   var $errorTableRow = $("<tr>");
-  $errorTableRow.append($('<td>').text(getTimestamp() +
+  $errorTableRow.append($('<td>').text(timeUtils.getTimestamp() +
     " : Error retrieving cache data. Please try again later."));
   $errorTable.append($errorTableRow);
   $cacheData.append($errorTable);
-  log("ERROR", "Error retrieving cache data. Please try again later.");
+  logger.error("Error retrieving cache data. Please try again later.");
 }
 
 /**
  * Clear cache data.
  */
 function clearCacheData(cacheName) {
-  log("DEBUG", "Clearing " + cacheName);
-  var requestHeaders = getCsrfRequestHeadersObject();
-  $.ajax({
-    type : 'DELETE',
-    url : EHCACHE_REST_API + '?name=' + cacheName,
-    headers: requestHeaders,
-    success : function(data) {
+  logger.traceFunctionCall();
+  var requestHeaders = httpClient.getCsrfRequestHeadersObject();
+  var url = EHCACHE_REST_API + '?name=' + cacheName;
+  httpClient.delete(url, requestHeaders, null,
+    function success(responseBody, responseCode, responseDescription) {
       getCacheData();
     },
-    error : function(data) {
-      log("ERROR", "Error clearing cache " + cacheName);
+    function error(responseBody, responseCode, responseDescription) {
+      logger.error("Error clearing cache " + cacheName);
       getCacheData();
-    }
-  });
+    });
 }
 
 /**
  * Clear all caches.
  */
 function clearAllCaches() {
-  log("DEBUG", "Clearing all caches");
-  var requestHeaders = getCsrfRequestHeadersObject();
-  $.ajax({
-    url : EHCACHE_REST_API,
-    type : 'DELETE',
-    headers: requestHeaders,
-    success : function(data) {
+  logger.traceFunctionCall();
+  var requestHeaders = httpClient.getCsrfRequestHeadersObject();
+  httpClient.delete(EHCACHE_REST_API, requestHeaders, null,
+    function success(responseBody, responseCode, responseDescription) {
       getCacheData();
     },
-    error : function(data) {
-      log("ERROR", "Error clearing all caches");
+    function error(responseBody, responseCode, responseDescription) {
+      logger.error("Error clearing all caches");
       getCacheData();
-    }
-  });
+    });
 }
 
 /**
