@@ -234,12 +234,13 @@ async function startPullVlcRcStatusLoop() {
   logger.debugFunctionCall();
   // Infinite loop to pull VlcRcStatus every 1 second, switch to vlcRcStatusPullWaitTimeMs seconds 
   // if I'm not playing anything.
+  global.infiniteVlcRcStatusLoop = true;
   var vlcRcStatusPullWaitTimeMs = 1000;
   let failedCount = 0;
   if (global.isWebSocketConnected) {
     getVlcRcStatus();
   }
-  while (true) {
+  while (global.infiniteVlcRcStatusLoop) {
     await sleep(vlcRcStatusPullWaitTimeMs);
     if (global.syncVlcStatus) {
       logger.trace("pullVlcRcStatusLoop(): vlcRcStatus:" + JSON.stringify(global.vlcRcStatus));

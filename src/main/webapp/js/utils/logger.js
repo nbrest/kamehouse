@@ -15,8 +15,8 @@ function Logger() {
   //Defaults log level to INFO (2)
   this.logLevel = 2;
 
-  var stripComments = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-  var argumentNames = /([^\s,]+)/g;
+  var stripCommentsRegex = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+  var argumentNamesRegex = /([^\s,]+)/g;
 
   /** Log a specified message with the specified logging level. */
   this.log = function log(logLevel, message) {
@@ -95,7 +95,7 @@ function Logger() {
     var blacklistedFunctions = ["debugFunctionCall", "traceFunctionCall", "success", "error"];
     var callerFunction = "";
     try {
-      var callerFunction = getCallerFunctionName.caller.caller.caller.name;
+      callerFunction = getCallerFunctionName.caller.caller.caller.name;
       if (blacklistedFunctions.includes(callerFunction)) {
         callerFunction = "";
       }
@@ -137,10 +137,10 @@ function Logger() {
 
   /** Get the function argument names of the specified function */
   this.getFunctionArgumentNames = function getFunctionArgumentNames(functionToParse) {
-    var fuctionString = functionToParse.toString().replace(stripComments, '');
-    var arguments = fuctionString.slice(fuctionString.indexOf('(') + 1, fuctionString.indexOf(')')).match(argumentNames);
-    if (arguments === null)
-      arguments = [];
-    return arguments;
+    var fuctionString = functionToParse.toString().replace(stripCommentsRegex, '');
+    var argumentNames = fuctionString.slice(fuctionString.indexOf('(') + 1, fuctionString.indexOf(')')).match(argumentNamesRegex);
+    if (argumentNames === null)
+      argumentNames = [];
+    return argumentNames;
   }  
 }
