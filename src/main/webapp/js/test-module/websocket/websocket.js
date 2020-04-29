@@ -1,6 +1,14 @@
+/**
+ * Test module websocket functionality.
+ * 
+ * Dependencies: logger.
+ * 
+ * @author nbrest
+ */
 /** Main function. */
 var main = function () {
-  initKameHouse(initWebSocket);
+  var loadingModules = ["logger"];
+  waitForModules(loadingModules, initWebSocket);
 };
 
 /** Init function to execute after global dependencies are loaded. */
@@ -45,7 +53,7 @@ function connectWebSocket() {
   stompClient = Stomp.over(socket);
   stompClient.connect({}, function (frame) {
     setConnected(true);
-    console.log('Connected WebSocket: ' + frame);
+    logger.debug('Connected WebSocket: ' + frame);
     stompClient.subscribe('/topic/test-module/websocket-out', function (testWebSocketResponse) {
         showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body));
     });
@@ -58,7 +66,7 @@ function disconnectWebSocket() {
       stompClient.disconnect();
   }
   setConnected(false);
-  console.log("Disconnected WebSocket");
+  logger.debug("Disconnected WebSocket");
 }
 
 function sendWebSocketRequest() {
@@ -69,7 +77,7 @@ function sendWebSocketRequest() {
 
 function showTestWebSocketResponse(testWebSocketResponse) {
   logger.traceFunctionCall();
-  console.log("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponse));
+  logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponse));
   $("#websocket-responses").append("<tr><td>" + testWebSocketResponse.date + " : " 
       + testWebSocketResponse.message + "</td></tr>");
 }

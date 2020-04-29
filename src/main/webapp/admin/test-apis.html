@@ -20,34 +20,42 @@
     <h3 class="h3-kh">Test APIs</h3>
     <hr>
     <h5 class="h5-kh">Request Output</h5>
-    <div id="api-call-output"></div>
+    <div id="api-call-table"></div>
 
     <br><br>
     <h5 class="h5-kh">VLC Load Playlists</h5>
     <input type="button"
-      onclick="loadFileInVlc('/kame-house/api/v1/admin/vlc', 'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
+      onclick="apiTester.loadFileInVlc('/kame-house/api/v1/admin/vlc',
+      'D:\\Series\\game_of_thrones\\GameOfThrones.m3u')"
       value="&#128194; Game Of Thrones Windows" class="btn btn-outline-primary btn-margins" />
     <input type="button"
-      onclick="loadFileInVlc('/kame-house/api/v1/admin/vlc', '/home/nbrest/Videos/lleyton.hewitt.m3u')"
+      onclick="apiTester.loadFileInVlc('/kame-house/api/v1/admin/vlc',
+      '/home/nbrest/Videos/lleyton.hewitt.m3u')"
       value="&#128194; LH Linux" class="btn btn-outline-primary btn-margins" />
 
     <br><br>
     <h5 class="h5-kh">VLC Status</h5>
-    <input type="button" onclick="doGet('/kame-house/api/v1/vlc-rc/players/localhost/status')" value="VLC-RC Status"
+    <input type="button"
+      onclick="apiTester.doGet('/kame-house/api/v1/vlc-rc/players/localhost/status')"
+      value="VLC-RC Status"
       class="btn btn-outline-info btn-margins btn-borderless" />
-    <input type="button" onclick="doGet('/kame-house/api/v1/admin/vlc')" value="VLC Process Status"
+    <input type="button"
+      onclick="apiTester.doGet('/kame-house/api/v1/admin/vlc')"
+      value="VLC Process Status"
       class="btn btn-outline-info btn-margins btn-borderless" />
     <br><br>
     <h5 class="h5-kh">/api/v1/dragonball Requests</h5>
-    <input type="button" onclick="doGet('/kame-house/api/v1/dragonball/users')"
+    <input type="button"
+      onclick="apiTester.doGet('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET" class="btn btn-outline-success" />
     <br><br>
-    <input type="button" onclick="doGet('/kame-house/api/v1/dragonball/users/username/goku')"
+    <input type="button"
+      onclick="apiTester.doGet('/kame-house/api/v1/dragonball/users/username/goku')"
       value="/kame-house/api/v1/dragonball/users/username/goku GET" class="btn btn-outline-success" />
     <br><br>
   </div>
   <script src="/kame-house/js/admin/test-apis.js"></script>
-  <script src="/kame-house/js/snippets/api-call-output.js"></script>
+  <script src="/kame-house/js/snippets/api-call-table.js"></script>
 </body>
 
 </html>

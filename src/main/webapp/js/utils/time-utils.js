@@ -1,6 +1,8 @@
 /**
  * TimeUtils utility object for manipulating time and dates.
  * 
+ * Dependencies: none.
+ * 
  * @author nbrest
  */
 function TimeUtils() {

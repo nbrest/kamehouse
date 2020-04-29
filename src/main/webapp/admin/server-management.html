@@ -20,15 +20,18 @@
     <div class="bg-darker-kh">
     <div class="default-layout screen-section pd-15-d-kh pd-15-m-kh">
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Screen</h5>
-      <input type="button" onclick="doPost('/kame-house/api/v1/admin/screen/unlock', null)"
+      <input type="button" 
+        onclick="serverManager.doPost('/kame-house/api/v1/admin/screen/unlock', null)"
         value="Unlock"
         class="btn btn-outline-success btn-margins btn-borderless" />
       
-      <input type="button" onclick="doPost('/kame-house/api/v1/admin/screen/wake-up', null)"
+      <input type="button"
+        onclick="serverManager.doPost('/kame-house/api/v1/admin/screen/wake-up', null)"
         value="Wake-Up"
         class="btn btn-outline-info btn-margins btn-borderless" />
         
-      <input type="button" onclick="doPost('/kame-house/api/v1/admin/screen/lock', null)"
+      <input type="button"
+        onclick="serverManager.doPost('/kame-house/api/v1/admin/screen/lock', null)"
         value="Lock"
         class="btn btn-outline-danger btn-margins btn-borderless" />
     </div> 
@@ -38,25 +41,30 @@
     <h5 class="h5-kh txt-r-m-kh">Power Management</h5>
     <div class="fl-l-d-kh fl-l-m-kh">
       <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Shutdown</h6>
-      <input type="button" onclick="execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown', 5400)"
+      <input type="button"
+        onclick="serverManager.execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown', 5400)"
         value="90 Min"
         class="btn btn-outline-danger btn-margins btn-borderless" /> 
       
-      <input type="button" onclick="execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown', 60)"
+      <input type="button"
+        onclick="serverManager.execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown', 60)"
         value="1 Min"
         class="btn btn-outline-danger btn-margins btn-borderless" />
 
-      <input type="button" onclick="doDelete('/kame-house/api/v1/admin/power-management/shutdown', null)"
+      <input type="button"
+        onclick="serverManager.doDelete('/kame-house/api/v1/admin/power-management/shutdown', null)"
         value="Cancel"
         class="btn btn-outline-success btn-margins btn-borderless" />
      
-      <input type="button" onclick="doGet('/kame-house/api/v1/admin/power-management/shutdown')"
+      <input type="button"
+        onclick="serverManager.doGet('/kame-house/api/v1/admin/power-management/shutdown')"
         value="Status"
         class="btn btn-outline-primary btn-margins btn-borderless" />
     </div>
     <div class="fl-r-d-kh fl-l-m-kh">
       <h6 class="h6-kh txt-r-d-kh">Suspend</h6>
-      <input type="button" onclick="doPost('/kame-house/api/v1/admin/power-management/suspend', null)"
+      <input type="button"
+        onclick="serverManager.doPost('/kame-house/api/v1/admin/power-management/suspend', null)"
         value="Now"
         class="btn btn-outline-danger btn-margins btn-borderless" />
     </div>
@@ -66,13 +74,13 @@
     <div class="bg-darker-kh pd-15-d-kh pd-15-m-kh">
     <div class="default-layout">
     <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Command output</h5>
-    <div id="api-call-output"></div>
+    <div id="api-call-table"></div>
     </div>
     </div>
     
   </div>
   </div>
   <script src="/kame-house/js/admin/server-management.js"></script>
-  <script src="/kame-house/js/snippets/api-call-output.js"></script>
+  <script src="/kame-house/js/snippets/api-call-table.js"></script>
 </body>
 </html>

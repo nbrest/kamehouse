@@ -1,16 +1,19 @@
 /**
  * HttpClient object to perform http calls.
  * 
+ * Dependencies: logger.
+ * 
  * @author nbrest
  */
 function HttpClient() {
+  var self = this;
 
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.get = function httpGet(url, requestHeaders, successCallback, errorCallback) {
     logger.debugFunctionCall();
-    this.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback)
+    self.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback)
   }
 
   /** Execute an http POST request.
@@ -18,7 +21,7 @@ function HttpClient() {
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.post = function httpPost(url, requestHeaders, requestBody, successCallback, errorCallback) {
     logger.debugFunctionCall();
-    this.httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback)
+    self.httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback)
   }
 
   /** Execute an http PUT request.
@@ -26,7 +29,7 @@ function HttpClient() {
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback) {
     logger.debugFunctionCall();
-    this.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback)
+    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback)
   }
 
   /** Execute an http DELETE request.
@@ -34,7 +37,7 @@ function HttpClient() {
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.delete = function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback) {
     logger.debugFunctionCall();
-    this.httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback)
+    self.httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback)
   }
 
   /** Execute an http request with the specified http method. 
@@ -122,8 +125,8 @@ function HttpClient() {
 
   /** Get CSRF standard requestHeaders object. */
   this.getCsrfRequestHeadersObject = function getCsrfRequestHeadersObject() {
-    var csrfHeader = this.getCsrfHeader();
-    var csrfToken = this.getCsrfToken();
+    var csrfHeader = self.getCsrfHeader();
+    var csrfToken = self.getCsrfToken();
     var requestHeaders = {};
     requestHeaders.Accept = 'application/json';
     requestHeaders['Content-Type'] = 'application/json';

@@ -6,7 +6,7 @@
 <meta name="author" content="nbrest">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>KameHouse - Ehcache</title>
+<title>KameHouse - EhCache</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
@@ -17,9 +17,15 @@
   <div class="default-layout main-body">
   <div>
     <h3 id="ehcache-header">EhCache Status</h3>    
-    <input type="button" onclick="clearAllCaches()" value="Clear All" class="btn btn-outline-danger cache-status-buttons btn-borderless"/>
-    <input type="button" onclick="toggleAllCacheView()" value="Expand/Collapse All" class="btn btn-outline-secondary cache-status-buttons btn-borderless"/>
-    <input type="button" onclick="getCacheData()" value="Refresh" class="btn btn-outline-info cache-status-buttons btn-borderless"/>
+    <input type="button" onclick="ehCacheManager.clearAllCaches()"
+      value="Clear All"
+      class="btn btn-outline-danger cache-status-buttons btn-borderless" />
+    <input type="button" onclick="ehCacheManager.toggleAllCacheView()"
+      value="Expand/Collapse All"
+      class="btn btn-outline-secondary cache-status-buttons btn-borderless" />
+    <input type="button" onclick="ehCacheManager.getAllCacheData()"
+      value="Refresh"
+      class="btn btn-outline-info cache-status-buttons btn-borderless" />
   </div>
     <br><br><hr>
     <div id="cache-data"></div>

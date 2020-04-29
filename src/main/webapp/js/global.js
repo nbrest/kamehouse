@@ -1,6 +1,8 @@
 /**
  * Global js variables and functions for all pages.
  * 
+ * Dependencies: logger, httpClient.
+ * 
  * @author nbrest
  */
 /** 
@@ -9,6 +11,14 @@
 var global = {};
 global.session = {};
 
+/** 
+ * Object that determines which module is loaded. 
+ * For example, when timeUtils gets loaded, set modules.timeUtils = true;
+ * I use it in waitForModules() to check if a module is loaded or not.
+ */
+var modules = {};
+
+/** Global modules */
 var timeUtils;
 var httpClient;
 var logger;
@@ -17,23 +27,34 @@ var logger;
  * ----- Global functions ------------------------------------------------------------------
  */
 function main() {
-  loadTimeUtils();
-  loadLogger();
-  loadHttpClient();
-  initKameHouse(initGlobal);
+  loadModules();
+  var loadingModules = ["logger", "httpClient"];
+  waitForModules(loadingModules, initGlobal);
 }
 
-/** Waits until all global dependencies are loaded, then executes the specified init function.
- * Use this function in the main() of each page that requires global dependencies like logger and httpClient
+/** 
+ * Waits until all specified modules in the moduleNames array are loaded, 
+ * then executes the specified init function.
+ * Use this function in the main() of each page that requires modules like logger and httpClient
  * to be loaded before the main code is executed.
  */
-async function initKameHouse(initFunction) {
-  //console.log("Start initKameHouse");
-  while (isEmpty(httpClient) && isEmpty(logger) && isEmpty(timeUtils)) {
-    //console.log("Waiting initKameHouse");
-    await sleep(100);
+async function waitForModules(moduleNames, initFunction) {
+  //console.log("init: " + initFunction.name + ". Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+  var areAllModulesLoaded = false;
+  while (!areAllModulesLoaded) {
+    //console.log("init: " + initFunction.name + ". Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+    isAnyModuleStillLoading = false;
+    moduleNames.forEach(function (moduleName) {
+      if (!modules[moduleName]) {
+        isAnyModuleStillLoading = true;
+      } 
+    });
+    if (!isAnyModuleStillLoading) {
+      areAllModulesLoaded = true;
+    }
+    await sleep(5);
   }
-  //console.log("Finish initKameHouse");
+  //console.log("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
   initFunction();
 }
 
@@ -43,24 +64,38 @@ function initGlobal() {
   //testLogLevel();
 }
 
+/** Load default modules. */
+function loadModules() {
+  loadTimeUtils();
+  loadLogger();
+  loadHttpClient();
+}
+
 /** Load time utils. */
 function loadTimeUtils() {
   $.getScript("/kame-house/js/utils/time-utils.js", function (data, textStatus, jqxhr) {
     timeUtils = new TimeUtils();
+    modules.timeUtils = true;
   });
 }
 
 /** Load logger object. */
 function loadLogger() {
   $.getScript("/kame-house/js/utils/logger.js", function (data, textStatus, jqxhr) {
-    logger = new Logger();
+    waitForModules(["timeUtils"], function initLoggerModule(){
+      logger = new Logger();
+      modules.logger = true;
+    });
   });
 }
 
 /** Load httpClient. */
 function loadHttpClient() {
   $.getScript("/kame-house/js/utils/http-client.js", function (data, textStatus, jqxhr) {
-    httpClient = new HttpClient();
+    waitForModules(["logger"], function initHttpClientModule() {
+      httpClient = new HttpClient();
+      modules.httpClient = true;
+    });
   });
 }
 
@@ -94,6 +129,13 @@ function sleep(ms) {
 function isEmpty(val) {
   return (val === undefined || val == null || val.length <= 0 ||
     (Object.entries(val).length === 0 && val.constructor === Object));
+}
+
+/** Scroll to the top of the screen. */
+function scrollToTop() {
+  $('html, body').animate({
+    scrollTop: 0
+  }, '10');
 }
 
 /** Call main. */
