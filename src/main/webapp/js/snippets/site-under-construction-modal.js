@@ -9,7 +9,8 @@ var siteUnderConstructionModal;
 
 function main() {
   var loadingModules = ["logger"];
-  waitForModules(loadingModules, function() {
+  waitForModules(loadingModules, function initSiteUnderConstructionModal() {
+    logger.info("Started initializing site under construction modal");
     siteUnderConstructionModal = new SiteUnderConstructionModal();
     siteUnderConstructionModal.import();
   });
@@ -23,10 +24,10 @@ function SiteUnderConstructionModal() {
   this.import = function importModal() {
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/site-under-construction-modal.css">');
     $('body').append('<div id="site-under-construction-modal" class="site-under-construction-modal">');
-    $("#site-under-construction-modal").load("/kame-house/html-snippets/site-under-construction-modal.html", function () {
+    $("#site-under-construction-modal").load("/kame-house/html-snippets/site-under-construction-modal.html", function() {
       var siteUnderConstructionModalDiv = document.getElementById("site-under-construction-modal");
       var siteUnderConstructionModalDivCloseBtn = document.getElementsByClassName("site-under-construction-modal-close")[0];
-      siteUnderConstructionModalDivCloseBtn.onclick = function () {
+      siteUnderConstructionModalDivCloseBtn.onclick = function() {
         siteUnderConstructionModalDiv.style.display = "none";
       }
       // When the user clicks anywhere outside of the modal, close it

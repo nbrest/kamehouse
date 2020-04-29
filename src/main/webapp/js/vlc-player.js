@@ -1,7 +1,7 @@
 /**
  * VLC Player page functions.
  * 
- * Dependencies: timeUtils, logger, httpClient, apiCallTable.
+ * Dependencies: timeUtils, logger, apiCallTable.
  * 
  * @author nbrest
  */
@@ -18,13 +18,13 @@ global.isWebSocketConnected = false;
 global.syncVlcStatus = true;
 
 /** Main function. */
-var main = function () {
-  var loadingModules = ["logger", "httpClient", "apiCallTable"];
+var main = function() {
+  var loadingModules = ["timeUtils", "logger", "apiCallTable"];
   waitForModules(loadingModules, initVlcPlayer);
 };
 
 /** Init function to execute after global dependencies are loaded. */
-var initVlcPlayer = function () {
+var initVlcPlayer = function() {
   logger.info("Started initializing VLC Player");
   setupWebSocketForVlcStatus();
   updateVolumePercentage(document.getElementById("volume-slider").value);
@@ -37,16 +37,10 @@ var initVlcPlayer = function () {
 /** Execute get on the specified url and display the output in the debug table. */
 function doGet(url) {
   logger.debugFunctionCall();
-  apiCallTable.displayRequestData(url, "GET", null);
-  httpClient.get(url, null, 
-    function success(responseBody, responseCode, responseDescription) {
-      apiCallTable.displayResponseData(responseBody, responseCode);
-    },
-    function error(responseBody, responseCode, responseDescription) { 
+  apiCallTable.get(url, null,
+    function (responseBody, responseCode, responseDescription) {
       if (responseCode == "404") {
         apiCallTable.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
-      } else {
-        apiCallTable.displayResponseData(responseBody, responseCode);
       }
     });
 }
@@ -54,51 +48,32 @@ function doGet(url) {
 /** Execute a POST request to the specified url with the specified request body. */
 function doPost(url, requestBody) {
   logger.debugFunctionCall();
-  apiCallTable.displayRequestData(url, "POST", requestBody);
-  var requestHeaders = httpClient.getApplicationJsonHeaders();
-  httpClient.post(url, requestHeaders, requestBody,
+  apiCallTable.post(url, requestBody,
     function success(responseBody, responseCode, responseDescription) {
       logger.trace(JSON.stringify(responseBody, null, 2));
       getVlcRcStatus();
-      apiCallTable.displayResponseData(responseBody, responseCode);
-    },
-    function error(responseBody, responseCode, responseDescription) {
-      apiCallTable.displayResponseData(responseBody, responseCode);
-    });
+    }, null);
 }
 
 /** Execute a POST request to the specified url with the specified request url parameters. */
 function doPostUrlEncoded(url, requestParam) {
   logger.debugFunctionCall();
-  var urlEncoded = encodeURI(url + "?" + requestParam);
-  apiCallTable.displayRequestData(urlEncoded, "POST", null);
-  var requestHeaders = httpClient.getUrlEncodedHeaders();
-  httpClient.post(urlEncoded, requestHeaders, null,
+  apiCallTable.postUrlEncoded(url, requestParam, 
     function success(responseBody, responseCode, responseDescription) {
       logger.trace(JSON.stringify(responseBody, null, 2));
       getVlcRcStatus();
-      apiCallTable.displayResponseData(responseBody, responseCode);
-    },
-    function error(responseBody, responseCode, responseDescription) {
-      apiCallTable.displayResponseData(responseBody, responseCode);
-    });
+    }, null);
 }
 
 /** Execute a DELETE request to the specified url with the specified request body. */
 function doDelete(url, requestBody) {
   logger.debugFunctionCall();
-  apiCallTable.displayRequestData(url, "DELETE", requestBody);
-  var requestHeaders = httpClient.getApplicationJsonHeaders();
-  httpClient.delete(url, requestHeaders, requestBody,
+  apiCallTable.delete(url, requestBody,
     function success(responseBody, responseCode, responseDescription) {
       logger.trace(JSON.stringify(responseBody));
       getVlcRcStatus();
       asyncReloadPlaylist(5000);
-      apiCallTable.displayResponseData(responseBody, responseCode);
-    },
-    function error(responseBody, responseCode, responseDescription) {
-      apiCallTable.displayResponseData(responseBody, responseCode);
-    });
+    }, null);
 }
 
 /** ---- Calls to rest functions to perform commands ------------------------------- **/
@@ -147,21 +122,20 @@ function populateVideoPlaylistCategories() {
   playlistCategoryDropdown.append('<option selected="true" disabled>Playlist Category</option>');
   playlistCategoryDropdown.prop('selectedIndex', 0);
   var url = '/kame-house/api/v1/media/video/playlists';
-  apiCallTable.displayRequestData(url, "GET", null);
-  httpClient.get(url, null, function (responseBody, responseCode, responseDescription) {
-    global.videoPlaylists = responseBody;
-    setVideoPlaylistCategories(global.videoPlaylists);
-    logger.trace("playlists: " + JSON.stringify(global.videoPlaylists));
-    $.each(global.videoPlaylistCategories, function (key, entry) {
-      var category = entry;
-      var categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
-      playlistCategoryDropdown.append($('<option></option>').attr('value', entry).text(categoryFormatted));
+  apiCallTable.get(url,
+    function (responseBody, responseCode, responseDescription) {
+      global.videoPlaylists = responseBody;
+      setVideoPlaylistCategories(global.videoPlaylists);
+      logger.trace("playlists: " + JSON.stringify(global.videoPlaylists));
+      $.each(global.videoPlaylistCategories, function (key, entry) {
+        var category = entry;
+        var categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
+        playlistCategoryDropdown.append($('<option></option>').attr('value', entry).text(categoryFormatted));
+      });
+    },
+    function (responseBody, responseCode, responseDescription) { 
+      apiCallTable.displayResponseData("Error populating video playlist categories", responseCode);
     });
-    apiCallTable.displayResponseData(responseBody, responseCode);
-  },
-  function (responseBody, responseCode, responseDescription) { 
-    apiCallTable.displayResponseData("Error populating video playlist categories", responseCode);
-  });
 }
 
 /** Set video playlist categories. */
@@ -420,18 +394,15 @@ function setMuteButtonUnpressed(mediaButtonId) {
 function reloadPlaylist() {
   var getPlaylistUrl = '/kame-house/api/v1/vlc-rc/players/localhost/playlist';
   logger.debug("Reloading playlist");
-  apiCallTable.displayRequestData(getPlaylistUrl, "GET", null);
-  httpClient.get(getPlaylistUrl, null, function (responseBody, responseCode, responseDescription) {
+  apiCallTable.get(getPlaylistUrl,
+    function (responseBody, responseCode, responseDescription) {
       displayPlaylist(responseBody);
       logger.debug("playlist: " + JSON.stringify(responseBody));
-      apiCallTable.displayResponseData(responseBody, responseCode);
     },
     function (responseBody, responseCode, responseDescription) { 
       displayPlaylist();
       if (responseCode == "404") {
         apiCallTable.displayResponseData("Could not connect to VLC player to get the current playlist.", responseCode);
-      } else {
-        apiCallTable.displayResponseData(responseBody, responseCode);
       }
     }
   );
@@ -479,7 +450,7 @@ function highlightCurrentPlayingItemInPlaylist(currentPlId) {
   var isPlaylistCurrentlyVisible = $('#playlist-collapsible').hasClass("playlist-collapsible-active");
   if (isPlaylistCurrentlyVisible) {
     logger.trace("currentPlId: " + currentPlId);
-    $('#playlist-table-body tr').each(function () {
+    $('#playlist-table-body tr').each(function() {
       var playlistItemId = $(this).attr('id');
       if (playlistItemId == currentPlId) {
         $(this).children().children().addClass("playlist-table-element-playing");

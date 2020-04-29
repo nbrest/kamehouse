@@ -55,11 +55,15 @@ async function waitForModules(moduleNames, initFunction) {
     await sleep(5);
   }
   //console.log("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
-  initFunction();
+  if (isFunction(initFunction)) {
+    //console.log("Executing " + initFunction.name);
+    initFunction();
+  } 
 }
 
 /** Init function to call after all global dependencies are loaded */
 function initGlobal() {
+  logger.info("Started initializing global functions");
   loadHeaderAndFooter();
   //testLogLevel();
 }
@@ -82,7 +86,7 @@ function loadTimeUtils() {
 /** Load logger object. */
 function loadLogger() {
   $.getScript("/kame-house/js/utils/logger.js", function (data, textStatus, jqxhr) {
-    waitForModules(["timeUtils"], function initLoggerModule(){
+    waitForModules(["timeUtils"], function initLoggerModule() {
       logger = new Logger();
       modules.logger = true;
     });
@@ -125,10 +129,15 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/** Checks if a variable is undefined or null, an empty array [] or an empty object {} */
+/** Checks if a variable is undefined or null, an empty array [] or an empty object {}. */
 function isEmpty(val) {
   return (val === undefined || val == null || val.length <= 0 ||
     (Object.entries(val).length === 0 && val.constructor === Object));
+}
+
+/** Returns true if the parameter variable is a fuction. */
+function isFunction(expectedFunction) {
+  return expectedFunction instanceof Function;
 }
 
 /** Scroll to the top of the screen. */

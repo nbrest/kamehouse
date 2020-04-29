@@ -6,26 +6,26 @@
  * @author nbrest
  */
 /** Main function. */
-var main = function () {
+var main = function() {
   var loadingModules = ["logger"];
   waitForModules(loadingModules, initWebSocket);
 };
 
 /** Init function to execute after global dependencies are loaded. */
-var initWebSocket = function () {
+var initWebSocket = function() {
   logger.info("Started initializing WebSocket");
   logger.logLevel = 4;
-  $(function () {
+  $(function() {
     $("form").on('submit', function (e) {
       e.preventDefault();
     });
-    $("#connect").click(function () {
+    $("#connect").click(function() {
       connectWebSocket();
     });
-    $("#disconnect").click(function () {
+    $("#disconnect").click(function() {
       disconnectWebSocket();
     });
-    $("#send").click(function () {
+    $("#send").click(function() {
       sendWebSocketRequest();
     });
   });

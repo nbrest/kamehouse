@@ -36,21 +36,21 @@
     <br><br>
     <h5 class="h5-kh">VLC Status</h5>
     <input type="button"
-      onclick="apiTester.doGet('/kame-house/api/v1/vlc-rc/players/localhost/status')"
+      onclick="apiTester.get('/kame-house/api/v1/vlc-rc/players/localhost/status')"
       value="VLC-RC Status"
       class="btn btn-outline-info btn-margins btn-borderless" />
     <input type="button"
-      onclick="apiTester.doGet('/kame-house/api/v1/admin/vlc')"
+      onclick="apiTester.get('/kame-house/api/v1/admin/vlc')"
       value="VLC Process Status"
       class="btn btn-outline-info btn-margins btn-borderless" />
     <br><br>
     <h5 class="h5-kh">/api/v1/dragonball Requests</h5>
     <input type="button"
-      onclick="apiTester.doGet('/kame-house/api/v1/dragonball/users')"
+      onclick="apiTester.get('/kame-house/api/v1/dragonball/users')"
       value="/kame-house/api/v1/dragonball/users GET" class="btn btn-outline-success" />
     <br><br>
     <input type="button"
-      onclick="apiTester.doGet('/kame-house/api/v1/dragonball/users/username/goku')"
+      onclick="apiTester.get('/kame-house/api/v1/dragonball/users/username/goku')"
       value="/kame-house/api/v1/dragonball/users/username/goku GET" class="btn btn-outline-success" />
     <br><br>
   </div>

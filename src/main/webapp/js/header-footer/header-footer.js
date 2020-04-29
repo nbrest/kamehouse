@@ -14,11 +14,12 @@ var footer;
 function renderHeaderAndFooter() {
   logger.traceFunctionCall();
   var loadingModules = ["logger", "httpClient"];
-  waitForModules(loadingModules, function () {
-      header = new Header();
-      header.renderHeader();
-      footer = new Footer();
-      footer.renderFooter();
+  waitForModules(loadingModules, function initHeaderAndFooter() {
+    logger.info("Started initializing header and footer");
+    header = new Header();
+    header.renderHeader();
+    footer = new Footer();
+    footer.renderFooter();
   });
 }
 
@@ -44,7 +45,7 @@ function Header() {
     logger.traceFunctionCall();
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
     $("body").prepend('<div id="headerContainer"></div>');
-    $("#headerContainer").load("/kame-house/html-snippets/header.html", function () {
+    $("#headerContainer").load("/kame-house/html-snippets/header.html", function() {
       self.updateLoginStatus();
       self.updateActiveTab();
       self.updateSessionStatus();
@@ -57,7 +58,7 @@ function Header() {
   this.updateActiveTab = function updateActiveTab() {
     logger.traceFunctionCall();
     var pageUrl = window.location.pathname;
-    $("#headerContainer header .default-layout #header-menu a").toArray().forEach(function (navItem) {
+    $("#headerContainer header .default-layout #header-menu a").toArray().forEach(function(navItem) {
       $(navItem).removeClass("active");
       switch (pageUrl) {
         case "/kame-house/":

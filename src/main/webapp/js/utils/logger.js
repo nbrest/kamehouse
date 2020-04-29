@@ -30,7 +30,7 @@ function Logger() {
     var callerFunction = self.getCallerFunctionName();
     var logEntry = "";
     if (isEmpty(callerFunction)) {
-      logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
+      logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - () - " + message;
     } else {
       logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - (" + callerFunction + ") - " + message;
     }

@@ -10,7 +10,8 @@ var ehCacheManager;
 var main = function() {
   importEhcacheCss();
   var loadingModules = ["timeUtils", "logger", "httpClient"];
-  waitForModules(loadingModules, function() {
+  waitForModules(loadingModules, function initEhCache() {
+    logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
     ehCacheManager.getAllCacheData();
   });
@@ -75,10 +76,10 @@ function EhCacheManager() {
       $cacheData.append($cacheTable);
       $cacheData.append("<br>");
 
-      $("#clear-" + cache.name).click(function () {
+      $("#clear-" + cache.name).click(function() {
         self.clearCacheData(cache.name);
       });
-      $("#toggle-view-" + cache.name).click(function () {
+      $("#toggle-view-" + cache.name).click(function() {
         self.toggleCacheView(".toggle-" + cache.name);
       });
       self.ehcacheToggleTableRowIds.push(".toggle-" + cache.name);
