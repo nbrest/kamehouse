@@ -43,7 +43,7 @@ async function waitForModules(moduleNames, initFunction) {
   var areAllModulesLoaded = false;
   while (!areAllModulesLoaded) {
     //console.log("init: " + initFunction.name + ". Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
-    isAnyModuleStillLoading = false;
+    var isAnyModuleStillLoading = false;
     moduleNames.forEach(function (moduleName) {
       if (!modules[moduleName]) {
         isAnyModuleStillLoading = true;
