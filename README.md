@@ -132,6 +132,20 @@ The goals of logging in my application are being able to troubleshoot issues qui
 
 * **ERROR:** Unrecoverable unexpected behaviour. If I throw an exception, I usually need to log an ERROR too or in some cases a WARN. For example, when I don't get a response from VlcPlayer.
 
+### Frontend logging strategy
+
+It's pretty similar in concept to the backend strategy. The goals is still the same.
+
+* **TRACE** I need to be able to see what methods/functions are called with what parameters. Its even easier to do in the frontend with my logging framework.
+
+* **DEBUG** Responses from the backend or other external connections (except for example, vlcRcStatus, which is once a second, so its more sensible to put it on trace) on actions and tasks that I perform.
+
+* **INFO:** Application configuration information or general application status, not specific to a task. During startup or if I change an application setting dynamically.
+
+* **WARN:** Only show behaviour that didn't go as expected but is recoverable and the process can continue.
+
+* **ERROR:** Unrecoverable unexpected behaviour. Error responses from the backend, for example.
+
 *********************
 
 # ChangeLog:
@@ -139,8 +153,9 @@ The goals of logging in my application are being able to troubleshoot issues qui
 #### v1.01
 
 * Updated logging strategy in the backend. Added a lot more logging in all layers.
-* Rewrote a lot of the frontend code. Started splitting into prototypes (Logger, HttpClient, TimeUtils, etc) and moving away from global functions and variables
+* Pretty much complete refactor of the frontend js code. Started splitting into prototypes (Logger, HttpClient, TimeUtils, etc) and moving away from global functions and variables
 * Updated logging in the frontend. Created a Logger prototype standard log methods and methods to trace/debug function calls.
+* Reduced a lot of code duplication in the frontend with the refactor
 
 #### v1.00
 
