@@ -78,8 +78,8 @@ function loadModules() {
 /** Load time utils. */
 function loadTimeUtils() {
   $.getScript("/kame-house/js/utils/time-utils.js", function (data, textStatus, jqxhr) {
-    timeUtils = new TimeUtils();
     modules.timeUtils = true;
+    timeUtils = new TimeUtils();
   });
 }
 
@@ -87,8 +87,8 @@ function loadTimeUtils() {
 function loadLogger() {
   $.getScript("/kame-house/js/utils/logger.js", function (data, textStatus, jqxhr) {
     waitForModules(["timeUtils"], function initLoggerModule() {
-      logger = new Logger();
       modules.logger = true;
+      logger = new Logger();
     });
   });
 }
@@ -97,8 +97,8 @@ function loadLogger() {
 function loadHttpClient() {
   $.getScript("/kame-house/js/utils/http-client.js", function (data, textStatus, jqxhr) {
     waitForModules(["logger"], function initHttpClientModule() {
-      httpClient = new HttpClient();
       modules.httpClient = true;
+      httpClient = new HttpClient();
     });
   });
 }

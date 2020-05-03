@@ -23,7 +23,7 @@ function importEhcacheCss() {
 }
 
 function EhCacheManager() {
-  var self = this;
+  let self = this;
   this.ehcacheToggleTableRowIds = [];
   var EHCACHE_REST_API = '/kame-house/api/v1/admin/ehcache';
 

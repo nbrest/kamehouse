@@ -37,7 +37,7 @@ function Footer() {
 
 /** Header functionality */
 function Header() {
-  var self = this;
+  let self = this;
   var SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
 
   /** Render the header */

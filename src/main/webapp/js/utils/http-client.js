@@ -6,13 +6,13 @@
  * @author nbrest
  */
 function HttpClient() {
-  var self = this;
+  let self = this;
 
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.get = function httpGet(url, requestHeaders, successCallback, errorCallback) {
-    logger.debugFunctionCall();
+    logger.traceFunctionCall();
     self.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback)
   }
 
@@ -20,7 +20,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.post = function httpPost(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    logger.debugFunctionCall();
+    logger.traceFunctionCall();
     self.httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback)
   }
 
@@ -28,7 +28,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    logger.debugFunctionCall();
+    logger.traceFunctionCall();
     self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback)
   }
 
@@ -36,7 +36,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.delete = function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    logger.debugFunctionCall();
+    logger.traceFunctionCall();
     self.httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback)
   }
 

@@ -6,7 +6,7 @@
  * @author nbrest
  */
 function Logger() {
-  var self = this;
+  let self = this;
   /**
    * Log levels:
    * 0: ERROR

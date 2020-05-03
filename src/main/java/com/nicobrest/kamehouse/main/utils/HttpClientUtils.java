@@ -35,6 +35,12 @@ public class HttpClientUtils {
    * Creates an instance of HttpClient with the provided credentials.
    */
   public static HttpClient getClient(String username, String password) {
+    if (username == null) {
+      username = "";
+    }
+    if (password == null) {
+      password = "";
+    }
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
     credentialsProvider.setCredentials(AuthScope.ANY, credentials);

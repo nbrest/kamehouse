@@ -6,7 +6,7 @@
  * @author nbrest
  */
 angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'dragonBallUserService', '$location', function($scope, dragonBallUserService, $location) {
-  var self = this;
+  let self = this;
   self.user = {
     id : null,
     username : '',

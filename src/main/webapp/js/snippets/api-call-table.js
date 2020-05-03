@@ -28,7 +28,7 @@ function importApiCallTableCss() {
 }
 
 function ApiCallTable() {
-  var self = this;
+  let self = this;
 
   /** 
    * Execute a GET request, update the api call table 
