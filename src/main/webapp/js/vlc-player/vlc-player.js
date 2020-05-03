@@ -12,6 +12,12 @@
  */
 function VlcPlayer(hostname) {
   let self = this;
+  const adminVlcUrl = '/kame-house/api/v1/admin/vlc';
+  const webSocketStatusUrl = '/kame-house/api/ws/vlc-player/status';
+  const webSocketPollUrl = "/app/vlc-player/status-in";
+  const webSocketTopicUrl = '/topic/vlc-player/status-out';
+  let vlcRcCommandUrl = '/kame-house/api/v1/vlc-rc/players/' + hostname + '/commands';
+  let vlcRcStatusHttpUrl = '/kame-house/api/v1/vlc-rc/players/' + hostname + '/status';
   this.webSocket = new WebSocketKameHouse();
   this.playlist = new VlcPlayerPlaylist(self);
   this.restClient = new VlcPlayerRestClient(self);
@@ -20,12 +26,16 @@ function VlcPlayer(hostname) {
   this.isRunningSyncVlcRcStatusLoop = false;
   this.isRunningSyncPlaylistLoop = false;
   this.isRunningKeepAliveWebSocketLoop = false;
-  let vlcRcCommandUrl = '/kame-house/api/v1/vlc-rc/players/' + hostname + '/commands';
-  let vlcRcStatusHttpUrl = '/kame-house/api/v1/vlc-rc/players/' + hostname + '/status';
-  const adminVlcUrl = '/kame-house/api/v1/admin/vlc';
-  const webSocketStatusUrl = '/kame-house/api/ws/vlc-player/status';
-  const webSocketPollUrl = "/app/vlc-player/status-in";
-  const webSocketTopicUrl = '/topic/vlc-player/status-out';
+  // Set stateful buttons
+  this.statefulButtons = [];
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-aspect-ratio-4-3', "aspectRatio", "4:3"));
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-aspect-ratio-16-9', "aspectRatio", "16:9"));
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-fullscreen', "fullscreen", true));
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-repeat-1', "repeat", true));
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-repeat', "loop", true));
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-shuffle', "random", true));
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-stop', "state", "stopped"));
+  this.statefulButtons.push(new StatefulMediaButton(self, 'media-btn-mute', "volume", 0, 'btn-mute'));
 
   self.webSocket.setStatusUrl(webSocketStatusUrl);
   self.webSocket.setPollUrl(webSocketPollUrl);
@@ -204,7 +214,7 @@ function VlcPlayer(hostname) {
     }
 
     // Update media buttons with state
-    self.updateMediaButtonsWithState();
+    self.statefulButtons.forEach(statefulButton => statefulButton.updateState());
 
     // Highlight current playing item in playlist. 
     self.playlist.highlightCurrentPlayingItem(self.vlcRcStatus.currentPlId);
@@ -255,93 +265,6 @@ function VlcPlayer(hostname) {
     let volumePercentaje = Math.floor(value * 200 / 512);
     let currentVolume = document.getElementById("current-volume");
     currentVolume.innerHTML = volumePercentaje + "%";
-  }
-
-  /**
-   * --------------------------------------------------------------------------
-   * Update media buttons with state Functionality
-   */
-  /** Update vlc player media buttons that have state, based on vlcRcStatus. */
-  this.updateMediaButtonsWithState = function updateMediaButtonsWithState() {
-    // Update aspect-ratio 16:9 button
-    if (self.vlcRcStatus.aspectRatio == "16:9") {
-      self.setMediaButtonPressed('media-btn-aspect-ratio-16-9');
-    } else {
-      self.setMediaButtonUnpressed('media-btn-aspect-ratio-16-9');
-    }
-
-    // Update aspect-ratio 4:3 button
-    if (self.vlcRcStatus.aspectRatio == "4:3") {
-      self.setMediaButtonPressed('media-btn-aspect-ratio-4-3');
-    } else {
-      self.setMediaButtonUnpressed('media-btn-aspect-ratio-4-3');
-    }
-
-    // Update fullscreen button
-    if (self.vlcRcStatus.fullscreen) {
-      self.setMediaButtonPressed('media-btn-fullscreen');
-    } else {
-      self.setMediaButtonUnpressed('media-btn-fullscreen');
-    }
-
-    // Update mute button
-    if (self.vlcRcStatus.volume == 0) {
-      self.setMuteButtonPressed('media-btn-mute');
-    } else {
-      self.setMuteButtonUnpressed('media-btn-mute');
-    }
-
-    // Update repeat 1 button
-    if (self.vlcRcStatus.repeat) {
-      self.setMediaButtonPressed('media-btn-repeat-1');
-    } else {
-      self.setMediaButtonUnpressed('media-btn-repeat-1');
-    }
-
-    // Update repeat all button
-    if (self.vlcRcStatus.loop) {
-      self.setMediaButtonPressed('media-btn-repeat');
-    } else {
-      self.setMediaButtonUnpressed('media-btn-repeat');
-    }
-
-    // Update shuffle button
-    if (self.vlcRcStatus.random) {
-      self.setMediaButtonPressed('media-btn-shuffle');
-    } else {
-      self.setMediaButtonUnpressed('media-btn-shuffle');
-    }
-
-    // Update stop button
-    if (self.vlcRcStatus.state == "stopped") {
-      self.setMediaButtonPressed('media-btn-stop');
-    } else {
-      self.setMediaButtonUnpressed('media-btn-stop');
-    }
-  }
-
-  /** Set media button pressed */
-  this.setMediaButtonPressed = function setMediaButtonPressed(mediaButtonId) {
-    $('#' + mediaButtonId).removeClass('media-btn-unpressed');
-    $('#' + mediaButtonId).addClass('media-btn-pressed');
-  }
-
-  /** Set media button unpressed */
-  this.setMediaButtonUnpressed = function setMediaButtonUnpressed(mediaButtonId) {
-    $('#' + mediaButtonId).removeClass('media-btn-pressed');
-    $('#' + mediaButtonId).addClass('media-btn-unpressed');
-  }
-
-  /** Set mute button pressed (specific because it has a different size) */
-  this.setMuteButtonPressed = function setMuteButtonPressed(mediaButtonId) {
-    $('#' + mediaButtonId).removeClass('btn-mute-unpressed');
-    $('#' + mediaButtonId).addClass('btn-mute-pressed');
-  }
-
-  /** Set mute button unpressed (specific because it has a different size) */
-  this.setMuteButtonUnpressed = function setMuteButtonUnpressed(mediaButtonId) {
-    $('#' + mediaButtonId).removeClass('btn-mute-pressed');
-    $('#' + mediaButtonId).addClass('btn-mute-unpressed');
   }
 
   /**
@@ -434,13 +357,60 @@ function VlcPlayer(hostname) {
 }
 
 /** 
+ * Represents a media button that has state (pressed/unpressed).
+ * This prototype is meant to be instantiated by VlcPlayer() constructor.
+ * It's not meant to be used standalone. The vlcPlayer parameter to the constructor
+ * should be a reference to the enclosing VlcPlayer that contains this button.
+ * 
+ * @author nbrest
+ */
+function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnPrefixClass) {
+  let self = this;
+  const defaultBtnPrefixClass = 'media-btn';
+  this.vlcPlayer = vlcPlayer;
+  this.id = id;
+  this.pressedField = pressedField;
+  this.pressedCondition = pressedCondition;
+  this.btnPrefixClass;
+  if (!isEmpty(btnPrefixClass)) {
+    this.btnPrefixClass = btnPrefixClass;
+  } else {
+    this.btnPrefixClass = defaultBtnPrefixClass;
+  }
+  
+  /** Determines if the button is pressed or unpressed. */
+  this.isPressed = function isPressed() {
+    return vlcPlayer.getVlcRcStatus()[pressedField] == self.pressedCondition;
+  }
+
+  /** Update the state of the button (pressed/unpressed) */
+  this.updateState = function updateState() {
+    if (self.isPressed()) {
+      self.setMediaButtonPressed();
+    } else {
+      self.setMediaButtonUnpressed();
+    }
+  }
+
+  /** Set media button pressed */
+  this.setMediaButtonPressed = function setMediaButtonPressed() {
+    $('#' + self.id).removeClass(self.btnPrefixClass + '-unpressed');
+    $('#' + self.id).addClass(self.btnPrefixClass + '-pressed');
+  }
+
+  /** Set media button unpressed */
+  this.setMediaButtonUnpressed = function setMediaButtonUnpressed() {
+    $('#' + self.id).removeClass(self.btnPrefixClass + '-pressed');
+    $('#' + self.id).addClass(self.btnPrefixClass + '-unpressed');
+  }
+}
+
+/** 
  * Represents the Playlist component in vlc-player page. 
  * This prototype is meant to be instantiated by VlcPlayer() constructor
  * and added as a property to VlcPlayer.playlist inside that constructor.
  * It's not meant to be used standalone. The vlcPlayer parameter to the constructor
  * should be a reference to the enclosing VlcPlayer that contains this playlist.
- * 
- * Dependencies: logger, apiCallTable
  * 
  * @author nbrest
  */
@@ -552,8 +522,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
  * and added as a property to VlcPlayer.restClient inside that constructor.
  * It's not meant to be used standalone. The vlcPlayer parameter to the constructor
  * should be a reference to the enclosing VlcPlayer that contains this restClient.
- * 
- * Dependencies: logger, apiCallTable
  * 
  * @author nbrest
  */
