@@ -127,7 +127,7 @@ function WebSocketKameHouse() {
       pollBody = {};
     }
     try {
-      self.stompClient.send(self.pollUrl, {});
+      self.stompClient.send(self.pollUrl, pollBody);
     } catch (error) {
       logger.error("Error polling the websocket: " + error);
     }
