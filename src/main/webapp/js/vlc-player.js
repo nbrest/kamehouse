@@ -55,15 +55,5 @@ function loadVlcPlayer() {
   });
 }
 
-/** 
- * ----- Debug mode functions -----------------------------------------------------------
- */
-/** Toggle debug mode. */
-function toggleDebugMode() {
-  logger.debug("Toggled debug mode")
-  var debugModeDiv = document.getElementById("debug-mode");
-  debugModeDiv.classList.toggle("hidden-kh");
-}
-
 /** Call main. */
 $(document).ready(main);

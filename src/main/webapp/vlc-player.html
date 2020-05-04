@@ -195,7 +195,7 @@
       onclick="window.location.href='/kame-house/admin/server-management'">
       <img class="btn-img" src="/kame-house/img/pc/server-gray.png" alt="Server Management"/> Management  
     </button>
-    <button class="btn btn-outline-success btn-margins btn-borderless" onclick="toggleDebugMode()">
+    <button class="btn btn-outline-success btn-margins btn-borderless" onclick="vlcPlayer.toggleDebugMode()">
       <img class="btn-img" src="/kame-house/img/other/debug-btn-success.png" alt="Debug Mode"/> Mode  
     </button> 
     <button onclick="vlcPlayer.close()" class="btn btn-outline-danger btn-margins btn-borderless">
@@ -210,7 +210,7 @@
         <button class="btn btn-outline-info btn-margins btn-borderless fl-r-d-kh" onclick="vlcPlayer.reloadPlaylist()">
           <img class="btn-img" src="/kame-house/img/other/sync-btn-info.png" alt="Reload Playlist"/> Playlist  
         </button>
-        <button onclick="vlcPlayer.getVlcRcStatusForDebug()"
+        <button onclick="vlcPlayer.getVlcRcStatusHttp()"
           class="btn btn-outline-success btn-margins btn-borderless fl-r-d-kh">Get VlcRcStatus</button>
       </div>
       <div id="api-call-table"></div>
