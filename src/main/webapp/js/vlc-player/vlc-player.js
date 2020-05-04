@@ -324,7 +324,7 @@ function VlcPlayer(hostname) {
       return;
     }
     self.isRunningSyncPlaylistLoop = true;
-    let playlistSyncWaitTimeMs = 10000;
+    let playlistSyncWaitTimeMs = 7000;
     while (self.isRunningSyncPlaylistLoop) {
       logger.trace("InfiniteLoop - synchronizing playlist:");
       self.reloadPlaylist();
@@ -343,15 +343,13 @@ function VlcPlayer(hostname) {
       return;
     }
     self.isRunningKeepAliveWebSocketLoop = true;
-    let keepAliveWebSocketWaitTimeMs = 15000;
+    let keepAliveWebSocketWaitTimeMs = 5000;
     while (self.isRunningKeepAliveWebSocketLoop) {
       await sleep(keepAliveWebSocketWaitTimeMs);
       if (!self.isConnected()) {
         logger.trace("WebSocket not connected. Reconnecting.");
         self.reconnect();
-      } else {
-        logger.trace("WebSocket still connected.");
-      } 
+      }
     }
   }
 }
