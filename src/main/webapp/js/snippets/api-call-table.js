@@ -142,7 +142,7 @@ function ApiCallTable() {
     self.emptyApiCallTableDiv();
     var requestTimestamp = timeUtils.getTimestamp();
     var $apiCallTableDiv = $("#api-call-table");
-    var $apiCallTable = $('<table id="aco-table" class="table table-bordered table-responsive table-bordered-kh">');
+    var $apiCallTable = $('<table id="aco-table" class="table table-bordered-kh">');
     // Request Data header row.
     var $requestDataHeaderRow = $("<tr>");
     $requestDataHeaderRow.append($('<th class="txt-c-d-kh" colspan="2">').text("Request Data"));
