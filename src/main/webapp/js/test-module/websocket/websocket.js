@@ -1,20 +1,35 @@
 /**
  * Test module websocket functionality.
  * 
- * Dependencies: logger.
+ * Dependencies: logger, webSocketKameHouse
  * 
  * @author nbrest
  */
+var websocket;
 /** Main function. */
 var main = function() {
-  var loadingModules = ["logger"];
-  waitForModules(loadingModules, initWebSocket);
+  loadWebSocketKameHouse();
+  var loadingModules = ["logger","webSocketKameHouse"];
+  waitForModules(loadingModules, initWebSocketTest);
 };
 
+function loadWebSocketKameHouse() {
+  $.getScript("/kame-house/js/utils/websocket-kamehouse.js", function (data, textStatus, jqxhr) {
+    let loadingModules = ["logger"];
+    waitForModules(loadingModules, function initWebSocket() {
+      modules.webSocketKameHouse = true;
+    });
+  });
+}
+
 /** Init function to execute after global dependencies are loaded. */
-var initWebSocket = function() {
+var initWebSocketTest = function() {
   logger.info("Started initializing WebSocket");
-  logger.logLevel = 4;
+  logger.logLevel = 4;  
+  websocket = new WebSocketKameHouse();
+  websocket.setStatusUrl('/kame-house/api/ws/test-module/websocket');
+  websocket.setTopicUrl('/topic/test-module/websocket-out');
+  websocket.setPollUrl("/app/test-module/websocket-in");
   $(function() {
     $("form").on('submit', function (e) {
       e.preventDefault();
@@ -49,37 +64,34 @@ function setConnected(isConnected) {
 
 function connectWebSocket() {
   logger.traceFunctionCall();
-  var socket = new SockJS('/kame-house/api/ws/test-module/websocket');
-  stompClient = Stomp.over(socket);
-  stompClient.connect({}, function (frame) {
-    setConnected(true);
-    logger.debug('Connected WebSocket: ' + frame);
-    stompClient.subscribe('/topic/test-module/websocket-out', function (testWebSocketResponse) {
-        showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body));
-    });
+  websocket.connect(function (testWebSocketResponse) {
+    showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body));
   });
+  setConnected(true);
+  logger.debug("Connected WebSocket");
 }
 
 function disconnectWebSocket() {
   logger.traceFunctionCall();
-  if (stompClient !== null) {
-      stompClient.disconnect();
-  }
+  websocket.disconnect();
   setConnected(false);
   logger.debug("Disconnected WebSocket");
 }
 
 function sendWebSocketRequest() {
   logger.traceFunctionCall();
-  stompClient.send("/app/test-module/websocket-in", {}, 
-      JSON.stringify({'firstName': $("#firstName").val(), 'lastName': $("#lastName").val()}));
+  let pollBody = JSON.stringify({
+    'firstName': $("#firstName").val(),
+    'lastName': $("#lastName").val()
+  });
+  websocket.poll(pollBody);
 }
 
-function showTestWebSocketResponse(testWebSocketResponse) {
+function showTestWebSocketResponse(testWebSocketResponseBody) {
   logger.traceFunctionCall();
-  logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponse));
-  $("#websocket-responses").append("<tr><td>" + testWebSocketResponse.date + " : " 
-      + testWebSocketResponse.message + "</td></tr>");
+  logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
+  $("#websocket-responses").append("<tr><td>" + testWebSocketResponseBody.date + " : "
+      +testWebSocketResponseBody.message + "</td></tr>");
 }
 
 /** Call main. */

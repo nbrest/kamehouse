@@ -112,7 +112,7 @@ function WebSocketKameHouse() {
   }
 
   /** Poll for an updated from the server. */
-  this.poll = function poll(pollBody) {
+  this.poll = function poll(pollBody, pollHeaders) {
     // Setting this as trace as it executes every second in VlcPlayer 
     // so if I want to debug other stuff it's noisy.
     logger.traceFunctionCall();
@@ -126,8 +126,11 @@ function WebSocketKameHouse() {
     if (isEmpty(pollBody)) {
       pollBody = {};
     }
+    if (isEmpty(pollHeaders)) {
+      pollHeaders = {};
+    }
     try {
-      self.stompClient.send(self.pollUrl, pollBody);
+      self.stompClient.send(self.pollUrl, pollHeaders, pollBody);
     } catch (error) {
       logger.error("Error polling the websocket: " + error);
     }

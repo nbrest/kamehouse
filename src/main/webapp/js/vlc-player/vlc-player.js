@@ -3,7 +3,8 @@
  * 
  * Dependencies: timeUtils, logger, apiCallTable, websocket
  * 
- * Dependencies in same file: VlcPlayerPlaylist, VlcPlayerRestClient, VlcPlayerSynchronizer, VlcPlayerViewUpdater
+ * Dependencies in same file: VlcPlayerPlaylist, VlcPlayerRestClient, 
+ * VlcPlayerSynchronizer, VlcPlayerViewUpdater, VlcPlayerDebugger.
  * 
  * Call init() after instantiating VlcPlayer to connect the internal websocket
  * and start the sync loops.
