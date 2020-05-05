@@ -158,6 +158,7 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 * Reduced a lot of code duplication in the frontend with the refactor
 * Complete refactor of vlc player js code too. Improved synchronization with backend
 * Removed deprecated csrf meta tags and headers
+* Updated api-call-table with request time and response code
 * Fixed bugs
 
 #### v1.00
