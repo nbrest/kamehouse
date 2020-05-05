@@ -150,6 +150,10 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 
 # ChangeLog:
 
+#### v1.02
+
+* Added more unit tests
+
 #### v1.01
 
 * Updated logging strategy in the backend. Added a lot more logging in all layers.
@@ -159,6 +163,8 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 * Complete refactor of vlc player js code too. Improved synchronization with backend
 * Removed deprecated csrf meta tags and headers
 * Updated api-call-table with request time and response code
+* Updated tail-log.sh to add colors and filtering based on log level (my.scripts repo)
+* Fixed remote deployment script (my.scripts repo)
 * Fixed bugs
 
 #### v1.00
