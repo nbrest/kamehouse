@@ -52,7 +52,7 @@ async function waitForModules(moduleNames, initFunction) {
     if (!isAnyModuleStillLoading) {
       areAllModulesLoaded = true;
     }
-    await sleep(5);
+    await sleep(3);
   }
   //console.log("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
   if (isFunction(initFunction)) {
@@ -131,8 +131,10 @@ function sleep(ms) {
 
 /** Checks if a variable is undefined or null, an empty array [] or an empty object {}. */
 function isEmpty(val) {
-  return (val === undefined || val == null || val.length <= 0 ||
-    (Object.entries(val).length === 0 && val.constructor === Object));
+  let isNullOrUndefined = val === undefined || val == null;
+  let isEmptyArray = !isNullOrUndefined && Array.isArray(val) && val.length <= 0;
+  let isEmptyObject = !isNullOrUndefined && Object.entries(val).length === 0 && val.constructor === Object;
+  return isNullOrUndefined || isEmptyArray || isEmptyObject;
 }
 
 /** Returns true if the parameter variable is a fuction. */
