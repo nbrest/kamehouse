@@ -59,7 +59,7 @@ function ApiCallTable() {
   this.post = function httpPost(url, requestBody, successCallback, errorCallback) {
     logger.traceFunctionCall();
     apiCallTable.displayRequestData(url, "POST", requestBody);
-    var requestHeaders = httpClient.getCsrfRequestHeadersObject();
+    var requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.post(url, requestHeaders, requestBody,
       function success(responseBody, responseCode, responseDescription) {
         apiCallTable.displayResponseData(responseBody, responseCode);
@@ -106,7 +106,7 @@ function ApiCallTable() {
   this.delete = function httpDelete(url, requestBody, successCallback, errorCallback) {
     logger.traceFunctionCall();
     apiCallTable.displayRequestData(url, "DELETE", requestBody);
-    var requestHeaders = httpClient.getCsrfRequestHeadersObject();
+    var requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.delete(url, requestHeaders, requestBody,
       function success(responseBody, responseCode, responseDescription) {
         apiCallTable.displayResponseData(responseBody, responseCode);

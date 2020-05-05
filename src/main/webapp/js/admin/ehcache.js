@@ -107,7 +107,7 @@ function EhCacheManager() {
    */
   this.clearCacheData = function clearCacheData(cacheName) {
     logger.traceFunctionCall();
-    var requestHeaders = httpClient.getCsrfRequestHeadersObject();
+    var requestHeaders = httpClient.getApplicationJsonHeaders();
     var url = EHCACHE_REST_API + '?name=' + cacheName;
     httpClient.delete(url, requestHeaders, null,
       function success(responseBody, responseCode, responseDescription) {
@@ -124,7 +124,7 @@ function EhCacheManager() {
    */
   this.clearAllCaches = function clearAllCaches() {
     logger.traceFunctionCall();
-    var requestHeaders = httpClient.getCsrfRequestHeadersObject();
+    var requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.delete(EHCACHE_REST_API, requestHeaders, null,
       function success(responseBody, responseCode, responseDescription) {
         self.getAllCacheData();

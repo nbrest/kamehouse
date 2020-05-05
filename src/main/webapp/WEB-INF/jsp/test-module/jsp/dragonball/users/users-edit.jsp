@@ -32,7 +32,6 @@
         <form action="users-edit-action" method="post"
           class="form-horizontal mi-form-horizontal">
           <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
           <div class="row">
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="username">Username</label>

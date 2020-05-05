@@ -21,11 +21,6 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   self.edit = edit;
   self.remove = remove;
   self.reset = reset;
-
-  // Set CSRF security object
-  self.csrf = {};
-  self.csrf.token = getCsrfToken();
-  self.csrf.header = getCsrfHeader();
   
   // Fetch dragonBallUsers from backend
   fetchAllDragonBallUsers();
@@ -51,7 +46,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Create a DragonBallUser.
    */
   function createDragonBallUser(user) {
-    dragonBallUserService.createDragonBallUser(user, self.csrf)
+    dragonBallUserService.createDragonBallUser(user)
       .then(
         fetchAllDragonBallUsers,
         function(errResponse) {
@@ -65,7 +60,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Update a DragonBallUser.
    */
   function updateDragonBallUser(user, id) {
-    dragonBallUserService.updateDragonBallUser(user, id, self.csrf)
+    dragonBallUserService.updateDragonBallUser(user, id)
       .then(
         fetchAllDragonBallUsers,
         function(errResponse) {
@@ -80,7 +75,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Delete a DragonBallUser.
    */
   function deleteDragonBallUser(id) {
-    dragonBallUserService.deleteDragonBallUser(id, self.csrf)
+    dragonBallUserService.deleteDragonBallUser(id)
       .then(
         fetchAllDragonBallUsers,
         function(errResponse) {
@@ -141,24 +136,6 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       stamina : 0
     };
     $scope.myForm.$setPristine(); //reset Form
-  }
-
-  /**
-   * Get CSRF token from the meta tags.
-   */
-  function getCsrfToken() {
-    var token = $("meta[name='_csrf']").attr("content");
-    //console.log("getCsrfToken: " + token);
-    return token;
-  }
-
-  /**
-   * Get the CSRF header from the meta tags.
-   */
-  function getCsrfHeader() {
-    var header = $("meta[name='_csrf_header']").attr("content");
-    //console.log("getCsrfHeader: " + header);
-    return header;
   }
   
   /**

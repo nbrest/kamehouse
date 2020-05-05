@@ -111,30 +111,6 @@ function HttpClient() {
     }
   }
 
-  /** Get CSRF token. */
-  this.getCsrfToken = function getCsrfToken() {
-    var token = $("meta[name='_csrf']").attr("content");
-    return token;
-  }
-
-  /** Get CSRF header. */
-  this.getCsrfHeader = function getCsrfHeader() {
-    var header = $("meta[name='_csrf_header']").attr("content");
-    return header;
-  }
-
-  /** Get CSRF standard requestHeaders object. */
-  this.getCsrfRequestHeadersObject = function getCsrfRequestHeadersObject() {
-    var csrfHeader = self.getCsrfHeader();
-    var csrfToken = self.getCsrfToken();
-    var requestHeaders = {};
-    requestHeaders.Accept = 'application/json';
-    requestHeaders['Content-Type'] = 'application/json';
-    requestHeaders[csrfHeader] = csrfToken;
-    logger.trace("request headers: " + JSON.stringify(requestHeaders));
-    return requestHeaders;
-  }
-
   /** Get request headers object with Url Encoded content type. */
   this.getUrlEncodedHeaders = function getUrlEncodedHeaders() {
     var requestHeaders = {};

@@ -39,9 +39,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
   /**
    * Create a DragonBallUser.
    */
-  function createDragonBallUser(dragonBallUser, csrf) {
+  function createDragonBallUser(dragonBallUser) {
     var deferred = $q.defer();
-    var config = generateConfig(csrf);
+    var config = generateConfig();
     $http.post(REST_SERVICE_URI, dragonBallUser, config)
       .then(
         function(response) {
@@ -58,9 +58,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
   /**
    * Updates a DragonBallUser.
    */
-  function updateDragonBallUser(dragonBallUser, id, csrf) {
+  function updateDragonBallUser(dragonBallUser, id) {
     var deferred = $q.defer();
-    var config = generateConfig(csrf);
+    var config = generateConfig();
     $http.put(REST_SERVICE_URI + id, dragonBallUser, config)
       .then(
         function(response) {
@@ -77,9 +77,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
   /**
    * Deletes a DragonBallUser.
    */
-  function deleteDragonBallUser(id, csrf) {
+  function deleteDragonBallUser(id) {
     var deferred = $q.defer();
-    var config = generateConfig(csrf);
+    var config = generateConfig();
     $http.delete(REST_SERVICE_URI + id, config)
       .then(
         function(response) {
@@ -96,10 +96,9 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
   /**
    * Generate config object to pass to the http requests.
    */
-  function generateConfig(csrf) {
+  function generateConfig() {
     var config = {};
     config.headers = {};
-    config.headers[csrf.header] = csrf.token;
     //console.log("config" + JSON.stringify(config));
     return config;
   }
