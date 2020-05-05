@@ -156,6 +156,9 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 * Pretty much complete refactor of the frontend js code. Started splitting into prototypes (Logger, HttpClient, TimeUtils, etc) and moving away from global functions and variables
 * Updated logging in the frontend. Created a Logger prototype standard log methods and methods to trace/debug function calls.
 * Reduced a lot of code duplication in the frontend with the refactor
+* Complete refactor of vlc player js code too. Improved synchronization with backend
+* Removed deprecated csrf meta tags and headers
+* Fixed bugs
 
 #### v1.00
 
