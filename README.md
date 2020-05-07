@@ -36,11 +36,16 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 * Angular
 * jQuery
+* SockJs
+* Stomp
 
 ##### SCM:
 
 * Maven 
-* Trello for organizing development tasks
+* Travis-ci for CI
+* Trello for organizing tasks
+* Postman for automated API tests
+* Sonarcube, Codacy, Codefactor, Codecov for quality checks
 
 *********************
 
@@ -52,17 +57,11 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 | ------------------ | ----- | ----------- |
 | -P | -P:prod -P:qa -P:dev | Default profile is prod. It uses mysql.qa uses oracle and dev uses hsql in memory db |
 
-*********************
-
-# Execution in eclipse:
-
-* To run from eclipse, deploy into a configured tomcat server inside eclipse.
-
 *************
 
 # Installation:
 
-* Deploy copying the war into the webapps directory of your tomcat installation
+* Deploy as a standard war into the webapps directory of your tomcat installation
 
 *************
 
@@ -91,7 +90,7 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 
 ### Setup/Troubleshoot linux commands:
 
-* Make sure the user running tomcat has sudo set for the commands that require it in CommandLine.java. I tried setting those without sudo and they don't work (tested on Ubuntu 16).
+* Make sure the user running tomcat has sudo set for the commands that require it in VncDoSystemCommand.java. I tried setting those without sudo and they don't work (tested on Ubuntu 16).
 
 ### Setup/Troubleshoot VLC start and stop commands:
 
@@ -153,12 +152,13 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 #### v1.02
 
 * Added more unit tests
+* Automated API tests with postman
 
 #### v1.01
 
 * Updated logging strategy in the backend. Added a lot more logging in all layers.
 * Pretty much complete refactor of the frontend js code. Started splitting into prototypes (Logger, HttpClient, TimeUtils, etc) and moving away from global functions and variables
-* Updated logging in the frontend. Created a Logger prototype standard log methods and methods to trace/debug function calls.
+* Updated logging in the frontend. Created a Logger prototype with standard log methods and methods to trace/debug function calls.
 * Reduced a lot of code duplication in the frontend with the refactor
 * Complete refactor of vlc player js code too. Improved synchronization with backend
 * Removed deprecated csrf meta tags and headers
