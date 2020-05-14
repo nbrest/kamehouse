@@ -28,32 +28,32 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "APPLICATION_USER")
+@Table(name = "application_user")
 public class ApplicationUser implements Identifiable, UserDetails {
  
   private static final long serialVersionUID = 1L;
 
   @Id
-  @Column(name = "ID", unique = true, nullable = false)
+  @Column(name = "id", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "USERNAME", unique = true, nullable = false)
+  @Column(name = "username", unique = true, nullable = false)
   private String username;
 
-  @Column(name = "PASSWORD")
+  @Column(name = "password")
   private String password;
 
-  @Column(name = "EMAIL", unique = true, nullable = false)
+  @Column(name = "email", unique = true, nullable = false)
   private String email;
 
-  @Column(name = "FIRST_NAME")
+  @Column(name = "first_name")
   private String firstName;
 
-  @Column(name = "LAST_NAME")
+  @Column(name = "last_name")
   private String lastName;
 
-  @Column(name = "LAST_LOGIN")
+  @Column(name = "last_login")
   private Date lastLogin;
 
   /* Spring Security related fields 
@@ -67,16 +67,16 @@ public class ApplicationUser implements Identifiable, UserDetails {
   @JsonManagedReference
   private Set<ApplicationRole> authorities;
 
-  @Column(name = "ACCOUNT_NON_EXPIRED")
+  @Column(name = "account_non_expired")
   private boolean accountNonExpired = true;
 
-  @Column(name = "ACCOUNT_NON_LOCKED")
+  @Column(name = "account_non_locked")
   private boolean accountNonLocked = true;
 
-  @Column(name = "CREDENTIALS_NON_EXPIRED")
+  @Column(name = "credentials_non_expired")
   private boolean credentialsNonExpired = true;
 
-  @Column(name = "ENABLED")
+  @Column(name = "enabled")
   private boolean enabled = true;
 
   public Long getId() {

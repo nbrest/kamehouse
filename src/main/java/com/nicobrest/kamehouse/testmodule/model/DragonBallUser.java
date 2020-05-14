@@ -21,29 +21,29 @@ import javax.persistence.Table;
  * @author nbrest
  */
 @Entity
-@Table(name = "DRAGONBALL_USER")
+@Table(name = "dragonball_user")
 public class DragonBallUser implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
   @Id
-  @Column(name = "ID", unique = true, nullable = false)
+  @Column(name = "id", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "USERNAME", unique = true, nullable = false)
+  @Column(name = "username", unique = true, nullable = false)
   private String username;
 
-  @Column(name = "EMAIL", unique = true, nullable = false)
+  @Column(name = "email", unique = true, nullable = false)
   private String email;
 
-  @Column(name = "AGE")
+  @Column(name = "age")
   private int age;
 
-  @Column(name = "POWER_LEVEL")
+  @Column(name = "power_level")
   private int powerLevel;
 
-  @Column(name = "STAMINA")
+  @Column(name = "stamina")
   private int stamina;
 
   public DragonBallUser() {

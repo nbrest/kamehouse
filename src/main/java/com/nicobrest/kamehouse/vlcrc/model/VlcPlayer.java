@@ -43,7 +43,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "VLC_PLAYER")
+@Table(name = "vlc_player")
 public class VlcPlayer implements Identifiable, Serializable {
 
   @JsonIgnore
@@ -60,20 +60,20 @@ public class VlcPlayer implements Identifiable, Serializable {
   private static final String BROWSE_URL = "/requests/browse.json";
 
   @Id
-  @Column(name = "ID", unique = true, nullable = false)
+  @Column(name = "id", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "HOSTNAME", unique = true, nullable = false)
+  @Column(name = "hostname", unique = true, nullable = false)
   private String hostname;
 
-  @Column(name = "PORT")
+  @Column(name = "port")
   private int port;
 
-  @Column(name = "USERNAME")
+  @Column(name = "username")
   private String username;
 
-  @Column(name = "PASSWORD")
+  @Column(name = "password")
   private String password;
 
   public VlcPlayer() {

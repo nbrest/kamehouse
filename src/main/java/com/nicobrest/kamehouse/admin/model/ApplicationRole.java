@@ -24,21 +24,21 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "APPLICATION_ROLE")
+@Table(name = "application_role")
 public class ApplicationRole implements GrantedAuthority {
  
   private static final long serialVersionUID = 1L;
   
   @Id
-  @Column(name = "ID", unique = true, nullable = false)
+  @Column(name = "id", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   
-  @Column(name = "NAME", nullable = false)
+  @Column(name = "name", nullable = false)
   private String name;
   
   @ManyToOne(optional = false)
-  @JoinColumn(name = "APPLICATION_USER_ID")
+  @JoinColumn(name = "application_user_id")
   @JsonBackReference
   private ApplicationUser applicationUser;
   
