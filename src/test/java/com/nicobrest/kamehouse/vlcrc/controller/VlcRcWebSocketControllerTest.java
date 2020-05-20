@@ -88,4 +88,6 @@ public class VlcRcWebSocketControllerTest {
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus("localhost");
     vlcRcStatusTestUtils.assertEqualsAllAttributes(emptyVlcRcStatus, returnedVlcRcStatus);
   }
+
+  //TODO: ADD UNIT TESTS FOR PLAYLIST WS ENDPOINT
 }

@@ -31,6 +31,7 @@ function VlcPlayer(hostname) {
   this.init = function init() {
     logger.debugFunctionCall();
     self.synchronizer.connect();
+    self.synchronizer.connectPlaylist();
     self.synchronizer.syncVlcRcStatusLoop();
     self.synchronizer.syncPlaylistLoop();
     self.synchronizer.keepAliveWebSocketLoop();
@@ -42,8 +43,6 @@ function VlcPlayer(hostname) {
    */
   this.playFile = function playFile(fileName) {
     self.commandExecutor.playFile(fileName);
-    // Wait a few seconds for Vlc Player to restart with the new file and reload the playlist.
-    self.playlist.asyncReload(5000);
   }
 
   this.execVlcRcCommand = function execVlcRcCommand(name, val) {
@@ -94,8 +93,8 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Playlist functionality
    */
-  this.reloadPlaylist = function reloadPlaylist() {
-    self.playlist.reload();
+  this.reloadPlaylist = function reloadPlaylist(playlistArray) {
+    self.playlist.reload(playlistArray);
   }
 
   this.toggleExpandPlaylist = function toggleExpandPlaylist(){
@@ -390,11 +389,12 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
   this.webSocket = new WebSocketKameHouse();
+  this.playlistWebSocket = new WebSocketKameHouse();
   this.isRunningSyncVlcRcStatusLoop = false;
   this.isRunningSyncPlaylistLoop = false;
   this.isRunningKeepAliveWebSocketLoop = false;
 
-  function setWebSocket() {
+  function setWebSockets() {
     logger.traceFunctionCall();
     const webSocketStatusUrl = '/kame-house/api/ws/vlc-player/status';
     const webSocketPollUrl = "/app/vlc-player/status-in";
@@ -402,17 +402,34 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     self.webSocket.setStatusUrl(webSocketStatusUrl);
     self.webSocket.setPollUrl(webSocketPollUrl);
     self.webSocket.setTopicUrl(webSocketTopicUrl);
+
+    const playlistWebSocketStatusUrl = '/kame-house/api/ws/vlc-player/playlist';
+    const playlistWebSocketPollUrl = "/app/vlc-player/playlist-in";
+    const playlistWebSocketTopicUrl = '/topic/vlc-player/playlist-out';
+    self.playlistWebSocket.setStatusUrl(playlistWebSocketStatusUrl);
+    self.playlistWebSocket.setPollUrl(playlistWebSocketPollUrl);
+    self.playlistWebSocket.setTopicUrl(playlistWebSocketTopicUrl);
   }
-  setWebSocket();
+  setWebSockets();
 
   /** Poll for an update of vlcRcStatus through the web socket. */
   this.pollVlcRcStatus = function pollVlcRcStatus() {
     self.webSocket.poll();
   }
 
+  /** Poll for an update of the playlist through the web socket. */
+  this.pollPlaylist = function pollPlaylist() {
+    self.playlistWebSocket.poll();
+  }
+
   /** Returns true if the websocket is connected. */
   this.isConnected = function isConnected() {
     return self.webSocket.isConnected();
+  }
+
+  /** Returns true if the playlist websocket is connected. */
+  this.isPlaylistConnected = function isPlaylistConnected() {
+    return self.playlistWebSocket.isConnected();
   }
 
   /** Connects the websocket to the backend. */
@@ -427,6 +444,19 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       self.vlcPlayer.updateView();
     });
   }
+  
+  /** Connects the playlist websocket to the backend. */
+  this.connectPlaylist = function connectPlaylist() {
+    logger.debugFunctionCall();
+    self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
+      if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
+        let vlcRcPlaylist = JSON.parse(topicResponse.body);
+        self.vlcPlayer.reloadPlaylist(vlcRcPlaylist);
+      } else {
+        self.vlcPlayer.reloadPlaylist(null);
+      }
+    });
+  }
 
   /** Disconnects the websocket from the backend. */
   this.disconnect = function disconnect() {
@@ -434,11 +464,24 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     self.webSocket.disconnect();
   }
 
+  /** Disconnects the playlist websocket from the backend. */
+  this.disconnectPlaylist = function disconnectPlaylist() {
+    logger.debugFunctionCall();
+    self.playlistWebSocket.disconnect();
+  }
+
   /** Reconnects the websocket to the backend. */
   this.reconnect = function reconnect() {
     logger.debugFunctionCall();
     self.disconnect();
     self.connect();
+  }
+  
+  /** Reconnects the playlist websocket to the backend. */
+  this.reconnectPlaylist = function reconnectPlaylist() {
+    logger.debugFunctionCall();
+    self.disconnectPlaylist();
+    self.connectPlaylist();
   }
 
   /** 
@@ -495,18 +538,21 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       return;
     }
     self.isRunningSyncPlaylistLoop = true;
-    let playlistSyncWaitTimeMs = 7000;
+    let playlistSyncWaitTimeMs = 5000;
     while (self.isRunningSyncPlaylistLoop) {
       logger.trace("InfiniteLoop - synchronizing playlist:");
-      self.vlcPlayer.reloadPlaylist();
+      if (self.isPlaylistConnected()) {
+        // poll playlist from the websocket.
+        self.playlistWebSocket.poll();
+      }
       await sleep(playlistSyncWaitTimeMs);
     }
     logger.info("Finished syncPlaylistLoop");
   }
 
   /** 
-   * Start infinite loop to keep alive the websocket connection.
-   * Break the loop setting isRunningSyncPlaylistLoop to false.
+   * Start infinite loop to keep alive the websocket connections.
+   * Break the loop setting isRunningKeepAliveWebSocketLoop to false.
    */
   this.keepAliveWebSocketLoop = async function keepAliveWebSocketLoop() {
     logger.info("Started keepAliveWebSocketLoop");
@@ -519,8 +565,12 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     while (self.isRunningKeepAliveWebSocketLoop) {
       await sleep(keepAliveWebSocketWaitTimeMs);
       if (!self.isConnected()) {
-        logger.trace("WebSocket not connected. Reconnecting.");
+        logger.debug("WebSocket not connected. Reconnecting.");
         self.reconnect();
+      }
+      if (!self.isPlaylistConnected()) {
+        logger.debug("Playlist webSocket not connected. Reconnecting.");
+        self.reconnectPlaylist();
       }
     }
     logger.info("Finished keepAliveWebSocketLoop");
@@ -542,42 +592,17 @@ function VlcPlayerPlaylist(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
   this.currentPlaylist = [];
-  const getPlaylistUrl = '/kame-house/api/v1/vlc-rc/players/localhost/playlist';
   const playSelectedUrl = '/kame-house/api/v1/vlc-rc/players/localhost/commands';
 
-  /** Reload current playlist from server. */
-  this.reload = function reload() {
-    logger.traceFunctionCall();
-    logger.trace("Reloading playlist");
-    apiCallTable.get(getPlaylistUrl,
-      function success(responseBody, responseCode, responseDescription) {
-        let vlcRcPlaylist = responseBody;
-        self.display(vlcRcPlaylist);
-      },
-      function error(responseBody, responseCode, responseDescription) {
-        self.display();
-        if (responseCode == "404") {
-          apiCallTable.displayResponseData("Could not connect to VLC player to get the current playlist.", responseCode);
-        }
-      });
-  }
-
-  /** 
-   * Reload playlist after the specified ms. 
-   * Call this function instead of reloadPlaylist() directly
-   * if I need to give VLC player time to restart so I get the updated playlist. 
-   * I will usually need this after a vlc_start. 
-   */
-  this.asyncReload = async function asyncReload(sleepTime) {
-    logger.debugFunctionCall();
-    await sleep(sleepTime);
-    self.reload();
-  }
-
-  /** Display playlist. */
-  this.display = function display(playlistArray) {
+  /** Reload playlist updating the playlist view. */
+  this.reload = function reload(playlistArray) {
     //logger.traceFunctionCall();
-    self.currentPlaylist = playlistArray;
+    //TODO: Look for a more efficient array comparison than stringify
+    if (JSON.stringify(self.currentPlaylist) == JSON.stringify(playlistArray)) {
+      self.updateView();
+      return;
+    } 
+    self.currentPlaylist = playlistArray; 
     // Clear playlist content, if it has. 
     $("#playlist-table-body").empty();
     // Add the new playlist items received from the server.
@@ -642,7 +667,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
    * Reset the playlist view.
    */
   this.resetView = function resetView() {
-    self.display(null);
+    self.reload(null);
   }
 
   /** Toggle playlist collapsible active status and show or hide collapsible content. */

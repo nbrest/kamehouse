@@ -1,15 +1,21 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller for the Vlc Player WebSockets.
@@ -44,5 +50,26 @@ public class VlcRcWebSocketController {
       vlcRcStatus = new VlcRcStatus();
     }
     return vlcRcStatus;
+  }
+
+  /**
+   * Processes the websocket input request for vlc player playlist.
+   */
+  @MessageMapping("/vlc-player/playlist-in")
+  @SendTo("/topic/vlc-player/playlist-out")
+  public List<VlcRcPlaylistItem> getPlaylist() {
+    logger.trace("/vlc-player/playlist-in (WEBSOCKET)");
+    List<VlcRcPlaylistItem> vlcPlaylist = null;
+    try {
+      vlcPlaylist = vlcRcService.getPlaylist("localhost");
+    } catch (KameHouseNotFoundException e) {
+      logger.warn(e.getMessage());
+    }
+    if (vlcPlaylist == null) {
+      // Return an empty object instead of null so the client receives a response and
+      // updates the status view. Null doesn't even send a response to the channel.
+      vlcPlaylist = new ArrayList();
+    }
+    return vlcPlaylist;
   }
 }
