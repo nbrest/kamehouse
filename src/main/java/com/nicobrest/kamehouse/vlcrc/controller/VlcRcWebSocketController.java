@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 
@@ -31,7 +32,12 @@ public class VlcRcWebSocketController {
   @SendTo("/topic/vlc-player/status-out")
   public VlcRcStatus getVlcRcStatus() {
     logger.trace("/vlc-player/status-in (WEBSOCKET)");
-    VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
+    VlcRcStatus vlcRcStatus = null;
+    try {
+      vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
+    } catch (KameHouseNotFoundException e) {
+      logger.warn(e.getMessage());
+    }
     if (vlcRcStatus == null) {
       // Return an empty object instead of null so the client receives a response and
       // updates the status view. Null doesn't even send a response to the channel.

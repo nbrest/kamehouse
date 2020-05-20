@@ -4,6 +4,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
@@ -65,6 +66,21 @@ public class VlcRcWebSocketControllerTest {
   @Test
   public void getVlcRcStatusNullTest() {
     when(vlcRcServiceMock.getVlcRcStatus("localhost")).thenReturn(null);
+    VlcRcStatus emptyVlcRcStatus = new VlcRcStatus();
+
+    VlcRcStatus returnedVlcRcStatus = vlcRcWebSocketController.getVlcRcStatus();
+
+    verify(vlcRcServiceMock, times(1)).getVlcRcStatus("localhost");
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(emptyVlcRcStatus, returnedVlcRcStatus);
+  }
+
+  /**
+   * Tests getting VlcRcStatus when VlcRcService throws KameHouseNotFoundException.
+   */
+  @Test
+  public void getVlcRcStatusKameHouseNotFoundExceptionTest() {
+    Mockito.doThrow(new KameHouseNotFoundException("Entity not found"))
+        .when(vlcRcServiceMock).getVlcRcStatus("localhost");
     VlcRcStatus emptyVlcRcStatus = new VlcRcStatus();
 
     VlcRcStatus returnedVlcRcStatus = vlcRcWebSocketController.getVlcRcStatus();
