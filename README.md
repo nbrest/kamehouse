@@ -153,6 +153,9 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 
 * Added more unit tests
 * Automated API tests with postman
+* Automted backup of server configs (my.scripts repo)
+* Moved table names to lowercase to export data between windows and linux
+* Fixed database export/restore scripts (my.scripts repo)
 
 #### v1.01
 

@@ -7,7 +7,8 @@ import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 import org.junit.Test;
 
 /**
- * 
+ * PropertiesUtils tests.
+ *
  * @author nbrest
  *
  * NOTE: I wouldn't test this class with it's current version (2019/05/19). 

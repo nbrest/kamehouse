@@ -16,6 +16,6 @@ public class StringUtils {
    * This method will need to be updated constantly.
    */
   public static String sanitizeInput(String input) {
-    return input.replaceAll("[\n|\r|\t]", "_");
+    return input.replaceAll("[\n|\r|\t]", "");
   }
 }

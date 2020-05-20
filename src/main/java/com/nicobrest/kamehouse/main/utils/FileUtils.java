@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class FileUtils {
 
+  public static final String ERROR_READING_FILE = "ERROR_READING_FILE";
+  public static final String EMPTY_DECODED_FILE = "''";
   private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
 
   private FileUtils() {
@@ -39,10 +41,10 @@ public class FileUtils {
       }
     } catch (IOException | IllegalArgumentException e) {
       LOGGER.error("Error decoding file " + filename, e);
-      decodedFileContent = "ERROR_READING_FILE";
+      decodedFileContent = ERROR_READING_FILE;
     }
     if (StringUtils.isEmpty(decodedFileContent)) {
-      decodedFileContent = "''";
+      decodedFileContent = EMPTY_DECODED_FILE;
     }
     return decodedFileContent;
   }

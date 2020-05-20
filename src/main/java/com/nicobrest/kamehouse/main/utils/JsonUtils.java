@@ -17,8 +17,11 @@ import java.io.IOException;
  */
 public class JsonUtils {
 
+  public static final String DEFAULT_VALUE = "{\"message\": \"Unable to convert object to json "
+      + "string.\"}";
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
   private static final String HIDDEN_FROM_LOGS = "Field content hidden from logs.";
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   private JsonUtils() {
     throw new IllegalStateException("Utility class");
@@ -39,15 +42,14 @@ public class JsonUtils {
    */
   public static String toJsonString(Object object, String defaultValue, String[] hiddenFields) {
     try {
-      ObjectMapper objectMapper = new ObjectMapper();
-      ObjectNode objectNode = objectMapper.valueToTree(object);
+      ObjectNode objectNode = MAPPER.valueToTree(object);
       for (String hiddenField : hiddenFields) {
         if (objectNode.has(hiddenField)) {
           objectNode.remove(hiddenField);
           objectNode.put(hiddenField, HIDDEN_FROM_LOGS);
         }
       }
-      return objectMapper.writer().writeValueAsString(objectNode);
+      return MAPPER.writer().writeValueAsString(objectNode);
     } catch (IOException e) {
       LOGGER.error("Error formatting object as json", e);
       return defaultValue;
@@ -65,7 +67,7 @@ public class JsonUtils {
         toJsonStringPrettyPrint that uses the pretty print writer;
         new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
       */
-      return new ObjectMapper().writer().writeValueAsString(object);
+      return MAPPER.writer().writeValueAsString(object);
     } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
       LOGGER.error("Error formatting object as json", e);
       return defaultValue;
@@ -77,8 +79,7 @@ public class JsonUtils {
    * conversion to JSON fails.
    */
   public static String toJsonString(Object object) {
-    String defaultValue = "{\"message\": \"Unable to convert object to json string.\"}";
-    return toJsonString(object, defaultValue);
+    return toJsonString(object, DEFAULT_VALUE);
   }
 
   /**
@@ -130,7 +131,7 @@ public class JsonUtils {
   }
 
   /**
-   * Checks if the specified JsonNode is an array and is not empty.
+   * Checks if the specified JsonNode is an array and is empty.
    */
   public static boolean isJsonNodeArrayEmpty(JsonNode jsonNodeArray) {
     return !(jsonNodeArray != null && jsonNodeArray.isArray() && jsonNodeArray.size() > 0);
