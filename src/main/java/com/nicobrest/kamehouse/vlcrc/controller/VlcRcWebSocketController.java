@@ -8,11 +8,9 @@ import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +66,7 @@ public class VlcRcWebSocketController {
     if (vlcPlaylist == null) {
       // Return an empty object instead of null so the client receives a response and
       // updates the status view. Null doesn't even send a response to the channel.
-      vlcPlaylist = new ArrayList();
+      vlcPlaylist = new ArrayList<>();
     }
     return vlcPlaylist;
   }

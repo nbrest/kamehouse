@@ -500,6 +500,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     let vlcRcStatusPullWaitTimeMs = 1000;
     let failedCount = 0;
     while (self.isRunningSyncVlcRcStatusLoop) {
+      logger.trace("Poll vlcRcStatus loop");
       //logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(self.vlcPlayer.getVlcRcStatus()));
       if (self.isConnected()) {
         // poll VlcRcStatus from the websocket.
@@ -540,7 +541,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     self.isRunningSyncPlaylistLoop = true;
     let playlistSyncWaitTimeMs = 5000;
     while (self.isRunningSyncPlaylistLoop) {
-      logger.trace("InfiniteLoop - synchronizing playlist:");
+      logger.trace("Poll playlist loop");
       if (self.isPlaylistConnected()) {
         // poll playlist from the websocket.
         self.playlistWebSocket.poll();
@@ -563,6 +564,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     self.isRunningKeepAliveWebSocketLoop = true;
     let keepAliveWebSocketWaitTimeMs = 5000;
     while (self.isRunningKeepAliveWebSocketLoop) {
+      logger.trace("Keep websockets connected loop");
       await sleep(keepAliveWebSocketWaitTimeMs);
       if (!self.isConnected()) {
         logger.debug("WebSocket not connected. Reconnecting.");
@@ -599,7 +601,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     //logger.traceFunctionCall();
     //TODO: Look for a more efficient array comparison than stringify
     if (JSON.stringify(self.currentPlaylist) == JSON.stringify(playlistArray)) {
-      self.updateView();
+      self.highlightCurrentPlayingItem();
       return;
     } 
     self.currentPlaylist = playlistArray; 

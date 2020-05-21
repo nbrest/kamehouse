@@ -5,8 +5,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
+import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
 
 import org.junit.Before;
@@ -18,6 +20,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test class for the VlcRcWebSocketController.
@@ -31,6 +36,8 @@ public class VlcRcWebSocketControllerTest {
 
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
   private VlcRcStatus vlcRcStatus;
+  private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
+  private List<VlcRcPlaylistItem> vlcRcPlaylist;
 
   @InjectMocks
   private VlcRcWebSocketController vlcRcWebSocketController;
@@ -42,7 +49,8 @@ public class VlcRcWebSocketControllerTest {
   public void beforeTest() {
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
-
+    vlcRcPlaylistTestUtils.initTestData();
+    vlcRcPlaylist = vlcRcPlaylistTestUtils.getSingleTestData();
     MockitoAnnotations.initMocks(this);
     Mockito.reset(vlcRcServiceMock);
   }
@@ -89,5 +97,46 @@ public class VlcRcWebSocketControllerTest {
     vlcRcStatusTestUtils.assertEqualsAllAttributes(emptyVlcRcStatus, returnedVlcRcStatus);
   }
 
-  //TODO: ADD UNIT TESTS FOR PLAYLIST WS ENDPOINT
+  /**
+   * Tests getting VlcRcPlaylist.
+   */
+  @Test
+  public void getVlcRcPlaylistTest() {
+    when(vlcRcServiceMock.getPlaylist("localhost")).thenReturn(vlcRcPlaylist);
+
+    List<VlcRcPlaylistItem> returnedPlaylist = vlcRcWebSocketController.getPlaylist();
+
+    verify(vlcRcServiceMock, times(1)).getPlaylist("localhost");
+    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, returnedPlaylist);
+  }
+
+  /**
+   * Tests getting VlcRcPlaylist when VlcRcService returns an empty list.
+   */
+  @Test
+  public void getVlcRcPlaylistEmptyListTest() {
+    List<VlcRcPlaylistItem> emptyList = new ArrayList<>();
+    when(vlcRcServiceMock.getPlaylist("localhost")).thenReturn(emptyList);
+
+    List<VlcRcPlaylistItem> returnedPlaylist = vlcRcWebSocketController.getPlaylist();
+
+    verify(vlcRcServiceMock, times(1)).getPlaylist("localhost");
+    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(emptyList, returnedPlaylist);
+  }
+
+  /**
+   * Tests getting VlcRcPlaylist when VlcRcService throws KameHouseNotFoundException.
+   */
+  @Test
+  public void getVlcRcPlaylistKameHouseNotFoundExceptionTest() {
+    Mockito.doThrow(new KameHouseNotFoundException("Entity not found"))
+        .when(vlcRcServiceMock).getVlcRcStatus("localhost");
+    List<VlcRcPlaylistItem> emptyList = new ArrayList<>();
+
+    List<VlcRcPlaylistItem> returnedPlaylist = vlcRcWebSocketController.getPlaylist();
+
+    verify(vlcRcServiceMock, times(1)).getPlaylist("localhost");
+    vlcRcPlaylistTestUtils.assertEqualsAllAttributes(emptyList, returnedPlaylist);
+  }
+
 }
