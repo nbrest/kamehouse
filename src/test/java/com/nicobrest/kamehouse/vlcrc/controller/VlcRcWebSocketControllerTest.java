@@ -138,5 +138,4 @@ public class VlcRcWebSocketControllerTest {
     verify(vlcRcServiceMock, times(1)).getPlaylist("localhost");
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(emptyList, returnedPlaylist);
   }
-
 }

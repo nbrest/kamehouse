@@ -30,11 +30,11 @@ function VlcPlayer(hostname) {
   /** Init VlcPlayer */
   this.init = function init() {
     logger.debugFunctionCall();
-    self.synchronizer.connect();
+    self.synchronizer.connectVlcRcStatus();
     self.synchronizer.connectPlaylist();
     self.synchronizer.syncVlcRcStatusLoop();
     self.synchronizer.syncPlaylistLoop();
-    self.synchronizer.keepAliveWebSocketLoop();
+    self.synchronizer.keepAliveWebSocketsLoop();
   }
 
   /**
@@ -97,7 +97,7 @@ function VlcPlayer(hostname) {
     self.playlist.reload(playlistArray);
   }
 
-  this.toggleExpandPlaylist = function toggleExpandPlaylist(){
+  this.toggleExpandPlaylist = function toggleExpandPlaylist() {
     self.playlist.toggleExpandPlaylist();
   }
 
@@ -110,7 +110,7 @@ function VlcPlayer(hostname) {
     self.mainViewUpdater.updateView();
     self.playlist.updateView();
   }
- 
+
   /** Calls each internal module that has view logic to reset it's view. */
   this.resetView = function resetView() {
     logger.debugFunctionCall();
@@ -121,7 +121,7 @@ function VlcPlayer(hostname) {
 
   this.updateCurrentTimeView = function updateCurrentTimeView(value) {
     self.mainViewUpdater.updateCurrentTimeView(value);
-  } 
+  }
 
   this.updateVolumeView = function updateVolumeView(value) {
     self.mainViewUpdater.updateVolumeView(value);
@@ -181,7 +181,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
   this.playFile = function playFile(fileName) {
     logger.debugFunctionCall();
     logger.debug("File to play: " + fileName);
-    let requestParam = "file=" + fileName; 
+    let requestParam = "file=" + fileName;
     self.vlcPlayer.getRestClient().postUrlEncoded(adminVlcUrl, requestParam);
   }
 
@@ -189,7 +189,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
   this.close = function close() {
     logger.debugFunctionCall();
     self.vlcPlayer.getRestClient().delete(adminVlcUrl, null);
-  }  
+  }
 }
 
 /** 
@@ -204,7 +204,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
  */
 function VlcPlayerMainViewUpdater(vlcPlayer) {
   let self = this;
-  this.vlcPlayer = vlcPlayer; 
+  this.vlcPlayer = vlcPlayer;
   this.statefulButtons = [];
 
   function setStatefulButtons() {
@@ -273,7 +273,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     } else {
       self.resetTimeSlider();
     }
-  } 
+  }
 
   /** Reset time slider. */
   this.resetTimeSlider = function resetTimeSlider() {
@@ -313,7 +313,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Reset volume slider. */
   this.resetVolumeSlider = function resetVolumeSlider() {
-    self.updateVolumeView(256); 
+    self.updateVolumeView(256);
   }
 
   /** Update volume percentage to display with the specified value. */
@@ -348,7 +348,7 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
   } else {
     this.btnPrefixClass = defaultBtnPrefixClass;
   }
-  
+
   /** Determines if the button is pressed or unpressed. */
   this.isPressed = function isPressed() {
     return self.vlcPlayer.getVlcRcStatus()[pressedField] == self.pressedCondition;
@@ -388,7 +388,7 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
 function VlcPlayerSynchronizer(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
-  this.webSocket = new WebSocketKameHouse();
+  this.vlcRcStatusWebSocket = new WebSocketKameHouse();
   this.playlistWebSocket = new WebSocketKameHouse();
   this.isRunningSyncVlcRcStatusLoop = false;
   this.isRunningSyncPlaylistLoop = false;
@@ -396,12 +396,12 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   function setWebSockets() {
     logger.traceFunctionCall();
-    const webSocketStatusUrl = '/kame-house/api/ws/vlc-player/status';
-    const webSocketPollUrl = "/app/vlc-player/status-in";
-    const webSocketTopicUrl = '/topic/vlc-player/status-out';
-    self.webSocket.setStatusUrl(webSocketStatusUrl);
-    self.webSocket.setPollUrl(webSocketPollUrl);
-    self.webSocket.setTopicUrl(webSocketTopicUrl);
+    const vlcRcStatusWebSocketStatusUrl = '/kame-house/api/ws/vlc-player/status';
+    const vlcRcStatusWebSocketPollUrl = "/app/vlc-player/status-in";
+    const vlcRcStatusWebSocketTopicUrl = '/topic/vlc-player/status-out';
+    self.vlcRcStatusWebSocket.setStatusUrl(vlcRcStatusWebSocketStatusUrl);
+    self.vlcRcStatusWebSocket.setPollUrl(vlcRcStatusWebSocketPollUrl);
+    self.vlcRcStatusWebSocket.setTopicUrl(vlcRcStatusWebSocketTopicUrl);
 
     const playlistWebSocketStatusUrl = '/kame-house/api/ws/vlc-player/playlist';
     const playlistWebSocketPollUrl = "/app/vlc-player/playlist-in";
@@ -412,30 +412,24 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   }
   setWebSockets();
 
+  /**
+   * --------------------------------------------------------------------------
+   * VlcRcStatus WebSocket functionality
+   */
   /** Poll for an update of vlcRcStatus through the web socket. */
   this.pollVlcRcStatus = function pollVlcRcStatus() {
-    self.webSocket.poll();
+    self.vlcRcStatusWebSocket.poll();
   }
 
-  /** Poll for an update of the playlist through the web socket. */
-  this.pollPlaylist = function pollPlaylist() {
-    self.playlistWebSocket.poll();
-  }
-
-  /** Returns true if the websocket is connected. */
-  this.isConnected = function isConnected() {
-    return self.webSocket.isConnected();
-  }
-
-  /** Returns true if the playlist websocket is connected. */
-  this.isPlaylistConnected = function isPlaylistConnected() {
-    return self.playlistWebSocket.isConnected();
+  /** Returns true if the vlcRcStatus websocket is connected. */
+  this.isVlcRcStatusConnected = function isVlcRcStatusConnected() {
+    return self.vlcRcStatusWebSocket.isConnected();
   }
 
   /** Connects the websocket to the backend. */
-  this.connect = function connect() {
+  this.connectVlcRcStatus = function connectVlcRcStatus() {
     logger.debugFunctionCall();
-    self.webSocket.connect(function topicResponseCallback(topicResponse) {
+    self.vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
         self.vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
       } else {
@@ -444,7 +438,34 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       self.vlcPlayer.updateView();
     });
   }
-  
+
+  /** Disconnects the VlcRcStatus websocket from the backend. */
+  this.disconnectVlcRcStatus = function disconnectVlcRcStatus() {
+    logger.debugFunctionCall();
+    self.vlcRcStatusWebSocket.disconnect();
+  }
+
+  /** Reconnects the VlcRcStatus websocket to the backend. */
+  this.reconnectVlcRcStatus = function reconnectVlcRcStatus() {
+    logger.debugFunctionCall();
+    self.disconnectVlcRcStatus();
+    self.connectVlcRcStatus();
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Playlist WebSocket functionality
+   */
+  /** Poll for an update of the playlist through the web socket. */
+  this.pollPlaylist = function pollPlaylist() {
+    self.playlistWebSocket.poll();
+  }
+
+  /** Returns true if the playlist websocket is connected. */
+  this.isPlaylistConnected = function isPlaylistConnected() {
+    return self.playlistWebSocket.isConnected();
+  }
+
   /** Connects the playlist websocket to the backend. */
   this.connectPlaylist = function connectPlaylist() {
     logger.debugFunctionCall();
@@ -458,25 +479,12 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     });
   }
 
-  /** Disconnects the websocket from the backend. */
-  this.disconnect = function disconnect() {
-    logger.debugFunctionCall();
-    self.webSocket.disconnect();
-  }
-
   /** Disconnects the playlist websocket from the backend. */
   this.disconnectPlaylist = function disconnectPlaylist() {
     logger.debugFunctionCall();
     self.playlistWebSocket.disconnect();
   }
 
-  /** Reconnects the websocket to the backend. */
-  this.reconnect = function reconnect() {
-    logger.debugFunctionCall();
-    self.disconnect();
-    self.connect();
-  }
-  
   /** Reconnects the playlist websocket to the backend. */
   this.reconnectPlaylist = function reconnectPlaylist() {
     logger.debugFunctionCall();
@@ -484,6 +492,10 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     self.connectPlaylist();
   }
 
+  /**
+   * --------------------------------------------------------------------------
+   * Sychronization loops
+   */
   /** 
    * Start infinite loop to pull VlcRcStatus from the server.
    * Break the loop setting isRunningSyncVlcRcStatusLoop to false.
@@ -491,7 +503,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * it increases the wait time between syncs, until the first succesful sync.
    */
   this.syncVlcRcStatusLoop = async function syncVlcRcStatusLoop() {
-    logger.info("Started syncVlcRcStatusLoop"); 
+    logger.info("Started syncVlcRcStatusLoop");
     if (self.isRunningSyncVlcRcStatusLoop) {
       logger.error("syncVlcRcStatusLoop is already running");
       return;
@@ -502,9 +514,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     while (self.isRunningSyncVlcRcStatusLoop) {
       logger.trace("Poll vlcRcStatus loop");
       //logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(self.vlcPlayer.getVlcRcStatus()));
-      if (self.isConnected()) {
+      if (self.isVlcRcStatusConnected()) {
         // poll VlcRcStatus from the websocket.
-        self.webSocket.poll();
+        self.vlcRcStatusWebSocket.poll();
 
         if (!isEmpty(self.vlcPlayer.getVlcRcStatus().information)) {
           vlcRcStatusPullWaitTimeMs = 1000;
@@ -555,10 +567,10 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Start infinite loop to keep alive the websocket connections.
    * Break the loop setting isRunningKeepAliveWebSocketLoop to false.
    */
-  this.keepAliveWebSocketLoop = async function keepAliveWebSocketLoop() {
-    logger.info("Started keepAliveWebSocketLoop");
+  this.keepAliveWebSocketsLoop = async function keepAliveWebSocketsLoop() {
+    logger.info("Started keepAliveWebSocketsLoop");
     if (self.isRunningKeepAliveWebSocketLoop) {
-      logger.error("keepAliveWebSocketLoop is already running");
+      logger.error("keepAliveWebSocketsLoop is already running");
       return;
     }
     self.isRunningKeepAliveWebSocketLoop = true;
@@ -566,16 +578,16 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     while (self.isRunningKeepAliveWebSocketLoop) {
       logger.trace("Keep websockets connected loop");
       await sleep(keepAliveWebSocketWaitTimeMs);
-      if (!self.isConnected()) {
-        logger.debug("WebSocket not connected. Reconnecting.");
-        self.reconnect();
+      if (!self.isVlcRcStatusConnected()) {
+        logger.debug("VlcRcStatus webSocket not connected. Reconnecting.");
+        self.reconnectVlcRcStatus();
       }
       if (!self.isPlaylistConnected()) {
         logger.debug("Playlist webSocket not connected. Reconnecting.");
         self.reconnectPlaylist();
       }
     }
-    logger.info("Finished keepAliveWebSocketLoop");
+    logger.info("Finished keepAliveWebSocketsLoop");
   }
 }
 
@@ -599,12 +611,8 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** Reload playlist updating the playlist view. */
   this.reload = function reload(playlistArray) {
     //logger.traceFunctionCall();
-    //TODO: Look for a more efficient array comparison than stringify
-    if (JSON.stringify(self.currentPlaylist) == JSON.stringify(playlistArray)) {
-      self.highlightCurrentPlayingItem();
-      return;
-    } 
-    self.currentPlaylist = playlistArray; 
+    //TODO: add a validation to update the playlist only when it changes
+    self.currentPlaylist = playlistArray;
     // Clear playlist content, if it has. 
     $("#playlist-table-body").empty();
     // Add the new playlist items received from the server.
@@ -756,7 +764,7 @@ function VlcPlayerRestClient(vlcPlayer) {
 function VlcPlayerDebugger(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
-  this.vlcRcStatusHttpUrl = '/kame-house/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/status'; 
+  this.vlcRcStatusHttpUrl = '/kame-house/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/status';
 
   /** Toggle debug mode. */
   this.toggleDebugMode = function toggleDebugMode() {
