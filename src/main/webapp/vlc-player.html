@@ -18,16 +18,18 @@
 </head>
 <body>
   <div class="main-body">
-  <div class="vlc-player-tabs">
-    <button id="tab-controls-link" class="vlc-player-tab-link"
-      onclick="vlcPlayer.openTab('tab-controls')">Controls</button>
-    <button id="tab-playlist-link" class="vlc-player-tab-link"
-      onclick="vlcPlayer.openTab('tab-playlist')">Playlist</button>
-    <button id="tab-playlist-selector-link" class="vlc-player-tab-link"
-      onclick="vlcPlayer.openTab('tab-playlist-selector')">Playlist Selector</button>
-  </div>
-
   <div class="vlc-player">
+    <div class="vlc-player-tabs">
+    <div class="default-layout">
+      <button id="tab-controls-link" class="vlc-player-tab-link"
+        onclick="vlcPlayer.openTab('tab-controls')">Controls</button>
+      <button id="tab-playlist-link" class="vlc-player-tab-link"
+        onclick="vlcPlayer.openTab('tab-playlist')">Playlist</button>
+      <button id="tab-playlist-selector-link" class="vlc-player-tab-link"
+        onclick="vlcPlayer.openTab('tab-playlist-selector')">Playlist Selector</button>
+    </div>
+    </div> <!-- vlc-player-tabs -->
+
     <div id="tab-controls" class="vlc-player-tab-content">
       <div id="vlc-player-main" class="bg-darker-kh">
       <div id="media-title" class="bg-default-kh">No media loaded</div>
@@ -211,20 +213,19 @@
     </div> <!--tab-playlist-selector -->
 
     <div class="default-layout admin-cmds-section"> 
-    <button class="btn btn-outline-secondary btn-margins btn-borderless" 
-      onclick="window.location.href='/kame-house/admin/server-management'">
-      <img class="btn-img" src="/kame-house/img/pc/server-gray.png" alt="Server Management"/> Management  
-    </button>
-    <button class="btn btn-outline-success btn-margins btn-borderless"
-      onclick="vlcPlayer.getDebugger().toggleDebugMode()">
-      <img class="btn-img" src="/kame-house/img/other/debug-btn-success.png" alt="Debug Mode"/> Mode  
-    </button> 
-    <button onclick="vlcPlayer.close()" class="btn btn-outline-danger btn-margins btn-borderless">
-      Close <img class="btn-img" src="/kame-house/img/mplayer/vlc-red.png" alt="Close Vlc"/>
-    </button>
-    </div> 
-    
-    <!-- Debug Mode -->
+      <button class="btn btn-outline-secondary btn-margins btn-borderless" 
+        onclick="window.location.href='/kame-house/admin/server-management'">
+        <img class="btn-img" src="/kame-house/img/pc/server-gray.png" alt="Server Management"/> Management  
+      </button>
+      <button class="btn btn-outline-success btn-margins btn-borderless"
+        onclick="vlcPlayer.getDebugger().toggleDebugMode()">
+        <img class="btn-img" src="/kame-house/img/other/debug-btn-success.png" alt="Debug Mode"/> Mode  
+      </button> 
+      <button onclick="vlcPlayer.close()" class="btn btn-outline-danger btn-margins btn-borderless">
+        Close <img class="btn-img" src="/kame-house/img/mplayer/vlc-red.png" alt="Close Vlc"/>
+      </button>
+    </div> <!-- admin-cmds-section -->
+     
     <div id="debug-mode" class="bg-darker-kh pd-15-d-kh pd-15-m-kh hidden-kh">
     <div class="default-layout">
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
@@ -234,7 +235,7 @@
       </div>
       <div id="api-call-table"></div>
     </div>
-    </div>
+    </div> <!-- debug-mode -->
   </div> <!-- vlc-player -->
   </div> <!-- main-body -->
   <script src="/kame-house/js/vlc-player.js"></script>
