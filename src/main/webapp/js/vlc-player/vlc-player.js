@@ -35,6 +35,29 @@ function VlcPlayer(hostname) {
     self.synchronizer.syncVlcRcStatusLoop();
     self.synchronizer.syncPlaylistLoop();
     self.synchronizer.keepAliveWebSocketsLoop();
+    self.toggleExpandPlaylist();
+    self.openTab('tab-controls');
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Tab manager
+   */
+  this.openTab = function openTab(vlcPlayerTabDivId) { 
+    let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
+    for (i = 0; i < vlcPlayerTabContent.length; i++) {
+      vlcPlayerTabContent[i].style.display = "none";
+    }
+    let vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
+    for (var i = 0; i < vlcPlayerTabLinks.length; i++) {
+      vlcPlayerTabLinks[i].className = vlcPlayerTabLinks[i].className.replace(" active", "");
+    }
+    let vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
+    vlcPlayerTabLink.classList.add("active");
+    
+    let vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
+    vlcPlayerTabDiv.style.display = "block";
+    vlcPlayerTabDiv.classList.add("active"); 
   }
 
   /**

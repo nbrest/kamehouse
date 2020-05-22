@@ -1,5 +1,4 @@
 /** 
- * DONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * Represents the playlist selector component in vlc-player page.
  * It doesn't control the currently active playlist.
  * 

@@ -408,4 +408,35 @@
     margin-top: 10px;
     margin-bottom: 5px;
   }
+} 
+
+.vlc-player-tab-content {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.vlc-player-tabs {
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.vlc-player-tabs button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  color: #c0c0c0;
+}
+
+.vlc-player-tabs button:hover {
+  background-color: rgb(75, 11, 11);
+}
+
+.vlc-player-tabs button.active {
+  background-color: rgba(104, 5, 5, 0.959);
 }
