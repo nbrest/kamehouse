@@ -156,6 +156,8 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 * Automted backup of server configs (my.scripts repo)
 * Moved table names to lowercase to export data between windows and linux
 * Fixed database export/restore scripts (my.scripts repo)
+* Moved playlist synchronization to a websocket and improved synchronization stability
+* Split vlc player UI into tabs. Initially for main player and playlist
 
 #### v1.01
 
