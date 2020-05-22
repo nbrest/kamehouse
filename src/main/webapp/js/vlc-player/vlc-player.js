@@ -34,8 +34,7 @@ function VlcPlayer(hostname) {
     self.synchronizer.connectPlaylist();
     self.synchronizer.syncVlcRcStatusLoop();
     self.synchronizer.syncPlaylistLoop();
-    self.synchronizer.keepAliveWebSocketsLoop();
-    self.toggleExpandPlaylist();
+    self.synchronizer.keepAliveWebSocketsLoop(); 
     self.openTab('tab-controls');
   }
 
@@ -54,7 +53,7 @@ function VlcPlayer(hostname) {
     }
     let vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
     vlcPlayerTabLink.classList.add("active");
-    
+
     let vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
     vlcPlayerTabDiv.style.display = "block";
     vlcPlayerTabDiv.classList.add("active"); 
@@ -118,10 +117,6 @@ function VlcPlayer(hostname) {
    */
   this.reloadPlaylist = function reloadPlaylist(playlistArray) {
     self.playlist.reload(playlistArray);
-  }
-
-  this.toggleExpandPlaylist = function toggleExpandPlaylist() {
-    self.playlist.toggleExpandPlaylist();
   }
 
   /**
@@ -675,18 +670,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
    */
   this.resetView = function resetView() {
     self.reload(null);
-  }
-
-  /** Toggle playlist collapsible active status and show or hide collapsible content. */
-  // For an example of a collapsible element that expands to full vertical height, 
-  // check the api-call-table example in the test-apis page. This one expands to a fixed height.
-  this.toggleExpandPlaylist = function toggleExpandPlaylist() {
-    logger.debug("Clicked playlist button");
-    let playlistCollapsibleButton = document.getElementById("playlist-collapsible");
-    playlistCollapsibleButton.classList.toggle("playlist-collapsible-active");
-
-    let playlistCollapsibleContent = document.getElementById("playlist-collapsible-content");
-    playlistCollapsibleContent.classList.toggle("playlist-collapsible-content-active");
   }
 }
 
