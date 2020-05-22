@@ -225,61 +225,6 @@
 }
 
 /** Playlist begin.*/
-.playlist-collapsible {
-  background-color: #222222;
-  color: #b1b1b1;
-  cursor: pointer;
-  padding: 5px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none !important;
-  font-size: 15px;
-  border-radius: 0px;
-}
-
-.playlist-collapsible:after {
-  content: '\002B';
-  color: #b1b1b1;
-  font-weight: bold;
-  float: right;
-  margin-left: 5px;
-}
-
-.playlist-collapsible-active,
-.playlist-collapsible:hover {
-  background-color: #2b0b0b;
-  color: #c0c0c0;
-}
-
-.playlist-collapsible-active:after {
-  content: "\2212";
-  color: #c0c0c0;
-}
-
-.playlist-collapsible-content {
-  background: #101517;
-  border: 0;
-  padding: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-}
-
-.playlist-collapsible-content-active {
-  border: 1px solid #343434;
-  max-height: 500px;
-  overflow: scroll;
-}
-
-@media (max-width: 900px) {
-  .playlist-collapsible-content-active {
-    border: 1px solid #343434;
-    max-height: 380px;
-    overflow: scroll;
-  }
-}
-
 .playlist-table {
   width: 100%;
 }
@@ -296,14 +241,20 @@
 }
 
 #playlist-wrapper {
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 0;
+  padding: 10px;
+  background: #101517; 
+  border: 1px solid #343434;
+  max-height: 500px;
+  overflow: scroll;
 }
 
-/** Playlist end */
-
+@media (max-width: 900px) {
+  .playlist-wrapper {
+    border: 1px solid #343434;
+    max-height: 380px;
+    overflow: scroll;
+  }
+}
 /** Playlist selector dropdowns begin */
 #playlist-selector {
   padding-top: 5px;
@@ -366,7 +317,7 @@
   border-style: solid;
   border-width: 10px;
   border-color: #161e21;
-  width: 50%;
+  width: 65%;
   margin: auto;
   margin-top: 15px;
   margin-bottom: 10px;
@@ -410,6 +361,7 @@
   }
 } 
 
+/* tabs */
 .vlc-player-tab-content {
   display: none;
   padding: 6px 12px;
