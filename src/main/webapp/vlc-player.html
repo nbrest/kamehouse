@@ -21,16 +21,16 @@
   <div class="vlc-player">
     <div class="vlc-player-tabs bg-darker-kh">
     <div class="default-layout">
-      <button id="tab-controls-link" class="vlc-player-tab-link"
-        onclick="vlcPlayer.openTab('tab-controls')">Controls</button>
+      <button id="tab-playing-link" class="vlc-player-tab-link"
+        onclick="vlcPlayer.openTab('tab-playing')">Playing</button>
       <button id="tab-playlist-link" class="vlc-player-tab-link"
         onclick="vlcPlayer.openTab('tab-playlist')">Playlist</button>
-      <button id="tab-playlist-selector-link" class="vlc-player-tab-link"
-        onclick="vlcPlayer.openTab('tab-playlist-selector')">Playlist Selector</button>
+      <button id="tab-playlist-browser-link" class="vlc-player-tab-link"
+        onclick="vlcPlayer.openTab('tab-playlist-browser')">Playlist Browser</button>
     </div>
     </div> <!-- vlc-player-tabs -->
 
-    <div id="tab-controls" class="vlc-player-tab-content">
+    <div id="tab-playing" class="vlc-player-tab-content">
       <div id="vlc-player-main" class="bg-darker-kh">
       <div id="media-title" class="bg-default-kh">No media loaded</div>
       <div id="media-time" class="bg-default-kh">
@@ -174,7 +174,7 @@
       </table>
       </div> <!-- vlc-player-main/media-buttons -->
       </div> <!-- vlc-player-main -->
-    </div> <!--tab-controls -->
+    </div> <!--tab-playing -->
   
     <div id="tab-playlist" class="vlc-player-tab-content">
       <div class="default-layout bg-darker-kh">
@@ -190,7 +190,7 @@
       </div>
     </div> <!--tab-playlist -->
 
-    <div id="tab-playlist-selector" class="vlc-player-tab-content">
+    <div id="tab-playlist-browser" class="vlc-player-tab-content">
       <div class="default-layout">
       <div class="bg-darker-kh">
         <div id="playlist-selector"> 
@@ -204,7 +204,7 @@
         </div>
       </div> 
       </div> 
-    </div> <!--tab-playlist-selector -->
+    </div> <!--tab-playlist-browser -->
 
     <div class="default-layout admin-cmds-section"> 
       <button class="btn btn-outline-secondary btn-margins btn-borderless" 

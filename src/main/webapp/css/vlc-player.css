@@ -379,10 +379,18 @@
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 14px 16px;
   transition: 0.3s;
-  font-size: 17px;
   color: #c0c0c0;
+  text-align: center;
+  font-size: 17px;
+  padding: 12px 14px;
+  text-decoration: none;
+}
+@media (max-width : 900px) {
+  .vlc-player-tabs button {
+    font-size: 16px;
+    padding: 8px 10px;
+  }
 }
 
 .vlc-player-tabs button:hover {

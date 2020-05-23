@@ -35,7 +35,7 @@ function VlcPlayer(hostname) {
     self.synchronizer.syncVlcRcStatusLoop();
     self.synchronizer.syncPlaylistLoop();
     self.synchronizer.keepAliveWebSocketsLoop(); 
-    self.openTab('tab-controls');
+    self.openTab('tab-playing');
   }
 
   /**
