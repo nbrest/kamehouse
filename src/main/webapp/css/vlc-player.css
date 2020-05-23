@@ -370,7 +370,7 @@
 
 .vlc-player-tabs {
   overflow: hidden;
-  background-color: #000000;
+  border-bottom: #272626 3px solid;
 }
 
 .vlc-player-tabs button {
