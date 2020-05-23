@@ -16,9 +16,8 @@ import java.util.List;
 
 /**
  * Controller to manage the video playlists in the local system.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Controller
 @RequestMapping(value = "/api/v1/media/video")
@@ -43,7 +42,8 @@ public class VideoPlaylistController extends AbstractController {
    */
   @GetMapping(path = "/playlists/file")
   @ResponseBody
-  public ResponseEntity<Playlist> getPlaylist(@RequestParam(value = "path", required = false) String path) {
+  public ResponseEntity<Playlist> getPlaylist(
+      @RequestParam(value = "path", required = false) String path) {
     logger.trace("/api/v1/media/video/playlists/file?path={} (GET)", path);
     Playlist playlist = null;
     if (path != null) {

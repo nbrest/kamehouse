@@ -65,7 +65,7 @@ public class VideoPlaylistService {
   }
 
   /**
-   * Get the specified playlist
+   * Get the specified playlist.
    */
   public Playlist getPlaylist(String playlistFilename, boolean fetchContent) {
     Path playlistPath = Paths.get(playlistFilename);
@@ -73,7 +73,7 @@ public class VideoPlaylistService {
   }
 
   /**
-   * Get the specified playlist
+   * Get the specified playlist.
    */
   public Playlist getPlaylist(Path playlistPath, boolean fetchContent) {
     logger.trace("Get playlist {}", playlistPath.toString());
