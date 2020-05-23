@@ -1,39 +1,29 @@
 /**
  * VLC Player page functions.
  * 
- * Dependencies: logger, vlcPlayer, playlistSelector
+ * Dependencies: logger, vlcPlayer, playlistBrowser
  * 
  * @author nbrest
  */
 
 /** ----- Global variables ---------------------------------------------------------------- */
 var vlcPlayer;
-var playlistSelector;
+var playlistBrowser;
 
 /** Main function. */
 var main = function() {
-  loadPlaylistSelector();
   loadVlcPlayer();
-  let loadingModules = ["logger", "vlcPlayer", "playlistSelector"];
+  loadPlaylistBrowser();
+  let loadingModules = ["logger", "vlcPlayer", "playlistBrowser"];
   waitForModules(loadingModules, initVlcPlayer);
 };
 
 /** Init function to execute after global dependencies are loaded. */
 var initVlcPlayer = function() {
   logger.info("Started initializing VLC Player"); 
-  playlistSelector.populateVideoPlaylistCategories();
+  playlistBrowser.populateVideoPlaylistCategories();
   vlcPlayer.init();
 };
-
-function loadPlaylistSelector() {
-  $.getScript("/kame-house/js/media/video/playlist-selector.js", function (data, textStatus, jqxhr) {
-    let loadingModules = ["logger", "apiCallTable"];
-    waitForModules(loadingModules, function initPlaylistSelector() {
-      modules.playlistSelector = true;
-      playlistSelector = new PlaylistSelector();
-    });
-  });
-}
 
 function loadWebSocketKameHouse() {
   $.getScript("/kame-house/js/utils/websocket-kamehouse.js", function (data, textStatus, jqxhr) {
@@ -49,8 +39,18 @@ function loadVlcPlayer() {
   $.getScript("/kame-house/js/vlc-player/vlc-player.js", function (data, textStatus, jqxhr) {
     let loadingModules = ["timeUtils", "logger", "apiCallTable", "webSocketKameHouse"];
     waitForModules(loadingModules, function initVlcPlayerInstance() {
-      modules.vlcPlayer = true;
       vlcPlayer = new VlcPlayer("localhost");
+      modules.vlcPlayer = true;
+    });
+  });
+}
+
+function loadPlaylistBrowser() {
+  $.getScript("/kame-house/js/media/video/playlist-browser.js", function (data, textStatus, jqxhr) {
+    let loadingModules = ["logger", "apiCallTable", "vlcPlayer"];
+    waitForModules(loadingModules, function initPlaylistBrowser() {
+      playlistBrowser = new PlaylistBrowser(vlcPlayer);
+      modules.playlistBrowser = true;
     });
   });
 }

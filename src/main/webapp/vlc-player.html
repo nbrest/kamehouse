@@ -178,7 +178,7 @@
   
     <div id="tab-playlist" class="vlc-player-tab-content">
       <div class="default-layout bg-darker-kh">
-        <div id="playlist-wrapper">
+        <div class="playlist-wrapper">
           <table id="playlist-table" class="playlist-table">
             <caption class="hidden-kh">Playlist</caption>
             <tr class="hidden-kh"><th scope="row">Playlist</th></tr>
@@ -195,15 +195,31 @@
       <div class="bg-darker-kh">
         <div id="playlist-selector"> 
           <select class="select-kh-dark playlist-selector" id="playlist-category-dropdown" name="playlist-category" 
-            onchange="playlistSelector.populateVideoPlaylists()"></select>
-          <select class="select-kh-dark playlist-selector" id="playlist-dropdown" name="playlist"></select>  
-          <button onclick="playlistSelector.playSelectedPlaylist(vlcPlayer)"
+            onchange="playlistBrowser.populateVideoPlaylists()"></select>
+          <select class="select-kh-dark playlist-selector" id="playlist-dropdown" name="playlist" 
+            onchange="playlistBrowser.loadPlaylistContent()"></select>
+          <button onclick="playlistBrowser.playSelectedPlaylist()"
             class="btn btn-outline-primary btn-margins btn-borderless" >
             Load <img class="btn-img" src="/kame-house/img/mplayer/playlist-blue.png" alt="Load Playlist"/>
           </button>
         </div>
       </div> 
-      </div> 
+      </div>
+      <div class="default-layout bg-darker-kh">
+        <div class="playlist-wrapper">
+          <table id="playlist-browser-table" class="playlist-table">
+            <caption class="hidden-kh">Playlist</caption>
+            <tr class="hidden-kh">
+              <th scope="row">Playlist</th>
+            </tr>
+            <tbody id="playlist-browser-table-body">
+              <tr>
+                <td>No playlist to browse loaded yet. Mada mada dane.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div> <!--tab-playlist-browser -->
 
     <div class="default-layout admin-cmds-section"> 

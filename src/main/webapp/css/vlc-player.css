@@ -240,7 +240,7 @@
   color: black;
 }
 
-#playlist-wrapper {
+.playlist-wrapper {
   padding: 10px;
   background: #101517; 
   border: 1px solid #343434;

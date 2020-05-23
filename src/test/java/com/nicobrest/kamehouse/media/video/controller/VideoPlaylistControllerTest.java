@@ -63,7 +63,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
    * Tests getting all video playlists.
    */
   @Test
-  public void readAllTest() throws Exception {
+  public void getAllTest() throws Exception {
     when(videoPlaylistService.getAll()).thenReturn(videoPlaylistsList);
 
     MockHttpServletResponse response = doGet(API_V1_MEDIA_VIDEO_PLAYLISTS);
@@ -75,4 +75,6 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     verify(videoPlaylistService, times(1)).getAll();
     verifyNoMoreInteractions(videoPlaylistService);
   }
+
+  //TODO: ADD UNIT TEST FOR GET PLAYLIST
 }

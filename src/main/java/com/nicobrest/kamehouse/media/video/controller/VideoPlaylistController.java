@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -35,5 +36,19 @@ public class VideoPlaylistController extends AbstractController {
     logger.trace("/api/v1/media/video/playlists (GET)");
     List<Playlist> videoPlaylists = videoPlaylistService.getAll();
     return generateGetResponseEntity(videoPlaylists);
+  }
+
+  /**
+   * Gets a video playlist specified as a url parameter.
+   */
+  @GetMapping(path = "/playlists/file")
+  @ResponseBody
+  public ResponseEntity<Playlist> getPlaylist(@RequestParam(value = "path", required = false) String path) {
+    logger.trace("/api/v1/media/video/playlists/file?path={} (GET)", path);
+    Playlist playlist = null;
+    if (path != null) {
+      playlist = videoPlaylistService.getPlaylist(path, true);
+    }
+    return generateGetResponseEntity(playlist);
   }
 }

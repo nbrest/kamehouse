@@ -1,17 +1,20 @@
 /** 
- * Represents the playlist selector component in vlc-player page.
+ * Represents the playlist browser component in vlc-player page.
  * It doesn't control the currently active playlist.
  * 
  * Dependencies: logger, apiCallTable
  * 
  * @author nbrest
  */
-function PlaylistSelector() {
+function PlaylistBrowser(vlcPlayer) {
 
   let self = this;
+  this.vlcPlayer = vlcPlayer;
   this.videoPlaylists = [];
   this.videoPlaylistCategories = [];
-  const mediaVideoPlaylistsUrl = '/kame-house/api/v1/media/video/playlists';
+  this.currentPlaylist = {};
+  const mediaVideoAllPlaylistsUrl = '/kame-house/api/v1/media/video/playlists';
+  const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlists/file';
 
   /** Returns the selected playlist from the dropdowns. */
   this.getSelectedPlaylist = function getSelectedPlaylist() {
@@ -32,7 +35,7 @@ function PlaylistSelector() {
     playlistCategoryDropdown.empty();
     playlistCategoryDropdown.append('<option selected="true" disabled>Playlist Category</option>');
     playlistCategoryDropdown.prop('selectedIndex', 0);
-    apiCallTable.get(mediaVideoPlaylistsUrl,
+    apiCallTable.get(mediaVideoAllPlaylistsUrl,
       function (responseBody, responseCode, responseDescription) {
         self.videoPlaylists = responseBody;
         self.videoPlaylistCategories = [...new Set(self.videoPlaylists.map(playlist => playlist.category))];
@@ -68,10 +71,57 @@ function PlaylistSelector() {
     });
   }
 
+  /** Load the selected playlist's content in the view */
+  this.loadPlaylistContent = function loadPlaylistContent() {
+    let playlistFilename = self.getSelectedPlaylist();
+    logger.debug("Getting content for " + playlistFilename);
+    let requestParam = "path=" + playlistFilename;
+    apiCallTable.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
+      function (responseBody, responseCode, responseDescription) {
+        self.currentPlaylist = responseBody;
+        self.populatePlaylistBrowserTable();
+      },
+      function (responseBody, responseCode, responseDescription) {
+        apiCallTable.displayResponseData("Error getting playlist content", responseCode);
+      });
+  }
+
   /** Play selected file in the specified VlcPlayer. */
-  this.playSelectedPlaylist = function playSelectedPlaylist(vlcPlayer) {
+  this.playSelectedPlaylist = function playSelectedPlaylist() {
     logger.debugFunctionCall();
     let playlist = self.getSelectedPlaylist();
-    vlcPlayer.playFile(playlist);
+    self.vlcPlayer.playFile(playlist);
+  }
+
+  /** Populate the playlist table for browsing. */
+  this.populatePlaylistBrowserTable = function populatePlaylistBrowserTable() {
+    logger.traceFunctionCall();
+    // Clear playlist browser table content. 
+    $("#playlist-browser-table-body").empty();
+    // Add the new playlist browser items received from the server.
+    let $playlistTableBody = $('#playlist-browser-table-body');
+    let playlistTableRow;
+    if (isEmpty(self.currentPlaylist)) {
+      playlistTableRow = $('<tr>').append($('<td>').text("No playlist to browse loaded yet or unable to sync. Mada mada dane :)"));
+      $playlistTableBody.append(playlistTableRow);
+    } else {
+      for (let i = 0; i < self.currentPlaylist.files.length; i++) {
+        let playlistElementButton = $('<button>');
+        playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
+        playlistElementButton.text(self.currentPlaylist.files[i]);
+        playlistElementButton.click({
+          name: self.currentPlaylist.files[i]
+        }, self.clickEventOnPlaylistBrowserRow);
+        playlistTableRow = $('<tr id=playlist-browser-entry-' + [i] + '>').append($('<td>').append(playlistElementButton));
+        $playlistTableBody.append(playlistTableRow);
+      }
+    }
+  }
+
+  /** Play the clicked element from the playlist. */
+  this.clickEventOnPlaylistBrowserRow = function clickEventOnPlaylistBrowserRow(event) {
+    let filename = event.data.name;
+    logger.info("Play selected playlist browser file : " + filename);
+    self.vlcPlayer.playFile(filename);
   }
 }

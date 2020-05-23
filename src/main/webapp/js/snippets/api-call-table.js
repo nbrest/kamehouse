@@ -17,8 +17,8 @@ var apiCallTable;
 /** Init function. */
 function initApiCallTable() {
   logger.info("Started initializing api call table");
-  modules.apiCallTable = true;
   apiCallTable = new ApiCallTable();
+  modules.apiCallTable = true;
   apiCallTable.displayRequestData(null, null, null);
 }
 
@@ -53,22 +53,46 @@ function ApiCallTable() {
   }
 
   /** 
-   * Execute a POST request, update the api call table 
+   * Execute a GET request with url encoded parameters, update the api call table 
    * and perform the specified success or error functions 
    */
-  this.post = function httpPost(url, requestBody, successCallback, errorCallback) {
-    logger.traceFunctionCall();
-    apiCallTable.displayRequestData(url, "POST", requestBody);
-    var requestHeaders = httpClient.getApplicationJsonHeaders();
-    httpClient.post(url, requestHeaders, requestBody,
+  this.getUrlEncoded = function httpGetUrlEncoded(url, requestParam, successCallback, errorCallback) {
+    logger.traceFunctionCall(); 
+    var urlEncoded = encodeURI(url + "?" + requestParam);
+    self.displayRequestData(urlEncoded, "GET", null);
+    var requestHeaders = httpClient.getUrlEncodedHeaders();
+    httpClient.get(urlEncoded, requestHeaders,
       function success(responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData(responseBody, responseCode);
+        self.displayResponseData(responseBody, responseCode);
         if (isFunction(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription);
         }
       },
       function error(responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData(responseBody, responseCode);
+        self.displayResponseData(responseBody, responseCode);
+        if (isFunction(errorCallback)) {
+          errorCallback(responseBody, responseCode, responseDescription);
+        }
+      });
+  }
+
+  /** 
+   * Execute a POST request, update the api call table 
+   * and perform the specified success or error functions 
+   */
+  this.post = function httpPost(url, requestBody, successCallback, errorCallback) {
+    logger.traceFunctionCall();
+    self.displayRequestData(url, "POST", requestBody);
+    var requestHeaders = httpClient.getApplicationJsonHeaders();
+    httpClient.post(url, requestHeaders, requestBody,
+      function success(responseBody, responseCode, responseDescription) {
+        self.displayResponseData(responseBody, responseCode);
+        if (isFunction(successCallback)) {
+          successCallback(responseBody, responseCode, responseDescription);
+        }
+      },
+      function error(responseBody, responseCode, responseDescription) {
+        self.displayResponseData(responseBody, responseCode);
         if (isFunction(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription);
         }
@@ -82,17 +106,17 @@ function ApiCallTable() {
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback) {
     logger.traceFunctionCall();
     var urlEncoded = encodeURI(url + "?" + requestParam);
-    apiCallTable.displayRequestData(urlEncoded, "POST", null);
+    self.displayRequestData(urlEncoded, "POST", null);
     var requestHeaders = httpClient.getUrlEncodedHeaders();
     httpClient.post(urlEncoded, requestHeaders, null,
       function success(responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData(responseBody, responseCode);
+        self.displayResponseData(responseBody, responseCode);
         if (isFunction(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription);
         }
       },
       function error(responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData(responseBody, responseCode);
+        self.displayResponseData(responseBody, responseCode);
         if (isFunction(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription);
         }
@@ -105,17 +129,17 @@ function ApiCallTable() {
    */
   this.delete = function httpDelete(url, requestBody, successCallback, errorCallback) {
     logger.traceFunctionCall();
-    apiCallTable.displayRequestData(url, "DELETE", requestBody);
+    self.displayRequestData(url, "DELETE", requestBody);
     var requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.delete(url, requestHeaders, requestBody,
       function success(responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData(responseBody, responseCode);
+        self.displayResponseData(responseBody, responseCode);
         if (isFunction(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription);
         }
       },
       function error(responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData(responseBody, responseCode);
+        self.displayResponseData(responseBody, responseCode);
         if (isFunction(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription);
         }

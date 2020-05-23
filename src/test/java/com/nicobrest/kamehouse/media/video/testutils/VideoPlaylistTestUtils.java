@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,22 +44,28 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
 
   private void initSingleTestData() {
     singleTestData = new Playlist();
-    singleTestData.setCategory("heroes\\marvel\\" + 0);
-    String playlistName = "marvel_movies_" + 0 + ".m3u";
+    singleTestData.setCategory("heroes\\dc");
+    String playlistName = "dc.m3u";
     singleTestData.setName(playlistName);
-    singleTestData.setPath("C:\\Users\\nbrest\\playlists\\" + playlistName);
+    singleTestData.setPath(TEST_PLAYLISTS_ROOT_DIR + playlistName);
+    List<String> files = new ArrayList<>();
+    files.add("N:\\movies\\heroes\\dc\\Batman - 1\\Batman 1989.mp4");
+    files.add("N:\\movies\\heroes\\dc\\Batman - 2 - Returns\\Batman Returns 1992.mp4");
+    singleTestData.setFiles(null);
   }
 
   private void initTestDataList() {
-    testDataList = new LinkedList<Playlist>();
+    testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
-    for (int i = 1; i < 3; i++) {
-      Playlist playlist = new Playlist();
-      playlist.setCategory("heroes\\marvel\\" + i);
-      String playlistName = "marvel_movies_" + i + ".m3u";
-      playlist.setName(playlistName);
-      playlist.setPath("C:\\Users\\nbrest\\playlists\\" + playlistName);
-      testDataList.add(playlist);
-    }
+    Playlist playlist = new Playlist();
+    playlist.setCategory("heroes\\marvel");
+    String playlistName = "marvel.m3u";
+    playlist.setName(playlistName);
+    playlist.setPath(TEST_PLAYLISTS_ROOT_DIR + playlistName);
+    List<String> files = new ArrayList<>();
+    files.add("N:\\movies\\heroes\\marvel\\Avengers Infinity War\\Avengers.Infinity.War.mp4");
+    files.add("N:\\movies\\heroes\\marvel\\Avengers.Age.of.Ultron.2015\\Avengers.Age.of.Ultron.2015.mkv");
+    files.add("N:\\movies\\heroes\\marvel\\Avengers.The.2012\\The.Avengers.2012.mkv");
+    testDataList.add(playlist);
   }
 }
