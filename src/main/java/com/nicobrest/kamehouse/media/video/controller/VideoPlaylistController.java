@@ -40,11 +40,11 @@ public class VideoPlaylistController extends AbstractController {
   /**
    * Gets a video playlist specified as a url parameter.
    */
-  @GetMapping(path = "/playlists/file")
+  @GetMapping(path = "/playlist")
   @ResponseBody
   public ResponseEntity<Playlist> getPlaylist(
       @RequestParam(value = "path", required = true) String path) {
-    logger.trace("/api/v1/media/video/playlists/file?path={} (GET)", path);
+    logger.trace("/api/v1/media/video/playlist?path={} (GET)", path);
     Playlist playlist = videoPlaylistService.getPlaylist(path, true);
     return generateGetResponseEntity(playlist);
   }

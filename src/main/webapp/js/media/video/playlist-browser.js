@@ -14,7 +14,7 @@ function PlaylistBrowser(vlcPlayer) {
   this.videoPlaylistCategories = [];
   this.currentPlaylist = {};
   const mediaVideoAllPlaylistsUrl = '/kame-house/api/v1/media/video/playlists';
-  const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlists/file';
+  const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlist';
 
   /** Returns the selected playlist from the dropdowns. */
   this.getSelectedPlaylist = function getSelectedPlaylist() {
