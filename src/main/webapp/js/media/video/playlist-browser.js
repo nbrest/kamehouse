@@ -121,7 +121,7 @@ function PlaylistBrowser(vlcPlayer) {
   /** Play the clicked element from the playlist. */
   this.clickEventOnPlaylistBrowserRow = function clickEventOnPlaylistBrowserRow(event) {
     let filename = event.data.name;
-    logger.info("Play selected playlist browser file : " + filename);
+    logger.debug("Play selected playlist browser file : " + filename);
     self.vlcPlayer.playFile(filename);
   }
 }

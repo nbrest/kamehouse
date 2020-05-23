@@ -141,7 +141,10 @@ public class VideoPlaylistService {
     try {
       files = Files.readAllLines(Paths.get(playlistPath))
           .stream()
+          // Remove comments of m3u files
           .filter(file -> !file.startsWith("#"))
+          // Remove empty lines
+          .filter(file -> !file.trim().isEmpty())
           .collect(Collectors.toList());
     } catch (IOException e) {
       logger.error("Error reading {} content", playlistPath, e);
