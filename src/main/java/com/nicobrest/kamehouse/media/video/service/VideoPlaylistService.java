@@ -26,10 +26,10 @@ import java.util.stream.Stream;
 @Service
 public class VideoPlaylistService {
 
-  private final Logger logger = LoggerFactory.getLogger(getClass());
-
   private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
   private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
+
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
    * Gets all video playlists without their contents.
@@ -76,9 +76,9 @@ public class VideoPlaylistService {
    * Get the specified playlist.
    */
   public Playlist getPlaylist(Path playlistPath, boolean fetchContent) {
-    logger.trace("Get playlist {}", playlistPath.toString());
-    if (!Files.exists(playlistPath)) {
-      logger.warn("File {} doesn't exist.", playlistPath.toString());
+    logger.trace("Get playlist {}", playlistPath);
+    if (!playlistPath.toFile().exists()) {
+      logger.warn("File {} doesn't exist.", playlistPath);
       return null;
     }
     //TODO: ADD FILTERS TO ONLY GET PLAYLISTS ON BASEPATH, CONSIDER USERS USING ../ TO GET OUT OF IT
@@ -96,6 +96,7 @@ public class VideoPlaylistService {
         playlist.setFiles(playlistContent);
       }
     }
+    logger.trace("Get playlist {} response {}", playlistPath, playlist);
     return playlist;
   }
 
@@ -133,13 +134,13 @@ public class VideoPlaylistService {
   }
 
   /**
-   * Get the files in the playlist.
+   * Get the files in the playlist for the specified file (absolute or relative path).
    */
-  private List<String> getPlaylistContent(String playlistPath) {
+  private List<String> getPlaylistContent(String playlistFilename) {
     List<String> files = null;
-    logger.trace("Getting content for playlist {}", playlistPath);
+    logger.trace("Getting content for playlist {}", playlistFilename);
     try {
-      files = Files.readAllLines(Paths.get(playlistPath))
+      files = Files.readAllLines(Paths.get(playlistFilename))
           .stream()
           // Remove comments of m3u files
           .filter(file -> !file.startsWith("#"))
@@ -147,7 +148,7 @@ public class VideoPlaylistService {
           .filter(file -> !file.trim().isEmpty())
           .collect(Collectors.toList());
     } catch (IOException e) {
-      logger.error("Error reading {} content", playlistPath, e);
+      logger.error("Error reading {} content", playlistFilename, e);
     }
     return files;
   }

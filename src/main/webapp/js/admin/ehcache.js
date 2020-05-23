@@ -51,7 +51,7 @@ function EhCacheManager() {
     var $cacheData = $("#cache-data");
     caches.forEach(function (cache) {
       var $cacheTable = $('<table id="table-' + cache.name +
-        '" class="table table-bordered table-ehcache table-bordered-kh">');
+        '" class="table table-bordered table-ehcache table-bordered-kh table-responsive">');
       var $cacheTableRow;
 
       $cacheTableRow = $("<tr>");
@@ -93,7 +93,7 @@ function EhCacheManager() {
     logger.traceFunctionCall();
     self.emptyCacheDataDiv();
     var $cacheData = $("#cache-data");
-    var $errorTable = $('<table class="table table-bordered table-responsive table-ehcache">');
+    var $errorTable = $('<table class="table table-bordered table-ehcache table-responsive">');
     var $errorTableRow = $("<tr>");
     $errorTableRow.append($('<td>').text(timeUtils.getTimestamp() +
       " : Error retrieving cache data. Please try again later."));
