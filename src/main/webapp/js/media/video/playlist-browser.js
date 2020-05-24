@@ -16,6 +16,11 @@ function PlaylistBrowser(vlcPlayer) {
   const mediaVideoAllPlaylistsUrl = '/kame-house/api/v1/media/video/playlists';
   const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlist';
 
+  /** Filter playlist browser rows based on the search string. */
+  this.filterPlaylistRows = function filterPlaylistRows(filterString) {
+    filterTableRows(filterString, 'playlist-browser-table-body');
+  }
+
   /** Returns the selected playlist from the dropdowns. */
   this.getSelectedPlaylist = function getSelectedPlaylist() {
     logger.debugFunctionCall();

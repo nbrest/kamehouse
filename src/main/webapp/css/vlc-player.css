@@ -225,6 +225,17 @@
 }
 
 /** Playlist begin.*/
+@media all and (max-width:900px) {
+  .playlist-controls-table tr {
+    display: table;
+    width: 100%;
+  }
+
+  .playlist-controls-table td {
+    display: table-row;
+  }
+}
+
 .playlist-table {
   width: 100%;
 }
@@ -255,6 +266,7 @@
     overflow: scroll;
   }
 }
+
 /** Playlist selector dropdowns begin */
 #playlist-selector {
   padding-top: 5px;
@@ -294,6 +306,13 @@
 }
 
 /** Playlist selector dropdowns end */
+
+.table-filter-input {
+  border: 1px solid #686868;
+  border-radius: 0px;
+  background-color: #000000;
+  color: #aaaaaa;
+}
 
 .table-mplayer-btns-kh {
   text-align: center;

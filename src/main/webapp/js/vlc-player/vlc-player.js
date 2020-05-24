@@ -119,6 +119,14 @@ function VlcPlayer(hostname) {
     self.playlist.reload(playlistArray);
   }
 
+  this.scrollToCurrentlyPlaying = function scrollToCurrentlyPlaying() {
+    self.playlist.scrollToCurrentlyPlaying();
+  }
+
+  this.filterPlaylistRows = function filterPlaylistRows(filterString) {
+    filterTableRows(filterString, 'playlist-table-body');
+  }
+
   /**
    * --------------------------------------------------------------------------
    * Update view functionality
@@ -621,7 +629,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
         playlistElementButton.click({
           id: self.currentPlaylist[i].id
         }, self.clickEventOnPlaylistRow);
-        playlistTableRow = $('<tr id=' + self.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
+        playlistTableRow = $('<tr id=playlist-table-row-id-' + self.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
         $playlistTableBody.append(playlistTableRow);
       }
       self.highlightCurrentPlayingItem();
@@ -643,14 +651,27 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
     //logger.trace("currentPlId: " + currentPlId);
     // I can't use self in this case, I need to use this
+    let currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
     $('#playlist-table-body tr').each(function () {
       let playlistItemId = $(this).attr('id');
-      if (playlistItemId == currentPlId) {
+      if (playlistItemId == currentPlIdAsRowId) {
         $(this).children().children().addClass("playlist-table-element-playing");
       } else {
         $(this).children().children().removeClass("playlist-table-element-playing");
       }
     });
+  }
+
+  /** Scroll to the current playing element in the playlist. */
+  this.scrollToCurrentlyPlaying = function scrollToCurrentlyPlaying() {
+    let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
+    let $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
+    if ($currentPlayingRow.length) {
+      let playlistTableWrapper = $('#playlist-table-wrapper');
+      playlistTableWrapper.scrollTop(0);
+      let scrollToOffset = $currentPlayingRow.offset().top - playlistTableWrapper.offset().top;
+      playlistTableWrapper.scrollTop(scrollToOffset);
+    }
   }
 
   /** 

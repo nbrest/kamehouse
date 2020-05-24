@@ -176,6 +176,15 @@ hr {
 	}
 }
 
+.mar-0-d-kh {
+  margin: 0;
+}
+@media (max-width : 900px) {
+  .mar-0-m-kh {
+    margin: 0;
+  }
+}
+
 /** Set padding on desktop and mobile */
 .pd-15-d-kh {
   padding: 15px;
@@ -340,7 +349,13 @@ ul {
 } 
 .w-60-pc-kh {
   width: 60%; 
-} 
+}
+.w-90-pc-kh {
+  width: 100%;
+}
+.w-100-pc-kh {
+  width: 100%;
+}
 
 /** ----- Set scrollbar styles for different browsers ---------------------------------------- */
 

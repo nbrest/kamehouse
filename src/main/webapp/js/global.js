@@ -142,11 +142,34 @@ function isFunction(expectedFunction) {
   return expectedFunction instanceof Function;
 }
 
-/** Scroll to the top of the screen. */
-function scrollToTop() {
-  $('html, body').animate({
+/** Scroll to the top of the specified div or top of the window if no div specified. */
+function scrollToTop(divId) {
+  let divToScrollToTop;
+  if (isEmpty(divId)) {
+    divToScrollToTop = 'html, body';
+  } else {
+    divToScrollToTop = '#' + divId;
+  }
+  $(divToScrollToTop).animate({
     scrollTop: 0
   }, '10');
+}
+
+/** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
+function filterTableRows(filterString, tableBodyId) {
+  filterString = filterString.toLowerCase();
+  let playlistBodyRows = $("#" + tableBodyId + " tr");
+  let regex;
+  try {
+    filterString = filterString.replace(/ /g, ".*");
+    regex = RegExp(filterString);
+  } catch (error) {
+    logger.error("Error creating regex from filter string " + filterString);
+    regex = RegExp("");
+  }
+  playlistBodyRows.filter(function () {
+    $(this).toggle(regex.test($(this).text().toLowerCase()))
+  });
 }
 
 /** Call main. */
