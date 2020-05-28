@@ -121,16 +121,22 @@ public class VideoPlaylistService {
   /**
    * Gets the category of the playlist based on the base path.
    */
-  //TODO: FIX THIS LOGIC. IT'S BROKEN IN THE UNIT TESTS, SHOWS 'oes\\dc' AS CATEGORY
   private String getCategory(Path basePath, Path filePath) {
-    int basePathLength = basePath.toFile().getAbsolutePath().length();
+    String absoluteBasePath = sanitizePath(basePath.toFile().getAbsolutePath());
+    int basePathLength = absoluteBasePath.length();
     Path parentPath = filePath.getParent();
     if (parentPath != null) {
-      String absoluteParentFilePath = parentPath.toFile().getAbsolutePath(); 
+      String absoluteParentFilePath = sanitizePath(parentPath.toFile().getAbsolutePath());
       return absoluteParentFilePath.substring(basePathLength + 1);
     } else {
       return null;
     }
+  }
+
+  private String sanitizePath(String path) {
+    String sanitizedPath = path.replaceAll("\\\\.\\\\", "\\\\")
+        .replaceAll("/./","");
+    return sanitizedPath;
   }
 
   /**

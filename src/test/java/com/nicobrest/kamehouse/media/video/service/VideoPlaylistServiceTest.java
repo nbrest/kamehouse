@@ -33,6 +33,7 @@ public class VideoPlaylistServiceTest {
 
   private static VideoPlaylistService videoPlaylistService;
   private VideoPlaylistTestUtils videoPlaylistTestUtils = new VideoPlaylistTestUtils();
+  private Playlist expectedPlaylist;
 
   @BeforeClass
   public static void beforeClass() {
@@ -43,7 +44,7 @@ public class VideoPlaylistServiceTest {
   public void before() {
     PowerMockito.mockStatic(PropertiesUtils.class);
     videoPlaylistTestUtils.initTestData();
-
+    expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
   }
 
   /**
@@ -51,7 +52,8 @@ public class VideoPlaylistServiceTest {
    */
   @Test
   public void getAllTest() {
-    List<String> expectedPlaylists = VideoPlaylistTestUtils.TEST_PLAYLIST_NAMES;
+    videoPlaylistTestUtils.clearFiles();
+    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     when(PropertiesUtils.getUserHome()).thenReturn("./");
     when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
@@ -59,10 +61,7 @@ public class VideoPlaylistServiceTest {
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
-    assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
-    for (Playlist returnedPlaylist : returnedPlaylists) {
-      assertTrue(expectedPlaylists.contains(returnedPlaylist.getName()));
-    } 
+    videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
   }
 
   /**
@@ -76,8 +75,11 @@ public class VideoPlaylistServiceTest {
         VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
     String playlistFilename = VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR + "heroes/dc/dc.m3u";
     Path playlistPath = Paths.get(playlistFilename);
+    expectedPlaylist.setPath(playlistPath.toString());
+
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
-    System.out.println(returnedPlaylist);
+
+    videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
   }
 
   //TODO: ADD MORE UNIT TESTS, USE TESTUTILS TO VALIDATE OUTPUTS

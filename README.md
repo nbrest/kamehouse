@@ -117,6 +117,11 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 * Using a vnc server and vncdotool is the only way I found to unlock the screen remotely on windows 10 (also works on ubuntu). If you are reading this and have a better solution, please contact me.
 * Lock screen command on linux relies on gnome-screensaver-command to do the lock. Install it with sudo apt-get install gnome-screensaver. The command line could easily be changed to use vncdo and hotkeys to lock the screen for other linux versions (tested on ubuntu 16).
 
+### Deploy to my local tomcat using my deploy script is successful but kame-house doesn't run even if it shows as running in the tomcat manager
+
+* Go to the tomcat manager and undeploy kame-house, or stop tomcat and delete the war and kame-house folder from the /webapps directory. 
+* Then start tomcat and run the deploy script again
+
 ### Backend logging strategy
 
 The goals of logging in my application are being able to troubleshoot issues quickly when they happen and knowing exactly what's happening in the application.
@@ -157,7 +162,9 @@ It's pretty similar in concept to the backend strategy. The goals is still the s
 * Moved table names to lowercase to export data between windows and linux
 * Fixed database export/restore scripts (my.scripts repo)
 * Moved playlist synchronization to a websocket and improved synchronization stability
-* Split vlc player UI into tabs. Initially for main player and playlist
+* Split vlc player UI into tabs. Initially for main player, playlist and playlist browser
+* Added functionality to filter playlist elements, scroll to currently playing and back to top
+* Added functionality to load my video playlist contents, browse them and play an individual file from the playlist browser
 
 #### v1.01
 

@@ -25,7 +25,8 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
 
   public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
   public static final String TEST_PLAYLISTS_ROOT_DIR = "src/test/resources/media.video/playlists/";
-  public static final List<String> TEST_PLAYLIST_NAMES = Arrays.asList("dc.m3u", "marvel.m3u");
+  private static final String TEST_PLAYLISTS_PATH = "src\\test\\resources\\media" +
+      ".video\\playlists\\";
 
   @Override
   public void initTestData() {
@@ -42,26 +43,34 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
     assertThat(returnedPlaylist.getFiles(), is(expectedPlaylist.getFiles()));
   }
 
+  public void clearFiles() {
+    for(Playlist playlist : testDataList) {
+      playlist.setFiles(null);
+    }
+  }
+
   private void initSingleTestData() {
     singleTestData = new Playlist();
-    singleTestData.setCategory("heroes\\dc");
+    String category = "heroes\\dc";
+    singleTestData.setCategory(category);
     String playlistName = "dc.m3u";
     singleTestData.setName(playlistName);
-    singleTestData.setPath(TEST_PLAYLISTS_ROOT_DIR + playlistName);
+    singleTestData.setPath(".\\" + TEST_PLAYLISTS_PATH + category + "\\" + playlistName);
     List<String> files = new ArrayList<>();
     files.add("N:\\movies\\heroes\\dc\\Batman - 1\\Batman 1989.mp4");
     files.add("N:\\movies\\heroes\\dc\\Batman - 2 - Returns\\Batman Returns 1992.mp4");
-    singleTestData.setFiles(null);
+    singleTestData.setFiles(files);
   }
 
   private void initTestDataList() {
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
     Playlist playlist = new Playlist();
-    playlist.setCategory("heroes\\marvel");
+    String category = "heroes\\marvel";
+    playlist.setCategory(category);
     String playlistName = "marvel.m3u";
     playlist.setName(playlistName);
-    playlist.setPath(TEST_PLAYLISTS_ROOT_DIR + playlistName);
+    playlist.setPath(".\\" + TEST_PLAYLISTS_PATH + category + "\\" + playlistName);
     List<String> files = new ArrayList<>();
     files.add("N:\\movies\\heroes\\marvel\\Avengers Infinity War\\Avengers.Infinity.War.mp4");
     files.add("N:\\movies\\heroes\\marvel\\Avengers.Age.of.Ultron.2015\\Avengers.Age.of.Ultron.2015.mkv");
