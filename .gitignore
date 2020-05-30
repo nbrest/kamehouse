@@ -1,39 +1,45 @@
-###################
+# ##################
 # Added by me     
-###################
+# ##################
 .checkstyle
 logs/**
 data/**
 tmp/**
-# Sourcetree patch files
+# Patch files
 *.diff
+*.patch
 
-###################
+# ##################
 # Directories 
-###################
+# ##################
 /build/
 /bin/
 target/
-# OS Files #
-.DS_Store
+
+# ##################
+# Compiled Files
+# ##################
 *.class
-# Package Files #
-#*.jar
+
+# ##################
+# Package Files 
+# ##################
+# *.jar
 *.war
 *.ear
 *.db
  
-######################
+# ##################
 # Windows
-######################
+# ##################
 # Windows image file caches
 Thumbs.db 
 # Folder config file
 Desktop.ini
  
-######################
+# ##################
 # OSX
-######################
+# ##################
 .DS_Store
 .svn
 # Thumbnails
@@ -42,14 +48,14 @@ Desktop.ini
 .Spotlight-V100
 .Trashes
 
-######################
+# ##################
 # VS Code
-######################
+# ##################
 .vscode/**
  
-######################
+# ##################
 # Eclipse
-######################
+# ##################
 .factorypath
 *.pydevproject
 .project
@@ -78,9 +84,9 @@ local.properties
 WebContent/
 /target/
 
-######################
+# ##################
 # IntelliJ
-######################
+# ##################
 .idea/**
 /.apt_generated/
 /.apt_generated_tests/
