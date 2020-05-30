@@ -5,6 +5,8 @@
 logs/**
 data/**
 tmp/**
+# Sourcetree patch files
+*.diff
 
 ###################
 # Directories 
