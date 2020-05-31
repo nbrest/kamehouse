@@ -17,8 +17,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -81,9 +79,7 @@ public class VideoPlaylistServiceTest {
    */
   @Test
   public void getPlaylistTest() {
-    Path playlistPath = Paths.get(expectedPlaylist.getPath());
-
-    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(expectedPlaylist.getPath(), true);
 
     videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
   }
@@ -94,9 +90,8 @@ public class VideoPlaylistServiceTest {
   @Test
   public void getPlaylistWithoutContentTest() {
     videoPlaylistTestUtils.clearFiles();
-    Path playlistPath = Paths.get(expectedPlaylist.getPath());
 
-    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, false);
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(expectedPlaylist.getPath(), false);
 
     videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
   }
@@ -107,9 +102,8 @@ public class VideoPlaylistServiceTest {
   @Test
   public void getPlaylistInvalidPathTest() {
     String invalidPath = expectedPlaylist.getPath() + File.separator + "invalidFile.m3u";
-    Path playlistPath = Paths.get(invalidPath);
 
-    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidPath, true);
 
     assertNull("Expect a null playlist returned", returnedPlaylist);
   }
@@ -120,9 +114,8 @@ public class VideoPlaylistServiceTest {
   @Test
   public void getPlaylistNonSupportedExtensionTest() {
     String invalidExtension = expectedPlaylist.getPath().replace(".m3u", ".pdf");
-    Path playlistPath = Paths.get(invalidExtension);
 
-    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidExtension, true);
 
     assertNull("Expect a null playlist returned", returnedPlaylist);
   }
@@ -134,9 +127,8 @@ public class VideoPlaylistServiceTest {
   public void getPlaylistNonSupportedPathJumpsTest() {
     String invalidPath = expectedPlaylist.getPath().replace("dc.m3u", ".."
         + File.separator + "dc" + File.separator + "dc.m3u");
-    Path playlistPath = Paths.get(invalidPath);
 
-    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidPath, true);
 
     assertNull("Expect a null playlist returned", returnedPlaylist);
   }

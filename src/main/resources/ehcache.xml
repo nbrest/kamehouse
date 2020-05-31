@@ -7,18 +7,38 @@
   <diskStore path="java.io.tmpdir" />
   
   <cache name="vlcPlayer"
-    maxEntriesLocalHeap="1000"
-    maxEntriesLocalDisk="10000"
+    maxEntriesLocalHeap="100"
+    maxEntriesLocalDisk="1000"
     eternal="true"
     diskSpoolBufferSizeMB="20"
     memoryStoreEvictionPolicy="LFU"
     transactionalMode="off">
     <persistence strategy="localTempSwap" />
   </cache>
+
+  <cache name="videoPlaylist"
+         maxEntriesLocalHeap="100"
+         maxEntriesLocalDisk="1000"
+         eternal="true"
+         diskSpoolBufferSizeMB="20"
+         memoryStoreEvictionPolicy="LFU"
+         transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
+
+  <cache name="videoPlaylists"
+         maxEntriesLocalHeap="100"
+         maxEntriesLocalDisk="1000"
+         eternal="true"
+         diskSpoolBufferSizeMB="20"
+         memoryStoreEvictionPolicy="LFU"
+         transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
  
   <cache name="dragonBallUser"
-    maxEntriesLocalHeap="1000"
-    maxEntriesLocalDisk="10000"
+    maxEntriesLocalHeap="100"
+    maxEntriesLocalDisk="1000"
     eternal="true"
     diskSpoolBufferSizeMB="20" 
     memoryStoreEvictionPolicy="LFU"
@@ -27,8 +47,8 @@
   </cache>
   
   <cache name="dragonBallUsers"
-    maxEntriesLocalHeap="1000"
-    maxEntriesLocalDisk="10000"
+    maxEntriesLocalHeap="100"
+    maxEntriesLocalDisk="1000"
     eternal="true"
     diskSpoolBufferSizeMB="20" 
     memoryStoreEvictionPolicy="LFU"
@@ -47,8 +67,8 @@
   </cache>
   
   <cache name="dragonBallUserByEmail"
-    maxEntriesLocalHeap="1000"
-    maxEntriesLocalDisk="10000"
+    maxEntriesLocalHeap="100"
+    maxEntriesLocalDisk="1000"
     eternal="false"
     diskSpoolBufferSizeMB="20" 
     timeToIdleSeconds="86000" timeToLiveSeconds="86400"

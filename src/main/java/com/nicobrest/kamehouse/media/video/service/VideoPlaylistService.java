@@ -5,7 +5,7 @@ import com.nicobrest.kamehouse.media.video.model.Playlist;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,18 +24,20 @@ import java.util.stream.Stream;
  * @author nbrest
  *
  */
-@Service
 public class VideoPlaylistService {
 
   private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
   private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
+  private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
+  private static final String VIDEO_PLAYLISTS_CACHE = "videoPlaylists";
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
    * Gets all video playlists without their contents.
    */
+  @Cacheable(value = VIDEO_PLAYLISTS_CACHE)
   public List<Playlist> getAll() {
     return getAll(false);
   }
@@ -43,7 +45,7 @@ public class VideoPlaylistService {
   /**
    * Gets all video playlists specifying if it should get the contents of each playlist or not.
    */
-  public List<Playlist> getAll(boolean fetchContent) {
+  public List<Playlist> getAll(Boolean fetchContent) {
     logger.trace("getAll");
     Path basePlaylistPath = getBasePlaylistsPath();
     List<Playlist> videoPlaylists = new ArrayList<>();
@@ -52,7 +54,7 @@ public class VideoPlaylistService {
       while (filePathsIterator.hasNext()) {
         Path playlistPath = filePathsIterator.next();
         if (!playlistPath.toFile().isDirectory()) {
-          Playlist playlist = getPlaylist(playlistPath, fetchContent);
+          Playlist playlist = getPlaylist(playlistPath.toString(), fetchContent);
           if (playlist != null) {
             videoPlaylists.add(playlist);
           }
@@ -69,16 +71,10 @@ public class VideoPlaylistService {
   /**
    * Get the specified playlist.
    */
-  public Playlist getPlaylist(String playlistFilename, boolean fetchContent) {
+  @Cacheable(value = VIDEO_PLAYLIST_CACHE)
+  public Playlist getPlaylist(String playlistFilename, Boolean fetchContent) {
+    logger.trace("Get playlist {}", playlistFilename);
     Path playlistPath = Paths.get(playlistFilename);
-    return getPlaylist(playlistPath, fetchContent);
-  }
-
-  /**
-   * Get the specified playlist.
-   */
-  public Playlist getPlaylist(Path playlistPath, boolean fetchContent) {
-    logger.trace("Get playlist {}", playlistPath);
     if (!isValidPlaylist(playlistPath)) {
       logger.error("Invalid playlist path specified. Check the validations for supported "
           + "playlists");
