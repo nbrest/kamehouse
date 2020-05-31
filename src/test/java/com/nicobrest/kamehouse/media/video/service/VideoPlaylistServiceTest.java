@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.media.video.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +21,7 @@ import java.util.List;
 
 /**
  * Unit tests for the VideoPlaylistService class.
- * 
+ *
  * @author nbrest
  *
  */
@@ -43,6 +41,10 @@ public class VideoPlaylistServiceTest {
   @Before
   public void before() {
     PowerMockito.mockStatic(PropertiesUtils.class);
+    when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
+    when(PropertiesUtils.getUserHome()).thenReturn(""); // Use git project root as home
+    when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
+        VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
     videoPlaylistTestUtils.initTestData();
     expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
   }
@@ -54,10 +56,6 @@ public class VideoPlaylistServiceTest {
   public void getAllTest() {
     videoPlaylistTestUtils.clearFiles();
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
-    when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    when(PropertiesUtils.getUserHome()).thenReturn("./");
-    when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
-        VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
@@ -69,13 +67,7 @@ public class VideoPlaylistServiceTest {
    */
   @Test
   public void getPlaylistTest() {
-    when(PropertiesUtils.isWindowsHost()).thenReturn(true);
-    when(PropertiesUtils.getUserHome()).thenReturn("./");
-    when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
-        VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
-    String playlistFilename = VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR + "heroes/dc/dc.m3u";
-    Path playlistPath = Paths.get(playlistFilename);
-    expectedPlaylist.setPath(playlistPath.toString());
+    Path playlistPath = Paths.get(expectedPlaylist.getPath());
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
 

@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 /**
  * Service to manage the video playlists in the local system.
- * 
+ *
  * @author nbrest
  *
  */
@@ -135,7 +135,7 @@ public class VideoPlaylistService {
 
   private String sanitizePath(String path) {
     String sanitizedPath = path.replaceAll("\\\\.\\\\", "\\\\")
-        .replaceAll("/./","");
+        .replaceAll("/./","/");
     return sanitizedPath;
   }
 
