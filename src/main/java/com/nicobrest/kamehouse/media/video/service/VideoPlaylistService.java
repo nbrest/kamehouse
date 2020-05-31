@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +29,7 @@ public class VideoPlaylistService {
 
   private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
   private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
+  private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -77,11 +79,11 @@ public class VideoPlaylistService {
    */
   public Playlist getPlaylist(Path playlistPath, boolean fetchContent) {
     logger.trace("Get playlist {}", playlistPath);
-    if (!playlistPath.toFile().exists()) {
-      logger.warn("File {} doesn't exist.", playlistPath);
+    if (!isValidPlaylist(playlistPath)) {
+      logger.error("Invalid playlist path specified. Check the validations for supported "
+          + "playlists");
       return null;
     }
-    //TODO: ADD FILTERS TO ONLY GET PLAYLISTS ON BASEPATH, CONSIDER USERS USING ../ TO GET OUT OF IT
     Playlist playlist = null;
     Path basePlaylistsPath = getBasePlaylistsPath();
     Path playlistFileNamePath = playlistPath.getFileName();
@@ -133,10 +135,33 @@ public class VideoPlaylistService {
     }
   }
 
+  /**
+   * Clean up path from unnecessary jumps such as '/./' or '\.\'.
+   */
   private String sanitizePath(String path) {
-    String sanitizedPath = path.replaceAll("\\\\.\\\\", "\\\\")
+    return path.replaceAll("\\\\.\\\\", "\\\\")
         .replaceAll("/./","/");
-    return sanitizedPath;
+  }
+
+  /**
+   * Validate that the playlist specified is valid.
+   */
+  private boolean isValidPlaylist(Path playlistPath) {
+    // Check that file exists
+    if (!playlistPath.toFile().exists()) {
+      return false;
+    }
+    // Check that the playlist has a supported extension
+    String playlistPathString = playlistPath.toString();
+    String extension = playlistPathString.substring(playlistPathString.length() - 4);
+    if (!SUPPORTED_PLAYLIST_EXTENSION.equalsIgnoreCase(extension)) {
+      return false;
+    }
+    // Check that the playlist path doesn't contain double dots, to jump out of the root path
+    if (playlistPathString.contains(File.separator + ".." + File.separator)) {
+      return false;
+    }
+    return true;
   }
 
   /**

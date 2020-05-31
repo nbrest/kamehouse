@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.media.video.controller;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -40,6 +42,8 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
 
   private static final String API_V1_MEDIA_VIDEO_PLAYLISTS =
       VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLISTS;
+  private static final String API_V1_MEDIA_VIDEO_PLAYLIST =
+      VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLIST;
   private List<Playlist> videoPlaylistsList;
 
   @InjectMocks
@@ -76,5 +80,23 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     verifyNoMoreInteractions(videoPlaylistService);
   }
 
-  //TODO: ADD UNIT TEST FOR GET PLAYLIST
+  /**
+   * Tests getting a specific video playlist.
+   */
+  @Test
+  public void getPlaylist() throws Exception {
+    Playlist expectedPlaylist = testUtils.getSingleTestData();
+    when(videoPlaylistService.getPlaylist(anyString(), anyBoolean())).thenReturn(expectedPlaylist);
+
+    MockHttpServletResponse response = doGet(API_V1_MEDIA_VIDEO_PLAYLIST
+        + "?path=/home/goku/movies/dc.m3u");
+    Playlist responseBody = getResponseBody(response, Playlist.class);
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    testUtils.assertEqualsAllAttributes(expectedPlaylist, responseBody);
+    verify(videoPlaylistService, times(1))
+        .getPlaylist(anyString(), anyBoolean());
+    verifyNoMoreInteractions(videoPlaylistService);
+  }
 }

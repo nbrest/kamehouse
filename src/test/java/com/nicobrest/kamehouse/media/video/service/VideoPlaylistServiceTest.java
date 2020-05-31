@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.media.video.service;
 
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +16,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -63,6 +65,18 @@ public class VideoPlaylistServiceTest {
   }
 
   /**
+   * Gets all video playlists successful fetching playlist content test.
+   */
+  @Test
+  public void getAllWithContentTest() {
+    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
+
+    List<Playlist> returnedPlaylists = videoPlaylistService.getAll(true);
+
+    videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
+  }
+
+  /**
    * Get a single video playlist successful test.
    */
   @Test
@@ -74,5 +88,56 @@ public class VideoPlaylistServiceTest {
     videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
   }
 
-  //TODO: ADD MORE UNIT TESTS, USE TESTUTILS TO VALIDATE OUTPUTS
+  /**
+   * Get a single video playlist without fetching content successful test.
+   */
+  @Test
+  public void getPlaylistWithoutContentTest() {
+    videoPlaylistTestUtils.clearFiles();
+    Path playlistPath = Paths.get(expectedPlaylist.getPath());
+
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, false);
+
+    videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
+  }
+
+  /**
+   * Get a single video playlist invalid path test.
+   */
+  @Test
+  public void getPlaylistInvalidPathTest() {
+    String invalidPath = expectedPlaylist.getPath() + File.separator + "invalidFile.m3u";
+    Path playlistPath = Paths.get(invalidPath);
+
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
+
+    assertNull("Expect a null playlist returned", returnedPlaylist);
+  }
+
+  /**
+   * Get a single video playlist non supported extension test.
+   */
+  @Test
+  public void getPlaylistNonSupportedExtensionTest() {
+    String invalidExtension = expectedPlaylist.getPath().replace(".m3u", ".pdf");
+    Path playlistPath = Paths.get(invalidExtension);
+
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
+
+    assertNull("Expect a null playlist returned", returnedPlaylist);
+  }
+
+  /**
+   * Get a single video playlist path with non supported .. jumps test.
+   */
+  @Test
+  public void getPlaylistNonSupportedPathJumpsTest() {
+    String invalidPath = expectedPlaylist.getPath().replace("dc.m3u", ".."
+        + File.separator + "dc" + File.separator + "dc.m3u");
+    Path playlistPath = Paths.get(invalidPath);
+
+    Playlist returnedPlaylist = videoPlaylistService.getPlaylist(playlistPath, true);
+
+    assertNull("Expect a null playlist returned", returnedPlaylist);
+  }
 }
