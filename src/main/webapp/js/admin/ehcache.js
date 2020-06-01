@@ -7,7 +7,7 @@
  */
 var ehCacheManager;
 
-var main = function() {
+var main = function () {
   importEhcacheCss();
   var loadingModules = ["timeUtils", "logger", "httpClient"];
   waitForModules(loadingModules, function initEhCache() {
@@ -51,7 +51,7 @@ function EhCacheManager() {
     var $cacheData = $("#cache-data");
     caches.forEach(function (cache) {
       var $cacheTable = $('<table id="table-' + cache.name +
-        '" class="table table-bordered table-ehcache table-bordered-kh table-responsive">');
+        '" class="table table-bordered table-ehcache table-bordered-kh table-responsive-kh table-responsive">');
       var $cacheTableRow;
 
       $cacheTableRow = $("<tr>");
@@ -76,10 +76,10 @@ function EhCacheManager() {
       $cacheData.append($cacheTable);
       $cacheData.append("<br>");
 
-      $("#clear-" + cache.name).click(function() {
+      $("#clear-" + cache.name).click(function () {
         self.clearCacheData(cache.name);
       });
-      $("#toggle-view-" + cache.name).click(function() {
+      $("#toggle-view-" + cache.name).click(function () {
         self.toggleCacheView(".toggle-" + cache.name);
       });
       self.ehcacheToggleTableRowIds.push(".toggle-" + cache.name);
@@ -93,7 +93,7 @@ function EhCacheManager() {
     logger.traceFunctionCall();
     self.emptyCacheDataDiv();
     var $cacheData = $("#cache-data");
-    var $errorTable = $('<table class="table table-bordered table-ehcache table-responsive">');
+    var $errorTable = $('<table class="table table-bordered table-ehcache table-responsive-kh table-responsive">');
     var $errorTableRow = $("<tr>");
     $errorTableRow.append($('<td>').text(timeUtils.getTimestamp() +
       " : Error retrieving cache data. Please try again later."));
