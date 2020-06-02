@@ -21,6 +21,7 @@ public abstract class SystemCommand {
   protected boolean isDaemon = false;
   protected List<String> linuxCommand = new ArrayList<>();
   protected List<String> windowsCommand = new ArrayList<>();
+  protected int sleepTime = 0;
   protected Output output = new Output();
 
   public boolean isDaemon() {
@@ -53,7 +54,14 @@ public abstract class SystemCommand {
   protected void setOutputCommand() {
     output.setCommand(getCommand().toString());
   }
-  
+
+  /**
+   * Get sleep time (in seconds) to sleep AFTER the command executes.
+   */
+  public int getSleepTime() {
+    return sleepTime;
+  }
+
   @Override
   public String toString() {
     return JsonUtils.toJsonString(this, super.toString());

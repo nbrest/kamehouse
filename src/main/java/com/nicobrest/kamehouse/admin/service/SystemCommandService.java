@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Service to execute and manage system commands.
@@ -82,6 +83,15 @@ public class SystemCommandService {
       logger.error("execute {} response {}", commandOutput.getCommand(), commandOutput);
     } else {
       logger.trace("execute {} response {}", commandOutput.getCommand(), commandOutput);
+    }
+    try {
+      int sleepTime = systemCommand.getSleepTime();
+      if (sleepTime > 0) {
+        logger.debug("Sleeping for {} seconds", sleepTime);
+        TimeUnit.SECONDS.sleep(sleepTime);
+      }
+    } catch (InterruptedException e) {
+      logger.error("Interrupted exception", e);
     }
     return commandOutput;
   }
