@@ -91,7 +91,8 @@ public class SystemCommandService {
         TimeUnit.SECONDS.sleep(sleepTime);
       }
     } catch (InterruptedException e) {
-      logger.error("Interrupted exception", e);
+      logger.warn("Interrupted exception", e);
+      Thread.currentThread().interrupt();
     }
     return commandOutput;
   }
