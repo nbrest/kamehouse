@@ -11,6 +11,7 @@
 * Split vlc player UI into tabs. Initially for main player, playlist and playlist browser
 * Added functionality to filter playlist elements, scroll to currently playing and back to top
 * Added functionality to load my video playlist contents, browse them and play an individual file from the playlist browser
+* Restructured readme.md into separate files
 
 #### v1.01
 
