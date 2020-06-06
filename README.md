@@ -57,22 +57,6 @@ The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel
 
 *********************
 
-# Compilation Options:
-
-* Compile using `mvn clean install [compilation option]` .
-
-| Compilation option | Usage | Description | 
-| ------------------ | ----- | ----------- |
-| -P | -P:prod -P:qa -P:dev | Default profile is prod. It uses mysql.qa uses oracle and dev uses hsql in memory db |
-
-*************
-
-# Installation:
-
-* Deploy as a standard war into the webapps directory of your tomcat installation
-
-*************
-
 # External dependencies:
 
 This web application interacts with other applications that need to be installed on the server to execute certain functionality. These external dependencies are:
@@ -85,6 +69,13 @@ This web application interacts with other applications that need to be installed
 The application will load even without these installed, however some functionality will not work without them.
 
 *********************
+
+## Readme Sections:
+
+[Compilation](compilation.md)
+
+[Installation](installation.md)
+
 [Troubleshoot Issues](troubleshoot-issues.md)
 
 [Logging Strategy](logging-strategy.md)
