@@ -28,5 +28,5 @@
 
 ## Deploy to my local tomcat using my deploy script is successful but kame-house doesn't run even if it shows as running in the tomcat manager
 
-* Go to the tomcat manager and undeploy kame-house, or stop tomcat and delete the war and kame-house folder from the /webapps directory. 
+* Go to the tomcat manager and *undeploy kame-house*, or stop tomcat and delete the war and kame-house folder from the /webapps directory. 
 * Then start tomcat and run the deploy script again (in my.scripts repo)
