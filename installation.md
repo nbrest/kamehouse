@@ -4,7 +4,7 @@
 
 ## Tomcat:
 
-* **Run tomcat through a startup script, not as a system service**
+* **Run tomcat through a startup script, not as a system service**. Some commands like vlc start and stop won't work otherwise
 
 ### Windows:
 
