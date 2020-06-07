@@ -5,8 +5,8 @@
 | Option | Usage | Description | 
 | ------------------ | ----- | ----------- |
 | P | -P:prod | Uses mysql db. **Default**  |
-| P | -P:qa | Uses oracle db |
-| P | -P:dev | Uses hsql in memory db |
+|   | -P:qa | Uses oracle db |
+|   | -P:dev | Uses hsql in memory db |
 
 ## View code coverage reports in my local:
 
