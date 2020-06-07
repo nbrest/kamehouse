@@ -2,6 +2,12 @@
 
 * Compile using `mvn clean install [compilation option]` .
 
-| Compilation option | Usage | Description | 
+| Option | Usage | Description | 
 | ------------------ | ----- | ----------- |
-| -P | -P:prod -P:qa -P:dev | Default profile is prod. It uses mysql.qa uses oracle and dev uses hsql in memory db |
+| P | -P:prod | Uses mysql db. **Default**  |
+| P | -P:qa | Uses oracle |
+| P | -P:dev | Uses hsql in memory db |
+
+## View code coverage reports in my local:
+
+* Compile using `mvn cobertura:cobertura` and open *target/site/cobertura/index.html*

@@ -70,7 +70,7 @@ The application will load even without these installed, however some functionali
 
 *********************
 
-## Readme Sections:
+## Other Sections:
 
 [Dev Environment Setup](dev-environment-setup.md)
 
