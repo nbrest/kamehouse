@@ -11,7 +11,7 @@
 * If I currently have it running as a service, uninstall the service. 
 * Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat*
 * Add a shortcut to the `$HOME/programs/apache-tomcat/bin/startup.bat` script in the *windows startup folder* (Currently in **windows 10** it's *$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*) so tomcat runs when I logon
-* Edit the **windows** shortcut and in the field 'Start in' change from *$HOME/programs/apache-tomcat/bin* to *$HOME/programs/apache-tomcat* otherwise it will create the application logs in *$HOME/programs/apache-tomcat/bin/logs* instead of *$HOME/programs/apache-tomcat/logs*
+* Edit the **windows** shortcut and in the field *Start in* change from *$HOME/programs/apache-tomcat/bin* to *$HOME/programs/apache-tomcat* otherwise it will create the application logs in *$HOME/programs/apache-tomcat/bin/logs* instead of *$HOME/programs/apache-tomcat/logs*
 * To make the command prompt start minimized, update **catalina.bat** and in the line where it says `set _EXECJAVA=start "%TITLE%" %_RUNJAVA%` add `/min` after the start: `set _EXECJAVA=start /min "%TITLE%" %_RUNJAVA%`
 
 ### Linux:
