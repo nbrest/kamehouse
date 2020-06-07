@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v1.03
+
+* Updated icons in vlc player
+
 #### v1.02
 
 * Added more unit tests
@@ -12,6 +16,9 @@
 * Added functionality to filter playlist elements, scroll to currently playing and back to top
 * Added functionality to load my video playlist contents, browse them and play an individual file from the playlist browser
 * Restructured readme.md into separate files
+* Made api call output and ehcache tables more responsive
+* Fixed bug of playlist not loading randomly
+* Fixed bugs
 
 #### v1.01
 
