@@ -72,6 +72,8 @@ The application will load even without these installed, however some functionali
 
 ## Readme Sections:
 
+[Dev Environment Setup](dev-environment-setup.md)
+
 [Compilation](compilation.md)
 
 [Installation](installation.md)
