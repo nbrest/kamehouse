@@ -1,4 +1,4 @@
-### Dev branch status:
+## Dev branch status:
 [![Build Status](https://travis-ci.org/nbrest/java.web.kamehouse.svg?branch=dev)](https://travis-ci.org/nbrest/java.web.kamehouse)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=com.nicobrest%3Ajava-web-kame-house&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.nicobrest%3Ajava-web-kame-house&branch=dev)
 [![CodeFactor](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/badge/dev)](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/overview/dev)
@@ -24,7 +24,7 @@ The main idea of this application is to keep improving and learning best practic
 
 The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **cobertura**, validate code with **findbugs** and the style with **checkstyle**.
 
-##### Java frameworks/libraries:
+### Java frameworks/libraries:
 
 * Spring
 * Spring Security
@@ -32,14 +32,14 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * Hsqldb
 * Ehcache
 
-##### Javascript frameworks/libraries:
+### Javascript frameworks/libraries:
 
 * Angular
 * jQuery
 * SockJs
 * Stomp
 
-##### SCM:
+### SCM:
 
 * Maven 
 * Travis-ci for CI
