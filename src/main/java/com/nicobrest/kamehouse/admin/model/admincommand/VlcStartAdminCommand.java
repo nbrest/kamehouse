@@ -15,7 +15,7 @@ public class VlcStartAdminCommand extends AdminCommand {
    * Sets the required SystemCommands to achieve this AdminCommand.
    */
   public VlcStartAdminCommand(String fileToPlay) {
-    systemCommands.add(new VlcStopSystemCommand());
+    systemCommands.add(new VlcStopSystemCommand(2));
     systemCommands.add(new VlcStartSystemCommand(fileToPlay));
   }
 }

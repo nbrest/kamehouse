@@ -1,6 +1,6 @@
 # ChangeLog:
 
-#### v1.03
+#### v1.03 (In development)
 
 * Updated icons in vlc player
 

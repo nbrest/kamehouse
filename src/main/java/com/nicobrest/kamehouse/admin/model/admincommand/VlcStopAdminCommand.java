@@ -14,6 +14,6 @@ public class VlcStopAdminCommand extends AdminCommand {
    * Sets the required SystemCommands to achieve this AdminCommand.
    */
   public VlcStopAdminCommand() {
-    systemCommands.add(new VlcStopSystemCommand());
+    systemCommands.add(new VlcStopSystemCommand(2));
   }
 }
