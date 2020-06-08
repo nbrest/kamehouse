@@ -96,6 +96,7 @@ function PlaylistBrowser(vlcPlayer) {
     logger.debugFunctionCall();
     let playlist = self.getSelectedPlaylist();
     self.vlcPlayer.playFile(playlist);
+    self.vlcPlayer.openTab('tab-playlist');
   }
 
   /** Populate the playlist table for browsing. */
@@ -128,5 +129,6 @@ function PlaylistBrowser(vlcPlayer) {
     let filename = event.data.name;
     logger.debug("Play selected playlist browser file : " + filename);
     self.vlcPlayer.playFile(filename);
+    self.vlcPlayer.openTab('tab-playing');
   }
 }
