@@ -735,11 +735,16 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute a POST request to the specified url with the specified request url parameters. */
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
     logger.debugFunctionCall();
+    loadingWheelModal.open();
     apiCallTable.postUrlEncoded(url, requestParam,
       function success(responseBody, responseCode, responseDescription) {
         logger.debug("postUrlEncoded response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
-      }, null);
+        loadingWheelModal.close();
+      }, 
+      function error(responseBody, responseCode, responseDescription) {
+        loadingWheelModal.close();
+      });
   }
 
   /** Execute a DELETE request to the specified url with the specified request body. */

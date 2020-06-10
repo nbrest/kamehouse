@@ -22,7 +22,7 @@
 * To run on startup, with my current user, create a script where I cd to *$HOME/programs/apache-tomcat* (TOMCAT_HOME) and then run `./bin/startup.sh` in that script (`kamehouse/tomcat-startup.sh` in my.scripts repo). I need to do it this way because I need to be on *$HOME/programs/apache-tomcat* when I run `startup.sh`. If I run the script from *$HOME/programs/apache-tomcat/bin*, it will create the application logs in *$HOME/programs/apache-tomcat/bin/logs* instead of *$HOME/programs/apache-tomcat/logs*. 
 * Update the script `$HOME/programs/apache-tomcat/bin/startup.sh` and as the second line add `export DISPLAY=:0` otherwise *vlc start* will fail because *DISPLAY* env variable won't be set at reboot time when tomcat is being started. I don't need to set it if I run `$HOME/programs/apache-tomcat/bin/startup.sh` from my desktop but if I schedule it at boot, `$HOME/programs/apache-tomcat/bin/startup.sh` needs to be updated with that export.
 * To run on startup in **ubuntu 20**: Use startup scripts. Check `rc-local.sh`, `rc-local.service`, `rc-local-deploy.sh` in lin/startup in my.scripts repo to automate tomcat startup
-* {*DEPRECATED*} - This doesn't work in **ubuntu 20**. To run on startup edit my cron jobs with `crontab -e` and add the following entry: `@reboot /bin/bash /PATH-TO-MY-SCRIPT/tomcat-startup.sh`
+* {*DEPRECATED*} - ~~This doesn't work in **ubuntu 20**. To run on startup edit my cron jobs with `crontab -e` and add the following entry: `@reboot /bin/bash /PATH-TO-MY-SCRIPT/tomcat-startup.sh`~~
 
 ## Apache Httpd:
 
