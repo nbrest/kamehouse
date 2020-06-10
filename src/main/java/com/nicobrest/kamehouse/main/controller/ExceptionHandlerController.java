@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.main.exception.KameHouseForbiddenException;
 import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 
@@ -27,7 +28,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(value = { KameHouseBadRequestException.class,
-      KameHouseInvalidCommandException.class })
+      KameHouseInvalidCommandException.class,
+      KameHouseInvalidDataException.class })
   protected ResponseEntity<Object> handleBadRequest(RuntimeException ex, WebRequest request) {
     return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST,
         request);
