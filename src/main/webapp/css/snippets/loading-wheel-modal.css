@@ -10,7 +10,7 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .loading-wheel-modal-content {
@@ -18,10 +18,16 @@
   background-color: #13181b;
   margin: auto;
   padding: 20px;
-  border: 1px solid #890b0b;
+  border: 1px solid #640808;
   border-radius: 0;
   width: 40%;
 }
+@media(max-width: 900px) {
+  .loading-wheel-modal-content {
+    width: 80%;
+  }
+}
+
 
 .loading-wheel-modal-spinner {
   margin: auto;

@@ -26,23 +26,58 @@ function ServerManager() {
     logger.traceFunctionCall();
     logger.trace("Shutdown delay: " + time);
     var requestParam = "delay=" + time;
-    apiCallTable.postUrlEncoded(url, requestParam);
+    loadingWheelModal.open();
+    apiCallTable.postUrlEncoded(url, requestParam, 
+      function success() {
+      loadingWheelModal.close();
+    },
+    function error() {
+      loadingWheelModal.close();
+    });
   }
 
   this.get = function httpGet(url) {
-    apiCallTable.get(url);
+    loadingWheelModal.open();
+    apiCallTable.get(url,
+      function success() {
+        loadingWheelModal.close();
+      },
+      function error() {
+        loadingWheelModal.close();
+      });
   }
 
   this.post = function httpPost(url, requestBody) {
-    apiCallTable.post(url, requestBody);
+    loadingWheelModal.open();
+    apiCallTable.post(url, requestBody,
+      function success() {
+        loadingWheelModal.close();
+      },
+      function error() {
+        loadingWheelModal.close();
+      });
   }
  
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
-    apiCallTable.postUrlEncoded(url, requestParam);
+    loadingWheelModal.open();
+    apiCallTable.postUrlEncoded(url, requestParam,
+      function success() {
+        loadingWheelModal.close();
+      },
+      function error() {
+        loadingWheelModal.close();
+      });
   }
 
   this.delete = function httpDelete(url, requestBody) { 
-    apiCallTable.delete(url, requestBody)
+    loadingWheelModal.open();
+    apiCallTable.delete(url, requestBody,
+      function success() {
+        loadingWheelModal.close();
+      },
+      function error() {
+        loadingWheelModal.close();
+      })
   }
 }
 
