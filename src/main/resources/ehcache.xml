@@ -17,8 +17,8 @@
   </cache>
 
   <cache name="videoPlaylist"
-         maxEntriesLocalHeap="100"
-         maxEntriesLocalDisk="1000"
+         maxEntriesLocalHeap="1000"
+         maxEntriesLocalDisk="10000"
          eternal="true"
          diskSpoolBufferSizeMB="20"
          memoryStoreEvictionPolicy="LFU"
@@ -27,8 +27,8 @@
   </cache>
 
   <cache name="videoPlaylists"
-         maxEntriesLocalHeap="100"
-         maxEntriesLocalDisk="1000"
+         maxEntriesLocalHeap="1000"
+         maxEntriesLocalDisk="10000"
          eternal="true"
          diskSpoolBufferSizeMB="20"
          memoryStoreEvictionPolicy="LFU"

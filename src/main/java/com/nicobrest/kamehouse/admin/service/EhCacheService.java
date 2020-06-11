@@ -104,8 +104,9 @@ public class EhCacheService {
       List<?> cacheKeys = cache.getKeys();
       for (Object key : cacheKeys) {
         Element cacheElement = cache.get(key);
-        if (cacheElement != null) {
-          cacheValues.add(cacheElement.getObjectValue().toString());
+        Object cacheElementValue = cacheElement.getObjectValue();
+        if (cacheElement != null && cacheElementValue != null) {
+          cacheValues.add(cacheElementValue.toString());
         }
       }
       applicationCache.setKeys(cache.getKeys().toString());
