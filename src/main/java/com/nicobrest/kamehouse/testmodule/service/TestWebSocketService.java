@@ -23,7 +23,7 @@ public class TestWebSocketService {
       TestWebSocketRequestMessage inputMessage) {
     TestWebSocketResponseMessage testWebSocketResponseMessage = new TestWebSocketResponseMessage();
     testWebSocketResponseMessage.setDate(new Date());
-    testWebSocketResponseMessage.setMessage("Mada mada dane, " + inputMessage.getLastName() + " "
+    testWebSocketResponseMessage.setMessage("まだまだだね, " + inputMessage.getLastName() + " "
         + inputMessage.getFirstName());
     return testWebSocketResponseMessage;
   }

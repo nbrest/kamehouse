@@ -17,7 +17,7 @@ public class TestWebSocketServiceTest {
 
   @Test
   public void generateTestWebSocketResponseMessageTest() {
-    String expectedMessage = "Mada mada dane, Son Goku";
+    String expectedMessage = "まだまだだね, Son Goku";
     TestWebSocketRequestMessage testWebSocketRequestMessage = new TestWebSocketRequestMessage();
     testWebSocketRequestMessage.setFirstName("Goku");
     testWebSocketRequestMessage.setLastName("Son");

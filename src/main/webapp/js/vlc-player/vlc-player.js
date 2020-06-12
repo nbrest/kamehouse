@@ -619,7 +619,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let $playlistTableBody = $('#playlist-table-body');
     let playlistTableRow;
     if (isEmpty(self.currentPlaylist)) {
-      playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. Mada mada dane :)"));
+      playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. まだまだだね :)"));
       $playlistTableBody.append(playlistTableRow);
     } else {
       for (let i = 0; i < self.currentPlaylist.length; i++) {

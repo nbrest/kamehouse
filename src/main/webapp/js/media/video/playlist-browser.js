@@ -108,7 +108,7 @@ function PlaylistBrowser(vlcPlayer) {
     let $playlistTableBody = $('#playlist-browser-table-body');
     let playlistTableRow;
     if (isEmpty(self.currentPlaylist)) {
-      playlistTableRow = $('<tr>').append($('<td>').text("No playlist to browse loaded yet or unable to sync. Mada mada dane :)"));
+      playlistTableRow = $('<tr>').append($('<td>').text("No playlist to browse loaded yet or unable to sync. まだまだだね :)"));
       $playlistTableBody.append(playlistTableRow);
     } else {
       for (let i = 0; i < self.currentPlaylist.files.length; i++) {
