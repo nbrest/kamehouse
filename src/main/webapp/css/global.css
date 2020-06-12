@@ -222,6 +222,58 @@ hr {
   }
 }
 
+/** margin 25 */
+.m-25-d-kh {
+  margin: 25px;
+}
+
+@media (max-width : 900px) {
+  .m-25-m-kh {
+    margin: 25px;
+  }
+}
+
+.m-25-d-l-kh {
+  margin-left: 25px;
+}
+
+@media (max-width : 900px) {
+  .m-25-m-l-kh {
+    margin-left: 25px;
+  }
+}
+
+.m-25-d-r-kh {
+  margin-right: 25px;
+}
+
+@media (max-width : 900px) {
+  .m-25-m-r-kh {
+    margin-right: 25px;
+  }
+}
+
+/** margin 50 */
+.m-50-d-kh {
+  margin: 50px;
+}
+
+@media (max-width : 900px) {
+  .m-50-m-kh {
+    margin: 50px;
+  }
+}
+
+.m-50-d-r-kh {
+  margin-right: 50px;
+}
+
+@media (max-width : 900px) {
+  .m-50-m-r-kh {
+    margin-right: 50px;
+  }
+}
+
 /** margin 0 (needs to be below other m-X-x-kh definitions or it breaks for some reason) */
 .m-0-d-kh {
   margin: 0;

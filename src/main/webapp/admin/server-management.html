@@ -20,20 +20,15 @@
     <div class="bg-darker-kh">
     <div class="default-layout screen-section p-15-d-kh p-15-m-kh">
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Screen</h5>
-      <input type="button" 
+      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
         onclick="serverManager.post('/kame-house/api/v1/admin/screen/unlock', null)"
-        value="Unlock"
-        class="btn btn-outline-success btn-margins btn-borderless" />
-      
-      <input type="button"
+        src="/kame-house/img/pc/unlock-green.png" alt="Unlock" title="Unlock" />
+      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
         onclick="serverManager.post('/kame-house/api/v1/admin/screen/wake-up', null)"
-        value="Wake-Up"
-        class="btn btn-outline-info btn-margins btn-borderless" />
-        
-      <input type="button"
+        src="/kame-house/img/pc/mouse-click.png" alt="Wake-Up" title="Wake-Up" />
+      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
         onclick="serverManager.post('/kame-house/api/v1/admin/screen/lock', null)"
-        value="Lock"
-        class="btn btn-outline-danger btn-margins btn-borderless" />
+        src="/kame-house/img/pc/lock-red.png" alt="Lock" title="Lock" />
     </div> 
     </div>
     <div class="p-15-d-kh p-15-m-kh">
@@ -41,32 +36,25 @@
     <h5 class="h5-kh txt-r-m-kh">Power Management</h5>
     <div class="fl-l-d-kh fl-l-m-kh">
       <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Shutdown</h6>
-      <input type="button"
-        onclick="serverManager.execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown', 5400)"
-        value="90 Min"
-        class="btn btn-outline-danger btn-margins btn-borderless" /> 
-      
-      <input type="button"
-        onclick="serverManager.execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown', 60)"
-        value="1 Min"
-        class="btn btn-outline-danger btn-margins btn-borderless" />
-
-      <input type="button"
-        onclick="serverManager.delete('/kame-house/api/v1/admin/power-management/shutdown', null)"
-        value="Cancel"
-        class="btn btn-outline-success btn-margins btn-borderless" />
-     
-      <input type="button"
+      <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="shutdown-delay-dropdown">
+        <option value="5400">90 Min</option>
+        <option value="90">1 Min</option>
+      </select>
+      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
+        onclick="serverManager.execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown')"
+        src="/kame-house/img/pc/shutdown-red.png" alt="Shutdown" title="Shutdown" />
+      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
+        onclick="serverManager.delete('/kame-house/api/v1/admin/power-management/shutdown')"
+        src="/kame-house/img/pc/shutdown-green.png" alt="Cancel Shutdown" title="Cancel Shutdown" />
+      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
         onclick="serverManager.get('/kame-house/api/v1/admin/power-management/shutdown')"
-        value="Status"
-        class="btn btn-outline-primary btn-margins btn-borderless" />
+        src="/kame-house/img/pc/shutdown-blue.png" alt="Shutdown Status" title="Shutdown Status" />
     </div>
     <div class="fl-r-d-kh fl-l-m-kh">
       <h6 class="h6-kh txt-r-d-kh">Suspend</h6>
-      <input type="button"
+      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh m-25-m-l-kh"
         onclick="serverManager.post('/kame-house/api/v1/admin/power-management/suspend', null)"
-        value="Now"
-        class="btn btn-outline-danger btn-margins btn-borderless" />
+        src="/kame-house/img/pc/sleep-red.png" alt="Suspend Now" title="Suspend Now" />
     </div>
     </div>
     </div>

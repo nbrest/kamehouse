@@ -22,10 +22,11 @@ function importServerManagementCss() {
 
 function ServerManager() {
 
-  this.execAdminShutdown = function execAdminShutdown(url, time) {
+  this.execAdminShutdown = function execAdminShutdown(url) {
     logger.traceFunctionCall();
-    logger.trace("Shutdown delay: " + time);
-    var requestParam = "delay=" + time;
+    let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
+    logger.trace("Shutdown delay: " + shutdownDelay);
+    var requestParam = "delay=" + shutdownDelay;
     loadingWheelModal.open();
     apiCallTable.postUrlEncoded(url, requestParam, 
       function success() {
