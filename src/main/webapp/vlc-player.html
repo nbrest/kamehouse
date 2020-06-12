@@ -207,15 +207,19 @@
           <tbody>
             <tr>
               <td class="txt-l-d-kh txt-l-m-kh">
-                <input class="table-filter-input w-90-pc-kh mar-5-d-kh mar-0-m-kh"
+                <input class="table-filter-input w-100-pc-kh m-5-d-kh m-0-m-kh"
                   type="text" placeholder=" Search..."
                   onkeyup="vlcPlayer.filterPlaylistRows(this.value)" />
               </td>
               <td class="txt-r-d-kh txt-r-m-kh">
-                <button class="btn-outline-danger mar-5-d-kh mar-5-m-kh"
-                  onclick="vlcPlayer.scrollToCurrentlyPlaying()">Current File</button>
-                <button class="btn-outline-info mar-5-d-kh mar-5-m-kh"
-                  onclick="scrollToTop('playlist-table-wrapper')">Back To Top</button>
+                <img class="vlc-player-btn-img m-10-d-r-kh m-10-m-r-kh"
+                  onclick="vlcPlayer.scrollToCurrentlyPlaying()"
+                  src="/kame-house/img/other/selected-item.png"
+                  alt="Selected Item" title="Selected Item" />
+                <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-7-m-kh"
+                  onclick="scrollToTop('playlist-table-wrapper')"
+                  src="/kame-house/img/other/back-to-top-blue.png"
+                  alt="Back To Top" title="Back To Top" />
               </td>
             </tr>
           </tbody>
@@ -240,9 +244,9 @@
             onchange="playlistBrowser.populateVideoPlaylists()"></select>
           <select class="select-kh-dark playlist-selector" id="playlist-dropdown" name="playlist" 
             onchange="playlistBrowser.loadPlaylistContent()"></select>
-          <img class="vlc-player-btn-img"
+          <img class="vlc-player-btn-img vlc-player-btn-img-s"
             onclick="playlistBrowser.playSelectedPlaylist()"
-            src="/kame-house/img/mplayer/playlist.png"
+            src="/kame-house/img/mplayer/play-blue.png"
             alt="Load Playlist" title="Load Playlist"/> 
         </div>
       </div> 
@@ -256,13 +260,15 @@
           <tbody>
             <tr>
               <td class="txt-l-d-kh txt-l-m-kh">
-                <input class="table-filter-input w-90-pc-kh mar-5-d-kh mar-0-m-kh"
+                <input class="table-filter-input w-100-pc-kh m-5-d-kh m-0-m-kh"
                   type="text" placeholder=" Search..."
                   onkeyup="playlistBrowser.filterPlaylistRows(this.value)" />
               </td>
               <td class="txt-r-d-kh txt-r-m-kh">
-                <button class="btn-outline-info mar-5-d-kh mar-5-m-kh"
-                  onclick="scrollToTop('playlist-browser-table-wrapper')">Back To Top</button>
+                <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-7-m-kh"
+                  onclick="scrollToTop('playlist-browser-table-wrapper')"
+                  src="/kame-house/img/other/back-to-top-blue.png"
+                  alt="Back To Top" title="Back To Top" />
               </td>
             </tr>
           </tbody>
@@ -296,7 +302,7 @@
         onclick="vlcPlayer.close()" alt="Close VLC" title="Close VLC"/>
     </div> <!-- admin-cmds-section -->
      
-    <div id="debug-mode" class="bg-darker-kh pd-15-d-kh pd-15-m-kh hidden-kh">
+    <div id="debug-mode" class="bg-darker-kh p-15-d-kh p-15-m-kh hidden-kh">
     <div class="default-layout">
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
       <div id="debug-buttons">

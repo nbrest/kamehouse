@@ -383,6 +383,12 @@
   }
 }
 
+.vlc-player-btn-img-s {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
 @media (max-width : 900px) {
   #vlc-player-main {
     width: 100%;
