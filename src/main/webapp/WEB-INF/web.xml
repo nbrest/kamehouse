@@ -94,6 +94,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- Charset Filter -->
+	<filter>
+		<filter-name>charSetFilterChain</filter-name>
+		<filter-class>com.nicobrest.kamehouse.main.web.filter.CharSetFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>charSetFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<!-- Error page definitions -->
 	<error-page>
 		<error-code>400</error-code>

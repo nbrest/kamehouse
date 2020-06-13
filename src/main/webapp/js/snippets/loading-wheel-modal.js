@@ -32,6 +32,11 @@ function LoadingWheelModal() {
     logger.traceFunctionCall();
     if (!isEmpty(message)) {
      self.setText(message);
+    } else {
+      if (!isEmpty(global.session.firstName)) {
+        let chottoMatte = 'ちょっと まって';
+        self.setText(chottoMatte  + ", " + global.session.firstName + "-san!");
+      }
     }
     let modal = document.getElementById("loading-wheel-modal");
     modal.style.display = "block";
