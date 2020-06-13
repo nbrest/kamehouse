@@ -7,8 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Controller to resolve views for all the static htmls and jsps in the
@@ -21,7 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ViewResolverController extends AbstractController {
 
   /**
-   * View resolver for static html files.
+   * View resolver for static html files. Loads the content of the html and returns it to the view
+   * so that include-static-html.jsp can render it.
    */
   @GetMapping(path = { "/", "/about", "/admin", "/admin/**", "/contact-us", "/test-module",
       "/test-module/", "/test-module/angular-1", "/test-module/angular-1/**",
@@ -51,12 +58,24 @@ public class ViewResolverController extends AbstractController {
       staticHtmlToLoad = staticHtmlToLoad + ".html";
     }
 
-    logger.trace("/include-static (GET) with request '{}' Loading static html: '{}'",
+    logger.debug("/include-static (GET) with request '{}' Loading static html: '{}'",
         request.getServletPath(), staticHtmlToLoad);
 
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("/include-static-html");
     modelAndView.addObject("staticHtmlToLoad", staticHtmlToLoad);
+    try {
+      HttpSession session = request.getSession();
+      if (session != null && session.getServletContext() != null) {
+        ServletContext servletContext = session.getServletContext();
+        String staticHtmlToLoadAbsolutePath = servletContext.getRealPath(staticHtmlToLoad);
+        byte[] staticHtmlBytes = Files.readAllBytes(Paths.get(staticHtmlToLoadAbsolutePath));
+        String staticHtmlContent = new String(staticHtmlBytes, StandardCharsets.UTF_8);
+        modelAndView.addObject("staticHtmlContent", staticHtmlContent);
+      }
+    } catch (IOException e) {
+      logger.error("Error loading {} content", staticHtmlToLoad);
+    }
     return modelAndView;
   }
 
@@ -65,7 +84,7 @@ public class ViewResolverController extends AbstractController {
    */
   @GetMapping(path = "/login")
   public String loginPage() {
-    logger.trace("/login (GET)");
+    logger.debug("/login (GET)");
     return "/login";
   }
 
@@ -74,7 +93,7 @@ public class ViewResolverController extends AbstractController {
    */
   @GetMapping(path = "/logout")
   public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("/logout (GET)");
+    logger.debug("/logout (GET)");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
       new SecurityContextLogoutHandler().logout(request, response, authentication);
@@ -89,7 +108,7 @@ public class ViewResolverController extends AbstractController {
    */
   @GetMapping(path = "/test-module/jsp/**")
   public String testModuleJsp(HttpServletRequest request, HttpServletResponse response) {
-    logger.trace("/test-module/jsp/** (GET) with path: {}", request.getServletPath());
+    logger.debug("/test-module/jsp/** (GET) with path: {}", request.getServletPath());
     if (request.getServletPath().equals("/test-module/jsp/")) {
       return "/test-module/jsp/index";
     } else {

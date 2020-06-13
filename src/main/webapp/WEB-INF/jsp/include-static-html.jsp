@@ -1,5 +1,3 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%-- This JSP loads the static html received by ViewResolverController --%>
-<% 
-  String staticHtmlToLoad = (String) request.getAttribute("staticHtmlToLoad");
-%>
-<jsp:include page="<%=staticHtmlToLoad%>" />
+${staticHtmlContent}
