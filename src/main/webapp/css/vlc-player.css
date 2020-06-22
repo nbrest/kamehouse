@@ -173,12 +173,14 @@
 #media-screen-ctrl-buttons {
   margin-top: 15px;
   margin-bottom: 15px;
+  width: 83%;
 }
 
 @media (max-width: 900px) {
   #media-screen-ctrl-buttons {
     margin-top: 20px;
     margin-bottom: 20px;
+    width: 100%;
   }
 }
 
@@ -194,7 +196,7 @@
 }
 
 #media-time {
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 #media-time #time-slider-wrapper {
