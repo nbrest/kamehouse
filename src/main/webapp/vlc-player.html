@@ -180,7 +180,7 @@
               alt="Aspect Ratio Cycle" title="Aspect Ratio Cycle"/>
           </td>
           <td> 
-            <select class="select-kh-dark" id="aspect-ratio-dropdown"
+            <select class="select-kh-dark vlc-player-select" id="aspect-ratio-dropdown"
               onchange="vlcPlayer.updateAspectRatio(this.value)">
               <option disabled selected value>Aspect Ratio</option>
               <option value="16:9">16:9</option>
@@ -236,9 +236,9 @@
       <div class="default-layout">
       <div class="bg-darker-kh">
         <div id="playlist-selector"> 
-          <select class="select-kh-dark playlist-selector" id="playlist-category-dropdown" name="playlist-category" 
+          <select class="select-kh-dark vlc-player-select" id="playlist-category-dropdown" name="playlist-category" 
             onchange="playlistBrowser.populateVideoPlaylists()"></select>
-          <select class="select-kh-dark playlist-selector" id="playlist-dropdown" name="playlist" 
+          <select class="select-kh-dark vlc-player-select" id="playlist-dropdown" name="playlist" 
             onchange="playlistBrowser.loadPlaylistContent()"></select>
           <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
             onclick="playlistBrowser.playSelectedPlaylist()"

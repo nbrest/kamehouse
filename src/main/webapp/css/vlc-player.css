@@ -316,11 +316,6 @@
   padding-bottom: 0;
 }
 
-.playlist-selector {
-  color: #868686;
-  background: #1a242a;
-}
-
 #playlist-category-dropdown {
   margin-right: 5px;
 }
@@ -425,6 +420,11 @@
     margin-top: 10px;
     margin-bottom: 5px;
   }
+}
+
+.vlc-player-select {
+  color: #868686;
+  background: #1a242a;
 }
 
 /* tabs */
