@@ -71,6 +71,12 @@ function VlcPlayer(hostname) {
     self.commandExecutor.execVlcRcCommand(name, val);
   }
 
+  this.updateAspectRatio = function updateAspectRatio(aspectRatio) {
+    if (!isEmpty(aspectRatio)) {
+      self.commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
+    }
+  }
+
   this.seek = function seek(value) {
     self.mainViewUpdater.updateCurrentTimeView(value);
     self.commandExecutor.execVlcRcCommand('seek', value);
@@ -234,8 +240,6 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   this.statefulButtons = [];
 
   function setStatefulButtons() {
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-aspect-ratio-4-3', "aspectRatio", "4:3"));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-aspect-ratio-16-9', "aspectRatio", "16:9"));
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-fullscreen', "fullscreen", true));
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-repeat-1', "repeat", true));
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-repeat', "loop", true));

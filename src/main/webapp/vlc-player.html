@@ -173,24 +173,19 @@
               onclick="vlcPlayer.execVlcRcCommand('fullscreen')" alt="Fullscreen Toggle" title="Fullscreen"/>
           </td>
           <td> 
-            <img id="media-btn-aspect-ratio-4-3"
-              class="vlc-player-btn-img media-screen-ctrl-button"
-              src="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png"
-              onclick="vlcPlayer.execVlcRcCommand('aspectratio', '4:3')"
-              alt="Aspect Ratio 4:3" title="4:3"/>
-          </td>
-          <td> 
-            <img id="media-btn-aspect-ratio-16-9"
-              class="vlc-player-btn-img media-screen-ctrl-button"
-              src="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png"
-              onclick="vlcPlayer.execVlcRcCommand('aspectratio', '16:9')" alt="Aspect Ratio 16:9" title="16:9"/> 
-          </td>
-          <td> 
             <img id="media-btn-aspect-ratio-cycle"
               class="vlc-player-btn-img media-screen-ctrl-button"
               src="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png"
               onclick="vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"
               alt="Aspect Ratio Cycle" title="Aspect Ratio Cycle"/>
+          </td>
+          <td> 
+            <select class="select-kh-dark" id="aspect-ratio-dropdown"
+              onchange="vlcPlayer.updateAspectRatio(this.value)">
+              <option disabled selected value>Aspect Ratio</option>
+              <option value="16:9">16:9</option>
+              <option value="4:3">4:3</option>
+            </select>
           </td>
         </tr>
       </table>
