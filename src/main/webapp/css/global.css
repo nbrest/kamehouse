@@ -222,6 +222,28 @@ hr {
   }
 }
 
+/** margin 15 */
+.m-15-d-kh {
+  margin: 15px;
+}
+
+@media (max-width : 900px) {
+  .m-15-m-kh {
+    margin: 15px;
+  }
+}
+
+/** margin 20 */
+.m-20-d-kh {
+  margin: 20px;
+}
+
+@media (max-width : 900px) {
+  .m-20-m-kh {
+    margin: 20px;
+  }
+}
+
 /** margin 25 */
 .m-25-d-kh {
   margin: 25px;
