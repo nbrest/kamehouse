@@ -410,6 +410,7 @@
   border-width: 10px;
   border-color: #161e21;
   width: 65%;
+  margin: auto;
 }
 
 @media (max-width : 900px) {
