@@ -12,12 +12,14 @@
   white-space: nowrap;
   margin: 0 auto;
 }
+
 @media (max-width: 900px) {
 	.table-dragonball-users {
 	  display: block;
 	}
 }
-  .table-dragonball-users tr td:nth-child(7) form {
-    display: inline; /** Display edit and delete buttons next to each other */
-  }
+
+.table-dragonball-users tr td:nth-child(7) form {
+  display: inline; /** Display edit and delete buttons next to each other */
+}
 

@@ -195,30 +195,32 @@
   
     <div id="tab-playlist" class="vlc-player-tab-content">
       <div class="default-layout bg-darker-kh">
-        <table id="playlist-controls" class="playlist-table playlist-controls-table">
+        <table id="playlist-controls" class="playlist-controls-table">
           <caption class="hidden-kh">Playlist Controls</caption>
+          <colgroup>
+            <col class="w-80-pc-kh" />
+            <col class="w-20-pc-kh" />
+          </colgroup>
           <tr class="hidden-kh">
             <th scope="row" class="hidden-kh">Playlist Controls</th>
           </tr>
-          <tbody>
-            <tr>
-              <td class="txt-l-d-kh txt-l-m-kh">
-                <input class="table-filter-input w-100-pc-kh m-5-d-kh m-0-m-kh"
-                  type="text" placeholder=" Search..."
-                  onkeyup="vlcPlayer.filterPlaylistRows(this.value)" />
-              </td>
-              <td class="txt-r-d-kh txt-r-m-kh">
-                <img class="vlc-player-btn-img m-7-d-kh m-15-m-kh"
-                  onclick="vlcPlayer.scrollToCurrentlyPlaying()"
-                  src="/kame-house/img/other/selected-item.png"
-                  alt="Selected Item" title="Selected Item" />
-                <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
-                  onclick="scrollToTop('playlist-table-wrapper')"
-                  src="/kame-house/img/other/back-to-top-blue.png"
-                  alt="Back To Top" title="Back To Top" />
-              </td>
-            </tr>
-          </tbody>
+          <tr>
+            <td>
+              <input class="table-filter-input"
+                type="text" placeholder="Search..."
+                onkeyup="vlcPlayer.filterPlaylistRows(this.value)" />
+            </td>
+            <td class="txt-r-d-kh txt-r-m-kh">
+              <img class="vlc-player-btn-img vlc-player-btn-img m-7-d-kh m-7-m-kh"
+                onclick="vlcPlayer.scrollToCurrentlyPlaying()"
+                src="/kame-house/img/other/selected-item.png"
+                alt="Selected Item" title="Selected Item" />
+              <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
+                onclick="scrollToTop('playlist-table-wrapper')"
+                src="/kame-house/img/other/back-to-top-blue.png"
+                alt="Back To Top" title="Back To Top" />
+            </td>
+          </tr>
         </table>
         <div id="playlist-table-wrapper" class="playlist-wrapper">
           <table id="playlist-table" class="playlist-table">
@@ -248,26 +250,28 @@
       </div> 
       </div>
       <div class="default-layout bg-darker-kh">
-        <table id="playlist-browser-controls" class="playlist-table playlist-controls-table">
+        <table id="playlist-browser-controls" class="playlist-controls-table">
           <caption class="hidden-kh">Playlist Browser Controls</caption>
+          <colgroup>
+            <col class="w-90-pc-kh" />
+            <col class="w-10-pc-kh" />
+          </colgroup>
           <tr class="hidden-kh">
             <th scope="row" class="hidden-kh">Playlist Browser Controls</th>
           </tr>
-          <tbody>
-            <tr>
-              <td class="txt-l-d-kh txt-l-m-kh">
-                <input class="table-filter-input w-100-pc-kh m-5-d-kh m-0-m-kh"
-                  type="text" placeholder=" Search..."
-                  onkeyup="playlistBrowser.filterPlaylistRows(this.value)" />
-              </td>
-              <td class="txt-r-d-kh txt-r-m-kh">
-                <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
-                  onclick="scrollToTop('playlist-browser-table-wrapper')"
-                  src="/kame-house/img/other/back-to-top-blue.png"
-                  alt="Back To Top" title="Back To Top" />
-              </td>
-            </tr>
-          </tbody>
+          <tr>
+            <td>
+              <input class="table-filter-input"
+                type="text" placeholder="Search..."
+                onkeyup="playlistBrowser.filterPlaylistRows(this.value)" />
+            </td>
+            <td class="txt-r-d-kh txt-r-m-kh">
+              <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
+                onclick="scrollToTop('playlist-browser-table-wrapper')"
+                src="/kame-house/img/other/back-to-top-blue.png"
+                alt="Back To Top" title="Back To Top" />
+            </td>
+          </tr> 
         </table>
         <div id="playlist-browser-table-wrapper" class="playlist-wrapper">
           <table id="playlist-browser-table" class="playlist-table">
