@@ -161,7 +161,8 @@ function filterTableRows(filterString, tableBodyId) {
   let playlistBodyRows = $("#" + tableBodyId + " tr");
   let regex;
   try {
-    filterString = filterString.split('').join('.*');
+    filterString = filterString.split('').join('.*').replace(/\s/g, '');
+    logger.info(filterString);
     regex = RegExp(filterString);
   } catch (error) {
     logger.error("Error creating regex from filter string " + filterString);
