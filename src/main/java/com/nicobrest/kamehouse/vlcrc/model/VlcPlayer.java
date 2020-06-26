@@ -58,6 +58,8 @@ public class VlcPlayer implements Identifiable, Serializable {
   private static final String PLAYLIST_URL = "/requests/playlist.json";
   @JsonIgnore
   private static final String BROWSE_URL = "/requests/browse.json";
+  @JsonIgnore
+  private static final String FILE_PROTOCOL = "file://";
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
@@ -287,11 +289,21 @@ public class VlcPlayer implements Identifiable, Serializable {
       VlcRcPlaylistItem playlistItem = new VlcRcPlaylistItem();
       playlistItem.setId(JsonUtils.getInt(jsonNode, "id"));
       playlistItem.setName(JsonUtils.getText(jsonNode, "name"));
-      playlistItem.setUri(JsonUtils.getText(jsonNode, "uri"));
+      String uri = JsonUtils.getText(jsonNode, "uri");
+      playlistItem.setUri(uri);
+      playlistItem.setFilename(getFilenameFromUri(uri));
       playlistItem.setDuration(JsonUtils.getInt(jsonNode, "duration"));
       vlcRcPlaylist.add(playlistItem);
     }
     return vlcRcPlaylist;
+  }
+
+  private String getFilenameFromUri(String uri) {
+    String decodedUri = HttpClientUtils.urlDecode(uri);
+    if (decodedUri != null && decodedUri.startsWith(FILE_PROTOCOL)) {
+      decodedUri = decodedUri.replace(FILE_PROTOCOL, "");
+    }
+    return decodedUri;
   }
 
   /**

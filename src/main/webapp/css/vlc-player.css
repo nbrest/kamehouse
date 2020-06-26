@@ -313,7 +313,7 @@
   padding-top: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  padding-bottom: 0;
+  padding-bottom: 5px;
 }
 
 #playlist-category-dropdown {
@@ -406,10 +406,8 @@
 
 #vlc-player-main {
   color: #969696;
-  border-style: solid;
-  border-width: 10px;
-  border-color: #161e21;
   width: 65%;
+  padding: 10px;
   margin: auto;
 }
 

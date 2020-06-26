@@ -308,6 +308,17 @@ hr {
 }
 
 /** Set padding on desktop and mobile */
+/** padding 7 */
+.p-7-d-kh {
+  padding: 7px;
+}
+
+@media (max-width : 900px) {
+  .p-7-m-kh {
+    padding: 7px;
+  }
+}
+
 /** padding 15 */
 .p-15-d-kh {
   padding: 15px;

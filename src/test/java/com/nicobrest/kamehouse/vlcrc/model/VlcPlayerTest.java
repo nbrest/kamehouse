@@ -72,6 +72,7 @@ public class VlcPlayerTest {
     when(HttpClientUtils.getClient(any(), any())).thenReturn(httpClientMock);
     when(HttpClientUtils.execRequest(any(), any())).thenReturn(httpResponseMock);
     when(HttpClientUtils.urlEncode(any())).thenCallRealMethod();
+    when(HttpClientUtils.urlDecode(any())).thenCallRealMethod();
     when(HttpClientUtils.httpGet(any())).thenCallRealMethod();
   }
 

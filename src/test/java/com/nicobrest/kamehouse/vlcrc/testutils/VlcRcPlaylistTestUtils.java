@@ -35,6 +35,7 @@ public class VlcRcPlaylistTestUtils extends AbstractTestUtils<List<VlcRcPlaylist
         assertEquals(expectedItem.getId(), returnedItem.getId());
         assertEquals(expectedItem.getName(), returnedItem.getName());
         assertEquals(expectedItem.getUri(), returnedItem.getUri());
+        assertEquals(expectedItem.getFilename(), returnedItem.getFilename());
         assertEquals(expectedItem.getDuration(), returnedItem.getDuration());
       }
     }
@@ -48,18 +49,22 @@ public class VlcRcPlaylistTestUtils extends AbstractTestUtils<List<VlcRcPlaylist
     playlistItem1.setName("Lleyton Hewitt- Brash teenager to Aussie great.mp4");
     playlistItem1.setUri("file:///home/nbrest/Videos/Lleyton%20"
         + "Hewitt-%20Brash%20teenager%20to%20Aussie%20great.mp4");
+    playlistItem1.setFilename("/home/nbrest/Videos/Lleyton "
+        + "Hewitt- Brash teenager to Aussie great.mp4");
     playlistItem1.setDuration(281);
     singleTestData.add(playlistItem1);
     VlcRcPlaylistItem playlistItem2 = new VlcRcPlaylistItem();
     playlistItem2.setId(6);
     playlistItem2.setName("Lleyton Hewitt Special.mp4");
     playlistItem2.setUri("file:///home/nbrest/Videos/Lleyton%20Hewitt%20Special.mp4");
+    playlistItem2.setFilename("/home/nbrest/Videos/Lleyton Hewitt Special.mp4");
     playlistItem2.setDuration(325);
     singleTestData.add(playlistItem2);
     VlcRcPlaylistItem playlistItem3 = new VlcRcPlaylistItem();
     playlistItem3.setId(7);
     playlistItem3.setName("Lleyton Last On Court Interview.mp4");
     playlistItem3.setUri("file:///home/nbrest/Videos/Lleyton%20Last%20On%20Court%20Interview.mp4");
+    playlistItem3.setFilename("/home/nbrest/Videos/Lleyton Last On Court Interview.mp4");
     playlistItem3.setDuration(426);
     singleTestData.add(playlistItem3);
   }

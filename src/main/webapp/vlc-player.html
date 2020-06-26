@@ -198,8 +198,8 @@
         <table id="playlist-controls" class="playlist-controls-table">
           <caption class="hidden-kh">Playlist Controls</caption>
           <colgroup>
-            <col class="w-80-pc-kh" />
-            <col class="w-20-pc-kh" />
+            <col class="w-70-pc-kh" />
+            <col class="w-30-pc-kh" />
           </colgroup>
           <tr class="hidden-kh">
             <th scope="row" class="hidden-kh">Playlist Controls</th>
@@ -211,11 +211,16 @@
                 onkeyup="vlcPlayer.filterPlaylistRows(this.value)" />
             </td>
             <td class="txt-r-d-kh txt-r-m-kh">
+              <img id="toggle-playlist-filenames-img" 
+                class="vlc-player-btn-img vlc-player-btn-img-s m-15-d-kh m-15-m-kh"
+                onclick="vlcPlayer.toggleExpandPlaylistFilenames()"
+                src="/kame-house/img/other/double-left-green.png"
+                alt="Expand/Collapse Filename" title="Expand/Collapse Filename" />
               <img class="vlc-player-btn-img vlc-player-btn-img m-7-d-kh m-7-m-kh"
                 onclick="vlcPlayer.scrollToCurrentlyPlaying()"
                 src="/kame-house/img/other/selected-item.png"
                 alt="Selected Item" title="Selected Item" />
-              <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
+              <img class="vlc-player-btn-img vlc-player-btn-img-s m-15-d-kh m-15-m-kh"
                 onclick="scrollToTop('playlist-table-wrapper')"
                 src="/kame-house/img/other/back-to-top-blue.png"
                 alt="Back To Top" title="Back To Top" />
@@ -242,19 +247,20 @@
             onchange="playlistBrowser.populateVideoPlaylists()"></select>
           <select class="select-kh-dark vlc-player-select" id="playlist-dropdown" name="playlist" 
             onchange="playlistBrowser.loadPlaylistContent()"></select>
-          <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
+          <img class="vlc-player-btn-img vlc-player-btn-img-s m-15-d-kh m-15-m-kh"
             onclick="playlistBrowser.playSelectedPlaylist()"
             src="/kame-house/img/mplayer/play-blue.png"
             alt="Load Playlist" title="Load Playlist"/> 
         </div>
       </div> 
       </div>
+      <div class="default-layout p-7-d-kh p-7-m-kh"></div>
       <div class="default-layout bg-darker-kh">
         <table id="playlist-browser-controls" class="playlist-controls-table">
           <caption class="hidden-kh">Playlist Browser Controls</caption>
           <colgroup>
-            <col class="w-90-pc-kh" />
-            <col class="w-10-pc-kh" />
+            <col class="w-80-pc-kh" />
+            <col class="w-20-pc-kh" />
           </colgroup>
           <tr class="hidden-kh">
             <th scope="row" class="hidden-kh">Playlist Browser Controls</th>
@@ -266,7 +272,13 @@
                 onkeyup="playlistBrowser.filterPlaylistRows(this.value)" />
             </td>
             <td class="txt-r-d-kh txt-r-m-kh">
-              <img class="vlc-player-btn-img vlc-player-btn-img-s m-7-d-kh m-15-m-kh"
+              <img id="toggle-playlist-browser-filenames-img"
+                class="vlc-player-btn-img vlc-player-btn-img-s m-15-d-kh m-15-m-kh"
+                onclick="playlistBrowser.toggleExpandPlaylistFilenames()"
+                src="/kame-house/img/other/double-left-green.png"
+                alt="Expand/Collapse Filename"
+                title="Expand/Collapse Filename" />
+              <img class="vlc-player-btn-img vlc-player-btn-img-s m-15-d-kh m-15-m-kh"
                 onclick="scrollToTop('playlist-browser-table-wrapper')"
                 src="/kame-house/img/other/back-to-top-blue.png"
                 alt="Back To Top" title="Back To Top" />

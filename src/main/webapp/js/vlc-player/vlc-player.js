@@ -133,6 +133,10 @@ function VlcPlayer(hostname) {
     filterTableRows(filterString, 'playlist-table-body');
   }
 
+  this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
+    self.playlist.toggleExpandPlaylistFilenames();
+  }
+
   /**
    * --------------------------------------------------------------------------
    * Update view functionality
@@ -630,14 +634,17 @@ function VlcPlayerPlaylist(vlcPlayer) {
       for (let i = 0; i < self.currentPlaylist.length; i++) {
         let playlistElementButton = $('<button>');
         playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
-        playlistElementButton.text(self.currentPlaylist[i].name);
+        let filename = self.currentPlaylist[i].filename;
+        playlistElementButton.data("filename", filename);
+        playlistElementButton.text(filename);
         playlistElementButton.click({
           id: self.currentPlaylist[i].id
         }, self.clickEventOnPlaylistRow);
         playlistTableRow = $('<tr id=playlist-table-row-id-' + self.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
         $playlistTableBody.append(playlistTableRow);
       }
-      self.highlightCurrentPlayingItem();
+      self.toggleExpandPlaylistFilenames();
+      self.highlightCurrentPlayingItem(); 
     }
   }
 
@@ -659,16 +666,54 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
     $('#playlist-table-body tr').each(function () {
       let playlistItemId = $(this).attr('id');
+      let playlistEntry = $(this).children().children();
       if (playlistItemId == currentPlIdAsRowId) {
-        $(this).children().children().addClass("playlist-table-element-playing");
+        playlistEntry.addClass("playlist-table-element-playing");
       } else {
-        $(this).children().children().removeClass("playlist-table-element-playing");
+        playlistEntry.removeClass("playlist-table-element-playing");
       }
     });
   }
 
+  /** Toggle expand or collapse filenames in the playlist */
+  this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
+    logger.debugFunctionCall();
+    let isExpandedFilename = true;
+    $('#playlist-table-body tr').each(function () {
+      let playlistEntry = $(this).children().children();
+      let filename = playlistEntry.data("filename");
+      let currentText = playlistEntry.text();
+      if (currentText == filename) {
+        // Currently it's showing the expanded filename. Update to short
+        playlistEntry.text(self.getShortFilename(filename));
+        isExpandedFilename = false;
+      } else {
+        // Currently it's showing the short filename. Update to expanded
+        playlistEntry.text(filename);
+        isExpandedFilename = true;
+      }
+    });
+    self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
+  }
+
+  /** Update the icon to expand or collapse the playlist filenames */
+  this.updateExpandPlaylistFilenamesIcon = function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
+    if (isExpandedFilename) {
+      $("#toggle-playlist-filenames-img").attr("src", "/kame-house/img/other/double-left-green.png");
+    } else {
+      $("#toggle-playlist-filenames-img").attr("src", "/kame-house/img/other/double-right-green.png");
+    }
+  }
+
+  /** Get the last part of the absolute filename */
+  this.getShortFilename = function getShortFilename(filename) {
+    // Split the filename into an array based on the path separators '/' and '\'
+    return filename.split(/[\\/]+/).pop();
+  }
+
   /** Scroll to the current playing element in the playlist. */
   this.scrollToCurrentlyPlaying = function scrollToCurrentlyPlaying() {
+    logger.debugFunctionCall();
     let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
     let $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
     if ($currentPlayingRow.length) {

@@ -114,21 +114,59 @@ function PlaylistBrowser(vlcPlayer) {
       for (let i = 0; i < self.currentPlaylist.files.length; i++) {
         let playlistElementButton = $('<button>');
         playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
-        playlistElementButton.text(self.currentPlaylist.files[i]);
+        let filename = self.currentPlaylist.files[i];
+        playlistElementButton.data("filename", filename);
+        playlistElementButton.text(filename);
         playlistElementButton.click({
-          name: self.currentPlaylist.files[i]
+          filename: filename
         }, self.clickEventOnPlaylistBrowserRow);
         playlistTableRow = $('<tr id=playlist-browser-entry-' + [i] + '>').append($('<td>').append(playlistElementButton));
         $playlistTableBody.append(playlistTableRow);
       }
+      self.toggleExpandPlaylistFilenames();
     }
   }
 
   /** Play the clicked element from the playlist. */
   this.clickEventOnPlaylistBrowserRow = function clickEventOnPlaylistBrowserRow(event) {
-    let filename = event.data.name;
+    let filename = event.data.filename;
     logger.debug("Play selected playlist browser file : " + filename);
     self.vlcPlayer.playFile(filename);
     self.vlcPlayer.openTab('tab-playing');
+  }
+
+  /** Toggle expand or collapse filenames in the playlist */
+  this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
+    logger.debugFunctionCall();
+    let isExpandedFilename = true;
+    $('#playlist-browser-table-body tr').each(function () {
+      let playlistEntry = $(this).children().children();
+      let filename = playlistEntry.data("filename");
+      let currentText = playlistEntry.text();
+      if (currentText == filename) {
+        // Currently it's showing the expanded filename. Update to short
+        playlistEntry.text(self.getShortFilename(filename));
+        isExpandedFilename = false;
+      } else {
+        // Currently it's showing the short filename. Update to expanded
+        playlistEntry.text(filename);
+        isExpandedFilename = true;
+      }
+    });
+    self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
+  }
+
+  /** Update the icon to expand or collapse the playlist filenames */
+  this.updateExpandPlaylistFilenamesIcon = function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
+    if (isExpandedFilename) {
+      $("#toggle-playlist-browser-filenames-img").attr("src", "/kame-house/img/other/double-left-green.png");
+    } else {
+      $("#toggle-playlist-browser-filenames-img").attr("src", "/kame-house/img/other/double-right-green.png");
+    }
+  }
+
+  /** Get the last part of the absolute filename */
+  this.getShortFilename = function getShortFilename(filename) {
+    return filename.split(/[\\/]+/).pop();
   }
 }

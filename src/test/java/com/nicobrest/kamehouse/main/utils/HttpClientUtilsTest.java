@@ -31,4 +31,24 @@ public class HttpClientUtilsTest {
     String encodedParam = HttpClientUtils.urlEncode(null);
     assertNull("Expected null from urlEncode", encodedParam);
   }
+
+  /**
+   * Tests decoding successfully a url parameter.
+   */
+  @Test
+  public void urlDecodeSuccessTest() {
+    String encodedParam = "pegasus%20seiya%20%3C$1%3E/?";
+    String nonEncodedParam = HttpClientUtils.urlDecode(encodedParam);
+    String expectedOutput = "pegasus seiya <$1>/?";
+    assertEquals(expectedOutput, nonEncodedParam);
+  }
+
+  /**
+   * Tests returning null when failing to decode the url parameter.
+   */
+  @Test
+  public void urlDecodeErrorDecodingTest() {
+    String decodedParam = HttpClientUtils.urlDecode(null);
+    assertNull("Expected null from urlDecode", decodedParam);
+  }
 }

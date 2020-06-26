@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Utility class to perform HTTP requests to other services from the backend.
@@ -77,6 +78,21 @@ public class HttpClientUtils {
       return URIUtil.encodeQuery(parameter);
     } catch (URIException | IllegalArgumentException e) {
       LOGGER.error("Failed to encode parameter: " + parameter, e);
+      return null;
+    }
+  }
+
+  /**
+   * Decode the specified url.
+   */
+  public static String urlDecode(String url) {
+    if (url == null) {
+      return null;
+    }
+    try {
+      return URIUtil.decode(url, StandardCharsets.UTF_8.name());
+    } catch (URIException | IllegalArgumentException e) {
+      LOGGER.error("Failed to decode url: " + url, e);
       return null;
     }
   }

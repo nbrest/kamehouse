@@ -19,6 +19,7 @@ public class VlcRcPlaylistItem {
   private String name;
   private String uri;
   private int duration;
+  private String filename;
 
   public int getId() {
     return id;
@@ -50,6 +51,14 @@ public class VlcRcPlaylistItem {
 
   public void setDuration(int duration) {
     this.duration = duration;
+  }
+
+  public String getFilename() {
+    return filename;
+  }
+
+  public void setFilename(String filename) {
+    this.filename = filename;
   }
 
   @Override
