@@ -13,23 +13,29 @@
 }
  
 .site-under-construction-modal-content { 
+  color: #c0c0c0;
   background-color: #161c20;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  position: relative;
 }
- 
+
 .site-under-construction-modal-close {
-  color: #ffffff;
-  float: right;
+  color: #c0c0c0;
   font-size: 28px;
   font-weight: bold;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .site-under-construction-modal-close:hover,
 .site-under-construction-modal-close:focus {
-  color: #ffffff;
+  color: #fa314a;
   text-decoration: none;
   cursor: pointer;
 }

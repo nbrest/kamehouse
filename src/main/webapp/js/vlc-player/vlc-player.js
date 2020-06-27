@@ -34,7 +34,7 @@ function VlcPlayer(hostname) {
     self.synchronizer.connectPlaylist();
     self.synchronizer.syncVlcRcStatusLoop();
     self.synchronizer.syncPlaylistLoop();
-    self.synchronizer.keepAliveWebSocketsLoop(); 
+    self.synchronizer.keepAliveWebSocketsLoop();
     self.openTab('tab-playing');
   }
 
@@ -42,7 +42,7 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Tab manager
    */
-  this.openTab = function openTab(vlcPlayerTabDivId) { 
+  this.openTab = function openTab(vlcPlayerTabDivId) {
     let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
     for (i = 0; i < vlcPlayerTabContent.length; i++) {
       vlcPlayerTabContent[i].style.display = "none";
@@ -56,7 +56,7 @@ function VlcPlayer(hostname) {
 
     let vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
     vlcPlayerTabDiv.style.display = "block";
-    vlcPlayerTabDiv.classList.add("active"); 
+    vlcPlayerTabDiv.classList.add("active");
   }
 
   /**
@@ -644,7 +644,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
         $playlistTableBody.append(playlistTableRow);
       }
       self.toggleExpandPlaylistFilenames();
-      self.highlightCurrentPlayingItem(); 
+      self.highlightCurrentPlayingItem();
     }
   }
 
@@ -796,7 +796,7 @@ function VlcPlayerRestClient(vlcPlayer) {
         logger.debug("postUrlEncoded response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
         loadingWheelModal.close();
-      }, 
+      },
       function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
       });
@@ -811,7 +811,7 @@ function VlcPlayerRestClient(vlcPlayer) {
         logger.debug("delete response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
         loadingWheelModal.close();
-      }, 
+      },
       function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
       });
