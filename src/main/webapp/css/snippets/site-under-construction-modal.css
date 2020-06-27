@@ -24,13 +24,15 @@
 
 .site-under-construction-modal-close {
   color: #6d6d6d;
-  font-size: 28px;
+  font-size: 19px;
   font-weight: bold;
   position: absolute;
   top: 0px;
   right: 0px;
   margin-left: 10px;
   margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .site-under-construction-modal-close:hover,
