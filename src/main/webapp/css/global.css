@@ -542,9 +542,14 @@ ul {
 
 /** ----- Set scrollbar styles for different browsers ---------------------------------------- */
 
+/** 
+  These are used in vlc player playlist and playlist browser tables. If these impact other
+  scrollable places, see if I can change this per scrollable element
+*/
+
 /** Set scrollbar style FIREFOX */
 * {
-  scrollbar-color: #d90000 #101517 !important;
+  scrollbar-color: #d90000 #171e22 !important;
   scrollbar-width: thin !important;
 }
 
@@ -560,7 +565,7 @@ ul {
 }
 
 ::-webkit-scrollbar-track {
-  background: #101517;
+  background: #171e22;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -568,5 +573,5 @@ ul {
 }
 
 ::-webkit-scrollbar-corner {
-  background: #101517;
+  background: #171e22;
 }

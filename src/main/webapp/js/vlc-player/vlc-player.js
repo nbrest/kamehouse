@@ -633,7 +633,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     } else {
       for (let i = 0; i < self.currentPlaylist.length; i++) {
         let playlistElementButton = $('<button>');
-        playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
+        playlistElementButton.addClass("playlist-table-btn");
         let filename = self.currentPlaylist[i].filename;
         playlistElementButton.data("filename", filename);
         playlistElementButton.text(filename);
@@ -668,9 +668,9 @@ function VlcPlayerPlaylist(vlcPlayer) {
       let playlistItemId = $(this).attr('id');
       let playlistEntry = $(this).children().children();
       if (playlistItemId == currentPlIdAsRowId) {
-        playlistEntry.addClass("playlist-table-element-playing");
+        playlistEntry.addClass("active");
       } else {
-        playlistEntry.removeClass("playlist-table-element-playing");
+        playlistEntry.removeClass("active");
       }
     });
   }

@@ -113,7 +113,7 @@ function PlaylistBrowser(vlcPlayer) {
     } else {
       for (let i = 0; i < self.currentPlaylist.files.length; i++) {
         let playlistElementButton = $('<button>');
-        playlistElementButton.addClass("btn btn-outline-danger btn-borderless btn-playlist");
+        playlistElementButton.addClass("playlist-table-btn");
         let filename = self.currentPlaylist.files[i];
         playlistElementButton.data("filename", filename);
         playlistElementButton.text(filename);
