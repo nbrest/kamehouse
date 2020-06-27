@@ -761,11 +761,14 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute GET on the specified url and display the output in the debug table. */
   this.get = function httpGet(url) {
     logger.debugFunctionCall();
+    loadingWheelModal.open();
     apiCallTable.get(url,
       function success(responseBody, responseCode, responseDescription) {
         logger.debug("get response: " + JSON.stringify(responseBody));
+        loadingWheelModal.close();
       },
       function error(responseBody, responseCode, responseDescription) {
+        loadingWheelModal.close();
         if (responseCode == "404") {
           apiCallTable.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
         }
@@ -775,10 +778,12 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute a POST request to the specified url with the specified request body. */
   this.post = function httpPost(url, requestBody) {
     logger.debugFunctionCall();
+    loadingWheelModal.open();
     apiCallTable.post(url, requestBody,
       function success(responseBody, responseCode, responseDescription) {
         logger.debug("post response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
+        loadingWheelModal.close();
       }, null);
   }
 
@@ -800,11 +805,16 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute a DELETE request to the specified url with the specified request body. */
   this.delete = function httpDelete(url, requestBody) {
     logger.debugFunctionCall();
+    loadingWheelModal.open();
     apiCallTable.delete(url, requestBody,
       function success(responseBody, responseCode, responseDescription) {
         logger.debug("delete response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
-      }, null);
+        loadingWheelModal.close();
+      }, 
+      function error(responseBody, responseCode, responseDescription) {
+        loadingWheelModal.close();
+      });
   }
 }
 
