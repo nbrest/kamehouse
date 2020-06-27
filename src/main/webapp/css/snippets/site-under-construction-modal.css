@@ -11,18 +11,8 @@
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
- 
-.site-under-construction-modal-content { 
-  color: #c0c0c0;
-  background-color: #161c20;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  position: relative;
-}
 
-.site-under-construction-modal-close {
+#site-under-construction-modal-close {
   color: #6d6d6d;
   font-size: 22px;
   font-weight: bold;
@@ -33,14 +23,24 @@
   margin-top: 0px;
 }
 
-#site-under-construction-modal-text {
-  display: block;
-  margin: 10px;
-}
-
-.site-under-construction-modal-close:hover,
-.site-under-construction-modal-close:focus {
+#site-under-construction-modal-close:hover,
+#site-under-construction-modal-close:focus {
   color: #fa314a;
   text-decoration: none;
   cursor: pointer;
+}
+
+.site-under-construction-modal-content { 
+  color: #c0c0c0;
+  background-color: #161c20;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  position: relative;
+}
+
+#site-under-construction-modal-text {
+  display: block;
+  margin: 10px;
 }

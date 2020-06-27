@@ -26,7 +26,7 @@ function SiteUnderConstructionModal() {
     $('body').append('<div id="site-under-construction-modal" class="site-under-construction-modal">');
     $("#site-under-construction-modal").load("/kame-house/html-snippets/site-under-construction-modal.html", function() {
       var siteUnderConstructionModalDiv = document.getElementById("site-under-construction-modal");
-      var siteUnderConstructionModalDivCloseBtn = document.getElementsByClassName("site-under-construction-modal-close")[0];
+      var siteUnderConstructionModalDivCloseBtn = document.getElementById("site-under-construction-modal-close");
       siteUnderConstructionModalDivCloseBtn.onclick = function() {
         siteUnderConstructionModalDiv.style.display = "none";
       }

@@ -13,6 +13,24 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+#loading-wheel-modal-close {
+  color: #6d6d6d;
+  font-size: 22px;
+  font-weight: bold;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin-right: 10px;
+  margin-top: 0px;
+}
+
+#loading-wheel-modal-close:hover,
+#loading-wheel-modal-close:focus {
+  color: #fa314a;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .loading-wheel-modal-content {
   text-align: center;
   background-color: #13181b;
@@ -21,13 +39,20 @@
   border: 1px solid #640808;
   border-radius: 0;
   width: 40%;
+  position: relative;
 }
+
 @media(max-width: 900px) {
   .loading-wheel-modal-content {
     width: 80%;
   }
 }
 
+#loading-wheel-modal-text {
+  display: block;
+  margin: 10px;
+  margin-bottom: 20px;
+}
 
 .loading-wheel-modal-spinner {
   margin: auto;

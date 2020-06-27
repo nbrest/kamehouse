@@ -24,7 +24,13 @@ function LoadingWheelModal() {
   this.import = function importModal() {
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/loading-wheel-modal.css">');
     $('body').append('<div id="loading-wheel-modal" class="loading-wheel-modal">');
-    $("#loading-wheel-modal").load("/kame-house/html-snippets/loading-wheel-modal.html", function() {});
+    $("#loading-wheel-modal").load("/kame-house/html-snippets/loading-wheel-modal.html", function() {
+      var loadingWheelModalDiv = document.getElementById("loading-wheel-modal");
+      var loadingWheelModalCloseBtn = document.getElementById("loading-wheel-modal-close");
+      loadingWheelModalCloseBtn.onclick = function () {
+        loadingWheelModalDiv.style.display = "none";
+      }
+    });
   }
 
   /** Open modal */
