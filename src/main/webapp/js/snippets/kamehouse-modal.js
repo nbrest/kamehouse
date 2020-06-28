@@ -18,8 +18,7 @@ function main() {
 }
 
 function KamehouseModal() {
-
-  self = this;
+  let self = this;
   const siteUnderConstruction = "The site is still under construction and this functionality has not been implemented yet.";
 
   /**
