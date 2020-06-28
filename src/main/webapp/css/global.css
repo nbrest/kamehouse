@@ -543,8 +543,7 @@ ul {
 /** ----- Set scrollbar styles for different browsers ---------------------------------------- */
 
 /** 
-  These are used in vlc player playlist and playlist browser tables. If these impact other
-  scrollable places, see if I can change this per scrollable element
+  These are used in vlc player playlist tables. These are overriden for playlist browser table. Look at playlist-browser-table-wrapper in vlc-player.css for an example
 */
 
 /** Set scrollbar style FIREFOX */

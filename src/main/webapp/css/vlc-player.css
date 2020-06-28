@@ -282,6 +282,34 @@
   color: #c0c0c0;
 }
 
+/** playlist-browser-table Set scrollbar style FIREFOX */
+#playlist-browser-table-wrapper {
+  scrollbar-color: #4a90e2 #171e22 !important;
+  scrollbar-width: thin !important;
+}
+
+/** playlist-browser-table Set scrollbar style CHROME */
+#playlist-browser-table-wrapper::-webkit-scrollbar {
+  width: 7px;
+}
+
+@media(max-width: 900px) {
+  #playlist-browser-table-wrapper::-webkit-scrollbar {
+    width: 2px;
+  }
+}
+
+#playlist-browser-table-wrapper::-webkit-scrollbar-track {
+  background: #171e22;
+}
+
+#playlist-browser-table-wrapper::-webkit-scrollbar-thumb {
+  background: #4a90e2;
+}
+
+#playlist-browser-table-wrapper::-webkit-scrollbar-corner {
+  background: #171e22;
+}
 
 /** Playlist control begin.*/
 .playlist-controls-table { 
