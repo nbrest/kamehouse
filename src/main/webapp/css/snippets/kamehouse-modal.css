@@ -1,4 +1,4 @@
-.site-under-construction-modal {
+.kamehouse-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -12,7 +12,7 @@
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#site-under-construction-modal-close {
+#kamehouse-modal-close {
   color: #6d6d6d;
   font-size: 22px;
   font-weight: bold;
@@ -23,14 +23,14 @@
   margin-top: 0px;
 }
 
-#site-under-construction-modal-close:hover,
-#site-under-construction-modal-close:focus {
+#kamehouse-modal-close:hover,
+#kamehouse-modal-close:focus {
   color: #fa314a;
   text-decoration: none;
   cursor: pointer;
 }
 
-.site-under-construction-modal-content { 
+.kamehouse-modal-content { 
   color: #c0c0c0;
   background-color: #161c20;
   margin: auto;
@@ -40,7 +40,7 @@
   position: relative;
 }
 
-#site-under-construction-modal-text {
+#kamehouse-modal-text {
   display: block;
   margin: 10px;
 }

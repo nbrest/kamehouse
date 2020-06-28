@@ -9,7 +9,7 @@ var loadingWheelModal;
 
 function main() {
   var loadingModules = ["logger"];
-  waitForModules(loadingModules, function initSiteUnderConstructionModal() {
+  waitForModules(loadingModules, function initLoadingWheelModal() {
     logger.info("Started initializing loading wheel modal");
     loadingWheelModal = new LoadingWheelModal();
     loadingWheelModal.import();
