@@ -769,7 +769,8 @@ function VlcPlayerRestClient(vlcPlayer) {
       },
       function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
-        kamehouseModal.open(responseBody);
+        let errorMessage = responseDescription + " : " + responseCode + " : " + responseBody;
+        kamehouseModal.open(errorMessage);
         if (responseCode == "404") {
           apiCallTable.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
         }
@@ -788,7 +789,8 @@ function VlcPlayerRestClient(vlcPlayer) {
       }, 
       function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
-        kamehouseModal.open(responseBody);
+        let errorMessage = responseDescription + " : " + responseCode + " : " + responseBody;
+        kamehouseModal.open(errorMessage);
       });
   }
 
@@ -804,7 +806,8 @@ function VlcPlayerRestClient(vlcPlayer) {
       },
       function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
-        kamehouseModal.open(responseBody);
+        let errorMessage = responseDescription + " : " + responseCode + " : " + responseBody;
+        kamehouseModal.open(errorMessage);
       });
   }
 
@@ -820,7 +823,8 @@ function VlcPlayerRestClient(vlcPlayer) {
       },
       function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
-        kamehouseModal.open(responseBody);
+        let errorMessage = responseDescription + " : " + responseCode + " : " + responseBody;
+        kamehouseModal.open(errorMessage);
       });
   }
 }
