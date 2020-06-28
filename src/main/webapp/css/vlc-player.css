@@ -260,6 +260,29 @@
   padding-right: 5px;
 }
 
+/** Playlist browser */
+.playlist-browser-table-btn {
+  font-weight: 400;
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+.playlist-browser-table-btn:hover {
+  background-color: #3f7cc2;
+  color: #c0c0c0;
+}
+
+
 /** Playlist control begin.*/
 .playlist-controls-table { 
   width: 100%;
@@ -289,7 +312,7 @@
 }
 
 .playlist-table-btn:hover {
-  background-color: #4b0b0b;
+  background-color: #c02638;
   color: #c0c0c0;
 }
 
