@@ -23,11 +23,20 @@
     <div class="vlc-player-tabs bg-darker-kh">
     <div class="default-layout">
       <button id="tab-playing-link" class="vlc-player-tab-link"
-        onclick="vlcPlayer.openTab('tab-playing')">Playing</button>
+        onclick="vlcPlayer.openTab('tab-playing')"
+        alt="Playling" title="Playing">
+        <img class="vlc-player-tab-img" src="/kame-house/img/mplayer/play.png"/>
+      </button>
       <button id="tab-playlist-link" class="vlc-player-tab-link"
-        onclick="vlcPlayer.openTab('tab-playlist')">Playlist</button>
-      <button id="tab-playlist-browser-link" class="vlc-player-tab-link"
-        onclick="vlcPlayer.openTab('tab-playlist-browser')">Playlist Browser</button>
+        onclick="vlcPlayer.openTab('tab-playlist')"
+        alt="Playlist" title="Playlist">
+        <img class="vlc-player-tab-img" src="/kame-house/img/mplayer/playlist.png" />
+      </button>
+      <button id="tab-playlist-browser-link"  class="vlc-player-tab-link"
+        onclick="vlcPlayer.openTab('tab-playlist-browser')"
+        alt="Playlist Browser" title="Playlist Browser">
+        <img class="vlc-player-tab-img" src="/kame-house/img/other/search-folder.png" />
+      </button>
     </div>
     </div> <!-- vlc-player-tabs -->
 
