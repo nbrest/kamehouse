@@ -779,48 +779,48 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute a POST request to the specified url with the specified request body. */
   this.post = function httpPost(url, requestBody) {
     logger.debugFunctionCall();
-    loadingWheelModal.open();
+    setCursorWait();
     apiCallTable.post(url, requestBody,
       function success(responseBody, responseCode, responseDescription) {
         logger.debug("post response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
-        loadingWheelModal.close();
+        setCursorDefault();
       }, 
       function error(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        setCursorDefault();
       });
   }
 
   /** Execute a POST request to the specified url with the specified request url parameters. */
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
     logger.debugFunctionCall();
-    loadingWheelModal.open();
+    setCursorWait();
     apiCallTable.postUrlEncoded(url, requestParam,
       function success(responseBody, responseCode, responseDescription) {
         logger.debug("postUrlEncoded response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
-        loadingWheelModal.close();
+        setCursorDefault();
       },
       function error(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        setCursorDefault();
       });
   }
 
   /** Execute a DELETE request to the specified url with the specified request body. */
   this.delete = function httpDelete(url, requestBody) {
     logger.debugFunctionCall();
-    loadingWheelModal.open();
+    setCursorWait();
     apiCallTable.delete(url, requestBody,
       function success(responseBody, responseCode, responseDescription) {
         logger.debug("delete response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
-        loadingWheelModal.close();
+        setCursorDefault();
       },
       function error(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        setCursorDefault();
       });
   }
 }
