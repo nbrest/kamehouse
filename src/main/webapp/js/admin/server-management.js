@@ -29,55 +29,60 @@ function ServerManager() {
     var requestParam = "delay=" + shutdownDelay;
     loadingWheelModal.open();
     apiCallTable.postUrlEncoded(url, requestParam, 
-      function success() {
+      function success(responseBody, responseCode, responseDescription) {
       loadingWheelModal.close();
     },
-    function error() {
+    function error(responseBody, responseCode, responseDescription) {
       loadingWheelModal.close();
+      basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
     });
   }
 
   this.get = function httpGet(url) {
     loadingWheelModal.open();
     apiCallTable.get(url,
-      function success() {
+      function success(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
       },
-      function error() {
+      function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
+        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
       });
   }
 
   this.post = function httpPost(url, requestBody) {
     loadingWheelModal.open();
     apiCallTable.post(url, requestBody,
-      function success() {
+      function success(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
       },
-      function error() {
+      function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
+        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
       });
   }
  
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
     loadingWheelModal.open();
     apiCallTable.postUrlEncoded(url, requestParam,
-      function success() {
+      function success(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
       },
-      function error() {
+      function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
+        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
       });
   }
 
   this.delete = function httpDelete(url, requestBody) { 
     loadingWheelModal.open();
     apiCallTable.delete(url, requestBody,
-      function success() {
+      function success(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
       },
-      function error() {
+      function error(responseBody, responseCode, responseDescription) {
         loadingWheelModal.close();
+        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
       })
   }
 }

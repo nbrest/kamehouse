@@ -132,9 +132,10 @@ function sleep(ms) {
 /** Checks if a variable is undefined or null, an empty array [] or an empty object {}. */
 function isEmpty(val) {
   let isNullOrUndefined = val === undefined || val == null;
+  let isEmptyString = !isNullOrUndefined && val === "";
   let isEmptyArray = !isNullOrUndefined && Array.isArray(val) && val.length <= 0;
   let isEmptyObject = !isNullOrUndefined && Object.entries(val).length === 0 && val.constructor === Object;
-  return isNullOrUndefined || isEmptyArray || isEmptyObject;
+  return isNullOrUndefined || isEmptyString || isEmptyArray || isEmptyObject;
 }
 
 /** Returns true if the parameter variable is a fuction. */
