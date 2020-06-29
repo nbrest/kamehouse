@@ -148,6 +148,10 @@ body {
   display: none;
 }
 
+html.wait, html.wait * {
+  cursor: wait;
+}
+
 .landing-p-links {
   text-align: center;
 }

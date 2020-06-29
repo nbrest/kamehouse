@@ -175,12 +175,12 @@ function filterTableRows(filterString, tableBodyId) {
 
 /** Set the cursor to a wait spinning wheel */
 function setCursorWait() {
-  $("html,body").css("cursor", "wait");
+  $('html').addClass("wait");
 }
 
 /** Set the cursor to default shape */
 function setCursorDefault() {
-  $("html,body").css("cursor", "default");
+  $('html').removeClass("wait");
 }
 
 /** Call main. */
