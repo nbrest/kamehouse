@@ -43,28 +43,13 @@ function importKamehouseModalCss() {
  */
 function BasicKamehouseModal() {
   let self = this;
-  this.modalUtils = new ModalUtils("basic-kamehouse-modal");
   this.SITE_UNDER_CONSTRUCTION = "The site is still under construction and this functionality has not been implemented yet.";
-
-  this.import = function importModal() {
-    self.modalUtils.import();
-  }
-
-  this.open = function open(message) {
-    self.modalUtils.open(message);
-  }
-
-  this.openAutoCloseable = function openAutoCloseable(message, autoCloseMs) {
-    self.modalUtils.openAutoCloseable(message, autoCloseMs);
-  }
-
-  this.close = function close() {
-    self.modalUtils.close();
-  }
-
-  this.setText = function setText(message) {
-    self.modalUtils.setText(message);
-  }
+  this.modalUtils = new ModalUtils("basic-kamehouse-modal");
+  this.import = self.modalUtils.import;
+  this.open = self.modalUtils.open;
+  this.openAutoCloseable = self.modalUtils.openAutoCloseable;
+  this.close = self.modalUtils.close;
+  this.setText = self.modalUtils.setText;
 
   /** Open site under construction modal */
   this.openSiteUnderConstruction = function openSiteUnderConstruction() {
@@ -87,30 +72,17 @@ function BasicKamehouseModal() {
 function LoadingWheelModal() {
   let self = this;
   this.modalUtils = new ModalUtils("loading-wheel-modal");
-
-  this.import = function importModal() {
-    self.modalUtils.import();
-  }
+  this.import = self.modalUtils.import;
+  this.openAutoCloseable = self.modalUtils.openAutoCloseable;
+  this.close = self.modalUtils.close;
+  this.setText = self.modalUtils.setText;
 
   this.open = function open(message) {
-    logger.traceFunctionCall();
     if (isEmpty(message) && !isEmpty(global.session.firstName)) { 
       let chottoMatte = 'ちょっと まって';
       message = chottoMatte + ", " + global.session.firstName + "-san!";
     }
     self.modalUtils.open(message);
-  }
-
-  this.openAutoCloseable = function openAutoCloseable(message, autoCloseMs) {
-    self.modalUtils.openAutoCloseable(message, autoCloseMs);
-  }
-
-  this.close = function close() {
-    self.modalUtils.close();
-  }
-
-  this.setText = function setText(message) {
-    self.modalUtils.setText(message);
   }
 }
 

@@ -65,6 +65,7 @@ async function waitForModules(moduleNames, initFunction) {
 function initGlobal() {
   logger.info("Started initializing global functions");
   loadHeaderAndFooter();
+  loadSpinningWheelMobile();
   //testLogLevel();
 }
 
@@ -108,6 +109,12 @@ function loadHeaderAndFooter() {
   $.getScript("/kame-house/js/header-footer/header-footer.js", function (data, textStatus, jqxhr) {
     renderHeaderAndFooter();
   });
+}
+
+function loadSpinningWheelMobile() {
+  document.body.insertAdjacentHTML("beforeBegin", "<div id='spinning-wheel-mobile-wrapper' class='hidden-kh'>");
+  $("#spinning-wheel-mobile-wrapper").append("<div class='spinning-wheel-mobile-container'>");
+  $(".spinning-wheel-mobile-container").append("<div class='spinning-wheel-mobile'>");
 }
 
 /** Test the different log levels. */
@@ -176,11 +183,13 @@ function filterTableRows(filterString, tableBodyId) {
 /** Set the cursor to a wait spinning wheel */
 function setCursorWait() {
   $('html').addClass("wait");
+  $('#spinning-wheel-mobile-wrapper').removeClass("hidden-kh");
 }
 
 /** Set the cursor to default shape */
 function setCursorDefault() {
   $('html').removeClass("wait");
+  $('#spinning-wheel-mobile-wrapper').addClass("hidden-kh");
 }
 
 /** Call main. */

@@ -218,6 +218,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
     logger.debugFunctionCall();
     logger.debug("File to play: " + fileName);
     let requestParam = "file=" + fileName;
+    loadingWheelModal.open();
     self.vlcPlayer.getRestClient().postUrlEncoded(adminVlcUrl, requestParam);
   }
 
@@ -801,10 +802,14 @@ function VlcPlayerRestClient(vlcPlayer) {
         logger.debug("postUrlEncoded response: " + JSON.stringify(responseBody));
         self.vlcPlayer.pollVlcRcStatus();
         setCursorDefault();
+        // Opened from playFile
+        loadingWheelModal.close();
       },
       function error(responseBody, responseCode, responseDescription) {
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
         setCursorDefault();
+        // Opened from playFile
+        loadingWheelModal.close();
       });
   }
 
