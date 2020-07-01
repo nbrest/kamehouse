@@ -460,7 +460,23 @@
 
 @media (max-width : 900px) {
   .vlc-player-btn-img:active {
-    transform: scale(0.7);
+    transform: scale(1);
+  }
+  
+  .vlc-player-btn-red:active {
+    border: 1px solid #fa314a;
+  }
+
+  .vlc-player-btn-green:active {
+    border: 1px solid #2ecc71;
+  }
+
+  .vlc-player-btn-blue:active {
+    border: 1px solid #4a90e2;
+  }
+
+  .vlc-player-btn-gray:active {
+    border: 1px solid #5a5b5b;
   }
 }
 
