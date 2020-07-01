@@ -464,18 +464,22 @@
   
   .vlc-player-btn-red:active {
     border: 1px solid #fa314a;
+    background-color: #9e1c2b;
   }
 
   .vlc-player-btn-green:active {
     border: 1px solid #2ecc71;
+    background-color: #219651;
   }
 
   .vlc-player-btn-blue:active {
     border: 1px solid #4a90e2;
+    background-color: #376daa;
   }
 
   .vlc-player-btn-gray:active {
     border: 1px solid #5a5b5b;
+    background-color: #3b3b3b;
   }
 }
 
