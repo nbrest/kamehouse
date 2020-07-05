@@ -92,7 +92,7 @@ public class HttpClientUtils {
     try {
       return URIUtil.decode(url, StandardCharsets.UTF_8.name());
     } catch (URIException | IllegalArgumentException e) {
-      LOGGER.error("Failed to decode url: " + url, e);
+      LOGGER.error("Failed to decode url: {}", url, e);
       return null;
     }
   }

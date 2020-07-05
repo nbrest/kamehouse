@@ -5,14 +5,17 @@ import com.nicobrest.kamehouse.main.utils.JsonUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import java.io.Serializable;
+
 /**
  * File list item returned by a vlc player when browsing for files.
  * 
  * @author nbrest
  *
  */
-public class VlcRcFileListItem {
+public class VlcRcFileListItem implements Serializable {
 
+  private static final long serialVersionUID = 1L;
   private String type;
   private String name;
   private String path;

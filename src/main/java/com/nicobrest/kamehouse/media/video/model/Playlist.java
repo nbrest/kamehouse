@@ -14,8 +14,9 @@ import java.util.List;
  * @author nbrest
  *
  */
-public class Playlist implements Comparable<Playlist> {
-    
+public class Playlist implements Serializable, Comparable<Playlist> {
+
+  private static final long serialVersionUID = 1L;
   private String name;
   private String category;
   private String path;

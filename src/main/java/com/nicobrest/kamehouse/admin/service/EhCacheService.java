@@ -76,7 +76,9 @@ public class EhCacheService {
       cache.removeAll();
       logger.trace("clear {} successfully", cacheName);
     } else {
-      logger.warn("cache {} not found", sanitizeInput(cacheName));
+      if (logger.isWarnEnabled()) {
+        logger.warn("cache {} not found", sanitizeInput(cacheName));
+      }
     }
   }
 

@@ -72,7 +72,7 @@ public class VideoPlaylistService {
    * Get the specified playlist.
    */
   @Cacheable(value = VIDEO_PLAYLIST_CACHE)
-  public Playlist getPlaylist(String playlistFilename, Boolean fetchContent) {
+  public Playlist getPlaylist(String playlistFilename, boolean fetchContent) {
     logger.trace("Get playlist {}", playlistFilename);
     Path playlistPath = Paths.get(playlistFilename);
     if (!isValidPlaylist(playlistPath)) {

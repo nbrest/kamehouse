@@ -5,6 +5,8 @@ import com.nicobrest.kamehouse.main.utils.JsonUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import java.io.Serializable;
+
 /**
  * Playlist item returned by a vlc player. The playlist returned by VLC in
  * itself is not an entity, as it doesn't have a name, category or anything else
@@ -13,8 +15,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * @author nbrest
  *
  */
-public class VlcRcPlaylistItem {
+public class VlcRcPlaylistItem implements Serializable {
 
+  private static final long serialVersionUID = 1L;
   private int id;
   private String name;
   private String uri;

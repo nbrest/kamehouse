@@ -463,25 +463,25 @@
   }
   
   .vlc-player-btn-red:active {
-    border: 1px solid #333333;
+    border: 1px solid #181818;
     border-radius: 50%;
     background-color: #181818;
   }
 
   .vlc-player-btn-green:active {
-    border: 1px solid #333333;
+    border: 1px solid #181818;
     border-radius: 50%;
     background-color: #181818;
   }
 
   .vlc-player-btn-blue:active {
-    border: 1px solid #333333;
+    border: 1px solid #181818;
     border-radius: 50%;
     background-color: #181818;
   }
 
   .vlc-player-btn-gray:active {
-    border: 1px solid #333333;
+    border: 1px solid #181818;
     border-radius: 50%;
     background-color: #181818;
   }
