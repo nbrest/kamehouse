@@ -112,6 +112,21 @@
   cursor: pointer;
 }
 
+.btn-load-playlist {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+@media (max-width : 900px) {
+  .btn-load-playlist {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 .btn-mute-pressed {
   transform: scale(0.68);
   filter: brightness(0.6);
@@ -121,6 +136,23 @@
   transform: scale(0.7);
   filter: brightness(1);
 }
+
+.btn-playlist-controls {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width : 900px) {
+  .btn-playlist-controls {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 
 .media-btn-pressed {
   transform: scale(0.9);
@@ -314,6 +346,8 @@
 /** Playlist control begin.*/
 .playlist-controls-table { 
   width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 900px) {
@@ -376,25 +410,27 @@
 
 /** Playlist selector dropdowns begin */
 #playlist-selector {
-  padding-top: 5px;
+  padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 #playlist-category-dropdown {
+  min-width: 300px;
   margin-right: 5px;
 }
 
 @media (max-width: 900px) {
   #playlist-category-dropdown {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 0;
     margin-right: 0;
   }
 }
 
 #playlist-dropdown {
+  min-width: 260px;
   margin-right: 5px;
 }
 
@@ -403,7 +439,7 @@
     min-width: 300px;
     margin-top: 7px;
     margin-right: 0;
-    margin-bottom: 7px;
+    margin-bottom: 0;
   }
 }
 
@@ -415,7 +451,8 @@
   color: #868686;
   background: #1a242a;
   padding: 5px;
-  width: 95%;
+  width: 100%;
+  margin-left: 10px;
 }
 
 .table-mplayer-btns-kh {
