@@ -726,18 +726,11 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute GET on the specified url and display the output in the debug table. */
   this.get = function httpGet(url) {
     logger.debugFunctionCall();
-    loadingWheelModal.open();
     setCursorWait();
     apiCallTable.get(url,
+      (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => {
-        logger.debug("get response: " + JSON.stringify(responseBody));
-        loadingWheelModal.close();
-        setCursorDefault();
-      },
-      (responseBody, responseCode, responseDescription) => {
-        setCursorDefault();
-        loadingWheelModal.close(); 
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        apiCallErrorDefault(responseBody, responseCode, responseDescription);
         if (responseCode == "404") {
           apiCallTable.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
         }
@@ -749,15 +742,9 @@ function VlcPlayerRestClient(vlcPlayer) {
     logger.debugFunctionCall();
     setCursorWait();
     apiCallTable.post(url, requestBody,
-      (responseBody, responseCode, responseDescription) => {
-        logger.debug("post response: " + JSON.stringify(responseBody));
-        self.vlcPlayer.pollVlcRcStatus();
-        setCursorDefault();
-      }, 
-      (responseBody, responseCode, responseDescription) => {
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-        setCursorDefault();
-      });
+      (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
+      (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
+    );
   }
 
   /** Execute a POST request to the specified url with the specified request url parameters. */
@@ -766,16 +753,13 @@ function VlcPlayerRestClient(vlcPlayer) {
     setCursorWait();
     apiCallTable.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
-        logger.debug("postUrlEncoded response: " + JSON.stringify(responseBody));
-        self.vlcPlayer.pollVlcRcStatus();
-        setCursorDefault();
-        // Opened from playFile
+        apiCallSuccessDefault(responseBody);
+        // Modal opened from playFile
         loadingWheelModal.close();
       },
       (responseBody, responseCode, responseDescription) => {
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-        setCursorDefault();
-        // Opened from playFile
+        apiCallErrorDefault(responseBody, responseCode, responseDescription);
+        // Modal opened from playFile
         loadingWheelModal.close();
       });
   }
@@ -785,15 +769,22 @@ function VlcPlayerRestClient(vlcPlayer) {
     logger.debugFunctionCall();
     setCursorWait();
     apiCallTable.delete(url, requestBody,
-      (responseBody, responseCode, responseDescription) => {
-        logger.debug("delete response: " + JSON.stringify(responseBody));
-        self.vlcPlayer.pollVlcRcStatus();
-        setCursorDefault();
-      },
-      (responseBody, responseCode, responseDescription) => {
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-        setCursorDefault();
-      });
+      (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
+      (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
+    );
+  }
+
+  /** Default actions for succesful api responses */
+  function apiCallSuccessDefault(responseBody) {
+      setCursorDefault();
+      logger.debug("Response: " + JSON.stringify(responseBody));
+      self.vlcPlayer.pollVlcRcStatus();
+  }
+
+  /** Default actions for error api responses */
+  function apiCallErrorDefault(responseBody, responseCode, responseDescription) {
+    setCursorDefault();
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }
 
