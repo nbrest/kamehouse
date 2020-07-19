@@ -106,9 +106,7 @@ function WebSocketKameHouse() {
   /** Clean up previous stompClient connections. */
   this.disconnectPreviousConnections = function disconnectPreviousConnections() {
     logger.debugFunctionCall();
-    self.stompClients.forEach(stompClient => { 
-      self.disconnect(stompClient);
-    });
+    self.stompClients.forEach(stompClient => self.disconnect(stompClient));
   }
 
   /** Poll for an updated from the server. */

@@ -100,11 +100,11 @@ function Header() {
    * Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon. 
    */
   this.toggleHeaderNav = () => {
-    var x = document.getElementById("header-menu");
-    if (x.className === "header-nav") {
-      x.className += " responsive";
+    var headerMenu = document.getElementById("header-menu");
+    if (headerMenu.className === "header-nav") {
+      headerMenu.className += " responsive";
     } else {
-      x.className = "header-nav";
+      headerMenu.className = "header-nav";
     }
   }
 

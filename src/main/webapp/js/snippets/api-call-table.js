@@ -202,7 +202,7 @@ function ApiCallTable() {
   /**
    * Function to toggle height of the collapsible elements from null to it's scrollHeight.
    */
-  this.collapsibleContentListener = () => {
+  this.collapsibleContentListener = function collapsibleContentListener() {
     // Can't use self here, need to use this
     this.classList.toggle("collapsible-kh-active");
     let content = this.nextElementSibling;

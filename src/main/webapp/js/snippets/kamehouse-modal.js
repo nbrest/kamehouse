@@ -97,7 +97,7 @@ function ModalUtils(modalId) {
   this.import = () => {
     logger.traceFunctionCall();
     $('body').append('<div id="' + modalId + '" class="' + self.BASE_CLASS + '">');
-    $("#" + modalId).load("/kame-house/html-snippets/" + modalId + ".html", function () {
+    $("#" + modalId).load("/kame-house/html-snippets/" + modalId + ".html", () => {
       let modalDivCloseBtn = document.getElementById(modalId + "-close");
       modalDivCloseBtn.onclick = () => self.close();
       self.setCloseOnClickOutsideModal();
