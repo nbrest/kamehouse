@@ -45,48 +45,13 @@ function HttpClient() {
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   this.httpRequest = function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    var responseBody;
-    var responseCode;
-    var responseDescription;
     if (isEmpty(requestBody)) {
       $.ajax({
         type: httpMethod,
         url: url,
         headers: requestHeaders,
-        success: function (data, status, xhr) {
-          /**
-           * data: response body
-           * status: success/error
-           * xhr: {
-           *    readyState: 4
-           *    responseText: response body as text
-           *    responseJson: response body as json
-           *    status: numeric status code
-           *    statusText: status code as text (success/error)
-           * }
-           */
-          responseBody = data;
-          responseCode = xhr.status;
-          responseDescription = xhr.statusText;
-          successCallback(responseBody, responseCode, responseDescription);
-        },
-        error: function (jqXhr, textStatus, errorMessage) {
-          /**
-           * jqXhr: {
-           *    readyState: 4
-           *    responseText: response body as text
-           *    status: numeric status code
-           *    statusText: status code as text (success/error)
-           * }
-           * textStatus: response body
-           * errorMessage: (so far came empty, might have the response body)
-           */
-          responseBody = jqXhr.responseText;
-          responseCode = jqXhr.status;
-          responseDescription = jqXhr.statusText;
-          logger.error(JSON.stringify(jqXhr));
-          errorCallback(responseBody, responseCode, responseDescription);
-        }
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
       });
     } else {
       $.ajax({
@@ -94,26 +59,53 @@ function HttpClient() {
         url: url,
         data: JSON.stringify(requestBody),
         headers: requestHeaders,
-        success: function (data, status, xhr) {
-          responseBody = data;
-          responseCode = xhr.status;
-          responseDescription = xhr.statusText;
-          successCallback(responseBody, responseCode, responseDescription);
-        },
-        error: function (jqXhr, textStatus, errorMessage) {
-          responseBody = jqXhr.responseText;
-          responseCode = jqXhr.status;
-          responseDescription = jqXhr.statusText;
-          logger.error(JSON.stringify(jqXhr));
-          errorCallback(responseBody, responseCode, responseDescription);
-        }
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
       });
     }
   }
 
+  /** Process a successful response from the api call */
+  function processSuccess(data, status, xhr, successCallback) {
+    /**
+     * data: response body
+     * status: success/error
+     * xhr: {
+     *    readyState: 4
+     *    responseText: response body as text
+     *    responseJson: response body as json
+     *    status: numeric status code
+     *    statusText: status code as text (success/error)
+     * }
+     */
+    let responseBody = data;
+    let responseCode = xhr.status;
+    let responseDescription = xhr.statusText;
+    successCallback(responseBody, responseCode, responseDescription);
+  }
+
+  /** Process an error response from the api call */
+  function processError(jqXhr, textStatus, errorMessage, errorCallback) {
+     /**
+      * jqXhr: {
+      *    readyState: 4
+      *    responseText: response body as text
+      *    status: numeric status code
+      *    statusText: status code as text (success/error)
+      * }
+      * textStatus: response body
+      * errorMessage: (so far came empty, might have the response body)
+      */
+     let responseBody = jqXhr.responseText;
+     let responseCode = jqXhr.status;
+     let responseDescription = jqXhr.statusText;
+     logger.error(JSON.stringify(jqXhr));
+     errorCallback(responseBody, responseCode, responseDescription);
+  }
+
   /** Get request headers object with Url Encoded content type. */
-  this.getUrlEncodedHeaders = function getUrlEncodedHeaders() {
-    var requestHeaders = {};
+  this.getUrlEncodedHeaders = () => {
+    let requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = "application/x-www-form-urlencoded";
     logger.trace("request headers: " + JSON.stringify(requestHeaders));
@@ -121,8 +113,8 @@ function HttpClient() {
   }
 
   /** Get request headers object with application json content type. */
-  this.getApplicationJsonHeaders = function getApplicationJsonHeaders() {
-    var requestHeaders = {};
+  this.getApplicationJsonHeaders = () => {
+    let requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = 'application/json';
     logger.trace("request headers: " + JSON.stringify(requestHeaders));

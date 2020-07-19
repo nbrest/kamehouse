@@ -21,7 +21,7 @@ var loadingWheelModal;
 
 function main() {
   var loadingModules = ["logger"];
-  waitForModules(loadingModules, function initKamehouseModals() {
+  waitForModules(loadingModules, () => {
     logger.info("Started initializing kamehouse modal framework");
     importKamehouseModalCss();
     basicKamehouseModal = new BasicKamehouseModal();
@@ -52,12 +52,10 @@ function BasicKamehouseModal() {
   this.setText = self.modalUtils.setText;
 
   /** Open site under construction modal */
-  this.openSiteUnderConstruction = function openSiteUnderConstruction() {
-    self.modalUtils.open(self.SITE_UNDER_CONSTRUCTION);
-  }
+  this.openSiteUnderConstruction = () => self.modalUtils.open(self.SITE_UNDER_CONSTRUCTION);
 
   /** Open api call error message modal */
-  this.openApiError = function openApiError(responseBody, responseCode, responseDescription) {
+  this.openApiError = (responseBody, responseCode, responseDescription) => {
     if (isEmpty(responseBody)) {
       responseBody = "Error executing the request. Please check the logs for more information";
     }
@@ -77,8 +75,8 @@ function LoadingWheelModal() {
   this.close = self.modalUtils.close;
   this.setText = self.modalUtils.setText;
 
-  this.open = function open(message) {
-    if (isEmpty(message) && !isEmpty(global.session.firstName)) { 
+  this.open = (message) => {
+    if (isEmpty(message) && !isEmpty(global.session.firstName)) {
       let chottoMatte = 'ちょっと まって';
       message = chottoMatte + ", " + global.session.firstName + "-san!";
     }
@@ -96,23 +94,21 @@ function ModalUtils(modalId) {
   this.DEFAULT_AUTO_CLOSE_SEC = 7000;
 
   /** Import modal content */
-  this.import = function importModal() {
+  this.import = () => {
     logger.traceFunctionCall();
     $('body').append('<div id="' + modalId + '" class="' + self.BASE_CLASS + '">');
     $("#" + modalId).load("/kame-house/html-snippets/" + modalId + ".html", function () {
       let modalDivCloseBtn = document.getElementById(modalId + "-close");
-      modalDivCloseBtn.onclick = function () {
-        self.close();
-      }
+      modalDivCloseBtn.onclick = () => self.close();
       self.setCloseOnClickOutsideModal();
     });
   }
 
   /** When the user clicks anywhere outside of the modal, close it */
-  this.setCloseOnClickOutsideModal = function setCloseOnClickOutsideModal() {
+  this.setCloseOnClickOutsideModal = () => {
     logger.traceFunctionCall();
     let modalDiv = document.getElementById(modalId);
-    window.onclick = function (event) {
+    window.onclick = (event) => {
       if (event.target == modalDiv) {
         self.close();
       }
@@ -120,8 +116,7 @@ function ModalUtils(modalId) {
   }
 
   /** Open modal */
-  this.open = function open(message) {
-    logger.traceFunctionCall();
+  this.open = (message) => {
     if (!isEmpty(message)) {
       self.setText(message);
     }
@@ -131,21 +126,20 @@ function ModalUtils(modalId) {
   }
 
   /** Open auto closeable modal */
-  this.openAutoCloseable = function openAutoCloseable(message, autoCloseMs) {
+  this.openAutoCloseable = (message, autoCloseMs) => {
     self.open(message);
     self.autoClose(autoCloseMs);
   }
 
   /** Close modal */
-  this.close = function close() {
-    logger.traceFunctionCall();
+  this.close = () => {
     let modal = document.getElementById(modalId);
     modal.style.display = "none";
   }
 
   /** Auto close modal after the specified miliseconds */
-  logger.traceFunctionCall();
   this.autoClose = async function autoClose(autoCloseMs) {
+    logger.traceFunctionCall();
     if (isEmpty(autoCloseMs)) {
       logger.trace("autoCloseMs not set. Closing after default value of " + self.DEFAULT_AUTO_CLOSE_SEC + " ms");
       autoCloseMs = self.DEFAULT_AUTO_CLOSE_SEC;
@@ -163,7 +157,7 @@ function ModalUtils(modalId) {
   }
 
   /** Set the text in the modal */
-  this.setText = function setText(message) {
+  this.setText = (message) => {
     logger.traceFunctionCall();
     $("#" + self.modalId + "-text").text(message);
   }

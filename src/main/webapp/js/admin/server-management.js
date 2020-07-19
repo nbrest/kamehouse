@@ -10,7 +10,7 @@ var serverManager;
 var main = function() {  
   importServerManagementCss();
   var loadingModules = ["logger", "apiCallTable"];
-  waitForModules(loadingModules, function initServerManager() {
+  waitForModules(loadingModules, () => {
     logger.info("Started initializing server management");
     serverManager = new ServerManager();
   });
@@ -22,68 +22,43 @@ function importServerManagementCss() {
 
 function ServerManager() {
 
-  this.execAdminShutdown = function execAdminShutdown(url) {
-    logger.traceFunctionCall();
+  this.execAdminShutdown = (url) => {
     let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
     logger.trace("Shutdown delay: " + shutdownDelay);
-    var requestParam = "delay=" + shutdownDelay;
+    let requestParam = "delay=" + shutdownDelay;
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(url, requestParam, 
-      function success(responseBody, responseCode, responseDescription) {
-      loadingWheelModal.close();
-    },
-    function error(responseBody, responseCode, responseDescription) {
-      loadingWheelModal.close();
-      basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    });
+    apiCallTable.postUrlEncoded(url, requestParam, processSuccess, processError);
   }
 
-  this.get = function httpGet(url) {
+  this.get = (url) => {
     loadingWheelModal.open();
-    apiCallTable.get(url,
-      function success(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-      },
-      function error(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-      });
+    apiCallTable.get(url, processSuccess, processError);
   }
 
-  this.post = function httpPost(url, requestBody) {
+  this.post = (url, requestBody) => {
     loadingWheelModal.open();
-    apiCallTable.post(url, requestBody,
-      function success(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-      },
-      function error(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-      });
+    apiCallTable.post(url, requestBody, processSuccess, processError);
   }
  
-  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
+  this.postUrlEncoded = (url, requestParam) => {
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(url, requestParam,
-      function success(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-      },
-      function error(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-      });
+    apiCallTable.postUrlEncoded(url, requestParam, processSuccess, processError);
   }
 
-  this.delete = function httpDelete(url, requestBody) { 
+  this.delete = (url, requestBody) => { 
     loadingWheelModal.open();
-    apiCallTable.delete(url, requestBody,
-      function success(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-      },
-      function error(responseBody, responseCode, responseDescription) {
-        loadingWheelModal.close();
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-      })
+    apiCallTable.delete(url, requestBody, processSuccess, processError);
+  }
+
+  /** Process success response */
+  function processSuccess(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+  }
+
+  /** Process error response */
+  function processError(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }
 

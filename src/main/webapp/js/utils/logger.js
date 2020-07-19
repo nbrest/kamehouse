@@ -17,18 +17,18 @@ function Logger() {
    */
   //Defaults log level to INFO (2)
   this.logLevel = 2;
-  var stripCommentsRegex = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-  var argumentNamesRegex = /([^\s,]+)/g;
+  let stripCommentsRegex = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+  let argumentNamesRegex = /([^\s,]+)/g;
 
   /** Log a specified message with the specified logging level. */
-  this.log = function log(logLevel, message) {
+  this.log = (logLevel, message) => {
     if (isEmpty(logLevel)) {
       console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
       return;
     }
-    var logLevelUpperCase = logLevel.toUpperCase();
-    var callerFunction = self.getCallerFunctionName();
-    var logEntry = "";
+    let logLevelUpperCase = logLevel.toUpperCase();
+    let callerFunction = self.getCallerFunctionName();
+    let logEntry = "";
     if (isEmpty(callerFunction)) {
       logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - () - " + message;
     } else {
@@ -54,38 +54,34 @@ function Logger() {
   }
 
   /** Log an error message */
-  this.error = function error(message) {
-    self.log("ERROR", message);
-  }
+  this.error = (message) => self.log("ERROR", message);
 
   /** Log a warn message */
-  this.warn = function warn(message) {
-    self.log("WARN", message);
-  }
+  this.warn = (message) => self.log("WARN", message);
 
   /** Log an info message */
-  this.info = function info(message) {
-    self.log("INFO", message);
-  }
+  this.info = (message) => self.log("INFO", message);
 
   /** Log a debug message */
-  this.debug = function debug(message) {
-    self.log("DEBUG", message);
-  }
+  this.debug = (message) => self.log("DEBUG", message);
 
   /** Log a trace message */
-  this.trace = function trace(message) {
-    self.log("TRACE", message);
-  }
+  this.trace = (message) => self.log("TRACE", message);
 
   /** Log a debug message of the function call with it's parameters*/
-  this.debugFunctionCall = function debugFunctionCall() {
-    self.debug(self.getMessageForTraceFunctionCall());
+  this.debugFunctionCall = () => {
+    let message = self.getMessageForTraceFunctionCall();
+    if (!isEmpty(message)) {
+      self.debug(message);
+    }
   }
 
   /** Log a trace message of the function call with it's parameters*/
-  this.traceFunctionCall = function traceFunctionCall() {
-    self.trace(self.getMessageForTraceFunctionCall());
+  this.traceFunctionCall = () => { 
+    let message = self.getMessageForTraceFunctionCall();
+    if (!isEmpty(message)) {
+      self.trace(message);
+    }
   }
 
   /** Get the caller name of the function generating the log entry. 
@@ -132,15 +128,15 @@ function Logger() {
       }
       message = message + argumentsString;
     } catch (error) {
-      message = message + " - error parsing arguments. probably parsing an async function or on strict mode.";
+      message = "";
     }
     return message;
   }
 
   /** Get the function argument names of the specified function */
-  this.getFunctionArgumentNames = function getFunctionArgumentNames(functionToParse) {
-    var fuctionString = functionToParse.toString().replace(stripCommentsRegex, '');
-    var argumentNames = fuctionString.slice(fuctionString.indexOf('(') + 1, fuctionString.indexOf(')')).match(argumentNamesRegex);
+  this.getFunctionArgumentNames = (functionToParse) => {
+    let fuctionString = functionToParse.toString().replace(stripCommentsRegex, '');
+    let argumentNames = fuctionString.slice(fuctionString.indexOf('(') + 1, fuctionString.indexOf(')')).match(argumentNamesRegex);
     if (argumentNames === null)
       argumentNames = [];
     return argumentNames;
