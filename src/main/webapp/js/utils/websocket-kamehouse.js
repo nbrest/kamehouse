@@ -16,20 +16,12 @@ function WebSocketKameHouse() {
   this.topicUrl = null;
   this.pollUrl = null;
   
-  this.setStatusUrl = function setStatusUrl(statusUrl) {
-    self.statusUrl = statusUrl;
-  }
-
-  this.setTopicUrl = function setTopicUrl(topicUrl) {
-    self.topicUrl = topicUrl;
-  }
+  this.setStatusUrl = (statusUrl) => self.statusUrl = statusUrl; 
+  this.setTopicUrl = (topicUrl) => self.topicUrl = topicUrl;
+  this.setPollUrl = (pollUrl) => self.pollUrl = pollUrl;
  
-  this.setPollUrl = function setPollUrl(pollUrl) {
-    self.pollUrl = pollUrl;
-  }
-
   /** Checks if the websocket is connected. */
-  this.isConnected = function isConnected(stompClient) {
+  this.isConnected = (stompClient) => {
     if (isEmpty(stompClient)) {
       // Check the current stompClient by default.
       stompClient = self.stompClient;
@@ -61,11 +53,9 @@ function WebSocketKameHouse() {
       self.stompClient = Stomp.over(socket);
       self.stompClientDebugFunction = self.stompClient.debug;
       self.disableStompDebugMode();
-      self.stompClient.connect({}, function(frame) {
+      self.stompClient.connect({}, (frame) => {
         logger.debug('Connected WebSocket: ' + frame);
-        self.stompClient.subscribe(self.topicUrl, function (topicResponse) {
-          topicResponseCallback(topicResponse);
-        });
+        self.stompClient.subscribe(self.topicUrl, (topicResponse) => topicResponseCallback(topicResponse));
       });
       self.stompClients.push(self.stompClient);
     } catch (error) {
@@ -134,12 +124,8 @@ function WebSocketKameHouse() {
     }
   }
 
-  this.enableStompDebugMode = function enableStompDebugMode() {
-    self.stompClient.debug = self.stompClientDebugFunction;
-  } 
+  this.enableStompDebugMode = () => self.stompClient.debug = self.stompClientDebugFunction;
 
   //Disable console messages for stomp. Only enable if I need to debug connection issues.
-  this.disableStompDebugMode = function disableStompDebugMode() {
-    self.stompClient.debug = null;
-  }
+  this.disableStompDebugMode = () => self.stompClient.debug = null;
 }

@@ -25,10 +25,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     var deferred = $q.defer();
     $http.get(REST_SERVICE_URI)
       .then(
-        function(response) {
-          deferred.resolve(response.data);
-        },
-        function(errResponse) {
+        (response) => deferred.resolve(response.data),
+        (errResponse) => {
           console.error('Error while fetching all DragonBallUsers');
           deferred.reject(errResponse);
         }
@@ -44,10 +42,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     var config = generateConfig();
     $http.post(REST_SERVICE_URI, dragonBallUser, config)
       .then(
-        function(response) {
-          deferred.resolve(response.data);
-        },
-        function(errResponse) {
+        (response) => deferred.resolve(response.data),
+        (errResponse) => {
           console.error('Error while creating DragonBallUser');
           deferred.reject(errResponse);
         }
@@ -63,10 +59,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     var config = generateConfig();
     $http.put(REST_SERVICE_URI + id, dragonBallUser, config)
       .then(
-        function(response) {
-          deferred.resolve(response.data);
-        },
-        function(errResponse) {
+        (response) => deferred.resolve(response.data),
+        (errResponse) => {
           console.error('Error while updating DragonBallUser');
           deferred.reject(errResponse);
         }
@@ -82,10 +76,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
     var config = generateConfig();
     $http.delete(REST_SERVICE_URI + id, config)
       .then(
-        function(response) {
-          deferred.resolve(response.data);
-        },
-        function(errResponse) {
+        (response) => deferred.resolve(response.data),
+        (errResponse) => {
           console.error('Error while deleting DragonBallUser');
           deferred.reject(errResponse);
         }

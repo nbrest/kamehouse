@@ -35,7 +35,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         function(d) {
           self.users = d;
         },
-        function(errResponse) {
+        (errResponse) => {
           console.error('Error while fetching DragonBallUsers');
           redirectToErrorPage(errResponse.status);
         }
@@ -49,7 +49,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     dragonBallUserService.createDragonBallUser(user)
       .then(
         fetchAllDragonBallUsers,
-        function(errResponse) {
+        (errResponse) => {
           console.error('Error while creating DragonBallUser');
           redirectToErrorPage(errResponse.status);
         }
@@ -63,7 +63,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     dragonBallUserService.updateDragonBallUser(user, id)
       .then(
         fetchAllDragonBallUsers,
-        function(errResponse) {
+        (errResponse) => {
           console.error('Error while updating DragonBallUser');
           //console.log(JSON.stringify(errResponse));
           redirectToErrorPage(errResponse.status);
@@ -78,7 +78,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     dragonBallUserService.deleteDragonBallUser(id)
       .then(
         fetchAllDragonBallUsers,
-        function(errResponse) {
+        (errResponse) => {
           console.error('Error while deleting DragonBallUser');
           redirectToErrorPage(errResponse.status);
         }

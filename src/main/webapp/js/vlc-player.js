@@ -11,7 +11,7 @@ var vlcPlayer;
 var playlistBrowser;
 
 /** Main function. */
-var main = function() {
+var main = () => {
   loadVlcPlayer();
   loadPlaylistBrowser();
   let loadingModules = ["logger", "vlcPlayer", "playlistBrowser"];
@@ -19,7 +19,7 @@ var main = function() {
 };
 
 /** Init function to execute after global dependencies are loaded. */
-var initVlcPlayer = function() {
+var initVlcPlayer = () => {
   logger.info("Started initializing VLC Player"); 
   playlistBrowser.populateVideoPlaylistCategories();
   vlcPlayer.init();

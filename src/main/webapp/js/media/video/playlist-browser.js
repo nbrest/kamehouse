@@ -17,9 +17,7 @@ function PlaylistBrowser(vlcPlayer) {
   const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlist';
 
   /** Filter playlist browser rows based on the search string. */
-  this.filterPlaylistRows = function filterPlaylistRows(filterString) {
-    filterTableRows(filterString, 'playlist-browser-table-body');
-  }
+  this.filterPlaylistRows = (filterString) => filterTableRows(filterString, 'playlist-browser-table-body');
 
   /** Returns the selected playlist from the dropdowns. */
   this.getSelectedPlaylist = function getSelectedPlaylist() {
@@ -40,8 +38,8 @@ function PlaylistBrowser(vlcPlayer) {
     playlistCategoryDropdown.empty();
     playlistCategoryDropdown.append('<option selected="true" disabled>Playlist Category</option>');
     playlistCategoryDropdown.prop('selectedIndex', 0);
-    apiCallTable.get(mediaVideoAllPlaylistsUrl,
-      function (responseBody, responseCode, responseDescription) {
+    apiCallTable.get(mediaVideoAllPlaylistsUrl, 
+      (responseBody, responseCode, responseDescription) => {
         self.videoPlaylists = responseBody;
         self.videoPlaylistCategories = [...new Set(self.videoPlaylists.map(playlist => playlist.category))];
         logger.trace("Playlists: " + JSON.stringify(self.videoPlaylists));
@@ -52,9 +50,9 @@ function PlaylistBrowser(vlcPlayer) {
           playlistCategoryDropdown.append($('<option></option>').attr('value', entry).text(categoryFormatted));
         });
       },
-      function (responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData("Error populating video playlist categories", responseCode);
-      });
+      (responseBody, responseCode, responseDescription) => 
+        apiCallTable.displayResponseData("Error populating video playlist categories", responseCode)
+      );
   }
 
   /** Populate video playlists dropdown when a playlist category is selected. */
@@ -67,7 +65,7 @@ function PlaylistBrowser(vlcPlayer) {
     playlistDropdown.append('<option selected="true" disabled>Playlist</option>');
     playlistDropdown.prop('selectedIndex', 0);
     logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
-    $.each(self.videoPlaylists, function (key, entry) {
+    $.each(self.videoPlaylists, (key, entry) => {
       if (entry.category === selectedPlaylistCategory) {
         let playlistName = entry.name;
         playlistName = playlistName.replace(/.m3u+$/, "");
@@ -77,18 +75,18 @@ function PlaylistBrowser(vlcPlayer) {
   }
 
   /** Load the selected playlist's content in the view */
-  this.loadPlaylistContent = function loadPlaylistContent() {
+  this.loadPlaylistContent = () => {
     let playlistFilename = self.getSelectedPlaylist();
     logger.debug("Getting content for " + playlistFilename);
     let requestParam = "path=" + playlistFilename;
     apiCallTable.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
-      function (responseBody, responseCode, responseDescription) {
+      (responseBody, responseCode, responseDescription) => {
         self.currentPlaylist = responseBody;
         self.populatePlaylistBrowserTable();
       },
-      function (responseBody, responseCode, responseDescription) {
-        apiCallTable.displayResponseData("Error getting playlist content", responseCode);
-      });
+      (responseBody, responseCode, responseDescription) =>
+        apiCallTable.displayResponseData("Error getting playlist content", responseCode)
+      );
   }
 
   /** Play selected file in the specified VlcPlayer. */
@@ -128,7 +126,7 @@ function PlaylistBrowser(vlcPlayer) {
   }
 
   /** Play the clicked element from the playlist. */
-  this.clickEventOnPlaylistBrowserRow = function clickEventOnPlaylistBrowserRow(event) {
+  this.clickEventOnPlaylistBrowserRow = (event) => {
     let filename = event.data.filename;
     logger.debug("Play selected playlist browser file : " + filename);
     self.vlcPlayer.playFile(filename);
@@ -157,7 +155,7 @@ function PlaylistBrowser(vlcPlayer) {
   }
 
   /** Update the icon to expand or collapse the playlist filenames */
-  this.updateExpandPlaylistFilenamesIcon = function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
+  this.updateExpandPlaylistFilenamesIcon = (isExpandedFilename) => {
     if (isExpandedFilename) {
       $("#toggle-playlist-browser-filenames-img").attr("src", "/kame-house/img/other/double-left-green.png");
     } else {
@@ -166,7 +164,7 @@ function PlaylistBrowser(vlcPlayer) {
   }
 
   /** Get the last part of the absolute filename */
-  this.getShortFilename = function getShortFilename(filename) {
+  this.getShortFilename = (filename) => {
     return filename.split(/[\\/]+/).pop();
   }
 }
