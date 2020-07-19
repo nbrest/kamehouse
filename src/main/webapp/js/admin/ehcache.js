@@ -138,7 +138,7 @@ function EhCacheManager() {
   /**
    * Empty cache data div.
    */
-  this.emptyCacheDataDiv = function emptyCacheDataDiv() {
+  this.emptyCacheDataDiv = () => {
     var $cacheData = $("#cache-data");
     $cacheData.empty();
   }
@@ -146,14 +146,14 @@ function EhCacheManager() {
   /**
    * Toggle cache view (expand/collapse).
    */
-  this.toggleCacheView = function toggleCacheView(className) {
+  this.toggleCacheView = (className) => {
     $(className).toggle();
   }
 
   /**
    * Toggle cache view for all caches (expand/collapse).
    */
-  this.toggleAllCacheView = function toggleAllCacheView() {
+  this.toggleAllCacheView = () => {
     for (var i = 0; i < self.ehcacheToggleTableRowIds.length; i++) {
       self.toggleCacheView(self.ehcacheToggleTableRowIds[i]);
     }

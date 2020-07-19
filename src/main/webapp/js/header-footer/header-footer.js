@@ -55,8 +55,7 @@ function Header() {
   /**
    * Set active tab in the menu.
    */
-  this.updateActiveTab = function updateActiveTab() {
-    logger.traceFunctionCall();
+  this.updateActiveTab = () => {
     var pageUrl = window.location.pathname;
     $("#headerContainer header .default-layout #header-menu a").toArray().forEach(function(navItem) {
       $(navItem).removeClass("active");
@@ -100,8 +99,7 @@ function Header() {
   /** 
    * Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon. 
    */
-  this.toggleHeaderNav = function toggleHeaderNav() {
-    logger.traceFunctionCall();
+  this.toggleHeaderNav = () => {
     var x = document.getElementById("header-menu");
     if (x.className === "header-nav") {
       x.className += " responsive";
@@ -113,8 +111,7 @@ function Header() {
   /** 
    * Update session status. 
    */
-  this.updateSessionStatus = function updateSessionStatus() {
-    logger.traceFunctionCall();
+  this.updateSessionStatus = () => { 
     httpClient.get(SESSION_STATUS_URL, null,
       function success(responseBody, responseCode, responseDescription) {
         logger.trace("Sessin Status: " + JSON.stringify(responseBody));
@@ -129,8 +126,7 @@ function Header() {
   /**
    * Update login status.
    */
-  this.updateLoginStatus = function updateLoginStatus() {
-    logger.traceFunctionCall();
+  this.updateLoginStatus = () => {
     var $loginStatus = $("#login-status");
     $loginStatus.empty();
     if (isEmpty(global.session.username) || global.session.username.trim() == "" ||

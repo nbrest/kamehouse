@@ -24,19 +24,18 @@ function importTestApisCss() {
 function ApiTester() {
 
   /** Reload VLC with the file passed as a parameter. */
-  this.loadFileInVlc = function loadFileInVlc(url, file) {
-    logger.traceFunctionCall();
+  this.loadFileInVlc = (url, file) => {
     logger.debug("Selected file: " + file);
     var requestParam = "file=" + file;
     apiCallTable.postUrlEncoded(url, requestParam);
   }
 
-  this.get = function httpGet(url) {
+  this.get = (url) => {
     apiCallTable.get(url);
     scrollToTop();
   }
 
-  this.postUrlEncoded = function postUrlEncoded(url, requestParam) {
+  this.postUrlEncoded = (url, requestParam) => {
     apiCallTable.postUrlEncoded(url, requestParam);
     scrollToTop();
   }
