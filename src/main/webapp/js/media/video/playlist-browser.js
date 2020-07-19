@@ -164,7 +164,5 @@ function PlaylistBrowser(vlcPlayer) {
   }
 
   /** Get the last part of the absolute filename */
-  this.getShortFilename = (filename) => {
-    return filename.split(/[\\/]+/).pop();
-  }
+  this.getShortFilename = (filename) => filename.split(/[\\/]+/).pop();
 }
