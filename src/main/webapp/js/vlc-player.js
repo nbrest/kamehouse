@@ -28,9 +28,7 @@ var initVlcPlayer = () => {
 function loadWebSocketKameHouse() {
   $.getScript("/kame-house/js/utils/websocket-kamehouse.js", function (data, textStatus, jqxhr) {
     let loadingModules = ["logger"];
-    waitForModules(loadingModules, function initWebSocket() {
-      modules.webSocketKameHouse = true;
-    });
+    waitForModules(loadingModules, () => modules.webSocketKameHouse = true);
   });
 }
 
@@ -38,7 +36,7 @@ function loadVlcPlayer() {
   loadWebSocketKameHouse();
   $.getScript("/kame-house/js/vlc-player/vlc-player.js", function (data, textStatus, jqxhr) {
     let loadingModules = ["timeUtils", "logger", "apiCallTable", "webSocketKameHouse"];
-    waitForModules(loadingModules, function initVlcPlayerInstance() {
+    waitForModules(loadingModules, () => {
       vlcPlayer = new VlcPlayer("localhost");
       modules.vlcPlayer = true;
     });
@@ -48,7 +46,7 @@ function loadVlcPlayer() {
 function loadPlaylistBrowser() {
   $.getScript("/kame-house/js/media/video/playlist-browser.js", function (data, textStatus, jqxhr) {
     let loadingModules = ["logger", "apiCallTable", "vlcPlayer"];
-    waitForModules(loadingModules, function initPlaylistBrowser() {
+    waitForModules(loadingModules, () => {
       playlistBrowser = new PlaylistBrowser(vlcPlayer);
       modules.playlistBrowser = true;
     });

@@ -14,7 +14,7 @@ var footer;
 function renderHeaderAndFooter() {
   logger.traceFunctionCall();
   var loadingModules = ["logger", "httpClient"];
-  waitForModules(loadingModules, function initHeaderAndFooter() {
+  waitForModules(loadingModules, () => {
     logger.info("Started initializing header and footer");
     header = new Header();
     header.renderHeader();
@@ -45,7 +45,7 @@ function Header() {
     logger.traceFunctionCall();
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
     $("body").prepend('<div id="headerContainer"></div>');
-    $("#headerContainer").load("/kame-house/html-snippets/header.html", function() {
+    $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
       self.updateLoginStatus();
       self.updateActiveTab();
       self.updateSessionStatus();

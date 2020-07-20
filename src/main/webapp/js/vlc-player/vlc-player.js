@@ -115,7 +115,7 @@ function VlcPlayer(hostname) {
 
   this.scrollToCurrentlyPlaying = () => self.playlist.scrollToCurrentlyPlaying();
 
-  this.filterPlaylistRows = (filterString) => filterTableRows(filterString, 'playlist-table-body');
+  this.filterPlaylistRows = (filterString) => tableUtils.filterTableRows(filterString, 'playlist-table-body');
 
   this.toggleExpandPlaylistFilenames = () => self.playlist.toggleExpandPlaylistFilenames();
 
@@ -726,7 +726,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute GET on the specified url and display the output in the debug table. */
   this.get = function httpGet(url) {
     logger.debugFunctionCall();
-    setCursorWait();
+    cursorUtils.setCursorWait();
     apiCallTable.get(url,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => {
@@ -740,7 +740,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute a POST request to the specified url with the specified request body. */
   this.post = function httpPost(url, requestBody) {
     logger.debugFunctionCall();
-    setCursorWait();
+    cursorUtils.setCursorWait();
     apiCallTable.post(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
@@ -750,7 +750,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute a POST request to the specified url with the specified request url parameters. */
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
     logger.debugFunctionCall();
-    setCursorWait();
+    cursorUtils.setCursorWait();
     apiCallTable.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
         apiCallSuccessDefault(responseBody);
@@ -767,7 +767,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute a DELETE request to the specified url with the specified request body. */
   this.delete = function httpDelete(url, requestBody) {
     logger.debugFunctionCall();
-    setCursorWait();
+    cursorUtils.setCursorWait();
     apiCallTable.delete(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
@@ -776,14 +776,14 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Default actions for succesful api responses */
   function apiCallSuccessDefault(responseBody) {
-      setCursorDefault();
+      cursorUtils.setCursorDefault();
       logger.debug("Response: " + JSON.stringify(responseBody));
       self.vlcPlayer.pollVlcRcStatus();
   }
 
   /** Default actions for error api responses */
   function apiCallErrorDefault(responseBody, responseCode, responseDescription) {
-    setCursorDefault();
+    cursorUtils.setCursorDefault();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }
