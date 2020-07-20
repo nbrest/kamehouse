@@ -9,6 +9,7 @@
  * ----- Global variables ------------------------------------------------------------------ 
  */
 var global;
+// TODO: remove this when I move to moduleUtils. in all js files
 var modules;
 
 /** Global modules */
@@ -29,7 +30,7 @@ var isEmpty;
 var isFunction;
 var scrollToTop;
 var sleep;
-// remove this when I move to moduleUtils. in all js files
+// TODO: remove this when I move to moduleUtils. in all js files
 var waitForModules;
 
 /** 
@@ -40,7 +41,7 @@ function main() {
   globalUtils.setGlobalFunctions();
   moduleUtils = new ModuleUtils();
   moduleUtils.loadDefaultModules();
-  // once I move everything to moduleUtils. in other js files, remove these and those global vars
+  // TODO: once I move everything to moduleUtils. in other js files, remove these and those global vars
   modules = moduleUtils.modules;
   waitForModules = moduleUtils.waitForModules;
   moduleUtils.waitForModules(["logger", "httpClient"], initGlobal);
