@@ -2,7 +2,7 @@
  * Represents the playlist browser component in vlc-player page.
  * It doesn't control the currently active playlist.
  * 
- * Dependencies: logger, apiCallTable
+ * Dependencies: tableUtils, logger, apiCallTable
  * 
  * @author nbrest
  */
@@ -143,7 +143,7 @@ function PlaylistBrowser(vlcPlayer) {
       let currentText = playlistEntry.text();
       if (currentText == filename) {
         // Currently it's showing the expanded filename. Update to short
-        playlistEntry.text(self.getShortFilename(filename));
+        playlistEntry.text(fileUtils.getShortFilename(filename));
         isExpandedFilename = false;
       } else {
         // Currently it's showing the short filename. Update to expanded
@@ -162,7 +162,4 @@ function PlaylistBrowser(vlcPlayer) {
       $("#toggle-playlist-browser-filenames-img").attr("src", "/kame-house/img/other/double-right-green.png");
     }
   }
-
-  /** Get the last part of the absolute filename */
-  this.getShortFilename = (filename) => filename.split(/[\\/]+/).pop();
 }

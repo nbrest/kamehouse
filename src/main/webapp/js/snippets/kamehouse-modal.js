@@ -7,7 +7,7 @@
  * If the same message is used in several places, add it as a constant to the modal 
  * and create a specific open method, as I did for siteUnderConstruction.
  * 
- * TODO: With openAutoCloseable(), if while I'm on the countdown, I manually close the modal, 
+ * TODO: BUG: With openAutoCloseable(), if while I'm on the countdown, I manually close the modal, 
  * and trigger another request that reopens the same modal, the behavior is not correct. The
  * original loop to close the modal is still running and will trigger it to close and show
  * multiple autoclose divs. This shouldn't be a problem though.
@@ -20,8 +20,7 @@ var basicKamehouseModal;
 var loadingWheelModal;
 
 function main() {
-  var loadingModules = ["logger"];
-  waitForModules(loadingModules, () => {
+  moduleUtils.waitForModules(["logger"], () => {
     logger.info("Started initializing kamehouse modal framework");
     importKamehouseModalCss();
     basicKamehouseModal = new BasicKamehouseModal();
@@ -54,7 +53,7 @@ function BasicKamehouseModal() {
   /** Open site under construction modal */
   this.openSiteUnderConstruction = () => self.modalUtils.open(self.SITE_UNDER_CONSTRUCTION);
 
-  /** Open api call error message modal */
+  /** Open api call error message auto closeable modal */
   this.openApiError = (responseBody, responseCode, responseDescription) => {
     if (isEmpty(responseBody)) {
       responseBody = "Error executing the request. Please check the logs for more information";
@@ -95,7 +94,6 @@ function ModalUtils(modalId) {
 
   /** Import modal content */
   this.import = () => {
-    logger.traceFunctionCall();
     $('body').append('<div id="' + modalId + '" class="' + self.BASE_CLASS + '">');
     $("#" + modalId).load("/kame-house/html-snippets/" + modalId + ".html", () => {
       let modalDivCloseBtn = document.getElementById(modalId + "-close");
@@ -106,7 +104,6 @@ function ModalUtils(modalId) {
 
   /** When the user clicks anywhere outside of the modal, close it */
   this.setCloseOnClickOutsideModal = () => {
-    logger.traceFunctionCall();
     let modalDiv = document.getElementById(modalId);
     window.onclick = (event) => {
       if (event.target == modalDiv) {
@@ -157,10 +154,7 @@ function ModalUtils(modalId) {
   }
 
   /** Set the text in the modal */
-  this.setText = (message) => {
-    logger.traceFunctionCall();
-    $("#" + self.modalId + "-text").text(message);
-  }
+  this.setText = (message) => $("#" + self.modalId + "-text").text(message);
 }
 
 $(document).ready(main);

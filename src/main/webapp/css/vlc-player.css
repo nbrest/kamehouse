@@ -356,6 +356,16 @@
   }
 }
 
+#playlist-controls-filter-input-td {
+  width: 70%;
+}
+
+@media (max-width: 900px) {
+  #playlist-controls-filter-input-td {
+    width: 45%;
+  }
+}
+
 /** Playlist begin.*/
 .playlist-table-btn {
   font-weight: 400;

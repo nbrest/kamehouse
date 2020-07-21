@@ -2,24 +2,20 @@
  * Functionality that renders the api-call-table div 
  * and executes api requests.
  * 
- * Dependencies: logger, timeUtils, httpClient
+ * Dependencies: timeUtils, logger, httpClient
  * 
  * @author nbrest
  */
 var apiCallTable;
 
- function main() {
+function main() {
   importApiCallTableCss();
-  var loadingModules = ["timeUtils","logger","httpClient"];
-  waitForModules(loadingModules, initApiCallTable);
-}
-
-/** Init function. */
-function initApiCallTable() {
-  logger.info("Started initializing api call table");
-  apiCallTable = new ApiCallTable();
-  modules.apiCallTable = true;
-  apiCallTable.displayRequestData(null, null, null);
+  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+    logger.info("Started initializing api call table");
+    apiCallTable = new ApiCallTable();
+    moduleUtils.setModuleLoaded("apiCallTable");
+    apiCallTable.displayRequestData(null, null, null);
+  });
 }
 
 /** Import api-call-table css*/

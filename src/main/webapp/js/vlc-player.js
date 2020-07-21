@@ -13,42 +13,29 @@ var playlistBrowser;
 /** Main function. */
 var main = () => {
   loadVlcPlayer();
-  loadPlaylistBrowser();
-  let loadingModules = ["logger", "vlcPlayer", "playlistBrowser"];
-  waitForModules(loadingModules, initVlcPlayer);
-};
-
-/** Init function to execute after global dependencies are loaded. */
-var initVlcPlayer = () => {
-  logger.info("Started initializing VLC Player"); 
-  playlistBrowser.populateVideoPlaylistCategories();
-  vlcPlayer.init();
-};
-
-function loadWebSocketKameHouse() {
-  $.getScript("/kame-house/js/utils/websocket-kamehouse.js", function (data, textStatus, jqxhr) {
-    let loadingModules = ["logger"];
-    waitForModules(loadingModules, () => modules.webSocketKameHouse = true);
+  loadPlaylistBrowser(); 
+  moduleUtils.waitForModules(["logger", "vlcPlayer", "playlistBrowser"], () => {
+    logger.info("Started initializing VLC Player");
+    playlistBrowser.populateVideoPlaylistCategories();
+    vlcPlayer.init();
   });
-}
+};
 
 function loadVlcPlayer() {
-  loadWebSocketKameHouse();
-  $.getScript("/kame-house/js/vlc-player/vlc-player.js", function (data, textStatus, jqxhr) {
-    let loadingModules = ["timeUtils", "logger", "apiCallTable", "webSocketKameHouse"];
-    waitForModules(loadingModules, () => {
+  moduleUtils.loadWebSocketKameHouse();
+  $.getScript("/kame-house/js/vlc-player/vlc-player.js", (data, textStatus, jqxhr) => {
+    moduleUtils.waitForModules(["logger", "apiCallTable", "webSocketKameHouse"], () => {
       vlcPlayer = new VlcPlayer("localhost");
-      modules.vlcPlayer = true;
+      moduleUtils.setModuleLoaded("vlcPlayer");
     });
   });
 }
 
 function loadPlaylistBrowser() {
-  $.getScript("/kame-house/js/media/video/playlist-browser.js", function (data, textStatus, jqxhr) {
-    let loadingModules = ["logger", "apiCallTable", "vlcPlayer"];
-    waitForModules(loadingModules, () => {
+  $.getScript("/kame-house/js/media/video/playlist-browser.js", (data, textStatus, jqxhr) => {
+    moduleUtils.waitForModules(["logger", "apiCallTable", "vlcPlayer"], () => {
       playlistBrowser = new PlaylistBrowser(vlcPlayer);
-      modules.playlistBrowser = true;
+      moduleUtils.setModuleLoaded("playlistBrowser");
     });
   });
 }

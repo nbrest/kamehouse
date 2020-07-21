@@ -90,8 +90,8 @@ function Logger() {
    * There are some cases like blacklisted functions or annonymous functions
    * that return an empty callerFunction. */
   this.getCallerFunctionName = function getCallerFunctionName() {
-    var blacklistedFunctions = ["debugFunctionCall", "traceFunctionCall", "success", "error"];
-    var callerFunction = "";
+    let blacklistedFunctions = ["debugFunctionCall", "traceFunctionCall", "success", "error"];
+    let callerFunction = "";
     try {
       callerFunction = getCallerFunctionName.caller.caller.caller.name;
       if (blacklistedFunctions.includes(callerFunction)) {
@@ -108,15 +108,15 @@ function Logger() {
    * as it goes 2 levels up to get the caller function details. 
    * Async functions throw an error. */
   this.getMessageForTraceFunctionCall = function getMessageForFunctionCall() {
-    var message = "";
+    let message = "";
     try {
-      var callerFunction = getMessageForFunctionCall.caller.caller;
+      let callerFunction = getMessageForFunctionCall.caller.caller;
       message = "Started " + callerFunction.name;
-      var argumentsString = "";
+      let argumentsString = "";
       if (!isEmpty(callerFunction.arguments) && callerFunction.arguments.length > 0) {
         argumentsString = " with arguments";
-        var callerFunctionArgumentNames = self.getFunctionArgumentNames(callerFunction);
-        for (var i = 0; i < callerFunction.arguments.length; i++) {
+        let callerFunctionArgumentNames = self.getFunctionArgumentNames(callerFunction);
+        for (let i = 0; i < callerFunction.arguments.length; i++) {
           if (i < callerFunctionArgumentNames.length) {
             argumentsString = argumentsString + " " + callerFunctionArgumentNames[i] + ":" + JSON.stringify(callerFunction.arguments[i]);
           } else {

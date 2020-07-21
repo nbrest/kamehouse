@@ -1,7 +1,7 @@
 /** 
  * VlcPlayer entity.
  * 
- * Dependencies: timeUtils, logger, apiCallTable, websocket
+ * Dependencies: fileUtils, tableUtils, cursorUtils, timeUtils, logger, apiCallTable, websocket
  * 
  * Dependencies in same file: VlcPlayerPlaylist, VlcPlayerRestClient, VlcPlayerCommandExecutor, 
  * VlcPlayerSynchronizer, VlcPlayerMainViewUpdater, VlcPlayerDebugger
@@ -48,7 +48,7 @@ function VlcPlayer(hostname) {
       vlcPlayerTabContent[i].style.display = "none";
     }
     let vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
-    for (var i = 0; i < vlcPlayerTabLinks.length; i++) {
+    for (let i = 0; i < vlcPlayerTabLinks.length; i++) {
       vlcPlayerTabLinks[i].className = vlcPlayerTabLinks[i].className.replace(" active", "");
     }
     let vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
@@ -654,7 +654,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
       let currentText = playlistEntry.text();
       if (currentText == filename) {
         // Currently it's showing the expanded filename. Update to short
-        playlistEntry.text(self.getShortFilename(filename));
+        playlistEntry.text(fileUtils.getShortFilename(filename));
         isExpandedFilename = false;
       } else {
         // Currently it's showing the short filename. Update to expanded
@@ -673,10 +673,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
       $("#toggle-playlist-filenames-img").attr("src", "/kame-house/img/other/double-right-green.png");
     }
   }
-
-  /** Get the last part of the absolute filename */
-  // Split the filename into an array based on the path separators '/' and '\'
-  this.getShortFilename = (filename) => filename.split(/[\\/]+/).pop();
 
   /** Scroll to the current playing element in the playlist. */
   this.scrollToCurrentlyPlaying = () => {

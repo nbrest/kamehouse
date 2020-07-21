@@ -6,47 +6,26 @@
  * @author nbrest
  */
 var websocket;
-/** Main function. */
-var main = function() {
-  loadWebSocketKameHouse();
-  var loadingModules = ["logger","webSocketKameHouse"];
-  waitForModules(loadingModules, initWebSocketTest);
-};
+var stompClient = null;
 
-function loadWebSocketKameHouse() {
-  $.getScript("/kame-house/js/utils/websocket-kamehouse.js", function (data, textStatus, jqxhr) {
-    let loadingModules = ["logger"];
-    waitForModules(loadingModules, function initWebSocket() {
-      modules.webSocketKameHouse = true;
+/** Main function. */
+var main = () => {
+  moduleUtils.loadWebSocketKameHouse();
+  moduleUtils.waitForModules(["logger", "webSocketKameHouse"], () => {
+    logger.info("Started initializing WebSocket");
+    logger.logLevel = 4;
+    websocket = new WebSocketKameHouse();
+    websocket.setStatusUrl('/kame-house/api/ws/test-module/websocket');
+    websocket.setTopicUrl('/topic/test-module/websocket-out');
+    websocket.setPollUrl("/app/test-module/websocket-in");
+    $(() => {
+      $("form").on('submit', (e) => e.preventDefault());
+      $("#connect").click(() => connectWebSocket());
+      $("#disconnect").click(() => disconnectWebSocket());
+      $("#send").click(() => sendWebSocketRequest());
     });
   });
 }
-
-/** Init function to execute after global dependencies are loaded. */
-var initWebSocketTest = () => {
-  logger.info("Started initializing WebSocket");
-  logger.logLevel = 4;  
-  websocket = new WebSocketKameHouse();
-  websocket.setStatusUrl('/kame-house/api/ws/test-module/websocket');
-  websocket.setTopicUrl('/topic/test-module/websocket-out');
-  websocket.setPollUrl("/app/test-module/websocket-in");
-  $(() => {
-    $("form").on('submit', function (e) {
-      e.preventDefault();
-    });
-    $("#connect").click(function() {
-      connectWebSocket();
-    });
-    $("#disconnect").click(function() {
-      disconnectWebSocket();
-    });
-    $("#send").click(function() {
-      sendWebSocketRequest();
-    });
-  });
-};
-
-var stompClient = null;
 
 function setConnected(isConnected) {
   logger.traceFunctionCall();
@@ -64,9 +43,7 @@ function setConnected(isConnected) {
 
 function connectWebSocket() {
   logger.traceFunctionCall();
-  websocket.connect(function (testWebSocketResponse) {
-    showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body));
-  });
+  websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body)));
   setConnected(true);
   logger.debug("Connected WebSocket");
 }

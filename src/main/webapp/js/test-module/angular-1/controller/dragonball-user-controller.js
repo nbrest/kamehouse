@@ -32,9 +32,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     //console.log("fetchAllDragonBallUsers");
     dragonBallUserService.fetchAllDragonBallUsers()
       .then(
-        function(d) {
-          self.users = d;
-        },
+        (data) => self.users = data,
         (errResponse) => {
           console.error('Error while fetching DragonBallUsers');
           redirectToErrorPage(errResponse.status);
@@ -48,7 +46,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   function createDragonBallUser(user) {
     dragonBallUserService.createDragonBallUser(user)
       .then(
-        fetchAllDragonBallUsers,
+        () => fetchAllDragonBallUsers(),
         (errResponse) => {
           console.error('Error while creating DragonBallUser');
           redirectToErrorPage(errResponse.status);
@@ -62,7 +60,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   function updateDragonBallUser(user, id) {
     dragonBallUserService.updateDragonBallUser(user, id)
       .then(
-        fetchAllDragonBallUsers,
+        () => fetchAllDragonBallUsers(),
         (errResponse) => {
           console.error('Error while updating DragonBallUser');
           //console.log(JSON.stringify(errResponse));
@@ -77,7 +75,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   function deleteDragonBallUser(id) {
     dragonBallUserService.deleteDragonBallUser(id)
       .then(
-        fetchAllDragonBallUsers,
+        () => fetchAllDragonBallUsers(),
         (errResponse) => {
           console.error('Error while deleting DragonBallUser');
           redirectToErrorPage(errResponse.status);
@@ -104,7 +102,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    */
   function edit(id) {
     console.log('id to be edited', id);
-    for (var i = 0; i < self.users.length; i++) {
+    for (let i = 0; i < self.users.length; i++) {
       if (self.users[i].id === id) {
         self.user = angular.copy(self.users[i]);
         break;

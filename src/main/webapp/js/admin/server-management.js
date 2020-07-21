@@ -7,10 +7,9 @@
  */
 var serverManager;
 
-var main = function() {  
+var main = () => {  
   importServerManagementCss();
-  var loadingModules = ["logger", "apiCallTable"];
-  waitForModules(loadingModules, () => {
+  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing server management");
     serverManager = new ServerManager();
   });

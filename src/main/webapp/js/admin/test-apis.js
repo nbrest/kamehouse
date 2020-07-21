@@ -7,10 +7,9 @@
  */
 var apiTester;
 
-var main = function() {
+var main = () => {
   importTestApisCss();
-  var loadingModules = ["logger", "apiCallTable"];
-  waitForModules(loadingModules, function initTestApis() {
+  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing test apis");
     apiTester = new ApiTester();
   });
@@ -26,7 +25,7 @@ function ApiTester() {
   /** Reload VLC with the file passed as a parameter. */
   this.loadFileInVlc = (url, file) => {
     logger.debug("Selected file: " + file);
-    var requestParam = "file=" + file;
+    let requestParam = "file=" + file;
     apiCallTable.postUrlEncoded(url, requestParam);
   }
 

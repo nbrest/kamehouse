@@ -9,61 +9,60 @@
  * ----- Global variables ------------------------------------------------------------------ 
  */
 var global;
-// TODO: remove this when I move to moduleUtils. in all js files
-var modules;
 
-/** Global modules */
+/** Global utils in global.js */
+var coreUtils;
 var cursorUtils;
-var globalUtils;
-var httpClient;
-var logger;
+var fileUtils;
 var moduleUtils;
+var tableUtils;
 var testUtils;
 var timeUtils;
-var tableUtils;
+
+/** Global modules loaded from other js files */
+var httpClient;
+var logger;
 
 /** 
- * Global functions mapped to logic in global utils in globalUtils.setGlobalFunctions().
+ * Core global functions mapped to their logic in coreUtils.setGlobalFunctions().
  * Usage example: `if (isEmpty(val)) {...}` 
  */
 var isEmpty;
 var isFunction;
 var scrollToTop;
 var sleep;
-// TODO: remove this when I move to moduleUtils. in all js files
-var waitForModules;
 
 /** 
  * ----- Global functions ------------------------------------------------------------------
  */
 function main() {
-  globalUtils = new GlobalUtils();
-  globalUtils.setGlobalFunctions();
+  coreUtils = new CoreUtils();
+  coreUtils.setGlobalFunctions();
+  cursorUtils = new CursorUtils();
+  cursorUtils.loadSpinningWheelMobile();
+  fileUtils = new FileUtils();
+  tableUtils = new TableUtils();
+  testUtils = new TestUtils();
+  timeUtils = new TimeUtils();
+
   moduleUtils = new ModuleUtils();
   moduleUtils.loadDefaultModules();
-  // TODO: once I move everything to moduleUtils. in other js files, remove these and those global vars
-  modules = moduleUtils.modules;
-  waitForModules = moduleUtils.waitForModules;
-  moduleUtils.waitForModules(["logger", "httpClient"], initGlobal);
-}
-
-/** Init function to call after all global dependencies are loaded */
-function initGlobal() {
-  logger.info("Started initializing global functions");
-  globalUtils.loadHeaderAndFooter();
-  cursorUtils.loadSpinningWheelMobile();
-  //testUtils.testLogLevel();
+  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+    logger.info("Started initializing global functions");
+    coreUtils.loadHeaderAndFooter();
+    //testUtils.testLogLevel();
+  });
 }
 
 /** 
- * Prototype that contains the logic for all the global functions. 
+ * Prototype that contains the logic for all the core global functions. 
  * Only add functions here that are truly global and I'd want them to be part of the js language itself.
  * If I don't want them to be native, I probably should add them to a more specific utils prototype.
  */
-function GlobalUtils() {
+function CoreUtils() {
   let self = this;
   
-  /** Set the global variable and set the external reference to global to be used without globalUtils. prefix */
+  /** Set the global variable and set the external reference to global to be used without coreUtils. prefix */
   this.global = {};
   this.global.session = {};
   global = this.global;
@@ -98,7 +97,7 @@ function GlobalUtils() {
     }, '10');
   }
 
-  /** Set the aliases for the global functions to be used everywhere without the prefix globalUtils. */
+  /** Set the aliases for the global functions to be used everywhere without the prefix coreUtils. */
   this.setGlobalFunctions = () => {
     isEmpty = self.isEmpty;
     isFunction = self.isFunction;
@@ -115,6 +114,41 @@ function GlobalUtils() {
 }
 
 /** 
+ * Functionality to manipulate the cursor. 
+ */
+function CursorUtils() {
+
+  /** Set the cursor to a wait spinning wheel */
+  this.setCursorWait = () => {
+    $('html').addClass("wait");
+    $('#spinning-wheel-mobile-wrapper').removeClass("hidden-kh");
+  }
+
+  /** Set the cursor to default shape */
+  this.setCursorDefault = () => {
+    $('html').removeClass("wait");
+    $('#spinning-wheel-mobile-wrapper').addClass("hidden-kh");
+  }
+
+  this.loadSpinningWheelMobile = () => {
+    document.body.insertAdjacentHTML("beforeBegin", "<div id='spinning-wheel-mobile-wrapper' class='hidden-kh'>");
+    $("#spinning-wheel-mobile-wrapper").append("<div class='spinning-wheel-mobile-container'>");
+    $(".spinning-wheel-mobile-container").append("<div class='spinning-wheel-mobile'>");
+  }
+}
+
+/** 
+ * Functionality related to file and filename manipulation. 
+ */
+function FileUtils() {
+  let self = this;
+
+  /** Get the last part of the absolute filename */
+  // Split the filename into an array based on the path separators '/' and '\'
+  this.getShortFilename = (filename) => filename.split(/[\\/]+/).pop();
+}
+
+/** 
  * Functionality to load different modules and control the dependencies between them.
  */
 function ModuleUtils() {
@@ -122,34 +156,25 @@ function ModuleUtils() {
 
   /** 
    * Object that determines which module is loaded. 
-   * For example, when timeUtils gets loaded, set modules.timeUtils = true;
+   * For example, when logger gets loaded, set modules.logger = true;
    * I use it in waitForModules() to check if a module is loaded or not.
    */
   this.modules = {};
 
+  /** Marks the specified module as loaded */
+  this.setModuleLoaded = (moduleName) => self.modules[moduleName] = true;
+
   /** Load default modules. */
   this.loadDefaultModules = () => {
-    self.loadTimeUtils();
     self.loadLogger();
     self.loadHttpClient();
-    cursorUtils = new CursorUtils();
-    tableUtils = new TableUtils();
-    testUtils = new TestUtils();
-  }
-
-  /** Load time utils. */
-  this.loadTimeUtils = () => {
-    timeUtils = new TimeUtils();
-    self.modules.timeUtils = true;
   }
 
   /** Load logger object. */
   this.loadLogger = () => {
     $.getScript("/kame-house/js/utils/logger.js", (data, textStatus, jqxhr) => {
-      self.waitForModules(["timeUtils"], () => {
-        logger = new Logger();
-        self.modules.logger = true;
-      });
+      logger = new Logger();
+      self.setModuleLoaded("logger");
     });
   }
 
@@ -158,11 +183,16 @@ function ModuleUtils() {
     $.getScript("/kame-house/js/utils/http-client.js", (data, textStatus, jqxhr) => {
       self.waitForModules(["logger"], () => {
         httpClient = new HttpClient();
-        self.modules.httpClient = true;
+        self.setModuleLoaded("httpClient");
       });
     });
   }
     
+  this.loadWebSocketKameHouse = () => {
+    $.getScript("/kame-house/js/utils/websocket-kamehouse.js", (data, textStatus, jqxhr) =>
+      self.waitForModules(["logger"], () => self.setModuleLoaded("webSocketKameHouse")));
+  }
+
   /** 
    * Waits until all specified modules in the moduleNames array are loaded, 
    * then executes the specified init function.
@@ -194,30 +224,6 @@ function ModuleUtils() {
 }
 
 /** 
- * Functionality to manipulate the cursor. 
- */
-function CursorUtils() {
-
-  /** Set the cursor to a wait spinning wheel */
-  this.setCursorWait = () => {
-    $('html').addClass("wait");
-    $('#spinning-wheel-mobile-wrapper').removeClass("hidden-kh");
-  }
-
-  /** Set the cursor to default shape */
-  this.setCursorDefault = () => {
-    $('html').removeClass("wait");
-    $('#spinning-wheel-mobile-wrapper').addClass("hidden-kh");
-  }
-
-  this.loadSpinningWheelMobile = () => {
-    document.body.insertAdjacentHTML("beforeBegin", "<div id='spinning-wheel-mobile-wrapper' class='hidden-kh'>");
-    $("#spinning-wheel-mobile-wrapper").append("<div class='spinning-wheel-mobile-container'>");
-    $(".spinning-wheel-mobile-container").append("<div class='spinning-wheel-mobile'>");
-  }
-}
-
-/** 
  * Functionality to manipulate tables. 
  */
 function TableUtils() {
@@ -240,6 +246,22 @@ function TableUtils() {
   }
 }
 
+/** 
+ * Prototype for test functionality. 
+ */
+function TestUtils() {
+
+  /** Test the different log levels. */
+  this.testLogLevel = () => {
+    console.log("logger.logLevel " + logger.logLevel);
+    logger.error("This is an ERROR message");
+    logger.warn("This is a WARN message");
+    logger.info("This is an INFO message");
+    logger.debug("This is a DEBUG message");
+    logger.trace("This is a TRACE message");
+  }
+}
+
 /**
  * TimeUtils utility object for manipulating time and dates.
  */
@@ -255,22 +277,6 @@ function TimeUtils() {
 
   /** Convert input in seconds to hh:mm:ss output. */
   this.convertSecondsToHsMsSs = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 8);
-}
-
-/** 
- * Prototype for test functionality. 
- */
-function TestUtils() {
-
-  /** Test the different log levels. */
-  this.testLogLevel = () => {
-    console.log("logger.logLevel " + logger.logLevel);
-    logger.error("This is an ERROR message");
-    logger.warn("This is a WARN message");
-    logger.info("This is an INFO message");
-    logger.debug("This is a DEBUG message");
-    logger.trace("This is a TRACE message");
-  }
 }
 
 /** Call main. */
