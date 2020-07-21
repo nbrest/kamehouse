@@ -19,10 +19,10 @@
 
 * Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/)
 * Replace all the configuration with the settings I have for httpd in my private server backup repo
-* Follow *apache-httpd/workspace-httpd-setup.md* (in programming private repo)
+* Follow *apache-httpd/httpd-setup.md* (in programming private repo)
 
 ## Linux:
 
 * Install apache httpd from the package manager
 * Replace all the configuration with the settings I have for httpd in my private server backup repo
-* Follow *apache-httpd/workspace-httpd-setup.md* (in programming private repo)
+* Follow *apache-httpd/httpd-setup.md* (in programming private repo)
