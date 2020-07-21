@@ -1,9 +1,44 @@
 # ChangeLog:
 
-#### v1.03 (In development)
+#### v1.03
 
 * Updated icons in vlc player
 * Added spinning wheel when executing commands that take several seconds
+* Loading a playlist opens the playlist tab, loading a file opens the now playing tab
+* Updated icons for admin controls in vlc player
+* Added tooltips on hover
+* Added personalized message on loading wheel modal
+* Updated styles for main player
+* Added more space between buttons on mobile to avoid accidental clicks
+* Added aspect ratio dropdown
+* Added expand/collapse filename functionality for playlist and playlist browser
+* Updated playlist to use filename instead of display name
+* Removed bootstrap styles for playlist buttons and added custom styles
+* Added separate styles for playlist browser list
+* Improved regex for filtering the playlist
+* Added close functionality to the loading wheel modal
+* Added an error modal when the file I try to load doesn't exist
+* Updated vlc tabs to use icons
+* Unified kamehouse modals and grouped common functionality
+* Added cursor spinner for main vlc player commands
+* Added a custom spinner on mobile for main vlc player commands
+* Removed brightness reset on hover for vlc buttons
+* Fixed bug of randomly not executing vlc commands on tap on mobile
+* Fixed bug of randomly not loading the playlist I select
+* Fixed bug of playlist resyncing several times until it stabilizes
+* Fixed not serializable exception from ehcache
+* Added more automated tests in postman
+* Fixed ehcache api breaking with videoPlaylists
+* Fixed charset encoding when loading jsps (to utf-8)
+* Updated server management buttons with icons instead of text
+* Fixed x close position and styles on functionality not implemented modal
+* Updated deployment script to default to local environment (my.scripts repo)
+* Updated footer message
+* Added auto closeable modal
+* Huge refactor of all js code. Started using more lambda expressions where possible
+* Reorganized global functions into several utils prototypes
+* Simplified significantly js assigning functions to variables instead of redefining functions
+* Updated prod apache http config to pull static resources from git repo instead of going to tomcat
 
 #### v1.02
 
