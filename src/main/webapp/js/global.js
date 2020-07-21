@@ -141,7 +141,6 @@ function CursorUtils() {
  * Functionality related to file and filename manipulation. 
  */
 function FileUtils() {
-  let self = this;
 
   /** Get the last part of the absolute filename */
   // Split the filename into an array based on the path separators '/' and '\'

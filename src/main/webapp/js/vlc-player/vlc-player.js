@@ -44,7 +44,7 @@ function VlcPlayer(hostname) {
    */
   this.openTab = (vlcPlayerTabDivId) => {
     let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
-    for (i = 0; i < vlcPlayerTabContent.length; i++) {
+    for (let i = 0; i < vlcPlayerTabContent.length; i++) {
       vlcPlayerTabContent[i].style.display = "none";
     }
     let vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
