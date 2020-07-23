@@ -7,7 +7,7 @@ import com.nicobrest.kamehouse.main.utils.StringUtils;
 import java.util.Arrays;
 
 /**
- * System command to start a vlc player with an optional file to play.
+ * System command to start a vlc player with an optional file (or playlist) to play.
  * 
  * @author nbrest
  *
