@@ -18,4 +18,11 @@ public class StringUtils {
   public static String sanitizeInput(String input) {
     return input.replaceAll("[\n|\r|\t]", "");
   }
+
+  /**
+   * Wrapper for apache commmons StringUtils so I don't need to import both in the same file.
+   */
+  public static boolean isEmpty(String value) {
+    return org.apache.commons.lang3.StringUtils.isEmpty(value);
+  }
 }

@@ -26,8 +26,11 @@ import java.util.stream.Stream;
  */
 public class VideoPlaylistService {
 
-  private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
+  private static final String PROP_MEDIA_SERVER = "media.server";
   private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
+  private static final String PROP_PLAYLISTS_PATH_REMOTE = "playlists.path.remote";
+  private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
+  private static final String REMOTE_SERVER = "[REMOTE_SERVER]";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
   private static final String VIDEO_PLAYLISTS_CACHE = "videoPlaylists";
@@ -104,16 +107,32 @@ public class VideoPlaylistService {
   private Path getBasePlaylistsPath() {
     String userHome = PropertiesUtils.getUserHome();
     String videoPlaylistsHome;
-    if (PropertiesUtils.isWindowsHost()) {
-      String playlistsPathWindows = PropertiesUtils.getMediaVideoProperty(
-          PROP_PLAYLISTS_PATH_WINDOWS);
-      videoPlaylistsHome = userHome + playlistsPathWindows;
+    if (isMediaServerLocalhost()) {
+      if (PropertiesUtils.isWindowsHost()) {
+        String playlistsPathWindows = PropertiesUtils.getMediaVideoProperty(
+            PROP_PLAYLISTS_PATH_WINDOWS);
+        videoPlaylistsHome = userHome + playlistsPathWindows;
+      } else {
+        String playlistsPathLinux = PropertiesUtils.getMediaVideoProperty(
+            PROP_PLAYLISTS_PATH_LINUX);
+        videoPlaylistsHome = userHome + playlistsPathLinux;
+      }
     } else {
-      String playlistsPathLinux = PropertiesUtils.getMediaVideoProperty(
-          PROP_PLAYLISTS_PATH_LINUX);
-      videoPlaylistsHome = userHome + playlistsPathLinux;
+      String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER);
+      String playlistsPathRemote = PropertiesUtils.getMediaVideoProperty(
+          PROP_PLAYLISTS_PATH_REMOTE);
+      playlistsPathRemote = playlistsPathRemote.replace(REMOTE_SERVER, mediaServer);
+      videoPlaylistsHome = userHome + playlistsPathRemote;
     }
     return Paths.get(videoPlaylistsHome);
+  }
+
+  /**
+   * Checks if the current server running kamehouse is the media server.
+   */
+  private static boolean isMediaServerLocalhost() {
+    String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER);
+    return mediaServer.equalsIgnoreCase(PropertiesUtils.getHostname());
   }
 
   /**
