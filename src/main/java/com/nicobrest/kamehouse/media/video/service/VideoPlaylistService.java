@@ -26,10 +26,10 @@ import java.util.stream.Stream;
  */
 public class VideoPlaylistService {
 
-  private static final String PROP_MEDIA_SERVER = "media.server";
-  private static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
-  private static final String PROP_PLAYLISTS_PATH_REMOTE = "playlists.path.remote";
-  private static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
+  public static final String PROP_MEDIA_SERVER = "media.server";
+  public static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
+  public static final String PROP_PLAYLISTS_PATH_REMOTE = "playlists.path.remote";
+  public static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
   private static final String REMOTE_SERVER = "[REMOTE_SERVER]";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";

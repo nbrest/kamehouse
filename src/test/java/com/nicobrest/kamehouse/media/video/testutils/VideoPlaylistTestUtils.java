@@ -27,7 +27,10 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
   public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
   public static final String TEST_PLAYLISTS_ROOT_DIR = "src" + File.separator + "test"
       + File.separator + "resources" + File.separator + "media.video" + File.separator +
-      "playlists";
+      "playlists" + File.separator + "localhost";
+  public static final String TEST_PLAYLISTS_REMOTE_SERVER_DIR = "src" + File.separator + "test"
+      + File.separator + "resources" + File.separator + "media.video" + File.separator +
+      "playlists" + File.separator + "samba-niko-nba";
 
   @Override
   public void initTestData() {

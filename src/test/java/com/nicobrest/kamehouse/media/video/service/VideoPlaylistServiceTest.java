@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.media.video.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -42,9 +44,16 @@ public class VideoPlaylistServiceTest {
   public void before() {
     PowerMockito.mockStatic(PropertiesUtils.class);
     when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
+    when(PropertiesUtils.getHostname()).thenReturn("niko-nba");
     when(PropertiesUtils.getUserHome()).thenReturn(""); // Use git project root as home
-    when(PropertiesUtils.getMediaVideoProperty(anyString())).thenReturn(
-        VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
+    when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_LINUX))
+        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
+    when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_WINDOWS))
+        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
+    when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE))
+        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_SERVER_DIR);
+    when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_MEDIA_SERVER))
+        .thenCallRealMethod();
     videoPlaylistTestUtils.initTestData();
     expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
   }
@@ -53,13 +62,29 @@ public class VideoPlaylistServiceTest {
    * Gets all video playlists successful test.
    */
   @Test
-  public void getAllTest() {
+  public void getAllLocalMediaServerTest() {
     videoPlaylistTestUtils.clearFiles();
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
     videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
+  }
+
+  /**
+   * Gets all video playlists from remote media server successful test.
+   */
+  @Test
+  public void getAllRemoteMediaServerTest() {
+    when(PropertiesUtils.getHostname()).thenReturn("niko-kh-client");
+
+    videoPlaylistTestUtils.clearFiles();
+    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
+
+    List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
+
+    assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
+    assertTrue(returnedPlaylists.get(0).getPath().contains("samba-niko-nba"));
   }
 
   /**
