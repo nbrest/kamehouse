@@ -635,6 +635,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
         return true;
       }
     }
+    // Playlists are equal
     return false;
   }
 
