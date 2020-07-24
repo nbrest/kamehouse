@@ -622,20 +622,18 @@ function VlcPlayerPlaylist(vlcPlayer) {
     if (isEmpty(currentPlaylist) || isEmpty(updatedPlaylist)) {
       return true;
     }
-    if (currentPlaylist.length <= 0 || updatedPlaylist.length <= 0) {
-      return true;
-    }
     // If the sizes don't match, it's updated
     if (currentPlaylist.length != updatedPlaylist.length) {
       return true;
     }
-    // If the sizes match, compare each playlist element filename
-    for (let i = 0; i < currentPlaylist.length; i++) {
+    // If the sizes match, compare playlists elements in the specified increment. 
+    // Don't check all files to avoid doing too many comparisons in very large playlists
+    for (let i = 0; i < currentPlaylist.length; i = i + 20) {
       if (currentPlaylist[i].filename != updatedPlaylist[i].filename) {
         return true;
       }
     }
-    // Playlists are equal
+    // Playlist is not updated
     return false;
   }
 
