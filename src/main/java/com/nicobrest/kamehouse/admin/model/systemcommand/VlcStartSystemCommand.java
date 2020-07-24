@@ -23,7 +23,7 @@ public class VlcStartSystemCommand extends SystemCommand {
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "vlc"));    
     if (filename != null) {
       if (FileUtils.isRemoteFile(filename)) {
-        filename = StringUtils.sanitizeInput(filename);
+        //TODO: Validate input for command line execution
       } else {
         if (!FileUtils.isValidLocalFile(filename)) {
           throw new KameHouseInvalidCommandException("File to play doesn't exist on the server: "
