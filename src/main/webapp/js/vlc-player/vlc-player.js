@@ -582,10 +582,9 @@ function VlcPlayerPlaylist(vlcPlayer) {
   const playSelectedUrl = '/kame-house/api/v1/vlc-rc/players/localhost/commands';
 
   /** Reload playlist updating the playlist view. */
-  this.reload = (playlistArray) => {
-    //logger.traceFunctionCall();
-    //TODO: Look for a more efficient array comparison than stringify
-    if (JSON.stringify(self.currentPlaylist) == JSON.stringify(playlistArray)) {
+  this.reload = (playlistArray) => { 
+    if (!self.isPlaylistUpdated(self.currentPlaylist, playlistArray)) {
+      // Playlist content not updated, just update currently playing element and return
       self.highlightCurrentPlayingItem();
       return;
     }
@@ -615,6 +614,28 @@ function VlcPlayerPlaylist(vlcPlayer) {
       self.toggleExpandPlaylistFilenames();
       self.highlightCurrentPlayingItem();
     }
+  }
+
+  /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */
+  this.isPlaylistUpdated = (currentPlaylist, updatedPlaylist) => {
+    // For empty playlists, return true, so it updates the UI
+    if (isEmpty(currentPlaylist) || isEmpty(updatedPlaylist)) {
+      return true;
+    }
+    if (currentPlaylist.length <= 0 || updatedPlaylist.length <= 0) {
+      return true;
+    }
+    // If the sizes don't match, it's updated
+    if (currentPlaylist.length != updatedPlaylist.length) {
+      return true;
+    }
+    // If the sizes match, compare each playlist element filename
+    for (let i = 0; i < currentPlaylist.length; i++) {
+      if (currentPlaylist[i].filename != updatedPlaylist[i].filename) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /** Play the clicked element from the playlist. */

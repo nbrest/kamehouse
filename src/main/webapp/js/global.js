@@ -61,7 +61,7 @@ function main() {
  */
 function CoreUtils() {
   let self = this;
-  
+
   /** Set the global variable and set the external reference to global to be used without coreUtils. prefix */
   this.global = {};
   this.global.session = {};
@@ -186,7 +186,7 @@ function ModuleUtils() {
       });
     });
   }
-    
+
   this.loadWebSocketKameHouse = () => {
     $.getScript("/kame-house/js/utils/websocket-kamehouse.js", (data, textStatus, jqxhr) =>
       self.waitForModules(["logger"], () => self.setModuleLoaded("webSocketKameHouse")));
