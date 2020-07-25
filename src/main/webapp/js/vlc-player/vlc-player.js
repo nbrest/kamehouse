@@ -7,7 +7,7 @@
  * VlcPlayerSynchronizer, VlcPlayerMainViewUpdater, VlcPlayerDebugger
  * 
  * This prototype contains the public interface to interact with VlcPlayer. The logic is
- * implemented in the component prototypes mentioned below. It was designed this way because
+ * implemented in the component prototypes mentioned above. It was designed this way because
  * VlcPlayer does a lot of functionality, so it seems best to split it into different
  * prototypes that each handle more specific functionality.
  * 
