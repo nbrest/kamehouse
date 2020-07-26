@@ -58,4 +58,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(),
         HttpStatus.INTERNAL_SERVER_ERROR, request);
   }
+
+  @ExceptionHandler(value = { NullPointerException.class })
+  protected ResponseEntity<Object> handleGenericException(RuntimeException ex, WebRequest request) {
+    logger.error(ex.getMessage(), ex);
+    return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(),
+        HttpStatus.INTERNAL_SERVER_ERROR, request);
+  }
 }
