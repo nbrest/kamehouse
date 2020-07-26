@@ -49,7 +49,7 @@ public abstract class VncDoSystemCommand extends SystemCommand {
 
   @Override
   public String toString() {
-    String[] hiddenFields = { "linuxCommand", "windowsCommand" };
-    return JsonUtils.toJsonString(this, super.toString(), hiddenFields);
+    String[] maskedFields = { "linuxCommand", "windowsCommand" };
+    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

@@ -20,7 +20,7 @@ public class JsonUtils {
   public static final String DEFAULT_VALUE = "{\"message\": \"Unable to convert object to json "
       + "string.\"}";
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
-  private static final String HIDDEN_FROM_LOGS = "Field content hidden from logs.";
+  private static final String FIELD_MASK = "****";
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   private JsonUtils() {
@@ -37,16 +37,16 @@ public class JsonUtils {
   }
 
   /**
-   * Converts an object to a JSON string filtering the specified hidden fields.
+   * Converts an object to a JSON string filtering the specified masked fields.
    * Returns the specified default value if the conversion to JSON fails.
    */
-  public static String toJsonString(Object object, String defaultValue, String[] hiddenFields) {
+  public static String toJsonString(Object object, String defaultValue, String[] maskedFields) {
     try {
       ObjectNode objectNode = MAPPER.valueToTree(object);
-      for (String hiddenField : hiddenFields) {
-        if (objectNode.has(hiddenField)) {
-          objectNode.remove(hiddenField);
-          objectNode.put(hiddenField, HIDDEN_FROM_LOGS);
+      for (String maskedField : maskedFields) {
+        if (objectNode.has(maskedField)) {
+          objectNode.remove(maskedField);
+          objectNode.put(maskedField, FIELD_MASK);
         }
       }
       return MAPPER.writer().writeValueAsString(objectNode);

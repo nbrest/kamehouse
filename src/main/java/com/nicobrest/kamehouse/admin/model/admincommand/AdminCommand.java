@@ -30,7 +30,7 @@ public abstract class AdminCommand {
   
   @Override
   public String toString() {
-    String[] hiddenFields = { "systemCommands" };
-    return JsonUtils.toJsonString(this, super.toString(), hiddenFields);
+    String[] maskedFields = { "systemCommands" };
+    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

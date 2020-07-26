@@ -41,14 +41,14 @@ public class JsonUtilsTest {
   }
 
   /**
-   * Tests toJsonString with hidden fields.
+   * Tests toJsonString with masked fields.
    */
   @Test
-  public void toJsonStringWithHiddenFieldsTest() {
-    String[] hiddenFields = { "textField", "doubleField" };
-    String output = JsonUtils.toJsonString(jsonNode, null, hiddenFields);
-    String expectedOutput = "{\"intField\":128,\"booleanField\":true,\"textField\":\"Field " +
-        "content hidden from logs.\",\"doubleField\":\"Field content hidden from logs.\"}";
+  public void toJsonStringWithMaskedFieldsTest() {
+    String[] maskedFields = { "textField", "doubleField" };
+    String output = JsonUtils.toJsonString(jsonNode, null, maskedFields);
+    String expectedOutput = "{\"intField\":128,\"booleanField\":true,\"textField\":\"****\"," +
+        "\"doubleField\":\"****\"}";
     assertEquals(expectedOutput, output);
   }
 

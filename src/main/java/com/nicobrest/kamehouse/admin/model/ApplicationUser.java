@@ -228,7 +228,7 @@ public class ApplicationUser implements Identifiable, UserDetails {
 
   @Override
   public String toString() {
-    String[] hiddenFields = { "password", "authorities" };
-    return JsonUtils.toJsonString(this, super.toString(), hiddenFields);
+    String[] maskedFields = { "password", "authorities" };
+    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

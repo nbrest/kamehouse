@@ -162,7 +162,7 @@ public class ApplicationUserDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] hiddenFields = { "password", "authorities" };
-    return JsonUtils.toJsonString(this, super.toString(), hiddenFields);
+    String[] maskedFields = { "password", "authorities" };
+    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }
