@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Utility class to perform HTTP requests to other services from the backend.
@@ -45,7 +46,17 @@ public class HttpClientUtils {
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
     credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-    return HttpClientBuilder.create().setDefaultCredentialsProvider(credentialsProvider).build();
+    return HttpClientBuilder.create()
+        .setDefaultCredentialsProvider(credentialsProvider)
+        .disableConnectionState()
+        .disableAutomaticRetries()
+        .evictExpiredConnections()
+        .evictIdleConnections(180, TimeUnit.SECONDS)
+        .useSystemProperties()
+        .setConnectionTimeToLive(180, TimeUnit.SECONDS)
+        .setMaxConnPerRoute(1000)
+        .setMaxConnTotal(1000)
+        .build();
   }
 
   /**
