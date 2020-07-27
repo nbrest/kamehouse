@@ -37,8 +37,8 @@ public class TennisWorldBookingService {
   private static final String INITIAL_LOGIN_URL = ROOT_URL + "/customer/mobile/login";
   private static final String SITE_LINK_HREF = "/customer/mobile/login/complete_login/";
   private static final String DASHBOARD_URL = ROOT_URL + "/customer/mobile/dashboard";
-  private static final String BOOK_OVERLAY_AJAX_URL = ROOT_URL + "/customer/mobile/facility" +
-      "/book_overlay_ajax";
+  private static final String BOOK_OVERLAY_AJAX_URL = ROOT_URL + "/customer/mobile/facility"
+      + "/book_overlay_ajax";
   private static final String CONFIRM_BOOKING_URL = ROOT_URL + "/customer/mobile/facility/confirm";
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
