@@ -53,6 +53,10 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <bean id="videoPlaylistService"
     class="com.nicobrest.kamehouse.media.video.service.VideoPlaylistService" />
 
+  <!-- tennisworld beans -->
+  <bean id="tennisWorldBookingService"
+    class="com.nicobrest.kamehouse.tennisworld.service.TennisWorldBookingService" />
+
   <!-- vlc-rc beans -->
   <bean id="vlcRcService"
     class="com.nicobrest.kamehouse.vlcrc.service.VlcRcService">
