@@ -34,6 +34,12 @@ import java.util.List;
 public class TennisWorldBookingService {
 
   private static final String ROOT_URL = "https://bookings.tennisworld.net.au";
+  private static final String INITIAL_LOGIN_URL = ROOT_URL + "/customer/mobile/login";
+  private static final String SITE_LINK_HREF = "/customer/mobile/login/complete_login/";
+  private static final String DASHBOARD_URL = ROOT_URL + "/customer/mobile/dashboard";
+  private static final String BOOK_OVERLAY_AJAX_URL = ROOT_URL + "/customer/mobile/facility" +
+      "/book_overlay_ajax";
+  private static final String CONFIRM_BOOKING_URL = ROOT_URL + "/customer/mobile/facility/confirm";
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   public TennisWorldBookingResponse book(TennisWorldBookingRequest tennisWorldBookingRequest) {
@@ -114,10 +120,10 @@ public class TennisWorldBookingService {
       List<NameValuePair> params = new ArrayList<>();
       params.add(new BasicNameValuePair("username", tennisWorldBookingRequest.getUsername()));
       params.add(new BasicNameValuePair("password", tennisWorldBookingRequest.getPassword()));
-      String initialLoginUrl = ROOT_URL + "/customer/mobile/login";
-      HttpPost initialLoginPostRequest = new HttpPost(initialLoginUrl);
+
+      HttpPost initialLoginPostRequest = new HttpPost(INITIAL_LOGIN_URL);
       initialLoginPostRequest.setEntity(new UrlEncodedFormEntity(params));
-      logger.info("Step 1.1: POST request to: " + initialLoginUrl);
+      logger.info("Step 1.1: POST request to: " + INITIAL_LOGIN_URL);
       HttpResponse initialLoginPostResponse = httpClient.execute(initialLoginPostRequest);
       logHttpResponseCode(initialLoginPostResponse);
       logHtmlResponse(IOUtils.toString(initialLoginPostResponse.getEntity().getContent()),
@@ -136,13 +142,12 @@ public class TennisWorldBookingService {
       logHtmlResponse(completeLoginAllSitesResponseHtml, debugMode);
       Document completeLoginAllSitesResponseDocument =
           Jsoup.parse(completeLoginAllSitesResponseHtml);
-      String siteLinkHref = "/customer/mobile/login/complete_login/";
       Elements tennisWorldSiteLinks = completeLoginAllSitesResponseDocument
-          .getElementsByAttributeValueMatching("href", siteLinkHref);
+          .getElementsByAttributeValueMatching("href", SITE_LINK_HREF);
       String selectedSiteId = null;
       for (Element tennisWorldSite : tennisWorldSiteLinks) {
         String siteName = tennisWorldSite.getElementsByTag("p").text();
-        String siteId = tennisWorldSite.attr("href").substring(siteLinkHref.length());
+        String siteId = tennisWorldSite.attr("href").substring(SITE_LINK_HREF.length());
         logDebug("siteName:" + siteName + "; siteId:" + siteId, debugMode);
         if (siteName != null && siteName.equalsIgnoreCase(tennisWorldBookingRequest.getSite())) {
           selectedSiteId = siteId;
@@ -197,8 +202,7 @@ public class TennisWorldBookingService {
                                       boolean debugMode) {
     try {
       Thread.sleep(1000);
-      String dashboardUrl = ROOT_URL + "/customer/mobile/dashboard#";
-      String selectedSessionTypeUrl = dashboardUrl + selectedSessionTypeId;
+      String selectedSessionTypeUrl = DASHBOARD_URL + "#" +  selectedSessionTypeId;
       HttpGet httpGet = HttpClientUtils.httpGet(selectedSessionTypeUrl);
       logger.info("Step 2: GET request to: " + selectedSessionTypeUrl);
       logRequestHeaders(httpGet, debugMode);
@@ -327,17 +331,16 @@ public class TennisWorldBookingService {
                                    String bookingDuration, boolean debugMode) {
     try {
       Thread.sleep(1000);
-      String loadOverlayAjaxUrl = ROOT_URL + "/customer/mobile/facility/book_overlay_ajax";
       List<NameValuePair> loadSessionAjaxParams = new ArrayList<>();
       loadSessionAjaxParams.add(new BasicNameValuePair("site_facilitygroup_id",
           siteFacilityGroupId));
       loadSessionAjaxParams.add(new BasicNameValuePair("booking_time", bookingTime));
       loadSessionAjaxParams.add(new BasicNameValuePair("event_duration", bookingDuration));
-      HttpPost loadSessionAjaxRequestHttpPost = new HttpPost(loadOverlayAjaxUrl);
+      HttpPost loadSessionAjaxRequestHttpPost = new HttpPost(BOOK_OVERLAY_AJAX_URL);
       loadSessionAjaxRequestHttpPost.setEntity(new UrlEncodedFormEntity(loadSessionAjaxParams));
       loadSessionAjaxRequestHttpPost.setHeader("Referer", ROOT_URL + selectedSessionDatePath);
       loadSessionAjaxRequestHttpPost.setHeader("X-Requested-With", "XMLHttpRequest");
-      logger.info("Step 5: POST request to: " + loadOverlayAjaxUrl);
+      logger.info("Step 5: POST request to: " + BOOK_OVERLAY_AJAX_URL);
       logRequestHeaders(loadSessionAjaxRequestHttpPost, debugMode);
       HttpResponse httpResponse = httpClient.execute(loadSessionAjaxRequestHttpPost);
       logHttpResponseCode(httpResponse);
@@ -358,11 +361,10 @@ public class TennisWorldBookingService {
     try {
       Thread.sleep(1000);
       String selectedSessionDateUrl = ROOT_URL + selectedSessionDatePath;
-      String confirmBookingUrl = ROOT_URL + "/customer/mobile/facility/confirm";
-      HttpGet httpGet = HttpClientUtils.httpGet(confirmBookingUrl);
+      HttpGet httpGet = HttpClientUtils.httpGet(CONFIRM_BOOKING_URL);
       httpGet.setHeader("Referer", selectedSessionDateUrl);
       httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
-      logger.info("Step 6: GET request to: " + confirmBookingUrl);
+      logger.info("Step 6: GET request to: " + CONFIRM_BOOKING_URL);
       logRequestHeaders(httpGet, debugMode);
       HttpResponse httpResponse = httpClient.execute(httpGet);
       logHttpResponseCode(httpResponse);
@@ -383,7 +385,6 @@ public class TennisWorldBookingService {
                                           boolean debugMode) {
     try {
       Thread.sleep(1000);
-      String confirmBookingUrl = ROOT_URL + "/customer/mobile/facility/confirm";
       List<NameValuePair> confirmBookingParams = new ArrayList<>();
       if (cardDetails != null) {
         confirmBookingParams.add(new BasicNameValuePair("name_on_card",
@@ -398,11 +399,11 @@ public class TennisWorldBookingService {
             cardDetails.getCvv()));
       }
       confirmBookingParams.add(new BasicNameValuePair("submit", "Confirm and pay"));
-      HttpPost confirmBookingHttpPost = new HttpPost(confirmBookingUrl);
+      HttpPost confirmBookingHttpPost = new HttpPost(CONFIRM_BOOKING_URL);
       confirmBookingHttpPost.setEntity(new UrlEncodedFormEntity(confirmBookingParams));
-      confirmBookingHttpPost.setHeader("Referer", confirmBookingUrl);
+      confirmBookingHttpPost.setHeader("Referer", CONFIRM_BOOKING_URL);
       confirmBookingHttpPost.setHeader("X-Requested-With", "XMLHttpRequest");
-      logger.info("Step 7: POST request to: " + confirmBookingUrl);
+      logger.info("Step 7: POST request to: " + CONFIRM_BOOKING_URL);
       logRequestHeaders(confirmBookingHttpPost, debugMode);
       HttpResponse httpResponse = httpClient.execute(confirmBookingHttpPost);
       logHttpResponseCode(httpResponse);
@@ -433,9 +434,8 @@ public class TennisWorldBookingService {
                                     boolean debugMode) {
     try {
       Thread.sleep(1000);
-      String confirmBookingUrl = ROOT_URL + "/customer/mobile/facility/confirm";
       HttpGet httpGet = HttpClientUtils.httpGet(confirmBookingRedirectUrl);
-      httpGet.setHeader("Referer", confirmBookingUrl);
+      httpGet.setHeader("Referer", CONFIRM_BOOKING_URL);
       httpGet.setHeader("X-Requested-With", "XMLHttpRequest");
       logger.info("Step 8: GET request to: " + confirmBookingRedirectUrl);
       logRequestHeaders(httpGet, debugMode);
