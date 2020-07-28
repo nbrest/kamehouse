@@ -618,7 +618,7 @@ public class TennisWorldBookingService {
    * Checks if the specified html string contains error messages from tennis world.
    */
   private boolean hasError(Document page) {
-    if (page != null && page.body()!= null) {
+    if (page != null && page.body() != null) {
       if (page.body().outerHtml().contains(ERROR_OCCURRED)) {
         Element errorMessage = page.body().getElementById(ID_ERROR_MESSAGE);
         if (errorMessage != null && errorMessage.text() != null
