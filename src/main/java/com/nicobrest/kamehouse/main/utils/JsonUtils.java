@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.main.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,6 +38,23 @@ public class JsonUtils {
   }
 
   /**
+   * Converts a string to a JSON object. Returns null if it can't do the mapping.
+   */
+  public static JsonNode toJson(String objectString) {
+    if (objectString == null) {
+      return null;
+    }
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(Include.NON_NULL);
+    try {
+      return mapper.readTree(objectString);
+    } catch (IOException e) {
+      LOGGER.warn("Unable to map '" + objectString + "' to a json object");
+      return null;
+    }
+  }
+
+  /**
    * Converts an object to a JSON string filtering the specified masked fields.
    * Returns the specified default value if the conversion to JSON fails.
    */
@@ -68,7 +86,7 @@ public class JsonUtils {
         new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
       */
       return MAPPER.writer().writeValueAsString(object);
-    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+    } catch (JsonProcessingException e) {
       LOGGER.error("Error formatting object as json", e);
       return defaultValue;
     }

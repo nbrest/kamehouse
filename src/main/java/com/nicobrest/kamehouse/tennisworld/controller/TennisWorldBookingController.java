@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
 import com.nicobrest.kamehouse.tennisworld.service.TennisWorldBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,11 @@ public class TennisWorldBookingController extends AbstractController {
     logger.info("Processing booking request: " + tennisWorldBookingRequest);
     TennisWorldBookingResponse tennisWorldBookingResponse =
         tennisWorldBookingService.book(tennisWorldBookingRequest);
-    return generatePostResponseEntity(tennisWorldBookingResponse);
+    if (tennisWorldBookingService.ERROR.equals(tennisWorldBookingResponse.getStatus())) {
+      logger.error("Response {}", tennisWorldBookingResponse);
+      return new ResponseEntity<>(tennisWorldBookingResponse, HttpStatus.BAD_REQUEST);
+    } else {
+      return generatePostResponseEntity(tennisWorldBookingResponse);
+    }
   }
 }
