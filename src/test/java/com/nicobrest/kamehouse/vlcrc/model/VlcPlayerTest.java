@@ -169,6 +169,6 @@ public class VlcPlayerTest {
   private void setupInputStreamMock(String resourceName) throws Exception {
     InputStream vlcRcFilelistInputStream =
         VlcPlayerTestUtils.getInputStreamFromResource(resourceName);
-    when(HttpClientUtils.getInputStreamFromResponse(any())).thenReturn(vlcRcFilelistInputStream);
+    when(HttpClientUtils.getInputStream(any())).thenReturn(vlcRcFilelistInputStream);
   }
 }

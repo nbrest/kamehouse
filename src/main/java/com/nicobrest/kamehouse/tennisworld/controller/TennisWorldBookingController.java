@@ -35,11 +35,15 @@ public class TennisWorldBookingController extends AbstractController {
     logger.info("Processing booking request: " + tennisWorldBookingRequest);
     TennisWorldBookingResponse tennisWorldBookingResponse =
         tennisWorldBookingService.book(tennisWorldBookingRequest);
-    if (tennisWorldBookingService.ERROR.equals(tennisWorldBookingResponse.getStatus())) {
-      logger.error("Response {}", tennisWorldBookingResponse);
-      return new ResponseEntity<>(tennisWorldBookingResponse, HttpStatus.BAD_REQUEST);
-    } else {
-      return generatePostResponseEntity(tennisWorldBookingResponse);
+    switch (tennisWorldBookingResponse.getStatus()) {
+      case ERROR:
+        logger.error("Response {}", tennisWorldBookingResponse);
+        return new ResponseEntity<>(tennisWorldBookingResponse, HttpStatus.BAD_REQUEST);
+      case INTERNAL_ERROR:
+        logger.error("Response {}", tennisWorldBookingResponse);
+        return new ResponseEntity<>(tennisWorldBookingResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+      default:
+        return generatePostResponseEntity(tennisWorldBookingResponse);
     }
   }
 }

@@ -233,8 +233,8 @@ public class VlcPlayer implements Identifiable, Serializable {
     LOGGER.trace("Request to VLC: {}", url);
     try {
       response = HttpClientUtils.execRequest(client, request);
-      try (InputStream resInStream = HttpClientUtils.getInputStreamFromResponse(response);
-          BufferedReader responseReader = new BufferedReader(new InputStreamReader(resInStream))) {
+      try (InputStream resInStream = HttpClientUtils.getInputStream(response);
+           BufferedReader responseReader = new BufferedReader(new InputStreamReader(resInStream))) {
         StringBuilder responseBody = new StringBuilder();
         String line = "";
         while ((line = responseReader.readLine()) != null) {

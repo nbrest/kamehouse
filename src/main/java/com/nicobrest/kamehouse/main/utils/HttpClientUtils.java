@@ -2,7 +2,9 @@ package com.nicobrest.kamehouse.main.utils;
 
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -27,6 +29,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class HttpClientUtils {
 
+  private static final int TIME_TO_LIVE = 180;
+  private static final int MAX_CONNECTIONS = 1000;
   private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtils.class);
 
   private HttpClientUtils() {
@@ -50,17 +54,44 @@ public class HttpClientUtils {
         .setDefaultCredentialsProvider(credentialsProvider)
         .disableConnectionState()
         .disableAutomaticRetries()
-        .setConnectionTimeToLive(180, TimeUnit.SECONDS)
-        .setMaxConnPerRoute(1000)
-        .setMaxConnTotal(1000)
+        .setConnectionTimeToLive(TIME_TO_LIVE, TimeUnit.SECONDS)
+        .setMaxConnPerRoute(MAX_CONNECTIONS)
+        .setMaxConnTotal(MAX_CONNECTIONS)
         .build();
   }
 
   /**
    * Returns the response content as an InputStream.
    */
-  public static InputStream getInputStreamFromResponse(HttpResponse response) throws IOException {
+  public static InputStream getInputStream(HttpResponse response) throws IOException {
     return response.getEntity().getContent();
+  }
+
+  /**
+   * Returns the status line from the response.
+   */
+  public static StatusLine getStatusLine(HttpResponse response) {
+    return response.getStatusLine();
+  }
+
+  /**
+   * Returns the status code from the response.
+   */
+  public static int getStatusCode(HttpResponse response) {
+    return response.getStatusLine().getStatusCode();
+  }
+
+  /**
+   * Returns the specified header from the response or null if not found.
+   */
+  public static String getHeader(HttpResponse response, String key) {
+    if (response != null) {
+      Header header = response.getFirstHeader(key);
+      if (header != null) {
+        return header.getValue();
+      }
+    }
+    return null;
   }
 
   /**

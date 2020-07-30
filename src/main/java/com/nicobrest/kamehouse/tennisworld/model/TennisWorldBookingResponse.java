@@ -10,14 +10,14 @@ import java.util.Objects;
  * @author nbrest
  */
 public class TennisWorldBookingResponse {
-  private String status;
+  private Status status;
   private String message;
 
-  public String getStatus() {
+  public Status getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(Status status) {
     this.status = status;
   }
 
@@ -49,5 +49,14 @@ public class TennisWorldBookingResponse {
   @Override
   public String toString() {
     return JsonUtils.toJsonString(this, super.toString());
+  }
+
+  /**
+   * Final status of the tennis world booking request.
+   */
+  public enum Status {
+    SUCCESS,
+    ERROR,
+    INTERNAL_ERROR
   }
 }

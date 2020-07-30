@@ -22,6 +22,7 @@ public class TennisWorldBookingRequest {
   private CardDetails cardDetails;
   // I will need debugMode to troubleshoot issues when TW updates their APIs
   private boolean debugMode = false;
+  private boolean dryRun = false;
 
   public void setUsername(String username) {
     this.username = username;
@@ -93,6 +94,14 @@ public class TennisWorldBookingRequest {
 
   public void setDebugMode(boolean debugMode) {
     this.debugMode = debugMode;
+  }
+
+  public boolean isDryRun() {
+    return dryRun;
+  }
+
+  public void setDryRun(boolean dryRun) {
+    this.dryRun = dryRun;
   }
 
   @Override
