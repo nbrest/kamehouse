@@ -4,13 +4,17 @@ import com.nicobrest.kamehouse.main.utils.JsonUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import java.io.Serializable;
+
 /**
  * Represents a tennis world booking request.
  * 
  * @author nbrest
  *
  */
-public class TennisWorldBookingRequest {
+public class TennisWorldBookingRequest implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private String username;
   private String password;
@@ -142,7 +146,10 @@ public class TennisWorldBookingRequest {
   /**
    * Card details to complete the payment.
    */
-  public static class CardDetails {
+  public static class CardDetails implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private String number;
     private String expiryDate; // Format: MM/YYYY

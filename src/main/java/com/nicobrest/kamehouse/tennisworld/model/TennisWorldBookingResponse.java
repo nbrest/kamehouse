@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.model;
 
 import com.nicobrest.kamehouse.main.utils.JsonUtils;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,10 @@ import java.util.Objects;
  *
  * @author nbrest
  */
-public class TennisWorldBookingResponse {
+public class TennisWorldBookingResponse implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   private Status status;
   private String message;
 
