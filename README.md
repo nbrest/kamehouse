@@ -13,6 +13,7 @@ This application (still heavily under construction) will contain the following m
 * Manage my media files (store their location and information in a database and create interfaces to play them)
 * Control multiple VLC Players through a custom interface using VLC's http API
 * Control the server running the application (shutdown, suspend, lock screen, unlock screen, etc)
+* Do automated bookings to tennis world (australia)
 * Login system
 * Application administration view (secured through Spring Security)
 * About and contact us
@@ -31,6 +32,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * Hibernate
 * Hsqldb
 * Ehcache
+* Jsoup
+* Apache Commons
 
 ### Javascript frameworks/libraries:
 
