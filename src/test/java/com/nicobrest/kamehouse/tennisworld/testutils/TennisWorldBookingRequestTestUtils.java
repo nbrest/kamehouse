@@ -40,13 +40,19 @@ public class TennisWorldBookingRequestTestUtils extends
 
   private void initSingleTestData() {
     singleTestData = new TennisWorldBookingRequest();
-    singleTestData.setDate("08:00pm");
+    singleTestData.setDate("2020-07-28");
+    singleTestData.setTime("06:45pm");
     singleTestData.setDuration("60");
     singleTestData.setPassword("goku-son");
     singleTestData.setUsername("goku@dbz.com");
-    singleTestData.setSessionType("Rod Laver Arena Showcourt");
+    singleTestData.setSessionType("Rod Laver Arena Outdoor");
     singleTestData.setSite("Tennis World - Melbourne Park");
-    singleTestData.setCardDetails(null);
+    TennisWorldBookingRequest.CardDetails cardDetails = new TennisWorldBookingRequest.CardDetails();
+    cardDetails.setName("SON GOKU");
+    cardDetails.setNumber("1111222233334444");
+    cardDetails.setCvv("999");
+    cardDetails.setExpiryDate("12/3099");
+    singleTestData.setCardDetails(cardDetails);
   }
 
   private void initTestDataList() {

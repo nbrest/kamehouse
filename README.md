@@ -22,7 +22,7 @@ This application (still heavily under construction) will contain the following m
 
 The main idea of this application is to keep improving and learning best practices of software development with Java and frontend technologies, so if you are a software developer and can look through the code and see vulnerabilities or things to improve I'd be more than happy to hear about them!
 
-The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **cobertura**, validate code with **findbugs** and the style with **checkstyle**.
+The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **jacoco**, validate code with **findbugs** and the style with **checkstyle**.
 
 ### Java frameworks/libraries:
 

@@ -167,8 +167,7 @@ public class VlcPlayerTest {
    * Setup input stream mock from files in test resources.
    */
   private void setupInputStreamMock(String resourceName) throws Exception {
-    InputStream vlcRcFilelistInputStream =
-        VlcPlayerTestUtils.getInputStreamFromResource(resourceName);
-    when(HttpClientUtils.getInputStream(any())).thenReturn(vlcRcFilelistInputStream);
+    InputStream inputStream = VlcPlayerTestUtils.getInputStream(resourceName);
+    when(HttpClientUtils.getInputStream(any())).thenReturn(inputStream);
   }
 }

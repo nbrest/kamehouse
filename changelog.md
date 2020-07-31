@@ -1,5 +1,13 @@
 # ChangeLog:
 
+#### v1.04
+
+* Added backend to execute bookings (of facility overlay type) to tennis world australia with a single API call. The current manual process using tennis world's mobile UI is 11 API calls.e
+* Improved playlist comparison algorithm to handle better larger playlists
+* Set a media server that contains all the media files and allowed to stream files and playlists from the media server in the computer running kame-house
+* Replaced cobertura with jacoco for code coverage checks
+* Added more words in Japanese to kame-house frontend :)
+
 #### v1.03
 
 * Updated icons in vlc player

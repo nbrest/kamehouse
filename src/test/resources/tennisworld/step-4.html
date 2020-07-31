@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>SAMPLE STEP 4 RESPONSE</title>
+</head>
+<body>
+<div data-role="page" id="facility_dialog">
+    <div data-role="header" data-theme="b">
+        <h1>Book Facility</h1>
+    </div>
+
+    <div class="ui-bar ui-bar-e" id="error-stack" style="display: none">
+        <h3 style="display:inline-block; width:92%; margin-top:5px;">An error has occured. </h3><div style="display:inline-block; width:8%; margin-top:0px; text-align:right;"><a href="#" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext" class="hide_ui_message">Dismiss</a></div>
+        <p style="font-size:85%; margin:-.3em 0 1em;" id="error-message"></p>
+    </div>
+
+    <div data-role="content">
+        <div class="ui-grid-a">
+            <div class="ui-block-a"><strong> Facility:</strong></div>
+            <div class="ui-block-b">Rod Laver Arena Outdoor</div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a"><strong>Date:</strong></div>
+            <div class="ui-block-b">28 Jul 2020</div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a"><strong>Time:</strong></div>
+            <div class="ui-block-b">6:45pm</div>
+        </div>
+        <div data-role="fieldcontain" class="ui-grid-a">
+            <label for="overlayevent_duration">Duration:</label>
+            <select name="overlayevent_duration" id="overlayevent_duration">
+                <option value="30">30mins</option>
+                <option value="60">1hours</option>
+            </select>
+        </div>
+        <a href="#" data-role="button" data-theme="b" id="book_now_overlayfacility" site_facilitygroup_id="731" booking_time="1595925900">Book Now</a>
+        <a href="#" data-role="button" data-rel="back" data-theme="c">Cancel</a>
+    </div>
+</div>
+</body>
+</html>

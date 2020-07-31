@@ -39,7 +39,7 @@ import java.util.List;
 public class TennisWorldBookingService {
 
   // URLs
-  private static final String ROOT_URL = "https://bookings.tennisworld.net.au";
+  public static final String ROOT_URL = "https://bookings.tennisworld.net.au";
   private static final String INITIAL_LOGIN_URL = ROOT_URL + "/customer/mobile/login";
   private static final String SITE_LINK_HREF = "/customer/mobile/login/complete_login/";
   private static final String DASHBOARD_URL = ROOT_URL + "/customer/mobile/dashboard";
@@ -61,9 +61,16 @@ public class TennisWorldBookingService {
   private static final String ID_ERROR_STACK = "error-stack";
   private static final String ID_ERROR_MESSAGE = "error-message";
   // Other constants
-  private static final int SLEEP_MS = 1000;
+  private static int SLEEP_MS = 500;
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
+
+  /**
+   * Set the sleep ms between requests.
+   */
+  public static void setSleepMs(int sleepMs) {
+    SLEEP_MS = sleepMs;
+  }
 
   public TennisWorldBookingResponse book(TennisWorldBookingRequest tennisWorldBookingRequest) {
     return bookFacilityOverlayRequest(tennisWorldBookingRequest);

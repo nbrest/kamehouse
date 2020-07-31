@@ -10,7 +10,6 @@
   <url>https://www.nicobrest.com/kame-house/</url>
 
   <properties>
-    <cobertura.version>2.7</cobertura.version>                          <!-- Updated 2019/05 -->
     <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
     <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
     <commons.lang.version>2.6</commons.lang.version>                    <!-- Updated 2016/02 -->
@@ -24,6 +23,7 @@
     <hsql.version>2.3.2</hsql.version>                                  <!-- Updated 2016/02 -->
     <httpclient.version>4.5.3</httpclient.version>                      <!-- Updated 2017/10 -->
     <jackson.version>2.9.9</jackson.version>                            <!-- Updated 2019/09 -->
+    <jacoco.version>0.8.5</jacoco.version>                              <!-- Updated 2020/07 -->
     <javax.servlet.version>3.0.1</javax.servlet.version>                <!-- Updated 2016/02 -->
     <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
     <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
@@ -372,29 +372,50 @@
         <version>${checkstyle.version}</version>
       </plugin>
 
-      <!-- cobertura: Checks that expected test coverage percentage is met -->
+      <!-- jacoco code coverage -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${cobertura.version}</version>
-        <configuration>
-          <check>
-            <haltOnFailure>true</haltOnFailure>
-            <totalBranchRate>60</totalBranchRate>
-            <totalLineRate>80</totalLineRate>
-          </check>
-          <formats>
-            <format>xml</format>
-            <format>html</format>
-          </formats>
-        </configuration>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
         <executions>
           <execution>
-            <phase>verify</phase>
             <goals>
-              <goal>cobertura</goal>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <!-- attached to Maven test phase -->
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-check</id>
+            <phase>test</phase>
+            <goals>
               <goal>check</goal>
             </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.80</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.60</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -475,7 +496,6 @@
                 <failsOnError>true</failsOnError>
                 <failOnViolation>true</failOnViolation>
                 <violationSeverity>warning</violationSeverity>
-                <linkXRef>false</linkXRef>
               </configuration>
               <goals>
                 <goal>check</goal>
@@ -494,14 +514,6 @@
       </resource>
     </resources>
   </build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
 
   <!-- Profile definitions -->
   <profiles>

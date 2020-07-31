@@ -23,7 +23,7 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
    * Gets the input stream of the specified resource. Can be used to load files
    * such as vlcrc/vlc-rc-status.json on test cases.
    */
-  public static InputStream getInputStreamFromResource(String resourceName) {
+  public static InputStream getInputStream(String resourceName) {
     ClassLoader classLoader = AbstractTestUtils.class.getClassLoader();
     InputStream inputStream = classLoader.getResourceAsStream(resourceName);
     return inputStream;

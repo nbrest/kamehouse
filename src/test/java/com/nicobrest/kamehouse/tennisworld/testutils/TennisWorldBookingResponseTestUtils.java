@@ -37,7 +37,7 @@ public class TennisWorldBookingResponseTestUtils extends
   private void initSingleTestData() {
     singleTestData = new TennisWorldBookingResponse();
     singleTestData.setStatus(TennisWorldBookingResponse.Status.SUCCESS);
-    singleTestData.setMessage("Completed booking request successfully");
+    singleTestData.setMessage("Completed the booking request successfully");
   }
 
   private void initTestDataList() {
