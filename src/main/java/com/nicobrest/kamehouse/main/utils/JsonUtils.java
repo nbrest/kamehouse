@@ -49,7 +49,7 @@ public class JsonUtils {
     try {
       return mapper.readTree(objectString);
     } catch (IOException e) {
-      LOGGER.warn("Unable to map '" + objectString + "' to a json object");
+      LOGGER.warn("Unable to map '{}' to a json object", objectString);
       return null;
     }
   }
@@ -140,7 +140,7 @@ public class JsonUtils {
    * Returns the boolean value of the specified key and node. Returns null if not
    * found.
    */
-  public static Boolean getBoolean(JsonNode jsonNode, String key) {
+  public static boolean getBoolean(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asBoolean();
     } else {
