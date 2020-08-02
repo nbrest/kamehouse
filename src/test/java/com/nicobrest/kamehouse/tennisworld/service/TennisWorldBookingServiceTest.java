@@ -86,6 +86,22 @@ public class TennisWorldBookingServiceTest {
   }
 
   /**
+   * Test booking a facility overlay request dry run flow.
+   */
+  @Test
+  public void bookFacilityOverlayRequestDryRunTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
+    TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
+    request.setDryRun(true);
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    expected.setMessage("Completed the booking request DRY-RUN successfully");
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
    * Test booking a facility overlay request invalid site flow.
    */
   @Test
