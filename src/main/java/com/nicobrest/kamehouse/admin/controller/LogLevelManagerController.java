@@ -20,7 +20,7 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/")
+@RequestMapping(value = "/api/v1/admin")
 public class LogLevelManagerController extends AbstractController {
 
   private static final String DEFAULT_PACKAGE = "com.nicobrest";
@@ -36,7 +36,7 @@ public class LogLevelManagerController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<String>> getLogLevel(
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/log-level (GET)");
+    logger.info("/api/v1/admin/log-level (GET)");
     List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
     return generateGetResponseEntity(logLevelList);
   }
@@ -49,7 +49,7 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<List<String>> setLogLevel(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/log-level (POST)");
+    logger.info("/api/v1/admin/log-level (POST)");
     if (packageName == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
       packageName = DEFAULT_PACKAGE;
