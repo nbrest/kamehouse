@@ -24,8 +24,6 @@ public class TennisWorldBookingRequest implements Serializable {
   private String sessionType;
   private String duration; // Format: MM (optional depending on sessionType)
   private CardDetails cardDetails;
-  // I will need debugMode to troubleshoot issues when TW updates their APIs
-  private boolean debugMode = false;
   private boolean dryRun = false;
 
   public void setUsername(String username) {
@@ -90,14 +88,6 @@ public class TennisWorldBookingRequest implements Serializable {
 
   public void setCardDetails(CardDetails cardDetails) {
     this.cardDetails = cardDetails;
-  }
-
-  public boolean isDebugMode() {
-    return debugMode;
-  }
-
-  public void setDebugMode(boolean debugMode) {
-    this.debugMode = debugMode;
   }
 
   public boolean isDryRun() {
