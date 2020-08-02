@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin")
 public class LogLevelManagerController extends AbstractController {
 
-  private static final String DEFAULT_PACKAGE = "com.nicobrest";
+  private static final String DEFAULT_PACKAGE = "com.nicobrest.kamehouse";
 
   @Autowired
   private LogLevelManagerService logLevelManagerService;

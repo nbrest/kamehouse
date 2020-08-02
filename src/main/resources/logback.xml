@@ -34,7 +34,7 @@
 <!--     </encoder>       -->
 <!--   </appender> -->
 
-  <logger name="com.nicobrest" additivity="false">
+  <logger name="com.nicobrest.kamehouse" additivity="false">
     <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <!-- <appender-ref ref="minuteRollingFileAppender"/> -->
