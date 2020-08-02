@@ -52,7 +52,7 @@ public class LogLevelController extends AbstractController {
   public ResponseEntity<List<String>> setLogLevelPost(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/log-level (POST)", level, packageName);
+    logger.info("/api/v1/log-level (POST)");
     if (packageName == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
       packageName = DEFAULT_PACKAGE;
