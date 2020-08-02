@@ -35,9 +35,15 @@
 <!--   </appender> -->
 
   <logger name="com.nicobrest" additivity="false">
-    <level value="TRACE" />
+    <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <!-- <appender-ref ref="minuteRollingFileAppender"/> -->
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.vlcrc" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
     <appender-ref ref="consoleAppender" />
   </logger>
 

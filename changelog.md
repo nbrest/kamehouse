@@ -7,6 +7,7 @@
 * Set a media server that contains all the media files and allowed to stream files and playlists from the media server in the computer running kame-house
 * Replaced cobertura with jacoco for code coverage checks
 * Added more words in Japanese to kame-house frontend :)
+* Added backend functionality for dynamically changing the logging level for each package. Updated default level to INFO
 
 #### v1.03
 

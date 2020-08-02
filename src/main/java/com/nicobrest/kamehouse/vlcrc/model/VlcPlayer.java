@@ -245,7 +245,9 @@ public class VlcPlayer implements Identifiable, Serializable {
         return responseFromVlc;
       }
     } catch (IOException e) {
-      LOGGER.error("Error executing request. Message: {}", e.getMessage());
+      if (LOGGER.isTraceEnabled()) { // only log this ERROR when TRACE is enabled
+        LOGGER.error("Error executing request. Message: {}", e.getMessage());
+      }
       return null;
     }
   }
