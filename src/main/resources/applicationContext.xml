@@ -48,6 +48,9 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <bean id="systemCommandService"
     class="com.nicobrest.kamehouse.admin.service.SystemCommandService" />
+
+  <bean id="logLevelManagerService"
+        class="com.nicobrest.kamehouse.admin.service.LogLevelManagerService" />
     
   <!-- media.video beans -->
   <bean id="videoPlaylistService"
