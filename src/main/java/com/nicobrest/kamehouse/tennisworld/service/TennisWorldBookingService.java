@@ -193,7 +193,7 @@ public class TennisWorldBookingService {
     for (Element tennisWorldSite : tennisWorldSiteLinks) {
       String siteName = tennisWorldSite.getElementsByTag("p").text();
       String siteId = tennisWorldSite.attr("href").substring(SITE_LINK_HREF.length());
-      logger.debug("siteName:" + siteName + "; siteId:" + siteId);
+      logger.debug("siteName:{}; siteId:{}", siteName, siteId);
       if (siteName != null && siteName.equalsIgnoreCase(tennisWorldBookingRequest.getSite())) {
         selectedSiteId = siteId;
       }
@@ -233,13 +233,13 @@ public class TennisWorldBookingService {
     for (Element sessionTypeElement : sessionTypes) {
       String sessionTypeName = sessionTypeElement.getElementsByTag("h1").text();
       String sessionTypeId = sessionTypeElement.attr("id");
-      logger.debug("sessionTypeName:" + sessionTypeName + "; sessionTypeId:" + sessionTypeId);
+      logger.debug("sessionTypeName:{}; sessionTypeId:{}", sessionTypeName, sessionTypeId);
       if (sessionTypeName != null
           && sessionTypeName.equalsIgnoreCase(sessionType)) {
         selectedSessionTypeId = sessionTypeId;
       }
     }
-    logger.debug("selectedSessionTypeId:" + selectedSessionTypeId);
+    logger.debug("selectedSessionTypeId:{}", selectedSessionTypeId);
     if (selectedSessionTypeId == null) {
       throw new KameHouseBadRequestException("Unable to get the selectedSessionTypeId");
     }
@@ -276,7 +276,7 @@ public class TennisWorldBookingService {
     String selectedSessionDatePath = null;
     for (Element sessionForTheSelectedSessionType : sessionsForTheSelectedSessionType) {
       String href = sessionForTheSelectedSessionType.attr("href");
-      logger.debug("SessionDatePath:" + href);
+      logger.debug("SessionDatePath:{}", href);
       if (href != null && href.contains(date)) {
         selectedSessionDatePath = href;
       }
@@ -320,13 +320,13 @@ public class TennisWorldBookingService {
       for (Element sessionForTheSelectedSessionDate : sessionsForTheSelectedSessionDate) {
         String sessionHref = sessionForTheSelectedSessionDate.attr("href");
         String sessionTime = sessionForTheSelectedSessionDate.text();
-        logger.debug("SessionPath:time:" + sessionTime + "; href:" + sessionHref);
+        logger.debug("SessionPath:time:{}; href:{}", sessionTime, sessionHref);
         if (sessionTime != null && sessionTime.equalsIgnoreCase(bookingTime)) {
           selectedSessionPath = sessionHref;
         }
       }
     }
-    logger.debug("selectedSessionPath:" + selectedSessionPath);
+    logger.debug("selectedSessionPath:{}", selectedSessionPath);
     if (selectedSessionPath == null) {
       throw new KameHouseBadRequestException("Unable to get the selectedSessionPath");
     }
@@ -360,7 +360,7 @@ public class TennisWorldBookingService {
   private String getSiteFacilityGroupId(Document sessionPage) {
     String siteFacilityGroupId = sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY)
         .attr(ATTR_SITE_FACILITYGROUP_ID);
-    logger.debug("siteFacilityGroupId:" + siteFacilityGroupId);
+    logger.debug("siteFacilityGroupId:{}", siteFacilityGroupId);
     if (siteFacilityGroupId == null) {
       throw new KameHouseBadRequestException("Unable to get the siteFacilityGroupId");
     }
@@ -373,7 +373,7 @@ public class TennisWorldBookingService {
   private String getBookingTime(Document sessionPage) {
     String bookingTime = sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY)
         .attr(ATTR_BOOKING_TIME);
-    logger.debug("bookingTime:" + bookingTime);
+    logger.debug("bookingTime:{}", bookingTime);
     if (bookingTime == null) {
       throw new KameHouseBadRequestException("Unable to get the bookingTime");
     }
