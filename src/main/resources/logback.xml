@@ -34,10 +34,47 @@
 <!--     </encoder>       -->
 <!--   </appender> -->
 
+  <!-- kamehouse root packages -->
+  <root>
+    <level value="INFO" />
+    <appender-ref ref="consoleAppender" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+  </root>
+
   <logger name="com.nicobrest.kamehouse" additivity="false">
     <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <!-- <appender-ref ref="minuteRollingFileAppender"/> -->
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.admin" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.main" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.media" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.tennisworld" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.testmodule" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
     <appender-ref ref="consoleAppender" />
   </logger>
 
@@ -47,6 +84,14 @@
     <appender-ref ref="consoleAppender" />
   </logger>
 
+  <!-- kamehouse internal nested packages and classes -->
+  <logger name="com.nicobrest.kamehouse.admin.controller.LogLevelManagerController" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- spring packages -->
   <logger name="org.springframework" additivity="false">
     <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
@@ -59,9 +104,16 @@
     <appender-ref ref="consoleAppender" />
   </logger>
 
-  <root>
-    <level value="INFO" />
-    <appender-ref ref="consoleAppender" />
+  <logger name="org.springframework.web.socket.config.WebSocketMessageBrokerStats" additivity="false">
+    <level value="WARN" />
     <appender-ref ref="dailyRollingFileAppender"/>
-  </root>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- hibernate packages -->
+  <logger name="org.hibernate.hql.internal.QueryTranslatorFactoryInitiator" additivity="false">
+    <level value="WARN" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
 </configuration>

@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
@@ -21,6 +22,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -44,6 +46,15 @@ public class TennisWorldBookingServiceTest {
       "tennisworld/step-2.html", "tennisworld/step-3.html", "tennisworld/step-4.html",
       "tennisworld/step-5.html", "tennisworld/step-6.html", "tennisworld/step-7.html",
       "tennisworld/step-8.html"};
+
+  private static final String[] BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSE = {
+      "tennisworld/step-1.1.html" , "tennisworld/step-1.2.html", "tennisworld/step-1.3.html",
+      "tennisworld/step-2.html", "tennisworld/step-3.html", "tennisworld/step-4.html",
+      "tennisworld/step-5.html", "tennisworld/step-6.html", "tennisworld/step-7.html",
+      "tennisworld/step-8-error.html"};
+
+  private static final String[] BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSE = {
+      "tennisworld/step-1.1-error.html"};
 
   @Mock
   HttpClient httpClientMock;
@@ -174,12 +185,46 @@ public class TennisWorldBookingServiceTest {
    */
   @Test
   public void bookFacilityOverlayRequestInvalidLoginTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSE);
     when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
     TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Invalid login to tennis world");
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a facility overlay request error confirming pay flow.
+   */
+  @Test
+  public void bookFacilityOverlayRequestErrorConfirmingPayTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSE);
+    TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
+    TennisWorldBookingResponse expected =
+        tennisWorldBookingResponseTestUtils.getTestDataList().get(2);
+    expected.setMessage("Error confirming booking result: [Name on card is required, Credit card "
+       + "number is invalid, CVV number is required, Expiry month is required, Expiry year is "
+       + "required]");
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a facility overlay request IOException error.
+   */
+  @Test
+  public void bookFacilityOverlayRequestIOExceptionTest() throws IOException {
+    when(HttpClientUtils.execRequest(any(), any())).thenThrow(new IOException("IO Error"));
+    TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
+    TennisWorldBookingResponse expected =
+        tennisWorldBookingResponseTestUtils.getTestDataList().get(2);
+    expected.setMessage("Error executing booking request to tennis world Message: IO Error");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 

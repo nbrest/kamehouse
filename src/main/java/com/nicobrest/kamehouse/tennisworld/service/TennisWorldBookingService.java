@@ -169,8 +169,8 @@ public class TennisWorldBookingService {
     String initialLoginHtml =
         IOUtils.toString(HttpClientUtils.getInputStream(initialLoginPostResponse));
     logger.debug(initialLoginHtml);
-    if (HttpClientUtils.getStatusCode(initialLoginPostResponse) != HttpStatus.FOUND.value()
-        || hasError(Jsoup.parse(initialLoginHtml))) {
+    if (hasLoginError(initialLoginHtml)
+        || HttpClientUtils.getStatusCode(initialLoginPostResponse) != HttpStatus.FOUND.value()) {
       throw new KameHouseBadRequestException("Invalid login to tennis world");
     }
     // 1.2
@@ -198,7 +198,7 @@ public class TennisWorldBookingService {
         selectedSiteId = siteId;
       }
     }
-    if (hasError(completeLoginAllSitesResponsePage) || selectedSiteId == null) {
+    if (selectedSiteId == null || hasError(completeLoginAllSitesResponsePage)) {
       throw new KameHouseBadRequestException("Unable to determine the site id for "
           + tennisWorldBookingRequest.getSite());
     }
@@ -217,8 +217,7 @@ public class TennisWorldBookingService {
     logger.debug(completeLoginSelectedSiteResponseHtml);
     Document completeLoginSelectedSiteResponsePage =
         Jsoup.parse(completeLoginSelectedSiteResponseHtml);
-    if (hasError(completeLoginSelectedSiteResponsePage)
-        || completeLoginSelectedSiteResponsePage == null) {
+    if (hasError(completeLoginSelectedSiteResponsePage)) {
       throw new KameHouseServerErrorException("Unable to complete login to siteId "
           + selectedSiteId);
     }
@@ -261,7 +260,7 @@ public class TennisWorldBookingService {
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
     Document sessionTypePage = Jsoup.parse(html);
-    if (hasError(sessionTypePage) || sessionTypePage == null) {
+    if (hasError(sessionTypePage)) {
       throw new KameHouseServerErrorException("Error getting session type page");
     }
     return sessionTypePage;
@@ -304,7 +303,7 @@ public class TennisWorldBookingService {
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
     Document sessionDatePage = Jsoup.parse(html);
-    if (hasError(sessionDatePage) || sessionDatePage == null) {
+    if (hasError(sessionDatePage)) {
       throw new KameHouseServerErrorException("Error detected getting the session date page");
     }
     return sessionDatePage;
@@ -349,7 +348,7 @@ public class TennisWorldBookingService {
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
     Document sessionPage = Jsoup.parse(html);
-    if (hasError(sessionPage) || sessionPage == null) {
+    if (hasError(sessionPage)) {
       throw new KameHouseServerErrorException("Unable to get the session page");
     }
     return sessionPage;
@@ -405,8 +404,7 @@ public class TennisWorldBookingService {
     logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
-    if (StringUtils.isEmpty(html) || hasError(Jsoup.parse(html))
-        || JsonUtils.getBoolean(JsonUtils.toJson(html), "error")) {
+    if (hasJsonErrorResponse(html) || hasError(Jsoup.parse(html))) {
       throw new KameHouseServerErrorException("Error posting book overlay ajax");
     }
   }
@@ -427,7 +425,7 @@ public class TennisWorldBookingService {
     logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
-    if (StringUtils.isEmpty(html) || hasError(Jsoup.parse(html))) {
+    if (hasError(Jsoup.parse(html))) {
       throw new KameHouseServerErrorException("Error getting the confirm booking page");
     }
   }
@@ -453,13 +451,9 @@ public class TennisWorldBookingService {
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
     Document postBookingResponsePage = Jsoup.parse(html);
-    List<String> errors = getErrorStackMessages(postBookingResponsePage);
-    if (!errors.isEmpty()) {
+    if (hasError(postBookingResponsePage)) {
       throw new KameHouseServerErrorException("Error posting booking request: "
-          + Arrays.toString(errors.toArray()));
-    }
-    if (StringUtils.isEmpty(html) || hasError(postBookingResponsePage)) {
-      throw new KameHouseServerErrorException("Error posting the booking request");
+          + Arrays.toString(getErrorStackMessages(postBookingResponsePage).toArray()));
     }
     if (HttpClientUtils.getStatusCode(httpResponse) != HttpStatus.FOUND.value()) {
       throw new KameHouseServerErrorException("Error posting booking request. Expected a "
@@ -468,6 +462,9 @@ public class TennisWorldBookingService {
     return HttpClientUtils.getHeader(httpResponse, LOCATION);
   }
 
+  /**
+   * Set the payment details to complete the booking request.
+   */
   private void populateCardDetails(List<NameValuePair> params, CardDetails cardDetails) {
     if (cardDetails != null) {
       params.add(new BasicNameValuePair("name_on_card", cardDetails.getName()));
@@ -493,13 +490,9 @@ public class TennisWorldBookingService {
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
     Document confirmFinalBookingPage = Jsoup.parse(html);
-    List<String> errors = getErrorStackMessages(confirmFinalBookingPage);
-    if (!errors.isEmpty()) {
+    if (hasError(confirmFinalBookingPage)) {
       throw new KameHouseServerErrorException("Error confirming booking result: "
-            + Arrays.toString(errors.toArray()));
-    }
-    if (StringUtils.isEmpty(html) || hasError(confirmFinalBookingPage)) {
-      throw new KameHouseServerErrorException("Errors detected confirming booking result");
+            + Arrays.toString(getErrorStackMessages(confirmFinalBookingPage).toArray()));
     }
   }
 
@@ -541,8 +534,11 @@ public class TennisWorldBookingService {
       if (errorMessages != null && !errorMessages.isEmpty()) {
         logger.error("The following errors were detected in the current step:");
         for (Element errorMessage : errorMessages) {
-          logger.error(errorMessage.text());
-          errors.add(errorMessage.text());
+          if (ID_ERROR_MESSAGE.equals(errorMessage.id())
+              && !StringUtils.isEmpty(errorMessage.text())) {
+            logger.error(errorMessage.text());
+            errors.add(errorMessage.text());
+          }
         }
       }
     }
@@ -551,19 +547,39 @@ public class TennisWorldBookingService {
 
   /**
    * Checks if the specified html string contains error messages from tennis world.
+   * Expects a page to be always set, so if it's null, return true.
    */
   private boolean hasError(Document page) {
-    if (page != null && page.body() != null && page.body().outerHtml() != null) {
-      String bodyHtml = page.body().outerHtml();
-      if (bodyHtml.contains("An error has occured") || bodyHtml.contains("An error has occurred")) {
-        Element errorMessage = page.body().getElementById(ID_ERROR_MESSAGE);
-        if (errorMessage != null && errorMessage.text() != null
-            && !StringUtils.isEmpty(errorMessage.text().trim())) {
-          return true;
-        }
+    if (page == null) {
+      return true;
+    }
+    return !getErrorStackMessages(page).isEmpty();
+  }
+
+  /**
+   * Checks if the specified html has a login error message. If the html is empty return true, as
+   * I expect content when calling this method.
+   */
+  private boolean hasLoginError(String html) {
+    if (StringUtils.isEmpty(html)) {
+      return true;
+    } else {
+      if (html.contains("An error has occured") || html.contains("An error has occurred")) {
+        return html.contains("username or password is invalid");
       }
     }
     return false;
+  }
+
+  /**
+   * Checks if the response is a json object with an error:true property. I'm expecting content
+   * when calling this method, so return true if the input html is empty.
+   */
+  private boolean hasJsonErrorResponse(String html) {
+    if (StringUtils.isEmpty(html)) {
+      return true;
+    }
+    return JsonUtils.getBoolean(JsonUtils.toJson(html), "error");
   }
 
   /**

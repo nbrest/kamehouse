@@ -1,0 +1,102 @@
+<html>
+<head>
+    <title>SAMPLE STEP 8 ERROR RESPONSE</title>
+</head>
+<body>
+
+<div data-role="page" id="session-booking">
+
+    >
+
+    <div data-role="header" data-theme="b"> <a href="/customer/mobile/facility/browse/731/2020-07-26" data-icon="back">Back</a>
+        <h1>Book Online</h1>
+    </div>
+
+    <div class="ui-bar ui-bar-e" id="error-stack">
+        <h3 style="display:inline-block; width:92%; margin-top:5px;">An error has occured. </h3><div style="display:inline-block; width:8%; margin-top:0px; text-align:right;"><a href="#" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext" class="hide_ui_message">Dismiss</a></div>
+        <p style="font-size:85%; margin:-.3em 0 1em;" id="error-message">Name on card is required</p>
+        <p style="font-size:85%; margin:-.3em 0 1em;" id="error-message">Credit card number is invalid</p>
+        <p style="font-size:85%; margin:-.3em 0 1em;" id="error-message">CVV number is required</p>
+        <p style="font-size:85%; margin:-.3em 0 1em;" id="error-message">Expiry month is required</p>
+        <p style="font-size:85%; margin:-.3em 0 1em;" id="error-message">Expiry year is required</p>
+    </div>
+    <div data-role="content">
+        <form action="/customer/mobile/facility/confirm" method="post" data-ajax="false">
+
+            <h2>Please confirm and finalise your booking</h2>
+
+            <h3>RLA Outdoor</h3>
+
+            <div class="ui-grid-a">
+                <div class="ui-block-a"><strong>Starting:</strong></div>
+                <div class="ui-block-b">10:30 am Sunday 26th July for 30 Minutes</div>
+            </div>
+            <div class="ui-grid-a">
+                <div class="ui-block-a"><strong>Total payment required:</strong></div>
+                <div class="ui-block-b">
+                    <span class="original_price" style="text-decoration: line-through">$7.50</span>			$6.75			</div>
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="name_on_card">Name on card:</label>
+                <input type="text" name="name_on_card" id="name_on_card" placeholder="Name on card" value="" />
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="credit_card_number">Credit card number:</label>
+                <input type="number" pattern="[0-9]*" inputmode="numeric" name="credit_card_number" id="credit_card_number" placeholder="Credit card number" value="" />
+            </div>
+
+            <div data-role="fieldcontain" class="ui-grid-a">
+                <label for="expiry_month">Expiry month:</label>
+                <select name="expiry_month" id="expiry_month">
+                    <option value=""></option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+
+            <div data-role="fieldcontain" class="ui-grid-a">
+                <label for="expiry_month">Expiry year:</label>
+                <select name="expiry_year" id="expiry_year">
+                    <option value=""></option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                    <option value="2031">2031</option>
+                    <option value="2032">2032</option>
+                    <option value="2033">2033</option>
+                    <option value="2034">2034</option>
+                    <option value="2035">2035</option>
+                </select>
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="cvv_number">CVV Number:</label>
+                <input type="number" pattern="[0-9]*" inputmode="numeric" name="cvv_number" id="cvv_number" placeholder="CVV Number" value="" />
+            </div>
+
+            <button type="submit" name="submit" value="Confirm and pay" data-theme="b" class="confirm_pay">Confirm and pay</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

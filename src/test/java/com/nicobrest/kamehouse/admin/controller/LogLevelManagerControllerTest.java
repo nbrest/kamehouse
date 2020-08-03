@@ -6,8 +6,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
 import com.nicobrest.kamehouse.admin.service.LogLevelManagerService;
 import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.util.NestedServletException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -126,6 +131,20 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verify(logLevelManagerService, times(1)).setLogLevel("TRACE","com.nicobrest.kamehouse");
     verify(logLevelManagerService, times(1)).validateLogLevel("TRACE");
     verifyNoMoreInteractions(logLevelManagerService);
+  }
+
+  /**
+   * Tests setting an invalid log level for the default package.
+   */
+  @Test
+  public void setLogLevelInvalidLogLevelTest() throws Exception {
+    thrown.expect(NestedServletException.class);
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseBadRequestException.class));
+
+    doThrow(new KameHouseBadRequestException("Invalid log level TRACEs"))
+        .when(logLevelManagerService).validateLogLevel("TRACEs");
+
+    doPost("/api/v1/admin/log-level?level=TRACEs");
   }
 
   /**
