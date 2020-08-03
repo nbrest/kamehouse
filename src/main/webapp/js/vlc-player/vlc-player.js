@@ -68,7 +68,7 @@ function VlcPlayer(hostname) {
   this.execVlcRcCommand = (name, val) => self.commandExecutor.execVlcRcCommand(name, val);
 
   this.updateAspectRatio = (aspectRatio) => {
-    if (!isEmpty(aspectRatio)) {
+    if (!isNullOrUndefined(aspectRatio)) {
       self.commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
   }
@@ -100,7 +100,7 @@ function VlcPlayer(hostname) {
    */
   this.setVlcRcStatus = (vlcRcStatus) => {
     //logger.trace("vlcRcStatus " + JSON.stringify(vlcRcStatus));
-    if (!isEmpty(vlcRcStatus)) {
+    if (!isNullOrUndefined(vlcRcStatus)) {
       self.vlcRcStatus = vlcRcStatus;
     } else {
       self.vlcRcStatus = {};
@@ -185,7 +185,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
   this.execVlcRcCommand = function execVlcRcCommand(name, val) {
     logger.debugFunctionCall();
     let requestBody;
-    if (isEmpty(val)) {
+    if (isNullOrUndefined(val)) {
       requestBody = {
         name: name
       };
@@ -242,7 +242,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update vlc player view for main view objects. */
   this.updateView = () => {
     //logger.traceFunctionCall();
-    if (!isEmpty(self.vlcPlayer.getVlcRcStatus())) {
+    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus())) {
       self.updateMediaTitle();
       self.updateTimeSlider();
       self.updateVolumeSlider();
@@ -266,7 +266,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     let mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    if (!isEmpty(self.vlcPlayer.getVlcRcStatus().information)) {
+    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().information)) {
       mediaName.filename = self.vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = self.vlcPlayer.getVlcRcStatus().information.meta.title;
     }
@@ -287,7 +287,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
    */
   /** Update media time slider from VlcRcStatus and resets view when there's no input. */
   this.updateTimeSlider = () => {
-    if (!isEmpty(self.vlcPlayer.getVlcRcStatus().time)) {
+    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().time)) {
       self.updateCurrentTimeView(self.vlcPlayer.getVlcRcStatus().time);
       self.updateTotalTimeView(self.vlcPlayer.getVlcRcStatus().length);
     } else {
@@ -324,7 +324,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
    */
   /** Update volume slider from VlcRcStatus. */
   this.updateVolumeSlider = () => {
-    if (!isEmpty(self.vlcPlayer.getVlcRcStatus().volume)) {
+    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().volume)) {
       self.updateVolumeView(self.vlcPlayer.getVlcRcStatus().volume);
     } else {
       self.resetVolumeSlider();
@@ -361,7 +361,7 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
   this.pressedField = pressedField;
   this.pressedCondition = pressedCondition;
   this.btnPrefixClass = null;
-  if (!isEmpty(btnPrefixClass)) {
+  if (!isNullOrUndefined(btnPrefixClass)) {
     this.btnPrefixClass = btnPrefixClass;
   } else {
     this.btnPrefixClass = defaultBtnPrefixClass;
@@ -439,7 +439,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   this.connectVlcRcStatus = function connectVlcRcStatus() {
     logger.debugFunctionCall();
     self.vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
-      if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
+      if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
         self.vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
       } else {
         self.vlcPlayer.setVlcRcStatus({});
@@ -461,10 +461,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   /** Connects the playlist websocket to the backend. */
   this.connectPlaylist = function connectPlaylist() {
     logger.debugFunctionCall();
-    self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
-      if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
-        let vlcRcPlaylist = JSON.parse(topicResponse.body);
-        self.vlcPlayer.setUpdatedPlaylist(vlcRcPlaylist);
+    self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) { 
+      if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) { 
+        self.vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
       } else {
         self.vlcPlayer.setUpdatedPlaylist(null);
       }
@@ -504,7 +503,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         // poll VlcRcStatus from the websocket.
         self.vlcRcStatusWebSocket.poll();
         self.vlcPlayer.updateView();
-        if (!isEmpty(self.vlcPlayer.getVlcRcStatus().information)) {
+        if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().information)) {
           vlcRcStatusPullWaitTimeMs = 1000;
           failedCount = 0;
         } else {
@@ -589,8 +588,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 function VlcPlayerPlaylist(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
-  this.currentPlaylist = [];
-  this.updatedPlaylist = [];
+  this.currentPlaylist = null;
+  this.updatedPlaylist = null;
   const playSelectedUrl = '/kame-house/api/v1/vlc-rc/players/localhost/commands';
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
@@ -602,14 +601,14 @@ function VlcPlayerPlaylist(vlcPlayer) {
       // Playlist content not updated, just update currently playing element and return
       self.highlightCurrentPlayingItem();
       return;
-    }
+    } 
     self.currentPlaylist = self.updatedPlaylist;
     // Clear playlist content. 
     $("#playlist-table-body").empty();
     // Add the new playlist items received from the server.
     let $playlistTableBody = $('#playlist-table-body');
     let playlistTableRow;
-    if (isEmpty(self.currentPlaylist)) {
+    if (isNullOrUndefined(self.currentPlaylist)) {
       let madaMadaDane = 'まだまだだね';
       playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. " + madaMadaDane + " :)"));
       $playlistTableBody.append(playlistTableRow);
@@ -636,7 +635,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.isPlaylistUpdated = (currentPlaylist, updatedPlaylist) => {
     let MAX_COMPARISONS = 30;
     // For empty playlists, return true, so it updates the UI
-    if (isEmpty(currentPlaylist) || isEmpty(updatedPlaylist)) {
+    if (isNullOrUndefined(currentPlaylist) || isNullOrUndefined(updatedPlaylist)) {
       return true;
     }
     // If the sizes don't match, it's updated
@@ -742,7 +741,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
    * to update the view of the playlist when vlcRcStatus changes  
    */
   this.updateView = () => {
-    if (!isEmpty(self.vlcPlayer.getVlcRcStatus())) {
+    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus())) {
       self.highlightCurrentPlayingItem();
     } else {
       self.resetView();

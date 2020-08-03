@@ -29,6 +29,7 @@ var logger;
  */
 var isEmpty;
 var isFunction;
+var isNullOrUndefined;
 var scrollToTop;
 var sleep;
 
@@ -67,13 +68,26 @@ function CoreUtils() {
   this.global.session = {};
   global = this.global;
 
-  /** Checks if a variable is undefined or null, an empty array [] or an empty object {}. */
+  /** 
+   * Checks if a variable is undefined or null, an empty array [] or an empty object {}. 
+   * 
+   * --- IMPORTANT --- 
+   * This method performs poorly with large objects. For large playlists (3000 elements) this comparison
+   * takes more than 1 seconds causing a lag in the entire view. Use it for objects that I don't expect
+   * to be large and be aware of performance issues that can be caused from using it.
+   * For better performance, use isNullOrUndefined() when that check is enough.
+   */
   this.isEmpty = (val) => {
     let isNullOrUndefined = val === undefined || val == null;
     let isEmptyString = !isNullOrUndefined && val === "";
     let isEmptyArray = !isNullOrUndefined && Array.isArray(val) && val.length <= 0;
     let isEmptyObject = !isNullOrUndefined && Object.entries(val).length === 0 && val.constructor === Object;
     return isNullOrUndefined || isEmptyString || isEmptyArray || isEmptyObject;
+  }
+
+  /** Checks if a variable is undefined or null. Use this for large objects such as playlists instead of isEmpty() */
+  this.isNullOrUndefined = (val) => {
+    return val === undefined || val == null;
   }
 
   /** Returns true if the parameter variable is a fuction. */
@@ -101,6 +115,7 @@ function CoreUtils() {
   this.setGlobalFunctions = () => {
     isEmpty = self.isEmpty;
     isFunction = self.isFunction;
+    isNullOrUndefined = self.isNullOrUndefined;
     scrollToTop = self.scrollToTop;
     sleep = self.sleep;
   }

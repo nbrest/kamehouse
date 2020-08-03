@@ -12,7 +12,7 @@ function PlaylistBrowser(vlcPlayer) {
   this.vlcPlayer = vlcPlayer;
   this.videoPlaylists = [];
   this.videoPlaylistCategories = [];
-  this.currentPlaylist = {};
+  this.currentPlaylist = null;
   const mediaVideoAllPlaylistsUrl = '/kame-house/api/v1/media/video/playlists';
   const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlist';
 
@@ -105,7 +105,7 @@ function PlaylistBrowser(vlcPlayer) {
     // Add the new playlist browser items received from the server.
     let $playlistTableBody = $('#playlist-browser-table-body');
     let playlistTableRow;
-    if (isEmpty(self.currentPlaylist)) {
+    if (isNullOrUndefined(self.currentPlaylist)) {
       playlistTableRow = $('<tr>').append($('<td>').text("No playlist to browse loaded yet or unable to sync. まだまだだね :)"));
       $playlistTableBody.append(playlistTableRow);
     } else {
