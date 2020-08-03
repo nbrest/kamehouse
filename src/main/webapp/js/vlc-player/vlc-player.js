@@ -634,6 +634,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */
   this.isPlaylistUpdated = (currentPlaylist, updatedPlaylist) => {
+    let MAX_COMPARISONS = 30;
     // For empty playlists, return true, so it updates the UI
     if (isEmpty(currentPlaylist) || isEmpty(updatedPlaylist)) {
       return true;
@@ -643,8 +644,15 @@ function VlcPlayerPlaylist(vlcPlayer) {
       return true;
     }
     // If the sizes match, compare playlists elements in the specified increment. 
-    // Don't check all files to avoid doing too many comparisons in very large playlists
-    for (let i = 0; i < currentPlaylist.length; i = i + 20) {
+    // Don't check all filenames to avoid doing too many comparisons in very large playlists
+    let step = 1;
+    if ((currentPlaylist.length > MAX_COMPARISONS) &&
+      (currentPlaylist.length <= MAX_COMPARISONS * 2)) {
+      step = 2;
+    } else {
+      step = Math.round(currentPlaylist.length / MAX_COMPARISONS);
+    }
+    for (let i = 0; i < currentPlaylist.length; i = i + step) {
       if (currentPlaylist[i].filename != updatedPlaylist[i].filename) {
         return true;
       }
