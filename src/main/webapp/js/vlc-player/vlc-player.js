@@ -645,11 +645,16 @@ function VlcPlayerPlaylist(vlcPlayer) {
     }
     // If the sizes match, compare playlists elements in the specified increment. 
     // Don't check all filenames to avoid doing too many comparisons in very large playlists
-    let step = 1;
-    if ((currentPlaylist.length > MAX_COMPARISONS) &&
-      (currentPlaylist.length <= MAX_COMPARISONS * 2)) {
-      step = 2;
+    let step = 0;
+    if (currentPlaylist.length <= MAX_COMPARISONS) {
+      step = 1;
     } else {
+      if ((currentPlaylist.length > MAX_COMPARISONS) &&
+        (currentPlaylist.length <= MAX_COMPARISONS * 2)) {
+        step = 2;
+      }
+    }
+    if (step == 0) {
       step = Math.round(currentPlaylist.length / MAX_COMPARISONS);
     }
     for (let i = 0; i < currentPlaylist.length; i = i + step) {
