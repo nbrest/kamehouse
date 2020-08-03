@@ -118,7 +118,7 @@ function PlaylistBrowser(vlcPlayer) {
         playlistElementButton.data("absolutePath", absolutePath);
         playlistElementButton.text(filename);
         playlistElementButton.click({
-          filename: filename
+          filename: absolutePath
         }, self.clickEventOnPlaylistBrowserRow);
         playlistTableRow = $('<tr id=playlist-browser-entry-' + [i] + '>').append($('<td>').append(playlistElementButton));
         $playlistTableBody.append(playlistTableRow);
