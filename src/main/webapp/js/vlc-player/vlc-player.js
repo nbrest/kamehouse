@@ -617,16 +617,17 @@ function VlcPlayerPlaylist(vlcPlayer) {
       for (let i = 0; i < self.currentPlaylist.length; i++) {
         let playlistElementButton = $('<button>');
         playlistElementButton.addClass("playlist-table-btn");
-        let filename = self.currentPlaylist[i].filename;
+        let absolutePath = self.currentPlaylist[i].filename;
+        let filename = fileUtils.getShortFilename(absolutePath);
         playlistElementButton.data("filename", filename);
+        playlistElementButton.data("absolutePath", absolutePath);
         playlistElementButton.text(filename);
         playlistElementButton.click({
           id: self.currentPlaylist[i].id
         }, self.clickEventOnPlaylistRow);
         playlistTableRow = $('<tr id=playlist-table-row-id-' + self.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
         $playlistTableBody.append(playlistTableRow);
-      }
-      self.toggleExpandPlaylistFilenames();
+      } 
       self.highlightCurrentPlayingItem();
     }
   }
@@ -688,13 +689,14 @@ function VlcPlayerPlaylist(vlcPlayer) {
       let filename = playlistEntry.data("filename");
       let currentText = playlistEntry.text();
       if (currentText == filename) {
-        // Currently it's showing the expanded filename. Update to short
-        playlistEntry.text(fileUtils.getShortFilename(filename));
-        isExpandedFilename = false;
-      } else {
-        // Currently it's showing the short filename. Update to expanded
-        playlistEntry.text(filename);
+        // Currently it's showing the short filename. Update to expanded absolute path
+        let absolutePath = playlistEntry.data("absolutePath");
+        playlistEntry.text(absolutePath);
         isExpandedFilename = true;
+      } else {
+        // Currently it's showing the expanded absolute path. Update to short filename
+        playlistEntry.text(filename);
+        isExpandedFilename = false;
       }
     });
     self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
