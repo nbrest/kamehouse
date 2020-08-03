@@ -111,7 +111,9 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Playlist functionality
    */
-  this.reloadPlaylist = (playlistArray) => self.playlist.reload(playlistArray);
+  this.setUpdatedPlaylist = (updatedPlaylist) => self.playlist.setUpdatedPlaylist(updatedPlaylist);
+
+  this.reloadPlaylist = () => self.playlist.reload();
 
   this.scrollToCurrentlyPlaying = () => self.playlist.scrollToCurrentlyPlaying();
 
@@ -153,6 +155,15 @@ function VlcPlayer(hostname) {
    * Debugger functionality
    */
   this.getDebugger = () => self.debugger;
+
+  /**
+   * --------------------------------------------------------------------------
+   * Links to external resources
+   */
+  this.openServerManagement = () => {
+    cursorUtils.setCursorWait();
+    window.location.href = '/kame-house/admin/server-management';
+  }
 }
 
 /** 
@@ -433,7 +444,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       } else {
         self.vlcPlayer.setVlcRcStatus({});
       }
-      self.vlcPlayer.updateView();
     });
   }
 
@@ -454,9 +464,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
         let vlcRcPlaylist = JSON.parse(topicResponse.body);
-        self.vlcPlayer.reloadPlaylist(vlcRcPlaylist);
+        self.vlcPlayer.setUpdatedPlaylist(vlcRcPlaylist);
       } else {
-        self.vlcPlayer.reloadPlaylist(null);
+        self.vlcPlayer.setUpdatedPlaylist(null);
       }
     });
   }
@@ -493,7 +503,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       if (self.vlcRcStatusWebSocket.isConnected()) {
         // poll VlcRcStatus from the websocket.
         self.vlcRcStatusWebSocket.poll();
-
+        self.vlcPlayer.updateView();
         if (!isEmpty(self.vlcPlayer.getVlcRcStatus().information)) {
           vlcRcStatusPullWaitTimeMs = 1000;
           failedCount = 0;
@@ -530,6 +540,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       if (self.playlistWebSocket.isConnected()) {
         // poll playlist from the websocket.
         self.playlistWebSocket.poll();
+        self.vlcPlayer.reloadPlaylist();
       }
       await sleep(playlistSyncWaitTimeMs);
     }
@@ -579,16 +590,20 @@ function VlcPlayerPlaylist(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
   this.currentPlaylist = [];
+  this.updatedPlaylist = [];
   const playSelectedUrl = '/kame-house/api/v1/vlc-rc/players/localhost/commands';
 
+  /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
+  this.setUpdatedPlaylist = (updatedPlaylist) => self.updatedPlaylist = updatedPlaylist;
+
   /** Reload playlist updating the playlist view. */
-  this.reload = (playlistArray) => { 
-    if (!self.isPlaylistUpdated(self.currentPlaylist, playlistArray)) {
+  this.reload = () => { 
+    if (!self.isPlaylistUpdated(self.currentPlaylist, self.updatedPlaylist)) {
       // Playlist content not updated, just update currently playing element and return
       self.highlightCurrentPlayingItem();
       return;
     }
-    self.currentPlaylist = playlistArray;
+    self.currentPlaylist = self.updatedPlaylist;
     // Clear playlist content. 
     $("#playlist-table-body").empty();
     // Add the new playlist items received from the server.
@@ -722,7 +737,10 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** 
    * Reset the playlist view.
    */
-  this.resetView = () => self.reload(null);
+  this.resetView = () => {
+    self.updatedPlaylist = null;
+    self.reload();
+  }
 }
 
 /** 
