@@ -17,6 +17,28 @@ function PlaylistBrowser(vlcPlayer) {
   const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlist';
   this.tbodyAbsolutePaths = null;
   this.tbodyFilenames = null;
+  this.dobleLeftImg = null;
+  this.dobleRightImg = null;
+
+  /** Init Playlist Browser. */
+  this.init = function init() {
+    logger.debugFunctionCall();
+    self.dobleLeftImg = self.createDoubleArrowImg("left");
+    self.dobleRightImg = self.createDoubleArrowImg("right");
+    $("#toggle-playlist-browser-filenames-img").replaceWith(self.dobleRightImg);
+  }
+
+  /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
+  this.createDoubleArrowImg = (direction) => {
+    let dobleArrowImg = new Image();
+    dobleArrowImg.id = "toggle-playlist-browser-filenames-img";
+    dobleArrowImg.src = "/kame-house/img/other/double-" + direction + "-green.png";
+    dobleArrowImg.className = "vlc-player-btn-img vlc-player-btn-img-s vlc-player-btn-green btn-playlist-controls";
+    dobleArrowImg.alt = "Expand/Collapse Filename";
+    dobleArrowImg.title = "Expand/Collapse Filename";
+    dobleArrowImg.onclick = () => self.toggleExpandPlaylistFilenames();
+    return dobleArrowImg;
+  }
 
   /** Filter playlist browser rows based on the search string. */
   this.filterPlaylistRows = (filterString) => tableUtils.filterTableRows(filterString, 'playlist-browser-table-body');
@@ -152,24 +174,28 @@ function PlaylistBrowser(vlcPlayer) {
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
-      self.tbodyFilenames.detach();
+      if (!isNullOrUndefined(self.tbodyFilenames)) {
+        self.tbodyFilenames.detach();
+      }
       $playlistTable.append(self.tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
-      self.tbodyAbsolutePaths.detach();  
+      if (!isNullOrUndefined(self.tbodyAbsolutePaths)) {
+        self.tbodyAbsolutePaths.detach();
+      }
       $playlistTable.append(self.tbodyFilenames);
       isExpandedFilename = false;
     }
     self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
   }
-
+  
   /** Update the icon to expand or collapse the playlist filenames */
   this.updateExpandPlaylistFilenamesIcon = (isExpandedFilename) => {
     if (isExpandedFilename) {
-      $("#toggle-playlist-browser-filenames-img").attr("src", "/kame-house/img/other/double-left-green.png");
+      $("#toggle-playlist-browser-filenames-img").replaceWith(self.dobleLeftImg);
     } else {
-      $("#toggle-playlist-browser-filenames-img").attr("src", "/kame-house/img/other/double-right-green.png");
+      $("#toggle-playlist-browser-filenames-img").replaceWith(self.dobleRightImg);
     }
   }
 }

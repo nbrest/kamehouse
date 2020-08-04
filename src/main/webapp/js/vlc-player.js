@@ -16,6 +16,7 @@ var main = () => {
   loadPlaylistBrowser(); 
   moduleUtils.waitForModules(["logger", "vlcPlayer", "playlistBrowser"], () => {
     logger.info("Started initializing VLC Player");
+    playlistBrowser.init();
     playlistBrowser.populateVideoPlaylistCategories();
     vlcPlayer.init();
   });
