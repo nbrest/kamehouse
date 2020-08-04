@@ -710,20 +710,12 @@ function VlcPlayerPlaylist(vlcPlayer) {
   }
 
   /** Highlight currently playing item in the playlist. */
-  this.highlightCurrentPlayingItem = function highlightCurrentPlayingItem() {
+  this.highlightCurrentPlayingItem = () => {
     let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
     //logger.trace("currentPlId: " + currentPlId);
-    // I can't use self in this case, I need to use this
     let currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
-    $('#playlist-table-body tr').each(function () {
-      let playlistItemId = $(this).attr('id');
-      let playlistEntry = $(this).children().children();
-      if (playlistItemId == currentPlIdAsRowId) {
-        playlistEntry.addClass("active");
-      } else {
-        playlistEntry.removeClass("active");
-      }
-    });
+    $('#playlist-table-body tr td button').removeClass("active");
+    $("#" + currentPlIdAsRowId).children().children().addClass("active");
   }
 
   /** Toggle expand or collapse filenames in the playlist */
