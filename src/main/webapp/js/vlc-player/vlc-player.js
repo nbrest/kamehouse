@@ -30,6 +30,7 @@ function VlcPlayer(hostname) {
   /** Init VlcPlayer */
   this.init = function init() {
     logger.debugFunctionCall();
+    self.playlist.init();
     self.synchronizer.connectVlcRcStatus();
     self.synchronizer.connectPlaylist();
     self.synchronizer.syncVlcRcStatusLoop();
@@ -591,6 +592,28 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.currentPlaylist = null;
   this.updatedPlaylist = null;
   const playSelectedUrl = '/kame-house/api/v1/vlc-rc/players/localhost/commands';
+  this.dobleLeftImg = null;
+  this.dobleRightImg = null;
+  
+  /** Init Playlist. */
+  this.init = function init() {
+    logger.debugFunctionCall();
+    self.dobleLeftImg = self.createDoubleArrowImg("left");
+    self.dobleRightImg = self.createDoubleArrowImg("right");
+    $("#toggle-playlist-filenames-img").replaceWith(self.dobleRightImg);
+  }
+
+  /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
+  this.createDoubleArrowImg = (direction) => {
+    let dobleArrowImg = new Image();
+    dobleArrowImg.id = "toggle-playlist-filenames-img";
+    dobleArrowImg.src = "/kame-house/img/other/double-" + direction + "-green.png";
+    dobleArrowImg.className = "vlc-player-btn-img vlc-player-btn-img-s vlc-player-btn-green btn-playlist-controls";
+    dobleArrowImg.alt = "Expand/Collapse Filename";
+    dobleArrowImg.title = "Expand/Collapse Filename";
+    dobleArrowImg.onclick = () => self.toggleExpandPlaylistFilenames();
+    return dobleArrowImg;
+  }
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
   this.setUpdatedPlaylist = (updatedPlaylist) => self.updatedPlaylist = updatedPlaylist;
@@ -718,9 +741,9 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** Update the icon to expand or collapse the playlist filenames */
   this.updateExpandPlaylistFilenamesIcon = (isExpandedFilename) => {
     if (isExpandedFilename) {
-      $("#toggle-playlist-filenames-img").attr("src", "/kame-house/img/other/double-left-green.png");
+      $("#toggle-playlist-filenames-img").replaceWith(self.dobleLeftImg);
     } else {
-      $("#toggle-playlist-filenames-img").attr("src", "/kame-house/img/other/double-right-green.png");
+      $("#toggle-playlist-filenames-img").replaceWith(self.dobleRightImg);
     }
   }
 
