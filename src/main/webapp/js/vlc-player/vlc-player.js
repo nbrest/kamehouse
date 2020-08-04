@@ -608,7 +608,8 @@ function VlcPlayerPlaylist(vlcPlayer) {
     // Add the new playlist items received from the server.
     let $playlistTableBody = $('#playlist-table-body');
     let playlistTableRow;
-    if (isNullOrUndefined(self.currentPlaylist)) {
+    if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) 
+      || self.currentPlaylist.length <= 0) {
       let madaMadaDane = 'まだまだだね';
       playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. " + madaMadaDane + " :)"));
       $playlistTableBody.append(playlistTableRow);

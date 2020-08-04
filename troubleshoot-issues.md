@@ -1,5 +1,10 @@
 # Troubleshoot issues:
 
+## Deploy to my local tomcat using my deploy script is successful but kame-house doesn't run even if it shows as running in the tomcat manager
+
+* Go to the tomcat manager and *undeploy kame-house*, or stop tomcat and delete the war and kame-house folder from the /webapps directory. 
+* Then start tomcat and run the deploy script again (in my.scripts repo)
+
 ## Setup/Troubleshoot linux commands:
 
 * Make sure the user running tomcat has **sudo** set for the commands that require it in `VncDoSystemCommand.java` 
@@ -26,7 +31,13 @@
 * *Lock screen command on linux relies on gnome-screensaver-command* to do the lock. 
 * Install **gnome-screensaver** with `sudo apt-get install gnome-screensaver`. The `SystemCommand` to lock the screen though kamehouse could easily be changed to use vncdo and hotkeys to lock the screen for other **linux** versions (tested on **ubuntu 16**)
 
-## Deploy to my local tomcat using my deploy script is successful but kame-house doesn't run even if it shows as running in the tomcat manager
+## Websockets keep reconnecting infinitely, sending data but not receiving:
 
-* Go to the tomcat manager and *undeploy kame-house*, or stop tomcat and delete the war and kame-house folder from the /webapps directory. 
-* Then start tomcat and run the deploy script again (in my.scripts repo)
+* This happened several times on dev environment. 
+- Redeploying webapp and restarting tomcat several times didn't fix it
+- Restarting apache httpd didn't fix it
+- Accessing directly to tomcat without going through httpd didn't fix it (not httpd related)
+- Closing chrome and reopening everything didn't fix it
+- Restarting intellij didn't fix it
+- Using firefox, I see the same issue. Not chrome related
+- Only thing that worked was shutting down (not hibernate) computer

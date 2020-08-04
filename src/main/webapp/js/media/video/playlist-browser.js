@@ -106,39 +106,32 @@ function PlaylistBrowser(vlcPlayer) {
     $("#playlist-browser-table-body").empty();
     // Add the new playlist browser items received from the server.
     let $playlistTableBody = $('#playlist-browser-table-body');    
-    self.tbodyFilenames = $('<tbody id="playlist-browser-table-body">');
-    self.tbodyAbsolutePaths = $('<tbody id="playlist-browser-table-body">');
-
     if (isNullOrUndefined(self.currentPlaylist)) {
       playlistTableRow = $('<tr>').append($('<td>').text("No playlist to browse loaded yet or unable to sync. まだまだだね :)"));
       $playlistTableBody.append(playlistTableRow);
     } else {
+      self.tbodyFilenames = $('<tbody id="playlist-browser-table-body">');
+      self.tbodyAbsolutePaths = $('<tbody id="playlist-browser-table-body">');
       for (let i = 0; i < self.currentPlaylist.files.length; i++) {
         let absolutePath = self.currentPlaylist.files[i];
         let filename = fileUtils.getShortFilename(absolutePath);
-
-        // Create the in-memory tbody of filenames to toggle with absolute paths
-        let playlistElementButtonFilenames = $('<button>');
-        playlistElementButtonFilenames.addClass("playlist-browser-table-btn");
-        playlistElementButtonFilenames.text(filename);
-        playlistElementButtonFilenames.click({
-          filename: absolutePath
-        }, self.clickEventOnPlaylistBrowserRow);
-        let playlistTableRowFilenames = $('<tr id=playlist-browser-entry-' + [i] + '>').append($('<td>').append(playlistElementButtonFilenames));
-        self.tbodyFilenames.append(playlistTableRowFilenames);
-
-        // Create the in-memory tbody of absolute paths to toggle with filenames
-        let playlistElementButtonAbsolutePaths = $('<button>');
-        playlistElementButtonAbsolutePaths.addClass("playlist-browser-table-btn");  
-        playlistElementButtonAbsolutePaths.text(absolutePath);
-        playlistElementButtonAbsolutePaths.click({
-          filename: absolutePath
-        }, self.clickEventOnPlaylistBrowserRow);
-        let playlistTableRowAbsolutePaths = $('<tr id=playlist-browser-entry-' + [i] + '>').append($('<td>').append(playlistElementButtonAbsolutePaths));
-        self.tbodyAbsolutePaths.append(playlistTableRowAbsolutePaths);
+        self.tbodyFilenames.append(self.getPlaylistBrowserTableRow(filename, absolutePath));
+        self.tbodyAbsolutePaths.append(self.getPlaylistBrowserTableRow(absolutePath, absolutePath));
       }
       $playlistTableBody.replaceWith(self.tbodyFilenames);
     }
+  }
+
+  /** Create a playlist browser table row */
+  this.getPlaylistBrowserTableRow = (displayName, filePath) => {
+    let playlistElementButton = $('<button>');
+    playlistElementButton.addClass("playlist-browser-table-btn");
+    playlistElementButton.text(displayName);
+    playlistElementButton.click({
+      filename: filePath
+    }, self.clickEventOnPlaylistBrowserRow);
+    let playlistTableRow = $('<tr>').append($('<td>').append(playlistElementButton));
+    return playlistTableRow;
   }
 
   /** Play the clicked element from the playlist. */
