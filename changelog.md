@@ -2,7 +2,7 @@
 
 #### v1.04
 
-* Added backend to execute bookings (of facility overlay type) to tennis world australia with a single API call. The current manual process using tennis world's mobile UI is 11 API calls.e
+* Added backend to execute bookings (of facility overlay type) to tennis world australia with a single API call. The current manual process using tennis world's mobile UI is 11 API calls.
 * Improved playlist comparison algorithm to handle better larger playlists
 * Improved expand/collapse playlist filenames performance for larger playlists
 * Improved logic to highlight currently playing element in the playlist
