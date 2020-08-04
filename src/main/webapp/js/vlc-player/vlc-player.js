@@ -592,6 +592,8 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.currentPlaylist = null;
   this.updatedPlaylist = null;
   const playSelectedUrl = '/kame-house/api/v1/vlc-rc/players/localhost/commands';
+  this.tbodyAbsolutePaths = null;
+  this.tbodyFilenames = null;
   this.dobleLeftImg = null;
   this.dobleRightImg = null;
   
@@ -637,22 +639,30 @@ function VlcPlayerPlaylist(vlcPlayer) {
       playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. " + madaMadaDane + " :)"));
       $playlistTableBody.append(playlistTableRow);
     } else {
+      self.tbodyFilenames = $('<tbody id="playlist-table-body">');
+      self.tbodyAbsolutePaths = $('<tbody id="playlist-table-body">');
       for (let i = 0; i < self.currentPlaylist.length; i++) {
-        let playlistElementButton = $('<button>');
-        playlistElementButton.addClass("playlist-table-btn");
         let absolutePath = self.currentPlaylist[i].filename;
         let filename = fileUtils.getShortFilename(absolutePath);
-        playlistElementButton.data("filename", filename);
-        playlistElementButton.data("absolutePath", absolutePath);
-        playlistElementButton.text(filename);
-        playlistElementButton.click({
-          id: self.currentPlaylist[i].id
-        }, self.clickEventOnPlaylistRow);
-        playlistTableRow = $('<tr id=playlist-table-row-id-' + self.currentPlaylist[i].id + '>').append($('<td>').append(playlistElementButton));
-        $playlistTableBody.append(playlistTableRow);
-      } 
+        let playlistElementId = self.currentPlaylist[i].id
+        self.tbodyFilenames.append(self.getPlaylistTableRow(filename, playlistElementId));
+        self.tbodyAbsolutePaths.append(self.getPlaylistTableRow(absolutePath, playlistElementId));
+      }
+      $playlistTableBody.replaceWith(self.tbodyFilenames);
       self.highlightCurrentPlayingItem();
     }
+  }
+
+  /** Create a playlist table row */
+  this.getPlaylistTableRow = (displayName, playlistElementId) => {
+    let playlistElementButton = $('<button>');
+    playlistElementButton.addClass("playlist-table-btn");
+    playlistElementButton.text(displayName);
+    playlistElementButton.click({
+      id: playlistElementId
+    }, self.clickEventOnPlaylistRow);
+    let playlistTableRow = $('<tr id=playlist-table-row-id-' + playlistElementId + '>').append($('<td>').append(playlistElementButton));
+    return playlistTableRow;
   }
 
   /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */
@@ -720,21 +730,26 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
     logger.debugFunctionCall();
     let isExpandedFilename = true;
-    $('#playlist-table-body tr').each(function () {
-      let playlistEntry = $(this).children().children();
-      let filename = playlistEntry.data("filename");
-      let currentText = playlistEntry.text();
-      if (currentText == filename) {
-        // Currently it's showing the short filename. Update to expanded absolute path
-        let absolutePath = playlistEntry.data("absolutePath");
-        playlistEntry.text(absolutePath);
-        isExpandedFilename = true;
-      } else {
-        // Currently it's showing the expanded absolute path. Update to short filename
-        playlistEntry.text(filename);
-        isExpandedFilename = false;
+    let filenamesFirstFile = $(self.tbodyFilenames).children().first().text();
+    let currentFirstFile = $('#playlist-table-body tr:first').text();
+    let $playlistTable = $('#playlist-table');
+
+    if (currentFirstFile == filenamesFirstFile) {
+      // currently displaying filenames, switch to absolute paths 
+      if (!isNullOrUndefined(self.tbodyFilenames)) {
+        self.tbodyFilenames.detach();
       }
-    });
+      $playlistTable.append(self.tbodyAbsolutePaths);
+      isExpandedFilename = true;
+    } else {
+      // currently displaying absolute paths, switch to filenames 
+      if (!isNullOrUndefined(self.tbodyAbsolutePaths)) {
+        self.tbodyAbsolutePaths.detach();
+      }
+      $playlistTable.append(self.tbodyFilenames);
+      isExpandedFilename = false;
+    }
+    self.highlightCurrentPlayingItem();
     self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
   }
 
