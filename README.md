@@ -8,18 +8,17 @@
  
 # Description:
 
-This application (still heavily under construction) will contain the following modules: 
+This application (still under construction) will contain the following modules: 
 
 * Manage my media files (store their location and information in a database and create interfaces to play them)
 * Control multiple VLC Players through a custom interface using VLC's http API
 * Control the server running the application (shutdown, suspend, lock screen, unlock screen, etc)
-* Do automated bookings to tennis world (australia)
-* Login system
-* Application administration view (secured through Spring Security)
+* Do automated bookings to tennis world (Australia)
+* Application administration view (with Spring Security)
 * About and contact us
 * Newsletter functionality
 * Test API endpoints to practice different frontend frameworks
-* Integration with social networks and other popular APIs
+* Integration with social networks and other public APIs
 
 The main idea of this application is to keep improving and learning best practices of software development with Java and frontend technologies, so if you are a software developer and can look through the code and see vulnerabilities or things to improve I'd be more than happy to hear about them!
 
@@ -42,7 +41,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * SockJs
 * Stomp
 
-### SCM:
+### Software Configuration Management:
 
 * Maven 
 * Travis-ci for CI
