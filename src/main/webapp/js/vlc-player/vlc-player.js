@@ -44,10 +44,8 @@ function VlcPlayer(hostname) {
    * Tab manager
    */
   this.openTab = (vlcPlayerTabDivId) => {
-    let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
-    for (let i = 0; i < vlcPlayerTabContent.length; i++) {
-      vlcPlayerTabContent[i].style.display = "none";
-    }
+    let vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
+    // Update tab links
     let vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
     for (let i = 0; i < vlcPlayerTabLinks.length; i++) {
       vlcPlayerTabLinks[i].className = vlcPlayerTabLinks[i].className.replace(" active", "");
@@ -55,9 +53,12 @@ function VlcPlayer(hostname) {
     let vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
     vlcPlayerTabLink.classList.add("active");
 
-    let vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
+    // Update tab content
+    let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
+    for (let i = 0; i < vlcPlayerTabContent.length; i++) {
+      vlcPlayerTabContent[i].style.display = "none";
+    }
     vlcPlayerTabDiv.style.display = "block";
-    vlcPlayerTabDiv.classList.add("active");
   }
 
   /**
@@ -631,12 +632,11 @@ function VlcPlayerPlaylist(vlcPlayer) {
     // Clear playlist content. 
     $("#playlist-table-body").empty();
     // Add the new playlist items received from the server.
-    let $playlistTableBody = $('#playlist-table-body');
-    let playlistTableRow;
+    let $playlistTableBody = $('#playlist-table-body'); 
     if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) 
       || self.currentPlaylist.length <= 0) {
       let madaMadaDane = 'まだまだだね';
-      playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. " + madaMadaDane + " :)"));
+      let playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. " + madaMadaDane + " :)"));
       $playlistTableBody.append(playlistTableRow);
     } else {
       self.tbodyFilenames = $('<tbody id="playlist-table-body">');
@@ -721,7 +721,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** Toggle expand or collapse filenames in the playlist */
   this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
     logger.debugFunctionCall();
-    let isExpandedFilename = true;
+    let isExpandedFilename = null;
     let filenamesFirstFile = $(self.tbodyFilenames).children().first().text();
     let currentFirstFile = $('#playlist-table-body tr:first').text();
     let $playlistTable = $('#playlist-table');

@@ -281,7 +281,7 @@ public class TennisWorldBookingService {
         selectedSessionDatePath = href;
       }
     }
-    logger.debug("selectedSessionDatePath:" + selectedSessionDatePath);
+    logger.debug("selectedSessionDatePath:{}", selectedSessionDatePath);
     if (selectedSessionDatePath == null) {
       throw new KameHouseBadRequestException("Error getting the selectedSessionDatePath");
     }

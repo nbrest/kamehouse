@@ -45,7 +45,7 @@ function HttpClient() {
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   this.httpRequest = function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    if (isEmpty(requestBody)) {
+    if (isNullOrUndefined(requestBody)) {
       $.ajax({
         type: httpMethod,
         url: url,

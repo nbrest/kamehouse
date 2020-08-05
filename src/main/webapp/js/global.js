@@ -69,23 +69,28 @@ function CoreUtils() {
   global = this.global;
 
   /** 
+   * @deprecated(use isNullOrUndefined())
+   * 
    * Checks if a variable is undefined or null, an empty array [] or an empty object {}. 
    * 
    * --- IMPORTANT --- 
-   * This method performs poorly with large objects. For large playlists (3000 elements) this comparison
+   * DEPRECATED: This method performs poorly with large objects. For large playlists (3000 elements) this comparison
    * takes more than 1 seconds causing a lag in the entire view. Use it for objects that I don't expect
    * to be large and be aware of performance issues that can be caused from using it.
+   * 
    * For better performance, use isNullOrUndefined() when that check is enough.
+   * 
+   * Keeping the definition so I don't attempt to do the same later down the track.
    */
   this.isEmpty = (val) => {
-    let isNullOrUndefined = val === undefined || val == null;
-    let isEmptyString = !isNullOrUndefined && val === "";
-    let isEmptyArray = !isNullOrUndefined && Array.isArray(val) && val.length <= 0;
-    let isEmptyObject = !isNullOrUndefined && Object.entries(val).length === 0 && val.constructor === Object;
-    return isNullOrUndefined || isEmptyString || isEmptyArray || isEmptyObject;
+    let isUndefinedOrNull = self.isNullOrUndefined(val);
+    let isEmptyString = !isUndefinedOrNull && val === "";
+    let isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
+    let isEmptyObject = !isUndefinedOrNull && Object.entries(val).length === 0 && val.constructor === Object;
+    return isUndefinedOrNull || isEmptyString || isEmptyArray || isEmptyObject;
   }
 
-  /** Checks if a variable is undefined or null. Use this for large objects such as playlists instead of isEmpty() */
+  /** Checks if a variable is undefined or null. */
   this.isNullOrUndefined = (val) => {
     return val === undefined || val == null;
   }
@@ -101,7 +106,7 @@ function CoreUtils() {
   /** Scroll to the top of the specified div or top of the window if no div specified. */
   this.scrollToTop = (divId) => {
     let divToScrollToTop;
-    if (isEmpty(divId)) {
+    if (isNullOrUndefined(divId)) {
       divToScrollToTop = 'html, body';
     } else {
       divToScrollToTop = '#' + divId;

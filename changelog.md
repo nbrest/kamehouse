@@ -2,11 +2,12 @@
 
 #### v1.04
 
-* Added backend to execute bookings (of facility overlay type) to tennis world australia with a single API call. The current manual process using tennis world's mobile UI is 11 API calls.
+* Added backend to execute bookings (of facility overlay type) to tennis world australia with a single API call. The current manual process using tennis world's mobile UI is 11 API calls
 * Improved playlist comparison algorithm to handle better larger playlists
 * Improved expand/collapse playlist filenames performance for larger playlists
 * Improved logic to highlight currently playing element in the playlist
-* Improved overall vlc player performance by removing isEmpty() usage
+* Updated vlc player tab manager to look more responsive when large playlists are loaded 
+* Deprecated isEmpty() in the frontend and improved overall performance with isNullOrUndefined()
 * Set a media server that contains all the media files and allowed to stream files and playlists from the media server in the computer running kame-house
 * Replaced cobertura with jacoco for code coverage checks
 * Added more words in Japanese to kame-house frontend :)

@@ -124,7 +124,7 @@ function Header() {
   this.updateLoginStatus = () => {
     let $loginStatus = $("#login-status");
     $loginStatus.empty();
-    if (isEmpty(global.session.username) || global.session.username.trim() == "" ||
+    if (isNullOrUndefined(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {
       let $loginButton = $("<a href='/kame-house/login' " +
         "class='btn btn-outline-danger login-status-button'>Login</>");

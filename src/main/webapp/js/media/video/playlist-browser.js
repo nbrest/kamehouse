@@ -129,7 +129,7 @@ function PlaylistBrowser(vlcPlayer) {
     // Add the new playlist browser items received from the server.
     let $playlistTableBody = $('#playlist-browser-table-body');    
     if (isNullOrUndefined(self.currentPlaylist)) {
-      playlistTableRow = $('<tr>').append($('<td>').text("No playlist to browse loaded yet or unable to sync. まだまだだね :)"));
+      let playlistTableRow = $('<tr>').append($('<td>').text("No playlist to browse loaded yet or unable to sync. まだまだだね :)"));
       $playlistTableBody.append(playlistTableRow);
     } else {
       self.tbodyFilenames = $('<tbody id="playlist-browser-table-body">');
@@ -167,7 +167,7 @@ function PlaylistBrowser(vlcPlayer) {
   /** Toggle expand or collapse filenames in the playlist */
   this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
     logger.debugFunctionCall();
-    let isExpandedFilename = true;
+    let isExpandedFilename = null;
     let filenamesFirstFile = $(self.tbodyFilenames).children().first().text();
     let currentFirstFile = $('#playlist-browser-table-body tr:first').text();
     let $playlistTable = $('#playlist-browser-table');

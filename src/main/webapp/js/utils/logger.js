@@ -22,14 +22,14 @@ function Logger() {
 
   /** Log a specified message with the specified logging level. */
   this.log = (logLevel, message) => {
-    if (isEmpty(logLevel)) {
+    if (isNullOrUndefined(logLevel)) {
       console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
       return;
     }
     let logLevelUpperCase = logLevel.toUpperCase();
     let callerFunction = self.getCallerFunctionName();
     let logEntry = "";
-    if (isEmpty(callerFunction)) {
+    if (isNullOrUndefined(callerFunction)) {
       logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - () - " + message;
     } else {
       logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - (" + callerFunction + ") - " + message;
@@ -71,7 +71,7 @@ function Logger() {
   /** Log a debug message of the function call with it's parameters*/
   this.debugFunctionCall = () => {
     let message = self.getMessageForTraceFunctionCall();
-    if (!isEmpty(message)) {
+    if (!isNullOrUndefined(message)) {
       self.debug(message);
     }
   }
@@ -79,7 +79,7 @@ function Logger() {
   /** Log a trace message of the function call with it's parameters*/
   this.traceFunctionCall = () => { 
     let message = self.getMessageForTraceFunctionCall();
-    if (!isEmpty(message)) {
+    if (!isNullOrUndefined(message)) {
       self.trace(message);
     }
   }
@@ -113,7 +113,8 @@ function Logger() {
       let callerFunction = getMessageForFunctionCall.caller.caller;
       message = "Started " + callerFunction.name;
       let argumentsString = "";
-      if (!isEmpty(callerFunction.arguments) && callerFunction.arguments.length > 0) {
+      if (!isNullOrUndefined(callerFunction.arguments) && !isNullOrUndefined(callerFunction.arguments.length) 
+        && callerFunction.arguments.length > 0) {
         argumentsString = " with arguments";
         let callerFunctionArgumentNames = self.getFunctionArgumentNames(callerFunction);
         for (let i = 0; i < callerFunction.arguments.length; i++) {
