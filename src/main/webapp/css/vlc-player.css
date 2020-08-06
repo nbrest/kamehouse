@@ -407,12 +407,14 @@
 .playlist-wrapper {
   padding: 10px;
   background: #171e22;
+  min-height: 500px;
   max-height: 500px;
   overflow: scroll;
 }
 
 @media (max-width: 900px) {
   .playlist-wrapper {
+    min-height: 380px;
     max-height: 380px;
     overflow: scroll;
   }
