@@ -6,7 +6,7 @@
 * Improved playlist comparison algorithm to handle better larger playlists
 * Improved expand/collapse playlist filenames performance for larger playlists
 * Improved logic to highlight currently playing element in the playlist
-* Updated vlc player tab manager to look more responsive when large playlists are loaded 
+* Updated vlc player tab manager to look more responsive with large playlists by loading playlist content asynchronously when switching tabs
 * Deprecated isEmpty() in the frontend and improved overall performance with isNullOrUndefined()
 * Set a media server that contains all the media files and allowed to stream files and playlists from the media server in the computer running kame-house
 * Replaced cobertura with jacoco for code coverage checks
