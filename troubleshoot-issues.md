@@ -33,7 +33,7 @@
 
 ## Websockets keep reconnecting infinitely, sending data but not receiving:
 
-* This happened several times on dev environment. 
+### This happened several times on dev environment. 
 - Redeploying webapp and restarting tomcat several times didn't fix it
 - Restarting apache httpd didn't fix it
 - Accessing directly to tomcat without going through httpd didn't fix it (not httpd related)
@@ -41,3 +41,6 @@
 - Restarting intellij didn't fix it
 - Using firefox, I see the same issue. Not chrome related
 - Only thing that worked was shutting down (not hibernate) computer
+
+### It happened also in my server niko-nba
+- Here I had to stop tomcat and restart it and it started working again
