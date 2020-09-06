@@ -23,6 +23,7 @@ import java.util.List;
 public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> implements
     TestUtils<Playlist, Object> {
 
+  public static final String MEDIA_SERVER = "niko-server";
   public static final String API_V1_MEDIA_VIDEO_PLAYLIST = "/api/v1/media/video/playlist";
   public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
   public static final String TEST_PLAYLISTS_ROOT_DIR = "src" + File.separator + "test"
@@ -30,7 +31,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
       "playlists" + File.separator + "localhost";
   public static final String TEST_PLAYLISTS_REMOTE_SERVER_DIR = "src" + File.separator + "test"
       + File.separator + "resources" + File.separator + "media.video" + File.separator +
-      "playlists" + File.separator + "samba-niko-nba";
+      "playlists" + File.separator + "samba-" + MEDIA_SERVER;
 
   @Override
   public void initTestData() {

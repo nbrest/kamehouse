@@ -43,7 +43,7 @@ public class VideoPlaylistServiceTest {
   public void before() {
     PowerMockito.mockStatic(PropertiesUtils.class);
     when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
-    when(PropertiesUtils.getHostname()).thenReturn("niko-nba");
+    when(PropertiesUtils.getHostname()).thenReturn(VideoPlaylistTestUtils.MEDIA_SERVER);
     when(PropertiesUtils.getUserHome()).thenReturn(""); // Use git project root as home
     when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_LINUX))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
@@ -83,7 +83,8 @@ public class VideoPlaylistServiceTest {
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
-    assertTrue(returnedPlaylists.get(0).getPath().contains("samba-niko-nba"));
+    assertTrue(returnedPlaylists.get(0).getPath().contains("samba-"
+        + VideoPlaylistTestUtils.MEDIA_SERVER));
   }
 
   /**
