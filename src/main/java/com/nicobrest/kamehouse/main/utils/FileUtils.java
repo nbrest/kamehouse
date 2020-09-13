@@ -56,7 +56,7 @@ public class FileUtils {
     if (filepath == null) {
       return false;
     }
-    return filepath.startsWith("smb://");
+    return filepath.startsWith("smb://") || filepath.startsWith("http://") || filepath.startsWith("\\");
   }
 
   /**
