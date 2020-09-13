@@ -28,7 +28,9 @@ public class VideoPlaylistService {
 
   public static final String PROP_MEDIA_SERVER = "media.server";
   public static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
-  public static final String PROP_PLAYLISTS_PATH_REMOTE = "playlists.path.remote";
+  public static final String PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE = "playlists.path.remote.lan"
+      + ".share";
+  public static final String PROP_PLAYLISTS_PATH_REMOTE_HTTP = "playlists.path.remote.http";
   public static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
   private static final String REMOTE_SERVER = "[REMOTE_SERVER]";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
@@ -119,8 +121,14 @@ public class VideoPlaylistService {
       }
     } else {
       String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER);
-      String playlistsPathRemote = PropertiesUtils.getMediaVideoProperty(
-          PROP_PLAYLISTS_PATH_REMOTE);
+      String playlistsPathRemote = null;
+      if (PropertiesUtils.isWindowsHost()) {
+        playlistsPathRemote = PropertiesUtils.getMediaVideoProperty(
+            PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE);
+      } else {
+        playlistsPathRemote = PropertiesUtils.getMediaVideoProperty(
+            PROP_PLAYLISTS_PATH_REMOTE_HTTP);
+      }
       playlistsPathRemote = playlistsPathRemote.replace(REMOTE_SERVER, mediaServer);
       videoPlaylistsHome = userHome + playlistsPathRemote;
     }
