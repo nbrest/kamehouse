@@ -52,6 +52,9 @@ public class VideoPlaylistServiceTest {
     when(PropertiesUtils.getMediaVideoProperty(
         VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_SERVER_DIR);
+    when(PropertiesUtils.getMediaVideoProperty(
+            VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_HTTP))
+            .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_SERVER_DIR);
     when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_MEDIA_SERVER))
         .thenCallRealMethod();
     videoPlaylistTestUtils.initTestData();
