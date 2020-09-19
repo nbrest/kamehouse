@@ -51,10 +51,10 @@ public class VideoPlaylistServiceTest {
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
     when(PropertiesUtils.getMediaVideoProperty(
         VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE))
-        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_SERVER_DIR);
+        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_LAN_SHARE_DIR);
     when(PropertiesUtils.getMediaVideoProperty(
             VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_HTTP))
-            .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_SERVER_DIR);
+            .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
     when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_MEDIA_SERVER))
         .thenCallRealMethod();
     videoPlaylistTestUtils.initTestData();
@@ -87,8 +87,13 @@ public class VideoPlaylistServiceTest {
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
-    assertTrue(returnedPlaylists.get(0).getPath().contains("samba-"
-        + VideoPlaylistTestUtils.MEDIA_SERVER));
+    if(PropertiesUtils.isWindowsHost()) {
+      assertTrue(returnedPlaylists.get(0).getPath().contains("lan-share-"
+          + VideoPlaylistTestUtils.MEDIA_SERVER));
+    } else {
+      assertTrue(returnedPlaylists.get(0).getPath().contains("http-"
+          + VideoPlaylistTestUtils.MEDIA_SERVER));
+    }
   }
 
   /**
