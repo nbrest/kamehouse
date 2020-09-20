@@ -2,6 +2,8 @@
 
 #### v1.05
 
+* Added backend functionality to wake on lan other servers
+* Added frontend to WOL media server (from kame-house running on another server in the same network)
 * Fixed bugs
 
 #### v1.04

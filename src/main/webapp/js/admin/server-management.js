@@ -21,32 +21,41 @@ function importServerManagementCss() {
 
 function ServerManager() {
 
+  const ADMIN_API_URL = "/kame-house/api/v1/admin";
+
   this.execAdminShutdown = (url) => {
     let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
     logger.trace("Shutdown delay: " + shutdownDelay);
     let requestParam = "delay=" + shutdownDelay;
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(url, requestParam, processSuccess, processError);
+    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
   }
+
+  this.execAdminWakeOnLan = (url, server) => {
+    let requestParam = "server=" + server;
+    loadingWheelModal.open();
+    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
+  }
+
 
   this.get = (url) => {
     loadingWheelModal.open();
-    apiCallTable.get(url, processSuccess, processError);
+    apiCallTable.get(ADMIN_API_URL + url, processSuccess, processError);
   }
 
   this.post = (url, requestBody) => {
     loadingWheelModal.open();
-    apiCallTable.post(url, requestBody, processSuccess, processError);
+    apiCallTable.post(ADMIN_API_URL + url, requestBody, processSuccess, processError);
   }
  
   this.postUrlEncoded = (url, requestParam) => {
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(url, requestParam, processSuccess, processError);
+    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
   }
 
   this.delete = (url, requestBody) => { 
     loadingWheelModal.open();
-    apiCallTable.delete(url, requestBody, processSuccess, processError);
+    apiCallTable.delete(ADMIN_API_URL + url, requestBody, processSuccess, processError);
   }
 
   /** Process success response */

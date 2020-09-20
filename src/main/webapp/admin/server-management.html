@@ -21,14 +21,14 @@
     <div class="bg-darker-kh">
     <div class="default-layout screen-section p-15-d-kh p-15-m-kh">
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Screen</h5>
-      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-        onclick="serverManager.post('/kame-house/api/v1/admin/screen/unlock', null)"
+      <img class="sm-btn-img m-50-d-l-kh m-50-m-l-kh m-50-d-r-kh m-50-m-r-kh"
+        onclick="serverManager.post('/screen/unlock', null)"
         src="/kame-house/img/pc/unlock-green.png" alt="Unlock" title="Unlock" />
       <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-        onclick="serverManager.post('/kame-house/api/v1/admin/screen/wake-up', null)"
+        onclick="serverManager.post('/screen/wake-up', null)"
         src="/kame-house/img/pc/mouse-click.png" alt="Wake-Up" title="Wake-Up" />
       <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
-        onclick="serverManager.post('/kame-house/api/v1/admin/screen/lock', null)"
+        onclick="serverManager.post('/screen/lock', null)"
         src="/kame-house/img/pc/lock-red.png" alt="Lock" title="Lock" />
     </div> 
     </div>
@@ -42,25 +42,38 @@
         <option value="90">1 Min</option>
       </select>
       <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-        onclick="serverManager.execAdminShutdown('/kame-house/api/v1/admin/power-management/shutdown')"
+        onclick="serverManager.execAdminShutdown('/power-management/shutdown')"
         src="/kame-house/img/pc/shutdown-red.png" alt="Shutdown" title="Shutdown" />
       <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-        onclick="serverManager.delete('/kame-house/api/v1/admin/power-management/shutdown')"
+        onclick="serverManager.delete('/power-management/shutdown')"
         src="/kame-house/img/pc/shutdown-green.png" alt="Cancel Shutdown" title="Cancel Shutdown" />
       <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
-        onclick="serverManager.get('/kame-house/api/v1/admin/power-management/shutdown')"
-        src="/kame-house/img/other/question-mark-blue.png" alt="Shutdown Status" title="Shutdown Status" />
+        onclick="serverManager.get('/power-management/shutdown')"
+        src="/kame-house/img/other/circle-question-blue.png" alt="Shutdown Status" title="Shutdown Status" />
     </div>
     <div class="fl-r-d-kh fl-l-m-kh">
       <h6 class="h6-kh txt-r-d-kh">Suspend</h6>
       <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh m-25-m-l-kh"
-        onclick="serverManager.post('/kame-house/api/v1/admin/power-management/suspend', null)"
-        src="/kame-house/img/pc/sleep-red.png" alt="Suspend Now" title="Suspend Now" />
+        onclick="serverManager.post('/power-management/suspend', null)"
+        src="/kame-house/img/pc/hibernate-red.png" alt="Suspend Now" title="Suspend Now" />
     </div>
     </div>
     </div>
-    
+
     <div class="bg-darker-kh p-15-d-kh p-15-m-kh">
+    <div class="default-layout media-server-section">
+    <h5 class="h5-kh txt-r-m-kh">Media Server</h5>
+    <div class="fl-l-d-kh fl-l-m-kh">
+      <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Wake On Lan</h6>
+      <img class="sm-btn-img m-50-d-l-kh m-50-m-l-kh"
+        onclick="serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')"
+        src="/kame-house/img/pc/wol-red.png" alt="WOL media server"
+        title="WOL media server" />
+    </div>
+    </div>
+    </div>
+
+    <div class="p-15-d-kh p-15-m-kh">
     <div class="default-layout">
     <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Command output</h5>
     <div id="api-call-table"></div>

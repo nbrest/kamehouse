@@ -34,6 +34,10 @@
   text-align: left;
 }
 
+.media-server-section {
+  width: 60%;
+}
+
 .pm-section {
   width: 40%; 
 }

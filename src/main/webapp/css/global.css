@@ -290,6 +290,16 @@ hr {
   }
 }
 
+.m-50-d-l-kh {
+  margin-left: 50px;
+}
+
+@media (max-width : 900px) {
+  .m-50-m-l-kh {
+    margin-left: 50px;
+  }
+}
+
 .m-50-d-r-kh {
   margin-right: 50px;
 }
