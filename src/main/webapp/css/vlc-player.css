@@ -453,6 +453,23 @@
   }
 }
 
+#subtitle-buttons {
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 900px) {
+  #subtitle-buttons {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+}
+
+#subtitle-delay {
+  margin-right: 10px;
+  color: #868686;
+}
+
 /** Playlist selector dropdowns end */
 
 .table-filter-input {

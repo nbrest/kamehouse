@@ -86,6 +86,16 @@ function VlcPlayer(hostname) {
   
   this.execVlcRcCommand = (name, val) => self.commandExecutor.execVlcRcCommand(name, val);
 
+  this.updateSubtitleDelay = (increment) => {
+    let subtitleDelay = self.getVlcRcStatus().subtitleDelay;
+    if (!isNullOrUndefined(subtitleDelay)) {
+      subtitleDelay = Number(subtitleDelay) + Number(increment);
+    } else {
+     subtitleDelay = 0 + Number(increment);
+    }
+    self.commandExecutor.execVlcRcCommand('subdelay', subtitleDelay);
+  }
+
   this.updateAspectRatio = (aspectRatio) => {
     if (!isNullOrUndefined(aspectRatio)) {
       self.commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
@@ -265,6 +275,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
       self.updateMediaTitle();
       self.updateTimeSlider();
       self.updateVolumeSlider();
+      self.updateSubtitleDelay();
       self.statefulButtons.forEach(statefulButton => statefulButton.updateState());
     } else {
       self.resetView();
@@ -277,6 +288,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     self.resetMediaTitle();
     self.resetTimeSlider();
     self.resetVolumeSlider();
+    self.resetSubtitleDelay();
     self.statefulButtons.forEach(statefulButton => statefulButton.updateState());
   }
 
@@ -298,6 +310,20 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
     $("#media-title").text(mediaName.filename);
+  }
+
+  /** Update subtitle delay. */
+  this.updateSubtitleDelay = () => { 
+    let subtitleDelay = self.vlcPlayer.getVlcRcStatus().subtitleDelay;
+    if (isNullOrUndefined(subtitleDelay)) {
+      subtitleDelay = "0";
+    } 
+    $("#subtitle-delay-value").text(subtitleDelay);
+  }
+
+  /** Reset subtitle delay. */
+  this.resetSubtitleDelay = () => {
+    $("#subtitle-delay-value").text("0");
   }
 
   /**

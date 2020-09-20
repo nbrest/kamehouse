@@ -70,6 +70,7 @@
         </table>
       </div> <!-- vlc-player/media-time -->
       <div id="media-buttons">
+
       <table id="media-play-control-buttons" class="table-mplayer-btns-kh">
         <caption class="hidden-kh">Main control buttons</caption>
         <tr class="hidden-kh"><th scope="row">Main control buttons</th></tr>
@@ -101,6 +102,7 @@
           </td>
         </tr>
       </table>
+
       <table id="audio-controls" class="table-mplayer-btns-kh"> 
         <caption class="hidden-kh">Audio controls</caption>
         <colgroup>
@@ -138,6 +140,7 @@
         </td>
         </tr> 
       </table>
+
       <table id="media-flow-buttons" class="table-mplayer-btns-kh">
         <caption class="hidden-kh">Media flow buttons</caption>
         <tr class="hidden-kh"><th scope="row">Media flow buttons</th></tr>
@@ -160,11 +163,6 @@
               src="/kame-house/img/mplayer/repeat-green.png"
               onclick="vlcPlayer.execVlcRcCommand('pl_loop')" alt="Loop" title="Loop"/>
           </td>
-          <td> 
-            <img class="vlc-player-btn-img media-flow-button vlc-player-btn-green"
-              src="/kame-house/img/mplayer/subtitles-cycle-green.png"
-              onclick="vlcPlayer.execVlcRcCommand('key', 'subtitle-track')" alt="Subtitle Cycle" title="Subtitle Cycle"/> 
-          </td>
   	      <td> 
             <img class="vlc-player-btn-img media-flow-button vlc-player-btn-green"
               src="/kame-house/img/mplayer/audio-track-cycle-green.png"
@@ -172,6 +170,38 @@
   	      </td>
         </tr>
       </table>
+
+      <table id="subtitle-buttons" class="table-mplayer-btns-kh">
+        <caption class="hidden-kh">Subtitle buttons</caption>
+        <colgroup>
+          <col class="w-30-pc-kh" />
+          <col class="w-10-pc-kh" />
+          <col class="w-30-pc-kh" />
+          <col class="w-30-pc-kh" />
+        </colgroup> 
+        <tr class="hidden-kh"><th scope="row">Subtitle buttons</th></tr>
+        <tr> 
+          <td> 
+            <img class="vlc-player-btn-img media-flow-button vlc-player-btn-gray"
+              src="/kame-house/img/other/double-left-gray-dark.png"
+              onclick="vlcPlayer.updateSubtitleDelay('-1')" alt="Subtitle delay -1s" title="Subtitle delay -1s"/>
+          </td>
+          <td> 
+            <img class="vlc-player-btn-img media-flow-button vlc-player-btn-gray"
+              src="/kame-house/img/mplayer/subtitles-cycle-gray-dark.png"
+              onclick="vlcPlayer.execVlcRcCommand('key', 'subtitle-track')" alt="Subtitle Cycle" title="Subtitle Cycle"/> 
+          </td>
+  	      <td> 
+            <img class="vlc-player-btn-img media-flow-button vlc-player-btn-gray"
+              src="/kame-house/img/other/double-right-gray-dark.png"
+              onclick="vlcPlayer.updateSubtitleDelay('+1')" alt="Subtitle delay +1s" title="Subtitle delay +1s"/>
+          </td>
+          <td> 
+            <div id="subtitle-delay">Subtitle Delay: <span id="subtitle-delay-value">0</span>s</div>
+  	      </td>
+        </tr>
+      </table>
+
       <table id="media-screen-ctrl-buttons" class="table-mplayer-btns-kh">
         <caption class="hidden-kh">Screen control buttons</caption>
         <tr class="hidden-kh"><th scope="row">Screen control buttons</th></tr>
