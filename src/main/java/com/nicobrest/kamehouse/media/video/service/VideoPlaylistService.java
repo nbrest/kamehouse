@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  */
 public class VideoPlaylistService {
 
-  public static final String PROP_MEDIA_SERVER = "media.server";
+  public static final String PROP_MEDIA_SERVER_NAME = "media.server.name";
   public static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
   public static final String PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE = "playlists.path.remote.lan"
       + ".share";
@@ -120,7 +120,7 @@ public class VideoPlaylistService {
         videoPlaylistsHome = userHome + playlistsPathLinux;
       }
     } else {
-      String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER);
+      String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER_NAME);
       String playlistsPathRemote = null;
       if (PropertiesUtils.isWindowsHost()) {
         playlistsPathRemote = PropertiesUtils.getMediaVideoProperty(
@@ -139,7 +139,7 @@ public class VideoPlaylistService {
    * Checks if the current server running kamehouse is the media server.
    */
   private static boolean isMediaServerLocalhost() {
-    String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER);
+    String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER_NAME);
     return mediaServer.equalsIgnoreCase(PropertiesUtils.getHostname());
   }
 

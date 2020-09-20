@@ -55,7 +55,7 @@ public class VideoPlaylistServiceTest {
     when(PropertiesUtils.getMediaVideoProperty(
             VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_HTTP))
             .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
-    when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_MEDIA_SERVER))
+    when(PropertiesUtils.getMediaVideoProperty(VideoPlaylistService.PROP_MEDIA_SERVER_NAME))
         .thenCallRealMethod();
     videoPlaylistTestUtils.initTestData();
     expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
