@@ -456,17 +456,18 @@
 #subtitle-buttons {
   margin-top: 15px;
   margin-bottom: 30px;
+  width: 80%;
 }
 
 @media (max-width: 900px) {
   #subtitle-buttons {
     margin-top: 20px;
     margin-bottom: 40px;
+    width: 100%;
   }
 }
 
 #subtitle-delay {
-  margin-right: 10px;
   color: #868686;
 }
 

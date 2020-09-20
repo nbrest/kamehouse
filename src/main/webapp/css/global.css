@@ -237,6 +237,16 @@ hr {
   }
 }
 
+.m-15-d-r-kh {
+  margin-right: 15px;
+}
+
+@media (max-width : 900px) {
+  .m-15-m-r-kh {
+    margin-right: 15px;
+  }
+}
+
 /** margin 20 */
 .m-20-d-kh {
   margin: 20px;
@@ -245,6 +255,16 @@ hr {
 @media (max-width : 900px) {
   .m-20-m-kh {
     margin: 20px;
+  }
+}
+
+.m-20-d-r-kh {
+  margin-right: 20px;
+}
+
+@media (max-width : 900px) {
+  .m-20-m-r-kh {
+    margin-right: 20px;
   }
 }
 
