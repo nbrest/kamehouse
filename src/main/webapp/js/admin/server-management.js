@@ -20,8 +20,9 @@ function importServerManagementCss() {
 }
 
 function ServerManager() {
-
+  self = this;
   const ADMIN_API_URL = "/kame-house/api/v1/admin";
+  self.debugger = new Debugger();
 
   this.execAdminShutdown = (url) => {
     let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
@@ -67,6 +68,27 @@ function ServerManager() {
   function processError(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Debugger functionality
+   */
+  this.getDebugger = () => self.debugger;
+}
+
+/** 
+ * Handles the debugger functionality.
+ * 
+ * @author nbrest
+ */
+function Debugger() {
+
+  /** Toggle debug mode. */
+  this.toggleDebugMode = () => {
+    logger.debug("Toggled debug mode")
+    let debugModeDiv = document.getElementById("debug-mode");
+    debugModeDiv.classList.toggle("hidden-kh");
   }
 }
 
