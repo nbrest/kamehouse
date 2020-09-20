@@ -9,8 +9,6 @@ import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.main.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.utils.VlcRcStatusBuilder;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.http.HttpResponse;
@@ -24,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -223,9 +222,6 @@ public class VlcPlayer implements Identifiable, Serializable {
    * Executes a request to the web API of the VLC Player using the provided URL
    * and returns the payload as a String.
    */
-  @SuppressFBWarnings(value = "DM_DEFAULT_ENCODING",
-      justification = "Currently it's a limitation by using apache HttpClient. Created a task to "
-          + "look at alternatives")
   private String execRequestToVlcServer(String url) {
     HttpClient client = HttpClientUtils.getClient(username, password);
     HttpGet request = HttpClientUtils.httpGet(url);
@@ -234,7 +230,8 @@ public class VlcPlayer implements Identifiable, Serializable {
     try {
       response = HttpClientUtils.execRequest(client, request);
       try (InputStream resInStream = HttpClientUtils.getInputStream(response);
-           BufferedReader responseReader = new BufferedReader(new InputStreamReader(resInStream))) {
+           BufferedReader responseReader = new BufferedReader(new InputStreamReader(resInStream,
+               StandardCharsets.UTF_8))) {
         StringBuilder responseBody = new StringBuilder();
         String line = "";
         while ((line = responseReader.readLine()) != null) {

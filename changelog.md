@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v1.05
+
+* Fixed bugs
+
 #### v1.04
 
 * Added backend to execute bookings (of facility overlay type) to tennis world australia with a single API call to kame-house. The current manual process using tennis world's mobile UI is 11 API calls to tennis world
@@ -13,6 +17,8 @@
 * Added more words in Japanese to kame-house frontend :)
 * Added backend functionality for dynamically changing the logging level for each package. Updated log level definitions for each package. Disabled extreme logging of vlc player status by default
 * Moved remote playlists from smb:// protocol to lan share (\\server) on windows so it can load subtitles, and http:// on linux as linux doesn't support either smb:// or lan share. Still can't load subtitles from http:// streams on though
+* Fixed issue of playlist resyncing when it should be the same
+* Added spinning wheel when going to admin view
 
 #### v1.03
 

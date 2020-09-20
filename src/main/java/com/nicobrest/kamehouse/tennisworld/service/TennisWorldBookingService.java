@@ -536,7 +536,9 @@ public class TennisWorldBookingService {
         for (Element errorMessage : errorMessages) {
           if (ID_ERROR_MESSAGE.equals(errorMessage.id())
               && !StringUtils.isEmpty(errorMessage.text())) {
-            logger.error(errorMessage.text());
+            if (logger.isErrorEnabled()) {
+              logger.error(errorMessage.text());
+            }
             errors.add(errorMessage.text());
           }
         }
