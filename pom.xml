@@ -26,7 +26,6 @@
     <jacoco.version>0.8.5</jacoco.version>                              <!-- Updated 2020/07 -->
     <javax.servlet.version>3.0.1</javax.servlet.version>                <!-- Updated 2016/02 -->
     <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
-    <javax.xml.bind.version>2.4.0-b180830.0359</javax.xml.bind.version> <!-- Updated 2020/09 -->
     <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
     <jsoup.version>1.13.1</jsoup.version>                               <!-- Updated 2020/07 -->
     <jstl.version>1.2</jstl.version>                                    <!-- Updated 2016/02 -->
@@ -37,7 +36,6 @@
     <powermock.version>1.7.3</powermock.version>                        <!-- Updated 2016/02 -->
     <spring.version>4.3.25.RELEASE</spring.version>                     <!-- Updated 2019/09 -->
     <spring.security.version>4.2.13.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
-    <sun.xml.bind.version>3.0.0-M4</sun.xml.bind.version>               <!-- Updated 2020/09 -->
     <war.plugin.version>2.1.1</war.plugin.version>                      <!-- Updated 2016/02 -->
 
     <java.target.version>1.8</java.target.version>
@@ -58,20 +56,6 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>${javax.servlet.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>${javax.xml.bind.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>${sun.xml.bind.version}</version>
       <scope>provided</scope>
     </dependency>
 
