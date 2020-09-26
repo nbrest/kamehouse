@@ -199,7 +199,7 @@
 
 #media-screen-ctrl-buttons {
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   width: 90%;
 }
 
@@ -210,7 +210,7 @@
 @media (max-width: 900px) {
   #media-screen-ctrl-buttons {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     width: 83%;
   }
 }
@@ -455,20 +455,20 @@
 
 #subtitle-buttons {
   margin-top: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   width: 80%;
 }
 
 @media (max-width: 900px) {
   #subtitle-buttons {
     margin-top: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     width: 100%;
   }
 }
 
 #subtitle-delay {
-  color: #868686;
+  color: #5a5a5a;
 }
 
 /** Playlist selector dropdowns end */
