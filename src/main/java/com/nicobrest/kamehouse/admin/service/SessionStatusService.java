@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.admin.service;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.model.SessionStatus;
 
+import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,8 @@ public class SessionStatusService {
     Authentication authentication = getAuthentication();
     String username = authentication.getName();
     SessionStatus sessionStatus = new SessionStatus();
-    sessionStatus.setUsername(StringEscapeUtils.escapeHtml(username)); 
+    sessionStatus.setUsername(StringEscapeUtils.escapeHtml(username));
+    sessionStatus.setServer(PropertiesUtils.getHostname());
     try {
       ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
       sessionStatus.setFirstName(applicationUser.getFirstName());

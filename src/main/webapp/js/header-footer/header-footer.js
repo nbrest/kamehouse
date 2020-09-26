@@ -15,11 +15,36 @@ function renderHeaderAndFooter() {
   logger.traceFunctionCall();
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     logger.info("Started initializing header and footer");
-    header = new Header();
-    header.renderHeader();
-    footer = new Footer();
-    footer.renderFooter();
+    getSessionStatus(loadHeaderAndFooter);
   });
+}
+
+/** 
+ * Get session status and execute the specified function. 
+ */
+function getSessionStatus(callback) {
+  let SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
+
+  httpClient.get(SESSION_STATUS_URL, null,
+    (responseBody, responseCode, responseDescription) => {
+      logger.trace("Sessin Status: " + JSON.stringify(responseBody));
+      global.session = responseBody;
+      callback();
+    },
+    (responseBody, responseCode, responseDescription) => {
+      logger.error("Error retrieving current session information.")
+      callback();
+    });
+}
+
+/**
+ * Load header and footer.
+ */
+function loadHeaderAndFooter() {
+  header = new Header();
+  header.renderHeader();
+  footer = new Footer();
+  footer.renderFooter();
 }
 
 /** Footer functionality */
@@ -29,15 +54,18 @@ function Footer() {
   this.renderFooter = () => { 
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
     $("body").append('<div id="footerContainer"></div>');
-    $("#footerContainer").load("/kame-house/html-snippets/footer.html");
+    $("#footerContainer").load("/kame-house/html-snippets/footer.html", () => {
+      if (!isNullOrUndefined(global.session.server)) {
+        $("#server-name").text(global.session.server);
+      }
+    });
   }
 }
 
 /** Header functionality */
 function Header() {
   let self = this;
-  let SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
-
+  
   /** Render the header */
   this.renderHeader = () => {
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
@@ -45,7 +73,7 @@ function Header() {
     $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
       self.updateLoginStatus();
       self.updateActiveTab();
-      self.updateSessionStatus();
+      self.updateLoginStatus();
     });
   }
 
@@ -103,19 +131,6 @@ function Header() {
     } else {
       headerMenu.className = "header-nav";
     }
-  }
-
-  /** 
-   * Update session status. 
-   */
-  this.updateSessionStatus = () => { 
-    httpClient.get(SESSION_STATUS_URL, null,
-      (responseBody, responseCode, responseDescription) => {
-        logger.trace("Sessin Status: " + JSON.stringify(responseBody));
-        global.session = responseBody;
-        self.updateLoginStatus();
-      },
-      (responseBody, responseCode, responseDescription) => logger.error("Error retrieving current session information."));
   }
 
   /**

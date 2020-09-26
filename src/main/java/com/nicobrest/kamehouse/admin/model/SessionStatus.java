@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Represents the session status information that can be returned by the API.
+ * Represents the session status information that can be returned by the status API.
  *
  * @author nbrest
  */
@@ -15,6 +15,7 @@ public class SessionStatus {
   private String username;
   private String firstName;
   private String lastName;
+  private String server;
 
   public String getUsername() {
     return username;
@@ -38,6 +39,14 @@ public class SessionStatus {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public String getServer() {
+    return server;
+  }
+
+  public void setServer(String server) {
+    this.server = server;
   }
 
   @Override
