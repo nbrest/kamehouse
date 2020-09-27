@@ -15,56 +15,71 @@ function renderHeaderAndFooter() {
   logger.traceFunctionCall();
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     logger.info("Started initializing header and footer");
-    getSessionStatus(loadHeaderAndFooter);
+    header = new Header();
+    header.renderHeader();
+    footer = new Footer();
+    footer.renderFooter();
+    loadSessionStatus();
   });
 }
 
 /** 
- * Get session status and execute the specified function. 
+ * Get session status and update the header and footer status. 
  */
-function getSessionStatus(callback) {
+function loadSessionStatus() {
   let SESSION_STATUS_URL = "/kame-house/api/v1/session/status";
 
   httpClient.get(SESSION_STATUS_URL, null,
     (responseBody, responseCode, responseDescription) => {
       logger.trace("Sessin Status: " + JSON.stringify(responseBody));
       global.session = responseBody;
-      callback();
+      updateSessionStatus();
     },
-    (responseBody, responseCode, responseDescription) => {
-      logger.error("Error retrieving current session information.")
-      callback();
-    });
+    (responseBody, responseCode, responseDescription) => logger.error("Error retrieving current session information.")
+  );
 }
 
 /**
- * Load header and footer.
+ * Wait for the header and footer to be loaded and then update the session status.
  */
-function loadHeaderAndFooter() {
-  header = new Header();
-  header.renderHeader();
-  footer = new Footer();
-  footer.renderFooter();
+async function updateSessionStatus() {
+  while (!header.isLoaded() && !footer.isLoaded()) {
+    await sleep(1000);
+  }
+  header.updateLoginStatus();
+  footer.updateServerName();  
 }
 
 /** Footer functionality */
 function Footer() {
+  self = this;
+  this.loaded = false;
+
+  this.isLoaded = () => self.loaded;
 
   /** Renders the footer */
   this.renderFooter = () => { 
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
     $("body").append('<div id="footerContainer"></div>');
     $("#footerContainer").load("/kame-house/html-snippets/footer.html", () => {
-      if (!isNullOrUndefined(global.session.server)) {
-        $("#server-name").text(global.session.server);
-      }
+      self.loaded = true;
     });
+  }
+
+  /** Update the server name in the footer */
+  this.updateServerName = () => {
+    if (!isNullOrUndefined(global.session.server)) {
+      $("#server-name").text(global.session.server);
+    }
   }
 }
 
 /** Header functionality */
 function Header() {
   let self = this;
+  this.loaded = false;
+
+  this.isLoaded = () => self.loaded;
   
   /** Render the header */
   this.renderHeader = () => {
@@ -73,7 +88,7 @@ function Header() {
     $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
       self.updateLoginStatus();
       self.updateActiveTab();
-      self.updateLoginStatus();
+      self.loaded = true;
     });
   }
 
