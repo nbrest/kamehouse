@@ -22,7 +22,7 @@ function importServerManagementCss() {
 function ServerManager() {
   self = this;
   const ADMIN_API_URL = "/kame-house/api/v1/admin";
-  self.debugger = new Debugger();
+  this.debugger = new Debugger();
 
   this.execAdminShutdown = (url) => {
     let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
