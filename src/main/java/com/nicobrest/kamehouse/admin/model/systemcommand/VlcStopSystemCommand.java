@@ -15,7 +15,7 @@ public class VlcStopSystemCommand extends SystemCommand {
    */
   public VlcStopSystemCommand(int sleepTime) {
     super();
-    linuxCommand.addAll(Arrays.asList("skill", "-9", "vlc"));
+    linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "kill -9 `ps aux | grep vlc | grep -v grep | awk '{print $2}'`"));
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "taskkill", "/im", "vlc.exe"));
     setOutputCommand();
     this.sleepTime = sleepTime;
