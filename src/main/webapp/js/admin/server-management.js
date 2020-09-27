@@ -20,7 +20,6 @@ function importServerManagementCss() {
 }
 
 function ServerManager() {
-  self = this;
   const ADMIN_API_URL = "/kame-house/api/v1/admin";
   this.debugger = new Debugger();
 
@@ -74,7 +73,7 @@ function ServerManager() {
    * --------------------------------------------------------------------------
    * Debugger functionality
    */
-  this.getDebugger = () => self.debugger;
+  this.getDebugger = () => this.debugger;
 }
 
 /** 
