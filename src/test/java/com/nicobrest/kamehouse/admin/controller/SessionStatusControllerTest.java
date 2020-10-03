@@ -83,6 +83,6 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
 
   @Test
   public void testJenkins() {
-    fail("mada mada dane");
+    fail("mada mada dane2");
   }
 }
