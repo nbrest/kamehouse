@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -78,5 +79,10 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
     testUtils.assertEqualsAllAttributes(sessionStatus, responseBody);
     verify(sessionStatusServiceMock, times(1)).get();
     verifyNoMoreInteractions(sessionStatusServiceMock);
+  }
+
+  @Test
+  public void testJenkins() {
+    fail("mada mada dane");
   }
 }
