@@ -80,9 +80,4 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
     verify(sessionStatusServiceMock, times(1)).get();
     verifyNoMoreInteractions(sessionStatusServiceMock);
   }
-
-  @Test
-  public void testJenkins() {
-    fail("mada mada dane4");
-  }
 }
