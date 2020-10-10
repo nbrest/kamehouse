@@ -115,6 +115,11 @@ function Header() {
             $(navItem).addClass("active");
           }
           break;
+        case "/":
+          if ($(navItem).attr("id") == "nav-root") {
+            $(navItem).addClass("active");
+          }
+          break;
         default:
           break;
       }
