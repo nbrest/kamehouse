@@ -462,8 +462,12 @@ hr {
   transform: rotate(45deg);
   transition: all .4s ease-in-out;
 }
-
 /** Select dark theme. End.*/
+
+.shell-output {
+  background-color: black;
+  padding: 10px;
+}
 
 /* spinning wheel mobile ------------------------------------ */
 .spinning-wheel-mobile {
