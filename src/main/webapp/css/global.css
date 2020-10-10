@@ -467,6 +467,9 @@ hr {
 .shell-output {
   background-color: black;
   padding: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
 }
 
 /* spinning wheel mobile ------------------------------------ */
