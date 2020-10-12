@@ -98,7 +98,7 @@ function ModalUtils(modalId) {
     $("#" + modalId).load("/kame-house/html-snippets/" + modalId + ".html", () => {
       let modalDivCloseBtn = document.getElementById(modalId + "-close");
       modalDivCloseBtn.onclick = () => self.close();
-      self.setCloseOnClickOutsideModal();
+      //self.setCloseOnClickOutsideModal();
     });
   }
 
@@ -119,7 +119,7 @@ function ModalUtils(modalId) {
     }
     let modal = document.getElementById(modalId);
     modal.style.display = "block";
-    self.setCloseOnClickOutsideModal();
+    //self.setCloseOnClickOutsideModal();
   }
 
   /** Open auto closeable modal */
