@@ -69,7 +69,7 @@ function Footer() {
   /** Update the server name in the footer */
   this.updateServerName = () => {
     if (!isNullOrUndefined(global.session.server)) {
-      $("#server-name").text(global.session.server);
+      $("#footer-server-name").text(global.session.server);
     }
   }
 }
