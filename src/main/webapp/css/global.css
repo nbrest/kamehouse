@@ -466,6 +466,7 @@ hr {
 
 .shell-output {
   background-color: black;
+  color: #adadad;
   padding: 10px;
   white-space: pre-wrap;
   word-wrap: break-word;
