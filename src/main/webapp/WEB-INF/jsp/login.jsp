@@ -16,7 +16,7 @@
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
-<link href="<c:url value='/lib/css/bootstrap.min.css' />" rel="stylesheet" />
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/lib/css/font-awesome.css' />" />
 <link rel="stylesheet" href="/kame-house/css/global.css" /> 
 <link rel="stylesheet" href="/kame-house/css/login.css" /> 
@@ -36,23 +36,24 @@
         </div>
       </c:if>
       <div class="input-group input-sm">
-        <label class="input-group-addon" for="username">
-          <em class="fa fa-user"></em>
+        <label for="username">
+          <img class="login-icon" src="/kame-house/img/dbz/goku-dark-gray.png" alt="username"/>
         </label>
-        <input type="text" class="form-control" id="username" name="username"
+        <input type="text" class="form-control login-input-form" id="username" name="username"
           placeholder="Enter Username" required>
       </div>
       <br>
       <div class="input-group input-sm">
-        <label class="input-group-addon" for="password">
-          <em class="fa fa-lock"></em>
+        <label for="password">
+          <img class="login-icon" src="/kame-house/img/pc/password-dark-gray.png" alt="password"/>
         </label>
-        <input type="password" class="form-control" id="password" name="password"
+        <input type="password" class="form-control login-input-form" id="password" name="password"
           placeholder="Enter Password" required>
       </div>
       <br>
       <div class="form-actions">
-        <input type="submit" class="btn btn-block btn-outline-info btn-default" value="Log in">
+        <input type="submit" class="btn btn-block btn-outline-secondary btn-default btn-login"
+            value="Enter KameHouse">
       </div>
     </form>
   </div>
