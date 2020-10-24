@@ -138,7 +138,7 @@ function Header() {
           $(navItem).addClass("active");
         }
       }
-      if (pageUrl.startsWith("/my.scripts")) {
+      if (pageUrl.startsWith("/admin/my.scripts")) {
         if ($(navItem).attr("id") == "nav-root") {
           $(navItem).addClass("active");
         }
