@@ -464,22 +464,6 @@ hr {
 }
 /** Select dark theme. End.*/
 
-.shell-output {
-  background-color: black;
-  color: #adadad;
-  padding: 10px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow: auto;
-  max-height: 500px;
-}
-
-@media (max-width: 900px) {
-  .shell-output {
-    max-height: 380px;
-  }
-}
-
 /* spinning wheel -------------------------------------------- */
 .spinning-wheel {
   margin: auto;
