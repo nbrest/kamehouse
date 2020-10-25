@@ -18,7 +18,7 @@
 </head>
 <body>
   <div class="main-body">
-  <div id="banner" class="banner-sunset">
+  <div id="banner" class="banner-space">
   <div class="default-layout banner-text">
     <h1>JSP</h1>
     <p>JSP test application in the Test Module</p>

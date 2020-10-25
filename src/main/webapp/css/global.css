@@ -36,6 +36,19 @@
   }
 }
 
+.banner-roland-garros {
+  background: url(/kame-house/img/banners/roland-garros.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-roland-garros {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
 .banner-space {
   background: url(/kame-house/img/banners/space.jpg) 0 0;
 }
