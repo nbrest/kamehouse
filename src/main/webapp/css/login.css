@@ -1,3 +1,25 @@
+.login-alert-success {
+  color: #3a7b49;
+  background-color: #191f21;
+  border-color: #3a7b49;
+  border-radius: 0px;
+  border: 1px solid;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.login-alert-error {
+  color: #bd2121;
+  background-color: #191f21;
+  border-color: #bd2121;
+  border-radius: 0px;
+  border: 1px solid;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
 .login-form {
   margin: 30px;
 }

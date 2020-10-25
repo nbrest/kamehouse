@@ -26,13 +26,13 @@
     <c:url var="loginUrl" value="/login" />
     <form action="${loginUrl}" method="post" class="form-horizontal login-form">
       <c:if test="${param.error != null}">
-        <div class="alert alert-danger">
-          <p>Invalid username and password.</p>
+        <div class="login-alert-error">
+          Invalid username and password.
         </div>
       </c:if>
       <c:if test="${param.logout != null}">
-        <div class="alert alert-success">
-          <p>You have been logged out successfully.</p>
+        <div class="login-alert-success">
+          You have been logged out successfully.
         </div>
       </c:if>
       <div class="login-input-group">
