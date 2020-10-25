@@ -9,6 +9,33 @@
   background-size: cover;
 }
 
+.banner-australian-open {
+  background: url(/kame-house/img/banners/australian-open.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-australian-open {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-goku-ssj4-earth {
+  background: url(/kame-house/img/banners/goku-ssj4-earth.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-goku-ssj4-earth {
+    background-position-x: -100px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
 .banner-space {
   background: url(/kame-house/img/banners/space.jpg) 0 0;
 }
