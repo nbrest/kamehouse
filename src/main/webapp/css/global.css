@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
 
 #banner {
-  min-height: 400px;
+  min-height: 600px;
   text-align: center;
   color: #dddddd;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+@media (max-width : 900px) {
+  #banner {
+    min-height: 400px;
+  }
 }
 
 .banner-australian-open {
@@ -71,7 +77,7 @@
 }
 
 #banner h1 {
-  margin-top: 100px;
+  margin-top: 250px;
   font-size: 55px;
   margin-bottom: 10px;
 }
