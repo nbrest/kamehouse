@@ -17,6 +17,19 @@
   background: url(/kame-house/img/banners/sunset.jpg) 0 0;
 }
 
+.banner-wimbledon {
+  background: url(/kame-house/img/banners/wimbledon.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-wimbledon {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
 #banner h1 {
   margin-top: 100px;
   font-size: 55px;
