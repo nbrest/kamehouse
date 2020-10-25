@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="java.net.*,java.io.*,java.lang.*,java.util.*"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,34 +10,36 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <title>KameHouse - Login</title>
+
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
+<script src="/kame-house/js/login.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/lib/css/font-awesome.css' />" />
 <link rel="stylesheet" href="/kame-house/css/global.css" /> 
 <link rel="stylesheet" href="/kame-house/css/login.css" /> 
 </head>
 <body>
   <div class="default-layout main-body">
-    <c:url var="loginUrl" value="/login" />
-    <form action="${loginUrl}" method="post" class="form-horizontal login-form">
-      <c:if test="${param.error != null}">
+    <form action="/kame-house/login" method="post" class="form-horizontal login-form">
+
+      <div id="login-alert-group-error" class="hidden-kh">
         <div class="login-alert-group">
           <img class="login-icon"
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
             alt="alert-error" />
           <div class="login-alert-error">Invalid username and password.</div>
         </div>
-      </c:if>
-      <c:if test="${param.logout != null}">
+      </div>
+      <div id="login-alert-group-logout" class="hidden-kh">
         <div class="login-alert-group">
           <img class="login-icon"
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
             alt="alert-success" />
           <div class="login-alert-success">You have been logged out successfully.</div>
         </div>
-      </c:if>
+      </div>
+
       <div class="login-input-group">
         <label for="username" class="login-label">
           <img class="login-icon" src="/kame-house/img/dbz/goku-dark-gray.png" alt="username"/>
