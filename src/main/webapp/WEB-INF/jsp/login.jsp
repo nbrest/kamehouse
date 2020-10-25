@@ -26,13 +26,19 @@
     <c:url var="loginUrl" value="/login" />
     <form action="${loginUrl}" method="post" class="form-horizontal login-form">
       <c:if test="${param.error != null}">
-        <div class="login-alert-error">
-          Invalid username and password.
+        <div class="login-alert-group">
+          <img class="login-icon"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
+            alt="alert-error" />
+          <div class="login-alert-error">Invalid username and password.</div>
         </div>
       </c:if>
       <c:if test="${param.logout != null}">
-        <div class="login-alert-success">
-          You have been logged out successfully.
+        <div class="login-alert-group">
+          <img class="login-icon"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
+            alt="alert-success" />
+          <div class="login-alert-success">You have been logged out successfully.</div>
         </div>
       </c:if>
       <div class="login-input-group">
