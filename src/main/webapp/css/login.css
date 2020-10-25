@@ -1,8 +1,3 @@
-.btn-login {
-  width: 95% !important;
-  float: right;
-}
-
 .login-form {
   margin: 30px;
 }
@@ -11,7 +6,7 @@
   height: 42px;
   width: 42px;
   margin: 0px;
-  padding: 3px;
+  padding: 4px;
 }
 
 .login-input-form {
@@ -19,6 +14,9 @@
   border-radius: 0px;
   background-color: #000000;
   color: #686868;
+  padding: 1px;
+  padding-left: 10px;
+  width: 100%;
 }
 
 .login-input-form:focus {
@@ -26,4 +24,13 @@
   border-radius: 0px;
   background-color: #1a2226;
   color: #C0C0C0;
+}
+
+.login-input-group {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.login-label {
+  margin: 0px;
 }
