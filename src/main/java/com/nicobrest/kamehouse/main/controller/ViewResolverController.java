@@ -30,8 +30,8 @@ public class ViewResolverController extends AbstractController {
    * View resolver for static html files. Loads the content of the html and returns it to the view
    * so that include-static-html.jsp can render it.
    */
-  @GetMapping(path = { "/", "/about", "/admin", "/admin/**", "/contact-us", "/test-module",
-      "/test-module/", "/test-module/angular-1", "/test-module/angular-1/**",
+  @GetMapping(path = { "/", "/about", "/admin", "/admin/**", "/contact-us", "/login",
+      "/test-module", "/test-module/", "/test-module/angular-1", "/test-module/angular-1/**",
       "/test-module/websocket", "/test-module/websocket/**", "/vlc-player" })
   public ModelAndView includeStaticHtml(HttpServletRequest request, HttpServletResponse response) {
     String originalRequestUrl = request.getServletPath();
@@ -77,15 +77,6 @@ public class ViewResolverController extends AbstractController {
       logger.error("Error loading {} content", staticHtmlToLoad);
     }
     return modelAndView;
-  }
-
-  /**
-   * View resolver for the login page.
-   */
-  @GetMapping(path = "/login")
-  public String loginPage() {
-    logger.debug("/login (GET)");
-    return "/login";
   }
 
   /**

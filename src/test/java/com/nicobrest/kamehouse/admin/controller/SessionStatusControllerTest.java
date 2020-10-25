@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;

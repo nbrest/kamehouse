@@ -61,6 +61,7 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
     testIncludeStaticHtml("/about", "/about.html");
     testIncludeStaticHtml("/admin", "/admin/index.html");
     testIncludeStaticHtml("/contact-us", "/contact-us.html");
+    testIncludeStaticHtml("/login", "/login.html");
     testIncludeStaticHtml("/test-module/", "/test-module/index.html");
     testIncludeStaticHtml("/vlc-player", "/vlc-player.html");
   }
@@ -72,17 +73,6 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
   public void testModuleUrlsTest() throws Exception {
     testTestModuleJsp("/test-module/jsp/", "/test-module/jsp/index");
     testTestModuleJsp("/test-module/jsp/trunks", "/test-module/jsp/trunks");
-  }
-
-  /**
-   * Tests login.
-   */
-  @Test
-  public void loginTest() throws Exception {
-    MockHttpServletResponse response = doGet("/login");
-
-    verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals("/WEB-INF/jsp/login.jsp", response.getForwardedUrl());
   }
 
   /**
