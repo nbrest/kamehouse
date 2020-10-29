@@ -42,6 +42,20 @@
   }
 }
 
+.banner-gohan-ssj2 {
+  background: url(/kame-house/img/banners/gohan-ssj2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gohan-ssj2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
 .banner-roland-garros {
   background: url(/kame-house/img/banners/roland-garros.jpg) 0 0;
   background-size: cover !important;
