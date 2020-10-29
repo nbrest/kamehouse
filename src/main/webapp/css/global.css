@@ -28,15 +28,15 @@
   }
 }
 
-.banner-goku-ssj4-earth {
-  background: url(/kame-house/img/banners/goku-ssj4-earth.jpg) 0 0;
+.banner-fuego-12-casas {
+  background: url(/kame-house/img/banners/fuego-12-casas.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
 }
 
 @media (max-width : 900px) {
-  .banner-goku-ssj4-earth {
-    background-position-x: -100px;
+  .banner-fuego-12-casas {
+    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
   }
@@ -56,6 +56,20 @@
   }
 }
 
+.banner-goku-ssj4-earth {
+  background: url(/kame-house/img/banners/goku-ssj4-earth.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-goku-ssj4-earth {
+    background-position-x: -100px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
 .banner-roland-garros {
   background: url(/kame-house/img/banners/roland-garros.jpg) 0 0;
   background-size: cover !important;
@@ -64,6 +78,20 @@
 
 @media (max-width : 900px) {
   .banner-roland-garros {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-sanctuary {
+  background: url(/kame-house/img/banners/sanctuary.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-sanctuary {
+    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
   }
