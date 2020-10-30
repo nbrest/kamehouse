@@ -11,6 +11,7 @@
 var global;
 
 /** Global utils in global.js */
+var bannerUtils;
 var coreUtils;
 var cursorUtils;
 var fileUtils;
@@ -37,6 +38,7 @@ var sleep;
  * ----- Global functions ------------------------------------------------------------------
  */
 function main() {
+  bannerUtils = new BannerUtils();
   coreUtils = new CoreUtils();
   coreUtils.setGlobalFunctions();
   cursorUtils = new CursorUtils();
@@ -53,6 +55,41 @@ function main() {
     coreUtils.loadHeaderAndFooter();
     //testUtils.testLogLevel();
   });
+}
+
+/**
+ * BannerUtils to manipulate banners.
+ */
+function BannerUtils() {
+  let self = this;
+  
+  /** Set random saint seiya sanctuary banner */
+  this.setRandomSanctuaryBanner = () => {
+    let bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];
+    self.setRandomBanner(bannerClasses);
+  }
+
+  /** Set random dragonball banner */
+  this.setRandomDragonBallBanner = () => {
+    let bannerClasses = ["banner-goku-ssj4-earth", "banner-gohan-ssj2"];
+    self.setRandomBanner(bannerClasses);
+  }
+
+  /** Set random tennis banner */
+  this.setRandomTennisBanner = () => {
+    let bannerClasses = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
+    self.setRandomBanner(bannerClasses);
+  }
+
+  /** Set a random image from the banner classes list */
+  this.setRandomBanner = (bannerClasses) => {
+    let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
+    let element = document.getElementById("banner");
+    bannerClasses.forEach((bannerClass) => {
+      element.classList.remove(bannerClass);
+    });
+    element.classList.add(bannerClasses[randomBannerIndex]);
+  }
 }
 
 /** 
