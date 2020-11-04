@@ -14,9 +14,14 @@
 <link rel="stylesheet" href="/kame-house/css/global.css" />
 </head>
 <body>
-  <div class="default-layout main-body">
+  <div class="main-body">
+  <div id="banner" class="banner-gohan-ssj2">
+  <div class="default-layout banner-text">
+    <h1>EhCache Status</h1>
+  </div>
+  </div>
+  <div class="default-layout">
   <div>
-    <h3 id="ehcache-header">EhCache Status</h3>    
     <input type="button" onclick="ehCacheManager.clearAllCaches()"
       value="Clear All"
       class="btn btn-outline-danger cache-status-buttons btn-borderless" />
@@ -29,6 +34,7 @@
   </div>
     <br><br><hr>
     <div id="cache-data"></div>
+  </div>
   </div>
   <script src="/kame-house/js/admin/ehcache.js"></script>
 </body>
