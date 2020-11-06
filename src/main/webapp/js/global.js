@@ -104,7 +104,6 @@ function BannerUtils() {
 
   /** Set a random image from the banner classes list */
   this.setRandomBanner = (bannerClasses) => {
-    logger.info("Updating banner");
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     let element = document.getElementById("banner");
     bannerClasses.forEach((bannerClass) => {
