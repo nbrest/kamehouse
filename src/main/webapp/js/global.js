@@ -116,7 +116,7 @@ function BannerUtils() {
   this.setRandomBannerLoop = (bannerClass) => {
     setInterval(() => {
       self.setRandomBanner(bannerClass);
-    }, 15000);
+    }, 12000);
   }
 
   /** Update the server name in the banner */
