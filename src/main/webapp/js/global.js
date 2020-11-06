@@ -110,6 +110,9 @@ function BannerUtils() {
       element.classList.remove(bannerClass);
     });
     element.classList.add(bannerClasses[randomBannerIndex]);
+    // Trigger appear animation
+    var clonedElement = element.cloneNode(true);
+    element.parentNode.replaceChild(clonedElement, element);
   }
 
   /** Set a random image banner from the classes list at a certain interval */
