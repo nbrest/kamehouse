@@ -62,33 +62,62 @@ function main() {
  */
 function BannerUtils() {
   let self = this;
-  
+  const DRAGONBALL_BANNERS = ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-trunks-mountains"];
+  const PRINCE_OF_TENNIS_BANNERS = ["banner-fuji", "banner-pot-pijamas", "banner-rikkaidai", "banner-ryoma-chibi", "banner-ryoma-chibi2", "banner-ryoma-drive", "banner-ryoma-ss", "banner-seigaku", "banner-tezuka", "banner-yukimura", "banner-yukimura2", "banner-yukimura-sanada"];
+  const SAINT_SEIYA_BANNERS = ["banner-ancient-era-warriors", "banner-aries-knights", "banner-athena", "banner-athena-saints", "banner-camus", "banner-dohko", "banner-fuego-12-casas", "banner-hades", "banner-hyoga", "banner-ikki", "banner-ikki2", "banner-pegasus-ryu-sei-ken", "banner-sanctuary", "banner-seiya", "banner-shaka", "banner-shion", "banner-shiryu", "banner-shun"];
+  const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
+
   /** Set random saint seiya sanctuary banner */
   this.setRandomSanctuaryBanner = () => {
-    let bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];
-    self.setRandomBanner(bannerClasses);
+    let bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
+    self.setRandomBannerWrapper(bannerClasses, true);
   }
 
   /** Set random dragonball banner */
   this.setRandomDragonBallBanner = () => {
-    let bannerClasses = ["banner-goku-ssj4-earth", "banner-gohan-ssj2"];
-    self.setRandomBanner(bannerClasses);
+    self.setRandomBannerWrapper(DRAGONBALL_BANNERS, true);
+  }
+
+  /** Set random prince of tennis banner */
+  this.setRandomPrinceOfTennisBanner = () => {
+    self.setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true);
+  }
+
+  /** Set random saint seiya banner */
+  this.setRandomSaintSeiyaBanner = () => {
+    self.setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true);
   }
 
   /** Set random tennis banner */
   this.setRandomTennisBanner = () => {
-    let bannerClasses = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
-    self.setRandomBanner(bannerClasses);
+    self.setRandomBannerWrapper(TENNIS_BANNERS, true);
+  }
+
+  /** Wrapper to setRandomBanner to decide if it should set it once or loop */
+  this.setRandomBannerWrapper = (bannerClasses, shouldLoop) => {
+    if (shouldLoop) {
+      self.setRandomBannerLoop(bannerClasses);
+    } else {
+      self.setRandomBanner(bannerClasses);
+    }
   }
 
   /** Set a random image from the banner classes list */
   this.setRandomBanner = (bannerClasses) => {
+    logger.info("Updating banner");
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     let element = document.getElementById("banner");
     bannerClasses.forEach((bannerClass) => {
       element.classList.remove(bannerClass);
     });
     element.classList.add(bannerClasses[randomBannerIndex]);
+  }
+
+  /** Set a random image banner from the classes list at a certain interval */
+  this.setRandomBannerLoop = (bannerClass) => {
+    setInterval(() => {
+      self.setRandomBanner(bannerClass);
+    }, 30000);
   }
 }
 

@@ -16,9 +16,13 @@
 </head>
 
 <body>
-  <div class="default-layout main-body">
-    <h3 class="h3-kh">Test APIs</h3>
-    <hr>
+  <div class="main-body">
+  <div id="banner" class="banner-fuji">
+    <div class="default-layout banner-text">
+      <h1>Test APIs</h1>
+    </div>
+  </div>
+  <div class="default-layout">
     <h5 class="h5-kh">Request Output</h5>
     <div id="api-call-table"></div>
 
@@ -53,6 +57,7 @@
       onclick="apiTester.get('/kame-house/api/v1/dragonball/users/username/goku')"
       value="/kame-house/api/v1/dragonball/users/username/goku GET" class="btn btn-outline-success" />
     <br><br>
+  </div>
   </div>
   <script src="/kame-house/js/admin/test-apis.js"></script>
   <script src="/kame-house/js/snippets/api-call-table.js"></script>

@@ -10,6 +10,7 @@ var stompClient = null;
 
 /** Main function. */
 var main = () => {
+  bannerUtils.setRandomSaintSeiyaBanner();
   moduleUtils.loadWebSocketKameHouse();
   moduleUtils.waitForModules(["logger", "webSocketKameHouse"], () => {
     logger.info("Started initializing WebSocket");

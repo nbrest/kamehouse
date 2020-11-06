@@ -13,12 +13,13 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
+<script src="/kame-house/js/test-module/jsp/index.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 </head>
 <body>
   <div class="main-body">
-  <div id="banner" class="banner-space">
+  <div id="banner" class="banner-ancient-era-warriors">
   <div class="default-layout banner-text">
     <h1>JSP</h1>
     <p>JSP test application in the Test Module</p>

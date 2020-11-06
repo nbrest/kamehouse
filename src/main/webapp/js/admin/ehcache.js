@@ -8,7 +8,7 @@
 var ehCacheManager;
 
 var main = () => {
-  bannerUtils.setRandomDragonBallBanner();
+  bannerUtils.setRandomPrinceOfTennisBanner();
   importEhcacheCss();
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     logger.info("Started initializing ehcache");

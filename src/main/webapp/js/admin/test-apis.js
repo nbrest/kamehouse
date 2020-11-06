@@ -8,6 +8,7 @@
 var apiTester;
 
 var main = () => {
+  bannerUtils.setRandomPrinceOfTennisBanner();
   importTestApisCss();
   moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing test apis");
