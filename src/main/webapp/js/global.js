@@ -116,7 +116,7 @@ function BannerUtils() {
   this.setRandomBannerLoop = (bannerClass) => {
     setInterval(() => {
       self.setRandomBanner(bannerClass);
-    }, 30000);
+    }, 20000);
   }
 }
 
