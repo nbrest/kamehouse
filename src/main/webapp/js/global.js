@@ -118,6 +118,13 @@ function BannerUtils() {
       self.setRandomBanner(bannerClass);
     }, 20000);
   }
+
+  /** Update the server name in the banner */
+  this.updateServerName = () => {
+    if (!isNullOrUndefined(global.session.server)) {
+      $("#banner-server-name").text(global.session.server);
+    }
+  }
 }
 
 /** 

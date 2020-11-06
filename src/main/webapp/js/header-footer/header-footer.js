@@ -47,7 +47,8 @@ async function updateSessionStatus() {
     await sleep(1000);
   }
   header.updateLoginStatus();
-  footer.updateServerName();  
+  footer.updateServerName();
+  bannerUtils.updateServerName();
 }
 
 /** Footer functionality */

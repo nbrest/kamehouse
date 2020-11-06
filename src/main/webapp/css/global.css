@@ -634,6 +634,10 @@
   }
 }
 
+#banner-server-name {
+  font-size: 30px;
+}
+
 .bg-darker-kh {
   background: #171e22;
 }
