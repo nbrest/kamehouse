@@ -1,3 +1,3 @@
 window.onload = () => {
-  bannerUtils.setRandomSanctuaryBanner();
+  bannerUtils.setRandomSanctuaryBanner(60000);
 };

@@ -62,11 +62,12 @@ function main() {
  */
 function BannerUtils() {
   let self = this;
+  const DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
   const DRAGONBALL_BANNERS = ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-trunks-mountains"];
   const PRINCE_OF_TENNIS_BANNERS = ["banner-fuji", "banner-pot-pijamas", "banner-rikkaidai", "banner-ryoma-chibi", "banner-ryoma-chibi2", "banner-ryoma-drive", "banner-ryoma-ss", "banner-seigaku", "banner-tezuka", "banner-yukimura", "banner-yukimura2", "banner-yukimura-sanada"];
   const SAINT_SEIYA_BANNERS = ["banner-ancient-era-warriors", "banner-aries-knights", "banner-athena", "banner-athena-saints", "banner-camus", "banner-dohko", "banner-fuego-12-casas", "banner-hades", "banner-hyoga", "banner-ikki", "banner-ikki2", "banner-pegasus-ryu-sei-ken", "banner-sanctuary", "banner-seiya", "banner-shaka", "banner-shion", "banner-shiryu", "banner-shun"];
   const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
-  
+
   let ALL_BANNERS = [];
   ALL_BANNERS.push.apply(ALL_BANNERS, DRAGONBALL_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, PRINCE_OF_TENNIS_BANNERS);
@@ -74,40 +75,40 @@ function BannerUtils() {
   ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
 
   /** Set random saint seiya sanctuary banner */
-  this.setRandomSanctuaryBanner = () => {
+  this.setRandomSanctuaryBanner = (bannerRotateWaitMs) => {
     let bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
-    self.setRandomBannerWrapper(bannerClasses, true);
+    self.setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
   }
 
   /** Set random dragonball banner */
-  this.setRandomDragonBallBanner = () => {
-    self.setRandomBannerWrapper(DRAGONBALL_BANNERS, true);
+  this.setRandomDragonBallBanner = (bannerRotateWaitMs) => {
+    self.setRandomBannerWrapper(DRAGONBALL_BANNERS, true, bannerRotateWaitMs);
   }
 
   /** Set random prince of tennis banner */
-  this.setRandomPrinceOfTennisBanner = () => {
-    self.setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true);
+  this.setRandomPrinceOfTennisBanner = (bannerRotateWaitMs) => {
+    self.setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true, bannerRotateWaitMs);
   }
 
   /** Set random saint seiya banner */
-  this.setRandomSaintSeiyaBanner = () => {
-    self.setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true);
+  this.setRandomSaintSeiyaBanner = (bannerRotateWaitMs) => {
+    self.setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true, bannerRotateWaitMs);
   }
 
   /** Set random tennis banner */
-  this.setRandomTennisBanner = () => {
-    self.setRandomBannerWrapper(TENNIS_BANNERS, true);
+  this.setRandomTennisBanner = (bannerRotateWaitMs) => {
+    self.setRandomBannerWrapper(TENNIS_BANNERS, true, bannerRotateWaitMs);
   }
 
   /** Set random banner from all banners */
-  this.setRandomAllBanner = () => {
-    self.setRandomBannerWrapper(ALL_BANNERS, true);
+  this.setRandomAllBanner = (bannerRotateWaitMs) => {
+    self.setRandomBannerWrapper(ALL_BANNERS, true, bannerRotateWaitMs);
   }
 
   /** Wrapper to setRandomBanner to decide if it should set it once or loop */
-  this.setRandomBannerWrapper = (bannerClasses, shouldLoop) => {
+  this.setRandomBannerWrapper = (bannerClasses, shouldLoop, bannerRotateWaitMs) => {
     if (shouldLoop) {
-      self.setRandomBannerLoop(bannerClasses);
+      self.setRandomBannerLoop(bannerClasses, bannerRotateWaitMs);
     } else {
       self.setRandomBanner(bannerClasses);
     }
@@ -139,11 +140,14 @@ function BannerUtils() {
     element.parentNode.replaceChild(clonedElement, element);
   }
 
-  /** Set a random image banner from the classes list at a certain interval */
-  this.setRandomBannerLoop = (bannerClass) => {
+  /** Set a random image banner from the classes list at the specified interval */
+  this.setRandomBannerLoop = (bannerClass, bannerRotateWaitMs) => {
+    if (isNullOrUndefined(bannerRotateWaitMs)) {
+      bannerRotateWaitMs = DEFAULT_BANNER_ROTATE_WAIT_MS;
+    }
     setInterval(() => {
       self.setRandomBanner(bannerClass);
-    }, 10000);
+    }, bannerRotateWaitMs);
   }
 
   /** Update the server name in the banner */

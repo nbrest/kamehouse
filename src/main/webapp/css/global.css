@@ -604,6 +604,13 @@
   -webkit-animation-fill-mode: forwards;
 }
 
+.fade-in-out-60s {
+  animation: fade-in-out-60s 60s;
+  animation-fill-mode: forwards;
+  -webkit-animation: fade-in-out-60s 60s;
+  -webkit-animation-fill-mode: forwards;
+}
+
 /** fade-in-out: fade in-out effect for banners */
 @-webkit-keyframes fade-in-out {
   0% {
@@ -629,6 +636,50 @@
   }
 
   25% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+}
+
+@-webkit-keyframes fade-in-out-60s {
+  0% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+
+  25% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  75% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fade-in-out-60s {
+  0% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+
+  25% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  75% {
     opacity: 1;
     transform: scale(1);
   }
