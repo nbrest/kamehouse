@@ -670,7 +670,7 @@
 
 @keyframes fade-in-out-60s {
   0% {
-    opacity: 0.25;
+    opacity: 0.4;
     transform: scale(1.1);
   }
 
@@ -685,7 +685,7 @@
   }
 
   100% {
-    opacity: 0.25;
+    opacity: 0.4;
     transform: scale(1.1);
   }
 }
@@ -734,6 +734,7 @@
 
 .banner-wrapper {
   overflow: hidden;
+  background-color: black;
 }
 
 .bg-darker-kh {
