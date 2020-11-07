@@ -607,7 +607,7 @@
 /** fade-in-out: fade in-out effect for banners */
 @-webkit-keyframes fade-in-out {
   0% {
-    opacity: 0;
+    opacity: 0.25;
   }
 
   25% {
@@ -615,13 +615,13 @@
   }
 
   100% {
-    opacity: 0;
+    opacity: 0.25;
   }
 }
 
 @keyframes fade-in-out {
   0% {
-    opacity: 0;
+    opacity: 0.25;
   }
 
   25% {
@@ -629,7 +629,7 @@
   }
 
   100% {
-    opacity: 0;
+    opacity: 0.25;
   }
 }
 
