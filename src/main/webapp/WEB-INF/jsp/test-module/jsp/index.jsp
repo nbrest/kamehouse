@@ -19,10 +19,12 @@
 </head>
 <body>
   <div class="main-body">
-  <div id="banner" class="fade-in-out-20s banner-ancient-era-warriors">
-  <div class="default-layout banner-text">
-    <h1>JSP</h1>
-    <p>JSP test application in the Test Module</p>
+  <div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-ancient-era-warriors">
+    <div class="default-layout banner-text">
+      <h1>JSP</h1>
+      <p>JSP test application in the Test Module</p>
+    </div>
   </div>
   </div>
   <div class="default-layout landing-p-links">

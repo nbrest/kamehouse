@@ -597,10 +597,10 @@
   }
 }
 
-.fade-in-out-20s {
-  animation: fade-in-out 20s;
+.fade-in-out-15s {
+  animation: fade-in-out 15s;
   animation-fill-mode: forwards;
-  -webkit-animation: fade-in-out 20s;
+  -webkit-animation: fade-in-out 15s;
   -webkit-animation-fill-mode: forwards;
 }
 
@@ -608,28 +608,34 @@
 @-webkit-keyframes fade-in-out {
   0% {
     opacity: 0.25;
+    transform: scale(1.1);
   }
 
   25% {
     opacity: 1;
+    transform: scale(1);
   }
 
   100% {
     opacity: 0.25;
+    transform: scale(1.1);
   }
 }
 
 @keyframes fade-in-out {
   0% {
     opacity: 0.25;
+    transform: scale(1.1);
   }
 
   25% {
     opacity: 1;
+    transform: scale(1);
   }
 
   100% {
     opacity: 0.25;
+    transform: scale(1.1);
   }
 }
 
@@ -640,6 +646,7 @@
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
 }
 
 @media (max-width : 900px) {
@@ -672,6 +679,10 @@
 
 #banner-server-name {
   font-size: 30px;
+}
+
+.banner-wrapper {
+  overflow: hidden;
 }
 
 .bg-darker-kh {
