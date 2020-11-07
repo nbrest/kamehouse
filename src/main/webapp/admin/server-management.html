@@ -27,7 +27,9 @@
   <div class="server-management">
     <div class="bg-darker-kh">
     <div class="default-layout screen-section p-15-d-kh p-15-m-kh">
-      <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Screen</h5>
+      <h5 class="h5-kh txt-l-d-kh txt-c-m-kh">Screen</h5>
+      <br>
+      <p>Control the screen of the current server with Unlock, Wake-Up screen and Lock commands</p>
       <img class="sm-btn-img m-50-d-l-kh m-50-m-l-kh m-50-d-r-kh m-50-m-r-kh"
         onclick="serverManager.post('/screen/unlock', null)"
         src="/kame-house/img/pc/unlock-green.png" alt="Unlock" title="Unlock" />
@@ -38,12 +40,16 @@
         onclick="serverManager.post('/screen/lock', null)"
         src="/kame-house/img/pc/lock-red.png" alt="Lock" title="Lock" />
     </div> 
+    <br>
     </div>
     <div class="p-15-d-kh p-15-m-kh">
     <div class="default-layout pm-section">
-    <h5 class="h5-kh txt-r-m-kh">Power Management</h5>
+    <h5 class="h5-kh txt-c-m-kh">Power Management</h5>
+    <br>
     <div class="fl-l-d-kh fl-l-m-kh">
       <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Shutdown</h6>
+      <br>
+      <p>Commands to shutdown the server after the specified time, cancel a scheduled shutdown and check the status of an active shutdown</p>
       <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="shutdown-delay-dropdown">
         <option value="5400">90 Min</option>
         <option value="90">1 Min</option>
@@ -58,18 +64,25 @@
         onclick="serverManager.get('/power-management/shutdown')"
         src="/kame-house/img/other/circle-question-blue.png" alt="Shutdown Status" title="Shutdown Status" />
     </div>
+    <br>
     <div class="fl-r-d-kh fl-l-m-kh">
+      <br>
       <h6 class="h6-kh txt-r-d-kh">Suspend</h6>
-      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh m-25-m-l-kh"
+      <br>
+      <p>Send the server into a hibernation state</p>
+      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh m-25-m-l-kh fl-r-d-kh fl-l-m-kh"
         onclick="serverManager.post('/power-management/suspend', null)"
         src="/kame-house/img/pc/hibernate-red.png" alt="Suspend Now" title="Suspend Now" />
     </div>
     </div>
+    <br>
     </div>
 
     <div class="bg-darker-kh p-15-d-kh p-15-m-kh">
     <div class="default-layout media-server-section">
-    <h5 class="h5-kh txt-r-m-kh">Media Server</h5>
+    <h5 class="h5-kh txt-c-m-kh">Media Server</h5>
+    <br>
+    <p>The media server contains the media drive with all my videos and playlists. Use the WakeOnLan command to power on the media server when it's stopped</p>
     <div class="fl-l-d-kh fl-l-m-kh">
       <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Wake On Lan</h6>
       <img class="sm-btn-img m-50-d-l-kh m-50-m-l-kh"
