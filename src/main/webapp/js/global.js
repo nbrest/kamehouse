@@ -66,6 +66,12 @@ function BannerUtils() {
   const PRINCE_OF_TENNIS_BANNERS = ["banner-fuji", "banner-pot-pijamas", "banner-rikkaidai", "banner-ryoma-chibi", "banner-ryoma-chibi2", "banner-ryoma-drive", "banner-ryoma-ss", "banner-seigaku", "banner-tezuka", "banner-yukimura", "banner-yukimura2", "banner-yukimura-sanada"];
   const SAINT_SEIYA_BANNERS = ["banner-ancient-era-warriors", "banner-aries-knights", "banner-athena", "banner-athena-saints", "banner-camus", "banner-dohko", "banner-fuego-12-casas", "banner-hades", "banner-hyoga", "banner-ikki", "banner-ikki2", "banner-pegasus-ryu-sei-ken", "banner-sanctuary", "banner-seiya", "banner-shaka", "banner-shion", "banner-shiryu", "banner-shun"];
   const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
+  
+  let ALL_BANNERS = [];
+  ALL_BANNERS.push.apply(ALL_BANNERS, DRAGONBALL_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, PRINCE_OF_TENNIS_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, SAINT_SEIYA_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
 
   /** Set random saint seiya sanctuary banner */
   this.setRandomSanctuaryBanner = () => {
@@ -93,6 +99,11 @@ function BannerUtils() {
     self.setRandomBannerWrapper(TENNIS_BANNERS, true);
   }
 
+  /** Set random banner from all banners */
+  this.setRandomAllBanner = () => {
+    self.setRandomBannerWrapper(ALL_BANNERS, true);
+  }
+
   /** Wrapper to setRandomBanner to decide if it should set it once or loop */
   this.setRandomBannerWrapper = (bannerClasses, shouldLoop) => {
     if (shouldLoop) {
@@ -104,13 +115,26 @@ function BannerUtils() {
 
   /** Set a random image from the banner classes list */
   this.setRandomBanner = (bannerClasses) => {
+    // Get a new banner, different from the current one
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
+    let currentClassList = $('#banner').attr('class').split(/\s+/);
+    let currentBannerClass = "";
+    currentClassList.forEach((currentClass) => {
+      if (currentClass.startsWith("banner-")) {
+        currentBannerClass = currentClass;
+      }
+    });
+    let indexOfCurrentBannerClass = bannerClasses.indexOf(currentBannerClass);
+    while (randomBannerIndex == indexOfCurrentBannerClass) {
+      randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
+    }
+    // Update banner
     let element = document.getElementById("banner");
     bannerClasses.forEach((bannerClass) => {
       element.classList.remove(bannerClass);
     });
     element.classList.add(bannerClasses[randomBannerIndex]);
-    // Trigger appear animation
+    // Trigger banner annimation
     var clonedElement = element.cloneNode(true);
     element.parentNode.replaceChild(clonedElement, element);
   }
@@ -119,7 +143,7 @@ function BannerUtils() {
   this.setRandomBannerLoop = (bannerClass) => {
     setInterval(() => {
       self.setRandomBanner(bannerClass);
-    }, 12000);
+    }, 10000);
   }
 
   /** Update the server name in the banner */

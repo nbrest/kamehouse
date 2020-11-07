@@ -7,10 +7,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-gogeta.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -25,10 +21,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-gohan-shen-long.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -43,10 +35,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -61,10 +49,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-2.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -79,10 +63,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-3.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -97,10 +77,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-4.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -115,10 +91,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-goku-ssj1.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -133,10 +105,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-goku-ssj4-earth.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -151,10 +119,6 @@
   background: url(/kame-house/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -172,10 +136,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-fuji.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -190,10 +150,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-pot-pijamas.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -208,10 +164,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-rikkaidai.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -226,10 +178,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-chibi.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -244,10 +192,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-chibi2.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -262,10 +206,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-drive.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -280,10 +220,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-ss.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -298,10 +234,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-seigaku.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -316,10 +248,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-tezuka.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -334,10 +262,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -352,10 +276,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura2.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -370,10 +290,6 @@
   background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura-sanada.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -391,10 +307,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-ancient-era-warriors.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -409,10 +321,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-aries-knights.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -427,10 +335,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-athena.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -445,10 +349,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-athena-saints.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -463,10 +363,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-camus.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -481,10 +377,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-dohko.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -499,10 +391,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-fuego-12-casas.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -517,10 +405,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-hades.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -535,10 +419,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-hyoga.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -553,10 +433,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-ikki.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -571,10 +447,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-ikki2.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -589,10 +461,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-pegasus-ryu-sei-ken.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -607,10 +475,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-sanctuary.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -625,10 +489,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-seiya.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -643,10 +503,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-shaka.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -661,10 +517,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-shion.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -679,10 +531,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-shiryu.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -697,10 +545,6 @@
   background: url(/kame-house/img/banners/saint-seiya/banner-shun.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -718,10 +562,6 @@
   background: url(/kame-house/img/banners/tennis/banner-australian-open.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -735,10 +575,6 @@
   background: url(/kame-house/img/banners/tennis/banner-roland-garros.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -752,10 +588,6 @@
   background: url(/kame-house/img/banners/tennis/banner-wimbledon.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
-  animation: appear 4s;
-  animation-fill-mode: forwards;
-  -webkit-animation: appear 4s;
-  -webkit-animation-fill-mode: forwards;
 }
 
 @media (max-width : 900px) {
@@ -765,24 +597,39 @@
   }
 }
 
-/** appear: fade in effect for banners */
-@-webkit-keyframes appear {
+.fade-in-out-20s {
+  animation: fade-in-out 20s;
+  animation-fill-mode: forwards;
+  -webkit-animation: fade-in-out 20s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+/** fade-in-out: fade in-out effect for banners */
+@-webkit-keyframes fade-in-out {
   0% {
     opacity: 0;
   }
 
-  100% {
+  25% {
     opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }
 
-@keyframes appear {
+@keyframes fade-in-out {
   0% {
     opacity: 0;
   }
 
-  100% {
+  25% {
     opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }
 

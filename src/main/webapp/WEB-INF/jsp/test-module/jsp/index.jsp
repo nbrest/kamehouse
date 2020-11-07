@@ -19,7 +19,7 @@
 </head>
 <body>
   <div class="main-body">
-  <div id="banner" class="banner-ancient-era-warriors">
+  <div id="banner" class="fade-in-out-20s banner-ancient-era-warriors">
   <div class="default-layout banner-text">
     <h1>JSP</h1>
     <p>JSP test application in the Test Module</p>
