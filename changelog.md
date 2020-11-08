@@ -6,6 +6,18 @@
 * Added frontend to WOL media server (from kame-house running on another server in the same network)
 * Fixed bugs
 * Setup continuous integration with jenkins. https://jenkins.nicobrest.com
+* Fixed `skill -9 vlc` not working in raspberry pi
+* Update VLC main layout buttons
+* Added subtitle sync buttons
+* Refactored more js code on server-management page
+* Added server name to footer
+* Added root (/) functionality to do admin commands that don't rely on tomcat (kh.webserver js/php repo)
+* Changed modals so they can only be closed clicking the x button
+* Updated login page with custom icons and style
+* Moved login page to static html. Only jsps now are in /test-module/jsp
+* Updated banners in all pages
+* Added banner randomizer utils
+* Added animations to transition between banner images
 
 #### v1.04
 
