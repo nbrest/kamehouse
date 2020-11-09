@@ -8,7 +8,7 @@
 var serverManager;
 
 var main = () => {
-  bannerUtils.setRandomDragonBallBanner();
+  bannerUtils.setRandomAllBanner();
   importServerManagementCss();
   moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing server management");
