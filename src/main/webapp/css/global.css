@@ -852,6 +852,7 @@ html.wait, html.wait * {
 
 .landing-p-links {
   text-align: center;
+  width: 30%;
 }
 
 @media (max-width : 900px) {
