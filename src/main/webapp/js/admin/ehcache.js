@@ -73,6 +73,7 @@ function EhCacheManager() {
 
       $("#clear-" + cache.name).click(() => self.clearCacheData(cache.name));
       $("#toggle-view-" + cache.name).click(() => self.toggleCacheView(".toggle-" + cache.name));
+      $(".toggle-" + cache.name).toggle();
       self.ehcacheToggleTableRowIds.push(".toggle-" + cache.name);
     });
   }
