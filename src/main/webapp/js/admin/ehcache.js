@@ -53,11 +53,10 @@ function EhCacheManager() {
       $cacheTableRow.append($('<td class="td-ehcache-header">').append($('<div class="ehcache-table-header-txt">').text("name")));
       let $cacheTableRowContent = $("<td>");
       $cacheTableRowContent.append($('<div class="ehcache-table-header-txt">').text(cache.name));
-      $cacheTableRowContent.append("<input id='clear-" + cache.name +
-        "' type='button' value='Clear Cache' class='btn btn-outline-danger table-ehcache-button btn-borderless' />");
-      $cacheTableRowContent.append("<input id='toggle-view-" + cache.name +
-        "' type='button' value='Expand/Collapse' " +
-        "class='btn btn-outline-secondary table-ehcache-button btn-borderless' />");
+      $cacheTableRowContent.append("<img id='clear-" + cache.name + "' class='btn-ehcache cache-status-buttons'" + 
+        "src='/kame-house/img/other/cancel.png' alt='Clear' title='Clear' />");
+      $cacheTableRowContent.append("<img id='toggle-view-" + cache.name + "' class='btn-ehcache cache-status-buttons m-15-d-r-kh m-15-m-r-kh'" +
+        "src='/kame-house/img/other/resize-vertical-gray-dark.png' alt='Expand/Collapse' title='Expand/Collapse' />");
       $cacheTableRow.append($cacheTableRowContent);
       $cacheTable.append($cacheTableRow);
 

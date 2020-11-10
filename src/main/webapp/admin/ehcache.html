@@ -25,15 +25,18 @@
   </div>
   <div class="default-layout">
   <div>
-    <input type="button" onclick="ehCacheManager.clearAllCaches()"
-      value="Clear All"
-      class="btn btn-outline-danger cache-status-buttons btn-borderless" />
-    <input type="button" onclick="ehCacheManager.toggleAllCacheView()"
-      value="Expand/Collapse All"
-      class="btn btn-outline-secondary cache-status-buttons btn-borderless" />
-    <input type="button" onclick="ehCacheManager.getAllCacheData()"
-      value="Refresh"
-      class="btn btn-outline-info cache-status-buttons btn-borderless" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.clearAllCaches()"
+      src="/kame-house/img/other/cancel.png" alt="Clear All"
+      title="Clear All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.toggleAllCacheView()"
+      src="/kame-house/img/other/resize-vertical-gray-dark.png" alt="Expand/Collapse All"
+      title="Expand/Collapse All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.getAllCacheData()"
+      src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+      title="Refresh" />
   </div>
     <br><br>
     <div id="cache-data"></div>
