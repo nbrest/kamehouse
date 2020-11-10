@@ -50,9 +50,9 @@ function EhCacheManager() {
       let $cacheTableRow;
 
       $cacheTableRow = $("<tr>");
-      $cacheTableRow.append($('<td class="td-ehcache-header">').text("name"));
+      $cacheTableRow.append($('<td class="td-ehcache-header">').append($('<div class="ehcache-table-header-txt">').text("name")));
       let $cacheTableRowContent = $("<td>");
-      $cacheTableRowContent.text(cache.name);
+      $cacheTableRowContent.append($('<div class="ehcache-table-header-txt">').text(cache.name));
       $cacheTableRowContent.append("<input id='clear-" + cache.name +
         "' type='button' value='Clear Cache' class='btn btn-outline-danger table-ehcache-button btn-borderless' />");
       $cacheTableRowContent.append("<input id='toggle-view-" + cache.name +

@@ -11,9 +11,22 @@
   font-weight: bold;
 }
 
+.ehcache-table-header-txt {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
 .table-ehcache {
-  background: #1c2226;
+  background: #171717;
   margin-bottom: 5px;
+}
+
+.table-ehcache td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .table-ehcache-button {
