@@ -1,0 +1,1300 @@
+/**
+  * banners captain tsubasa
+  */
+.banner-beni3 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-beni3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-beni3 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-benji-steve {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji-steve.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji-steve {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-benji {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-benji2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-benji3 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji3 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-benji4 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji4.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji4 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-niupi {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-niupi.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-niupi {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-niupi2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-niupi2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-niupi2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-oliver-benji {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver-benji.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver-benji {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-oliver-benji2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver-benji2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver-benji2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-oliver-steve {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver-steve.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver-steve {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-oliver {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-oliver2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners dc
+  */
+.banner-batman-animated {
+  background: url(/kame-house/img/banners/dc/banner-batman-animated.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-batman-animated {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-batman {
+  background: url(/kame-house/img/banners/dc/banner-batman.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-batman {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-joker {
+  background: url(/kame-house/img/banners/dc/banner-joker.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-joker {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-joker2 {
+  background: url(/kame-house/img/banners/dc/banner-joker2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-joker2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-superman-logo {
+  background: url(/kame-house/img/banners/dc/banner-superman-logo.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-superman-logo {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-superman-space {
+  background: url(/kame-house/img/banners/dc/banner-superman-space.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-superman-space {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-superman {
+  background: url(/kame-house/img/banners/dc/banner-superman.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-superman {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-superman2 {
+  background: url(/kame-house/img/banners/dc/banner-superman2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-superman2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-superman3 {
+  background: url(/kame-house/img/banners/dc/banner-superman3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-superman3 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners dragonball
+  */
+.banner-gogeta {
+  background: url(/kame-house/img/banners/dragonball/banner-gogeta.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gogeta {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-gohan-shen-long {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-shen-long.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gohan-shen-long {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-gohan-ssj2 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gohan-ssj2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-gohan-ssj2-2 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gohan-ssj2-2 {
+    background-position-x: -290px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-gohan-ssj2-3 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gohan-ssj2-3 {
+    background-position-x: -210px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-gohan-ssj2-4 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-4.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gohan-ssj2-4 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-goku-ssj1 {
+  background: url(/kame-house/img/banners/dragonball/banner-goku-ssj1.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-goku-ssj1 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-goku-ssj4-earth {
+  background: url(/kame-house/img/banners/dragonball/banner-goku-ssj4-earth.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-goku-ssj4-earth {
+    background-position-x: -100px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-trunks-mountains {
+  background: url(/kame-house/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-trunks-mountains {
+    background-position-x: -240px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners game of thrones
+  */
+.banner-jon-snow2 {
+  background: url(/kame-house/img/banners/game-of-thrones/banner-jon-snow2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-jon-snow2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-winter-is-coming {
+  background: url(/kame-house/img/banners/game-of-thrones/banner-winter-is-coming.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-winter-is-coming {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners marvel
+  */
+.banner-avengers-cap-uniform {
+  background: url(/kame-house/img/banners/marvel/banner-avengers-cap-uniform.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers-cap-uniform {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-avengers-cap {
+  background: url(/kame-house/img/banners/marvel/banner-avengers-cap.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers-cap {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-avengers-endgame {
+  background: url(/kame-house/img/banners/marvel/banner-avengers-endgame.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers-endgame {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-avengers-infinity {
+  background: url(/kame-house/img/banners/marvel/banner-avengers-infinity.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers-infinity {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-avengers-ironman {
+  background: url(/kame-house/img/banners/marvel/banner-avengers-ironman.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers-ironman {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-avengers-portals {
+  background: url(/kame-house/img/banners/marvel/banner-avengers-portals.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers-portals {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-avengers-trinity {
+  background: url(/kame-house/img/banners/marvel/banner-avengers-trinity.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers-trinity {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-avengers {
+  background: url(/kame-house/img/banners/marvel/banner-avengers.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-avengers {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-spiderman {
+  background: url(/kame-house/img/banners/marvel/banner-spiderman.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-spiderman {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners matrix
+  */
+.banner-matrix {
+  background: url(/kame-house/img/banners/matrix/banner-matrix.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-matrix {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners prince of tennis
+  */
+.banner-fuji {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-fuji.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-fuji {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-pot-pijamas {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-pot-pijamas.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-pot-pijamas {
+    background-position-x: 0;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-rikkaidai {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-rikkaidai.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-rikkaidai {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-ryoma-chibi {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-chibi.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-ryoma-chibi {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-ryoma-chibi2 {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-chibi2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-ryoma-chibi2 {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-ryoma-drive {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-drive.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-ryoma-drive {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-ryoma-ss {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-ss.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-ryoma-ss {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-seigaku {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-seigaku.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-seigaku {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-tezuka {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-tezuka.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-tezuka {
+    background-position-x: -90px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-yukimura {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-yukimura {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-yukimura2 {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-yukimura2 {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-yukimura-sanada {
+  background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura-sanada.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-yukimura-sanada {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners saint seiya
+  */
+.banner-ancient-era-warriors {
+  background: url(/kame-house/img/banners/saint-seiya/banner-ancient-era-warriors.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-ancient-era-warriors {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-aries-knights {
+  background: url(/kame-house/img/banners/saint-seiya/banner-aries-knights.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-aries-knights {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-athena {
+  background: url(/kame-house/img/banners/saint-seiya/banner-athena.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-athena {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-athena-saints {
+  background: url(/kame-house/img/banners/saint-seiya/banner-athena-saints.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-athena-saints {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-camus {
+  background: url(/kame-house/img/banners/saint-seiya/banner-camus.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-camus {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-dohko {
+  background: url(/kame-house/img/banners/saint-seiya/banner-dohko.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-dohko {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-fuego-12-casas {
+  background: url(/kame-house/img/banners/saint-seiya/banner-fuego-12-casas.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-fuego-12-casas {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-hades {
+  background: url(/kame-house/img/banners/saint-seiya/banner-hades.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-hades {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-hyoga {
+  background: url(/kame-house/img/banners/saint-seiya/banner-hyoga.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-hyoga {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-ikki {
+  background: url(/kame-house/img/banners/saint-seiya/banner-ikki.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-ikki {
+    background-position-x: -210px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-ikki2 {
+  background: url(/kame-house/img/banners/saint-seiya/banner-ikki2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-ikki2 {
+    background-position-x: -90px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-pegasus-ryu-sei-ken {
+  background: url(/kame-house/img/banners/saint-seiya/banner-pegasus-ryu-sei-ken.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-pegasus-ryu-sei-ken {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-sanctuary {
+  background: url(/kame-house/img/banners/saint-seiya/banner-sanctuary.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-sanctuary {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-seiya {
+  background: url(/kame-house/img/banners/saint-seiya/banner-seiya.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-seiya {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-shaka {
+  background: url(/kame-house/img/banners/saint-seiya/banner-shaka.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-shaka {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-shion {
+  background: url(/kame-house/img/banners/saint-seiya/banner-shion.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-shion {
+    background-position-x: -40px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-shiryu {
+  background: url(/kame-house/img/banners/saint-seiya/banner-shiryu.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-shiryu {
+    background-position-x: -60px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-shun {
+  background: url(/kame-house/img/banners/saint-seiya/banner-shun.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-shun {
+    background-position-x: 0;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners star wars
+  */
+.banner-anakin {
+  background: url(/kame-house/img/banners/star-wars/banner-anakin.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-anakin {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-anakin2 {
+  background: url(/kame-house/img/banners/star-wars/banner-anakin2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-anakin2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-anakin3 {
+  background: url(/kame-house/img/banners/star-wars/banner-anakin3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-anakin3 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-anakin4 {
+  background: url(/kame-house/img/banners/star-wars/banner-anakin4.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-anakin4 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-anakin5 {
+  background: url(/kame-house/img/banners/star-wars/banner-anakin5.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-anakin5 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-luke-vader {
+  background: url(/kame-house/img/banners/star-wars/banner-luke-vader.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-luke-vader {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-luke-vader2 {
+  background: url(/kame-house/img/banners/star-wars/banner-luke-vader2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-luke-vader2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-luke-vader3 {
+  background: url(/kame-house/img/banners/star-wars/banner-luke-vader3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-luke-vader3 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-star-wars-ep3 {
+  background: url(/kame-house/img/banners/star-wars/banner-star-wars-ep3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-star-wars-ep3 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-star-wars-poster {
+  background: url(/kame-house/img/banners/star-wars/banner-star-wars-poster.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-star-wars-poster {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-star-wars-trilogy {
+  background: url(/kame-house/img/banners/star-wars/banner-star-wars-trilogy.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-star-wars-trilogy {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-vader {
+  background: url(/kame-house/img/banners/star-wars/banner-vader.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-vader {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-vader2 {
+  background: url(/kame-house/img/banners/star-wars/banner-vader2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-vader2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-yoda {
+  background: url(/kame-house/img/banners/star-wars/banner-yoda.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-yoda {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-yoda2 {
+  background: url(/kame-house/img/banners/star-wars/banner-yoda2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-yoda2 {
+    background-position-x: -130px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/**
+  * banners tennis
+  */
+.banner-australian-open {
+  background: url(/kame-house/img/banners/tennis/banner-australian-open.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-australian-open {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-roland-garros {
+  background: url(/kame-house/img/banners/tennis/banner-roland-garros.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-roland-garros {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+.banner-wimbledon {
+  background: url(/kame-house/img/banners/tennis/banner-wimbledon.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-wimbledon {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}

@@ -63,15 +63,28 @@ function main() {
 function BannerUtils() {
   let self = this;
   const DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
+
+  const CAPTAIN_TSUBASA_BANNERS = ["banner-beni3", "banner-benji-steve", "banner-benji", "banner-benji2", "banner-benji3", "banner-benji4", "banner-niupi", "banner-niupi2", "banner-oliver-benji", "banner-oliver-benji2", "banner-oliver-steve", "banner-oliver", "banner-oliver2"];
+  const DC_BANNERS = ["banner-batman-animated", "banner-batman", "banner-joker", "banner-joker2", "banner-superman-logo", "banner-superman-space", "banner-superman", "banner-superman2", "banner-superman3"];
   const DRAGONBALL_BANNERS = ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-trunks-mountains"];
+  const GAME_OF_THRONES_BANNERS = ["banner-jon-snow2", "banner-winter-is-coming"];
+  const MARVEL_BANNERS = ["banner-avengers-cap-uniform", "banner-avengers-cap", "banner-avengers-endgame", "banner-avengers-infinity", "banner-avengers-ironman", "banner-avengers-portals", "banner-avengers-trinity", "banner-avengers", "banner-spiderman"];
+  const MATRIX_BANNERS = ["banner-matrix"];
   const PRINCE_OF_TENNIS_BANNERS = ["banner-fuji", "banner-pot-pijamas", "banner-rikkaidai", "banner-ryoma-chibi", "banner-ryoma-chibi2", "banner-ryoma-drive", "banner-ryoma-ss", "banner-seigaku", "banner-tezuka", "banner-yukimura", "banner-yukimura2", "banner-yukimura-sanada"];
   const SAINT_SEIYA_BANNERS = ["banner-ancient-era-warriors", "banner-aries-knights", "banner-athena", "banner-athena-saints", "banner-camus", "banner-dohko", "banner-fuego-12-casas", "banner-hades", "banner-hyoga", "banner-ikki", "banner-ikki2", "banner-pegasus-ryu-sei-ken", "banner-sanctuary", "banner-seiya", "banner-shaka", "banner-shion", "banner-shiryu", "banner-shun"];
+  const STAR_WARS_BANNERS = ["banner-anakin", "banner-anakin2", "banner-anakin3", "banner-anakin4", "banner-anakin5", "banner-luke-vader", "banner-luke-vader2", "banner-luke-vader3", "banner-star-wars-ep3", "banner-star-wars-poster", "banner-star-wars-trilogy", "banner-vader", "banner-vader2", "banner-yoda", "banner-yoda2"];
   const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
 
   let ALL_BANNERS = [];
+  ALL_BANNERS.push.apply(ALL_BANNERS, CAPTAIN_TSUBASA_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, DC_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, DRAGONBALL_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, GAME_OF_THRONES_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, MARVEL_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, MATRIX_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, PRINCE_OF_TENNIS_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, SAINT_SEIYA_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, STAR_WARS_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
 
   /** Set random saint seiya sanctuary banner */
