@@ -159,22 +159,26 @@ body {
 
 @-webkit-keyframes fade-in-out-60s {
   0% {
-    opacity: 0.25;
+    opacity: 0.4;
     transform: scale(1.1);
   }
 
-  25% {
+  20% {
     opacity: 1;
     transform: scale(1);
   }
 
-  75% {
+  50% {
+    opacity: 0.4;
+  }
+
+  80% {
     opacity: 1;
     transform: scale(1);
   }
 
   100% {
-    opacity: 0.25;
+    opacity: 0.4;
     transform: scale(1.1);
   }
 }
@@ -185,12 +189,16 @@ body {
     transform: scale(1.1);
   }
 
-  25% {
+  20% {
     opacity: 1;
     transform: scale(1);
   }
 
-  75% {
+  50% {
+    opacity: 0.4;
+  }
+
+  80% {
     opacity: 1;
     transform: scale(1);
   }
