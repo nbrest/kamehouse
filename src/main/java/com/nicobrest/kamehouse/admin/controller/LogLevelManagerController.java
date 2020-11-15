@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.main.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,5 +59,31 @@ public class LogLevelManagerController extends AbstractController {
     logLevelManagerService.setLogLevel(level, packageName);
     List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
     return generatePostResponseEntity(logLevelList);
+  }
+
+  /**
+   * Set kamehouse log levels to TRACE.
+   */
+  @PostMapping(path = "/log-level/trace")
+  @ResponseBody
+  public ResponseEntity<List<String>> setKamehouseLogLevelsToTrace() {
+    logger.info("/api/v1/admin/log-level/trace (POST)");
+
+    logLevelManagerService.setKamehouseLogLevelsToTrace();
+    List<String> logLevelList = logLevelManagerService.getLogLevel(null);
+    return generatePostResponseEntity(logLevelList);
+  }
+
+  /**
+   * Reset all log levels.
+   */
+  @DeleteMapping(path = "/log-level")
+  @ResponseBody
+  public ResponseEntity<List<String>> resetLogLevels() {
+    logger.info("/api/v1/admin/log-level (DELETE)");
+
+    logLevelManagerService.resetLogLevels();
+    List<String> logLevelList = logLevelManagerService.getLogLevel(null);
+    return generateDeleteResponseEntity(logLevelList);
   }
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - Log Level</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/js/global.js"></script>
+<script src="/kame-house/js/admin/log-level.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
+</head>
+<body>
+  <div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-wimbledon">
+    <div class="default-layout banner-text">
+      <h1>Log Level</h1>
+      <p>Control the log level in the backend at a package level</p>
+    </div>
+  </div>
+  </div>
+  <div class="default-layout landing-p-links">
+    <br>
+    <input type="button" value="Get Current Log Levels" class="btn btn-block btn-outline-secondary"
+      onclick="backendLogLevelUtils.getLogLevels()">
+    <br>
+    <input type="button" value="Reset Log Levels" class="btn btn-block btn-outline-secondary"
+      onclick="backendLogLevelUtils.resetLogLevels()">
+    <br>
+    <input type="button" value="Set Log Level to TRACE" class="btn btn-block btn-outline-secondary"
+      onclick="backendLogLevelUtils.setKamehouseLogLevelToTrace()">
+  </div>
+
+  <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
+    <img id="debug-mode-btn" class="debug-mode-btn"
+      src="/kame-house/img/other/debug-btn-success.png"
+      onclick="kamehouseDebugger.toggleDebugMode()" alt="Debug Mode"
+      title="Debug Mode" />
+  </div>
+  <div id="debug-mode" class="p-15-d-kh p-15-m-kh hidden-kh">
+    <div class="default-layout">
+      <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
+      <div id="api-call-table"></div>
+    </div>
+  </div>
+  <script src="/kame-house/js/snippets/api-call-table.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+</body>
+</html>

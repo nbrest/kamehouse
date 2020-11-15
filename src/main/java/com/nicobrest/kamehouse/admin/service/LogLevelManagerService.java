@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service to control the log level of kamehouse.
@@ -17,6 +19,30 @@ public class LogLevelManagerService {
 
   private static final List<String> LOG_LEVELS =
       Arrays.asList("ERROR", "WARN", "INFO", "DEBUG", "TRACE");
+
+  private static Map<String, String> KAMEHOUSE_PACKAGES_LOG_LEVEL;
+  private static Map<String, String> EXTERNAL_PACKAGES_LOG_LEVEL;
+
+  static {
+    KAMEHOUSE_PACKAGES_LOG_LEVEL = new HashMap<>();
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.admin","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.main","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.media","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.tennisworld","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.testmodule","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.vlcrc","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.admin.controller"
+        + ".LogLevelManagerController","INFO");
+
+    EXTERNAL_PACKAGES_LOG_LEVEL = new HashMap<>();
+    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.springframework","INFO");
+    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.springframework.security","INFO");
+    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.springframework.web.socket.config"
+        + ".WebSocketMessageBrokerStats","WARN");
+    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.hibernate.hql.internal.QueryTranslatorFactoryInitiator",
+        "WARN");
+  }
 
   /**
    * Set the log level for the specified package.
@@ -59,5 +85,51 @@ public class LogLevelManagerService {
     if (!LOG_LEVELS.contains(level)) {
       throw new KameHouseBadRequestException("Invalid log level " + level);
     }
+  }
+
+  /**
+   * Reset all log levels to the default values.
+   */
+  public void resetLogLevels() {
+    clearLogLevels();
+
+    for (Map.Entry<String, String> entry : KAMEHOUSE_PACKAGES_LOG_LEVEL.entrySet()) {
+      setLogLevel(entry.getValue(), entry.getKey());
+    }
+
+    for (Map.Entry<String, String> entry  : EXTERNAL_PACKAGES_LOG_LEVEL.entrySet()) {
+      setLogLevel(entry.getValue(), entry.getKey());
+    }
+  }
+
+  /**
+   * Set kamehouse log levels to TRACE.
+   */
+  public void setKamehouseLogLevelsToTrace() {
+    resetLogLevels();
+
+    for (String packageName : KAMEHOUSE_PACKAGES_LOG_LEVEL.keySet()) {
+      setLogLevel("TRACE", packageName);
+    }
+  }
+
+  /**
+   * Clear the log levels of all packages.
+   */
+  private void clearLogLevels() {
+    LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+    List<Logger> loggerList = loggerContext.getLoggerList();
+    for (Logger logger : loggerList) {
+      if (logger.getLevel() != null && !isRootLogger(logger)) {
+        logger.setLevel(null);
+      }
+    }
+  }
+
+  /**
+   * Returns true if it's the ROOT logger.
+   */
+  private boolean isRootLogger(Logger logger) {
+    return "ROOT".equals(logger.getName());
   }
 }

@@ -34,6 +34,14 @@
 <!--     </encoder>       -->
 <!--   </appender> -->
 
+  <!--
+    ********* IMPORTANT: ********************************************************
+    Until I figure out how to get the log levels of the packages from this file,
+    whenever I modify the log levels here, also update them in
+    LogLevelManagerService static maps
+    *****************************************************************************
+  -->
+
   <!-- kamehouse root packages -->
   <root>
     <level value="INFO" />
