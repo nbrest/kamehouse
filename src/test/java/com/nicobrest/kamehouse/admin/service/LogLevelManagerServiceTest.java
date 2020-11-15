@@ -88,4 +88,30 @@ public class LogLevelManagerServiceTest {
     assertEquals(1, logLevel.size());
     assertEquals("com.nicobrest.kamehouse:WARN", logLevel.get(0));
   }
+
+  /**
+   * Tests resetting the log levels to the default values.
+   */
+  @Test
+  public void resetLogLevelsSuccessfulTest() {
+    logLevelManagerService.resetLogLevels();
+
+    List<String> logLevels = logLevelManagerService.getLogLevel(null);
+    assertEquals(LogLevelManagerService.KAMEHOUSE_PACKAGES_LOG_LEVEL.size()
+        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size() + 1, logLevels.size());
+    assertEquals("com.nicobrest.kamehouse:INFO", logLevels.get(1));
+  }
+
+  /**
+   * Tests setting kamehouse log levels to TRACE.
+   */
+  @Test
+  public void setKamehouseLogLevelsToTraceSuccessfulTest() {
+    logLevelManagerService.setKamehouseLogLevelsToTrace();
+
+    List<String> logLevels = logLevelManagerService.getLogLevel(null);
+    assertEquals(LogLevelManagerService.KAMEHOUSE_PACKAGES_LOG_LEVEL.size()
+        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size() + 1, logLevels.size());
+    assertEquals("com.nicobrest.kamehouse:TRACE", logLevels.get(1));
+  }
 }

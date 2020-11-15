@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,30 +19,32 @@ import java.util.Map;
 public class LogLevelManagerService {
 
   private static final List<String> LOG_LEVELS =
-      Arrays.asList("ERROR", "WARN", "INFO", "DEBUG", "TRACE");
+      Collections.unmodifiableList(Arrays.asList("ERROR", "WARN", "INFO", "DEBUG", "TRACE"));
 
-  private static Map<String, String> KAMEHOUSE_PACKAGES_LOG_LEVEL;
-  private static Map<String, String> EXTERNAL_PACKAGES_LOG_LEVEL;
+  protected static final Map<String, String> KAMEHOUSE_PACKAGES_LOG_LEVEL;
+  protected static final Map<String, String> EXTERNAL_PACKAGES_LOG_LEVEL;
 
   static {
-    KAMEHOUSE_PACKAGES_LOG_LEVEL = new HashMap<>();
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse","INFO");
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.admin","INFO");
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.main","INFO");
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.media","INFO");
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.tennisworld","INFO");
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.testmodule","INFO");
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.vlcrc","INFO");
-    KAMEHOUSE_PACKAGES_LOG_LEVEL.put("com.nicobrest.kamehouse.admin.controller"
+    Map<String, String> kamehousePackages = new HashMap<>();
+    kamehousePackages.put("com.nicobrest.kamehouse","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.admin","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.main","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.media","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.tennisworld","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.testmodule","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.vlcrc","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.admin.controller"
         + ".LogLevelManagerController","INFO");
+    KAMEHOUSE_PACKAGES_LOG_LEVEL = Collections.unmodifiableMap(kamehousePackages);
 
-    EXTERNAL_PACKAGES_LOG_LEVEL = new HashMap<>();
-    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.springframework","INFO");
-    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.springframework.security","INFO");
-    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.springframework.web.socket.config"
+    Map<String, String> externalPackages = new HashMap<>();
+    externalPackages.put("org.springframework","INFO");
+    externalPackages.put("org.springframework.security","INFO");
+    externalPackages.put("org.springframework.web.socket.config"
         + ".WebSocketMessageBrokerStats","WARN");
-    EXTERNAL_PACKAGES_LOG_LEVEL.put("org.hibernate.hql.internal.QueryTranslatorFactoryInitiator",
+    externalPackages.put("org.hibernate.hql.internal.QueryTranslatorFactoryInitiator",
         "WARN");
+    EXTERNAL_PACKAGES_LOG_LEVEL = Collections.unmodifiableMap(externalPackages);
   }
 
   /**
