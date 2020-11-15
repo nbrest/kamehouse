@@ -148,6 +148,36 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   }
 
   /**
+   * Tests setting the log level for all kamehouse packages to TRACE.
+   */
+  @Test
+  public void setKamehouseLogLevelsToTraceSuccessTest() throws Exception {
+    doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
+
+    MockHttpServletResponse response = doPost("/api/v1/admin/log-level/trace");
+
+    verifyResponseStatus(response, HttpStatus.CREATED);
+    verify(logLevelManagerService, times(1)).setKamehouseLogLevelsToTrace();
+    verify(logLevelManagerService, times(1)).getLogLevel(null);
+    verifyNoMoreInteractions(logLevelManagerService);
+  }
+
+  /**
+   * Tests resetting all the log levels to their default value.
+   */
+  @Test
+  public void resetLogLevelsSuccessTest() throws Exception {
+    doNothing().when(logLevelManagerService).resetLogLevels();
+
+    MockHttpServletResponse response = doDelete("/api/v1/admin/log-level");
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    verify(logLevelManagerService, times(1)).resetLogLevels();
+    verify(logLevelManagerService, times(1)).getLogLevel(null);
+    verifyNoMoreInteractions(logLevelManagerService);
+  }
+
+  /**
    * Assert that two lists of strings are equal.
    * TODO: Make this generic and put it in a test utility class.
    */
