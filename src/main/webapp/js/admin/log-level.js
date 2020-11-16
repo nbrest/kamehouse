@@ -33,13 +33,13 @@ function BackendLogLevelUtils() {
   /** Set Kamehouse log levels to DEBUG */
   this.setKamehouseLogLevelToDebug = () => {
     loadingWheelModal.open();
-    apiCallTable.post(LOG_LEVEL_API_URL + "/debug", null, processSuccess, processError);
+    apiCallTable.put(LOG_LEVEL_API_URL + "/debug", null, processSuccess, processError);
   }
 
   /** Set Kamehouse log levels to TRACE */
   this.setKamehouseLogLevelToTrace = () => {
     loadingWheelModal.open();
-    apiCallTable.post(LOG_LEVEL_API_URL + "/trace", null, processSuccess, processError);
+    apiCallTable.put(LOG_LEVEL_API_URL + "/trace", null, processSuccess, processError);
   }
 
   /** Update the log levels table content */

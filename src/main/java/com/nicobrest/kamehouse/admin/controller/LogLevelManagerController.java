@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,12 +45,12 @@ public class LogLevelManagerController extends AbstractController {
   /**
    * Set the log level for the specified package.
    */
-  @PostMapping(path = "/log-level")
+  @PutMapping(path = "/log-level")
   @ResponseBody
   public ResponseEntity<List<String>> setLogLevel(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/admin/log-level?level={}&package={} (POST)", level, packageName);
+    logger.info("/api/v1/admin/log-level?level={}&package={} (PUT)", level, packageName);
     if (packageName == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
       packageName = DEFAULT_PACKAGE;
@@ -58,33 +58,33 @@ public class LogLevelManagerController extends AbstractController {
     logLevelManagerService.validateLogLevel(level);
     logLevelManagerService.setLogLevel(level, packageName);
     List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
-    return generatePostResponseEntity(logLevelList);
+    return generatePutResponseEntity(logLevelList);
   }
 
   /**
    * Set kamehouse log levels to DEBUG.
    */
-  @PostMapping(path = "/log-level/debug")
+  @PutMapping(path = "/log-level/debug")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToDebug() {
-    logger.info("/api/v1/admin/log-level/debug (POST)");
+    logger.info("/api/v1/admin/log-level/debug (PUT)");
 
     logLevelManagerService.setKamehouseLogLevelsToDebug();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);
-    return generatePostResponseEntity(logLevelList);
+    return generatePutResponseEntity(logLevelList);
   }
 
   /**
    * Set kamehouse log levels to TRACE.
    */
-  @PostMapping(path = "/log-level/trace")
+  @PutMapping(path = "/log-level/trace")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToTrace() {
-    logger.info("/api/v1/admin/log-level/trace (POST)");
+    logger.info("/api/v1/admin/log-level/trace (PUT)");
 
     logLevelManagerService.setKamehouseLogLevelsToTrace();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);
-    return generatePostResponseEntity(logLevelList);
+    return generatePutResponseEntity(logLevelList);
   }
 
   /**

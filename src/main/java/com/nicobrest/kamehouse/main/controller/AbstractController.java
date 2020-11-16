@@ -36,11 +36,26 @@ public abstract class AbstractController {
   }
 
   /**
-   * Generates a standard response entity for put requests.
+   * Generates a standard EMPTY response entity for put requests.
    */
   protected static ResponseEntity<Void> generatePutResponseEntity() {
     STATIC_LOGGER.trace("PUT operation executed successfully");
     return EMPTY_SUCCESS_RESPONSE;
+  }
+
+  /**
+   * Generates a standard response entity for put requests that expect a response body.
+   */
+  protected static <T> ResponseEntity<T> generatePutResponseEntity(T entity) {
+    ResponseEntity<T> responseEntity = null;
+    if (entity != null) {
+      STATIC_LOGGER.trace("Response {}", entity);
+      responseEntity = new ResponseEntity<>(entity, HttpStatus.OK);
+    } else {
+      STATIC_LOGGER.warn("Empty response. Entity not found.");
+      responseEntity = ResponseEntity.notFound().build();
+    }
+    return responseEntity;
   }
 
   /**

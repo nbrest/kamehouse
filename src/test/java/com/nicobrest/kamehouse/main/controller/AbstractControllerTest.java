@@ -72,6 +72,13 @@ public abstract class AbstractControllerTest<E, D> {
   }
 
   /**
+   * Executes a put request for the specified url with an empty payload.
+   */
+  protected MockHttpServletResponse doPut(String url) throws Exception {
+    return mockMvc.perform(put(url)).andDo(print()).andReturn().getResponse();
+  }
+
+  /**
    * Executes a delete request for the specified url on the mock server.
    */
   protected MockHttpServletResponse doDelete(String url) throws Exception {

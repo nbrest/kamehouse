@@ -16,6 +16,14 @@ function HttpClient() {
     self.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback)
   }
 
+  /** Execute an http PUT request.
+   * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
+   * and errorCallback(responseBody, responseCode, responseDescription) */
+  this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback) {
+    logger.traceFunctionCall();
+    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback)
+  }
+
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */

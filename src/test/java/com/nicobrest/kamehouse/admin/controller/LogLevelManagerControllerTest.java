@@ -102,11 +102,11 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     doNothing().when(logLevelManagerService).setLogLevel("TRACE","com.nicobrest.kamehouse");
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse")).thenReturn(logLevelSingleElement);
 
-    MockHttpServletResponse response = doPost("/api/v1/admin/log-level?level=TRACE&package=com"
+    MockHttpServletResponse response = doPut("/api/v1/admin/log-level?level=TRACE&package=com"
         + ".nicobrest.kamehouse");
     List<String> responseBody = getResponseBodyList(response, String.class);
 
-    verifyResponseStatus(response, HttpStatus.CREATED);
+    verifyResponseStatus(response, HttpStatus.OK);
     assertEqualsStringList(logLevelSingleElement, responseBody);
     verify(logLevelManagerService, times(1)).getLogLevel("com.nicobrest.kamehouse");
     verify(logLevelManagerService, times(1)).setLogLevel("TRACE","com.nicobrest.kamehouse");
@@ -122,10 +122,10 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     doNothing().when(logLevelManagerService).setLogLevel("TRACE","com.nicobrest.kamehouse");
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse")).thenReturn(logLevelSingleElement);
 
-    MockHttpServletResponse response = doPost("/api/v1/admin/log-level?level=TRACE");
+    MockHttpServletResponse response = doPut("/api/v1/admin/log-level?level=TRACE");
     List<String> responseBody = getResponseBodyList(response, String.class);
 
-    verifyResponseStatus(response, HttpStatus.CREATED);
+    verifyResponseStatus(response, HttpStatus.OK);
     assertEqualsStringList(logLevelSingleElement, responseBody);
     verify(logLevelManagerService, times(1)).getLogLevel("com.nicobrest.kamehouse");
     verify(logLevelManagerService, times(1)).setLogLevel("TRACE","com.nicobrest.kamehouse");
@@ -144,7 +144,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     doThrow(new KameHouseBadRequestException("Invalid log level TRACEs"))
         .when(logLevelManagerService).validateLogLevel("TRACEs");
 
-    doPost("/api/v1/admin/log-level?level=TRACEs");
+    doPut("/api/v1/admin/log-level?level=TRACEs");
   }
 
   /**
@@ -154,9 +154,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   public void setKamehouseLogLevelsToDebugSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
 
-    MockHttpServletResponse response = doPost("/api/v1/admin/log-level/debug");
+    MockHttpServletResponse response = doPut("/api/v1/admin/log-level/debug");
 
-    verifyResponseStatus(response, HttpStatus.CREATED);
+    verifyResponseStatus(response, HttpStatus.OK);
     verify(logLevelManagerService, times(1)).setKamehouseLogLevelsToDebug();
     verify(logLevelManagerService, times(1)).getLogLevel(null);
     verifyNoMoreInteractions(logLevelManagerService);
@@ -169,9 +169,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   public void setKamehouseLogLevelsToTraceSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
 
-    MockHttpServletResponse response = doPost("/api/v1/admin/log-level/trace");
+    MockHttpServletResponse response = doPut("/api/v1/admin/log-level/trace");
 
-    verifyResponseStatus(response, HttpStatus.CREATED);
+    verifyResponseStatus(response, HttpStatus.OK);
     verify(logLevelManagerService, times(1)).setKamehouseLogLevelsToTrace();
     verify(logLevelManagerService, times(1)).getLogLevel(null);
     verifyNoMoreInteractions(logLevelManagerService);

@@ -55,6 +55,20 @@ function ApiCallTable() {
   }
 
   /** 
+   * Execute a PUT request, update the api call table 
+   * and perform the specified success or error functions 
+   */
+  this.put = function httpPut(url, requestBody, successCallback, errorCallback) {
+    logger.traceFunctionCall();
+    self.displayRequestData(url, "PUT", requestBody);
+    let requestHeaders = httpClient.getApplicationJsonHeaders();
+    httpClient.put(url, requestHeaders, requestBody,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback)
+    );
+  }
+
+  /** 
    * Execute a POST request, update the api call table 
    * and perform the specified success or error functions 
    */
