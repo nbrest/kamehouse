@@ -13,6 +13,7 @@
 <script src="/kame-house/js/admin/log-level.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
+<link rel="stylesheet" href="/kame-house/css/admin/log-level.css" />
 </head>
 <body>
   <div class="banner-wrapper">
@@ -23,6 +24,7 @@
     </div>
   </div>
   </div>
+  <div class="default-layout">
   <div class="default-layout landing-p-links">
     <br>
     <input type="button" value="Get Current Log Levels" class="btn btn-block btn-outline-secondary"
@@ -31,9 +33,21 @@
     <input type="button" value="Reset Log Levels" class="btn btn-block btn-outline-secondary"
       onclick="backendLogLevelUtils.resetLogLevels()">
     <br>
+    <input type="button" value="Set Log Level to DEBUG" class="btn btn-block btn-outline-secondary"
+      onclick="backendLogLevelUtils.setKamehouseLogLevelToDebug()">
+    <br>
     <input type="button" value="Set Log Level to TRACE" class="btn btn-block btn-outline-secondary"
       onclick="backendLogLevelUtils.setKamehouseLogLevelToTrace()">
   </div>
+
+  <table id="log-level-table" class="table table-bordered table-bordered-kh table-responsive-kh table-responsive">
+    <caption class="hidden-kh">Log Level</caption>
+    <tbody id="log-level-tbody">
+      <tr class="hidden-kh">
+        <th scope="row">Log Level</th>
+      </tr>
+    </tbody>
+  </table>
 
   <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
     <img id="debug-mode-btn" class="debug-mode-btn"
@@ -46,6 +60,7 @@
       <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
       <div id="api-call-table"></div>
     </div>
+  </div>
   </div>
   <script src="/kame-house/js/snippets/api-call-table.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>

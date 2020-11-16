@@ -106,13 +106,27 @@ public class LogLevelManagerService {
   }
 
   /**
+   * Set kamehouse log levels to DEBUG.
+   */
+  public void setKamehouseLogLevelsToDebug() {
+    resetLogLevels();
+    setKamehouseLogLevels("DEBUG");
+  }
+
+  /**
    * Set kamehouse log levels to TRACE.
    */
   public void setKamehouseLogLevelsToTrace() {
     resetLogLevels();
+    setKamehouseLogLevels("TRACE");
+  }
 
+  /**
+   * Set kamehouse log levels to the specified log level.
+   */
+  private void setKamehouseLogLevels(String logLevel) {
     for (String packageName : KAMEHOUSE_PACKAGES_LOG_LEVEL.keySet()) {
-      setLogLevel("TRACE", packageName);
+      setLogLevel(logLevel, packageName);
     }
   }
 

@@ -62,6 +62,19 @@ public class LogLevelManagerController extends AbstractController {
   }
 
   /**
+   * Set kamehouse log levels to DEBUG.
+   */
+  @PostMapping(path = "/log-level/debug")
+  @ResponseBody
+  public ResponseEntity<List<String>> setKamehouseLogLevelsToDebug() {
+    logger.info("/api/v1/admin/log-level/debug (POST)");
+
+    logLevelManagerService.setKamehouseLogLevelsToDebug();
+    List<String> logLevelList = logLevelManagerService.getLogLevel(null);
+    return generatePostResponseEntity(logLevelList);
+  }
+
+  /**
    * Set kamehouse log levels to TRACE.
    */
   @PostMapping(path = "/log-level/trace")
