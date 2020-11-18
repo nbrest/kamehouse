@@ -76,6 +76,7 @@ function BannerUtils() {
   const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
 
   let ALL_BANNERS = [];
+  // When adding new arrays here, also add them to preloadedBannerImages in setRandomAllBanner().
   ALL_BANNERS.push.apply(ALL_BANNERS, CAPTAIN_TSUBASA_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, DC_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, DRAGONBALL_BANNERS);
@@ -87,35 +88,52 @@ function BannerUtils() {
   ALL_BANNERS.push.apply(ALL_BANNERS, STAR_WARS_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
 
+  this.preloadedBannerImages = [];
+
   /** Set random saint seiya sanctuary banner */
   this.setRandomSanctuaryBanner = (bannerRotateWaitMs) => {
     let bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
     self.setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
+    self.preloadBannerImages('saint-seiya', bannerClasses);
   }
 
   /** Set random dragonball banner */
   this.setRandomDragonBallBanner = (bannerRotateWaitMs) => {
     self.setRandomBannerWrapper(DRAGONBALL_BANNERS, true, bannerRotateWaitMs);
+    self.preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
   }
 
   /** Set random prince of tennis banner */
   this.setRandomPrinceOfTennisBanner = (bannerRotateWaitMs) => {
     self.setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true, bannerRotateWaitMs);
+    self.preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
   }
 
   /** Set random saint seiya banner */
   this.setRandomSaintSeiyaBanner = (bannerRotateWaitMs) => {
     self.setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true, bannerRotateWaitMs);
+    self.preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
   }
 
   /** Set random tennis banner */
   this.setRandomTennisBanner = (bannerRotateWaitMs) => {
     self.setRandomBannerWrapper(TENNIS_BANNERS, true, bannerRotateWaitMs);
+    self.preloadBannerImages('tennis', TENNIS_BANNERS);
   }
 
   /** Set random banner from all banners */
   this.setRandomAllBanner = (bannerRotateWaitMs) => {
     self.setRandomBannerWrapper(ALL_BANNERS, true, bannerRotateWaitMs);
+    self.preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
+    self.preloadBannerImages('dc', DC_BANNERS);
+    self.preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
+    self.preloadBannerImages('game-of-thrones', GAME_OF_THRONES_BANNERS);
+    self.preloadBannerImages('marvel', MARVEL_BANNERS);
+    self.preloadBannerImages('matrix', MATRIX_BANNERS);
+    self.preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
+    self.preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
+    self.preloadBannerImages('star-wars', STAR_WARS_BANNERS);
+    self.preloadBannerImages('tennis', TENNIS_BANNERS);
   }
 
   /** Wrapper to setRandomBanner to decide if it should set it once or loop */
@@ -148,6 +166,7 @@ function BannerUtils() {
       element.classList.remove(bannerClass);
     });
     element.classList.add(bannerClasses[randomBannerIndex]);
+    element
     // Trigger banner annimation
     var clonedElement = element.cloneNode(true);
     element.parentNode.replaceChild(clonedElement, element);
@@ -168,6 +187,15 @@ function BannerUtils() {
     if (!isNullOrUndefined(global.session.server)) {
       $("#banner-server-name").text(global.session.server);
     }
+  }
+  
+  /** Preload banner images */
+  this.preloadBannerImages = (bannerPath, bannerArray) => {
+    bannerArray.forEach((bannerName) => {
+      let img = new Image();
+      img.src = '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg';
+      self.preloadedBannerImages.push(img);
+    });
   }
 }
 
