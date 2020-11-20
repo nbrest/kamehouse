@@ -105,11 +105,13 @@ function VlcPlayer(hostname) {
   this.seek = (value) => {
     self.mainViewUpdater.updateCurrentTimeView(value);
     self.commandExecutor.execVlcRcCommand('seek', value);
+    self.mainViewUpdater.setTimeSliderLocked(false);
   }
 
   this.setVolume = (value) => {
     self.mainViewUpdater.updateVolumeView(value);
     self.commandExecutor.execVlcRcCommand('volume', value);
+    self.mainViewUpdater.setVolumeSliderLocked(false);
   }
 
   this.close = () => self.commandExecutor.close();
@@ -168,9 +170,15 @@ function VlcPlayer(hostname) {
     self.playlist.resetView();
   }
 
-  this.updateCurrentTimeView = (value) => self.mainViewUpdater.updateCurrentTimeView(value);
+  this.updateCurrentTimeView = (value) => {
+    self.mainViewUpdater.setTimeSliderLocked(true);
+    self.mainViewUpdater.updateCurrentTimeView(value);
+  }
 
-  this.updateVolumeView = (value) => self.mainViewUpdater.updateVolumeView(value);
+  this.updateVolumeView = (value) => {
+    self.mainViewUpdater.setVolumeSliderLocked(true);
+    self.mainViewUpdater.updateVolumeView(value);
+  }
 
   /**
    * --------------------------------------------------------------------------
@@ -257,6 +265,8 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
   this.statefulButtons = [];
+  this.timeSliderLocked = false;
+  this.volumeSliderLocked = false;
 
   function setStatefulButtons() {
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-fullscreen', "fullscreen", true));
@@ -267,6 +277,12 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-mute', "volume", 0, 'btn-mute'));
   }
   setStatefulButtons();
+
+  /** Set time slider locked. */
+  this.setTimeSliderLocked = (value) => self.timeSliderLocked = value;
+
+  /** Set volume slider locked. */
+  this.setVolumeSliderLocked = (value) => self.volumeSliderLocked = value;
 
   /** Update vlc player view for main view objects. */
   this.updateView = () => {
@@ -332,11 +348,13 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
    */
   /** Update media time slider from VlcRcStatus and resets view when there's no input. */
   this.updateTimeSlider = () => {
-    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().time)) {
-      self.updateCurrentTimeView(self.vlcPlayer.getVlcRcStatus().time);
-      self.updateTotalTimeView(self.vlcPlayer.getVlcRcStatus().length);
-    } else {
-      self.resetTimeSlider();
+    if (!self.timeSliderLocked) {
+      if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().time)) {
+        self.updateCurrentTimeView(self.vlcPlayer.getVlcRcStatus().time);
+        self.updateTotalTimeView(self.vlcPlayer.getVlcRcStatus().length);
+      } else {
+        self.resetTimeSlider();
+      }
     }
   }
 
@@ -369,10 +387,12 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
    */
   /** Update volume slider from VlcRcStatus. */
   this.updateVolumeSlider = () => {
-    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().volume)) {
-      self.updateVolumeView(self.vlcPlayer.getVlcRcStatus().volume);
-    } else {
-      self.resetVolumeSlider();
+    if (!self.volumeSliderLocked) {
+      if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().volume)) {
+        self.updateVolumeView(self.vlcPlayer.getVlcRcStatus().volume);
+      } else {
+        self.resetVolumeSlider();
+      }
     }
   }
 
