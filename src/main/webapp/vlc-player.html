@@ -252,9 +252,9 @@
           </tr>
           <tr>
             <td id="playlist-controls-filter-input-td">
-              <input class="table-filter-input"
+              <input class="table-filter-input" id="playlist-filter-input"
                 type="text" placeholder="Search..."
-                onkeyup="vlcPlayer.filterPlaylistRows(this.value)" />
+                onkeyup="vlcPlayer.filterPlaylistRows()" />
             </td>
             <td class="txt-r-d-kh txt-r-m-kh">
               <img id="toggle-playlist-filenames-img" alt="this should be overriden"/>
@@ -309,9 +309,9 @@
           </tr>
           <tr>
             <td>
-              <input class="table-filter-input"
+              <input class="table-filter-input" id="playlist-browser-filter-input"
                 type="text" placeholder="Search..."
-                onkeyup="playlistBrowser.filterPlaylistRows(this.value)" />
+                onkeyup="playlistBrowser.filterPlaylistRows()" />
             </td>
             <td class="txt-r-d-kh txt-r-m-kh">
               <img id="toggle-playlist-browser-filenames-img" alt="this should be overriden"/>

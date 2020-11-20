@@ -41,7 +41,10 @@ function PlaylistBrowser(vlcPlayer) {
   }
 
   /** Filter playlist browser rows based on the search string. */
-  this.filterPlaylistRows = (filterString) => tableUtils.filterTableRows(filterString, 'playlist-browser-table-body');
+  this.filterPlaylistRows = () => {
+    let filterString = document.getElementById("playlist-browser-filter-input").value;
+    tableUtils.filterTableRows(filterString, 'playlist-browser-table-body');
+  }
 
   /** Returns the selected playlist from the dropdowns. */
   this.getSelectedPlaylist = function getSelectedPlaylist() {
@@ -142,6 +145,7 @@ function PlaylistBrowser(vlcPlayer) {
       }
       $playlistTableBody.replaceWith(self.tbodyFilenames);
     }
+    self.filterPlaylistRows();
   }
 
   /** Create a playlist browser table row */
@@ -188,6 +192,7 @@ function PlaylistBrowser(vlcPlayer) {
       isExpandedFilename = false;
     }
     self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
+    self.filterPlaylistRows();
   }
   
   /** Update the icon to expand or collapse the playlist filenames */

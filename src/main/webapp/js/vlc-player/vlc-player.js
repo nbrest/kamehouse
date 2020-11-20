@@ -148,7 +148,10 @@ function VlcPlayer(hostname) {
 
   this.scrollToCurrentlyPlaying = () => self.playlist.scrollToCurrentlyPlaying();
 
-  this.filterPlaylistRows = (filterString) => tableUtils.filterTableRows(filterString, 'playlist-table-body');
+  this.filterPlaylistRows = () => {
+    let filterString = document.getElementById("playlist-filter-input").value;
+    tableUtils.filterTableRows(filterString, 'playlist-table-body');
+  }
 
   this.toggleExpandPlaylistFilenames = () => self.playlist.toggleExpandPlaylistFilenames();
 
@@ -713,6 +716,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
       }
       $playlistTableBody.replaceWith(self.tbodyFilenames);
       self.highlightCurrentPlayingItem();
+      self.vlcPlayer.filterPlaylistRows();
     }
   }
 
@@ -806,6 +810,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     }
     self.highlightCurrentPlayingItem();
     self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
+    self.vlcPlayer.filterPlaylistRows();
   }
 
   /** Update the icon to expand or collapse the playlist filenames */
