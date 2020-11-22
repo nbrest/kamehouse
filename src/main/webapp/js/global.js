@@ -166,7 +166,7 @@ function BannerUtils() {
       element.classList.remove(bannerClass);
     });
     element.classList.add(bannerClasses[randomBannerIndex]);
-    element
+
     // Trigger banner annimation
     var clonedElement = element.cloneNode(true);
     element.parentNode.replaceChild(clonedElement, element);
