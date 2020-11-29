@@ -96,15 +96,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
     execGetAdminCommandTest("/api/v1/admin/power-management/shutdown",
         ShutdownStatusAdminCommand.class);
   }
-
-  /**
-   * Suspends server successful test.
-   */
-  @Test
-  public void suspendTest() throws Exception {
-    execPostAdminCommandTest("/api/v1/admin/power-management/suspend", SuspendAdminCommand.class);
-  }
-
+  
   /**
    * WOL server successful test.
    */

@@ -32,6 +32,14 @@ function ServerManager() {
     apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
   }
 
+  this.execAdminSuspend = (url) => {
+    let shutdownDelay = document.getElementById("suspend-delay-dropdown").value;
+    logger.trace("Shutdown delay: " + shutdownDelay);
+    let requestParam = "delay=" + shutdownDelay;
+    loadingWheelModal.open();
+    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
+  }
+
   this.execAdminWakeOnLan = (url, server) => {
     let requestParam = "server=" + server;
     loadingWheelModal.open();

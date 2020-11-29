@@ -15,7 +15,10 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- Root Application Context for the entire web application -->
   <context:property-placeholder
-    location="classpath:jdbc.properties,classpath:hibernate.properties" />
+    location="classpath:jdbc.properties,
+              classpath:hibernate.properties,
+              classpath:application.properties" />
+
   <import resource="applicationContext-persistence.xml" />
   <import resource="spring-security.xml" />
 
@@ -24,7 +27,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <!-- main beans -->
   <bean class="com.nicobrest.kamehouse.main.config.WebSocketConfig" />
-  <bean class="com.nicobrest.kamehouse.admin.security.WebSocketSecurityConfig" />
+  <bean class="com.nicobrest.kamehouse.main.config.MainSchedulerConfig" />
 
   <!-- Ehcache configuration -->
   <cache:annotation-driven />
@@ -41,6 +44,9 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   </bean>
 
   <!-- admin beans -->
+  <bean class="com.nicobrest.kamehouse.admin.security.WebSocketSecurityConfig" />
+  <bean class="com.nicobrest.kamehouse.admin.config.AdminSchedulerConfig" />
+
   <bean id="ehCacheService"
     class="com.nicobrest.kamehouse.admin.service.EhCacheService">
     <property name="cacheManager" ref="cacheManager" />

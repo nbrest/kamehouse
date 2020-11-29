@@ -52,7 +52,7 @@
       <p>Commands to shutdown the server after the specified time, cancel a scheduled shutdown and check the status of an active shutdown</p>
       <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="shutdown-delay-dropdown">
         <option value="5400">90 Min</option>
-        <option value="90">1 Min</option>
+        <option value="60">1 Min</option>
       </select>
       <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
         onclick="serverManager.execAdminShutdown('/power-management/shutdown')"
@@ -70,9 +70,21 @@
       <h6 class="h6-kh txt-r-d-kh">Suspend</h6>
       <br>
       <p>Send the server into a hibernation state</p>
-      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh m-25-m-l-kh fl-r-d-kh fl-l-m-kh"
-        onclick="serverManager.post('/power-management/suspend', null)"
-        src="/kame-house/img/pc/hibernate-red.png" alt="Suspend Now" title="Suspend Now" />
+      <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+        onclick="serverManager.get('/power-management/suspend')"
+        src="/kame-house/img/pc/hibernate-blue.png" alt="Suspend Status" title="Suspend Status" />
+      <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+        onclick="serverManager.delete('/power-management/suspend')"
+        src="/kame-house/img/pc/hibernate-green.png" alt="Suspend Cancel" title="Suspend Cancel" />
+      <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+        onclick="serverManager.execAdminSuspend('/power-management/suspend')"
+        src="/kame-house/img/pc/hibernate-red.png" alt="Suspend" title="Suspend" />
+      <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown">
+        <option value="5400">90 Min</option>
+        <option value="7200">120 Min</option>
+        <option value="3600">60 Min</option>
+        <option value="0">Now</option>
+      </select>
     </div>
     </div>
     <br>

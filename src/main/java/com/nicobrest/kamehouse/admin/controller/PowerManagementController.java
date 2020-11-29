@@ -8,6 +8,16 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.main.model.KameHouseGenericResponse;
+import com.nicobrest.kamehouse.main.utils.DateUtils;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobDetail;
+import org.quartz.ScheduleBuilder;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,13 +79,44 @@ public class PowerManagementController extends AbstractSystemCommandController {
   }
 
   /**
-   * Suspends the server.
+   * Schedule a job to suspend the server. Executed through a scheduled job because the
+   * suspend command doesn't natively support scheduling/delay in windows.
    */
   @PostMapping(path = "/suspend")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> suspend() {
-    logger.trace("{}/suspend (POST)", BASE_URL);
-    return execAdminCommand(new SuspendAdminCommand());
+  public ResponseEntity<KameHouseGenericResponse>
+      setSuspend(@RequestParam(value = "delay", required = true) Integer delay) {
+    logger.trace("{}/suspend?delay={} (POST)", BASE_URL, delay);
+    powerManagementService.scheduleSuspend(delay);
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage("Scheduled suspend at the specified delay of " + delay + " seconds");
+    return generatePostResponseEntity(response);
+  }
+
+  /**
+   * Gets the status of a scheduled suspend.
+   */
+  @GetMapping(path = "/suspend")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> getSuspend() {
+    logger.trace("{}/suspend (GET)", BASE_URL);
+    String suspendStatus = powerManagementService.getSuspendStatus();
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(suspendStatus);
+    return generateGetResponseEntity(response);
+  }
+
+  /**
+   * Cancel a scheduled suspend.
+   */
+  @DeleteMapping(path = "/suspend")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> cancelSuspend() {
+    logger.trace("{}/suspend (DELETE)", BASE_URL);
+    String cancelSuspendStatus = powerManagementService.cancelScheduledSuspend();
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(cancelSuspendStatus);
+    return generateGetResponseEntity(response);
   }
 
   /**

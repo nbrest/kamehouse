@@ -34,6 +34,7 @@
     <mysql.connector.java.version>8.0.20</mysql.connector.java.version> <!-- Updated 2020/05 -->
     <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>               <!-- Updated 2016/02 -->
     <powermock.version>1.7.3</powermock.version>                        <!-- Updated 2016/02 -->
+    <quartz.version>2.3.0</quartz.version>                              <!-- Updated 2020/12 -->
     <spring.version>4.3.25.RELEASE</spring.version>                     <!-- Updated 2019/09 -->
     <spring.security.version>4.2.13.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
     <war.plugin.version>2.1.1</war.plugin.version>                      <!-- Updated 2016/02 -->
@@ -49,6 +50,13 @@
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>${jsoup.version}</version>
+    </dependency>
+
+    <!-- Quartz job scheduler -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>${quartz.version}</version>
     </dependency>
 
     <!-- Java -->

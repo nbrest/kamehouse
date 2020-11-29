@@ -2,15 +2,27 @@ package com.nicobrest.kamehouse.admin.service;
 
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
+import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.main.utils.DateUtils;
 import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobDetail;
+import org.quartz.ScheduleBuilder;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Date;
 
 /**
  * Service to execute power management commands.
@@ -22,6 +34,14 @@ public class PowerManagementService {
 
   private static final Logger logger = LoggerFactory.getLogger(PowerManagementService.class);
   private static final int WOL_PORT = 9;
+  private static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
+      + "trigger will never fire";
+
+  @Autowired
+  private Scheduler scheduler;
+
+  @Autowired
+  private JobDetail suspendJobDetail;
 
   /**
    * Wake on lan the specified server. The server should be the base of the the admin.properties
@@ -66,6 +86,9 @@ public class PowerManagementService {
     }
   }
 
+  /**
+   * Get the mac address as a byte array.
+   */
   private static byte[] getMacAddressBytes(String macAddress) throws KameHouseException {
     try {
       byte[] macAddressBytes = new byte[6];
@@ -80,5 +103,77 @@ public class PowerManagementService {
     } catch (NumberFormatException e) {
       throw new KameHouseBadRequestException("Invalid MAC address " + macAddress);
     }
+  }
+
+  /**
+   * Schedule a server suspend at the specified delay in seconds.
+   */
+  public void scheduleSuspend(Integer delay) {
+    try {
+      if (delay == null || delay < 0) {
+        throw new KameHouseBadRequestException("Invalid delay specified");
+      }
+      Trigger suspendTrigger = getSuspendTrigger(delay);
+      if (scheduler.checkExists(suspendTrigger.getKey())) {
+        scheduler.rescheduleJob(suspendTrigger.getKey(), suspendTrigger);
+      } else {
+        scheduler.scheduleJob(suspendTrigger);
+      }
+      logger.debug("Scheduling suspend with a delay of {} seconds", delay);
+    } catch (SchedulerException e) {
+      if (e.getMessage() != null && e.getMessage().contains(TRIGGER_WONT_FIRE)) {
+        logger.debug(e.getMessage());
+      } else {
+        throw new KameHouseServerErrorException(e.getMessage(), e);
+      }
+    }
+  }
+
+  /**
+   * Get current suspend status.
+   */
+  public String getSuspendStatus() {
+    try {
+      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey("suspendTrigger"));
+      if (trigger != null && trigger.getNextFireTime() != null) {
+        return trigger.getNextFireTime().toString();
+      } else {
+        return "Suspend not scheduled";
+      }
+    } catch (SchedulerException e) {
+      throw new KameHouseServerErrorException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Cancel a current scheduled suspend.
+   */
+  public String cancelScheduledSuspend() {
+    try {
+      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey("suspendTrigger"));
+      if (cancelledSuspend) {
+        return "Suspend cancelled";
+      } else {
+        return "Suspend was not scheduled, so no need to cancel";
+      }
+    } catch (SchedulerException e) {
+      throw new KameHouseServerErrorException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Get the trigger to schedule the job to suspend the server at the specified delay in seconds.
+   */
+  private Trigger getSuspendTrigger(int delay) {
+    Date currentDate = new Date();
+    Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
+    String cronExpression = DateUtils.toCronExpression(scheduleDate);
+    ScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+    return TriggerBuilder.newTrigger()
+        .forJob(suspendJobDetail)
+        .withIdentity(TriggerKey.triggerKey("suspendTrigger"))
+        .withDescription("Trigger to schedule a server suspend")
+        .withSchedule(scheduleBuilder)
+        .build();
   }
 }
