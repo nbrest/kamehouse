@@ -72,6 +72,7 @@ public class ApplicationCache {
 
   @Override
   public String toString() {
-    return JsonUtils.toJsonString(this, super.toString());
+    String[] maskedFields = { "values" };
+    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

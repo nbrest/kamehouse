@@ -48,7 +48,7 @@ public class EhCacheController extends AbstractController {
     } else {
       cacheList = ehCacheService.getAll();
     }
-    return generateGetResponseEntity(cacheList);
+    return generateGetResponseEntity(cacheList, false);
   }
 
   /**
