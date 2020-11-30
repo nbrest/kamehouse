@@ -42,6 +42,13 @@ function BackendLogLevelUtils() {
     apiCallTable.put(LOG_LEVEL_API_URL + "/trace", null, processSuccess, processError);
   }
 
+  /** Set vlcrc log level */
+  this.setVlcRcLogLevel = (logLevel) => {
+    let urlParams = "?level=" + logLevel + "&package=com.nicobrest.kamehouse.vlcrc";
+    loadingWheelModal.open();
+    apiCallTable.put(LOG_LEVEL_API_URL + urlParams, null, processSuccess, processError);
+  }
+
   /** Update the log levels table content */
   this.updateLogLevelTable = (logLevelsArray) => {
     let $tableBody = $('#log-level-tbody');
