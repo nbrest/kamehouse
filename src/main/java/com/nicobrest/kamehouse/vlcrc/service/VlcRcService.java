@@ -48,7 +48,6 @@ public class VlcRcService {
   public VlcRcStatus execute(VlcRcCommand vlcRcCommand, String hostname) {
     logger.trace("execute VlcRcCommand {} in {}", vlcRcCommand, hostname);
     VlcRcStatus vlcRcStatus = vlcPlayerService.getByHostname(hostname).execute(vlcRcCommand);
-    logger.trace("execute VlcRcCommand {} in {} response {}", vlcRcCommand, hostname, vlcRcStatus);
     return vlcRcStatus;
   }
 
@@ -58,7 +57,6 @@ public class VlcRcService {
   public List<VlcRcPlaylistItem> getPlaylist(String hostname) {
     logger.trace("getPlaylist {}", hostname);
     List<VlcRcPlaylistItem> playlist = vlcPlayerService.getByHostname(hostname).getPlaylist();
-    logger.trace("getPlaylist {} response {}", hostname, playlist);
     return playlist;
   }
 
@@ -68,7 +66,6 @@ public class VlcRcService {
   public List<VlcRcFileListItem> browse(String uri, String hostname) {
     logger.trace("browse {} in {}", uri, hostname);
     List<VlcRcFileListItem> filelist = vlcPlayerService.getByHostname(hostname).browse(uri);
-    logger.trace("browse {} in {} response {}", uri, hostname, filelist);
     return filelist;
   }
 }

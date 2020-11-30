@@ -128,7 +128,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     String commandUrl = buildCommandUrl(command);
     if (commandUrl != null) {
       String vlcServerResponse = execRequestToVlcServer(commandUrl);
-      return VlcRcStatusBuilder.build(vlcServerResponse);
+      VlcRcStatus vlcRcStatus = VlcRcStatusBuilder.build(vlcServerResponse);
+      logVlcRcStatus(vlcRcStatus);
+      return vlcRcStatus;
     } else {
       return null;
     }
@@ -148,6 +150,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     VlcRcStatus vlcRcStatus = null;
     String vlcServerResponse = execRequestToVlcServer(statusUrl.toString());
     vlcRcStatus = VlcRcStatusBuilder.build(vlcServerResponse);
+    logVlcRcStatus(vlcRcStatus);
     return vlcRcStatus;
   }
 
@@ -163,7 +166,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     playlistUrl.append(port);
     playlistUrl.append(PLAYLIST_URL);
     String vlcServerResponse = execRequestToVlcServer(playlistUrl.toString());
-    return buildVlcRcPlaylist(vlcServerResponse);
+    List<VlcRcPlaylistItem> playlist = buildVlcRcPlaylist(vlcServerResponse);
+    LOGGER.trace("Response from VLC - playlist size {}", playlist.size());
+    return playlist;
   }
 
   /**
@@ -182,7 +187,9 @@ public class VlcPlayer implements Identifiable, Serializable {
       browseUrl.append("?uri=file:///");
     }
     String vlcServerResponse = execRequestToVlcServer(browseUrl.toString());
-    return buildVlcRcFilelist(vlcServerResponse);
+    List<VlcRcFileListItem> filelist = buildVlcRcFilelist(vlcServerResponse);
+    LOGGER.trace("browse {} in {} filelist size {}", uri, hostname, filelist.size());
+    return filelist;
   }
 
   /**
@@ -237,9 +244,7 @@ public class VlcPlayer implements Identifiable, Serializable {
         while ((line = responseReader.readLine()) != null) {
           responseBody.append(line);
         }
-        String responseFromVlc = responseBody.toString();
-        LOGGER.trace("Response from VLC: {}", responseFromVlc);
-        return responseFromVlc;
+        return responseBody.toString();
       }
     } catch (IOException e) {
       if (LOGGER.isTraceEnabled()) { // only log this ERROR when TRACE is enabled
@@ -340,6 +345,19 @@ public class VlcPlayer implements Identifiable, Serializable {
     } catch (IOException e) {
       LOGGER.error("Unable to build VlcRC file list", e);
       throw new KameHouseException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Log vlcRcStatus response.
+   */
+  private void logVlcRcStatus(VlcRcStatus vlcRcStatus) {
+    if (vlcRcStatus != null && vlcRcStatus.getInformation() != null
+        && vlcRcStatus.getInformation().getMeta() != null) {
+      LOGGER.trace("Response from VLC status - filename: {}",
+          vlcRcStatus.getInformation().getMeta().getFilename());
+    } else {
+      LOGGER.trace("Response from VLC status - no filename. No file currently playing");
     }
   }
 

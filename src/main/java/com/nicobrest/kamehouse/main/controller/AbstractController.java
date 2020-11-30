@@ -20,6 +20,13 @@ public abstract class AbstractController {
   protected static final Logger STATIC_LOGGER = LoggerFactory.getLogger(AbstractController.class);
   // I define the non static logger here to avoid having to define it in every controller
   protected final Logger logger = LoggerFactory.getLogger(getClass());
+  
+  /**
+   * Generates a standard response entity for get requests.
+   */
+  protected static <T> ResponseEntity<T> generateGetResponseEntity(T entity, boolean logResponse) {
+    return generateStandardResponseEntity(entity, logResponse);
+  }
 
   /**
    * Generates a standard response entity for get requests.
@@ -61,16 +68,27 @@ public abstract class AbstractController {
   /**
    * Generates a standard response entity for post requests.
    */
-  protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity) {
+  protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity, boolean logResponse) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
-      STATIC_LOGGER.trace("Response {}", entity);
+      if (logResponse) {
+        STATIC_LOGGER.trace("Response {}", entity);
+      }
       responseEntity = new ResponseEntity<>(entity, HttpStatus.CREATED);
     } else {
-      STATIC_LOGGER.warn("Empty response. Entity not found.");
+      if (logResponse) {
+        STATIC_LOGGER.warn("Empty response. Entity not found.");
+      }
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;
+  }
+
+  /**
+   * Generates a standard response entity for post requests logging the response.
+   */
+  protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity) {
+    return generatePostResponseEntity(entity, true);
   }
 
   /**
@@ -95,15 +113,27 @@ public abstract class AbstractController {
    * Generates a standard response entity with the entity parameter as a body and
    * 200 return code and a 404 with empty body if the entity is null.
    */
-  private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity) {
+  private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity,
+                                                                      boolean logResponse) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
-      STATIC_LOGGER.trace("Response {}", entity);
+      if (logResponse) {
+        STATIC_LOGGER.trace("Response {}", entity);
+      }
       responseEntity = ResponseEntity.ok(entity);
     } else {
-      STATIC_LOGGER.warn("Empty response. Entity not found.");
+      if (logResponse) {
+        STATIC_LOGGER.warn("Empty response. Entity not found.");
+      }
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;
+  }
+
+  /**
+   * Generate a standard response entity logging the response.
+   */
+  private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity) {
+    return generateStandardResponseEntity(entity, true);
   }
 }
