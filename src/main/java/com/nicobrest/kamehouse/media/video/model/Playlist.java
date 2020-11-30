@@ -83,7 +83,8 @@ public class Playlist implements Serializable, Comparable<Playlist> {
   
   @Override
   public String toString() {
-    return JsonUtils.toJsonString(this, super.toString());
+    String[] maskedFields = { "files" };
+    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 
   /**
