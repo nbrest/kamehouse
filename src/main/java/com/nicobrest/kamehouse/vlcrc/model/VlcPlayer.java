@@ -167,7 +167,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     playlistUrl.append(PLAYLIST_URL);
     String vlcServerResponse = execRequestToVlcServer(playlistUrl.toString());
     List<VlcRcPlaylistItem> playlist = buildVlcRcPlaylist(vlcServerResponse);
-    LOGGER.trace("Response from VLC - playlist size {}", playlist.size());
+    LOGGER.trace("Response from VLC: playlist - size: {}", playlist.size());
     return playlist;
   }
 
@@ -354,10 +354,10 @@ public class VlcPlayer implements Identifiable, Serializable {
   private void logVlcRcStatus(VlcRcStatus vlcRcStatus) {
     if (vlcRcStatus != null && vlcRcStatus.getInformation() != null
         && vlcRcStatus.getInformation().getMeta() != null) {
-      LOGGER.trace("Response from VLC status - filename: {}",
+      LOGGER.trace("Response from VLC: status - filename: {}",
           vlcRcStatus.getInformation().getMeta().getFilename());
     } else {
-      LOGGER.trace("Response from VLC status - no filename. No file currently playing");
+      LOGGER.trace("Response from VLC: status - No filename present in the response");
     }
   }
 
