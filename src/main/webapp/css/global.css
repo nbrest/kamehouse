@@ -623,6 +623,20 @@ hr {
 }
 /** Select dark theme. End.*/
 
+.server-status-suspend-shutdown {
+  padding: 10px;
+  margin: auto;
+  margin-top: 15px;
+  display: table;
+  border: 3px solid #2a2a2a;
+  border-radius: 0px;
+  border-collapse: initial;
+  background-color: #171e22;
+  color: #686868;
+  width: 70%;
+  text-align: center;
+}
+
 /* spinning wheel -------------------------------------------- */
 .spinning-wheel {
   margin: auto;

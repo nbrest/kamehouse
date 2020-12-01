@@ -136,7 +136,7 @@ public class PowerManagementService {
     try {
       Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey("suspendTrigger"));
       if (trigger != null && trigger.getNextFireTime() != null) {
-        return trigger.getNextFireTime().toString();
+        return "Suspend scheduled at: " + trigger.getNextFireTime().toString();
       } else {
         return "Suspend not scheduled";
       }

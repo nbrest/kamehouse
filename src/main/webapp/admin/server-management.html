@@ -46,48 +46,62 @@
     <div class="default-layout pm-section">
     <h5 class="h5-kh txt-c-m-kh">Power Management</h5>
     <br>
-    <div class="fl-l-d-kh fl-l-m-kh">
-      <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Shutdown</h6>
-      <br>
-      <p>Commands to shutdown the server after the specified time, cancel a scheduled shutdown and check the status of an active shutdown</p>
-      <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="shutdown-delay-dropdown">
-        <option value="5400">90 Min</option>
-        <option value="60">1 Min</option>
-      </select>
-      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-        onclick="serverManager.execAdminShutdown('/power-management/shutdown')"
-        src="/kame-house/img/pc/shutdown-red.png" alt="Shutdown" title="Shutdown" />
-      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-        onclick="serverManager.delete('/power-management/shutdown')"
-        src="/kame-house/img/pc/shutdown-green.png" alt="Cancel Shutdown" title="Cancel Shutdown" />
-      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
-        onclick="serverManager.get('/power-management/shutdown')"
-        src="/kame-house/img/other/circle-question-blue.png" alt="Shutdown Status" title="Shutdown Status" />
-    </div>
+    <table class="w-100-pc-kh"><tbody>
+    <tr><td><h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Shutdown</h6></td></tr>
+    <tr><td>
+      <div class="fl-l-d-kh">
+        <p>Commands to shutdown the server after the specified time, cancel a scheduled shutdown and check the status of an active shutdown</p>
+        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="shutdown-delay-dropdown">
+          <option value="5400">90 Min</option>
+          <option value="60">1 Min</option>
+        </select>
+        <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
+          onclick="serverManager.execAdminShutdown('/power-management/shutdown')"
+          src="/kame-house/img/pc/shutdown-red.png" alt="Shutdown" title="Shutdown" />
+        <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
+          onclick="serverManager.delete('/power-management/shutdown')"
+          src="/kame-house/img/pc/shutdown-green.png" alt="Cancel Shutdown" title="Cancel Shutdown" />
+        <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
+          onclick="serverManager.get('/power-management/shutdown')"
+          src="/kame-house/img/other/circle-question-blue.png" alt="Shutdown Status" title="Shutdown Status" />
+      </div>
+    </td></tr>
+    <tr><td>
+      <div id="shutdown-status" class="server-status-suspend-shutdown">
+        Shutdown status: -
+      </div>
+    </td></tr>
+    </tbody></table>
     <br>
-    <div class="fl-r-d-kh fl-l-m-kh">
-      <br>
-      <h6 class="h6-kh txt-r-d-kh">Suspend</h6>
-      <br>
-      <p>Send the server into a hibernation state</p>
-      <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
-        onclick="serverManager.get('/power-management/suspend')"
-        src="/kame-house/img/other/circle-question-blue.png" alt="Suspend Status" title="Suspend Status" />
-      <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
-        onclick="serverManager.delete('/power-management/suspend')"
-        src="/kame-house/img/pc/hibernate-green.png" alt="Cancel Suspend" title="Cancel Suspend" />
-      <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
-        onclick="serverManager.execAdminSuspend('/power-management/suspend')"
-        src="/kame-house/img/pc/hibernate-red.png" alt="Suspend" title="Suspend" />
-      <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown">
-        <option value="7200">120 Min</option>
-        <option value="5400" selected>90 Min</option>
-        <option value="3600">60 Min</option>
-        <option value="0">Now</option>
-      </select>
+    <table class="w-100-pc-kh"><tbody>
+    <tr><td><h6 class="h6-kh txt-r-d-kh">Suspend</h6></td></tr>
+    <tr><td>
+      <div class="fl-r-d-kh">
+        <p>Send the server into a hibernation state</p>
+        <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+          onclick="serverManager.getSuspendStatus()"
+          src="/kame-house/img/other/circle-question-blue.png" alt="Suspend Status" title="Suspend Status" />
+        <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+          onclick="serverManager.cancelSuspendCommand()"
+          src="/kame-house/img/pc/hibernate-green.png" alt="Cancel Suspend" title="Cancel Suspend" />
+        <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+          onclick="serverManager.setSuspendCommand()"
+          src="/kame-house/img/pc/hibernate-red.png" alt="Suspend" title="Suspend" />
+        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown">
+          <option value="7200">120 Min</option>
+          <option value="5400" selected>90 Min</option>
+          <option value="3600">60 Min</option>
+          <option value="0">Now</option>
+        </select>
+      </div>
+    </td></tr>
+    <tr><td>
+      <div id="suspend-status" class="server-status-suspend-shutdown">
+        Suspend status: - 
+      </div>
+    </td></tr>
+    </tbody></table>
     </div>
-    </div>
-    <br>
     </div>
 
     <div class="bg-darker-kh p-15-d-kh p-15-m-kh">

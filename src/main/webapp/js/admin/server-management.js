@@ -13,6 +13,7 @@ var main = () => {
   moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing server management");
     serverManager = new ServerManager();
+    serverManager.getSuspendStatus();
   });
 };
 
@@ -21,9 +22,25 @@ function importServerManagementCss() {
 }
 
 function ServerManager() {
+  let self = this;
   const ADMIN_API_URL = "/kame-house/api/v1/admin";
+  const SUSPEND_URL = '/power-management/suspend';
   this.debugger = new Debugger();
 
+  /**
+   * --------------------------------------------------------------------------
+   * WakeOnLan functions
+   */
+  this.execAdminWakeOnLan = (url, server) => {
+    let requestParam = "server=" + server;
+    loadingWheelModal.open();
+    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * SHUTDOWN functions
+   */
   this.execAdminShutdown = (url) => {
     let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
     logger.trace("Shutdown delay: " + shutdownDelay);
@@ -32,21 +49,61 @@ function ServerManager() {
     apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
   }
 
-  this.execAdminSuspend = (url) => {
+  /**
+   * --------------------------------------------------------------------------
+   * SUSPEND functions
+   */
+  /** Set a suspend command */
+  this.setSuspendCommand = () => {
     let shutdownDelay = document.getElementById("suspend-delay-dropdown").value;
     logger.trace("Shutdown delay: " + shutdownDelay);
     let requestParam = "delay=" + shutdownDelay;
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
+    apiCallTable.postUrlEncoded(ADMIN_API_URL + SUSPEND_URL, requestParam, processSuccessSuspend, processErrorSuspend);
   }
 
-  this.execAdminWakeOnLan = (url, server) => {
-    let requestParam = "server=" + server;
+  /** Cancel a suspend command */
+  this.cancelSuspendCommand = () => { 
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
+    apiCallTable.delete(ADMIN_API_URL + SUSPEND_URL, null, processSuccessSuspend, processErrorSuspend);
   }
 
+  /** Get the suspend command status */
+  this.getSuspendStatus = () => {
+    loadingWheelModal.open();
+    apiCallTable.get(ADMIN_API_URL + SUSPEND_URL, processSuccessSuspendStatus, processErrorSuspendStatus);
+  }
 
+  /** Process the success response of a suspend command (set/cancel) */
+  function processSuccessSuspend(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    self.getSuspendStatus();
+  }
+
+  /** Process the error response of a suspend command (set/cancel) */
+  function processErrorSuspend(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+    self.getSuspendStatus();
+  }
+
+  /** Update the status of suspend command */
+  function processSuccessSuspendStatus(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    $("#suspend-status").text(responseBody.message);
+  }
+
+  /** Update the status of suspend command with an error */
+  function processErrorSuspendStatus(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+    $("#suspend-status").text("Error getting the status of Suspend command");
+  }
+
+  /** 
+   * --------------------------------------------------------------------------
+   * REST API calls
+   */
   this.get = (url) => {
     loadingWheelModal.open();
     apiCallTable.get(ADMIN_API_URL + url, processSuccess, processError);
@@ -67,12 +124,12 @@ function ServerManager() {
     apiCallTable.delete(ADMIN_API_URL + url, requestBody, processSuccess, processError);
   }
 
-  /** Process success response */
+  /** Generic process success response */
   function processSuccess(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
   }
 
-  /** Process error response */
+  /** Generic process error response */
   function processError(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
