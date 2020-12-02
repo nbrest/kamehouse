@@ -1,23 +1,8 @@
 package com.nicobrest.kamehouse.admin.controller;
- 
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownCancelAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownStatusAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.SuspendAdminCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.model.KameHouseGenericResponse;
-import com.nicobrest.kamehouse.main.utils.DateUtils;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobDetail;
-import org.quartz.ScheduleBuilder;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Controller class for the shutdown commands.
@@ -52,20 +34,13 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/shutdown")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>>
+  public ResponseEntity<KameHouseGenericResponse>
       setShutdown(@RequestParam(value = "delay", required = true) Integer delay) {
     logger.trace("{}/shutdown?delay={} (POST)", BASE_URL, delay);
-    return execAdminCommand(new ShutdownAdminCommand(delay));
-  }
-
-  /**
-   * Cancels a shutdown command.
-   */
-  @DeleteMapping(path = "/shutdown")
-  @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> cancelShutdown() {
-    logger.trace("{}/shutdown (DELETE)", BASE_URL);
-    return execAdminCommand(new ShutdownCancelAdminCommand());
+    powerManagementService.scheduleShutdown(delay);
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage("Scheduled shutdown at the specified delay of " + delay + " seconds");
+    return generatePostResponseEntity(response);
   }
 
   /**
@@ -73,9 +48,25 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @GetMapping(path = "/shutdown")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> statusShutdown() {
+  public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
     logger.trace("{}/shutdown (GET)", BASE_URL);
-    return execAdminCommand(new ShutdownStatusAdminCommand());
+    String suspendStatus = powerManagementService.getShutdownStatus();
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(suspendStatus);
+    return generateGetResponseEntity(response);
+  }
+
+  /**
+   * Cancels a shutdown command.
+   */
+  @DeleteMapping(path = "/shutdown")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {
+    logger.trace("{}/shutdown (DELETE)", BASE_URL);
+    String cancelSuspendStatus = powerManagementService.cancelScheduledShutdown();
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(cancelSuspendStatus);
+    return generateGetResponseEntity(response);
   }
 
   /**

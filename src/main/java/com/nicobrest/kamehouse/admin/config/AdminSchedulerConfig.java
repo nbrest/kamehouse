@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.admin.config;
 
+import com.nicobrest.kamehouse.admin.scheduler.job.ShutdownJob;
 import com.nicobrest.kamehouse.admin.scheduler.job.SuspendJob;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -35,10 +36,25 @@ public class AdminSchedulerConfig {
   public void init() {
     logger.info("init AdminSchedulerConfig");
     try {
+      scheduler.addJob(shutdownJobDetail(), true);
       scheduler.addJob(suspendJobDetail(), true);
     } catch (SchedulerException e) {
-      logger.error("Error adding suspendJobDetail to the scheduler", e);
+      logger.error("Error adding admin jobs to the scheduler", e);
     }
+  }
+
+  /**
+   * shutdownJobDetail bean.
+   */
+  @Bean(name = "shutdownJobDetail")
+  public JobDetail shutdownJobDetail() {
+    logger.info("Setting up shutdownJobDetail");
+    return JobBuilder.newJob()
+        .ofType(ShutdownJob.class)
+        .storeDurably()
+        .withIdentity(JobKey.jobKey("shutdownJobDetail"))
+        .withDescription("Shutdown the server")
+        .build();
   }
 
   /**

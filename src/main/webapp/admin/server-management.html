@@ -56,13 +56,13 @@
           <option value="60">1 Min</option>
         </select>
         <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-          onclick="serverManager.execAdminShutdown('/power-management/shutdown')"
+          onclick="serverManager.setShutdownCommand()"
           src="/kame-house/img/pc/shutdown-red.png" alt="Shutdown" title="Shutdown" />
         <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
-          onclick="serverManager.delete('/power-management/shutdown')"
+          onclick="serverManager.cancelShutdownCommand()"
           src="/kame-house/img/pc/shutdown-green.png" alt="Cancel Shutdown" title="Cancel Shutdown" />
         <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
-          onclick="serverManager.get('/power-management/shutdown')"
+          onclick="serverManager.getShutdownStatus()"
           src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Shutdown Status" 
           title="Refresh Shutdown Status" />
       </div>

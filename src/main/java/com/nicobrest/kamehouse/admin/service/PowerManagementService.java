@@ -16,6 +16,7 @@ import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -41,6 +42,11 @@ public class PowerManagementService {
   private Scheduler scheduler;
 
   @Autowired
+  @Qualifier("shutdownJobDetail")
+  private JobDetail shutdownJobDetail;
+
+  @Autowired
+  @Qualifier("suspendJobDetail")
   private JobDetail suspendJobDetail;
 
   /**
@@ -106,6 +112,63 @@ public class PowerManagementService {
   }
 
   /**
+   * Schedule a server shutdown at the specified delay in seconds.
+   */
+  public void scheduleShutdown(Integer delay) {
+    try {
+      if (delay == null || delay < 60) {
+        throw new KameHouseBadRequestException("Invalid delay specified");
+      }
+      Trigger shutdownTrigger = getShutdownTrigger(delay);
+      if (scheduler.checkExists(shutdownTrigger.getKey())) {
+        scheduler.rescheduleJob(shutdownTrigger.getKey(), shutdownTrigger);
+      } else {
+        scheduler.scheduleJob(shutdownTrigger);
+      }
+      logger.debug("Scheduling shutdown with a delay of {} seconds", delay);
+    } catch (SchedulerException e) {
+      if (e.getMessage() != null && e.getMessage().contains(TRIGGER_WONT_FIRE)) {
+        logger.debug(e.getMessage());
+      } else {
+        throw new KameHouseServerErrorException(e.getMessage(), e);
+      }
+    }
+  }
+
+
+  /**
+   * Get current shutdown status.
+   */
+  public String getShutdownStatus() {
+    try {
+      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey("shutdownTrigger"));
+      if (trigger != null && trigger.getNextFireTime() != null) {
+        return "Shutdown scheduled at: " + trigger.getNextFireTime().toString();
+      } else {
+        return "Shutdown not scheduled";
+      }
+    } catch (SchedulerException e) {
+      throw new KameHouseServerErrorException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Cancel a current scheduled shutdown.
+   */
+  public String cancelScheduledShutdown() {
+    try {
+      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey("shutdownTrigger"));
+      if (cancelledSuspend) {
+        return "Shutdown cancelled";
+      } else {
+        return "Shutdown was not scheduled, so no need to cancel";
+      }
+    } catch (SchedulerException e) {
+      throw new KameHouseServerErrorException(e.getMessage(), e);
+    }
+  }
+
+  /**
    * Schedule a server suspend at the specified delay in seconds.
    */
   public void scheduleSuspend(Integer delay) {
@@ -159,6 +222,22 @@ public class PowerManagementService {
     } catch (SchedulerException e) {
       throw new KameHouseServerErrorException(e.getMessage(), e);
     }
+  }
+
+  /**
+   * Get the trigger to schedule the job to suspend the server at the specified delay in seconds.
+   */
+  private Trigger getShutdownTrigger(int delay) {
+    Date currentDate = new Date();
+    Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
+    String cronExpression = DateUtils.toCronExpression(scheduleDate);
+    ScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+    return TriggerBuilder.newTrigger()
+        .forJob(shutdownJobDetail)
+        .withIdentity(TriggerKey.triggerKey("shutdownTrigger"))
+        .withDescription("Trigger to schedule a server shutdown")
+        .withSchedule(scheduleBuilder)
+        .build();
   }
 
   /**
