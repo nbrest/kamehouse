@@ -30,6 +30,13 @@ function BackendLogLevelUtils() {
     apiCallTable.delete(LOG_LEVEL_API_URL, null, processSuccess, processError);
   }
 
+  /** Set Kamehouse log level */
+  this.setKamehouseLogLevel = () => {
+    let logLevel = document.getElementById("select-kamehouse-log-level").value;
+    loadingWheelModal.open();
+    apiCallTable.put(LOG_LEVEL_API_URL + logLevel, null, processSuccess, processError);
+  }
+
   /** Set Kamehouse log levels to DEBUG */
   this.setKamehouseLogLevelToDebug = () => {
     loadingWheelModal.open();
@@ -43,7 +50,8 @@ function BackendLogLevelUtils() {
   }
 
   /** Set vlcrc log level */
-  this.setVlcRcLogLevel = (logLevel) => {
+  this.setVlcRcLogLevel = () => {
+    let logLevel = document.getElementById("select-vlcrc-log-level").value;
     let urlParams = "?level=" + logLevel + "&package=com.nicobrest.kamehouse.vlcrc";
     loadingWheelModal.open();
     apiCallTable.put(LOG_LEVEL_API_URL + urlParams, null, processSuccess, processError);

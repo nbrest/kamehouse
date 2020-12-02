@@ -24,52 +24,82 @@
     </div>
   </div>
   </div>
-  <div class="default-layout">
-  <div class="default-layout landing-p-links">
-    <br>
-    <input type="button" value="Get Current Log Levels" class="btn btn-block btn-outline-secondary"
-      onclick="backendLogLevelUtils.getLogLevels()">
-    <br>
-    <input type="button" value="Reset Log Levels" class="btn btn-block btn-outline-secondary"
-      onclick="backendLogLevelUtils.resetLogLevels()">
-    <br>
-    <input type="button" value="Set Log Level to DEBUG" class="btn btn-block btn-outline-secondary"
-      onclick="backendLogLevelUtils.setKamehouseLogLevelToDebug()">
-    <br>
-    <input type="button" value="Set Log Level to TRACE" class="btn btn-block btn-outline-secondary"
-      onclick="backendLogLevelUtils.setKamehouseLogLevelToTrace()">
-    <br>
-    <input type="button" value="Set VLCRC to INFO" class="btn btn-block btn-outline-secondary"
-      onclick="backendLogLevelUtils.setVlcRcLogLevel('INFO')">
-    <br>
-    <input type="button" value="Set VLCRC to DEBUG" class="btn btn-block btn-outline-secondary"
-      onclick="backendLogLevelUtils.setVlcRcLogLevel('DEBUG')">
-    <br>
-    <input type="button" value="Set VLCRC to TRACE" class="btn btn-block btn-outline-secondary"
-      onclick="backendLogLevelUtils.setVlcRcLogLevel('TRACE')">
-  </div>
-
-  <table id="log-level-table" class="table table-bordered table-bordered-kh table-responsive-kh table-responsive">
-    <caption class="hidden-kh">Log Level</caption>
-    <tbody id="log-level-tbody">
-      <tr class="hidden-kh">
-        <th scope="row">Log Level</th>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
-    <img id="debug-mode-btn" class="debug-mode-btn"
-      src="/kame-house/img/other/debug-btn-success.png"
-      onclick="kamehouseDebugger.toggleDebugMode()" alt="Debug Mode"
-      title="Debug Mode" />
-  </div>
-  <div id="debug-mode" class="p-15-d-kh p-15-m-kh hidden-kh">
-    <div class="default-layout">
-      <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
-      <div id="api-call-table"></div>
+  <div class="default-layout txt-c-d-kh txt-c-m-kh">
+    <div>
+      <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="backendLogLevelUtils.resetLogLevels()"
+        src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
+        title="Reset To Defaults" />
+      <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="backendLogLevelUtils.getLogLevels()"
+        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+        title="Refresh" />
     </div>
-  </div>
+    <br><br>
+    <h4>Set Log levels</h4>
+    <table class="table-responsive-kh table-responsive"><tbody>
+    <tr>
+      <td>
+        <span>com.nicobrest.kamehouse.*</span>
+      </td>
+      <td>
+        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+          id="select-kamehouse-log-level">
+          <option value="/trace" selected>TRACE</option>
+          <option value="/debug">DEBUG</option>
+        </select>
+      </td>
+      <td>
+         <img class="btn-log-level m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.setKamehouseLogLevel()"
+          src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+          title="Apply" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span>com.nicobrest.kamehouse.vlcrc</span>
+      </td>
+      <td>
+        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+          id="select-vlcrc-log-level">
+          <option value="TRACE">TRACE</option>
+          <option value="DEBUG">DEBUG</option>
+          <option value="INFO" selected>INFO</option>
+          <option value="WARN">WARN</option>
+          <option value="ERROR">ERROR</option>
+        </select>
+      </td>
+      <td>
+        <img class="btn-log-level m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.setVlcRcLogLevel()"
+          src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+          title="Apply" />
+      </td>
+    </tr>
+    </tbody></table>
+
+    <table id="log-level-table" class="table table-bordered table-bordered-kh table-responsive-kh table-responsive">
+      <caption class="hidden-kh">Log Level</caption>
+      <tbody id="log-level-tbody">
+        <tr class="hidden-kh">
+          <th scope="row">Log Level</th>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
+      <img id="debug-mode-btn" class="debug-mode-btn"
+        src="/kame-house/img/other/debug-btn-success.png"
+        onclick="kamehouseDebugger.toggleDebugMode()" alt="Debug Mode"
+        title="Debug Mode" />
+    </div>
+    <div id="debug-mode" class="p-15-d-kh p-15-m-kh hidden-kh">
+      <div class="default-layout">
+        <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
+        <div id="api-call-table"></div>
+      </div>
+    </div>
   </div>
   <script src="/kame-house/js/snippets/api-call-table.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
