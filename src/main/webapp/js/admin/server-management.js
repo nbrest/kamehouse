@@ -145,24 +145,9 @@ function ServerManager() {
    * --------------------------------------------------------------------------
    * REST API calls
    */
-  this.get = (url) => {
-    loadingWheelModal.open();
-    apiCallTable.get(ADMIN_API_URL + url, processSuccess, processError);
-  }
-
   this.post = (url, requestBody) => {
     loadingWheelModal.open();
     apiCallTable.post(ADMIN_API_URL + url, requestBody, processSuccess, processError);
-  }
- 
-  this.postUrlEncoded = (url, requestParam) => {
-    loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
-  }
-
-  this.delete = (url, requestBody) => { 
-    loadingWheelModal.open();
-    apiCallTable.delete(ADMIN_API_URL + url, requestBody, processSuccess, processError);
   }
 
   /** Generic process success response */
