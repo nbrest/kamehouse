@@ -139,10 +139,10 @@ function ApiCallTable() {
     self.emptyApiCallTableDiv();
     let requestTimestamp = timeUtils.getTimestamp();
     let $apiCallTableDiv = $("#api-call-table");
-    let $apiCallTable = $('<table id="aco-table" class="table table-bordered-kh table-responsive-kh table-responsive">');
+    let $apiCallTable = $('<table id="aco-table" class="api-call-table table table-bordered-kh table-responsive-kh table-responsive">');
     // Request Data header row.
     let $requestDataHeaderRow = $("<tr>");
-    $requestDataHeaderRow.append($('<th class="txt-c-d-kh" colspan="2">').text("Request Data"));
+    $requestDataHeaderRow.append($('<th class="api-call-table-header txt-c-d-kh" colspan="2">').text("Request Data"));
     $apiCallTable.append($requestDataHeaderRow);
     // Request Timestamp row.
     let $requestTimestampRow = $("<tr>");
@@ -166,7 +166,7 @@ function ApiCallTable() {
     $apiCallTable.append($requestBodyRow);
     // Response Data header row.
     let $responseDataHeaderRow = $("<tr>");
-    $responseDataHeaderRow.append($('<th class="txt-c-d-kh" colspan="2">').text("Response Data"));
+    $responseDataHeaderRow.append($('<th class="api-call-table-header txt-c-d-kh" colspan="2">').text("Response Data"));
     $apiCallTable.append($responseDataHeaderRow);
     // Response Code row.
     let $responseCodeRow = $("<tr>");

@@ -1,6 +1,15 @@
+.api-call-table  {
+  background-color: #12181a;
+  margin-bottom: 0;
+}
+
+.api-call-table-header {
+  background-color: #2c0000;
+}
+
 /** Collapsible content. Begin.*/
 .collapsible-kh {
-  background-color: #191919;
+  background-color: #2c0000;
   color: #c0c0c0;
   cursor: pointer;
   padding: 5px;
@@ -19,17 +28,18 @@
 	  margin-left: 5px;
 	} 
 	.collapsible-kh-active, .collapsible-kh:hover {
-	  background-color: #343434;
+	  background-color: #570101;
 	} 
 	.collapsible-kh-active:after {
 	  content: "\2212";
 	} 
 	.collapsible-kh-content {
-	  border:1px solid #343434;
+    background-color: #12181a;
+	  border:1px solid #414141;
 	  padding: 0 18px;
 	  max-height: 0;
 	  overflow: hidden;
-	  transition: max-height 0.2s ease-out;
+    transition: max-height 0.2s ease-out;
 	} 
 	.collapsible-kh-content-pre {
 	  color: #c0c0c0;
