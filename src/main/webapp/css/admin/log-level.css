@@ -42,3 +42,15 @@
   background-color: #2c0000;
   font-weight: bold;
 }
+
+.packages-table {
+  background-color: #12181a;
+  border:1px solid #414141;
+  width: 50%;
+  margin: auto;
+}
+@media (max-width : 900px) {
+  .packages-table {
+    width: 100%;
+  }
+}
