@@ -529,9 +529,10 @@ hr {
   border: 0px;
   position: relative;
   display: inline-block;
-  color: #c0c0c0;
-  background: #222222;
+  color: #686868;
+  background: #171e22;
   padding: 8px;
+  border: 1px solid #131a1f;
 }
 
 .select-kh-dark:hover {

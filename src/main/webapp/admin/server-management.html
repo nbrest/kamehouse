@@ -27,6 +27,7 @@
   <div class="server-management">
     <div class="bg-darker-kh">
     <div class="default-layout screen-section p-15-d-kh p-15-m-kh">
+      <br>
       <h5 class="h5-kh txt-l-d-kh txt-c-m-kh">Screen</h5>
       <br>
       <p>Control the screen of the current server with Unlock, Wake-Up screen and Lock commands</p>
@@ -44,6 +45,7 @@
     </div>
     <div class="p-15-d-kh p-15-m-kh">
     <div class="default-layout pm-section">
+    <br>
     <h5 class="h5-kh txt-c-m-kh">Power Management</h5>
     <br>
     <table class="w-100-pc-kh"><tbody>
@@ -68,12 +70,12 @@
       </div>
     </td></tr>
     <tr><td>
-      <div id="shutdown-status" class="server-status-suspend-shutdown">
+      <div id="shutdown-status" class="server-status-suspend-shutdown fl-l-d-kh">
         Shutdown status: -
       </div>
     </td></tr>
     </tbody></table>
-    <br>
+    <br><br>
     <table class="w-100-pc-kh"><tbody>
     <tr><td><h6 class="h6-kh txt-r-d-kh">Suspend</h6></td></tr>
     <tr><td>
@@ -98,7 +100,7 @@
       </div>
     </td></tr>
     <tr><td>
-      <div id="suspend-status" class="server-status-suspend-shutdown">
+      <div id="suspend-status" class="server-status-suspend-shutdown fl-r-d-kh">
         Suspend status: - 
       </div>
     </td></tr>
@@ -108,9 +110,11 @@
 
     <div class="bg-darker-kh p-15-d-kh p-15-m-kh">
     <div class="default-layout media-server-section">
+    <br>
     <h5 class="h5-kh txt-c-m-kh">Media Server</h5>
     <br>
-    <p>The media server contains the media drive with all my videos and playlists. Use the WakeOnLan command to power on the media server when it's stopped</p>
+    <p>The media server contains the media drive with all my videos and playlists</p>
+    <p>Use the WakeOnLan command to power on the media server when it's stopped</p>
     <span class="h6-kh txt-l-d-kh txt-l-m-kh m-15-d-kh">Wake On Lan</span>
     <img class="sm-btn-img"
       onclick="serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')"

@@ -50,6 +50,27 @@ public class PowerManagementService {
   private JobDetail suspendJobDetail;
 
   /**
+   * Getters and Setters.
+   */
+  public void setScheduler(Scheduler scheduler) {
+    this.scheduler = scheduler;
+  }
+
+  /**
+   * Getters and Setters.
+   */
+  public void setShutdownJobDetail(JobDetail shutdownJobDetail) {
+    this.shutdownJobDetail = shutdownJobDetail;
+  }
+
+  /**
+   * Getters and Setters.
+   */
+  public void setSuspendJobDetail(JobDetail suspendJobDetail) {
+    this.suspendJobDetail = suspendJobDetail;
+  }
+
+  /**
    * Wake on lan the specified server. The server should be the base of the the admin.properties
    * [server].mac and [server].broadcast.
    * For example: "media.server"
@@ -134,7 +155,6 @@ public class PowerManagementService {
       }
     }
   }
-
 
   /**
    * Get current shutdown status.
@@ -225,7 +245,7 @@ public class PowerManagementService {
   }
 
   /**
-   * Get the trigger to schedule the job to suspend the server at the specified delay in seconds.
+   * Get the trigger to schedule the job to shutdown the server at the specified delay in seconds.
    */
   private Trigger getShutdownTrigger(int delay) {
     Date currentDate = new Date();
