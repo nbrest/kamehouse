@@ -70,8 +70,8 @@ public class TestModuleSchedulerConfig {
         .withIdentity(TriggerKey.triggerKey("sampleJobTrigger"))
         .withDescription("Trigger to schedule a sample job")
         .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-            .withIntervalInSeconds(6)
-            .withRepeatCount(2))
+            .withIntervalInSeconds(15)
+            .withRepeatCount(10))
         .build();
   }
 }
