@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - Test Scheduler</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/js/global.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
+</head>
+<body>
+  <div class="main-body">
+  <div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-gohan-ssj2">
+    <div class="default-layout banner-text">
+      <h1>Test Scheduler</h1>
+    </div>
+  </div>
+  </div>
+  <div class="scheduler">
+    <div class="p-15-d-kh p-15-m-kh">
+    <div class="default-layout">
+    <br>
+    <h5 class="h5-kh txt-c-m-kh">Sample Job Scheduler</h5>
+    <br>
+    <table class="w-100-pc-kh"><tbody>
+    <tr><td>
+      <div class="fl-l-d-kh">
+        <p>Commands to schedule a sample job after the specified time, cancel a scheduled sample job and check the status of an active sample job</p>
+        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="sample-job-delay-dropdown">
+          <option value="30">30 Sec</option>
+          <option value="10" selected>10 Sec</option>
+          <option value="">Fixed</option>
+        </select>
+        <img class="btn-img m-50-d-r-kh m-50-m-r-kh"
+          onclick="scheduler.setSampleJob()"
+          src="/kame-house/img/mplayer/play-green.png" alt="Schedule Sample Job" title="Schedule Sample Job" />
+        <img class="btn-img m-50-d-r-kh m-50-m-r-kh"
+          onclick="scheduler.cancelSampleJob()"
+          src="/kame-house/img/mplayer/stop.png" alt="Cancel Sample Job" title="Cancel Sample Job" />
+        <img class="btn-img m-10-d-r-kh m-10-m-r-kh"
+          onclick="scheduler.getSampleJobStatus()"
+          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Sample Job Status" 
+          title="Refresh Sample Job Status" />
+      </div>
+    </td></tr>
+    <tr><td>
+      <div id="sample-job-status" class="server-status-suspend-shutdown fl-l-d-kh">
+        Sample Job status: -
+      </div>
+    </td></tr>
+    </tbody></table>
+    </div>
+    </div>
+
+    <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
+      <img id="debug-mode-btn" class="debug-mode-btn"
+        src="/kame-house/img/other/debug-btn-success.png"
+        onclick="scheduler.getDebugger().toggleDebugMode()" alt="Debug Mode"
+        title="Debug Mode" />
+    </div>
+    <div id="debug-mode" class="p-15-d-kh p-15-m-kh hidden-kh">
+    <div class="default-layout">
+      <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
+      <br>
+      <div id="api-call-table"></div>
+    </div>
+    </div>
+  </div> <!-- server-management -->
+  </div> <!-- main-body -->
+  <script src="/kame-house/js/test-module/scheduler/scheduler-index.js"></script>
+  <script src="/kame-house/js/snippets/api-call-table.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+</body>
+</html>
