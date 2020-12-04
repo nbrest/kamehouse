@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.main.scheduler.job;
+package com.nicobrest.kamehouse.testmodule.scheduler.job;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -18,7 +18,7 @@ public class SampleJob implements Job {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   /**
-   * Execute the sampble job.
+   * Execute the sample job.
    */
   public void execute(JobExecutionContext context) {
     logger.info("Job {} fired @ {}", context.getJobDetail().getKey().getName(),

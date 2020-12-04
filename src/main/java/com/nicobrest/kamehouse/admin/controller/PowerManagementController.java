@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Controller class for the shutdown commands.
+ * Controller class for the power management commands.
  * 
  * @author nbrest
  *

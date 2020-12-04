@@ -3,15 +3,12 @@ package com.nicobrest.kamehouse.admin.service;
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.exception.KameHouseException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.main.utils.DateUtils;
 import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
-import org.quartz.CronScheduleBuilder;
+import com.nicobrest.kamehouse.main.utils.SchedulerUtils;
 import org.quartz.JobDetail;
-import org.quartz.ScheduleBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +20,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Date;
 
 /**
  * Service to execute power management commands.
@@ -248,31 +244,15 @@ public class PowerManagementService {
    * Get the trigger to schedule the job to shutdown the server at the specified delay in seconds.
    */
   private Trigger getShutdownTrigger(int delay) {
-    Date currentDate = new Date();
-    Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
-    String cronExpression = DateUtils.toCronExpression(scheduleDate);
-    ScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
-    return TriggerBuilder.newTrigger()
-        .forJob(shutdownJobDetail)
-        .withIdentity(TriggerKey.triggerKey("shutdownTrigger"))
-        .withDescription("Trigger to schedule a server shutdown")
-        .withSchedule(scheduleBuilder)
-        .build();
+    return SchedulerUtils.getTrigger(delay, shutdownJobDetail, "shutdownTrigger", "Trigger to "
+        + "schedule a server shutdown");
   }
 
   /**
    * Get the trigger to schedule the job to suspend the server at the specified delay in seconds.
    */
   private Trigger getSuspendTrigger(int delay) {
-    Date currentDate = new Date();
-    Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
-    String cronExpression = DateUtils.toCronExpression(scheduleDate);
-    ScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
-    return TriggerBuilder.newTrigger()
-        .forJob(suspendJobDetail)
-        .withIdentity(TriggerKey.triggerKey("suspendTrigger"))
-        .withDescription("Trigger to schedule a server suspend")
-        .withSchedule(scheduleBuilder)
-        .build();
+    return SchedulerUtils.getTrigger(delay, suspendJobDetail, "suspendTrigger", "Trigger to "
+        + "schedule a server suspend");
   }
 }

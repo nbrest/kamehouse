@@ -1,15 +1,7 @@
 package com.nicobrest.kamehouse.main.config;
 
-import com.nicobrest.kamehouse.main.scheduler.job.SampleJob;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,33 +74,5 @@ public class MainSchedulerConfig {
     logger.info("Starting Scheduler threads");
     scheduler.start();
     return scheduler;
-  }
-
-  /**
-   * sampleJobDetail bean.
-   */
-  @Bean(name = "sampleJobDetail")
-  public JobDetail sampleJobDetail() {
-    return JobBuilder.newJob()
-        .ofType(SampleJob.class)
-        .storeDurably()
-        .withIdentity(JobKey.jobKey("sampleJobDetail"))
-        .withDescription("Sample job")
-        .build();
-  }
-
-  /**
-   * sampleTrigger bean.
-   */
-  @Bean(name = "sampleTrigger")
-  public Trigger sampleTrigger(JobDetail suspendJobDetail) {
-    return TriggerBuilder.newTrigger()
-        .forJob(suspendJobDetail)
-        .withIdentity(TriggerKey.triggerKey("sampleTrigger"))
-        .withDescription("Trigger to schedule a sample job")
-        .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-            .withIntervalInSeconds(6)
-            .withRepeatCount(2))
-        .build();
   }
 }
