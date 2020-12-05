@@ -31,36 +31,36 @@ function Scheduler() {
     $jobsData.empty();
     self.jobs.forEach((jobEntry) => {
       let $jobTable = $('<table id="table-' + jobEntry.job.key.name +
-        '" class="table table-bordered table-ehcache table-bordered-kh table-responsive-kh table-responsive">');
+        '" class="table table-bordered table-scheduler table-bordered-kh table-responsive-kh table-responsive">');
       let $jobTableRow;
 
       $jobTableRow = $("<tr>");
-      $jobTableRow.append($('<td class="td-ehcache-header">').append($('<div class="ehcache-table-header-txt">').text("name")));
+      $jobTableRow.append($('<td class="td-scheduler-header">').append($('<div class="scheduler-table-header-txt">').text("name")));
       let $jobTableRowContent = $("<td>");
-      $jobTableRowContent.append($('<div class="ehcache-table-header-txt">').text(jobEntry.job.key.name));
+      $jobTableRowContent.append($('<div class="scheduler-table-header-txt">').text(jobEntry.job.key.name));
       $jobTableRow.append($jobTableRowContent);
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
-      $jobTableRow.append($('<td class="td-ehcache-header">').text("key"));
+      $jobTableRow.append($('<td class="td-scheduler-header">').text("key"));
       $jobTableRow.append($("<td>").text(jobEntry.job.key.group + "." + jobEntry.job.key.name));
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
-      $jobTableRow.append($('<td class="td-ehcache-header">').text("description"));
+      $jobTableRow.append($('<td class="td-scheduler-header">').text("description"));
       $jobTableRow.append($("<td>").text(jobEntry.job.description));
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
-      $jobTableRow.append($('<td class="td-ehcache-header">').text("jobClass"));
+      $jobTableRow.append($('<td class="td-scheduler-header">').text("jobClass"));
       $jobTableRow.append($("<td>").text(jobEntry.job.jobClass));
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
-      $jobTableRow.append($('<td class="td-ehcache-header">').text("schedule"));
+      $jobTableRow.append($('<td class="td-scheduler-header">').text("schedule"));
       $jobTableRowContent = $("<td>");
       $jobTableRowContent.append($('<span>').text(self.formatSchedule(jobEntry.schedules)));
-      $jobTableRowContent.append("<img id='clear-" + jobEntry.job.key.name + "' class='btn-ehcache cache-status-buttons'" + "src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
+      $jobTableRowContent.append("<img id='clear-" + jobEntry.job.key.name + "' class='btn-scheduler scheduler-status-buttons'" + "src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
       $jobTableRow.append($jobTableRowContent);
       $jobTable.append($jobTableRow);
 
