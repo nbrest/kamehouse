@@ -25,19 +25,14 @@
   </div>
   </div>
   <div class="default-layout txt-c-d-kh txt-c-m-kh">
-    <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
       onclick="scheduler.getAllJobs()"
       src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
       title="Refresh" />
+    <br><br>
+    <h3>Kamehouse Jobs</h3>
     <br>
-    <table id="log-level-table" class="table table-bordered table-bordered-kh table-responsive-kh table-responsive">
-      <caption class="hidden-kh">Scheduler</caption>
-      <tbody id="log-level-tbody">
-        <tr class="hidden-kh">
-          <th scope="row">Scheduler</th>
-        </tr>
-      </tbody>
-    </table>
+    <div id="jobs-data"></div>
 
     <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
       <img id="debug-mode-btn" class="debug-mode-btn"
