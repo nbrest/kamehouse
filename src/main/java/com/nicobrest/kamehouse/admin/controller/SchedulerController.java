@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.JobSchedule;
+import com.nicobrest.kamehouse.admin.model.KamehouseJob;
 import com.nicobrest.kamehouse.admin.service.SchedulerService;
 import com.nicobrest.kamehouse.main.controller.AbstractController;
 import org.quartz.JobKey;
@@ -35,9 +35,9 @@ public class SchedulerController extends AbstractController {
    */
   @GetMapping(path = "/jobs")
   @ResponseBody
-  public ResponseEntity<List<JobSchedule>> getAllJobs() {
+  public ResponseEntity<List<KamehouseJob>> getAllJobs() {
     logger.trace("{}/jobs (GET)", BASE_URL);
-    List<JobSchedule> jobs = schedulerService.getAllJobsStatus();
+    List<KamehouseJob> jobs = schedulerService.getAllJobsStatus();
     return generateGetResponseEntity(jobs);
   }
 
@@ -46,13 +46,13 @@ public class SchedulerController extends AbstractController {
    */
   @DeleteMapping(path = "/jobs")
   @ResponseBody
-  public ResponseEntity<List<JobSchedule>> cancelJob(
+  public ResponseEntity<List<KamehouseJob>> cancelJob(
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group) {
     logger.trace("{}/jobs?name={}&group={} (DELETE)", BASE_URL, name, group);
     JobKey jobKey = new JobKey(name, group);
     schedulerService.cancelScheduledJob(jobKey);
-    List<JobSchedule> jobs = schedulerService.getAllJobsStatus();
+    List<KamehouseJob> jobs = schedulerService.getAllJobsStatus();
     return generateGetResponseEntity(jobs);
   }
 }

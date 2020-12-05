@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import com.nicobrest.kamehouse.admin.model.JobSchedule;
+import com.nicobrest.kamehouse.admin.model.KamehouseJob;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -62,24 +62,23 @@ public class SchedulerService {
   /**
    * Get the status of all jobs in the system with their triggers.
    */
-  public List<JobSchedule> getAllJobsStatus() {
+  public List<KamehouseJob> getAllJobsStatus() {
     try {
-      List<JobSchedule> jobs = new ArrayList<>();
+      List<KamehouseJob> jobs = new ArrayList<>();
       Set<JobKey> jobKeySet = scheduler.getJobKeys(null);
       for (JobKey jobKey: jobKeySet) {
-        JobSchedule jobSchedule = new JobSchedule();
-        JobSchedule.Job job = jobSchedule.getJob();
+        KamehouseJob kamehouseJob = new KamehouseJob();
         JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-        job.setKey(new JobSchedule.Key(jobKey.getGroup(), jobKey.getName()));
-        job.setDescription(jobDetail.getDescription());
-        job.setJobClass(jobDetail.getJobClass().getCanonicalName());
+        kamehouseJob.setKey(new KamehouseJob.Key(jobKey.getGroup(), jobKey.getName()));
+        kamehouseJob.setDescription(jobDetail.getDescription());
+        kamehouseJob.setJobClass(jobDetail.getJobClass().getCanonicalName());
 
         List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
         if (triggers != null) {
-          List<JobSchedule.Schedule> schedules = jobSchedule.getSchedules();
+          List<KamehouseJob.Schedule> schedules = kamehouseJob.getSchedules();
           for (Trigger trigger : triggers) {
-            JobSchedule.Schedule schedule = new JobSchedule.Schedule();
-            JobSchedule.Key triggerKey = new JobSchedule.Key(trigger.getKey().getGroup(),
+            KamehouseJob.Schedule schedule = new KamehouseJob.Schedule();
+            KamehouseJob.Key triggerKey = new KamehouseJob.Key(trigger.getKey().getGroup(),
                 trigger.getKey().getName());
             schedule.setKey(triggerKey);
             schedule.setDescription(trigger.getDescription());
@@ -89,7 +88,7 @@ public class SchedulerService {
             schedules.add(schedule);
           }
         }
-        jobs.add(jobSchedule);
+        jobs.add(kamehouseJob);
       }
       return jobs;
     } catch (SchedulerException e) {

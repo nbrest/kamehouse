@@ -12,22 +12,39 @@ import java.util.Objects;
  *
  * @author nbrest
  */
-public class JobSchedule {
+public class KamehouseJob {
 
-  private Job job;
+  private Key key;
+  private String description;
+  private String jobClass;
   private List<Schedule> schedules;
 
-  public JobSchedule() {
-    this.job = new Job();
+  public KamehouseJob() {
     this.schedules = new ArrayList<>();
   }
 
-  public Job getJob() {
-    return job;
+  public Key getKey() {
+    return key;
   }
 
-  public void setJob(Job job) {
-    this.job = job;
+  public void setKey(Key key) {
+    this.key = key;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getJobClass() {
+    return jobClass;
+  }
+
+  public void setJobClass(String jobClass) {
+    this.jobClass = jobClass;
   }
 
   public List<Schedule> getSchedules() {
@@ -46,14 +63,16 @@ public class JobSchedule {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    JobSchedule that = (JobSchedule) obj;
-    return job.equals(that.job)
-       && Objects.equals(schedules, that.schedules);
+    KamehouseJob that = (KamehouseJob) obj;
+    return Objects.equals(key, that.key)
+        && Objects.equals(description, that.description)
+        && Objects.equals(jobClass, that.jobClass)
+        && Objects.equals(schedules, that.schedules);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(job, schedules);
+    return Objects.hash(key, description, jobClass, schedules);
   }
 
   @Override
@@ -108,66 +127,6 @@ public class JobSchedule {
     @Override
     public int hashCode() {
       return Objects.hash(group, name);
-    }
-
-    @Override
-    public String toString() {
-      return JsonUtils.toJsonString(this, super.toString());
-    }
-  }
-
-  /**
-   * The job class represents an instance of a job that can be scheduled.
-   * Similar to a JobDetail class in quartz framework.
-   *
-   * @author nbrest
-   */
-  public static class Job {
-    private Key key;
-    private String description;
-    private String jobClass;
-
-    public Key getKey() {
-      return key;
-    }
-
-    public void setKey(Key key) {
-      this.key = key;
-    }
-
-    public String getDescription() {
-      return description;
-    }
-
-    public void setDescription(String description) {
-      this.description = description;
-    }
-
-    public String getJobClass() {
-      return jobClass;
-    }
-
-    public void setJobClass(String jobClass) {
-      this.jobClass = jobClass;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      Job job = (Job) obj;
-      return Objects.equals(key, job.key)
-          && Objects.equals(description, job.description)
-          && Objects.equals(jobClass, job.jobClass);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(key, description, jobClass);
     }
 
     @Override

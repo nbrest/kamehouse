@@ -43,39 +43,39 @@ function Scheduler() {
       $jobTableRow = $("<tr>");
       $jobTableRow.append($('<td class="td-scheduler-header">').append($('<div>').text("name")));
       let $jobTableRowContent = $('<td class="td-scheduler-header">');
-      $jobTableRowContent.append($('<div>').text(jobEntry.job.key.name));
+      $jobTableRowContent.append($('<div>').text(jobEntry.key.name));
       $jobTableRow.append($jobTableRowContent);
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("key"));
-      $jobTableRow.append($("<td>").text(jobEntry.job.key.group + "." + jobEntry.job.key.name));
+      $jobTableRow.append($("<td>").text(jobEntry.key.group + "." + jobEntry.key.name));
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("description"));
-      $jobTableRow.append($("<td>").text(jobEntry.job.description));
+      $jobTableRow.append($("<td>").text(jobEntry.description));
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("jobClass"));
-      $jobTableRow.append($("<td>").text(jobEntry.job.jobClass));
+      $jobTableRow.append($("<td>").text(jobEntry.jobClass));
       $jobTable.append($jobTableRow);
 
       $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("schedule"));
       $jobTableRowContent = $("<td>");
       $jobTableRowContent.append($('<span>').text(self.formatSchedule(jobEntry.schedules)));
-      $jobTableRowContent.append("<img id='clear-" + jobEntry.job.key.name + "' class='btn-scheduler scheduler-status-buttons' src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
+      $jobTableRowContent.append("<img id='clear-" + jobEntry.key.name + "' class='btn-scheduler scheduler-status-buttons' src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
       $jobTableRow.append($jobTableRowContent);
       $jobTable.append($jobTableRow);
 
       $jobsData.append($jobTable);
       $jobsData.append("<br>");
 
-      $("#clear-" + jobEntry.job.key.name).click(() => {
-        logger.debug("Clear schedule for " + JSON.stringify(jobEntry.job.key));
-        self.cancelJobExecution(jobEntry.job.key);
+      $("#clear-" + jobEntry.key.name).click(() => {
+        logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
+        self.cancelJobExecution(jobEntry.key);
       });
     });
   }
