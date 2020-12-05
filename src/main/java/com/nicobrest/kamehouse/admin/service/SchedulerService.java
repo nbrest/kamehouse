@@ -98,15 +98,18 @@ public class SchedulerService {
   }
 
   /**
-   * Cancel a current scheduled job based on it's trigger.
+   * Cancel a current scheduled job.
    */
-  public String cancelScheduledJob(Trigger trigger) {
+  public void cancelScheduledJob(JobKey jobKey) {
     try {
-      boolean cancelledSuspend = scheduler.unscheduleJob(trigger.getKey());
-      if (cancelledSuspend) {
-        return trigger.getJobKey() + " cancelled";
-      } else {
-        return trigger.getJobKey() + " was not scheduled, so no need to cancel";
+      List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+      if (triggers != null) {
+        for (Trigger trigger : triggers) {
+          boolean cancelledJob = scheduler.unscheduleJob(trigger.getKey());
+          if (cancelledJob) {
+            logger.debug(trigger.getJobKey() + " execution cancelled");
+          }
+        }
       }
     } catch (SchedulerException e) {
       throw new KameHouseServerErrorException(e.getMessage(), e);

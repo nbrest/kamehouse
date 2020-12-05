@@ -25,42 +25,48 @@ function Scheduler() {
     apiCallTable.get(SCHEDULER_JOBS_API_URL, processSuccess, processError);
   }
 
+  /** Cancel job execution */
+  this.cancelJobExecution = (jobKey) => {
+    loadingWheelModal.open();
+    let urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
+    apiCallTable.delete(SCHEDULER_JOBS_API_URL + urlParams, null, processSuccess, processError);
+  }
+
   /** Update the jobs table content */
   this.updateJobsTable = () => {
     let $jobsData = $("#jobs-data");
     $jobsData.empty();
     self.jobs.forEach((jobEntry) => {
-      let $jobTable = $('<table id="table-' + jobEntry.job.key.name +
-        '" class="table table-bordered table-scheduler table-bordered-kh table-responsive-kh table-responsive">');
+      let $jobTable = $('<table class="table table-bordered table-scheduler table-bordered-kh table-responsive-kh table-responsive">');
       let $jobTableRow;
 
       $jobTableRow = $("<tr>");
-      $jobTableRow.append($('<td class="td-scheduler-header">').append($('<div class="scheduler-table-header-txt">').text("name")));
-      let $jobTableRowContent = $("<td>");
-      $jobTableRowContent.append($('<div class="scheduler-table-header-txt">').text(jobEntry.job.key.name));
+      $jobTableRow.append($('<td class="td-scheduler-header">').append($('<div>').text("name")));
+      let $jobTableRowContent = $('<td class="td-scheduler-header">');
+      $jobTableRowContent.append($('<div>').text(jobEntry.job.key.name));
       $jobTableRow.append($jobTableRowContent);
       $jobTable.append($jobTableRow);
 
-      $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
+      $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("key"));
       $jobTableRow.append($("<td>").text(jobEntry.job.key.group + "." + jobEntry.job.key.name));
       $jobTable.append($jobTableRow);
 
-      $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
+      $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("description"));
       $jobTableRow.append($("<td>").text(jobEntry.job.description));
       $jobTable.append($jobTableRow);
 
-      $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
+      $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("jobClass"));
       $jobTableRow.append($("<td>").text(jobEntry.job.jobClass));
       $jobTable.append($jobTableRow);
 
-      $jobTableRow = $('<tr class="toggle-' + jobEntry.job.key.name + '">');
+      $jobTableRow = $('<tr>');
       $jobTableRow.append($('<td class="td-scheduler-header">').text("schedule"));
       $jobTableRowContent = $("<td>");
       $jobTableRowContent.append($('<span>').text(self.formatSchedule(jobEntry.schedules)));
-      $jobTableRowContent.append("<img id='clear-" + jobEntry.job.key.name + "' class='btn-scheduler scheduler-status-buttons'" + "src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
+      $jobTableRowContent.append("<img id='clear-" + jobEntry.job.key.name + "' class='btn-scheduler scheduler-status-buttons' src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
       $jobTableRow.append($jobTableRowContent);
       $jobTable.append($jobTableRow);
 
@@ -68,17 +74,21 @@ function Scheduler() {
       $jobsData.append("<br>");
 
       $("#clear-" + jobEntry.job.key.name).click(() => {
-        logger.info("Clear schedule for " + JSON.stringify(jobEntry.job.key));
+        logger.debug("Clear schedule for " + JSON.stringify(jobEntry.job.key));
+        self.cancelJobExecution(jobEntry.job.key);
       });
     });
   }
 
+  /** Returns the schedule formated to display in the UI */
   this.formatSchedule = (schedules) => {
     if (!isNullOrUndefined(schedules) && schedules.length != 0) {
       let scheduleFormattedArray = []
       schedules.forEach(schedule => {
-        let date = new Date(parseInt(schedule.nextRun));
-        scheduleFormattedArray.push(date.toLocaleString());
+        if (!isNullOrUndefined(schedule.nextRun)) {
+          let date = new Date(parseInt(schedule.nextRun));
+          scheduleFormattedArray.push(date.toLocaleString());
+        }
       });
       return JSON.stringify(scheduleFormattedArray);
     } else {

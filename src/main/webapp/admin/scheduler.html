@@ -19,7 +19,7 @@
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-wimbledon">
     <div class="default-layout banner-text">
-      <h1>Scheduler</h1>
+      <h1>Scheduler Manager</h1>
       <div id="banner-server-name"></div>
     </div>
   </div>
@@ -29,9 +29,9 @@
       onclick="scheduler.getAllJobs()"
       src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
       title="Refresh" />
-    <br><br>
-    <h3>Kamehouse Jobs</h3>
     <br>
+    <h3>Kamehouse Jobs</h3>
+    <p>List of jobs available in kamehouse. View their scheduled times and cancel their scheduled executions.</p>
     <div id="jobs-data"></div>
 
     <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
@@ -43,6 +43,7 @@
     <div id="debug-mode" class="p-15-d-kh p-15-m-kh hidden-kh">
       <div class="default-layout">
         <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
+        <br>
         <div id="api-call-table"></div>
       </div>
     </div>
