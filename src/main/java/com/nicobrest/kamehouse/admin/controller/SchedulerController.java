@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/admin/scheduler")
 public class SchedulerController extends AbstractController {
 
-  private static final String BASE_URL = "/api/v1/test-module/test-scheduler";
+  private static final String BASE_URL = "/api/v1/admin/scheduler";
 
   @Autowired
   SchedulerService schedulerService;
