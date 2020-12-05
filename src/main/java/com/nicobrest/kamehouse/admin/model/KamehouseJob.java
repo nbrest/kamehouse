@@ -12,14 +12,14 @@ import java.util.Objects;
  *
  * @author nbrest
  */
-public class KamehouseJob {
+public class KameHouseJob {
 
   private Key key;
   private String description;
   private String jobClass;
   private List<Schedule> schedules;
 
-  public KamehouseJob() {
+  public KameHouseJob() {
     this.schedules = new ArrayList<>();
   }
 
@@ -63,7 +63,7 @@ public class KamehouseJob {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    KamehouseJob that = (KamehouseJob) obj;
+    KameHouseJob that = (KameHouseJob) obj;
     return Objects.equals(key, that.key)
         && Objects.equals(description, that.description)
         && Objects.equals(jobClass, that.jobClass)
@@ -89,6 +89,8 @@ public class KamehouseJob {
   public static class Key {
     private String group;
     private String name;
+
+    public Key() {}
 
     public Key(String group, String name) {
       this.group = group;

@@ -1,7 +1,8 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import com.nicobrest.kamehouse.admin.model.KamehouseJob;
+import com.nicobrest.kamehouse.admin.model.KameHouseJob;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.main.utils.SchedulerUtils;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -39,6 +40,30 @@ public class SchedulerService {
   }
 
   /**
+   * Schedule a job based on the supplied delay.
+   */
+  public void scheduleJob(JobKey jobKey, Integer delay) {
+    try {
+      JobDetail jobDetail = scheduler.getJobDetail(jobKey);
+      Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + "-trigger",
+          jobKey.getName() + "-trigger");
+      scheduleJob(trigger);
+    } catch (SchedulerException e) {
+      throw new KameHouseServerErrorException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Schedule a job based on the supplied delay.
+   */
+  public void scheduleJob(JobDetail jobDetail, Integer delay) {
+    JobKey jobKey = jobDetail.getKey();
+    Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + "-trigger",
+        jobKey.getName() + "-trigger");
+    scheduleJob(trigger);
+  }
+
+  /**
    * Schedule a job based on it's supplied trigger.
    */
   public void scheduleJob(Trigger trigger) {
@@ -62,23 +87,23 @@ public class SchedulerService {
   /**
    * Get the status of all jobs in the system with their triggers.
    */
-  public List<KamehouseJob> getAllJobsStatus() {
+  public List<KameHouseJob> getAllJobsStatus() {
     try {
-      List<KamehouseJob> jobs = new ArrayList<>();
+      List<KameHouseJob> jobs = new ArrayList<>();
       Set<JobKey> jobKeySet = scheduler.getJobKeys(null);
       for (JobKey jobKey: jobKeySet) {
-        KamehouseJob kamehouseJob = new KamehouseJob();
+        KameHouseJob kamehouseJob = new KameHouseJob();
         JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-        kamehouseJob.setKey(new KamehouseJob.Key(jobKey.getGroup(), jobKey.getName()));
+        kamehouseJob.setKey(new KameHouseJob.Key(jobKey.getGroup(), jobKey.getName()));
         kamehouseJob.setDescription(jobDetail.getDescription());
         kamehouseJob.setJobClass(jobDetail.getJobClass().getCanonicalName());
 
         List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
         if (triggers != null) {
-          List<KamehouseJob.Schedule> schedules = kamehouseJob.getSchedules();
+          List<KameHouseJob.Schedule> schedules = kamehouseJob.getSchedules();
           for (Trigger trigger : triggers) {
-            KamehouseJob.Schedule schedule = new KamehouseJob.Schedule();
-            KamehouseJob.Key triggerKey = new KamehouseJob.Key(trigger.getKey().getGroup(),
+            KameHouseJob.Schedule schedule = new KameHouseJob.Schedule();
+            KameHouseJob.Key triggerKey = new KameHouseJob.Key(trigger.getKey().getGroup(),
                 trigger.getKey().getName());
             schedule.setKey(triggerKey);
             schedule.setDescription(trigger.getDescription());
