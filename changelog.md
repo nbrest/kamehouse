@@ -1,5 +1,29 @@
 # ChangeLog:
 
+#### v1.06
+
+* Updated styles for menu pages with links to other pages
+* Improved Ehcache UI layout and styles
+* Added several new banners
+* Added UI to control log levels in the backend
+* Added preloading of banners, so transitions between them are smoother on slower connections
+* Allowed to skip logging respones in abstract crud controller
+* Improved server management UI layout and styles
+* Added status of scheduled shutdown and suspend commands in the server management ui
+* Improved styles for api call table in debug mode
+* Removed deprecated /admin/test-apis page
+* Renamed some index js and css files
+* Moved shutdown command to the scheduler framework
+* Added a scheduler for hibernate command
+* Added script to deploy in all servers (my.scripts repo)
+* Added more scripts to kh.webserver repo to do deployment and admin tasks
+* Fixed time and volume sliders on VLC player. Disabled updating of sliders while they are being selected/moved
+* Fixed playlist and playlist browser search not being triggered after switching tabs or playlist updates
+* Added scheduler framework using quartz to schedule jobs
+* Added a sample job to schedule in the backend and an UI in test-module to schedule it, cancel the schedule and view the schedule status
+* Added an UI to view all jobs in the application with their schedules, and the functionality to cancel the scheduled jobs through the UI
+* Fixed bugs
+
 #### v1.05
 
 * Added backend functionality to wake on lan other servers
