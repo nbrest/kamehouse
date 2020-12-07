@@ -68,8 +68,8 @@ function sendWebSocketRequest() {
 function showTestWebSocketResponse(testWebSocketResponseBody) {
   logger.traceFunctionCall();
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
-  $("#websocket-responses").append("<tr><td>" + testWebSocketResponseBody.date + " : "
-      +testWebSocketResponseBody.message + "</td></tr>");
+  let date = new Date(parseInt(testWebSocketResponseBody.date));
+  $("#websocket-responses").append("<tr><td>" + date.toLocaleString() + " : " + testWebSocketResponseBody.message + "</td></tr>");
 }
 
 /** Call main. */
