@@ -33,6 +33,8 @@ public class PowerManagementService {
   private static final int WOL_PORT = 9;
   private static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
       + "trigger will never fire";
+  private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
+  private static final String SUSPEND_TRIGGER = "suspendTrigger";
 
   @Autowired
   private Scheduler scheduler;
@@ -112,7 +114,7 @@ public class PowerManagementService {
   /**
    * Get the mac address as a byte array.
    */
-  private static byte[] getMacAddressBytes(String macAddress) throws KameHouseException {
+  private static byte[] getMacAddressBytes(String macAddress) {
     try {
       byte[] macAddressBytes = new byte[6];
       String[] hex = macAddress.split("(\\:|\\-)");
@@ -157,7 +159,7 @@ public class PowerManagementService {
    */
   public String getShutdownStatus() {
     try {
-      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey("shutdownTrigger"));
+      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(SHUTDOWN_TRIGGER));
       if (trigger != null && trigger.getNextFireTime() != null) {
         return "Shutdown scheduled at: " + trigger.getNextFireTime().toString();
       } else {
@@ -173,7 +175,7 @@ public class PowerManagementService {
    */
   public String cancelScheduledShutdown() {
     try {
-      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey("shutdownTrigger"));
+      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey(SHUTDOWN_TRIGGER));
       if (cancelledSuspend) {
         return "Shutdown cancelled";
       } else {
@@ -213,7 +215,7 @@ public class PowerManagementService {
    */
   public String getSuspendStatus() {
     try {
-      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey("suspendTrigger"));
+      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(SUSPEND_TRIGGER));
       if (trigger != null && trigger.getNextFireTime() != null) {
         return "Suspend scheduled at: " + trigger.getNextFireTime().toString();
       } else {
@@ -229,7 +231,7 @@ public class PowerManagementService {
    */
   public String cancelScheduledSuspend() {
     try {
-      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey("suspendTrigger"));
+      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey(SUSPEND_TRIGGER));
       if (cancelledSuspend) {
         return "Suspend cancelled";
       } else {
@@ -244,7 +246,7 @@ public class PowerManagementService {
    * Get the trigger to schedule the job to shutdown the server at the specified delay in seconds.
    */
   private Trigger getShutdownTrigger(int delay) {
-    return SchedulerUtils.getTrigger(delay, shutdownJobDetail, "shutdownTrigger", "Trigger to "
+    return SchedulerUtils.getTrigger(delay, shutdownJobDetail, SHUTDOWN_TRIGGER, "Trigger to "
         + "schedule a server shutdown");
   }
 
@@ -252,7 +254,7 @@ public class PowerManagementService {
    * Get the trigger to schedule the job to suspend the server at the specified delay in seconds.
    */
   private Trigger getSuspendTrigger(int delay) {
-    return SchedulerUtils.getTrigger(delay, suspendJobDetail, "suspendTrigger", "Trigger to "
+    return SchedulerUtils.getTrigger(delay, suspendJobDetail, SUSPEND_TRIGGER, "Trigger to "
         + "schedule a server suspend");
   }
 }

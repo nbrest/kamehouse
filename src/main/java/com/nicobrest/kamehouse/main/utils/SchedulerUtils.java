@@ -28,7 +28,7 @@ public class SchedulerUtils {
     Date currentDate = new Date();
     Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
     String cronExpression = DateUtils.toCronExpression(scheduleDate);
-    ScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+    ScheduleBuilder<?> scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
     return TriggerBuilder.newTrigger()
         .forJob(jobDetail)
         .withIdentity(TriggerKey.triggerKey(triggerName))

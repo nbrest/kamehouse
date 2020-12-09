@@ -533,18 +533,25 @@ public class TennisWorldBookingService {
       Elements errorMessages = page.getElementById(ID_ERROR_STACK).getElementsByTag("p");
       if (errorMessages != null && !errorMessages.isEmpty()) {
         logger.error("The following errors were detected in the current step:");
-        for (Element errorMessage : errorMessages) {
-          if (ID_ERROR_MESSAGE.equals(errorMessage.id())
-              && !StringUtils.isEmpty(errorMessage.text())) {
-            if (logger.isErrorEnabled()) {
-              logger.error(errorMessage.text());
-            }
-            errors.add(errorMessage.text());
-          }
-        }
+        addErrorMessagesToList(errorMessages, errors);
       }
     }
     return errors;
+  }
+
+  /**
+   * Iterate over error messages and add them to the specified list of errors.
+   */
+  private void addErrorMessagesToList(Elements errorMessages, List<String> errors) {
+    for (Element errorMessage : errorMessages) {
+      if (ID_ERROR_MESSAGE.equals(errorMessage.id())
+          && !StringUtils.isEmpty(errorMessage.text())) {
+        if (logger.isErrorEnabled()) {
+          logger.error(errorMessage.text());
+        }
+        errors.add(errorMessage.text());
+      }
+    }
   }
 
   /**

@@ -20,6 +20,8 @@ public abstract class AbstractController {
   protected static final Logger STATIC_LOGGER = LoggerFactory.getLogger(AbstractController.class);
   // I define the non static logger here to avoid having to define it in every controller
   protected final Logger logger = LoggerFactory.getLogger(getClass());
+  private static final String RESPONSE_ENTITY = "Response {}";
+  private static final String ENTITY_NOT_FOUND = "Empty response. Entity not found.";
   
   /**
    * Generates a standard response entity for get requests.
@@ -56,10 +58,10 @@ public abstract class AbstractController {
   protected static <T> ResponseEntity<T> generatePutResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
-      STATIC_LOGGER.trace("Response {}", entity);
+      STATIC_LOGGER.trace(RESPONSE_ENTITY, entity);
       responseEntity = new ResponseEntity<>(entity, HttpStatus.OK);
     } else {
-      STATIC_LOGGER.warn("Empty response. Entity not found.");
+      STATIC_LOGGER.warn(ENTITY_NOT_FOUND);
       responseEntity = ResponseEntity.notFound().build();
     }
     return responseEntity;
@@ -72,12 +74,12 @@ public abstract class AbstractController {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
       if (logResponse) {
-        STATIC_LOGGER.trace("Response {}", entity);
+        STATIC_LOGGER.trace(RESPONSE_ENTITY, entity);
       }
       responseEntity = new ResponseEntity<>(entity, HttpStatus.CREATED);
     } else {
       if (logResponse) {
-        STATIC_LOGGER.warn("Empty response. Entity not found.");
+        STATIC_LOGGER.warn(ENTITY_NOT_FOUND);
       }
       responseEntity = ResponseEntity.notFound().build();
     }
@@ -118,12 +120,12 @@ public abstract class AbstractController {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
       if (logResponse) {
-        STATIC_LOGGER.trace("Response {}", entity);
+        STATIC_LOGGER.trace(RESPONSE_ENTITY, entity);
       }
       responseEntity = ResponseEntity.ok(entity);
     } else {
       if (logResponse) {
-        STATIC_LOGGER.warn("Empty response. Entity not found.");
+        STATIC_LOGGER.warn(ENTITY_NOT_FOUND);
       }
       responseEntity = ResponseEntity.notFound().build();
     }

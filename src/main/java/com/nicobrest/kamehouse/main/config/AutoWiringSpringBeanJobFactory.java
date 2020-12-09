@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.main.config;
 
 import org.quartz.spi.TriggerFiredBundle;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -16,14 +15,14 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 public final class AutoWiringSpringBeanJobFactory extends SpringBeanJobFactory
     implements ApplicationContextAware {
 
-  private transient AutowireCapableBeanFactory beanFactory;
+  private AutowireCapableBeanFactory beanFactory;
 
   public AutoWiringSpringBeanJobFactory() {
     super();
     beanFactory = null;
   }
 
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+  public void setApplicationContext(ApplicationContext applicationContext) {
     beanFactory = applicationContext.getAutowireCapableBeanFactory();
   }
 

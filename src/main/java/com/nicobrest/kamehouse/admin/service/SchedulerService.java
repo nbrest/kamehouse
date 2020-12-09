@@ -28,6 +28,7 @@ public class SchedulerService {
   private static final Logger logger = LoggerFactory.getLogger(SchedulerService.class);
   private static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
       + "trigger will never fire";
+  private static final String TRIGGER = "-trigger";
 
   @Autowired
   private Scheduler scheduler;
@@ -45,8 +46,8 @@ public class SchedulerService {
   public void scheduleJob(JobKey jobKey, Integer delay) {
     try {
       JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-      Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + "-trigger",
-          jobKey.getName() + "-trigger");
+      Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + TRIGGER,
+          jobKey.getName() + TRIGGER);
       scheduleJob(trigger);
     } catch (SchedulerException e) {
       throw new KameHouseServerErrorException(e.getMessage(), e);
@@ -58,8 +59,8 @@ public class SchedulerService {
    */
   public void scheduleJob(JobDetail jobDetail, Integer delay) {
     JobKey jobKey = jobDetail.getKey();
-    Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + "-trigger",
-        jobKey.getName() + "-trigger");
+    Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + TRIGGER,
+        jobKey.getName() + TRIGGER);
     scheduleJob(trigger);
   }
 
@@ -131,7 +132,7 @@ public class SchedulerService {
         for (Trigger trigger : triggers) {
           boolean cancelledJob = scheduler.unscheduleJob(trigger.getKey());
           if (cancelledJob) {
-            logger.debug(trigger.getJobKey() + " execution cancelled");
+            logger.debug("{} execution cancelled", trigger.getJobKey());
           }
         }
       }

@@ -24,6 +24,7 @@ public class TestSchedulerService {
   private static final Logger logger = LoggerFactory.getLogger(TestSchedulerService.class);
   private static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
       + "trigger will never fire";
+  private static final String SAMPLE_JOB_TRIGGER = "sampleJobTrigger";
 
   @Autowired
   private Scheduler scheduler;
@@ -80,7 +81,7 @@ public class TestSchedulerService {
    */
   public String getSampleJobStatus() {
     try {
-      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey("sampleJobTrigger"));
+      Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(SAMPLE_JOB_TRIGGER));
       if (trigger != null && trigger.getNextFireTime() != null) {
         return "Sample job scheduled at: " + trigger.getNextFireTime().toString();
       } else {
@@ -96,7 +97,7 @@ public class TestSchedulerService {
    */
   public String cancelScheduledSampleJob() {
     try {
-      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey("sampleJobTrigger"));
+      boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey(SAMPLE_JOB_TRIGGER));
       if (cancelledSuspend) {
         return "Sample job cancelled";
       } else {
@@ -113,7 +114,7 @@ public class TestSchedulerService {
    */
   private Trigger getSampleJobTrigger(Integer delay) {
     if (delay != null) {
-      return SchedulerUtils.getTrigger(delay, sampleJobDetail, "sampleJobTrigger", "Trigger to "
+      return SchedulerUtils.getTrigger(delay, sampleJobDetail, SAMPLE_JOB_TRIGGER, "Trigger to "
           + "schedule a sample job");
     } else {
       return sampleTrigger;
