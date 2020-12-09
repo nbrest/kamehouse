@@ -37,7 +37,7 @@ public class LogLevelManagerController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<String>> getLogLevel(
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/admin/log-level?package={} (GET)", packageName);
+    logger.info("/api/v1/admin/log-level (GET)");
     List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
     return generateGetResponseEntity(logLevelList);
   }
@@ -50,7 +50,7 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<List<String>> setLogLevel(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/admin/log-level?level={}&package={} (PUT)", level, packageName);
+    logger.info("/api/v1/admin/log-level (PUT)");
     if (packageName == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
       packageName = DEFAULT_PACKAGE;
