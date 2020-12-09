@@ -56,9 +56,9 @@ function BasicKamehouseModal() {
   /** Open api call error message auto closeable modal */
   this.openApiError = (responseBody, responseCode, responseDescription) => {
     if (isNullOrUndefined(responseBody)) {
-      responseBody = "Error executing the request. Please check the logs for more information";
+      responseBody = "Error executing the request.<br>Please check the logs for more information";
     }
-    let errorMessage = responseDescription + " : " + responseCode + " : " + responseBody;
+    let errorMessage = "Error executing the request.<br>Response: [ code: " + responseCode + ", description: \"" + responseDescription + "\", body: " + JSON.stringify(responseBody) + " ]";
     self.openAutoCloseable(errorMessage, 7000);
   }
 }
@@ -154,7 +154,7 @@ function ModalUtils(modalId) {
   }
 
   /** Set the text in the modal */
-  this.setText = (message) => $("#" + self.modalId + "-text").text(message);
+  this.setText = (message) => $("#" + self.modalId + "-text").html(message);
 }
 
 $(document).ready(main);
