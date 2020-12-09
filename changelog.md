@@ -22,6 +22,7 @@
 * Added scheduler framework using quartz to schedule jobs
 * Added a sample job to schedule in the backend and an UI in test-module to schedule it, cancel the schedule and view the schedule status
 * Added an UI to view all jobs in the application with their schedules, and the functionality to cancel the scheduled jobs through the UI
+* Added generic response body to exception handler in the controllers
 * Fixed bugs
 
 #### v1.05
