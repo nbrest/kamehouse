@@ -1,26 +1,17 @@
 package com.nicobrest.kamehouse.admin.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownCancelAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownStatusAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.SuspendAdminCommand;
 
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
-import com.nicobrest.kamehouse.admin.service.SystemCommandService;
-import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.main.model.KameHouseGenericResponse;
+
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +26,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Unit tests for PowerManagementController class.
@@ -222,7 +210,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
     MockHttpServletResponse response = doPost("/api/v1/admin/power-management/wol"
         + "?server=media.server");
 
-    assertEquals(HttpStatus.OK.value(), response.getStatus());
+    assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }
 
   /**
@@ -235,7 +223,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
     MockHttpServletResponse response = doPost("/api/v1/admin/power-management/wol"
        + "?mac=AA:BB:CC:DD:EE:FF&broadcast=192.168.0.255");
 
-    assertEquals(HttpStatus.OK.value(), response.getStatus());
+    assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }
 
   /**

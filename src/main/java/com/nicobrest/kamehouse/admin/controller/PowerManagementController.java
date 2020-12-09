@@ -4,7 +4,6 @@ import com.nicobrest.kamehouse.admin.service.PowerManagementService;
 import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.main.model.KameHouseGenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -115,19 +114,22 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/wol")
   @ResponseBody
-  public ResponseEntity<Void> wakeOnLan(
+  public ResponseEntity<KameHouseGenericResponse> wakeOnLan(
       @RequestParam(value = "server", required = false) String server,
       @RequestParam(value = "mac", required = false) String mac,
       @RequestParam(value = "broadcast", required = false) String broadcast) {
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
     if (server != null) {
       logger.trace("{}/wol?server={} (POST)", BASE_URL, server);
       powerManagementService.wakeOnLan(server);
+      response.setMessage("WOL packet sent to " + server);
     } else if (mac != null && broadcast != null) {
       logger.trace("{}/wol?mac={}&broadcast={} (POST)", BASE_URL, mac, broadcast);
       powerManagementService.wakeOnLan(mac, broadcast);
+      response.setMessage("WOL packet sent to " + mac + " over " + broadcast);
     } else {
       throw new KameHouseBadRequestException("server OR mac and broadcast parameters are required");
     }
-    return new ResponseEntity<>(HttpStatus.OK);
+    return generatePostResponseEntity(response);
   }
 }
