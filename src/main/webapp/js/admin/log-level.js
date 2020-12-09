@@ -6,7 +6,7 @@ var kamehouseDebugger;
 
 window.onload = () => {
   backendLogLevelUtils = new BackendLogLevelUtils();
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing log-level");
     backendLogLevelUtils.getLogLevels();
   });

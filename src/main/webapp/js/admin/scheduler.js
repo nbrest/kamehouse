@@ -6,7 +6,7 @@ var kamehouseDebugger;
 
 window.onload = () => {
   scheduler = new Scheduler();
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing scheduler");
     scheduler.getAllJobs();
   });
