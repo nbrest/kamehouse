@@ -526,13 +526,12 @@ hr {
 /** Select dark theme. Begin.*/
 .select-kh-dark {
   border-radius: 0;
-  border: 0px;
+  border: 1px solid #131a1f;
   position: relative;
   display: inline-block;
   color: #686868;
   background: #171e22;
   padding: 8px;
-  border: 1px solid #131a1f;
 }
 
 .select-kh-dark:hover {
