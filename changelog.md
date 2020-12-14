@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v1.07
+
+* Removed logging of input data in the controllers
+
 #### v1.06
 
 * Updated styles for menu pages with links to other pages
