@@ -19,7 +19,7 @@ public abstract class AbstractCrudController extends AbstractController {
    * Creates a new entity in the repository from the DTO.
    */
   protected <D, E> ResponseEntity<Long> create(String endpoint, CrudService<E, D> service, D dto) {
-    logger.trace("{} (POST) body {}", endpoint, dto);
+    logger.trace("{} (POST)", endpoint);
     Long createdId = service.create(dto);
     return generatePostResponseEntity(createdId);
   }
@@ -47,7 +47,7 @@ public abstract class AbstractCrudController extends AbstractController {
    */
   protected <D, E> ResponseEntity<Void> update(String endpoint, CrudService<E, D> service, Long id,
       D dto) {
-    logger.trace("{} (PUT) body {}", endpoint, dto);
+    logger.trace("{} (PUT)", endpoint);
     Identifiable identifiableDto = (Identifiable) dto;
     validatePathAndRequestBodyIds(id, identifiableDto.getId());
     service.update(dto);

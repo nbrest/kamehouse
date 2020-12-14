@@ -97,7 +97,7 @@ public class ApplicationUserController extends AbstractCrudController {
   @GetMapping(path = "/users/username/{username:.+}")
   @ResponseBody
   public ResponseEntity<ApplicationUser> loadUserByUsername(@PathVariable String username) {
-    logger.trace("/application/users/username/{} (GET)", username);
+    logger.trace("/application/users/username/[] (GET)");
     ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
     // Don't return the password through the API.
     removePassword(applicationUser);

@@ -50,7 +50,7 @@ public class SchedulerController extends AbstractController {
   public ResponseEntity<List<KameHouseJob>> cancelJob(
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group) {
-    logger.trace("{}/jobs?name={}&group={} (DELETE)", BASE_URL, name, group);
+    logger.trace("{}/jobs?name=[name]&group=[group] (DELETE)", BASE_URL);
     JobKey jobKey = new JobKey(name, group);
     schedulerService.cancelScheduledJob(jobKey);
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();
@@ -66,7 +66,7 @@ public class SchedulerController extends AbstractController {
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group,
       @RequestParam(value = "delay", required = true) Integer delay) {
-    logger.trace("{}/jobs?name={}&group={}&delay={} (POST)", BASE_URL, name, group, delay);
+    logger.trace("{}/jobs?name=[name]&group=[group]&delay=[delay] (POST)", BASE_URL);
     JobKey jobKey = new JobKey(name, group);
     schedulerService.scheduleJob(jobKey, delay);
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();

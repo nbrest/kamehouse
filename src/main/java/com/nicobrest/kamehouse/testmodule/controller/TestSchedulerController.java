@@ -35,7 +35,7 @@ public class TestSchedulerController extends AbstractController {
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse>
       setShutdown(@RequestParam(value = "delay", required = false) Integer delay) {
-    logger.trace("{}/sample-job?delay={} (POST)", BASE_URL, delay);
+    logger.trace("{}/sample-job?delay=[delay] (POST)", BASE_URL);
     testSchedulerService.scheduleSampleJob(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     if (delay != null) {

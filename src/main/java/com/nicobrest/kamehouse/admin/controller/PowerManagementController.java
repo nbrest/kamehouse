@@ -35,7 +35,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse>
       setShutdown(@RequestParam(value = "delay", required = true) Integer delay) {
-    logger.trace("{}/shutdown?delay={} (POST)", BASE_URL, delay);
+    logger.trace("{}/shutdown (POST)", BASE_URL);
     powerManagementService.scheduleShutdown(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage("Scheduled shutdown at the specified delay of " + delay + " seconds");
@@ -76,7 +76,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse>
       setSuspend(@RequestParam(value = "delay", required = true) Integer delay) {
-    logger.trace("{}/suspend?delay={} (POST)", BASE_URL, delay);
+    logger.trace("{}/suspend?delay=[delay] (POST)", BASE_URL);
     powerManagementService.scheduleSuspend(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage("Scheduled suspend at the specified delay of " + delay + " seconds");
@@ -120,11 +120,11 @@ public class PowerManagementController extends AbstractSystemCommandController {
       @RequestParam(value = "broadcast", required = false) String broadcast) {
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     if (server != null) {
-      logger.trace("{}/wol?server={} (POST)", BASE_URL, server);
+      logger.trace("{}/wol?server=[server] (POST)", BASE_URL);
       powerManagementService.wakeOnLan(server);
       response.setMessage("WOL packet sent to " + server);
     } else if (mac != null && broadcast != null) {
-      logger.trace("{}/wol?mac={}&broadcast={} (POST)", BASE_URL, mac, broadcast);
+      logger.trace("{}/wol?mac=[mac]&broadcast=[broadcast] (POST)", BASE_URL);
       powerManagementService.wakeOnLan(mac, broadcast);
       response.setMessage("WOL packet sent to " + mac + " over " + broadcast);
     } else {

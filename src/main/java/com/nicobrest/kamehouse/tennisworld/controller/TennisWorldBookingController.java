@@ -32,7 +32,7 @@ public class TennisWorldBookingController extends AbstractController {
   @ResponseBody
   public ResponseEntity<TennisWorldBookingResponse> bookings(
       @RequestBody TennisWorldBookingRequest tennisWorldBookingRequest) {
-    logger.info("Processing booking request: {}", tennisWorldBookingRequest);
+    logger.info("/api/v1/tennis-world/bookings (POST)");
     TennisWorldBookingResponse tennisWorldBookingResponse =
         tennisWorldBookingService.book(tennisWorldBookingRequest);
     switch (tennisWorldBookingResponse.getStatus()) {
