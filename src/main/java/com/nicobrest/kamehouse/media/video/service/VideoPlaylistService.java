@@ -36,6 +36,8 @@ public class VideoPlaylistService {
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
   private static final String VIDEO_PLAYLISTS_CACHE = "videoPlaylists";
+  private static final String ANIME = "anime";
+  private static final String CARTOONS = "cartoons";
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -152,7 +154,14 @@ public class VideoPlaylistService {
     Path parentPath = filePath.getParent();
     if (parentPath != null) {
       String absoluteParentFilePath = sanitizePath(parentPath.toFile().getAbsolutePath());
-      return absoluteParentFilePath.substring(basePathLength + 1);
+      String category = absoluteParentFilePath.substring(basePathLength + 1);
+      if (category.startsWith(ANIME)) {
+        return ANIME;
+      }
+      if (category.startsWith(CARTOONS)) {
+        return CARTOONS;
+      }
+      return category;
     } else {
       return null;
     }
