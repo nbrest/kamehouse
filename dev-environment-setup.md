@@ -12,6 +12,8 @@
 # VS Code:
 
 * Import workspace from *${HOME}/home-synced/workspace-vs-code* (backed up in private repo)
+* To debug the frontend in vscode, use the chrome debugger launch configurations in /.vscode in (in kh.webserver private repo)
+* There's 2 debugger launch configurations there, one for the base / root app and the other for /kame-house to debug the frontend in vscode and the backend in intellij
 
 # Apache Httpd:
 
