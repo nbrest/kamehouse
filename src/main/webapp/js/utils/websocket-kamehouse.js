@@ -22,14 +22,18 @@ function WebSocketKameHouse() {
  
   /** Checks if the websocket is connected. */
   this.isConnected = (stompClient) => {
-    if (isNullOrUndefined(stompClient)) {
-      // Check the current stompClient by default.
-      stompClient = self.stompClient;
-    }
-    if (!isNullOrUndefined(stompClient)) {
-      return stompClient.connected;
-    } else {
-      return false;
+    try {
+      if (isNullOrUndefined(stompClient)) {
+        // Check the current stompClient by default.
+        stompClient = self.stompClient;
+      }
+      if (!isNullOrUndefined(stompClient)) {
+        return stompClient.connected;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      logger.error("Error in websocket-kamehouse while executing isConnected(). Error: " + error);
     }
   }
 
