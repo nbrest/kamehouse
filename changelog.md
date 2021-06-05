@@ -2,7 +2,11 @@
 
 #### v1.07
 
+* Reorganized the project into modules, with a parent pom and initial kamehouse-webapp module. To
+ eventually start splitting the code into multiple modules/services
 * Removed logging of input data in the controllers
+* Fixed playlist category dropdown grouping anime and cartoons
+* Added some try/catch to kamehouse websocket to handle errors better
 
 #### v1.06
 
