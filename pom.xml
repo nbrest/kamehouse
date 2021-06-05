@@ -18,11 +18,11 @@
   </modules>
 
   <repositories>
-	    <repository>
-	        <id>local-maven-repo</id>
-	        <url>file:///${project.basedir}/local-maven-repo</url>
-	    </repository>
-	</repositories>
+    <repository>
+      <id>local-maven-repo</id>
+      <url>file:///${project.basedir}/local-maven-repo</url>
+    </repository>
+  </repositories>
 
   <properties>
     <java.target.version>1.8</java.target.version>
