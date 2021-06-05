@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="kame-house application">
+  <meta name="keywords" content="kame-house nicobrest">
+  <meta name="author" content="nbrest">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>KameHouse - About</title>
+  <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+  <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+  <script src="/kame-house/js/global.js"></script>
+  <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/kame-house/css/global.css" />
+  <link rel="stylesheet" href="/kame-house/css/about.css" />
+</head>
+
+<body>
+  <div class="main-body">
+    <div class="default-layout">
+      <div id="main-article">
+        <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">About Us</h3>
+        <p>KameHouse is a project I started mainly to practice Java and frontend development.
+          The main functionality of this application is around managing media files. I use VLC player
+          to play movies, series, anime. So I developed this application to remotely control the
+          computer on which VLC is running, which is attached to a TV, from either my phone
+          or another computer.</p>
+        <p class="bg-lighter-kh p-15-d-kh p-15-m-kh">This application has other functionality as well. I added the
+          functionality to remotely lock, unlock, wake up screen and shutdown the computer, among
+          others. You can find the full description of the project in the github link below.</p>
+        <p>KameHouse is an open source project. You can find the code for this project at:
+          <a href="https://github.com/nbrest/java.web.kamehouse" rel="noopener noreferrer" target="_blank"
+            class="btn btn-outline-danger btn-borderless">
+            <img src="./img/social-media/github.png" class="social-media-logo" alt="Github" />
+            github.com/nbrest/java.web.kamehouse</a>
+        </p>
+
+        <h6>Dev branch status: </h6>
+        <a href="https://travis-ci.org/nbrest/java.web.kamehouse" rel="noopener noreferrer" target="_blank">
+          <img src="https://travis-ci.org/nbrest/java.web.kamehouse.svg?branch=dev" alt="Travis CI dev">
+        </a>
+        <a href="https://sonarcloud.io/dashboard?branch=dev&id=com.nicobrest%3Ajava-web-kame-house"
+          rel="noopener noreferrer" target="_blank">
+          <img
+            src="https://sonarcloud.io/api/project_badges/measure?branch=dev&project=com.nicobrest%3Ajava-web-kame-house&metric=alert_status"
+            alt="Sonar Cloud dev">
+        </a>
+        <a href="https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/overview/dev"
+          rel="noopener noreferrer" target="_blank">
+          <img src="https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/badge/dev"
+            alt="CodeFactor dev">
+        </a>
+        <a href="https://app.codacy.com/manual/nbrest/java.web.kamehouse/dashboard" rel="noopener noreferrer"
+          target="_blank">
+          <img src="https://api.codacy.com/project/badge/Grade/3d9e85a73da34684b042a6c85bd35607" alt="Codacy dev" />
+        </a>
+        <a href="https://codecov.io/gh/nbrest/java.web.kamehouse" rel="noopener noreferrer" target="_blank">
+          <img src="https://codecov.io/gh/nbrest/java.web.kamehouse/branch/dev/graph/badge.svg" alt="Codecov dev" />
+        </a>
+        <a href="https://github.com/nbrest/java.web.kamehouse/tree/dev" rel="noopener noreferrer" target="_blank">
+          <img src="https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev"
+            alt="GitHub last commit (dev)">
+        </a>
+      </div>
+      <div id="sidebar">
+        <div class="bg-lighter-kh p-15-d-kh p-15-m-kh">
+          <h3>Who are we</h3>
+          <p>I'm Nicolas Brest. I'm a software engineer and Java backend developer from Argentina,
+            currently living in Melbourne :)</p>
+          <p id="social-media-links" class="bg-default-kh p-15-d-kh p-15-m-kh">You can find me on:
+            <br>
+            <a href="https://www.linkedin.com/in/nicolasbrest" rel="noopener noreferrer" target="_blank"
+              class="btn btn-outline-info btn-borderless">
+              <img src="./img/social-media/linkedin.png" class="social-media-logo" alt="Linkedin" /> Linkedin</a>
+            <br>
+            <a href="https://github.com/nbrest" rel="noopener noreferrer" target="_blank"
+              class="btn btn-outline-info btn-borderless">
+              <img src="./img/social-media/github.png" class="social-media-logo" alt="Github" /> Github</a>
+            <br>
+            <a href="https://www.facebook.com/brest.nico" rel="noopener noreferrer" target="_blank"
+              class="btn btn-outline-info btn-borderless">
+              <img src="./img/social-media/facebook.png" class="social-media-logo" alt="Facebook" /> Facebook</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="about-newsletter-wrapper">
+    <div id="newsletter"></div>
+  </div>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script src="/kame-house/js/snippets/newsletter.js"></script>
+</body>
+
+</html>

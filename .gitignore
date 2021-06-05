@@ -1,10 +1,11 @@
 # ##################
 # Added by me     
 # ##################
-.checkstyle
-logs/**
+*.checkstyle
+**/logs/**
+**/tmp/**
 data/**
-tmp/**
+
 # Patch files
 *.diff
 *.patch
@@ -12,9 +13,9 @@ tmp/**
 # ##################
 # Directories 
 # ##################
-/build/
-/bin/
-target/
+**/build/
+**/bin/
+**/target/
 
 # ##################
 # Compiled Files
@@ -81,8 +82,8 @@ local.properties
 # PDT-specific
 .buildpath
 # Internal tomcat deployment
-WebContent/
-/target/
+**/WebContent/
+**/target/
 
 # ##################
 # IntelliJ

@@ -1,15 +1,33 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <name>KameHouse - Parent POM</name>
   <groupId>com.nicobrest</groupId>
-  <artifactId>java-web-kame-house</artifactId>
-  <packaging>war</packaging>
+  <artifactId>kame-house-parent</artifactId>
   <version>1.06.1-SNAPSHOT</version>
-  <name>Java Web - KameHouse</name>
+
+  <packaging>pom</packaging>
+
   <url>https://www.nicobrest.com/kame-house/</url>
 
+  <modules>  
+    <module>kamehouse-webapp</module>
+  </modules>
+
+  <repositories>
+	    <repository>
+	        <id>local-maven-repo</id>
+	        <url>file:///${project.basedir}/local-maven-repo</url>
+	    </repository>
+	</repositories>
+
   <properties>
+    <java.target.version>1.8</java.target.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
     <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
     <commons.lang.version>2.6</commons.lang.version>                    <!-- Updated 2016/02 -->
@@ -38,9 +56,6 @@
     <spring.version>4.3.25.RELEASE</spring.version>                     <!-- Updated 2019/09 -->
     <spring.security.version>4.2.13.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
     <war.plugin.version>2.1.1</war.plugin.version>                      <!-- Updated 2016/02 -->
-
-    <java.target.version>1.8</java.target.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencies>
@@ -341,16 +356,8 @@
       </exclusions>
     </dependency>
   </dependencies>
-	
-	<repositories>
-	    <repository>
-	        <id>local-maven-repo</id>
-	        <url>file:///${project.basedir}/local-maven-repo</url>
-	    </repository>
-	</repositories>
 
   <build>
-    <finalName>kame-house</finalName>
     <plugins>
       <!-- maven war plugin: disable build failure because of no web.xml -->
       <plugin>
@@ -559,4 +566,5 @@
       </build>
     </profile>
   </profiles>
+
 </project>
