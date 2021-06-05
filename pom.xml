@@ -7,7 +7,7 @@
   <name>KameHouse - Parent POM</name>
   <groupId>com.nicobrest</groupId>
   <artifactId>kame-house-parent</artifactId>
-  <version>1.06.1-SNAPSHOT</version>
+  <version>1.07.1-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
