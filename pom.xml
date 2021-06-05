@@ -13,7 +13,7 @@
 
   <url>https://www.nicobrest.com/kame-house/</url>
 
-  <modules>  
+  <modules>
     <module>kamehouse-webapp</module>
   </modules>
 

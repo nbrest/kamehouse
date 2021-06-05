@@ -10,4 +10,6 @@
 
 ## View code coverage reports in my local:
 
-* Compile using `mvn cobertura:cobertura` and open *target/site/cobertura/index.html*
+* For **kamehouse-webapp** module: open `kamehouse-webapp/target/site/jacoco/index.html` in a
+ browser
+ after building the module
