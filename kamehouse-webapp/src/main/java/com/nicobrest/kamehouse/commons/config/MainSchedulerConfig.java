@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.commons.config;
 
+import com.nicobrest.kamehouse.commons.controller.AutoWiringSpringBeanJobFactory;
+
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
@@ -57,7 +59,7 @@ public class MainSchedulerConfig {
   /**
    * Get quartz propeties file.
    */
-  public Properties quartzProperties() throws IOException {
+  private static Properties quartzProperties() throws IOException {
     PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
     propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
     propertiesFactoryBean.afterPropertiesSet();

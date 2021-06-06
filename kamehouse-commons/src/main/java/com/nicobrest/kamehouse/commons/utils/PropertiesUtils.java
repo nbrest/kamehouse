@@ -2,16 +2,12 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.Properties;
 
 /**
  * Utility class to manage the application properties.
@@ -24,21 +20,9 @@ public class PropertiesUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
 
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
-  private static final Properties mediaVideoProperties = new Properties();
 
   private PropertiesUtils() {
     throw new IllegalStateException("Utility class");
-  }
-
-  static {
-    try {
-      Resource mediaVideoPropertiesResource = new ClassPathResource("/media.video.properties");
-      Properties mediaVideoPropertiesFromFile = PropertiesLoaderUtils
-          .loadProperties(mediaVideoPropertiesResource);
-      mediaVideoProperties.putAll(mediaVideoPropertiesFromFile);
-    } catch (IOException e) {
-      LOGGER.error("Error loading properties files.", e);
-    }
   }
 
   /**
@@ -78,12 +62,5 @@ public class PropertiesUtils {
         return "INVALID_HOSTNAME";
       }
     }
-  }
-
-  /**
-   * Gets the specified property from the media.video application properties.
-   */
-  public static String getMediaVideoProperty(String propertyName) {
-    return mediaVideoProperties.getProperty(propertyName);
   }
 }

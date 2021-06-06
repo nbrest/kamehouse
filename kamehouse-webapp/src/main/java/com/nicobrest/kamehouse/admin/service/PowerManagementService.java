@@ -1,10 +1,11 @@
 package com.nicobrest.kamehouse.admin.service;
 
+import com.nicobrest.kamehouse.admin.utils.AdminPropertiesUtils;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
+
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -75,8 +76,8 @@ public class PowerManagementService {
    */
   public void wakeOnLan(String server) {
     logger.trace("Waking up {}", server);
-    String macAddress = PropertiesUtils.getAdminProperty(server + ".mac");
-    String broadcastAddress = PropertiesUtils.getAdminProperty(server + ".broadcast");
+    String macAddress = AdminPropertiesUtils.getProperty(server + ".mac");
+    String broadcastAddress = AdminPropertiesUtils.getProperty(server + ".broadcast");
     if (macAddress == null || broadcastAddress == null) {
       throw new KameHouseBadRequestException("Invalid server specified " + server);
     }

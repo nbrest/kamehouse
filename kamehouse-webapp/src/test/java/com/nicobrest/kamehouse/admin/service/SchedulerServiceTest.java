@@ -4,9 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.admin.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
-import com.nicobrest.kamehouse.commons.utils.SchedulerUtilsTest;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -97,7 +98,7 @@ public class SchedulerServiceTest {
   public void scheduleJobSuccessTest() {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
     JobDetailImpl jobDetail = new JobDetailImpl();
-    jobDetail.setJobClass(SchedulerUtilsTest.SampleTestJob.class);
+    jobDetail.setJobClass(SampleTestJob.class);
     jobDetail.setName("sampleJob");
     jobDetail.setKey(jobKey);
 

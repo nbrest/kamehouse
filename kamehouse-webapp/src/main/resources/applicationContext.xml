@@ -25,7 +25,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <context:annotation-config />
   <!-- Needed for loading spring configuration classes such as websocket ones -->
 
-  <!-- main beans -->
+  <!-- commons beans -->
   <bean class="com.nicobrest.kamehouse.commons.config.WebSocketConfig" />
   <bean class="com.nicobrest.kamehouse.commons.config.MainSchedulerConfig" />
 

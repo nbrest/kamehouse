@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
+import com.nicobrest.kamehouse.admin.utils.AdminPropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -32,8 +33,8 @@ public abstract class VncDoSystemCommand extends SystemCommand {
    * Gets the vnc server password from a file.
    */
   protected String getVncServerPassword() {
-    String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
-        .getAdminProperty("vnc.server.pwd.file");
+    String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + AdminPropertiesUtils
+        .getProperty("vnc.server.pwd.file");
     return FileUtils.getDecodedFileContent(vncServerPwdFile);
   }
 

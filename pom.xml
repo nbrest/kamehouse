@@ -14,6 +14,7 @@
   <url>https://www.nicobrest.com/kame-house/</url>
 
   <modules>
+    <module>kamehouse-commons-core</module>
     <module>kamehouse-commons-test</module>
     <module>kamehouse-commons</module>
     <module>kamehouse-media</module>

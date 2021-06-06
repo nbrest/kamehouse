@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.media.video.service;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
+import com.nicobrest.kamehouse.media.video.utils.MediaPropertiesUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,23 +114,20 @@ public class VideoPlaylistService {
     String videoPlaylistsHome;
     if (isMediaServerLocalhost()) {
       if (PropertiesUtils.isWindowsHost()) {
-        String playlistsPathWindows = PropertiesUtils.getMediaVideoProperty(
-            PROP_PLAYLISTS_PATH_WINDOWS);
+        String playlistsPathWindows = MediaPropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_WINDOWS);
         videoPlaylistsHome = userHome + playlistsPathWindows;
       } else {
-        String playlistsPathLinux = PropertiesUtils.getMediaVideoProperty(
-            PROP_PLAYLISTS_PATH_LINUX);
+        String playlistsPathLinux = MediaPropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_LINUX);
         videoPlaylistsHome = userHome + playlistsPathLinux;
       }
     } else {
-      String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER_NAME);
+      String mediaServer = MediaPropertiesUtils.getProperty(PROP_MEDIA_SERVER_NAME);
       String playlistsPathRemote = null;
       if (PropertiesUtils.isWindowsHost()) {
-        playlistsPathRemote = PropertiesUtils.getMediaVideoProperty(
+        playlistsPathRemote = MediaPropertiesUtils.getProperty(
             PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE);
       } else {
-        playlistsPathRemote = PropertiesUtils.getMediaVideoProperty(
-            PROP_PLAYLISTS_PATH_REMOTE_HTTP);
+        playlistsPathRemote = MediaPropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE_HTTP);
       }
       playlistsPathRemote = playlistsPathRemote.replace(REMOTE_SERVER, mediaServer);
       videoPlaylistsHome = userHome + playlistsPathRemote;
@@ -141,7 +139,7 @@ public class VideoPlaylistService {
    * Checks if the current server running kamehouse is the media server.
    */
   private static boolean isMediaServerLocalhost() {
-    String mediaServer = PropertiesUtils.getMediaVideoProperty(PROP_MEDIA_SERVER_NAME);
+    String mediaServer = MediaPropertiesUtils.getProperty(PROP_MEDIA_SERVER_NAME);
     return mediaServer.equalsIgnoreCase(PropertiesUtils.getHostname());
   }
 

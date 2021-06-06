@@ -2,6 +2,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <!--
+      This library contains abstract test classes and interfaces to be used on unit tests only.
+      It should always be imported with scope test.
+   -->
 
   <parent>
     <groupId>com.nicobrest</groupId>
@@ -21,6 +25,12 @@
   </build>
 
   <dependencies>
+
+    <dependency>
+      <groupId>com.nicobrest</groupId>
+      <artifactId>kame-house-commons-core</artifactId>
+      <version>${kamehouse.version}</version>
+    </dependency>
 
     <!-- Testing dependencies -->
     <dependency>

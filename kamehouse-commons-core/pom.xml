@@ -2,10 +2,12 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!--
-      This library contains the common utilities and functionality used by several modules in
-      kamehouse.
-   -->
+ <!--
+     This library contains only abstract classes, interfaces and model objects and exceptional
+     utils that are required by the other classes in the library.
+     Try to limit this library to the bare minimum. Only put functionality here if adding it to
+     kamehouse-commons module causes some compilation/build issues. Otherwise, add it there.
+  -->
 
   <parent>
     <groupId>com.nicobrest</groupId>
@@ -13,23 +15,15 @@
     <version>1.07.1-KAMEHOUSE-SNAPSHOT</version>
   </parent>
 
-  <name>KameHouse - Commons</name>
+  <name>KameHouse - Commons Core</name>
   <groupId>com.nicobrest</groupId>
-  <artifactId>kame-house-commons</artifactId>
+  <artifactId>kame-house-commons-core</artifactId>
   <version>${kamehouse.version}</version>
   
   <packaging>jar</packaging>
 
   <build>
-    <finalName>kame-house-commons</finalName>
+    <finalName>kame-house-commons-core</finalName>
   </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.nicobrest</groupId>
-      <artifactId>kame-house-commons-core</artifactId>
-      <version>${kamehouse.version}</version>
-    </dependency>
-  </dependencies>
 
 </project>

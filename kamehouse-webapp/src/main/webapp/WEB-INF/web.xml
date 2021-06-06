@@ -68,6 +68,7 @@
 		<url-pattern>/admin/test-apis.html</url-pattern>
 		<url-pattern>/test-module/index.html</url-pattern>
 		<url-pattern>/test-module/angular-1/index.html</url-pattern>
+		<url-pattern>/test-module/scheduler/index.html</url-pattern>
 		<url-pattern>/test-module/websocket/index.html</url-pattern>
 	</servlet-mapping>
 	 <!-- Listing for static error pages. -->
