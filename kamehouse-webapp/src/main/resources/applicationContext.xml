@@ -57,10 +57,6 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
 
   <bean id="logLevelManagerService"
         class="com.nicobrest.kamehouse.admin.service.LogLevelManagerService" />
-    
-  <!-- media.video beans -->
-  <bean id="videoPlaylistService"
-    class="com.nicobrest.kamehouse.media.video.service.VideoPlaylistService" />
 
   <!-- tennisworld beans -->
   <bean id="tennisWorldBookingService"

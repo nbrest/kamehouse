@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.main.utils;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -8,9 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * JsonUtils tests.

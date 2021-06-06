@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.main.testutils.TestUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.springframework.http.HttpStatus;
@@ -32,10 +33,13 @@ import java.util.List;
  */
 public abstract class AbstractControllerTest<E, D> {
 
+  @SuppressFBWarnings //TODO put a comment of the bug and why I'm skipping it
   protected MockMvc mockMvc;
+  @SuppressFBWarnings //TODO put a comment of the bug and why I'm skipping it
   protected TestUtils<E, D> testUtils;
 
   @Rule
+  @SuppressFBWarnings //TODO put a comment of the bug and why I'm skipping it
   public ExpectedException thrown = ExpectedException.none();
 
   /**

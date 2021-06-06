@@ -24,7 +24,7 @@ public class PropertiesUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
 
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
-  private static final Properties adminProperties = new Properties();
+  private static final Properties mediaVideoProperties = new Properties();
 
   private PropertiesUtils() {
     throw new IllegalStateException("Utility class");
@@ -32,10 +32,10 @@ public class PropertiesUtils {
 
   static {
     try {
-      Resource adminPropertiesResource = new ClassPathResource("/admin.properties");
-      Properties adminPropertiesFromFile = PropertiesLoaderUtils
-          .loadProperties(adminPropertiesResource);
-      adminProperties.putAll(adminPropertiesFromFile);
+      Resource mediaVideoPropertiesResource = new ClassPathResource("/media.video.properties");
+      Properties mediaVideoPropertiesFromFile = PropertiesLoaderUtils
+          .loadProperties(mediaVideoPropertiesResource);
+      mediaVideoProperties.putAll(mediaVideoPropertiesFromFile);
     } catch (IOException e) {
       LOGGER.error("Error loading properties files.", e);
     }
@@ -81,9 +81,9 @@ public class PropertiesUtils {
   }
 
   /**
-   * Gets the specified property from the admin application properties.
+   * Gets the specified property from the media.video application properties.
    */
-  public static String getAdminProperty(String propertyName) {
-    return adminProperties.getProperty(propertyName);
+  public static String getMediaVideoProperty(String propertyName) {
+    return mediaVideoProperties.getProperty(propertyName);
   }
 }

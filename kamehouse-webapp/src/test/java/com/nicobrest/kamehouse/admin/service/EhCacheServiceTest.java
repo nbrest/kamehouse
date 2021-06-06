@@ -33,7 +33,7 @@ public class EhCacheServiceTest {
   public void readAllTest() {
     List<ApplicationCache> cacheList = ehCacheService.getAll();
 
-    assertEquals(7, cacheList.size());
+    assertEquals(5, cacheList.size());
   }
 
   /**

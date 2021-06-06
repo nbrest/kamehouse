@@ -13,8 +13,8 @@ function PlaylistBrowser(vlcPlayer) {
   this.videoPlaylists = [];
   this.videoPlaylistCategories = [];
   this.currentPlaylist = null;
-  const mediaVideoAllPlaylistsUrl = '/kame-house/api/v1/media/video/playlists';
-  const mediaVideoPlaylistUrl = '/kame-house/api/v1/media/video/playlist';
+  const mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
+  const mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
   this.tbodyAbsolutePaths = null;
   this.tbodyFilenames = null;
   this.dobleLeftImg = null;

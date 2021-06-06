@@ -40,8 +40,8 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void startVlcPlayerTest() throws Exception {
-    execPostAdminCommandTest("/api/v1/admin/vlc?file=src/test/resources/media.video/"
-        + "playlists/localhost/heroes/marvel/marvel.m3u", VlcStartAdminCommand.class);
+    execPostAdminCommandTest("/api/v1/admin/vlc?file=src/test/resources/admin/playlists/"
+        + "marvel.m3u", VlcStartAdminCommand.class);
   }
 
   /**

@@ -1,9 +1,6 @@
 package com.nicobrest.kamehouse.main.utils;
 
 import static org.junit.Assert.assertEquals;
-
-import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
-
 import org.junit.Test;
 
 /**

@@ -14,6 +14,9 @@
   <url>https://www.nicobrest.com/kame-house/</url>
 
   <modules>
+    <module>kamehouse-commons-test</module>
+    <module>kamehouse-commons</module>
+    <module>kamehouse-media</module>
     <module>kamehouse-webapp</module>
   </modules>
 
@@ -420,12 +423,12 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.80</minimum>
+                      <minimum>0.00</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.60</minimum>
+                      <minimum>0.00</minimum>
                     </limit>
                   </limits>
                 </rule>
@@ -529,42 +532,5 @@
       </resource>
     </resources>
   </build>
-
-  <!-- Profile definitions -->
-  <profiles>
-    <profile>
-      <!-- Default profile -->
-      <id>prod</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <filters>
-          <filter>src/main/filters/prod/hibernate.properties</filter>
-          <filter>src/main/filters/prod/jdbc.properties</filter>
-        </filters>
-      </build>
-    </profile>
-
-    <profile>
-      <id>qa</id>
-      <build>
-        <filters>
-          <filter>src/main/filters/qa/hibernate.properties</filter>
-          <filter>src/main/filters/qa/jdbc.properties</filter>
-        </filters>
-      </build>
-    </profile>
-
-    <profile>
-      <id>dev</id>
-      <build>
-        <filters>
-          <filter>src/main/filters/dev/hibernate.properties</filter>
-          <filter>src/main/filters/dev/jdbc.properties</filter>
-        </filters>
-      </build>
-    </profile>
-  </profiles>
 
 </project>
