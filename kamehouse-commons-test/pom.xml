@@ -6,13 +6,13 @@
   <parent>
     <groupId>com.nicobrest</groupId>
     <artifactId>kame-house-parent</artifactId>
-    <version>1.07.1-SNAPSHOT</version>
+    <version>1.07.1-KAMEHOUSE-SNAPSHOT</version>
   </parent>
 
   <name>KameHouse - Commons Test</name>
   <groupId>com.nicobrest</groupId>
   <artifactId>kame-house-commons-test</artifactId>
-  <version>1.07.1-SNAPSHOT</version>
+  <version>${kamehouse.version}</version>
   
   <packaging>jar</packaging>
 

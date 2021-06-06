@@ -7,7 +7,7 @@
   <name>KameHouse - Parent POM</name>
   <groupId>com.nicobrest</groupId>
   <artifactId>kame-house-parent</artifactId>
-  <version>1.07.1-SNAPSHOT</version>
+  <version>1.07.1-KAMEHOUSE-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -30,6 +30,8 @@
   <properties>
     <java.target.version>1.8</java.target.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <kamehouse.version>1.07.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
 
     <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
     <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
