@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.main.utils.SchedulerUtils;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.main.exception.KameHouseException;
-import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
-import com.nicobrest.kamehouse.main.utils.SchedulerUtils;
+import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

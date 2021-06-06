@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
-import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;

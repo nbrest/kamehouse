@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
-import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpaTest;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;

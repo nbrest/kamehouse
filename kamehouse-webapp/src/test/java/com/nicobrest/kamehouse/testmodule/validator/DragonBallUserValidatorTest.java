@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.validator;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 
 import org.junit.Rule;
 import org.junit.Test;

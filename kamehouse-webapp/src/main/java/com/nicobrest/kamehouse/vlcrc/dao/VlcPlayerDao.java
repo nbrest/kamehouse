@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
-import com.nicobrest.kamehouse.main.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 /**

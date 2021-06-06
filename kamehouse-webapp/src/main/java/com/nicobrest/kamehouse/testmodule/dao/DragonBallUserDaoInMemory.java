@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 import org.springframework.beans.factory.annotation.Autowired;

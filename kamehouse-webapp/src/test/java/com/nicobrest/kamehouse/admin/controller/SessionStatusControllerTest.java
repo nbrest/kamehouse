@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.admin.model.SessionStatus;
 import com.nicobrest.kamehouse.admin.service.SessionStatusService;
 import com.nicobrest.kamehouse.admin.testutils.SessionStatusTestUtils;
-import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcCommandTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;

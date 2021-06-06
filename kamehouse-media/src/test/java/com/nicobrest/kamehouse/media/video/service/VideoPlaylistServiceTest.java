@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
 

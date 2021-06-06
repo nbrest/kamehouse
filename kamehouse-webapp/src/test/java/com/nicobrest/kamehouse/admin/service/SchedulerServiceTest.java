@@ -5,8 +5,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.admin.model.KameHouseJob;
-import com.nicobrest.kamehouse.main.utils.SchedulerUtils;
-import com.nicobrest.kamehouse.main.utils.SchedulerUtilsTest;
+import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
+import com.nicobrest.kamehouse.commons.utils.SchedulerUtilsTest;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +22,6 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.JobDetailImpl;
-import org.quartz.impl.triggers.SimpleTriggerImpl;
 
 import java.util.ArrayList;
 import java.util.HashSet;

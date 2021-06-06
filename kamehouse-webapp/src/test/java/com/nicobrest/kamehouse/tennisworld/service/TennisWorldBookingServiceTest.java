@@ -2,8 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.doThrow;
-import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
 import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldBookingRequestTestUtils;

@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.validator;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

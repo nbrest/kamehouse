@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
-import com.nicobrest.kamehouse.main.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest.CardDetails;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;

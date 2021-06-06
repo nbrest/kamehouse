@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.model;
 
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.Date;

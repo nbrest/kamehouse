@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
 import java.io.Serializable;
 import java.util.Objects;

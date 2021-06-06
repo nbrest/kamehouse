@@ -3,10 +3,10 @@ package com.nicobrest.kamehouse.vlcrc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicobrest.kamehouse.main.dao.Identifiable;
-import com.nicobrest.kamehouse.main.exception.KameHouseException;
-import com.nicobrest.kamehouse.main.utils.HttpClientUtils;
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
+import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.utils.VlcRcStatusBuilder;
 
 import org.apache.commons.lang.builder.EqualsBuilder;

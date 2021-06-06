@@ -3,9 +3,9 @@ package com.nicobrest.kamehouse.admin.testutils;
 import static org.junit.Assert.assertEquals;
 
 import com.nicobrest.kamehouse.admin.model.SessionStatus;
-import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
-import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 
 /**
  * Test data and common test methods to test SessionStatus in all layers of

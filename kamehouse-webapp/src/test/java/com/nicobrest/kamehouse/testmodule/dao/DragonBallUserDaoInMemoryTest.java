@@ -3,9 +3,9 @@ package com.nicobrest.kamehouse.testmodule.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseConflictException;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;

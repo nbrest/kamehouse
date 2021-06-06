@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
 
 import java.util.Arrays;
 

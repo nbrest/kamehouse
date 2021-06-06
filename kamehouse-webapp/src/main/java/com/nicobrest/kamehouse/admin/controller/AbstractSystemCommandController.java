@@ -4,7 +4,7 @@ import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.admin.service.SystemCommandService;
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.controller.AbstractController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

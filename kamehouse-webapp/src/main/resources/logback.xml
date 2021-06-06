@@ -62,7 +62,7 @@
     <appender-ref ref="consoleAppender" />
   </logger>
 
-  <logger name="com.nicobrest.kamehouse.main" additivity="false">
+  <logger name="com.nicobrest.kamehouse.commons" additivity="false">
     <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <appender-ref ref="consoleAppender" />

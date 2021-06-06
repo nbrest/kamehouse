@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 
 import java.io.File;

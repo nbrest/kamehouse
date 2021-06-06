@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import static com.nicobrest.kamehouse.main.utils.StringUtils.sanitizeInput;
+import static com.nicobrest.kamehouse.commons.utils.StringUtils.sanitizeInput;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationCache;
 

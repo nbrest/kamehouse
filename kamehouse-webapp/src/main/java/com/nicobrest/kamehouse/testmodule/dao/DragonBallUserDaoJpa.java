@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
-import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpa;
+import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 import org.springframework.cache.annotation.CacheEvict;

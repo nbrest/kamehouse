@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.media.video.controller;
 
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
 

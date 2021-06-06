@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
-import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpa;
+import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.springframework.cache.annotation.CacheEvict;

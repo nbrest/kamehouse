@@ -2,8 +2,8 @@ package com.nicobrest.kamehouse.testmodule.testutils;
 
 import static org.junit.Assert.assertEquals;
 
-import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 

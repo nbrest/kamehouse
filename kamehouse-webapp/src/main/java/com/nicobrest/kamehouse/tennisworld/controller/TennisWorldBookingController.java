@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
 import com.nicobrest.kamehouse.tennisworld.service.TennisWorldBookingService;

@@ -6,8 +6,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.main.controller.AbstractCrudControllerTest;
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.controller.AbstractCrudControllerTest;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;

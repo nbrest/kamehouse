@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
-import com.nicobrest.kamehouse.main.service.AbstractCrudService;
-import com.nicobrest.kamehouse.main.service.CrudService;
-import com.nicobrest.kamehouse.main.validator.UserValidator;
+import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
+import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.validator.UserValidator;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;

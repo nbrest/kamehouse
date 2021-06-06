@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
-import com.nicobrest.kamehouse.main.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 /**

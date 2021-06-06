@@ -8,9 +8,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.main.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.main.model.KameHouseGenericResponse;
+import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;

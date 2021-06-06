@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.admin.service;
 
 import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.main.utils.ProcessUtils;
+import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

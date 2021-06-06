@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.media.video.service;
 
-import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 
 import org.slf4j.Logger;

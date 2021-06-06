@@ -2,8 +2,8 @@ package com.nicobrest.kamehouse.vlcrc.testutils;
 
 import static org.junit.Assert.assertEquals;
 
-import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 
 import java.util.ArrayList;

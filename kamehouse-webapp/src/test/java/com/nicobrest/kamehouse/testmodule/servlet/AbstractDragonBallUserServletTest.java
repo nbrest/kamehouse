@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.servlet;
 
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;

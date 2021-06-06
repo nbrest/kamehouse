@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.controller;
 
-import com.nicobrest.kamehouse.main.controller.AbstractController;
-import com.nicobrest.kamehouse.main.model.KameHouseGenericResponse;
+import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.testmodule.service.TestSchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.service.LogLevelManagerService;
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

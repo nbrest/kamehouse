@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;

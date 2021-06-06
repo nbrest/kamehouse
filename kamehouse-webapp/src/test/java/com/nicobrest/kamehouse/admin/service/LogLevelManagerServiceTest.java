@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.service;
 
 import static org.junit.Assert.assertEquals;
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

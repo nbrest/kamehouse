@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.admin.service;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.model.SessionStatus;
 
-import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

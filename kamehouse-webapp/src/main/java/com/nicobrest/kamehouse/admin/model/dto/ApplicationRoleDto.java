@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;

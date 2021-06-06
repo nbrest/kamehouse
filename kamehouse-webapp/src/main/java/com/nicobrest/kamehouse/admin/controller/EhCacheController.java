@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationCache;
 import com.nicobrest.kamehouse.admin.service.EhCacheService;
-import com.nicobrest.kamehouse.main.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.controller.AbstractController;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

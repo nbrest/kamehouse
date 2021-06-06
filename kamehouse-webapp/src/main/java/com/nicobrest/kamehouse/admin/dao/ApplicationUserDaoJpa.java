@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.admin.dao;
 
 import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.main.dao.AbstractCrudDaoJpa;
+import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 
 import java.util.Iterator;
 import java.util.List;

@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.admin.service;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import com.nicobrest.kamehouse.main.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;

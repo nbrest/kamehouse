@@ -9,8 +9,8 @@ import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStartSystemCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStatusSystemCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoKeyPressSystemCommand;
 import com.nicobrest.kamehouse.admin.testutils.SystemCommandOutputTestUtils;
-import com.nicobrest.kamehouse.main.utils.ProcessUtils;
-import com.nicobrest.kamehouse.main.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 
 import org.junit.Before;
 import org.junit.Rule;

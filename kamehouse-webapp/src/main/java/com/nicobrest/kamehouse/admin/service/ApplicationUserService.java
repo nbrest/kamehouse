@@ -7,10 +7,10 @@ import com.nicobrest.kamehouse.admin.model.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.security.PasswordUtils;
 import com.nicobrest.kamehouse.admin.validator.ApplicationUserValidator;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
-import com.nicobrest.kamehouse.main.service.AbstractCrudService;
-import com.nicobrest.kamehouse.main.service.CrudService;
-import com.nicobrest.kamehouse.main.validator.UserValidator;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
+import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.validator.UserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

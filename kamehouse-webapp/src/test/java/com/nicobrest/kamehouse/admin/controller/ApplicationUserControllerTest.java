@@ -6,8 +6,8 @@ import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
-import com.nicobrest.kamehouse.main.controller.AbstractCrudControllerTest;
-import com.nicobrest.kamehouse.main.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.controller.AbstractCrudControllerTest;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;

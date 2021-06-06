@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
-import com.nicobrest.kamehouse.main.service.AbstractCrudService;
-import com.nicobrest.kamehouse.main.service.CrudService;
+import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
+import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;

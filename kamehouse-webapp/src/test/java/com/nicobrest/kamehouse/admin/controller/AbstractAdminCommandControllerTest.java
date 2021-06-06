@@ -8,8 +8,8 @@ import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.admin.service.SystemCommandService;
 import com.nicobrest.kamehouse.admin.testutils.SystemCommandOutputTestUtils;
-import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
-import com.nicobrest.kamehouse.main.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.mockito.Mock;

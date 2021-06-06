@@ -8,8 +8,8 @@ import com.nicobrest.kamehouse.admin.model.ApplicationRole;
 import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.model.dto.ApplicationRoleDto;
 import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.main.testutils.AbstractTestUtils;
-import com.nicobrest.kamehouse.main.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 
 import java.util.Date;
 import java.util.HashSet;

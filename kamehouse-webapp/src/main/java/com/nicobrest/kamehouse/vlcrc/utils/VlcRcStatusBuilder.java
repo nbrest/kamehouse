@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicobrest.kamehouse.main.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 
 import org.slf4j.Logger;

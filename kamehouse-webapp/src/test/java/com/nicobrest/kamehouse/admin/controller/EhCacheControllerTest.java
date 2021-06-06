@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.admin.model.ApplicationCache;
 import com.nicobrest.kamehouse.admin.service.EhCacheService;
 import com.nicobrest.kamehouse.admin.testutils.ApplicationCacheTestUtils;
-import com.nicobrest.kamehouse.main.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 
 import org.junit.Before;
 import org.junit.Test;
