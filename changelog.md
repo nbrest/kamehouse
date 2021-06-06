@@ -1,5 +1,10 @@
 # ChangeLog:
 
+#### v1.08
+
+* Split media package into it's own kamehouse-media module
+* Started splitting main package into kamehouse-commons and kamehouse-commons-test
+
 #### v1.07
 
 * Reorganized the project into modules, with a parent pom and initial kamehouse-webapp module. To

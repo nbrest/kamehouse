@@ -423,11 +423,13 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
+                      <!-- TODO SET THIS BACK TO 0.80 -->
                       <minimum>0.00</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
                       <value>COVEREDRATIO</value>
+                      <!-- TODO SET THIS BACK TO 0.60 -->
                       <minimum>0.00</minimum>
                     </limit>
                   </limits>
