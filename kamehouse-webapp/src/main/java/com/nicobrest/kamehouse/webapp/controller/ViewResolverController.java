@@ -32,9 +32,16 @@ public class ViewResolverController extends AbstractController {
    * View resolver for static html files. Loads the content of the html and returns it to the view
    * so that include-static-html.jsp can render it.
    */
-  @GetMapping(path = { "/", "/about", "/admin**", "/contact-us", "/login",
-      "/test-module", "/test-module/", "/test-module/angular-1**", "/test-module/scheduler**",
-      "/test-module/websocket**", "/vlc-player" })
+  @GetMapping(path = { "/",
+      "/about",
+      "/admin", "/admin/**",
+      "/contact-us",
+      "/login",
+      "/test-module", "/test-module/",
+      "/test-module/angular-1", "/test-module/angular-1/**",
+      "/test-module/scheduler", "/test-module/scheduler/**",
+      "/test-module/websocket", "/test-module/websocket/**",
+      "/vlc-player" })
   public ModelAndView includeStaticHtml(HttpServletRequest request, HttpServletResponse response) {
     String originalRequestUrl = request.getServletPath();
     if (!originalRequestUrl.startsWith("/")) {
@@ -45,7 +52,8 @@ public class ViewResolverController extends AbstractController {
     // Certain urls are meant to be the root folder in a tree structure, for
     // those, I need to make sure I call them with the trailing /. If I don't, I
     // need to add that trailing / here so it maps to an index page.
-    if (staticHtmlToLoad.endsWith("admin") || staticHtmlToLoad.endsWith("test-module")
+    if (staticHtmlToLoad.endsWith("admin")
+        || staticHtmlToLoad.endsWith("test-module")
         || staticHtmlToLoad.endsWith("test-module/angular-1")
         || staticHtmlToLoad.endsWith("test-module/scheduler")
         || staticHtmlToLoad.endsWith("test-module/websocket")) {
@@ -93,8 +101,7 @@ public class ViewResolverController extends AbstractController {
       new SecurityContextLogoutHandler().logout(request, response, authentication);
     }
     return "redirect:/login?logout";
-    // return "forward:/login?logout"; //forwards the request without
-    // redirecting
+    // return "forward:/login?logout"; //forwards the request without redirecting
   }
 
   /**
