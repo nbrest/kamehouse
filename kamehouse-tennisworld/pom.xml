@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.nicobrest</groupId>
+    <artifactId>kame-house-parent</artifactId>
+    <version>1.07.1-KAMEHOUSE-SNAPSHOT</version>
+  </parent>
+
+  <name>KameHouse - TennisWorld</name>
+  <groupId>com.nicobrest</groupId>
+  <artifactId>kame-house-tennisworld</artifactId>
+  <version>${kamehouse.version}</version>
+  
+  <packaging>war</packaging>
+
+  <build>
+    <finalName>kame-house-tennisworld</finalName>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.nicobrest</groupId>
+      <artifactId>kame-house-commons</artifactId>
+      <version>${kamehouse.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.nicobrest</groupId>
+      <artifactId>kame-house-commons-test</artifactId>
+      <version>${kamehouse.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>

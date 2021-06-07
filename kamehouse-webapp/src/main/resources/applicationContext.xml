@@ -58,10 +58,6 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <bean id="logLevelManagerService"
         class="com.nicobrest.kamehouse.admin.service.LogLevelManagerService" />
 
-  <!-- tennisworld beans -->
-  <bean id="tennisWorldBookingService"
-    class="com.nicobrest.kamehouse.tennisworld.service.TennisWorldBookingService" />
-
   <!-- vlc-rc beans -->
   <bean id="vlcRcService"
     class="com.nicobrest.kamehouse.vlcrc.service.VlcRcService">

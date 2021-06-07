@@ -56,25 +56,13 @@
     <appender-ref ref="consoleAppender" />
   </logger>
 
-  <logger name="com.nicobrest.kamehouse.admin" additivity="false">
-    <level value="INFO" />
-    <appender-ref ref="dailyRollingFileAppender"/>
-    <appender-ref ref="consoleAppender" />
-  </logger>
-
   <logger name="com.nicobrest.kamehouse.commons" additivity="false">
     <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <appender-ref ref="consoleAppender" />
   </logger>
 
-  <logger name="com.nicobrest.kamehouse.testmodule" additivity="false">
-    <level value="INFO" />
-    <appender-ref ref="dailyRollingFileAppender"/>
-    <appender-ref ref="consoleAppender" />
-  </logger>
-
-  <logger name="com.nicobrest.kamehouse.vlcrc" additivity="false">
+  <logger name="com.nicobrest.kamehouse.tennisworld" additivity="false">
     <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <appender-ref ref="consoleAppender" />

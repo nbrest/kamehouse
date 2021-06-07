@@ -33,13 +33,13 @@ import java.util.List;
  */
 public abstract class AbstractControllerTest<E, D> {
 
-  @SuppressFBWarnings //TODO put a comment of the bug and why I'm skipping it
+  @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
   protected MockMvc mockMvc;
-  @SuppressFBWarnings //TODO put a comment of the bug and why I'm skipping it
+
+  @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
   protected TestUtils<E, D> testUtils;
 
   @Rule
-  @SuppressFBWarnings //TODO put a comment of the bug and why I'm skipping it
   public ExpectedException thrown = ExpectedException.none();
 
   /**

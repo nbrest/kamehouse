@@ -39,7 +39,7 @@ public class SessionStatusService {
    * Returns the current session's status.
    */
   public SessionStatus get() {
-    logger.trace("get");
+    logger.trace("getting the user's session status");
     Authentication authentication = getAuthentication();
     String username = authentication.getName();
     SessionStatus sessionStatus = new SessionStatus();
