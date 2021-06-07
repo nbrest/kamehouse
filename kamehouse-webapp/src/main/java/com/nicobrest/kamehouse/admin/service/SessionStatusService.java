@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Service layer to get the session status.
  * 
@@ -38,7 +40,7 @@ public class SessionStatusService {
   /**
    * Returns the current session's status.
    */
-  public SessionStatus get() {
+  public SessionStatus get(HttpSession session) {
     logger.trace("getting the user's session status");
     Authentication authentication = getAuthentication();
     String username = authentication.getName();
@@ -52,7 +54,10 @@ public class SessionStatusService {
     } catch (UsernameNotFoundException e) {
       logger.warn(e.getMessage());
     }
-    logger.trace("get response {}", sessionStatus);
+    if (session != null) {
+      sessionStatus.setSessionId(session.getId());
+    }
+    logger.trace("get session response {}", sessionStatus);
     return sessionStatus;
   }
   

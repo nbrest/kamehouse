@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Controller to obtain current session information.
  * 
@@ -29,9 +31,9 @@ public class SessionStatusController extends AbstractController {
    */
   @GetMapping(path = "/status")
   @ResponseBody
-  public ResponseEntity<SessionStatus> getSessionStatus() {
+  public ResponseEntity<SessionStatus> getSessionStatus(HttpServletRequest request) {
     logger.trace("/api/v1/session/status (GET)");
-    SessionStatus sessionStatus = sessionStatusService.get();
+    SessionStatus sessionStatus = sessionStatusService.get(request.getSession());
     return generateGetResponseEntity(sessionStatus);
   }
 }

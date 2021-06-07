@@ -16,6 +16,7 @@ public class SessionStatus {
   private String firstName;
   private String lastName;
   private String server;
+  private String sessionId;
 
   public String getUsername() {
     return username;
@@ -47,6 +48,14 @@ public class SessionStatus {
 
   public void setServer(String server) {
     this.server = server;
+  }
+
+  public String getSessionId() {
+    return sessionId;
+  }
+
+  public void setSessionId(String sessionId) {
+    this.sessionId = sessionId;
   }
 
   @Override
