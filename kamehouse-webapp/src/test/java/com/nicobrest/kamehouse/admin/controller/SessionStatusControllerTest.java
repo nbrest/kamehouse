@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -69,14 +70,14 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
    */
   @Test
   public void getSessionStatusTest() throws Exception { 
-    when(sessionStatusServiceMock.get()).thenReturn(sessionStatus);
+    when(sessionStatusServiceMock.get(any())).thenReturn(sessionStatus);
 
     MockHttpServletResponse response = doGet("/api/v1/session/status");
     SessionStatus responseBody = getResponseBody(response, SessionStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributes(sessionStatus, responseBody);
-    verify(sessionStatusServiceMock, times(1)).get();
+    verify(sessionStatusServiceMock, times(1)).get(any());
     verifyNoMoreInteractions(sessionStatusServiceMock);
   }
 }

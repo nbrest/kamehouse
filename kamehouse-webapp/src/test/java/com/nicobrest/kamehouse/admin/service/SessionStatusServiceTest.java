@@ -66,7 +66,7 @@ public class SessionStatusServiceTest {
     when(applicationUserServiceMock.loadUserByUsername("anonymousUser"))
         .thenReturn(applicationUserMock);
 
-    SessionStatus returnedSessionStatus = sessionStatusServiceSpy.get();
+    SessionStatus returnedSessionStatus = sessionStatusServiceSpy.get(null);
 
     testUtils.assertEqualsAllAttributes(sessionStatus, returnedSessionStatus);
   }

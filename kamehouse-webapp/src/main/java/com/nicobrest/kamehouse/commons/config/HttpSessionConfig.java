@@ -11,12 +11,14 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
  * Class to enable jdbc http session to store sessions in the database. This allows me to share the
  * sessions between the different modules/services of kamehouse.
  *
+ * <p>
  * I need to manually create the spring session schema in kamehouse mysql db from:
  * https://github.com/spring-projects/spring-session/blob/main/spring-session-jdbc/src/main/resources/org/springframework/session/jdbc/schema-mysql.sql
  * or the one I have defined in /scripts/sql/mysql/spring-session.sql
  *
  * maxInactiveIntervalInSeconds = 2629746 : 1 month in seconds
  * cleanupCron = "0 0 2 1 1 *" : run once a year in january 1st 2AM (to disable session expiry)
+ * </p>
  */
 @Configuration
 @EnableJdbcHttpSession( maxInactiveIntervalInSeconds = 2629746, cleanupCron = "0 0 2 1 1 *" )
