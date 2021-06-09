@@ -10,7 +10,7 @@
     <!-- The order of intercept-urls matters. Order them from more specific to more
       general within the same url. Ej: /api/v1/admin/application/** before /api/v1/admin/** -->
 
-    <intercept-url pattern="/api/v1/tennis-world/**" access="hasRole('ROLE_ADMIN')"
+    <intercept-url pattern="/api/v1/tennis-world/**" access="hasRole('ROLE_USER')"
       method="POST" />
 
     <form-login login-page="/login" username-parameter="username"
