@@ -22,6 +22,8 @@
   <div class="main-body">
   <div class="default-layout">
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">List of DragonBall Users</h3>
+    <!-- TODO: cant access the dragonBallUserService anymore since its in testmodule. I need to make
+     an api call to kamehouse-testmodule to get all the users -->
     <c:set var="dragonBallUsers" scope="page"
       value="${dragonBallUserService.readAll()}" />
     <%

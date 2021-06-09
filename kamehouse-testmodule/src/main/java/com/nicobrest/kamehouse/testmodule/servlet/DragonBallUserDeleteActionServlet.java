@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author nbrest
  *
  */
-@WebServlet("/test-module/jsp/dragonball/users/users-delete-action")
+@WebServlet("/api/v1/servlet/test-module/dragonball/users/users-delete-action")
 public class DragonBallUserDeleteActionServlet extends AbstractDragonBallUserServlet {
 
   protected static final long serialVersionUID = 1L;

@@ -16,7 +16,7 @@ var main = () => {
     logger.info("Started initializing WebSocket");
     logger.logLevel = 4;
     websocket = new WebSocketKameHouse();
-    websocket.setStatusUrl('/kame-house/api/ws/test-module/websocket');
+    websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
     websocket.setTopicUrl('/topic/test-module/websocket-out');
     websocket.setPollUrl("/app/test-module/websocket-in");
     $(() => {

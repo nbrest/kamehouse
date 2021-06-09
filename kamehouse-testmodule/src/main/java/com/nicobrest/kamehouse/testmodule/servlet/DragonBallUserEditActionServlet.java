@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
  * @author nbrest
  *
  */
-@WebServlet("/test-module/jsp/dragonball/users/users-edit-action")
+@WebServlet("/api/v1/servlet/test-module/dragonball/users/users-edit-action")
 public class DragonBallUserEditActionServlet extends AbstractDragonBallUserServlet {
 
   private static final long serialVersionUID = 1L;

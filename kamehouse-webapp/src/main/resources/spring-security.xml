@@ -39,15 +39,6 @@
     <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_ADMIN')"
       method="DELETE" />
 
-    <intercept-url pattern="/api/v1/dragonball/**" access="permitAll"
-      method="GET" />
-    <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')"
-      method="POST" />
-    <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')"
-      method="PUT" />
-    <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')"
-      method="DELETE" />
-
     <intercept-url pattern="/api/v1/vlc-rc" access="permitAll"
       method="GET" />
     <intercept-url pattern="/api/v1/vlc-rc" access="permitAll"

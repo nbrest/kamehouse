@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:cache="http://www.springframework.org/schema/cache"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+http://www.springframework.org/schema/cache
+http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+  <context:component-scan base-package="com.nicobrest.kamehouse.*" />
+  <context:annotation-config />
+
+  <import resource="datasource.xml" />
+  <import resource="spring-security.xml" />
+
+  <mvc:annotation-driven />
+  <cache:annotation-driven />
+
+  <!-- testmodule beans -->
+  <bean
+          class="org.springframework.web.context.support.ServletContextAttributeExporter">
+    <!-- Enable access to specific beans from JSP pages using ${beanName}
+    TODO: now that the beans are in testmodule and the jsps in webapp module, I can't access them
+    I might need some communication between the modules-->
+
+    <property name="attributes">
+      <map>
+        <entry key="dragonBallUserService">
+          <ref bean="dragonBallUserService" />
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="gohanDragonBallUser"
+        class="com.nicobrest.kamehouse.testmodule.model.DragonBallUser">
+    <property name="id" value="1001" />
+    <property name="username" value="gohanBean" />
+    <property name="email" value="gohanBean@dbz.com" />
+    <property name="age" value="20" />
+    <property name="powerLevel" value="20" />
+    <property name="stamina" value="1000" />
+  </bean>
+
+  <bean id="gotenDragonBallUser"
+        class="com.nicobrest.kamehouse.testmodule.model.DragonBallUser">
+    <property name="id" value="1002" />
+    <property name="username" value="gotenBean" />
+    <property name="email" value="gotenBean@dbz.com" />
+    <property name="age" value="10" />
+    <property name="powerLevel" value="10" />
+    <property name="stamina" value="1000" />
+  </bean>
+
+</beans>

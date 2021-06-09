@@ -1,0 +1,50 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="ehcache.xsd"
+  updateCheck="true"
+  monitoring="autodetect"
+  dynamicConfig="true">
+
+  <diskStore path="java.io.tmpdir" />
+
+  <cache name="dragonBallUser"
+         maxEntriesLocalHeap="100"
+         maxEntriesLocalDisk="1000"
+         eternal="true"
+         diskSpoolBufferSizeMB="20"
+         memoryStoreEvictionPolicy="LFU"
+         transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
+
+  <cache name="dragonBallUsers"
+         maxEntriesLocalHeap="100"
+         maxEntriesLocalDisk="1000"
+         eternal="true"
+         diskSpoolBufferSizeMB="20"
+         memoryStoreEvictionPolicy="LFU"
+         transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
+
+  <cache name="dragonBallUserByUsername"
+         maxEntriesLocalHeap="1000"
+         maxEntriesLocalDisk="10000"
+         eternal="true"
+         diskSpoolBufferSizeMB="20"
+         memoryStoreEvictionPolicy="LFU"
+         transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
+
+  <cache name="dragonBallUserByEmail"
+         maxEntriesLocalHeap="100"
+         maxEntriesLocalDisk="1000"
+         eternal="false"
+         diskSpoolBufferSizeMB="20"
+         timeToIdleSeconds="86000" timeToLiveSeconds="86400"
+         memoryStoreEvictionPolicy="LFU"
+         transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
+
+</ehcache>

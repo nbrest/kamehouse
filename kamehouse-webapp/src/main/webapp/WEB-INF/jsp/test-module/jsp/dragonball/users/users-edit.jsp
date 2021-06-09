@@ -1,4 +1,8 @@
 <%@ page import="java.util.*"%>
+<!-- TODO I dont have access to these classes anymore since they are in testmodule. find another
+way, probably need to do some api calls to testmodule now to execute the backend logic. See if I can
+ execute the api calls to the servlets instead of the spring controllers
+ -->
 <%@ page import="com.nicobrest.kamehouse.testmodule.service.DragonBallUserService"%>
 <%@ page import="com.nicobrest.kamehouse.testmodule.model.DragonBallUser"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -29,6 +33,11 @@
     <div class="panel panel-default">
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Edit DragonBall User</h3>
       <div class="formcontainer">
+        <!-- TODO: these user-x-action are servlets defined in testmodule now, so I need to make
+        api calls to them. I cant do it the way its being done currently. maybe doing a post request
+         to the servlet the way I usually do api calls, with all these fields as encoded form
+         request body.
+         -->
         <form action="users-edit-action" method="post"
           class="form-horizontal mi-form-horizontal">
           <input type="hidden" name="id" value="${dragonBallUser.getId()}" />

@@ -23,7 +23,7 @@ function importCss() {
 
 function Scheduler() {
   let self = this;
-  const TEST_MODULE_API_URL = "/kame-house/api/v1/test-module";
+  const TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
   const SAMPLE_JOB_URL = '/test-scheduler/sample-job';
   this.debugger = new Debugger();
 

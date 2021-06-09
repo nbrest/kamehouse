@@ -19,6 +19,7 @@
     <module>kamehouse-commons</module>
     <module>kamehouse-media</module>
     <module>kamehouse-tennisworld</module>
+    <module>kamehouse-testmodule</module>
     <module>kamehouse-webapp</module>
   </modules>
 
