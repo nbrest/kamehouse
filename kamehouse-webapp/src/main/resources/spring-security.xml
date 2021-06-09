@@ -1,11 +1,12 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-  xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
-  <http auto-config="true">
+  <http auto-config="true" entry-point-ref="customEntryPoint">
     <!-- The order of intercept-urls matters. Order them from more specific to more 
       general within the same url. Ej: /api/v1/admin/application/** before /api/v1/admin/** -->
     <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"
@@ -75,50 +76,11 @@
       password-parameter="password" always-use-default-target="false" 
       authentication-success-handler-ref="authenticationSuccessHandler" />
     <csrf disabled="true" />
+
   </http>
  
   <authentication-manager>
     <authentication-provider ref="applicationAuthenticationProvider" />
   </authentication-manager>
 
-	<beans:bean id="authenticationSuccessHandler" class="com.nicobrest.kamehouse.admin.security.CustomAuthenticationSuccessHandler">
-	    <!-- Set to false, as with js redirects, the last referer will be /login -->
-	    <beans:property name="useReferer" value="false" />
-	</beans:bean>
-
-  <beans:bean id="sessionStatusService"
-    class="com.nicobrest.kamehouse.admin.service.SessionStatusService">
-    <beans:property name="applicationUserService" ref="applicationUserService" />
-  </beans:bean>
-
-  <beans:bean id="applicationAuthenticationProvider"
-    class="com.nicobrest.kamehouse.admin.security.ApplicationAuthenticationProvider">
-    <beans:property name="applicationUserService" ref="applicationUserService" />
-  </beans:bean>
-
-  <beans:bean id="applicationUserService"
-    class="com.nicobrest.kamehouse.admin.service.ApplicationUserService">
-    <beans:property name="applicationUserDao" ref="applicationUserDaoJpa" />
-    <beans:property name="anonymousUser" ref="anonymousUser" />
-  </beans:bean>
-
-  <beans:bean id="applicationUserDaoJpa" class="com.nicobrest.kamehouse.admin.dao.ApplicationUserDaoJpa">
-    <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
-  </beans:bean>
-
-  <beans:bean id="applicationUserDaoInMemory"
-    class="com.nicobrest.kamehouse.admin.dao.ApplicationUserDaoInMemory" />
-
-  <beans:bean id="anonymousUser" class="com.nicobrest.kamehouse.admin.model.ApplicationUser">
-    <beans:property name="username" value="anonymousUser" />
-    <beans:property name="authorities">
-      <beans:list>
-        <beans:ref bean="anonymousRole" />
-      </beans:list>
-    </beans:property>
-  </beans:bean>
-
-  <beans:bean id="anonymousRole" class="com.nicobrest.kamehouse.admin.model.ApplicationRole">
-    <beans:property name="name" value="ROLE_ANONYMOUS" />
-  </beans:bean>
 </beans:beans>

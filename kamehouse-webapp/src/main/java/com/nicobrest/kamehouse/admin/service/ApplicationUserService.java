@@ -1,15 +1,15 @@
 package com.nicobrest.kamehouse.admin.service;
 
 import com.nicobrest.kamehouse.admin.dao.ApplicationUserDao;
-import com.nicobrest.kamehouse.admin.model.ApplicationRole;
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.model.dto.ApplicationRoleDto;
-import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.admin.security.PasswordUtils;
-import com.nicobrest.kamehouse.admin.validator.ApplicationUserValidator;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.model.ApplicationRole;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
+import com.nicobrest.kamehouse.commons.model.dto.ApplicationRoleDto;
+import com.nicobrest.kamehouse.commons.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
+import com.nicobrest.kamehouse.commons.validator.ApplicationUserValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;

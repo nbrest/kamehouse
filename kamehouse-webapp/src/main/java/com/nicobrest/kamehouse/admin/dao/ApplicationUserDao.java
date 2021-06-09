@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.dao;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
 
 /**
  * Interface for the ApplicationUserDao repositories.

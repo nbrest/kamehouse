@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  *
  * @author nbrest
  */
+@Repository
 public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBallUserDao {
 
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";

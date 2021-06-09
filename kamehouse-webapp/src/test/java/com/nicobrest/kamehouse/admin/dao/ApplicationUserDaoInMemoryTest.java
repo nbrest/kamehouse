@@ -3,9 +3,9 @@ package com.nicobrest.kamehouse.admin.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
+import com.nicobrest.kamehouse.commons.model.dto.ApplicationUserDto;
+import com.nicobrest.kamehouse.commons.testutils.ApplicationUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 
 import org.junit.Before;

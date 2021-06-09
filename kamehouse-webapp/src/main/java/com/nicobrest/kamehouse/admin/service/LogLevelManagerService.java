@@ -5,6 +5,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * Service to control the log level of kamehouse.
  */
+@Service
 public class LogLevelManagerService {
 
   private static final List<String> LOG_LEVELS =

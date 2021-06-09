@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.admin.dao;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
+import com.nicobrest.kamehouse.commons.model.dto.ApplicationUserDto;
+import com.nicobrest.kamehouse.commons.testutils.ApplicationUserTestUtils;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Before;

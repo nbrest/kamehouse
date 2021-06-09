@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.config;
 
-import com.nicobrest.kamehouse.admin.scheduler.job.ShutdownJob;
-import com.nicobrest.kamehouse.admin.scheduler.job.SuspendJob;
+import com.nicobrest.kamehouse.admin.model.scheduler.job.ShutdownJob;
+import com.nicobrest.kamehouse.admin.model.scheduler.job.SuspendJob;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;

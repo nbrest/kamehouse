@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author nbrest
  *
  */
+@Repository
 public class VlcPlayerDaoJpa extends AbstractCrudDaoJpa implements VlcPlayerDao {
 
   private static final String VLC_PLAYER_CACHE = "vlcPlayer";

@@ -26,6 +26,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.List;
  *
  * @author nbrest
  */
+@Service
 public class TennisWorldBookingService {
 
   // URLs

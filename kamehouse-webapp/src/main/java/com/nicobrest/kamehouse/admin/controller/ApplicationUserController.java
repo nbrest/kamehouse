@@ -1,9 +1,9 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
 import com.nicobrest.kamehouse.admin.service.ApplicationUserService;
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
+import com.nicobrest.kamehouse.commons.model.dto.ApplicationUserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

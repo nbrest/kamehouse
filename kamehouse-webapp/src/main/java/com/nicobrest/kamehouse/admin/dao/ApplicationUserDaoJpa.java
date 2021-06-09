@@ -1,8 +1,9 @@
 package com.nicobrest.kamehouse.admin.dao;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationRole;
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
+import com.nicobrest.kamehouse.commons.model.ApplicationRole;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
+import org.springframework.stereotype.Repository;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Set;
  *
  * @author nbrest
  */
+@Repository
 public class ApplicationUserDaoJpa extends AbstractCrudDaoJpa implements ApplicationUserDao {
 
   @Override

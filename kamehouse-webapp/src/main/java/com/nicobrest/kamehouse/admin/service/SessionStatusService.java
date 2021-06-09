@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.service;
- 
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+
 import com.nicobrest.kamehouse.admin.model.SessionStatus;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import org.apache.commons.lang.StringEscapeUtils;

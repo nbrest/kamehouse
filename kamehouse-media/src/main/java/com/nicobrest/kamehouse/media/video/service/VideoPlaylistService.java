@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.media.video.utils.MediaPropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.util.stream.Stream;
  * @author nbrest
  *
  */
+@Service
 public class VideoPlaylistService {
 
   public static final String PROP_MEDIA_SERVER_NAME = "media.server.name";

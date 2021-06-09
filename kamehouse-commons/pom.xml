@@ -30,6 +30,13 @@
       <artifactId>kame-house-commons-core</artifactId>
       <version>${kamehouse.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.nicobrest</groupId>
+      <artifactId>kame-house-commons-test</artifactId>
+      <version>${kamehouse.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
 </project>

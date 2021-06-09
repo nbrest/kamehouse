@@ -2,9 +2,9 @@ package com.nicobrest.kamehouse.admin.service;
 
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
 import com.nicobrest.kamehouse.admin.model.SessionStatus;
 import com.nicobrest.kamehouse.admin.testutils.SessionStatusTestUtils;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
 
 import org.junit.Before;
 import org.junit.Test;

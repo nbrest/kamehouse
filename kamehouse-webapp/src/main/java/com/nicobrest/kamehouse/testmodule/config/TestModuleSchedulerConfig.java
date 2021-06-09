@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.config;
 
-import com.nicobrest.kamehouse.testmodule.scheduler.job.SampleJob;
+import com.nicobrest.kamehouse.testmodule.model.scheduler.job.SampleJob;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;

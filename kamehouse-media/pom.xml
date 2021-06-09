@@ -20,6 +20,43 @@
     <finalName>kame-house-media</finalName>
   </build>
 
+  <!-- Profile definitions -->
+  <profiles>
+    <profile>
+      <!-- Default profile -->
+      <id>prod</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <filters>
+          <filter>src/main/filters/prod/hibernate.properties</filter>
+          <filter>src/main/filters/prod/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
+
+    <profile>
+      <id>qa</id>
+      <build>
+        <filters>
+          <filter>src/main/filters/qa/hibernate.properties</filter>
+          <filter>src/main/filters/qa/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
+
+    <profile>
+      <id>dev</id>
+      <build>
+        <filters>
+          <filter>src/main/filters/dev/hibernate.properties</filter>
+          <filter>src/main/filters/dev/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>com.nicobrest</groupId>

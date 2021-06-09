@@ -13,56 +13,13 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 http://www.springframework.org/schema/cache
 http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-  <!-- Root Application Context for the entire web application -->
-  <context:annotation-config />
-  <!-- Needed for loading spring configuration classes such as websocket ones -->
-
   <context:component-scan base-package="com.nicobrest.kamehouse.*" />
+  <context:annotation-config />
+
+  <import resource="datasource.xml" />
+  <import resource="spring-security.xml" />
 
   <mvc:annotation-driven />
-
-  <!-- Ehcache configuration -->
   <cache:annotation-driven />
-
-  <bean id="cacheManager"
-    class="org.springframework.cache.ehcache.EhCacheCacheManager">
-    <property name="cacheManager" ref="ehcache" />
-  </bean>
-
-  <bean id="ehcache"
-    class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-    <property name="configLocation" value="classpath:ehcache.xml" />
-    <property name="shared" value="true" />
-  </bean>
-
-  <!-- media.video beans -->
-  <bean id="videoPlaylistService"
-    class="com.nicobrest.kamehouse.media.video.service.VideoPlaylistService" />
-
-  <!-- Exception resolver -->
-  <bean id="exceptionResolver"
-        class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-    <property name="exceptionMappings">
-      <props>
-        <prop key="com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException">/error/400</prop>
-        <prop key="com.nicobrest.kamehouse.commons.exception.KameHouseConflictException">/error/409</prop>
-        <prop key="com.nicobrest.kamehouse.commons.exception.KameHouseForbiddenException">/error/403</prop>
-        <prop key="com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException">/error/400</prop>
-        <prop key="com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException">/error/404</prop>
-        <prop key="com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException">/error/500</prop>
-        <prop key="org.springframework.security.core.userdetails.UsernameNotFoundException">/error/404</prop>
-      </props>
-    </property>
-    <property name="statusCodes">
-      <props>
-        <prop key="/error/400">400</prop>
-        <prop key="/error/403">403</prop>
-        <prop key="/error/404">404</prop>
-        <prop key="/error/405">405</prop>
-        <prop key="/error/409">409</prop>
-        <prop key="/error/500">500</prop>
-      </props>
-    </property>
-  </bean>
 
 </beans>

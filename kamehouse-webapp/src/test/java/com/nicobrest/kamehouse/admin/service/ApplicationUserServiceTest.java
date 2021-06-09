@@ -5,9 +5,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.dao.ApplicationUserDao;
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
-import com.nicobrest.kamehouse.admin.model.dto.ApplicationUserDto;
-import com.nicobrest.kamehouse.admin.testutils.ApplicationUserTestUtils;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
+import com.nicobrest.kamehouse.commons.model.dto.ApplicationUserDto;
+import com.nicobrest.kamehouse.commons.testutils.ApplicationUserTestUtils;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
 
 import org.junit.Before;

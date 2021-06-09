@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.dao;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationRole;
-import com.nicobrest.kamehouse.admin.model.ApplicationUser;
+import com.nicobrest.kamehouse.commons.model.ApplicationRole;
+import com.nicobrest.kamehouse.commons.model.ApplicationUser;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;

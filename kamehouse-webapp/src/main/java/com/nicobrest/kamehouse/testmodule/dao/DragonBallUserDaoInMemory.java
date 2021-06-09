@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author nbrest
  */
+@Repository
 public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   private static Map<String, DragonBallUser> repository;
