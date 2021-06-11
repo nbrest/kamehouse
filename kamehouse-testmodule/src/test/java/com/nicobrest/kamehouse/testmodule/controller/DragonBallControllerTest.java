@@ -238,20 +238,6 @@ public class DragonBallControllerTest
     testUtils.assertEqualsAllAttributes(dragonBallUser, responseBody);
   }
 
-  /**
-   * Tests the endpoint /dragonball/model-and-view
-   * with the HTTP method GET. The service should respond with HTTP status 200 OK
-   * and a view defined in dragonball/modelAndView.jsp.
-   */
-  @Test
-  public void getModelAndViewTest() throws Exception {
-    MockHttpServletResponse response = doGet("/api/v1/dragonball/model-and-view");
-
-    verifyResponseStatus(response, HttpStatus.OK);
-    assertEquals("/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
-    verifyZeroInteractions(dragonBallUserServiceMock);
-  }
-
   /*
    * @Ignore("Disabled test example")
    *

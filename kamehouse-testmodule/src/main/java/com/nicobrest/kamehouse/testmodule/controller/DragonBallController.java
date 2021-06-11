@@ -128,18 +128,4 @@ public class DragonBallController extends AbstractCrudController {
     headers.add("Content-Type", "application/json;charset=UTF-8");
     return new ResponseEntity<>(dbUserJson, headers, HttpStatus.OK);
   }
-
-  /**
-   * Returns the ModelAndView object for the test endpoint.
-   */
-  @GetMapping(path = "/model-and-view")
-  public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
-      defaultValue = "Goku") String name) {
-    logger.trace("/dragonball/model-and-view?name=[name] (GET)");
-    String message = "dragonball ModelAndView!";
-    ModelAndView mv = new ModelAndView("/test-module/jsp/dragonball/model-and-view");
-    mv.addObject("message", message);
-    mv.addObject("name", name);
-    return mv;
-  }
 }
