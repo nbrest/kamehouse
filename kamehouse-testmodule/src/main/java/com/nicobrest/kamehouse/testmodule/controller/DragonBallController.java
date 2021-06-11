@@ -32,11 +32,11 @@ import java.util.List;
  * @author nbrest
  */
 @Controller
-@RequestMapping(value = "/api/v1/dragonball")
+@RequestMapping(value = "/api/v1/test-module/dragonball")
 public class DragonBallController extends AbstractCrudController {
 
-  private static final String DB_USERS = "/dragonball/users";
-  private static final String DB_USERS_ID = "/dragonball/users/";
+  private static final String DB_USERS = "/test-module/dragonball/users";
+  private static final String DB_USERS_ID = "/test-module/dragonball/users/";
   
   @Autowired
   private DragonBallUserService dragonBallUserService;
@@ -106,7 +106,7 @@ public class DragonBallController extends AbstractCrudController {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first dot
-    logger.trace("/dragonball/users/username/[username] (GET)");
+    logger.trace("/test-module/dragonball/users/username/[username] (GET)");
     DragonBallUser dbUser = dragonBallUserService.getByUsername(username);
     return generateGetResponseEntity(dbUser);
   }
@@ -119,7 +119,7 @@ public class DragonBallController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<String> getByEmail(@RequestParam(value = "email",
       required = true) String email) {
-    logger.trace("/dragonball/users/emails?email=[email] (GET)");
+    logger.trace("/test-module/dragonball/users/emails?email=[email] (GET)");
     DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
     String dbUserJson = JsonUtils.toJsonString(dbUser);
     // Leaving this one as is as a test instead of using
