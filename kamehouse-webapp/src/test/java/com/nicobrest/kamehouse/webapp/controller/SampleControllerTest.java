@@ -35,13 +35,13 @@ public class SampleControllerTest extends AbstractControllerTest {
   }
 
   /**
-   * Tests the endpoint /sample-controller/dragonball/model-and-view
+   * Tests the endpoint /dragonball/model-and-view
    * with the HTTP method GET. The service should respond with HTTP status 200 OK
    * and a view defined in dragonball/model-and-view.jsp.
    */
   @Test
   public void getModelAndViewTest() throws Exception {
-    MockHttpServletResponse response = doGet("/sample-controller/dragonball/model-and-view");
+    MockHttpServletResponse response = doGet("/ui/sample/dragonball/model-and-view");
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
