@@ -13,6 +13,8 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
+<script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-user-service-jsp.js"></script>
+<script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-users-list.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/test-module/jsp/app.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
@@ -22,10 +24,6 @@
   <div class="main-body">
   <div class="default-layout">
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">List of DragonBall Users</h3>
-    <!-- TODO: cant access the dragonBallUserService anymore since its in testmodule. I need to make
-     an api call to kamehouse-testmodule to get all the users -->
-    <c:set var="dragonBallUsers" scope="page"
-      value="${dragonBallUserService.readAll()}" />
     <%
       Enumeration<String> paramNames = request.getParameterNames();
 
@@ -49,7 +47,8 @@
             <th scope="row"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="dragonball-users-tbody">
+        <!--
           <c:forEach items="${dragonBallUsers}" var="dragonBallUser">
             <tr>
               <td>${dragonBallUser.getId()}</td>
@@ -67,6 +66,7 @@
                 </form></td>
             </tr>
           </c:forEach>
+          -->
         </tbody>
       </table>
     <input type="button" value="Add DragonBall User" class="btn btn-outline-info"
