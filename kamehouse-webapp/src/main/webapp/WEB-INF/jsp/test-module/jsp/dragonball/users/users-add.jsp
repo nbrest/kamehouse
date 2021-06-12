@@ -11,6 +11,8 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
+<script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-user-service-jsp.js"></script>
+<script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-users-add.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/test-module/jsp/app.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
@@ -22,12 +24,12 @@
     <div class="panel panel-default">
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Add DragonBall User</h3>
       <div class="formcontainer">
-        <form action="users-add-action" method="post" class="form-horizontal mi-form-horizontal">
+        <div id="form-add-user" class="form-horizontal mi-form-horizontal">
           <div class="row">
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="username">Username</label>
               <div class="col-md-7">
-                <input type="text" name="username" class="form-control input-sm" />
+                <input id="input-username" type="text" name="username" class="form-control input-sm" value="user" />
               </div>
             </div>
           </div>
@@ -36,7 +38,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="email">Email</label>
               <div class="col-md-7">
-                <input type="email" name="email" class="form-control input-sm" value="@dbz.com" />
+                <input id="input-email" type="email" name="email" class="form-control input-sm" value="user@dbz.com" />
               </div>
             </div>
           </div>
@@ -45,7 +47,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="age">Age</label>
               <div class="col-md-7">
-                <input type="text" name="age" class="form-control input-sm" value="1" />
+                <input id="input-age" type="text" name="age" class="form-control input-sm" value="1" />
               </div>
             </div>
           </div>
@@ -54,7 +56,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="powerLevel">Power Level</label>
               <div class="col-md-7">
-                <input type="text" name="powerLevel" class="form-control input-sm" value="1" />
+                <input id="input-powerLevel" type="text" name="powerLevel" class="form-control input-sm" value="1" />
               </div>
             </div>
           </div>
@@ -63,17 +65,18 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="stamina">Stamina</label>
               <div class="col-md-7">
-                <input type="text" name="stamina" class="form-control input-sm" value="1" />
+                <input id="input-stamina" type="text" name="stamina" class="form-control input-sm" value="1" />
               </div>
             </div>
           </div>
 
           <div class="row">
             <div class="dragonball-user-form-buttons">
-              <input type="submit" value="Submit" class="btn btn-outline-info btn-sm" />
+              <button class="btn btn-outline-info btn-sm" onclick="dragonBallUserServiceJsp.addDragonBallUser()">
+                Add</button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
     <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block"
