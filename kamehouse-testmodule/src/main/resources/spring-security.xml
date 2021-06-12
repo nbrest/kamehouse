@@ -10,13 +10,22 @@
     <!-- The order of intercept-urls matters. Order them from more specific to more
       general within the same url. Ej: /api/v1/admin/application/** before /api/v1/admin/** -->
 
-    <intercept-url pattern="/api/v1/dragonball/**" access="permitAll"
+    <intercept-url pattern="/api/v1/servlet/test-module/dragonball/**" access="permitAll"
                    method="GET" />
-    <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')"
+    <intercept-url pattern="/api/v1/servlet/test-module/dragonball/**" access="hasRole('ROLE_USER')"
                    method="POST" />
-    <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')"
+    <intercept-url pattern="/api/v1/servlet/test-module/dragonball/**" access="hasRole('ROLE_USER')"
                    method="PUT" />
-    <intercept-url pattern="/api/v1/dragonball/**" access="hasRole('ROLE_USER')"
+    <intercept-url pattern="/api/v1/servlet/test-module/dragonball/**" access="hasRole('ROLE_USER')"
+                   method="DELETE" />
+
+    <intercept-url pattern="/api/v1/test-module/dragonball/**" access="permitAll"
+                   method="GET" />
+    <intercept-url pattern="/api/v1/test-module/dragonball/**" access="hasRole('ROLE_USER')"
+                   method="POST" />
+    <intercept-url pattern="/api/v1/test-module/dragonball/**" access="hasRole('ROLE_USER')"
+                   method="PUT" />
+    <intercept-url pattern="/api/v1/test-module/dragonball/**" access="hasRole('ROLE_USER')"
                    method="DELETE" />
 
     <form-login login-page="/login" username-parameter="username"
