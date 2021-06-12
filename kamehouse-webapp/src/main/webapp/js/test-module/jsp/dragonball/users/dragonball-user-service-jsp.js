@@ -1,9 +1,9 @@
 /**
- * Functionality to manage the dragonball users.
+ * Functionality to manage the dragonball users in the UI through the jsps and servlet api.
  */
 function DragonBallUserServiceJsp() {
   let self = this;
-  var REST_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
+  var SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
 
   /**
    * Get a dragonball user and populate it to the edit table.
@@ -11,8 +11,12 @@ function DragonBallUserServiceJsp() {
   this.getDragonBallUser = (event) => {
     logger.traceFunctionCall();
     const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('username');
-    httpClient.get(REST_SERVICE_URI + "?username=" + username, null,
+    const params = new URLSearchParams({
+      username: urlParams.get('username')
+    });
+    let getUrl = SERVLET_SERVICE_URI + "?" + params;
+
+    httpClient.get(getUrl, null,
       (responseBody, responseCode, responseDescription) => self.displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription) => {
         alert("Error getting dragonball user");
@@ -25,7 +29,7 @@ function DragonBallUserServiceJsp() {
    */
   this.getAllDragonBallUsers = () => {
     logger.traceFunctionCall();
-    httpClient.get(REST_SERVICE_URI, null,
+    httpClient.get(SERVLET_SERVICE_URI, null,
       (responseBody, responseCode, responseDescription) => self.displayDragonBallUsers(responseBody),
       (responseBody, responseCode, responseDescription) => self.displayErrorGettingDragonBallUsers());
   }
@@ -35,27 +39,19 @@ function DragonBallUserServiceJsp() {
    */
   this.addDragonBallUser = () => {
     logger.traceFunctionCall();
-    let postUrl = REST_SERVICE_URI + "?";
-    let usernameValue = document.getElementById("input-username").value;
-    let usernameParam = "username=" + usernameValue  + "&";
-    postUrl = postUrl + usernameParam;
-    let emailValue = document.getElementById("input-email").value;
-    let emailParam = "email=" + emailValue + "&";
-    postUrl = postUrl + emailParam;
-    let ageValue = document.getElementById("input-age").value;
-    let ageParam = "age=" + ageValue + "&";
-    postUrl = postUrl + ageParam;
-    let powerLevelValue = document.getElementById("input-powerLevel").value;
-    let powerLevelParam = "powerLevel=" + powerLevelValue + "&";
-    postUrl = postUrl + powerLevelParam;
-    let staminaValue = document.getElementById("input-stamina").value;
-    let staminaParam = "stamina=" + staminaValue;
-    postUrl = postUrl + staminaParam;
+    const params = new URLSearchParams({
+      username: document.getElementById("input-username").value,
+      email: document.getElementById("input-email").value,
+      age: document.getElementById("input-age").value,
+      powerLevel: document.getElementById("input-powerLevel").value,
+      stamina: document.getElementById("input-stamina").value
+    });
+    let postUrl = SERVLET_SERVICE_URI + "?" + params;
 
     httpClient.post(postUrl, httpClient.getUrlEncodedHeaders(), null,
       (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
       (responseBody, responseCode, responseDescription) => {
-        alert("Error adding dragonball user");
+        alert("Error adding dragonball user. Check console logs for more details");
         logger.error("Error adding dragonball user " + responseBody + responseCode + responseDescription);
       });
   }
@@ -65,30 +61,20 @@ function DragonBallUserServiceJsp() {
    */
   this.updateDragonBallUser = () => {
     logger.traceFunctionCall();
-    let postUrl = REST_SERVICE_URI + "?";
-    let idValue = document.getElementById("input-id").value;
-    let idParam = "id=" + idValue + "&";
-    postUrl = postUrl + idParam;
-    let usernameValue = document.getElementById("input-username").value;
-    let usernameParam = "username=" + usernameValue  + "&";
-    postUrl = postUrl + usernameParam;
-    let emailValue = document.getElementById("input-email").value;
-    let emailParam = "email=" + emailValue + "&";
-    postUrl = postUrl + emailParam;
-    let ageValue = document.getElementById("input-age").value;
-    let ageParam = "age=" + ageValue + "&";
-    postUrl = postUrl + ageParam;
-    let powerLevelValue = document.getElementById("input-powerLevel").value;
-    let powerLevelParam = "powerLevel=" + powerLevelValue + "&";
-    postUrl = postUrl + powerLevelParam;
-    let staminaValue = document.getElementById("input-stamina").value;
-    let staminaParam = "stamina=" + staminaValue;
-    postUrl = postUrl + staminaParam;
+    const params = new URLSearchParams({
+      id: document.getElementById("input-id").value,
+      username: document.getElementById("input-username").value,
+      email: document.getElementById("input-email").value,
+      age: document.getElementById("input-age").value,
+      powerLevel: document.getElementById("input-powerLevel").value,
+      stamina: document.getElementById("input-stamina").value
+    });
+    let putUrl = SERVLET_SERVICE_URI + "?" + params;
 
-    httpClient.put(postUrl, httpClient.getUrlEncodedHeaders(), null,
+    httpClient.put(putUrl, httpClient.getUrlEncodedHeaders(), null,
       (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
       (responseBody, responseCode, responseDescription) => {
-        alert("Error updating dragonball user");
+        alert("Error updating dragonball user. Check console logs for more details");
         logger.error("Error updating dragonball user " + responseBody + responseCode + responseDescription);
       });
   }
@@ -98,8 +84,12 @@ function DragonBallUserServiceJsp() {
   */
   this.deleteDragonBallUser = (event) => {
     logger.traceFunctionCall();
-    let id = event.data.id;
-    httpClient.delete(REST_SERVICE_URI + "?id=" + id, httpClient.getUrlEncodedHeaders(),
+    const params = new URLSearchParams({
+      id: event.data.id
+    });
+    let deleteUrl = SERVLET_SERVICE_URI + "?" + params;
+
+    httpClient.delete(deleteUrl, httpClient.getUrlEncodedHeaders(),
       (responseBody, responseCode, responseDescription) => self.getAllDragonBallUsers(),
       (responseBody, responseCode, responseDescription) => self.getAllDragonBallUsers());
   }
@@ -118,7 +108,7 @@ function DragonBallUserServiceJsp() {
   }
 
   /**
-   * Display dragonball users.
+   * Display dragonball users table.
    */
   this.displayDragonBallUsers = (dragonBallUsersList) => {
     logger.traceFunctionCall();
@@ -148,20 +138,24 @@ function DragonBallUserServiceJsp() {
    * Display dragonball users.
    */
   this.displayErrorGettingDragonBallUsers = () => {
-    logger.traceFunctionCall();
-    let $dragonBallUsersTbody = $('#dragonball-users-tbody');
-    let tableRow = $('<tr>').append($('<td>').text("Error getting dragonball users from the backend"));
-    $dragonBallUsersTbody.append(tableRow);
+    self.displayErrorTable("Error getting dragonball users from the backend");
   }
 
   /**
    * Display dragonball users.
    */
   this.displayErrorDeletingDragonBallUser = () => {
+    self.displayErrorTable("Error deleting dragonball user from the backend");
+  }
+
+  /**
+   * Shows the specified error message in the table.
+   */
+  this.displayErrorTable = (message) => {
     logger.traceFunctionCall();
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
-    let tableRow = $('<tr>').append($('<td>').text("Error deleting dragonball user from the backend"));
+    let tableRow = $('<tr>').append($('<td>').text(message));
     $dragonBallUsersTbody.append(tableRow);
   }
 }
