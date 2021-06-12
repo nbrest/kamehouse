@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n</Pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>TRACE</level>
+    </filter>
+  </appender>
+
+  <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>logs/kameHouse.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <FileNamePattern>logs/kameHouse.%d{yyyy-MM-dd}.log</FileNamePattern>
+      <!-- keep 30 days' worth of history -->
+      <maxHistory>30</maxHistory>     
+    </rollingPolicy>
+    <encoder>
+      <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+    </encoder>      
+  </appender>
+
+<!--   <appender name="minuteRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!--     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+      <!-- rollover every minute -->
+<!--       <FileNamePattern>logs/kameHouse-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern> -->
+      <!-- keep 30 minutes' worth of history -->
+<!--       <maxHistory>30</maxHistory>      -->
+<!--     </rollingPolicy> -->
+<!--     <encoder> -->
+<!--       <Pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</Pattern> -->
+<!--     </encoder>       -->
+<!--   </appender> -->
+
+  <!--
+    ********* IMPORTANT: ********************************************************
+    Until I figure out how to get the log levels of the packages from this file,
+    whenever I modify the log levels here, also update them in
+    LogLevelManagerService static maps
+    *****************************************************************************
+  -->
+
+  <!-- kamehouse root packages -->
+  <root>
+    <level value="INFO" />
+    <appender-ref ref="consoleAppender" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+  </root>
+
+  <logger name="com.nicobrest.kamehouse" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <!-- <appender-ref ref="minuteRollingFileAppender"/> -->
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.commons" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.ui" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- kamehouse internal nested packages and classes -->
+  <logger name="com.nicobrest.kamehouse.admin.controller.LogLevelManagerController" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- spring packages -->
+  <logger name="org.springframework" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="org.springframework.security" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="org.springframework.web.socket.config.WebSocketMessageBrokerStats" additivity="false">
+    <level value="WARN" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- hibernate packages -->
+  <logger name="org.hibernate.hql.internal.QueryTranslatorFactoryInitiator" additivity="false">
+    <level value="WARN" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+</configuration>

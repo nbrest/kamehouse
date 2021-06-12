@@ -17,10 +17,12 @@
     <module>kamehouse-commons-core</module>
     <module>kamehouse-commons-test</module>
     <module>kamehouse-commons</module>
+    <module>kamehouse-admin</module>
     <module>kamehouse-media</module>
     <module>kamehouse-tennisworld</module>
     <module>kamehouse-testmodule</module>
-    <module>kamehouse-webapp</module>
+    <module>kamehouse-ui</module>
+    <module>kamehouse-vlcrc</module>
   </modules>
 
   <repositories>

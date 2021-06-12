@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.nicobrest</groupId>
+    <artifactId>kame-house-parent</artifactId>
+    <version>1.07.1-KAMEHOUSE-SNAPSHOT</version>
+  </parent>
+
+  <name>KameHouse - UI</name>
+  <groupId>com.nicobrest</groupId>
+  <artifactId>kame-house-ui</artifactId>
+  <version>${kamehouse.version}</version>
+  
+  <packaging>war</packaging>
+
+  <build>
+    <finalName>kame-house</finalName>
+  </build>
+
+  <!-- Profile definitions -->
+  <profiles>
+    <profile>
+      <!-- Default profile -->
+      <id>prod</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <filters>
+          <filter>src/main/filters/prod/hibernate.properties</filter>
+          <filter>src/main/filters/prod/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
+
+    <profile>
+      <id>qa</id>
+      <build>
+        <filters>
+          <filter>src/main/filters/qa/hibernate.properties</filter>
+          <filter>src/main/filters/qa/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
+
+    <profile>
+      <id>dev</id>
+      <build>
+        <filters>
+          <filter>src/main/filters/dev/hibernate.properties</filter>
+          <filter>src/main/filters/dev/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.nicobrest</groupId>
+      <artifactId>kame-house-commons-core</artifactId>
+      <version>${kamehouse.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.nicobrest</groupId>
+      <artifactId>kame-house-commons</artifactId>
+      <version>${kamehouse.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.nicobrest</groupId>
+      <artifactId>kame-house-commons-test</artifactId>
+      <version>${kamehouse.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
