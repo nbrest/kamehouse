@@ -149,7 +149,11 @@ function BannerUtils() {
   this.setRandomBanner = (bannerClasses) => {
     // Get a new banner, different from the current one
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
-    let currentClassList = $('#banner').attr('class').split(/\s+/);
+    let bannerDivClasses = $('#banner').attr('class');
+    if (isNullOrUndefined(bannerDivClasses)) {
+      return;
+    }
+    let currentClassList = bannerDivClasses.split(/\s+/);
     let currentBannerClass = "";
     currentClassList.forEach((currentClass) => {
       if (currentClass.startsWith("banner-")) {
