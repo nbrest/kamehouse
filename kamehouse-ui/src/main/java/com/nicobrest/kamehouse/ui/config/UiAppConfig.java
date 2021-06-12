@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
- * WebApp module bean configuration.
+ * UI module bean configuration.
  */
 @Configuration
-public class WebAppConfig {
+public class UiAppConfig {
 
   /**
    * View resolver for jsps.
