@@ -37,7 +37,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <kamehouse.version>1.07.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
-
+    <filters.dir>${basedir}/../src/main/filters</filters.dir>
+    
     <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
     <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
     <commons.lang.version>2.6</commons.lang.version>                    <!-- Updated 2016/02 -->

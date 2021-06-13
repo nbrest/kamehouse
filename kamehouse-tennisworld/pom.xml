@@ -30,8 +30,8 @@
       </activation>
       <build>
         <filters>
-          <filter>src/main/filters/prod/hibernate.properties</filter>
-          <filter>src/main/filters/prod/jdbc.properties</filter>
+          <filter>${filters.dir}/prod/hibernate.properties</filter>
+          <filter>${filters.dir}/prod/jdbc.properties</filter>
         </filters>
       </build>
     </profile>
@@ -40,8 +40,8 @@
       <id>qa</id>
       <build>
         <filters>
-          <filter>src/main/filters/qa/hibernate.properties</filter>
-          <filter>src/main/filters/qa/jdbc.properties</filter>
+          <filter>${filters.dir}/qa/hibernate.properties</filter>
+          <filter>${filters.dir}/qa/jdbc.properties</filter>
         </filters>
       </build>
     </profile>
@@ -50,8 +50,8 @@
       <id>dev</id>
       <build>
         <filters>
-          <filter>src/main/filters/dev/hibernate.properties</filter>
-          <filter>src/main/filters/dev/jdbc.properties</filter>
+          <filter>${filters.dir}/dev/hibernate.properties</filter>
+          <filter>${filters.dir}/dev/jdbc.properties</filter>
         </filters>
       </build>
     </profile>
