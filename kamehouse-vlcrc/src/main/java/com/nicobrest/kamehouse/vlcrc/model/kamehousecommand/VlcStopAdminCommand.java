@@ -1,6 +1,7 @@
-package com.nicobrest.kamehouse.admin.model.admincommand;
+package com.nicobrest.kamehouse.vlcrc.model.kamehousecommand;
 
-import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStopSystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.vlcrc.model.systemcommand.VlcStopSystemCommand;
 
 /**
  * AdminCommand to stop a vlc player.

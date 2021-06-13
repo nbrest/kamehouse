@@ -1,9 +1,10 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.vlcrc.controller;
 
-import com.nicobrest.kamehouse.admin.model.admincommand.VlcStartAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.VlcStatusAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.VlcStopAdminCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartAdminCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusAdminCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopAdminCommand;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/admin")
+@RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcController extends AbstractSystemCommandController {
 
   /**
@@ -33,7 +34,7 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>>
       startVlcPlayer(@RequestParam(value = "file", required = false) String file) {
-    logger.trace("/api/v1/admin/vlc?file=[file] (POST)");
+    logger.trace("/api/v1/vlc-rc/vlc?file=[file] (POST)");
     return execAdminCommand(new VlcStartAdminCommand(file));
   }
 
@@ -43,7 +44,7 @@ public class VlcController extends AbstractSystemCommandController {
   @DeleteMapping(path = "/vlc")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> stopVlcPlayer() {
-    logger.trace("/api/v1/admin/vlc (DELETE)");
+    logger.trace("/api/v1/vlc-rc/vlc (DELETE)");
     return execAdminCommand(new VlcStopAdminCommand());
   }
 
@@ -53,7 +54,7 @@ public class VlcController extends AbstractSystemCommandController {
   @GetMapping(path = "/vlc")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> statusVlcPlayer() {
-    logger.trace("/api/v1/admin/vlc (GET)");
+    logger.trace("/api/v1/vlc-rc/vlc (GET)");
     return execAdminCommand(new VlcStatusAdminCommand());
   }
 }

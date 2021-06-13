@@ -1,9 +1,9 @@
 package com.nicobrest.kamehouse.admin.model.admincommand;
 
 import com.nicobrest.kamehouse.admin.model.systemcommand.ScreenLockSystemCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoKeyPressSystemCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoTypeSystemCommand;
-import com.nicobrest.kamehouse.admin.utils.AdminPropertiesUtils;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 
@@ -30,7 +30,7 @@ public class ScreenUnlockAdminCommand extends AdminCommand {
    * Gets the unlock screen password.
    */
   private String getUnlockScreenPassword() {
-    String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + AdminPropertiesUtils
+    String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getProperty("unlock.screen.pwd.file");
     return FileUtils.getDecodedFileContent(unlockScreenPwdFile);
   }

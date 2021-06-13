@@ -2,12 +2,16 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
+import java.util.Properties;
 
 /**
  * Utility class to manage the application properties.
@@ -20,6 +24,20 @@ public class PropertiesUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
 
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
+
+  private static final Properties commonsProperties = new Properties();
+
+  static {
+    try {
+      Resource adminPropertiesResource = new ClassPathResource("/commons.properties");
+      Properties adminPropertiesFromFile = PropertiesLoaderUtils
+          .loadProperties(adminPropertiesResource);
+      commonsProperties.putAll(adminPropertiesFromFile);
+    } catch (IOException e) {
+      LOGGER.error("Error loading properties files.", e);
+    }
+  }
+
 
   private PropertiesUtils() {
     throw new IllegalStateException("Utility class");
@@ -62,5 +80,12 @@ public class PropertiesUtils {
         return "INVALID_HOSTNAME";
       }
     }
+  }
+
+  /**
+   * Gets the specified property from the commons application properties.
+   */
+  public static String getProperty(String propertyName) {
+    return commonsProperties.getProperty(propertyName);
   }
 }

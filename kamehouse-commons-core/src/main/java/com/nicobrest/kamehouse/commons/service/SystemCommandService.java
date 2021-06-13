@@ -1,9 +1,8 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.commons.service;
 
-import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

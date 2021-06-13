@@ -1,11 +1,8 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.commons.controller;
 
-import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand.Output;
-import com.nicobrest.kamehouse.admin.service.SystemCommandService;
-import com.nicobrest.kamehouse.commons.controller.AbstractController;
-
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
+import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,17 +25,17 @@ public class AbstractSystemCommandController extends AbstractController {
    * Executes the specified admin command and returns the sytem command ouputs
    * list.
    */
-  public ResponseEntity<List<SystemCommand.Output>> execAdminCommand(AdminCommand adminCommand) {
+  public ResponseEntity<List<Output>> execAdminCommand(AdminCommand adminCommand) {
     logger.trace("Executing admin command {}", adminCommand);
-    List<SystemCommand.Output> commandOutputs = systemCommandService.execute(adminCommand);
+    List<Output> commandOutputs = systemCommandService.execute(adminCommand);
     return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 
   /**
    * Generates a response entity for a list of SystemCommandOutputs.
    */
-  public static ResponseEntity<List<SystemCommand.Output>>
-      generateSystemCommandOutputsResponseEntity(List<SystemCommand.Output> commandOutputs) {
+  public static ResponseEntity<List<Output>>
+      generateSystemCommandOutputsResponseEntity(List<Output> commandOutputs) {
     HttpStatus httpStatus = HttpStatus.OK;
     for (Output commandOutput : commandOutputs) {
       if (commandOutput.getExitCode() > 0) {

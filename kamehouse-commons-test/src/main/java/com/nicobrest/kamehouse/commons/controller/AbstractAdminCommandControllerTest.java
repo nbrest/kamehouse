@@ -1,15 +1,14 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.commons.controller;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
- 
-import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.admin.service.SystemCommandService;
-import com.nicobrest.kamehouse.admin.testutils.SystemCommandOutputTestUtils;
-import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
+
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.service.SystemCommandService;
+import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.mockito.Mock;
@@ -35,6 +34,10 @@ public abstract class AbstractAdminCommandControllerTest extends
 
   @Mock
   protected SystemCommandService systemCommandService;
+
+  public AbstractAdminCommandControllerTest() {
+    adminCommandControllerTestSetup();
+  }
 
   /**
    * Setup test data and mocks for AdminCommand controller tests.
@@ -84,7 +87,7 @@ public abstract class AbstractAdminCommandControllerTest extends
    */
   protected void execPostInvalidAdminCommandTest(String url) throws Exception {
     thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
+    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(
         KameHouseInvalidCommandException.class));
 
     doPost(url);

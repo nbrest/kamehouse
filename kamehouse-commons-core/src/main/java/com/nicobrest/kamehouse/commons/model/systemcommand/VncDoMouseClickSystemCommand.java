@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.admin.model.systemcommand;
+package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 

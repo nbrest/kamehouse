@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.admincommand;
 
-import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoMouseClickSystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystemCommand;
 
 /**
  * AdminCommand to wake up the screen.

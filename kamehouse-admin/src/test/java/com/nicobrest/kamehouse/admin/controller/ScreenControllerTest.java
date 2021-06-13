@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.admin.model.admincommand.ScreenLockAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenUnlockAdminCommand;
 import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
 
+import com.nicobrest.kamehouse.commons.controller.AbstractAdminCommandControllerTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

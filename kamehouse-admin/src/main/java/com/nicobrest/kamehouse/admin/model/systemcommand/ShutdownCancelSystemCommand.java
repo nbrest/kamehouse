@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+
 import java.util.Arrays;
 
 /**

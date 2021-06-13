@@ -1,6 +1,7 @@
-package com.nicobrest.kamehouse.admin.model.admincommand;
+package com.nicobrest.kamehouse.vlcrc.model.kamehousecommand;
 
-import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStatusSystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.vlcrc.model.systemcommand.VlcStatusSystemCommand;
 
 /**
  * AdminCommand to get the status of vlc player.

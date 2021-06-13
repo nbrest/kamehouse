@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
+import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;

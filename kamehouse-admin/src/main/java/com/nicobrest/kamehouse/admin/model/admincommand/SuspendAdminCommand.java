@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.admincommand;
 
 import com.nicobrest.kamehouse.admin.model.systemcommand.SuspendSystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
 
 /**
  * AdminCommand to suspend the server.

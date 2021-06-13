@@ -1,6 +1,6 @@
-package com.nicobrest.kamehouse.admin.model.admincommand;
+package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
 import java.util.ArrayList;

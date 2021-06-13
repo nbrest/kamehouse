@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.admin.model.systemcommand;
+package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 /**
  * System command to press type content in the server screen using VncDo.

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.admincommand;
 
 import com.nicobrest.kamehouse.admin.model.systemcommand.ShutdownStatusSystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
 
 /**
  * AdminCommand to get the status of a scheduled shutdown of the server.

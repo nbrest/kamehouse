@@ -1,13 +1,13 @@
-package com.nicobrest.kamehouse.admin.testutils;
+package com.nicobrest.kamehouse.commons.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
-import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +21,7 @@ import java.util.List;
  * @author nbrest
  *
  */
-public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemCommand.Output, Object>
-    implements TestUtils<SystemCommand.Output, Object> {
+public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemCommand.Output, Object> {
 
   @Override
   public void initTestData() {
@@ -33,13 +32,15 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   @Override
   public void assertEqualsAllAttributes(SystemCommand.Output expectedEntity,
       SystemCommand.Output returnedEntity) {
-    assertEquals(expectedEntity, returnedEntity);
-    assertEquals(expectedEntity.getCommand(), returnedEntity.getCommand());
-    assertEquals(expectedEntity.getExitCode(), returnedEntity.getExitCode());
-    assertEquals(expectedEntity.getPid(), returnedEntity.getPid());
-    assertEquals(expectedEntity.getStatus(), returnedEntity.getStatus());
-    assertThat(returnedEntity.getStandardOutput(), is(expectedEntity.getStandardOutput()));
-    assertThat(returnedEntity.getStandardError(), is(expectedEntity.getStandardError()));
+    Assert.assertEquals(expectedEntity, returnedEntity);
+    Assert.assertEquals(expectedEntity.getCommand(), returnedEntity.getCommand());
+    Assert.assertEquals(expectedEntity.getExitCode(), returnedEntity.getExitCode());
+    Assert.assertEquals(expectedEntity.getPid(), returnedEntity.getPid());
+    Assert.assertEquals(expectedEntity.getStatus(), returnedEntity.getStatus());
+    assertThat(returnedEntity.getStandardOutput(),
+        CoreMatchers.is(expectedEntity.getStandardOutput()));
+    assertThat(returnedEntity.getStandardError(),
+        CoreMatchers.is(expectedEntity.getStandardError()));
   }
 
   /**
@@ -80,9 +81,9 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   public void assertSystemCommandOutputFields(int expectedExitCode, int expectedPid,
       String expectedStatus, List<String> expectedStandardOutput,
       List<String> expectedStandardError, SystemCommand.Output returnedSystemCommandOutput) {
-    assertEquals(expectedExitCode, returnedSystemCommandOutput.getExitCode());
-    assertEquals(expectedPid, returnedSystemCommandOutput.getPid());
-    assertEquals(expectedStatus, returnedSystemCommandOutput.getStatus());
+    Assert.assertEquals(expectedExitCode, returnedSystemCommandOutput.getExitCode());
+    Assert.assertEquals(expectedPid, returnedSystemCommandOutput.getPid());
+    Assert.assertEquals(expectedStatus, returnedSystemCommandOutput.getStatus());
     assertThat(returnedSystemCommandOutput.getStandardOutput(), is(expectedStandardOutput));
     assertThat(returnedSystemCommandOutput.getStandardError(), is(expectedStandardError));
   }

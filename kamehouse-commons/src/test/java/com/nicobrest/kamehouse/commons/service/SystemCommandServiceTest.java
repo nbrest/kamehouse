@@ -1,17 +1,13 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.commons.service;
 
 import static org.powermock.api.mockito.PowerMockito.when;
-
-import com.nicobrest.kamehouse.admin.model.admincommand.AdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStartSystemCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.VlcStatusSystemCommand;
-import com.nicobrest.kamehouse.admin.model.systemcommand.VncDoKeyPressSystemCommand;
-import com.nicobrest.kamehouse.admin.testutils.SystemCommandOutputTestUtils;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystemCommand;
+import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -63,7 +59,7 @@ public class SystemCommandServiceTest {
   @Test
   public void execAdminCommandTest() throws Exception {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
-    AdminCommand adminCommand = new ScreenWakeUpAdminCommand();
+    AdminCommand adminCommand = new TestAdminCommand();
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(adminCommand);
 
@@ -83,7 +79,7 @@ public class SystemCommandServiceTest {
   public void execLinuxCommandTest() throws Exception {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), ""); 
-    List<SystemCommand> systemCommands = Arrays.asList(new VlcStatusSystemCommand());
+    List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
@@ -115,7 +111,7 @@ public class SystemCommandServiceTest {
   @Test
   public void execDaemonTest() throws Exception {
     setupProcessStreamMocks("", "");
-    SystemCommand systemCommand = new VlcStartSystemCommand(null);
+    SystemCommand systemCommand = new TestDaemonCommand("9");
 
     SystemCommand.Output returnedCommandOutput = systemCommandService.execute(systemCommand);
 
@@ -131,7 +127,7 @@ public class SystemCommandServiceTest {
     when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
     List<String> errorStream = Arrays.asList("An error occurred executing the command. Message: " +
         "null");
-    List<SystemCommand> systemCommands = Arrays.asList(new VlcStatusSystemCommand());
+    List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
@@ -148,5 +144,35 @@ public class SystemCommandServiceTest {
     InputStream processErrorStream = new ByteArrayInputStream(errorStreamContent.getBytes());
     when(ProcessUtils.getInputStream(Mockito.any())).thenReturn(processInputStream);
     when(ProcessUtils.getErrorStream(Mockito.any())).thenReturn(processErrorStream);
+  }
+
+  /**
+   * TestAdminCommand to test the SystemCommandService.
+   *
+   */
+  public static class TestAdminCommand extends AdminCommand {
+
+    /**
+     * TestAdminCommand to test the SystemCommandService.
+     */
+    public TestAdminCommand() {
+      systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));
+      systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "500"));
+      systemCommands.add(new VncDoMouseClickSystemCommand("1", "500", "500"));
+    }
+  }
+
+  /**
+   * Test Daemon command to test the SystemCommandService.
+   */
+  public static class TestDaemonCommand extends VncDoKeyPressSystemCommand {
+
+    /**
+     * Test Daemon command.
+     */
+    public TestDaemonCommand(String key) {
+      super(key);
+      isDaemon = true;
+    }
   }
 }

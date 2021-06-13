@@ -217,7 +217,7 @@ function VlcPlayer(hostname) {
  */
 function VlcPlayerCommandExecutor(vlcPlayer) {
   let self = this;
-  const adminVlcUrl = '/kame-house-admin/api/v1/admin/vlc';
+  const vlcPlayerProcessControlUrl = '/kame-house-vlcrc/api/v1/vlc-rc/vlc';
   this.vlcPlayer = vlcPlayer;
   this.vlcRcCommandUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/commands';
 
@@ -244,13 +244,13 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
     logger.debug("File to play: " + fileName);
     let requestParam = "file=" + fileName;
     loadingWheelModal.open();
-    self.vlcPlayer.getRestClient().postUrlEncoded(adminVlcUrl, requestParam);
+    self.vlcPlayer.getRestClient().postUrlEncoded(vlcPlayerProcessControlUrl, requestParam);
   }
 
   /** Close vlc player. */
   this.close = function close() {
     logger.debugFunctionCall();
-    self.vlcPlayer.getRestClient().delete(adminVlcUrl, null);
+    self.vlcPlayer.getRestClient().delete(vlcPlayerProcessControlUrl, null);
   }
 }
 
