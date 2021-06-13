@@ -1,9 +1,8 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.ui.controller;
 
-import com.nicobrest.kamehouse.admin.model.SessionStatus;
-import com.nicobrest.kamehouse.admin.service.SessionStatusService;
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
-
+import com.nicobrest.kamehouse.ui.model.SessionStatus;
+import com.nicobrest.kamehouse.ui.service.SessionStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/session")
+@RequestMapping(value = "/api/v1/ui/session")
 public class SessionStatusController extends AbstractController {
 
   @Autowired

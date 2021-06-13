@@ -1,7 +1,6 @@
-package com.nicobrest.kamehouse.admin.model;
+package com.nicobrest.kamehouse.ui.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 

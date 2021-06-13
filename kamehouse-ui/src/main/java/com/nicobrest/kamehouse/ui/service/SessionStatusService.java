@@ -1,9 +1,10 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.ui.service;
 
-import com.nicobrest.kamehouse.admin.model.SessionStatus;
 import com.nicobrest.kamehouse.commons.model.ApplicationUser;
-
+import com.nicobrest.kamehouse.commons.service.ApplicationUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.ui.model.SessionStatus;
+
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +28,15 @@ public class SessionStatusService {
   private final Logger logger = LoggerFactory.getLogger(getClass());
   
   @Autowired
-  private ApplicationUserService applicationUserService;
+  private ApplicationUserAuthenticationService applicationUserAuthenticationService;
   
-  public void setApplicationUserService(ApplicationUserService applicationUserService) {
-    this.applicationUserService = applicationUserService;
+  public void setApplicationUserAuthenticationService(ApplicationUserAuthenticationService
+                                            applicationUserAuthenticationService) {
+    this.applicationUserAuthenticationService = applicationUserAuthenticationService;
   }
   
-  public ApplicationUserService getApplicationUserService() {
-    return applicationUserService;
+  public ApplicationUserAuthenticationService getApplicationUserAuthenticationService() {
+    return applicationUserAuthenticationService;
   }
   
   /**
@@ -48,7 +50,8 @@ public class SessionStatusService {
     sessionStatus.setUsername(StringEscapeUtils.escapeHtml(username));
     sessionStatus.setServer(PropertiesUtils.getHostname());
     try {
-      ApplicationUser applicationUser = applicationUserService.loadUserByUsername(username);
+      ApplicationUser applicationUser =
+          applicationUserAuthenticationService.loadUserByUsername(username);
       sessionStatus.setFirstName(applicationUser.getFirstName());
       sessionStatus.setLastName(applicationUser.getLastName()); 
     } catch (UsernameNotFoundException e) {

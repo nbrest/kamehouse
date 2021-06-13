@@ -27,7 +27,7 @@ function renderHeaderAndFooter() {
  * Get session status and update the header and footer status. 
  */
 function loadSessionStatus() {
-  let SESSION_STATUS_URL = "/kame-house-admin/api/v1/session/status";
+  let SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
   httpClient.get(SESSION_STATUS_URL, null,
     (responseBody, responseCode, responseDescription) => {

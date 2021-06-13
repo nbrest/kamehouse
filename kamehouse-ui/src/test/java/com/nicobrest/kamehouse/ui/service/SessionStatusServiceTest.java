@@ -1,11 +1,10 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.ui.service;
 
 import static org.mockito.Mockito.when;
-
-import com.nicobrest.kamehouse.admin.model.SessionStatus;
-import com.nicobrest.kamehouse.admin.testutils.SessionStatusTestUtils;
 import com.nicobrest.kamehouse.commons.model.ApplicationUser;
-
+import com.nicobrest.kamehouse.commons.service.ApplicationUserAuthenticationService;
+import com.nicobrest.kamehouse.ui.model.SessionStatus;
+import com.nicobrest.kamehouse.ui.testutils.SessionStatusTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +40,7 @@ public class SessionStatusServiceTest {
   private SessionStatusService sessionStatusService;
 
   @Mock
-  private ApplicationUserService applicationUserServiceMock;
+  private ApplicationUserAuthenticationService applicationUserAuthenticationService;
 
   @Before
   public void init() {
@@ -49,7 +48,7 @@ public class SessionStatusServiceTest {
     sessionStatus = testUtils.getSingleTestData();
 
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(applicationUserServiceMock);
+    Mockito.reset(applicationUserAuthenticationService);
   }
 
   /**
@@ -61,9 +60,10 @@ public class SessionStatusServiceTest {
         new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
     authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
-    PowerMockito.when(sessionStatusServiceSpy, "getAuthentication").thenReturn(authentication);
+    PowerMockito.when(sessionStatusServiceSpy, "getAuthentication")
+        .thenReturn(authentication);
     ApplicationUser applicationUserMock = new ApplicationUser();
-    when(applicationUserServiceMock.loadUserByUsername("anonymousUser"))
+    when(applicationUserAuthenticationService.loadUserByUsername("anonymousUser"))
         .thenReturn(applicationUserMock);
 
     SessionStatus returnedSessionStatus = sessionStatusServiceSpy.get(null);

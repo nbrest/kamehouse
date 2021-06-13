@@ -1,16 +1,14 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.ui.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-
-import com.nicobrest.kamehouse.admin.model.SessionStatus;
-import com.nicobrest.kamehouse.admin.service.SessionStatusService;
-import com.nicobrest.kamehouse.admin.testutils.SessionStatusTestUtils;
+import static org.powermock.api.mockito.PowerMockito.verifyNoMoreInteractions;
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
-
+import com.nicobrest.kamehouse.ui.model.SessionStatus;
+import com.nicobrest.kamehouse.ui.service.SessionStatusService;
+import com.nicobrest.kamehouse.ui.testutils.SessionStatusTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,7 +70,7 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
   public void getSessionStatusTest() throws Exception { 
     when(sessionStatusServiceMock.get(any())).thenReturn(sessionStatus);
 
-    MockHttpServletResponse response = doGet("/api/v1/session/status");
+    MockHttpServletResponse response = doGet("/api/v1/ui/session/status");
     SessionStatus responseBody = getResponseBody(response, SessionStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
