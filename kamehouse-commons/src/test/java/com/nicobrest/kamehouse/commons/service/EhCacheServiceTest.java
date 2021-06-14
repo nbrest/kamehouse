@@ -1,9 +1,10 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.commons.service;
 
 import static org.junit.Assert.assertEquals;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.model.ApplicationCache;
 
+import com.nicobrest.kamehouse.commons.service.EhCacheService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

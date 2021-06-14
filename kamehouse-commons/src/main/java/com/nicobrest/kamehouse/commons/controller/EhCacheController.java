@@ -1,8 +1,7 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.commons.controller;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationCache;
-import com.nicobrest.kamehouse.admin.service.EhCacheService;
-import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.service.EhCacheService;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/admin/ehcache")
+@RequestMapping(value = "/api/v1/commons/ehcache")
 public class EhCacheController extends AbstractController {
 
   @Autowired

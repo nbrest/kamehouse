@@ -1,10 +1,10 @@
-package com.nicobrest.kamehouse.admin.testutils;
+package com.nicobrest.kamehouse.commons.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.model.ApplicationCache;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 

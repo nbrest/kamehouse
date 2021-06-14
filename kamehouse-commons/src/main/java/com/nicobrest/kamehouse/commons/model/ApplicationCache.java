@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.admin.model;
+package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 

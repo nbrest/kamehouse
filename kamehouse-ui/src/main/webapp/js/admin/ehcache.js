@@ -1,5 +1,5 @@
 /**
- * Admin EhCache main function.
+ * EhCache main function.
  * 
  * Dependencies: timeUtils, logger, httpClient.
  * 
@@ -24,7 +24,7 @@ function importEhcacheCss() {
 
 function EhCacheManager() {
   let self = this;
-  let EHCACHE_REST_API = '/kame-house-admin/api/v1/admin/ehcache';
+  let EHCACHE_REST_API = '/kame-house-media/api/v1/commons/ehcache';
   this.ehcacheToggleTableRowIds = [];
 
   /**

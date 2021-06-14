@@ -1,8 +1,8 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.commons.service;
 
 import static com.nicobrest.kamehouse.commons.utils.StringUtils.sanitizeInput;
 
-import com.nicobrest.kamehouse.admin.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.model.ApplicationCache;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
