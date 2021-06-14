@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.admincommand.ScreenLockAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ScreenUnlockAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
 
-import com.nicobrest.kamehouse.commons.controller.AbstractAdminCommandControllerTest;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,14 +23,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
+public class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
   @InjectMocks
   private ScreenController screenController;
 
   @Before
   public void beforeTest() {
-    adminCommandControllerTestSetup();
+    kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(screenController).build();
   }
 
@@ -39,7 +39,7 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void lockScreenSuccessfulTest() throws Exception {
-    execPostAdminCommandTest("/api/v1/admin/screen/lock", ScreenLockAdminCommand.class);
+    execPostKameHouseSystemCommandTest("/api/v1/admin/screen/lock", ScreenLockKameHouseSystemCommand.class);
   }
 
   /**
@@ -47,7 +47,7 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void unlockScreenSuccessfulTest() throws Exception {
-    execPostAdminCommandTest("/api/v1/admin/screen/unlock", ScreenUnlockAdminCommand.class);
+    execPostKameHouseSystemCommandTest("/api/v1/admin/screen/unlock", ScreenUnlockKameHouseSystemCommand.class);
   }
 
   /**
@@ -55,6 +55,6 @@ public class ScreenControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void wakeUpScreenSuccessfulTest() throws Exception {
-    execPostAdminCommandTest("/api/v1/admin/screen/wake-up", ScreenWakeUpAdminCommand.class);
+    execPostKameHouseSystemCommandTest("/api/v1/admin/screen/wake-up", ScreenWakeUpKameHouseSystemCommand.class);
   }
 }

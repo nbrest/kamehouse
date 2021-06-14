@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.service;
 
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import org.apache.commons.lang.StringUtils;
@@ -34,10 +34,10 @@ public class SystemCommandService {
       "Error occurred while executing the process.";
 
   /**
-   * Executes an AdminCommand. Translates it to system commands and executes them.
+   * Executes an KameHouseSystemCommand. Translates it to system commands and executes them.
    */
-  public List<SystemCommand.Output> execute(AdminCommand adminCommand) {
-    return execute(adminCommand.getSystemCommands());
+  public List<SystemCommand.Output> execute(KameHouseSystemCommand kameHouseSystemCommand) {
+    return execute(kameHouseSystemCommand.getSystemCommands());
   }
 
   /**

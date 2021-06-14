@@ -1,9 +1,9 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import com.nicobrest.kamehouse.commons.controller.AbstractAdminCommandControllerTest;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartAdminCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusAdminCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopAdminCommand;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseSystemCommand;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,14 +24,14 @@ import java.io.IOException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class VlcControllerTest extends AbstractAdminCommandControllerTest {
+public class VlcControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
   @InjectMocks
   private VlcController adminVlcController;
 
   @Before
   public void beforeTest() {
-    adminCommandControllerTestSetup();
+    kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(adminVlcController).build();
   }
 
@@ -40,8 +40,9 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void startVlcPlayerTest() throws Exception {
-    execPostAdminCommandTest("/api/v1/vlc-rc/vlc?file=src/test/resources/vlcrc/playlists/"
-        + "marvel.m3u", VlcStartAdminCommand.class);
+    execPostKameHouseSystemCommandTest(
+        "/api/v1/vlc-rc/vlc?file=src/test/resources/vlcrc/playlists/marvel.m3u",
+        VlcStartKameHouseSystemCommand.class);
   }
 
   /**
@@ -49,7 +50,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void startVlcExceptionTest() throws IOException, Exception {
-    execPostInvalidAdminCommandTest("/api/v1/vlc-rc/vlc?file=invalid-file");
+    execPostInvalidKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc?file=invalid-file");
   }
 
   /**
@@ -57,7 +58,7 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void stopVlcPlayerTest() throws Exception {
-    execDeleteAdminCommandTest("/api/v1/vlc-rc/vlc", VlcStopAdminCommand.class);
+    execDeleteKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc", VlcStopKameHouseSystemCommand.class);
   }
 
   /**
@@ -65,7 +66,8 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void stopVlcPlayerServerErrorTest() throws Exception {
-    execDeleteServerErrorAdminCommandTest("/api/v1/vlc-rc/vlc", VlcStopAdminCommand.class);
+    execDeleteServerErrorKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc",
+        VlcStopKameHouseSystemCommand.class);
   }
 
   /**
@@ -73,6 +75,6 @@ public class VlcControllerTest extends AbstractAdminCommandControllerTest {
    */
   @Test
   public void statusVlcPlayerTest() throws Exception {
-    execGetAdminCommandTest("/api/v1/vlc-rc/vlc", VlcStatusAdminCommand.class);
+    execGetKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc", VlcStatusKameHouseSystemCommand.class);
   }
 }

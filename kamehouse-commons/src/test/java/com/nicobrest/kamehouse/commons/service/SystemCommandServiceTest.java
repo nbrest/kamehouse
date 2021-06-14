@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.commons.service;
 
 import static org.powermock.api.mockito.PowerMockito.when;
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystemCommand;
@@ -57,13 +57,13 @@ public class SystemCommandServiceTest {
    * Executes process successful test.
    */
   @Test
-  public void execAdminCommandTest() throws Exception {
+  public void execKameHouseSystemCommandTest() throws Exception {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
-    AdminCommand adminCommand = new TestAdminCommand();
+    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
 
-    List<SystemCommand.Output> returnedList = systemCommandService.execute(adminCommand);
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
 
-    testUtils.assertCommandExecutedMatch(adminCommand, returnedList);
+    testUtils.assertCommandExecutedMatch(kameHouseSystemCommand, returnedList);
     testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST,
         returnedList.get(0));
     testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST,
@@ -147,15 +147,15 @@ public class SystemCommandServiceTest {
   }
 
   /**
-   * TestAdminCommand to test the SystemCommandService.
+   * Test KameHouseSystemCommand to test the SystemCommandService.
    *
    */
-  public static class TestAdminCommand extends AdminCommand {
+  public static class TestKameHouseSystemCommand extends KameHouseSystemCommand {
 
     /**
-     * TestAdminCommand to test the SystemCommandService.
+     * Test KameHouseSystemCommand to test the SystemCommandService.
      */
-    public TestAdminCommand() {
+    public TestKameHouseSystemCommand() {
       systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));
       systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "500"));
       systemCommands.add(new VncDoMouseClickSystemCommand("1", "500", "500"));

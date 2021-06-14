@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.scheduler.job;
 
-import com.nicobrest.kamehouse.admin.model.admincommand.SuspendAdminCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.SuspendKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -23,6 +23,6 @@ public class SuspendJob implements Job {
 
   public void execute(JobExecutionContext context) {
     logger.debug("Suspending the system now");
-    systemCommandService.execute(new SuspendAdminCommand());
+    systemCommandService.execute(new SuspendKameHouseSystemCommand());
   }
 }

@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.scheduler.job;
 
-import com.nicobrest.kamehouse.admin.model.admincommand.ShutdownAdminCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ShutdownKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -23,6 +23,6 @@ public class ShutdownJob implements Job {
 
   public void execute(JobExecutionContext context) {
     logger.debug("Shutting down the system now");
-    systemCommandService.execute(new ShutdownAdminCommand(0));
+    systemCommandService.execute(new ShutdownKameHouseSystemCommand(0));
   }
 }

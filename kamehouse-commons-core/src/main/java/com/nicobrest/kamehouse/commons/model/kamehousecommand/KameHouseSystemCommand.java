@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Base class for Admin Commands in the application. Admin commands are
+ * Base class for KameHouse System Commands in the application. KameHouse system commands are
  * translated to one or more System Commands specific to the operating system
  * running the application to be executed through the command line. These System
  * Commands together, executed one after the other, achieve the goal of the
- * Admin Command.
+ * KameHouseSystemCommand.
  * 
  * @author nbrest
  *
  */
-public abstract class AdminCommand {
+public abstract class KameHouseSystemCommand {
 
   protected List<SystemCommand> systemCommands = new ArrayList<>();
 

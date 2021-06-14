@@ -1,24 +1,24 @@
-package com.nicobrest.kamehouse.admin.model.admincommand;
+package com.nicobrest.kamehouse.admin.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.admin.model.systemcommand.ScreenLockSystemCommand;
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 
 /**
- * AdminCommand to unlock the screen.
+ * KameHouseSystemCommand to unlock the screen.
  * 
  * @author nbrest
  *
  */
-public class ScreenUnlockAdminCommand extends AdminCommand {
+public class ScreenUnlockKameHouseSystemCommand extends KameHouseSystemCommand {
 
   /**
-   * Sets the required SystemCommands to achieve this AdminCommand.
+   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
    */
-  public ScreenUnlockAdminCommand() {
+  public ScreenUnlockKameHouseSystemCommand() {
     String decodedPassword = getUnlockScreenPassword();
     systemCommands.add(new ScreenLockSystemCommand());
     systemCommands.add(new VncDoKeyPressSystemCommand("esc"));

@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
@@ -45,11 +45,12 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
 
   /**
    * Checks that the commands in the SystemCommandOutput list match the executed
-   * AdminCommand.
+   * KameHouseSystemCommand.
    */
-  public void assertCommandExecutedMatch(AdminCommand adminCommand,
-      List<SystemCommand.Output> returnedSystemCommandOutputs) {
-    assertCommandExecutedMatch(adminCommand.getSystemCommands(), returnedSystemCommandOutputs);
+  public void assertCommandExecutedMatch(KameHouseSystemCommand kameHouseSystemCommand,
+                                         List<SystemCommand.Output> returnedSystemCommandOutputs) {
+    assertCommandExecutedMatch(kameHouseSystemCommand.getSystemCommands(),
+        returnedSystemCommandOutputs);
   }
 
   /**

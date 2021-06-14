@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.AdminCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,10 @@ public class AbstractSystemCommandController extends AbstractController {
    * Executes the specified admin command and returns the sytem command ouputs
    * list.
    */
-  public ResponseEntity<List<Output>> execAdminCommand(AdminCommand adminCommand) {
-    logger.trace("Executing admin command {}", adminCommand);
-    List<Output> commandOutputs = systemCommandService.execute(adminCommand);
+  public ResponseEntity<List<Output>> execKameHouseSystemCommand(KameHouseSystemCommand
+                                                           kameHouseSystemCommand) {
+    logger.trace("Executing admin command {}", kameHouseSystemCommand);
+    List<Output> commandOutputs = systemCommandService.execute(kameHouseSystemCommand);
     return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 

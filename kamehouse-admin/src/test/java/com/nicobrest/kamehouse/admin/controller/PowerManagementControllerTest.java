@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
-import com.nicobrest.kamehouse.commons.controller.AbstractAdminCommandControllerTest;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
@@ -37,7 +37,7 @@ import org.springframework.web.util.NestedServletException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class PowerManagementControllerTest extends AbstractAdminCommandControllerTest {
+public class PowerManagementControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
   @InjectMocks
   private PowerManagementController adminPowerManagementController;
@@ -47,7 +47,7 @@ public class PowerManagementControllerTest extends AbstractAdminCommandControlle
 
   @Before
   public void beforeTest() {
-    adminCommandControllerTestSetup();
+    kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(adminPowerManagementController).build();
   }
 

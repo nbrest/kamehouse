@@ -2,9 +2,9 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartAdminCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusAdminCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopAdminCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseSystemCommand;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class VlcController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommand.Output>>
       startVlcPlayer(@RequestParam(value = "file", required = false) String file) {
     logger.trace("/api/v1/vlc-rc/vlc?file=[file] (POST)");
-    return execAdminCommand(new VlcStartAdminCommand(file));
+    return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(file));
   }
 
   /**
@@ -45,7 +45,7 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> stopVlcPlayer() {
     logger.trace("/api/v1/vlc-rc/vlc (DELETE)");
-    return execAdminCommand(new VlcStopAdminCommand());
+    return execKameHouseSystemCommand(new VlcStopKameHouseSystemCommand());
   }
 
   /**
@@ -55,6 +55,6 @@ public class VlcController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> statusVlcPlayer() {
     logger.trace("/api/v1/vlc-rc/vlc (GET)");
-    return execAdminCommand(new VlcStatusAdminCommand());
+    return execKameHouseSystemCommand(new VlcStatusKameHouseSystemCommand());
   }
 }

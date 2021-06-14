@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.admin.controller;
  
-import com.nicobrest.kamehouse.admin.model.admincommand.ScreenLockAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ScreenUnlockAdminCommand;
-import com.nicobrest.kamehouse.admin.model.admincommand.ScreenWakeUpAdminCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 
@@ -31,7 +31,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> lockScreen() {
     logger.trace("/api/v1/admin/screen/lock (POST)");
-    return execAdminCommand(new ScreenLockAdminCommand());
+    return execKameHouseSystemCommand(new ScreenLockKameHouseSystemCommand());
   }
 
   /**
@@ -41,7 +41,7 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> unlockScreen() {
     logger.trace("/api/v1/admin/screen/unlock (POST)");
-    return execAdminCommand(new ScreenUnlockAdminCommand());
+    return execKameHouseSystemCommand(new ScreenUnlockKameHouseSystemCommand());
   }
 
   /**
@@ -52,6 +52,6 @@ public class ScreenController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> wakeUpScreen() {
     logger.trace("/api/v1/admin/screen/wake-up (POST)");
-    return execAdminCommand(new ScreenWakeUpAdminCommand());
+    return execKameHouseSystemCommand(new ScreenWakeUpKameHouseSystemCommand());
   }
 }
