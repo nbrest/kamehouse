@@ -45,7 +45,6 @@
 		<url-pattern>/js/*</url-pattern>
 		<url-pattern>/img/*</url-pattern>
 		<url-pattern>/lib/*</url-pattern>
-		<url-pattern>/view/*</url-pattern>
 	</servlet-mapping>
 	<!-- Listing each static html page here is not scalable. Figure out how 
 		to do this with wildcards, making sure I don't break any page. Using <url-pattern>*.html</url-pattern> 
