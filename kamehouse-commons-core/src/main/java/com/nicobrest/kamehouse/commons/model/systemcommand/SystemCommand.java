@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a command to execute as a system process. It's a unique operation
+ * Represents a command to execute as a system process. It's a single operation
  * executed through the command line.
  * 
  * @author nbrest
