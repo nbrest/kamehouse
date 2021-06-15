@@ -13,7 +13,13 @@ var main = () => {
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
-    ehCacheManager.getAllCacheData();
+    ehCacheManager.openTab('tab-media');
+    ehCacheManager.getAllCacheData('admin');
+    ehCacheManager.getAllCacheData('media');
+    ehCacheManager.getAllCacheData('tennisworld');
+    ehCacheManager.getAllCacheData('testmodule');
+    ehCacheManager.getAllCacheData('ui');
+    ehCacheManager.getAllCacheData('vlcrc');
   });
 };
 
@@ -24,26 +30,54 @@ function importEhcacheCss() {
 
 function EhCacheManager() {
   let self = this;
-  let EHCACHE_REST_API = '/kame-house-media/api/v1/commons/ehcache';
-  this.ehcacheToggleTableRowIds = [];
+  this.ehcacheToggleTableRowIds = [[]];
+
+  this.getApiUrl = (webapp) => {
+    if (webapp == "ui") {
+      return '/kame-house/api/v1/commons/ehcache';
+    } else {
+      return '/kame-house-' + webapp + '/api/v1/commons/ehcache';
+    }
+  }
+
+  /**
+   * Open the tab specified by its id.
+   */
+  this.openTab = (selectedTabDivId) => {
+    // Update tab links
+    let kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
+    for (let i = 0; i < kamehouseTabLinks.length; i++) {
+      kamehouseTabLinks[i].className = kamehouseTabLinks[i].className.replace(" active", "");
+    }
+    let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
+    selectedTabLink.classList.add("active");
+
+    // Update tab content visibility
+    let kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");
+    for (let i = 0; i < kamehouseTabContent.length; i++) {
+      kamehouseTabContent[i].style.display = "none";
+    }
+    let selectedTabDiv = document.getElementById(selectedTabDivId);
+    selectedTabDiv.style.display = "block";
+  }
 
   /**
    * Get all cache data.
    */
-  this.getAllCacheData = () => {
+  this.getAllCacheData = (webapp) => {
     logger.traceFunctionCall();
-    httpClient.get(EHCACHE_REST_API, null,
-      (responseBody, responseCode, responseDescription) => self.displayCacheData(responseBody),
+    httpClient.get(self.getApiUrl(webapp), null,
+      (responseBody, responseCode, responseDescription) => self.displayCacheData(responseBody, webapp),
       (responseBody, responseCode, responseDescription) => self.displayErrorGettingCache());
   }
 
   /**
    * Display cache data.
    */
-  this.displayCacheData = (caches) => { 
-    self.emptyCacheDataDiv();
-    self.ehcacheToggleTableRowIds = [];
-    let $cacheData = $("#cache-data");
+  this.displayCacheData = (caches, webapp) => { 
+    self.emptyCacheDataDiv(webapp);
+    self.ehcacheToggleTableRowIds[webapp] = [];
+    let $cacheData = $("#cache-data-" + webapp);
     caches.forEach((cache) => {
       let $cacheTable = $('<table id="table-' + cache.name +
         '" class="table table-bordered table-ehcache table-bordered-kh table-responsive-kh table-responsive">');
@@ -70,19 +104,19 @@ function EhCacheManager() {
       $cacheData.append($cacheTable);
       $cacheData.append("<br>");
 
-      $("#clear-" + cache.name).click(() => self.clearCacheData(cache.name));
+      $("#clear-" + cache.name).click(() => self.clearCacheData(cache.name, webapp));
       $("#toggle-view-" + cache.name).click(() => self.toggleCacheView(".toggle-" + cache.name));
       $(".toggle-" + cache.name).toggle();
-      self.ehcacheToggleTableRowIds.push(".toggle-" + cache.name);
+      self.ehcacheToggleTableRowIds[webapp].push(".toggle-" + cache.name);
     });
   }
 
   /**
    * Display error getting cache data.
    */
-  this.displayErrorGettingCache = () => { 
-    self.emptyCacheDataDiv();
-    let $cacheData = $("#cache-data");
+  this.displayErrorGettingCache = (webapp) => { 
+    self.emptyCacheDataDiv(webapp);
+    let $cacheData = $("#cache-data" + webapp);
     let $errorTable = $('<table class="table table-bordered table-ehcache table-responsive-kh table-responsive">');
     let $errorTableRow = $("<tr>");
     $errorTableRow.append($('<td>').text(timeUtils.getTimestamp() +
@@ -95,35 +129,35 @@ function EhCacheManager() {
   /**
    * Clear cache data.
    */
-  this.clearCacheData = (cacheName) => { 
+  this.clearCacheData = (cacheName, webapp) => { 
     let requestHeaders = httpClient.getApplicationJsonHeaders();
-    let url = EHCACHE_REST_API + '?name=' + cacheName;
+    let url = self.getApiUrl(webapp) + '?name=' + cacheName;
     httpClient.delete(url, requestHeaders, null,
-      (responseBody, responseCode, responseDescription) => self.getAllCacheData(),
+      (responseBody, responseCode, responseDescription) => self.getAllCacheData(webapp),
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error clearing cache " + cacheName);
-        self.getAllCacheData();
+        self.getAllCacheData(webapp);
       });
   }
 
   /**
    * Clear all caches.
    */
-  this.clearAllCaches = () => {
+  this.clearAllCaches = (webapp) => {
     let requestHeaders = httpClient.getApplicationJsonHeaders();
-    httpClient.delete(EHCACHE_REST_API, requestHeaders, null,
-      (responseBody, responseCode, responseDescription) => self.getAllCacheData(),
+    httpClient.delete(self.getApiUrl(webapp), requestHeaders, null,
+      (responseBody, responseCode, responseDescription) => self.getAllCacheData(webapp),
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error clearing all caches");
-        self.getAllCacheData();
+        self.getAllCacheData(webapp);
       });
   }
 
   /**
    * Empty cache data div.
    */
-  this.emptyCacheDataDiv = () => {
-    let $cacheData = $("#cache-data");
+  this.emptyCacheDataDiv = (webapp) => {
+    let $cacheData = $("#cache-data-" + webapp);
     $cacheData.empty();
   }
 
@@ -137,9 +171,9 @@ function EhCacheManager() {
   /**
    * Toggle cache view for all caches (expand/collapse).
    */
-  this.toggleAllCacheView = () => {
-    for (let i = 0; i < self.ehcacheToggleTableRowIds.length; i++) {
-      self.toggleCacheView(self.ehcacheToggleTableRowIds[i]);
+  this.toggleAllCacheView = (webapp) => {
+    for (let i = 0; i < self.ehcacheToggleTableRowIds[webapp].length; i++) {
+      self.toggleCacheView(self.ehcacheToggleTableRowIds[webapp][i]);
     }
   }
 }

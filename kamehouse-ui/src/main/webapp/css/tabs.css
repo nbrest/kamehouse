@@ -1,0 +1,43 @@
+/* kamehouse webapps tabs */
+.kh-webapp-tab-content {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.kh-webapp-tabs {
+  overflow: hidden;
+  border-bottom: #272727 3px solid;
+}
+
+.kh-webapp-tabs button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #c0c0c0;
+  text-align: center;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-decoration: none;
+}
+
+@media (max-width : 900px) {
+  .kh-webapp-tabs button {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.kh-webapp-tabs button:hover {
+  background-color: #4b0b0b;
+}
+
+.kh-webapp-tabs button.active {
+  background-color: #101517;
+}

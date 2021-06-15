@@ -12,6 +12,7 @@
 <script src="/kame-house/js/global.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
+<link rel="stylesheet" href="/kame-house/css/tabs.css">
 </head>
 <body>
   <div class="main-body">
@@ -23,24 +24,126 @@
     </div>
   </div>
   </div>
+  <div class="kh-webapp-tabs bg-darker-kh">
+    <div class="default-layout">
+      <button id="tab-admin-link" class="kh-webapp-tab-link"
+        onclick="ehCacheManager.openTab('tab-admin')">Admin</button>
+      <button id="tab-media-link" class="kh-webapp-tab-link"
+        onclick="ehCacheManager.openTab('tab-media')">Media</button>
+      <button id="tab-tennisworld-link" class="kh-webapp-tab-link"
+        onclick="ehCacheManager.openTab('tab-tennisworld')">TennisWorld</button>
+      <button id="tab-testmodule-link" class="kh-webapp-tab-link"
+        onclick="ehCacheManager.openTab('tab-testmodule')">TestModule</button>
+      <button id="tab-ui-link" class="kh-webapp-tab-link"
+        onclick="ehCacheManager.openTab('tab-ui')">UI</button>
+      <button id="tab-vlcrc-link" class="kh-webapp-tab-link"
+        onclick="ehCacheManager.openTab('tab-vlcrc')">VlcRc</button>
+    </div>
+  </div> <!-- kh-webapp-tabs -->
   <div class="default-layout">
-  <div>
+  
+  <div id="tab-admin" class="kh-webapp-tab-content">
     <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
-      onclick="ehCacheManager.clearAllCaches()"
+      onclick="ehCacheManager.clearAllCaches('admin')"
       src="/kame-house/img/other/cancel.png" alt="Clear All"
       title="Clear All" />
     <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
-      onclick="ehCacheManager.toggleAllCacheView()"
+      onclick="ehCacheManager.toggleAllCacheView('admin')"
+      src="/kame-house/img/other/resize-vertical-gray-dark.png"
+      alt="Expand/Collapse All" title="Expand/Collapse All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.getAllCacheData('admin')"
+      src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+      title="Refresh" />
+    <br><br>
+    <div id="cache-data-admin"></div>
+  </div> <!-- tab-admin -->
+
+  <div id="tab-media" class="kh-webapp-tab-content">
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.clearAllCaches('media')"
+      src="/kame-house/img/other/cancel.png" alt="Clear All"
+      title="Clear All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.toggleAllCacheView('media')"
       src="/kame-house/img/other/resize-vertical-gray-dark.png" alt="Expand/Collapse All"
       title="Expand/Collapse All" />
     <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
-      onclick="ehCacheManager.getAllCacheData()"
+      onclick="ehCacheManager.getAllCacheData('media')"
+      src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+      title="Refresh" />  
+    <br><br>
+    <div id="cache-data-media"></div>
+  </div> <!-- tab-media -->
+  
+  <div id="tab-tennisworld" class="kh-webapp-tab-content">
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.clearAllCaches('tennisworld')"
+      src="/kame-house/img/other/cancel.png" alt="Clear All"
+      title="Clear All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.toggleAllCacheView('tennisworld')"
+      src="/kame-house/img/other/resize-vertical-gray-dark.png"
+      alt="Expand/Collapse All" title="Expand/Collapse All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.getAllCacheData('tennisworld')"
       src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
       title="Refresh" />
-  </div>
     <br><br>
-    <div id="cache-data"></div>
-  </div>
+    <div id="cache-data-tennisworld"></div>
+  </div> <!-- tab-tennisworld -->
+
+  <div id="tab-testmodule" class="kh-webapp-tab-content">
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.clearAllCaches('testmodule')"
+      src="/kame-house/img/other/cancel.png" alt="Clear All"
+      title="Clear All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.toggleAllCacheView('testmodule')"
+      src="/kame-house/img/other/resize-vertical-gray-dark.png"
+      alt="Expand/Collapse All" title="Expand/Collapse All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.getAllCacheData('testmodule')"
+      src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+      title="Refresh" />
+    <br><br>
+    <div id="cache-data-testmodule"></div>
+  </div> <!-- tab-testmodule -->
+
+  <div id="tab-ui" class="kh-webapp-tab-content">
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.clearAllCaches('ui')"
+      src="/kame-house/img/other/cancel.png" alt="Clear All"
+      title="Clear All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.toggleAllCacheView('ui')"
+      src="/kame-house/img/other/resize-vertical-gray-dark.png"
+      alt="Expand/Collapse All" title="Expand/Collapse All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.getAllCacheData('ui')"
+      src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+      title="Refresh" />
+    <br><br>
+    <div id="cache-data-ui"></div>
+  </div> <!-- tab-ui -->
+
+  <div id="tab-vlcrc" class="kh-webapp-tab-content">
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.clearAllCaches('vlcrc')"
+      src="/kame-house/img/other/cancel.png" alt="Clear All"
+      title="Clear All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.toggleAllCacheView('vlcrc')"
+      src="/kame-house/img/other/resize-vertical-gray-dark.png"
+      alt="Expand/Collapse All" title="Expand/Collapse All" />
+    <img class="btn-ehcache cache-status-buttons m-15-d-kh m-15-m-kh"
+      onclick="ehCacheManager.getAllCacheData('vlcrc')"
+      src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+      title="Refresh" />
+    <br><br>
+    <div id="cache-data-vlcrc"></div>
+  </div> <!-- tab-vlcrc -->
+
   </div>
   <script src="/kame-house/js/admin/ehcache.js"></script>
 </body>
