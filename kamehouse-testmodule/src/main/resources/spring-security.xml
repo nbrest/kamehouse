@@ -6,7 +6,7 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
-  <http auto-config="true" entry-point-ref="customEntryPoint">
+  <http entry-point-ref="customEntryPoint">
     <!-- The order of intercept-urls matters. Order them from more specific to more
       general within the same url. Ej: /api/v1/admin/application/** before /api/v1/admin/** -->
 
@@ -28,12 +28,23 @@
     <intercept-url pattern="/api/v1/test-module/dragonball/**" access="hasRole('ROLE_USER')"
                    method="DELETE" />
 
-    <form-login login-page="/login" username-parameter="username"
-                password-parameter="password" always-use-default-target="false"
+    <!-- ======================================================================================= -->
+    <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
+    <!-- ======================================================================================= -->
+
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="GET" />
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="POST" />
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="PUT" />
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="DELETE" />
+
+    <form-login login-page="/login"
+                username-parameter="username"
+                password-parameter="password"
+                always-use-default-target="false"
                 authentication-success-handler-ref="authenticationSuccessHandler" />
     <csrf disabled="true" />
   </http>
- 
+
   <authentication-manager>
     <authentication-provider ref="applicationAuthenticationProvider" />
   </authentication-manager>
