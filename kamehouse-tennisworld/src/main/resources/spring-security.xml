@@ -26,6 +26,10 @@
                 password-parameter="password"
                 always-use-default-target="false"
                 authentication-success-handler-ref="authenticationSuccessHandler" />
+    <logout invalidate-session="true"
+            delete-cookies="KAMEHOUSE-SESSION-ID"
+            logout-url="/logout" />
+    <http-basic />
     <csrf disabled="true" />
   </http>
 
