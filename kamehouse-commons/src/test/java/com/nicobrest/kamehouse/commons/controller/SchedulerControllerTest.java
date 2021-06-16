@@ -1,12 +1,11 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.commons.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.nicobrest.kamehouse.admin.model.KameHouseJob;
-import com.nicobrest.kamehouse.admin.service.SchedulerService;
-import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.commons.model.KameHouseJob;
+import com.nicobrest.kamehouse.commons.service.SchedulerService;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
@@ -40,7 +39,7 @@ import java.util.List;
 @WebAppConfiguration
 public class SchedulerControllerTest extends AbstractControllerTest {
 
-  private static final String SCHEDULER_JOBS_API = "/api/v1/admin/scheduler/jobs";
+  private static final String SCHEDULER_JOBS_API = "/api/v1/commons/scheduler/jobs";
   @InjectMocks
   private SchedulerController schedulerController;
 

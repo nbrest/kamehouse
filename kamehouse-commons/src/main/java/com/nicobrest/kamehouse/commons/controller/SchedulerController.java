@@ -1,8 +1,7 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.commons.controller;
 
-import com.nicobrest.kamehouse.admin.model.KameHouseJob;
-import com.nicobrest.kamehouse.admin.service.SchedulerService;
-import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.model.KameHouseJob;
+import com.nicobrest.kamehouse.commons.service.SchedulerService;
 import org.quartz.JobKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +22,10 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/admin/scheduler")
+@RequestMapping(value = "/api/v1/commons/scheduler")
 public class SchedulerController extends AbstractController {
 
-  private static final String BASE_URL = "/api/v1/admin/scheduler";
+  private static final String BASE_URL = "/api/v1/commons/scheduler";
 
   @Autowired
   SchedulerService schedulerService;

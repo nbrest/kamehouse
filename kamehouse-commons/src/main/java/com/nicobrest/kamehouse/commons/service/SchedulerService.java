@@ -1,7 +1,7 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.commons.service;
 
-import com.nicobrest.kamehouse.admin.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;

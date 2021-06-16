@@ -6,9 +6,15 @@ var kamehouseDebugger;
 
 window.onload = () => {
   scheduler = new Scheduler();
-  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
+  moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing scheduler");
-    scheduler.getAllJobs();
+    kameHouseWebappTabsManager.openTab('tab-admin');
+    scheduler.getAllJobs('admin');
+    scheduler.getAllJobs('media');
+    scheduler.getAllJobs('tennisworld');
+    scheduler.getAllJobs('testmodule');
+    scheduler.getAllJobs('ui');
+    scheduler.getAllJobs('vlcrc');
   });
   kamehouseDebugger = new KamehouseDebugger();
   bannerUtils.setRandomAllBanner();
@@ -16,25 +22,35 @@ window.onload = () => {
 
 function Scheduler() {
   let self = this;
-  const SCHEDULER_JOBS_API_URL = "/kame-house-admin/api/v1/admin/scheduler/jobs";
-  this.jobs = [];
+  this.jobs = [[]];
+
+  /**
+   * Get scheduler api url for each webapp.
+   */
+  this.getApiUrl = (webapp) => {
+    if (webapp == "ui") {
+      return '/kame-house/api/v1/commons/scheduler/jobs';
+    } else {
+      return '/kame-house-' + webapp + '/api/v1/commons/scheduler/jobs';
+    }
+  }
 
   /** Get all jobs */
-  this.getAllJobs = () => {
+  this.getAllJobs = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.get(SCHEDULER_JOBS_API_URL, processSuccess, processError);
+    apiCallTable.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
   /** Cancel job execution */
-  this.cancelJobExecution = (jobKey) => {
+  this.cancelJobExecution = (jobKey, webapp) => {
     loadingWheelModal.open();
     let urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
-    apiCallTable.delete(SCHEDULER_JOBS_API_URL + urlParams, null, processSuccess, processError);
+    apiCallTable.delete(self.getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
   }
 
   /** Update the jobs table content */
-  this.updateJobsTable = () => {
-    let $jobsData = $("#jobs-data");
+  this.updateJobsTable = (webapp) => {
+    let $jobsData = $("#jobs-data-" + webapp);
     $jobsData.empty();
     self.jobs.forEach((jobEntry) => {
       let $jobTable = $('<table class="table table-bordered table-scheduler table-bordered-kh table-responsive-kh table-responsive">');
@@ -66,16 +82,16 @@ function Scheduler() {
       $jobTableRow.append($('<td class="td-scheduler-header">').text("schedule"));
       $jobTableRowContent = $("<td>");
       $jobTableRowContent.append($('<span>').text(self.formatSchedule(jobEntry.schedules)));
-      $jobTableRowContent.append("<img id='clear-" + jobEntry.key.name + "' class='btn-scheduler scheduler-status-buttons' src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
+      $jobTableRowContent.append("<img id='clear-" + jobEntry.key.name + "-"  + webapp + "' class='btn-scheduler scheduler-status-buttons' src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
       $jobTableRow.append($jobTableRowContent);
       $jobTable.append($jobTableRow);
 
       $jobsData.append($jobTable);
       $jobsData.append("<br>");
 
-      $("#clear-" + jobEntry.key.name).click(() => {
+      $("#clear-" + jobEntry.key.name + "-" + webapp).click(() => {
         logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
-        self.cancelJobExecution(jobEntry.key);
+        self.cancelJobExecution(jobEntry.key, webapp);
       });
     });
   }
@@ -95,37 +111,26 @@ function Scheduler() {
       return "Job not scheduled";
     }
   }
-
-  /** Add jobs table header */
-  this.addJobsTableHeader = () => {
-    let $tableBody = $('#log-level-tbody');
-    $tableBody.empty();
-    let tableRow = $('<tr id="log-level-thead">');
-    tableRow.append($('<td>').text("Job Key"));
-    tableRow.append($('<td>').text("Schedule"));
-    $tableBody.append(tableRow);
-  }
   
   /** Set jobs table to error */
-  this.updateJobsTableError = () => {
-    let $tableBody = $('#log-level-tbody');
-    $tableBody.empty();
-    let tableRow = $('<tr>');
-    tableRow.append($('<td>').text("Error retrieving jobs from the backend"));
-    $tableBody.append(tableRow);
+  this.updateJobsTableError = (webapp) => {
+    let $jobsData = $('#jobs-data-' + webapp);
+    $jobsData.empty();
+    let errorMessage = $('<p>').text("Error retrieving jobs from the backend");
+    $jobsData.append(errorMessage);
   }
 
   /** Process success response */
-  function processSuccess(responseBody, responseCode, responseDescription) {
+  function processSuccess(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
     self.jobs = responseBody;
-    self.updateJobsTable();
+    self.updateJobsTable(webapp);
   }
 
   /** Process error response */
-  function processError(responseBody, responseCode, responseDescription) {
+  function processError(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    self.updateJobsTableError();
+    self.updateJobsTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }

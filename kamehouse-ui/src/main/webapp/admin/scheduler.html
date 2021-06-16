@@ -11,6 +11,7 @@
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
 <script src="/kame-house/js/admin/scheduler.js"></script>
+<script src="/kame-house/js/snippets/kh-webapp-tabs.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
 <link rel="stylesheet" href="/kame-house/css/admin/scheduler.css" />
@@ -24,16 +25,72 @@
     </div>
   </div>
   </div>
+  <div id="kh-webapp-tabs-wrapper"></div>
   <div class="default-layout txt-c-d-kh txt-c-m-kh">
-    <img class="btn-scheduler scheduler-status-buttons m-15-d-kh m-15-m-kh"
-      onclick="scheduler.getAllJobs()"
-      src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
-      title="Refresh" />
     <br>
     <h3>Kamehouse Jobs</h3>
     <p>List of jobs available in kamehouse. View their scheduled times and cancel their scheduled executions.</p>
     <p>This page provides an overview of all the jobs in the system and the posibility to cancel their scheduled executions. To initiate a schedule for a particular job, do it in the corresponding page. In the case of shutdown and suspend jobs, it would be in the server-management page.</p>
-    <div id="jobs-data"></div>
+
+    <div id="tab-admin" class="kh-webapp-tab-content">
+
+      <img class="btn-scheduler scheduler-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="scheduler.getAllJobs('admin')"
+        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+        title="Refresh" />
+      <div id="jobs-data-admin"></div>
+      
+    </div> <!-- tab-admin -->
+
+    <div id="tab-media" class="kh-webapp-tab-content">
+
+      <img class="btn-scheduler scheduler-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="scheduler.getAllJobs('media')"
+        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+        title="Refresh" />
+      <div id="jobs-data-media"></div>
+
+    </div> <!-- tab-media -->
+
+    <div id="tab-tennisworld" class="kh-webapp-tab-content">
+
+      <img class="btn-scheduler scheduler-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="scheduler.getAllJobs('tennisworld')"
+        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+        title="Refresh" />
+      <div id="jobs-data-tennisworld"></div>
+
+    </div> <!-- tab-tennisworld -->
+    
+    <div id="tab-testmodule" class="kh-webapp-tab-content">
+
+      <img class="btn-scheduler scheduler-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="scheduler.getAllJobs('testmodule')"
+        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+        title="Refresh" />
+      <div id="jobs-data-testmodule"></div>
+
+    </div> <!-- tab-testmodule -->
+    
+    <div id="tab-ui" class="kh-webapp-tab-content">
+
+      <img class="btn-scheduler scheduler-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="scheduler.getAllJobs('ui')"
+        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+        title="Refresh" />
+      <div id="jobs-data-ui"></div>
+
+    </div> <!-- tab-ui -->
+    
+    <div id="tab-vlcrc" class="kh-webapp-tab-content">
+
+      <img class="btn-scheduler scheduler-status-buttons m-15-d-kh m-15-m-kh"
+        onclick="scheduler.getAllJobs('vlcrc')"
+        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+        title="Refresh" />
+      <div id="jobs-data-vlcrc"></div>
+
+    </div> <!-- tab-vlcrc -->
 
     <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
       <img id="debug-mode-btn" class="debug-mode-btn"

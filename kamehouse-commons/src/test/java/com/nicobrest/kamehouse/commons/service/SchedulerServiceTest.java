@@ -1,11 +1,11 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.commons.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.admin.model.KameHouseJob;
+import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 
 import org.junit.Before;
