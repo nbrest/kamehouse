@@ -10,6 +10,7 @@
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
+<script src="/kame-house/js/snippets/kh-webapp-tabs.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
 <link rel="stylesheet" href="/kame-house/css/tabs.css">
@@ -24,22 +25,7 @@
     </div>
   </div>
   </div>
-  <div class="kh-webapp-tabs bg-darker-kh">
-    <div class="default-layout">
-      <button id="tab-admin-link" class="kh-webapp-tab-link"
-        onclick="ehCacheManager.openTab('tab-admin')">Admin</button>
-      <button id="tab-media-link" class="kh-webapp-tab-link"
-        onclick="ehCacheManager.openTab('tab-media')">Media</button>
-      <button id="tab-tennisworld-link" class="kh-webapp-tab-link"
-        onclick="ehCacheManager.openTab('tab-tennisworld')">TennisWorld</button>
-      <button id="tab-testmodule-link" class="kh-webapp-tab-link"
-        onclick="ehCacheManager.openTab('tab-testmodule')">TestModule</button>
-      <button id="tab-ui-link" class="kh-webapp-tab-link"
-        onclick="ehCacheManager.openTab('tab-ui')">UI</button>
-      <button id="tab-vlcrc-link" class="kh-webapp-tab-link"
-        onclick="ehCacheManager.openTab('tab-vlcrc')">VlcRc</button>
-    </div>
-  </div> <!-- kh-webapp-tabs -->
+  <div id="kh-webapp-tabs-wrapper"></div>
   <div class="default-layout">
   
   <div id="tab-admin" class="kh-webapp-tab-content">

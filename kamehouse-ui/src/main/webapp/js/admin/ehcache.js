@@ -10,10 +10,10 @@ var ehCacheManager;
 var main = () => {
   bannerUtils.setRandomPrinceOfTennisBanner();
   importEhcacheCss();
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+  moduleUtils.waitForModules(["logger", "httpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
-    ehCacheManager.openTab('tab-media');
+    kameHouseWebappTabsManager.openTab('tab-media');
     ehCacheManager.getAllCacheData('admin');
     ehCacheManager.getAllCacheData('media');
     ehCacheManager.getAllCacheData('tennisworld');
@@ -32,33 +32,15 @@ function EhCacheManager() {
   let self = this;
   this.ehcacheToggleTableRowIds = [[]];
 
+  /**
+   * Get ehcache api url for each webapp.
+   */
   this.getApiUrl = (webapp) => {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/ehcache';
     } else {
       return '/kame-house-' + webapp + '/api/v1/commons/ehcache';
     }
-  }
-
-  /**
-   * Open the tab specified by its id.
-   */
-  this.openTab = (selectedTabDivId) => {
-    // Update tab links
-    let kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
-    for (let i = 0; i < kamehouseTabLinks.length; i++) {
-      kamehouseTabLinks[i].className = kamehouseTabLinks[i].className.replace(" active", "");
-    }
-    let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
-    selectedTabLink.classList.add("active");
-
-    // Update tab content visibility
-    let kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");
-    for (let i = 0; i < kamehouseTabContent.length; i++) {
-      kamehouseTabContent[i].style.display = "none";
-    }
-    let selectedTabDiv = document.getElementById(selectedTabDivId);
-    selectedTabDiv.style.display = "block";
   }
 
   /**

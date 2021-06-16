@@ -29,13 +29,14 @@ function ApiCallTable() {
   /** 
    * Execute a GET request, update the api call table 
    * and perform the specified success or error functions 
+   * data is any extra data I want to pass to the success and error functions
    */
-  this.get = function httpGet(url, successCallback, errorCallback) {
+  this.get = function httpGet(url, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
     self.displayRequestData(url, "GET", null);
     httpClient.get(url, null,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
       );
   }
 
@@ -43,14 +44,14 @@ function ApiCallTable() {
    * Execute a GET request with url encoded parameters, update the api call table 
    * and perform the specified success or error functions 
    */
-  this.getUrlEncoded = function httpGetUrlEncoded(url, requestParam, successCallback, errorCallback) {
+  this.getUrlEncoded = function httpGetUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     logger.traceFunctionCall(); 
     let urlEncoded = encodeURI(url + "?" + requestParam);
     self.displayRequestData(urlEncoded, "GET", null);
     let requestHeaders = httpClient.getUrlEncodedHeaders();
     httpClient.get(urlEncoded, requestHeaders,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
       );
   }
 
@@ -58,13 +59,13 @@ function ApiCallTable() {
    * Execute a PUT request, update the api call table 
    * and perform the specified success or error functions 
    */
-  this.put = function httpPut(url, requestBody, successCallback, errorCallback) {
+  this.put = function httpPut(url, requestBody, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
     self.displayRequestData(url, "PUT", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.put(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
     );
   }
 
@@ -72,13 +73,13 @@ function ApiCallTable() {
    * Execute a POST request, update the api call table 
    * and perform the specified success or error functions 
    */
-  this.post = function httpPost(url, requestBody, successCallback, errorCallback) {
+  this.post = function httpPost(url, requestBody, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
     self.displayRequestData(url, "POST", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.post(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
       );
   }
 
@@ -86,14 +87,14 @@ function ApiCallTable() {
    * Execute a POST request with url parameters, update the api call table 
    * and perform the specified success or error functions 
    */
-  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback) {
+  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
     let urlEncoded = encodeURI(url + "?" + requestParam);
     self.displayRequestData(urlEncoded, "POST", null);
     let requestHeaders = httpClient.getUrlEncodedHeaders();
     httpClient.post(urlEncoded, requestHeaders, null,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
       );
   }
 
@@ -101,21 +102,21 @@ function ApiCallTable() {
    * Execute a DELETE request, update the api call table 
    * and perform the specified success or error functions 
    */
-  this.delete = function httpDelete(url, requestBody, successCallback, errorCallback) {
+  this.delete = function httpDelete(url, requestBody, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
     self.displayRequestData(url, "DELETE", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.delete(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
       );
   }
 
   /** Process the response of the api call */
-  function processResponse(responseBody, responseCode, responseDescription, responseCallback) {
+  function processResponse(responseBody, responseCode, responseDescription, responseCallback, data) {
     self.displayResponseData(responseBody, responseCode);
     if (isFunction(responseCallback)) {
-      responseCallback(responseBody, responseCode, responseDescription);
+      responseCallback(responseBody, responseCode, responseDescription, data);
     }
   }
 

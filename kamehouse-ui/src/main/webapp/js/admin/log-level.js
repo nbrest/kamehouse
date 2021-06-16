@@ -6,9 +6,15 @@ var kamehouseDebugger;
 
 window.onload = () => {
   backendLogLevelUtils = new BackendLogLevelUtils();
-  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
+  moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing log-level");
-    backendLogLevelUtils.getLogLevels();
+    kameHouseWebappTabsManager.openTab('tab-admin');
+    backendLogLevelUtils.getLogLevels('admin');
+    backendLogLevelUtils.getLogLevels('media');
+    backendLogLevelUtils.getLogLevels('tennisworld');
+    backendLogLevelUtils.getLogLevels('testmodule');
+    backendLogLevelUtils.getLogLevels('ui');
+    backendLogLevelUtils.getLogLevels('vlcrc');
   });
   kamehouseDebugger = new KamehouseDebugger();
   bannerUtils.setRandomAllBanner();
@@ -16,51 +22,53 @@ window.onload = () => {
 
 function BackendLogLevelUtils() {
   let self = this;
-  const LOG_LEVEL_API_URL = "/kame-house-admin/api/v1/admin/log-level";
+
+  /**
+   * Get log-level api url for each webapp.
+   */
+  this.getApiUrl = (webapp) => {
+    if (webapp == "ui") {
+      return '/kame-house/api/v1/commons/log-level';
+    } else {
+      return '/kame-house-' + webapp + '/api/v1/commons/log-level';
+    }
+  }
 
   /** Get all current log levels */
-  this.getLogLevels = () => {
+  this.getLogLevels = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.get(LOG_LEVEL_API_URL, processSuccess, processError);
+    apiCallTable.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
   /** Reset all log levels */
-  this.resetLogLevels = () => {
+  this.resetLogLevels = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.delete(LOG_LEVEL_API_URL, null, processSuccess, processError);
+    apiCallTable.delete(self.getApiUrl(webapp), null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log level */
-  this.setKamehouseLogLevel = () => {
-    let logLevel = document.getElementById("select-kamehouse-log-level").value;
+  this.setKamehouseLogLevel = (webapp) => {
+    let logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     loadingWheelModal.open();
-    apiCallTable.put(LOG_LEVEL_API_URL + logLevel, null, processSuccess, processError);
+    apiCallTable.put(self.getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to DEBUG */
-  this.setKamehouseLogLevelToDebug = () => {
+  this.setKamehouseLogLevelToDebug = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.put(LOG_LEVEL_API_URL + "/debug", null, processSuccess, processError);
+    apiCallTable.put(self.getApiUrl(webapp) + "/debug", null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to TRACE */
-  this.setKamehouseLogLevelToTrace = () => {
+  this.setKamehouseLogLevelToTrace = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.put(LOG_LEVEL_API_URL + "/trace", null, processSuccess, processError);
-  }
-
-  /** Set vlcrc log level */
-  this.setVlcRcLogLevel = () => {
-    let logLevel = document.getElementById("select-vlcrc-log-level").value;
-    let urlParams = "?level=" + logLevel + "&package=com.nicobrest.kamehouse.vlcrc";
-    loadingWheelModal.open();
-    apiCallTable.put(LOG_LEVEL_API_URL + urlParams, null, processSuccess, processError);
+    apiCallTable.put(self.getApiUrl(webapp) + "/trace", null, processSuccess, processError, webapp);
   }
 
   /** Update the log levels table content */
-  this.updateLogLevelTable = (logLevelsArray) => {
-    let $tableBody = $('#log-level-tbody');
-    self.addLogLevelTableHeader();
+  this.updateLogLevelTable = (logLevelsArray, webapp) => {
+    let $tableBody = $('#log-level-tbody-' + webapp);
+    self.addLogLevelTableHeader(webapp);
     logLevelsArray.forEach((logLevelEntry) => {
       let logLevelEntryPair = logLevelEntry.split(":");
       let packageName = logLevelEntryPair[0];
@@ -73,18 +81,18 @@ function BackendLogLevelUtils() {
   }
 
   /** Add log level table header */
-  this.addLogLevelTableHeader = () => {
-    let $tableBody = $('#log-level-tbody');
+  this.addLogLevelTableHeader = (webapp) => {
+    let $tableBody = $('#log-level-tbody-' + webapp);
     $tableBody.empty();
-    let tableRow = $('<tr id="log-level-thead">');
+    let tableRow = $('<tr id="log-level-thead-' + webapp + '" class="log-level-thead">');
     tableRow.append($('<td>').text("Package Name"));
     tableRow.append($('<td>').text("Log Level"));
     $tableBody.append(tableRow);
   }
   
   /** Set log level table to error */
-  this.updateLogLevelTableError = () => {
-    let $tableBody = $('#log-level-tbody');
+  this.updateLogLevelTableError = (webapp) => {
+    let $tableBody = $('#log-level-tbody-' + webapp);
     $tableBody.empty();
     let tableRow = $('<tr>');
     tableRow.append($('<td>').text("Error retrieving log levels from the backend"));
@@ -92,15 +100,15 @@ function BackendLogLevelUtils() {
   }
 
   /** Process success response */
-  function processSuccess(responseBody, responseCode, responseDescription) {
+  function processSuccess(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    self.updateLogLevelTable(responseBody);
+    self.updateLogLevelTable(responseBody, webapp);
   }
 
   /** Process error response */
-  function processError(responseBody, responseCode, responseDescription) {
+  function processError(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    self.updateLogLevelTableError();
+    self.updateLogLevelTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }

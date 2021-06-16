@@ -1,7 +1,8 @@
-package com.nicobrest.kamehouse.admin.service;
+package com.nicobrest.kamehouse.commons.service;
 
 import static org.junit.Assert.assertEquals;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class LogLevelManagerServiceTest {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Resets mock objects and initializes test repository.
+   * Resets mock objects.
    */
   @Before
   public void beforeTest() {
@@ -54,9 +55,9 @@ public class LogLevelManagerServiceTest {
    */
   @Test
   public void getLogLevelSuccessfulTest() {
-    List<String> logLevel = logLevelManagerService.getLogLevel("com.nicobrest.kamehouse.admin");
+    List<String> logLevel = logLevelManagerService.getLogLevel("com.nicobrest.kamehouse");
     assertEquals(1, logLevel.size());
-    assertEquals("com.nicobrest.kamehouse.admin:INFO", logLevel.get(0));
+    assertEquals("com.nicobrest.kamehouse:INFO", logLevel.get(0));
   }
 
   /**
@@ -65,7 +66,7 @@ public class LogLevelManagerServiceTest {
   @Test
   public void getLogLevelAllPackagesSuccessfulTest() {
     List<String> logLevel = logLevelManagerService.getLogLevel(null);
-    assertEquals(13, logLevel.size());
+    assertEquals(8, logLevel.size());
   }
 
   /**
@@ -98,7 +99,7 @@ public class LogLevelManagerServiceTest {
 
     List<String> logLevels = logLevelManagerService.getLogLevel(null);
     assertEquals(LogLevelManagerService.KAMEHOUSE_PACKAGES_LOG_LEVEL.size()
-        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size() + 1, logLevels.size());
+        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size(), logLevels.size() - 2);
     assertEquals("com.nicobrest.kamehouse:INFO", logLevels.get(1));
   }
 
@@ -111,7 +112,7 @@ public class LogLevelManagerServiceTest {
 
     List<String> logLevels = logLevelManagerService.getLogLevel(null);
     assertEquals(LogLevelManagerService.KAMEHOUSE_PACKAGES_LOG_LEVEL.size()
-        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size() + 1, logLevels.size());
+        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size(), logLevels.size() - 2);
     assertEquals("com.nicobrest.kamehouse:TRACE", logLevels.get(1));
   }
 
@@ -124,7 +125,7 @@ public class LogLevelManagerServiceTest {
 
     List<String> logLevels = logLevelManagerService.getLogLevel(null);
     assertEquals(LogLevelManagerService.KAMEHOUSE_PACKAGES_LOG_LEVEL.size()
-        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size() + 1, logLevels.size());
+        + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size(), logLevels.size() - 2);
     assertEquals("com.nicobrest.kamehouse:DEBUG", logLevels.get(1));
   }
 }

@@ -11,55 +11,55 @@ function HttpClient() {
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.get = function httpGet(url, requestHeaders, successCallback, errorCallback) {
+  this.get = function httpGet(url, requestHeaders, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
-    self.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback)
+    self.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback, data)
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback) {
+  this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
-    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback)
+    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.post = function httpPost(url, requestHeaders, requestBody, successCallback, errorCallback) {
+  this.post = function httpPost(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
-    self.httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback)
+    self.httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback) {
+  this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
-    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback)
+    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http DELETE request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.delete = function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback) {
+  this.delete = function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     logger.traceFunctionCall();
-    self.httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback)
+    self.httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http request with the specified http method. 
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
-  this.httpRequest = function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
+  this.httpRequest = function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     if (isNullOrUndefined(requestBody)) {
       $.ajax({
         type: httpMethod,
         url: url,
         headers: requestHeaders,
-        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, data),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data)
       });
     } else {
       $.ajax({
@@ -67,14 +67,14 @@ function HttpClient() {
         url: url,
         data: JSON.stringify(requestBody),
         headers: requestHeaders,
-        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, data),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data)
       });
     }
   }
 
   /** Process a successful response from the api call */
-  function processSuccess(data, status, xhr, successCallback) {
+  function processSuccess(data, status, xhr, successCallback, data) {
     /**
      * data: response body
      * status: success/error
@@ -89,11 +89,11 @@ function HttpClient() {
     let responseBody = data;
     let responseCode = xhr.status;
     let responseDescription = xhr.statusText;
-    successCallback(responseBody, responseCode, responseDescription);
+    successCallback(responseBody, responseCode, responseDescription, data);
   }
 
   /** Process an error response from the api call */
-  function processError(jqXhr, textStatus, errorMessage, errorCallback) {
+  function processError(jqXhr, textStatus, errorMessage, errorCallback, data) {
      /**
       * jqXhr: {
       *    readyState: 4
@@ -108,7 +108,7 @@ function HttpClient() {
      let responseCode = jqXhr.status;
      let responseDescription = jqXhr.statusText;
      logger.error(JSON.stringify(jqXhr));
-     errorCallback(responseBody, responseCode, responseDescription);
+     errorCallback(responseBody, responseCode, responseDescription, data);
   }
 
   /** Get request headers object with Url Encoded content type. */

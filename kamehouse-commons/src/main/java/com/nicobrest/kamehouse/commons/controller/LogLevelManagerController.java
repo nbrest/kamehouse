@@ -1,7 +1,6 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.commons.controller;
 
-import com.nicobrest.kamehouse.admin.service.LogLevelManagerService;
-import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,7 @@ import java.util.List;
  *
  */
 @Controller
-@RequestMapping(value = "/api/v1/admin")
+@RequestMapping(value = "/api/v1/commons")
 public class LogLevelManagerController extends AbstractController {
 
   private static final String DEFAULT_PACKAGE = "com.nicobrest.kamehouse";
@@ -37,7 +36,7 @@ public class LogLevelManagerController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<String>> getLogLevel(
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/admin/log-level (GET)");
+    logger.info("/api/v1/commons/log-level (GET)");
     List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
     return generateGetResponseEntity(logLevelList);
   }
@@ -50,7 +49,7 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<List<String>> setLogLevel(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/admin/log-level (PUT)");
+    logger.info("/api/v1/commons/log-level (PUT)");
     if (packageName == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
       packageName = DEFAULT_PACKAGE;
@@ -67,7 +66,7 @@ public class LogLevelManagerController extends AbstractController {
   @PutMapping(path = "/log-level/debug")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToDebug() {
-    logger.info("/api/v1/admin/log-level/debug (PUT)");
+    logger.info("/api/v1/commons/log-level/debug (PUT)");
 
     logLevelManagerService.setKamehouseLogLevelsToDebug();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);
@@ -80,7 +79,7 @@ public class LogLevelManagerController extends AbstractController {
   @PutMapping(path = "/log-level/trace")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToTrace() {
-    logger.info("/api/v1/admin/log-level/trace (PUT)");
+    logger.info("/api/v1/commons/log-level/trace (PUT)");
 
     logLevelManagerService.setKamehouseLogLevelsToTrace();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);
@@ -93,7 +92,7 @@ public class LogLevelManagerController extends AbstractController {
   @DeleteMapping(path = "/log-level")
   @ResponseBody
   public ResponseEntity<List<String>> resetLogLevels() {
-    logger.info("/api/v1/admin/log-level (DELETE)");
+    logger.info("/api/v1/commons/log-level (DELETE)");
 
     logLevelManagerService.resetLogLevels();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);

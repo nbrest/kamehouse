@@ -11,6 +11,7 @@
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
 <script src="/kame-house/js/global.js"></script>
 <script src="/kame-house/js/admin/log-level.js"></script>
+<script src="/kame-house/js/snippets/kh-webapp-tabs.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
 <link rel="stylesheet" href="/kame-house/css/admin/log-level.css" />
@@ -24,76 +25,319 @@
     </div>
   </div>
   </div>
+  <div id="kh-webapp-tabs-wrapper"></div>
   <div class="default-layout txt-c-d-kh txt-c-m-kh">
-    <div>
-      <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
-        onclick="backendLogLevelUtils.resetLogLevels()"
-        src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
-        title="Reset To Defaults" />
-      <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
-        onclick="backendLogLevelUtils.getLogLevels()"
-        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
-        title="Refresh" />
-    </div>
-    <br><br><br>
-    <h4>Set Log levels</h4>
-    <br>
-    <table class="table-responsive-kh table-responsive packages-table">
-    <caption class="hidden-kh">Packages</caption>
-    <tbody>
-    <tr class="hidden-kh">
-      <th scope="row" class="hidden-kh">Packages</th>
-    </tr>
-    <tr>
-      <td>
-        <span>com.nicobrest.kamehouse.*</span>
-      </td>
-      <td>
-        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
-          id="select-kamehouse-log-level">
-          <option value="/trace" selected>TRACE</option>
-          <option value="/debug">DEBUG</option>
-        </select>
-      </td>
-      <td>
-         <img class="btn-log-level m-15-d-kh m-15-m-kh"
-          onclick="backendLogLevelUtils.setKamehouseLogLevel()"
-          src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
-          title="Apply" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span>com.nicobrest.kamehouse.vlcrc</span>
-      </td>
-      <td>
-        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
-          id="select-vlcrc-log-level">
-          <option value="TRACE">TRACE</option>
-          <option value="DEBUG">DEBUG</option>
-          <option value="INFO" selected>INFO</option>
-          <option value="WARN">WARN</option>
-          <option value="ERROR">ERROR</option>
-        </select>
-      </td>
-      <td>
-        <img class="btn-log-level m-15-d-kh m-15-m-kh"
-          onclick="backendLogLevelUtils.setVlcRcLogLevel()"
-          src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
-          title="Apply" />
-      </td>
-    </tr>
-    </tbody>
-    </table>
 
-    <table id="log-level-table" class="table table-bordered table-bordered-kh table-responsive-kh table-responsive">
-      <caption class="hidden-kh">Log Level</caption>
-      <tbody id="log-level-tbody">
-        <tr class="hidden-kh">
-          <th scope="row">Log Level</th>
-        </tr>
+    <div id="tab-admin" class="kh-webapp-tab-content">
+
+      <div>
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.resetLogLevels('admin')"
+          src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
+          title="Reset To Defaults" />
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.getLogLevels('admin')"
+          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+          title="Refresh" />
+      </div>
+      <br>
+      <table class="table-responsive-kh table-responsive packages-table">
+      <caption class="hidden-kh">Packages</caption>
+      <tbody>
+      <tr class="hidden-kh">
+        <th scope="row" class="hidden-kh">Packages</th>
+      </tr>
+      <tr>
+        <td>
+          <span>com.nicobrest.kamehouse.*</span>
+        </td>
+        <td>
+          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+            id="select-kamehouse-log-level-admin">
+            <option value="/trace" selected>TRACE</option>
+            <option value="/debug">DEBUG</option>
+          </select>
+        </td>
+        <td>
+           <img class="btn-log-level m-15-d-kh m-15-m-kh"
+            onclick="backendLogLevelUtils.setKamehouseLogLevel('admin')"
+            src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+            title="Apply" />
+        </td>
+      </tr>
       </tbody>
-    </table>
+      </table>
+
+      <table id="log-level-table-admin" class="table table-bordered table-bordered-kh table-responsive-kh table-responsive log-level-table">
+        <caption class="hidden-kh">Log Level</caption>
+        <tbody id="log-level-tbody-admin">
+          <tr class="hidden-kh">
+            <th scope="row">Log Level</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </div> <!-- tab-admin -->
+
+    <div id="tab-media" class="kh-webapp-tab-content">
+
+      <div>
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.resetLogLevels('media')"
+          src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
+          title="Reset To Defaults" />
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.getLogLevels('media')"
+          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+          title="Refresh" />
+      </div>
+      <br>
+      <table class="table-responsive-kh table-responsive packages-table">
+        <caption class="hidden-kh">Packages</caption>
+        <tbody>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Packages</th>
+          </tr>
+          <tr>
+            <td>
+              <span>com.nicobrest.kamehouse.*</span>
+            </td>
+            <td>
+              <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+                id="select-kamehouse-log-level-media">
+                <option value="/trace" selected>TRACE</option>
+                <option value="/debug">DEBUG</option>
+              </select>
+            </td>
+            <td>
+              <img class="btn-log-level m-15-d-kh m-15-m-kh"
+                onclick="backendLogLevelUtils.setKamehouseLogLevel('media')"
+                src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+                title="Apply" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="log-level-table-media"
+        class="table table-bordered table-bordered-kh table-responsive-kh table-responsive log-level-table">
+        <caption class="hidden-kh">Log Level</caption>
+        <tbody id="log-level-tbody-media">
+          <tr class="hidden-kh">
+            <th scope="row">Log Level</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </div> <!-- tab-media -->
+
+    <div id="tab-tennisworld" class="kh-webapp-tab-content">
+
+      <div>
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.resetLogLevels('tennisworld')"
+          src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
+          title="Reset To Defaults" />
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.getLogLevels('tennisworld')"
+          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+          title="Refresh" />
+      </div>
+      <br>
+      <table class="table-responsive-kh table-responsive packages-table">
+        <caption class="hidden-kh">Packages</caption>
+        <tbody>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Packages</th>
+          </tr>
+          <tr>
+            <td>
+              <span>com.nicobrest.kamehouse.*</span>
+            </td>
+            <td>
+              <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+                id="select-kamehouse-log-level-tennisworld">
+                <option value="/trace" selected>TRACE</option>
+                <option value="/debug">DEBUG</option>
+              </select>
+            </td>
+            <td>
+              <img class="btn-log-level m-15-d-kh m-15-m-kh"
+                onclick="backendLogLevelUtils.setKamehouseLogLevel('tennisworld')"
+                src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+                title="Apply" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="log-level-table-tennisworld"
+        class="table table-bordered table-bordered-kh table-responsive-kh table-responsive log-level-table">
+        <caption class="hidden-kh">Log Level</caption>
+        <tbody id="log-level-tbody-tennisworld">
+          <tr class="hidden-kh">
+            <th scope="row">Log Level</th>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div> <!-- tab-tennisworld -->
+
+    <div id="tab-testmodule" class="kh-webapp-tab-content">
+
+      <div>
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.resetLogLevels('testmodule')"
+          src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
+          title="Reset To Defaults" />
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.getLogLevels('testmodule')"
+          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+          title="Refresh" />
+      </div>
+      <br>
+      <table class="table-responsive-kh table-responsive packages-table">
+        <caption class="hidden-kh">Packages</caption>
+        <tbody>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Packages</th>
+          </tr>
+          <tr>
+            <td>
+              <span>com.nicobrest.kamehouse.*</span>
+            </td>
+            <td>
+              <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+                id="select-kamehouse-log-level-testmodule">
+                <option value="/trace" selected>TRACE</option>
+                <option value="/debug">DEBUG</option>
+              </select>
+            </td>
+            <td>
+              <img class="btn-log-level m-15-d-kh m-15-m-kh"
+                onclick="backendLogLevelUtils.setKamehouseLogLevel('testmodule')"
+                src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+                title="Apply" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="log-level-table-testmodule"
+        class="table table-bordered table-bordered-kh table-responsive-kh table-responsive log-level-table">
+        <caption class="hidden-kh">Log Level</caption>
+        <tbody id="log-level-tbody-testmodule">
+          <tr class="hidden-kh">
+            <th scope="row">Log Level</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </div> <!-- tab-testmodule -->
+
+    <div id="tab-ui" class="kh-webapp-tab-content">
+
+      <div>
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.resetLogLevels('ui')"
+          src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
+          title="Reset To Defaults" />
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.getLogLevels('ui')"
+          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+          title="Refresh" />
+      </div>
+      <br>
+      <table class="table-responsive-kh table-responsive packages-table">
+        <caption class="hidden-kh">Packages</caption>
+        <tbody>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Packages</th>
+          </tr>
+          <tr>
+            <td>
+              <span>com.nicobrest.kamehouse.*</span>
+            </td>
+            <td>
+              <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+                id="select-kamehouse-log-level-ui">
+                <option value="/trace" selected>TRACE</option>
+                <option value="/debug">DEBUG</option>
+              </select>
+            </td>
+            <td>
+              <img class="btn-log-level m-15-d-kh m-15-m-kh"
+                onclick="backendLogLevelUtils.setKamehouseLogLevel('ui')"
+                src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+                title="Apply" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="log-level-table-ui"
+        class="table table-bordered table-bordered-kh table-responsive-kh table-responsive log-level-table">
+        <caption class="hidden-kh">Log Level</caption>
+        <tbody id="log-level-tbody-ui">
+          <tr class="hidden-kh">
+            <th scope="row">Log Level</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </div> <!-- tab-ui -->
+
+    <div id="tab-vlcrc" class="kh-webapp-tab-content">
+
+      <div>
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.resetLogLevels('vlcrc')"
+          src="/kame-house/img/other/cancel.png" alt="Reset To Defaults"
+          title="Reset To Defaults" />
+        <img class="btn-log-level log-level-status-buttons m-15-d-kh m-15-m-kh"
+          onclick="backendLogLevelUtils.getLogLevels('vlcrc')"
+          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh"
+          title="Refresh" />
+      </div>
+      <br>
+      <table class="table-responsive-kh table-responsive packages-table">
+        <caption class="hidden-kh">Packages</caption>
+        <tbody>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Packages</th>
+          </tr>
+          <tr>
+            <td>
+              <span>com.nicobrest.kamehouse.*</span>
+            </td>
+            <td>
+              <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+                id="select-kamehouse-log-level-vlcrc">
+                <option value="/trace" selected>TRACE</option>
+                <option value="/debug">DEBUG</option>
+              </select>
+            </td>
+            <td>
+              <img class="btn-log-level m-15-d-kh m-15-m-kh"
+                onclick="backendLogLevelUtils.setKamehouseLogLevel('vlcrc')"
+                src="/kame-house/img/mplayer/play-gray.png" alt="Apply"
+                title="Apply" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="log-level-table-vlcrc"
+        class="table table-bordered table-bordered-kh table-responsive-kh table-responsive log-level-table">
+        <caption class="hidden-kh">Log Level</caption>
+        <tbody id="log-level-tbody-vlcrc">
+          <tr class="hidden-kh">
+            <th scope="row">Log Level</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </div> <!-- tab-vlcrc -->
 
     <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
       <img id="debug-mode-btn" class="debug-mode-btn"

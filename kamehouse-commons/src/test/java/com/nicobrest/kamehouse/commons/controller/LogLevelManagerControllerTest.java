@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.admin.controller;
+package com.nicobrest.kamehouse.commons.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
@@ -7,8 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.doThrow;
-import com.nicobrest.kamehouse.admin.service.LogLevelManagerService;
+import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.commons.controller.LogLevelManagerController;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
@@ -67,7 +68,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   public void getLogLevelSinglePackageSuccessTest() throws Exception {
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse")).thenReturn(logLevelSingleElement);
 
-    MockHttpServletResponse response = doGet("/api/v1/admin/log-level?package=com.nicobrest"
+    MockHttpServletResponse response = doGet("/api/v1/commons/log-level?package=com.nicobrest"
         + ".kamehouse");
     List<String> responseBody = getResponseBodyList(response, String.class);
 
@@ -84,7 +85,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   public void getLogLevelSuccessTest() throws Exception {
     when(logLevelManagerService.getLogLevel(null)).thenReturn(logLevelMultipleElements);
 
-    MockHttpServletResponse response = doGet("/api/v1/admin/log-level");
+    MockHttpServletResponse response = doGet("/api/v1/commons/log-level");
     List<String> responseBody = getResponseBodyList(response, String.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -101,7 +102,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     doNothing().when(logLevelManagerService).setLogLevel("TRACE","com.nicobrest.kamehouse");
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse")).thenReturn(logLevelSingleElement);
 
-    MockHttpServletResponse response = doPut("/api/v1/admin/log-level?level=TRACE&package=com"
+    MockHttpServletResponse response = doPut("/api/v1/commons/log-level?level=TRACE&package=com"
         + ".nicobrest.kamehouse");
     List<String> responseBody = getResponseBodyList(response, String.class);
 
@@ -121,7 +122,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     doNothing().when(logLevelManagerService).setLogLevel("TRACE","com.nicobrest.kamehouse");
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse")).thenReturn(logLevelSingleElement);
 
-    MockHttpServletResponse response = doPut("/api/v1/admin/log-level?level=TRACE");
+    MockHttpServletResponse response = doPut("/api/v1/commons/log-level?level=TRACE");
     List<String> responseBody = getResponseBodyList(response, String.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -143,7 +144,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     doThrow(new KameHouseBadRequestException("Invalid log level TRACEs"))
         .when(logLevelManagerService).validateLogLevel("TRACEs");
 
-    doPut("/api/v1/admin/log-level?level=TRACEs");
+    doPut("/api/v1/commons/log-level?level=TRACEs");
   }
 
   /**
@@ -153,7 +154,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   public void setKamehouseLogLevelsToDebugSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
 
-    MockHttpServletResponse response = doPut("/api/v1/admin/log-level/debug");
+    MockHttpServletResponse response = doPut("/api/v1/commons/log-level/debug");
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(logLevelManagerService, times(1)).setKamehouseLogLevelsToDebug();
@@ -168,7 +169,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   public void setKamehouseLogLevelsToTraceSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
 
-    MockHttpServletResponse response = doPut("/api/v1/admin/log-level/trace");
+    MockHttpServletResponse response = doPut("/api/v1/commons/log-level/trace");
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(logLevelManagerService, times(1)).setKamehouseLogLevelsToTrace();
@@ -183,7 +184,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   public void resetLogLevelsSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).resetLogLevels();
 
-    MockHttpServletResponse response = doDelete("/api/v1/admin/log-level");
+    MockHttpServletResponse response = doDelete("/api/v1/commons/log-level");
 
     verifyResponseStatus(response, HttpStatus.OK);
     verify(logLevelManagerService, times(1)).resetLogLevels();

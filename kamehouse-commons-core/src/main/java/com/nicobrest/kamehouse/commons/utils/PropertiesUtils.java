@@ -25,16 +25,23 @@ public class PropertiesUtils {
 
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
 
-  private static final Properties commonsProperties = new Properties();
+  private static final Properties properties = new Properties();
 
   static {
     try {
-      Resource adminPropertiesResource = new ClassPathResource("/commons.properties");
-      Properties adminPropertiesFromFile = PropertiesLoaderUtils
-          .loadProperties(adminPropertiesResource);
-      commonsProperties.putAll(adminPropertiesFromFile);
+      Resource propertiesResource = new ClassPathResource("/commons.properties");
+      Properties adminPropertiesFromFile = PropertiesLoaderUtils.loadProperties(propertiesResource);
+      properties.putAll(adminPropertiesFromFile);
     } catch (IOException e) {
-      LOGGER.error("Error loading properties files.", e);
+      LOGGER.error("Error loading commons.properties files.", e);
+    }
+
+    try {
+      Resource propertiesResource = new ClassPathResource("/kamehouse.properties");
+      Properties adminPropertiesFromFile = PropertiesLoaderUtils.loadProperties(propertiesResource);
+      properties.putAll(adminPropertiesFromFile);
+    } catch (IOException e) {
+      LOGGER.error("Error loading kamehouse.properties files.", e);
     }
   }
 
@@ -83,9 +90,17 @@ public class PropertiesUtils {
   }
 
   /**
-   * Gets the specified property from the commons application properties.
+   * Gets the current module name (ej: admin, media, tennisworld, testmodule, ui, vlcrc)
+   * as defined in kamehouse.properties.
+   */
+  public static String getModuleName() {
+    return properties.getProperty("module.name", "MODULE_NAME_NOT_SET");
+  }
+
+  /**
+   * Gets the specified property from the commons/kamehouse application properties.
    */
   public static String getProperty(String propertyName) {
-    return commonsProperties.getProperty(propertyName);
+    return properties.getProperty(propertyName);
   }
 }

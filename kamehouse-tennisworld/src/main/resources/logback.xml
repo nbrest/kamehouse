@@ -69,7 +69,7 @@
   </logger>
 
   <!-- kamehouse internal nested packages and classes -->
-  <logger name="com.nicobrest.kamehouse.admin.controller.LogLevelManagerController" additivity="false">
+  <logger name="com.nicobrest.kamehouse.commons.controller.LogLevelManagerController" additivity="false">
     <level value="INFO" />
     <appender-ref ref="dailyRollingFileAppender"/>
     <appender-ref ref="consoleAppender" />
