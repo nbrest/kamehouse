@@ -122,6 +122,7 @@ function PlaylistBrowser(vlcPlayer) {
     let playlist = self.getSelectedPlaylist();
     self.vlcPlayer.playFile(playlist);
     self.vlcPlayer.openTab('tab-playlist');
+    self.vlcPlayer.reloadPlaylist();
   }
 
   /** Populate the playlist table for browsing. */
