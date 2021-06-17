@@ -60,6 +60,8 @@ public class SessionStatusService {
     if (session != null) {
       sessionStatus.setSessionId(session.getId());
     }
+    sessionStatus.setBuildVersion(PropertiesUtils.getProperty("kamehouse.build.version"));
+    sessionStatus.setBuildDate(PropertiesUtils.getProperty("kamehouse.build.date"));
     logger.trace("get session response {}", sessionStatus);
     return sessionStatus;
   }

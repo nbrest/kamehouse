@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -8,8 +9,10 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -22,29 +25,15 @@ import java.util.Properties;
 public class PropertiesUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
-
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
-
   private static final Properties properties = new Properties();
+  private static final String COMMONS_POM_PROPERTIES = "/META-INF/maven/com"
+      + ".nicobrest/kame-house-commons-core/pom.properties";
 
   static {
-    try {
-      Resource propertiesResource = new ClassPathResource("/commons.properties");
-      Properties adminPropertiesFromFile = PropertiesLoaderUtils.loadProperties(propertiesResource);
-      properties.putAll(adminPropertiesFromFile);
-    } catch (IOException e) {
-      LOGGER.error("Error loading commons.properties files.", e);
-    }
-
-    try {
-      Resource propertiesResource = new ClassPathResource("/kamehouse.properties");
-      Properties adminPropertiesFromFile = PropertiesLoaderUtils.loadProperties(propertiesResource);
-      properties.putAll(adminPropertiesFromFile);
-    } catch (IOException e) {
-      LOGGER.error("Error loading kamehouse.properties files.", e);
-    }
+    loadAllPropertiesFiles();
+    loadBuildVersionAndDate();
   }
-
 
   private PropertiesUtils() {
     throw new IllegalStateException("Utility class");
@@ -102,5 +91,58 @@ public class PropertiesUtils {
    */
   public static String getProperty(String propertyName) {
     return properties.getProperty(propertyName);
+  }
+
+  /**
+   * Loads all properties files.
+   */
+  private static void loadAllPropertiesFiles() {
+    loadPropertiesFile("commons.properties");
+    loadPropertiesFile("kamehouse.properties");
+  }
+
+  /**
+   * Loads the specified properties file.
+   */
+  private static void loadPropertiesFile(String filename) {
+    try {
+      Resource propertiesResource = new ClassPathResource("/" + filename);
+      Properties loadedProperties = PropertiesLoaderUtils.loadProperties(propertiesResource);
+      properties.putAll(loadedProperties);
+    } catch (IOException e) {
+      LOGGER.error("Error loading " + filename + " files.", e);
+    }
+  }
+
+  /**
+   * Loads the build version and date.
+   */
+  private static void loadBuildVersionAndDate() {
+    try {
+      InputStream pomPropertiesInputStream =
+          PropertiesUtils.class.getResourceAsStream(COMMONS_POM_PROPERTIES);
+      List<String> pomProperties = null;
+      if (pomPropertiesInputStream != null) {
+        pomProperties = IOUtils.readLines(pomPropertiesInputStream,
+            StandardCharsets.UTF_8.name());
+      }
+      if (pomProperties == null) {
+        LOGGER.error("Error loading kamehouse build version and date into properties");
+        return;
+      }
+      for (String pomPropertiesLine : pomProperties) {
+        if (pomPropertiesLine.startsWith("#Generated")) {
+          continue;
+        }
+        if (pomPropertiesLine.startsWith("#")) {
+          properties.put("kamehouse.build.date", pomPropertiesLine.substring(1));
+        }
+        if (pomPropertiesLine.startsWith("version=")) {
+          properties.put("kamehouse.build.version", pomPropertiesLine.substring(8));
+        }
+      }
+    } catch (IOException e) {
+      LOGGER.error("Error loading kamehouse build version and date into properties");
+    }
   }
 }

@@ -47,7 +47,7 @@ async function updateSessionStatus() {
     await sleep(1000);
   }
   header.updateLoginStatus();
-  footer.updateServerName();
+  footer.updateFooterWithSessionInfo();
   bannerUtils.updateServerName();
 }
 
@@ -67,10 +67,16 @@ function Footer() {
     });
   }
 
-  /** Update the server name in the footer */
-  this.updateServerName = () => {
+  /** Update the server name, and build info in the footer */
+  this.updateFooterWithSessionInfo = () => {
     if (!isNullOrUndefined(global.session.server)) {
       $("#footer-server-name").text(global.session.server);
+    }
+    if (!isNullOrUndefined(global.session.buildVersion)) {
+      $("#footer-build-version").text(global.session.buildVersion);
+    }
+    if (!isNullOrUndefined(global.session.buildDate)) {
+      $("#footer-build-date").text(global.session.buildDate);
     }
   }
 }

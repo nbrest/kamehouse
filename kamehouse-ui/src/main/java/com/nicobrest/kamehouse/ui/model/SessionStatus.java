@@ -16,6 +16,8 @@ public class SessionStatus {
   private String lastName;
   private String server;
   private String sessionId;
+  private String buildVersion;
+  private String buildDate;
 
   public String getUsername() {
     return username;
@@ -55,6 +57,22 @@ public class SessionStatus {
 
   public void setSessionId(String sessionId) {
     this.sessionId = sessionId;
+  }
+
+  public String getBuildVersion() {
+    return buildVersion;
+  }
+
+  public void setBuildVersion(String buildVersion) {
+    this.buildVersion = buildVersion;
+  }
+
+  public String getBuildDate() {
+    return buildDate;
+  }
+
+  public void setBuildDate(String buildDate) {
+    this.buildDate = buildDate;
   }
 
   @Override
