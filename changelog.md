@@ -1,9 +1,16 @@
 # ChangeLog:
 
-#### v1.08
+#### v2.00
 
-* Split media package into it's own kamehouse-media module
-* Started splitting main package into kamehouse-commons and kamehouse-commons-test
+* **Restructured the whole project into separate modules. The project structure is completely
+ different from the previous versions**
+* Created modules admin, commons, commons-core, commons-test, media, tennisworld, testmodule, ui
+,vlcrc
+* Added spring session to store sessions in the db to share the session between all modules
+* Refactored jsps and servlets for test module
+* Moved a lot of the spring configuration beans from xml to annotations. Simplified a lot the xml
+ configurations
+* Fixed bugs
 
 #### v1.07
 

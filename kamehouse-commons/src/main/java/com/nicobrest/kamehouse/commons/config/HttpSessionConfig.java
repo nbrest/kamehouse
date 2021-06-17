@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.commons.config;
 
-import com.nicobrest.kamehouse.commons.model.ApplicationRole;
-import com.nicobrest.kamehouse.commons.model.ApplicationUser;
+import com.nicobrest.kamehouse.commons.model.KameHouseRole;
+import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
@@ -45,14 +45,14 @@ public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer
    * Default user to return when the user is not logged in.
    */
   @Bean
-  public ApplicationUser anonymousUser() {
-    ApplicationUser anonymousUser = new ApplicationUser();
+  public KameHouseUser anonymousUser() {
+    KameHouseUser anonymousUser = new KameHouseUser();
     anonymousUser.setUsername("anonymousUser");
-    ApplicationRole applicationRole = new ApplicationRole();
-    applicationRole.setName("ROLE_ANONYMOUS");
-    Set<ApplicationRole> applicationRoles =  new HashSet<>();
-    applicationRoles.add(applicationRole);
-    anonymousUser.setAuthorities(applicationRoles);
+    KameHouseRole kameHouseRole = new KameHouseRole();
+    kameHouseRole.setName("ROLE_ANONYMOUS");
+    Set<KameHouseRole> kameHouseRoles =  new HashSet<>();
+    kameHouseRoles.add(kameHouseRole);
+    anonymousUser.setAuthorities(kameHouseRoles);
     return anonymousUser;
   }
 

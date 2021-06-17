@@ -8,30 +8,30 @@
 
   <http entry-point-ref="customEntryPoint">
     <!-- The order of intercept-urls matters. Order them from more specific to more
-      general within the same url. Ej: /api/v1/admin/application/** before /api/v1/admin/** -->
+      general within the same url. Ej: /api/v1/admin/kamehouse/** before /api/v1/admin/** -->
 
-    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+    <intercept-url pattern="/api/v1/admin/kamehouse/**" access="hasRole('ROLE_KAMISAMA')"
                    method="GET" />
-    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+    <intercept-url pattern="/api/v1/admin/kamehouse/**" access="hasRole('ROLE_KAMISAMA')"
                    method="POST" />
-    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+    <intercept-url pattern="/api/v1/admin/kamehouse/**" access="hasRole('ROLE_KAMISAMA')"
                    method="PUT" />
-    <intercept-url pattern="/api/v1/admin/application/**" access="hasRole('ROLE_ADMIN')"
+    <intercept-url pattern="/api/v1/admin/kamehouse/**" access="hasRole('ROLE_KAMISAMA')"
                    method="DELETE" />
 
-    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_ADMIN')" method="GET" />
-    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_ADMIN')" method="POST" />
-    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_ADMIN')" method="PUT" />
-    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_ADMIN')" method="DELETE" />
+    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_KAMISAMA')" method="GET" />
+    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_KAMISAMA')" method="POST" />
+    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_KAMISAMA')" method="PUT" />
+    <intercept-url pattern="/api/v1/admin/**" access="hasRole('ROLE_KAMISAMA')" method="DELETE" />
 
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
     <!-- ======================================================================================= -->
 
-    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="GET" />
-    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="POST" />
-    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="PUT" />
-    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_ADMIN')" method="DELETE" />
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="GET" />
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="POST" />
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="PUT" />
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="DELETE" />
 
     <form-login login-page="/login"
                 username-parameter="username"
@@ -46,7 +46,7 @@
   </http>
 
   <authentication-manager>
-    <authentication-provider ref="applicationAuthenticationProvider" />
+    <authentication-provider ref="kameHouseAuthenticationProvider" />
   </authentication-manager>
 
 </beans:beans>

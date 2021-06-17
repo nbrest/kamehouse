@@ -1,6 +1,6 @@
 # Compilation:
 
-* Compile using `mvn clean install [compilation option]` .
+* Compile using `mvn clean install [compilation option]` in the root to build all the modules.
 
 | Option | Usage | Description | 
 | ------------------ | ----- | ----------- |
@@ -10,6 +10,8 @@
 
 ## View code coverage reports in my local:
 
-* For **kamehouse-webapp** module: open `kamehouse-webapp/target/site/jacoco/index.html` in a
+* For **kamehouse-admin** module: open `kamehouse-admin/target/site/jacoco/index.html` in a
  browser
  after building the module
+ * Same for all the other modules
+ 

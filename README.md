@@ -8,17 +8,25 @@
  
 # Description:
 
-This application (still under construction) will contain the following modules: 
+This application (forever under construction) contains the following modules: 
 
-* Manage my media files (store their location and information in a database and create interfaces to play them)
-* Control multiple VLC Players through a custom interface using VLC's http API
-* Control the server running the application (shutdown, suspend, lock screen, unlock screen, etc)
-* Do automated bookings to tennis world (Australia)
-* Application administration view (with Spring Security)
-* About and contact us
-* Newsletter functionality
-* Test API endpoints to practice different frontend frameworks
-* Integration with social networks and other public APIs
+[Admin](kamehouse-admin/README.md)
+
+[Commons](kamehouse-commons/README.md)
+
+[Commons Core](kamehouse-commons-core/README.md)
+
+[Commons Test](kamehouse-commons-test/README.md)
+
+[Media](kamehouse-media/README.md)
+
+[TennisWorld](kamehouse-tennisworld/README.md)
+
+[TestModule](kamehouse-testmodule/README.md)
+
+[UI](kamehouse-ui/README.md)
+
+[VlcRc](kamehouse-vlcrc/README.md)
 
 The main idea of this application is to keep improving and learning best practices of software development with Java and frontend technologies, so if you are a software developer and can look through the code and see vulnerabilities or things to improve I'd be more than happy to hear about them!
 
@@ -26,13 +34,13 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 ### Java frameworks/libraries:
 
-* Spring
-* Spring Security
+* Apache Commons
+* Ehcache
 * Hibernate
 * Hsqldb
-* Ehcache
 * Jsoup
-* Apache Commons
+* Quartz Scheduler
+* Spring (Core, Security, Session)
 
 ### Javascript frameworks/libraries:
 
@@ -53,7 +61,16 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 # Live demo:
 
-This application is hosted in https://www.nicobrest.com/kame-house/ so you can check it out and play around with it and report any issues :) It's hosted in an Amazon AWS Free Tier EC2 Ubuntu 18 running with mysql. Most of the external dependencies are not installed though and it's not configured to execute shutdown or lock commands. So you can test the UI (remember I'm a backend developer :p) and some of the functionality in the VLC player and test module with some limitations. For example, AWS EC2 Ubuntu's kernel isn't compiled with audio modules (not even dummy), so audio will always revert to 0%, even if you update it with the buttons or slider.
+This application is hosted in https://www.nicobrest.com/kame-house/ so you can check it out and play around with it and report any issues :) 
+
+It's currently running on a Raspberry Pi, so might not be up all the time
+
+~~It's hosted in an Amazon AWS Free Tier EC2 Ubuntu 18 running with mysql. Most of the external
+ dependencies are not installed though and it's not configured to execute shutdown or lock
+  commands. So you can test the UI (remember I'm a backend developer :p) and some of the
+   functionality in the VLC player and test module with some limitations. For example, AWS EC2
+    Ubuntu's kernel isn't compiled with audio modules (not even dummy), so audio will always
+     revert to 0%, even if you update it with the buttons or slider.~~
 
 # Target Devices:
 

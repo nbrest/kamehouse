@@ -1,6 +1,7 @@
 # Installation:
 
-* Deploy as a standard war into the webapps directory of your tomcat installation
+* Deploy each module that compiles to war as a standard war into the webapps directory of your
+ tomcat installation
 
 ## Tomcat:
 

@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.ui.service;
 
-import com.nicobrest.kamehouse.commons.model.ApplicationUser;
-import com.nicobrest.kamehouse.commons.service.ApplicationUserAuthenticationService;
+import com.nicobrest.kamehouse.commons.model.KameHouseUser;
+import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 
@@ -28,15 +28,15 @@ public class SessionStatusService {
   private final Logger logger = LoggerFactory.getLogger(getClass());
   
   @Autowired
-  private ApplicationUserAuthenticationService applicationUserAuthenticationService;
+  private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
   
-  public void setApplicationUserAuthenticationService(ApplicationUserAuthenticationService
-                                            applicationUserAuthenticationService) {
-    this.applicationUserAuthenticationService = applicationUserAuthenticationService;
+  public void setKameHouseUserAuthenticationService(KameHouseUserAuthenticationService
+                                                        kameHouseUserAuthenticationService) {
+    this.kameHouseUserAuthenticationService = kameHouseUserAuthenticationService;
   }
   
-  public ApplicationUserAuthenticationService getApplicationUserAuthenticationService() {
-    return applicationUserAuthenticationService;
+  public KameHouseUserAuthenticationService getKameHouseUserAuthenticationService() {
+    return kameHouseUserAuthenticationService;
   }
   
   /**
@@ -50,10 +50,10 @@ public class SessionStatusService {
     sessionStatus.setUsername(StringEscapeUtils.escapeHtml(username));
     sessionStatus.setServer(PropertiesUtils.getHostname());
     try {
-      ApplicationUser applicationUser =
-          applicationUserAuthenticationService.loadUserByUsername(username);
-      sessionStatus.setFirstName(applicationUser.getFirstName());
-      sessionStatus.setLastName(applicationUser.getLastName()); 
+      KameHouseUser kameHouseUser =
+          kameHouseUserAuthenticationService.loadUserByUsername(username);
+      sessionStatus.setFirstName(kameHouseUser.getFirstName());
+      sessionStatus.setLastName(kameHouseUser.getLastName());
     } catch (UsernameNotFoundException e) {
       logger.warn(e.getMessage());
     }

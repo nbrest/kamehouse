@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.ui.service;
 
 import static org.mockito.Mockito.when;
-import com.nicobrest.kamehouse.commons.model.ApplicationUser;
-import com.nicobrest.kamehouse.commons.service.ApplicationUserAuthenticationService;
+import com.nicobrest.kamehouse.commons.model.KameHouseUser;
+import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 import com.nicobrest.kamehouse.ui.testutils.SessionStatusTestUtils;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class SessionStatusServiceTest {
   private SessionStatusService sessionStatusService;
 
   @Mock
-  private ApplicationUserAuthenticationService applicationUserAuthenticationService;
+  private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
   @Before
   public void init() {
@@ -48,7 +48,7 @@ public class SessionStatusServiceTest {
     sessionStatus = testUtils.getSingleTestData();
 
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(applicationUserAuthenticationService);
+    Mockito.reset(kameHouseUserAuthenticationService);
   }
 
   /**
@@ -62,9 +62,9 @@ public class SessionStatusServiceTest {
     SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
     PowerMockito.when(sessionStatusServiceSpy, "getAuthentication")
         .thenReturn(authentication);
-    ApplicationUser applicationUserMock = new ApplicationUser();
-    when(applicationUserAuthenticationService.loadUserByUsername("anonymousUser"))
-        .thenReturn(applicationUserMock);
+    KameHouseUser kameHouseUserMock = new KameHouseUser();
+    when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))
+        .thenReturn(kameHouseUserMock);
 
     SessionStatus returnedSessionStatus = sessionStatusServiceSpy.get(null);
 
