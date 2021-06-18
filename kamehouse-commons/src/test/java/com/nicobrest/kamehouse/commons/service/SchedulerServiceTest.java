@@ -25,6 +25,7 @@ import org.quartz.Trigger;
 import org.quartz.impl.JobDetailImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,10 +74,36 @@ public class SchedulerServiceTest {
    */
   @Test
   public void getAllJobsStatusSuccessTest() {
+    KameHouseJob expectedKameHouseJob = new KameHouseJob();
+    expectedKameHouseJob.setJobClass(
+        "com.nicobrest.kamehouse.commons.service.SchedulerServiceTest.SampleTestJob");
+    KameHouseJob.Key scheduleKey = new KameHouseJob.Key();
+    scheduleKey.setName("sampleTrigger");
+    scheduleKey.setGroup("DEFAULT");
+    KameHouseJob.Schedule schedule = new KameHouseJob.Schedule();
+    schedule.setKey(scheduleKey);
+    schedule.setDescription("");
+    schedule.setPriority(5);
+    KameHouseJob.Key jobKey = new KameHouseJob.Key();
+    jobKey.setName("sampleJob");
+    jobKey.setGroup("DEFAULT");
+    expectedKameHouseJob.setKey(jobKey);
+    expectedKameHouseJob.setSchedules(Arrays.asList(new KameHouseJob.Schedule[]{schedule}));
+
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();
     assertEquals(1, jobs.size());
-    assertEquals("sampleJob", jobs.get(0).getKey().getName());
-    assertEquals("sampleTrigger", jobs.get(0).getSchedules().get(0).getKey().getName());
+    KameHouseJob returnedJob = jobs.get(0);
+    assertEquals("sampleJob", returnedJob.getKey().getName());
+    assertEquals("sampleTrigger", returnedJob.getSchedules().get(0).getKey().getName());
+    assertEquals(expectedKameHouseJob, returnedJob);
+    assertEquals(expectedKameHouseJob.hashCode(), returnedJob.hashCode());
+
+    assertEquals(expectedKameHouseJob.getKey(), returnedJob.getKey());
+    assertEquals(expectedKameHouseJob.getKey().hashCode(), returnedJob.getKey().hashCode());
+
+    assertEquals(expectedKameHouseJob.getSchedules(), returnedJob.getSchedules());
+    assertEquals(expectedKameHouseJob.getSchedules().hashCode(),
+        returnedJob.getSchedules().hashCode());
   }
 
   /**
@@ -105,6 +132,18 @@ public class SchedulerServiceTest {
     schedulerService.scheduleJob(jobDetail, 2);
     // no exception thrown
   }
+
+  /**
+   * Schedule job successful test.
+   */
+  @Test
+  public void scheduleJobJobKeySuccessTest() {
+    JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
+
+    schedulerService.scheduleJob(jobKey, 2);
+    // no exception thrown
+  }
+
 
   /**
    * Dummy sample job test class for unit tests.

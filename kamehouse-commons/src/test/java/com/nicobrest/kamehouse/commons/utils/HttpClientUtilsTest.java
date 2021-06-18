@@ -1,7 +1,9 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import org.apache.http.client.HttpClient;
 import org.junit.Test;
 
 /**
@@ -10,6 +12,15 @@ import org.junit.Test;
  * @author nbrest
  */
 public class HttpClientUtilsTest {
+
+  /**
+   * Tests getting an http client.
+   */
+  @Test
+  public void getClientTest() {
+    HttpClient client = HttpClientUtils.getClient("goku", "trunks");
+    assertNotNull(client);
+  }
 
   /**
    * Tests encoding successfully a url parameter.
