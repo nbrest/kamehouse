@@ -217,7 +217,7 @@ function VlcPlayer(hostname) {
  */
 function VlcPlayerCommandExecutor(vlcPlayer) {
   let self = this;
-  const vlcPlayerProcessControlUrl = '/kame-house-vlcrc/api/v1/vlc-rc/vlc';
+  const vlcPlayerProcessControlUrl = '/kame-house-vlcrc/api/v1/vlc-rc/vlc-process';
   this.vlcPlayer = vlcPlayer;
   this.vlcRcCommandUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/commands';
 

@@ -138,7 +138,9 @@ public class PropertiesUtils {
           properties.put("kamehouse.build.date", pomPropertiesLine.substring(1));
         }
         if (pomPropertiesLine.startsWith("version=")) {
-          properties.put("kamehouse.build.version", pomPropertiesLine.substring(8));
+          properties.put("kamehouse.build.version", pomPropertiesLine
+              .replace("version=", "")
+              .replace("-KAMEHOUSE-SNAPSHOT", ""));
         }
       }
     } catch (IOException e) {

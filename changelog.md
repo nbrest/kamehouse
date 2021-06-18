@@ -10,6 +10,13 @@
 * Refactored jsps and servlets for test module
 * Moved a lot of the spring configuration beans from xml to annotations. Simplified a lot the xml
  configurations
+* Added build version and date to footer
+* Renamed ApplicationUser to KameHouseUser and renamed roles
+* Renamed AdminCommand to a more generic KameHouseSystemCommand reused in other modules outside
+ admin
+* Moved session status API to UI module
+* Moved vlc open and close system commands from admin to vlcrc module
+* Fixed the UI for log level, ehcache and scheduler to manage all the backend modules
 * Fixed bugs
 
 #### v1.07
