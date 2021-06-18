@@ -1,6 +1,9 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.powermock.api.mockito.PowerMockito.when;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.config.TestModuleSchedulerConfig;
 import org.junit.Before;
 import org.junit.Rule;
@@ -10,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 
 /**
  * Unit tests for the TestSchedulerService class.
@@ -45,10 +49,36 @@ public class TestSchedulerServiceTest {
   }
 
   /**
-   * Get shutdown server status successful test.
+   * Sample job exception test.
    */
   @Test
-  public void getShutdownStatusSuccessTest() {
+  public void scheduleSampleJobExceptionTest() throws SchedulerException {
+    thrown.expect(KameHouseServerErrorException.class);
+    thrown.expectMessage("mada mada dane");
+    when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
+    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+
+    testSchedulerService.scheduleSampleJob(5400);
+  }
+
+  /**
+   * Sample job exception trigger won't fire test.
+   */
+  @Test
+  public void scheduleSampleJobExceptionTriggerWontFireTest() throws SchedulerException {
+    when(scheduler.scheduleJob(any()))
+        .thenThrow(new SchedulerException(TestSchedulerService.TRIGGER_WONT_FIRE));
+    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+
+    testSchedulerService.scheduleSampleJob(5400);
+    // No exception thrown from the service
+  }
+
+  /**
+   * Get job status successful test.
+   */
+  @Test
+  public void getJobStatusSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
     String status = testSchedulerService.getSampleJobStatus();
@@ -56,10 +86,10 @@ public class TestSchedulerServiceTest {
   }
 
   /**
-   * Cancel shutdown server successful test.
+   * Cancel job successful test.
    */
   @Test
-  public void cancelScheduledShutdownSuccessTest() {
+  public void cancelJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
     String status = testSchedulerService.cancelScheduledSampleJob();

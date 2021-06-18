@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class TestSchedulerService {
 
   private static final Logger logger = LoggerFactory.getLogger(TestSchedulerService.class);
-  private static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
+  protected static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
       + "trigger will never fire";
   private static final String SAMPLE_JOB_TRIGGER = "sampleJobTrigger";
 
