@@ -48,7 +48,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * Hsqldb
 * Jsoup
 * Quartz Scheduler
-* Spring (Core, Security, Session)
+* Spring (Core, Security, Session, Web)
 
 ### Javascript frameworks/libraries:
 

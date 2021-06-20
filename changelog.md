@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v2.01
+
+* Added a scheduled job to book cardio sessions automatically in tennis world
+
 #### v2.00
 
 * **Restructured the whole project into separate modules. The project structure is completely
