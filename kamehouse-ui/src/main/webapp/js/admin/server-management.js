@@ -27,7 +27,6 @@ function ServerManager() {
   const ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
   const SUSPEND_URL = '/power-management/suspend';
   const SHUTDOWN_URL = '/power-management/shutdown';
-  this.debugger = new Debugger();
 
   /**
    * --------------------------------------------------------------------------
@@ -159,27 +158,6 @@ function ServerManager() {
   function processError(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-  }
-
-  /**
-   * --------------------------------------------------------------------------
-   * Debugger functionality
-   */
-  this.getDebugger = () => this.debugger;
-}
-
-/** 
- * Handles the debugger functionality.
- * 
- * @author nbrest
- */
-function Debugger() {
-
-  /** Toggle debug mode. */
-  this.toggleDebugMode = () => {
-    logger.debug("Toggled debug mode")
-    let debugModeDiv = document.getElementById("debug-mode");
-    debugModeDiv.classList.toggle("hidden-kh");
   }
 }
 

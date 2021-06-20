@@ -51,7 +51,7 @@ function VlcPlayer(hostname) {
     }
     let vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
     vlcPlayerTabLink.classList.add("active");
-    
+
     // Update tab content visibility
     let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
     for (let i = 0; i < vlcPlayerTabContent.length; i++) {
@@ -63,7 +63,7 @@ function VlcPlayer(hostname) {
     setTimeout(() => {
       // Asynchronously show or hide playlist and playlist browser content
       let playlistTable = document.getElementById("playlist-table");
-       if ("tab-playlist" == vlcPlayerTabDivId) {
+      if ("tab-playlist" == vlcPlayerTabDivId) {
         playlistTable.style.display = "table";
       } else {
         playlistTable.style.display = "none";
@@ -83,7 +83,7 @@ function VlcPlayer(hostname) {
    * Execute VlcPlayer commands
    */
   this.playFile = (fileName) => self.commandExecutor.playFile(fileName);
-  
+
   this.execVlcRcCommand = (name, val) => self.commandExecutor.execVlcRcCommand(name, val);
 
   this.updateSubtitleDelay = (increment) => {
@@ -91,7 +91,7 @@ function VlcPlayer(hostname) {
     if (!isNullOrUndefined(subtitleDelay)) {
       subtitleDelay = Number(subtitleDelay) + Number(increment);
     } else {
-     subtitleDelay = 0 + Number(increment);
+      subtitleDelay = 0 + Number(increment);
     }
     self.commandExecutor.execVlcRcCommand('subdelay', subtitleDelay);
   }
@@ -332,11 +332,11 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   }
 
   /** Update subtitle delay. */
-  this.updateSubtitleDelay = () => { 
+  this.updateSubtitleDelay = () => {
     let subtitleDelay = self.vlcPlayer.getVlcRcStatus().subtitleDelay;
     if (isNullOrUndefined(subtitleDelay)) {
       subtitleDelay = "0";
-    } 
+    }
     $("#subtitle-delay-value").text(subtitleDelay);
   }
 
@@ -529,8 +529,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   /** Connects the playlist websocket to the backend. */
   this.connectPlaylist = function connectPlaylist() {
     logger.debugFunctionCall();
-    self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) { 
-      if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) { 
+    self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
+      if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
         self.vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
       } else {
         self.vlcPlayer.setUpdatedPlaylist(null);
@@ -663,7 +663,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.tbodyFilenames = null;
   this.dobleLeftImg = null;
   this.dobleRightImg = null;
-  
+
   /** Init Playlist. */
   this.init = function init() {
     logger.debugFunctionCall();
@@ -688,19 +688,19 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.setUpdatedPlaylist = (updatedPlaylist) => self.updatedPlaylist = updatedPlaylist;
 
   /** Reload playlist updating the playlist view. */
-  this.reload = () => { 
+  this.reload = () => {
     if (!self.isPlaylistUpdated(self.currentPlaylist, self.updatedPlaylist)) {
       // Playlist content not updated, just update currently playing element and return
       self.highlightCurrentPlayingItem();
       return;
-    } 
+    }
     self.currentPlaylist = self.updatedPlaylist;
     // Clear playlist content. 
     $("#playlist-table-body").empty();
     // Add the new playlist items received from the server.
-    let $playlistTableBody = $('#playlist-table-body'); 
-    if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) 
-      || self.currentPlaylist.length <= 0) {
+    let $playlistTableBody = $('#playlist-table-body');
+    if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) ||
+      self.currentPlaylist.length <= 0) {
       let madaMadaDane = 'まだまだだね';
       let playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. " + madaMadaDane + " :)"));
       $playlistTableBody.append(playlistTableRow);
@@ -923,9 +923,9 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Default actions for succesful api responses */
   function apiCallSuccessDefault(responseBody) {
-      cursorUtils.setCursorDefault();
-      logger.debug("Response: " + JSON.stringify(responseBody));
-      self.vlcPlayer.pollVlcRcStatus();
+    cursorUtils.setCursorDefault();
+    logger.debug("Response: " + JSON.stringify(responseBody));
+    self.vlcPlayer.pollVlcRcStatus();
   }
 
   /** Default actions for error api responses */
@@ -936,7 +936,7 @@ function VlcPlayerRestClient(vlcPlayer) {
 }
 
 /** 
- * Handles the debugger functionality of vlc player.
+ * Handles the debugger functionality of vlc player in the debugger's custom area.
  * 
  * This prototype is meant to be instantiated by VlcPlayer() constructor.
  * It's not meant to be used standalone. The vlcPlayer parameter to the constructor
@@ -948,13 +948,6 @@ function VlcPlayerDebugger(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
   this.vlcRcStatusHttpUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/status';
-
-  /** Toggle debug mode. */
-  this.toggleDebugMode = () => {
-    logger.debug("Toggled debug mode")
-    let debugModeDiv = document.getElementById("debug-mode");
-    debugModeDiv.classList.toggle("hidden-kh");
-  }
 
   /** 
    * Get VlcRcStatus via http get. It doesn't sync the media player status. 

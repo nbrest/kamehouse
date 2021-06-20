@@ -338,21 +338,12 @@
       </table>
 
     </div> <!-- tab-vlcrc -->
-
-    <div class="default-layout debug-mode-btn-section txt-c-d-kh txt-c-m-kh">
-      <img id="debug-mode-btn" class="debug-mode-btn"
-        src="/kame-house/img/other/debug-btn-success.png"
-        onclick="kamehouseDebugger.toggleDebugMode()" alt="Debug Mode"
-        title="Debug Mode" />
-    </div>
-    <div id="debug-mode" class="p-15-d-kh p-15-m-kh hidden-kh">
-      <div class="default-layout">
-        <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
-        <div id="api-call-table"></div>
-      </div>
-    </div>
+    
+    <span id="debug-mode-button-wrapper"></span>
   </div>
+  <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/js/snippets/api-call-table.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
 </body>
 </html>

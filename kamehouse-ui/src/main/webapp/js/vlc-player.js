@@ -1,7 +1,7 @@
 /**
  * VLC Player page functions.
  * 
- * Dependencies: logger, vlcPlayer, playlistBrowser
+ * Dependencies: logger, vlcPlayer, playlistBrowser, kameHouseDebugger
  * 
  * @author nbrest
  */
@@ -19,6 +19,10 @@ var main = () => {
     playlistBrowser.init();
     playlistBrowser.populateVideoPlaylistCategories();
     vlcPlayer.init();
+  });
+
+  moduleUtils.waitForModules(["kameHouseDebugger"], () => {
+    kameHouseDebugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
   });
 };
 

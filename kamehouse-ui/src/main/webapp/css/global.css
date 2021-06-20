@@ -119,6 +119,8 @@ body {
 .debug-mode-btn {
   margin-left: 40px;
   margin-right: 40px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -140,6 +142,8 @@ body {
   .debug-mode-btn {
     margin-left: 25px;
     margin-right: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   .debug-mode-btn:active {

@@ -2,7 +2,6 @@
  * Functionality to list and manipulate scheduled jobs in the backend.
  */
 var scheduler;
-var kamehouseDebugger;
 
 window.onload = () => {
   scheduler = new Scheduler();
@@ -16,7 +15,6 @@ window.onload = () => {
     scheduler.getAllJobs('ui');
     scheduler.getAllJobs('vlcrc');
   });
-  kamehouseDebugger = new KamehouseDebugger();
   bannerUtils.setRandomAllBanner();
 };
 
@@ -132,20 +130,5 @@ function Scheduler() {
     loadingWheelModal.close();
     self.updateJobsTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-  }
-}
-
-/** 
- * Handles the debugger functionality.
- * 
- * @author nbrest
- */
-function KamehouseDebugger() {
-
-  /** Toggle debug mode. */
-  this.toggleDebugMode = () => {
-    logger.debug("Toggled debug mode")
-    let debugModeDiv = document.getElementById("debug-mode");
-    debugModeDiv.classList.toggle("hidden-kh");
   }
 }

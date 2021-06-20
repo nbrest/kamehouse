@@ -330,28 +330,17 @@
         src="/kame-house/img/pc/settings.png"
         onclick="vlcPlayer.openServerManagement()"
         alt="Server Management" title="Server Management"/>
-      <img id="debug-mode-btn" class="vlc-player-btn-img admin-cmds-btn vlc-player-btn-green"
-        src="/kame-house/img/other/debug-btn-success.png"
-        onclick="vlcPlayer.getDebugger().toggleDebugMode()" alt="Debug Mode" title="Debug Mode"/>
+      <span id="debug-mode-button-wrapper"></span>
       <img id="close-vlc-btn" class="vlc-player-btn-img admin-cmds-btn vlc-player-btn-red"
         src="/kame-house/img/pc/shutdown-red.png"
         onclick="vlcPlayer.close()" alt="Close VLC" title="Close VLC"/>
     </div> <!-- admin-cmds-section -->
-     
-    <div id="debug-mode" class="bg-darker-kh p-15-d-kh p-15-m-kh hidden-kh">
-    <div class="default-layout">
-      <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
-      <div id="debug-buttons">
-        <button onclick="vlcPlayer.getDebugger().getVlcRcStatusHttp()"
-          class="btn btn-outline-success btn-margins btn-borderless fl-r-d-kh">Get VlcRcStatus</button>
-      </div>
-      <div id="api-call-table"></div>
-    </div>
-    </div> <!-- debug-mode -->
+    <span id="debug-mode-wrapper"></span>
   </div> <!-- vlc-player -->
   </div> <!-- main-body -->
   <script src="/kame-house/js/vlc-player.js"></script>
   <script src="/kame-house/js/snippets/api-call-table.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
 </body>
 </html>

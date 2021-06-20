@@ -2,7 +2,6 @@
  * Functionality to manipulate log levels in the backend. 
  */
 var backendLogLevelUtils;
-var kamehouseDebugger;
 
 window.onload = () => {
   backendLogLevelUtils = new BackendLogLevelUtils();
@@ -16,7 +15,6 @@ window.onload = () => {
     backendLogLevelUtils.getLogLevels('ui');
     backendLogLevelUtils.getLogLevels('vlcrc');
   });
-  kamehouseDebugger = new KamehouseDebugger();
   bannerUtils.setRandomAllBanner();
 };
 
@@ -110,20 +108,5 @@ function BackendLogLevelUtils() {
     loadingWheelModal.close();
     self.updateLogLevelTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-  }
-}
-
-/** 
- * Handles the debugger functionality.
- * 
- * @author nbrest
- */
-function KamehouseDebugger() {
-
-  /** Toggle debug mode. */
-  this.toggleDebugMode = () => {
-    logger.debug("Toggled debug mode")
-    let debugModeDiv = document.getElementById("debug-mode");
-    debugModeDiv.classList.toggle("hidden-kh");
   }
 }

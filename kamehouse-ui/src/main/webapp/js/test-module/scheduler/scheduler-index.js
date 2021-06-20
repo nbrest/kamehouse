@@ -25,7 +25,6 @@ function Scheduler() {
   let self = this;
   const TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
   const SAMPLE_JOB_URL = '/test-scheduler/sample-job';
-  this.debugger = new Debugger();
 
   /**
    * --------------------------------------------------------------------------
@@ -76,27 +75,6 @@ function Scheduler() {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
     $("#sample-job-status").text("Error getting the status of SampleJob command");
-  }
-
-  /**
-   * --------------------------------------------------------------------------
-   * Debugger functionality
-   */
-  this.getDebugger = () => this.debugger;
-}
-
-/** 
- * Handles the debugger functionality.
- * 
- * @author nbrest
- */
-function Debugger() {
-
-  /** Toggle debug mode. */
-  this.toggleDebugMode = () => {
-    logger.debug("Toggled debug mode")
-    let debugModeDiv = document.getElementById("debug-mode");
-    debugModeDiv.classList.toggle("hidden-kh");
   }
 }
 
