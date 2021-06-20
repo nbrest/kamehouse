@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemCommand;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -157,8 +158,8 @@ public class SystemCommandServiceTest {
      */
     public TestKameHouseSystemCommand() {
       systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));
-      systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "500"));
-      systemCommands.add(new VncDoMouseClickSystemCommand("1", "500", "500"));
+      systemCommands.add(new VncDoKeyPressSystemCommand("1"));
+      systemCommands.add(new VncDoTypeSystemCommand("22"));
     }
   }
 
