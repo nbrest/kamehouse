@@ -22,8 +22,24 @@ import java.util.List;
  */
 public class SystemCommandOutputTestUtils  {
 
-  protected SystemCommand.Output singleTestData = null;
-  protected List<SystemCommand.Output> testDataList = null;
+  private SystemCommand.Output singleTestData = null;
+  private List<SystemCommand.Output> testDataList = null;
+
+  public SystemCommand.Output getSingleTestData() {
+    return singleTestData;
+  }
+
+  public void setSingleTestData(SystemCommand.Output singleTestData) {
+    this.singleTestData = singleTestData;
+  }
+
+  public List<SystemCommand.Output> getTestDataList() {
+    return testDataList;
+  }
+
+  public void setTestDataList(List<SystemCommand.Output> testDataList) {
+    this.testDataList = testDataList;
+  }
 
   public void initTestData() {
     initSingleTestData();

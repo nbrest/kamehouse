@@ -28,7 +28,15 @@ This application (forever under construction) contains the following modules:
 
 [VlcRc](kamehouse-vlcrc/README.md)
 
-The main idea of this application is to keep improving and learning best practices of software development with Java and frontend technologies, so if you are a software developer and can look through the code and see vulnerabilities or things to improve I'd be more than happy to hear about them!
+The modules commons, commons-core and commons-test are jar libraries imported by the other modules. 
+All the other modules are web apps. 
+All of them are API based except for the UI module that contains the frontend code and connects
+ to the other modules through their APIs.
+
+The main idea of this application is to keep improving and learning best practices of software
+ development with Java and frontend technologies. 
+ So if you are a software developer and can look through the code and see vulnerabilities or
+  things to improve I'd be more than happy to hear about them!
 
 The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **jacoco**, validate code with **findbugs** and the style with **checkstyle**.
 
