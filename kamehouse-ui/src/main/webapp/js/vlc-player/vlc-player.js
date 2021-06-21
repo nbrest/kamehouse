@@ -29,7 +29,7 @@ function VlcPlayer(hostname) {
 
   /** Init VlcPlayer */
   this.init = function init() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.playlist.init();
     self.synchronizer.connectVlcRcStatus();
     self.synchronizer.connectPlaylist();
@@ -167,7 +167,7 @@ function VlcPlayer(hostname) {
 
   /** Calls each internal module that has view logic to reset it's view. */
   this.resetView = function resetView() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.setVlcRcStatus({});
     self.mainViewUpdater.resetView();
     self.playlist.resetView();
@@ -223,7 +223,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
 
   /** Create a vlcrc command with the parameters and execute the request to the server. */
   this.execVlcRcCommand = function execVlcRcCommand(name, val) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     let requestBody;
     if (isNullOrUndefined(val)) {
       requestBody = {
@@ -240,7 +240,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
 
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
   this.playFile = function playFile(fileName) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     logger.debug("File to play: " + fileName);
     let requestParam = "file=" + fileName;
     loadingWheelModal.open();
@@ -249,7 +249,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
 
   /** Close vlc player. */
   this.close = function close() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.vlcPlayer.getRestClient().delete(vlcPlayerProcessControlUrl, null);
   }
 }
@@ -289,7 +289,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update vlc player view for main view objects. */
   this.updateView = () => {
-    //logger.traceFunctionCall();
+    //logger.trace(arguments.callee.name);
     if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus())) {
       self.updateMediaTitle();
       self.updateTimeSlider();
@@ -303,7 +303,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Reset vlc player view for main view objects. */
   this.resetView = () => {
-    //logger.traceFunctionCall();
+    //logger.trace(arguments.callee.name);
     self.resetMediaTitle();
     self.resetTimeSlider();
     self.resetVolumeSlider();
@@ -479,7 +479,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   this.isRunningKeepAliveWebSocketLoop = false;
 
   function setWebSockets() {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     const vlcRcStatusWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/status';
     const vlcRcStatusWebSocketPollUrl = "/app/vlc-player/status-in";
     const vlcRcStatusWebSocketTopicUrl = '/topic/vlc-player/status-out';
@@ -505,7 +505,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   /** Connects the websocket to the backend. */
   this.connectVlcRcStatus = function connectVlcRcStatus() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
         self.vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
@@ -517,7 +517,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   /** Reconnects the VlcRcStatus websocket to the backend. */
   this.reconnectVlcRcStatus = function reconnectVlcRcStatus() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.vlcRcStatusWebSocket.disconnect();
     self.connectVlcRcStatus();
   }
@@ -528,7 +528,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    */
   /** Connects the playlist websocket to the backend. */
   this.connectPlaylist = function connectPlaylist() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
         self.vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
@@ -540,7 +540,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   /** Reconnects the playlist websocket to the backend. */
   this.reconnectPlaylist = function reconnectPlaylist() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.playlistWebSocket.disconnect();
     self.connectPlaylist();
   }
@@ -666,7 +666,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Init Playlist. */
   this.init = function init() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     self.dobleLeftImg = self.createDoubleArrowImg("left");
     self.dobleRightImg = self.createDoubleArrowImg("right");
     $("#toggle-playlist-filenames-img").replaceWith(self.dobleRightImg);
@@ -787,7 +787,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Toggle expand or collapse filenames in the playlist */
   this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     let isExpandedFilename = null;
     let filenamesFirstFile = $(self.tbodyFilenames).children().first().text();
     let currentFirstFile = $('#playlist-table-body tr:first').text();
@@ -824,7 +824,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Scroll to the current playing element in the playlist. */
   this.scrollToCurrentlyPlaying = () => {
-    //logger.debugFunctionCall();
+    //logger.debug(arguments.callee.name);
     let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
     let $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
     if ($currentPlayingRow.length) {
@@ -872,7 +872,7 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute GET on the specified url and display the output in the debug table. */
   this.get = function httpGet(url) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     apiCallTable.get(url,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
@@ -886,7 +886,7 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a POST request to the specified url with the specified request body. */
   this.post = function httpPost(url, requestBody) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     apiCallTable.post(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
@@ -896,7 +896,7 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a POST request to the specified url with the specified request url parameters. */
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     apiCallTable.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
@@ -913,7 +913,7 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a DELETE request to the specified url with the specified request body. */
   this.delete = function httpDelete(url, requestBody) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     apiCallTable.delete(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),

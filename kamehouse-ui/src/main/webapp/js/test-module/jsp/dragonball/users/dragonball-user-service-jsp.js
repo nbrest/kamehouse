@@ -9,7 +9,7 @@ function DragonBallUserServiceJsp() {
    * Get a dragonball user and populate it to the edit table.
    */
   this.getDragonBallUser = (event) => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     const urlParams = new URLSearchParams(window.location.search);
     const params = new URLSearchParams({
       username: urlParams.get('username')
@@ -28,7 +28,7 @@ function DragonBallUserServiceJsp() {
    * Get all dragonball users.
    */
   this.getAllDragonBallUsers = () => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     httpClient.get(SERVLET_SERVICE_URI, null,
       (responseBody, responseCode, responseDescription) => self.displayDragonBallUsers(responseBody),
       (responseBody, responseCode, responseDescription) => self.displayErrorGettingDragonBallUsers());
@@ -38,7 +38,7 @@ function DragonBallUserServiceJsp() {
    * Add a dragonball user.
    */
   this.addDragonBallUser = () => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     const params = new URLSearchParams({
       username: document.getElementById("input-username").value,
       email: document.getElementById("input-email").value,
@@ -60,7 +60,7 @@ function DragonBallUserServiceJsp() {
    * Update a dragonball user.
    */
   this.updateDragonBallUser = () => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     const params = new URLSearchParams({
       id: document.getElementById("input-id").value,
       username: document.getElementById("input-username").value,
@@ -83,7 +83,7 @@ function DragonBallUserServiceJsp() {
   * Delete dragonball user.
   */
   this.deleteDragonBallUser = (event) => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     const params = new URLSearchParams({
       id: event.data.id
     });
@@ -98,7 +98,7 @@ function DragonBallUserServiceJsp() {
    * Display the dragonball user to edit.
    */
   this.displayDragonBallUserToEdit = (dragonBallUser) => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     document.getElementById("input-id").value = dragonBallUser.id;
     document.getElementById("input-username").value = dragonBallUser.username;
     document.getElementById("input-email").value = dragonBallUser.email;
@@ -111,7 +111,7 @@ function DragonBallUserServiceJsp() {
    * Display dragonball users table.
    */
   this.displayDragonBallUsers = (dragonBallUsersList) => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
     for (let i = 0; i < dragonBallUsersList.length; i++) {
@@ -152,7 +152,7 @@ function DragonBallUserServiceJsp() {
    * Shows the specified error message in the table.
    */
   this.displayErrorTable = (message) => {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
     let tableRow = $('<tr>').append($('<td>').text(message));

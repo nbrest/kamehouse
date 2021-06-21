@@ -39,7 +39,7 @@ function WebSocketKameHouse() {
 
   /** Connect the websocket. */
   this.connect = function connect(topicResponseCallback) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     if (self.isConnected()) {
       logger.warn("WebSocket is already connected!");
     }
@@ -69,7 +69,7 @@ function WebSocketKameHouse() {
 
   /** Disconnect the websocket. */
   this.disconnect = function disconnect(stompClient) {
-    logger.debugFunctionCall();
+    logger.debug(arguments.callee.name);
     if (isNullOrUndefined(stompClient)) {
       // Disconnect the current connection.
       stompClient = self.stompClient;
@@ -109,7 +109,7 @@ function WebSocketKameHouse() {
   this.poll = function poll(pollBody, pollHeaders) {
     // Setting this as trace as it executes every second in VlcPlayer 
     // so if I want to debug other stuff it's noisy.
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     if (isNullOrUndefined(self.pollUrl)) {
       logger.error("pollUrl is not set. Can't poll");
       return;

@@ -12,7 +12,7 @@ var footer;
  * Render header and footer.
  */
 function renderHeaderAndFooter() {
-  logger.traceFunctionCall();
+  logger.trace(arguments.callee.name);
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     logger.info("Started initializing header and footer");
     header = new Header();

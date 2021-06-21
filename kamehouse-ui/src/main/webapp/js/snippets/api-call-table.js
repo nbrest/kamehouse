@@ -32,7 +32,7 @@ function ApiCallTable() {
    * data is any extra data I want to pass to the success and error functions
    */
   this.get = function httpGet(url, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.displayRequestData(url, "GET", null);
     httpClient.get(url, null,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
@@ -45,7 +45,7 @@ function ApiCallTable() {
    * and perform the specified success or error functions 
    */
   this.getUrlEncoded = function httpGetUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.traceFunctionCall(); 
+    logger.trace(arguments.callee.name);
     let urlEncoded = encodeURI(url + "?" + requestParam);
     self.displayRequestData(urlEncoded, "GET", null);
     let requestHeaders = httpClient.getUrlEncodedHeaders();
@@ -60,7 +60,7 @@ function ApiCallTable() {
    * and perform the specified success or error functions 
    */
   this.put = function httpPut(url, requestBody, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.displayRequestData(url, "PUT", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.put(url, requestHeaders, requestBody,
@@ -74,7 +74,7 @@ function ApiCallTable() {
    * and perform the specified success or error functions 
    */
   this.post = function httpPost(url, requestBody, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.displayRequestData(url, "POST", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.post(url, requestHeaders, requestBody,
@@ -88,7 +88,7 @@ function ApiCallTable() {
    * and perform the specified success or error functions 
    */
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     let urlEncoded = encodeURI(url + "?" + requestParam);
     self.displayRequestData(urlEncoded, "POST", null);
     let requestHeaders = httpClient.getUrlEncodedHeaders();
@@ -103,7 +103,7 @@ function ApiCallTable() {
    * and perform the specified success or error functions 
    */
   this.delete = function httpDelete(url, requestBody, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.displayRequestData(url, "DELETE", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
     httpClient.delete(url, requestHeaders, requestBody,
@@ -124,7 +124,7 @@ function ApiCallTable() {
    * Display api call table response data.
    */
   this.displayResponseData = function displayResponseData(responseBody, responseCode) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     let responseTimestamp = timeUtils.getTimestamp();
     $("#aco-res-code-val").text(responseCode);
     $("#aco-res-timestamp-val").text(responseTimestamp);
@@ -136,7 +136,7 @@ function ApiCallTable() {
    * Display api call table request data.
    */
   this.displayRequestData = function displayRequestData(url, requestType, requestBody) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.emptyApiCallTableDiv();
     let requestTimestamp = timeUtils.getTimestamp();
     let $apiCallTableDiv = $("#api-call-table");

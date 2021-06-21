@@ -3,6 +3,44 @@
     <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Debug Mode</h5>
     <div id="debug-mode-custom-wrapper"></div>
     <div id="api-call-table"></div>
+    <br>
+    <table class="table-responsive-kh table-responsive">
+      <caption class="hidden-kh">Log Level</caption>
+      <tbody>
+      <tr class="hidden-kh">
+        <th scope="row" class="hidden-kh">Log Level</th>
+      </tr>
+      <tr><td><h6 class="h5-kh txt-l-d-kh txt-l-m-kh">Console Log Level</h6></td></tr>
+      <tr><td class="txt-l-d-kh txt-l-m-kh">
+        <div>
+          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh"
+            id="debug-mode-log-level-dropdown">
+            <option value="0">ERROR</option>
+            <option value="1">WARN</option>
+            <option value="2" selected>INFO</option>
+            <option value="3">DEBUG</option>
+            <option value="4">TRACE</option>
+          </select>
+          <img
+            class="debug-mode-btn"
+            onclick="kameHouseDebugger.setConsoleLogLevel()"
+            src="/kame-house/img/mplayer/play-blue.png" alt="Set Log Level"
+            title="Set Log Level" />
+        </div>
+      </td></tr>
+      <tr><td><h6 class="h5-kh txt-l-d-kh txt-l-m-kh">Console Log</h6></td></tr>
+    </table>
+    <table class="table-responsive-kh table-responsive">
+      <caption class="hidden-kh">Log Level Console Log</caption>
+      <tbody>
+        <tr class="hidden-kh">
+          <th scope="row" class="hidden-kh">Log Level Console Log</th>
+        </tr>
+      <tr><td>
+        <ul id="debug-mode-console-log-entries"></ul>
+      </td></tr>
+      </tbody>
+    </table>
   </div>
 </div> <!-- debug-mode -->
 <!-- 

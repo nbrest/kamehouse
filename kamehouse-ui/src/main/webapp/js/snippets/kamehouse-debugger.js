@@ -22,6 +22,20 @@ function KameHouseDebugger() {
   }
   
   /**
+   * Set the log level of the console.
+   */
+  this.setConsoleLogLevel = () => {
+    let logLevel = document.getElementById("debug-mode-log-level-dropdown").value;
+    logger.setLogLevel(logLevel);
+    
+    logger.error("Set log level to " + logLevel);
+    logger.warn("Set log level to " + logLevel);
+    logger.info("Set log level to " + logLevel);
+    logger.debug("Set log level to " + logLevel);
+    logger.trace("Set log level to " + logLevel);
+  }
+
+  /**
    * Render debug mode div and it's button.
    */
   this.renderDebugMode = () => {

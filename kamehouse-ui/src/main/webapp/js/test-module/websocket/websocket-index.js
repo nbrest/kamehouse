@@ -29,7 +29,7 @@ var main = () => {
 }
 
 function setConnected(isConnected) {
-  logger.traceFunctionCall();
+  logger.trace(arguments.callee.name);
   $("#connect").prop("disabled", isConnected);
   $("#disconnect").prop("disabled", !isConnected);
   $("#send").prop("disabled", !isConnected);
@@ -43,21 +43,21 @@ function setConnected(isConnected) {
 }
 
 function connectWebSocket() {
-  logger.traceFunctionCall();
+  logger.trace(arguments.callee.name);
   websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body)));
   setConnected(true);
   logger.debug("Connected WebSocket");
 }
 
 function disconnectWebSocket() {
-  logger.traceFunctionCall();
+  logger.trace(arguments.callee.name);
   websocket.disconnect();
   setConnected(false);
   logger.debug("Disconnected WebSocket");
 }
 
 function sendWebSocketRequest() {
-  logger.traceFunctionCall();
+  logger.trace(arguments.callee.name);
   let pollBody = JSON.stringify({
     'firstName': $("#firstName").val(),
     'lastName': $("#lastName").val()
@@ -66,7 +66,7 @@ function sendWebSocketRequest() {
 }
 
 function showTestWebSocketResponse(testWebSocketResponseBody) {
-  logger.traceFunctionCall();
+  logger.trace(arguments.callee.name);
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
   let date = new Date(parseInt(testWebSocketResponseBody.date));
   $("#websocket-responses").append("<tr><td>" + date.toLocaleString() + " : " + testWebSocketResponseBody.message + "</td></tr>");

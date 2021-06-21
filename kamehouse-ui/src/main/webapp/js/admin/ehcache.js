@@ -47,7 +47,7 @@ function EhCacheManager() {
    * Get all cache data.
    */
   this.getAllCacheData = (webapp) => {
-    logger.traceFunctionCall();
+    logger.trace("getAllCacheData");
     httpClient.get(self.getApiUrl(webapp), null,
       (responseBody, responseCode, responseDescription) => self.displayCacheData(responseBody, webapp),
       (responseBody, responseCode, responseDescription) => self.displayErrorGettingCache());

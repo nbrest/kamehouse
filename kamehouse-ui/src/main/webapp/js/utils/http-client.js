@@ -12,7 +12,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.get = function httpGet(url, requestHeaders, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback, data)
   }
 
@@ -20,7 +20,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
@@ -28,7 +28,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.post = function httpPost(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
@@ -36,7 +36,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
@@ -44,7 +44,7 @@ function HttpClient() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   this.delete = function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.traceFunctionCall();
+    logger.trace(arguments.callee.name);
     self.httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
