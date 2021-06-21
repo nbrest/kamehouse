@@ -25,6 +25,7 @@ function importApiCallTableCss() {
 
 function ApiCallTable() {
   let self = this;
+  this.requests = [];
 
   /** 
    * Execute a GET request, update the api call table 
@@ -34,9 +35,10 @@ function ApiCallTable() {
   this.get = function httpGet(url, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
     self.displayRequestData(url, "GET", null);
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "GET", null);
     httpClient.get(url, null,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
   }
 
@@ -48,10 +50,11 @@ function ApiCallTable() {
     logger.trace(arguments.callee.name);
     let urlEncoded = encodeURI(url + "?" + requestParam);
     self.displayRequestData(urlEncoded, "GET", null);
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "GET", null);
     let requestHeaders = httpClient.getUrlEncodedHeaders();
     httpClient.get(urlEncoded, requestHeaders,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
   }
 
@@ -63,9 +66,10 @@ function ApiCallTable() {
     logger.trace(arguments.callee.name);
     self.displayRequestData(url, "PUT", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "PUT", requestBody);
     httpClient.put(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
     );
   }
 
@@ -77,9 +81,10 @@ function ApiCallTable() {
     logger.trace(arguments.callee.name);
     self.displayRequestData(url, "POST", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "POST", requestBody);
     httpClient.post(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
   }
 
@@ -92,9 +97,10 @@ function ApiCallTable() {
     let urlEncoded = encodeURI(url + "?" + requestParam);
     self.displayRequestData(urlEncoded, "POST", null);
     let requestHeaders = httpClient.getUrlEncodedHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "POST", null);
     httpClient.post(urlEncoded, requestHeaders, null,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
   }
 
@@ -106,18 +112,61 @@ function ApiCallTable() {
     logger.trace(arguments.callee.name);
     self.displayRequestData(url, "DELETE", requestBody);
     let requestHeaders = httpClient.getApplicationJsonHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "DELETE", null);
     httpClient.delete(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, data),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, data)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
   }
 
+  /**
+   * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
+   */
+  this.createDataWithRequestInfo = (data, url, method, requestBody) => {
+    let dataWithRequestInfo = {};
+    dataWithRequestInfo.data = data;
+    dataWithRequestInfo.requestData = {};
+    dataWithRequestInfo.requestData.url = url;
+    dataWithRequestInfo.requestData.method = method;
+    dataWithRequestInfo.requestData.requestBody = requestBody;
+    dataWithRequestInfo.requestData.timestamp = timeUtils.getTimestamp();
+    return dataWithRequestInfo;
+  }
+
   /** Process the response of the api call */
-  function processResponse(responseBody, responseCode, responseDescription, responseCallback, data) {
+  function processResponse(responseBody, responseCode, responseDescription, responseCallback, dataWithRequestInfo) {
     self.displayResponseData(responseBody, responseCode);
+    self.displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode);
     if (isFunction(responseCallback)) {
-      responseCallback(responseBody, responseCode, responseDescription, data);
+      responseCallback(responseBody, responseCode, responseDescription, dataWithRequestInfo.data);
     }
+  }
+
+  /**
+   * Displays the list of the N previous requests.
+   */
+  this.displayPreviousRequestsTable = (dataWithRequestInfo, responseBody, responseCode) => {
+    let request = {};
+    request.requestData = dataWithRequestInfo.requestData;
+    request.responseData = {};
+    request.responseData.responseCode = responseCode;
+    request.responseData.responseBody = responseBody;
+    request.responseData.timestamp = timeUtils.getTimestamp();
+    while (self.requests.length >= 7) {
+      self.requests.shift();
+    }
+    self.requests.push(request);
+    $("#aco-previous-requests-btn").remove();
+    $("#aco-previous-requests-div").remove();
+    $("#aco-previous-requests-pre").remove();
+    let $apiCallTableDiv = $("#api-call-table");
+    let $previousRequestsButton = $('<button  id="aco-previous-requests-btn" class="collapsible-kh">');
+    $previousRequestsButton.text("Previous Requests");
+    let $previousRequestsContent = $('<div id="aco-previous-requests-div" class="collapsible-kh-content">');
+    $previousRequestsContent.append($('<pre id="aco-previous-requests-pre" class="collapsible-kh-content-pre">').text(JSON.stringify(self.requests, null, 2)));
+    $apiCallTableDiv.append($previousRequestsButton);
+    $apiCallTableDiv.append($previousRequestsContent);
+    self.setCollapsibleContent();
   }
 
   /**
@@ -187,6 +236,7 @@ function ApiCallTable() {
     $outputPayloadContent.append($('<pre id="aco-res-body-val" class="collapsible-kh-content-pre">').text(JSON.stringify(null, null, 2)));
     $apiCallTableDiv.append($outputPayloadButton);
     $apiCallTableDiv.append($outputPayloadContent);
+    $apiCallTableDiv.append($("<br>"));
     self.setCollapsibleContent();
   }
 
