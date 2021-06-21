@@ -1,7 +1,7 @@
 /**
  * EhCache main function.
  * 
- * Dependencies: timeUtils, logger, httpClient.
+ * Dependencies: timeUtils, logger, apiCallTable.
  * 
  * @author nbrest
  */
@@ -10,7 +10,7 @@ var ehCacheManager;
 var main = () => {
   bannerUtils.setRandomPrinceOfTennisBanner();
   importEhcacheCss();
-  moduleUtils.waitForModules(["logger", "httpClient", "kameHouseWebappTabsManager"], () => {
+  moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
     kameHouseWebappTabsManager.openTab('tab-media');
@@ -30,7 +30,9 @@ function importEhcacheCss() {
 
 function EhCacheManager() {
   let self = this;
-  this.ehcacheToggleTableRowIds = [[]];
+  this.ehcacheToggleTableRowIds = [
+    []
+  ];
 
   /**
    * Get ehcache api url for each webapp.
@@ -48,7 +50,7 @@ function EhCacheManager() {
    */
   this.getAllCacheData = (webapp) => {
     logger.trace("getAllCacheData");
-    httpClient.get(self.getApiUrl(webapp), null,
+    apiCallTable.get(self.getApiUrl(webapp),
       (responseBody, responseCode, responseDescription) => self.displayCacheData(responseBody, webapp),
       (responseBody, responseCode, responseDescription) => self.displayErrorGettingCache());
   }
@@ -56,7 +58,7 @@ function EhCacheManager() {
   /**
    * Display cache data.
    */
-  this.displayCacheData = (caches, webapp) => { 
+  this.displayCacheData = (caches, webapp) => {
     self.emptyCacheDataDiv(webapp);
     self.ehcacheToggleTableRowIds[webapp] = [];
     let $cacheData = $("#cache-data-" + webapp);
@@ -69,7 +71,7 @@ function EhCacheManager() {
       $cacheTableRow.append($('<td class="td-ehcache-header">').append($('<div class="ehcache-table-header-txt">').text("name")));
       let $cacheTableRowContent = $("<td>");
       $cacheTableRowContent.append($('<div class="ehcache-table-header-txt">').text(cache.name));
-      $cacheTableRowContent.append("<img id='clear-" + cache.name + "' class='btn-ehcache cache-status-buttons'" + 
+      $cacheTableRowContent.append("<img id='clear-" + cache.name + "' class='btn-ehcache cache-status-buttons'" +
         "src='/kame-house/img/other/cancel.png' alt='Clear' title='Clear' />");
       $cacheTableRowContent.append("<img id='toggle-view-" + cache.name + "' class='btn-ehcache cache-status-buttons m-15-d-r-kh m-15-m-r-kh'" +
         "src='/kame-house/img/other/resize-vertical-gray-dark.png' alt='Expand/Collapse' title='Expand/Collapse' />");
@@ -96,7 +98,7 @@ function EhCacheManager() {
   /**
    * Display error getting cache data.
    */
-  this.displayErrorGettingCache = (webapp) => { 
+  this.displayErrorGettingCache = (webapp) => {
     self.emptyCacheDataDiv(webapp);
     let $cacheData = $("#cache-data" + webapp);
     let $errorTable = $('<table class="table table-bordered table-ehcache table-responsive-kh table-responsive">');
@@ -111,10 +113,9 @@ function EhCacheManager() {
   /**
    * Clear cache data.
    */
-  this.clearCacheData = (cacheName, webapp) => { 
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
+  this.clearCacheData = (cacheName, webapp) => {
     let url = self.getApiUrl(webapp) + '?name=' + cacheName;
-    httpClient.delete(url, requestHeaders, null,
+    apiCallTable.delete(url, null,
       (responseBody, responseCode, responseDescription) => self.getAllCacheData(webapp),
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error clearing cache " + cacheName);
@@ -126,8 +127,7 @@ function EhCacheManager() {
    * Clear all caches.
    */
   this.clearAllCaches = (webapp) => {
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
-    httpClient.delete(self.getApiUrl(webapp), requestHeaders, null,
+    apiCallTable.delete(self.getApiUrl(webapp), null,
       (responseBody, responseCode, responseDescription) => self.getAllCacheData(webapp),
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error clearing all caches");
