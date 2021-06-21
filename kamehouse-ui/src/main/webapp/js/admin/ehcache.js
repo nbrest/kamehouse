@@ -116,9 +116,13 @@ function EhCacheManager() {
   this.clearCacheData = (cacheName, webapp) => {
     let url = self.getApiUrl(webapp) + '?name=' + cacheName;
     apiCallTable.delete(url, null,
-      (responseBody, responseCode, responseDescription) => self.getAllCacheData(webapp),
+      (responseBody, responseCode, responseDescription) => {
+        basicKamehouseModal.openAutoCloseable("Cache " + cacheName + " cleared successfully", 3000);
+        self.getAllCacheData(webapp);
+      },
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error clearing cache " + cacheName);
+        basicKamehouseModal.openAutoCloseable("Error clearing cache " + cacheName, 3000);
         self.getAllCacheData(webapp);
       });
   }
@@ -128,9 +132,13 @@ function EhCacheManager() {
    */
   this.clearAllCaches = (webapp) => {
     apiCallTable.delete(self.getApiUrl(webapp), null,
-      (responseBody, responseCode, responseDescription) => self.getAllCacheData(webapp),
+      (responseBody, responseCode, responseDescription) => { 
+        basicKamehouseModal.openAutoCloseable("All caches cleared successfully", 3000);
+        self.getAllCacheData(webapp);
+      },
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error clearing all caches");
+        basicKamehouseModal.openAutoCloseable("Error clearing all caches", 3000);
         self.getAllCacheData(webapp);
       });
   }
