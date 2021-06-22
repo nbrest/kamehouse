@@ -8,12 +8,7 @@ window.onload = () => {
   moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing scheduler");
     kameHouseWebappTabsManager.openTab('tab-admin');
-    scheduler.getAllJobs('admin');
-    scheduler.getAllJobs('media');
-    scheduler.getAllJobs('tennisworld');
-    scheduler.getAllJobs('testmodule');
-    scheduler.getAllJobs('ui');
-    scheduler.getAllJobs('vlcrc');
+    scheduler.init();
   });
   bannerUtils.setRandomAllBanner();
 };
@@ -21,6 +16,28 @@ window.onload = () => {
 function Scheduler() {
   let self = this;
   this.jobs = [[]];
+  this.schedulerTableTemplate;
+
+  /**
+   * Loads initial data.
+   */
+  this.init = async () => {
+    await self.loadTableTemplate();
+    self.getAllJobs('admin', false);
+    self.getAllJobs('media', false);
+    self.getAllJobs('tennisworld', false);
+    self.getAllJobs('testmodule', false);
+    self.getAllJobs('ui', false);
+    self.getAllJobs('vlcrc', false);
+  }
+
+  /**
+   * Loads the ehcache table html snippet into a variable to be reused as a template on render.
+   */
+  this.loadTableTemplate = async () => {
+    const response = await fetch('/kame-house/html-snippets/scheduler-table.html');
+    self.schedulerTableTemplate = await response.text();
+  }
 
   /**
    * Get scheduler api url for each webapp.
@@ -34,8 +51,10 @@ function Scheduler() {
   }
 
   /** Get all jobs */
-  this.getAllJobs = (webapp) => {
-    loadingWheelModal.open();
+  this.getAllJobs = (webapp, openModal) => {
+    if (openModal) {
+      loadingWheelModal.open();
+    }
     apiCallTable.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
@@ -51,47 +70,41 @@ function Scheduler() {
     let $jobsData = $("#jobs-data-" + webapp);
     $jobsData.empty();
     self.jobs.forEach((jobEntry) => {
-      let $jobTable = $('<table class="table table-bordered table-scheduler table-bordered-kh table-responsive-kh table-responsive">');
-      let $jobTableRow;
-
-      $jobTableRow = $("<tr>");
-      $jobTableRow.append($('<td class="td-scheduler-header">').append($('<div>').text("name")));
-      let $jobTableRowContent = $('<td class="td-scheduler-header">');
-      $jobTableRowContent.append($('<div>').text(jobEntry.key.name));
-      $jobTableRow.append($jobTableRowContent);
-      $jobTable.append($jobTableRow);
-
-      $jobTableRow = $('<tr>');
-      $jobTableRow.append($('<td class="td-scheduler-header">').text("key"));
-      $jobTableRow.append($("<td>").text(jobEntry.key.group + "." + jobEntry.key.name));
-      $jobTable.append($jobTableRow);
-
-      $jobTableRow = $('<tr>');
-      $jobTableRow.append($('<td class="td-scheduler-header">').text("description"));
-      $jobTableRow.append($("<td>").text(jobEntry.description));
-      $jobTable.append($jobTableRow);
-
-      $jobTableRow = $('<tr>');
-      $jobTableRow.append($('<td class="td-scheduler-header">').text("jobClass"));
-      $jobTableRow.append($("<td>").text(jobEntry.jobClass));
-      $jobTable.append($jobTableRow);
-
-      $jobTableRow = $('<tr>');
-      $jobTableRow.append($('<td class="td-scheduler-header">').text("schedule"));
-      $jobTableRowContent = $("<td>");
-      $jobTableRowContent.append($('<span>').text(self.formatSchedule(jobEntry.schedules)));
-      $jobTableRowContent.append("<img id='clear-" + jobEntry.key.name + "-"  + webapp + "' class='btn-scheduler scheduler-status-buttons' src='/kame-house/img/other/cancel.png' alt='Clear Schedule' title='Clear Schedule' />");
-      $jobTableRow.append($jobTableRowContent);
-      $jobTable.append($jobTableRow);
-
-      $jobsData.append($jobTable);
+      let tableIdKey = webapp + jobEntry.key.name;
+      $jobsData.append(self.getTableFromTemplate(tableIdKey));
       $jobsData.append("<br>");
 
-      $("#clear-" + jobEntry.key.name + "-" + webapp).click(() => {
+      $("#scheduler-table-" + tableIdKey + "-name-val").text(jobEntry.key.name);
+      $("#scheduler-table-" + tableIdKey + "-key-val").text(jobEntry.key.group + "." + jobEntry.key.name);
+      $("#scheduler-table-" + tableIdKey + "-description-val").text(jobEntry.description);
+      $("#scheduler-table-" + tableIdKey + "-jobclass-val").text(jobEntry.jobClass);
+      $("#scheduler-table-" + tableIdKey + "-schedule-val").text(self.formatSchedule(jobEntry.schedules));
+
+      $("#clear-scheduler-table-" + tableIdKey).click(() => {
         logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
         self.cancelJobExecution(jobEntry.key, webapp);
       });
     });
+  }
+
+  /**
+   * Get the table from the template.
+   */
+  this.getTableFromTemplate = (tableIdKey) => {
+    // Create a wrapper div to insert the table template
+    let tableDivWrapper = document.createElement('div');
+    tableDivWrapper.innerHTML = self.schedulerTableTemplate;
+    let tableDiv = tableDivWrapper.firstChild;
+    
+    // Update the ids and classes on the table generated from the template
+    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val').id = "scheduler-table-" + tableIdKey + "-name-val";
+    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-key-val').id = "scheduler-table-" + tableIdKey + "-key-val";
+    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-description-val').id = "scheduler-table-" + tableIdKey + "-description-val";
+    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-jobclass-val').id = "scheduler-table-" + tableIdKey + "-jobclass-val";
+    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-schedule-val').id = "scheduler-table-" + tableIdKey + "-schedule-val";
+    tableDiv.querySelector('tr #clear-scheduler-table-TEMPLATE').id = "clear-scheduler-table-" + tableIdKey;
+
+    return tableDiv;
   }
 
   /** Returns the schedule formated to display in the UI */
