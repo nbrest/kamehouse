@@ -13,8 +13,8 @@ var main = () => {
   moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing server management");
     serverManager = new ServerManager();
-    serverManager.getSuspendStatus();
-    serverManager.getShutdownStatus();
+    serverManager.getSuspendStatus(false);
+    serverManager.getShutdownStatus(false);
   });
 };
 
@@ -58,8 +58,10 @@ function ServerManager() {
   }
 
   /** Get the Shutdown command status */
-  this.getShutdownStatus = () => {
-    loadingWheelModal.open();
+  this.getShutdownStatus = (openModal) => {
+    if (openModal) {
+      loadingWheelModal.open();
+    }
     apiCallTable.get(ADMIN_API_URL + SHUTDOWN_URL, processSuccessShutdownStatus, processErrorShutdownStatus);
   }
 
@@ -109,8 +111,10 @@ function ServerManager() {
   }
 
   /** Get the suspend command status */
-  this.getSuspendStatus = () => {
-    loadingWheelModal.open();
+  this.getSuspendStatus = (openModal) => {
+    if (openModal) {
+      loadingWheelModal.open();
+    }
     apiCallTable.get(ADMIN_API_URL + SUSPEND_URL, processSuccessSuspendStatus, processErrorSuspendStatus);
   }
 
