@@ -171,17 +171,20 @@ function Header() {
   this.updateLoginStatus = () => {
     let $loginStatus = $("#login-status");
     $loginStatus.empty();
+    let $loginButton = $("<a>");
+    $loginButton.attr("class", "btn btn-outline-danger");
     if (isNullOrUndefined(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {
-      let $loginButton = $("<a href='/kame-house/login' " +
-        "class='btn btn-outline-danger login-status-button'>Login</>");
+      $loginButton.attr("href", "/kame-house/login");
+      $loginButton.text("Login");
       $loginStatus.append($loginButton);
     } else {
-      let $logoutButton = $("<a href='/kame-house/logout' " +
-        "class='btn btn-outline-danger'>Logout</>");
+      $loginButton.attr("href", "/kame-house/logout");
+      $loginButton.text("Logout");
+      $loginStatus.append($loginButton);
+
       let $loginMessage = $("<h5>");
       $loginMessage.text(global.session.username);
-      $loginStatus.append($logoutButton);
       $loginStatus.append($loginMessage);
     }
   }
