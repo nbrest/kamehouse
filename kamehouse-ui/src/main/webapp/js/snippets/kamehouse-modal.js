@@ -89,17 +89,15 @@ function LoadingWheelModal() {
 function ModalUtils(modalId) {
   let self = this;
   this.modalId = modalId;
-  this.BASE_CLASS = "kamehouse-modal";
   this.DEFAULT_AUTO_CLOSE_SEC = 7000;
 
   /** Import modal content */
-  this.import = () => {
-    $('body').append('<div id="' + modalId + '" class="' + self.BASE_CLASS + '">');
-    $("#" + modalId).load("/kame-house/html-snippets/" + modalId + ".html", () => {
-      let modalDivCloseBtn = document.getElementById(modalId + "-close");
-      modalDivCloseBtn.onclick = () => self.close();
-      //self.setCloseOnClickOutsideModal();
-    });
+  this.import = async () => {
+    const response = await fetch("/kame-house/html-snippets/" + modalId + ".html");
+    const modalDiv = await response.text();
+    $('body').append(modalDiv);
+    let modalDivCloseBtn = document.getElementById(modalId + "-close");
+    modalDivCloseBtn.onclick = () => self.close();
   }
 
   /** When the user clicks anywhere outside of the modal, close it */
@@ -142,14 +140,14 @@ function ModalUtils(modalId) {
       autoCloseMs = self.DEFAULT_AUTO_CLOSE_SEC;
     }
     let autoCloseId = modalId + "-autoclose";
-    $("#" + modalId + "-text").after("<div id='" + autoCloseId + "' class='" + self.BASE_CLASS + "-autoclose'>");
+    $("#" + autoCloseId).removeClass("hidden-kh");
     while (autoCloseMs > 0) {
       let secondsRemaining = autoCloseMs / 1000;
       $("#" + autoCloseId).text("Closing in " + secondsRemaining + " seconds");
       autoCloseMs = autoCloseMs - 1000;
       await sleep(1000);
     }
-    $("#" + autoCloseId).remove();
+    $("#" + autoCloseId).addClass("hidden-kh");
     self.close();
   }
 
