@@ -26,6 +26,16 @@ function importApiCallTableCss() {
 function ApiCallTable() {
   let self = this;
   this.requests = [];
+  this.apiCallTableDivTemplate;  
+  
+  /**
+   * Loads the api call table html snippet into a variable to be reused as a template on render.
+   */
+  this.loadApiCallTableTemplate = async () => {
+    const response = await fetch('/kame-house/html-snippets/api-call-table.html');
+    self.apiCallTableDivTemplate = await response.text();
+  }
+  self.loadApiCallTableTemplate();
 
   /** 
    * Execute a GET request, update the api call table 
@@ -156,16 +166,7 @@ function ApiCallTable() {
       self.requests.shift();
     }
     self.requests.push(request);
-    $("#aco-previous-requests-btn").remove();
-    $("#aco-previous-requests-div").remove();
-    $("#aco-previous-requests-pre").remove();
-    let $apiCallTableDiv = $("#api-call-table");
-    let $previousRequestsButton = $('<button  id="aco-previous-requests-btn" class="collapsible-kh">');
-    $previousRequestsButton.text("Previous Requests");
-    let $previousRequestsContent = $('<div id="aco-previous-requests-div" class="collapsible-kh-content">');
-    $previousRequestsContent.append($('<pre id="aco-previous-requests-pre" class="collapsible-kh-content-pre">').text(JSON.stringify(self.requests, null, 2)));
-    $apiCallTableDiv.append($previousRequestsButton);
-    $apiCallTableDiv.append($previousRequestsContent);
+    $('#aco-previous-requests-pre').text(JSON.stringify(self.requests, null, 2));
     self.setCollapsibleContent();
   }
 
@@ -187,56 +188,15 @@ function ApiCallTable() {
   this.displayRequestData = function displayRequestData(url, requestType, requestBody) {
     logger.trace(arguments.callee.name);
     self.emptyApiCallTableDiv();
+    document.getElementById("api-call-table").innerHTML = self.apiCallTableDivTemplate;
     let requestTimestamp = timeUtils.getTimestamp();
-    let $apiCallTableDiv = $("#api-call-table");
-    let $apiCallTable = $('<table id="aco-table" class="api-call-table table table-bordered-kh table-responsive-kh table-responsive">');
-    // Request Data header row.
-    let $requestDataHeaderRow = $("<tr>");
-    $requestDataHeaderRow.append($('<th class="api-call-table-header txt-c-d-kh" colspan="2">').text("Request Data"));
-    $apiCallTable.append($requestDataHeaderRow);
-    // Request Timestamp row.
-    let $requestTimestampRow = $("<tr>");
-    $requestTimestampRow.append($('<td>').text("Timestamp"));
-    $requestTimestampRow.append($('<td id="aco-req-timestamp-val">').text(requestTimestamp));
-    $apiCallTable.append($requestTimestampRow);
-    // Url row.
-    let $urlRow = $("<tr>");
-    $urlRow.append($('<td>').text("Url"));
-    $urlRow.append($('<td id="aco-req-url-val">').text(url));
-    $apiCallTable.append($urlRow);
-    // Request Type row.
-    let $requestTypeRow = $("<tr>");
-    $requestTypeRow.append($('<td>').text("Type"));
-    $requestTypeRow.append($('<td id="aco-req-type-val">').text(requestType));
-    $apiCallTable.append($requestTypeRow);
-    // Request Body row.
-    let $requestBodyRow = $("<tr>");
-    $requestBodyRow.append($('<td>').text("Body"));
-    $requestBodyRow.append($('<td id="aco-req-body-val">').text(JSON.stringify(requestBody, null, 2)));
-    $apiCallTable.append($requestBodyRow);
-    // Response Data header row.
-    let $responseDataHeaderRow = $("<tr>");
-    $responseDataHeaderRow.append($('<th class="api-call-table-header txt-c-d-kh" colspan="2">').text("Response Data"));
-    $apiCallTable.append($responseDataHeaderRow);
-    // Response Code row.
-    let $responseCodeRow = $("<tr>");
-    $responseCodeRow.append($('<td>').text("Response Code"));
-    $responseCodeRow.append($('<td id="aco-res-code-val">').text(null));
-    $apiCallTable.append($responseCodeRow);
-    // Response Time row.
-    let $responseTimestampRow = $("<tr>");
-    $responseTimestampRow.append($('<td>').text("Timestamp"));
-    $responseTimestampRow.append($('<td id="aco-res-timestamp-val">').text(null));
-    $apiCallTable.append($responseTimestampRow);
-    $apiCallTableDiv.append($apiCallTable);
-    // Output payload.
-    let $outputPayloadButton = $('<button class="collapsible-kh">');
-    $outputPayloadButton.text("Response Body");
-    let $outputPayloadContent = $('<div class="collapsible-kh-content">');
-    $outputPayloadContent.append($('<pre id="aco-res-body-val" class="collapsible-kh-content-pre">').text(JSON.stringify(null, null, 2)));
-    $apiCallTableDiv.append($outputPayloadButton);
-    $apiCallTableDiv.append($outputPayloadContent);
-    $apiCallTableDiv.append($("<br>"));
+    $('#aco-req-timestamp-val').text(requestTimestamp);
+    $('#aco-req-url-val').text(url);
+    $('#aco-req-type-val').text(requestType);
+    $('#aco-req-body-val').text(JSON.stringify(requestBody, null, 2));
+    $('#aco-res-code-val').text(null);
+    $('#aco-res-timestamp-val').text(null);
+    $('#aco-res-body-val').text(JSON.stringify(null, null, 2));
     self.setCollapsibleContent();
   }
 
