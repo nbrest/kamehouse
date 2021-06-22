@@ -17,8 +17,6 @@ function Logger() {
    */
   //Defaults log level to INFO (2)
   this.logLevel = 2;
-  let stripCommentsRegex = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-  let argumentNamesRegex = /([^\s,]+)/g;
 
   /**
    * Set the log level for the console in numeric value, based on the mapping shown above.
