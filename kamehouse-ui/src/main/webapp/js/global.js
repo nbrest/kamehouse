@@ -298,10 +298,10 @@ function CursorUtils() {
     $('#spinning-wheel-mobile-wrapper').addClass("hidden-kh");
   }
 
-  this.loadSpinningWheelMobile = () => {
-    document.body.insertAdjacentHTML("beforeBegin", "<div id='spinning-wheel-mobile-wrapper' class='hidden-kh'>");
-    $("#spinning-wheel-mobile-wrapper").append("<div class='spinning-wheel-mobile-container'>");
-    $(".spinning-wheel-mobile-container").append("<div class='spinning-wheel-mobile'>");
+  this.loadSpinningWheelMobile = async () => {
+    const response = await fetch('/kame-house/html-snippets/spinning-wheel-mobile.html');
+    const spinnigWheelMobileDiv = await response.text();
+    document.body.insertAdjacentHTML("beforeBegin", spinnigWheelMobileDiv);
   }
 }
 
