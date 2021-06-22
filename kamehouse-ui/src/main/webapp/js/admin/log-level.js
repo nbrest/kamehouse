@@ -8,18 +8,26 @@ window.onload = () => {
   moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing log-level");
     kameHouseWebappTabsManager.openTab('tab-admin');
-    backendLogLevelUtils.getLogLevels('admin');
-    backendLogLevelUtils.getLogLevels('media');
-    backendLogLevelUtils.getLogLevels('tennisworld');
-    backendLogLevelUtils.getLogLevels('testmodule');
-    backendLogLevelUtils.getLogLevels('ui');
-    backendLogLevelUtils.getLogLevels('vlcrc');
+    backendLogLevelUtils.init();
   });
   bannerUtils.setRandomAllBanner();
 };
 
 function BackendLogLevelUtils() {
   let self = this;
+  this.logLevelTableTemplate;
+
+  /**
+   * Load templates and initial data.
+   */
+  this.init = () => {
+    self.getLogLevels('admin', false);
+    self.getLogLevels('media', false);
+    self.getLogLevels('tennisworld', false);
+    self.getLogLevels('testmodule', false);
+    self.getLogLevels('ui', false);
+    self.getLogLevels('vlcrc', false);
+  }
 
   /**
    * Get log-level api url for each webapp.
@@ -33,8 +41,10 @@ function BackendLogLevelUtils() {
   }
 
   /** Get all current log levels */
-  this.getLogLevels = (webapp) => {
-    loadingWheelModal.open();
+  this.getLogLevels = (webapp, openModal) => {
+    if (openModal) {
+      loadingWheelModal.open();
+    }
     apiCallTable.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
@@ -65,8 +75,8 @@ function BackendLogLevelUtils() {
 
   /** Update the log levels table content */
   this.updateLogLevelTable = (logLevelsArray, webapp) => {
-    let $tableBody = $('#log-level-tbody-' + webapp);
     self.addLogLevelTableHeader(webapp);
+    let $tableBody = $('#log-level-tbody-' + webapp);
     logLevelsArray.forEach((logLevelEntry) => {
       let logLevelEntryPair = logLevelEntry.split(":");
       let packageName = logLevelEntryPair[0];
@@ -82,7 +92,9 @@ function BackendLogLevelUtils() {
   this.addLogLevelTableHeader = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
     $tableBody.empty();
-    let tableRow = $('<tr id="log-level-thead-' + webapp + '" class="log-level-thead">');
+    let tableRow = $('<tr>');
+    tableRow.attr("id", "log-level-thead-" + webapp);
+    tableRow.attr("class", "log-level-thead");
     tableRow.append($('<td>').text("Package Name"));
     tableRow.append($('<td>').text("Log Level"));
     $tableBody.append(tableRow);
