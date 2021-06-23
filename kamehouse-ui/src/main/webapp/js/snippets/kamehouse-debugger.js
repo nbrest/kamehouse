@@ -1,5 +1,5 @@
 /** 
- * Handles the debugger including the api call table functionality.
+ * Handles the debugger functionality including the debugger wrapper to the httpClient.
  * 
  * @author nbrest
  */
@@ -11,7 +11,7 @@ function main() {
   kameHouseDebugger = new KameHouseDebugger();
   kameHouseDebugger.init();
   moduleUtils.waitForModules(["logger", "httpClient", "kameHouseDebugger"], () => {
-    logger.info("Started initializing api call table");
+    logger.info("Started initializing debugger http client");
     debuggerHttpClient = new DebuggerHttpClient();
     debuggerHttpClient.init();
   });
@@ -23,15 +23,27 @@ function importKameHouseDebuggerCss() {
 }
 
 /** 
- * Handles the debugger functionality.
+ * Handles the debugger functionality and renders the api calls in the debugger table.
  * 
  * @author nbrest
  */
 function KameHouseDebugger() {
   let self = this;
+  this.requests = [];
+  this.debuggerHttpClientDivTemplate;  
   
-  this.init = () => {
+  this.init = async () => {
+    await self.loadDebuggerHttpClientTemplate();
     self.renderDebugMode();
+  }
+
+  /**
+   * Loads the debugger http client html snippet into a variable to be reused as a template on render.
+   */
+  this.loadDebuggerHttpClientTemplate = async () => {
+    const response = await fetch('/kame-house/html-snippets/kamehouse-debugger-http-client-table.html');
+    self.debuggerHttpClientDivTemplate = await response.text();
+    logger.debug("Loaded debuggerHttpClientDivTemplate");
   }
 
   /** 
@@ -64,6 +76,7 @@ function KameHouseDebugger() {
     $("#debug-mode-button-wrapper").load("/kame-house/html-snippets/kamehouse-debugger-button.html");
     $("#debug-mode-wrapper").load("/kame-house/html-snippets/kamehouse-debugger.html", () => {
       moduleUtils.setModuleLoaded("kameHouseDebugger");
+      self.displayRequestData(null, null, null);
     });
   }
 
@@ -73,155 +86,11 @@ function KameHouseDebugger() {
   this.renderCustomDebugger = (htmlSnippet) => {
     $("#debug-mode-custom-wrapper").load(htmlSnippet);
   }
-}
-
-/**
- * Functionality that renders the debugger-http-client-table div 
- * and executes api requests.
- * 
- * Dependencies: timeUtils, logger, httpClient
- * 
- * @author nbrest
- */
-function DebuggerHttpClient() {
-  let self = this;
-  this.requests = [];
-  this.debuggerHttpClientDivTemplate;  
-  
-  this.init = async () => {
-    await self.loadDebuggerHttpClientTemplate();
-    self.displayRequestData(null, null, null);
-    moduleUtils.setModuleLoaded("debuggerHttpClient");
-  }
-
-  /**
-   * Loads the api call table html snippet into a variable to be reused as a template on render.
-   */
-  this.loadDebuggerHttpClientTemplate = async () => {
-    const response = await fetch('/kame-house/html-snippets/kamehouse-debugger-http-client-table.html');
-    self.debuggerHttpClientDivTemplate = await response.text();
-    logger.debug("Loaded debuggerHttpClientDivTemplate");
-  }
-
-  /** 
-   * Execute a GET request, update the api call table 
-   * and perform the specified success or error functions 
-   * data is any extra data I want to pass to the success and error functions
-   */
-  this.get = function httpGet(url, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
-    self.displayRequestData(url, "GET", null);
-    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "GET", null);
-    httpClient.get(url, null,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
-   * Execute a GET request with url encoded parameters, update the api call table 
-   * and perform the specified success or error functions 
-   */
-  this.getUrlEncoded = function httpGetUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
-    let urlEncoded = encodeURI(url + "?" + requestParam);
-    self.displayRequestData(urlEncoded, "GET", null);
-    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "GET", null);
-    let requestHeaders = httpClient.getUrlEncodedHeaders();
-    httpClient.get(urlEncoded, requestHeaders,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
-   * Execute a PUT request, update the api call table 
-   * and perform the specified success or error functions 
-   */
-  this.put = function httpPut(url, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
-    self.displayRequestData(url, "PUT", requestBody);
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
-    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "PUT", requestBody);
-    httpClient.put(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-    );
-  }
-
-  /** 
-   * Execute a POST request, update the api call table 
-   * and perform the specified success or error functions 
-   */
-  this.post = function httpPost(url, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
-    self.displayRequestData(url, "POST", requestBody);
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
-    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "POST", requestBody);
-    httpClient.post(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
-   * Execute a POST request with url parameters, update the api call table 
-   * and perform the specified success or error functions 
-   */
-  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
-    let urlEncoded = encodeURI(url + "?" + requestParam);
-    self.displayRequestData(urlEncoded, "POST", null);
-    let requestHeaders = httpClient.getUrlEncodedHeaders();
-    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "POST", null);
-    httpClient.post(urlEncoded, requestHeaders, null,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
-   * Execute a DELETE request, update the api call table 
-   * and perform the specified success or error functions 
-   */
-  this.delete = function httpDelete(url, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
-    self.displayRequestData(url, "DELETE", requestBody);
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
-    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "DELETE", null);
-    httpClient.delete(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /**
-   * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
-   */
-  this.createDataWithRequestInfo = (data, url, method, requestBody) => {
-    let dataWithRequestInfo = {};
-    dataWithRequestInfo.data = data;
-    dataWithRequestInfo.requestData = {};
-    dataWithRequestInfo.requestData.url = url;
-    dataWithRequestInfo.requestData.method = method;
-    dataWithRequestInfo.requestData.requestBody = requestBody;
-    dataWithRequestInfo.requestData.timestamp = timeUtils.getTimestamp();
-    return dataWithRequestInfo;
-  }
-
-  /** Process the response of the api call */
-  function processResponse(responseBody, responseCode, responseDescription, responseCallback, dataWithRequestInfo) {
-    self.displayResponseData(responseBody, responseCode);
-    self.displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode);
-    if (isFunction(responseCallback)) {
-      responseCallback(responseBody, responseCode, responseDescription, dataWithRequestInfo.data);
-    }
-  }
 
   /**
    * Displays the list of the N previous requests.
    */
-  this.displayPreviousRequestsTable = (dataWithRequestInfo, responseBody, responseCode) => {
+   this.displayPreviousRequestsTable = (dataWithRequestInfo, responseBody, responseCode) => {
     let request = {};
     request.requestData = dataWithRequestInfo.requestData;
     request.responseData = {};
@@ -237,7 +106,7 @@ function DebuggerHttpClient() {
   }
 
   /**
-   * Display api call table response data.
+   * Display debugger http client response data.
    */
   this.displayResponseData = function displayResponseData(responseBody, responseCode) {
     logger.trace(arguments.callee.name);
@@ -249,7 +118,7 @@ function DebuggerHttpClient() {
   }
 
   /**
-   * Display api call table request data.
+   * Display debugger http client request data.
    */
   this.displayRequestData = function displayRequestData(url, requestType, requestBody) {
     logger.trace(arguments.callee.name);
@@ -267,7 +136,7 @@ function DebuggerHttpClient() {
   }
 
   /**
-   * Empty api call table div.
+   * Empty debugger http client div.
    */
   this.emptyDebuggerHttpClientDiv = () => {
     let $debuggerHttpClientDiv = $("#debugger-http-client");
@@ -297,6 +166,136 @@ function DebuggerHttpClient() {
       content.style.maxHeight = null;
     } else {
       content.style.maxHeight = content.scrollHeight + "px";
+    }
+  }
+}
+
+/**
+ * Functionality that executes api requests to render in the debugger api table.
+ * 
+ * Dependencies: timeUtils, logger, httpClient
+ * 
+ * @author nbrest
+ */
+function DebuggerHttpClient() {
+  let self = this;
+  
+  this.init = () => {
+    moduleUtils.setModuleLoaded("debuggerHttpClient");
+  }
+
+  /** 
+   * Execute a GET request, update the debugger http client 
+   * and perform the specified success or error functions 
+   * data is any extra data I want to pass to the success and error functions
+   */
+  this.get = function httpGet(url, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    kameHouseDebugger.displayRequestData(url, "GET", null);
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "GET", null);
+    httpClient.get(url, null,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      );
+  }
+
+  /** 
+   * Execute a GET request with url encoded parameters, update the debugger http client 
+   * and perform the specified success or error functions 
+   */
+  this.getUrlEncoded = function httpGetUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    let urlEncoded = encodeURI(url + "?" + requestParam);
+    kameHouseDebugger.displayRequestData(urlEncoded, "GET", null);
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "GET", null);
+    let requestHeaders = httpClient.getUrlEncodedHeaders();
+    httpClient.get(urlEncoded, requestHeaders,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      );
+  }
+
+  /** 
+   * Execute a PUT request, update the debugger http client 
+   * and perform the specified success or error functions 
+   */
+  this.put = function httpPut(url, requestBody, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    kameHouseDebugger.displayRequestData(url, "PUT", requestBody);
+    let requestHeaders = httpClient.getApplicationJsonHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "PUT", requestBody);
+    httpClient.put(url, requestHeaders, requestBody,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+    );
+  }
+
+  /** 
+   * Execute a POST request, update the debugger http client 
+   * and perform the specified success or error functions 
+   */
+  this.post = function httpPost(url, requestBody, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    kameHouseDebugger.displayRequestData(url, "POST", requestBody);
+    let requestHeaders = httpClient.getApplicationJsonHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "POST", requestBody);
+    httpClient.post(url, requestHeaders, requestBody,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      );
+  }
+
+  /** 
+   * Execute a POST request with url parameters, update the debugger http client 
+   * and perform the specified success or error functions 
+   */
+  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    let urlEncoded = encodeURI(url + "?" + requestParam);
+    kameHouseDebugger.displayRequestData(urlEncoded, "POST", null);
+    let requestHeaders = httpClient.getUrlEncodedHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "POST", null);
+    httpClient.post(urlEncoded, requestHeaders, null,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      );
+  }
+
+  /** 
+   * Execute a DELETE request, update the debugger http client 
+   * and perform the specified success or error functions 
+   */
+  this.delete = function httpDelete(url, requestBody, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    kameHouseDebugger.displayRequestData(url, "DELETE", requestBody);
+    let requestHeaders = httpClient.getApplicationJsonHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "DELETE", null);
+    httpClient.delete(url, requestHeaders, requestBody,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      );
+  }
+
+  /**
+   * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
+   */
+  this.createDataWithRequestInfo = (data, url, method, requestBody) => {
+    let dataWithRequestInfo = {};
+    dataWithRequestInfo.data = data;
+    dataWithRequestInfo.requestData = {};
+    dataWithRequestInfo.requestData.url = url;
+    dataWithRequestInfo.requestData.method = method;
+    dataWithRequestInfo.requestData.requestBody = requestBody;
+    dataWithRequestInfo.requestData.timestamp = timeUtils.getTimestamp();
+    return dataWithRequestInfo;
+  }
+
+  /** Process the response of the api call */
+  function processResponse(responseBody, responseCode, responseDescription, responseCallback, dataWithRequestInfo) {
+    kameHouseDebugger.displayResponseData(responseBody, responseCode);
+    kameHouseDebugger.displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode);
+    if (isFunction(responseCallback)) {
+      responseCallback(responseBody, responseCode, responseDescription, dataWithRequestInfo.data);
     }
   }
 }
