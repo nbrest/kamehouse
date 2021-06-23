@@ -72,7 +72,7 @@ function Scheduler() {
     self.jobs.forEach((jobEntry) => {
       let tableIdKey = webapp + jobEntry.key.name;
       $jobsData.append(self.getTableFromTemplate(tableIdKey));
-      $jobsData.append("<br>");
+      $jobsData.append(self.getBr());
 
       $("#scheduler-table-" + tableIdKey + "-name-val").text(jobEntry.key.name);
       $("#scheduler-table-" + tableIdKey + "-key-val").text(jobEntry.key.group + "." + jobEntry.key.name);
@@ -92,9 +92,7 @@ function Scheduler() {
    */
   this.getTableFromTemplate = (tableIdKey) => {
     // Create a wrapper div to insert the table template
-    let tableDivWrapper = document.createElement('div');
-    tableDivWrapper.innerHTML = self.schedulerTableTemplate;
-    let tableDiv = tableDivWrapper.firstChild;
+    let tableDiv = self.getSchedulerTableDivInstance();
     
     // Update the ids and classes on the table generated from the template
     tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val').id = "scheduler-table-" + tableIdKey + "-name-val";
@@ -127,8 +125,7 @@ function Scheduler() {
   this.updateJobsTableError = (webapp) => {
     let $jobsData = $('#jobs-data-' + webapp);
     $jobsData.empty();
-    let errorMessage = $('<p>').text("Error retrieving jobs from the backend");
-    $jobsData.append(errorMessage);
+    $jobsData.append(self.getErrorMessage());
   }
 
   /** Process success response */
@@ -143,5 +140,22 @@ function Scheduler() {
     loadingWheelModal.close();
     self.updateJobsTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+  }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getSchedulerTableDivInstance = () => {
+    let tableDivWrapper = document.createElement('div');
+    tableDivWrapper.innerHTML = self.schedulerTableTemplate;
+    return tableDivWrapper.firstChild;
+  }
+
+  this.getErrorMessage = () => {
+    let errorMessage = $('<p>');
+    errorMessage.text("Error retrieving jobs from the backend");
+    return errorMessage;
+  }
+
+  this.getBr = () => {
+    return $('<br>');
   }
 }

@@ -19,12 +19,11 @@ var main = () => {
     websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
     websocket.setTopicUrl('/topic/test-module/websocket-out');
     websocket.setPollUrl("/app/test-module/websocket-in");
-    $(() => {
-      $("form").on('submit', (e) => e.preventDefault());
-      $("#connect").click(() => connectWebSocket());
-      $("#disconnect").click(() => disconnectWebSocket());
-      $("#send").click(() => sendWebSocketRequest());
-    });
+    
+    $("form").on('submit', (e) => e.preventDefault());
+    $("#connect").click(() => connectWebSocket());
+    $("#disconnect").click(() => disconnectWebSocket());
+    $("#send").click(() => sendWebSocketRequest());
   });
 }
 
@@ -69,7 +68,16 @@ function showTestWebSocketResponse(testWebSocketResponseBody) {
   logger.trace(arguments.callee.name);
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
   let date = new Date(parseInt(testWebSocketResponseBody.date));
-  $("#websocket-responses").append("<tr><td>" + date.toLocaleString() + " : " + testWebSocketResponseBody.message + "</td></tr>");
+  $("#websocket-responses").append(getWebsocketResponseTableRow(date.toLocaleDateString(), testWebSocketResponseBody.message));
+}
+
+/** Dynamic DOM element generation ------------------------------------------ */
+function getWebsocketResponseTableRow(date, message) {
+  let tableRow = $('<tr>');
+  let tableRowData = $('<td>');
+  tableRowData.text(date + " : " + message);
+  tableRow.append(tableRowData);
+  return tableRow;
 }
 
 /** Call main. */

@@ -61,7 +61,7 @@ function Footer() {
   /** Renders the footer */
   this.renderFooter = () => { 
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
-    $("body").append('<div id="footerContainer"></div>');
+    $("body").append(self.getFooterContainerDiv());
     $("#footerContainer").load("/kame-house/html-snippets/footer.html", () => {
       self.loaded = true;
     });
@@ -79,6 +79,13 @@ function Footer() {
       $("#footer-build-date").text(global.session.buildDate);
     }
   }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getFooterContainerDiv = () => {
+    let footerContainer = $('<div>');
+    footerContainer.attr("id", "footerContainer");
+    return footerContainer;
+  }
 }
 
 /** Header functionality */
@@ -91,7 +98,7 @@ function Header() {
   /** Render the header */
   this.renderHeader = () => {
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
-    $("body").prepend('<div id="headerContainer"></div>');
+    $("body").prepend(self.getHeaderContainerDiv());
     $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
       self.updateLoginStatus();
       self.updateActiveTab();
@@ -171,21 +178,41 @@ function Header() {
   this.updateLoginStatus = () => {
     let $loginStatus = $("#login-status");
     $loginStatus.empty();
-    let $loginButton = $("<a>");
-    $loginButton.attr("class", "btn btn-outline-danger");
     if (isNullOrUndefined(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {
-      $loginButton.attr("href", "/kame-house/login");
-      $loginButton.text("Login");
-      $loginStatus.append($loginButton);
+      $loginStatus.append(self.getLoginButton());
     } else {
-      $loginButton.attr("href", "/kame-house/logout");
-      $loginButton.text("Logout");
-      $loginStatus.append($loginButton);
-
-      let $loginMessage = $("<h5>");
-      $loginMessage.text(global.session.username);
-      $loginStatus.append($loginMessage);
+      $loginStatus.append(self.getLogoutButton());
+      $loginStatus.append(self.getUsernameHeader(global.session.username));
     }
+  }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getHeaderContainerDiv = () => {
+    let headerContainer = $('<div>');
+    headerContainer.attr("id", "headerContainer");
+    return headerContainer;
+  }
+
+  this.getLoginButton = () => {
+    let loginButton = $('<a>');
+    loginButton.attr("class", "btn btn-outline-danger");
+    loginButton.attr("href", "/kame-house/login");
+    loginButton.text("Login");
+    return loginButton;
+  }
+
+  this.getLogoutButton = () => {
+    let logoutButton = $('<a>');
+    logoutButton.attr("class", "btn btn-outline-danger");
+    logoutButton.attr("href", "/kame-house/logout");
+    logoutButton.text("Logout");
+    return logoutButton;
+  }
+
+  this.getUsernameHeader = (username) => {
+    let usernameHeader = $('<h5>');
+    usernameHeader.text(username);
+    return usernameHeader;
   }
 }

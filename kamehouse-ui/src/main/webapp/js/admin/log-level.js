@@ -81,10 +81,7 @@ function BackendLogLevelUtils() {
       let logLevelEntryPair = logLevelEntry.split(":");
       let packageName = logLevelEntryPair[0];
       let logLevel = logLevelEntryPair[1];
-      let tableRow = $('<tr>');
-      tableRow.append($('<td>').text(packageName));
-      tableRow.append($('<td>').text(logLevel));
-      $tableBody.append(tableRow);
+      $tableBody.append(self.getLogLevelTableRow(packageName, logLevel));
     });
   }
 
@@ -92,21 +89,14 @@ function BackendLogLevelUtils() {
   this.addLogLevelTableHeader = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
     $tableBody.empty();
-    let tableRow = $('<tr>');
-    tableRow.attr("id", "log-level-thead-" + webapp);
-    tableRow.attr("class", "log-level-thead");
-    tableRow.append($('<td>').text("Package Name"));
-    tableRow.append($('<td>').text("Log Level"));
-    $tableBody.append(tableRow);
+    $tableBody.append(self.getLogLevelTableHeader(webapp));
   }
   
   /** Set log level table to error */
   this.updateLogLevelTableError = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
     $tableBody.empty();
-    let tableRow = $('<tr>');
-    tableRow.append($('<td>').text("Error retrieving log levels from the backend"));
-    $tableBody.append(tableRow);
+    $tableBody.append(self.getErrorTableRow());
   }
 
   /** Process success response */
@@ -120,5 +110,44 @@ function BackendLogLevelUtils() {
     loadingWheelModal.close();
     self.updateLogLevelTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+  }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getErrorTableRow = () => {
+    let tableRow = $('<tr>');
+    let tableRowData = $('<td>');
+    tableRowData.text("Error retrieving log levels from the backend");
+    tableRow.append(tableRowData);
+    return tableRow;
+  }
+
+  this.getLogLevelTableRow = (packageName, logLevel) => {
+    let tableRow = $('<tr>');
+
+    let packageNameTableRowData = $('<td>')
+    packageNameTableRowData.text(packageName)
+    tableRow.append(packageNameTableRowData);
+
+    let logLevelTableRowData = $('<td>')
+    logLevelTableRowData.text(logLevel)
+    tableRow.append(logLevelTableRowData);
+
+    return tableRow;
+  }
+
+  this.getLogLevelTableHeader = (webapp) => {
+    let tableRow = $('<tr>');
+    tableRow.attr("id", "log-level-thead-" + webapp);
+    tableRow.attr("class", "log-level-thead");
+
+    let packageNameTableRowData = $('<td>')
+    packageNameTableRowData.text("Package Name")
+    tableRow.append(packageNameTableRowData);
+
+    let logLevelTableRowData = $('<td>')
+    logLevelTableRowData.text("Log Level")
+    tableRow.append(logLevelTableRowData);
+
+    return tableRow;
   }
 }

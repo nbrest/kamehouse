@@ -91,7 +91,7 @@ function Logger() {
         logEntriesSize = debugModeConsoleLog.childElementCount;
       }
       // Add new log entry
-      $("<li />").text(logEntry).appendTo("#debug-mode-console-log-entries");
+      $("#debug-mode-console-log-entries").append(self.getLogEntryListItem(logEntry));
       // Scroll down log div
       self.debugModeLogScroll();
     }
@@ -102,5 +102,12 @@ function Logger() {
     $("#debug-mode-console-log-entries").animate({
       scrollTop: height
     }, 100);
+  }
+  
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getLogEntryListItem = (logEntry) => {
+    let listItem = $('<li>');
+    listItem.text(logEntry);
+    return listItem;
   }
 }

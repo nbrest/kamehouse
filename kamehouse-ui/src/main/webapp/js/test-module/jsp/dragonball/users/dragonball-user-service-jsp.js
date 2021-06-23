@@ -115,22 +115,7 @@ function DragonBallUserServiceJsp() {
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
     for (let i = 0; i < dragonBallUsersList.length; i++) {
-      let tableRow = $('<tr>');
-      tableRow.append($('<td>').text(dragonBallUsersList[i].id));
-      tableRow.append($('<td>').text(dragonBallUsersList[i].username));
-      tableRow.append($('<td>').text(dragonBallUsersList[i].email));
-      tableRow.append($('<td>').text(dragonBallUsersList[i].age));
-      tableRow.append($('<td>').text(dragonBallUsersList[i].powerLevel));
-      tableRow.append($('<td>').text(dragonBallUsersList[i].stamina));
-      let editButton = '<input type="button" value="edit" class="btn btn-outline-success btn-borderless" onclick="window.location.href=' + "'users-edit?username=" + dragonBallUsersList[i].username + "'" + '">';
-      let deleteButton = $('<button class="btn btn-outline-danger btn-borderless">');
-      deleteButton.text("delete");
-      deleteButton.click({
-        id: dragonBallUsersList[i].id
-      }, self.deleteDragonBallUser);
-      tableRow.append($('<td>').html(editButton));
-      tableRow.append($('<td>').html(deleteButton));
-      $dragonBallUsersTbody.append(tableRow);
+      $dragonBallUsersTbody.append(self.getDragonBallUserTableRow(dragonBallUsersList[i]));
     }
   }
 
@@ -155,7 +140,68 @@ function DragonBallUserServiceJsp() {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
-    let tableRow = $('<tr>').append($('<td>').text(message));
-    $dragonBallUsersTbody.append(tableRow);
+    $dragonBallUsersTbody.append(self.getErrorMessageTableRow(message));
+  }
+  
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getErrorMessageTableRow = () => {
+    let tableRow = $('<tr>');
+    let tableRowData = $('<td>');
+    tableRowData.text(message);
+    tableRow.append(tableRowData);
+    return tableRow;
+  }
+
+  this.getDragonBallUserTableRow = (dragonBallUser) => {
+    let tableRow = $('<tr>');
+    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.id));
+    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.username));
+    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.email));
+    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.age));
+    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.powerLevel));
+    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.stamina));
+
+    tableRow.append(self.getEditButtonTableRowData(dragonBallUser.username));
+    tableRow.append(self.getDeleteButtonTableRowData(dragonBallUser.id));
+    return tableRow;
+  }
+
+  this.getDragonBallUserTableRowData = (dataValue) => {
+    let tableRowData = $('<td>');
+    tableRowData.text(dataValue);
+    return tableRowData; 
+  }
+
+  this.getEditButtonTableRowData = (username) => {
+    let tableRowData = $('<td>');
+    tableRowData.append(self.getEditButton(username));
+    return tableRowData; 
+  }
+
+  this.getEditButton = (username) => {
+    let editButton = $('<input>');
+    editButton.attr("type", "button");
+    editButton.attr("value", "edit");
+    editButton.addClass("btn btn-outline-success btn-borderless");
+    editButton.click(() => {
+      window.location.href="users-edit?username=" + username;
+    });
+    return editButton;
+  }
+
+  this.getDeleteButtonTableRowData = (id) => {
+    let tableRowData = $('<td>');
+    tableRowData.append(self.getDeleteButton(id));
+    return tableRowData; 
+  }
+
+  this.getDeleteButton = (id) => {
+    let deleteButton = $('<button>');
+    deleteButton.addClass("btn btn-outline-danger btn-borderless")
+    deleteButton.text("delete");
+    deleteButton.click({
+      id: id
+    }, self.deleteDragonBallUser);
+    return deleteButton;
   }
 }

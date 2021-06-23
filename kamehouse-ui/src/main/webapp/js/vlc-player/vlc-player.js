@@ -701,12 +701,10 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let $playlistTableBody = $('#playlist-table-body');
     if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) ||
       self.currentPlaylist.length <= 0) {
-      let madaMadaDane = 'まだまだだね';
-      let playlistTableRow = $('<tr>').append($('<td>').text("No playlist loaded yet or unable to sync. " + madaMadaDane + " :)"));
-      $playlistTableBody.append(playlistTableRow);
+      $playlistTableBody.append(self.getEmptyPlaylistTableRow());
     } else {
-      self.tbodyFilenames = $('<tbody id="playlist-table-body">');
-      self.tbodyAbsolutePaths = $('<tbody id="playlist-table-body">');
+      self.tbodyFilenames = self.getPlaylistTableBody();
+      self.tbodyAbsolutePaths = self.getPlaylistTableBody();
       for (let i = 0; i < self.currentPlaylist.length; i++) {
         let absolutePath = self.currentPlaylist[i].filename;
         let filename = fileUtils.getShortFilename(absolutePath);
@@ -718,18 +716,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
       self.highlightCurrentPlayingItem();
       self.vlcPlayer.filterPlaylistRows();
     }
-  }
-
-  /** Create a playlist table row */
-  this.getPlaylistTableRow = (displayName, playlistElementId) => {
-    let playlistElementButton = $('<button>');
-    playlistElementButton.addClass("playlist-table-btn");
-    playlistElementButton.text(displayName);
-    playlistElementButton.click({
-      id: playlistElementId
-    }, self.clickEventOnPlaylistRow);
-    let playlistTableRow = $('<tr id=playlist-table-row-id-' + playlistElementId + '>').append($('<td>').append(playlistElementButton));
-    return playlistTableRow;
   }
 
   /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */
@@ -853,6 +839,41 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.resetView = () => {
     self.updatedPlaylist = null;
     self.reload();
+  }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getEmptyPlaylistTableRow = () => {
+    let tableRow = $('<tr>');
+    let tableRowData = $('<td>');
+    let madaMadaDane = 'まだまだだね';
+    tableRowData.text("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
+    tableRow.append(tableRowData);
+    return tableRow;
+  }
+  
+  this.getPlaylistTableBody = () => {
+    let tBody = $('<tbody>');
+    tBody.attr("id", "playlist-table-body");
+    return tBody;
+  }
+
+  this.getPlaylistTableRow = (displayName, playlistElementId) => {
+    let tableRow = $('<tr>');
+    tableRow.attr("id", "playlist-table-row-id-" + playlistElementId);
+    let tableRowData = $('<td>');
+    tableRowData.append(self.getPlaylistTableRowButton(displayName, playlistElementId));
+    tableRow.append(tableRowData);
+    return tableRow;
+  }
+
+  this.getPlaylistTableRowButton = (displayName, playlistElementId) => {
+    let button = $('<button>');
+    button.addClass("playlist-table-btn");
+    button.text(displayName);
+    button.click({
+      id: playlistElementId
+    }, self.clickEventOnPlaylistRow);
+    return button;
   }
 }
 

@@ -84,7 +84,7 @@ function EhCacheManager() {
     let $cacheData = $("#cache-data-" + webapp);
     caches.forEach((cache) => {
       $cacheData.append(self.getEhCacheTableFromTemplate(cache.name));
-      $cacheData.append($('<br>'));
+      $cacheData.append($(self.getBr()));
 
       $('#ehcache-table-' + cache.name + '-header').text(cache.name);
       $('#ehcache-table-' + cache.name + '-status-val').text(cache["status"]);
@@ -107,9 +107,7 @@ function EhCacheManager() {
    */
   this.getEhCacheTableFromTemplate = (cacheName) => {
     // Create a wrapper div to insert the table template
-    let ehcacheTableDivWrapper = document.createElement('div');
-    ehcacheTableDivWrapper.innerHTML = self.ehcacheTableTemplate;
-    let ehcacheTableDiv = ehcacheTableDivWrapper.firstChild;
+    let ehcacheTableDiv = self.getEhcacheTableDivInstance();
     
     // Update the ids and classes on the table generated from the template
     ehcacheTableDiv.id = "ehcache-table-" + cacheName;
@@ -136,9 +134,7 @@ function EhCacheManager() {
    */
   this.displayErrorGettingCache = (webapp) => {
     // Create a wrapper div to insert the error table template
-    let ehcacheTableDivWrapper = document.createElement('div');
-    ehcacheTableDivWrapper.innerHTML = self.ehcacheErrorTableTemplate;
-    let ehcacheErrorTableDiv = ehcacheTableDivWrapper.firstChild;
+    let ehcacheErrorTableDiv = self.getEhcacheErrorTableDivInstance();
     // Update the id
     ehcacheErrorTableDiv.querySelector('tr #ehcache-table-template-error-val').id = "ehcache-table-" + webapp + "-error-val";
     // Attach the error table to the dom
@@ -207,6 +203,23 @@ function EhCacheManager() {
     for (let i = 0; i < self.ehcacheToggleTableRowIds[webapp].length; i++) {
       self.toggleCacheView(self.ehcacheToggleTableRowIds[webapp][i]);
     }
+  }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getEhcacheTableDivInstance = () => {
+    let ehcacheTableDivWrapper = document.createElement('div');
+    ehcacheTableDivWrapper.innerHTML = self.ehcacheTableTemplate;
+    return ehcacheTableDivWrapper.firstChild;
+  }
+
+  this.getEhcacheErrorTableDivInstance = () => {
+    let ehcacheTableDivWrapper = document.createElement('div');
+    ehcacheTableDivWrapper.innerHTML = self.ehcacheErrorTableTemplate;
+    return ehcacheTableDivWrapper.firstChild;
+  }
+
+  this.getBr = () => {
+    return $('<br>');
   }
 }
 
