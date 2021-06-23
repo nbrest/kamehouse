@@ -56,10 +56,20 @@ function BasicKamehouseModal() {
   /** Open api call error message auto closeable modal */
   this.openApiError = (responseBody, responseCode, responseDescription) => {
     if (isNullOrUndefined(responseBody)) {
-      responseBody = "Error executing the request.<br>Please check the logs for more information";
+      responseBody = self.getEmptyResponseBodyText();
     }
-    let errorMessage = "Error executing the request.<br>Response: [ code: " + responseCode + ", description: \"" + responseDescription + "\", body: " + JSON.stringify(responseBody) + " ]";
-    self.openAutoCloseable(errorMessage, 7000);
+    self.openAutoCloseable(self.getErrorMessage(responseBody, responseCode, responseDescription), 7000);
+  }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getEmptyResponseBodyText = () => {
+    return "Error executing the request.<br>Please check the logs for more information";
+  }
+  
+  this.getErrorMessage = (responseBody, responseCode, responseDescription) => {
+    return "Error executing the request.<br>Response: [ code: " + responseCode 
+            + ", description: \"" + responseDescription 
+            + "\", body: " + JSON.stringify(responseBody) + " ]";
   }
 }
 
