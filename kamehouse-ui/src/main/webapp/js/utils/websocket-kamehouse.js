@@ -58,8 +58,18 @@ function WebSocketKameHouse() {
       self.stompClientDebugFunction = self.stompClient.debug;
       self.disableStompDebugMode();
       self.stompClient.connect({}, (frame) => {
-        logger.debug('Connected WebSocket: ' + frame);
-        self.stompClient.subscribe(self.topicUrl, (topicResponse) => topicResponseCallback(topicResponse));
+        try {
+          logger.debug('Connected WebSocket: ' + frame);
+          self.stompClient.subscribe(self.topicUrl, (topicResponse) => { 
+            try {
+              topicResponseCallback(topicResponse);
+            } catch (error) {
+              logger.error("Error during stompClient.subscribe() callback. Message: " + error);
+            }
+          });
+        } catch(error) {
+          logger.error("Error during stompClient.connect() callback. Message: " + error);
+        }
       });
       self.stompClients.push(self.stompClient);
     } catch (error) {
