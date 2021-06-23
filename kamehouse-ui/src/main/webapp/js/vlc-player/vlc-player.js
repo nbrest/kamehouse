@@ -1,7 +1,7 @@
 /** 
  * VlcPlayer entity.
  * 
- * Dependencies: fileUtils, tableUtils, cursorUtils, timeUtils, logger, apiCallTable, websocket
+ * Dependencies: fileUtils, tableUtils, cursorUtils, timeUtils, logger, debuggerHttpClient, websocket
  * 
  * Dependencies in same file: VlcPlayerPlaylist, VlcPlayerRestClient, VlcPlayerCommandExecutor, 
  * VlcPlayerSynchronizer, VlcPlayerMainViewUpdater, VlcPlayerDebugger
@@ -895,12 +895,12 @@ function VlcPlayerRestClient(vlcPlayer) {
   this.get = function httpGet(url) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
-    apiCallTable.get(url,
+    debuggerHttpClient.get(url,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => {
         apiCallErrorDefault(responseBody, responseCode, responseDescription);
         if (responseCode == "404") {
-          apiCallTable.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
+          debuggerHttpClient.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
         }
       });
   }
@@ -909,7 +909,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   this.post = function httpPost(url, requestBody) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
-    apiCallTable.post(url, requestBody,
+    debuggerHttpClient.post(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
     );
@@ -919,7 +919,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
-    apiCallTable.postUrlEncoded(url, requestParam,
+    debuggerHttpClient.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
         apiCallSuccessDefault(responseBody);
         // Modal opened from playFile
@@ -936,7 +936,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   this.delete = function httpDelete(url, requestBody) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
-    apiCallTable.delete(url, requestBody,
+    debuggerHttpClient.delete(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
     );

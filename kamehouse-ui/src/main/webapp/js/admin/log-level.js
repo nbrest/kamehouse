@@ -5,7 +5,7 @@ var backendLogLevelUtils;
 
 window.onload = () => {
   backendLogLevelUtils = new BackendLogLevelUtils();
-  moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
+  moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing log-level");
     kameHouseWebappTabsManager.openTab('tab-admin');
     backendLogLevelUtils.init();
@@ -45,32 +45,32 @@ function BackendLogLevelUtils() {
     if (openModal) {
       loadingWheelModal.open();
     }
-    apiCallTable.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
+    debuggerHttpClient.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
   /** Reset all log levels */
   this.resetLogLevels = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.delete(self.getApiUrl(webapp), null, processSuccess, processError, webapp);
+    debuggerHttpClient.delete(self.getApiUrl(webapp), null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log level */
   this.setKamehouseLogLevel = (webapp) => {
     let logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     loadingWheelModal.open();
-    apiCallTable.put(self.getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
+    debuggerHttpClient.put(self.getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to DEBUG */
   this.setKamehouseLogLevelToDebug = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.put(self.getApiUrl(webapp) + "/debug", null, processSuccess, processError, webapp);
+    debuggerHttpClient.put(self.getApiUrl(webapp) + "/debug", null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to TRACE */
   this.setKamehouseLogLevelToTrace = (webapp) => {
     loadingWheelModal.open();
-    apiCallTable.put(self.getApiUrl(webapp) + "/trace", null, processSuccess, processError, webapp);
+    debuggerHttpClient.put(self.getApiUrl(webapp) + "/trace", null, processSuccess, processError, webapp);
   }
 
   /** Update the log levels table content */

@@ -1,7 +1,7 @@
 /**
  * Admin Server Management functions.
  * 
- * Dependencies: logger, apiCallTable.
+ * Dependencies: logger, debuggerHttpClient.
  * 
  * @author nbrest
  */
@@ -10,7 +10,7 @@ var serverManager;
 var main = () => {
   bannerUtils.setRandomAllBanner();
   importServerManagementCss();
-  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
+  moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
     logger.info("Started initializing server management");
     serverManager = new ServerManager();
     serverManager.getSuspendStatus(false);
@@ -35,7 +35,7 @@ function ServerManager() {
   this.execAdminWakeOnLan = (url, server) => {
     let requestParam = "server=" + server;
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
+    debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
   }
 
   /**
@@ -48,13 +48,13 @@ function ServerManager() {
     logger.trace("Shutdown delay: " + shutdownDelay);
     let requestParam = "delay=" + shutdownDelay;
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(ADMIN_API_URL + SHUTDOWN_URL, requestParam, processSuccessShutdown, processErrorShutdown);
+    debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + SHUTDOWN_URL, requestParam, processSuccessShutdown, processErrorShutdown);
   }
 
   /** Cancel a Shutdown command */
   this.cancelShutdownCommand = () => {
     loadingWheelModal.open();
-    apiCallTable.delete(ADMIN_API_URL + SHUTDOWN_URL, null, processSuccessShutdown, processErrorShutdown);
+    debuggerHttpClient.delete(ADMIN_API_URL + SHUTDOWN_URL, null, processSuccessShutdown, processErrorShutdown);
   }
 
   /** Get the Shutdown command status */
@@ -62,7 +62,7 @@ function ServerManager() {
     if (openModal) {
       loadingWheelModal.open();
     }
-    apiCallTable.get(ADMIN_API_URL + SHUTDOWN_URL, processSuccessShutdownStatus, processErrorShutdownStatus);
+    debuggerHttpClient.get(ADMIN_API_URL + SHUTDOWN_URL, processSuccessShutdownStatus, processErrorShutdownStatus);
   }
 
   /** Process the success response of a Shutdown command (set/cancel) */
@@ -101,13 +101,13 @@ function ServerManager() {
     logger.trace("Suspend delay: " + suspendDelay);
     let requestParam = "delay=" + suspendDelay;
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(ADMIN_API_URL + SUSPEND_URL, requestParam, processSuccessSuspend, processErrorSuspend);
+    debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + SUSPEND_URL, requestParam, processSuccessSuspend, processErrorSuspend);
   }
 
   /** Cancel a suspend command */
   this.cancelSuspendCommand = () => { 
     loadingWheelModal.open();
-    apiCallTable.delete(ADMIN_API_URL + SUSPEND_URL, null, processSuccessSuspend, processErrorSuspend);
+    debuggerHttpClient.delete(ADMIN_API_URL + SUSPEND_URL, null, processSuccessSuspend, processErrorSuspend);
   }
 
   /** Get the suspend command status */
@@ -115,7 +115,7 @@ function ServerManager() {
     if (openModal) {
       loadingWheelModal.open();
     }
-    apiCallTable.get(ADMIN_API_URL + SUSPEND_URL, processSuccessSuspendStatus, processErrorSuspendStatus);
+    debuggerHttpClient.get(ADMIN_API_URL + SUSPEND_URL, processSuccessSuspendStatus, processErrorSuspendStatus);
   }
 
   /** Process the success response of a suspend command (set/cancel) */
@@ -150,7 +150,7 @@ function ServerManager() {
    */
   this.post = (url, requestBody) => {
     loadingWheelModal.open();
-    apiCallTable.post(ADMIN_API_URL + url, requestBody, processSuccess, processError);
+    debuggerHttpClient.post(ADMIN_API_URL + url, requestBody, processSuccess, processError);
   }
 
   /** Generic process success response */

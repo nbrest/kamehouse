@@ -5,7 +5,7 @@ var scheduler;
 
 window.onload = () => {
   scheduler = new Scheduler();
-  moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
+  moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing scheduler");
     kameHouseWebappTabsManager.openTab('tab-admin');
     scheduler.init();
@@ -55,14 +55,14 @@ function Scheduler() {
     if (openModal) {
       loadingWheelModal.open();
     }
-    apiCallTable.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
+    debuggerHttpClient.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
   /** Cancel job execution */
   this.cancelJobExecution = (jobKey, webapp) => {
     loadingWheelModal.open();
     let urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
-    apiCallTable.delete(self.getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
+    debuggerHttpClient.delete(self.getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
   }
 
   /** Update the jobs table content */

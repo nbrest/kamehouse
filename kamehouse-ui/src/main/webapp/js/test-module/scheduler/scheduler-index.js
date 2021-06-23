@@ -1,7 +1,7 @@
 /**
  * Test module scheduler functions.
  * 
- * Dependencies: logger, apiCallTable.
+ * Dependencies: logger, debuggerHttpClient.
  * 
  * @author nbrest
  */
@@ -10,7 +10,7 @@ var scheduler;
 var main = () => {
   bannerUtils.setRandomAllBanner();
   importCss();
-  moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
+  moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
     logger.info("Started initializing scheduler");
     scheduler = new Scheduler();
     scheduler.getSampleJobStatus(false);
@@ -36,13 +36,13 @@ function Scheduler() {
     logger.trace("Sample job delay: " + delay);
     let requestParam = "delay=" + delay;
     loadingWheelModal.open();
-    apiCallTable.postUrlEncoded(TEST_MODULE_API_URL + SAMPLE_JOB_URL, requestParam, processSuccessSampleJob, processErrorSampleJob);
+    debuggerHttpClient.postUrlEncoded(TEST_MODULE_API_URL + SAMPLE_JOB_URL, requestParam, processSuccessSampleJob, processErrorSampleJob);
   }
 
   /** Cancel a SampleJob command */
   this.cancelSampleJob = () => {
     loadingWheelModal.open();
-    apiCallTable.delete(TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, processSuccessSampleJob, processErrorSampleJob);
+    debuggerHttpClient.delete(TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, processSuccessSampleJob, processErrorSampleJob);
   }
 
   /** Get the SampleJob command status */
@@ -50,7 +50,7 @@ function Scheduler() {
     if (openModal) {
       loadingWheelModal.open();
     }
-    apiCallTable.get(TEST_MODULE_API_URL + SAMPLE_JOB_URL, processSuccessSampleJobStatus, processErrorSampleJobStatus);
+    debuggerHttpClient.get(TEST_MODULE_API_URL + SAMPLE_JOB_URL, processSuccessSampleJobStatus, processErrorSampleJobStatus);
   }
 
   /** Process the success response of a SampleJob command (set/cancel) */

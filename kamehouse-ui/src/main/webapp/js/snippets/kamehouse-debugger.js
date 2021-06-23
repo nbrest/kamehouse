@@ -3,22 +3,21 @@
  * 
  * @author nbrest
  */
-var apiCallTable;
+var debuggerHttpClient;
 var kameHouseDebugger;
 
 function main() {
   importKameHouseDebuggerCss();
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
-    logger.info("Started initializing api call table");
-    apiCallTable = new ApiCallTable();
-    moduleUtils.setModuleLoaded("apiCallTable");
-    apiCallTable.displayRequestData(null, null, null);
-  });
   kameHouseDebugger = new KameHouseDebugger();
-  kameHouseDebugger.renderDebugMode();
+  kameHouseDebugger.init();
+  moduleUtils.waitForModules(["logger", "httpClient", "kameHouseDebugger"], () => {
+    logger.info("Started initializing api call table");
+    debuggerHttpClient = new DebuggerHttpClient();
+    debuggerHttpClient.init();
+  });
 }
 
-/** Import api-call-table css*/
+/** Import debugger-http-client css*/
 function importKameHouseDebuggerCss() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kamehouse-debugger.css">');
 }
@@ -29,6 +28,11 @@ function importKameHouseDebuggerCss() {
  * @author nbrest
  */
 function KameHouseDebugger() {
+  let self = this;
+  
+  this.init = () => {
+    self.renderDebugMode();
+  }
 
   /** 
    * Toggle debug mode. 
@@ -72,26 +76,32 @@ function KameHouseDebugger() {
 }
 
 /**
- * Functionality that renders the api-call-table div 
+ * Functionality that renders the debugger-http-client-table div 
  * and executes api requests.
  * 
  * Dependencies: timeUtils, logger, httpClient
  * 
  * @author nbrest
  */
-function ApiCallTable() {
+function DebuggerHttpClient() {
   let self = this;
   this.requests = [];
-  this.apiCallTableDivTemplate;  
+  this.debuggerHttpClientDivTemplate;  
   
+  this.init = async () => {
+    await self.loadDebuggerHttpClientTemplate();
+    self.displayRequestData(null, null, null);
+    moduleUtils.setModuleLoaded("debuggerHttpClient");
+  }
+
   /**
    * Loads the api call table html snippet into a variable to be reused as a template on render.
    */
-  this.loadApiCallTableTemplate = async () => {
-    const response = await fetch('/kame-house/html-snippets/kamehouse-debugger-api-call-table.html');
-    self.apiCallTableDivTemplate = await response.text();
+  this.loadDebuggerHttpClientTemplate = async () => {
+    const response = await fetch('/kame-house/html-snippets/kamehouse-debugger-http-client-table.html');
+    self.debuggerHttpClientDivTemplate = await response.text();
+    logger.debug("Loaded debuggerHttpClientDivTemplate");
   }
-  self.loadApiCallTableTemplate();
 
   /** 
    * Execute a GET request, update the api call table 
@@ -222,7 +232,7 @@ function ApiCallTable() {
       self.requests.shift();
     }
     self.requests.push(request);
-    $('#aco-previous-requests-pre').text(JSON.stringify(self.requests, null, 2));
+    $('#debugger-http-client-previous-requests-pre').text(JSON.stringify(self.requests, null, 2));
     self.setCollapsibleContent();
   }
 
@@ -232,9 +242,9 @@ function ApiCallTable() {
   this.displayResponseData = function displayResponseData(responseBody, responseCode) {
     logger.trace(arguments.callee.name);
     let responseTimestamp = timeUtils.getTimestamp();
-    $("#aco-res-code-val").text(responseCode);
-    $("#aco-res-timestamp-val").text(responseTimestamp);
-    $("#aco-res-body-val").text(JSON.stringify(responseBody, null, 2));
+    $("#debugger-http-client-res-code-val").text(responseCode);
+    $("#debugger-http-client-res-timestamp-val").text(responseTimestamp);
+    $("#debugger-http-client-res-body-val").text(JSON.stringify(responseBody, null, 2));
     self.setCollapsibleContent();
   }
 
@@ -243,25 +253,25 @@ function ApiCallTable() {
    */
   this.displayRequestData = function displayRequestData(url, requestType, requestBody) {
     logger.trace(arguments.callee.name);
-    self.emptyApiCallTableDiv();
-    document.getElementById("api-call-table").innerHTML = self.apiCallTableDivTemplate;
+    self.emptyDebuggerHttpClientDiv();
+    document.getElementById("debugger-http-client").innerHTML = self.debuggerHttpClientDivTemplate;
     let requestTimestamp = timeUtils.getTimestamp();
-    $('#aco-req-timestamp-val').text(requestTimestamp);
-    $('#aco-req-url-val').text(url);
-    $('#aco-req-type-val').text(requestType);
-    $('#aco-req-body-val').text(JSON.stringify(requestBody, null, 2));
-    $('#aco-res-code-val').text(null);
-    $('#aco-res-timestamp-val').text(null);
-    $('#aco-res-body-val').text(JSON.stringify(null, null, 2));
+    $('#debugger-http-client-req-timestamp-val').text(requestTimestamp);
+    $('#debugger-http-client-req-url-val').text(url);
+    $('#debugger-http-client-req-type-val').text(requestType);
+    $('#debugger-http-client-req-body-val').text(JSON.stringify(requestBody, null, 2));
+    $('#debugger-http-client-res-code-val').text(null);
+    $('#debugger-http-client-res-timestamp-val').text(null);
+    $('#debugger-http-client-res-body-val').text(JSON.stringify(null, null, 2));
     self.setCollapsibleContent();
   }
 
   /**
    * Empty api call table div.
    */
-  this.emptyApiCallTableDiv = () => {
-    let $apiCallTableDiv = $("#api-call-table");
-    $apiCallTableDiv.empty();
+  this.emptyDebuggerHttpClientDiv = () => {
+    let $debuggerHttpClientDiv = $("#debugger-http-client");
+    $debuggerHttpClientDiv.empty();
   }
 
   /**

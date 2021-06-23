@@ -29,7 +29,7 @@ var main = () => {
 function loadVlcPlayer() {
   moduleUtils.loadWebSocketKameHouse();
   $.getScript("/kame-house/js/vlc-player/vlc-player.js", (data, textStatus, jqxhr) => {
-    moduleUtils.waitForModules(["logger", "apiCallTable", "webSocketKameHouse"], () => {
+    moduleUtils.waitForModules(["logger", "debuggerHttpClient", "webSocketKameHouse"], () => {
       vlcPlayer = new VlcPlayer("localhost");
       moduleUtils.setModuleLoaded("vlcPlayer");
     });
@@ -38,7 +38,7 @@ function loadVlcPlayer() {
 
 function loadPlaylistBrowser() {
   $.getScript("/kame-house/js/media/video/playlist-browser.js", (data, textStatus, jqxhr) => {
-    moduleUtils.waitForModules(["logger", "apiCallTable", "vlcPlayer"], () => {
+    moduleUtils.waitForModules(["logger", "debuggerHttpClient", "vlcPlayer"], () => {
       playlistBrowser = new PlaylistBrowser(vlcPlayer);
       moduleUtils.setModuleLoaded("playlistBrowser");
     });

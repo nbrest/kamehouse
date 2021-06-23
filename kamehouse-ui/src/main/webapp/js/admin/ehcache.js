@@ -1,7 +1,7 @@
 /**
  * EhCache main function.
  * 
- * Dependencies: timeUtils, logger, apiCallTable.
+ * Dependencies: timeUtils, logger, debuggerHttpClient.
  * 
  * @author nbrest
  */
@@ -10,7 +10,7 @@ var ehCacheManager;
 var main = () => {
   bannerUtils.setRandomPrinceOfTennisBanner();
   importEhcacheCss();
-  moduleUtils.waitForModules(["logger", "apiCallTable", "kameHouseWebappTabsManager"], () => {
+  moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
     kameHouseWebappTabsManager.openTab('tab-media');
@@ -70,7 +70,7 @@ function EhCacheManager() {
    */
   this.getAllCacheData = (webapp) => {
     logger.trace("getAllCacheData");
-    apiCallTable.get(self.getApiUrl(webapp),
+    debuggerHttpClient.get(self.getApiUrl(webapp),
       (responseBody, responseCode, responseDescription) => self.displayCacheData(responseBody, webapp),
       (responseBody, responseCode, responseDescription) => self.displayErrorGettingCache(webapp));
   }
@@ -153,7 +153,7 @@ function EhCacheManager() {
    */
   this.clearCacheData = (cacheName, webapp) => {
     let url = self.getApiUrl(webapp) + '?name=' + cacheName;
-    apiCallTable.delete(url, null,
+    debuggerHttpClient.delete(url, null,
       (responseBody, responseCode, responseDescription) => {
         basicKamehouseModal.openAutoCloseable("Cache " + cacheName + " cleared successfully", 3000);
         self.getAllCacheData(webapp);
@@ -169,7 +169,7 @@ function EhCacheManager() {
    * Clear all caches.
    */
   this.clearAllCaches = (webapp) => {
-    apiCallTable.delete(self.getApiUrl(webapp), null,
+    debuggerHttpClient.delete(self.getApiUrl(webapp), null,
       (responseBody, responseCode, responseDescription) => { 
         basicKamehouseModal.openAutoCloseable("All caches cleared successfully", 3000);
         self.getAllCacheData(webapp);

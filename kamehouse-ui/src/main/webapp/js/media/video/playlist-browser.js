@@ -2,7 +2,7 @@
  * Represents the playlist browser component in vlc-player page.
  * It doesn't control the currently active playlist.
  * 
- * Dependencies: tableUtils, logger, apiCallTable
+ * Dependencies: tableUtils, logger, debuggerHttpClient
  * 
  * @author nbrest
  */
@@ -61,7 +61,7 @@ function PlaylistBrowser(vlcPlayer) {
     self.resetPlaylistDropdown();
     self.resetPlaylistCategoryDropdown();
 
-    apiCallTable.get(mediaVideoAllPlaylistsUrl, 
+    debuggerHttpClient.get(mediaVideoAllPlaylistsUrl, 
       (responseBody, responseCode, responseDescription) => {
         self.videoPlaylists = responseBody;
         self.videoPlaylistCategories = [...new Set(self.videoPlaylists.map(playlist => playlist.category))];
@@ -75,7 +75,7 @@ function PlaylistBrowser(vlcPlayer) {
         });
       },
       (responseBody, responseCode, responseDescription) => 
-        apiCallTable.displayResponseData("Error populating video playlist categories", responseCode)
+        debuggerHttpClient.displayResponseData("Error populating video playlist categories", responseCode)
       );
   }
 
@@ -113,13 +113,13 @@ function PlaylistBrowser(vlcPlayer) {
     let playlistFilename = self.getSelectedPlaylist();
     logger.debug("Getting content for " + playlistFilename);
     let requestParam = "path=" + playlistFilename;
-    apiCallTable.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
+    debuggerHttpClient.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
       (responseBody, responseCode, responseDescription) => {
         self.currentPlaylist = responseBody;
         self.populatePlaylistBrowserTable();
       },
       (responseBody, responseCode, responseDescription) =>
-        apiCallTable.displayResponseData("Error getting playlist content", responseCode)
+        debuggerHttpClient.displayResponseData("Error getting playlist content", responseCode)
       );
   }
 
