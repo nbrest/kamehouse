@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Sample ModelAndView controller that uses the test module views.
  */
 @Controller
-@RequestMapping(value = "/ui/sample")
+@RequestMapping(value = "/api/v1/ui/sample")
 public class SampleController {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());

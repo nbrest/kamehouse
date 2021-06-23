@@ -22,7 +22,7 @@
       <h3>message: ${message}</h3>
       <br>
       Call this view from:
-      <a href="/kame-house/ui/sample/dragonball/model-and-view?name=gohan">
+      <a href="/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=gohan">
         Model And View Sample Controller</a>
       to test it with parameters
   </div>

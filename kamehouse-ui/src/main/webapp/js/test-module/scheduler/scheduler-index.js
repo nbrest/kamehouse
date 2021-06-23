@@ -13,7 +13,7 @@ var main = () => {
   moduleUtils.waitForModules(["logger", "apiCallTable"], () => {
     logger.info("Started initializing scheduler");
     scheduler = new Scheduler();
-    scheduler.getSampleJobStatus();
+    scheduler.getSampleJobStatus(false);
   });
 };
 
@@ -46,8 +46,10 @@ function Scheduler() {
   }
 
   /** Get the SampleJob command status */
-  this.getSampleJobStatus = () => {
-    loadingWheelModal.open();
+  this.getSampleJobStatus = (openModal) => {
+    if (openModal) {
+      loadingWheelModal.open();
+    }
     apiCallTable.get(TEST_MODULE_API_URL + SAMPLE_JOB_URL, processSuccessSampleJobStatus, processErrorSampleJobStatus);
   }
 

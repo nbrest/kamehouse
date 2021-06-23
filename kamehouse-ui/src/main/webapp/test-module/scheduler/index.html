@@ -50,7 +50,7 @@
           onclick="scheduler.cancelSampleJob()"
           src="/kame-house/img/mplayer/stop.png" alt="Cancel Sample Job" title="Cancel Sample Job" />
         <img class="btn-img m-10-d-r-kh m-10-m-r-kh"
-          onclick="scheduler.getSampleJobStatus()"
+          onclick="scheduler.getSampleJobStatus(true)"
           src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Sample Job Status" 
           title="Refresh Sample Job Status" />
       </div>
@@ -70,7 +70,6 @@
   <span id="debug-mode-wrapper"></span>
   </div> <!-- main-body -->
   <script src="/kame-house/js/test-module/scheduler/scheduler-index.js"></script>
-  <script src="/kame-house/js/snippets/api-call-table.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
 </body>

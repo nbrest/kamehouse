@@ -41,7 +41,7 @@ public class SampleControllerTest extends AbstractControllerTest {
    */
   @Test
   public void getModelAndViewTest() throws Exception {
-    MockHttpServletResponse response = doGet("/ui/sample/dragonball/model-and-view");
+    MockHttpServletResponse response = doGet("/api/v1/ui/sample/dragonball/model-and-view");
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
