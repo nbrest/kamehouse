@@ -75,7 +75,7 @@ function PlaylistBrowser(vlcPlayer) {
         });
       },
       (responseBody, responseCode, responseDescription) => 
-        debuggerHttpClient.displayResponseData("Error populating video playlist categories", responseCode)
+        kameHouseDebugger.displayResponseData("Error populating video playlist categories", responseCode)
       );
   }
 
@@ -119,7 +119,7 @@ function PlaylistBrowser(vlcPlayer) {
         self.populatePlaylistBrowserTable();
       },
       (responseBody, responseCode, responseDescription) =>
-        debuggerHttpClient.displayResponseData("Error getting playlist content", responseCode)
+        kameHouseDebugger.displayResponseData("Error getting playlist content", responseCode)
       );
   }
 

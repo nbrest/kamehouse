@@ -900,7 +900,7 @@ function VlcPlayerRestClient(vlcPlayer) {
       (responseBody, responseCode, responseDescription) => {
         apiCallErrorDefault(responseBody, responseCode, responseDescription);
         if (responseCode == "404") {
-          debuggerHttpClient.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
+          kameHouseDebugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
         }
       });
   }
