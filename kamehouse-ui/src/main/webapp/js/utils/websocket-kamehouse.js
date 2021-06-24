@@ -33,7 +33,7 @@ function WebSocketKameHouse() {
         return false;
       }
     } catch (error) {
-      logger.error("Error in websocket-kamehouse while executing isConnected(). Error: " + error);
+      logger.error("Error in websocket-kamehouse while executing isConnected(): " + error);
     }
   }
 
@@ -64,11 +64,11 @@ function WebSocketKameHouse() {
             try {
               topicResponseCallback(topicResponse);
             } catch (error) {
-              logger.error("Error during stompClient.subscribe() callback. Message: " + error);
+              logger.error("Error during stompClient.subscribe() callback: " + error);
             }
           });
         } catch(error) {
-          logger.error("Error during stompClient.connect() callback. Message: " + error);
+          logger.error("Error during stompClient.connect() callback: " + error);
         }
       });
       self.stompClients.push(self.stompClient);
@@ -99,7 +99,7 @@ function WebSocketKameHouse() {
         logger.debug("Disconnecting websocket.");
         stompClient.disconnect();
       } catch (error) {
-        logger.error("Error disconnecting web socket." + error);
+        logger.error("Error disconnecting web socket: " + error);
       }
     } else {
       logger.error("stompClient is not set. Can't disconnect.");
