@@ -27,8 +27,8 @@ public class PropertiesUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
   private static final Properties properties = new Properties();
-  private static final String COMMONS_POM_PROPERTIES = "/META-INF/maven/com"
-      + ".nicobrest/kame-house-commons-core/pom.properties";
+  private static final String COMMONS_POM_PROPERTIES = "/META-INF/maven/"
+      + "com.nicobrest/kamehouse-commons-core/pom.properties";
 
   static {
     loadAllPropertiesFiles();
@@ -144,7 +144,7 @@ public class PropertiesUtils {
         }
       }
     } catch (IOException e) {
-      LOGGER.error("Error loading kamehouse build version and date into properties");
+      LOGGER.error("Error loading kamehouse build version and date into properties", e);
     }
   }
 }
