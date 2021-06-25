@@ -11,13 +11,13 @@
 
   <parent>
     <groupId>com.nicobrest</groupId>
-    <artifactId>kame-house-parent</artifactId>
+    <artifactId>kamehouse-parent</artifactId>
     <version>2.00.1-KAMEHOUSE-SNAPSHOT</version>
   </parent>
 
   <name>KameHouse - Commons Core</name>
   <groupId>com.nicobrest</groupId>
-  <artifactId>kame-house-commons-core</artifactId>
+  <artifactId>kamehouse-commons-core</artifactId>
   <version>${kamehouse.version}</version>
   
   <packaging>jar</packaging>

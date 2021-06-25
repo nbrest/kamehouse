@@ -5,13 +5,13 @@
 
   <parent>
     <groupId>com.nicobrest</groupId>
-    <artifactId>kame-house-parent</artifactId>
+    <artifactId>kamehouse-parent</artifactId>
     <version>2.00.1-KAMEHOUSE-SNAPSHOT</version>
   </parent>
 
   <name>KameHouse - UI</name>
   <groupId>com.nicobrest</groupId>
-  <artifactId>kame-house-ui</artifactId>
+  <artifactId>kamehouse-ui</artifactId>
   <version>${kamehouse.version}</version>
   
   <packaging>war</packaging>
@@ -116,13 +116,13 @@
 
     <dependency>
       <groupId>com.nicobrest</groupId>
-      <artifactId>kame-house-commons</artifactId>
+      <artifactId>kamehouse-commons</artifactId>
       <version>${kamehouse.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.nicobrest</groupId>
-      <artifactId>kame-house-commons-test</artifactId>
+      <artifactId>kamehouse-commons-test</artifactId>
       <version>${kamehouse.version}</version>
       <scope>test</scope>
     </dependency>
