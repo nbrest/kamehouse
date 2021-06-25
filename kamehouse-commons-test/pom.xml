@@ -21,7 +21,7 @@
   <packaging>jar</packaging>
 
   <build>
-    <finalName>kame-house-commons-test</finalName>
+    <finalName>kamehouse-commons-test</finalName>
   </build>
 
   <dependencies>

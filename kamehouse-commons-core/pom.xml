@@ -23,7 +23,7 @@
   <packaging>jar</packaging>
 
   <build>
-    <finalName>kame-house-commons-core</finalName>
+    <finalName>kamehouse-commons-core</finalName>
 
     <plugins>
       <!-- jacoco code coverage -->

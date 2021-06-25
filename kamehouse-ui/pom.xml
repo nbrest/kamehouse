@@ -110,7 +110,7 @@
   <dependencies>
     <dependency>
       <groupId>com.nicobrest</groupId>
-      <artifactId>kame-house-commons-core</artifactId>
+      <artifactId>kamehouse-commons-core</artifactId>
       <version>${kamehouse.version}</version>
     </dependency>
 

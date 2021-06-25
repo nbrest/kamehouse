@@ -21,7 +21,7 @@
   <packaging>jar</packaging>
 
   <build>
-    <finalName>kame-house-commons</finalName>
+    <finalName>kamehouse-commons</finalName>
 
     <plugins>
       <!-- jacoco code coverage -->
