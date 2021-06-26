@@ -29,12 +29,154 @@
     <h3>Kamehouse Module Status</h3>
     <p>List the status of each of the modules running.</p>
 
-    <div id="module-status-data-admin"></div>
-    <div id="module-status-data-media"></div>
-    <div id="module-status-data-tennisworld"></div>
-    <div id="module-status-data-testmodule"></div>
-    <div id="module-status-data-ui"></div>
-    <div id="module-status-data-vlcrc"></div>
+    <table id="mst-admin" 
+      class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
+      <tr>
+        <td class="module-status-header td-module-status-title">
+          <div class="mst-header-txt">server and module</div>
+        </td>
+        <td class="module-status-header">
+          <div id="mst-admin-header-val" class="mst-header-txt"></div>   
+        </td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build version</td>
+        <td id="mst-admin-build-version-val"></td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build date</td>
+        <td id="mst-admin-build-date-val"></td>
+      </tr>
+      <tr id="mst-admin-error" class="hidden-kh">
+        <td class="td-module-status-title">error</td>
+        <td>Error retrieving module status data for admin. Please try again later.</td>
+      </tr>
+    </table>
+    <br>
+
+    <table id="mst-media" 
+      class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
+      <tr>
+        <td class="module-status-header td-module-status-title">
+          <div class="mst-header-txt">server and module</div>
+        </td>
+        <td class="module-status-header">
+          <div id="mst-media-header-val" class="mst-header-txt"></div>   
+        </td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build version</td>
+        <td id="mst-media-build-version-val"></td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build date</td>
+        <td id="mst-media-build-date-val"></td>
+      </tr>
+      <tr id="mst-media-error" class="hidden-kh">
+        <td class="td-module-status-title">error</td>
+        <td>Error retrieving module status data for media. Please try again later.</td>
+      </tr>
+    </table>
+    <br>
+
+    <table id="mst-tennisworld" 
+      class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
+      <tr>
+        <td class="module-status-header td-module-status-title">
+          <div class="mst-header-txt">server and module</div>
+        </td>
+        <td class="module-status-header">
+          <div id="mst-tennisworld-header-val" class="mst-header-txt"></div>   
+        </td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build version</td>
+        <td id="mst-tennisworld-build-version-val"></td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build date</td>
+        <td id="mst-tennisworld-build-date-val"></td>
+      </tr>
+      <tr id="mst-tennisworld-error" class="hidden-kh">
+        <td class="td-module-status-title">error</td>
+        <td>Error retrieving module status data for tennisworld. Please try again later.</td>
+      </tr>
+    </table>
+    <br>
+
+    <table id="mst-testmodule" 
+      class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
+      <tr>
+        <td class="module-status-header td-module-status-title">
+          <div class="mst-header-txt">server and module</div>
+        </td>
+        <td class="module-status-header">
+          <div id="mst-testmodule-header-val" class="mst-header-txt"></div>   
+        </td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build version</td>
+        <td id="mst-testmodule-build-version-val"></td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build date</td>
+        <td id="mst-testmodule-build-date-val"></td>
+      </tr>
+      <tr id="mst-testmodule-error" class="hidden-kh">
+        <td class="td-module-status-title">error</td>
+        <td>Error retrieving module status data for testmodule. Please try again later.</td>
+      </tr>
+    </table>
+    <br>
+
+    <table id="mst-ui" 
+      class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
+      <tr>
+        <td class="module-status-header td-module-status-title">
+          <div class="mst-header-txt">server and module</div>
+        </td>
+        <td class="module-status-header">
+          <div id="mst-ui-header-val" class="mst-header-txt"></div>   
+        </td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build version</td>
+        <td id="mst-ui-build-version-val"></td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build date</td>
+        <td id="mst-ui-build-date-val"></td>
+      </tr>
+      <tr id="mst-ui-error" class="hidden-kh">
+        <td class="td-module-status-title">error</td>
+        <td>Error retrieving module status data for ui. Please try again later.</td>
+      </tr>
+    </table>
+    <br>
+
+    <table id="mst-vlcrc" 
+      class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
+      <tr>
+        <td class="module-status-header td-module-status-title">
+          <div class="mst-header-txt">server and module</div>
+        </td>
+        <td class="module-status-header">
+          <div id="mst-vlcrc-header-val" class="mst-header-txt"></div>   
+        </td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build version</td>
+        <td id="mst-vlcrc-build-version-val"></td>
+      </tr>
+      <tr>
+        <td class="td-module-status-title">build date</td>
+        <td id="mst-vlcrc-build-date-val"></td>
+      </tr>
+      <tr id="mst-vlcrc-error" class="hidden-kh">
+        <td class="td-module-status-title">error</td>
+        <td>Error retrieving module status data for vlcrc. Please try again later.</td>
+      </tr>
+    </table>
 
     <div class="default-layout txt-c-d-kh txt-c-m-kh">
     <span id="debug-mode-button-wrapper"></span>
