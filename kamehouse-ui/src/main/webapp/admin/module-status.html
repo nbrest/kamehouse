@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - Module Status</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/js/global.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
+</head>
+<body>
+  <div class="main-body">
+  <div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-fuji">
+    <div class="default-layout banner-text">
+      <h1>Module Status</h1>
+      <div id="banner-server-name"></div>
+    </div>
+  </div>
+  </div>
+  <div id="kh-webapp-tabs-wrapper"></div>
+  <div class="default-layout">
+    <br>
+    <h3>Kamehouse Module Status</h3>
+    <p>List the status of each of the modules running.</p>
+
+    <div id="module-status-data-admin"></div>
+    <div id="module-status-data-media"></div>
+    <div id="module-status-data-tennisworld"></div>
+    <div id="module-status-data-testmodule"></div>
+    <div id="module-status-data-ui"></div>
+    <div id="module-status-data-vlcrc"></div>
+
+    <div class="default-layout txt-c-d-kh txt-c-m-kh">
+    <span id="debug-mode-button-wrapper"></span>
+  </div>
+  </div>
+  <span id="debug-mode-wrapper"></span>
+  <script src="/kame-house/js/admin/module-status.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
+</body>
+</html>
