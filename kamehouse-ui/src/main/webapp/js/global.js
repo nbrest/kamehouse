@@ -12,6 +12,7 @@ var global;
 
 /** Global utils in global.js */
 var bannerUtils;
+var collapsibleDivUtils;
 var coreUtils;
 var cursorUtils;
 var fileUtils;
@@ -39,6 +40,7 @@ var sleep;
  */
 function main() {
   bannerUtils = new BannerUtils();
+  collapsibleDivUtils = new CollapsibleDivUtils();
   coreUtils = new CoreUtils();
   coreUtils.setGlobalFunctions();
   cursorUtils = new CursorUtils();
@@ -200,6 +202,48 @@ function BannerUtils() {
       img.src = '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg';
       self.preloadedBannerImages.push(img);
     });
+  }
+}
+
+/**
+ * Utility to manipulate collapsible divs.
+ */
+function CollapsibleDivUtils() {
+  let self = this;
+
+  this.refreshCollapsibleDiv = () => {
+    let collapsibleElements = document.getElementsByClassName("collapsible-kh");
+    let i;
+    for (i = 0; i < collapsibleElements.length; i++) {
+      collapsibleElements[i].click();
+      collapsibleElements[i].click();
+    } 
+  }
+
+  /**
+   * Set collapsible content listeners.
+   */
+  this.setCollapsibleContent = () => {
+    let collapsibleElements = document.getElementsByClassName("collapsible-kh");
+    let i;
+    for (i = 0; i < collapsibleElements.length; i++) {
+      collapsibleElements[i].removeEventListener("click", self.collapsibleContentListener);
+      collapsibleElements[i].addEventListener("click", self.collapsibleContentListener);
+    }
+  }
+
+  /**
+   * Function to toggle height of the collapsible elements from null to it's scrollHeight.
+   */
+  this.collapsibleContentListener = function collapsibleContentListener() {
+    // Can't use self here, need to use this. Also can't use an annonymous function () => {}
+    this.classList.toggle("collapsible-kh-active");
+    let content = this.nextElementSibling;
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
   }
 }
 

@@ -105,8 +105,8 @@ function KameHouseDebugger() {
       self.requests.shift();
     }
     self.requests.push(request);
-    $('#debugger-http-client-previous-requests-pre').text(JSON.stringify(self.requests, null, 2));
-    self.setCollapsibleContent();
+    $('#debugger-http-client-previous-requests-val').text(JSON.stringify(self.requests, null, 2));
+    collapsibleDivUtils.setCollapsibleContent();
   }
 
   /**
@@ -118,7 +118,7 @@ function KameHouseDebugger() {
     $("#debugger-http-client-res-code-val").text(responseCode);
     $("#debugger-http-client-res-timestamp-val").text(responseTimestamp);
     $("#debugger-http-client-res-body-val").text(JSON.stringify(responseBody, null, 2));
-    self.setCollapsibleContent();
+    collapsibleDivUtils.setCollapsibleContent();
   }
 
   /**
@@ -136,7 +136,7 @@ function KameHouseDebugger() {
     $('#debugger-http-client-res-code-val').text(null);
     $('#debugger-http-client-res-timestamp-val').text(null);
     $('#debugger-http-client-res-body-val').text(JSON.stringify(null, null, 2));
-    self.setCollapsibleContent();
+    collapsibleDivUtils.setCollapsibleContent();
   }
 
   /**
@@ -145,32 +145,6 @@ function KameHouseDebugger() {
   this.emptyDebuggerHttpClientDiv = () => {
     let $debuggerHttpClientDiv = $("#debugger-http-client");
     $debuggerHttpClientDiv.empty();
-  }
-
-  /**
-   * Set collapsible content listeners.
-   */
-  this.setCollapsibleContent = () => {
-    let collapsibleElements = document.getElementsByClassName("collapsible-kh");
-    let i;
-    for (i = 0; i < collapsibleElements.length; i++) {
-      collapsibleElements[i].removeEventListener("click", self.collapsibleContentListener);
-      collapsibleElements[i].addEventListener("click", self.collapsibleContentListener);
-    }
-  }
-
-  /**
-   * Function to toggle height of the collapsible elements from null to it's scrollHeight.
-   */
-  this.collapsibleContentListener = function collapsibleContentListener() {
-    // Can't use self here, need to use this
-    this.classList.toggle("collapsible-kh-active");
-    let content = this.nextElementSibling;
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    }
   }
 }
 
