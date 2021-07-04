@@ -157,6 +157,11 @@ function Header() {
           $(navItem).addClass("active");
         }
       }
+      if (pageUrl.startsWith("/admin/server-manager")) {
+        if ($(navItem).attr("id") == "nav-root") {
+          $(navItem).addClass("active");
+        }
+      }
     });
   }
 
