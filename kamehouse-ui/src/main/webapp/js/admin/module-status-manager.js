@@ -13,10 +13,17 @@ function ModuleStatusManager() {
   let self = this;
 
   /**
-   * Get the data from the backend.
+   * Get the data from the backend and import css.
    */
   this.init = () => {
     self.importModuleStatusCss();
+    self.getAllModulesStatus();
+  }
+
+  /**
+   * Get the data from the backend.
+   */
+  this.getAllModulesStatus = () => {
     self.getModuleStatus('admin');
     self.getModuleStatus('media');
     self.getModuleStatus('tennisworld');
