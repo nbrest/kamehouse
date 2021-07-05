@@ -48,7 +48,8 @@ function BasicKamehouseModal() {
   this.open = self.modalUtils.open;
   this.openAutoCloseable = self.modalUtils.openAutoCloseable;
   this.close = self.modalUtils.close;
-  this.setText = self.modalUtils.setText;
+  this.setHtml = self.modalUtils.setHtml;
+  this.appendHtml = self.modalUtils.appendHtml;
 
   /** Open site under construction modal */
   this.openSiteUnderConstruction = () => self.modalUtils.open(self.SITE_UNDER_CONSTRUCTION);
@@ -82,7 +83,8 @@ function LoadingWheelModal() {
   this.import = self.modalUtils.import;
   this.openAutoCloseable = self.modalUtils.openAutoCloseable;
   this.close = self.modalUtils.close;
-  this.setText = self.modalUtils.setText;
+  this.setHtml = self.modalUtils.setHtml;
+  this.appendHtml = self.modalUtils.appendHtml;
 
   this.open = (message) => {
     if (isNullOrUndefined(message) && !isNullOrUndefined(global.session.firstName)) {
@@ -123,7 +125,7 @@ function ModalUtils(modalId) {
   /** Open modal */
   this.open = (message) => {
     if (!isNullOrUndefined(message)) {
-      self.setText(message);
+      self.setHtml(message);
     }
     let modal = document.getElementById(modalId);
     modal.style.display = "block";
@@ -161,8 +163,9 @@ function ModalUtils(modalId) {
     self.close();
   }
 
-  /** Set the text in the modal */
-  this.setText = (message) => $("#" + self.modalId + "-text").html(message);
+  /** Set the html in the modal */
+  this.setHtml = (message) => $("#" + self.modalId + "-text").html(message);
+  this.appendHtml = (message) => $("#" + self.modalId + "-text").append(message);
 }
 
 $(document).ready(main);
