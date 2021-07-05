@@ -63,7 +63,6 @@ function ModuleStatusManager() {
    */
   this.displayModuleStatus = (moduleStatus) => {
     let webapp = moduleStatus["module"];
-    $('#mst-' + webapp + '-header-val').text(moduleStatus["server"] + " - " + webapp);
     $('#mst-' + webapp + '-build-version-val').text(moduleStatus["buildVersion"]);
     $('#mst-' + webapp + '-build-date-val').text(moduleStatus["buildDate"]);
   }
