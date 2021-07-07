@@ -72,6 +72,10 @@ body {
   word-wrap: break-word;
 }
 
+.bold-kh {
+  font-weight: bold;
+}
+
 .btn {
   border-radius: 0;
   /** Make all buttons square overriding bootstrap's default */
