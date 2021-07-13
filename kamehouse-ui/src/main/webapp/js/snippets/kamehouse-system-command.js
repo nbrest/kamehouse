@@ -17,16 +17,29 @@ function main() {
  */
 function SystemCommandManager() {
 
-  this.renderCommandOutput = (systemCommandOutputArray) => {
+  this.renderCommandOutput = (systemCommandOutputArray, displayCommandLine) => {
     let systemCommandOutputDiv = "#system-command-output";
     $(systemCommandOutputDiv).empty();
     systemCommandOutputArray.forEach((systemCommandOutput) => {
-      $(systemCommandOutputDiv).append(getCommandLine(systemCommandOutput.command));
-      systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
-        $(systemCommandOutputDiv).append(standardOutputLine);
-        $(systemCommandOutputDiv).append(getBr());
-      });
-      $(systemCommandOutputDiv).children().last().remove();
+      if (displayCommandLine) {
+        $(systemCommandOutputDiv).append(getCommandLine(systemCommandOutput.command));
+      }
+      if (systemCommandOutput.standardOutput.length > 0) {
+        systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
+          $(systemCommandOutputDiv).append(standardOutputLine);
+          $(systemCommandOutputDiv).append(getBr());
+        });
+        $(systemCommandOutputDiv).children().last().remove();
+      }
+      if (systemCommandOutput.standardError.length > 0) {
+        $(systemCommandOutputDiv).append(getCommandErrorHeaderLine());
+        systemCommandOutput.standardError.forEach((standardErrorLine) => {
+          $(systemCommandOutputDiv).append(standardErrorLine);
+          $(systemCommandOutputDiv).append(getBr());
+        });
+        $(systemCommandOutputDiv).children().last().remove();
+      }
+      
     });
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
@@ -41,6 +54,10 @@ function SystemCommandManager() {
   /** Dynamic DOM element generation ------------------------------------------ */
   function getCommandLine(command) {
     return "<span class='bold-kh'>command: " + command + "</span><br><br>";
+  }
+
+  function getCommandErrorHeaderLine() {
+    return "<span class='bold-kh'>errors:</span><br><br>";
   }
 
   function getBr() {

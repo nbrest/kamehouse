@@ -184,7 +184,7 @@ function ServerManager() {
 
   function processSuccessSystemCommand(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    systemCommandManager.renderCommandOutput(responseBody);
+    systemCommandManager.renderCommandOutput(responseBody, false);
   }
 
   function processErrorSystemCommand(responseBody, responseCode, responseDescription) {
