@@ -15,19 +15,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.exceptions.base.MockitoException;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobKey;
-import org.quartz.ScheduleBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
-import org.quartz.impl.triggers.CronTriggerImpl;
 
-import java.text.ParseException;
 import java.util.Date;
 
 /**
