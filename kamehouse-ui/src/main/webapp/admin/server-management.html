@@ -147,7 +147,7 @@
       <br>
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">System State</h4>
       <br>
-      <p>Check the current state of the server running KameHouse</p>
+      <p>Check the current state of the server running KameHouse. Also check the status of the apache httpd server and start and stop the process if needed</p>
       <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
         <span class="bold-kh">Uptime: </span>
         <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.uptime()" 
@@ -164,11 +164,36 @@
           src="/kame-house/img/pc/hdd-blue.png" alt="df" title="df"/>
         <br><br>
       </div>
+
+      <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Apache Httpd Status</h6>
+      <table class="w-100-pc-kh table-responsive-kh table-responsive">
+      <caption class="hidden-kh">Apache Httpd</caption>
+      <tbody>
+      <tr class="hidden-kh">
+        <th scope="row" class="hidden-kh">Apache Httpd</th>
+      </tr>
+      <tr><td>
+        <pre><div id="httpd-status" class="httpd-status fl-l-d-kh">Apache httpd status not available</div></pre>
+      </td></tr>
+      </tbody>
+      </table>
+      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
+        onclick="serverManager.startHttpd()"
+        src="/kame-house/img/mplayer/play-green.png" alt="Start httpd" title="Start httpd" />
+      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
+        onclick="serverManager.stopHttpd()"
+        src="/kame-house/img/mplayer/stop.png" alt="Stop httpd" title="Stop httpd" />
+      <img class="sm-btn-img  m-10-d-r-kh m-10-m-r-kh"
+        onclick="serverManager.getHttpdStatus(true)"
+        src="/kame-house/img/other/sync-btn-info.png" 
+        alt="Refresh httpd Status" title="Refresh httpd Status" />
+      <br><br>
       <button class="collapsible-kh collapsible-kh-btn">System State Command Output</button>
       <div class="collapsible-kh-content">
         <pre class="console-output"><div id="system-command-output">No command executed yet...</div></pre>
       </div>
       <br>
+
     </div>
     </div>
 

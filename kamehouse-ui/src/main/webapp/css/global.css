@@ -419,6 +419,19 @@ html.wait, html.wait * {
   cursor: wait;
 }
 
+.httpd-status {
+  padding: 5px;
+  margin: 5px;
+  display: table;
+  border: 3px solid #2a2a2a;
+  border-radius: 0px;
+  border-collapse: initial;
+  background-color: #1a2226;
+  color: #686868;
+  width: 90%;
+  text-align: center;
+}
+
 .landing-p-links {
   text-align: center;
   width: 30%;

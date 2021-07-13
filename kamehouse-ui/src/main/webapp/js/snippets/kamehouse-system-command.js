@@ -17,8 +17,12 @@ function main() {
  */
 function SystemCommandManager() {
 
-  this.renderCommandOutput = (systemCommandOutputArray, displayCommandLine) => {
+  this.renderCommandOutput = (systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) => {
     let systemCommandOutputDiv = "#system-command-output";
+    if (systemCommandOutputDivId) {
+      systemCommandOutputDiv = "#" + systemCommandOutputDivId;
+    }
+    
     $(systemCommandOutputDiv).empty();
     systemCommandOutputArray.forEach((systemCommandOutput) => {
       if (displayCommandLine) {

@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.DfKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.FreeKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdStatusKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.UptimeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
@@ -52,5 +53,15 @@ public class SystemStateController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommand.Output>> df(HttpServletRequest request) {
     logTraceRequest(request);
     return execKameHouseSystemCommand(new DfKameHouseSystemCommand());
+  }
+
+  /**
+   * Gets the status of the httpd running in the same server as the current tomcat.
+   */
+  @GetMapping(path = "/httpd")
+  @ResponseBody
+  public ResponseEntity<List<SystemCommand.Output>> httpdGetStatus(HttpServletRequest request) {
+    logTraceRequest(request);
+    return execKameHouseSystemCommand(new HttpdStatusKameHouseSystemCommand());
   }
 }

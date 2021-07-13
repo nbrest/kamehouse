@@ -15,6 +15,7 @@ var main = () => {
     serverManager = new ServerManager();
     serverManager.getSuspendStatus(false);
     serverManager.getShutdownStatus(false);
+    serverManager.getHttpdStatus(false);
   });
 };
 
@@ -31,6 +32,8 @@ function ServerManager() {
   const UPTIME_URL = '/system-state/uptime';
   const FREE_URL = '/system-state/free';
   const DF_URL = '/system-state/df';
+  const HTTPD_URL = '/system-state/httpd';
+
 
   /**
    * --------------------------------------------------------------------------
@@ -182,15 +185,34 @@ function ServerManager() {
     debuggerHttpClient.get(ADMIN_API_URL + DF_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
 
+  /** Get the Shutdown command status */
+  this.getHttpdStatus = (openModal) => {
+    if (openModal) {
+      loadingWheelModal.open();
+    }
+    debuggerHttpClient.get(ADMIN_API_URL + HTTPD_URL, processSuccessHttpdStatus, processErrorHttpdStatus);
+  }
+
   function processSuccessSystemCommand(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    systemCommandManager.renderCommandOutput(responseBody, false);
+    systemCommandManager.renderCommandOutput(responseBody, false, null);
   }
 
   function processErrorSystemCommand(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
     systemCommandManager.renderErrorExecutingCommand();
+  }
+
+  function processSuccessHttpdStatus(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status");
+  }
+
+  function processErrorHttpdStatus(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+    $("#httpd-status").text("Error getting the status of the apache httpd server");
   }
 
   /** 
