@@ -43,6 +43,7 @@
     </div> 
     <br>
     </div>
+
     <div class="p-15-d-kh p-15-m-kh">
     <div class="default-layout pm-section">
     <br>
@@ -119,10 +120,54 @@
     </td></tr>
     </tbody>
     </table>
+
+    <br><br>
+    <table class="w-100-pc-kh">
+    <caption class="hidden-kh">Reboot</caption>
+    <tbody>
+    <tr class="hidden-kh">
+      <th scope="row" class="hidden-kh">Reboot</th>
+    </tr>
+    <tr><td><h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Reboot</h6></td></tr>
+    <tr><td>
+      <div class="fl-l-d-kh">
+        <span class="p-15-d-kh">Restart the server: </span>
+        <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh" onclick="serverManager.confirmRebootServer()" 
+          src="/kame-house/img/pc/shutdown-red.png" alt="Reboot" title="Reboot"/>
+      </div>
+    </td></tr>
+    </tbody>
+    </table>
+    <br><br>
     </div>
     </div>
 
     <div class="bg-darker-kh p-15-d-kh p-15-m-kh">
+    <div class="default-layout p-7-d-kh w-60-pc-kh w-100-pc-m-kh">
+      <br>
+      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">System State</h4>
+      <br>
+      <p>Check the current state of the server running KameHouse</p>
+      <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
+        <span class="bold-kh">Uptime: </span>
+        <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.uptime()" 
+          src="/kame-house/img/other/clock-gray.png" alt="uptime" title="uptime"/>
+        <br><br>
+
+        <span class="bold-kh p-15-d-kh">Memory usage: </span>
+        <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.free()" 
+          src="/kame-house/img/pc/ram-green.png" alt="free" title="free"/>
+        <br><br>
+        
+        <span class="bold-kh">Disk usage: </span>
+        <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.df()" 
+          src="/kame-house/img/pc/hdd-blue.png" alt="df" title="df"/>
+        <br><br>
+      </div>
+    </div>
+    </div>
+
+    <div class="p-15-d-kh p-15-m-kh">
     <div class="default-layout media-server-section">
     <br>
     <h5 class="h5-kh txt-c-m-kh">Media Server</h5>
@@ -134,6 +179,7 @@
       onclick="serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')"
       src="/kame-house/img/pc/wol-red.png" alt="WOL media server"
       title="WOL media server" />
+    <br><br>
     </div>
     </div>
 

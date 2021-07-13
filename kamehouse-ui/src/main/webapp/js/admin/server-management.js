@@ -144,6 +144,36 @@ function ServerManager() {
     $("#suspend-status").text("Error getting the status of Suspend command");
   }
 
+  /**
+   * --------------------------------------------------------------------------
+   * REBOOT functions
+   */
+   this.confirmRebootServer = () => {
+    basicKamehouseModal.setHtml(self.getRebootServerModalMessage());
+    basicKamehouseModal.appendHtml(self.createRebootImg());
+    basicKamehouseModal.open();
+  }
+
+  this.rebootServer = () => {
+    alert("reboot here");
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * SYSTEM STATE functions
+   */
+  this.uptime = () => {
+    alert("uptime here");
+  }
+
+  this.free = () => {
+    alert("free here");
+  }
+
+  this.df = () => {
+    alert("df here");
+  }
+
   /** 
    * --------------------------------------------------------------------------
    * REST API calls
@@ -162,6 +192,21 @@ function ServerManager() {
   function processError(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+  }
+
+  /** Dynamic DOM element generation ------------------------------------------ */
+  this.getRebootServerModalMessage = () => {
+    return "Are you sure you want to reboot the server? <br><br>";
+  }
+
+  this.createRebootImg = () => {
+    let img = new Image();
+    img.src = "/kame-house/img/pc/shutdown-red.png";
+    img.className = "sm-btn-img";
+    img.alt = "Reboot";
+    img.title = "Reboot";
+    img.onclick = () => self.rebootServer();
+    return img;
   }
 }
 
