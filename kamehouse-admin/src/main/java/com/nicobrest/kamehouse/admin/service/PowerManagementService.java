@@ -30,10 +30,10 @@ import java.net.InetAddress;
 @Service
 public class PowerManagementService {
 
+  public static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
+      + "trigger will never fire";
   private static final Logger logger = LoggerFactory.getLogger(PowerManagementService.class);
   private static final int WOL_PORT = 9;
-  private static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
-      + "trigger will never fire";
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
   private static final String SUSPEND_TRIGGER = "suspendTrigger";
 
@@ -148,7 +148,7 @@ public class PowerManagementService {
       logger.debug("Scheduling shutdown with a delay of {} seconds", delay);
     } catch (SchedulerException e) {
       if (e.getMessage() != null && e.getMessage().contains(TRIGGER_WONT_FIRE)) {
-        logger.debug(e.getMessage());
+        logger.warn(e.getMessage());
       } else {
         throw new KameHouseServerErrorException(e.getMessage(), e);
       }
@@ -204,7 +204,7 @@ public class PowerManagementService {
       logger.debug("Scheduling suspend with a delay of {} seconds", delay);
     } catch (SchedulerException e) {
       if (e.getMessage() != null && e.getMessage().contains(TRIGGER_WONT_FIRE)) {
-        logger.debug(e.getMessage());
+        logger.warn(e.getMessage());
       } else {
         throw new KameHouseServerErrorException(e.getMessage(), e);
       }
