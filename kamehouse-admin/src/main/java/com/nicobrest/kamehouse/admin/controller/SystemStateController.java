@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.DfKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.FreeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.UptimeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
@@ -23,12 +25,32 @@ import javax.servlet.http.HttpServletRequest;
 public class SystemStateController extends AbstractSystemCommandController {
 
   /**
-   * Locks screen in the server running the application.
+   * Gets the uptime of the server running kamehouse.
    */
   @GetMapping(path = "/uptime")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> uptime(HttpServletRequest request) {
     logTraceRequest(request);
     return execKameHouseSystemCommand(new UptimeKameHouseSystemCommand());
+  }
+
+  /**
+   * Gets the available memory of the server running kamehouse.
+   */
+  @GetMapping(path = "/free")
+  @ResponseBody
+  public ResponseEntity<List<SystemCommand.Output>> free(HttpServletRequest request) {
+    logTraceRequest(request);
+    return execKameHouseSystemCommand(new FreeKameHouseSystemCommand());
+  }
+
+  /**
+   * Gets the available disk space of the server running kamehouse.
+   */
+  @GetMapping(path = "/df")
+  @ResponseBody
+  public ResponseEntity<List<SystemCommand.Output>> df(HttpServletRequest request) {
+    logTraceRequest(request);
+    return execKameHouseSystemCommand(new DfKameHouseSystemCommand());
   }
 }
