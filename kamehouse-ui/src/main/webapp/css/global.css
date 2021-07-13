@@ -942,6 +942,12 @@ ul {
   width: 100%;
 }
 
+@media(max-width: 900px) {
+  .w-100-pc-m-kh {
+    width: 100%;
+  }
+}
+
 /** ----- Set scrollbar styles for different browsers ---------------------------------------- */
 
 /** 
