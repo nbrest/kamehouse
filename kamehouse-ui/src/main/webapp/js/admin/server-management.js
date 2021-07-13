@@ -27,6 +27,7 @@ function ServerManager() {
   const ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
   const SUSPEND_URL = '/power-management/suspend';
   const SHUTDOWN_URL = '/power-management/shutdown';
+  const REBOOT_URL = '/power-management/reboot';
 
   /**
    * --------------------------------------------------------------------------
@@ -155,7 +156,8 @@ function ServerManager() {
   }
 
   this.rebootServer = () => {
-    alert("reboot here");
+    loadingWheelModal.open();
+    debuggerHttpClient.post(ADMIN_API_URL + REBOOT_URL, null, processSuccess, processError);
   }
 
   /**

@@ -1,9 +1,11 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.RebootKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller class for the power management commands.
@@ -108,6 +113,16 @@ public class PowerManagementController extends AbstractSystemCommandController {
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(cancelSuspendStatus);
     return generateGetResponseEntity(response);
+  }
+
+  /**
+   * Reboot the server.
+   */
+  @PostMapping(path = "/reboot")
+  @ResponseBody
+  public ResponseEntity<List<SystemCommand.Output>> reboot(HttpServletRequest request) {
+    logTraceRequest(request);
+    return execKameHouseSystemCommand(new RebootKameHouseSystemCommand());
   }
 
   /**
