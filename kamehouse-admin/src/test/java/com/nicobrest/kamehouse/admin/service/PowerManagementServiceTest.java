@@ -204,6 +204,18 @@ public class PowerManagementServiceTest {
   }
 
   /**
+   * Suspend server trigger won't fire test.
+   */
+  @Test
+  public void scheduleSuspendTriggerWontFireTest() throws SchedulerException {
+    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenThrow(
+        new SchedulerException(PowerManagementService.TRIGGER_WONT_FIRE));
+
+    powerManagementService.scheduleSuspend(5400);
+  }
+
+  /**
    * Get Suspend server status successful test.
    */
   @Test
