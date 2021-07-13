@@ -162,8 +162,28 @@ body {
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 } 
-/** Collapsible content. End.*/
+/** Collapsible content end -------------------------*/
+/** console-output begin ----------------------------*/
+.console-output {
+  border: 2px solid #373737;
+  padding: 10px;
+  margin: 10px;
+  background-color: black;
+}
 
+.script-output-executing-wrapper {
+  margin: 20px;
+  padding: 20px;
+  border: 2px solid #343434;
+  background-color: #0a0c0d;
+}
+
+.console-output-table {
+  width: 100%;
+}
+
+/** console-output end ----------------------------*/
+/** debug-mode begin ------------------------------*/
 .debug-mode-btn {
   margin-left: 40px;
   margin-right: 40px;
@@ -215,6 +235,7 @@ body {
     height: 580px;
   }
 }
+/** debug-mode end ------------------------------*/
 
 .default-layout {
   width: 80%;

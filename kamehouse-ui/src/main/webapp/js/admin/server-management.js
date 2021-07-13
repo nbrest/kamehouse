@@ -28,6 +28,9 @@ function ServerManager() {
   const SUSPEND_URL = '/power-management/suspend';
   const SHUTDOWN_URL = '/power-management/shutdown';
   const REBOOT_URL = '/power-management/reboot';
+  const UPTIME_URL = '/system-state/uptime';
+  const FREE_URL = '/system-state/free';
+  const DF_URL = '/system-state/df';
 
   /**
    * --------------------------------------------------------------------------
@@ -165,15 +168,29 @@ function ServerManager() {
    * SYSTEM STATE functions
    */
   this.uptime = () => {
-    alert("uptime here");
+    loadingWheelModal.open();
+    debuggerHttpClient.get(ADMIN_API_URL + UPTIME_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
 
   this.free = () => {
-    alert("free here");
+    loadingWheelModal.open();
+    debuggerHttpClient.get(ADMIN_API_URL + FREE_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
 
   this.df = () => {
-    alert("df here");
+    loadingWheelModal.open();
+    debuggerHttpClient.get(ADMIN_API_URL + DF_URL, processSuccessSystemCommand, processErrorSystemCommand);
+  }
+
+  function processSuccessSystemCommand(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    systemCommandManager.renderCommandOutput(responseBody);
+  }
+
+  function processErrorSystemCommand(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+    systemCommandManager.renderErrorExecutingCommand();
   }
 
   /** 
