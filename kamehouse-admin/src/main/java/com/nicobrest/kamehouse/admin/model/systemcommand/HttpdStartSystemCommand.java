@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 
 import java.util.Arrays;
 
@@ -17,10 +18,10 @@ public class HttpdStartSystemCommand extends SystemCommand {
    */
   public HttpdStartSystemCommand() {
     isDaemon = true;
-
-    String httpdExecutable = "C:\\Users\\nbrest\\programs\\apache-httpd\\bin\\httpd.exe";
+    String userHome = PropertiesUtils.getUserHome();
+    String httpdExecutableWin = PropertiesUtils.getProperty("httpd.executable.win");
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "sudo service apache2 start"));
-    windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", httpdExecutable));
+    windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", userHome + httpdExecutableWin));
     setOutputCommand();
   }
 }

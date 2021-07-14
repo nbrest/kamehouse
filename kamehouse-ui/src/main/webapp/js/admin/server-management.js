@@ -218,8 +218,12 @@ function ServerManager() {
 
   function processErrorHttpdStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    $("#httpd-status").text("Error getting the status of the apache httpd server");
+    if (responseCode != 404) {
+      basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+      $("#httpd-status").text("Error getting the status of the apache httpd server");      
+    } else {
+      $("#httpd-status").text("Unable to get the status of apache httpd server. Is it running?");   
+    }
   }
 
   function processSuccessHttpdRestart(responseBody, responseCode, responseDescription) {
