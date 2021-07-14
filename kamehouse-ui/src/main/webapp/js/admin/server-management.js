@@ -15,7 +15,7 @@ var main = () => {
     serverManager = new ServerManager();
     serverManager.getSuspendStatus(false);
     serverManager.getShutdownStatus(false);
-    serverManager.getHttpdStatus();
+    serverManager.getHttpdStatus(false);
   });
 };
 
@@ -185,7 +185,10 @@ function ServerManager() {
   }
 
   /** Get the httpd server status */
-  this.getHttpdStatus = () => {
+  this.getHttpdStatus = (openModal) => {
+    if (openModal) {
+      loadingWheelModal.open();
+    }
     debuggerHttpClient.get(ADMIN_API_URL + HTTPD_URL, processSuccessHttpdStatus, processErrorHttpdStatus);
   }
 
@@ -194,7 +197,7 @@ function ServerManager() {
     if (openModal) {
       loadingWheelModal.open();
     }
-    debuggerHttpClient.post(ADMIN_API_URL + HTTPD_URL, null, processSuccessSystemCommand, processErrorSystemCommand);
+    debuggerHttpClient.post(ADMIN_API_URL + HTTPD_URL, null, processSuccessHttpdRestart, processErrorHttpdRestart, null);
   }
 
   function processSuccessSystemCommand(responseBody, responseCode, responseDescription) {
@@ -209,12 +212,31 @@ function ServerManager() {
   }
 
   function processSuccessHttpdStatus(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
     systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status");
   }
 
   function processErrorHttpdStatus(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
     $("#httpd-status").text("Error getting the status of the apache httpd server");
+  }
+
+  function processSuccessHttpdRestart(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    systemCommandManager.renderCommandOutput(responseBody, false, null);
+    setTimeout(() => { 
+      self.getHttpdStatus(false);
+    }, 5000);
+  }
+
+  function processErrorHttpdRestart(responseBody, responseCode, responseDescription) {
+    loadingWheelModal.close();
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+    systemCommandManager.renderErrorExecutingCommand();
+    setTimeout(() => { 
+      self.getHttpdStatus(false);
+    }, 5000);
   }
 
   /** 
