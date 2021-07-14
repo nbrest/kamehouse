@@ -1,6 +1,59 @@
 /*
- * Server management global styles.
+ * Server management styles.
  */
+
+.httpd-status {
+  padding: 5px;
+  margin: 5px;
+  display: table;
+  border: 3px solid #2a2a2a;
+  border-radius: 0px;
+  border-collapse: initial;
+  background-color: #1a2226;
+  color: #686868;
+  width: 90%;
+  text-align: center;
+}
+
+.media-server-section {
+  width: 60%;
+}
+
+@media (max-width : 900px) {
+  .media-server-section {
+    width: 100%;
+  }
+}
+
+.pm-section {
+  width: 40%; 
+}
+
+@media (max-width: 900px) {
+	.pm-section {
+	  width: 100%; 
+	}
+}
+
+.screen-section {
+	width: 60%; 
+}
+
+@media (max-width: 900px) {
+	.screen-section {
+    width: 100%; 
+  }
+}
+
+.server-management {
+  text-align: left;
+}
+
+.system-state-command-output {
+  background-color: #1a2226;
+  color: #686868;
+}
+
 .sm-btn-img {
   width: 35px;
   height: 35px;
@@ -27,37 +80,5 @@
 @media (max-width : 900px) {
   .sm-btn-img:active {
     transform: scale(0.7);
-  }
-}
-
-.server-management {
-  text-align: left;
-}
-
-.media-server-section {
-  width: 60%;
-}
-
-@media (max-width : 900px) {
-  .media-server-section {
-    width: 100%;
-  }
-}
-
-.pm-section {
-  width: 40%; 
-}
-
-.screen-section {
-	width: 60%; 
-}
-
-@media (max-width: 900px) {
-	.pm-section {
-	  width: 100%; 
-	}
-	
-	.screen-section {
-    width: 100%; 
   }
 }
