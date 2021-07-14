@@ -7,6 +7,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdRestartKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdStatusKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.RebootKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.ShutdownKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
 import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
@@ -40,7 +44,7 @@ import org.springframework.web.util.NestedServletException;
 public class PowerManagementControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
   @InjectMocks
-  private PowerManagementController adminPowerManagementController;
+  private PowerManagementController powerManagementController;
 
   @Mock
   protected PowerManagementService powerManagementService;
@@ -48,7 +52,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   @Before
   public void beforeTest() {
     kameHouseSystemCommandControllerTestSetup();
-    mockMvc = MockMvcBuilders.standaloneSetup(adminPowerManagementController).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(powerManagementController).build();
   }
 
   /**
@@ -199,6 +203,15 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("Suspend not scheduled", responseBody.getMessage());
     verify(powerManagementService, times(1)).getSuspendStatus();
+  }
+
+  /**
+   * reboot server successful test.
+   */
+  @Test
+  public void rebootSuccessfulTest() throws Exception {
+    execPostKameHouseSystemCommandTest("/api/v1/admin/power-management/reboot",
+        RebootKameHouseSystemCommand.class);
   }
 
   /**

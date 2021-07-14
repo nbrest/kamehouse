@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.DfKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.FreeKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdRestartKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdStatusKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.UptimeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
@@ -9,6 +10,7 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -63,5 +65,15 @@ public class SystemStateController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommand.Output>> httpdGetStatus(HttpServletRequest request) {
     logTraceRequest(request);
     return execKameHouseSystemCommand(new HttpdStatusKameHouseSystemCommand());
+  }
+
+  /**
+   * Restart apache httpd server.
+   */
+  @PostMapping(path = "/httpd")
+  @ResponseBody
+  public ResponseEntity<List<SystemCommand.Output>> restartHttpd(HttpServletRequest request) {
+    logTraceRequest(request);
+    return execKameHouseSystemCommand(new HttpdRestartKameHouseSystemCommand());
   }
 }
