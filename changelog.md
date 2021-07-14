@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v3.00
+
+* Added KameHouse GRoot module to the main repository
+
 #### v2.01
 
 * Added collapsible console log div to kamehouse debugger to check the console logs from mobile
