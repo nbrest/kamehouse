@@ -2,7 +2,24 @@
 
 #### v2.01
 
-* Added a scheduled job to book cardio sessions automatically in tennis world
+* Added collapsible console log div to kamehouse debugger to check the console logs from mobile
+* Added log level selector to debug mode
+* Moved debug mode to a reusable snippet
+* Added debug mode to ehcache page
+* Added collapsible list of previous commands to debug mode
+* Refactored api call table and other large js generated html into loadable snippets
+* Cleaned up html generation in js code
+* Merged api call table into debug mode
+* Added scripts to deploy a single module both locally and to all servers and to undeploy modules (my.scripts private repo)
+* Added an admin view of all kamehouse tomcat modules and it's running versions
+* Changed Root menu to GRoot
+* Created a full blown tomcat manager replacement page in the kh.webserver private repo (to be merged into this repo in next release). This GRoot application also includes functionality to pull from all my git repos, update my media server playlists, tail logs and restart the server
+* Added system state commands to the server manager page
+* Added command to reboot the server
+* Added a command to restart apache httpd from the admin's server manager page
+* Added try/catch to catch previously uncaught exceptions on vlc player page
+* Added playlists to music videos and anime best + conan
+* Fixed bugs
 
 #### v2.00
 
