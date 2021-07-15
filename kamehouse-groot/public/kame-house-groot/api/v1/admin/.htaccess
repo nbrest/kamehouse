@@ -1,0 +1,6 @@
+#Protect Directory
+AuthName "Dialog prompt"
+AuthType Basic
+AuthUserFile ${HTPASSWD_FILE}
+Require valid-user
+

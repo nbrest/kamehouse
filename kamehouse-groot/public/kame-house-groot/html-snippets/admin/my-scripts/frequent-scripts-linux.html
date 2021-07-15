@@ -1,0 +1,124 @@
+<tr><td><h4>App Status<h4></td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/kamehouse/tomcat-status.sh')">lin/kamehouse/tomcat-status.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/transmission/transmission-status.sh')">lin/transmission/transmission-status.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/vpn/expressvpn-status.sh')">lin/vpn/expressvpn-status.sh</button>
+</td></tr>
+<tr><td><h4>Sys Admin</h4></td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/sysadmin/uptime.sh')">lin/sysadmin/uptime.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/sysadmin/df.sh')">common/sysadmin/df.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/sysadmin/free.sh')">lin/sysadmin/free.sh</button>
+</td></tr>
+<tr><td><h4>Git Pull</h4></td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('kamehouse/git-pull-all-all-servers.sh')">kamehouse/git-pull-all-all-servers.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/git/git-pull-all.sh')">lin/git/git-pull-all.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/git/git-pull-my-scripts.sh')">lin/git/git-pull-my-scripts.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/git/git-pull-prod-java-web-kamehouse.sh')">lin/git/git-pull-prod-java-web-kamehouse.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('lin/git/git-pull-kh-webserver.sh')">lin/git/git-pull-kh-webserver.sh</button>
+</td></tr>
+<tr><td><h4>Deploy</h4></td></tr>
+<tr><td>
+  <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="deploy-modules-dropdown">
+    <option value="" selected>All modules</option>
+    <option value="admin" >admin</option>
+    <option value="media" >media</option>
+    <option value="tennisworld" >tennisworld</option>
+    <option value="testmodule" >testmodule</option>
+    <option value="ui" >ui</option>
+    <option value="vlcrc" >vlcrc</option>
+  </select>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="executeDeployment('kamehouse/deploy-all-servers.sh')">kamehouse/deploy-all-servers.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="executeDeployment('kamehouse/deploy-java-web-kamehouse.sh')">kamehouse/deploy-java-web-kamehouse.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="executeDeployment('kamehouse/start-java-web-kamehouse.sh')">kamehouse/start-java-web-kamehouse.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="executeDeployment('kamehouse/stop-java-web-kamehouse.sh')">kamehouse/stop-java-web-kamehouse.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="executeDeployment('kamehouse/undeploy-java-web-kamehouse.sh')">kamehouse/undeploy-java-web-kamehouse.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="executeDeployment('kamehouse/status-java-web-kamehouse.sh')">kamehouse/status-java-web-kamehouse.sh</button>
+</td></tr>
+<tr><td><h4>Torrents</h4></td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="executeScpTorrent()">lin/transmission/scp-torrent.sh</button>
+</td></tr>
+<tr><td>
+  <select class="select-kh-dark" id="scp-torrents-dropdown"></select>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/transmission/ls-torrents.sh')">common/transmission/ls-torrents.sh</button>
+</td></tr>
+<tr><td><h4>Logs</h4></td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/logs/cat-kamehouse-log.sh')">common/logs/cat-kamehouse-log.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/logs/cat-tomcat-log.sh')">common/logs/cat-tomcat-log.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/logs/cat-httpd-log.sh')">common/logs/cat-httpd-log.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/logs/cat-deploy-java-web-kamehouse-log.sh')">common/logs/cat-deploy-java-web-kamehouse-log.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/logs/cat-deploy-all-servers-log.sh')">common/logs/cat-deploy-all-servers-log.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/logs/cat-git-pull-all-all-servers-log.sh')">common/logs/cat-git-pull-all-all-servers-log.sh</button>
+</td></tr>
+<tr><td>
+  <button class="my-scripts-table-btn"
+    onclick="myScriptsManager.executeScript('common/logs/cat-scp-torrent-log.sh')">common/logs/cat-scp-torrent-log.sh</button>
+</td></tr>

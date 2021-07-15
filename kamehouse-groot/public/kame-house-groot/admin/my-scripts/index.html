@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="description" content="kame-house application">
+<meta name="keywords" content="kame-house nicobrest nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>My Scripts</title>
+
+<link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
+<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/js/global.js"></script>
+<script src="/kame-house-groot/js/global.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
+<link rel="stylesheet" href="/kame-house-groot/css/global.css" />
+</head>
+<body>
+  <div id="root-menu-wrapper"></div>
+  <div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-goku-ssj4-earth">
+    <div class="default-layout banner-text">
+      <h1>My Scripts</h1>
+      <div id="banner-server-name"></div>
+    </div>
+  </div>  
+  </div>
+  <div class="default-layout">
+  <br>
+  <p class="p-15-m-kh">Lists the scripts in my-scripts repo that can be executed in this server</p>
+  
+  <h3>Tail Logs</h3>
+  <div class="default-layout p-7-d-kh p-7-m-kh"></div>
+  <div id="tail-logs-table-wrapper" class="default-layout my-scripts-wrapper">
+    <table id="tail-logs-table" class="my-scripts-table">
+      <caption class="hidden-kh">Tail Logs</caption>
+      <tr class="hidden-kh">
+        <th scope="row">Tail Logs</th>
+      </tr>
+      <tbody id="tail-logs-table-body"></tbody>
+    </table>
+  </div>
+
+  <h3>Frequent Scripts</h3>
+  <div class="default-layout p-7-d-kh p-7-m-kh"></div>
+  <div id="frequent-scripts-table-wrapper" class="default-layout my-scripts-wrapper">
+    <table id="frequent-scripts-table" class="my-scripts-table">
+      <caption class="hidden-kh">My Scripts</caption>
+      <tr class="hidden-kh">
+        <th scope="row">My Scripts</th>
+      </tr>
+      <tbody id="frequent-scripts-table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="default-layout p-7-d-kh p-7-m-kh"></div>
+  <h3>All Scripts</h3>
+  <div class="default-layout p-7-d-kh p-7-m-kh"></div>
+  <div class="default-layout bg-darker-kh">
+    <table id="all-my-scripts-table-controls" class="all-my-scripts-table-controls-table">
+      <caption class="hidden-kh">All My Scripts Controls</caption>
+      <colgroup>
+        <col class="w-80-pc-kh" />
+        <col class="w-20-pc-kh" />
+      </colgroup>
+      <tr class="hidden-kh">
+        <th scope="row" class="hidden-kh">All My Scripts Controls</th>
+      </tr>
+      <tr>
+        <td>
+          <input class="table-filter-input"
+            type="text" placeholder="Search..."
+            onkeyup="myScriptsManager.filterMyScriptsRows(this.value)" />
+        </td>
+        <td class="txt-r-d-kh txt-r-m-kh">
+          <img class="btn-my-scripts-controls"
+            onclick="scrollToTop('all-my-scripts-table-wrapper')"
+            src="/kame-house/img/other/back-to-top.png"
+            alt="Back To Top" title="Back To Top" />
+        </td>
+      </tr> 
+  </table>  
+
+  <div id="all-my-scripts-table-wrapper" class="my-scripts-wrapper">
+    <table id="all-my-scripts-table" class="my-scripts-table">
+      <caption class="hidden-kh">All My Scripts</caption>
+      <tr class="hidden-kh">
+        <th scope="row">All My Scripts</th>
+      </tr>
+      <tbody id="all-my-scripts-table-body"></tbody>
+    </table>
+  </div>
+  
+  </div>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script src="/kame-house-groot/js/admin/my-scripts/my-scripts-index.js"></script>
+</body>
+</html>

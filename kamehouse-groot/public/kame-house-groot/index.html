@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="author" content="nbrest">
+  <meta name="description" content="kame-house application">
+  <meta name="keywords" content="kame-house nicobrest nbrest">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>KameHouse - GRoot</title>
+
+  <link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
+  <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+  <script src="/kame-house/js/global.js"></script>
+  <script src="/kame-house-groot/js/global.js"></script>
+  <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/kame-house/css/global.css" />
+  <link rel="stylesheet" href="/kame-house-groot/css/global.css" />
+</head>
+
+<body>
+  <div class="main-body">
+    <div id="root-menu-wrapper"></div>
+    <div class="banner-wrapper">
+    <div id="banner" class="fade-in-out-15s banner-wimbledon">
+      <div class="default-layout banner-text">
+        <h1 id="banner-h1">KameHouse - GRoot</h1>
+        <p>まだまだだね</p>
+      </div>
+    </div>
+    </div>
+    <div class="default-layout">
+      <br>
+      <p class="p-7-d-kh">KameHouse GRoot is a small app built to do admin tasks independently of having all the KameHouse modules deployed on tomcat</p> 
+      <p class="p-7-d-kh">This app runs on an plain http server such as apache httpd and its few API's are built with php. The APIs are mainly to get the current httpd session status and to execute scripts in the server (from my.scripts private repo) . It's main functionality is to manage the tomcat running /kame-house to start/stop/deploy/undeploy it's modules, pull from my git repos and update my media files on the media server. It can also trigger all those commands in all servers with one click connecting to the KameHouse GRoot API's on each server</p> 
+      <p class="p-7-d-kh">Most of the functionality is in <a href="/kame-house/">kame-house</a>. This app is just a UI to do all the admin stuff I usually do through the command line</p>
+    </div>
+    <div id="newsletter"></div>
+    <div class="default-layout p-7-d-kh">
+      <br>
+      <h6>Other links:</h6>
+      <a class="btn btn-outline-danger" href="https://www.nicobrest.com">www</a>
+      <a class="btn btn-outline-danger" href="/kame-house-streaming/">Streaming</a>
+      <a class="btn btn-outline-danger" href="/kame-house-php-proxy/">Php Proxy</a>
+    </div>
+  </div>
+  <script src="/kame-house-groot/js/root-index.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script src="/kame-house/js/snippets/newsletter.js"></script>
+</body>
+
+</html>

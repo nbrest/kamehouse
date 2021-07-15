@@ -18,6 +18,8 @@ This application (forever under construction) contains the following modules:
 
 [Commons Test](kamehouse-commons-test/README.md)
 
+[GRoot](kamehouse-groot/README.md)
+
 [Media](kamehouse-media/README.md)
 
 [TennisWorld](kamehouse-tennisworld/README.md)
@@ -29,7 +31,8 @@ This application (forever under construction) contains the following modules:
 [VlcRc](kamehouse-vlcrc/README.md)
 
 The modules commons, commons-core and commons-test are jar libraries imported by the other modules. 
-All the other modules are web apps. 
+GRoot is a webapp built with js and php to do admin stuff I usually do through the command line.
+All the other modules are webapps deployable to tomcat.
 All of them are API based except for the UI module that contains the frontend code and connects
  to the other modules through their APIs.
 

@@ -129,8 +129,8 @@ function Header() {
             $(navItem).addClass("active");
           }
           break;
-        case "/":
-          if ($(navItem).attr("id") == "nav-root") {
+        case "/kame-house-groot":
+          if ($(navItem).attr("id") == "nav-groot") {
             $(navItem).addClass("active");
           }
           break;
@@ -152,13 +152,8 @@ function Header() {
           $(navItem).addClass("active");
         }
       }
-      if (pageUrl.startsWith("/admin/my-scripts")) {
-        if ($(navItem).attr("id") == "nav-root") {
-          $(navItem).addClass("active");
-        }
-      }
-      if (pageUrl.startsWith("/admin/server-manager")) {
-        if ($(navItem).attr("id") == "nav-root") {
+      if (pageUrl.startsWith("/kame-house-groot")) {
+        if ($(navItem).attr("id") == "nav-groot") {
           $(navItem).addClass("active");
         }
       }
