@@ -238,15 +238,15 @@ a:active {
 /** my-scripts table btn end*/
 
 /** Root menu nav begin */
-.root-nav {
+.groot-nav {
   overflow: hidden;
 }
 
-.root-nav-wrapper {
+.groot-nav-wrapper {
   overflow: hidden;
 }
 
-.root-nav a {
+.groot-nav a {
   float: left;
   display: block;
   color: #969696;
@@ -256,53 +256,52 @@ a:active {
   font-size: 17px;
 }
 
-.root-nav a.active {
-  background-color: #9d0000;
-  color: #000000;
+.groot-nav a.active {
+  background-color: #101517;
 }
 
-.root-nav a:hover {
+.groot-nav a:hover {
   background-color: #b50000;
   color: black;
 }
 
-.root-nav .icon {
+.groot-nav .icon {
   display: none;
 }
 
-.root-nav .highlight {
+.groot-nav .highlight {
   color: #d90000;
   font-weight: bold;
 }
 
 @media (max-width : 900px) {
 
-  .root-nav .default-layout {
+  .groot-nav .default-layout {
     padding: 0px;
     width: 100%;
     display: block;
   }
 
-  .root-nav a:nth-child(n+4) {
+  .groot-nav a:nth-child(n+4) {
     display: none;
   }
 
-  .root-nav a.icon {
+  .groot-nav a.icon {
     float: right;
     display: block;
   }
 
-  .root-nav.responsive {
+  .groot-nav.responsive {
     position: relative;
   }
   
-  .root-nav.responsive a.icon {
+  .groot-nav.responsive a.icon {
     position: absolute;
     right: 0;
     top: 0;
   }
 
-  .root-nav.responsive a {
+  .groot-nav.responsive a {
     float: none;
     display: block;
     text-align: left;

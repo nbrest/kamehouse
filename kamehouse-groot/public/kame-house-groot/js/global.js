@@ -28,17 +28,19 @@ function refreshPageLoop() {
 
 /** Toggle expanding/collapsing the root menu hamburguer */
 function toggleRootNav() {
-  let rootMenu = document.getElementById("root-menu");
-  if (rootMenu.className === "root-nav") {
+  let rootMenu = document.getElementById("groot-menu");
+  if (rootMenu.className === "groot-nav") {
     rootMenu.className += " responsive";
   } else {
-    rootMenu.className = "root-nav";
+    rootMenu.className = "groot-nav";
   }
 }
 
 /** Render the root menu */
 function renderRootMenu() {
-  $("#root-menu-wrapper").load("/kame-house-groot/html-snippets/root-menu.html");
+  $("#groot-menu-wrapper").load("/kame-house-groot/html-snippets/groot-menu.html", () => {
+    updateGRootMenuActiveTab();
+  });
 }
 
 /** Get session status from the backend */
@@ -68,4 +70,24 @@ function getSessionStatus(successCallback, errorCallback) {
   }
   let selectedTabDiv = document.getElementById(selectedTabDivId);
   selectedTabDiv.style.display = "block";
+}
+
+/**
+* Set active tab in the groot sub menu.
+*/
+function updateGRootMenuActiveTab() {
+  let pageUrl = window.location.pathname;
+  $("#groot-menu a").toArray().forEach((navItem) => {
+    $(navItem).removeClass("active");
+    if (pageUrl.startsWith("/kame-house-groot/admin/server-manager")) {
+      if ($(navItem).attr("id") == "nav-server-manager") {
+        $(navItem).addClass("active");
+      }
+    }
+    if (pageUrl.startsWith("/kame-house-groot/admin/my-scripts")) {
+      if ($(navItem).attr("id") == "nav-my-scripts") {
+        $(navItem).addClass("active");
+      }
+    }
+  });
 }
