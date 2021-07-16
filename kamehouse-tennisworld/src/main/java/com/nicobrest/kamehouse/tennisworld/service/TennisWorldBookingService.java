@@ -765,6 +765,7 @@ public class TennisWorldBookingService {
     TennisWorldBookingResponse tennisWorldBookingResponse = new TennisWorldBookingResponse();
     tennisWorldBookingResponse.setStatus(status);
     tennisWorldBookingResponse.setMessage(message);
+    logger.info("Booking to tennis world finished: " + tennisWorldBookingResponse);
     return tennisWorldBookingResponse;
   }
 
