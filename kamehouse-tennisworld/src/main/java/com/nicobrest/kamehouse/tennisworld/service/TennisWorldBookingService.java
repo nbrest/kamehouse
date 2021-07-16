@@ -90,6 +90,7 @@ public class TennisWorldBookingService {
   public TennisWorldBookingResponse book(TennisWorldBookingRequest tennisWorldBookingRequest) {
     try {
       TennisWorldSessionType sessionType = getSessionType(tennisWorldBookingRequest);
+      logger.info("Booking tennis world request: " + tennisWorldBookingRequest);
       switch (sessionType) {
         case CARDIO:
           return bookCardioSessionRequest(tennisWorldBookingRequest);
