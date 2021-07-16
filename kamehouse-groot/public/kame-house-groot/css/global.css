@@ -237,13 +237,14 @@ a:active {
 }
 /** my-scripts table btn end*/
 
-/** Root menu nav begin */
+/** GRoot menu nav begin */
 .groot-nav {
   overflow: hidden;
 }
 
 .groot-nav-wrapper {
   overflow: hidden;
+  border-bottom: #4d0000 3px solid;
 }
 
 .groot-nav a {
