@@ -3,6 +3,7 @@
 #### v3.00
 
 * Added KameHouse GRoot module to the main repository
+* Added backend functionality to book cardio tennis sessions on tennisworld
 
 #### v2.01
 
