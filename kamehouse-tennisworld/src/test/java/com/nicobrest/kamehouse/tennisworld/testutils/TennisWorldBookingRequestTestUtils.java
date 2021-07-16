@@ -18,8 +18,15 @@ public class TennisWorldBookingRequestTestUtils extends
     AbstractTestUtils<TennisWorldBookingRequest, Object>
     implements TestUtils<TennisWorldBookingRequest, Object> {
 
+  private TennisWorldBookingRequest sessionRequest = null;
+
+  public TennisWorldBookingRequest getSessionRequest() {
+    return sessionRequest;
+  }
+
   @Override
   public void initTestData() {
+    initSessionRequest();
     initSingleTestData();
     initTestDataList();
   }
@@ -58,5 +65,23 @@ public class TennisWorldBookingRequestTestUtils extends
   private void initTestDataList() {
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
+    testDataList.add(sessionRequest);
+  }
+
+  private void initSessionRequest() {
+    sessionRequest = new TennisWorldBookingRequest();
+    sessionRequest.setDate("2021-07-30");
+    sessionRequest.setTime("06:30am");
+    sessionRequest.setDuration("45");
+    sessionRequest.setPassword("goku-son");
+    sessionRequest.setUsername("goku@dbz.com");
+    sessionRequest.setSessionType("CARDIO");
+    sessionRequest.setSite("MELBOURNE_PARK");
+    TennisWorldBookingRequest.CardDetails cardDetails = new TennisWorldBookingRequest.CardDetails();
+    cardDetails.setName("SON GOKU");
+    cardDetails.setNumber("1111222233334444");
+    cardDetails.setCvv("999");
+    cardDetails.setExpiryDate("12/3099");
+    sessionRequest.setCardDetails(cardDetails);
   }
 }

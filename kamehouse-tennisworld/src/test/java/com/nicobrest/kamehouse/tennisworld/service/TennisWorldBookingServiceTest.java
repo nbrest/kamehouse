@@ -69,6 +69,18 @@ public class TennisWorldBookingServiceTest {
       "facility-booking-responses/step-1.1-error.html"
   };
 
+  private static final String[] BOOK_SESSION_OVERLAY_STANDARD_RESPONSES = {
+      "session-booking-responses/step-1.1.html",
+      "session-booking-responses/step-1.2.html",
+      "session-booking-responses/step-1.3.html",
+      "session-booking-responses/step-2.html",
+      "session-booking-responses/step-3.html",
+      "session-booking-responses/step-4.html",
+      "session-booking-responses/step-5.html",
+      "session-booking-responses/step-6.html",
+      "session-booking-responses/step-7.html",
+  };
+
   @Mock
   HttpClient httpClientMock;
 
@@ -238,6 +250,36 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(2);
     expected.setMessage("Error executing booking request to tennis world Message: IO Error");
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay request success flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestSuccessTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
+    TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSessionRequest();
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay request dry run flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestDryRunTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
+    TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSessionRequest();
+    request.setDryRun(true);
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    expected.setMessage("Completed the booking request DRY-RUN successfully");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
