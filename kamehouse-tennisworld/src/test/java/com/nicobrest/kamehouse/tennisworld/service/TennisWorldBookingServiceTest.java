@@ -41,19 +41,33 @@ public class TennisWorldBookingServiceTest {
   private TennisWorldBookingService tennisWorldBookingServiceSpy;
 
   private static final String[] BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES = {
-      "tennisworld/step-1.1.html" , "tennisworld/step-1.2.html", "tennisworld/step-1.3.html",
-      "tennisworld/step-2.html", "tennisworld/step-3.html", "tennisworld/step-4.html",
-      "tennisworld/step-5.html", "tennisworld/step-6.html", "tennisworld/step-7.html",
-      "tennisworld/step-8.html"};
+      "facility-booking-responses/step-1.1.html",
+      "facility-booking-responses/step-1.2.html",
+      "facility-booking-responses/step-1.3.html",
+      "facility-booking-responses/step-2.html",
+      "facility-booking-responses/step-3.html",
+      "facility-booking-responses/step-4.html",
+      "facility-booking-responses/step-5.html",
+      "facility-booking-responses/step-6.html",
+      "facility-booking-responses/step-7.html",
+      "facility-booking-responses/step-8.html"
+  };
 
-  private static final String[] BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSE = {
-      "tennisworld/step-1.1.html" , "tennisworld/step-1.2.html", "tennisworld/step-1.3.html",
-      "tennisworld/step-2.html", "tennisworld/step-3.html", "tennisworld/step-4.html",
-      "tennisworld/step-5.html", "tennisworld/step-6.html", "tennisworld/step-7.html",
-      "tennisworld/step-8-error.html"};
+  private static final String[] BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSES = {
+      "facility-booking-responses/step-1.1.html",
+      "facility-booking-responses/step-1.2.html",
+      "facility-booking-responses/step-1.3.html",
+      "facility-booking-responses/step-2.html",
+      "facility-booking-responses/step-3.html",
+      "facility-booking-responses/step-4.html",
+      "facility-booking-responses/step-5.html",
+      "facility-booking-responses/step-6.html",
+      "facility-booking-responses/step-7.html",
+      "facility-booking-responses/step-8-error.html"};
 
-  private static final String[] BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSE = {
-      "tennisworld/step-1.1-error.html"};
+  private static final String[] BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSES = {
+      "facility-booking-responses/step-1.1-error.html"
+  };
 
   @Mock
   HttpClient httpClientMock;
@@ -121,7 +135,7 @@ public class TennisWorldBookingServiceTest {
     request.setSite("Melbourne Park - Invalid Site");
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
-    expected.setMessage("Unable to determine the site id for Melbourne Park - Invalid Site");
+    expected.setMessage("Invalid site: Melbourne Park - Invalid Site");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -138,7 +152,7 @@ public class TennisWorldBookingServiceTest {
     request.setSessionType("Rod Laver Arena Center Court");
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
-    expected.setMessage("Unable to get the selectedSessionTypeId");
+    expected.setMessage("Invalid sessionType: Rod Laver Arena Center Court");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -184,7 +198,7 @@ public class TennisWorldBookingServiceTest {
    */
   @Test
   public void bookFacilityOverlayRequestInvalidLoginTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSE);
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSES);
     when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
     TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
     TennisWorldBookingResponse expected =
@@ -201,7 +215,7 @@ public class TennisWorldBookingServiceTest {
    */
   @Test
   public void bookFacilityOverlayRequestErrorConfirmingPayTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSE);
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSES);
     TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(2);

@@ -45,8 +45,8 @@ public class TennisWorldBookingRequestTestUtils extends
     singleTestData.setDuration("60");
     singleTestData.setPassword("goku-son");
     singleTestData.setUsername("goku@dbz.com");
-    singleTestData.setSessionType("Rod Laver Arena Outdoor");
-    singleTestData.setSite("Tennis World - Melbourne Park");
+    singleTestData.setSessionType("ROD_LAVER_OUTDOOR");
+    singleTestData.setSite("MELBOURNE_PARK");
     TennisWorldBookingRequest.CardDetails cardDetails = new TennisWorldBookingRequest.CardDetails();
     cardDetails.setName("SON GOKU");
     cardDetails.setNumber("1111222233334444");
