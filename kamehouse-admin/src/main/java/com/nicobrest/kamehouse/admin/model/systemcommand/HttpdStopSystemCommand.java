@@ -16,7 +16,7 @@ public class HttpdStopSystemCommand extends SystemCommand {
    * Sets the command line for each operation system required for this SystemCommand.
    */
   public HttpdStopSystemCommand() {
-    sleepTime = 3;
+    sleepTime = 7;
 
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c",
         "sudo service apache2 stop ; echo Stopping apache httpd"));
