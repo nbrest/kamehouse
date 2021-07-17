@@ -11,6 +11,7 @@ import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse.Status;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSessionType;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSite;
+import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.CardioSessionBookingJob;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
@@ -107,6 +108,14 @@ public class TennisWorldBookingService {
     } catch (KameHouseBadRequestException e) {
       return buildResponse(Status.ERROR, e.getMessage());
     }
+  }
+
+  /**
+   * Book the cardio sessions automatically.
+   * This method is to be triggered only by the {@link CardioSessionBookingJob}.
+   */
+  public void bookScheduledCardioSession() {
+    logger.info("bookScheduledCardioSession triggered. do the booking logic here");
   }
 
   /**
