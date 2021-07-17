@@ -66,8 +66,8 @@ public class TennisWorldSchedulerConfig {
   /**
    * Trigger for the cardioSessionBookingJobDetail at the specified hour and minutes.
    */
-  private Trigger cardioSessionBookingTrigger(JobDetail cardioSessionBookingJobDetail, int hour,
-      int minute) {
+  private static Trigger cardioSessionBookingTrigger(JobDetail cardioSessionBookingJobDetail,
+                                                   int hour, int minute) {
     return TriggerBuilder.newTrigger()
         .forJob(cardioSessionBookingJobDetail)
         .withIdentity(TriggerKey.triggerKey("cardioSessionBookingTrigger_" + hour + "_" + minute))
