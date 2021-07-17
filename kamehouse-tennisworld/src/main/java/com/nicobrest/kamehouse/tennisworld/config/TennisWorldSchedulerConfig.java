@@ -45,6 +45,7 @@ public class TennisWorldSchedulerConfig {
       scheduler.addJob(cardioSessionBookingJobDetail, true);
       scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 0, 2));
       scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 0, 10));
+      scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 1, 30));
     } catch (SchedulerException e) {
       logger.error("Error adding tennisworld jobs to the scheduler", e);
     }
