@@ -66,11 +66,11 @@ public class TennisWorldSchedulerConfig {
   /**
    * Trigger for the cardioSessionBookingJobDetail at the specified hour and minutes.
    */
-  private Trigger cardioSessionBookingTrigger(JobDetail cardioSessionBookingJobDetail, int hour
-      , int minute) {
+  private Trigger cardioSessionBookingTrigger(JobDetail cardioSessionBookingJobDetail, int hour,
+      int minute) {
     return TriggerBuilder.newTrigger()
         .forJob(cardioSessionBookingJobDetail)
-        .withIdentity(TriggerKey.triggerKey("cardioSessionBookingTrigger"))
+        .withIdentity(TriggerKey.triggerKey("cardioSessionBookingTrigger_" + hour + "_" + minute))
         .withDescription("Trigger to schedule a cardio session booking job")
         .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(hour, minute))
         .build();
