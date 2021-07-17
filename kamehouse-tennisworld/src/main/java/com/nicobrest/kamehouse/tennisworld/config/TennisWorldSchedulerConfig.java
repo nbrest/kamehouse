@@ -43,7 +43,8 @@ public class TennisWorldSchedulerConfig {
     try {
       JobDetail cardioSessionBookingJobDetail = cardioSessionBookingJobDetail();
       scheduler.addJob(cardioSessionBookingJobDetail, true);
-      scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail));
+      scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 0, 2));
+      scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 0, 10));
     } catch (SchedulerException e) {
       logger.error("Error adding tennisworld jobs to the scheduler", e);
     }
@@ -63,16 +64,15 @@ public class TennisWorldSchedulerConfig {
   }
 
   /**
-   * cardioSessionBookingTrigger bean.
+   * Trigger for the cardioSessionBookingJobDetail at the specified hour and minutes.
    */
-  @Bean(name = "cardioSessionBookingTrigger")
-  public Trigger cardioSessionBookingTrigger(JobDetail cardioSessionBookingJobDetail) {
+  private Trigger cardioSessionBookingTrigger(JobDetail cardioSessionBookingJobDetail, int hour
+      , int minute) {
     return TriggerBuilder.newTrigger()
         .forJob(cardioSessionBookingJobDetail)
         .withIdentity(TriggerKey.triggerKey("cardioSessionBookingTrigger"))
         .withDescription("Trigger to schedule a cardio session booking job")
-        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(0, 2))
-        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(0, 10))
+        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(hour, minute))
         .build();
   }
 }
