@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
+import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
@@ -36,7 +37,7 @@ import java.util.Date;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ HttpClientUtils.class, DateUtils.class, PropertiesUtils.class })
+@PrepareForTest({ HttpClientUtils.class, DateUtils.class, PropertiesUtils.class, FileUtils.class })
 public class TennisWorldBookingServiceTest {
 
   private TennisWorldBookingRequestTestUtils tennisWorldBookingRequestTestUtils =
@@ -154,6 +155,9 @@ public class TennisWorldBookingServiceTest {
         .thenCallRealMethod();
     PowerMockito.when(PropertiesUtils.getProperty("scheduled.cardio.pwd.file")).thenCallRealMethod();
     PowerMockito.when(PropertiesUtils.getUserHome()).thenCallRealMethod();
+
+    PowerMockito.mockStatic(FileUtils.class);
+    PowerMockito.when(FileUtils.getDecodedFileContent((any()))).thenReturn("saiyajin");
   }
 
   /**
