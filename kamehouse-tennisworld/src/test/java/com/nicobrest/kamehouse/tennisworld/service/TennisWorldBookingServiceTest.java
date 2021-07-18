@@ -150,6 +150,10 @@ public class TennisWorldBookingServiceTest {
     PowerMockito.mockStatic(PropertiesUtils.class);
     PowerMockito.when(PropertiesUtils.getHostname()).thenReturn("saiyajin-host");
     PowerMockito.when(PropertiesUtils.getProperty("booking.server")).thenReturn("saiyajin-host");
+    PowerMockito.when(PropertiesUtils.getProperty("scheduled.cardio.user.file"))
+        .thenCallRealMethod();
+    PowerMockito.when(PropertiesUtils.getProperty("scheduled.cardio.pwd.file")).thenCallRealMethod();
+    PowerMockito.when(PropertiesUtils.getUserHome()).thenCallRealMethod();
   }
 
   /**

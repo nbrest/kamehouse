@@ -29,7 +29,7 @@ public class ScreenUnlockKameHouseSystemCommand extends KameHouseSystemCommand {
   /**
    * Gets the unlock screen password.
    */
-  private String getUnlockScreenPassword() {
+  private static String getUnlockScreenPassword() {
     String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getProperty("unlock.screen.pwd.file");
     return FileUtils.getDecodedFileContent(unlockScreenPwdFile);

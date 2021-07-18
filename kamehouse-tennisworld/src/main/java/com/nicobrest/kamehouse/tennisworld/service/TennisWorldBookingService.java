@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
+import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -172,6 +173,24 @@ public class TennisWorldBookingService {
   }
 
   /**
+   * Gets the scheduled cardio username.
+   */
+  private static String getScheduledCardioUsername() {
+    String filename = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
+        .getProperty("scheduled.cardio.user.file");
+    return FileUtils.getDecodedFileContent(filename);
+  }
+
+  /**
+   * Gets the scheduled cardio password.
+   */
+  private static String getScheduledCardioPassword() {
+    String filename = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
+        .getProperty("scheduled.cardio.pwd.file");
+    return FileUtils.getDecodedFileContent(filename);
+  }
+
+  /**
    * Create the cardio scheduled booking tennis world request.
    */
   private static TennisWorldBookingRequest getScheduledCardioBookingRequest() {
@@ -179,9 +198,8 @@ public class TennisWorldBookingService {
         DateUtils.getTwoWeeksFromToday());
     TennisWorldBookingRequest request = new TennisWorldBookingRequest();
     request.setDate(bookingDate);
-    //TODO GET USERNAME AND PASSWORD FROM ENCRYPTED FILES OR DB
-    request.setUsername("invalid-user");
-    request.setPassword("invalid password");
+    request.setUsername(getScheduledCardioUsername());
+    request.setPassword(getScheduledCardioPassword());
     request.setDryRun(false);
     request.setDuration("45");
     request.setSessionType(TennisWorldSessionType.CARDIO.name());
