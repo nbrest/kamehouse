@@ -259,6 +259,7 @@ a:active {
 
 .groot-nav a.active {
   background-color: #101517;
+  color: #bbbbbb;
 }
 
 .groot-nav a:hover {
@@ -348,10 +349,12 @@ a:active {
 
 .tabs-groot button:hover {
   background-color: #4b0b0b;
+  color: #e6e6e6;
 }
 
 .tabs-groot button.active {
   background-color: #101517;
+  color: #dfdfdf;
 }
 
 /** table-filter-input begin */
