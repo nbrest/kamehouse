@@ -74,7 +74,8 @@ public class TennisWorldSchedulerConfig {
         .withIdentity(TriggerKey.triggerKey("cardioSessionBookingTrigger_" + hour + "_" + minute))
         .withDescription("Trigger to schedule a cardio session booking job at " + hour + ":"
             + minute)
-        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(hour, minute))
+        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(hour, minute)
+            .withMisfireHandlingInstructionDoNothing())
         .build();
   }
 }
