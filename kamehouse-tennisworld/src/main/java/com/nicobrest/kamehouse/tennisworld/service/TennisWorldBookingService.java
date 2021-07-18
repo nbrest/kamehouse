@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest.CardDetails;
@@ -48,6 +49,12 @@ public class TennisWorldBookingService {
 
   // URLs
   public static final String ROOT_URL = "https://bookings.tennisworld.net.au";
+  public static final String INVALID_BOOKING_SERVER = "The current server is not the booking"
+      + " server. Can't book a scheduled cardio session from this server.";
+  public static final String SUCCESSFUL_BOOKING = "Completed the booking request successfully";
+  public static final String SUCCESSFUL_BOOKING_DRY_RUN = "Completed the booking request DRY-RUN"
+      + " successfully";
+
   private static final String INITIAL_LOGIN_URL = ROOT_URL + "/customer/mobile/login";
   private static final String SITE_LINK_HREF = "/customer/mobile/login/complete_login/";
   private static final String DASHBOARD_URL = ROOT_URL + "/customer/mobile/dashboard";
@@ -120,6 +127,10 @@ public class TennisWorldBookingService {
    * This method is to be triggered only by the {@link CardioSessionBookingJob}.
    */
   public TennisWorldBookingResponse bookScheduledCardioSession() {
+    if (!isBookingServer()) {
+      logger.error(INVALID_BOOKING_SERVER);
+      return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER);
+    }
     String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getCurrentDate());
     TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
@@ -153,9 +164,17 @@ public class TennisWorldBookingService {
   }
 
   /**
+   * Check if the current server is the booking sever.
+   */
+  private static boolean isBookingServer() {
+    String bookingServer = PropertiesUtils.getProperty("booking.server");
+    return PropertiesUtils.getHostname().equals(bookingServer);
+  }
+
+  /**
    * Create the cardio scheduled booking tennis world request.
    */
-  private TennisWorldBookingRequest getScheduledCardioBookingRequest() {
+  private static TennisWorldBookingRequest getScheduledCardioBookingRequest() {
     String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getTwoWeeksFromToday());
     TennisWorldBookingRequest request = new TennisWorldBookingRequest();
@@ -173,7 +192,7 @@ public class TennisWorldBookingService {
   /**
    * Get the sessionType enum from the request.
    */
-  private TennisWorldSessionType getSessionType(TennisWorldBookingRequest
+  private static TennisWorldSessionType getSessionType(TennisWorldBookingRequest
                                                     tennisWorldBookingRequest) {
     try {
       return TennisWorldSessionType.valueOf(tennisWorldBookingRequest.getSessionType());
@@ -237,9 +256,9 @@ public class TennisWorldBookingService {
 
         // 7 -------------------------------------------------------------------------
         confirmSessionBookingResult(httpClient, confirmBookingRedirectUrl);
-        return buildResponse(Status.SUCCESS, "Completed the booking request successfully");
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING);
       } else {
-        return buildResponse(Status.SUCCESS, "Completed the booking request DRY-RUN successfully");
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN);
       }
     } catch (KameHouseBadRequestException e) {
       return buildResponse(Status.ERROR, e.getMessage());
@@ -537,7 +556,7 @@ public class TennisWorldBookingService {
   /**
    * Get the tennis world site location.
    */
-  private TennisWorldSite getSite(TennisWorldBookingRequest tennisWorldBookingRequest) {
+  private static TennisWorldSite getSite(TennisWorldBookingRequest tennisWorldBookingRequest) {
     try {
       return TennisWorldSite.valueOf(tennisWorldBookingRequest.getSite());
     } catch (IllegalArgumentException e) {
@@ -787,7 +806,7 @@ public class TennisWorldBookingService {
   /**
    * Set the payment details to complete the booking request.
    */
-  private void populateCardDetails(List<NameValuePair> params, CardDetails cardDetails) {
+  private static void populateCardDetails(List<NameValuePair> params, CardDetails cardDetails) {
     if (cardDetails != null) {
       params.add(new BasicNameValuePair("name_on_card", cardDetails.getName()));
       params.add(new BasicNameValuePair("credit_card_number", cardDetails.getNumber()));
@@ -899,7 +918,7 @@ public class TennisWorldBookingService {
    * Checks if the specified html has a login error message. If the html is empty return true, as
    * I expect content when calling this method.
    */
-  private boolean hasLoginError(String html) {
+  private static boolean hasLoginError(String html) {
     if (StringUtils.isEmpty(html)) {
       return true;
     } else {
@@ -914,7 +933,7 @@ public class TennisWorldBookingService {
    * Checks if the response is a json object with an error:true property. I'm expecting content
    * when calling this method, so return true if the input html is empty.
    */
-  private boolean hasJsonErrorResponse(String html) {
+  private static boolean hasJsonErrorResponse(String html) {
     if (StringUtils.isEmpty(html)) {
       return true;
     }
@@ -924,7 +943,7 @@ public class TennisWorldBookingService {
   /**
    * Sleep for the specified ms by sleepMs.
    */
-  private void sleep() {
+  private static void sleep() {
     try {
       Thread.sleep(sleepMs);
     } catch (InterruptedException e) {

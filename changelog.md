@@ -4,6 +4,7 @@
 
 * Added KameHouse GRoot module to the main repository
 * Added backend functionality to book cardio tennis sessions on tennisworld
+* Added scheduled job to do automatic bookings of cardio sessions to tenniswold
 
 #### v2.01
 

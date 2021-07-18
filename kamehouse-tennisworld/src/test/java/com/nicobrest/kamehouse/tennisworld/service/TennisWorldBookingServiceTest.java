@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSessionType;
@@ -35,7 +36,7 @@ import java.util.Date;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ HttpClientUtils.class, DateUtils.class })
+@PrepareForTest({ HttpClientUtils.class, DateUtils.class, PropertiesUtils.class })
 public class TennisWorldBookingServiceTest {
 
   private TennisWorldBookingRequestTestUtils tennisWorldBookingRequestTestUtils =
@@ -145,6 +146,10 @@ public class TennisWorldBookingServiceTest {
     when(DateUtils.getFormattedDate(any(), any())).thenCallRealMethod();
     when(DateUtils.getCurrentDayOfWeek()).thenCallRealMethod();
     when(DateUtils.getDayOfWeek(any())).thenCallRealMethod();
+
+    PowerMockito.mockStatic(PropertiesUtils.class);
+    PowerMockito.when(PropertiesUtils.getHostname()).thenReturn("saiyajin-host");
+    PowerMockito.when(PropertiesUtils.getProperty("booking.server")).thenReturn("saiyajin-host");
   }
 
   /**
@@ -170,7 +175,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
     request.setDryRun(true);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
-    expected.setMessage("Completed the booking request DRY-RUN successfully");
+    expected.setMessage(TennisWorldBookingService.SUCCESSFUL_BOOKING_DRY_RUN);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -319,7 +324,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSessionRequest();
     request.setDryRun(true);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
-    expected.setMessage("Completed the booking request DRY-RUN successfully");
+    expected.setMessage(TennisWorldBookingService.SUCCESSFUL_BOOKING_DRY_RUN);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -386,6 +391,22 @@ public class TennisWorldBookingServiceTest {
     when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.TUESDAY);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
     expected.setMessage("Today is Tuesday. No cardio booking is scheduled.");
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a scheduled cardio session from an invalid booking server.
+   */
+  @Test
+  public void bookScheduledCardioSessionFromInvalidBookingServerTest() {
+    PowerMockito.when(PropertiesUtils.getProperty("booking.server")).thenReturn("namek-host");
+    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.MONDAY);
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(TennisWorldBookingResponse.Status.INTERNAL_ERROR);
+    expected.setMessage(TennisWorldBookingService.INVALID_BOOKING_SERVER);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
 

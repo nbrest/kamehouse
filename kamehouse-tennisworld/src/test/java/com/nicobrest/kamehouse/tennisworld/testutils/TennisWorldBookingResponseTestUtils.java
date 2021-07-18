@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
+import com.nicobrest.kamehouse.tennisworld.service.TennisWorldBookingService;
 
 import java.util.LinkedList;
 
@@ -37,7 +38,7 @@ public class TennisWorldBookingResponseTestUtils extends
   private void initSingleTestData() {
     singleTestData = new TennisWorldBookingResponse();
     singleTestData.setStatus(TennisWorldBookingResponse.Status.SUCCESS);
-    singleTestData.setMessage("Completed the booking request successfully");
+    singleTestData.setMessage(TennisWorldBookingService.SUCCESSFUL_BOOKING);
   }
 
   private void initTestDataList() {
