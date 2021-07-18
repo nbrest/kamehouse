@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
+import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.testmodule.model.TestWebSocketRequestMessage;
 import com.nicobrest.kamehouse.testmodule.model.TestWebSocketResponseMessage;
 
@@ -22,7 +23,7 @@ public class TestWebSocketService {
   public TestWebSocketResponseMessage generateTestWebSocketResponseMessage(
       TestWebSocketRequestMessage inputMessage) {
     TestWebSocketResponseMessage testWebSocketResponseMessage = new TestWebSocketResponseMessage();
-    testWebSocketResponseMessage.setDate(new Date());
+    testWebSocketResponseMessage.setDate(DateUtils.getCurrentDate());
     testWebSocketResponseMessage.setMessage("まだまだだね, " + inputMessage.getLastName() + " "
         + inputMessage.getFirstName());
     return testWebSocketResponseMessage;

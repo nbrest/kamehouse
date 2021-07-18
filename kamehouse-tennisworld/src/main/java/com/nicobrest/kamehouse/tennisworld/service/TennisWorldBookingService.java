@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -74,6 +76,9 @@ public class TennisWorldBookingService {
   private static final String ID_ERROR_STACK = "error-stack";
   private static final String ID_ERROR_MESSAGE = "error-message";
   // Other constants
+  private static final String SCHEDULED_CARDIO_TIME_SUNDAY = "12:00pm";
+  private static final String SCHEDULED_CARDIO_TIME_MONDAY = "07:15pm";
+
   private static int sleepMs = 500;
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -114,8 +119,55 @@ public class TennisWorldBookingService {
    * Book the cardio sessions automatically.
    * This method is to be triggered only by the {@link CardioSessionBookingJob}.
    */
-  public void bookScheduledCardioSession() {
-    logger.info("bookScheduledCardioSession triggered. do the booking logic here");
+  public TennisWorldBookingResponse bookScheduledCardioSession() {
+    String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+        DateUtils.getCurrentDate());
+    TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
+    int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
+    switch (currentDayOfWeek) {
+      case Calendar.SUNDAY:
+        logger.info("Today is Sunday {}. Booking cardio for {} at {}", currentDate,
+            request.getDate(), SCHEDULED_CARDIO_TIME_SUNDAY);
+        request.setTime(SCHEDULED_CARDIO_TIME_SUNDAY);
+        return book(request);
+      case Calendar.MONDAY:
+        logger.info("Today is Monday {}. Booking cardio for {} at {}", currentDate,
+            request.getDate(), SCHEDULED_CARDIO_TIME_MONDAY);
+        request.setTime(SCHEDULED_CARDIO_TIME_MONDAY);
+        return book(request);
+      case Calendar.TUESDAY:
+      case Calendar.WEDNESDAY:
+      case Calendar.THURSDAY:
+      case Calendar.FRIDAY:
+      case Calendar.SATURDAY:
+        String message = "Today is " + DateUtils.getDayOfWeek(currentDayOfWeek)
+            + ". No cardio booking is scheduled.";
+        logger.info(message);
+        return buildResponse(Status.SUCCESS, message);
+      default:
+        break;
+    }
+    String errorMessage = "Invalid currentDayOfWeek. Should never reach this point!";
+    logger.error(errorMessage);
+    throw new KameHouseServerErrorException(errorMessage);
+  }
+
+  /**
+   * Create the cardio scheduled booking tennis world request.
+   */
+  private TennisWorldBookingRequest getScheduledCardioBookingRequest() {
+    String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+        DateUtils.getTwoWeeksFromToday());
+    TennisWorldBookingRequest request = new TennisWorldBookingRequest();
+    request.setDate(bookingDate);
+    //TODO GET USERNAME AND PASSWORD FROM ENCRYPTED FILES OR DB
+    request.setUsername("invalid-user");
+    request.setPassword("invalid password");
+    request.setDryRun(false);
+    request.setDuration("45");
+    request.setSessionType(TennisWorldSessionType.CARDIO.name());
+    request.setSite(TennisWorldSite.MELBOURNE_PARK.name());
+    return request;
   }
 
   /**

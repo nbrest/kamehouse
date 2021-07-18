@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.service.SchedulerService;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
@@ -124,7 +125,7 @@ public class SchedulerControllerTest extends AbstractControllerTest {
     KameHouseJob.Schedule schedule = new KameHouseJob.Schedule();
     schedule.setDescription("schedule description");
     schedule.setKey(new KameHouseJob.Key("DEFAULT", "sampleJobSchedule"));
-    schedule.setNextRun(new Date());
+    schedule.setNextRun(DateUtils.getCurrentDate());
     schedule.setPriority(5);
     schedules.add(schedule);
     kameHouseJobs.add(kameHouseJob);

@@ -2,9 +2,11 @@ package com.nicobrest.kamehouse.tennisworld.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
+import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSessionType;
 import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldBookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldBookingResponseTestUtils;
 import org.apache.http.HttpResponse;
@@ -23,6 +25,8 @@ import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Test class for the TennisWorldBookingService.
@@ -31,7 +35,7 @@ import java.io.InputStream;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ HttpClientUtils.class })
+@PrepareForTest({ HttpClientUtils.class, DateUtils.class })
 public class TennisWorldBookingServiceTest {
 
   private TennisWorldBookingRequestTestUtils tennisWorldBookingRequestTestUtils =
@@ -81,6 +85,30 @@ public class TennisWorldBookingServiceTest {
       "session-booking-responses/step-7.html",
   };
 
+  private static final String[] BOOK_CARDIO_SESSION_SUNDAY_STANDARD_RESPONSES = {
+      "sunday-cardio-booking-responses/step-1.1.html",
+      "sunday-cardio-booking-responses/step-1.2.html",
+      "sunday-cardio-booking-responses/step-1.3.html",
+      "sunday-cardio-booking-responses/step-2.html",
+      "sunday-cardio-booking-responses/step-3.html",
+      "sunday-cardio-booking-responses/step-4.html",
+      "sunday-cardio-booking-responses/step-5.html",
+      "sunday-cardio-booking-responses/step-6.html",
+      "sunday-cardio-booking-responses/step-7.html",
+  };
+
+  private static final String[] BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES = {
+      "monday-cardio-booking-responses/step-1.1.html",
+      "monday-cardio-booking-responses/step-1.2.html",
+      "monday-cardio-booking-responses/step-1.3.html",
+      "monday-cardio-booking-responses/step-2.html",
+      "monday-cardio-booking-responses/step-3.html",
+      "monday-cardio-booking-responses/step-4.html",
+      "monday-cardio-booking-responses/step-5.html",
+      "monday-cardio-booking-responses/step-6.html",
+      "monday-cardio-booking-responses/step-7.html",
+  };
+
   @Mock
   HttpClient httpClientMock;
 
@@ -98,6 +126,7 @@ public class TennisWorldBookingServiceTest {
     MockitoAnnotations.initMocks(this);
     Mockito.reset(httpClientMock);
     Mockito.reset(httpResponseMock);
+
     PowerMockito.mockStatic(HttpClientUtils.class);
     when(HttpClientUtils.getClient(any(), any())).thenReturn(httpClientMock);
     when(HttpClientUtils.execRequest(any(), any())).thenReturn(httpResponseMock);
@@ -105,6 +134,17 @@ public class TennisWorldBookingServiceTest {
     when(HttpClientUtils.getHeader(any(), any())).thenCallRealMethod();
     when(HttpClientUtils.getHeader(any(), any())).thenReturn(TennisWorldBookingService.ROOT_URL);
     when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.FOUND.value());
+
+    PowerMockito.mockStatic(DateUtils.class);
+    when(DateUtils.getCurrentDate()).thenCallRealMethod();
+    when(DateUtils.getTwoWeeksFromToday()).thenCallRealMethod();
+    when(DateUtils.getTwoWeeksFrom(any())).thenCallRealMethod();
+    when(DateUtils.getDate(any(), any(), any())).thenCallRealMethod();
+    when(DateUtils.getDate(any(), any(), any(), any(), any(), any())).thenCallRealMethod();
+    when(DateUtils.getFormattedDate(any())).thenCallRealMethod();
+    when(DateUtils.getFormattedDate(any(), any())).thenCallRealMethod();
+    when(DateUtils.getCurrentDayOfWeek()).thenCallRealMethod();
+    when(DateUtils.getDayOfWeek(any())).thenCallRealMethod();
   }
 
   /**
@@ -282,6 +322,72 @@ public class TennisWorldBookingServiceTest {
     expected.setMessage("Completed the booking request DRY-RUN successfully");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test unhandled session type error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestErrorTest() {
+    TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSessionRequest();
+    request.setSessionType(TennisWorldSessionType.UNKNOWN.name());
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(TennisWorldBookingResponse.Status.INTERNAL_ERROR);
+    expected.setMessage("Unhandled sessionType: UNKNOWN");
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a scheduled cardio session for sundays.
+   */
+  @Test
+  public void bookScheduledCardioSessionSundaySuccessTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_SUNDAY_STANDARD_RESPONSES);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.SUNDAY);
+    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 25);
+    when(DateUtils.getTwoWeeksFromToday()).thenReturn(bookingDate);
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a scheduled cardio session for mondays.
+   */
+  @Test
+  public void bookScheduledCardioSessionMondaySuccessTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.MONDAY);
+    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    when(DateUtils.getTwoWeeksFromToday()).thenReturn(bookingDate);
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
+
+    tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a scheduled cardio session for unscheduled days.
+   */
+  @Test
+  public void bookScheduledCardioSessionUnscheduledDaysSuccessTest() {
+    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.TUESDAY);
+    TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    expected.setMessage("Today is Tuesday. No cardio booking is scheduled.");
+
+    TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }

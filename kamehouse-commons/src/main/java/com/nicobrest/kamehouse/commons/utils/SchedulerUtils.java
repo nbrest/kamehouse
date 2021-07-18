@@ -25,7 +25,7 @@ public class SchedulerUtils {
    */
   public static Trigger getTrigger(int delay, JobDetail jobDetail, String triggerName,
                                    String triggerDescription) {
-    Date currentDate = new Date();
+    Date currentDate = DateUtils.getCurrentDate();
     Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
     String cronExpression = DateUtils.toCronExpression(scheduleDate);
     ScheduleBuilder<?> scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);

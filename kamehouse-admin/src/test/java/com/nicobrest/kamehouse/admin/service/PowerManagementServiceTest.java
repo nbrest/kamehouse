@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.admin.config.AdminSchedulerConfig;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -191,7 +192,7 @@ public class PowerManagementServiceTest {
   public void getShutdownStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
     Trigger trigger = Mockito.mock(Trigger.class);
-    when(trigger.getNextFireTime()).thenReturn(new Date());
+    when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class))).thenReturn(trigger);
 
     String status = powerManagementService.getShutdownStatus();
@@ -325,7 +326,7 @@ public class PowerManagementServiceTest {
   public void getSuspendStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
     Trigger trigger = Mockito.mock(Trigger.class);
-    when(trigger.getNextFireTime()).thenReturn(new Date());
+    when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class))).thenReturn(trigger);
 
     String status = powerManagementService.getSuspendStatus();
