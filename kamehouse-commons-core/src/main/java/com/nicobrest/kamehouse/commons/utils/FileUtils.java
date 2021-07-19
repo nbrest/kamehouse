@@ -66,7 +66,7 @@ public class FileUtils {
     if (filename == null) {
       return false;
     }
-    File fileToPlay = new File(StringUtils.sanitizeInput(filename));
-    return fileToPlay.exists();
+    File file = new File(StringUtils.sanitizeInput(filename));
+    return file.exists();
   }
 }

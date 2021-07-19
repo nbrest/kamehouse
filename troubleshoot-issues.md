@@ -44,3 +44,15 @@
 
 ### It happened also in my server niko-nba
 - Here I had to stop tomcat and restart it and it started working again
+
+## Steps to create private key, certificate and keystore in a linux server:
+```
+openssl genrsa -out kamehouse.key 2048
+openssl req -new -key kamehouse.key -out kamehouse.csr
+openssl x509 -req -in kamehouse.csr -signkey kamehouse.key -out kamehouse.crt
+
+cat kamehouse.key > kamehouse.pem
+cat kamehouse.crt >> kamehouse.pem 
+
+openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12 
+```
