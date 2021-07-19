@@ -20,7 +20,7 @@ import java.util.List;
 public class FileUtils {
 
   public static final String ERROR_READING_FILE = "ERROR_READING_FILE";
-  public static final String EMPTY_DECODED_FILE = "''";
+  public static final String EMPTY_FILE_CONTENT = "''";
   private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
 
   private FileUtils() {
@@ -44,7 +44,7 @@ public class FileUtils {
       decodedFileContent = ERROR_READING_FILE;
     }
     if (StringUtils.isEmpty(decodedFileContent)) {
-      decodedFileContent = EMPTY_DECODED_FILE;
+      decodedFileContent = EMPTY_FILE_CONTENT;
     }
     return decodedFileContent;
   }

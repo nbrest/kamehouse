@@ -35,7 +35,7 @@ public class FileUtilsTest {
   @Test
   public void getDecodedFileContentEmptyFileTest() {
     String output = FileUtils.getDecodedFileContent(TEST_FILES_PATH + "emptyFile.txt");
-    assertEquals(FileUtils.EMPTY_DECODED_FILE, output);
+    assertEquals(FileUtils.EMPTY_FILE_CONTENT, output);
   }
 
   @Test

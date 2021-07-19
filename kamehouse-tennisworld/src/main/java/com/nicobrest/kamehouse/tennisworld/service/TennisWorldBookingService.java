@@ -1,9 +1,10 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
-import com.nicobrest.kamehouse.commons.utils.FileUtils;
+import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -175,25 +176,35 @@ public class TennisWorldBookingService {
   /**
    * Gets the scheduled cardio username.
    */
-  private static String getScheduledCardioUsername() {
+  private String getScheduledCardioUsername() {
     String filename = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getProperty("scheduled.cardio.user.file");
-    return FileUtils.getDecodedFileContent(filename);
+    try {
+      return EncryptionUtils.decryptKameHouseFileToString(filename);
+    } catch (KameHouseInvalidDataException e) {
+      logger.error("Could not retrieve the scheduled cardio username");
+      return null;
+    }
   }
 
   /**
    * Gets the scheduled cardio password.
    */
-  private static String getScheduledCardioPassword() {
+  private String getScheduledCardioPassword() {
     String filename = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getProperty("scheduled.cardio.pwd.file");
-    return FileUtils.getDecodedFileContent(filename);
+    try {
+      return EncryptionUtils.decryptKameHouseFileToString(filename);
+    } catch (KameHouseInvalidDataException e) {
+      logger.error("Could not retrieve the scheduled cardio password");
+      return null;
+    }
   }
 
   /**
    * Create the cardio scheduled booking tennis world request.
    */
-  private static TennisWorldBookingRequest getScheduledCardioBookingRequest() {
+  private TennisWorldBookingRequest getScheduledCardioBookingRequest() {
     String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getTwoWeeksFromToday());
     TennisWorldBookingRequest request = new TennisWorldBookingRequest();

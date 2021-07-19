@@ -1,8 +1,11 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 
 import java.util.Arrays;
 
@@ -34,7 +37,15 @@ public abstract class VncDoSystemCommand extends SystemCommand {
   protected String getVncServerPassword() {
     String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
         .getProperty("vnc.server.pwd.file");
-    return FileUtils.getDecodedFileContent(vncServerPwdFile);
+    try {
+      String decryptedFile = EncryptionUtils.decryptKameHouseFileToString(vncServerPwdFile);
+      if (StringUtils.isEmpty(decryptedFile)) {
+        decryptedFile = FileUtils.EMPTY_FILE_CONTENT;
+      }
+      return decryptedFile;
+    } catch (KameHouseInvalidDataException e) {
+      return FileUtils.EMPTY_FILE_CONTENT;
+    }
   }
 
   /**

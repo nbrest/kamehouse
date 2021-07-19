@@ -3,10 +3,14 @@ package com.nicobrest.kamehouse.commons.utils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
@@ -25,11 +29,13 @@ public class EncryptionUtilsTest {
   private static final String SAMPLE_ENCRYPTED_EMPTY_FILE = TEST_FILES_PATH
       + "files/input-empty.enc";
 
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   /**
    * Use this test to encrypt a file using kamehouse keys.
    * Create a ${HOME}/input-decrypted-kamehouse.txt with the content to encrypt
    * and it will be encrypted to ${HOME}/output-encrypted-kamehouse.enc
-   *
    */
   @Test
   public void createEncryptedKameHouseFileTest() {
@@ -41,10 +47,11 @@ public class EncryptionUtilsTest {
       File outputFile = new File(outputFileName);
       byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
       X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
-      System.out.println("Encrypting: '" + new String(inputBytes) + "' into output file.");
+      System.out.println("Encrypting: '" + new String(inputBytes, StandardCharsets.UTF_8)
+          + "' into output file.");
       byte[] encryptedBytes = EncryptionUtils.encrypt(inputBytes, cert);
       FileUtils.writeByteArrayToFile(outputFile, encryptedBytes);
-    } catch (IOException e) {
+    } catch (Exception e) {
       System.out.println("Could not encrypt " + inputFileName);
     }
     assertTrue(success);
@@ -56,16 +63,11 @@ public class EncryptionUtilsTest {
   @Test
   public void encryptAndDecryptStringsTest() {
     String inputString = "mada mada dane echizen kun";
+    byte[] encryptedData = EncryptionUtils.encrypt(inputString.getBytes(), getSampleCertificate());
+    byte[] outputRawData = EncryptionUtils.decrypt(encryptedData, getSamplePrivateKey());
+    String decryptedString = new String(outputRawData, StandardCharsets.UTF_8);
 
-    X509Certificate cert = EncryptionUtils.getCertificate(SAMPLE_CERT);
-    byte[] encryptedData = EncryptionUtils.encrypt(inputString.getBytes(), cert);
-
-    PrivateKey privateKey = EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",
-        null, "1", null);
-    byte[] outputRawData = EncryptionUtils.decrypt(encryptedData, privateKey);
-    String decryptedString = new String(outputRawData);
-
-    assertNotEquals(inputString, new String(encryptedData));
+    assertNotEquals(inputString, new String(encryptedData, StandardCharsets.UTF_8));
     assertEquals(inputString, decryptedString);
   }
 
@@ -75,19 +77,12 @@ public class EncryptionUtilsTest {
   @Test
   public void encryptDecryptedFileTest() throws IOException {
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_DECRYPTED_FILE));
-    String inputString = new String(inputBytes);
+    String inputString = new String(inputBytes, StandardCharsets.UTF_8);
 
-    X509Certificate cert = EncryptionUtils.getCertificate(SAMPLE_CERT);
-    byte[] encryptedData = EncryptionUtils.encrypt(inputBytes, cert);
-    // Write to encrypted file:
-    // FileUtils.writeByteArrayToFile(new File(SAMPLE_ENCRYPTED_FILE), encryptedData);
+    byte[] encryptedData = EncryptionUtils.encrypt(inputBytes, getSampleCertificate());
+    String decryptedString = EncryptionUtils.decryptToString(encryptedData, getSamplePrivateKey());
 
-    PrivateKey privateKey = EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",
-        null, "1", null);
-    byte[] outputRawData = EncryptionUtils.decrypt(encryptedData, privateKey);
-    String decryptedString = new String(outputRawData);
-
-    assertNotEquals(inputString, new String(encryptedData));
+    assertNotEquals(inputString, new String(encryptedData, StandardCharsets.UTF_8));
     assertEquals(inputString, decryptedString);
   }
 
@@ -98,12 +93,10 @@ public class EncryptionUtilsTest {
   public void decryptEncryptedFileTest() throws IOException {
     String expectedDecrypted = "mada mada dane - pegasus seiya";
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_ENCRYPTED_FILE));
-    String inputString = new String(inputBytes);
+    String inputString = new String(inputBytes, StandardCharsets.UTF_8);
 
-    PrivateKey privateKey = EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",
-        null, "1", null);
-    byte[] decryptedBytes = EncryptionUtils.decrypt(inputBytes, privateKey);
-    String decryptedString = new String(decryptedBytes);
+    byte[] decryptedBytes = EncryptionUtils.decrypt(inputBytes, getSamplePrivateKey());
+    String decryptedString = new String(decryptedBytes, StandardCharsets.UTF_8);
 
     assertNotEquals(inputString, decryptedString);
     assertEquals(expectedDecrypted, decryptedString);
@@ -116,14 +109,65 @@ public class EncryptionUtilsTest {
   public void decryptEncryptedEmptyFileTest() throws IOException {
     String expectedDecrypted = "";
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_ENCRYPTED_EMPTY_FILE));
-    String inputString = new String(inputBytes);
+    String inputString = new String(inputBytes, StandardCharsets.UTF_8);
 
-    PrivateKey privateKey = EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",
-        null, "1", null);
-    byte[] decryptedBytes = EncryptionUtils.decrypt(inputBytes, privateKey);
-    String decryptedString = new String(decryptedBytes);
+    String decryptedString = EncryptionUtils.decryptFileToString(SAMPLE_ENCRYPTED_EMPTY_FILE, getSamplePrivateKey());
 
     assertNotEquals(inputString, decryptedString);
     assertEquals(expectedDecrypted, decryptedString);
+  }
+
+  /**
+   * Test decrypt error flow with invalid file.
+   */
+  @Test
+  public void decryptInvalidFileTest() {
+    thrown.expect(KameHouseInvalidDataException.class);
+    EncryptionUtils.decryptFileToString("", getSamplePrivateKey());
+  }
+
+  /**
+   * Test decrypt error flow with empty data.
+   */
+  @Test
+  public void decryptEmptyDataTest() {
+    thrown.expect(KameHouseInvalidDataException.class);
+    EncryptionUtils.decrypt(null, getSamplePrivateKey());
+  }
+
+  /**
+   * Test decrypt error flow with empty private key.
+   */
+  @Test
+  public void decryptEmptyPrivateKeyTest() {
+    thrown.expect(KameHouseInvalidDataException.class);
+    EncryptionUtils.decrypt(new byte[2], null);
+  }
+
+
+  /**
+   * Test encrypt error flow with empty data.
+   */
+  @Test
+  public void encryptEmptyDataTest() {
+    thrown.expect(KameHouseInvalidDataException.class);
+    EncryptionUtils.encrypt(null, getSampleCertificate());
+  }
+
+  /**
+   * Test encrypt error flow with empty certificate.
+   */
+  @Test
+  public void decryptEmptyCertificateTest() {
+    thrown.expect(KameHouseInvalidDataException.class);
+    EncryptionUtils.encrypt(new byte[2], null);
+  }
+
+  private PrivateKey getSamplePrivateKey() {
+    return EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",null, "1", null);
+  }
+
+  private X509Certificate getSampleCertificate() {
+    return EncryptionUtils.getCertificate(SAMPLE_CERT);
   }
 }

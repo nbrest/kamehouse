@@ -18,8 +18,10 @@ import org.bouncycastle.operator.OutputEncryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -93,6 +95,33 @@ public class EncryptionUtils {
       JceKeyTransRecipient recipient = new JceKeyTransEnvelopedRecipient(privateKey);
       return recipientInfo.getContent(recipient);
     } catch (CMSException e) {
+      LOGGER.error(ERROR_DECRYPTING_DATA, e);
+      throw new KameHouseInvalidDataException(ERROR_DECRYPTING_DATA);
+    }
+  }
+
+  /**
+   * Decrypt the data into a string.
+   */
+  public static String decryptToString(byte[] data, PrivateKey privateKey) {
+    return new String(decrypt(data, privateKey), StandardCharsets.UTF_8);
+  }
+
+  /**
+   * Decrypt the specified file into a string using kamehouse keys.
+   */
+  public static String decryptKameHouseFileToString(String filename) {
+    return decryptFileToString(filename, getKameHousePrivateKey());
+  }
+
+  /**
+   * Decrypt the specified file into a string.
+   */
+  public static String decryptFileToString(String filename, PrivateKey privateKey) {
+    try {
+      byte[] encryptedFile = FileUtils.readFileToByteArray(new File(filename));
+      return EncryptionUtils.decryptToString(encryptedFile, privateKey);
+    } catch (IOException e) {
       LOGGER.error(ERROR_DECRYPTING_DATA, e);
       throw new KameHouseInvalidDataException(ERROR_DECRYPTING_DATA);
     }
