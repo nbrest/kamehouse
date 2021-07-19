@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import java.security.PrivateKey;
@@ -20,10 +19,10 @@ public class EncryptionUtilsTest {
   private static final String SAMPLE_KEYSTORE = TEST_FILES_PATH + "keys/sample.pkcs12";
 
   /**
-   * Test encrypt and decrypt.
+   * Test encrypt and decrypt strings.
    */
   @Test
-  public void encryptAndDecryptTest() {
+  public void encryptAndDecryptStringsTest() {
     String inputString = "mada mada dane echizen kun";
 
     X509Certificate cert = EncryptionUtils.getCertificate(SAMPLE_CERT);
