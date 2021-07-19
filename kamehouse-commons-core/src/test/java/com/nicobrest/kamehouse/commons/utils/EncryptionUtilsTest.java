@@ -36,6 +36,7 @@ public class EncryptionUtilsTest {
    * Use this test to encrypt a file using kamehouse keys.
    * Create a ${HOME}/input-decrypted-kamehouse.txt with the content to encrypt
    * and it will be encrypted to ${HOME}/output-encrypted-kamehouse.enc
+   * running this test.
    */
   @Test
   public void createEncryptedKameHouseFileTest() {
@@ -144,7 +145,6 @@ public class EncryptionUtilsTest {
     EncryptionUtils.decrypt(new byte[2], null);
   }
 
-
   /**
    * Test encrypt error flow with empty data.
    */
@@ -163,10 +163,16 @@ public class EncryptionUtilsTest {
     EncryptionUtils.encrypt(new byte[2], null);
   }
 
+  /**
+   * Get the sample private key.
+   */
   private PrivateKey getSamplePrivateKey() {
     return EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",null, "1", null);
   }
 
+  /**
+   * Get the sample certificate.
+   */
   private X509Certificate getSampleCertificate() {
     return EncryptionUtils.getCertificate(SAMPLE_CERT);
   }
