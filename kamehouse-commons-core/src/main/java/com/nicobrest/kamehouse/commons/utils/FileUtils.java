@@ -69,4 +69,18 @@ public class FileUtils {
     File file = new File(StringUtils.sanitizeInput(filename));
     return file.exists();
   }
+
+  /**
+   * Wrapper to apache commons readFileToByteArray.
+   */
+  public static byte[] readFileToByteArray(File file) throws IOException {
+    return org.apache.commons.io.FileUtils.readFileToByteArray(file);
+  }
+
+  /**
+   * Wrapper to apache commons writeByteArrayToFile.
+   */
+  public static void writeByteArrayToFile(File file, byte[] bytes) throws IOException {
+    org.apache.commons.io.FileUtils.writeByteArrayToFile(file, bytes);
+  }
 }
