@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import java.io.File;
@@ -21,6 +22,33 @@ public class EncryptionUtilsTest {
   private static final String SAMPLE_KEYSTORE = TEST_FILES_PATH + "keys/sample.pkcs12";
   private static final String SAMPLE_DECRYPTED_FILE = TEST_FILES_PATH + "files/input.txt";
   private static final String SAMPLE_ENCRYPTED_FILE = TEST_FILES_PATH + "files/input.enc";
+  private static final String SAMPLE_ENCRYPTED_EMPTY_FILE = TEST_FILES_PATH
+      + "files/input-empty.enc";
+
+  /**
+   * Use this test to encrypt a file using kamehouse keys.
+   * Create a ${HOME}/input-decrypted-kamehouse.txt with the content to encrypt
+   * and it will be encrypted to ${HOME}/output-encrypted-kamehouse.enc
+   *
+   */
+  @Test
+  public void createEncryptedKameHouseFileTest() {
+    boolean success = true;
+    String inputFileName = PropertiesUtils.getUserHome() + "/input-decrypted-kamehouse.txt";
+    String outputFileName = PropertiesUtils.getUserHome() + "/output-encrypted-kamehouse.enc";
+    try {
+      File inputFile = new File(inputFileName);
+      File outputFile = new File(outputFileName);
+      byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
+      X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
+      System.out.println("Encrypting: '" + new String(inputBytes) + "' into output file.");
+      byte[] encryptedBytes = EncryptionUtils.encrypt(inputBytes, cert);
+      FileUtils.writeByteArrayToFile(outputFile, encryptedBytes);
+    } catch (IOException e) {
+      System.out.println("Could not encrypt " + inputFileName);
+    }
+    assertTrue(success);
+  }
 
   /**
    * Test encrypt and decrypt strings.
@@ -70,6 +98,24 @@ public class EncryptionUtilsTest {
   public void decryptEncryptedFileTest() throws IOException {
     String expectedDecrypted = "mada mada dane - pegasus seiya";
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_ENCRYPTED_FILE));
+    String inputString = new String(inputBytes);
+
+    PrivateKey privateKey = EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",
+        null, "1", null);
+    byte[] decryptedBytes = EncryptionUtils.decrypt(inputBytes, privateKey);
+    String decryptedString = new String(decryptedBytes);
+
+    assertNotEquals(inputString, decryptedString);
+    assertEquals(expectedDecrypted, decryptedString);
+  }
+
+  /**
+   * Test decrypt an encrypted empty file.
+   */
+  @Test
+  public void decryptEncryptedEmptyFileTest() throws IOException {
+    String expectedDecrypted = "";
+    byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_ENCRYPTED_EMPTY_FILE));
     String inputString = new String(inputBytes);
 
     PrivateKey privateKey = EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",
