@@ -137,9 +137,8 @@ public class TennisWorldBookingService {
         return bookScheduledCardioSession(request, "12:00pm");
       case Calendar.MONDAY:
         return bookScheduledCardioSession(request, "07:15pm");
-      case Calendar.WEDNESDAY:
-        return bookScheduledCardioSession(request, "12:15pm");
       case Calendar.TUESDAY:
+      case Calendar.WEDNESDAY:
       case Calendar.THURSDAY:
       case Calendar.FRIDAY:
       case Calendar.SATURDAY:
