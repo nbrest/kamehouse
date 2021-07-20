@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v4.00
+
+* Added a command line tool to kamehouse
+
 #### v3.00
 
 * Added KameHouse GRoot module to the main repository
