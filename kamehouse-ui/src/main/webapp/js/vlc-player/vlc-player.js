@@ -43,7 +43,7 @@ function VlcPlayer(hostname) {
    * Load the current state from the cookies.
    */
   this.loadStateFromCookies = () => {
-    let currentTab = cookiesUtils.getCookie('current-tab');
+    let currentTab = cookiesUtils.getCookie('kh-vlc-player-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-playing';
     }
@@ -55,8 +55,8 @@ function VlcPlayer(hostname) {
    * Tab manager
    */
   this.openTab = (vlcPlayerTabDivId) => {
-    // Set current-tab cookie
-    cookiesUtils.setCookie('current-tab', vlcPlayerTabDivId);
+    // Set kh-vlc-player-current-tab cookie
+    cookiesUtils.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId);
     // Update tab links
     let vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
     for (let i = 0; i < vlcPlayerTabLinks.length; i++) {

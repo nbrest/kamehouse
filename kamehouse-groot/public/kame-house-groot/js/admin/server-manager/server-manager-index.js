@@ -15,7 +15,7 @@ function main() {
     tailLogManagerWrapper.init();
     getSessionStatus(serverManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
     tomcatManager.getAppsStatus();
-    openTab('tab-tomcat');
+    serverManager.loadStateFromCookies();
   });
 }
 
@@ -23,6 +23,17 @@ function ServerManager() {
   let self = this;
   this.isLinuxHost = false;
   this.isCommandRunningFlag = false;
+
+  /**
+   * Load the current state from the cookies.
+   */
+  this.loadStateFromCookies = () => {
+    let currentTab = cookiesUtils.getCookie('kh-groot-server-manager-current-tab');
+    if (!currentTab || currentTab == '') {
+      currentTab = 'tab-tomcat';
+    }
+    openTab(currentTab, 'kh-groot-server-manager');
+  }
 
   this.setCommandRunning = () => {
     self.isCommandRunningFlag = true;

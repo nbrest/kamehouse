@@ -54,7 +54,10 @@ function getSessionStatus(successCallback, errorCallback) {
 /**
  * Open the tab specified by its id.
  */
- function openTab(selectedTabDivId) {
+ function openTab(selectedTabDivId, cookiePrefix) {
+  // Set current-tab cookie
+  cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
+  
   // Update tab links
   let tabLinks = document.getElementsByClassName("tab-groot-link");
   for (let i = 0; i < tabLinks.length; i++) {
