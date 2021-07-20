@@ -456,7 +456,7 @@
 #subtitle-buttons {
   margin-top: 15px;
   margin-bottom: 20px;
-  width: 80%;
+  width: 60%;
 }
 
 @media (max-width: 900px) {
@@ -469,6 +469,14 @@
 
 #subtitle-delay {
   color: #5a5a5a;
+  max-width: 50px;
+}
+
+@media (max-width : 900px) { 
+  #subtitle-delay {
+    color: #5a5a5a;
+    max-width: 100px;
+  }
 }
 
 /** Playlist selector dropdowns end */
