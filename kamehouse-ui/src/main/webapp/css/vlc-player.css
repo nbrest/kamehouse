@@ -456,14 +456,14 @@
 #subtitle-buttons {
   margin-top: 15px;
   margin-bottom: 20px;
-  width: 60%;
+  width: 85%;
 }
 
 @media (max-width: 900px) {
   #subtitle-buttons {
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 100%;
+    width: 90%;
   }
 }
 
