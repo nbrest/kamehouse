@@ -9,6 +9,7 @@
 * Added dropdown with number of lines to tail in tail logs tab
 * Added encryption utils and moved base64 encoded files to encrypted files
 * Added cookies handler and loading the current tab from cookies on vlc player
+* Added loading tab from cookies for all pages with tabs
 
 #### v2.01
 
