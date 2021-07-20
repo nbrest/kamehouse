@@ -46,6 +46,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 ### Java frameworks/libraries:
 
 * Apache Commons
+* Bouncy Castle
 * Ehcache
 * Hibernate
 * Hsqldb
