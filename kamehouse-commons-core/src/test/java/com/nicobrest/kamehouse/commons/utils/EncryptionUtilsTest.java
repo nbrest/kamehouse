@@ -21,12 +21,12 @@ import java.security.cert.X509Certificate;
  */
 public class EncryptionUtilsTest {
 
-  private static final String TEST_FILES_PATH = "src/test/resources/commons/";
-  private static final String SAMPLE_CERT = TEST_FILES_PATH + "keys/sample.crt";
-  private static final String SAMPLE_KEYSTORE = TEST_FILES_PATH + "keys/sample.pkcs12";
-  private static final String SAMPLE_DECRYPTED_FILE = TEST_FILES_PATH + "files/input.txt";
-  private static final String SAMPLE_ENCRYPTED_FILE = TEST_FILES_PATH + "files/input.enc";
-  private static final String SAMPLE_ENCRYPTED_EMPTY_FILE = TEST_FILES_PATH
+  private static final String TEST_RESOURCES_PATH = "src/test/resources/commons/";
+  private static final String SAMPLE_CERT = TEST_RESOURCES_PATH + "keys/sample.crt";
+  private static final String SAMPLE_KEYSTORE = TEST_RESOURCES_PATH + "keys/sample.pkcs12";
+  private static final String SAMPLE_DECRYPTED_FILE = TEST_RESOURCES_PATH + "files/input.txt";
+  private static final String SAMPLE_ENCRYPTED_FILE = TEST_RESOURCES_PATH + "files/input.enc";
+  private static final String SAMPLE_ENCRYPTED_EMPTY_FILE = TEST_RESOURCES_PATH
       + "files/input-empty.enc";
 
   @Rule
@@ -49,7 +49,7 @@ public class EncryptionUtilsTest {
       byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
       X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
       System.out.println("Encrypting: '" + new String(inputBytes, StandardCharsets.UTF_8)
-          + "' into output file.");
+          + "' into output file " + outputFileName);
       byte[] encryptedBytes = EncryptionUtils.encrypt(inputBytes, cert);
       FileUtils.writeByteArrayToFile(outputFile, encryptedBytes);
     } catch (Exception e) {
@@ -166,14 +166,14 @@ public class EncryptionUtilsTest {
   /**
    * Get the sample private key.
    */
-  private PrivateKey getSamplePrivateKey() {
+  private static PrivateKey getSamplePrivateKey() {
     return EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",null, "1", null);
   }
 
   /**
    * Get the sample certificate.
    */
-  private X509Certificate getSampleCertificate() {
+  private static X509Certificate getSampleCertificate() {
     return EncryptionUtils.getCertificate(SAMPLE_CERT);
   }
 }

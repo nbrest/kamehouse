@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public class FileUtilsTest {
 
-  private static final String TEST_FILES_PATH = "src/test/resources/commons/";
+  private static final String TEST_FILES_PATH = "src/test/resources/commons/files/";
 
   @Test
   public void getDecodedFileContentSuccessTest() {
