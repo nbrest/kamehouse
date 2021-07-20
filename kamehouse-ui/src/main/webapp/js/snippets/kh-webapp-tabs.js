@@ -13,11 +13,34 @@ function main() {
  */
 function KameHouseWebappTabsManager() {
   let self = this;
+  this.cookiePrefix = '';
+
+  /**
+   * Set the cookie prefix for the tab manager.
+   * For example use 'kh-admin-ehcache'.
+   */
+  this.setCookiePrefix = (cookiePrefix) => {
+    self.cookiePrefix = cookiePrefix;
+  }
+
+  /**
+   * Load the current state from the cookies.
+   */
+   this.loadStateFromCookies = () => {
+    let currentTab = cookiesUtils.getCookie(self.cookiePrefix + '-current-tab');
+    if (!currentTab || currentTab == '') {
+      currentTab = 'tab-admin';
+    }
+    self.openTab(currentTab);
+  }
 
   /**
    * Open the tab specified by its id.
    */
   this.openTab = (selectedTabDivId) => {
+    // Set current-tab cookie
+    cookiesUtils.setCookie(self.cookiePrefix + '-current-tab', selectedTabDivId);
+
     // Update tab links
     let kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
     for (let i = 0; i < kamehouseTabLinks.length; i++) {

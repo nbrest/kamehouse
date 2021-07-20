@@ -7,7 +7,8 @@ window.onload = () => {
   scheduler = new Scheduler();
   moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing scheduler");
-    kameHouseWebappTabsManager.openTab('tab-admin');
+    kameHouseWebappTabsManager.setCookiePrefix('kh-admin-scheduler');
+    kameHouseWebappTabsManager.loadStateFromCookies();
     scheduler.init();
   });
   bannerUtils.setRandomAllBanner();

@@ -13,7 +13,8 @@ var main = () => {
   moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
-    kameHouseWebappTabsManager.openTab('tab-media');
+    kameHouseWebappTabsManager.setCookiePrefix('kh-admin-ehcache');
+    kameHouseWebappTabsManager.loadStateFromCookies();
     ehCacheManager.init();
   });
 };

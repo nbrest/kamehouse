@@ -7,7 +7,8 @@ window.onload = () => {
   backendLogLevelUtils = new BackendLogLevelUtils();
   moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing log-level");
-    kameHouseWebappTabsManager.openTab('tab-admin');
+    kameHouseWebappTabsManager.setCookiePrefix('kh-admin-log-level');
+    kameHouseWebappTabsManager.loadStateFromCookies();
     backendLogLevelUtils.init();
   });
   bannerUtils.setRandomAllBanner();
