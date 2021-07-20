@@ -7,7 +7,7 @@
   <name>KameHouse - Parent POM</name>
   <groupId>com.nicobrest</groupId>
   <artifactId>kamehouse-parent</artifactId>
-  <version>2.01.1-KAMEHOUSE-SNAPSHOT</version>
+  <version>3.00.1-KAMEHOUSE-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -36,7 +36,7 @@
     <java.target.version>1.8</java.target.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <kamehouse.version>2.01.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
+    <kamehouse.version>3.00.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
     <filters.dir>${basedir}/../src/main/filters</filters.dir>
 
     <bouncy.castle.version>1.58</bouncy.castle.version>                 <!-- Updated 2021/07 -->
