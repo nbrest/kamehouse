@@ -269,20 +269,32 @@
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Tail Logs</h4>
       <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
         <br>
-        <p>Tail the logs of the current processes running in the server. Once tail log is started, you can switch between logs to tail without the need for stopping and starting</p>
+        <p>Tail the logs of the current processes running in the server. Once tail log is started, you can switch between logs to tail and the number of lines without the need for stopping and starting</p>
 
         <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-dropdown">
-          <option value="common/logs/cat-create-all-video-playlists-log.sh" >create-all-video-playlists</option>
-          <option value="common/logs/cat-deploy-all-servers-log.sh" >deploy-all-servers</option>
+          <option value="common/logs/cat-create-all-video-playlists-log.sh">create-all-video-playlists</option>
+          <option value="common/logs/cat-deploy-all-servers-log.sh">deploy-all-servers</option>
           <option value="common/logs/cat-deploy-java-web-kamehouse-log.sh" selected>deploy-java-web-kamehouse</option>
-          <option value="common/logs/cat-git-pull-all-log.sh" >git-pull-all</option>
-          <option value="common/logs/cat-git-pull-all-all-servers-log.sh" >git-pull-all-all-servers</option>
-          <option value="common/logs/cat-httpd-log.sh" >httpd</option>
+          <option value="common/logs/cat-git-pull-all-log.sh">git-pull-all</option>
+          <option value="common/logs/cat-git-pull-all-all-servers-log.sh">git-pull-all-all-servers</option>
+          <option value="common/logs/cat-httpd-log.sh">httpd</option>
           <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
-          <option value="common/logs/cat-tomcat-log.sh" >tomcat</option>
+          <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
         </select>
         <img id="toggle-tail-log-img" class="img-btn-groot-app m-10-d-r-kh" onclick="tailLogManagerWrapper.toggleTailLog()" 
-                src="/kame-house/img/mplayer/play-green.png" alt="Start Tail Log" title="Start Tail Log"/>
+          src="/kame-house/img/mplayer/play-green.png" alt="Start Tail Log" title="Start Tail Log"/>
+          <div id="number-of-lines">
+            <span class="bold-kh p-15-d-kh">Number of lines: </span>
+            <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-num-lines-dropdown">
+              <option value="50" selected>50</option>
+              <option value="150">150</option>
+              <option value="350">350</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+              <option value="1500">1500</option>
+              <option value="2000">2000</option>
+            </select>
+        </div>
       </div>
       
       <br><br>

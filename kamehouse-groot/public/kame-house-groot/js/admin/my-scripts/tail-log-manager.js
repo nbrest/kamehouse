@@ -16,11 +16,11 @@ function TailLogManager() {
   this.tailLogFromUrlParams = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
-    self.tailLog(scriptName);
+    self.tailLog(scriptName, 150, null);
   }
 
-  /** Tails the log based on the script parameter */
-  this.tailLog = (scriptName, callback) => {
+  /** Tails the log based on the script parameter and the number of lines to display */
+  this.tailLog = (scriptName, numberOfLines, callback) => {
     if (self.isValidScript(scriptName)) {
       logger.trace("Executing script : " + scriptName);
       const params = new URLSearchParams({
@@ -28,7 +28,7 @@ function TailLogManager() {
       });
       let getUrl = EXEC_SCRIPT_API + "?" + params;
       httpClient.get(getUrl, null,
-        (responseBody, responseCode, responseDescription) => self.updateTailLogOutput(responseBody, responseCode, responseDescription, callback),
+        (responseBody, responseCode, responseDescription) => self.updateTailLogOutput(responseBody, responseCode, responseDescription, numberOfLines, callback),
         (responseBody, responseCode, responseDescription) => self.updateTailLogOutputError(responseBody, responseCode, responseDescription, callback));
     } else {
       logger.error("Invalid or no script received as url parameter");
@@ -56,12 +56,12 @@ function TailLogManager() {
   }
 
   /** Update the script tail log output with the result of the script */
-  this.updateTailLogOutput = (responseBody, responseCode, responseDescription, callback) => {
+  this.updateTailLogOutput = (responseBody, responseCode, responseDescription, numberOfLines, callback) => {
     let tailLogOutputArray = responseBody.htmlConsoleOutput;
     let $tailLogOutputTableBody = $('#tail-log-output-table-body');  
     let tbody = self.getTailLogOutputTableBody();
     let tailLogOutputLength = tailLogOutputArray.length;
-    if (tailLogOutputLength < 150) {
+    if (tailLogOutputLength < numberOfLines) {
       // Show full output
       for (let i = 0; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
@@ -69,7 +69,7 @@ function TailLogManager() {
         }
       }
     } else {
-      for (let i = tailLogOutputLength - 150; i < tailLogOutputLength; i++) {
+      for (let i = tailLogOutputLength - numberOfLines; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
           tbody.append(self.getTailLogOutputTableRow(tailLogOutputArray[i]));
         }

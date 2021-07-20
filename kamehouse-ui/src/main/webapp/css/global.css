@@ -985,11 +985,13 @@ ul {
 /** Set scrollbar style CHROME */
 ::-webkit-scrollbar {
   width: 7px;
+  height: 7px;  
 }
 
 @media(max-width: 900px) {
   ::-webkit-scrollbar {
-    width: 2px;
+    width: 5px;
+    height: 5px;
   }
 }
 
@@ -998,7 +1000,7 @@ ul {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d90000;
+  background: #9b0101;
 }
 
 ::-webkit-scrollbar-corner {

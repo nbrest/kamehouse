@@ -375,7 +375,8 @@ function TailLogManagerWrapper() {
     while (self.isTailLogRunning) {
       logger.trace(" tailLog loop running");
       let tailLogScript = document.getElementById("tail-log-dropdown").value;
-      tailLogManager.tailLog(tailLogScript, collapsibleDivUtils.refreshCollapsibleDiv);
+      let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
+      tailLogManager.tailLog(tailLogScript, numberOfLines, collapsibleDivUtils.refreshCollapsibleDiv);
   
       await sleep(5000);
     }

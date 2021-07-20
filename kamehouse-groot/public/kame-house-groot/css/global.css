@@ -41,11 +41,13 @@ a:active {
 /** Set scrollbar style CHROME */
 #all-my-scripts-wrapper::-webkit-scrollbar {
   width: 7px;
+  height: 7px;
 }
 
 @media(max-width: 900px) {
   #all-my-scripts-table-wrapper::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
+    height: 4px;
   }
 }
 
@@ -127,11 +129,13 @@ a:active {
 /** Set scrollbar style CHROME */
 #frequent-scripts-table-wrapper::-webkit-scrollbar {
   width: 7px;
+  height: 7px;
 }
 
 @media(max-width: 900px) {
   #frequent-scripts-table-wrapper::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
+    height: 4px;
   }
 }
 
@@ -185,57 +189,6 @@ a:active {
   height: 22px;
   margin-top: 5px;
 }
-
-/** my-scripts-table begin */
-.my-scripts-table {
-  color: #868686;
-  width: 100%;
-}
-
-@media (max-width: 900px) {
-  .my-scripts-table {
-    display: block;
-  }
-}
-
-.my-scripts-wrapper {
-  padding: 10px;
-  background: #171e22;
-  max-height: 500px;
-  overflow: scroll;
-}
-
-@media (max-width: 900px) {
-  .my-scripts-wrapper {
-    max-height: 380px;
-    overflow: scroll;
-  }
-}
-/** my-scripts-table end */
-
-/** my-scripts table btn begin*/
-.my-scripts-table-btn {
-  font-weight: 400;
-  padding: .5rem .75rem;
-  font-size: 1rem;
-  line-height: 1.25;
-  white-space: nowrap;
-  width: 100%;
-  text-align: left;
-  background-color: inherit;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  color: #ea0000;
-  text-decoration: none;
-}
-
-.my-scripts-table-btn:hover {
-  background-color: #ea0000;
-  color: #c0c0c0;
-  font-size: bold;
-}
-/** my-scripts table btn end*/
 
 /** GRoot menu nav begin */
 .groot-nav {
@@ -309,7 +262,69 @@ a:active {
     text-align: left;
   }
 }
-/** root menu nav end */
+/** groot menu nav end */
+
+/** my-scripts-table begin */
+.my-scripts-table {
+  color: #868686;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .my-scripts-table {
+    display: block;
+  }
+}
+
+.my-scripts-wrapper {
+  padding: 10px;
+  background: #171e22;
+  max-height: 500px;
+  overflow: scroll;
+}
+
+@media (max-width: 900px) {
+  .my-scripts-wrapper {
+    max-height: 380px;
+    overflow: scroll;
+  }
+}
+/** my-scripts-table end */
+
+/** my-scripts table btn begin*/
+.my-scripts-table-btn {
+  font-weight: 400;
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #ea0000;
+  text-decoration: none;
+}
+
+.my-scripts-table-btn:hover {
+  background-color: #ea0000;
+  color: #c0c0c0;
+  font-size: bold;
+}
+/** my-scripts table btn end*/
+
+#number-of-lines {
+  display: inline;
+}
+
+@media (max-width : 900px) {
+  #number-of-lines {
+    display: block;
+    margin-top: 10px;
+  }
+}
 
 /* tabs (used for example in groot server-manager) */
 .tab-groot-content {
@@ -389,11 +404,13 @@ a:active {
 /** Set scrollbar style CHROME */
 #tail-logs-table-wrapper::-webkit-scrollbar {
   width: 7px;
+  height: 7px;
 }
 
 @media(max-width: 900px) {
   #tail-logs-table-wrapper::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
+    height: 4px;
   }
 }
 
