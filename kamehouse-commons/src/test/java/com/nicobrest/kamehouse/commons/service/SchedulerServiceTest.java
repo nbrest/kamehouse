@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 
@@ -22,6 +23,7 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.TriggerKey;
 import org.quartz.impl.JobDetailImpl;
 
 import java.util.ArrayList;
@@ -141,6 +143,48 @@ public class SchedulerServiceTest {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
 
     schedulerService.scheduleJob(jobKey, 2);
+    // no exception thrown
+  }
+
+  /**
+   * Schedule job exception flow test.
+   */
+  @Test
+  public void scheduleJobJobKeyExceptionTest() throws SchedulerException {
+    thrown.expect(KameHouseServerErrorException.class);
+    when(scheduler.scheduleJob(any(Trigger.class))).thenThrow(new SchedulerException("mada"));
+
+    JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
+
+    schedulerService.scheduleJob(jobKey, 2);
+  }
+
+  /**
+   * Schedule job exception flow test.
+   */
+  @Test
+  public void scheduleJobGetJobDetailExceptionTest() throws SchedulerException {
+    thrown.expect(KameHouseServerErrorException.class);
+    when(scheduler.getJobDetail(any())).thenThrow(new SchedulerException("mada"));
+
+    JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
+
+    schedulerService.scheduleJob(jobKey, 2);
+  }
+
+  /**
+   * Reschedule job successful test.
+   */
+  @Test
+  public void rescheduleJobSuccessTest() throws SchedulerException {
+    when(scheduler.checkExists(any(TriggerKey.class))).thenReturn(true);
+    JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
+    JobDetailImpl jobDetail = new JobDetailImpl();
+    jobDetail.setJobClass(SampleTestJob.class);
+    jobDetail.setName("sampleJob");
+    jobDetail.setKey(jobKey);
+
+    schedulerService.scheduleJob(jobDetail, 2);
     // no exception thrown
   }
 

@@ -52,6 +52,23 @@ public class EncryptionUtils {
   private static final String ERROR_GETTING_CERTIFICATE = "Error getting the certificate";
   private static final String ERROR_GETTING_PRIVATE_KEY = "Error getting the private key";
 
+  private static PrivateKey KAMEHOUSE_PRIVATE_KEY;
+  private static X509Certificate KAMEHOUSE_CERTIFICATE;
+
+  static {
+    try {
+      KAMEHOUSE_PRIVATE_KEY = getKameHousePrivateKey();
+    } catch (KameHouseInvalidDataException e) {
+      KAMEHOUSE_PRIVATE_KEY = null;
+    }
+
+    try {
+      KAMEHOUSE_CERTIFICATE = getKameHouseCertificate();
+    } catch (KameHouseInvalidDataException e) {
+      KAMEHOUSE_CERTIFICATE = null;
+    }
+  }
+
   private EncryptionUtils() {
     throw new IllegalStateException("Utility class");
   }
@@ -130,10 +147,14 @@ public class EncryptionUtils {
   /**
    * Get the certificate used to encrypt kamehouse content.
    */
-  public static X509Certificate getKameHouseCertificate() {
+  public static synchronized X509Certificate getKameHouseCertificate() {
+    if (KAMEHOUSE_CERTIFICATE != null) {
+      return KAMEHOUSE_CERTIFICATE;
+    }
     String certPath = PropertiesUtils.getUserHome() + "/"
         + PropertiesUtils.getProperty("kamehouse.crt");
-    return getCertificate(certPath);
+    KAMEHOUSE_CERTIFICATE = getCertificate(certPath);
+    return KAMEHOUSE_CERTIFICATE;
   }
 
   /**
@@ -154,10 +175,14 @@ public class EncryptionUtils {
   /**
    * Get the private key used to decrypt kamehouse content.
    */
-  public static PrivateKey getKameHousePrivateKey() {
+  public static synchronized PrivateKey getKameHousePrivateKey() {
+    if (KAMEHOUSE_PRIVATE_KEY != null) {
+      return KAMEHOUSE_PRIVATE_KEY;
+    }
     String keyStorePath = PropertiesUtils.getUserHome() + "/"
         + PropertiesUtils.getProperty("kamehouse.pkcs12");
-    return getPrivateKey(keyStorePath, PKCS12, null,"1", null);
+    KAMEHOUSE_PRIVATE_KEY = getPrivateKey(keyStorePath, PKCS12, null,"1", null);
+    return KAMEHOUSE_PRIVATE_KEY;
   }
 
   /**

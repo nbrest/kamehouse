@@ -13,6 +13,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import org.junit.Test;
 
 import java.util.Date;
@@ -36,6 +37,7 @@ public class CommonsCoreModelTest {
     validateKameHouseUserDto();
     validateKameHouseRole();
     validateKameHouseUser();
+    validateKameHouseSystemCommand();
   }
 
   /**
@@ -259,6 +261,15 @@ public class CommonsCoreModelTest {
     KameHouseServerErrorException kameHouseServerErrorException2 =
         new KameHouseServerErrorException(message, cause);
     validateException(kameHouseServerErrorException2, message, cause);
+  }
+
+  /**
+   * Test KameHouseGenericResponse.
+   */
+  private void validateKameHouseSystemCommand() {
+    KameHouseSystemCommand kameHouseSystemCommand = new KameHouseSystemCommand() {};
+
+    assertNotNull(kameHouseSystemCommand.toString());
   }
 
   /**

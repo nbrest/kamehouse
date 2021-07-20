@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import org.junit.Rule;
@@ -161,6 +162,26 @@ public class EncryptionUtilsTest {
   public void decryptEmptyCertificateTest() {
     thrown.expect(KameHouseInvalidDataException.class);
     EncryptionUtils.encrypt(new byte[2], null);
+  }
+
+  /**
+   * Test encrypt error flow with empty certificate.
+   */
+  @Test
+  public void kameHouseKeysTest() {
+    try {
+      X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
+      assertNotNull(cert);
+    } catch (KameHouseInvalidDataException e) {
+      System.out.println("Can't find kamehouse certificate. Expected exception thrown");
+    }
+
+    try {
+      PrivateKey key = EncryptionUtils.getKameHousePrivateKey();
+      assertNotNull(key);
+    } catch (KameHouseInvalidDataException e) {
+      System.out.println("Can't find kamehouse private key. Expected exception thrown");
+    }
   }
 
   /**
