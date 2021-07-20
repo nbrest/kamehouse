@@ -45,7 +45,6 @@
 ### It happened also in my server niko-nba
 - Here I had to stop tomcat and restart it and it started working again
 
-
 ## Create a certificate, private key and keystore to encrypt and decrypt files required by kamehouse:
 
 ### Steps to create private key, certificate and keystore in a linux server:
@@ -59,6 +58,6 @@ cat kamehouse.crt >> kamehouse.pem
 
 openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12 
 ```
-Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in commons.properties
+Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`
 
-To create an encrypted file with the content kamehouse needs encrypted, use the unit test createEncryptedKameHouseFileTest(). Planning to move that functionality to a command line tool
+To create an encrypted file with the content kamehouse needs encrypted, use the unit test `EncryptionUtilsTest.createEncryptedKameHouseFileTest()`. Planning to move that functionality to a command line tool
