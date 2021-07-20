@@ -85,9 +85,6 @@ public class TennisWorldBookingService {
   private static final String ID_ERROR_STACK = "error-stack";
   private static final String ID_ERROR_MESSAGE = "error-message";
   // Other constants
-  private static final String SCHEDULED_CARDIO_TIME_SUNDAY = "12:00pm";
-  private static final String SCHEDULED_CARDIO_TIME_MONDAY = "07:15pm";
-
   private static int sleepMs = 500;
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -133,23 +130,16 @@ public class TennisWorldBookingService {
       logger.error(INVALID_BOOKING_SERVER);
       return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER);
     }
-    String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-        DateUtils.getCurrentDate());
     TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
     int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
     switch (currentDayOfWeek) {
       case Calendar.SUNDAY:
-        logger.info("Today is Sunday {}. Booking cardio for {} at {}", currentDate,
-            request.getDate(), SCHEDULED_CARDIO_TIME_SUNDAY);
-        request.setTime(SCHEDULED_CARDIO_TIME_SUNDAY);
-        return book(request);
+        return bookScheduledCardioSession(request, "12:00pm");
       case Calendar.MONDAY:
-        logger.info("Today is Monday {}. Booking cardio for {} at {}", currentDate,
-            request.getDate(), SCHEDULED_CARDIO_TIME_MONDAY);
-        request.setTime(SCHEDULED_CARDIO_TIME_MONDAY);
-        return book(request);
-      case Calendar.TUESDAY:
+        return bookScheduledCardioSession(request, "07:15pm");
       case Calendar.WEDNESDAY:
+        return bookScheduledCardioSession(request, "12:15pm");
+      case Calendar.TUESDAY:
       case Calendar.THURSDAY:
       case Calendar.FRIDAY:
       case Calendar.SATURDAY:
@@ -163,6 +153,20 @@ public class TennisWorldBookingService {
     String errorMessage = "Invalid currentDayOfWeek. Should never reach this point!";
     logger.error(errorMessage);
     throw new KameHouseServerErrorException(errorMessage);
+  }
+
+  /**
+   * Book the specified scheduled cardio request at the specified time.
+   */
+  private TennisWorldBookingResponse bookScheduledCardioSession(TennisWorldBookingRequest request,
+                                                                String time) {
+    String dayOfWeek = DateUtils.getDayOfWeek(DateUtils.getCurrentDayOfWeek());
+    String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+        DateUtils.getCurrentDate());
+    logger.info("Today is {} {}. Booking cardio for {} at {}", dayOfWeek, currentDate,
+        request.getDate(), time);
+    request.setTime(time);
+    return book(request);
   }
 
   /**
