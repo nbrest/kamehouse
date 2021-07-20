@@ -200,18 +200,18 @@
 #media-screen-ctrl-buttons {
   margin-top: 15px;
   margin-bottom: 30px;
-  width: 90%;
+  width: 80%;
 }
 
 #media-screen-ctrl-buttons td {
-  width: 33%;
+  width: 25%;
 }
 
 @media (max-width: 900px) {
   #media-screen-ctrl-buttons {
     margin-top: 20px;
     margin-bottom: 40px;
-    width: 83%;
+    width: 90%;
   }
 }
 
@@ -470,6 +470,7 @@
 #subtitle-delay {
   color: #5a5a5a;
   max-width: 50px;
+  font-weight: bold;
 }
 
 @media (max-width : 900px) { 

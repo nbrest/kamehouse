@@ -278,6 +278,8 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-shuffle', "random", true));
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-stop', "state", "stopped"));
     self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-mute', "volume", 0, 'btn-mute'));
+    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-16-9', "aspectRatio", "16:9"));
+    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-4-3', "aspectRatio", "4:3"));
   }
   setStatefulButtons();
 
