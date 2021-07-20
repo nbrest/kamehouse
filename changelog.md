@@ -5,6 +5,9 @@
 * Added KameHouse GRoot module to the main repository
 * Added backend functionality to book cardio tennis sessions on tennisworld
 * Added scheduled job to do automatic bookings of cardio sessions to tenniswold
+* Updated vlc player styles and main player layout
+* Added dropdown with number of lines to tail in tail logs tab
+* Added encryption utils and moved base64 encoded files to encrypted files
 
 #### v2.01
 

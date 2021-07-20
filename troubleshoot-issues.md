@@ -14,8 +14,8 @@
 
 * Setup a **vnc server** (I use **tightvnc** on **windows** and the **native desktop sharing tool in ubuntu**) running in the same server as the application. *Unlock screen and wake-up screen are done through vncdotool*.
 * Install **vncdotool** (follow https://vncdotool.readthedocs.io/en/latest/install.html) in the same server that runs the application. Test it to make sure you can execute commands through it using the command line.
-* Encode user password with base64 for the user and store it in a file specified by the property *unlock.screen.pwd.file*. This file should be readable only by the user, hidden from anyone else. The application will decode and type this password to unlock the screen. (I have a task to encrypt this and store it in a db) 
-* If the vnc server is configured with a password (it should!), also set the file pointed by *vnc.server.pwd.file* with the vnc server password encoded. This password will be used by vncdo to execute the commands through vnc. Again, this file contains an encoded password so it should be only readable by the user owning this process. (Have a task to encrypt this password and store it in the db)
+* Encrypt the user password with kamehouse keys and store it in a file specified by the property *unlock.screen.pwd.file*. This file should be readable only by the user, hidden from anyone else. The application will decrypt and type this password to unlock the screen. Check below how to create the encrypted file.
+* If the vnc server is configured with a password (it should!), also set the file pointed by *vnc.server.pwd.file* with the vnc server password encrypted. This password will be used by vncdo to execute the commands through vnc. Again, this file contains an encrypted password so it should be only readable by the user owning this process. Check below how to create the encrypted file.
 * Make sure vncdo in installed to */usr/local/bin/vncdo* in **linux** or update `VncDoSystemCommand.java` to point to where it is installed. Using just vncdo without the absolute path got me command not found. *It needs the absolute path* or some other fix.
 * Using a vnc server and vncdotool is the only way I found to unlock the screen remotely on **windows** (also works on **ubuntu**). If you are reading this and have a better solution, please contact me at brest.nico@gmail.com
 * *Lock screen command on linux relies on gnome-screensaver-command* to do the lock. 
@@ -45,7 +45,10 @@
 ### It happened also in my server niko-nba
 - Here I had to stop tomcat and restart it and it started working again
 
-## Steps to create private key, certificate and keystore in a linux server:
+
+## Create a certificate, private key and keystore to encrypt and decrypt files required by kamehouse:
+
+### Steps to create private key, certificate and keystore in a linux server:
 ```
 openssl genrsa -out kamehouse.key 2048
 openssl req -new -key kamehouse.key -out kamehouse.csr
@@ -56,3 +59,6 @@ cat kamehouse.crt >> kamehouse.pem
 
 openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12 
 ```
+Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in commons.properties
+
+To create an encrypted file with the content kamehouse needs encrypted, use the unit test createEncryptedKameHouseFileTest(). Planning to move that functionality to a command line tool
