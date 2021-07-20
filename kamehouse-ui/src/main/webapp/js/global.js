@@ -33,6 +33,7 @@ var logger;
 var isEmpty;
 var isFunction;
 var isNullOrUndefined;
+var scrollToBottom;
 var scrollToTop;
 var sleep;
 
@@ -310,11 +311,17 @@ function CoreUtils() {
     }, '10');
   }
 
+  /** Scroll to the bottom of the page */
+  this.scrollToBottom = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
   /** Set the aliases for the global functions to be used everywhere without the prefix coreUtils. */
   this.setGlobalFunctions = () => {
     isEmpty = self.isEmpty;
     isFunction = self.isFunction;
     isNullOrUndefined = self.isNullOrUndefined;
+    scrollToBottom = self.scrollToBottom;
     scrollToTop = self.scrollToTop;
     sleep = self.sleep;
   }
