@@ -50,9 +50,10 @@ public class EncryptionUtilsTest {
       byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
       X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
       System.out.println("Encrypting: '" + new String(inputBytes, StandardCharsets.UTF_8)
-          + "' into output file " + outputFileName);
+          + "' from " + inputFileName + " into output file " + outputFileName);
       byte[] encryptedBytes = EncryptionUtils.encrypt(inputBytes, cert);
       FileUtils.writeByteArrayToFile(outputFile, encryptedBytes);
+      System.out.println("Finished encrypting content");
     } catch (Exception e) {
       System.out.println("Could not encrypt " + inputFileName);
     }
