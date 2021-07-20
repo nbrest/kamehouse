@@ -8,6 +8,7 @@
 * Updated vlc player styles and main player layout
 * Added dropdown with number of lines to tail in tail logs tab
 * Added encryption utils and moved base64 encoded files to encrypted files
+* Added cookies handler and loading the current tab from cookies on vlc player
 
 #### v2.01
 

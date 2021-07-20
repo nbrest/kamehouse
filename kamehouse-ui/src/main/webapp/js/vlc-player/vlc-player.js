@@ -36,7 +36,18 @@ function VlcPlayer(hostname) {
     self.synchronizer.syncVlcRcStatusLoop();
     self.synchronizer.syncPlaylistLoop();
     self.synchronizer.keepAliveWebSocketsLoop();
-    self.openTab('tab-playing');
+    self.loadStateFromCookies();
+  }
+
+  /**
+   * Load the current state from the cookies.
+   */
+  this.loadStateFromCookies = () => {
+    let currentTab = cookiesUtils.getCookie('current-tab');
+    if (!currentTab || currentTab == '') {
+      currentTab = 'tab-playing';
+    }
+    self.openTab(currentTab);
   }
 
   /**
@@ -44,6 +55,8 @@ function VlcPlayer(hostname) {
    * Tab manager
    */
   this.openTab = (vlcPlayerTabDivId) => {
+    // Set current-tab cookie
+    cookiesUtils.setCookie('current-tab', vlcPlayerTabDivId);
     // Update tab links
     let vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
     for (let i = 0; i < vlcPlayerTabLinks.length; i++) {

@@ -13,6 +13,7 @@ var global;
 /** Global utils in global.js */
 var bannerUtils;
 var collapsibleDivUtils;
+var cookiesUtils;
 var coreUtils;
 var cursorUtils;
 var fileUtils;
@@ -42,6 +43,7 @@ function main() {
   bannerUtils = new BannerUtils();
   collapsibleDivUtils = new CollapsibleDivUtils();
   coreUtils = new CoreUtils();
+  cookiesUtils = new CookiesUtils();
   coreUtils.setGlobalFunctions();
   cursorUtils = new CursorUtils();
   cursorUtils.loadSpinningWheelMobile();
@@ -323,6 +325,45 @@ function CoreUtils() {
    * Example: await sleep(1000);
    */
   this.sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Functionality to handle cookies.
+ */
+function CookiesUtils() {
+
+  /**
+   * Get a cookie.
+   */
+  this.getCookie = (cookieName) => {
+    let name = cookieName + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let cookiesArray = decodedCookie.split(';');
+    for(let i = 0; i < cookiesArray.length; i++) {
+      let cookie = cookiesArray[i];
+      while (cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) == 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
+
+  /**
+   * Set a cookie.
+   */
+  this.setCookie = (cookieName, cookieValue, expiryDays) => {
+    if (expiryDays) {
+      const expiriyDate = new Date();
+      expiriyDate.setTime(expiriyDate.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
+      let expires = "expires=" + expiriyDate.toUTCString();
+      document.cookie = cookieName + "=" + cookieValue + ";" + expires + "; path=/";
+    } else {
+      document.cookie = cookieName + "=" + cookieValue + "; path=/";
+    }
+  }
 }
 
 /** 
