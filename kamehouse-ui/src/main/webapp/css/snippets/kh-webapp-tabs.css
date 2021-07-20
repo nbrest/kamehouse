@@ -36,11 +36,11 @@
 }
 
 .kh-webapp-tabs button:hover {
-  background-color: #4b0b0b;
-  color: #f1f1f1;
+  background-color: black;
+  color: #eeeded;
 }
 
 .kh-webapp-tabs button.active {
-  background-color: #101517;
-  color: #f1f1f1;
+  background-color: #500000;
+  color: #dfdfdf;
 }
