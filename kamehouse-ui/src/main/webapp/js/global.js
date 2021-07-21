@@ -315,14 +315,14 @@ function CoreUtils() {
    * Scroll the window to the top of a particular div or to the top of the body if no div specified.
    */
   this.scrollToTop = (divId) => {
-    let yPosition;
+    let scrollPosition;
     if (isNullOrUndefined(divId)) {
-      yPosition = 0;
+      scrollPosition = 0;
     } else {
-      yPosition = $('#' + divId).offset().top;
+      scrollPosition = $('#' + divId).offset().top;
     }
     $('html, body').animate({
-      scrollTop: yPosition
+      scrollTop: scrollPosition
     }, '10');
   }
 
@@ -330,18 +330,15 @@ function CoreUtils() {
    * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
    */
   this.scrollToBottom = (divId) => {
-    let yPosition;
+    let scrollPosition;
     if (isNullOrUndefined(divId)) {
-      yPosition = document.body.scrollHeight;
+      scrollPosition = document.body.scrollHeight;
     } else {
-      yPosition = $('#' + divId).offset().top + $('#' + divId).height() - window.innerHeight;
+      let jqDivId = '#' + divId;
+      scrollPosition = $(jqDivId).offset().top + $(jqDivId).height() - window.innerHeight;
     }
-    
-    //logger.info("scrollToBottom document.body.scrollHeight:" + document.body.scrollHeight);
-    //logger.info("scrollToBottom yPosition:" + yPosition);
-
     $('html, body').animate({
-      scrollTop: yPosition
+      scrollTop: scrollPosition
     }, '10');
   }
 
