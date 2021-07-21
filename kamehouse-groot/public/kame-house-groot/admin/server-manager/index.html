@@ -281,26 +281,29 @@
           <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
           <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
         </select>
-        <img id="toggle-tail-log-img" class="img-btn-groot-app m-10-d-r-kh" onclick="tailLogManagerWrapper.toggleTailLog()" 
-          src="/kame-house/img/mplayer/play-green.png" alt="Start Tail Log" title="Start Tail Log"/>
-          <div id="number-of-lines">
-            <span class="bold-kh p-15-d-kh">Number of lines: </span>
-            <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-num-lines-dropdown">
-              <option value="50" selected>50</option>
-              <option value="150">150</option>
-              <option value="350">350</option>
-              <option value="500">500</option>
-              <option value="1000">1000</option>
-              <option value="1500">1500</option>
-              <option value="2000">2000</option>
-            </select>
+        <img id="toggle-tail-log-img"
+          class="img-btn-groot-app m-10-d-r-kh" 
+          onclick="tailLogManagerWrapper.toggleTailLog()" 
+          src="/kame-house/img/mplayer/play-green.png"
+          alt="Start Tail Log" title="Start Tail Log"/>
+        <div id="number-of-lines">
+          <span class="bold-kh p-15-d-kh">Number of lines: </span>
+          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-num-lines-dropdown">
+            <option value="50" selected>50</option>
+            <option value="150">150</option>
+            <option value="350">350</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+            <option value="1500">1500</option>
+            <option value="2000">2000</option>
+          </select>
         </div>
       </div>
       <br><br>
-      <button class="collapsible-kh collapsible-kh-btn">Tail Log Output</button>
+      <button id="tail-log-output-wrapper" class="collapsible-kh collapsible-kh-btn">Tail Log Output</button>
       <div class="collapsible-kh-content">
         <img class="img-btn-groot-app m-5-d-kh fl-r-d-kh"
-          onclick="scrollToBottom()"
+          onclick="scrollToBottom('btn-tail-log-scroll-up')"
           src="/kame-house/img/other/double-down-blue.png"
           alt="Scroll to bottom" title="Scroll to bottom" />
         <!-- pre and table need to be in the same line or it prints some extra lines -->
@@ -312,22 +315,22 @@
             <tbody id="tail-log-output-table-body">
               <tr><td>Tail log not triggered yet...</td></tr>
             </tbody>
-          </table></pre>
-          <img class="img-btn-groot-app m-5-d-kh fl-r-d-kh"
-            onclick="scrollToTop()"
-            src="/kame-house/img/other/back-to-top.png"
-            alt="Back To Top" title="Back To Top" />
+        </table></pre>
+        <img id="btn-tail-log-scroll-up" class="img-btn-groot-app m-5-d-kh fl-r-d-kh"
+          onclick="scrollToTop('tail-log-output-wrapper')"
+          src="/kame-house/img/other/back-to-top.png"
+          alt="Back To Top" title="Back To Top" />
       </div>
     
     </div> <!-- tab-tail-log -->
 
   <div class="default-layout p-7-d-kh">
-    <button class="collapsible-kh collapsible-kh-btn">Command Output</button>
+    <button id="command-output-wrapper" class="collapsible-kh collapsible-kh-btn">Command Output</button>
     <div class="collapsible-kh-content">
       <img class="img-btn-groot-app m-5-d-kh fl-r-d-kh"
-          onclick="scrollToBottom()"
-          src="/kame-house/img/other/double-down-blue.png"
-          alt="Scroll to bottom" title="Scroll to bottom" />
+        onclick="scrollToBottom('btn-command-output-scroll-up')"
+        src="/kame-house/img/other/double-down-blue.png"
+        alt="Scroll to bottom" title="Scroll to bottom" />
       <div id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh">
         <div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div>
         <br>
@@ -343,11 +346,12 @@
           <tbody id="script-output-table-body">
             <tr><td>No command executed yet...</td></tr>
           </tbody>
-        </table></pre>
-        <img class="img-btn-groot-app m-5-d-kh fl-r-d-kh"
-          onclick="scrollToTop()"
-          src="/kame-house/img/other/back-to-top-blue.png"
-          alt="Back To Top" title="Back To Top" />
+      </table></pre>
+      <img id="btn-command-output-scroll-up" 
+        class="img-btn-groot-app m-5-d-kh fl-r-d-kh"
+        onclick="scrollToTop('command-output-wrapper')"
+        src="/kame-house/img/other/back-to-top-blue.png"
+        alt="Back To Top" title="Back To Top" />
     </div>
     <br>
     <div class="default-layout txt-c-d-kh txt-c-m-kh">

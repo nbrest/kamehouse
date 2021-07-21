@@ -35,6 +35,7 @@ var isFunction;
 var isNullOrUndefined;
 var scrollToBottom;
 var scrollToTop;
+var scrollToTopOfDiv;
 var sleep;
 
 /** 
@@ -298,22 +299,50 @@ function CoreUtils() {
     $.getScript("/kame-house/js/header-footer/header-footer.js", (data, textStatus, jqxhr) => renderHeaderAndFooter());
   }
 
-  /** Scroll to the top of the specified div or top of the window if no div specified. */
-  this.scrollToTop = (divId) => {
-    let divToScrollToTop;
-    if (isNullOrUndefined(divId)) {
-      divToScrollToTop = 'html, body';
-    } else {
-      divToScrollToTop = '#' + divId;
-    }
+  /** 
+   * Scroll the specified div to it's top.
+   * This method doesn't scroll the entire page, it scrolls the scrollable div to it's top.
+   * To scroll the page to the top of a particular div, use scrollToTop()
+   */
+  this.scrollToTopOfDiv = (divId) => {
+    let divToScrollToTop = '#' + divId;
     $(divToScrollToTop).animate({
       scrollTop: 0
     }, '10');
   }
 
-  /** Scroll to the bottom of the page */
-  this.scrollToBottom = () => {
-    window.scrollTo(0, document.body.scrollHeight);
+  /** 
+   * Scroll the window to the top of a particular div or to the top of the body if no div specified.
+   */
+  this.scrollToTop = (divId) => {
+    let yPosition;
+    if (isNullOrUndefined(divId)) {
+      yPosition = 0;
+    } else {
+      yPosition = $('#' + divId).offset().top;
+    }
+    $('html, body').animate({
+      scrollTop: yPosition
+    }, '10');
+  }
+
+  /** 
+   * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
+   */
+  this.scrollToBottom = (divId) => {
+    let yPosition;
+    if (isNullOrUndefined(divId)) {
+      yPosition = document.body.scrollHeight;
+    } else {
+      yPosition = $('#' + divId).offset().top + $('#' + divId).height() - window.innerHeight;
+    }
+    
+    //logger.info("scrollToBottom document.body.scrollHeight:" + document.body.scrollHeight);
+    //logger.info("scrollToBottom yPosition:" + yPosition);
+
+    $('html, body').animate({
+      scrollTop: yPosition
+    }, '10');
   }
 
   /** Set the aliases for the global functions to be used everywhere without the prefix coreUtils. */
@@ -323,6 +352,7 @@ function CoreUtils() {
     isNullOrUndefined = self.isNullOrUndefined;
     scrollToBottom = self.scrollToBottom;
     scrollToTop = self.scrollToTop;
+    scrollToTopOfDiv = self.scrollToTopOfDiv;
     sleep = self.sleep;
   }
 
