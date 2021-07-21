@@ -233,7 +233,7 @@ function ScriptExecutor() {
   this.getScriptExecutingHtml = (scriptName, args) => {
     let executingScript = "Executing script : <span class=\"bold-kh\">" + scriptName + "</span>";
     if (args) {
-      return executingScript + "<br>with args : <span class=\"bold-kh\">" + args + "</span>";
+      return executingScript + "<br><br>with args : <span class=\"bold-kh\">" + args + "</span>";
     } else {
       return executingScript + " without args";
     }
