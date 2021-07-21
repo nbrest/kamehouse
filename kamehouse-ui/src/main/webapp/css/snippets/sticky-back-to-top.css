@@ -1,0 +1,41 @@
+
+.sticky-back-to-top-link {
+  transition: all 0.25s ease-in-out;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1em 1em 0;
+  border-radius: 50%;
+  padding: 0.25em;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #636363;
+}
+
+.sticky-back-to-top-link.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sticky-back-to-top-link.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.sticky-back-to-top-link svg {
+  fill: #636363;
+  width: 12px;
+  height: 6px;
+}
+
+.sticky-back-to-top-link:hover {
+  border: 3px solid #6b0000;
+}
+
+.sticky-back-to-top-link:hover svg {
+  fill: #6b0000;
+}
