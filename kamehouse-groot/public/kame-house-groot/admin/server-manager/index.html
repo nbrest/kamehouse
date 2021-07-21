@@ -331,12 +331,8 @@
         onclick="scrollToBottom('btn-command-output-scroll-up')"
         src="/kame-house/img/other/double-down-gray-dark.png"
         alt="Scroll to bottom" title="Scroll to bottom" />
-      <div id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh">
-        <div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div>
-        <br>
-        <div class="txt-c-d-kh txt-c-m-kh">Please wait...</div>
-        <div class="spinning-wheel"></div>
-      </div>
+      <!-- pre and the divs need to be in the same line or it prints some extra lines -->
+      <pre id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh"><div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
       <!-- pre and table need to be in the same line or it prints some extra lines -->
       <pre id="script-output" class="console-output"><table class="console-output-table">
           <caption class="hidden-kh">Script Output</caption>
