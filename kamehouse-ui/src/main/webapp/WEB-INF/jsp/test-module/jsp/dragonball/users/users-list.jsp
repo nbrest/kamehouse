@@ -73,5 +73,6 @@
       onclick="window.location.href='users-add'">
   </div>
   </div>
+  <script src="/kame-house/js/snippets/sticky-back-to-top.js"></script>
 </body>
 </html>
