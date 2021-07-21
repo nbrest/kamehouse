@@ -184,6 +184,20 @@ a:active {
   }
 }
 
+.img-btn-flow-down {
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+  margin-top: 5px;
+}
+
+.img-btn-flow-up {
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+  margin-top: -20px;
+}
+
 .img-tomcat-manager-status {
   width: 22px;
   height: 22px;
