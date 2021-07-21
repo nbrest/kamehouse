@@ -3,6 +3,7 @@
 #### v4.00
 
 * Added a command line tool to kamehouse
+* Added scroll to top and bottom in both tail logs and command output in groot server manager
 
 #### v3.00
 
