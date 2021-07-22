@@ -5,6 +5,7 @@
 * Added a command line tool to kamehouse
 * Added scroll to top and bottom in both tail logs and command output in groot server manager
 * Added sticky back to top button as a loadable js snippet and into the server manager pages
+* Removed deprecated tail-log page and frequent scripts from groot/my-scripts
 
 #### v3.00
 
