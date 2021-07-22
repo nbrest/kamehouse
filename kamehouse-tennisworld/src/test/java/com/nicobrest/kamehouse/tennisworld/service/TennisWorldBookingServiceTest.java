@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
@@ -168,6 +169,7 @@ public class TennisWorldBookingServiceTest {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSingleTestData();
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -184,6 +186,7 @@ public class TennisWorldBookingServiceTest {
     request.setDryRun(true);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
     expected.setMessage(TennisWorldBookingService.SUCCESSFUL_BOOKING_DRY_RUN);
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -201,6 +204,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Invalid site: Melbourne Park - Invalid Site");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -218,6 +222,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Invalid sessionType: Rod Laver Arena Center Court");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -235,6 +240,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Error getting the selectedSessionDatePath");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -252,6 +258,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Unable to get the selectedSessionPath");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -269,6 +276,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Invalid login to tennis world");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -287,6 +295,7 @@ public class TennisWorldBookingServiceTest {
     expected.setMessage("Error confirming booking result: [Name on card is required, Credit card "
        + "number is invalid, CVV number is required, Expiry month is required, Expiry year is "
        + "required]");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -303,6 +312,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected =
         tennisWorldBookingResponseTestUtils.getTestDataList().get(2);
     expected.setMessage("Error executing booking request to tennis world Message: IO Error");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -317,6 +327,7 @@ public class TennisWorldBookingServiceTest {
     setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
     TennisWorldBookingRequest request = tennisWorldBookingRequestTestUtils.getSessionRequest();
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -333,6 +344,7 @@ public class TennisWorldBookingServiceTest {
     request.setDryRun(true);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
     expected.setMessage(TennisWorldBookingService.SUCCESSFUL_BOOKING_DRY_RUN);
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -349,6 +361,7 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
     expected.setStatus(TennisWorldBookingResponse.Status.INTERNAL_ERROR);
     expected.setMessage("Unhandled sessionType: UNKNOWN");
+    tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
 
@@ -367,6 +380,8 @@ public class TennisWorldBookingServiceTest {
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 25);
     when(DateUtils.getTwoWeeksFromToday()).thenReturn(bookingDate);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    tennisWorldBookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
+        "12:00pm", "2021-07-25");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
 
@@ -385,6 +400,8 @@ public class TennisWorldBookingServiceTest {
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getTwoWeeksFromToday()).thenReturn(bookingDate);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
+    tennisWorldBookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
+        "07:15pm", "2021-07-26");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
 
@@ -399,9 +416,12 @@ public class TennisWorldBookingServiceTest {
     when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.TUESDAY);
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
     expected.setMessage("Today is Tuesday. No cardio booking is scheduled.");
+    tennisWorldBookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
+        null, null);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
 
+    expected.setDate(response.getDate());
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
@@ -415,9 +435,12 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
     expected.setStatus(TennisWorldBookingResponse.Status.INTERNAL_ERROR);
     expected.setMessage(TennisWorldBookingService.INVALID_BOOKING_SERVER);
+    tennisWorldBookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
+        null, null);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
 
+    expected.setDate(response.getDate());
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 

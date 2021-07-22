@@ -114,10 +114,10 @@ public class TennisWorldBookingService {
         case UNKNOWN:
         default:
           return buildResponse(Status.INTERNAL_ERROR,
-              "Unhandled sessionType: " + sessionType.name());
+              "Unhandled sessionType: " + sessionType.name(), tennisWorldBookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage());
+      return buildResponse(Status.ERROR, e.getMessage(), tennisWorldBookingRequest);
     }
   }
 
@@ -126,11 +126,11 @@ public class TennisWorldBookingService {
    * This method is to be triggered only by the {@link CardioSessionBookingJob}.
    */
   public TennisWorldBookingResponse bookScheduledCardioSession() {
+    TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
     if (!isBookingServer()) {
       logger.error(INVALID_BOOKING_SERVER);
-      return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER);
+      return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER, request);
     }
-    TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
     int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
     switch (currentDayOfWeek) {
       case Calendar.SUNDAY:
@@ -145,7 +145,7 @@ public class TennisWorldBookingService {
         String message = "Today is " + DateUtils.getDayOfWeek(currentDayOfWeek)
             + ". No cardio booking is scheduled.";
         logger.info(message);
-        return buildResponse(Status.SUCCESS, message);
+        return buildResponse(Status.SUCCESS, message, request);
       default:
         break;
     }
@@ -288,18 +288,18 @@ public class TennisWorldBookingService {
 
         // 7 -------------------------------------------------------------------------
         confirmSessionBookingResult(httpClient, confirmBookingRedirectUrl);
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING);
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, tennisWorldBookingRequest);
       } else {
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN);
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, tennisWorldBookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage());
+      return buildResponse(Status.ERROR, e.getMessage(), tennisWorldBookingRequest);
     } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage());
+      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), tennisWorldBookingRequest);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
       return buildResponse(Status.INTERNAL_ERROR, "Error executing booking request to tennis"
-          + " world Message: " + e.getMessage());
+          + " world Message: " + e.getMessage(), tennisWorldBookingRequest);
     }
   }
 
@@ -490,18 +490,18 @@ public class TennisWorldBookingService {
 
         // 8 -------------------------------------------------------------------------
         confirmFacilityBookingResult(httpClient, confirmBookingRedirectUrl);
-        return buildResponse(Status.SUCCESS, "Completed the booking request successfully");
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, tennisWorldBookingRequest);
       } else {
-        return buildResponse(Status.SUCCESS, "Completed the booking request DRY-RUN successfully");
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, tennisWorldBookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage());
+      return buildResponse(Status.ERROR, e.getMessage(), tennisWorldBookingRequest);
     } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage());
+      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), tennisWorldBookingRequest);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
       return buildResponse(Status.INTERNAL_ERROR, "Error executing booking request to tennis"
-          + " world Message: " + e.getMessage());
+          + " world Message: " + e.getMessage(), tennisWorldBookingRequest);
     }
   }
 
@@ -873,10 +873,16 @@ public class TennisWorldBookingService {
   /**
    * Build a tennis world response with the specified status and message.
    */
-  private TennisWorldBookingResponse buildResponse(Status status, String message) {
+  private TennisWorldBookingResponse buildResponse(Status status, String message,
+                                                   TennisWorldBookingRequest request) {
     TennisWorldBookingResponse tennisWorldBookingResponse = new TennisWorldBookingResponse();
     tennisWorldBookingResponse.setStatus(status);
     tennisWorldBookingResponse.setMessage(message);
+    tennisWorldBookingResponse.setUsername(request.getUsername());
+    tennisWorldBookingResponse.setDate(request.getDate());
+    tennisWorldBookingResponse.setTime(request.getTime());
+    tennisWorldBookingResponse.setSessionType(request.getSessionType());
+    tennisWorldBookingResponse.setSite(request.getSite());
     logger.info("Booking to tennis world finished: " + tennisWorldBookingResponse);
     return tennisWorldBookingResponse;
   }
