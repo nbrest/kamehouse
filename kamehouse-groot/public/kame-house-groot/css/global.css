@@ -108,49 +108,62 @@ a:active {
   }
 }
 /** my-scripts controls table button end */
-
-/** frequent-scripts-table-wrapper begin*/
-#frequent-scripts-table-wrapper {
-  max-height: none;
+.btn-svg-scroll-down {
+  transition: all 0.25s ease-in-out;
+  transform: rotate(180deg); 
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  margin-top: 8px;
+  border-radius: 50%;
+  padding: 0.25em;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #373737;
+  background-color: black;
 }
 
-@media (max-width: 900px) {
-  #frequent-scripts-table-wrapper {
-    max-height: none;
-  }
+.btn-svg-scroll-down svg {
+  fill: #373737;
 }
 
-/** Set scrollbar style FIREFOX */
-#frequent-scripts-table-wrapper {
-  scrollbar-color: #ea0000 #171e22 !important;
-  scrollbar-width: thin !important;
+.btn-svg-scroll-down:hover {
+  border: 3px solid #860101;
 }
 
-/** Set scrollbar style CHROME */
-#frequent-scripts-table-wrapper::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+.btn-svg-scroll-down:hover svg {
+  fill: #860101;
 }
 
-@media(max-width: 900px) {
-  #frequent-scripts-table-wrapper::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
+.btn-svg-scroll-up {
+  transition: all 0.25s ease-in-out;
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  margin-top: -20px;
+  border-radius: 50%;
+  padding: 0.25em;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #373737;
+  background-color: black;
 }
 
-#frequent-scripts-table-wrapper::-webkit-scrollbar-track {
-  background: #171e22;
+.btn-svg-scroll-up svg {
+  fill: #373737;
 }
 
-#frequent-scripts-table-wrapper::-webkit-scrollbar-thumb {
-  background: #ea0000;
+.btn-svg-scroll-up:hover {
+  border: 3px solid #860101;
 }
 
-#frequent-scripts-table-wrapper::-webkit-scrollbar-corner {
-  background: #171e22;
+.btn-svg-scroll-up:hover svg {
+  fill: #860101;
 }
-/** frequent-scripts-table-wrapper end*/
 
 /** Images used as buttons such as to start a script, reload something, download script output, etc */
 .img-btn-groot-app {
@@ -386,7 +399,6 @@ a:active {
   color: #dfdfdf;
 }
 
-/** table-filter-input begin */
 .table-filter-input {
   border: 1px solid #131a1f;
   border-radius: 0px;
@@ -396,50 +408,6 @@ a:active {
   width: 100%;
   margin-left: 10px;
 }
-/** table-filter-input end */
-
-/** tail-logs-table-wrapper begin*/
-#tail-logs-table-wrapper {
-  max-height: none;
-}
-
-@media (max-width: 900px) {
-  #tail-logs-table-wrapper {
-    max-height: none;
-  }
-}
-
-/** Set scrollbar style FIREFOX */
-#tail-logs-table-wrapper {
-  scrollbar-color: #ea0000 #171e22 !important;
-  scrollbar-width: thin !important;
-}
-
-/** Set scrollbar style CHROME */
-#tail-logs-table-wrapper::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-
-@media(max-width: 900px) {
-  #tail-logs-table-wrapper::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-}
-
-#tail-logs-table-wrapper::-webkit-scrollbar-track {
-  background: #171e22;
-}
-
-#tail-logs-table-wrapper::-webkit-scrollbar-thumb {
-  background: #ea0000;
-}
-
-#tail-logs-table-wrapper::-webkit-scrollbar-corner {
-  background: #171e22;
-}
-/** tail-logs-table-wrapper end*/
 
 .tomcat-modules-table-path {
   min-width: 210px;
