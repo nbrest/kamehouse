@@ -1,0 +1,8 @@
+[Unit]
+After=network.service
+
+[Service]
+ExecStart=/home/pi/my.scripts/pi/startup/rc-local.sh
+
+[Install]
+WantedBy=default.target
