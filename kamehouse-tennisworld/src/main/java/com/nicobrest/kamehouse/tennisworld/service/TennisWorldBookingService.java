@@ -126,11 +126,11 @@ public class TennisWorldBookingService {
    * This method is to be triggered only by the {@link CardioSessionBookingJob}.
    */
   public TennisWorldBookingResponse bookScheduledCardioSession() {
-    TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
     if (!isBookingServer()) {
       logger.error(INVALID_BOOKING_SERVER);
-      return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER, request);
+      return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER, null);
     }
+    TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
     int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
     switch (currentDayOfWeek) {
       case Calendar.SUNDAY:
@@ -878,11 +878,13 @@ public class TennisWorldBookingService {
     TennisWorldBookingResponse tennisWorldBookingResponse = new TennisWorldBookingResponse();
     tennisWorldBookingResponse.setStatus(status);
     tennisWorldBookingResponse.setMessage(message);
-    tennisWorldBookingResponse.setUsername(request.getUsername());
-    tennisWorldBookingResponse.setDate(request.getDate());
-    tennisWorldBookingResponse.setTime(request.getTime());
-    tennisWorldBookingResponse.setSessionType(request.getSessionType());
-    tennisWorldBookingResponse.setSite(request.getSite());
+    if (request != null) {
+      tennisWorldBookingResponse.setUsername(request.getUsername());
+      tennisWorldBookingResponse.setDate(request.getDate());
+      tennisWorldBookingResponse.setTime(request.getTime());
+      tennisWorldBookingResponse.setSessionType(request.getSessionType());
+      tennisWorldBookingResponse.setSite(request.getSite());
+    }
     logger.info("Booking to tennis world finished: " + tennisWorldBookingResponse);
     return tennisWorldBookingResponse;
   }

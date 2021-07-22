@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
@@ -435,8 +434,6 @@ public class TennisWorldBookingServiceTest {
     TennisWorldBookingResponse expected = tennisWorldBookingResponseTestUtils.getSingleTestData();
     expected.setStatus(TennisWorldBookingResponse.Status.INTERNAL_ERROR);
     expected.setMessage(TennisWorldBookingService.INVALID_BOOKING_SERVER);
-    tennisWorldBookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
-        null, null);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
 
