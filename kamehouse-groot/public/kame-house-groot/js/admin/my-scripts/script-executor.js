@@ -187,7 +187,7 @@ function ScriptExecutor() {
   this.downloadBashScriptOutput = () => {
     let clientDate = new Date();
     let clientMonth = clientDate.getMonth() + 1;
-    let timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "" + clientDate.getMinutes() + "" + clientDate.getSeconds();
+    let timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
     let downloadLink = self.getDownloadLink(timestamp);
     document.body.appendChild(downloadLink);
     downloadLink.click();

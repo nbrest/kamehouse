@@ -61,12 +61,8 @@
     </table>
     <h4 id="script-output-header" class="hidden-kh">Script Output</h4>
 
-    <div id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh">
-      <div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div>
-      <br>
-      <div class="txt-c-d-kh txt-c-m-kh">Please wait...</div>
-      <div class="spinning-wheel"></div>
-    </div>
+    <!-- pre and the divs need to be in the same line or it prints some extra lines -->
+    <pre id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh"><div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
 
     <!-- pre and table need to be in the same line or it prints some extra lines -->
     <pre id="script-output" class="console-output hidden-kh"><table class="console-output-table">
@@ -93,6 +89,7 @@
   </div>
   <script src="/kame-house-groot/js/admin/my-scripts/script-executor.js"></script>
   <script src="/kame-house-groot/js/admin/my-scripts/exec-script.js"></script>
+  <script src="/kame-house/js/snippets/sticky-back-to-top.js"></script>
 </body>
 
 </html>
