@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller to execute commands to check the system's state.
@@ -32,8 +31,7 @@ public class SystemStateController extends AbstractSystemCommandController {
    */
   @GetMapping(path = "/uptime")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> uptime(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> uptime() {
     return execKameHouseSystemCommand(new UptimeKameHouseSystemCommand());
   }
 
@@ -42,8 +40,7 @@ public class SystemStateController extends AbstractSystemCommandController {
    */
   @GetMapping(path = "/free")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> free(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> free() {
     return execKameHouseSystemCommand(new FreeKameHouseSystemCommand());
   }
 
@@ -52,8 +49,7 @@ public class SystemStateController extends AbstractSystemCommandController {
    */
   @GetMapping(path = "/df")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> df(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> df() {
     return execKameHouseSystemCommand(new DfKameHouseSystemCommand());
   }
 
@@ -62,8 +58,7 @@ public class SystemStateController extends AbstractSystemCommandController {
    */
   @GetMapping(path = "/httpd")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> httpdGetStatus(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> httpdGetStatus() {
     return execKameHouseSystemCommand(new HttpdStatusKameHouseSystemCommand());
   }
 
@@ -72,8 +67,7 @@ public class SystemStateController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/httpd")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> restartHttpd(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> restartHttpd() {
     return execKameHouseSystemCommand(new HttpdRestartKameHouseSystemCommand());
   }
 }

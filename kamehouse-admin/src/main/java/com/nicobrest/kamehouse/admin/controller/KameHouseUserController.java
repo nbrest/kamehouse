@@ -97,7 +97,6 @@ public class KameHouseUserController extends AbstractCrudController {
   @GetMapping(path = "/users/username/{username:.+}")
   @ResponseBody
   public ResponseEntity<KameHouseUser> loadUserByUsername(@PathVariable String username) {
-    logger.trace("/kamehouse/users/username/[] (GET)");
     KameHouseUser kameHouseUser = kameHouseUserService.loadUserByUsername(username);
     // Don't return the password through the API.
     removePassword(kameHouseUser);

@@ -30,7 +30,6 @@ public class ScreenController extends AbstractSystemCommandController {
   @PostMapping(path = "/lock")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> lockScreen() {
-    logger.trace("/api/v1/admin/screen/lock (POST)");
     return execKameHouseSystemCommand(new ScreenLockKameHouseSystemCommand());
   }
 
@@ -40,7 +39,6 @@ public class ScreenController extends AbstractSystemCommandController {
   @PostMapping(path = "/unlock")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> unlockScreen() {
-    logger.trace("/api/v1/admin/screen/unlock (POST)");
     return execKameHouseSystemCommand(new ScreenUnlockKameHouseSystemCommand());
   }
 
@@ -51,7 +49,6 @@ public class ScreenController extends AbstractSystemCommandController {
   @PostMapping(path = "/wake-up")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> wakeUpScreen() {
-    logger.trace("/api/v1/admin/screen/wake-up (POST)");
     return execKameHouseSystemCommand(new ScreenWakeUpKameHouseSystemCommand());
   }
 }

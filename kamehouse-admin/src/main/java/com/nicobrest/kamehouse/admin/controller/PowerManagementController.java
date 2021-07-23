@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller class for the power management commands.
@@ -29,8 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/api/v1/admin/power-management")
 public class PowerManagementController extends AbstractSystemCommandController {
 
-  private static final String BASE_URL = "/api/v1/admin/power-management";
-
   @Autowired
   PowerManagementService powerManagementService;
 
@@ -41,7 +38,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse>
       setShutdown(@RequestParam(value = "delay", required = true) Integer delay) {
-    logger.trace("{}/shutdown (POST)", BASE_URL);
     powerManagementService.scheduleShutdown(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage("Scheduled shutdown at the specified delay of " + delay + " seconds");
@@ -54,7 +50,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @GetMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
-    logger.trace("{}/shutdown (GET)", BASE_URL);
     String suspendStatus = powerManagementService.getShutdownStatus();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(suspendStatus);
@@ -67,7 +62,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @DeleteMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {
-    logger.trace("{}/shutdown (DELETE)", BASE_URL);
     String cancelSuspendStatus = powerManagementService.cancelScheduledShutdown();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(cancelSuspendStatus);
@@ -82,7 +76,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse>
       setSuspend(@RequestParam(value = "delay", required = true) Integer delay) {
-    logger.trace("{}/suspend?delay=[delay] (POST)", BASE_URL);
     powerManagementService.scheduleSuspend(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage("Scheduled suspend at the specified delay of " + delay + " seconds");
@@ -95,7 +88,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @GetMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> getSuspend() {
-    logger.trace("{}/suspend (GET)", BASE_URL);
     String suspendStatus = powerManagementService.getSuspendStatus();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(suspendStatus);
@@ -108,7 +100,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
   @DeleteMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelSuspend() {
-    logger.trace("{}/suspend (DELETE)", BASE_URL);
     String cancelSuspendStatus = powerManagementService.cancelScheduledSuspend();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(cancelSuspendStatus);
@@ -120,8 +111,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/reboot")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> reboot(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> reboot() {
     return execKameHouseSystemCommand(new RebootKameHouseSystemCommand());
   }
 
@@ -136,11 +126,9 @@ public class PowerManagementController extends AbstractSystemCommandController {
       @RequestParam(value = "broadcast", required = false) String broadcast) {
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     if (server != null) {
-      logger.trace("{}/wol?server=[server] (POST)", BASE_URL);
       powerManagementService.wakeOnLan(server);
       response.setMessage("WOL packet sent to " + server);
     } else if (mac != null && broadcast != null) {
-      logger.trace("{}/wol?mac=[mac]&broadcast=[broadcast] (POST)", BASE_URL);
       powerManagementService.wakeOnLan(mac, broadcast);
       response.setMessage("WOL packet sent to " + mac + " over " + broadcast);
     } else {

@@ -6,6 +6,10 @@
 * Added scroll to top and bottom in both tail logs and command output in groot server manager
 * Added sticky back to top button as a loadable js snippet and into the server manager pages
 * Removed deprecated tail-log page and frequent scripts from groot/my-scripts
+* Moved a lot of the configuration away from web.xml into java config in KameHouseWebAppInitializer
+* Added request logger filter
+* Added endpoints to configure the request logger to enable/disable logging the payload, headers, client info and query string
+* Removed all the manual logging of requests from the controllers
 
 #### v3.00
 
