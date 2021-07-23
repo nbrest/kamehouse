@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.controller;
 
+import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,66 @@ public class LogLevelManagerController extends AbstractController {
 
   @Autowired
   private LogLevelManagerService logLevelManagerService;
+
+  /**
+   * Sets whether the request logger should include the payload or not.
+   */
+  @PutMapping(path = "/log-level/request-logger/payload")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> logPayload(
+      @RequestParam(value = "logPayload", required = true) Boolean logPayload) {
+    String message = "Setting request logger to log payload to: " + logPayload;
+    logger.info(message);
+    logLevelManagerService.setIncludePayload(logPayload);
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(message);
+    return generatePutResponseEntity(response);
+  }
+
+  /**
+   * Sets whether the request logger should include the headers or not.
+   */
+  @PutMapping(path = "/log-level/request-logger/headers")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> logHeaders(
+      @RequestParam(value = "logHeaders", required = true) Boolean logHeaders) {
+    String message = "Setting request logger to log headers to: " + logHeaders;
+    logger.info(message);
+    logLevelManagerService.setIncludeHeaders(logHeaders);
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(message);
+    return generatePutResponseEntity(response);
+  }
+
+  /**
+   * Sets whether the request logger should include the client info or not.
+   */
+  @PutMapping(path = "/log-level/request-logger/client-info")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> logClientInfo(
+      @RequestParam(value = "logClientInfo", required = true) Boolean logClientInfo) {
+    String message = "Setting request logger to log the client info to: " + logClientInfo;
+    logger.info(message);
+    logLevelManagerService.setIncludeClientInfo(logClientInfo);
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(message);
+    return generatePutResponseEntity(response);
+  }
+
+  /**
+   * Sets whether the request logger should include the query string or not.
+   */
+  @PutMapping(path = "/log-level/request-logger/query-string")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> logQueryString(
+      @RequestParam(value = "logQueryString", required = true) Boolean logQueryString) {
+    String message = "Setting request logger to log the query string to: " + logQueryString;
+    logger.info(message);
+    logLevelManagerService.setIncludeQueryString(logQueryString);
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage(message);
+    return generatePutResponseEntity(response);
+  }
 
   /**
    * Returns the current log level for the specified package or all packages with levels set, if

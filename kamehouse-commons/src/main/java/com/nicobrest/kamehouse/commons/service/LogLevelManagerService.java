@@ -5,7 +5,9 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.web.filter.logger.CustomRequestLoggingFilter;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class LogLevelManagerService {
   protected static final Map<String, String> KAMEHOUSE_PACKAGES_LOG_LEVEL;
   protected static final Map<String, String> EXTERNAL_PACKAGES_LOG_LEVEL;
 
+  @Autowired
+  CustomRequestLoggingFilter customRequestLoggingFilter;
+
   static {
     Map<String, String> kamehousePackages = new HashMap<>();
     kamehousePackages.put("com.nicobrest.kamehouse","INFO");
@@ -45,6 +50,34 @@ public class LogLevelManagerService {
     externalPackages.put("org.hibernate.hql.internal.QueryTranslatorFactoryInitiator",
         "WARN");
     EXTERNAL_PACKAGES_LOG_LEVEL = Collections.unmodifiableMap(externalPackages);
+  }
+
+  /**
+   * Set include/exclude payload in request logging.
+   */
+  public void setIncludePayload(boolean logPayload) {
+    customRequestLoggingFilter.setIncludePayload(logPayload);
+  }
+
+  /**
+   * Set include/exclude headers in request logging.
+   */
+  public void setIncludeHeaders(boolean logHeaders) {
+    customRequestLoggingFilter.setIncludeHeaders(logHeaders);
+  }
+
+  /**
+   * Set include/exclude client info in request logging.
+   */
+  public void setIncludeClientInfo(boolean logClientInfo) {
+    customRequestLoggingFilter.setIncludeClientInfo(logClientInfo);
+  }
+
+  /**
+   * Set include/exclude query string in request logging.
+   */
+  public void setIncludeQueryString(boolean logQueryString) {
+    customRequestLoggingFilter.setIncludeQueryString(logQueryString);
   }
 
   /**
