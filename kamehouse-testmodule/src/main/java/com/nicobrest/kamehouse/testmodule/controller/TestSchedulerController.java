@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/test-module/test-scheduler")
 public class TestSchedulerController extends AbstractController {
 
-  private static final String BASE_URL = "/api/v1/test-module/test-scheduler";
-
   @Autowired
   TestSchedulerService testSchedulerService;
 
@@ -35,7 +33,6 @@ public class TestSchedulerController extends AbstractController {
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse>
       setShutdown(@RequestParam(value = "delay", required = false) Integer delay) {
-    logger.trace("{}/sample-job?delay=[delay] (POST)", BASE_URL);
     testSchedulerService.scheduleSampleJob(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     if (delay != null) {
@@ -52,7 +49,6 @@ public class TestSchedulerController extends AbstractController {
   @GetMapping(path = "/sample-job")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
-    logger.trace("{}/sample-job (GET)", BASE_URL);
     String suspendStatus = testSchedulerService.getSampleJobStatus();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(suspendStatus);
@@ -65,7 +61,6 @@ public class TestSchedulerController extends AbstractController {
   @DeleteMapping(path = "/sample-job")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {
-    logger.trace("{}/sample-job (DELETE)", BASE_URL);
     String cancelSuspendStatus = testSchedulerService.cancelScheduledSampleJob();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(cancelSuspendStatus);

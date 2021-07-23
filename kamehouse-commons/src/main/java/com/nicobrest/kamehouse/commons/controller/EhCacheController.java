@@ -36,7 +36,6 @@ public class EhCacheController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<ApplicationCache>>
       read(@RequestParam(value = "name", required = false) String cacheName) {
-    logger.trace("/api/v1/admin/ehcache?name=[] (GET)");
     List<ApplicationCache> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
       cacheList = new ArrayList<>();
@@ -56,7 +55,6 @@ public class EhCacheController extends AbstractController {
   @DeleteMapping
   public ResponseEntity<Void>
       clear(@RequestParam(value = "name", required = false) String cacheName) {
-    logger.trace("/api/v1/admin/ehcache?name=[] (DELETE)");
     if (!StringUtils.isBlank(cacheName)) {
       ehCacheService.clear(cacheName);
     } else {

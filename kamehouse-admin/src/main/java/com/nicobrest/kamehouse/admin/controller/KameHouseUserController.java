@@ -27,9 +27,6 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api/v1/admin/kamehouse")
 public class KameHouseUserController extends AbstractCrudController {
-
-  private static final String APP_USERS = "/kamehouse/users";
-  private static final String APP_USERS_ID = "/kamehouse/users/";
   
   @Autowired
   private KameHouseUserService kameHouseUserService;
@@ -40,7 +37,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody KameHouseUserDto dto) {
-    return create(APP_USERS, kameHouseUserService, dto);
+    return create(kameHouseUserService, dto);
   }
 
   /**
@@ -50,7 +47,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<KameHouseUser> read(@PathVariable Long id) {
     ResponseEntity<KameHouseUser> responseEntity =
-        read(APP_USERS_ID + id, kameHouseUserService, id);
+        read(kameHouseUserService, id);
     // Don't return the password through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;
@@ -63,7 +60,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<List<KameHouseUser>> readAll() {
     ResponseEntity<List<KameHouseUser>> responseEntity =
-        readAll(APP_USERS, kameHouseUserService);
+        readAll(kameHouseUserService);
     // Don't return the passwords through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;
@@ -75,7 +72,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody KameHouseUserDto dto) {
-    return update(APP_USERS_ID + id, kameHouseUserService, id, dto);
+    return update(kameHouseUserService, id, dto);
   }
 
   /**
@@ -85,7 +82,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<KameHouseUser> delete(@PathVariable Long id) {
     ResponseEntity<KameHouseUser> responseEntity =
-        delete(APP_USERS_ID + id, kameHouseUserService, id);
+        delete(kameHouseUserService, id);
     // Don't return the password through the API.
     removePassword(responseEntity.getBody());
     return responseEntity;

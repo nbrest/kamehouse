@@ -32,7 +32,6 @@ public class VideoPlaylistController extends AbstractController {
   @GetMapping(path = "/playlists")
   @ResponseBody
   public ResponseEntity<List<Playlist>> getAll() {
-    logger.trace("/api/v1/media/video/playlists (GET)");
     List<Playlist> videoPlaylists = videoPlaylistService.getAll();
     return generateGetResponseEntity(videoPlaylists);
   }
@@ -44,7 +43,6 @@ public class VideoPlaylistController extends AbstractController {
   @ResponseBody
   public ResponseEntity<Playlist> getPlaylist(
       @RequestParam(value = "path", required = true) String path) {
-    logger.trace("/api/v1/media/video/playlist?path=[path] (GET)");
     Playlist playlist = videoPlaylistService.getPlaylist(path, true);
     return generateGetResponseEntity(playlist);
   }

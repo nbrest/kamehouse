@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Superclass to all controllers that groups common functionality to all of
  * them.
@@ -111,13 +109,6 @@ public abstract class AbstractController {
       STATIC_LOGGER.error(errorMessage);
       throw new KameHouseBadRequestException(errorMessage);
     }
-  }
-
-  /**
-   * Log the incoming request.
-   */
-  protected static void logTraceRequest(HttpServletRequest request) {
-    STATIC_LOGGER.trace(request.getRequestURI() + " (" + request.getMethod() + ")");
   }
 
   /**

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller class to start, stop and get the status of a local VLC player.
@@ -34,9 +33,7 @@ public class VlcProcessController extends AbstractSystemCommandController {
   @PostMapping(path = "/vlc-process")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>>
-      startVlcPlayer(@RequestParam(value = "file", required = false) String file,
-                     HttpServletRequest request) {
-    logTraceRequest(request);
+      startVlcPlayer(@RequestParam(value = "file", required = false) String file) {
     return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(file));
   }
 
@@ -45,8 +42,7 @@ public class VlcProcessController extends AbstractSystemCommandController {
    */
   @DeleteMapping(path = "/vlc-process")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> stopVlcPlayer(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> stopVlcPlayer() {
     return execKameHouseSystemCommand(new VlcStopKameHouseSystemCommand());
   }
 
@@ -55,8 +51,7 @@ public class VlcProcessController extends AbstractSystemCommandController {
    */
   @GetMapping(path = "/vlc-process")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> statusVlcPlayer(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> statusVlcPlayer() {
     return execKameHouseSystemCommand(new VlcStatusKameHouseSystemCommand());
   }
 }

@@ -97,7 +97,6 @@ public class LogLevelManagerController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<String>> getLogLevel(
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/commons/log-level (GET)");
     List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
     return generateGetResponseEntity(logLevelList);
   }
@@ -110,7 +109,6 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<List<String>> setLogLevel(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    logger.info("/api/v1/commons/log-level (PUT)");
     if (packageName == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
       packageName = DEFAULT_PACKAGE;
@@ -127,8 +125,6 @@ public class LogLevelManagerController extends AbstractController {
   @PutMapping(path = "/log-level/debug")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToDebug() {
-    logger.info("/api/v1/commons/log-level/debug (PUT)");
-
     logLevelManagerService.setKamehouseLogLevelsToDebug();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);
     return generatePutResponseEntity(logLevelList);
@@ -140,8 +136,6 @@ public class LogLevelManagerController extends AbstractController {
   @PutMapping(path = "/log-level/trace")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToTrace() {
-    logger.info("/api/v1/commons/log-level/trace (PUT)");
-
     logLevelManagerService.setKamehouseLogLevelsToTrace();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);
     return generatePutResponseEntity(logLevelList);
@@ -153,8 +147,6 @@ public class LogLevelManagerController extends AbstractController {
   @DeleteMapping(path = "/log-level")
   @ResponseBody
   public ResponseEntity<List<String>> resetLogLevels() {
-    logger.info("/api/v1/commons/log-level (DELETE)");
-
     logLevelManagerService.resetLogLevels();
     List<String> logLevelList = logLevelManagerService.getLogLevel(null);
     return generateDeleteResponseEntity(logLevelList);

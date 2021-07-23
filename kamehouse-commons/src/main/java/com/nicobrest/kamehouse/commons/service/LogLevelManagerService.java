@@ -37,14 +37,17 @@ public class LogLevelManagerService {
 
   static {
     Map<String, String> kamehousePackages = new HashMap<>();
-    kamehousePackages.put("com.nicobrest.kamehouse","INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse", "INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.commons", "INFO");
     kamehousePackages.put("com.nicobrest.kamehouse.commons.controller.LogLevelManagerController",
         "INFO");
+    kamehousePackages.put("com.nicobrest.kamehouse.commons.web.filter.logger"
+        + ".CustomRequestLoggingFilter", "DEBUG");
     KAMEHOUSE_PACKAGES_LOG_LEVEL = Collections.unmodifiableMap(kamehousePackages);
 
     Map<String, String> externalPackages = new HashMap<>();
-    externalPackages.put("org.springframework","INFO");
-    externalPackages.put("org.springframework.security","INFO");
+    externalPackages.put("org.springframework", "INFO");
+    externalPackages.put("org.springframework.security", "INFO");
     externalPackages.put("org.springframework.web.socket.config.WebSocketMessageBrokerStats",
         "WARN");
     externalPackages.put("org.hibernate.hql.internal.QueryTranslatorFactoryInitiator",

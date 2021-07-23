@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Test controller to test AbstractSystemCommandController.
@@ -23,8 +22,7 @@ public class TestSystemCommandController extends AbstractSystemCommandController
    */
   @PostMapping(path = "/system-command")
   @ResponseBody
-  public ResponseEntity<List<SystemCommand.Output>> execute(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<List<SystemCommand.Output>> execute() {
     return execKameHouseSystemCommand(new SystemCommandServiceTest.TestKameHouseSystemCommand());
   }
 }

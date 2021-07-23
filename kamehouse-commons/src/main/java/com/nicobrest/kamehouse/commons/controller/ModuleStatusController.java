@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller class to get the status of the current module. Being able to deploy each module
@@ -28,8 +27,7 @@ public class ModuleStatusController extends AbstractController {
    */
   @GetMapping(path = "/status")
   @ResponseBody
-  public ResponseEntity<Map<String, String>> getModuleStatus(HttpServletRequest request) {
-    logTraceRequest(request);
+  public ResponseEntity<Map<String, String>> getModuleStatus() {
     Map<String, String> responseBody = new HashMap<>();
     responseBody.put("buildVersion", PropertiesUtils.getProperty("kamehouse.build.version"));
     responseBody.put("buildDate", PropertiesUtils.getProperty("kamehouse.build.date"));

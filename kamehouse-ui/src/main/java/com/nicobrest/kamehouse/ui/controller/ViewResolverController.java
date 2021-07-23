@@ -95,7 +95,6 @@ public class ViewResolverController extends AbstractController {
    */
   @GetMapping(path = "/logout")
   public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-    logger.debug("/logout (GET)");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
       new SecurityContextLogoutHandler().logout(request, response, authentication);

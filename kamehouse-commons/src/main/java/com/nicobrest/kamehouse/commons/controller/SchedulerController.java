@@ -25,8 +25,6 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/commons/scheduler")
 public class SchedulerController extends AbstractController {
 
-  private static final String BASE_URL = "/api/v1/commons/scheduler";
-
   @Autowired
   SchedulerService schedulerService;
 
@@ -36,7 +34,6 @@ public class SchedulerController extends AbstractController {
   @GetMapping(path = "/jobs")
   @ResponseBody
   public ResponseEntity<List<KameHouseJob>> getAllJobs() {
-    logger.trace("{}/jobs (GET)", BASE_URL);
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();
     return generateGetResponseEntity(jobs);
   }
@@ -49,7 +46,6 @@ public class SchedulerController extends AbstractController {
   public ResponseEntity<List<KameHouseJob>> cancelJob(
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group) {
-    logger.trace("{}/jobs?name=[name]&group=[group] (DELETE)", BASE_URL);
     JobKey jobKey = new JobKey(name, group);
     schedulerService.cancelScheduledJob(jobKey);
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();
@@ -65,7 +61,6 @@ public class SchedulerController extends AbstractController {
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group,
       @RequestParam(value = "delay", required = true) Integer delay) {
-    logger.trace("{}/jobs?name=[name]&group=[group]&delay=[delay] (POST)", BASE_URL);
     JobKey jobKey = new JobKey(name, group);
     schedulerService.scheduleJob(jobKey, delay);
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();

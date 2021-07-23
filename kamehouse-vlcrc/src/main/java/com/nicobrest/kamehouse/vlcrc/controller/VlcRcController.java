@@ -35,9 +35,6 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcRcController extends AbstractCrudController {
 
-  private static final String VLC_PLAYERS = "/vlc-rc/players";
-  private static final String VLC_PLAYERS_ID = "/vlc-rc/players/";
-
   @Autowired
   private VlcRcService vlcRcService;
 
@@ -50,7 +47,7 @@ public class VlcRcController extends AbstractCrudController {
   @PostMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody VlcPlayerDto dto) {
-    return create(VLC_PLAYERS, vlcPlayerService, dto);
+    return create(vlcPlayerService, dto);
   }
 
   /**
@@ -59,7 +56,7 @@ public class VlcRcController extends AbstractCrudController {
   @GetMapping(path = "/players/{id}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> read(@PathVariable Long id) {
-    return read(VLC_PLAYERS_ID + id, vlcPlayerService, id);
+    return read(vlcPlayerService, id);
   }
 
   /**
@@ -68,7 +65,7 @@ public class VlcRcController extends AbstractCrudController {
   @GetMapping(path = "/players")
   @ResponseBody
   public ResponseEntity<List<VlcPlayer>> readAll() {
-    return readAll(VLC_PLAYERS, vlcPlayerService);
+    return readAll(vlcPlayerService);
   }
 
   /**
@@ -76,7 +73,7 @@ public class VlcRcController extends AbstractCrudController {
    */
   @PutMapping(path = "/players/{id}")
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody VlcPlayerDto dto) {
-    return update(VLC_PLAYERS_ID + id, vlcPlayerService, id, dto);
+    return update(vlcPlayerService, id, dto);
   }
 
   /**
@@ -85,7 +82,7 @@ public class VlcRcController extends AbstractCrudController {
   @DeleteMapping(path = "/players/{id}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> delete(@PathVariable Long id) {
-    return delete(VLC_PLAYERS_ID + id, vlcPlayerService, id);
+    return delete(vlcPlayerService, id);
   }
 
   /**
@@ -94,7 +91,6 @@ public class VlcRcController extends AbstractCrudController {
   @GetMapping(path = "/players/hostname/{hostname}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> getByHostname(@PathVariable String hostname) {
-    logger.trace("/vlc-rc/players/hostname/[hostname] (GET)");
     VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostname);
     return generateGetResponseEntity(vlcPlayer);
   }
@@ -105,7 +101,6 @@ public class VlcRcController extends AbstractCrudController {
   @GetMapping(path = "/players/{hostname}/status")
   @ResponseBody
   public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String hostname) {
-    logger.trace("/vlc-rc/players/[hostname]/status (GET)");
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(hostname);
     return generateGetResponseEntity(vlcRcStatus, false);
   }
@@ -117,7 +112,6 @@ public class VlcRcController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<VlcRcStatus> execCommand(@RequestBody VlcRcCommand vlcRcCommand,
       @PathVariable String hostname) {
-    logger.trace("/vlc-rc/players/[hostname]/commands (POST)");
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostname);
     return generatePostResponseEntity(vlcRcStatus, false);
   }
@@ -128,7 +122,6 @@ public class VlcRcController extends AbstractCrudController {
   @GetMapping(path = "/players/{hostname}/playlist")
   @ResponseBody
   public ResponseEntity<List<VlcRcPlaylistItem>> getPlaylist(@PathVariable String hostname) {
-    logger.trace("/vlc-rc/players/[hostname]/playlist (GET)");
     List<VlcRcPlaylistItem> vlcPlaylist = vlcRcService.getPlaylist(hostname);
     return generateGetResponseEntity(vlcPlaylist, false);
   }
@@ -140,7 +133,6 @@ public class VlcRcController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<List<VlcRcFileListItem>> browse(@RequestParam(value = "uri",
       required = false) String uri, @PathVariable String hostname) {
-    logger.trace("/vlc-rc/players/[hostname]/browse?uri=[uri] (GET)");
     List<VlcRcFileListItem> vlcRcFileList = vlcRcService.browse(uri, hostname);
     return generateGetResponseEntity(vlcRcFileList, false);
   }

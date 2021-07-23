@@ -28,17 +28,13 @@ public class TestEntityCrudController extends AbstractCrudController {
   @Autowired
   private TestEntityCrudService testEntityCrudService;
 
-  private static final String TEST_ENTITY = "/api/v1/unit-tests";
-  private static final String TEST_ENTITY_ID = "/api/v1/unit-tests/";
-
   /**
    * Create a TestEntity.
    */
   @PostMapping(path = "/test-entity")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody TestEntityDto dto, HttpServletRequest request) {
-    logTraceRequest(request);
-    return create(TEST_ENTITY, testEntityCrudService, dto);
+    return create(testEntityCrudService, dto);
   }
 
   /**
@@ -47,7 +43,7 @@ public class TestEntityCrudController extends AbstractCrudController {
   @GetMapping(path = "/test-entity/{id}")
   @ResponseBody
   public ResponseEntity<TestEntity> read(@PathVariable Long id) {
-    return read(TEST_ENTITY_ID + id, testEntityCrudService, id);
+    return read(testEntityCrudService, id);
   }
 
   /**
@@ -56,7 +52,7 @@ public class TestEntityCrudController extends AbstractCrudController {
   @GetMapping(path = "/test-entity")
   @ResponseBody
   public ResponseEntity<List<TestEntity>> readAll() {
-    return readAll(TEST_ENTITY, testEntityCrudService);
+    return readAll(testEntityCrudService);
   }
 
   /**
@@ -65,7 +61,7 @@ public class TestEntityCrudController extends AbstractCrudController {
   @PutMapping(path = "/test-entity/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TestEntityDto dto) {
-    return update(TEST_ENTITY_ID + id, testEntityCrudService, id, dto);
+    return update(testEntityCrudService, id, dto);
   }
 
   /**
@@ -74,6 +70,6 @@ public class TestEntityCrudController extends AbstractCrudController {
   @DeleteMapping(path = "/test-entity/{id}")
   @ResponseBody
   public ResponseEntity<TestEntity> delete(@PathVariable Long id) {
-    return delete(TEST_ENTITY_ID + id, testEntityCrudService, id);
+    return delete(testEntityCrudService, id);
   }
 }

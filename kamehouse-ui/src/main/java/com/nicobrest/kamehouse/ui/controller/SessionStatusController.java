@@ -31,7 +31,6 @@ public class SessionStatusController extends AbstractController {
   @GetMapping(path = "/status")
   @ResponseBody
   public ResponseEntity<SessionStatus> getSessionStatus(HttpServletRequest request) {
-    logTraceRequest(request);
     SessionStatus sessionStatus = sessionStatusService.get(request.getSession());
     return generateGetResponseEntity(sessionStatus);
   }

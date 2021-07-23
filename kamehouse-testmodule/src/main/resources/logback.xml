@@ -75,6 +75,13 @@
     <appender-ref ref="consoleAppender" />
   </logger>
 
+  <!-- kamehouse custom request logger -->
+  <logger name="com.nicobrest.kamehouse.commons.web.filter.logger.CustomRequestLoggingFilter" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
   <!-- spring packages -->
   <logger name="org.springframework" additivity="false">
     <level value="INFO" />

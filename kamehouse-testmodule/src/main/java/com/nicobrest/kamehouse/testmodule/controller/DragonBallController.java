@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -34,9 +33,6 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api/v1/test-module/dragonball")
 public class DragonBallController extends AbstractCrudController {
-
-  private static final String DB_USERS = "/test-module/dragonball/users";
-  private static final String DB_USERS_ID = "/test-module/dragonball/users/";
   
   @Autowired
   private DragonBallUserService dragonBallUserService;
@@ -47,7 +43,7 @@ public class DragonBallController extends AbstractCrudController {
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody DragonBallUserDto dto) {
-    return create(DB_USERS, dragonBallUserService, dto);
+    return create(dragonBallUserService, dto);
   }
 
   /**
@@ -56,7 +52,7 @@ public class DragonBallController extends AbstractCrudController {
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> read(@PathVariable Long id) {
-    return read(DB_USERS_ID + id, dragonBallUserService, id);
+    return read(dragonBallUserService, id);
   }
 
   /**
@@ -75,7 +71,7 @@ public class DragonBallController extends AbstractCrudController {
       default:
         break;
     }
-    return readAll(DB_USERS, dragonBallUserService);
+    return readAll(dragonBallUserService);
   }
 
   /**
@@ -84,7 +80,7 @@ public class DragonBallController extends AbstractCrudController {
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
-    return update(DB_USERS_ID + id, dragonBallUserService, id, dto);
+    return update(dragonBallUserService, id, dto);
   }
 
   /**
@@ -93,7 +89,7 @@ public class DragonBallController extends AbstractCrudController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
-    return delete(DB_USERS_ID + id, dragonBallUserService, id);
+    return delete(dragonBallUserService, id);
   }
 
   /**
@@ -106,7 +102,6 @@ public class DragonBallController extends AbstractCrudController {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first dot
-    logger.trace("/test-module/dragonball/users/username/[username] (GET)");
     DragonBallUser dbUser = dragonBallUserService.getByUsername(username);
     return generateGetResponseEntity(dbUser);
   }
@@ -119,7 +114,6 @@ public class DragonBallController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<String> getByEmail(@RequestParam(value = "email",
       required = true) String email) {
-    logger.trace("/test-module/dragonball/users/emails?email=[email] (GET)");
     DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
     String dbUserJson = JsonUtils.toJsonString(dbUser);
     // Leaving this one as is as a test instead of using
