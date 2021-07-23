@@ -41,6 +41,17 @@ function BackendLogLevelUtils() {
     }
   }
 
+  /**
+   * Get log-level request logger config api url for each webapp.
+   */
+  this.getRequestLoggerConfigApiUrl = (webapp) => {
+    if (webapp == "ui") {
+      return '/kame-house/api/v1/commons/log-level/request-logger';
+    } else {
+      return '/kame-house-' + webapp + '/api/v1/commons/log-level/request-logger';
+    }
+  }
+
   /** Get all current log levels */
   this.getLogLevels = (webapp, openModal) => {
     if (openModal) {
@@ -100,6 +111,38 @@ function BackendLogLevelUtils() {
     $tableBody.append(self.getErrorTableRow());
   }
 
+  /** Set request logger config payload */
+  this.setRequestLoggerConfigPayload = (webapp) => {
+    loadingWheelModal.open();
+    let logPayload = document.getElementById("select-kh-req-logger-cfg-payload-" + webapp).value;
+    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/payload?logPayload=" + logPayload;
+    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
+  }
+
+  /** Set request logger config headers */
+  this.setRequestLoggerConfigHeaders = (webapp) => {
+    loadingWheelModal.open();
+    let logHeaders = document.getElementById("select-kh-req-logger-cfg-headers-" + webapp).value;
+    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/headers?logHeaders=" + logHeaders;
+    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
+  }
+
+  /** Set request logger config query string */
+  this.setRequestLoggerConfigQueryString = (webapp) => {
+    loadingWheelModal.open();
+    let logQueryString = document.getElementById("select-kh-req-logger-cfg-query-string-" + webapp).value;
+    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/query-string?logQueryString=" + logQueryString;
+    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
+  }
+
+  /** Set request logger config client info */
+  this.setRequestLoggerConfigClientInfo = (webapp) => {
+    loadingWheelModal.open();
+    let logClientInfo = document.getElementById("select-kh-req-logger-cfg-client-info-" + webapp).value;
+    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/client-info?logClientInfo=" + logClientInfo;
+    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
+  }  
+  
   /** Process success response */
   function processSuccess(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
@@ -110,6 +153,18 @@ function BackendLogLevelUtils() {
   function processError(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
     self.updateLogLevelTableError(webapp);
+    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+  }
+
+  /** Process success response for request logger config */
+  function processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp) {
+    loadingWheelModal.close();
+    basicKamehouseModal.openAutoCloseable(responseBody.message, 7000);
+  }  
+
+  /** Process error response for request logger config */
+  function processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp) {
+    loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 
