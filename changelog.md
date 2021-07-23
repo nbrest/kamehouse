@@ -8,7 +8,7 @@
 * Removed deprecated tail-log page and frequent scripts from groot/my-scripts
 * Moved a lot of the configuration away from web.xml into java config in KameHouseWebAppInitializer
 * Added request logger filter
-* Added endpoints to configure the request logger to enable/disable logging the payload, headers, client info and query string
+* Added endpoints and UI to configure the request logger to enable/disable logging the payload, headers, client info and query string
 * Removed all the manual logging of requests from the controllers
 
 #### v3.00
