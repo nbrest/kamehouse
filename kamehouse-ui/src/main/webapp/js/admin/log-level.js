@@ -45,11 +45,7 @@ function BackendLogLevelUtils() {
    * Get log-level request logger config api url for each webapp.
    */
   this.getRequestLoggerConfigApiUrl = (webapp) => {
-    if (webapp == "ui") {
-      return '/kame-house/api/v1/commons/log-level/request-logger';
-    } else {
-      return '/kame-house-' + webapp + '/api/v1/commons/log-level/request-logger';
-    }
+    return self.getApiUrl(webapp) + "/request-logger";
   }
 
   /** Get all current log levels */
