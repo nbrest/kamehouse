@@ -18,6 +18,7 @@
     <module>kamehouse-commons-test</module>
     <module>kamehouse-commons</module>
     <module>kamehouse-admin</module>
+    <module>kamehouse-cmd</module>
     <module>kamehouse-media</module>
     <module>kamehouse-tennisworld</module>
     <module>kamehouse-testmodule</module>
