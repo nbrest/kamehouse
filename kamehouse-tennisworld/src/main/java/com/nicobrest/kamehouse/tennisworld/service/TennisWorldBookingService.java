@@ -54,12 +54,6 @@ public class TennisWorldBookingService {
 
   // URLs
   public static final String ROOT_URL = "https://bookings.tennisworld.net.au";
-  public static final String INVALID_BOOKING_SERVER = "The current server is not the booking"
-      + " server. Can't book a scheduled cardio session from this server.";
-  public static final String SUCCESSFUL_BOOKING = "Completed the booking request successfully";
-  public static final String SUCCESSFUL_BOOKING_DRY_RUN = "Completed the booking request DRY-RUN"
-      + " successfully";
-
   private static final String INITIAL_LOGIN_URL = ROOT_URL + "/customer/mobile/login";
   private static final String SITE_LINK_HREF = "/customer/mobile/login/complete_login/";
   private static final String DASHBOARD_URL = ROOT_URL + "/customer/mobile/dashboard";
@@ -88,6 +82,13 @@ public class TennisWorldBookingService {
   private static final String ID_ERROR_STACK = "error-stack";
   private static final String ID_ERROR_MESSAGE = "error-message";
   // Other constants
+  public static final String INVALID_BOOKING_SERVER = "The current server is not the booking"
+      + " server. Can't book a scheduled cardio session from this server.";
+  public static final String SUCCESSFUL_BOOKING = "Completed the booking request successfully";
+  public static final String SUCCESSFUL_BOOKING_DRY_RUN = "Completed the booking request DRY-RUN"
+      + " successfully";
+  public static final String BOOKING_FINISHED = "Booking to tennis world finished: ";
+
   private static int sleepMs = 500;
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -891,7 +892,11 @@ public class TennisWorldBookingService {
       tennisWorldBookingResponse.setSessionType(request.getSessionType());
       tennisWorldBookingResponse.setSite(request.getSite());
     }
-    logger.info("Booking to tennis world finished: " + tennisWorldBookingResponse);
+    if (tennisWorldBookingResponse.getStatus() != Status.SUCCESS) {
+      logger.error(BOOKING_FINISHED + tennisWorldBookingResponse);
+    } else {
+      logger.info(BOOKING_FINISHED + tennisWorldBookingResponse);
+    }
     return tennisWorldBookingResponse;
   }
 
