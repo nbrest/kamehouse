@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 </head>
-<body>
+<body class="landing-p-body">
   <div class="main-body">
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-ancient-era-warriors">
@@ -29,10 +29,10 @@
   </div>
   <div class="default-layout landing-p-links">
     <br>
-    <input type="button" value="DragonBall Users" class="btn btn-block btn-outline-secondary"
+    <input type="button" value="DragonBall Users" class="landing-p-link"
       onclick="window.location.href='dragonball/users/users-list'">
     <br>
-    <input type="button" value="DragonBall Model And View" class="btn btn-block btn-outline-secondary"
+    <input type="button" value="DragonBall Model And View" class="landing-p-link"
       onclick="window.location.href='dragonball/model-and-view'">  
   </div>
   </div>
