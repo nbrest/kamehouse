@@ -1,0 +1,63 @@
+
+.img-tomcat-manager-status {
+  width: 22px;
+  height: 22px;
+  margin-top: 5px;
+}
+
+#log-selector {
+  margin: 40px;
+}
+
+@media (max-width : 900px) {
+  #log-selector  {
+    margin: 30px;
+  }
+}
+
+#number-of-lines {
+  display: inline;
+}
+
+@media (max-width : 900px) {
+  #number-of-lines {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+.tomcat-description {
+  margin: 30px;
+  width: 90%;
+}
+
+@media (max-width : 900px) {
+  .tomcat-description {
+    margin: 0px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+}
+
+.tomcat-modules-table-path {
+  min-width: 210px;
+}
+
+.tomcat-modules-table-build-date {
+  min-width: 270px;
+}
+
+.tomcat-modules-table-controls {
+  min-width: 100px;
+}
+
+.tomcat-modules-table-deployment {
+  min-width: 160px;
+}
+
+.tomcat-process-console-output {
+  margin: 30px;
+  background-color: #12191d;
+  color: #686868;
+}

@@ -1,0 +1,153 @@
+
+/** all-my-scripts-table-controls begin */
+.all-my-scripts-table-controls-table {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+  .all-my-scripts-table-controls-table {
+    display: block;
+  }
+}
+/** all-my-scripts-table-controls end */
+
+/** all-my-scripts-table-wrapper begin*/
+/** Set scrollbar style FIREFOX */
+#all-my-scripts-table-wrapper {
+  scrollbar-color: #ea0000 #171e22 !important;
+  scrollbar-width: thin !important;
+}
+
+/** Set scrollbar style CHROME */
+#all-my-scripts-wrapper::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+@media(max-width: 900px) {
+  #all-my-scripts-table-wrapper::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+#all-my-scripts-table-wrapper::-webkit-scrollbar-track {
+  background: #171e22;
+}
+
+#all-my-scripts-table-wrapper::-webkit-scrollbar-thumb {
+  background: #ea0000;
+}
+
+#all-my-scripts-table-wrapper::-webkit-scrollbar-corner {
+  background: #171e22;
+}
+/** all-my-scripts-table-wrapper end*/
+
+#banner-script-status {
+  font-size: 20px;
+}
+
+/** my-scripts controls table button begin */
+.btn-my-scripts-controls {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transform: scale(0.9);
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width : 900px) {
+  .btn-my-scripts-controls {
+    transform: scale(1);
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .btn-my-scripts-controls:active {
+    border: 1px solid #181818;
+    border-radius: 50%;
+    background-color: #181818;
+  }
+}
+
+/** MIN WIDTH media query: Only do for desktop, without afecting mobile. I usually use queries 
+ * to override the default behaviour I set on desktop. In this case, I was doing that and
+ * it caused a bug because I had to force mobile to scale to 1 and brightness 1 and that
+ * overrode the .media-button-pressed css, removing the effect of pressed buttons */
+@media (min-width : 900px) {
+
+  /** This css affects desktop, not mobile! */
+  .btn-my-scripts-controls:hover {
+    transform: scale(1.3);
+  }
+}
+/** my-scripts controls table button end */
+
+/** my-scripts-table begin */
+.my-scripts-table {
+  color: #868686;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .my-scripts-table {
+    display: block;
+  }
+}
+
+.my-scripts-wrapper {
+  padding: 10px;
+  background: #171e22;
+  max-height: 500px;
+  overflow: scroll;
+}
+
+@media (max-width: 900px) {
+  .my-scripts-wrapper {
+    max-height: 380px;
+    overflow: scroll;
+  }
+}
+/** my-scripts-table end */
+
+/** my-scripts table btn begin*/
+.my-scripts-table-btn {
+  font-weight: 400;
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #ea0000;
+  text-decoration: none;
+}
+
+.my-scripts-table-btn:hover {
+  background-color: #ea0000;
+  color: #c0c0c0;
+  font-size: bold;
+}
+/** my-scripts table btn end*/
+
+.table-filter-input {
+  border: 1px solid #131a1f;
+  border-radius: 0px;
+  color: #868686;
+  background: #1a242a;
+  padding: 5px;
+  width: 100%;
+  margin-left: 10px;
+}
