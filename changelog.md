@@ -7,9 +7,14 @@
 * Added sticky back to top button as a loadable js snippet and into the server manager pages
 * Removed deprecated tail-log page and frequent scripts from groot/my-scripts
 * Moved a lot of the configuration away from web.xml into java config in KameHouseWebAppInitializer
-* Added request logger filter
+* Added request logger filter to log all incoming requests
 * Added endpoints and UI to configure the request logger to enable/disable logging the payload, headers, client info and query string
 * Removed all the manual logging of requests from the controllers
+* Updated styles for the groot server manager page
+* Updated styles for landing pages with links
+* Added id to the tennisworld booking requests
+* Added thread utils to edit the current thread name
+* Updated thread name of the tennisworld booking for easier tracing of the request flow
 
 #### v3.00
 
