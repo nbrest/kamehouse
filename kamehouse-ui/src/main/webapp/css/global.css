@@ -440,6 +440,35 @@ html.wait, html.wait * {
   cursor: wait;
 }
 
+.landing-p-body {
+  background: #11161a;
+}
+
+.landing-p-link {
+  outline: none;
+  padding:.5rem 1rem;
+  line-height:1.5;
+  color: #6b6b6b;
+  font-weight: bold;
+  background-color: #1a1a1a;
+  background-image: none;
+  border: 1px solid #333333;
+  display:block;
+  width:100%;
+}
+
+.landing-p-link:hover {
+  color: #969696;
+  background: #4d0000;
+}
+
+@media (max-width : 900px) {
+  .landing-p-link {
+    display:block;
+    width:100%;
+  }
+}
+
 .landing-p-links {
   text-align: center;
   width: 30%;
