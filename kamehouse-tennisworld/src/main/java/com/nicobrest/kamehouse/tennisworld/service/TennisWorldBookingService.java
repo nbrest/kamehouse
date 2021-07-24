@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.utils.ThreadUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest.CardDetails;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
@@ -41,6 +42,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nonnull;
 
 /**
  * Service to execute tennis world bookings.
@@ -103,6 +105,7 @@ public class TennisWorldBookingService {
   public TennisWorldBookingResponse book(TennisWorldBookingRequest tennisWorldBookingRequest) {
     try {
       setRequestId(tennisWorldBookingRequest);
+      setThreadName(tennisWorldBookingRequest.getId());
       TennisWorldSessionType sessionType = getSessionType(tennisWorldBookingRequest);
       logger.info("Booking tennis world request: " + tennisWorldBookingRequest);
       switch (sessionType) {
@@ -1010,5 +1013,17 @@ public class TennisWorldBookingService {
    */
   private static void setRequestId(TennisWorldBookingRequest request) {
     request.setId(generateRequestId());
+  }
+
+  /**
+   * Sets the current processing thread id from the tennisworld request id.
+   */
+  private static void setThreadName(@Nonnull String requestId) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("tw-book-");
+    sb.append(requestId.substring(14, 22));
+    sb.append("-");
+    sb.append(requestId.substring(requestId.length() - 12, requestId.length()));
+    ThreadUtils.setCurrentThreadName(sb.toString());
   }
 }
