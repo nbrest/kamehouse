@@ -103,7 +103,7 @@ function BackendLogLevelUtils() {
     $tableBody.empty();
     $tableBody.append(self.getLogLevelTableHeader(webapp));
   }
-  
+
   /** Set log level table to error */
   this.updateLogLevelTableError = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
@@ -111,38 +111,6 @@ function BackendLogLevelUtils() {
     $tableBody.append(self.getErrorTableRow());
   }
 
-  /** Set request logger config payload */
-  this.setRequestLoggerConfigPayload = (webapp) => {
-    loadingWheelModal.open();
-    let logPayload = document.getElementById("select-kh-req-logger-cfg-payload-" + webapp).value;
-    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/payload?logPayload=" + logPayload;
-    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
-  }
-
-  /** Set request logger config headers */
-  this.setRequestLoggerConfigHeaders = (webapp) => {
-    loadingWheelModal.open();
-    let logHeaders = document.getElementById("select-kh-req-logger-cfg-headers-" + webapp).value;
-    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/headers?logHeaders=" + logHeaders;
-    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
-  }
-
-  /** Set request logger config query string */
-  this.setRequestLoggerConfigQueryString = (webapp) => {
-    loadingWheelModal.open();
-    let logQueryString = document.getElementById("select-kh-req-logger-cfg-query-string-" + webapp).value;
-    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/query-string?logQueryString=" + logQueryString;
-    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
-  }
-
-  /** Set request logger config client info */
-  this.setRequestLoggerConfigClientInfo = (webapp) => {
-    loadingWheelModal.open();
-    let logClientInfo = document.getElementById("select-kh-req-logger-cfg-client-info-" + webapp).value;
-    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/client-info?logClientInfo=" + logClientInfo;
-    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
-  }  
-  
   /** Process success response */
   function processSuccess(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
@@ -156,11 +124,39 @@ function BackendLogLevelUtils() {
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 
+  /** Set request logger config payload */
+  this.setRequestLoggerConfigPayload = (webapp) => {
+    self.setRequestLoggerConfig(webapp, "payload", "logPayload");
+  }
+
+  /** Set request logger config headers */
+  this.setRequestLoggerConfigHeaders = (webapp) => {
+    self.setRequestLoggerConfig(webapp, "headers", "logHeaders");
+  }
+
+  /** Set request logger config query string */
+  this.setRequestLoggerConfigQueryString = (webapp) => {
+    self.setRequestLoggerConfig(webapp, "query-string", "logQueryString");
+  }
+
+  /** Set request logger config client info */
+  this.setRequestLoggerConfigClientInfo = (webapp) => {
+    self.setRequestLoggerConfig(webapp, "client-info", "logClientInfo");
+  }
+
+  /** Set request logger config */
+  this.setRequestLoggerConfig = (webapp, propertyToSet, urlParamName) => {
+    loadingWheelModal.open();
+    let propertyValue = document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp).value;
+    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet + "?" + urlParamName + "=" + propertyValue;
+    debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
+  }
+
   /** Process success response for request logger config */
   function processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    basicKamehouseModal.openAutoCloseable(responseBody.message, 7000);
-  }  
+    basicKamehouseModal.openAutoCloseable(webapp + " : " + responseBody.message, 7000);
+  }
 
   /** Process error response for request logger config */
   function processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp) {
