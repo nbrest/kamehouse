@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v5.00
+
+* Added a java built command line tool to kamehouse. Ininitally to encrypt content used in the webapps but more functionality planned to be added
+
 #### v4.00
 
 * Added many of my shell/sql scripts to the kamehouse repo
