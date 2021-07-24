@@ -27,12 +27,12 @@ import java.io.IOException;
 public class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
   @InjectMocks
-  private VlcProcessController adminVlcProcessController;
+  private VlcProcessController vlcProcessController;
 
   @Before
   public void beforeTest() {
     kameHouseSystemCommandControllerTestSetup();
-    mockMvc = MockMvcBuilders.standaloneSetup(adminVlcProcessController).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(vlcProcessController).build();
   }
 
   /**

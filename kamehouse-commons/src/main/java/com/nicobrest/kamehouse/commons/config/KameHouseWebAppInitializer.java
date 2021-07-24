@@ -12,7 +12,7 @@ import javax.servlet.ServletRegistration;
 
 /**
  * Configure the web application for kamehouse.
- * This class replaces most of the configuration done in web.xml.
+ * This class replaces most of the configuration done in web.xml on each module.
  */
 public class KameHouseWebAppInitializer implements WebApplicationInitializer {
 

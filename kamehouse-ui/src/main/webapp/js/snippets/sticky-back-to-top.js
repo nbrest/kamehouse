@@ -52,7 +52,11 @@ function StickyBackToTopManager() {
   this.backToTop = () => {
     const currentHeight = document.documentElement.scrollTop || document.body.scrollTop;
     if (currentHeight > 0) {
-      window.scrollTo(0, 0);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
     }
   }
 }
