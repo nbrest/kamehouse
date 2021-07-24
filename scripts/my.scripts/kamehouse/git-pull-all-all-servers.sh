@@ -39,7 +39,7 @@ gitPullAll() {
 executeScriptInServer() {
   local SERVER=$1
   local SCRIPT=$2
-  RESPONSE=`curl --max-time 1800 -k --location --request GET "http://${SERVER}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?script=${SCRIPT}" --header "Authorization: Basic ${ROOT_API_BASIC_AUTH}" 2>/dev/null`
+  RESPONSE=`curl --max-time 1800 -k --location --request GET "http://${SERVER}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?script=${SCRIPT}" --header "Authorization: Basic ${GROOT_API_BASIC_AUTH}" 2>/dev/null`
   #echo "${RESPONSE}"
 }
 

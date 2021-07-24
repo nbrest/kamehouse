@@ -74,7 +74,7 @@ executeScriptInServer() {
   URL="http://${SERVER}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?${URL_ENCODED_PARAMS}"
 
   log.debug "Executing request: ${URL}"
-  RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${ROOT_API_BASIC_AUTH}" 2>/dev/null`
+  RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${GROOT_API_BASIC_AUTH}" 2>/dev/null`
   #echo "${RESPONSE}"
 }
 

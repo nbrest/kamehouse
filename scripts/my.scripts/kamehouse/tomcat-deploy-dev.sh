@@ -71,13 +71,15 @@ undeployFromTomcat() {
     KAMEHOUSE_WEBAPPS="/kame-house"
   fi
   
-  echo -e "${KAMEHOUSE_WEBAPPS}" | while read KAMEHOUSE_WEBAPP; do
-    log.info "Undeploying ${KAMEHOUSE_WEBAPP}"
-    curl http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/stop?path=${KAMEHOUSE_WEBAPP} 2>/dev/null
-    sleep 2
-    curl http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/undeploy?path=${KAMEHOUSE_WEBAPP} 2>/dev/null
-    sleep 2
-  done
+  if [ -n "${KAMEHOUSE_WEBAPPS}" ]; then
+    echo -e "${KAMEHOUSE_WEBAPPS}" | while read KAMEHOUSE_WEBAPP; do
+      log.info "Undeploying ${KAMEHOUSE_WEBAPP}"
+      curl http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/stop?path=${KAMEHOUSE_WEBAPP} 2>/dev/null
+      sleep 2
+      curl http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/undeploy?path=${KAMEHOUSE_WEBAPP} 2>/dev/null
+      sleep 2
+    done
+  fi
 }
 
 deployToTomcat() {
