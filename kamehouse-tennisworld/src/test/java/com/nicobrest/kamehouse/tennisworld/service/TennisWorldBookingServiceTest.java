@@ -171,6 +171,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -188,6 +189,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -206,6 +208,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -224,6 +227,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -242,6 +246,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -260,6 +265,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -278,6 +284,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -297,6 +304,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -314,6 +322,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -329,6 +338,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -346,6 +356,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -363,6 +374,7 @@ public class TennisWorldBookingServiceTest {
     tennisWorldBookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.book(request);
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -383,6 +395,7 @@ public class TennisWorldBookingServiceTest {
         "12:00pm", "2021-07-25");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -403,6 +416,7 @@ public class TennisWorldBookingServiceTest {
         "07:15pm", "2021-07-26");
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -436,6 +450,7 @@ public class TennisWorldBookingServiceTest {
     expected.setMessage(TennisWorldBookingService.INVALID_BOOKING_SERVER);
 
     TennisWorldBookingResponse response = tennisWorldBookingServiceSpy.bookScheduledCardioSession();
+    tennisWorldBookingResponseTestUtils.matchIds(response, expected);
 
     expected.setDate(response.getDate());
     tennisWorldBookingResponseTestUtils.assertEqualsAllAttributes(expected, response);

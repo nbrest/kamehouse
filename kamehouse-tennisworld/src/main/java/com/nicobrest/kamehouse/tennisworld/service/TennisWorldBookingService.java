@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Service to execute tennis world bookings.
@@ -101,6 +102,7 @@ public class TennisWorldBookingService {
    */
   public TennisWorldBookingResponse book(TennisWorldBookingRequest tennisWorldBookingRequest) {
     try {
+      setRequestId(tennisWorldBookingRequest);
       TennisWorldSessionType sessionType = getSessionType(tennisWorldBookingRequest);
       logger.info("Booking tennis world request: " + tennisWorldBookingRequest);
       switch (sessionType) {
@@ -879,6 +881,7 @@ public class TennisWorldBookingService {
     tennisWorldBookingResponse.setStatus(status);
     tennisWorldBookingResponse.setMessage(message);
     if (request != null) {
+      tennisWorldBookingResponse.setId(request.getId());
       tennisWorldBookingResponse.setUsername(request.getUsername());
       tennisWorldBookingResponse.setDate(request.getDate());
       tennisWorldBookingResponse.setTime(request.getTime());
@@ -989,5 +992,23 @@ public class TennisWorldBookingService {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
+  }
+
+  /**
+   * Generates a random request id.
+   */
+  private static String generateRequestId() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(System.currentTimeMillis());
+    sb.append("-");
+    sb.append(UUID.randomUUID().toString());
+    return sb.toString();
+  }
+
+  /**
+   * Set a new request id on a tennisworld booking request.
+   */
+  private static void setRequestId(TennisWorldBookingRequest request) {
+    request.setId(generateRequestId());
   }
 }

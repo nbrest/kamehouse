@@ -14,6 +14,7 @@ public class TennisWorldBookingResponse implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  private String id;
   private Status status;
   private String message;
   private String username;
@@ -21,6 +22,14 @@ public class TennisWorldBookingResponse implements Serializable {
   private String time;
   private String sessionType;
   private String site;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public Status getStatus() {
     return status;
@@ -88,6 +97,7 @@ public class TennisWorldBookingResponse implements Serializable {
     }
     TennisWorldBookingResponse that = (TennisWorldBookingResponse) other;
     return status == that.status
+        && Objects.equals(id, that.id)
         && Objects.equals(message, that.message)
         && Objects.equals(username, that.username)
         && Objects.equals(date, that.date)
@@ -98,7 +108,7 @@ public class TennisWorldBookingResponse implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, message, username, date, time, sessionType, site);
+    return Objects.hash(id, status, message, username, date, time, sessionType, site);
   }
 
   @Override

@@ -16,6 +16,7 @@ public class TennisWorldBookingRequest implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  private String id;
   private String username;
   private String password;
   private String date; // Format: YYYY-MM-DD
@@ -25,6 +26,14 @@ public class TennisWorldBookingRequest implements Serializable {
   private String duration; // Format: MM (optional depending on sessionType)
   private CardDetails cardDetails;
   private boolean dryRun = false;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public void setUsername(String username) {
     this.username = username;
@@ -101,6 +110,7 @@ public class TennisWorldBookingRequest implements Serializable {
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
+        .append(id)
         .append(username)
         .append(password)
         .append(date)
@@ -115,6 +125,7 @@ public class TennisWorldBookingRequest implements Serializable {
     if (obj instanceof TennisWorldBookingRequest) {
       final TennisWorldBookingRequest other = (TennisWorldBookingRequest) obj;
       return new EqualsBuilder()
+          .append(id, other.getId())
           .append(username, other.getUsername())
           .append(password,other.getPassword())
           .append(date,other.getDate())

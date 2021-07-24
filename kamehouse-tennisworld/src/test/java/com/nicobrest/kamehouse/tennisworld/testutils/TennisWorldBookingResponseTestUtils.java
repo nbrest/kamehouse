@@ -38,7 +38,7 @@ public class TennisWorldBookingResponseTestUtils extends
     assertEquals(expected.getMessage(), returned.getMessage());
   }
 
-  public void updateResponseWithRequestData(TennisWorldBookingRequest request,
+  public static void updateResponseWithRequestData(TennisWorldBookingRequest request,
                                             TennisWorldBookingResponse response) {
     response.setUsername(request.getUsername());
     response.setDate(request.getDate());
@@ -47,7 +47,15 @@ public class TennisWorldBookingResponseTestUtils extends
     response.setSite(request.getSite());
   }
 
-  public void updateResponseWithCardioRequestData(TennisWorldBookingResponse response,
+  /**
+   * The id is generated during the booking so it can't be mocked and matched automatically.
+   */
+  public static void matchIds(TennisWorldBookingResponse response,
+                              TennisWorldBookingResponse expected) {
+    expected.setId(response.getId());
+  }
+
+  public static void updateResponseWithCardioRequestData(TennisWorldBookingResponse response,
                                                   String time, String date) {
     response.setDate(date);
     response.setTime(time);
