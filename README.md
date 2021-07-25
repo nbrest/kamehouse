@@ -33,7 +33,12 @@ This application (forever under construction) contains the following modules:
 [VlcRc](kamehouse-vlcrc/README.md)
 
 The modules commons, commons-core and commons-test are jar libraries imported by the other modules. 
+
+Cmd is a command line tool written in java for tasks that are better run through the command line
+ rather than through a webapp.
+
 GRoot is a webapp built with js and php to do admin stuff I usually do through the command line.
+
 All the other modules are webapps deployable to tomcat.
 All of them are API based except for the UI module that contains the frontend code and connects
  to the other modules through their APIs.
