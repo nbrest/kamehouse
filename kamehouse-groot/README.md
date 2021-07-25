@@ -13,6 +13,5 @@ This module is accessed through /kame-house-groot and relies on some of the js/c
 
 To install also copy public/index.html to the root of the web server directory to redirect to /kame-house-groot from /
 
-Building the project with `build-java-web-kamehouse.sh -m groot` creates a zip file in `kamehouse
--groot/target` that can be extracted to the directory where the files are served in an apache
+Building the project with `build-java-web-kamehouse.sh -m groot` creates a zip file in `kamehouse-groot/target` that can be extracted to the directory where the files are served in an apache
  httpd server
