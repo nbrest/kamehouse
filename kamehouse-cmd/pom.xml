@@ -98,7 +98,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix></classpathPrefix>
-                            <mainClass>com.nicobrest.cmd.config.MainApp</mainClass>
+                            <mainClass>com.nicobrest.kamehouse.cmd.config.MainApp</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Class-Path>.</Class-Path>

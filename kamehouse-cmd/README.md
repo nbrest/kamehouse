@@ -6,7 +6,6 @@
 | folder | description |
 | ---- | --------|
 | bin | Contains the script file to execute the application |
-| conf | Contains the properties files |
 | lib | Contains all the jars, including the main jar of the application |
 
 ### Installation:

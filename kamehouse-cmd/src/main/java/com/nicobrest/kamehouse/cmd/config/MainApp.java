@@ -1,4 +1,4 @@
-package com.nicobrest.cmd.config;
+package com.nicobrest.kamehouse.cmd.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

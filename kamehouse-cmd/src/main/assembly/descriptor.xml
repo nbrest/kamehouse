@@ -15,15 +15,6 @@
     </dependencySet>
   </dependencySets>
   <fileSets>
-    <!-- Resources files -->
-    <fileSet>
-      <directory>${project.basedir}/src/main/resources/conf</directory>
-      <outputDirectory>conf</outputDirectory>
-      <filtered>true</filtered>
-      <includes>
-        <include>*.properties</include>
-      </includes>
-    </fileSet>
     <!-- Bin files -->
     <fileSet>
       <directory>${project.basedir}/scripts</directory>
