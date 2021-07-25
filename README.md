@@ -34,8 +34,8 @@ This application (forever under construction) contains the following modules:
 
 The modules commons, commons-core and commons-test are jar libraries imported by the other modules. 
 
-Cmd is a command line tool written in java for tasks that are better run through the command line
- rather than through a webapp.
+Cmd is a command line tool written in java for tasks that are better to execute through the command
+ line rather than through a webapp.
 
 GRoot is a webapp built with js and php to do admin stuff I usually do through the command line.
 
