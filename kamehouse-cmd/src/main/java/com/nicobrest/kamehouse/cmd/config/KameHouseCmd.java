@@ -23,20 +23,11 @@ public class KameHouseCmd {
   /**
    * Start kamehouse cmd.
    */
-  public void run(String[] args) {
+  public void execute(String[] args) {
     logger.info("Started KameHouseCmd");
-    
-    logger.info("Working Directory: " + System.getProperty("user.dir"));
-    logger.info("The execution parameters are:");
-    for (String arg : args) {
-      logger.info(arg);
-    }
-    logger.info("mada mada dane");
-    logger.info("home: " + PropertiesUtils.getUserHome());
-    logger.info("hostname: " + PropertiesUtils.getHostname());
-    logger.info("module: " + PropertiesUtils.getModuleName());
 
-    kameHouseCmdService.executeService(args);
+    logger.info("module: " + PropertiesUtils.getModuleName());
+    kameHouseCmdService.execute(args);
 
     logger.info("Finished KameHouseCmd");
   }

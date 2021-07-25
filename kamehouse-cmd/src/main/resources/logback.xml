@@ -14,8 +14,18 @@
     <appender-ref ref="consoleAppender" />
   </root>
   
-  <logger name="com.nicobrest.baseapp" additivity="false">
-    <level value="DEBUG" />
+  <logger name="com.nicobrest.kamehouse" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.cmd" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="com.nicobrest.kamehouse.commons" additivity="false">
+    <level value="INFO" />
     <appender-ref ref="consoleAppender" />
   </logger>
 

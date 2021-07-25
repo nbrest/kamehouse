@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.cmd.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,24 +12,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class MainApp {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(MainApp.class);
   private static ApplicationContext context = getContext();
   
   /**
    * Execute kamehouseCmd.
    */
   public static void main(String[] args) {
-    getKameHouseCmd().run(args);
+    getKameHouseCmd().execute(args);
     closeContext();
   }
   
   private static ApplicationContext getContext() {
-    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    LOGGER.info("Application context: Bean definitions:");
-    for (String beanName : context.getBeanDefinitionNames()) {
-      System.out.println("bean: " + beanName);
-    }
-    return context;
+    return new ClassPathXmlApplicationContext("applicationContext.xml");
   }
   
   private static void closeContext() {

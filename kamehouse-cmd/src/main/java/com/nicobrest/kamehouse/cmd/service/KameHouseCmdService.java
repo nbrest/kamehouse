@@ -14,7 +14,7 @@ public class KameHouseCmdService {
   /**
    * Sample test service.
    */
-  public void executeService(String[] args) {
+  public void execute(String[] args) {
     logger.info("started executing service");
     logger.info("The service args are:");
     for (String arg : args) {
