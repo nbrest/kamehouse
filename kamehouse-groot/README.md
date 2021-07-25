@@ -12,3 +12,7 @@ This module is an app built with js/php to:
 This module is accessed through /kame-house-groot and relies on some of the js/css frameworks being available at /kame-house. So even though the /kame-house tomcat modules don't need to be deployed on tomcat for this app to run. /kame-house frontend code still needs to be available in the apache httpd web server for /kame-house-groot
 
 To install also copy public/index.html to the root of the web server directory to redirect to /kame-house-groot from /
+
+Building the project with `build-java-web-kamehouse.sh -m groot` creates a zip file in `kamehouse
+-groot/target` that can be extracted to the directory where the files are served in an apache
+ httpd server

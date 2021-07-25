@@ -126,9 +126,7 @@ updateReleaseVersionInPomXml() {
   log.info "Updating release version in modules"
   local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    if [ "${KAMEHOUSE_MODULE}" != "kamehouse-groot" ]; then
-      sed -i "s+${PREVIOUS_VERSION_IN_POM}+${RELEASE_VERSION_IN_POM}+g" ${KAMEHOUSE_MODULE}/pom.xml      
-    fi
+    sed -i "s+${PREVIOUS_VERSION_IN_POM}+${RELEASE_VERSION_IN_POM}+g" ${KAMEHOUSE_MODULE}/pom.xml      
   done
 }
 
@@ -140,10 +138,8 @@ gitCommitPomUpdate() {
 
   local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    if [ "${KAMEHOUSE_MODULE}" != "kamehouse-groot" ]; then
-      git add ${KAMEHOUSE_MODULE}/pom.xml
-      checkCommandStatus "$?"
-    fi
+    git add ${KAMEHOUSE_MODULE}/pom.xml
+    checkCommandStatus "$?"
   done
 
   git commit -m "Updated pom.xml for release v${RELEASE_VERSION}"

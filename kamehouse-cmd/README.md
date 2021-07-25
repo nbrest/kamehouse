@@ -1,4 +1,4 @@
-# Cmd
+# Cmd Module:
 
 * kamehouse-cmd is a command line tool written in java to do admin tasks executable through the
  command line rather than being triggered from a web app.
