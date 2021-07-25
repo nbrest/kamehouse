@@ -38,7 +38,7 @@ deployKameHouseCmd() {
   if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-cmd" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}"
     mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
-    unzip kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
+    unzip -o kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
   fi
 }
 

@@ -12,6 +12,8 @@ This application (forever under construction) contains the following modules:
 
 [Admin](kamehouse-admin/README.md)
 
+[Cmd](kamehouse-cmd/README.md)
+
 [Commons](kamehouse-commons/README.md)
 
 [Commons Core](kamehouse-commons-core/README.md)
