@@ -15,9 +15,11 @@ if [ "$?" != "0" ]; then
 fi
 
 MODULE=
+KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 
 mainProcess() {
   buildProject
+  deployKameHouseCmd
   cleanLogsInGitRepoFolder
 }
 
@@ -30,6 +32,14 @@ buildProject() {
     mvn clean install
   fi
   checkCommandStatus "$?" "An error occurred building the kamehouse"
+}
+
+deployKameHouseCmd() {
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-cmd" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}"
+    mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
+    unzip kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
+  fi
 }
 
 parseArguments() {
@@ -55,7 +65,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
 }
 

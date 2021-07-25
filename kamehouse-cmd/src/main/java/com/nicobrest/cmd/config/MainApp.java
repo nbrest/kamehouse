@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Entry point of the application. 
- * It only creates the application context and then delegates the execution to KameHouseCmd.
+ * It only loads the application context and then delegates the execution to KameHouseCmd.
  *
  * @author nbrest
  */

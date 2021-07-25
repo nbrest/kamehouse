@@ -40,6 +40,13 @@ exampleIf() {
   if [ "${POM_MODIFIED_STATUS}" != "0" ]; then
     log.info "POM_MODIFIED_STATUS is different to 0"
   fi
+
+  local IF_WITH_OR=1
+  if [[ "${IF_WITH_OR}" == "3" || "${IF_WITH_OR}" == "1" ]]; then
+    log.info "IF_WITH_OR is 3 or 1"
+  else 
+    log.info "IF_WITH_OR is different from 3 or 1"
+  fi
 }
 
 exampleRegex() {

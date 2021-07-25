@@ -19,6 +19,7 @@ source ${HOME}/my.scripts/.cred/.cred
 DEFAULT_ENV=local
 LOG_PROCESS_TO_FILE=true
 PROJECT_DIR="${HOME}/git/${PROJECT}"
+KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 
 # Variables set by command line arguments
 MAVEN_PROFILE="prod"
@@ -45,6 +46,7 @@ mainProcess() {
     executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
     executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
     deployToTomcat
+    deployKameHouseCmd
   else
     # Execute remote deployment
     executeSshCommand       
@@ -164,6 +166,15 @@ deployToTomcat() {
   log.info "Execute ${COL_PURPLE}-  tail-log.sh -e ${ENVIRONMENT} -f tomcat  -${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
+deployKameHouseCmd() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "cmd" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
+    cd ${PROJECT_DIR}
+    mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
+    unzip kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
+  fi
+}
+
 printHelp() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
@@ -172,7 +183,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-e (aws|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast deployment. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
 }
 

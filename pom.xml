@@ -1,519 +1,530 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <name>KameHouse - Parent POM</name>
-  <groupId>com.nicobrest</groupId>
-  <artifactId>kamehouse-parent</artifactId>
-  <version>4.00.1-KAMEHOUSE-SNAPSHOT</version>
+    <name>KameHouse - Parent POM</name>
+    <groupId>com.nicobrest</groupId>
+    <artifactId>kamehouse-parent</artifactId>
+    <version>4.00.1-KAMEHOUSE-SNAPSHOT</version>
 
-  <packaging>pom</packaging>
+    <packaging>pom</packaging>
 
-  <url>https://www.nicobrest.com/kame-house/</url>
+    <url>https://www.nicobrest.com/kame-house/</url>
 
-  <modules>
-    <module>kamehouse-commons-core</module>
-    <module>kamehouse-commons-test</module>
-    <module>kamehouse-commons</module>
-    <module>kamehouse-admin</module>
-    <module>kamehouse-cmd</module>
-    <module>kamehouse-media</module>
-    <module>kamehouse-tennisworld</module>
-    <module>kamehouse-testmodule</module>
-    <module>kamehouse-ui</module>
-    <module>kamehouse-vlcrc</module>
-  </modules>
+    <modules>
+        <module>kamehouse-commons-core</module>
+        <module>kamehouse-commons-test</module>
+        <module>kamehouse-commons</module>
+        <module>kamehouse-admin</module>
+        <module>kamehouse-cmd</module>
+        <module>kamehouse-media</module>
+        <module>kamehouse-tennisworld</module>
+        <module>kamehouse-testmodule</module>
+        <module>kamehouse-ui</module>
+        <module>kamehouse-vlcrc</module>
+    </modules>
 
-  <repositories>
-    <repository>
-      <id>local-maven-repo</id>
-      <url>file:///${project.basedir}/local-maven-repo</url>
-    </repository>
-  </repositories>
+    <repositories>
+        <repository>
+            <id>local-maven-repo</id>
+            <url>file:///${project.basedir}/local-maven-repo</url>
+        </repository>
+    </repositories>
 
-  <properties>
-    <java.target.version>1.8</java.target.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <properties>
+        <java.target.version>1.8</java.target.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <kamehouse.version>4.00.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
-    <filters.dir>${basedir}/../src/main/filters</filters.dir>
+        <kamehouse.version>4.00.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
+        <filters.dir>${basedir}/../src/main/filters</filters.dir>
 
-    <bouncy.castle.version>1.58</bouncy.castle.version>                 <!-- Updated 2021/07 -->
-    <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
-    <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
-    <commons.lang.version>2.6</commons.lang.version>                    <!-- Updated 2016/02 -->
-    <commons.httpclient.version>3.1</commons.httpclient.version>        <!-- Updated 2017/11 -->
-    <compiler.plugin.version>3.5</compiler.plugin.version>              <!-- Updated 2016/02 -->
-    <ehcache.version>2.9.0</ehcache.version>                            <!-- Updated 2016/02 -->
-    <findbugs.version>3.0.5</findbugs.version>                          <!-- Updated 2019/09 -->
-    <hamcrest.version>1.3</hamcrest.version>                            <!-- Updated 2016/02 -->
-    <hibernate.version>5.1.0.Final</hibernate.version>                  <!-- Updated 2016/02 -->
-    <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>          <!-- Updated 2016/02 -->
-    <hsql.version>2.3.2</hsql.version>                                  <!-- Updated 2016/02 -->
-    <httpclient.version>4.5.3</httpclient.version>                      <!-- Updated 2017/10 -->
-    <jackson.version>2.9.9</jackson.version>                            <!-- Updated 2019/09 -->
-    <jacoco.version>0.8.5</jacoco.version>                              <!-- Updated 2020/07 -->
-    <javax.servlet.version>3.0.1</javax.servlet.version>                <!-- Updated 2016/02 -->
-    <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
-    <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
-    <jsoup.version>1.13.1</jsoup.version>                               <!-- Updated 2020/07 -->
-    <jstl.version>1.2</jstl.version>                                    <!-- Updated 2016/02 -->
-    <junit.version>4.12</junit.version>                                 <!-- Updated 2016/02 -->
-    <logback.version>1.1.2</logback.version>                            <!-- Updated 2016/02 -->
-    <mysql.connector.java.version>8.0.20</mysql.connector.java.version> <!-- Updated 2020/05 -->
-    <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>               <!-- Updated 2016/02 -->
-    <powermock.version>1.7.3</powermock.version>                        <!-- Updated 2016/02 -->
-    <quartz.version>2.3.0</quartz.version>                              <!-- Updated 2020/12 -->
-    <spring.version>4.3.25.RELEASE</spring.version>                     <!-- Updated 2019/09 -->
-    <spring.session.version>2.0.10.RELEASE</spring.session.version>     <!-- Updated 2021/06 -->
-    <spring.security.version>4.2.13.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
-    <war.plugin.version>2.1.1</war.plugin.version>                      <!-- Updated 2016/02 -->
-  </properties>
+        <assembly.plugin.version>3.0.0</assembly.plugin.version>            <!-- Updated 2016/02 -->
+        <bouncy.castle.version>1.58</bouncy.castle.version>                 <!-- Updated 2021/07 -->
+        <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
+        <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
+        <commons.lang.version>2.6</commons.lang.version>                    <!-- Updated 2016/02 -->
+        <commons.httpclient.version>3.1</commons.httpclient.version>        <!-- Updated 2017/11 -->
+        <compiler.plugin.version>3.5</compiler.plugin.version>              <!-- Updated 2016/02 -->
+        <dependency.plugin.version>2.10</dependency.plugin.version>         <!-- Updated 2016/02 -->
+        <ehcache.version>2.9.0</ehcache.version>                            <!-- Updated 2016/02 -->
+        <findbugs.version>3.0.5</findbugs.version>                          <!-- Updated 2019/09 -->
+        <hamcrest.version>1.3</hamcrest.version>                            <!-- Updated 2016/02 -->
+        <hibernate.version>5.1.0.Final</hibernate.version>                  <!-- Updated 2016/02 -->
+        <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>          <!-- Updated 2016/02 -->
+        <hsql.version>2.3.2</hsql.version>                                  <!-- Updated 2016/02 -->
+        <httpclient.version>4.5.3</httpclient.version>                      <!-- Updated 2017/10 -->
+        <jackson.version>2.9.9</jackson.version>                            <!-- Updated 2019/09 -->
+        <jacoco.version>0.8.5</jacoco.version>                              <!-- Updated 2020/07 -->
+        <jar.plugin.version>3.0.2</jar.plugin.version>                      <!-- Updated 2016/02 -->
+        <javax.servlet.version>3.0.1</javax.servlet.version>                <!-- Updated 2016/02 -->
+        <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
+        <javax.xml.bind.version>2.2.8</javax.xml.bind.version>              <!-- Updated 2021/07 -->
+        <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
+        <jsoup.version>1.13.1</jsoup.version>                               <!-- Updated 2020/07 -->
+        <jstl.version>1.2</jstl.version>                                    <!-- Updated 2016/02 -->
+        <junit.version>4.12</junit.version>                                 <!-- Updated 2016/02 -->
+        <logback.version>1.1.2</logback.version>                            <!-- Updated 2016/02 -->
+        <mysql.connector.java.version>8.0.20</mysql.connector.java.version> <!-- Updated 2020/05 -->
+        <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>               <!-- Updated 2016/02 -->
+        <powermock.version>1.7.3</powermock.version>                        <!-- Updated 2016/02 -->
+        <quartz.version>2.3.0</quartz.version>                              <!-- Updated 2020/12 -->
+        <spring.version>4.3.25.RELEASE</spring.version>                     <!-- Updated 2019/09 -->
+        <spring.session.version>2.0.10.RELEASE</spring.session.version>     <!-- Updated 2021/06 -->
+        <spring.security.version>4.2.13.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
+        <war.plugin.version>2.1.1</war.plugin.version>                      <!-- Updated 2016/02 -->
+    </properties>
 
-  <dependencies>
+    <dependencies>
 
-    <!-- Bouncy Castle Encryption -->
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <version>${bouncy.castle.version}</version>
-    </dependency>
+        <!-- Bouncy Castle Encryption -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>${bouncy.castle.version}</version>
+        </dependency>
 
-    <!-- JSoup - html parser -->
-    <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
-      <version>${jsoup.version}</version>
-    </dependency>
+        <!-- JSoup - html parser -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
 
-    <!-- Quartz job scheduler -->
-    <dependency>
-      <groupId>org.quartz-scheduler</groupId>
-      <artifactId>quartz</artifactId>
-      <version>${quartz.version}</version>
-    </dependency>
+        <!-- Quartz job scheduler -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+        </dependency>
 
-    <!-- Java -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>${javax.servlet.version}</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- Java -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- JSP -->
-    <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>javax.servlet.jsp-api</artifactId>
-      <version>${javax.servlet.jsp.version}</version>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${javax.xml.bind.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>jstl</groupId>
-      <artifactId>jstl</artifactId>
-      <version>${jstl.version}</version>
-    </dependency>
+        <!-- JSP -->
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>${javax.servlet.jsp.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- Apache -->
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>${commons.lang.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>${httpclient.version}</version>
-    </dependency>
+        <!-- Apache -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons.lang.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>${commons.httpclient.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
 
-    <!-- Hibernate/JPA dependencies -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${commons.httpclient.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
+        <!-- Hibernate/JPA dependencies -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.hibernate.javax.persistence</groupId>
-      <artifactId>hibernate-jpa-2.1-api</artifactId>
-      <version>${hibernate.jpa.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 
-    <dependency>
-      <!-- Hibernate c3p0 connection pool -->
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-c3p0</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${hibernate.jpa.version}</version>
+        </dependency>
 
-    <!-- HSQL InMemory database -->
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>${hsql.version}</version>
-    </dependency>
+        <dependency>
+            <!-- Hibernate c3p0 connection pool -->
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 
-    <!-- MySql database driver -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>${mysql.connector.java.version}</version>
-    </dependency>
+        <!-- HSQL InMemory database -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsql.version}</version>
+        </dependency>
 
-    <!-- Oracle database driver -->
-    <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc6</artifactId>
-      <version>${oracle.ojdbc.version}</version>
-    </dependency>
+        <!-- MySql database driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.java.version}</version>
+        </dependency>
 
-    <!-- Spring dependencies -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+        <!-- Oracle database driver -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>${oracle.ojdbc.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${spring.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+        <!-- Spring dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-    <dependency>
-      <!-- Support for Ehcache and others -->
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+        <dependency>
+            <!-- Support for Ehcache and others -->
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-messaging</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-websocket</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-    <!-- Spring Security -->
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-web</artifactId>
-      <version>${spring.security.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-config</artifactId>
-      <version>${spring.security.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-messaging</artifactId>
-      <version>${spring.security.version}</version>
-    </dependency>
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
 
-    <!-- Spring Session -->
-    <dependency>
-      <groupId>org.springframework.session</groupId>
-      <artifactId>spring-session-core</artifactId>
-      <version>${spring.session.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework.session</groupId>
-      <artifactId>spring-session-jdbc</artifactId>
-      <version>${spring.session.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-messaging</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
 
-    <!-- Jackson dependencies for mapping Objects to Json -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
+        <!-- Spring Session -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-core</artifactId>
+            <version>${spring.session.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-jdbc</artifactId>
+            <version>${spring.session.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>${codehaus.jackson.version}</version>
-    </dependency>
+        <!-- Jackson dependencies for mapping Objects to Json -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>${codehaus.jackson.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
-    <!-- Logging dependencies -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>${codehaus.jackson.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>${jcloverslf4j.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${codehaus.jackson.version}</version>
+        </dependency>
 
-    <!-- Cache dependencies -->
-    <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-      <version>${ehcache.version}</version>
-    </dependency>
+        <!-- Logging dependencies -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
 
-    <!-- Testing dependencies -->
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
-      <version>${hamcrest.version}</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${jcloverslf4j.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+        <!-- Cache dependencies -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-core</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
+        <!-- Testing dependencies -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-mockito2</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>${powermock.version}</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-core</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-    <dependency>
-      <!-- Spring test -->
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>${spring.version}</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-    <dependency>
-      <!-- Spring Security test -->
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
-      <version>${spring.security.version}</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>findbugs-maven-plugin</artifactId>
-      <version>${findbugs.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-jdk14</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-nop</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <!-- Spring test -->
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-  <build>
-    <plugins>
-      <!-- maven war plugin: disable build failure because of no web.xml -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>${war.plugin.version}</version>
-      </plugin>
+        <dependency>
+            <!-- Spring Security test -->
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring.security.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-      <!-- maven compiler plugin: Compiler configurations for maven -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler.plugin.version}</version>
-      </plugin>
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>${findbugs.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-jdk14</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-nop</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
 
-      <!-- findbugs: Detect bugs at compilation time and generate a report -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${findbugs.version}</version>
-      </plugin>
+    <build>
+        <plugins>
+            <!-- maven war plugin: disable build failure because of no web.xml -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${war.plugin.version}</version>
+            </plugin>
 
-      <!-- checkstyle: Checks that the code sticks to standard conventions -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle.version}</version>
-      </plugin>
-    </plugins>
+            <!-- maven compiler plugin: Compiler configurations for maven -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.plugin.version}</version>
+            </plugin>
 
-    <pluginManagement>
-      <!-- Adding the pluginManagement fixes the errors of lifecycle not covered 
-        in eclipse but it seems to disable the plugins when compiling from the command line. 
-        So compile everything with eclipse and remove all the warnings within eclipse before 
-        committing and pushing the changes to the repositories -->
+            <!-- findbugs: Detect bugs at compilation time and generate a report -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${findbugs.version}</version>
+            </plugin>
 
-      <plugins>
-        <!-- maven war plugin: disable build failure because of no web.xml -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>${war.plugin.version}</version>
-          <configuration>
-            <failOnMissingWebXml>false</failOnMissingWebXml>
-          </configuration>
-        </plugin>
+            <!-- checkstyle: Checks that the code sticks to standard conventions -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.version}</version>
+            </plugin>
+        </plugins>
 
-        <!-- maven compiler plugin: Compiler configurations for maven -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${compiler.plugin.version}</version>
-          <configuration>
-            <!-- Removes compiler warnings about java version in eclipse -->
-            <source>${java.target.version}</source>
-            <target>${java.target.version}</target>
-            <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
-            <encoding>${project.build.sourceEncoding}</encoding>
-          </configuration>
-        </plugin>
+        <pluginManagement>
+            <!-- Adding the pluginManagement fixes the errors of lifecycle not covered
+              in eclipse but it seems to disable the plugins when compiling from the command line.
+              So compile everything with eclipse and remove all the warnings within eclipse before
+              committing and pushing the changes to the repositories -->
 
-        <!-- findbugs: Detect bugs at compilation time and generate a report -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>${findbugs.version}</version>
-          <configuration>
-            <!-- Enables analysis which takes more memory but finds more bugs. If 
-              you run out of memory, changes the value of the effort element to 'Low'. -->
-            <effort>Max</effort>
-            <!-- Reports all bugs (other values are medium and max) -->
-            <threshold>Low</threshold>
-            <!-- Produces XML report -->
-            <xmlOutput>true</xmlOutput>
-            <!-- Configures the directory in which the XML report is created -->
-            <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
-          </configuration>
-          <executions>
-            <!-- Ensures that FindBugs inspects source code when project is compiled. -->
-            <execution>
-              <id>findbugs</id>
-              <phase>compile</phase>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
+            <plugins>
+                <!-- maven war plugin: disable build failure because of no web.xml -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${war.plugin.version}</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
 
-        <!-- checkstyle: Checks that the code sticks to standard conventions -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${checkstyle.version}</version>
-          <executions>
-            <execution>
-              <id>checkstyle</id>
-              <phase>compile</phase>
-              <configuration>
-                <configLocation>google_checks.xml</configLocation>
-                <encoding>${project.build.sourceEncoding}</encoding>
-                <consoleOutput>true</consoleOutput>
-                <failsOnError>true</failsOnError>
-                <failOnViolation>true</failOnViolation>
-                <violationSeverity>warning</violationSeverity>
-              </configuration>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+                <!-- maven compiler plugin: Compiler configurations for maven -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compiler.plugin.version}</version>
+                    <configuration>
+                        <!-- Removes compiler warnings about java version in eclipse -->
+                        <source>${java.target.version}</source>
+                        <target>${java.target.version}</target>
+                        <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
 
-    <!-- Enable resource filtering based on profiles -->
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-  </build>
+                <!-- findbugs: Detect bugs at compilation time and generate a report -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>${findbugs.version}</version>
+                    <configuration>
+                        <!-- Enables analysis which takes more memory but finds more bugs. If
+                          you run out of memory, changes the value of the effort element to 'Low'. -->
+                        <effort>Max</effort>
+                        <!-- Reports all bugs (other values are medium and max) -->
+                        <threshold>Low</threshold>
+                        <!-- Produces XML report -->
+                        <xmlOutput>true</xmlOutput>
+                        <!-- Configures the directory in which the XML report is created -->
+                        <findbugsXmlOutputDirectory>${project.build.directory}/findbugs
+                        </findbugsXmlOutputDirectory>
+                    </configuration>
+                    <executions>
+                        <!-- Ensures that FindBugs inspects source code when project is compiled. -->
+                        <execution>
+                            <id>findbugs</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- checkstyle: Checks that the code sticks to standard conventions -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle.version}</version>
+                    <executions>
+                        <execution>
+                            <id>checkstyle</id>
+                            <phase>compile</phase>
+                            <configuration>
+                                <configLocation>google_checks.xml</configLocation>
+                                <encoding>${project.build.sourceEncoding}</encoding>
+                                <consoleOutput>true</consoleOutput>
+                                <failsOnError>true</failsOnError>
+                                <failOnViolation>true</failOnViolation>
+                                <violationSeverity>warning</violationSeverity>
+                            </configuration>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- Enable resource filtering based on profiles -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 
 </project>

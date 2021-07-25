@@ -1,5 +1,6 @@
 package com.nicobrest.cmd.config;
 
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,9 @@ public class KameHouseCmd {
       logger.info(arg);
     }
     logger.info("mada mada dane");
-    
+    logger.info("home: " + PropertiesUtils.getUserHome());
+    logger.info("hostname: " + PropertiesUtils.getHostname());
+    logger.info("module: " + PropertiesUtils.getModuleName());
     logger.info("Finished KameHouseCmd");
   }
 }
