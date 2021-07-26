@@ -13,7 +13,8 @@ TAIL_LOG_AWK=${HOME}/my.scripts/awk/kamehouse/format-tail-log.awk
 
 mainProcess() {
   # Execute the latest deployed version of kamehouse-cmd
-  ${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh "$@" | ${TAIL_LOG_AWK}
+  #${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh "$@" | ${TAIL_LOG_AWK}
+  ${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh "$@"
 }
 
 parseArguments() {
