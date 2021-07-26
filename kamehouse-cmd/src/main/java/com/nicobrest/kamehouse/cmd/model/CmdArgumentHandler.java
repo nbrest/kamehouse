@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.cmd.model;
 
 import com.nicobrest.kamehouse.cmd.config.KameHouseCmd;
+import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -64,9 +64,13 @@ public class CmdArgumentHandler {
       commandLine = COMMAND_LINE_PARSER.parse(ALL_OPTIONS, args);
       if (commandLine.hasOption("h")) {
         help();
+        return;
       }
 
       setOperation(commandLine);
+      if (operation == null) {
+        throw new ParseException("Operation not set");
+      }
       switch (operation) {
         case ENCRYPT:
           parseEncryptOperation();
@@ -85,11 +89,10 @@ public class CmdArgumentHandler {
   /**
    * Prints help information on the console and exits the program.
    */
-  @SuppressFBWarnings(value = "DM_EXIT", justification = "It's ok to exit here")
   public void help() {
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp(KameHouseCmd.class.getSimpleName(), ALL_OPTIONS);
-    System.exit(0);
+    ProcessUtils.exitProcess(1);
   }
 
   /**

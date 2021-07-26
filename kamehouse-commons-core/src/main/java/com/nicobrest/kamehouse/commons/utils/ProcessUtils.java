@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -50,5 +52,16 @@ public class ProcessUtils {
    */
   public static InputStream getErrorStream(Process process) {
     return process.getErrorStream();
+  }
+
+  /**
+   * Exits the entire process and kills the JVM.
+   *
+   * <bold>DONT'T call this from any webapp!!!.</bold>
+   *
+   */
+  @SuppressFBWarnings(value = "DM_EXIT", justification = "It's ok to exit here")
+  public static void exitProcess(int status) {
+    System.exit(status);
   }
 }
