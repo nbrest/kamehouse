@@ -34,33 +34,6 @@ public class EncryptionUtilsTest {
   public ExpectedException thrown = ExpectedException.none();
 
   /**
-   * Use this test to encrypt a file using kamehouse keys.
-   * Create a ${HOME}/input-decrypted-kamehouse.txt with the content to encrypt
-   * and it will be encrypted to ${HOME}/output-encrypted-kamehouse.enc
-   * running this test.
-   */
-  @Test
-  public void createEncryptedKameHouseFileTest() {
-    boolean success = true;
-    String inputFileName = PropertiesUtils.getUserHome() + "/input-decrypted-kamehouse.txt";
-    String outputFileName = PropertiesUtils.getUserHome() + "/output-encrypted-kamehouse.enc";
-    try {
-      File inputFile = new File(inputFileName);
-      File outputFile = new File(outputFileName);
-      byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
-      X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
-      System.out.println("Encrypting: '" + new String(inputBytes, StandardCharsets.UTF_8)
-          + "' from " + inputFileName + " into output file " + outputFileName);
-      byte[] encryptedBytes = EncryptionUtils.encrypt(inputBytes, cert);
-      FileUtils.writeByteArrayToFile(outputFile, encryptedBytes);
-      System.out.println("Finished encrypting content");
-    } catch (Exception e) {
-      System.out.println("Could not encrypt " + inputFileName);
-    }
-    assertTrue(success);
-  }
-
-  /**
    * Test encrypt and decrypt strings.
    */
   @Test
