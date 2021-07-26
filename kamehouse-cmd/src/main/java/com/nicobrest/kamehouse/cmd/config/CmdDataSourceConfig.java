@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Enable datasource config for kamehouse-cmd.
+ *
+ * @author nbrest
  */
 @Configuration
 public class CmdDataSourceConfig extends DataSourceConfig {
