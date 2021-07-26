@@ -3,14 +3,12 @@ package com.nicobrest.kamehouse.cmd.executor;
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 
 /**
