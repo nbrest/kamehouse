@@ -15,7 +15,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.IOException;
 
 /**
- * Tests for the MainApp.
+ * Tests for the MainApp. It uses the application context from the main code so it loads
+ * all the beans and triggers the flow in all the classes.
  *
  * @author nbrest
  */
@@ -39,5 +40,6 @@ public class MainAppTest {
 
     when(FileUtils.readFileToByteArray(any())).thenCallRealMethod();
     MainApp.main(args);
+    // no exceptions thrown
   }
 }
