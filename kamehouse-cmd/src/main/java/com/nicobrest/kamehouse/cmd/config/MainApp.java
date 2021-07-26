@@ -4,7 +4,8 @@ import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
 
 /**
  * Entry point of the application.
- * It calls the class to validate the arguments and then delegates the execution to KameHouseCmd.
+ * It only calls CmdArgumentHandler to parse the arguments
+ * and then delegates the execution to KameHouseCmd.
  *
  * @author nbrest
  */
