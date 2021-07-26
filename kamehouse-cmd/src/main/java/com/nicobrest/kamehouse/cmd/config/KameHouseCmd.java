@@ -25,14 +25,23 @@ public class KameHouseCmd {
     closeContext();
   }
 
+  /**
+   * Load the application context.
+   */
   private static void loadContext() {
     context = new ClassPathXmlApplicationContext("applicationContext.xml");
   }
 
+  /**
+   * Close the application context.
+   */
   private static void closeContext() {
     ((AbstractApplicationContext) context).close();
   }
 
+  /**
+   * Get the main executor to process kamehouse commands.
+   */
   private static KameHouseCmdExecutor getKameHouseCmdExecutor() {
     return (KameHouseCmdExecutor) context.getBean("kameHouseCmdExecutor");
   }

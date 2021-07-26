@@ -37,7 +37,6 @@ public class CmdArgumentHandler {
   private static final List<String> ENCRYPT_OPTIONS = Arrays.asList("-if", "-of");
 
   private CommandLine commandLine;
-  private String[] args;
   private Operation operation;
 
   static {
@@ -53,14 +52,13 @@ public class CmdArgumentHandler {
   }
 
   public CmdArgumentHandler(String[] args) {
-    this.args = args.clone();
-    parse();
+    parse(args);
   }
 
   /**
    * Parse all command line arguments.
    */
-  private void parse() {
+  private void parse(String[] args) {
 
     try {
       commandLine = COMMAND_LINE_PARSER.parse(ALL_OPTIONS, args);
