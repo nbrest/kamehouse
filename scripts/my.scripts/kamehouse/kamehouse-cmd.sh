@@ -12,6 +12,11 @@ LOG_PROCESS_TO_FILE=true
 TAIL_LOG_AWK=${HOME}/my.scripts/awk/kamehouse/format-tail-log.awk
 
 mainProcess() {
+  if [ "$1" == "-V" ]; then
+    displayKameHouseCmdVersion
+    exitProcess "0"
+  fi
+
   # Execute the latest deployed version of kamehouse-cmd
   #${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh "$@" | ${TAIL_LOG_AWK}
   ${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh "$@"
@@ -20,6 +25,16 @@ mainProcess() {
 parseArguments() {
   # Override default. Skip parsing as it's done in kamehouse-cmd
   return
+}
+
+displayKameHouseCmdVersion() {
+  KAMEHOUSE_CMD_JAR=`ls -l ${HOME}/programs/kamehouse-cmd/lib/kamehouse-cmd* | head -n 1`
+  BUILD_DATE=`echo ${KAMEHOUSE_CMD_JAR} | awk '{print $6 " " $7 " " $8}'`
+  BUILD_VERSION=`echo ${KAMEHOUSE_CMD_JAR} | awk '{print $9}'`
+  BUILD_VERSION=${BUILD_VERSION##*/}
+  BUILD_VERSION=`echo ${BUILD_VERSION} | cut -d'-' -f 3`
+  echo "buildVersion=${BUILD_VERSION}"
+  echo "buildDate=${BUILD_DATE}"
 }
 
 main "$@"
