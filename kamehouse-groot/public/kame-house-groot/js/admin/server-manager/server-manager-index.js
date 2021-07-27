@@ -201,46 +201,28 @@ function DeploymentManager() {
   }
 
   this.displayModuleCmdStatus = (scriptOutput) => {
-    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
-      if (scriptOutputLine.startsWith("buildVersion")) {
-        let scriptOutputLineArray = scriptOutputLine.split("=");
-        let buildVersion = scriptOutputLineArray[1];
-        $("#mst-cmd-build-version-val").html(buildVersion);    
-      }
-      if (scriptOutputLine.startsWith("buildDate")) {
-        let scriptOutputLineArray = scriptOutputLine.split("=");
-        let buildDate = scriptOutputLineArray[1];
-        $("#mst-cmd-build-date-val").html(buildDate);    
-      }
-    });
+    self.displayNonTomcatModuleStatus(scriptOutput, "cmd");
   }
 
   this.displayModuleGrootStatus = (scriptOutput) => {
-    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
-      if (scriptOutputLine.startsWith("buildVersion")) {
-        let scriptOutputLineArray = scriptOutputLine.split("=");
-        let buildVersion = scriptOutputLineArray[1];
-        $("#mst-groot-build-version-val").html(buildVersion);    
-      }
-      if (scriptOutputLine.startsWith("buildDate")) {
-        let scriptOutputLineArray = scriptOutputLine.split("=");
-        let buildDate = scriptOutputLineArray[1];
-        $("#mst-groot-build-date-val").html(buildDate);    
-      }
-    });
+    self.displayNonTomcatModuleStatus(scriptOutput, "groot");
   }
 
   this.displayModuleShellStatus = (scriptOutput) => {
+    self.displayNonTomcatModuleStatus(scriptOutput, "shell");
+  }
+
+  this.displayNonTomcatModuleStatus = (scriptOutput, module) => {
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("buildVersion")) {
         let scriptOutputLineArray = scriptOutputLine.split("=");
         let buildVersion = scriptOutputLineArray[1];
-        $("#mst-shell-build-version-val").html(buildVersion);    
+        $("#mst-" + module + "-build-version-val").html(buildVersion);    
       }
       if (scriptOutputLine.startsWith("buildDate")) {
         let scriptOutputLineArray = scriptOutputLine.split("=");
         let buildDate = scriptOutputLineArray[1];
-        $("#mst-shell-build-date-val").html(buildDate);    
+        $("#mst-" + module + "-build-date-val").html(buildDate);    
       }
     });
   }
