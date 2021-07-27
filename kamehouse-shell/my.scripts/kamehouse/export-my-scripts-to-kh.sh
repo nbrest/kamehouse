@@ -18,6 +18,7 @@ source ${HOME}/my.scripts/.cred/.cred
 # dev environment: eclipse or intellij
 DEV_ENVIRONMENT=
 PROJECT_DIR=
+EXPORT_DIR=
 
 mainProcess() {
   setGlobalVariables
@@ -28,17 +29,18 @@ setGlobalVariables() {
   WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
   PROJECT_DIR=${WORKSPACE}/java.web.kamehouse
   TOMCAT_WEBAPPS_DIR=${WORKSPACE}/apache-tomcat-${TOMCAT_VERSION}/webapps
+  EXPORT_DIR=${PROJECT_DIR}/kamehouse-shell
 }
 
 exportMyScripts() {
-  cd ${PROJECT_DIR}/scripts
+  cd ${EXPORT_DIR}
 
   log.info "Deleting existing scripts from workspace"
-  rm -r -v -f ${PROJECT_DIR}/scripts/my.scripts
-  mkdir -p ${PROJECT_DIR}/scripts/my.scripts
+  rm -r -v -f ${EXPORT_DIR}/my.scripts
+  mkdir -p ${EXPORT_DIR}/my.scripts
 
   log.info "Copying root scripts"
-  cd ${PROJECT_DIR}/scripts/my.scripts
+  cd ${EXPORT_DIR}/my.scripts
   cp -r -v ${HOME}/my.scripts/awk .
   cp -r -v ${HOME}/my.scripts/aws .
   cp -r -v ${HOME}/my.scripts/common .
@@ -47,7 +49,7 @@ exportMyScripts() {
   cp -r -v ${HOME}/my.scripts/*.sh .
 
   log.info "Copying lin scripts"
-  mkdir -p ${PROJECT_DIR}/scripts/my.scripts/lin
+  mkdir -p ${EXPORT_DIR}/my.scripts/lin
   cp -r -v ${HOME}/my.scripts/lin/bashrc lin/
   cp -r -v ${HOME}/my.scripts/lin/git lin/
   cp -r -v ${HOME}/my.scripts/lin/httpd lin/
@@ -62,7 +64,7 @@ exportMyScripts() {
   cp -r -v ${HOME}/my.scripts/lin/*.sh lin/
 
   log.info "Copying win scripts"
-  mkdir -p ${PROJECT_DIR}/scripts/my.scripts/win
+  mkdir -p ${EXPORT_DIR}/my.scripts/win
   cp -r -v ${HOME}/my.scripts/win/backup win/
   cp -r -v ${HOME}/my.scripts/win/bashrc win/
   cp -r -v ${HOME}/my.scripts/win/bat win/
