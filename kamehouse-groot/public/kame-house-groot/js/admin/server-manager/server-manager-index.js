@@ -320,8 +320,21 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
+    let hostOs = serverManager.getHostOs();
+    let script = 'kamehouse/deploy-java-web-kamehouse.sh';
     let args = "-f -m " + module;
-    scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, self.refreshServerView);
+
+    if (module == "groot") {
+      script = hostOs + '/git/git-pull-prod-java-web-kamehouse.sh';
+      args = "";
+    }
+
+    if (module == "shell") {
+      script = hostOs + '/git/git-pull-my-scripts.sh';
+      args = "";
+    }
+
+    scriptExecutor.execute(script, args, self.refreshServerView);
   }
 
   this.deployModuleAllServers = (module) => {
