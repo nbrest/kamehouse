@@ -67,7 +67,7 @@
         <jsoup.version>1.13.1</jsoup.version>                               <!-- Updated 2020/07 -->
         <jstl.version>1.2</jstl.version>                                    <!-- Updated 2016/02 -->
         <junit.version>4.12</junit.version>                                 <!-- Updated 2016/02 -->
-        <logback.version>1.1.2</logback.version>                            <!-- Updated 2016/02 -->
+        <logback.version>1.2.0</logback.version>                            <!-- Updated 2016/02 -->
         <mysql.connector.java.version>8.0.20</mysql.connector.java.version> <!-- Updated 2020/05 -->
         <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>               <!-- Updated 2016/02 -->
         <powermock.version>1.7.3</powermock.version>                        <!-- Updated 2016/02 -->
