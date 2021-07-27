@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.00
+
+* Added my.scripts as a new maven module (shell) to export them as a deployable zip file
+
 #### v5.00
 
 * Added a java built command line tool to kamehouse
