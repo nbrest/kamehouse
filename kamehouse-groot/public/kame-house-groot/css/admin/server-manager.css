@@ -61,3 +61,15 @@
   background-color: #12191d;
   color: #686868;
 }
+
+.non-tomcat-modules-table-build-version {
+  min-width: 250px;
+}
+
+.non-tomcat-modules-table-build-date {
+  min-width: 250px;
+}
+
+.non-tomcat-modules-table-deployment {
+  min-width: 120px;
+}

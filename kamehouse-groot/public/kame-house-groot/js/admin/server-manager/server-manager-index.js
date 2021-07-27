@@ -1,6 +1,6 @@
 var serverManager;
 var gitManager;
-var tomcatManager;
+var deploymentManager;
 var tailLogManagerWrapper;
 
 function main() {
@@ -8,13 +8,14 @@ function main() {
   renderRootMenu();
   moduleUtils.waitForModules(["logger", "httpClient", "tailLogManager", "scriptExecutor"], () => {
     gitManager = new GitManager();
-    tomcatManager = new TomcatManager();
-    tomcatManager.init();
+    deploymentManager = new DeploymentManager();
+    deploymentManager.init();
     serverManager = new ServerManager();
     tailLogManagerWrapper = new TailLogManagerWrapper();
     tailLogManagerWrapper.init();
     getSessionStatus(serverManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
-    tomcatManager.getAppsStatus();
+    deploymentManager.getTomcatModulesStatus();
+    deploymentManager.getNonTomcatModulesStatus();
     serverManager.loadStateFromCookies();
   });
 }
@@ -30,7 +31,7 @@ function ServerManager() {
   this.loadStateFromCookies = () => {
     let currentTab = cookiesUtils.getCookie('kh-groot-server-manager-current-tab');
     if (!currentTab || currentTab == '') {
-      currentTab = 'tab-tomcat';
+      currentTab = 'tab-deployment';
     }
     openTab(currentTab, 'kh-groot-server-manager');
   }
@@ -79,7 +80,7 @@ function ServerManager() {
   this.handleSessionStatus = (sessionStatus) => {
     self.isLinuxHost = sessionStatus.isLinuxHost;
     self.updateServerName(sessionStatus);
-    tomcatManager.getTomcatProcessStatus();
+    deploymentManager.getTomcatProcessStatus();
   }
   
   /** Update server name */
@@ -152,7 +153,7 @@ function GitManager() {
   }
 }
 
-function TomcatManager() {
+function DeploymentManager() {
   let self = this;
   this.statusBallBlueImg = null;
   this.statusBallRedImg = null;
@@ -164,8 +165,15 @@ function TomcatManager() {
     self.statusBallGreenImg = self.createStatusBallGreenImg();
   }
 
-  this.getAppsStatus = () => {
-    scriptExecutor.execute('kamehouse/status-java-web-kamehouse.sh', "", self.displayAppsStatus, true);
+  this.getTomcatModulesStatus = () => {
+    scriptExecutor.execute('kamehouse/status-java-web-kamehouse.sh', "", self.displayTomcatModulesStatus, true);
+  }
+
+  this.getNonTomcatModulesStatus = () => {
+    logger.debug("Getting non tomcat modules status");
+    scriptExecutor.execute('kamehouse/kamehouse-cmd.sh', "-V", self.displayModuleCmdStatus, true);
+    scriptExecutor.execute('kamehouse/groot-version.sh', "", self.displayModuleGrootStatus, true);
+    scriptExecutor.execute('kamehouse/shell-version.sh', "", self.displayModuleShellStatus, true);
   }
 
   this.getTomcatProcessStatus = () => {
@@ -173,7 +181,7 @@ function TomcatManager() {
     scriptExecutor.execute(hostOs + '/kamehouse/tomcat-status.sh', "", self.displayTomcatProcessStatus, true);
   }
 
-  this.displayAppsStatus = (scriptOutput) => {
+  this.displayTomcatModulesStatus = (scriptOutput) => {
     collapsibleDivUtils.refreshCollapsibleDiv();
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("/kame-house")) {
@@ -188,6 +196,51 @@ function TomcatManager() {
         } else {
           $("#mst-" + module + "-status-val").html(self.statusBallBlueImg.cloneNode(true));
         }        
+      }
+    });
+  }
+
+  this.displayModuleCmdStatus = (scriptOutput) => {
+    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
+      if (scriptOutputLine.startsWith("buildVersion")) {
+        let scriptOutputLineArray = scriptOutputLine.split("=");
+        let buildVersion = scriptOutputLineArray[1];
+        $("#mst-cmd-build-version-val").html(buildVersion);    
+      }
+      if (scriptOutputLine.startsWith("buildDate")) {
+        let scriptOutputLineArray = scriptOutputLine.split("=");
+        let buildDate = scriptOutputLineArray[1];
+        $("#mst-cmd-build-date-val").html(buildDate);    
+      }
+    });
+  }
+
+  this.displayModuleGrootStatus = (scriptOutput) => {
+    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
+      if (scriptOutputLine.startsWith("buildVersion")) {
+        let scriptOutputLineArray = scriptOutputLine.split("=");
+        let buildVersion = scriptOutputLineArray[1];
+        $("#mst-groot-build-version-val").html(buildVersion);    
+      }
+      if (scriptOutputLine.startsWith("buildDate")) {
+        let scriptOutputLineArray = scriptOutputLine.split("=");
+        let buildDate = scriptOutputLineArray[1];
+        $("#mst-groot-build-date-val").html(buildDate);    
+      }
+    });
+  }
+
+  this.displayModuleShellStatus = (scriptOutput) => {
+    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
+      if (scriptOutputLine.startsWith("buildVersion")) {
+        let scriptOutputLineArray = scriptOutputLine.split("=");
+        let buildVersion = scriptOutputLineArray[1];
+        $("#mst-shell-build-version-val").html(buildVersion);    
+      }
+      if (scriptOutputLine.startsWith("buildDate")) {
+        let scriptOutputLineArray = scriptOutputLine.split("=");
+        let buildDate = scriptOutputLineArray[1];
+        $("#mst-shell-build-date-val").html(buildDate);    
       }
     });
   }
@@ -216,12 +269,13 @@ function TomcatManager() {
     return webapp.substring(12);
   }
 
-  this.refreshTomcatView = () => {
-    logger.info("Refreshing tomcat view");
+  this.refreshServerView = () => {
+    logger.info("Refreshing server view");
     self.resetAllModulesStatus();
-    self.getAppsStatus();
+    self.getTomcatModulesStatus();
     self.getTomcatProcessStatus();
     moduleStatusManager.getAllModulesStatus();
+    self.getNonTomcatModulesStatus();
     serverManager.completeCommandCallback();
   }
 
@@ -247,7 +301,7 @@ function TomcatManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     let args = "-m " + module;
-    scriptExecutor.execute('kamehouse/start-java-web-kamehouse.sh', args, self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/start-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
   this.stopModule = (module) => {
@@ -257,7 +311,7 @@ function TomcatManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     let args = "-m " + module;
-    scriptExecutor.execute('kamehouse/stop-java-web-kamehouse.sh', args, self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/stop-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
   this.deployModule = (module) => {
@@ -267,7 +321,7 @@ function TomcatManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     let args = "-f -m " + module;
-    scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
   this.deployModuleAllServers = (module) => {
@@ -277,7 +331,7 @@ function TomcatManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     let args = "-m " + module;
-    scriptExecutor.execute('kamehouse/deploy-all-servers.sh', args, self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/deploy-all-servers.sh', args, self.refreshServerView);
   }
 
   this.undeployModule = (module) => {
@@ -287,7 +341,7 @@ function TomcatManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     let args = "-m " + module;
-    scriptExecutor.execute('kamehouse/undeploy-java-web-kamehouse.sh', args, self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/undeploy-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
   this.deployAllModules = () => {
@@ -297,7 +351,7 @@ function TomcatManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     let args = "-f";
-    scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
   this.deployAllModulesAllServers = () => {
@@ -306,7 +360,7 @@ function TomcatManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    scriptExecutor.execute('kamehouse/deploy-all-servers.sh', "", self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/deploy-all-servers.sh', "", self.refreshServerView);
   }
 
   this.startTomcat = () => {
@@ -315,7 +369,7 @@ function TomcatManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    scriptExecutor.execute('kamehouse/tomcat-startup.sh', "", self.refreshTomcatView);
+    scriptExecutor.execute('kamehouse/tomcat-startup.sh', "", self.refreshServerView);
   }
 
   this.stopTomcat = () => {
@@ -325,7 +379,7 @@ function TomcatManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     let hostOs = serverManager.getHostOs();
-    scriptExecutor.execute(hostOs + '/kamehouse/tomcat-stop.sh', "", self.refreshTomcatView);
+    scriptExecutor.execute(hostOs + '/kamehouse/tomcat-stop.sh', "", self.refreshServerView);
   }
 
   /** Dynamic DOM element generation ------------------------------------------ */
