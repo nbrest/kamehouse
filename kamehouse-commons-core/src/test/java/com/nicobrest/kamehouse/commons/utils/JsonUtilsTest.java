@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -155,6 +156,23 @@ public class JsonUtilsTest {
   public void isJsonNodeArrayEmptyNonArrayTest() {
     boolean output = JsonUtils.isJsonNodeArrayEmpty(jsonNode);
     assertEquals(true, output);
+  }
+
+  /**
+   * Tests toJson.
+   */
+  @Test
+  public void toJsonTest() {
+    String jsonString = "{}";
+    JsonNode output = JsonUtils.toJson(jsonString);
+    assertNotNull(output);
+
+    output = JsonUtils.toJson(null);
+    assertNull(output);
+
+    String invalidJson = "{invalid]";
+    output = JsonUtils.toJson(invalidJson);
+    assertNull(output);
   }
 
   /**
