@@ -74,7 +74,7 @@
         <quartz.version>2.3.0</quartz.version>                              <!-- Updated 2020/12 -->
         <spring.version>4.3.25.RELEASE</spring.version>                     <!-- Updated 2019/09 -->
         <spring.session.version>2.0.10.RELEASE</spring.session.version>     <!-- Updated 2021/06 -->
-        <spring.security.version>4.2.13.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
+        <spring.security.version>5.2.10.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
         <war.plugin.version>2.1.1</war.plugin.version>                      <!-- Updated 2016/02 -->
     </properties>
 
