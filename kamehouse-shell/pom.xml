@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.nicobrest</groupId>
+        <artifactId>kamehouse-parent</artifactId>
+        <version>5.00.1-KAMEHOUSE-SNAPSHOT</version>
+    </parent>
+
+    <name>KameHouse - Shell</name>
+    <groupId>com.nicobrest</groupId>
+    <artifactId>kamehouse-shell</artifactId>
+    <version>${kamehouse.version}</version>
+
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <!-- Create the zip file to install kamehouse-shell to the users home -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${assembly.plugin.version}</version>
+                <configuration>
+                    <finalName>${project.artifactId}</finalName>
+                    <descriptors>
+                        <descriptor>src/main/assembly/descriptor.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

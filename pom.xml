@@ -21,6 +21,7 @@
         <module>kamehouse-cmd</module>
         <module>kamehouse-groot</module>
         <module>kamehouse-media</module>
+        <module>kamehouse-shell</module>
         <module>kamehouse-tennisworld</module>
         <module>kamehouse-testmodule</module>
         <module>kamehouse-ui</module>
