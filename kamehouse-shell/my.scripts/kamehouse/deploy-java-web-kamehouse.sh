@@ -47,6 +47,8 @@ mainProcess() {
     executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
     deployToTomcat
     deployKameHouseCmd
+    deployKameHouseGroot
+    deployKameHouseShell
   else
     # Execute remote deployment
     executeSshCommand       
@@ -175,6 +177,20 @@ deployKameHouseCmd() {
     unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.sh
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
+  fi
+}
+
+deployKameHouseGroot() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
+    log.info "Already pulled latest changes from git at start of deployment, so groot is up to date"
+  fi
+}
+
+deployKameHouseShell() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}" 
+    git-pull-my-scripts.sh
   fi
 }
 
