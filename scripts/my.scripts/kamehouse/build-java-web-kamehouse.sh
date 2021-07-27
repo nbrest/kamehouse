@@ -98,7 +98,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast build. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
 }
 

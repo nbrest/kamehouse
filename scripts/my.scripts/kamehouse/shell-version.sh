@@ -20,6 +20,7 @@ displayLatestGitCommit() {
 
   BUILD_DATE=`git log | head -n 3 | grep Date | cut -c 9-`
   BUILD_VERSION=`git log | head -n 3 | grep commit | cut -c 8-`
+  BUILD_VERSION=${BUILD_VERSION:0:10}".."${BUILD_VERSION:(-10)} 
   echo "buildVersion=${BUILD_VERSION}"
   echo "buildDate=${BUILD_DATE}"
 }

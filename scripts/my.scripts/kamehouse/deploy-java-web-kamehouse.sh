@@ -186,7 +186,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-e (aws|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast deployment. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
 }
 

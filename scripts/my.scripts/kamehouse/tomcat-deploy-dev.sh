@@ -127,7 +127,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's tomcat to deploy to" 
-  echo -e "     ${COL_BLUE}-m (admin|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
 }
 
 main "$@"
