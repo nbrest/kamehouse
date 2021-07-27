@@ -64,7 +64,6 @@ public class CmdArgumentHandlerTest {
     assertNull(cmdArgumentHandler.getArgument("of"));
   }
 
-
   /**
    * Tests an invalid operation.
    */

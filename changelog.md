@@ -2,7 +2,9 @@
 
 #### v5.00
 
-* Added a java built command line tool to kamehouse. Ininitally to encrypt content used in the webapps but more functionality planned to be added
+* Added a java built command line tool to kamehouse
+* Added encrypt and decrypt operations using kamehouse keys to kamehouse-cmd to encrypt/decrypt files
+* Added verbose mode to kamehouse-cmd enabled through -v
 
 #### v4.00
 

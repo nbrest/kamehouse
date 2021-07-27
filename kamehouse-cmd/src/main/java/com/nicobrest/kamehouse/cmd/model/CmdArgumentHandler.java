@@ -34,6 +34,7 @@ public class CmdArgumentHandler {
   private static final CommandLineParser COMMAND_LINE_PARSER = new DefaultParser();
   private static final String VALID_OPERATIONS =
       Arrays.asList(Operation.values()).toString().toLowerCase(Locale.getDefault());
+  private static final List<String> DECRYPT_OPTIONS = Arrays.asList("-if", "-of");
   private static final List<String> ENCRYPT_OPTIONS = Arrays.asList("-if", "-of");
 
   private CommandLine commandLine;
@@ -47,6 +48,7 @@ public class CmdArgumentHandler {
     ROOT_OPTIONS_GROUP.setRequired(true);
     ALL_OPTIONS.addOptionGroup(ROOT_OPTIONS_GROUP);
 
+    ALL_OPTIONS.addOption(new Option("v", "verbose", false, "Verbose mode"));
     ALL_OPTIONS.addOption(new Option("if", "input-file", true, "Input file"));
     ALL_OPTIONS.addOption(new Option("of", "output-file", true, "Output file"));
   }
@@ -72,6 +74,9 @@ public class CmdArgumentHandler {
         throw new ParseException("Operation not set");
       }
       switch (operation) {
+        case DECRYPT:
+          parseDecryptOperation();
+          break;
         case ENCRYPT:
           parseEncryptOperation();
           break;
@@ -127,6 +132,18 @@ public class CmdArgumentHandler {
       logger.error("Invalid operation {}. Valid values: {}", operationArgument, VALID_OPERATIONS);
       help();
     }
+  }
+
+  /**
+   * Parse the arguments for the decrypt operation.
+   */
+  private void parseDecryptOperation() {
+    DECRYPT_OPTIONS.stream().forEach(option -> {
+      if (!hasArgument(option)) {
+        logger.error("Argument {} is missing", option);
+        help();
+      }
+    });
   }
 
   /**

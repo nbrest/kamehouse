@@ -6,5 +6,6 @@ package com.nicobrest.kamehouse.cmd.model;
  * @author nbrest
  */
 public enum Operation {
+  DECRYPT,
   ENCRYPT
 }

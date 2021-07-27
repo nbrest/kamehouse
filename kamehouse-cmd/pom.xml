@@ -169,6 +169,15 @@
     </profiles>
 
     <dependencies>
+        <!-- Java -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- kamehouse -->
         <dependency>
             <groupId>com.nicobrest</groupId>
             <artifactId>kamehouse-commons</artifactId>

@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.cert.X509Certificate;
+import java.security.PrivateKey;
 
 /**
- * Executor for the encrypt operation.
+ * Executor for the decrypt operation.
  *
  * @author nbrest
  */
 @Component
-public class EncryptExecutor {
+public class DecryptExecutor {
 
-  private final Logger logger = LoggerFactory.getLogger(EncryptExecutor.class);
+  private final Logger logger = LoggerFactory.getLogger(DecryptExecutor.class);
 
   /**
    * Execute the operation.
@@ -29,20 +29,20 @@ public class EncryptExecutor {
     String inputFileName = cmdArgumentHandler.getArgument("if");
     String outputFileName = cmdArgumentHandler.getArgument("of");
     try {
-      logger.info("Encrypting contents of {} into {}", inputFileName, outputFileName);
+      logger.info("Decrypting contents of {} into {}", inputFileName, outputFileName);
       File inputFile = new File(inputFileName);
       File outputFile = new File(outputFileName);
       byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
-      if (inputBytes != null && logger.isTraceEnabled()) {
-        logger.trace("Content to encrypt:");
-        System.out.println(new String(inputBytes, StandardCharsets.UTF_8));
+      PrivateKey key = EncryptionUtils.getKameHousePrivateKey();
+      byte[] decryptedOutput = EncryptionUtils.decrypt(inputBytes, key);
+      FileUtils.writeByteArrayToFile(outputFile, decryptedOutput);
+      if (decryptedOutput != null && logger.isTraceEnabled()) {
+        logger.trace("Decrypted content:");
+        System.out.println(new String(decryptedOutput, StandardCharsets.UTF_8));
       }
-      X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
-      byte[] encryptedBytes = EncryptionUtils.encrypt(inputBytes, cert);
-      FileUtils.writeByteArrayToFile(outputFile, encryptedBytes);
-      logger.info("Finished encrypting content");
+      logger.info("Finished decrypting content");
     } catch (IOException e) {
-      logger.error("Error encrypting file", e);
+      logger.error("Error decrypting file", e);
     }
   }
 }
