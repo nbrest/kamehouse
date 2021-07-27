@@ -5,6 +5,8 @@
 * Added a java built command line tool to kamehouse
 * Added encrypt and decrypt operations using kamehouse keys to kamehouse-cmd to encrypt/decrypt files
 * Added verbose mode to kamehouse-cmd enabled through -v
+* Renamed tab from tomcat to deployment in groot server manager
+* Added module status and deployment of non tomcat modules: cmd, groot and my.scripts
 
 #### v4.00
 
