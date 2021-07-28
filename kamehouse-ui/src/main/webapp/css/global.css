@@ -453,8 +453,9 @@ html.wait, html.wait * {
   background-color: #1a1a1a;
   background-image: none;
   border: 1px solid #333333;
-  display:block;
-  width:100%;
+  display: block;
+  width: 100%;
+  outline: none;
 }
 
 .landing-p-link:hover {
