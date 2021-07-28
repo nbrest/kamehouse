@@ -3,6 +3,7 @@
 #### v6.00
 
 * Added my.scripts as a new maven module (shell) to export them as a deployable zip file
+* Updated login page styles
 
 #### v5.00
 
