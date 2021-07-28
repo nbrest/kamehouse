@@ -55,29 +55,47 @@ header #header-top #branding h1 {
   margin: 0;
 }
 
+header .highlight {
+  color: #d90000;
+  font-weight: bold;
+}
+
 header #header-top #login-status {
   padding: 10px;
   padding-bottom: 0px;
   float: right;
 }
 
-header #header-top #login-status a {
-  float: right;
-  display: inline;
-  border: none;
-}
-
 header #header-top #login-status h5 {
-	float: right;
 	display: inline;
-	padding: 6px;
-	padding-right: 5px;
-	margin-bottom: 0px;
+	padding-right: 10px;
 }
 
-header .highlight {
-  color: #d90000;
-  font-weight: bold;
+.header-login-status-btn {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transform: scale(0.9);
+}
+
+@media (max-width : 900px) {
+  .header-login-status-btn {
+    width: 32px;
+    height: 32px;
+    transform: scale(1);
+  }
+}
+
+/** MIN WIDTH media query: Only do for desktop, without afecting mobile. I usually use queries 
+ * to override the default behaviour I set on desktop. In this case, I was doing that and
+ * it caused a bug because I had to force mobile to scale to 1 and brightness 1 and that
+ * overrode the .media-button-pressed css, removing the effect of pressed buttons */
+@media (min-width : 900px) {
+
+  /** This css affects desktop, not mobile! */
+  .header-login-status-btn:hover {
+    transform: scale(1.2);
+  }
 }
 
 /* Media Queries */
@@ -118,11 +136,8 @@ header .highlight {
     padding-right: 10px;
     margin: 0px;
   }
-    
-  header #header-top #login-status a {
-    border: none;
-  } 
 
+  
   header .header-nav a:nth-child(n+5) {display: none;}
   header .header-nav a.icon {
     float: right;
@@ -142,4 +157,3 @@ header .highlight {
     text-align: left;
   }
 }
-

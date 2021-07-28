@@ -182,8 +182,8 @@ function Header() {
       global.session.username.trim() == "anonymousUser") {
       $loginStatus.append(self.getLoginButton());
     } else {
-      $loginStatus.append(self.getLogoutButton());
       $loginStatus.append(self.getUsernameHeader(global.session.username));
+      $loginStatus.append(self.getLogoutButton());
     }
   }
 
@@ -195,19 +195,23 @@ function Header() {
   }
 
   this.getLoginButton = () => {
-    let loginButton = $('<a>');
-    loginButton.attr("class", "btn btn-outline-danger");
-    loginButton.attr("href", "/kame-house/login");
-    loginButton.text("Login");
-    return loginButton;
+    let img = new Image();
+    img.src = "/kame-house/img/pc/login-red.png";
+    img.className = "header-login-status-btn";
+    img.alt = "Login";
+    img.title = "Login";
+    img.onclick = () => window.location="/kame-house/login";
+    return img;
   }
 
   this.getLogoutButton = () => {
-    let logoutButton = $('<a>');
-    logoutButton.attr("class", "btn btn-outline-danger");
-    logoutButton.attr("href", "/kame-house/logout");
-    logoutButton.text("Logout");
-    return logoutButton;
+    let img = new Image();
+    img.src = "/kame-house/img/pc/logout-red.png";
+    img.className = "header-login-status-btn";
+    img.alt = "Logout";
+    img.title = "Logout";
+    img.onclick = () => window.location="/kame-house/logout";
+    return img;
   }
 
   this.getUsernameHeader = (username) => {
