@@ -66,8 +66,8 @@ header #header-top #login-status {
   float: right;
 }
 
-header #header-top #login-status h5 {
-	display: inline;
+.header-login-status-text {
+  font-size: 1.25rem;
 	padding-right: 10px;
 }
 
@@ -130,11 +130,8 @@ header #header-top #login-status h5 {
     padding-right: 5px;
   }
   
-  header #header-top #login-status h5 {
+  .header-login-status-text {
     font-size: 18px;
-    padding-top: 8px;
-    padding-right: 10px;
-    margin: 0px;
   }
 
   

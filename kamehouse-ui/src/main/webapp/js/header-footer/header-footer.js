@@ -215,7 +215,8 @@ function Header() {
   }
 
   this.getUsernameHeader = (username) => {
-    let usernameHeader = $('<h5>');
+    let usernameHeader = $('<span>');
+    usernameHeader.attr("class", "header-login-status-text");
     usernameHeader.text(username);
     return usernameHeader;
   }
