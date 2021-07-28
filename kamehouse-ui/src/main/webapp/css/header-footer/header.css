@@ -69,6 +69,7 @@ header #header-top #login-status {
 .header-login-status-text {
   font-size: 1.25rem;
 	padding-right: 10px;
+  color: #838383;
 }
 
 .header-login-status-btn {
