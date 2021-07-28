@@ -1,27 +1,14 @@
 #!/bin/bash
 
-function main() {
-  setProjectDirs "$@"
-  cd ${PROJECT_DIR}
-  
-  executeApp "$@"
+KAMEHOUSE_CMD_PATH=${HOME}/programs/kamehouse-cmd
 
-  cd ${CURRENT_DIR}
+function main() {
+  executeApp "$@"
 }
 
 executeApp() {
-  KAMEHOUSE_CMD_APP=`ls -1 lib/kamehouse-cmd-*`
+  KAMEHOUSE_CMD_APP=`ls -1 ${KAMEHOUSE_CMD_PATH}/lib/kamehouse-cmd-*`
   java -jar ${KAMEHOUSE_CMD_APP} "$@"
-}
-
-setProjectDirs() {
-  export CURRENT_DIR=$(pwd)
-  if [[ $0 == /* ]]; then 
-    export SCRIPT_DIR=$(dirname $0)
-  else 
-    export SCRIPT_DIR=$(dirname $(echo $(pwd)/$0))
-  fi
-  export PROJECT_DIR=${SCRIPT_DIR}/..
 }
 
 main "$@"
