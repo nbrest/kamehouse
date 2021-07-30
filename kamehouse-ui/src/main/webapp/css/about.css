@@ -4,6 +4,25 @@
 	}
 }
 
+.github-kamehouse-btn {
+  padding: 5px 20px 5px 20px;
+  margin: 5px 5px 5px 5px;
+  text-align: center;
+  line-height:1.5;
+  color: #6b6b6b;
+  font-weight: bold;
+  background-color: #1a1a1a;
+  background-image: none;
+  border: 1px solid #383838;
+  outline: none;
+  display: block;
+}
+
+.github-kamehouse-btn:hover {
+  color: #969696;
+  background: #4d0000;
+}
+
 #main-article {
   float: left;
   width: 65%;
@@ -18,19 +37,24 @@
 }
 
 #sidebar {
+  border: 1px solid #363636;
   float: right;
   width: 30%;
-  margin-top: 10px;
+  margin-top: 20px;
+  min-height: 520px;
 }
+
 @media ( max-width : 900px) {
 	#sidebar {
 	    float: none;
 	    text-align: center;
 	    width: 100%;
+      min-height: 420px;
 	  }
 }
 
 #social-media-links {
+  border: 1px solid #363636;
 	margin: auto;
 	width: 70%;
 }
@@ -38,4 +62,23 @@
 .social-media-logo { 
   width: 14px;
   height: 14px; 
+}
+
+.social-media-btn {
+  padding: 5px 20px 5px 20px;
+  margin: 5px 5px 5px 5px;
+  text-align: center;
+  line-height:1.5;
+  color: #6b6b6b;
+  font-weight: bold;
+  background-color: #1a1a1a;
+  background-image: none;
+  border: 1px solid #383838;
+  outline: none;
+  display: block;
+}
+
+.social-media-btn:hover {
+  color: #969696;
+  background: #4d0000;
 }
