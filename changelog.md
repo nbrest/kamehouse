@@ -4,6 +4,9 @@
 
 * Added my.scripts as a new maven module (shell) to export them as a deployable zip file
 * Updated login page styles
+* Replaced login and logout button
+* Updated groot index page links styles
+* Updated styles in about and contact us pages and newsletter snippet
 
 #### v5.00
 
