@@ -404,10 +404,19 @@ body {
 
 /** Override some of bootstrap's form control */
 .form-control {
-  border: 1px solid #686868;
+  border: 1px solid #383838;
   border-radius: 0px;
-  background-color: #000000;
+  background: #000000;
   color: #686868;
+  outline: none;
+}
+
+.form-control:focus {
+  border: 1px solid #616161;
+  border-radius: 0px;
+  background-color: #1a2226;
+  color: #C0C0C0;
+  outline: none;
 }
 
 .h3-kh {
