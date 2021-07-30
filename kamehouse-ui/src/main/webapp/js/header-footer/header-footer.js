@@ -196,7 +196,7 @@ function Header() {
 
   this.getLoginButton = () => {
     let img = new Image();
-    img.src = "/kame-house/img/pc/login-red.png";
+    img.src = "/kame-house/img/pc/login-left-red.png";
     img.className = "header-login-status-btn";
     img.alt = "Login";
     img.title = "Login";
@@ -206,7 +206,7 @@ function Header() {
 
   this.getLogoutButton = () => {
     let img = new Image();
-    img.src = "/kame-house/img/pc/logout-red.png";
+    img.src = "/kame-house/img/pc/logout-right-red.png";
     img.className = "header-login-status-btn";
     img.alt = "Logout";
     img.title = "Logout";
