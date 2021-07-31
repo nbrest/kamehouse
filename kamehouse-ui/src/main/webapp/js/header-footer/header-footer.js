@@ -198,8 +198,8 @@ function Header() {
     let img = new Image();
     img.src = "/kame-house/img/pc/login-left-red.png";
     img.className = "header-login-status-btn";
-    img.alt = "Login";
-    img.title = "Login";
+    img.alt = "Login KameHouse";
+    img.title = "Login KameHouse";
     img.onclick = () => window.location="/kame-house/login";
     return img;
   }
@@ -208,8 +208,8 @@ function Header() {
     let img = new Image();
     img.src = "/kame-house/img/pc/logout-right-red.png";
     img.className = "header-login-status-btn";
-    img.alt = "Logout";
-    img.title = "Logout";
+    img.alt = "Logout KameHouse";
+    img.title = "Logout KameHouse";
     img.onclick = () => window.location="/kame-house/logout";
     return img;
   }

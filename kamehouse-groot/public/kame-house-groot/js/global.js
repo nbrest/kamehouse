@@ -129,8 +129,8 @@ function GrootHeader() {
     let img = new Image();
     img.src = "/kame-house/img/pc/login-left-gray-dark.png";
     img.className = "groot-header-login-status-btn";
-    img.alt = "Login";
-    img.title = "Login";
+    img.alt = "Login GRoot";
+    img.title = "Login GRoot";
     img.onclick = () => window.location="/kame-house-groot/login.html";
     return img;
   }
@@ -139,8 +139,8 @@ function GrootHeader() {
     let img = new Image();
     img.src = "/kame-house/img/pc/logout-right-gray-dark.png";
     img.className = "groot-header-login-status-btn";
-    img.alt = "Logout";
-    img.title = "Logout";
+    img.alt = "Logout GRoot";
+    img.title = "Logout GRoot";
     img.onclick = () => window.location="/kame-house-groot/api/v1/auth/logout.php";
     return img;
   }
