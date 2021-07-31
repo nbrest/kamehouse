@@ -162,6 +162,15 @@ a:active {
   } 
 }
 
+.groot-header-db-img {
+  height: 25px;
+  width: 25px;
+  margin-top: 6px;
+  margin-left: 15px;
+  filter: brightness(0.3);
+  float: left;
+}
+
 .groot-header-branding {
   float: right;
   font-size: 20px;
