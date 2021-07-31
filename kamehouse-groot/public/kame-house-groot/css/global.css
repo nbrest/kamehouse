@@ -198,6 +198,7 @@ a:active {
 }
 
 #groot-header-top-wrapper {
+  background-color: #000000;
   display: block;
   overflow: none;
   padding-bottom: 5px;
@@ -225,6 +226,7 @@ a:active {
 }
 
 .groot-nav-wrapper {
+  background-color: #000000;
   overflow: hidden;
   border-bottom: #4d0000 3px solid;
 }
@@ -245,7 +247,7 @@ a:active {
 }
 
 .groot-nav a:hover {
-  background-color: #000000;
+  background-color: #222222;
   color: #dbdbdb;
 }
 
