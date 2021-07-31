@@ -11,6 +11,7 @@
 * Created a custom login page for groot
 * Added a sub header in groot with the currently logged in user
 * Updated the authentication of all pages and APIs in groot to use the new auth endpoints
+* Imported more shell scripts
 
 #### v5.00
 
