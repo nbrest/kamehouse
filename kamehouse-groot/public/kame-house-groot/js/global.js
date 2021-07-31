@@ -81,14 +81,18 @@ function GrootHeader() {
    * Update groot session status.
    */
   function updateSessionStatus() {
-    let $loginStatus = $("#groot-header-login-status");
-    $loginStatus.empty();
+    let $loginStatusDesktop = $("#groot-header-login-status-desktop");
+    let $loginStatusMobile = $("#groot-header-login-status-mobile");
+    $loginStatusDesktop.empty();
     if (isNullOrUndefined(global.groot.session.username) || global.groot.session.username.trim() == "" ||
       global.groot.session.username.trim() == "anonymousUser") {
-      $loginStatus.append(self.getLoginButton());
+      $loginStatusDesktop.append(self.getLoginButton());
+      $loginStatusMobile.append(self.getLoginButton());
     } else {
-      $loginStatus.append(self.getUsernameHeader(global.groot.session.username));
-      $loginStatus.append(self.getLogoutButton());
+      $loginStatusDesktop.append(self.getUsernameHeader(global.groot.session.username));
+      $loginStatusDesktop.append(self.getLogoutButton());
+      $loginStatusMobile.append(self.getUsernameHeader(global.groot.session.username));
+      $loginStatusMobile.append(self.getLogoutButton());
     }
   }
 

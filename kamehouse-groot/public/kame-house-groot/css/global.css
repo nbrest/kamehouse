@@ -121,15 +121,56 @@ a:active {
 }
 
 /** groot header */
-#groot-header-branding {
-  float: right;
-  font-size: 20px;
-  color: #5a5a5a;
-  padding-top: 10px;
+#groot-header-branding-desktop {
+  display: block;
 }
 
 @media ( max-width : 900px) {  
-  #groot-header-branding {
+  #groot-header-branding-desktop {
+    display: none;
+  } 
+}
+
+#groot-header-login-status-desktop {
+  display: block;
+}
+
+@media ( max-width : 900px) {  
+  #groot-header-login-status-desktop {
+    display: none;
+  } 
+}
+
+#groot-header-branding-mobile {
+  display: none;
+}
+
+@media ( max-width : 900px) {  
+  #groot-header-branding-mobile {
+    display: block;
+  } 
+}
+
+#groot-header-login-status-mobile {
+  display: none;
+}
+
+@media ( max-width : 900px) {  
+  #groot-header-login-status-mobile {
+    display: block;
+    margin-top: 5px;
+  } 
+}
+
+.groot-header-branding {
+  float: right;
+  font-size: 20px;
+  color: #5a5a5a;
+  padding-top: 6px;
+}
+
+@media ( max-width : 900px) {  
+  .groot-header-branding {
     padding-top: 10px;
     padding-right: 15px;
     padding-left: 10px;
@@ -144,18 +185,20 @@ a:active {
   font-weight: bold;
 }
 
-#groot-header-login-status {
-  padding: 10px;
+.groot-header-login-status {
+  padding-top: 6px;
+  padding-right: 10px;
+  padding-left: 10px;
   padding-bottom: 0px;
   float: right;
 }
 
 @media ( max-width : 900px) {  
-  #groot-header-login-status {
+  .groot-header-login-status {
     float: right;
     text-align: right;
     padding: 0px;
-    padding-top: 5px;
+    padding-top: 0px;
     padding-left: 5px;
   }
 }  
@@ -170,6 +213,7 @@ a:active {
 @media ( max-width : 900px) {  
   .groot-header-login-status-text {
     font-size: 18px;
+    height: 22px;
   }
 }
 
@@ -182,6 +226,8 @@ a:active {
 
 @media (max-width : 900px) {
   .groot-header-login-status-btn {
+    margin-top: 5px;
+    margin-bottom: 5px;
     width: 22px;
     height: 22px;
     transform: scale(1);
@@ -199,15 +245,13 @@ a:active {
 
 #groot-header-top-wrapper {
   background-color: #000000;
-  display: block;
+  display: none;
   overflow: none;
-  padding-bottom: 5px;
 }
 
 @media ( max-width : 900px) {	 
   #groot-header-top-wrapper {
     padding: 0px;
-    padding-bottom: 5px;
     width: 100%;
     display: block;
   }
