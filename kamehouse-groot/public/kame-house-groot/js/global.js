@@ -127,7 +127,7 @@ function GrootHeader() {
   /** Dynamic DOM element generation ------------------------------------------ */
   this.getLoginButton = () => {
     let img = new Image();
-    img.src = "/kame-house/img/pc/login-left-red.png";
+    img.src = "/kame-house/img/pc/login-left-gray-dark.png";
     img.className = "groot-header-login-status-btn";
     img.alt = "Login";
     img.title = "Login";
@@ -137,7 +137,7 @@ function GrootHeader() {
 
   this.getLogoutButton = () => {
     let img = new Image();
-    img.src = "/kame-house/img/pc/logout-right-red.png";
+    img.src = "/kame-house/img/pc/logout-right-gray-dark.png";
     img.className = "groot-header-login-status-btn";
     img.alt = "Logout";
     img.title = "Logout";
