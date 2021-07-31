@@ -1,5 +1,8 @@
 <?php
 /**
+ * 
+ * [INTERNAL] - To be imported from other php files. Not to be directly called from frontend code.
+ * 
  * Check if an Authorization header was sent or if there is an active session.
  * There's no roles in GRoot. Only admin users. So if the user is logged in, it has access to any page.
  * 
