@@ -31,6 +31,7 @@
     session_start();
     require_once("../../../../api/v1/commons/global.php");
     require_once("../../../../api/v1/auth/authorize-api.php");
+    unlockSession();
     // Disable time_limit and max_execution_time (mainly for scp-torrent.sh script)
     set_time_limit(0);
     ini_set('max_execution_time', 0);

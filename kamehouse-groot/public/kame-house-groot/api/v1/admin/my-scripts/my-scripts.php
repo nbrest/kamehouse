@@ -37,5 +37,6 @@
     session_start();
     require_once("../../../../api/v1/commons/global.php");
     require_once("../../../../api/v1/auth/authorize-api.php");
+    unlockSession();
   }
 ?>

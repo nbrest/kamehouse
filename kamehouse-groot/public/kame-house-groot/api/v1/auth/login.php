@@ -41,6 +41,7 @@
     session_regenerate_id();
     $_SESSION['logged-in'] = true;
     $_SESSION['username'] = $username;
+    unlockSession();
   }
 
   function redirectLoginSuccess() {

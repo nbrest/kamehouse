@@ -9,6 +9,13 @@
  * @author nbrest
  */
 
+ /**
+ * 
+ */
+function unlockSession() {
+  session_write_close();
+}
+
 /**
  * 
  */

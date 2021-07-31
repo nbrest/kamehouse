@@ -21,8 +21,10 @@ mainAuthorizePage();
     initAuthorizePage();
 
     if (isLoggedIn()) {
+      unlockSession();
       return;
     }
+    unlockSession();
     
     if (isset($_SERVER['REQUEST_URI'])) {
       header('Location: /kame-house-groot/login.html?referrer=' . $_SERVER['REQUEST_URI']);
