@@ -11,6 +11,9 @@ function loadStickyBackToTop() {
   });
 }
 
+/**
+ * Manager to handle the sticky button to go back to top.
+ */
 function StickyBackToTopManager() {
   let self = this;
 
@@ -19,6 +22,9 @@ function StickyBackToTopManager() {
     self.importHtml();
   }
 
+  /**
+   * Import the sticky button html.
+   */
   this.importHtml = async () => {
     const response = await fetch("/kame-house/html-snippets/sticky-back-to-top.html");
     const stickyBackToTopBtn = await response.text();
@@ -26,10 +32,16 @@ function StickyBackToTopManager() {
     self.setupEventHandlers();
   }
 
+  /**
+   * Import the sticky button css.
+   */
   this.importCss = () => {
     $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/sticky-back-to-top.css">');
   }
 
+  /**
+   * Configure event handlers for the sticky back to top button.
+   */
   this.setupEventHandlers = () => {
     window.addEventListener("scroll", self.showHideStickyBackToTopBtn);
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
@@ -39,6 +51,9 @@ function StickyBackToTopManager() {
     }
   }
 
+  /**
+   * Show or hide the sticky button depending on the scroll location.
+   */
   this.showHideStickyBackToTopBtn = () => {
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
     let verticalScroll = window.scrollY;
@@ -49,6 +64,9 @@ function StickyBackToTopManager() {
     }
   }
 
+  /**
+   * Scroll back to the top of the page.
+   */
   this.backToTop = () => {
     const currentHeight = document.documentElement.scrollTop || document.body.scrollTop;
     if (currentHeight > 0) {

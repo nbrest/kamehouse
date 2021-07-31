@@ -9,6 +9,9 @@ var loadModuleStatusManager = () => {
   });
 };
 
+/**
+ * Manager to get the status of the tomcat modules in the current server.
+ */
 function ModuleStatusManager() {
   let self = this;
 

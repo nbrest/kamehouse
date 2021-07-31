@@ -21,6 +21,9 @@ function importCss() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/test-module/scheduler/scheduler.css">');
 }
 
+/**
+ * Manager to handle the scheduling of the sample job.
+ */
 function Scheduler() {
   let self = this;
   const TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";

@@ -97,6 +97,9 @@ function Logger() {
     }
   }
 
+  /**
+   * Scroll to the last entries of the console log.
+   */
   this.debugModeLogScroll = () => {
     let height = $("#debug-mode-console-log-entries").get(0).scrollHeight;
     $("#debug-mode-console-log-entries").animate({

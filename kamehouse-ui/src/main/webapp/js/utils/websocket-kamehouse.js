@@ -140,6 +140,7 @@ function WebSocketKameHouse() {
     }
   }
 
+  //Enable console messages for stomp. Only enable if I need to debug connection issues.
   this.enableStompDebugMode = () => self.stompClient.debug = self.stompClientDebugFunction;
 
   //Disable console messages for stomp. Only enable if I need to debug connection issues.

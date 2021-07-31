@@ -86,6 +86,9 @@ function LoadingWheelModal() {
   this.setHtml = self.modalUtils.setHtml;
   this.appendHtml = self.modalUtils.appendHtml;
 
+  /**
+   * Open modal.
+   */
   this.open = (message) => {
     if (isNullOrUndefined(message) && !isNullOrUndefined(global.session.firstName)) {
       let chottoMatte = 'ちょっと まって';

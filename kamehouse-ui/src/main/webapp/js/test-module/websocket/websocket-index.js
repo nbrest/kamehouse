@@ -27,6 +27,9 @@ var main = () => {
   });
 }
 
+/**
+ * Update the view based on the websocket being connected or disconnected.
+ */
 function setConnected(isConnected) {
   logger.trace(arguments.callee.name);
   $("#connect").prop("disabled", isConnected);
@@ -41,6 +44,9 @@ function setConnected(isConnected) {
   }
 }
 
+/**
+ * Connect the websocket.
+ */
 function connectWebSocket() {
   logger.trace(arguments.callee.name);
   websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body)));
@@ -48,6 +54,9 @@ function connectWebSocket() {
   logger.debug("Connected WebSocket");
 }
 
+/**
+ * Disconnect the websocket.
+ */
 function disconnectWebSocket() {
   logger.trace(arguments.callee.name);
   websocket.disconnect();
@@ -55,6 +64,9 @@ function disconnectWebSocket() {
   logger.debug("Disconnected WebSocket");
 }
 
+/**
+ * Send a message through the websocket.
+ */
 function sendWebSocketRequest() {
   logger.trace(arguments.callee.name);
   let pollBody = JSON.stringify({
@@ -64,6 +76,9 @@ function sendWebSocketRequest() {
   websocket.poll(pollBody);
 }
 
+/**
+ * Update the view after getting a response from the websocket.
+ */
 function showTestWebSocketResponse(testWebSocketResponseBody) {
   logger.trace(arguments.callee.name);
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));

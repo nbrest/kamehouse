@@ -24,6 +24,9 @@ function importEhcacheCss() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/ehcache.css">');
 }
 
+/**
+ * Manage ehcache in the current server.
+ */
 function EhCacheManager() {
   let self = this;
   this.ehcacheToggleTableRowIds = [

@@ -14,6 +14,9 @@ window.onload = () => {
   bannerUtils.setRandomAllBanner();
 };
 
+/**
+ * Manager to get the scheduled jobs in the current server and cancel their scheduling.
+ */
 function Scheduler() {
   let self = this;
   this.jobs = [[]];

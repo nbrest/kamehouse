@@ -95,10 +95,19 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Execute VlcPlayer commands
    */
+  /**
+   * Play the specified file in vlc.
+   */
   this.playFile = (fileName) => self.commandExecutor.playFile(fileName);
 
+  /**
+   * Execute the specified vlc command.
+   */
   this.execVlcRcCommand = (name, val) => self.commandExecutor.execVlcRcCommand(name, val);
 
+  /**
+   * Set the subtitle delay.
+   */
   this.updateSubtitleDelay = (increment) => {
     let subtitleDelay = self.getVlcRcStatus().subtitleDelay;
     if (!isNullOrUndefined(subtitleDelay)) {
@@ -109,32 +118,50 @@ function VlcPlayer(hostname) {
     self.commandExecutor.execVlcRcCommand('subdelay', subtitleDelay);
   }
 
+  /**
+   * Set aspect ratio.
+   */
   this.updateAspectRatio = (aspectRatio) => {
     if (!isNullOrUndefined(aspectRatio)) {
       self.commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
   }
 
+  /**
+   * Seek through the current playing file.
+   */
   this.seek = (value) => {
     self.mainViewUpdater.updateCurrentTimeView(value);
     self.commandExecutor.execVlcRcCommand('seek', value);
     self.mainViewUpdater.setTimeSliderLocked(false);
   }
 
+  /**
+   * Update the volume.
+   */
   this.setVolume = (value) => {
     self.mainViewUpdater.updateVolumeView(value);
     self.commandExecutor.execVlcRcCommand('volume', value);
     self.mainViewUpdater.setVolumeSliderLocked(false);
   }
 
+  /**
+   * Close vlc player.
+   */
   this.close = () => self.commandExecutor.close();
 
   /**
    * --------------------------------------------------------------------------
    * VlcRcStatus synced from the backend
    */
+  /**
+   * Get the current vlcRc status.
+   */
   this.getVlcRcStatus = () => self.vlcRcStatus;
 
+  /**
+   * Pol vlcrc status from the websocket.
+   */
   this.pollVlcRcStatus = () => self.synchronizer.pollVlcRcStatus();
 
   /** 

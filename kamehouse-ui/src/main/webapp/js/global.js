@@ -215,6 +215,9 @@ function BannerUtils() {
 function CollapsibleDivUtils() {
   let self = this;
 
+  /**
+   * Refresh to resize all the collapsible divs in the current page.
+   */
   this.refreshCollapsibleDiv = () => {
     let collapsibleElements = document.getElementsByClassName("collapsible-kh");
     let i;
@@ -417,6 +420,9 @@ function CursorUtils() {
     $('#spinning-wheel-mobile-wrapper').addClass("hidden-kh");
   }
 
+  /**
+   * Load the spinning wheel for mobile view.
+   */
   this.loadSpinningWheelMobile = async () => {
     const response = await fetch('/kame-house/html-snippets/spinning-wheel-mobile.html');
     const spinnigWheelMobileDiv = await response.text();
@@ -474,6 +480,9 @@ function ModuleUtils() {
     });
   }
 
+  /**
+   * Load kamehouse websockets module.
+   */
   this.loadWebSocketKameHouse = () => {
     $.getScript("/kame-house/js/utils/websocket-kamehouse.js", (data, textStatus, jqxhr) =>
       self.waitForModules(["logger"], () => self.setModuleLoaded("webSocketKameHouse")));

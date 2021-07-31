@@ -26,6 +26,9 @@ var main = () => {
   });
 };
 
+/**
+ * Load the main vlc player object.
+ */
 function loadVlcPlayer() {
   moduleUtils.loadWebSocketKameHouse();
   $.getScript("/kame-house/js/vlc-player/vlc-player.js", (data, textStatus, jqxhr) => {
@@ -36,6 +39,9 @@ function loadVlcPlayer() {
   });
 }
 
+/**
+ * Load the playlist browser attached to the vlc player.
+ */
 function loadPlaylistBrowser() {
   $.getScript("/kame-house/js/media/video/playlist-browser.js", (data, textStatus, jqxhr) => {
     moduleUtils.waitForModules(["logger", "debuggerHttpClient", "vlcPlayer"], () => {

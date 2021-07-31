@@ -17,6 +17,9 @@ function main() {
  */
 function SystemCommandManager() {
 
+  /**
+   * Render the system command output.
+   */
   this.renderCommandOutput = (systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) => {
     let systemCommandOutputDiv = "#system-command-output";
     if (systemCommandOutputDivId) {
@@ -50,6 +53,9 @@ function SystemCommandManager() {
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
   
+  /**
+   * Display an error executing the system command.
+   */
   this.renderErrorExecutingCommand = () => {
     let systemCommandOutputDiv = "#system-command-output";
     $(systemCommandOutputDiv).empty();

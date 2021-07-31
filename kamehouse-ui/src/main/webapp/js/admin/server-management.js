@@ -23,6 +23,9 @@ function importServerManagementCss() {
   $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
 }
 
+/**
+ * Manager to execute the admin commands in the current server.
+ */
 function ServerManager() {
   let self = this;
   const ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
@@ -154,12 +157,18 @@ function ServerManager() {
    * --------------------------------------------------------------------------
    * REBOOT functions
    */
+  /**
+   * Open a modal to confirm rebooting the server.
+   */
    this.confirmRebootServer = () => {
     basicKamehouseModal.setHtml(self.getRebootServerModalMessage());
     basicKamehouseModal.appendHtml(self.createRebootImg());
     basicKamehouseModal.open();
   }
 
+  /**
+   * Reboot the server.
+   */
   this.rebootServer = () => {
     loadingWheelModal.open();
     debuggerHttpClient.post(ADMIN_API_URL + REBOOT_URL, null, processSuccess, processError);
@@ -169,16 +178,25 @@ function ServerManager() {
    * --------------------------------------------------------------------------
    * SYSTEM STATE functions
    */
+  /**
+   * Check the uptime.
+   */
   this.uptime = () => {
     loadingWheelModal.open();
     debuggerHttpClient.get(ADMIN_API_URL + UPTIME_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
 
+  /**
+   * Check the available memory.
+   */
   this.free = () => {
     loadingWheelModal.open();
     debuggerHttpClient.get(ADMIN_API_URL + FREE_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
 
+  /**
+   * Check the available disk space.
+   */
   this.df = () => {
     loadingWheelModal.open();
     debuggerHttpClient.get(ADMIN_API_URL + DF_URL, processSuccessSystemCommand, processErrorSystemCommand);
@@ -200,22 +218,34 @@ function ServerManager() {
     debuggerHttpClient.post(ADMIN_API_URL + HTTPD_URL, null, processSuccessHttpdRestart, processErrorHttpdRestart, null);
   }
 
+  /**
+   * Callback after successful system command execution.
+   */
   function processSuccessSystemCommand(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     systemCommandManager.renderCommandOutput(responseBody, false, null);
   }
 
+  /**
+   * Callback after error executing a system command.
+   */
   function processErrorSystemCommand(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
     systemCommandManager.renderErrorExecutingCommand();
   }
 
+  /**
+   * Callback after successfully getting the httpd process status.
+   */
   function processSuccessHttpdStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status");
   }
 
+  /**
+   * Callback after an error getting the httpd process status.
+   */
   function processErrorHttpdStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     if (responseCode != 404) {
@@ -226,6 +256,9 @@ function ServerManager() {
     }
   }
 
+  /**
+   * Callback after successfully restarting httpd server.
+   */
   function processSuccessHttpdRestart(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     systemCommandManager.renderCommandOutput(responseBody, false, null);
@@ -234,6 +267,9 @@ function ServerManager() {
     }, 5000);
   }
 
+  /**
+   * Callback after an error restarting httpd server.
+   */
   function processErrorHttpdRestart(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);

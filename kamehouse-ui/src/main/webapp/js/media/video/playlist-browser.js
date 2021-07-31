@@ -79,12 +79,18 @@ function PlaylistBrowser(vlcPlayer) {
       );
   }
 
+  /**
+   * Reset playlist dropdown view.
+   */
   this.resetPlaylistDropdown = () => {
     let playlistDropdown = $('#playlist-dropdown');
     playlistDropdown.empty();
     playlistDropdown.append(self.getInitialDropdownOption("Playlist"));
   }
 
+  /**
+   * Reset playlist category dropdown view.
+   */
   this.resetPlaylistCategoryDropdown = () => {
     let playlistCategoryDropdown = $('#playlist-category-dropdown');
     playlistCategoryDropdown.empty();

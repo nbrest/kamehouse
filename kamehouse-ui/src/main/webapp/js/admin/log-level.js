@@ -14,6 +14,9 @@ window.onload = () => {
   bannerUtils.setRandomAllBanner();
 };
 
+/**
+ * Manage the log level of the backend on the current server.
+ */
 function BackendLogLevelUtils() {
   let self = this;
   this.logLevelTableTemplate;
