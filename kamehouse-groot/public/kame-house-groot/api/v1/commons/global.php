@@ -115,4 +115,42 @@ function startsWith($str, $start) {
 function contains($str, $substr) {
   return strpos($str, $substr) !== false;
 }
+
+/** 
+ * Check that the input is valid to pass as an argument to a shell script.
+ */
+function isValidInputForShell($param) {
+  $MAX_LENGTH = 100;
+
+  if (isEmptyStr($param)) {
+    return true;
+  }
+
+  $isValidInputForShell = true;
+
+  if (strlen($param) > $MAX_LENGTH) {
+    $isValidInputForShell = false;
+  }
+
+  // Skipped: " "
+  $forbiddenChars = array(">", "<", ";", ":", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "\"", "'", "#", "\\", ",", "`", "..", "%", "@", "!", "$", "?");
+  foreach ($forbiddenChars as $forbiddenChar) {
+    if(hasForbiddenCharSequenceForShell($param, $forbiddenChar)) {
+      $isValidInputForShell = false;
+    }
+  }
+
+  return $isValidInputForShell;
+}
+
+/**
+ * Validate if the specified param contains the specified invalid character sequence.
+ */
+function hasForbiddenCharSequenceForShell($param, $invalidCharSequence) {
+  if (contains($param, $invalidCharSequence)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 ?>

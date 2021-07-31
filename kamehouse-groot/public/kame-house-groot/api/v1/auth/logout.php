@@ -9,6 +9,9 @@
 
 <?php
 
+  /**
+   * Destroy the current session and redirect to login page.
+   */
   function main() {
     session_start();
     session_destroy();

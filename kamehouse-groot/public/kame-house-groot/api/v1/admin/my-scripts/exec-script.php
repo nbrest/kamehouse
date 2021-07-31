@@ -17,11 +17,8 @@
     init();
   
     $script = isset($_GET['script']) ? $_GET['script'] : '';
-    validateScript($script);
-
     $scriptArgs = isset($_GET['args']) ? $_GET['args'] : '';
-    validateArgs($scriptArgs);
-  
+
     $shellCommandOutput = executeShellScript($script, $scriptArgs);
     $htmlCommandOutput = getHtmlOutput($shellCommandOutput);
   
@@ -40,9 +37,17 @@
   }
 
   /**
-   * Execute the specified script.
+   * Execute the specified script. 
    */
   function executeShellScript($script, $scriptArgs) {
+    if(!isValidInputForShell($script)) {
+      exitWithError(400, "script is invalid for shell execution");
+    }
+
+    if(!isValidInputForShell($scriptArgs)) {
+      exitWithError(400, "scriptArgs is invalid for shell execution");
+    }
+  
     if (isLinuxHost()) {
       /**
        * This requires to give permission to www-data to execute a couple of scripts. Update sudoers:
@@ -67,98 +72,5 @@
     $htmlCommandOutput = convertBashColorsToHtml($shellCommandOutput);
     $htmlCommandOutput = explode("\n", $htmlCommandOutput);
     return $htmlCommandOutput;
-  }
-
-  /** 
-   * Validate script.
-   */
-  function validateScript($script) {
-    $SCRIPT_MAX_LENGTH = 100;
-
-    if (isEmptyStr($script)) {
-      exitWithError(400, "script param is empty");
-    }
-    if (strlen($script) > $SCRIPT_MAX_LENGTH) {
-      exitWithError(400, "script exceeds maximum length");
-    }
-    if (!endsWith($script, '.sh')) {
-      exitWithError(400, "script needs to end in .sh");
-    }
-    validateInvalidChar("script", $script, ":");
-    validateInvalidChar("script", $script, ">");
-    validateInvalidChar("script", $script, "<");
-    validateInvalidChar("script", $script, ";");
-    validateInvalidChar("script", $script, "|");
-    validateInvalidChar("script", $script, "%");
-    validateInvalidChar("script", $script, "&");
-    validateInvalidChar("script", $script, "*");
-    validateInvalidChar("script", $script, "(");
-    validateInvalidChar("script", $script, ")");
-    validateInvalidChar("script", $script, "{");
-    validateInvalidChar("script", $script, "}");
-    validateInvalidChar("script", $script, "[");
-    validateInvalidChar("script", $script, "]");    
-    validateInvalidChar("script", $script, "@");
-    validateInvalidChar("script", $script, "!");
-    validateInvalidChar("script", $script, "$");
-    validateInvalidChar("script", $script, "?");
-    validateInvalidChar("script", $script, "^");
-    validateInvalidChar("script", $script, "\"");
-    validateInvalidChar("script", $script, "'");
-    validateInvalidChar("script", $script, "#");
-    validateInvalidChar("script", $script, "\\");
-    validateInvalidChar("script", $script, ",");
-    validateInvalidChar("script", $script, "`");
-    validateInvalidChar("script", $script, "..");
-    validateInvalidChar("script", $script, " ");
-  }
-
-  /** 
-   * Validate args.
-   */
-  function validateArgs($args) {
-    $ARGS_MAX_LENGTH = 100;
-    if (isEmptyStr($args)) {
-      // nothing to validate
-      return;
-    }
-    if (strlen($args) > $ARGS_MAX_LENGTH) {
-      exitWithError(400, "args exceeds maximum length");
-    }
-    validateInvalidChar("args", $args, ":");
-    validateInvalidChar("args", $args, ">");
-    validateInvalidChar("args", $args, "<");
-    validateInvalidChar("args", $args, ";");
-    validateInvalidChar("args", $args, "|");
-    validateInvalidChar("args", $args, "%");
-    validateInvalidChar("args", $args, "&");
-    validateInvalidChar("args", $args, "*");
-    validateInvalidChar("args", $args, "(");
-    validateInvalidChar("args", $args, ")");
-    validateInvalidChar("args", $args, "{");
-    validateInvalidChar("args", $args, "}");
-    validateInvalidChar("args", $args, "[");
-    validateInvalidChar("args", $args, "]");    
-    validateInvalidChar("args", $args, "@");
-    validateInvalidChar("args", $args, "!");
-    validateInvalidChar("args", $args, "$");
-    validateInvalidChar("args", $args, "?");
-    validateInvalidChar("args", $args, "^");
-    validateInvalidChar("args", $args, "\"");
-    validateInvalidChar("args", $args, "'");
-    validateInvalidChar("args", $args, "#");
-    validateInvalidChar("args", $args, "\\");
-    validateInvalidChar("args", $args, ",");
-    validateInvalidChar("args", $args, "`");
-    validateInvalidChar("args", $args, "..");
-  }
-
-  /**
-   * Validate that the specified param doesn't contain the specified invalid character sequence.
-   */
-  function validateInvalidChar($paramName, $param, $invalidCharSequence) {
-    if (contains($param, $invalidCharSequence)) {
-      exitWithError(400, $paramName . " contains an invalid character sequence: '" . $invalidCharSequence . "'");
-    }
   }
 ?>

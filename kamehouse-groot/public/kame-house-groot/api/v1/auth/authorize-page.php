@@ -1,7 +1,7 @@
 <?php
 /**
  * Check if the user is logged in. 
- * There's no roles in GRoot, so if the user is logged in, it has access to any page.
+ * There's no roles in GRoot. Only admin users. So if the user is logged in, it has access to any page.
  * 
  * Import this in every page that requires groot authorization by calling:
  * `<?php require_once("../../api/v1/auth/authorize-page.php") ?>`
@@ -14,17 +14,30 @@ mainAuthorizePage();
 
 <?php
 
+  /**
+   * Check if there's an active session, otherwise redirect to login page.
+   */
   function mainAuthorizePage() {
-    session_start();
-    
-    // Check that the user is logged in, otherwise redirect to login
-    if (!isset($_SESSION['logged-in'])) {
-      if (isset($_SERVER['REQUEST_URI'])) {
-        header('Location: /kame-house-groot/login.html?referrer=' . $_SERVER['REQUEST_URI']);
-        exit;
-      }
-      header('Location: /kame-house-groot/login.html');
-    	exit;
+    initAuthorizePage();
+
+    if (isLoggedIn()) {
+      return;
     }
+    
+    if (isset($_SERVER['REQUEST_URI'])) {
+      header('Location: /kame-house-groot/login.html?referrer=' . $_SERVER['REQUEST_URI']);
+      exit;
+    }
+
+    header('Location: /kame-house-groot/login.html');
+  	exit;
+  }
+
+  /**
+   * 
+   */
+  function initAuthorizePage() {
+    session_start();
+    require_once("auth-functions.php");
   }
 ?>
