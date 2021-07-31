@@ -5,14 +5,14 @@ var tailLogManagerWrapper;
 
 function main() {
   bannerUtils.setRandomAllBanner();
-  moduleUtils.waitForModules(["logger", "httpClient", "tailLogManager", "scriptExecutor"], () => {
+  moduleUtils.waitForModules(["logger", "httpClient", "tailLogManager", "scriptExecutor", "grootHeader"], () => {
     gitManager = new GitManager();
     deploymentManager = new DeploymentManager();
     deploymentManager.init();
     serverManager = new ServerManager();
     tailLogManagerWrapper = new TailLogManagerWrapper();
     tailLogManagerWrapper.init();
-    grootHeader.getSessionStatus(serverManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
+    serverManager.handleSessionStatus();
     deploymentManager.getTomcatModulesStatus();
     deploymentManager.getNonTomcatModulesStatus();
     serverManager.loadStateFromCookies();
@@ -76,7 +76,8 @@ function ServerManager() {
   }
 
   /** Handle Session Status */
-  this.handleSessionStatus = (sessionStatus) => {
+  this.handleSessionStatus = () => {
+    sessionStatus = global.groot.session;
     self.isLinuxHost = sessionStatus.isLinuxHost;
     self.updateServerName(sessionStatus);
     deploymentManager.getTomcatProcessStatus();

@@ -2,9 +2,9 @@ var myScriptsManager;
 
 function main() {
   bannerUtils.setRandomDragonBallBanner();
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+  moduleUtils.waitForModules(["logger", "httpClient", "grootHeader"], () => {
     myScriptsManager = new MyScriptsManager();
-    grootHeader.getSessionStatus(myScriptsManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
+    myScriptsManager.handleSessionStatus();
     myScriptsManager.getMyScripts(myScriptsManager.populateMyScriptsTable, () => { logger.error("Error getting my.scripts csv"); });
   });
 }
@@ -48,8 +48,8 @@ function MyScriptsManager() {
   }
   
   /** Handle Session Status */
-  this.handleSessionStatus = (sessionStatus) => {
-    self.updateServerName(sessionStatus);
+  this.handleSessionStatus = () => {
+    self.updateServerName(global.groot.session);
   }
   
   /** Update server name */

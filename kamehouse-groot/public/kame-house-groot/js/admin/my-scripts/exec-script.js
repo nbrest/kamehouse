@@ -1,8 +1,8 @@
 function main() {
   bannerUtils.setRandomAllBanner();
-  moduleUtils.waitForModules(["scriptExecutor"], () => {
+  moduleUtils.waitForModules(["scriptExecutor", "grootHeader"], () => {
     scriptExecutor.setScriptNameAndArgsFromUrlParams();
-    grootHeader.getSessionStatus(scriptExecutor.handleSessionStatus, () => { logger.error("Error getting session status"); });
+    scriptExecutor.handleSessionStatus();
   });
 }
 

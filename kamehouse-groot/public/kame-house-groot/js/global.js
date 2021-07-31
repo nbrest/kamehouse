@@ -63,14 +63,6 @@ function GrootHeader() {
       loadSessionStatus();
     });
   }
-
-  /** Get session status from the backend */
-  this.getSessionStatus = (successCallback, errorCallback) => {
-    const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
-    httpClient.get(SESSION_STATUS_API, null,
-      (responseBody, responseCode, responseDescription) => successCallback(responseBody, responseCode, responseDescription),
-      (responseBody, responseCode, responseDescription) => errorCallback(responseBody, responseCode, responseDescription));
-  }
   
   /** Load session status */
   function loadSessionStatus(successCallback, errorCallback) {
@@ -80,6 +72,7 @@ function GrootHeader() {
         global.groot = {};
         global.groot.session = responseBody;
         updateSessionStatus();
+        moduleUtils.setModuleLoaded("grootHeader");
       },
       (responseBody, responseCode, responseDescription) =>  logger.error("Error retrieving current groot session information."));
   }

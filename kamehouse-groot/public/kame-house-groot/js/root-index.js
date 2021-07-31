@@ -7,15 +7,15 @@ function setClientTimeAndDate() {
 }
 
 /** Update page banner with server name */
-function updateBanner(sessionStatus) {
-  if (!isNullOrUndefined(sessionStatus.server)) {
-    $("#banner-h1").text(sessionStatus.server);
+function updateBanner() {
+  if (!isNullOrUndefined(global.groot.session.server)) {
+    $("#banner-h1").text(global.groot.session.server);
   }
 }
 
 window.onload = () => {
   bannerUtils.setRandomTennisBanner();
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
-    grootHeader.getSessionStatus(updateBanner, () => {});
+  moduleUtils.waitForModules(["logger", "httpClient", "grootHeader"], () => {
+    updateBanner();
   });
 };

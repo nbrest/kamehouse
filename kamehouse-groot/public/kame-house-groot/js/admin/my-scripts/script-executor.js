@@ -154,8 +154,8 @@ function ScriptExecutor() {
   }
 
   /** Handle Session Status */
-  this.handleSessionStatus = (sessionStatus) => {
-    self.updateServerName(sessionStatus);
+  this.handleSessionStatus = () => {
+    self.updateServerName(global.groot.session);
   }
 
   /** Update server name */
