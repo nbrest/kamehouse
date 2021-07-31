@@ -18,7 +18,8 @@
     // Gives a lot of info of the server
     echo "<h1>print server info</h1>";
     //print_r($_SERVER);
-  
+    //print_r ($_SESSION);
+
     // print all headers
     echo "<h1>print all headers</h1>";
     foreach (getallheaders() as $name => $value) {
@@ -33,6 +34,7 @@
   }
 
   function init() {
+    session_start();
     require_once("../../../api/v1/commons/global.php");
     require_once("../../../api/v1/commons/examples/examples.php");
   }

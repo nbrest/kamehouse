@@ -1,3 +1,4 @@
+<?php require_once("../../api/v1/auth/authorize-page.php") ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

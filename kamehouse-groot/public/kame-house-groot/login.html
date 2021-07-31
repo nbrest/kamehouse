@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="description" content="kame-house-groot login">
+<meta name="keywords" content="kame-house-groot nicobrest nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>GRoot - Login</title>
+
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/js/global.js"></script>
+<script src="/kame-house/js/login.js"></script>
+<script src="/kame-house-groot/js/global.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" /> 
+<link rel="stylesheet" href="/kame-house-groot/css/global.css" />
+<link rel="stylesheet" href="/kame-house-groot/css/login.css" /> 
+</head>
+<body class="login-p-body">
+  <div id="groot-menu-wrapper"></div>
+  <div class="default-layout main-body">
+    <form action="/kame-house-groot/api/v1/auth/login.php" method="post" class="form-horizontal login-form">
+
+      <div id="login-alert-group-error" class="hidden-kh">
+        <div class="login-alert-group">
+          <img class="login-icon"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
+            alt="alert-error" />
+          <div class="login-alert-error">Invalid username or password.</div>
+        </div>
+      </div>
+      <div id="login-alert-group-logout" class="hidden-kh">
+        <div class="login-alert-group">
+          <img class="login-icon"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
+            alt="alert-success" />
+          <div class="login-alert-success">You have been logged out successfully.</div>
+        </div>
+      </div>
+
+      <div class="login-input-group">
+        <label for="username" class="login-label">
+          <img class="login-icon" src="/kame-house/img/dbz/goku-red-very-dark.png" alt="username"/>
+        </label>
+        <input type="text" class="login-input-form" id="username" name="username"
+          placeholder="Username" required>
+      </div>
+      <br>
+      <div class="login-input-group">
+        <label for="password" class="login-label">
+          <img class="login-icon" src="/kame-house/img/pc/password-red-very-dark.png" alt="password"/>
+        </label>
+        <input type="password" class="login-input-form" id="password" name="password"
+          placeholder="Password" required>
+      </div>
+      <br>
+      <div class="login-input-group">
+        <label for="submit" class="login-label">
+          <!-- transparent 1 pixel img -->
+          <img class="login-icon"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
+            alt="submit"/>
+        </label>
+        <button class="login-btn"
+           type="submit">Enter KameHouse GRoot</button>
+    </form>
+    </div>
+  </div>
+</body>
+</html>

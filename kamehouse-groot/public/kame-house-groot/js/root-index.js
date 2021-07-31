@@ -15,8 +15,7 @@ function updateBanner(sessionStatus) {
 
 window.onload = () => {
   bannerUtils.setRandomTennisBanner();
-  renderRootMenu();
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
-    getSessionStatus(updateBanner, () => {});
+    grootHeader.getSessionStatus(updateBanner, () => {});
   });
 };

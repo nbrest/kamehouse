@@ -5,7 +5,6 @@ var tailLogManagerWrapper;
 
 function main() {
   bannerUtils.setRandomAllBanner();
-  renderRootMenu();
   moduleUtils.waitForModules(["logger", "httpClient", "tailLogManager", "scriptExecutor"], () => {
     gitManager = new GitManager();
     deploymentManager = new DeploymentManager();
@@ -13,7 +12,7 @@ function main() {
     serverManager = new ServerManager();
     tailLogManagerWrapper = new TailLogManagerWrapper();
     tailLogManagerWrapper.init();
-    getSessionStatus(serverManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
+    grootHeader.getSessionStatus(serverManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
     deploymentManager.getTomcatModulesStatus();
     deploymentManager.getNonTomcatModulesStatus();
     serverManager.loadStateFromCookies();

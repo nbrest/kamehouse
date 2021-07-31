@@ -120,6 +120,105 @@ a:active {
   margin-top: -20px;
 }
 
+/** groot header */
+#groot-header-branding {
+  float: right;
+  font-size: 25px;
+  color: #5a5a5a;
+  padding-top: 5px;
+}
+
+@media ( max-width : 900px) {  
+  #groot-header-branding {
+    padding-top: 5px;
+    padding-right: 15px;
+    font-size: 18px;
+    text-align: right;
+    display: inline;
+  }
+}  
+
+.groot-header-highlight {
+  color: #830000;
+  font-weight: bold;
+}
+
+#groot-header-login-status {
+  padding: 10px;
+  padding-bottom: 0px;
+  float: left;
+}
+
+@media ( max-width : 900px) {  
+  #groot-header-login-status {
+    float: left;
+    text-align: left;
+    padding: 0px;
+    padding-top: 5px;
+    padding-left: 5px;
+  }
+}  
+
+.groot-header-login-status-text {
+  font-size: 1.25rem;
+	padding-left: 10px;
+  padding-right: 10px;
+  color: #585858;
+}
+
+@media ( max-width : 900px) {  
+  .groot-header-login-status-text {
+    font-size: 18px;
+  }
+}
+
+.groot-header-login-status-btn {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transform: scale(0.9);
+  filter: brightness(0.6);
+}
+
+@media (max-width : 900px) {
+  .groot-header-login-status-btn {
+    width: 26px;
+    height: 26px;
+    transform: scale(1);
+  }
+}
+
+/** desktop query */
+@media (min-width : 900px) {
+
+  /** This css affects desktop, not mobile! */
+  .groot-header-login-status-btn:hover {
+    transform: scale(1.2);
+  }
+}
+
+#groot-header-top-wrapper {
+  display: block;
+  overflow: none;
+  padding-bottom: 5px;
+}
+
+@media ( max-width : 900px) {	 
+  #groot-header-top-wrapper {
+    padding: 0px;
+    padding-bottom: 5px;
+    width: 100%;
+    display: block;
+  }
+}  
+
+@media ( max-width : 900px) {
+  #groot-header-top {
+    display: block;
+    overflow: hidden;
+  }
+}  
+
 /** GRoot menu nav begin */
 .groot-nav {
   overflow: hidden;

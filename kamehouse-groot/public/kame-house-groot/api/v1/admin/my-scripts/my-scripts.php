@@ -25,7 +25,7 @@
     }
   
     if (empty($myScriptsCSV)) {
-        $myScriptsCSV = "couldn-find-scripts.sh";
+      $myScriptsCSV = "couldn-find-scripts.sh";
     }
   
     $myScriptsArray = explode(",", $myScriptsCSV);
@@ -34,6 +34,8 @@
   }
 
   function init() {
+    session_start();
     require_once("../../../../api/v1/commons/global.php");
+    require_once("../../../../api/v1/auth/authorize-api.php");
   }
 ?>

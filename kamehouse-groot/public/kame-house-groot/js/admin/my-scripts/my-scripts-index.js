@@ -2,10 +2,9 @@ var myScriptsManager;
 
 function main() {
   bannerUtils.setRandomDragonBallBanner();
-  renderRootMenu();
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     myScriptsManager = new MyScriptsManager();
-    getSessionStatus(myScriptsManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
+    grootHeader.getSessionStatus(myScriptsManager.handleSessionStatus, () => { logger.error("Error getting session status"); });
     myScriptsManager.getMyScripts(myScriptsManager.populateMyScriptsTable, () => { logger.error("Error getting my.scripts csv"); });
   });
 }
@@ -13,7 +12,7 @@ function main() {
 function MyScriptsManager() {
   let self = this;
 
-  const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/my-scripts/exec-script.html";
+  const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/my-scripts/exec-script.php";
 
   /** Populates all my-scripts table */
   this.populateMyScriptsTable = (myScriptsArray) => {

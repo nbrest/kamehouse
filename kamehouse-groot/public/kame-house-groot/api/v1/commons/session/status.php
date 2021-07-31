@@ -11,7 +11,7 @@
   function main() {
     init();
     
-    $user = isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'] : 'anonymousUser';
+    $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
   
     $sessionStatus = [ 'server' => gethostname(), 'username' => $user , 'isLinuxHost' => isLinuxHost() ];
   
@@ -19,6 +19,7 @@
   }
 
   function init() {
+    session_start();
     require_once("../../../../api/v1/commons/global.php");
   }
 ?>
