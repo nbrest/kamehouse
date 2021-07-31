@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.01
+
+* Moved tennis world cardio schedule to properties files 
+
 #### v6.00
 
 * Added my.scripts as a new maven module (shell) to export them as a deployable zip file
