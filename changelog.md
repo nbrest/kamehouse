@@ -7,6 +7,10 @@
 * Replaced login and logout button
 * Updated groot index page links styles
 * Updated styles in about and contact us pages and newsletter snippet
+* Replaced .htaccess authentication in groot with a custom authentication endpoint built with php and a shell script, still relying on .htpasswd file to authenticate users
+* Created a custom login page for groot
+* Added a sub header in groot with the currently logged in user
+* Updated the authentication of all pages and APIs in groot to use the new auth endpoints
 
 #### v5.00
 
