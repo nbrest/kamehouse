@@ -46,17 +46,16 @@
 
   function redirectLoginSuccess() {
     $redirectUrl = "/kame-house-groot/";
-    //TODO
-    // this redirect back to login.html, maybe set a header in the redirect to login.html and get the value from there
-    //if (isset($_SERVER['HTTP_REFERER'])) {
-    //  $redirectUrl = $_SERVER['HTTP_REFERER'];
-    //}
-    // maybe send the referer in the login form? then check $_POST['referrer']
+    if (isset($_POST['referrer']) && startsWith($_POST['referrer'], "/kame-house-groot/")) {
+      $redirectUrl = $_POST['referrer'];
+    }
     header('Location: ' . $redirectUrl);
+    exit;
   }
 
   function redirectLoginError() {
     header('Location: /kame-house-groot/login.html?error');
+    exit;
   }
   
   function isValidUsernameAndPassword($username, $password) {

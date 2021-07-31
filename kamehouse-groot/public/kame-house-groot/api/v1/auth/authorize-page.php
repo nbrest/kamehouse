@@ -19,7 +19,11 @@ mainAuthorizePage();
     
     // Check that the user is logged in, otherwise redirect to login
     if (!isset($_SESSION['logged-in'])) {
-    	header('Location: /kame-house-groot/login.html');
+      if (isset($_SERVER['REQUEST_URI'])) {
+        header('Location: /kame-house-groot/login.html?referrer=' . $_SERVER['REQUEST_URI']);
+        exit;
+      }
+      header('Location: /kame-house-groot/login.html');
     	exit;
     }
   }
