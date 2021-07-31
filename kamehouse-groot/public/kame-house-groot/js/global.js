@@ -87,8 +87,8 @@ function GrootHeader() {
       global.groot.session.username.trim() == "anonymousUser") {
       $loginStatus.append(self.getLoginButton());
     } else {
-      $loginStatus.append(self.getLogoutButton());
       $loginStatus.append(self.getUsernameHeader(global.groot.session.username));
+      $loginStatus.append(self.getLogoutButton());
     }
   }
 
