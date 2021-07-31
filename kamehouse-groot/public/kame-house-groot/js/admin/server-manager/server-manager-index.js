@@ -19,6 +19,9 @@ function main() {
   });
 }
 
+/**
+ * Main object of the server manager page, to handle commands execution and some view updates.
+ */
 function ServerManager() {
   let self = this;
   this.isLinuxHost = false;
@@ -43,6 +46,9 @@ function ServerManager() {
     self.isCommandRunningFlag = false;
   }
 
+  /**
+   * Callback to execute after every command finishes.
+   */
   this.completeCommandCallback = () => {
     self.setCommandNotRunning();
     collapsibleDivUtils.refreshCollapsibleDiv();
@@ -63,10 +69,16 @@ function ServerManager() {
     return self.isCommandRunningFlag;
   }
 
+  /**
+   * Open modal.
+   */
   this.openExecutingCommandModal = () => {
     loadingWheelModal.openAutoCloseable("Executing command. Check command output", 2000);
   }
 
+  /**
+   * Get host os.
+   */
   this.getHostOs = () => {
     if (self.isLinuxHost) {
       return "lin";
@@ -90,12 +102,18 @@ function ServerManager() {
     }
   }
   
+  /**
+   * Open modal to confirm reboot.
+   */
   this.confirmRebootServer = () => {
     basicKamehouseModal.setHtml(self.getRebootServerModalMessage());
     basicKamehouseModal.appendHtml(self.createRebootImg());
     basicKamehouseModal.open();
   }
 
+  /**
+   * Reboot the server.
+   */
   this.rebootServer = () => {
     if (self.isCommandRunning()) {
       return;
@@ -105,6 +123,9 @@ function ServerManager() {
     scriptExecutor.execute(hostOs + '/shutdown/reboot.sh', "", self.completeCommandCallback);
   }
 
+  /**
+   * Create all video playlists.
+   */
   this.createAllVideoPlaylists = () => {
     if (self.isCommandRunning()) {
       return;
@@ -130,9 +151,15 @@ function ServerManager() {
   }
 }
 
+/**
+ * Manager to execute git commands.
+ */
 function GitManager() {
   let self = this;
 
+  /**
+   * Pull all from all git repos.
+   */
   this.pullAll = () => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -143,6 +170,9 @@ function GitManager() {
     scriptExecutor.execute(hostOs + '/git/git-pull-all.sh', "", serverManager.completeCommandCallback);
   }
 
+  /**
+   * Pull all from all repos, in all servers.
+   */
   this.pullAllAllServers = () => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -153,6 +183,9 @@ function GitManager() {
   }
 }
 
+/**
+ * Manager to execute deployment tasks.
+ */
 function DeploymentManager() {
   let self = this;
   this.statusBallBlueImg = null;
@@ -165,10 +198,16 @@ function DeploymentManager() {
     self.statusBallGreenImg = self.createStatusBallGreenImg();
   }
 
+  /**
+   * Get status from all tomcat modules.
+   */
   this.getTomcatModulesStatus = () => {
     scriptExecutor.execute('kamehouse/status-java-web-kamehouse.sh', "", self.displayTomcatModulesStatus, true);
   }
 
+  /**
+   * Get status from non tomcat modules.
+   */
   this.getNonTomcatModulesStatus = () => {
     logger.debug("Getting non tomcat modules status");
     scriptExecutor.execute('kamehouse/kamehouse-cmd.sh', "-V", self.displayModuleCmdStatus, true);
@@ -176,11 +215,17 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/shell-version.sh', "", self.displayModuleShellStatus, true);
   }
 
+  /**
+   * Get the tomcat process status.
+   */
   this.getTomcatProcessStatus = () => {
     let hostOs = serverManager.getHostOs();
     scriptExecutor.execute(hostOs + '/kamehouse/tomcat-status.sh', "", self.displayTomcatProcessStatus, true);
   }
 
+  /**
+   * Render tomcat modules status.
+   */
   this.displayTomcatModulesStatus = (scriptOutput) => {
     collapsibleDivUtils.refreshCollapsibleDiv();
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
@@ -200,18 +245,30 @@ function DeploymentManager() {
     });
   }
 
+  /**
+   * Render cmd module status.
+   */
   this.displayModuleCmdStatus = (scriptOutput) => {
     self.displayNonTomcatModuleStatus(scriptOutput, "cmd");
   }
 
+  /**
+   * Render groot module status.
+   */
   this.displayModuleGrootStatus = (scriptOutput) => {
     self.displayNonTomcatModuleStatus(scriptOutput, "groot");
   }
 
+  /**
+   * Render shell module status.
+   */
   this.displayModuleShellStatus = (scriptOutput) => {
     self.displayNonTomcatModuleStatus(scriptOutput, "shell");
   }
 
+  /**
+   * Render non tomcat module status.
+   */
   this.displayNonTomcatModuleStatus = (scriptOutput, module) => {
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("buildVersion")) {
@@ -227,6 +284,9 @@ function DeploymentManager() {
     });
   }
 
+  /**
+   * Render tomcat process status.
+   */
   this.displayTomcatProcessStatus = (scriptOutput) => {
     let tomcatProcessStatusDiv = "#tomcat-process-status-val";
     $(tomcatProcessStatusDiv).empty();
@@ -244,6 +304,9 @@ function DeploymentManager() {
     $(tomcatProcessStatusDiv).children().last().remove();
   }
 
+  /**
+   * Get the module from the webapp.
+   */
   this.getModule = (webapp) => {
     if (webapp == "/kame-house") {
       return "ui";
@@ -251,6 +314,9 @@ function DeploymentManager() {
     return webapp.substring(12);
   }
 
+  /**
+   * Refresh the server view.
+   */
   this.refreshServerView = () => {
     logger.info("Refreshing server view");
     self.resetAllModulesStatus();
@@ -261,12 +327,18 @@ function DeploymentManager() {
     serverManager.completeCommandCallback();
   }
 
+  /**
+   * Reset view of module status.
+   */
   this.resetModuleStatus = (module) => {
     $("#mst-" + module + "-status-val").html(self.statusBallBlueImg.cloneNode(true));
     $("#mst-" + module + "-build-version-val").text("N/A");
     $("#mst-" + module + "-build-date-val").text("N/A");
   }
 
+  /**
+   * Reset view of all tomcat modules.
+   */
   this.resetAllModulesStatus = () => {
     self.resetModuleStatus("admin");
     self.resetModuleStatus("media");
@@ -276,6 +348,9 @@ function DeploymentManager() {
     self.resetModuleStatus("vlcrc");
   }
 
+  /**
+   * Start tomcat module.
+   */
   this.startModule = (module) => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -286,6 +361,9 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/start-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
+  /**
+   * Stop tomcat module.
+   */
   this.stopModule = (module) => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -296,6 +374,9 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/stop-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
+  /**
+   * Deploy module.
+   */
   this.deployModule = (module) => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -319,6 +400,9 @@ function DeploymentManager() {
     scriptExecutor.execute(script, args, self.refreshServerView);
   }
 
+  /**
+   * Deploy module in all servers.
+   */
   this.deployModuleAllServers = (module) => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -329,6 +413,9 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/deploy-all-servers.sh', args, self.refreshServerView);
   }
 
+  /**
+   * Undeploy module.
+   */
   this.undeployModule = (module) => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -339,6 +426,9 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/undeploy-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
+  /**
+   * Deploy all modules in the local server.
+   */
   this.deployAllModules = () => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -349,6 +439,9 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, self.refreshServerView);
   }
 
+  /**
+   * Deploy all modules in all servers.
+   */
   this.deployAllModulesAllServers = () => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -358,6 +451,9 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/deploy-all-servers.sh', "", self.refreshServerView);
   }
 
+  /**
+   * Start tomcat.
+   */
   this.startTomcat = () => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -367,6 +463,9 @@ function DeploymentManager() {
     scriptExecutor.execute('kamehouse/tomcat-startup.sh', "", self.refreshServerView);
   }
 
+  /**
+   * Stop tomcat.
+   */
   this.stopTomcat = () => {
     if (serverManager.isCommandRunning()) {
       return;
@@ -406,6 +505,9 @@ function DeploymentManager() {
   }  
 }
 
+/**
+ * Manager to execute tail log commands.
+ */
 function TailLogManagerWrapper() {
   let self = this;
   this.isTailLogRunning = false;
@@ -418,6 +520,9 @@ function TailLogManagerWrapper() {
     self.startImg = self.createStartImg();
   }
 
+  /**
+   * Toggle start and stop tailing log.
+   */
   this.toggleTailLog = () => {
     if (self.isTailLogRunning) {
       logger.info("Stopped tailLog loop");
@@ -431,6 +536,9 @@ function TailLogManagerWrapper() {
     self.tailLog();
   }
 
+  /**
+   * Tail the log selected in the ui.
+   */
   this.tailLog = async () => {
     while (self.isTailLogRunning) {
       logger.trace(" tailLog loop running");

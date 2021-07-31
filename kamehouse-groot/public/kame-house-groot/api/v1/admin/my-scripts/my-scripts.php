@@ -1,6 +1,8 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/admin/my-scripts/my-scripts.php
+ * Endpoint: /kame-house-groot/api/v1/admin/my-scripts/my-scripts.php (GET)
+ * 
+ * Gets the list of scripts as csv from the server.
  * 
  * @author nbrest
  */
@@ -12,15 +14,12 @@
   function main() {
     init();
 
-    /** Gets the list of scripts as csv from the server */
     $myScriptsCSV = "";
   
     if (isLinuxHost()) {
-      /** Get linux scripts */
       $username = trim(shell_exec("sudo /home/nbrest/my.scripts/kamehouse/get-username.sh"));
       $myScriptsCSV = trim(shell_exec("sudo -u " . $username . " /home/nbrest/my.scripts/lin/csv-my-scripts.sh"));
     } else {
-      /** Get windows scripts */
       $myScriptsCSV = trim(shell_exec("C:/Users/nbrest/my.scripts/win/bat/git-bash.bat -c \"C:/Users/nbrest/my.scripts/win/csv-my-scripts.sh\""));
     }
   

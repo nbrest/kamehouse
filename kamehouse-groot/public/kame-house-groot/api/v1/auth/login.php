@@ -1,5 +1,7 @@
 <?php
 /**
+ * Endpoint: /kame-house-groot/api/v1/auth/login.php (POST)
+ * 
  * Authenticate the specified user and password.
  * 
  * @author nbrest
@@ -11,7 +13,6 @@
 
   /**
    * Authenticate the user with the received credentials. 
-   * If successful redirect to home. If login unsuccessful redirect back to login page.
    */
   function main() {
     init();
@@ -36,6 +37,9 @@
     require_once("auth-functions.php");
   }
 
+  /**
+   * Start a new session.
+   */
   function initiateSession($username) {
     session_start();
     session_regenerate_id();
@@ -44,6 +48,9 @@
     unlockSession();
   }
 
+  /**
+   * Redirect after successful login.
+   */
   function redirectLoginSuccess() {
     $redirectUrl = "/kame-house-groot/";
     if (isset($_POST['referrer']) && startsWith($_POST['referrer'], "/kame-house-groot/")) {
@@ -53,6 +60,9 @@
     exit;
   }
 
+  /**
+   * Redirect after a failed login.
+   */
   function redirectLoginError() {
     header('Location: /kame-house-groot/login.html?error');
     exit;

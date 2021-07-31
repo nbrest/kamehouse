@@ -1,6 +1,6 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/admin/my-scripts/exec-script.php
+ * Endpoint: /kame-house-groot/api/v1/admin/my-scripts/exec-script.php (GET)
  * 
  * Url parameters: 
  *  - script: Script to execute with relative path to my.scripts repo

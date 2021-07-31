@@ -9,6 +9,9 @@ function main() {
   });
 }
 
+/**
+ * Manager to load and execute my.scripts.
+ */
 function MyScriptsManager() {
   let self = this;
 

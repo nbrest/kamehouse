@@ -1,6 +1,6 @@
 <?php 
 /**
- * Endpoint: /kame-house-groot/api/v1/test/test.php
+ * Endpoint: /kame-house-groot/api/v1/test/test.php (GET)
  * 
  * Test php functionality
  * 

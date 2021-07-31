@@ -1,6 +1,8 @@
 <?php 
 /**
- * Endpoint: /kame-house-groot/api/v1/commons/session/status.php
+ * Endpoint: /kame-house-groot/api/v1/commons/session/status.php (GET)
+ * 
+ * Get the current session status.
  * 
  * @author nbrest
  */

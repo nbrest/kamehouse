@@ -1,5 +1,6 @@
 <?php
 /**
+ * Endpoint: /kame-house-groot/api/v1/auth/authorize-api.php
  * 
  * [INTERNAL] - To be imported from other php files. Not to be directly called from frontend code.
  * 

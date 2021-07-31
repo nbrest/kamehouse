@@ -9,15 +9,15 @@
  * @author nbrest
  */
 
- /**
- * 
+/**
+ * Unlock the session to enable multiple requests to be executed in parallel in the same session.
  */
 function unlockSession() {
   session_write_close();
 }
 
 /**
- * 
+ * Check if the user is logged in.
  */
 function isLoggedIn() {
   if (isset($_SESSION['logged-in'])) {
@@ -28,7 +28,7 @@ function isLoggedIn() {
 }
 
 /**
- * 
+ * Checks if the authorization header is set in the request.
  */
 function isAuthorizationHeaderSet() {
   if (isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])) {
@@ -39,21 +39,22 @@ function isAuthorizationHeaderSet() {
 }
 
 /**
- * 
+ * Get the username from the auth header.
  */
 function getUsernameFromAuthorizationHeader() {
   return $_SERVER["PHP_AUTH_USER"];
 }
 
 /**
- * 
+ * Get the password from the auth header.
  */
 function getPasswordFromAuthorizationHeader() {
   return $_SERVER["PHP_AUTH_PW"];
 }
 
 /**
- * 
+ * Checks if the specified login credentials are valid executing a shell script to validate the user
+ * with the .htpasswd file.
  */
 function isAuthorizedUser($username, $password) {
   if(!isValidInputForShell($username)) {

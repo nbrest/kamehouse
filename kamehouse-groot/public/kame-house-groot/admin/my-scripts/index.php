@@ -9,7 +9,7 @@
 <meta name="keywords" content="kame-house nicobrest nbrest">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>My Scripts</title>
+<title>GRoot - My Scripts</title>
 
 <link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
 <script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>

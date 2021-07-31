@@ -151,7 +151,8 @@ function GrootHeader() {
  * Refresh the page after the specified seconds. 
  * Simulating a loop by recursively calling the same function 
  */
- var countdownCounter = 60;
+var countdownCounter = 60;
+
 function refreshPageLoop() {
   if (typeof countdownCounter == 'undefined') {
     countdownCounter = 60;

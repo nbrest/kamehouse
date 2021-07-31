@@ -8,6 +8,9 @@ function loadTailLogManager() {
   });
 }
 
+/**
+ * Manager to tail logs in the current server.
+ */
 function TailLogManager() {
   let self = this;
   const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/my-scripts/exec-script.php';

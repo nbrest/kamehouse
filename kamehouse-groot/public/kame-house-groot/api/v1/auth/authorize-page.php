@@ -1,5 +1,6 @@
 <?php
 /**
+ * Endpoint: /kame-house-groot/api/v1/auth/authorize-page.php
  * 
  * [INTERNAL] - To be imported from other php files. Not to be directly called from frontend code.
  * 
@@ -12,7 +13,7 @@
  * 
  * @author nbrest
  */
-mainAuthorizePage();
+  authorizePage();
 ?> 
 
 <?php
@@ -20,7 +21,7 @@ mainAuthorizePage();
   /**
    * Check if there's an active session, otherwise redirect to login page.
    */
-  function mainAuthorizePage() {
+  function authorizePage() {
     initAuthorizePage();
 
     if (isLoggedIn()) {
@@ -38,9 +39,6 @@ mainAuthorizePage();
   	exit;
   }
 
-  /**
-   * 
-   */
   function initAuthorizePage() {
     session_start();
     require_once("auth-functions.php");
