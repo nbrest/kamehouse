@@ -31,8 +31,7 @@ function VlcPlayer(hostname) {
   this.init = function init() {
     logger.debug(arguments.callee.name);
     self.playlist.init();
-    self.debugger.getVlcRcStatusFromApi();
-    self.debugger.getPlaylistFromApi();
+    self.loadStateFromApi();
     self.synchronizer.connectVlcRcStatus();
     self.synchronizer.connectPlaylist();
     self.synchronizer.syncVlcRcStatusLoop();
@@ -50,6 +49,14 @@ function VlcPlayer(hostname) {
       currentTab = 'tab-playing';
     }
     self.openTab(currentTab);
+  }
+
+  /**
+   * Load the vlc player state and refresh the view from API calls (not through websockets).
+   */
+  this.loadStateFromApi = () => {
+    self.debugger.getVlcRcStatusFromApi();
+    self.debugger.getPlaylistFromApi();
   }
 
   /**
@@ -286,7 +293,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
     logger.debug("File to play: " + fileName);
     let requestParam = "file=" + fileName;
     loadingWheelModal.open();
-    self.vlcPlayer.getRestClient().postUrlEncoded(vlcPlayerProcessControlUrl, requestParam);
+    self.vlcPlayer.getRestClient().postUrlEncoded(vlcPlayerProcessControlUrl, requestParam, self.vlcPlayer.loadStateFromApi);
   }
 
   /** Close vlc player. */
@@ -970,17 +977,25 @@ function VlcPlayerRestClient(vlcPlayer) {
   }
 
   /** Execute a POST request to the specified url with the specified request url parameters. */
-  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam) {
+  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
-        apiCallSuccessDefault(responseBody);
+        if (!isNullOrUndefined(successCallback)) {
+          successCallback(responseBody, responseCode, responseDescription);
+        } else {
+          apiCallSuccessDefault(responseBody);
+        }
         // Modal opened from playFile
         loadingWheelModal.close();
       },
       (responseBody, responseCode, responseDescription) => {
-        apiCallErrorDefault(responseBody, responseCode, responseDescription);
+        if (!isNullOrUndefined(errorCallback)) {
+          errorCallback(responseBody, responseCode, responseDescription);
+        } else {
+          apiCallErrorDefault(responseBody, responseCode, responseDescription);
+        }
         // Modal opened from playFile
         loadingWheelModal.close();
       });
@@ -1026,7 +1041,7 @@ function VlcPlayerDebugger(vlcPlayer) {
   this.playlistApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/playlist';
 
   /** Get the vlcRcStatus from an http api call instead of from the websocket. */
-  this.getVlcRcStatusFromApi = () => self.vlcPlayer.getRestClient().get(self.vlcRcStatusApiUrl, getVlcRcStatusApiSuccessCallback, null);
+  this.getVlcRcStatusFromApi = () => self.vlcPlayer.getRestClient().get(self.vlcRcStatusApiUrl, getVlcRcStatusApiSuccessCallback, getVlcRcStatusApiErrorCallback);
 
   /** Get the playlist from an http api call instead of from the websocket. */
   this.getPlaylistFromApi = () => self.vlcPlayer.getRestClient().get(self.playlistApiUrl, getPlaylistApiSuccessCallback, null);
@@ -1036,6 +1051,12 @@ function VlcPlayerDebugger(vlcPlayer) {
     cursorUtils.setCursorDefault();
     vlcPlayer.setVlcRcStatus(responseBody);
     vlcPlayer.updateView();
+  }
+
+  /** Don't update anything if there's an error getting the vlcRcStatus. */
+  function getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription) {
+    cursorUtils.setCursorDefault();
+    logger.warn("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running");
   }
 
   /** Update the playlist view. */

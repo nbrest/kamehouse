@@ -2,7 +2,8 @@
 
 #### v6.01
 
-* Moved tennis world cardio schedule to properties files 
+* Added initial load of the status of vlc player and the playlist through API calls as soon as the page loads and when loading a new file or playlist from the playlist browser. This avoids the delay of waiting until the websockets synchronize to get the initial/updated view
+* Moved tennis world cardio schedule config to load from the database instead of hardcoded in the code
 
 #### v6.00
 
