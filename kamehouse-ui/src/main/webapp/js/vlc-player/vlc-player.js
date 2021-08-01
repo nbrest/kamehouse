@@ -31,6 +31,8 @@ function VlcPlayer(hostname) {
   this.init = function init() {
     logger.debug(arguments.callee.name);
     self.playlist.init();
+    self.debugger.getVlcRcStatusFromApi();
+    self.debugger.getPlaylistFromApi();
     self.synchronizer.connectVlcRcStatus();
     self.synchronizer.connectPlaylist();
     self.synchronizer.syncVlcRcStatusLoop();
@@ -331,7 +333,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update vlc player view for main view objects. */
   this.updateView = () => {
-    //logger.trace(arguments.callee.name);
+    //logger.info("updateView");
     if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus())) {
       self.updateMediaTitle();
       self.updateTimeSlider();
@@ -934,15 +936,25 @@ function VlcPlayerRestClient(vlcPlayer) {
   this.vlcPlayer = vlcPlayer;
 
   /** Execute GET on the specified url and display the output in the debug table. */
-  this.get = function httpGet(url) {
+  this.get = function httpGet(url, successCallback, errorCallback) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.get(url,
-      (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => {
-        apiCallErrorDefault(responseBody, responseCode, responseDescription);
-        if (responseCode == "404") {
-          kameHouseDebugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
+        if (!isNullOrUndefined(successCallback)) {
+          successCallback(responseBody, responseCode, responseDescription);
+        } else {
+          apiCallSuccessDefault(responseBody);
+        }
+      },
+      (responseBody, responseCode, responseDescription) => {
+        if (!isNullOrUndefined(errorCallback)) {
+          errorCallback(responseBody, responseCode, responseDescription);
+        } else {
+          apiCallErrorDefault(responseBody, responseCode, responseDescription);
+          if (responseCode == "404") {
+            kameHouseDebugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
+          }
         }
       });
   }
@@ -1010,11 +1022,26 @@ function VlcPlayerRestClient(vlcPlayer) {
 function VlcPlayerDebugger(vlcPlayer) {
   let self = this;
   this.vlcPlayer = vlcPlayer;
-  this.vlcRcStatusHttpUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/status';
+  this.vlcRcStatusApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/status';
+  this.playlistApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/playlist';
 
-  /** 
-   * Get VlcRcStatus via http get. It doesn't sync the media player status. 
-   * It just updates the debug table to see the current status. 
-   */
-  this.getVlcRcStatusHttp = () => self.vlcPlayer.getRestClient().get(self.vlcRcStatusHttpUrl);
+  /** Get the vlcRcStatus from an http api call instead of from the websocket. */
+  this.getVlcRcStatusFromApi = () => self.vlcPlayer.getRestClient().get(self.vlcRcStatusApiUrl, getVlcRcStatusApiSuccessCallback, null);
+
+  /** Get the playlist from an http api call instead of from the websocket. */
+  this.getPlaylistFromApi = () => self.vlcPlayer.getRestClient().get(self.playlistApiUrl, getPlaylistApiSuccessCallback, null);
+
+  /** Update the main player view. */
+  function getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription) {
+    cursorUtils.setCursorDefault();
+    vlcPlayer.setVlcRcStatus(responseBody);
+    vlcPlayer.updateView();
+  }
+
+  /** Update the playlist view. */
+  function getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription) {
+    cursorUtils.setCursorDefault();
+    vlcPlayer.playlist.setUpdatedPlaylist(responseBody);
+    vlcPlayer.playlist.reload();
+  }
 }
