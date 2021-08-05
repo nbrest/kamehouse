@@ -49,15 +49,15 @@
   background-color: black;
 }
 
-.bg-darker-kh {
+.bg-default-kh {
+  background: #11161a;
+}
+
+.bg-lighter-1-kh {
   background: #171e22;
 }
 
-.bg-default-kh {
-  background: #1a2226;
-}
-
-.bg-lighter-kh {
+.bg-lighter-2-kh {
   background: #242f35;
 }
 
@@ -67,7 +67,7 @@ body {
   line-height: 1.5;
   padding: 0;
   margin: 0;
-  background: #1a2226;
+  background: #11161a;
   color: #c0c0c0;
   word-wrap: break-word;
 }

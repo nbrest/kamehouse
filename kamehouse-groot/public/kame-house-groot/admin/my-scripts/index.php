@@ -37,7 +37,7 @@
   <div class="default-layout p-7-d-kh p-7-m-kh"></div>
   <h3>All Scripts</h3>
   <div class="default-layout p-7-d-kh p-7-m-kh"></div>
-  <div class="default-layout bg-darker-kh">
+  <div class="default-layout bg-lighter-1-kh">
     <table id="all-my-scripts-table-controls" class="all-my-scripts-table-controls-table">
       <caption class="hidden-kh">All My Scripts Controls</caption>
       <colgroup>

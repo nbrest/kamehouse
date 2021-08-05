@@ -39,7 +39,7 @@
     <p class="p-15-m-kh">Executes the specified script from my-scripts in my
       kame-house server and displays the console output</p>
     <table id="script-table"
-      class="table table-bordered-kh table-responsive-kh table-responsive bg-darker-kh">
+      class="table table-bordered-kh table-responsive-kh table-responsive bg-lighter-1-kh">
       <tr>
         <td>Server Name:</td>
         <td id="st-server-name"></td>

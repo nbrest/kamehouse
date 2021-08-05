@@ -30,7 +30,7 @@
     </div>
   </div>  
   </div>
-  <div class="tabs-groot bg-darker-kh">
+  <div class="tabs-groot bg-lighter-1-kh">
     <div class="default-layout">
       <button id="tab-git-link" class="tab-groot-link"
         onclick="openTab('tab-git', 'kh-groot-server-manager')">Git</button>
