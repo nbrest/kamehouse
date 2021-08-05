@@ -49,6 +49,10 @@
   background-color: black;
 }
 
+.bg-darker-1-kh {
+  background: #060606;
+}
+
 .bg-default-kh {
   background: #11161a;
 }
@@ -1037,7 +1041,7 @@ ul {
 
 /** Set scrollbar style FIREFOX */
 * {
-  scrollbar-color: #d90000 #171e22 !important;
+  scrollbar-color: #d90000 #060606 !important;
   scrollbar-width: thin !important;
 }
 
@@ -1055,7 +1059,7 @@ ul {
 }
 
 ::-webkit-scrollbar-track {
-  background: #171e22;
+  background: #060606;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -1063,5 +1067,5 @@ ul {
 }
 
 ::-webkit-scrollbar-corner {
-  background: #171e22;
+  background: #060606;
 }
