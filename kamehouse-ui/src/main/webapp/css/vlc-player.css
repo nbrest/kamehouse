@@ -242,7 +242,7 @@
   -webkit-appearance: none;
   height: 20px;
   width: 100%;
-  background: #505050;
+  background: #363636;
   outline: none;
   opacity: 0.4;
   -webkit-transition: .2s;
@@ -259,7 +259,7 @@
   appearance: none;
   width: 25px;
   height: 25px;
-  border-color: #4c4c4c;
+  border-color: #424242;
   border-style: solid;
   border-width: 1px;
   background: #141414;
@@ -316,7 +316,7 @@
 
 /** playlist-browser-table Set scrollbar style FIREFOX */
 #playlist-browser-table-wrapper {
-  scrollbar-color: #4a90e2 #171e22 !important;
+  scrollbar-color: #4a90e2 #060606 !important;
   scrollbar-width: thin !important;
 }
 
@@ -332,7 +332,7 @@
 }
 
 #playlist-browser-table-wrapper::-webkit-scrollbar-track {
-  background: #171e22;
+  background: #060606;
 }
 
 #playlist-browser-table-wrapper::-webkit-scrollbar-thumb {
@@ -340,7 +340,20 @@
 }
 
 #playlist-browser-table-wrapper::-webkit-scrollbar-corner {
-  background: #171e22;
+  background: #060606;
+}
+
+.playlist-browser-dropdowns-wrapper {
+  border: 1px solid #292929;
+}
+
+.playlist-browser-wrapper {
+  border: 1px solid #292929;
+}
+
+/** Playlist tab begin.*/
+.playlist-tab-content-wrapper {
+  border: 1px solid #292929;
 }
 
 /** Playlist control begin.*/
@@ -406,7 +419,6 @@
 
 .playlist-wrapper {
   padding: 10px;
-  background: #171e22;
   max-height: 500px;
   overflow: scroll;
 }
@@ -486,7 +498,7 @@
   border: 1px solid #131a1f;
   border-radius: 0px;
   color: #868686;
-  background: #1a242a;
+  background: #131a1f;
   padding: 5px;
   width: 100%;
   margin-left: 10px;
@@ -569,6 +581,7 @@
 }
 
 #vlc-player-main {
+  border: 1px solid #292929;
   color: #969696;
   width: 65%;
   padding: 10px;
@@ -585,7 +598,7 @@
 .vlc-player-select {
   border: 1px solid #131a1f;
   color: #868686;
-  background: #1a242a;
+  background: #12191d;
 }
 
 /* tabs */
@@ -628,9 +641,9 @@
   width: 25px;
 }
 .vlc-player-tabs button:hover {
-  background-color: #4b0b0b;
+  background-color: #680c0c;
 }
 
 .vlc-player-tabs button.active {
-  background-color: #101517;
+  background-color: #520303;
 }
