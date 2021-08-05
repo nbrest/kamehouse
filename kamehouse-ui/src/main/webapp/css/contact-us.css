@@ -30,8 +30,7 @@
   background-color: #1a1a1a;
   background-image: none;
   border: 1px solid #383838;
-  outline: none;
-  width:100%;
+  width: 100%;
 }
 
 .submit-btn:hover {
@@ -43,4 +42,10 @@
   .submit-btn {
     width:100%;
   }
+}
+
+.submit-btn-wrapper {
+  padding-top: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
