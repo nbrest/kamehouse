@@ -495,10 +495,10 @@
 /** Playlist selector dropdowns end */
 
 .table-filter-input {
-  border: 1px solid #131a1f;
+  border: 1px solid #292929;
   border-radius: 0px;
   color: #868686;
-  background: #131a1f;
+  background: #11161a;
   padding: 5px;
   width: 100%;
   margin-left: 10px;
@@ -596,9 +596,10 @@
 }
 
 .vlc-player-select {
-  border: 1px solid #131a1f;
+  border: 1px solid #292929;
   color: #868686;
-  background: #12191d;
+  background: #11161a;
+  outline: none;
 }
 
 /* tabs */
