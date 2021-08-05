@@ -41,6 +41,8 @@
    * Start a new session.
    */
   function initiateSession($username) {
+    ini_set('session.gc_maxlifetime', 0);
+    session_set_cookie_params(0);
     session_start();
     session_regenerate_id();
     $_SESSION['logged-in'] = true;

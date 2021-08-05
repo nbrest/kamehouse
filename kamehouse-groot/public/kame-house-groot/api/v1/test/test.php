@@ -34,6 +34,8 @@
   }
 
   function init() {
+    ini_set('session.gc_maxlifetime', 0);
+    session_set_cookie_params(0);
     session_start();
     require_once("../../../api/v1/commons/global.php");
     require_once("../../../api/v1/commons/examples/examples.php");

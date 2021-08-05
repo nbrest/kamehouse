@@ -40,6 +40,8 @@
   }
 
   function initAuthorizePage() {
+    ini_set('session.gc_maxlifetime', 0);
+    session_set_cookie_params(0);
     session_start();
     require_once("auth-functions.php");
   }
