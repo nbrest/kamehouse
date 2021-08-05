@@ -38,12 +38,12 @@
   border: 1px solid #333333;
   display: block;
   width: 100%;
-  outline: none;
+  cursor: pointer;
 }
 
 .login-btn:hover {
-  color: #6b6b6b;
-  background-color: #1a1a1a;
+  color: #b8b8b8;
+  background-color: #750101;
 }
 
 .login-form {
