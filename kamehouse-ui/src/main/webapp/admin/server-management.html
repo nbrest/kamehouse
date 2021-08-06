@@ -149,23 +149,24 @@
       <br>
       <p>Check the current state of the server running KameHouse. Also check the status of the apache httpd server and restart the process if needed</p>
       <br>
-      <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
-        <span class="bold-kh">Uptime: </span>
-        <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.uptime()" 
-          src="/kame-house/img/other/clock-gray.png" alt="uptime" title="uptime"/>
-        <br><br>
-
-        <span class="bold-kh p-15-d-kh m-50-d-l-kh">Memory usage: </span>
-        <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.free()" 
-          src="/kame-house/img/pc/ram-green.png" alt="free" title="free"/>
-        <br><br>
-        
-        <span class="bold-kh m-25-d-l-kh">Disk usage: </span>
-        <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.df()" 
-          src="/kame-house/img/pc/hdd-blue.png" alt="df" title="df"/>
-        <br><br><br>
+      <div id="system-state-commands">
+        <div class="system-state-command">
+          <span class="bold-kh">Uptime: </span>
+          <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.uptime()" 
+            src="/kame-house/img/other/clock-gray.png" alt="uptime" title="uptime"/>
+        </div>
+        <div class="system-state-command">   
+          <span class="bold-kh p-15-d-kh">Memory usage: </span>
+          <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.free()" 
+            src="/kame-house/img/pc/ram-green.png" alt="free" title="free"/>
+        </div>
+        <div class="system-state-command">
+          <span class="bold-kh m-25-d-l-kh">Disk usage: </span>
+          <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.df()" 
+            src="/kame-house/img/pc/hdd-blue.png" alt="df" title="df"/>
+        </div>
       </div>
-
+      <br><br>
       <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Apache Httpd Status</h6>
       <table class="w-100-pc-kh table-responsive-kh table-responsive">
       <caption class="hidden-kh">Apache Httpd</caption>
