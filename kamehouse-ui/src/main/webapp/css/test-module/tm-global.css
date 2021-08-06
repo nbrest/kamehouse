@@ -5,6 +5,7 @@
 
 .dragonball-user-form-buttons {
   margin-left: 15px;
+  display: flex;
 }
 
 .table-db-users {
