@@ -82,10 +82,10 @@ function DragonBallUserServiceJsp() {
   /**
   * Delete dragonball user.
   */
-  this.deleteDragonBallUser = (event) => {
+  this.deleteDragonBallUser = (id) => {
     logger.trace(arguments.callee.name);
     const params = new URLSearchParams({
-      id: event.data.id
+      id: id
     });
     let deleteUrl = SERVLET_SERVICE_URI + "?" + params;
 
@@ -179,24 +179,27 @@ function DragonBallUserServiceJsp() {
   }
 
   this.getEditButton = (username) => {
-    let editButton = $('<input>');
-    editButton.attr("type", "button");
-    editButton.attr("value", "edit");
-    editButton.addClass("btn btn-outline-success btn-borderless");
-    editButton.click(() => {
+    let img = new Image();
+    img.src = "/kame-house/img/other/edit-green.png";
+    img.className = "img-btn-kh m-15-d-r-kh";
+    img.alt = "Edit";
+    img.title = "Edit";
+    img.onclick = () =>  {
       window.location.href="users-edit?username=" + username;
-    });
-    return editButton;
+    }
+    return img;
   }
 
   this.getDeleteButton = (id) => {
-    let deleteButton = $('<button>');
-    deleteButton.addClass("btn btn-outline-danger btn-borderless")
-    deleteButton.text("delete");
-    deleteButton.click({
-      id: id
-    }, self.deleteDragonBallUser);
-    return deleteButton;
+    let img = new Image();
+    img.src = "/kame-house/img/other/delete-red.png";
+    img.className = "img-btn-kh";
+    img.alt = "Delete";
+    img.title = "Delete";
+    img.onclick = () =>  {
+      self.deleteDragonBallUser(id);
+    }
+    return img;
   }
 
   this.getDragonBallUserTableHeader = () => {
