@@ -63,7 +63,13 @@
     <img class="img-btn-kh" onclick="window.location.href='users-add'"
       src="/kame-house/img/other/add-blue.png" alt="Add User" title="Add User"/>
   </div>
+  <div class="default-layout txt-c-d-kh txt-c-m-kh">
+    <br>
+    <span id="debug-mode-button-wrapper"></span>
   </div>
+  </div>
+  <span id="debug-mode-wrapper"></span>
+  <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
   <script src="/kame-house/js/snippets/sticky-back-to-top.js"></script>
 </body>
 </html>

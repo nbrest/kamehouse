@@ -16,12 +16,12 @@ function DragonBallUserServiceJsp() {
     });
     let getUrl = SERVLET_SERVICE_URI + "?" + params;
 
-    httpClient.get(getUrl, null,
+    debuggerHttpClient.get(getUrl, 
       (responseBody, responseCode, responseDescription) => self.displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription) => {
         alert("Error getting dragonball user");
         logger.error("Error getting dragonball user " + responseBody + responseCode + responseDescription);
-      });
+      }, null);
   }
 
   /**
@@ -29,9 +29,10 @@ function DragonBallUserServiceJsp() {
    */
   this.getAllDragonBallUsers = () => {
     logger.trace(arguments.callee.name);
-    httpClient.get(SERVLET_SERVICE_URI, null,
+    debuggerHttpClient.get(SERVLET_SERVICE_URI, 
       (responseBody, responseCode, responseDescription) => self.displayDragonBallUsers(responseBody),
-      (responseBody, responseCode, responseDescription) => self.displayErrorGettingDragonBallUsers());
+      (responseBody, responseCode, responseDescription) => self.displayErrorGettingDragonBallUsers(),
+      null);
   }
 
   /**
@@ -46,9 +47,8 @@ function DragonBallUserServiceJsp() {
       powerLevel: document.getElementById("input-powerLevel").value,
       stamina: document.getElementById("input-stamina").value
     });
-    let postUrl = SERVLET_SERVICE_URI + "?" + params;
 
-    httpClient.post(postUrl, httpClient.getUrlEncodedHeaders(), null,
+    debuggerHttpClient.postUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
       (responseBody, responseCode, responseDescription) => {
         alert("Error adding dragonball user. Check console logs for more details");
@@ -69,14 +69,13 @@ function DragonBallUserServiceJsp() {
       powerLevel: document.getElementById("input-powerLevel").value,
       stamina: document.getElementById("input-stamina").value
     });
-    let putUrl = SERVLET_SERVICE_URI + "?" + params;
 
-    httpClient.put(putUrl, httpClient.getUrlEncodedHeaders(), null,
+    debuggerHttpClient.putUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
       (responseBody, responseCode, responseDescription) => {
         alert("Error updating dragonball user. Check console logs for more details");
         logger.error("Error updating dragonball user " + responseBody + responseCode + responseDescription);
-      });
+      }, null);
   }
 
   /**
@@ -87,11 +86,11 @@ function DragonBallUserServiceJsp() {
     const params = new URLSearchParams({
       id: id
     });
-    let deleteUrl = SERVLET_SERVICE_URI + "?" + params;
 
-    httpClient.delete(deleteUrl, httpClient.getUrlEncodedHeaders(), null,
+    debuggerHttpClient.deleteUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => self.getAllDragonBallUsers(),
-      (responseBody, responseCode, responseDescription) => self.getAllDragonBallUsers());
+      (responseBody, responseCode, responseDescription) => self.getAllDragonBallUsers(), 
+      null);
   }
 
   /**

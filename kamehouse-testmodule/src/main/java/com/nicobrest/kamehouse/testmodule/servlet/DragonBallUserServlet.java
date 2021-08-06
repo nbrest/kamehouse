@@ -13,6 +13,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -115,7 +118,7 @@ public class DragonBallUserServlet extends HttpServlet {
   public void doDelete(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException {
     try {
-      Long userId = Long.parseLong(request.getParameter("id"));
+      Long userId = Long.parseLong(getUrlDecodedParam(request,"id"));
       DragonBallUser deletedUser = getDragonBallUserService().delete(userId);
       setResponseBody(response, JsonUtils.toJsonString(deletedUser));
     } catch (NumberFormatException | IOException e) {
@@ -131,15 +134,15 @@ public class DragonBallUserServlet extends HttpServlet {
     try {
       DragonBallUserDto dragonBallUserDto = new DragonBallUserDto();
       if (request.getParameter("id") != null) {
-        dragonBallUserDto.setId(Long.parseLong(request.getParameter("id")));
+        dragonBallUserDto.setId(Long.parseLong(getUrlDecodedParam(request,"id")));
       }
-      dragonBallUserDto.setUsername(request.getParameter("username"));
-      dragonBallUserDto.setEmail(request.getParameter("email"));
-      dragonBallUserDto.setAge(Integer.parseInt(request.getParameter("age")));
-      dragonBallUserDto.setStamina(Integer.parseInt(request.getParameter("stamina")));
-      dragonBallUserDto.setPowerLevel(Integer.parseInt(request.getParameter("powerLevel")));
+      dragonBallUserDto.setUsername(getUrlDecodedParam(request,"username"));
+      dragonBallUserDto.setEmail(getUrlDecodedParam(request,"email"));
+      dragonBallUserDto.setAge(Integer.parseInt(getUrlDecodedParam(request,"age")));
+      dragonBallUserDto.setStamina(Integer.parseInt(getUrlDecodedParam(request,"stamina")));
+      dragonBallUserDto.setPowerLevel(Integer.parseInt(getUrlDecodedParam(request,"powerLevel")));
       return dragonBallUserDto;
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException | UnsupportedEncodingException e) {
       logger.error("Error parsing DragonBallUserDto", e);
       throw new ServletException(e);
     }
@@ -152,5 +155,13 @@ public class DragonBallUserServlet extends HttpServlet {
       throws IOException {
     response.getWriter().write(responseBody);
     response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+  }
+
+  /**
+   * Decode URL Encoded parameters.
+   */
+  private String getUrlDecodedParam(HttpServletRequest request, String paramName)
+      throws UnsupportedEncodingException {
+    return URLDecoder.decode(request.getParameter(paramName), StandardCharsets.UTF_8.name());
   }
 }

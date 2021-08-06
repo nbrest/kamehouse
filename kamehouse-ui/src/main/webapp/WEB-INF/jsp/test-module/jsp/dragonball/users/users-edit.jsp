@@ -84,6 +84,12 @@
         </div>
       </div>
     </div>
+    <div class="default-layout txt-c-d-kh txt-c-m-kh">
+      <br>
+      <span id="debug-mode-button-wrapper"></span>
+    </div>
   </div>
+  <span id="debug-mode-wrapper"></span>
+  <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
 </body>
 </html>

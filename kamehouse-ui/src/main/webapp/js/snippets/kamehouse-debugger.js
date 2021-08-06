@@ -209,6 +209,22 @@ function DebuggerHttpClient() {
   }
 
   /** 
+   * Execute a PUT request with url parameters, update the debugger http client 
+   * and perform the specified success or error functions 
+   */
+  this.putUrlEncoded = function httpPutUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    let urlEncoded = encodeURI(url + "?" + requestParam);
+    kameHouseDebugger.displayRequestData(urlEncoded, "PUT", null);
+    let requestHeaders = httpClient.getUrlEncodedHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "PUT", null);
+    httpClient.put(urlEncoded, requestHeaders, null,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      );
+  }
+
+  /** 
    * Execute a POST request, update the debugger http client 
    * and perform the specified success or error functions 
    */
@@ -249,6 +265,22 @@ function DebuggerHttpClient() {
     let requestHeaders = httpClient.getApplicationJsonHeaders();
     let dataWithRequestInfo = self.createDataWithRequestInfo(data, url, "DELETE", null);
     httpClient.delete(url, requestHeaders, requestBody,
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      );
+  }
+
+  /** 
+   * Execute a DELETE request, update the debugger http client 
+   * and perform the specified success or error functions 
+   */
+   this.deleteUrlEncoded = function httpDeleteUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
+    logger.trace(arguments.callee.name);
+    let urlEncoded = encodeURI(url + "?" + requestParam);
+    kameHouseDebugger.displayRequestData(urlEncoded, "POST", null);
+    let requestHeaders = httpClient.getUrlEncodedHeaders();
+    let dataWithRequestInfo = self.createDataWithRequestInfo(data, urlEncoded, "DELETE", null);
+    httpClient.delete(urlEncoded, requestHeaders, null,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
