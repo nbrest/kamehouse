@@ -75,15 +75,15 @@
 
           <div class="row">
             <div class="dragonball-user-form-buttons">
-              <button class="btn btn-outline-info btn-sm" onclick="dragonBallUserServiceJsp.updateDragonBallUser()">
-                Submit</button>
+              <img class="img-btn-kh m-15-d-r-kh" onclick="dragonBallUserServiceJsp.updateDragonBallUser()" 
+                src="/kame-house/img/mplayer/play-blue.png" alt="Update User" title="Update User"/>
+              <img class="img-btn-kh" onclick="window.location.href='users-list'"
+                src="/kame-house/img/other/list-bullet-blue.png" alt="List Users" title="List Users"/>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <input type="button" value="List DragonBall Users" class="btn btn-outline-secondary btn-block"
-      onclick="window.location.href='users-list'">
   </div>
 </body>
 </html>

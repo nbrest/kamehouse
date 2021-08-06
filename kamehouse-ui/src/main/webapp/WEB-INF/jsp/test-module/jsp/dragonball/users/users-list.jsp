@@ -60,8 +60,8 @@
       </tbody>
     </table>
     <br>
-    <input type="button" value="Add DragonBall User" class="btn btn-outline-info"
-      onclick="window.location.href='users-add'">
+    <img class="img-btn-kh" onclick="window.location.href='users-add'"
+      src="/kame-house/img/other/add-blue.png" alt="Add User" title="Add User"/>
   </div>
   </div>
   <script src="/kame-house/js/snippets/sticky-back-to-top.js"></script>
