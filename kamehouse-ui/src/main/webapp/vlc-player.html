@@ -41,33 +41,35 @@
 
     <div id="tab-playing" class="vlc-player-tab-content">
       <div id="vlc-player-main" class="bg-darker-1-kh">
-      <div id="media-title" class="bg-default-kh bold-kh">No media loaded</div>
-      <div id="media-time" class="bg-default-kh">
-        <table>
-        <caption class="hidden-kh">Main display</caption>
-        <tr class="hidden-kh"><th scope="row">Main display</th></tr>
-        <tr>
-        <td>
-          <span id="current-time" class="bold-kh fl-l-d-kh fl-l-m-kh">--:--:--</span>
-        </td>
-        <td>
-          <span id="total-time" class="bold-kh fl-r-d-kh fl-r-m-kh">--:--:--</span>
-        </td>
-        </tr>
-        </table>
-        <table>
-        <caption class="hidden-kh">Time Slider</caption>
-        <tr class="hidden-kh"><th scope="row">Time Slider</th></tr>
-        <tr>
-        <td>
-          <div id="time-slider-wrapper"><input type="range" min="0" max="1000" value="500" id="time-slider" 
-            oninput="vlcPlayer.updateCurrentTimeView(this.value)"
-            onmouseup="vlcPlayer.seek(this.value)"
-            ontouchend="vlcPlayer.seek(this.value)"></div>
-        </td>
-        </tr>
-        </table>
-      </div> <!-- vlc-player/media-time -->
+      <div id="media-info">
+        <div id="media-title" class="bold-kh">No media loaded</div>
+        <div id="media-time">
+          <table>
+          <caption class="hidden-kh">Main display</caption>
+          <tr class="hidden-kh"><th scope="row">Main display</th></tr>
+          <tr>
+          <td>
+            <span id="current-time" class="bold-kh fl-l-d-kh fl-l-m-kh">--:--:--</span>
+          </td>
+          <td>
+            <span id="total-time" class="bold-kh fl-r-d-kh fl-r-m-kh">--:--:--</span>
+          </td>
+          </tr>
+          </table>
+          <table>
+          <caption class="hidden-kh">Time Slider</caption>
+          <tr class="hidden-kh"><th scope="row">Time Slider</th></tr>
+          <tr>
+          <td>
+            <div id="time-slider-wrapper"><input type="range" min="0" max="1000" value="500" id="time-slider" 
+              oninput="vlcPlayer.updateCurrentTimeView(this.value)"
+              onmouseup="vlcPlayer.seek(this.value)"
+              ontouchend="vlcPlayer.seek(this.value)"></div>
+          </td>
+          </tr>
+          </table>
+        </div> <!-- vlc-player/media-time -->
+      </div>
       <div id="media-buttons">
 
       <table id="media-play-control-buttons" class="table-mplayer-btns-kh">

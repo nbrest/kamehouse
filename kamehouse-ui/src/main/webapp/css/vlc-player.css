@@ -185,6 +185,11 @@
   height: 30px !important;
 }
 
+#media-info {
+  background-color: #101010;
+  border: 1px solid #292929; 
+}
+
 #media-play-control-buttons {
   margin-top: 15px;
   margin-bottom: 15px;
@@ -498,11 +503,21 @@
   border: 1px solid #292929;
   border-radius: 0px;
   color: #868686;
-  background: #11161a;
+  background: #101010;
   padding: 5px;
   width: 100%;
   margin-left: 10px;
   outline: none;
+}
+
+.table-filter-input:hover {
+  border: 1px solid #292929;
+  background: #1d1d1d;
+}
+
+.table-filter-input:focus {
+  border: 1px solid #3f3f3f;
+  background: #202020;
 }
 
 .table-mplayer-btns-kh {
@@ -599,8 +614,13 @@
 .vlc-player-select {
   border: 1px solid #292929;
   color: #868686;
-  background: #11161a;
+  background: #101010;
   outline: none;
+}
+
+.vlc-player-select:hover {
+  border: 1px solid #292929;
+  background: #1d1d1d;
 }
 
 /* tabs */
@@ -612,7 +632,8 @@
 
 .vlc-player-tabs {
   overflow: hidden;
-  border-bottom: #272727 3px solid;
+  border-bottom: #272727 2px solid;
+  margin-bottom: 20px;
 }
 
 .vlc-player-tabs button {
