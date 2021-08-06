@@ -207,22 +207,18 @@
         <tr>
           <td>
             <img
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-gray m-20-m-r-kh"
+              class="vlc-player-btn-img media-flow-button vlc-player-btn-gray fl-r-d-kh"
               src="/kame-house/img/mplayer/subtitles-cycle-gray-dark.png"
               onclick="vlcPlayer.execVlcRcCommand('key', 'subtitle-track')"
               alt="Subtitle Cycle" title="Subtitle Cycle" />
           </td>
           <td>
             <img
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-gray m-20-m-r-kh"
+              class="vlc-player-btn-img media-flow-button vlc-player-btn-gray"
               src="/kame-house/img/other/double-left-gray-dark.png"
               onclick="vlcPlayer.updateSubtitleDelay('-1')"
               alt="Subtitle delay -1s" title="Subtitle delay -1s" />
-          </td>
-          <td id="subtitle-delay">
-            Sub Delay: <span id="subtitle-delay-value">0</span>s
-          </td>
-          <td>
+            <span id="subtitle-delay">Sub Delay: <span id="subtitle-delay-value">0</span>s</span>
             <img
               class="vlc-player-btn-img media-flow-button vlc-player-btn-gray"
               src="/kame-house/img/other/double-right-gray-dark.png"
