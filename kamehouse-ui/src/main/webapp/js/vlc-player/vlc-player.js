@@ -943,9 +943,11 @@ function VlcPlayerRestClient(vlcPlayer) {
   this.vlcPlayer = vlcPlayer;
 
   /** Execute GET on the specified url and display the output in the debug table. */
-  this.get = function httpGet(url, successCallback, errorCallback) {
+  this.get = function httpGet(url, updateCursor, successCallback, errorCallback) {
     logger.debug(arguments.callee.name);
-    cursorUtils.setCursorWait();
+    if (updateCursor) {
+      cursorUtils.setCursorWait();
+    }
     debuggerHttpClient.get(url,
       (responseBody, responseCode, responseDescription) => {
         if (!isNullOrUndefined(successCallback)) {
@@ -1041,10 +1043,10 @@ function VlcPlayerDebugger(vlcPlayer) {
   this.playlistApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/playlist';
 
   /** Get the vlcRcStatus from an http api call instead of from the websocket. */
-  this.getVlcRcStatusFromApi = () => self.vlcPlayer.getRestClient().get(self.vlcRcStatusApiUrl, getVlcRcStatusApiSuccessCallback, getVlcRcStatusApiErrorCallback);
+  this.getVlcRcStatusFromApi = () => self.vlcPlayer.getRestClient().get(self.vlcRcStatusApiUrl, false, getVlcRcStatusApiSuccessCallback, getVlcRcStatusApiErrorCallback);
 
   /** Get the playlist from an http api call instead of from the websocket. */
-  this.getPlaylistFromApi = () => self.vlcPlayer.getRestClient().get(self.playlistApiUrl, getPlaylistApiSuccessCallback, null);
+  this.getPlaylistFromApi = () => self.vlcPlayer.getRestClient().get(self.playlistApiUrl, false, getPlaylistApiSuccessCallback, null);
 
   /** Update the main player view. */
   function getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription) {
