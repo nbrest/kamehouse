@@ -316,7 +316,7 @@
 
 .playlist-browser-table-btn:hover {
   background-color: #3f7cc2;
-  color: #c0c0c0;
+  color: #000000;
 }
 
 /** playlist-browser-table Set scrollbar style FIREFOX */
@@ -402,7 +402,7 @@
 }
 
 .playlist-table-btn:hover {
-  background-color: #c02638;
+  background-color: #fa0925;
   color: #c0c0c0;
 }
 
