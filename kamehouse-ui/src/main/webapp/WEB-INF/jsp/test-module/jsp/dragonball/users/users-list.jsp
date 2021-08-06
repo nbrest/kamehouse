@@ -34,41 +34,32 @@
     				System.out.println(paramValue);
     			}
     %>
-      <table class="table table-dragonball-users">
-        <caption class="hidden-kh">DragonBall Users</caption>
-        <thead>
+    <br>
+    <table class="table table-bordered table-db-users table-bordered-kh table-responsive-kh table-responsive">
+      <caption class="hidden-kh">DragonBall Users</caption>
+      <tbody id="dragonball-users-tbody">
+      <!--
+        <c:forEach items="${dragonBallUsers}" var="dragonBallUser">
           <tr>
-            <th scope="row">Id</th>
-            <th scope="row">Name</th>
-            <th scope="row">Email</th>
-            <th scope="row">Age</th>
-            <th scope="row">Power Level</th>
-            <th scope="row">Stamina</th>
-            <th scope="row"></th>
+            <td>${dragonBallUser.getId()}</td>
+            <td>${dragonBallUser.getUsername()}</td>
+            <td>${dragonBallUser.getEmail()}</td>
+            <td>${dragonBallUser.getAge()}</td>
+            <td>${dragonBallUser.getPowerLevel()}</td>
+            <td>${dragonBallUser.getStamina()}</td>
+            <td><input type="button" value="edit"
+                class="btn btn-outline-success btn-borderless"
+                onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
+              <form action="users-delete-action" method="post">
+                <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
+                <input type="submit" value="delete" class="btn btn-outline-danger btn-borderless" />
+              </form></td>
           </tr>
-        </thead>
-        <tbody id="dragonball-users-tbody">
-        <!--
-          <c:forEach items="${dragonBallUsers}" var="dragonBallUser">
-            <tr>
-              <td>${dragonBallUser.getId()}</td>
-              <td>${dragonBallUser.getUsername()}</td>
-              <td>${dragonBallUser.getEmail()}</td>
-              <td>${dragonBallUser.getAge()}</td>
-              <td>${dragonBallUser.getPowerLevel()}</td>
-              <td>${dragonBallUser.getStamina()}</td>
-              <td><input type="button" value="edit"
-                  class="btn btn-outline-success btn-borderless"
-                  onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
-                <form action="users-delete-action" method="post">
-                  <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
-                  <input type="submit" value="delete" class="btn btn-outline-danger btn-borderless" />
-                </form></td>
-            </tr>
-          </c:forEach>
-          -->
-        </tbody>
-      </table>
+        </c:forEach>
+        -->
+      </tbody>
+    </table>
+    <br>
     <input type="button" value="Add DragonBall User" class="btn btn-outline-info"
       onclick="window.location.href='users-add'">
   </div>

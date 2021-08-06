@@ -930,7 +930,6 @@ hr {
 
 @media (max-width : 900px) {
 
-  /** Make tbody use the full width of the table */
   tbody {
     display: table;
     width: 100%;

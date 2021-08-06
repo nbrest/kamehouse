@@ -80,21 +80,20 @@
     </div>
     <div class="panel panel-default">
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">List of DragonBall Users</h3>
-      <div class="tablecontainer">
-        <table class="table table-hover table-dragonball-users">
-          <caption class="hidden-kh">DragonBall Users</caption>
-          <thead>
-            <tr>
-              <th scope="row">Id</th>
-              <th scope="row">Name</th>
-              <th scope="row">Email</th>
-              <th scope="row">Age</th>
-              <th scope="row">Power Level</th>
-              <th scope="row">Stamina</th>
-              <th scope="row" class="w-20-pc-kh"></th>
-            </tr>
-          </thead>
-          <tbody>
+      <br>
+      <table class="table table-bordered table-db-users table-bordered-kh table-responsive-kh table-responsive">
+        <caption class="hidden-kh">DragonBall Users</caption>
+        <tbody>
+          <tr class="table-db-users-header">
+            <td>Id</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Age</td>
+            <td>Power Level</td>
+            <td>Stamina</td>
+            <td class="table-db-users-actions">Actions</td>
+          </tr>
+          <div id="dragonball-users-tbody">
             <tr data-ng-repeat="u in ctrl.users">
               <td><span data-ng-bind="u.id"></span></td>
               <td><span data-ng-bind="u.username"></span></td>
@@ -107,9 +106,9 @@
                   data-ng-click="ctrl.remove(u.id)" value="delete"
                   class="btn btn-outline-danger btn-borderless" /></td>
             </tr>
-          </tbody>
-        </table>
-      </div>
+          </div>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

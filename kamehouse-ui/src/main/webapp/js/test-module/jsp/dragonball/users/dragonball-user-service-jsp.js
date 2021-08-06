@@ -114,6 +114,7 @@ function DragonBallUserServiceJsp() {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
+    $dragonBallUsersTbody.append(self.getDragonBallUserTableHeader());
     for (let i = 0; i < dragonBallUsersList.length; i++) {
       $dragonBallUsersTbody.append(self.getDragonBallUserTableRow(dragonBallUsersList[i]));
     }
@@ -160,9 +161,7 @@ function DragonBallUserServiceJsp() {
     tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.age));
     tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.powerLevel));
     tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.stamina));
-
-    tableRow.append(self.getEditButtonTableRowData(dragonBallUser.username));
-    tableRow.append(self.getDeleteButtonTableRowData(dragonBallUser.id));
+    tableRow.append(self.getActionButtonsTableRowData(dragonBallUser.username, dragonBallUser.id));
     return tableRow;
   }
 
@@ -172,9 +171,10 @@ function DragonBallUserServiceJsp() {
     return tableRowData; 
   }
 
-  this.getEditButtonTableRowData = (username) => {
+  this.getActionButtonsTableRowData = (username, id) => {
     let tableRowData = $('<td>');
     tableRowData.append(self.getEditButton(username));
+    tableRowData.append(self.getDeleteButton(id));
     return tableRowData; 
   }
 
@@ -189,12 +189,6 @@ function DragonBallUserServiceJsp() {
     return editButton;
   }
 
-  this.getDeleteButtonTableRowData = (id) => {
-    let tableRowData = $('<td>');
-    tableRowData.append(self.getDeleteButton(id));
-    return tableRowData; 
-  }
-
   this.getDeleteButton = (id) => {
     let deleteButton = $('<button>');
     deleteButton.addClass("btn btn-outline-danger btn-borderless")
@@ -203,5 +197,24 @@ function DragonBallUserServiceJsp() {
       id: id
     }, self.deleteDragonBallUser);
     return deleteButton;
+  }
+
+  this.getDragonBallUserTableHeader = () => {
+    let tableRow = $('<tr>');
+    tableRow.attr("class", "table-db-users-header");
+
+    let headerColumns = ["Id", "Name", "Email", "Age", "Power Level", "Stamina"];
+    for (let i = 0; i < headerColumns.length; i++) {
+      let headerColumnRowData = $('<td>')
+      headerColumnRowData.text(headerColumns[i]);
+      tableRow.append(headerColumnRowData);
+    }
+    
+    let actionsRowData = $('<td>')
+    actionsRowData.text("Actions")
+    actionsRowData.attr("class", "table-db-users-actions");
+    tableRow.append(actionsRowData);
+
+    return tableRow;
   }
 }
