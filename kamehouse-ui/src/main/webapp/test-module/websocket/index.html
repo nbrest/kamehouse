@@ -33,9 +33,10 @@
     <form>
       <div class="form-group">
         <label for="connect">WebSocket: </label>
-        <button id="connect" class="btn btn-outline-success" type="submit">Connect</button>
-        <button id="disconnect" class="btn btn-outline-danger" type="submit" disabled="disabled">Disconnect
-        </button>
+        <img id="connect" class="img-btn-kh m-15-d-r-kh"
+          src="/kame-house/img/pc/connected-green.png" alt="connect" title="connect"/>
+        <img id="disconnect" class="img-btn-kh m-15-d-r-kh hidden-kh"
+          src="/kame-house/img/pc/disconnected-red.png" alt="disconnect" title="disconnect"/>
       </div>
     </form>
   </div>
@@ -45,10 +46,12 @@
       <label for="firstName">Tell us who you are: </label>
       <input type="text" id="firstName" class="form-control m-5-d-kh m-5-m-kh" placeholder="First name...">
       <input type="text" id="lastName" class="form-control m-5-d-kh m-5-m-kh" placeholder="Last name...">
-      <button id="send" class="btn btn-outline-primary" type="submit" disabled="disabled">Send</button> 
+      <img id="send" class="img-btn-kh m-15-d-r-kh hidden-kh"
+        src="/kame-house/img/pc/email-send-blue.png" alt="send" title="send"/>
     </form>
   </div> 
      
+  <br>
   <table id="websocket-responses-wrapper" class="table">
     <caption class="hidden-kh">Websocket Responses</caption>
     <thead><tr><th scope="row">WebSocket Responses</th></tr></thead>

@@ -32,9 +32,15 @@ var main = () => {
  */
 function setConnected(isConnected) {
   logger.trace(arguments.callee.name);
-  $("#connect").prop("disabled", isConnected);
-  $("#disconnect").prop("disabled", !isConnected);
-  $("#send").prop("disabled", !isConnected);
+  if (isConnected) {
+    $("#connect").addClass("hidden-kh");
+    $("#disconnect").removeClass("hidden-kh");
+    $("#send").removeClass("hidden-kh");
+  } else {
+    $("#connect").removeClass("hidden-kh");
+    $("#disconnect").addClass("hidden-kh");
+    $("#send").addClass("hidden-kh");
+  }
   $("#websocket-responses").html("");
   if (isConnected) {
     $("#websocket-responses-wrapper").show();
