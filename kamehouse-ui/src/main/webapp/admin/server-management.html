@@ -31,13 +31,13 @@
       <h5 class="h5-kh txt-l-d-kh txt-c-m-kh">Screen</h5>
       <br>
       <p>Control the screen of the current server with Unlock, Wake-Up screen and Lock commands</p>
-      <img class="sm-btn-img m-50-d-l-kh m-50-m-l-kh m-50-d-r-kh m-50-m-r-kh"
+      <img class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-50-d-r-kh m-50-m-r-kh"
         onclick="serverManager.post('/screen/unlock', null)"
         src="/kame-house/img/pc/unlock-green.png" alt="Unlock" title="Unlock" />
-      <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
+      <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
         onclick="serverManager.post('/screen/wake-up', null)"
         src="/kame-house/img/pc/mouse-click.png" alt="Wake-Up" title="Wake-Up" />
-      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
+      <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
         onclick="serverManager.post('/screen/lock', null)"
         src="/kame-house/img/pc/lock-red.png" alt="Lock" title="Lock" />
     </div> 
@@ -63,13 +63,13 @@
           <option value="5400">90 Min</option>
           <option value="60">1 Min</option>
         </select>
-        <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
+        <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
           onclick="serverManager.setShutdownCommand()"
           src="/kame-house/img/pc/shutdown-red.png" alt="Shutdown" title="Shutdown" />
-        <img class="sm-btn-img m-50-d-r-kh m-50-m-r-kh"
+        <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
           onclick="serverManager.cancelShutdownCommand()"
           src="/kame-house/img/pc/shutdown-green.png" alt="Cancel Shutdown" title="Cancel Shutdown" />
-        <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
+        <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
           onclick="serverManager.getShutdownStatus(true)"
           src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Shutdown Status" 
           title="Refresh Shutdown Status" />
@@ -95,14 +95,14 @@
     <tr><td>
       <div class="fl-r-d-kh">
         <p>Send the server into a hibernation state</p>
-        <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+        <img class="img-btn-kh m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
           onclick="serverManager.getSuspendStatus(true)"
           src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Suspend Status" 
           title="Refresh Suspend Status" />
-        <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+        <img class="img-btn-kh m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
           onclick="serverManager.cancelSuspendCommand()"
           src="/kame-house/img/pc/hibernate-green.png" alt="Cancel Suspend" title="Cancel Suspend" />
-        <img class="sm-btn-img m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
+        <img class="img-btn-kh m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
           onclick="serverManager.setSuspendCommand()"
           src="/kame-house/img/pc/hibernate-red.png" alt="Suspend" title="Suspend" />
         <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown">
@@ -132,7 +132,7 @@
     <tr><td>
       <div class="fl-l-d-kh">
         <span class="p-15-d-kh">Restart the server: </span>
-        <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh" onclick="serverManager.confirmRebootServer()" 
+        <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh" onclick="serverManager.confirmRebootServer()" 
           src="/kame-house/img/pc/shutdown-red.png" alt="Reboot" title="Reboot"/>
       </div>
     </td></tr>
@@ -152,17 +152,17 @@
       <div id="system-state-commands">
         <div class="system-state-command">
           <span class="bold-kh">Uptime: </span>
-          <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.uptime()" 
+          <img class="img-btn-kh m-7-d-r-kh" onclick="serverManager.uptime()" 
             src="/kame-house/img/other/clock-gray.png" alt="uptime" title="uptime"/>
         </div>
         <div class="system-state-command">
           <span class="bold-kh p-15-d-kh">Memory usage: </span>
-          <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.free()" 
+          <img class="img-btn-kh m-7-d-r-kh" onclick="serverManager.free()" 
             src="/kame-house/img/pc/ram-green.png" alt="free" title="free"/>
         </div>
         <div class="system-state-command">
           <span class="bold-kh m-25-d-l-kh">Disk usage: </span>
-          <img class="sm-btn-img m-7-d-r-kh" onclick="serverManager.df()" 
+          <img class="img-btn-kh m-7-d-r-kh" onclick="serverManager.df()" 
             src="/kame-house/img/pc/hdd-blue.png" alt="df" title="df"/>
         </div>
       </div>
@@ -179,10 +179,10 @@
       </td></tr>
       </tbody>
       </table>
-      <img class="sm-btn-img m-10-d-r-kh m-10-m-r-kh"
+      <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
         onclick="serverManager.restartHttpd(true)"
         src="/kame-house/img/mplayer/resume.png" alt="Restart httpd" title="Restart httpd" />
-      <img class="sm-btn-img  m-10-d-r-kh m-10-m-r-kh"
+      <img class="img-btn-kh  m-10-d-r-kh m-10-m-r-kh"
         onclick="serverManager.getHttpdStatus(true)"
         src="/kame-house/img/other/sync-btn-info.png" 
         alt="Refresh httpd Status" title="Refresh httpd Status" />
@@ -205,7 +205,7 @@
     <p>The media server contains the media drive with all my videos and playlists</p>
     <p>Use the WakeOnLan command to power on the media server when it's stopped</p>
     <span class="h6-kh txt-l-d-kh txt-l-m-kh m-15-d-kh">Wake On Lan</span>
-    <img class="sm-btn-img"
+    <img class="img-btn-kh"
       onclick="serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')"
       src="/kame-house/img/pc/wol-red.png" alt="WOL media server"
       title="WOL media server" />

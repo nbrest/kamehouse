@@ -49,30 +49,6 @@
   text-align: left;
 }
 
-.sm-btn-img {
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-}
-
-/** This css affects desktop, not mobile! */
-@media (min-width : 900px) {
-  .sm-btn-img:hover {
-    transform: scale(1.3);
-    filter: brightness(1);
-  }
-}
-
-.sm-btn-img:active {
-  transform: scale(0.9);
-}
-
-@media (max-width : 900px) {
-  .sm-btn-img:active {
-    transform: scale(0.7);
-  }
-}
-
 .system-state-command-output {
   background-color: #1a2226;
   color: #686868;

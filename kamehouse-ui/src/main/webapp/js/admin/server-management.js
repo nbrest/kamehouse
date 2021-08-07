@@ -307,7 +307,7 @@ function ServerManager() {
   this.createRebootImg = () => {
     let img = new Image();
     img.src = "/kame-house/img/pc/shutdown-red.png";
-    img.className = "sm-btn-img";
+    img.className = "img-btn-kh";
     img.alt = "Reboot";
     img.title = "Reboot";
     img.onclick = () => self.rebootServer();

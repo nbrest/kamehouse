@@ -388,6 +388,12 @@ html.wait, html.wait * {
   }
 }
 
+/** Use in combination with img-btn-kh to make it smaller */
+.img-btn-s-kh {
+  width: 25px;
+  height: 25px;
+}
+
 .landing-p-body {
   background: #11161a;
 }

@@ -54,7 +54,7 @@
             onkeyup="myScriptsManager.filterMyScriptsRows(this.value)" />
         </td>
         <td class="txt-r-d-kh txt-r-m-kh">
-          <img class="btn-my-scripts-controls"
+          <img class="img-btn-kh img-btn-s-kh btn-my-scripts-controls"
             onclick="scrollToTopOfDiv('all-my-scripts-table-wrapper')"
             src="/kame-house/img/other/back-to-top.png"
             alt="Back To Top" title="Back To Top" />
