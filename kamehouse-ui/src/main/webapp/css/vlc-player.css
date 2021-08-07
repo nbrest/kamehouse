@@ -524,64 +524,6 @@
   background-color: #101010;
 }
 
-.vlc-player-btn-img {
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-}
-
-/** MIN WIDTH media query: Only do for desktop, without afecting mobile. I usually use queries 
- * to override the default behaviour I set on desktop. In this case, I was doing that and
- * it caused a bug because I had to force mobile to scale to 1 and brightness 1 and that
- * overrode the .media-button-pressed css, removing the effect of pressed buttons */
-@media (min-width : 900px) {
-
-  /** This css affects desktop, not mobile! */
-  .vlc-player-btn-img:hover {
-    transform: scale(1.3);
-  }
-}
-
-.vlc-player-btn-img:active {
-  transform: scale(0.9);
-}
-
-@media (max-width : 900px) {
-  .vlc-player-btn-img:active {
-    transform: scale(1);
-  }
-  
-  .vlc-player-btn-red:active {
-    border: 1px solid #181818;
-    border-radius: 50%;
-    background-color: #181818;
-  }
-
-  .vlc-player-btn-green:active {
-    border: 1px solid #181818;
-    border-radius: 50%;
-    background-color: #181818;
-  }
-
-  .vlc-player-btn-blue:active {
-    border: 1px solid #181818;
-    border-radius: 50%;
-    background-color: #181818;
-  }
-
-  .vlc-player-btn-gray:active {
-    border: 1px solid #181818;
-    border-radius: 50%;
-    background-color: #181818;
-  }
-}
-
-.vlc-player-btn-img-s {
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-}
-
 #vlc-player-main {
   border: 1px solid #292929;
   color: #969696;

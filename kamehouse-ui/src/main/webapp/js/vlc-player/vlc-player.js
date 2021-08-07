@@ -728,7 +728,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let dobleArrowImg = new Image();
     dobleArrowImg.id = "toggle-playlist-filenames-img";
     dobleArrowImg.src = "/kame-house/img/other/double-" + direction + "-green.png";
-    dobleArrowImg.className = "vlc-player-btn-img vlc-player-btn-img-s vlc-player-btn-green btn-playlist-controls";
+    dobleArrowImg.className = "img-btn-kh img-btn-s-kh btn-playlist-controls";
     dobleArrowImg.alt = "Expand/Collapse Filename";
     dobleArrowImg.title = "Expand/Collapse Filename";
     dobleArrowImg.onclick = () => self.toggleExpandPlaylistFilenames();

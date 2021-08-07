@@ -77,28 +77,28 @@
         <tr class="hidden-kh"><th scope="row">Main control buttons</th></tr>
         <tr>
           <td>    
-            <img src="/kame-house/img/mplayer/previous.png" class="vlc-player-btn-img vlc-player-btn-red"
+            <img src="/kame-house/img/mplayer/previous.png" class="img-btn-kh"
               onclick="vlcPlayer.execVlcRcCommand('pl_previous')" alt="Previous" title="Previous"/> 
           </td>
           <td> 
-            <img src="/kame-house/img/mplayer/rewind.png" class="vlc-player-btn-img vlc-player-btn-red"
+            <img src="/kame-house/img/mplayer/rewind.png" class="img-btn-kh"
               onclick="vlcPlayer.execVlcRcCommand('seek', '-1m')" alt="Rewind" title="Rewind"/>
           </td>
           <td> 
-            <img src="/kame-house/img/mplayer/resume.png" class="vlc-player-btn-img vlc-player-btn-red" 
+            <img src="/kame-house/img/mplayer/resume.png" class="img-btn-kh" 
               onclick="vlcPlayer.execVlcRcCommand('pl_pause')" alt="Play/Pause" title="Play/Pause"/>
           </td>
           <td> 
-            <img src="/kame-house/img/mplayer/fast-forward.png" class="vlc-player-btn-img vlc-player-btn-red" 
+            <img src="/kame-house/img/mplayer/fast-forward.png" class="img-btn-kh" 
               onclick="vlcPlayer.execVlcRcCommand('seek', '+1m')" alt="Fast Forward" title="Fast Forward"/>
           </td>
           <td> 
-            <img src="/kame-house/img/mplayer/next.png" class="vlc-player-btn-img vlc-player-btn-red" 
+            <img src="/kame-house/img/mplayer/next.png" class="img-btn-kh" 
               onclick="vlcPlayer.execVlcRcCommand('pl_next')" alt="Next" title="Next"/>
           </td>
           <td> 
             <img id="media-btn-stop" src="/kame-house/img/mplayer/stop.png"
-              class="vlc-player-btn-img vlc-player-btn-red"
+              class="img-btn-kh"
               onclick="vlcPlayer.execVlcRcCommand('pl_stop')" alt="Stop" title="Stop"/>
           </td>
         </tr>
@@ -109,12 +109,12 @@
         <tr class="hidden-kh"><th scope="row">Audio controls</th></tr>
         <tr>
         <td> 
-          <img id="media-btn-mute" class="vlc-player-btn-img btn-audio vlc-player-btn-gray"
+          <img id="media-btn-mute" class="img-btn-kh btn-audio"
             src="/kame-house/img/mplayer/mute-gray-dark.png"
             onclick="vlcPlayer.execVlcRcCommand('volume', '0')" alt="Mute" title="Mute"/>
   	    </td>
         <td>
-          <img class="vlc-player-btn-img btn-audio vlc-player-btn-gray"
+          <img class="img-btn-kh btn-audio"
             src="/kame-house/img/mplayer/audio-down-gray-dark.png"
             onclick="vlcPlayer.execVlcRcCommand('volume', '-15')" alt="Volume Down" title="Volume Down"/>
   	    </td> 
@@ -125,7 +125,7 @@
             ontouchend="vlcPlayer.setVolume(this.value)"></div>
   	    </td>
         <td> 
-          <img class="vlc-player-btn-img btn-audio vlc-player-btn-gray"
+          <img class="img-btn-kh btn-audio"
             src="/kame-house/img/mplayer/audio-up-gray-dark.png"
             onclick="vlcPlayer.execVlcRcCommand('volume', '+15')" alt="Volume Up" title="Volume Up"/>
   	    </td>
@@ -141,24 +141,24 @@
         <tr> 
           <td> 
             <img id="media-btn-shuffle"
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-green"
+              class="img-btn-kh media-flow-button"
               src="/kame-house/img/mplayer/shuffle-green.png"
               onclick="vlcPlayer.execVlcRcCommand('pl_random')" alt="Shuffle" title="Shuffle"/>
           </td>
           <td> 
             <img id="media-btn-repeat-1"
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-green"
+              class="img-btn-kh media-flow-button"
               src="/kame-house/img/mplayer/repeat-1-green.png"
               onclick="vlcPlayer.execVlcRcCommand('pl_repeat')" alt="Repeat One" title="Repeat One"/>
           </td>
           <td> 
             <img id="media-btn-repeat"
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-green"
+              class="img-btn-kh media-flow-button"
               src="/kame-house/img/mplayer/repeat-green.png"
               onclick="vlcPlayer.execVlcRcCommand('pl_loop')" alt="Loop" title="Loop"/>
           </td>
   	      <td> 
-            <img class="vlc-player-btn-img media-flow-button vlc-player-btn-green"
+            <img class="img-btn-kh media-flow-button"
               src="/kame-house/img/mplayer/audio-track-cycle-green.png"
               onclick="vlcPlayer.execVlcRcCommand('key', 'audio-track')" alt="Audio Track Cycle" title="Audio Track Cycle"/>
   	      </td>
@@ -171,27 +171,27 @@
         <tr>
           <td> 
             <img id="media-btn-fullscreen"
-              class="vlc-player-btn-img media-screen-ctrl-button vlc-player-btn-blue"
+              class="img-btn-kh media-screen-ctrl-button"
               src="/kame-house/img/mplayer/fullscreen-blue.png"
               onclick="vlcPlayer.execVlcRcCommand('fullscreen')" alt="Fullscreen Toggle" title="Fullscreen"/>
           </td>
           <td> 
             <img id="media-btn-4-3"
-              class="vlc-player-btn-img media-screen-ctrl-button vlc-player-btn-blue"
+              class="img-btn-kh media-screen-ctrl-button"
               src="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png"
               onclick="vlcPlayer.updateAspectRatio('4:3')"
               alt="4:3" title="4:3"/>
           </td>
           <td>
             <img id="media-btn-16-9"
-              class="vlc-player-btn-img media-screen-ctrl-button vlc-player-btn-blue"
+              class="img-btn-kh media-screen-ctrl-button"
               src="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png"
               onclick="vlcPlayer.updateAspectRatio('16:9')"
               alt="16:9" title="16:9"/>
           </td>
           <td> 
             <img id="media-btn-aspect-ratio-cycle"
-              class="vlc-player-btn-img media-screen-ctrl-button vlc-player-btn-blue"
+              class="img-btn-kh media-screen-ctrl-button"
               src="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png"
               onclick="vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"
               alt="Aspect Ratio Cycle" title="Aspect Ratio Cycle"/>
@@ -207,20 +207,20 @@
         <tr>
           <td>
             <img
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-gray fl-r-d-kh"
+              class="img-btn-kh media-flow-button fl-r-d-kh"
               src="/kame-house/img/mplayer/subtitles-cycle-gray-dark.png"
               onclick="vlcPlayer.execVlcRcCommand('key', 'subtitle-track')"
               alt="Subtitle Cycle" title="Subtitle Cycle" />
           </td>
           <td>
             <img
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-gray"
+              class="img-btn-kh media-flow-button"
               src="/kame-house/img/other/double-left-gray-dark.png"
               onclick="vlcPlayer.updateSubtitleDelay('-1')"
               alt="Subtitle delay -1s" title="Subtitle delay -1s" />
             <span id="subtitle-delay">Sub Delay: <span id="subtitle-delay-value">0</span>s</span>
             <img
-              class="vlc-player-btn-img media-flow-button vlc-player-btn-gray"
+              class="img-btn-kh media-flow-button"
               src="/kame-house/img/other/double-right-gray-dark.png"
               onclick="vlcPlayer.updateSubtitleDelay('+1')"
               alt="Subtitle delay +1s" title="Subtitle delay +1s" />
@@ -247,11 +247,11 @@
             </td>
             <td class="txt-r-d-kh txt-r-m-kh">
               <img id="toggle-playlist-filenames-img" alt="this should be overriden"/>
-              <img class="vlc-player-btn-img vlc-player-btn-img vlc-player-btn-red btn-playlist-controls"
+              <img class="img-btn-kh img-btn-kh btn-playlist-controls"
                 onclick="vlcPlayer.scrollToCurrentlyPlaying()"
                 src="/kame-house/img/other/selected-item.png"
                 alt="Selected Item" title="Selected Item" />
-              <img class="vlc-player-btn-img vlc-player-btn-img-s vlc-player-btn-blue btn-playlist-controls"
+              <img class="img-btn-kh img-btn-s-kh btn-playlist-controls"
                 onclick="scrollToTopOfDiv('playlist-table-wrapper')"
                 src="/kame-house/img/other/back-to-top-blue.png"
                 alt="Back To Top" title="Back To Top" />
@@ -278,7 +278,7 @@
             onchange="playlistBrowser.populateVideoPlaylists()"></select>
           <select class="select-kh-dark vlc-player-select" id="playlist-dropdown" name="playlist" 
             onchange="playlistBrowser.loadPlaylistContent()"></select>
-          <img class="vlc-player-btn-img vlc-player-btn-img-s vlc-player-btn-blue btn-load-playlist"
+          <img class="img-btn-kh img-btn-s-kh btn-load-playlist"
             onclick="playlistBrowser.playSelectedPlaylist()"
             src="/kame-house/img/mplayer/play-blue.png"
             alt="Load Playlist" title="Load Playlist"/> 
@@ -304,7 +304,7 @@
             </td>
             <td class="txt-r-d-kh txt-r-m-kh">
               <img id="toggle-playlist-browser-filenames-img" alt="this should be overriden"/>
-              <img class="vlc-player-btn-img vlc-player-btn-img-s vlc-player-btn-blue btn-playlist-controls"
+              <img class="img-btn-kh img-btn-s-kh btn-playlist-controls"
                 onclick="scrollToTopOfDiv('playlist-browser-table-wrapper')"
                 src="/kame-house/img/other/back-to-top-blue.png"
                 alt="Back To Top" title="Back To Top" />
