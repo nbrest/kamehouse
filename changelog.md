@@ -4,6 +4,7 @@
 
 * Moved scheduled cardio booking configuration from being hardcoded in the code to the database
 * Added custom form styles and applied it to all current forms
+* Updated page layout for test module websockets and db users forms
 
 #### v6.01
 
