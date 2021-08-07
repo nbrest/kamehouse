@@ -36,7 +36,7 @@
     				System.out.println(paramValue);
     			}
     %>
-    <table class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
+    <table class="table-kh">
       <caption class="hidden-kh">DragonBall Users</caption>
       <tbody id="dragonball-users-tbody">
       <!--

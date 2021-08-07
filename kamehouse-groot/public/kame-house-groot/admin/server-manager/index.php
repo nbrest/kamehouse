@@ -82,7 +82,7 @@
         src="/kame-house/img/other/sync-btn-info.png" alt="Refresh" title="Refresh"/>
 
       <table id="mst-admin" 
-        class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
+        class="table-kh">
         <tr class="table-kh-header">
           <td>module</td>
           <td class="tomcat-modules-table-path">path</td>
@@ -220,7 +220,7 @@
         </tr>
       </table>
       <br>
-      <table class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
+      <table class="table-kh">
         <tr class="table-kh-header">
           <td>module</td>
           <td class="non-tomcat-modules-table-build-version">build version</td>
