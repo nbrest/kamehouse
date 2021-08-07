@@ -3,6 +3,7 @@
 #### v6.02
 
 * Moved scheduled cardio booking configuration from being hardcoded in the code to the database
+* Added custom form styles and applied it to all current forms
 
 #### v6.01
 
