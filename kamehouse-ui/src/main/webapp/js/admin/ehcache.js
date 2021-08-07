@@ -9,7 +9,6 @@ var ehCacheManager;
 
 var main = () => {
   bannerUtils.setRandomPrinceOfTennisBanner();
-  importEhcacheCss();
   moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
@@ -18,11 +17,6 @@ var main = () => {
     ehCacheManager.init();
   });
 };
-
-/** Import ehcache css */
-function importEhcacheCss() {
-  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/ehcache.css">');
-}
 
 /**
  * Manage ehcache in the current server.
