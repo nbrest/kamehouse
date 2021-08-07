@@ -70,7 +70,8 @@
 
       <br>
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Deployment</h4>
-      <p class="default-layout tomcat-description">Manage all the kamehouse modules installed in the current server. Login to kame-house to get the current build version and date of the tomcat modules. You can also deploy to all servers using the cloud buttons. Deploying all servers also deploys the non-tomcat modules. As well as check the status of the current tomcat process and start and stop the process when required.</p>
+      <p class="default-layout tomcat-description">Manage all the <span class="highlight">Kame</span><span class="bold-kh">House</span> modules installed in the current server. <span class="bold-kh">Login to kame-house to get the current build version and date of the tomcat modules</span>.</p> 
+      <p class="default-layout tomcat-description">You can also deploy to all servers using the cloud buttons. Deploying all servers also deploys the non-tomcat modules. As well as check the status of the current tomcat process and start and stop the process when required.</p>
       <span class="bold-kh">Deploy all modules: </span>
       <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployAllModules()" 
         src="/kame-house/img/other/rocket-green.png" alt="Deploy All Modules" title="Deploy All Modules"/>

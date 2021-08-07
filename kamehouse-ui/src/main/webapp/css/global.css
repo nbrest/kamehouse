@@ -356,6 +356,11 @@ body {
   display: none;
 }
 
+.highlight {
+  color: #d90000;
+  font-weight: bold;
+}
+
 html.wait, html.wait * {
   cursor: wait;
 }

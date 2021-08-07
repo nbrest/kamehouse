@@ -302,11 +302,6 @@ a:active {
 }
 /** groot menu nav end */
 
-.highlight {
-  color: #d90000;
-  font-weight: bold;
-}
-
 /* tabs (used for example in groot server-manager) */
 .tab-groot-content {
   display: none;
