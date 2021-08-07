@@ -1,3 +1,16 @@
 .table-db-users-actions {
   min-width: 120px;
 }
+
+.form-db-users-angular {
+  background-color:#290000;
+  border: 1px solid #525252;
+}
+
+.form-db-users-angular input {
+  background:#1f0000; 
+}
+
+.form-db-users-angular input[type="image"] {
+  background: none;
+}
