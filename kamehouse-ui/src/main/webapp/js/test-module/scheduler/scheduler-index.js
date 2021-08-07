@@ -9,17 +9,12 @@ var scheduler;
 
 var main = () => {
   bannerUtils.setRandomAllBanner();
-  importCss();
   moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
     logger.info("Started initializing scheduler");
     scheduler = new Scheduler();
     scheduler.getSampleJobStatus(false);
   });
 };
-
-function importCss() {
-  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/test-module/scheduler/scheduler.css">');
-}
 
 /**
  * Manager to handle the scheduling of the sample job.
