@@ -189,7 +189,7 @@ function BackendLogLevelUtils() {
   this.getLogLevelTableHeader = (webapp) => {
     let tableRow = $('<tr>');
     tableRow.attr("id", "log-level-thead-" + webapp);
-    tableRow.attr("class", "log-level-thead");
+    tableRow.attr("class", "table-kh-header");
 
     let packageNameTableRowData = $('<td>')
     packageNameTableRowData.text("Package Name")

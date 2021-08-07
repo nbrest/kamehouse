@@ -33,35 +33,6 @@
   float: right;
 }
 
-#ehcache-header {
-  margin-top: 15px;
-  float: left;
-  font-weight: bold;
-}
-
 .ehcache-table-header-txt {
   display: inline-block;
-}
-
-.table-ehcache {
-  background: #171717;
-  margin-bottom: 5px;
-}
-
-.table-ehcache tr td {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-.table-ehcache-button {
-    float: right;
-    margin: 0px;
-    margin-left: 5px;    
-}
-
-.td-ehcache-header {
-    font-weight: bold;
-    width: 70px;
 }
