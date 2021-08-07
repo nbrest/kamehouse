@@ -523,6 +523,17 @@ function ModuleUtils() {
  */
 function TableUtils() {
 
+  /** 
+   * Load a table header from a snippet to be inserted in dynamic tables 
+   * 
+   * Example usage in dragonball-user-service-jsp.js
+   */
+  this.loadTableHeader = async (tableHeaderHtmlPath) => {
+    const tableHeaderHtmlResponse = await fetch(tableHeaderHtmlPath);
+    const tableHeaderHtml = await tableHeaderHtmlResponse.text();
+    return tableHeaderHtml;
+  }
+
   /** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
   this.filterTableRows = function filterTableRows(filterString, tableBodyId) {
     filterString = filterString.toLowerCase();

@@ -35,7 +35,7 @@
     			}
     %>
     <br>
-    <table class="table table-bordered table-db-users table-bordered-kh table-responsive-kh table-responsive">
+    <table class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
       <caption class="hidden-kh">DragonBall Users</caption>
       <tbody id="dragonball-users-tbody">
       <!--

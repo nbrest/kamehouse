@@ -109,11 +109,11 @@ function DragonBallUserServiceJsp() {
   /**
    * Display dragonball users table.
    */
-  this.displayDragonBallUsers = (dragonBallUsersList) => {
+  this.displayDragonBallUsers = async (dragonBallUsersList) => {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
-    $dragonBallUsersTbody.append(self.getDragonBallUserTableHeader());
+    $dragonBallUsersTbody.append(await self.getDragonBallUserTableHeader());
     for (let i = 0; i < dragonBallUsersList.length; i++) {
       $dragonBallUsersTbody.append(self.getDragonBallUserTableRow(dragonBallUsersList[i]));
     }
@@ -202,21 +202,6 @@ function DragonBallUserServiceJsp() {
   }
 
   this.getDragonBallUserTableHeader = () => {
-    let tableRow = $('<tr>');
-    tableRow.attr("class", "table-kh-header");
-
-    let headerColumns = ["Id", "Name", "Email", "Age", "Power Level", "Stamina"];
-    for (let i = 0; i < headerColumns.length; i++) {
-      let headerColumnRowData = $('<td>')
-      headerColumnRowData.text(headerColumns[i]);
-      tableRow.append(headerColumnRowData);
-    }
-    
-    let actionsRowData = $('<td>')
-    actionsRowData.text("Actions")
-    actionsRowData.attr("class", "table-db-users-actions");
-    tableRow.append(actionsRowData);
-
-    return tableRow;
+    return tableUtils.loadTableHeader("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
   }
 }
