@@ -56,9 +56,9 @@
       <br>
       <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
         <span class="bold-kh">Pull latest changes in all my git repos: </span>
-        <img class="img-btn-groot-app m-10-d-r-kh" onclick="gitManager.pullAll()" 
+        <img class="img-btn-kh m-10-d-r-kh" onclick="gitManager.pullAll()" 
           src="/kame-house/img/other/git-pull-request-blue.png" alt="Git Pull All" title="Git Pull All"/>
-        <img class="img-btn-groot-app m-10-d-r-kh" onclick="gitManager.pullAllAllServers()" 
+        <img class="img-btn-kh m-10-d-r-kh" onclick="gitManager.pullAllAllServers()" 
           src="/kame-house/img/other/cloud-up-down-blue.png" alt="Git Pull All - All Servers" title="Git Pull All - All Servers"/>
         <br><br>
       </div>
@@ -72,12 +72,12 @@
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Deployment</h4>
       <p class="default-layout tomcat-description">Manage all the kamehouse modules installed in the current server. Login to kame-house to get the current build version and date of the tomcat modules. You can also deploy to all servers using the cloud buttons. Deploying all servers also deploys the non-tomcat modules. As well as check the status of the current tomcat process and start and stop the process when required.</p>
       <span class="bold-kh">Deploy all modules: </span>
-      <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployAllModules()" 
+      <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployAllModules()" 
         src="/kame-house/img/other/rocket-green.png" alt="Deploy All Modules" title="Deploy All Modules"/>
-      <img class="img-btn-groot-app" onclick="deploymentManager.deployAllModulesAllServers()" 
+      <img class="img-btn-kh" onclick="deploymentManager.deployAllModulesAllServers()" 
         src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy All Modules - All Servers" title="Deploy All Modules - All Servers"/>
 
-      <img class="img-btn-groot-app m-5-d-kh m-5-d-kh fl-r-d-kh" onclick="deploymentManager.refreshServerView()"
+      <img class="img-btn-kh m-5-d-kh m-5-d-kh fl-r-d-kh" onclick="deploymentManager.refreshServerView()"
         src="/kame-house/img/other/sync-btn-info.png" alt="Refresh" title="Refresh"/>
 
       <table id="mst-admin" 
@@ -98,17 +98,17 @@
           <td id="mst-admin-build-version-val">N/A</td>
           <td id="mst-admin-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-7-d-r-kh" onclick="deploymentManager.startModule('admin')" 
+            <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startModule('admin')" 
               src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.stopModule('admin')" 
+            <img class="img-btn-kh" onclick="deploymentManager.stopModule('admin')" 
               src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.undeployModule('admin')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.undeployModule('admin')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('admin')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('admin')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('admin')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('admin')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -119,17 +119,17 @@
           <td id="mst-media-build-version-val">N/A</td>
           <td id="mst-media-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-7-d-r-kh" onclick="deploymentManager.startModule('media')" 
+            <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startModule('media')" 
               src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.stopModule('media')" 
+            <img class="img-btn-kh" onclick="deploymentManager.stopModule('media')" 
               src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.undeployModule('media')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.undeployModule('media')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('media')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('media')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('media')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('media')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -140,17 +140,17 @@
           <td id="mst-tennisworld-build-version-val">N/A</td>
           <td id="mst-tennisworld-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-7-d-r-kh" onclick="deploymentManager.startModule('tennisworld')" 
+            <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startModule('tennisworld')" 
               src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.stopModule('tennisworld')" 
+            <img class="img-btn-kh" onclick="deploymentManager.stopModule('tennisworld')" 
               src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.undeployModule('tennisworld')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.undeployModule('tennisworld')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('tennisworld')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('tennisworld')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('tennisworld')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('tennisworld')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -161,17 +161,17 @@
           <td id="mst-testmodule-build-version-val">N/A</td>
           <td id="mst-testmodule-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-7-d-r-kh" onclick="deploymentManager.startModule('testmodule')" 
+            <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startModule('testmodule')" 
               src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.stopModule('testmodule')" 
+            <img class="img-btn-kh" onclick="deploymentManager.stopModule('testmodule')" 
               src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.undeployModule('testmodule')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.undeployModule('testmodule')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('testmodule')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('testmodule')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('testmodule')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('testmodule')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -182,17 +182,17 @@
           <td id="mst-ui-build-version-val">N/A</td>
           <td id="mst-ui-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-7-d-r-kh" onclick="deploymentManager.startModule('ui')" 
+            <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startModule('ui')" 
               src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.stopModule('ui')" 
+            <img class="img-btn-kh" onclick="deploymentManager.stopModule('ui')" 
               src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.undeployModule('ui')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.undeployModule('ui')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('ui')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('ui')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('ui')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('ui')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -203,17 +203,17 @@
           <td id="mst-vlcrc-build-version-val">N/A</td>
           <td id="mst-vlcrc-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-7-d-r-kh" onclick="deploymentManager.startModule('vlcrc')" 
+            <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startModule('vlcrc')" 
               src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.stopModule('vlcrc')" 
+            <img class="img-btn-kh" onclick="deploymentManager.stopModule('vlcrc')" 
               src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.undeployModule('vlcrc')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.undeployModule('vlcrc')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('vlcrc')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('vlcrc')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('vlcrc')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('vlcrc')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -231,9 +231,9 @@
           <td id="mst-cmd-build-version-val">N/A</td>
           <td id="mst-cmd-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('cmd')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('cmd')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('cmd')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('cmd')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -242,9 +242,9 @@
           <td id="mst-groot-build-version-val">N/A</td>
           <td id="mst-groot-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('groot')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('groot')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('groot')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('groot')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
@@ -253,9 +253,9 @@
           <td id="mst-shell-build-version-val">N/A</td>
           <td id="mst-shell-build-date-val">N/A</td>
           <td>
-            <img class="img-btn-groot-app m-10-d-r-kh" onclick="deploymentManager.deployModule('shell')" 
+            <img class="img-btn-kh m-10-d-r-kh" onclick="deploymentManager.deployModule('shell')" 
               src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
-            <img class="img-btn-groot-app" onclick="deploymentManager.deployModuleAllServers('shell')" 
+            <img class="img-btn-kh" onclick="deploymentManager.deployModuleAllServers('shell')" 
               src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>        
@@ -263,9 +263,9 @@
       
       <pre class="console-output tomcat-process-console-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
       <span class="bold-kh">Tomcat Process: </span>
-      <img class="img-btn-groot-app m-7-d-r-kh" onclick="deploymentManager.startTomcat()" 
+      <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startTomcat()" 
         src="/kame-house/img/mplayer/play-green.png" alt="Start Tomcat" title="Start Tomcat"/>
-      <img class="img-btn-groot-app" onclick="deploymentManager.stopTomcat()" 
+      <img class="img-btn-kh" onclick="deploymentManager.stopTomcat()" 
         src="/kame-house/img/mplayer/stop.png" alt="Stop Tomcat" title="Stop Tomcat"/>
       <br><br>
 
@@ -278,7 +278,7 @@
       <br>
       <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
         <span class="bold-kh">Create all video playlists: </span>
-        <img class="img-btn-groot-app m-7-d-r-kh" onclick="serverManager.createAllVideoPlaylists()" 
+        <img class="img-btn-kh m-7-d-r-kh" onclick="serverManager.createAllVideoPlaylists()" 
           src="/kame-house/img/mplayer/playlist-blue.png" alt="Create Video Playlists" title="Create Video Playlists"/>
         <br><br>
       </div>
@@ -293,7 +293,7 @@
       <h5 class="h5-kh txt-c-m-kh">Power Management</h5>
       <br>
       <span class="bold-kh p-15-d-kh">Restart the server: </span>
-      <img class="img-btn-groot-app m-7-d-r-kh" onclick="serverManager.confirmRebootServer()" 
+      <img class="img-btn-kh m-7-d-r-kh" onclick="serverManager.confirmRebootServer()" 
         src="/kame-house/img/pc/shutdown-red.png" alt="Reboot" title="Reboot"/>
 
       <br><br>
@@ -323,7 +323,7 @@
             <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
           </select>
           <img id="toggle-tail-log-img"
-            class="img-btn-groot-app m-10-d-r-kh" 
+            class="img-btn-kh m-10-d-r-kh" 
             onclick="tailLogManagerWrapper.toggleTailLog()" 
             src="/kame-house/img/mplayer/play-green.png"
             alt="Start Tail Log" title="Start Tail Log"/>

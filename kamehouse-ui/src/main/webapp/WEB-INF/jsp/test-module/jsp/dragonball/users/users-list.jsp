@@ -48,11 +48,11 @@
             <td>${dragonBallUser.getPowerLevel()}</td>
             <td>${dragonBallUser.getStamina()}</td>
             <td><input type="button" value="edit"
-                class="btn btn-outline-success btn-borderless"
+                class="btn btn-outline-success"
                 onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
               <form action="users-delete-action" method="post">
                 <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
-                <input type="submit" value="delete" class="btn btn-outline-danger btn-borderless" />
+                <input type="submit" value="delete" class="btn btn-outline-danger" />
               </form></td>
           </tr>
         </c:forEach>

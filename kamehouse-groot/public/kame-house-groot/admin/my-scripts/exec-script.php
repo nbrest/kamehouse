@@ -76,14 +76,14 @@
       </table></pre>
 
     <img id="btn-execute-script"
-      class="btn-img m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh"
+      class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh"
       onclick="scriptExecutor.executeFromUrlParams()" src="/kame-house/img/mplayer/play.png"
       alt="Execute Script" title="Execute Script" />
-    <img id="btn-download-script-output" class="btn-img hidden-kh"
+    <img id="btn-download-script-output" class="img-btn-kh hidden-kh"
       onclick="scriptExecutor.downloadBashScriptOutput()"
       src="/kame-house/img/other/download-blue.png" alt="Download Output"
       title="Download Output" />
-    <img class="btn-img m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh fl-r-d-kh"
+    <img class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh fl-r-d-kh"
       onclick="scrollToTop()"
       src="/kame-house/img/other/back-to-top.png"
       alt="Back To Top" title="Back To Top" />

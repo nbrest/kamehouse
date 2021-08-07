@@ -143,7 +143,7 @@ function ServerManager() {
   this.createRebootImg = () => {
     let img = new Image();
     img.src = "/kame-house/img/pc/shutdown-red.png";
-    img.className = "img-btn-groot-app";
+    img.className = "img-btn-kh";
     img.alt = "Reboot";
     img.title = "Reboot";
     img.onclick = () => self.rebootServer();
@@ -556,7 +556,7 @@ function TailLogManagerWrapper() {
     let img = new Image();
     img.id = "toggle-tail-log-img";
     img.src = "/kame-house/img/mplayer/stop.png";
-    img.className = "img-btn-groot-app m-7-d-r-kh";
+    img.className = "img-btn-kh m-7-d-r-kh";
     img.alt = "Stop Tail Log";
     img.title = "Stop Tail Log";
     img.onclick = () => self.toggleTailLog();
@@ -567,7 +567,7 @@ function TailLogManagerWrapper() {
     let img = new Image();
     img.id = "toggle-tail-log-img";
     img.src = "/kame-house/img/mplayer/play-green.png";
-    img.className = "img-btn-groot-app m-7-d-r-kh";
+    img.className = "img-btn-kh m-7-d-r-kh";
     img.alt = "Start Tail Log";
     img.title = "Start Tail Log";
     img.onclick = () => self.toggleTailLog();
