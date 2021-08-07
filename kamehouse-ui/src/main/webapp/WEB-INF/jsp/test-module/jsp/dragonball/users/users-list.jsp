@@ -23,7 +23,9 @@
 <body> 
   <div class="main-body">
   <div class="default-layout p-15-m-kh">
+    <br>
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">DragonBall Users</h3>
+    <br>
     <%
       Enumeration<String> paramNames = request.getParameterNames();
 
@@ -34,7 +36,6 @@
     				System.out.println(paramValue);
     			}
     %>
-    <br>
     <table class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
       <caption class="hidden-kh">DragonBall Users</caption>
       <tbody id="dragonball-users-tbody">
@@ -47,13 +48,14 @@
             <td>${dragonBallUser.getAge()}</td>
             <td>${dragonBallUser.getPowerLevel()}</td>
             <td>${dragonBallUser.getStamina()}</td>
-            <td><input type="button" value="edit"
-                class="btn btn-outline-success"
-                onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
+            <td>
+              <input type="button" value="edit"
+                class="btn" onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
               <form action="users-delete-action" method="post">
                 <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
-                <input type="submit" value="delete" class="btn btn-outline-danger" />
-              </form></td>
+                <input type="submit" value="delete" class="btn" />
+              </form>
+            </td>
           </tr>
         </c:forEach>
         -->
