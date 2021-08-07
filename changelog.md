@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.02
+
+* Moved scheduled cardio booking configuration from being hardcoded in the code to the database
+
 #### v6.01
 
 * Added initial load of the status of vlc player and the playlist through API calls as soon as the page loads and when loading a new file or playlist from the playlist browser. This avoids the delay of waiting until the websockets synchronize to get the initial/updated view
