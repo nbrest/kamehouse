@@ -1,31 +1,25 @@
 .username.ng-valid {
-  background-color: #154921;
-  color: black;
+  border: 3px solid #154921;
 }
 
 .username.ng-dirty.ng-invalid-required {
-  background-color: #771010;
-  color: black;
+  border: 3px solid #771010;
 }
 
 .username.ng-dirty.ng-invalid-minlength {
-  background-color: #808001;
-  color: black;
+  border: 3px solid #808001;
 }
 
 .email.ng-valid {
-  background-color: #154921;
-  color: black;
+  border: 3px solid #154921;
 }
 
 .email.ng-dirty.ng-invalid-required {
-  background-color: #771010;
-  color: black;
+  border: 3px solid #771010;
 }
 
 .email.ng-dirty.ng-invalid-email {
-  background-color: #808001;
-  color: black;
+  border: 3px solid #808001;
 }
 
 .mi-form-horizontal {
