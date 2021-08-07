@@ -32,7 +32,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="username">Username</label>
               <div class="col-md-7">
-                <input id="input-username" type="text" name="username" class="form-control input-sm"/>
+                <input id="input-username" type="text" name="username" class="form-input-kh input-sm"/>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="email">Email</label>
               <div class="col-md-7">
-                <input id="input-email" type="email" name="email" class="form-control input-sm"/>
+                <input id="input-email" type="email" name="email" class="form-input-kh input-sm"/>
               </div>
             </div>
           </div>
@@ -50,7 +50,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="age">Age</label>
               <div class="col-md-7">
-                <input id="input-age" type="text" name="age" class="form-control input-sm"/>
+                <input id="input-age" type="text" name="age" class="form-input-kh input-sm"/>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="powerLevel">Power Level</label>
               <div class="col-md-7">
-                <input id="input-powerLevel" type="text" name="powerLevel" class="form-control input-sm"/>
+                <input id="input-powerLevel" type="text" name="powerLevel" class="form-input-kh input-sm"/>
               </div>
             </div>
           </div>
@@ -68,7 +68,7 @@
             <div class="form-group col-md-12">
               <label class="col-md-2 control-lable" for="stamina">Stamina</label>
               <div class="col-md-7">
-                <input id="input-stamina" type="text" name="stamina" class="form-control input-sm"/>
+                <input id="input-stamina" type="text" name="stamina" class="form-input-kh input-sm"/>
               </div>
             </div>
           </div>

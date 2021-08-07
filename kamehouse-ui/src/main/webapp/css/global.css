@@ -313,8 +313,28 @@ body {
   }
 }
 
-/** Override some of bootstrap's form control */
-.form-control {
+/** form styles begin */
+.form-kh {
+  border: 1px solid #3a3a3a;
+  width: 100%;
+  padding: 15px;
+  background: #060606;
+  color: #c0c0c0;
+  padding: 15px;
+}
+
+.form-kh label {
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: .5rem;
+}
+
+.form-input-kh {
+  display: block;
+  width: 100%;
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  line-height: 1.25;
   border: 1px solid #383838;
   border-radius: 0px;
   background: #181818;
@@ -322,14 +342,14 @@ body {
   outline: none;
 }
 
-.form-control:focus {
+.form-input-kh:focus {
   border: 1px solid #616161;
   border-radius: 0px;
   background-color: #1a2226;
   color: #C0C0C0;
   outline: none;
 }
-
+/** form styles end */
 .h3-kh {
   text-align: center;
   margin-top: 15px;
