@@ -349,6 +349,11 @@ body {
   color: #C0C0C0;
   outline: none;
 }
+
+/** to override bootstraps vertical-align for img */
+.form-submit-wrapper-kh img {
+  vertical-align: unset;
+}
 /** form styles end */
 .h3-kh {
   text-align: center;
