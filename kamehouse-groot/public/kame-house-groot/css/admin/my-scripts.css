@@ -4,12 +4,7 @@
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-@media (max-width: 900px) {
-  .all-my-scripts-table-controls-table {
-    display: block;
-  }
+  display: table;
 }
 /** all-my-scripts-table-controls end */
 
