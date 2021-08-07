@@ -9,6 +9,7 @@
 }
 
 .submit-btn {
+  text-align: center;
   outline: none;
   padding: 5px 20px 5px 20px;
   line-height:1.5;
@@ -29,15 +30,4 @@
   .submit-btn {
     width:100%;
   }
-}
-
-.submit-btn-wrapper {
-  margin-top: 10px;
-  border: 1px solid #3a3a3a;
-  width: 100%;
-  padding: 15px;
-  background: #060606;
-  padding-top: 20px;
-  padding-left: 15px;
-  padding-right: 15px;
 }
