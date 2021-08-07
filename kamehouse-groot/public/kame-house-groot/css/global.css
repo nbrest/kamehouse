@@ -74,20 +74,6 @@ a:active {
   fill: #860101;
 }
 
-.img-btn-flow-down {
-  width: 25px;
-  height: 25px;
-  margin: 0px;
-  margin-top: 5px;
-}
-
-.img-btn-flow-up {
-  width: 25px;
-  height: 25px;
-  margin: 0px;
-  margin-top: -20px;
-}
-
 /** groot header */
 #groot-header-branding-desktop {
   display: block;
