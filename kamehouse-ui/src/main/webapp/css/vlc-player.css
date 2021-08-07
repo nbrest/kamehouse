@@ -286,6 +286,12 @@
 }
 
 /** Playlist browser */
+@media(max-width: 900px) {
+  .playlist-browser-ctrl-btns-wrapper {
+    min-width: 125px;
+  }
+}
+
 .playlist-browser-table-btn {
   font-weight: 400;
   padding: .5rem .75rem;
