@@ -39,18 +39,18 @@
     <p class="p-15-m-kh">Executes the specified script from my-scripts in my
       kame-house server and displays the console output</p>
     <table id="script-table"
-      class="table table-bordered-kh table-responsive-kh table-responsive bg-lighter-1-kh">
-      <tr>
-        <td>Server Name:</td>
-        <td id="st-server-name"></td>
-      </tr>
-      <tr>
+      class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
+      <tr class="table-kh-header">
         <td>Script Name:</td>
         <td id="st-script-name"></td>
       </tr>
       <tr>
         <td>Script Args:</td>
         <td id="st-script-args"></td>
+      </tr>
+      <tr>
+        <td>Server Name:</td>
+        <td id="st-server-name"></td>
       </tr>
       <tr>
         <td>Execution Start Date:</td>

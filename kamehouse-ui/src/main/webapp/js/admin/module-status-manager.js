@@ -19,7 +19,6 @@ function ModuleStatusManager() {
    * Get the data from the backend and import css.
    */
   this.init = () => {
-    self.importModuleStatusCss();
     self.getAllModulesStatus();
   }
 
@@ -33,11 +32,6 @@ function ModuleStatusManager() {
     self.getModuleStatus('testmodule');
     self.getModuleStatus('ui');
     self.getModuleStatus('vlcrc');
-  }
-
-  /** Import module status css */
-  this.importModuleStatusCss = () => {
-    $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/module-status.css">');
   }
 
   /**

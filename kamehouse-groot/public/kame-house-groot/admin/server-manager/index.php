@@ -81,17 +81,15 @@
         src="/kame-house/img/other/sync-btn-info.png" alt="Refresh" title="Refresh"/>
 
       <table id="mst-admin" 
-        class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
-        <tr>
-          <td class="module-status-header td-module-status-title">
-            <div class="mst-header-txt">module</div>
-          </td>
-          <td class="td-module-status-title module-status-header tomcat-modules-table-path">path</td>
-          <td class="td-module-status-title module-status-header">status</td>
-          <td class="td-module-status-title module-status-header">build version</td>
-          <td class="td-module-status-title module-status-header tomcat-modules-table-build-date">build date</td>
-          <td class="td-module-status-title module-status-header tomcat-modules-table-controls">controls</td>
-          <td class="td-module-status-title module-status-header tomcat-modules-table-deployment">deployment</td>
+        class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
+        <tr class="table-kh-header">
+          <td>module</td>
+          <td class="tomcat-modules-table-path">path</td>
+          <td>status</td>
+          <td>build version</td>
+          <td class="tomcat-modules-table-build-date">build date</td>
+          <td class="tomcat-modules-table-controls">controls</td>
+          <td class="tomcat-modules-table-deployment">deployment</td>
         </tr>
         <tr>
           <td><div id="mst-admin-header-val">admin</div></td>
@@ -221,14 +219,12 @@
         </tr>
       </table>
       <br>
-      <table class="table table-bordered table-module-status table-bordered-kh table-responsive-kh table-responsive">
-        <tr>
-          <td class="module-status-header td-module-status-title">
-            <div class="mst-header-txt">module</div>
-          </td>
-          <td class="td-module-status-title module-status-header non-tomcat-modules-table-build-version">build version</td>
-          <td class="td-module-status-title module-status-header non-tomcat-modules-table-build-date">build date</td>
-          <td class="td-module-status-title module-status-header non-tomcat-modules-table-deployment">deployment</td>
+      <table class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
+        <tr class="table-kh-header">
+          <td>module</td>
+          <td class="non-tomcat-modules-table-build-version">build version</td>
+          <td class="non-tomcat-modules-table-build-date">build date</td>
+          <td class="non-tomcat-modules-table-deployment">deployment</td>
         </tr>
         <tr>
           <td><div id="mst-cmd-header-val">cmd</div></td>
