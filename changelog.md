@@ -3,7 +3,19 @@
 #### v6.01
 
 * Added initial load of the status of vlc player and the playlist through API calls as soon as the page loads and when loading a new file or playlist from the playlist browser. This avoids the delay of waiting until the websockets synchronize to get the initial/updated view
-* Moved tennis world cardio schedule config to load from the database instead of hardcoded in the code
+* Updated theme of vlc player a lot
+* Updated themes in most pages. Made most themes darker
+* Updated groot login styles
+* Replaced remaining bootstrap buttons with own styles and image icons
+* Swiched opening php-proxy and other external links in new tabs from groot
+* Added security to php-proxy
+* Updated angular validations styles
+* Added config to make php sessions last longer
+* Updated system state buttons layout in server management page
+* Updated angular and jsp tables styles
+* Added generic styles for tables and image buttons and reused them in all pages
+* Added debug mode to jsp pages
+* Fixed bugs
 
 #### v6.00
 
