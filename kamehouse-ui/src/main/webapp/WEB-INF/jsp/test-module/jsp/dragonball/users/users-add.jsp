@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/footer.css" />
 </head>
 <body> 
-  <div class="default-layout main-body">
+  <div class="default-layout main-body p-15-m-kh">
     <div class="panel panel-default">
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Add DragonBall User</h3>
       <div class="formcontainer">
