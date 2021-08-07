@@ -47,9 +47,9 @@
 
       <div class="form-submit-wrapper-kh">
         <img class="img-btn-kh m-15-d-r-kh" onclick="dragonBallUserServiceJsp.addDragonBallUser()" 
-        src="/kame-house/img/other/add-blue.png" alt="Add User" title="Add User"/>
-        <img class="img-btn-kh" onclick="window.location.href='users-list'"
-          src="/kame-house/img/other/list-bullet-blue.png" alt="List Users" title="List Users"/>
+        src="/kame-house/img/other/submit-gray-dark.png" alt="Add User" title="Add User"/>
+        <img class="img-btn-kh fl-r-d-kh" onclick="window.location.href='users-list'"
+          src="/kame-house/img/other/list-bullet-gray-dark.png" alt="List Users" title="List Users"/>
       </div>
     </form>
     <br><br>

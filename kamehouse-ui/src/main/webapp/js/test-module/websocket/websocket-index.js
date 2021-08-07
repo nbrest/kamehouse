@@ -37,12 +37,14 @@ function setConnected(isConnected) {
     $("#connected").removeClass("hidden-kh");
     $("#disconnect").removeClass("hidden-kh");
     $("#disconnected").addClass("hidden-kh");
+    $("#send-label").removeClass("hidden-kh");
     $("#send").removeClass("hidden-kh");
   } else {
     $("#connect").removeClass("hidden-kh");
     $("#connected").addClass("hidden-kh");
     $("#disconnect").addClass("hidden-kh");
     $("#disconnected").removeClass("hidden-kh");
+    $("#send-label").addClass("hidden-kh");
     $("#send").addClass("hidden-kh");
   }
   $("#websocket-responses").html("");

@@ -63,10 +63,10 @@
     </table>
     <br>
     <img class="img-btn-kh" onclick="window.location.href='users-add'"
-      src="/kame-house/img/other/add-blue.png" alt="Add User" title="Add User"/>
+      src="/kame-house/img/other/add-gray-dark.png" alt="Add User" title="Add User"/>
   </div>
+  <br>
   <div class="default-layout txt-c-d-kh txt-c-m-kh">
-    <br>
     <span id="debug-mode-button-wrapper"></span>
   </div>
   </div>

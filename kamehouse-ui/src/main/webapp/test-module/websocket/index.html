@@ -29,31 +29,30 @@
   </div>
   <div class="default-layout">
    
-  <div id="connect-group" class="p-15-d-kh">
-    <form>
-      <div class="form-group">
-        <label for="connect">WebSocket: </label>
-        <img id="connect" class="img-btn-kh m-15-d-r-kh"
-          src="/kame-house/img/pc/disconnected-red.png" alt="connect" title="connect"/>
-        <img id="disconnect" class="img-btn-kh m-15-d-r-kh hidden-kh"
-          src="/kame-house/img/pc/connected-green.png" alt="disconnect" title="disconnect"/>
-          <span id="connected" class="hidden-kh">Connected!</span>
-          <span id="disconnected">Disconnected!</span>
-      </div>
-    </form>
+  <div class="p-15-d-kh">
+    <br>
+    <span class="bold-kh">WebSocket: </span>
+    <img id="connect" class="img-btn-kh m-7-d-kh"
+        src="/kame-house/img/pc/disconnected-red.png" alt="connect" title="connect"/>
+      <img id="disconnect" class="img-btn-kh m-7-d-kh hidden-kh"
+        src="/kame-house/img/pc/connected-green.png" alt="disconnect" title="disconnect"/>
+      <span id="connected" class="hidden-kh">connected!</span>
+      <span id="disconnected">disconnected!</span>
   </div>
         
-  <div id="input-group">
-    <form class="form-inline"> 
-      <label for="firstName">Tell us who you are: </label>
-      <input type="text" id="firstName" class="form-input-kh m-5-d-kh m-5-m-kh" placeholder="First name...">
-      <input type="text" id="lastName" class="form-input-kh m-5-d-kh m-5-m-kh" placeholder="Last name...">
-      <img id="send" class="img-btn-kh m-15-d-r-kh hidden-kh"
-        src="/kame-house/img/pc/email-send-blue.png" alt="send" title="send"/>
-    </form>
-  </div> 
-     
+  <form class="form-kh"> 
+    <label>Tell us who you are: </label>
+    <br><br>
+    <input type="text" id="firstName" class="form-input-kh" placeholder="First name...">
+    <br>
+    <input type="text" id="lastName" class="form-input-kh" placeholder="Last name...">
+    <br>
+    <span id="send-label" class="bold-kh m-25-d-l-kh hidden-kh">Send: </span>
+    <img id="send" class="img-btn-kh m-7-d-kh hidden-kh"
+      src="/kame-house/img/pc/email-send-gray-dark.png" alt="send" title="send"/>
+  </form>
   <br>
+
   <table id="websocket-responses-wrapper" 
     class="table table-responsive table-bordered table-kh table-responsive-kh table-bordered-kh">
     <caption class="hidden-kh">Websocket Responses</caption>
@@ -62,6 +61,12 @@
   </table> 
   </div>
   </div>
+  <br>
+  <div class="default-layout txt-c-d-kh txt-c-m-kh">
+    <span id="debug-mode-button-wrapper"></span>
+  </div>
+  <span id="debug-mode-wrapper"></span>
+  <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
   <script src="/kame-house/js/test-module/websocket/websocket-index.js"></script>  
 </body>
 </html>
