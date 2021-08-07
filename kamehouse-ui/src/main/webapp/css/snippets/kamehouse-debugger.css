@@ -1,3 +1,57 @@
+/** debug-mode begin ------------------------------*/
+.debug-mode-btn {
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.debug-mode-btn:active {
+  transform: scale(0.9);
+}
+
+@media (min-width : 900px) {
+  /** This css affects desktop, not mobile! */
+  .debug-mode-btn:hover {
+    transform: scale(1.3);
+  }
+}
+
+@media (max-width : 900px) {
+  .debug-mode-btn {
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .debug-mode-btn:active {
+    transform: scale(1);
+    border: 1px solid #181818;
+    border-radius: 50%;
+    background-color: #181818;
+  }
+}
+
+#debug-mode-console-log-entries {
+  text-align: left;
+  background-color: #000000;
+  border: 3px solid #343434;
+  padding: 3px;
+  height: 480px;
+  overflow: hidden;
+}
+
+@media (max-width : 900px) {
+  #debug-mode-console-log-entries {
+    height: 580px;
+  }
+}
+/** debug-mode end ------------------------------*/
+
 .debugger-http-client  {
   margin-bottom: 0;
 }
