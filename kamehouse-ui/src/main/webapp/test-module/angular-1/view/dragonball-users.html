@@ -3,42 +3,32 @@
     <br>
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Add/Edit DragonBall User</h3>
     <br>
-    <form data-ng-submit="ctrl.submit()" name="myForm" class="form-kh">
-
+    <form class="form-kh" name="myForm" data-ng-submit="ctrl.submit()">
       <input type="hidden" data-ng-model="ctrl.user.id" />
 
       <label for="username">Username</label>
-      <input type="text" class="form-input-kh username" id="username"
-        placeholder="Enter your name" data-ng-model="ctrl.user.username" data-ng-minlength="3" required/>
-      <div class="has-error" data-ng-show="myForm.$dirty">
-        <span data-ng-show="myForm.username.$error.required">This is a required field</span> 
-        <span data-ng-show="myForm.username.$error.minlength">Minimum length required is 3</span> 
-        <span data-ng-show="myForm.username.$invalid">This field is invalid </span>
-      </div>
+      <input type="text" class="form-input-kh username" id="username" placeholder="Enter username"
+        data-ng-model="ctrl.user.username" data-ng-minlength="3" required/>
       <br>
 
       <label for="email">Email</label>
-      <input type="email" class="form-input-kh email" id="email" 
-        data-ng-model="ctrl.user.email" placeholder="Enter your Email" required/>
-      <div class="has-error" data-ng-show="myForm.$dirty">
-        <span data-ng-show="myForm.email.$error.required">This is a required field</span> 
-        <span data-ng-show="myForm.email.$invalid">This field is invalid</span>
-      </div>
+      <input type="email" class="form-input-kh email" id="email" placeholder="Enter email"
+        data-ng-model="ctrl.user.email" required/>
       <br>
 
       <label for="age">Age</label>
-      <input type="text" class="form-input-kh" id="age" data-ng-model="ctrl.user.age" 
-          placeholder="Enter your Age. [This field is validation free]" />
+      <input type="text" class="form-input-kh" id="age" placeholder="Enter your Age"  
+        data-ng-model="ctrl.user.age"/>
       <br>
 
       <label for="powerLevel">Power Level</label>
-      <input type="text" class="form-input-kh" id="powerLevel" data-ng-model="ctrl.user.powerLevel"
-        placeholder="Enter your Power Level. [This field is validation free]" />
+      <input type="text" class="form-input-kh" id="powerLevel" placeholder="Enter Power Level"
+        data-ng-model="ctrl.user.powerLevel"/>
       <br>
 
       <label for="stamina">Stamina</label>
-      <input type="text" class="form-input-kh" id="stamina" data-ng-model="ctrl.user.stamina" 
-         placeholder="Enter your Stamina. [This field is validation free]" />
+      <input type="text" class="form-input-kh" id="stamina" placeholder="Enter your Stamina" 
+        data-ng-model="ctrl.user.stamina"/>
       <br>
 
       <div class="form-submit-wrapper-kh">
