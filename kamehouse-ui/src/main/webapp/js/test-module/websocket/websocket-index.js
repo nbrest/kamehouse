@@ -14,7 +14,7 @@ var main = () => {
   moduleUtils.loadWebSocketKameHouse();
   moduleUtils.waitForModules(["logger", "webSocketKameHouse"], () => {
     logger.info("Started initializing WebSocket");
-    logger.logLevel = 4;
+    logger.setLogLevel(4);
     websocket = new WebSocketKameHouse();
     websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
     websocket.setTopicUrl('/topic/test-module/websocket-out');
@@ -34,11 +34,15 @@ function setConnected(isConnected) {
   logger.trace(arguments.callee.name);
   if (isConnected) {
     $("#connect").addClass("hidden-kh");
+    $("#connected").removeClass("hidden-kh");
     $("#disconnect").removeClass("hidden-kh");
+    $("#disconnected").addClass("hidden-kh");
     $("#send").removeClass("hidden-kh");
   } else {
     $("#connect").removeClass("hidden-kh");
+    $("#connected").addClass("hidden-kh");
     $("#disconnect").addClass("hidden-kh");
+    $("#disconnected").removeClass("hidden-kh");
     $("#send").addClass("hidden-kh");
   }
   $("#websocket-responses").html("");

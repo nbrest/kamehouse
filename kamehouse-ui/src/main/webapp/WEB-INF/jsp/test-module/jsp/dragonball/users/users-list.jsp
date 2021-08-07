@@ -23,7 +23,7 @@
 <body> 
   <div class="main-body">
   <div class="default-layout">
-    <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">List of DragonBall Users</h3>
+    <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">DragonBall Users</h3>
     <%
       Enumeration<String> paramNames = request.getParameterNames();
 

@@ -203,7 +203,7 @@ function DragonBallUserServiceJsp() {
 
   this.getDragonBallUserTableHeader = () => {
     let tableRow = $('<tr>');
-    tableRow.attr("class", "table-db-users-header");
+    tableRow.attr("class", "table-kh-header");
 
     let headerColumns = ["Id", "Name", "Email", "Age", "Power Level", "Stamina"];
     for (let i = 0; i < headerColumns.length; i++) {
