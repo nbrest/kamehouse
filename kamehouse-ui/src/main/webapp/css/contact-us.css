@@ -18,7 +18,8 @@
   background-color: #1a1a1a;
   background-image: none;
   border: 1px solid #383838;
-  width: 100%;
+  width: 105px;
+  cursor: pointer;
 }
 
 .submit-btn:hover {

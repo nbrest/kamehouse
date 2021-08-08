@@ -57,6 +57,7 @@
 }
 
 .subscribe-btn {
+  cursor: pointer;
   outline: none;
   padding: 5px 20px 5px 20px;
   line-height:1.5;
