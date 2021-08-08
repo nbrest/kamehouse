@@ -10,7 +10,7 @@
 * Simplified web.xml for ui module
 * Fixed showing the correct 404 status code when the page is not found in include-static-html
 * Moved tabs in groot to generic kamehouse tabs to reuse them in other pages (currently used in groot server manager)
-* Updated the styles and layout of the about page
+* Updated the styles and layout of the about page and the home page
 
 #### v6.01
 
