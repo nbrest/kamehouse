@@ -6,20 +6,8 @@
 .box {
   width: 30%;
   padding: 10px;
+  color: #7e7e7e;
   display: inline-block;
-}
-
-#boxes .box a {
-  cursor: pointer;
-}
-
-#boxes .box a img {
-  width: 90px;
-  height: 90px;
-}
-
-#boxes .box a img:hover {
-  transform: scale(1.1);
 }
 
 @media (max-width : 900px) {
@@ -30,3 +18,25 @@
   }	
 }
 
+#boxes .box a {
+  cursor: pointer;
+}
+
+#boxes .box a img {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 7px;
+}
+
+#boxes .box a img:hover {
+  transform: scale(1.1);
+}
+
+#boxes .box h3 {
+  padding-left: 0px;
+  color: #999999;
+}
+
+#boxes .box p {
+  color: #6e6d6d;
+}
