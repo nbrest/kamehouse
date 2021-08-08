@@ -90,6 +90,10 @@ body {
   font-weight: bold;
 }
 
+.border-gray-dark-kh {
+  border: 1px solid #292929;
+}
+
 .btn {
   border-radius: 0;
   /** Make all buttons square overriding bootstrap's default */
