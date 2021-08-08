@@ -16,7 +16,6 @@
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-user-service-jsp.js"></script>
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-users-list.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/test-module/jsp/app.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
 <link rel="stylesheet" href="/kame-house/css/test-module/tm-global.css" />
 </head>

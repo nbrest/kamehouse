@@ -3,14 +3,42 @@
 }
 
 .form-db-users-angular {
-  background-color:#1e0101;
+  background-color:#131010;
   border: 1px solid #525252;
+  width: 60%;
+  margin: auto;
+}
+
+@media (max-width : 900px) {
+  .form-db-users-angular {
+    width: 100%;
+  }
 }
 
 .form-db-users-angular input {
   background:#000000; 
+  width: 90%;
+  margin: auto;
+}
+
+@media (max-width : 900px) {
+  .form-db-users-angular input {
+    width: 100%;
+  }
+}
+
+.form-db-users-angular label {
+  color: #5e5e5e; 
+}
+
+@media (max-width : 900px) {
+  .form-db-users-angular label {
+    padding-left: 0px;
+  }
 }
 
 .form-db-users-angular input[type="image"] {
   background: none;
+  width: inherit;
+  margin: inherit;
 }

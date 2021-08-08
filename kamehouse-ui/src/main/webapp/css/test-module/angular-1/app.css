@@ -1,27 +1,23 @@
 .username.ng-valid {
-  border: 3px solid #154921;
+  border: 2px solid #154921;
 }
 
 .username.ng-dirty.ng-invalid-required {
-  border: 3px solid #771010;
+  border: 2px solid #771010;
 }
 
 .username.ng-dirty.ng-invalid-minlength {
-  border: 3px solid #808001;
+  border: 2px solid #808001;
 }
 
 .email.ng-valid {
-  border: 3px solid #154921;
+  border: 2px solid #154921;
 }
 
 .email.ng-dirty.ng-invalid-required {
-  border: 3px solid #771010;
+  border: 2px solid #771010;
 }
 
 .email.ng-dirty.ng-invalid-email {
-  border: 3px solid #808001;
-}
-
-.mi-form-horizontal {
-  padding: 20px;
+  border: 2px solid #808001;
 }
