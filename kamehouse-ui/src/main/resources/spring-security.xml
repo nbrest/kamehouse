@@ -12,9 +12,6 @@
 
     <intercept-url pattern="/admin/**" access="hasRole('ROLE_KAMISAMA')" method="GET" />
 
-    <intercept-url pattern="/test-module/angular-1/**" access="hasRole('ROLE_SAIYAJIN')"
-      method="GET" />
-
     <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="permitAll"
       method="GET" />
     <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
@@ -24,6 +21,9 @@
     <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
       method="DELETE" />
 
+    <intercept-url pattern="/test-module/**" access="hasRole('ROLE_SAIYAJIN')"
+                   method="GET" />
+    
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
     <!-- ======================================================================================= -->

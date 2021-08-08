@@ -25,25 +25,6 @@
 		<url-pattern>/img/*</url-pattern>
 		<url-pattern>/lib/*</url-pattern>
 	</servlet-mapping>
-	<!-- Listing each static html page here is not scalable. Figure out how 
-		to do this with wildcards, making sure I don't break any page. Using <url-pattern>*.html</url-pattern> 
-		broke /test-module/jsp/ for some reason -->
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/about.html</url-pattern>
-		<url-pattern>/contact-us.html</url-pattern>
-		<url-pattern>/index.html</url-pattern>
-		<url-pattern>/login.html</url-pattern>
-		<url-pattern>/vlc-player.html</url-pattern>
-		<url-pattern>/admin/index.html</url-pattern>
-		<url-pattern>/admin/ehcache.html</url-pattern>
-		<url-pattern>/admin/server-management.html</url-pattern>
-		<url-pattern>/admin/test-apis.html</url-pattern>
-		<url-pattern>/test-module/index.html</url-pattern>
-		<url-pattern>/test-module/angular-1/index.html</url-pattern>
-		<url-pattern>/test-module/scheduler/index.html</url-pattern>
-		<url-pattern>/test-module/websocket/index.html</url-pattern>
-	</servlet-mapping>
 	 <!-- Listing for static error pages. -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>

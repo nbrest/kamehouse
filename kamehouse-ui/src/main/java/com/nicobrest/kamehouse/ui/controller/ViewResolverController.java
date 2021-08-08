@@ -32,12 +32,12 @@ public class ViewResolverController extends AbstractController {
    * View resolver for static html files. Loads the content of the html and returns it to the view
    * so that include-static-html.jsp can render it.
    */
-  @GetMapping(path = { "/",
+  @GetMapping(path = { "/", "/*", "/index.html",
       "/about",
       "/admin", "/admin/**",
       "/contact-us",
       "/login",
-      "/test-module", "/test-module/",
+      "/test-module", "/test-module/", "/test-module/index.html",
       "/test-module/angular-1", "/test-module/angular-1/**",
       "/test-module/scheduler", "/test-module/scheduler/**",
       "/test-module/websocket", "/test-module/websocket/**",
