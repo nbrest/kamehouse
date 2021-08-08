@@ -4,7 +4,11 @@
 
 * Moved scheduled cardio booking configuration from being hardcoded in the code to the database
 * Added custom form styles and applied it to all current forms
+* Added custom table styles and applied it to all current tables
 * Updated page layout for test module websockets and db users forms
+* Fixed showing blank pages on some 404 not found when served from tomcat
+* Simplified web.xml for ui module
+* Fixed showing the correct 404 status code when the page is not found in include-static-html
 
 #### v6.01
 
