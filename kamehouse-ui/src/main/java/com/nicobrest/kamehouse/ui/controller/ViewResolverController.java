@@ -28,6 +28,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ViewResolverController extends AbstractController {
 
+  private static final String ERROR_404_PAGE = "/error/404.html";
+
   /**
    * View resolver for static html files. Loads the content of the html and returns it to the view
    * so that include-static-html.jsp can render it.
@@ -75,17 +77,13 @@ public class ViewResolverController extends AbstractController {
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("/include-static-html");
     modelAndView.addObject("staticHtmlToLoad", staticHtmlToLoad);
-    try {
-      HttpSession session = request.getSession();
-      if (session != null && session.getServletContext() != null) {
-        ServletContext servletContext = session.getServletContext();
-        String staticHtmlToLoadAbsolutePath = servletContext.getRealPath(staticHtmlToLoad);
-        byte[] staticHtmlBytes = Files.readAllBytes(Paths.get(staticHtmlToLoadAbsolutePath));
-        String staticHtmlContent = new String(staticHtmlBytes, StandardCharsets.UTF_8);
-        modelAndView.addObject("staticHtmlContent", staticHtmlContent);
-      }
-    } catch (IOException e) {
-      logger.error("Error loading {} content", staticHtmlToLoad);
+    String staticHtmlContent = loadStaticHtml(request, staticHtmlToLoad);
+    if (staticHtmlContent != null) {
+      modelAndView.addObject("hasError", "false");
+      modelAndView.addObject("staticHtmlContent",staticHtmlContent);
+    } else {
+      modelAndView.addObject("hasError", "true");
+      modelAndView.addObject("staticHtmlContent", loadStaticHtml(request, ERROR_404_PAGE));
     }
     return modelAndView;
   }
@@ -114,5 +112,23 @@ public class ViewResolverController extends AbstractController {
     } else {
       return request.getServletPath();
     }
+  }
+
+  /**
+   * Load the static html file content from the filesystem.
+   */
+  private String loadStaticHtml(HttpServletRequest request, String staticHtmlToLoad) {
+    try {
+      HttpSession session = request.getSession();
+      if (session != null && session.getServletContext() != null) {
+        ServletContext servletContext = session.getServletContext();
+        String staticHtmlToLoadAbsolutePath = servletContext.getRealPath(staticHtmlToLoad);
+        byte[] staticHtmlBytes = Files.readAllBytes(Paths.get(staticHtmlToLoadAbsolutePath));
+        return new String(staticHtmlBytes, StandardCharsets.UTF_8);
+      }
+    } catch (IOException e) {
+      logger.error("Error loading {} content", staticHtmlToLoad);
+    }
+    return null;
   }
 }

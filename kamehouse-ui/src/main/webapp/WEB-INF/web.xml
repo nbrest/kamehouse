@@ -24,19 +24,8 @@
 		<url-pattern>/js/*</url-pattern>
 		<url-pattern>/img/*</url-pattern>
 		<url-pattern>/lib/*</url-pattern>
+		<url-pattern>/error/*</url-pattern>
 	</servlet-mapping>
-	 <!-- Listing for static error pages. -->
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/error/400.html</url-pattern>
-    <url-pattern>/error/403.html</url-pattern>
-    <url-pattern>/error/404.html</url-pattern>
-    <url-pattern>/error/405.html</url-pattern>
-    <url-pattern>/error/409.html</url-pattern>
-    <url-pattern>/error/500.html</url-pattern>
-    <url-pattern>/error/502.html</url-pattern>
-    <url-pattern>/error/503.html</url-pattern>
-  </servlet-mapping>
 
 	<!-- Error page definitions -->
 	<error-page>
