@@ -5,8 +5,8 @@
 }
 
 .github-kamehouse-btn {
-  padding: 5px 20px 5px 20px;
-  margin: 5px 5px 5px 5px;
+  padding: 10px 20px 10px 20px;
+  margin: auto;
   text-align: center;
   line-height:1.5;
   color: #6b6b6b;
@@ -16,6 +16,13 @@
   border: 1px solid #383838;
   outline: none;
   display: block;
+  width: 70%;
+}
+
+@media ( max-width : 900px) { 
+  .github-kamehouse-btn {
+    width: 90%;
+  }
 }
 
 .github-kamehouse-btn:hover {
@@ -56,7 +63,7 @@
 #social-media-links {
   border: 1px solid #363636;
 	margin: auto;
-	width: 70%;
+	width: 90%;
 }
 
 .social-media-logo { 
@@ -65,8 +72,8 @@
 }
 
 .social-media-btn {
-  padding: 5px 20px 5px 20px;
-  margin: 5px 5px 5px 5px;
+  padding: 10px 20px 10px 20px;
+  margin: 15px 15px 15px 15px;
   text-align: center;
   line-height:1.5;
   color: #6b6b6b;
@@ -81,4 +88,11 @@
 .social-media-btn:hover {
   color: #969696;
   background: #4d0000;
+}
+
+.table-dev-branch-status,
+.table-dev-branch-status tr,
+.table-dev-branch-status thead th,
+.table-dev-branch-status td {
+  border: 2px solid #000000;
 }
