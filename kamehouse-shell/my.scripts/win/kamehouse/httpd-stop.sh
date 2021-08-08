@@ -10,6 +10,7 @@ fi
 LOG_PROCESS_TO_FILE=true
 DEFAULT_HTTPD_PORT=80
 HTTPD_PORT=""
+VLC_HTTP_PORT="8080"
 
 mainProcess() {
   HTTPD_PORT_PARAM=$1
@@ -20,8 +21,8 @@ mainProcess() {
   fi
 
   log.info "Searching for apache httpd process"
-  netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | tail -n 1 
-  HTTPD_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
+  netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | grep -v ${VLC_HTTP_PORT} | tail -n 1
+  HTTPD_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | grep -v ${VLC_HTTP_PORT} | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
   if [ -z ${HTTPD_PID} ]; then
     log.info "Apache httpd is not running"
   else
