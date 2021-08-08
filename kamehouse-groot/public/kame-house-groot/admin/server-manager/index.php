@@ -30,26 +30,26 @@
     </div>
   </div>  
   </div>
-  <div class="tabs-groot bg-lighter-1-kh">
+  <div class="tabs-kh bg-lighter-1-kh">
     <div class="default-layout">
-      <button id="tab-git-link" class="tab-groot-link"
-        onclick="openTab('tab-git', 'kh-groot-server-manager')">Git</button>
+      <button id="tab-git-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-git', 'kh-groot-server-manager')">Git</button>
 
-      <button id="tab-deployment-link" class="tab-groot-link"
-        onclick="openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</button>
+      <button id="tab-deployment-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</button>
 
-      <button id="tab-media-link" class="tab-groot-link"
-        onclick="openTab('tab-media', 'kh-groot-server-manager')">Media</button>
+      <button id="tab-media-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-media', 'kh-groot-server-manager')">Media</button>
 
-      <button id="tab-power-link" class="tab-groot-link"
-        onclick="openTab('tab-power', 'kh-groot-server-manager')">Power</button>
+      <button id="tab-power-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-power', 'kh-groot-server-manager')">Power</button>
 
-      <button id="tab-tail-log-link" class="tab-groot-link"
-        onclick="openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</button>
+      <button id="tab-tail-log-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</button>
     </div>
   </div>
 
-    <div id="tab-git" class="default-layout tab-groot-content p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
+    <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
 
       <br>
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Git</h4>
@@ -66,7 +66,7 @@
 
     </div> <!-- tab-git -->
 
-    <div id="tab-deployment" class="default-layout tab-groot-content p-7-d-kh">
+    <div id="tab-deployment" class="default-layout tab-content-kh p-7-d-kh">
 
       <br>
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Deployment</h4>
@@ -272,7 +272,7 @@
 
     </div> <!-- tab-deployment -->
 
-    <div id="tab-media" class="default-layout tab-groot-content p-7-d-kh w-50-pc-kh w-100-pc-m-kh">
+    <div id="tab-media" class="default-layout tab-content-kh p-7-d-kh w-50-pc-kh w-100-pc-m-kh">
 
       <br>
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Media</h4>
@@ -287,7 +287,7 @@
 
     </div> <!-- tab-media -->
 
-    <div id="tab-power" class="tab-groot-content">
+    <div id="tab-power" class="tab-content-kh">
 
       <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
       <br>
@@ -304,7 +304,7 @@
 
     </div> <!-- tab-power -->
 
-    <div id="tab-tail-log" class="default-layout tab-groot-content p-15-d-kh">
+    <div id="tab-tail-log" class="default-layout tab-content-kh p-15-d-kh">
 
       <br>
       <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Tail Logs</h4>

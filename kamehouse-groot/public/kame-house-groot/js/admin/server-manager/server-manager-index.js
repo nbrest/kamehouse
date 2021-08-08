@@ -31,11 +31,7 @@ function ServerManager() {
    * Load the current state from the cookies.
    */
   this.loadStateFromCookies = () => {
-    let currentTab = cookiesUtils.getCookie('kh-groot-server-manager-current-tab');
-    if (!currentTab || currentTab == '') {
-      currentTab = 'tab-deployment';
-    }
-    openTab(currentTab, 'kh-groot-server-manager');
+    tabUtils.openTabFromCookies('kh-groot-server-manager', 'tab-deployment');
   }
 
   this.setCommandRunning = () => {

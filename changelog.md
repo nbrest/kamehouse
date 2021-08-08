@@ -9,6 +9,7 @@
 * Fixed showing blank pages on some 404 not found when served from tomcat
 * Simplified web.xml for ui module
 * Fixed showing the correct 404 status code when the page is not found in include-static-html
+* Moved tabs in groot to generic kamehouse tabs to reuse them in other pages (currently used in groot server manager)
 
 #### v6.01
 

@@ -13,31 +13,7 @@ function mainGlobalGroot() {
   grootHeader = new GrootHeader();
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     grootHeader.renderGrootMenu();
-  }); 
-}
-
-/**
- * Open the tab specified by its id.
- */
- function openTab(selectedTabDivId, cookiePrefix) {
-  // Set current-tab cookie
-  cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
-  
-  // Update tab links
-  let tabLinks = document.getElementsByClassName("tab-groot-link");
-  for (let i = 0; i < tabLinks.length; i++) {
-    tabLinks[i].className = tabLinks[i].className.replace(" active", "");
-  }
-  let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
-  selectedTabLink.classList.add("active");
-
-  // Update tab content visibility
-  let kamehouseTabContent = document.getElementsByClassName("tab-groot-content");
-  for (let i = 0; i < kamehouseTabContent.length; i++) {
-    kamehouseTabContent[i].style.display = "none";
-  }
-  let selectedTabDiv = document.getElementById(selectedTabDivId);
-  selectedTabDiv.style.display = "block";
+  });
 }
 
 /**

@@ -18,6 +18,7 @@ var coreUtils;
 var cursorUtils;
 var fileUtils;
 var moduleUtils;
+var tabUtils;
 var tableUtils;
 var testUtils;
 var timeUtils;
@@ -50,6 +51,7 @@ function main() {
   cursorUtils = new CursorUtils();
   cursorUtils.loadSpinningWheelMobile();
   fileUtils = new FileUtils();
+  tabUtils = new TabUtils();
   tableUtils = new TableUtils();
   testUtils = new TestUtils();
   timeUtils = new TimeUtils();
@@ -515,6 +517,48 @@ function ModuleUtils() {
       //console.log("Executing " + initFunction.name);
       initFunction();
     }
+  }
+}
+
+/**
+ * Manage generic kamehouse tabs (used for example in groot server manager).
+ */
+ function TabUtils() {
+  let self = this;
+  
+  /**
+   * Open the tab specified by its id.
+   */
+   this.openTab = (selectedTabDivId, cookiePrefix) => {
+    // Set current-tab cookie
+    cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
+    
+    // Update tab links
+    let tabLinks = document.getElementsByClassName("tab-kh-link");
+    for (let i = 0; i < tabLinks.length; i++) {
+      tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+    }
+    let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
+    selectedTabLink.classList.add("active");
+
+    // Update tab content visibility
+    let kamehouseTabContent = document.getElementsByClassName("tab-content-kh");
+    for (let i = 0; i < kamehouseTabContent.length; i++) {
+      kamehouseTabContent[i].style.display = "none";
+    }
+    let selectedTabDiv = document.getElementById(selectedTabDivId);
+    selectedTabDiv.style.display = "block";
+  }
+
+  /**
+   * Open the tab from cookies or the default tab if not set in the cookies.
+   */
+  this.openTabFromCookies = (cookiePrefix, defaultTab) => {
+    let currentTab = cookiesUtils.getCookie(cookiePrefix + '-current-tab');
+    if (!currentTab || currentTab == '') {
+      currentTab = defaultTab;
+    }
+    self.openTab(currentTab, cookiePrefix);
   }
 }
 

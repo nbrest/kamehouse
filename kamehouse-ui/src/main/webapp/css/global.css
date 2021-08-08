@@ -948,6 +948,52 @@ hr {
   font-weight: bold;
 }
 
+/* tabs (used for example in groot server-manager) */
+.tab-content-kh {
+  display: none;
+  border-top: none;
+}
+
+.tabs-kh {
+  overflow: hidden;
+  border-bottom: #272727 3px solid;
+}
+
+.tabs-kh button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #c0c0c0;
+  text-align: center;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-decoration: none;
+}
+
+@media (max-width : 900px) {
+  .tabs-kh button {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-width: 50px;
+  }
+}
+
+.tabs-kh button:hover {
+  background-color: black;
+  color: #eeeded;
+}
+
+.tabs-kh button.active {
+  background-color: #500000;
+  color: #dfdfdf;
+}
+
 /** set text alignment desktop and mobile */
 .txt-c-d-kh {
   text-align: center;
