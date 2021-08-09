@@ -26,18 +26,18 @@ function ModuleStatusManager() {
    * Get the data from the backend.
    */
   this.getAllModulesStatus = () => {
-    self.getModuleStatus('admin');
-    self.getModuleStatus('media');
-    self.getModuleStatus('tennisworld');
-    self.getModuleStatus('testmodule');
-    self.getModuleStatus('ui');
-    self.getModuleStatus('vlcrc');
+    getModuleStatus('admin');
+    getModuleStatus('media');
+    getModuleStatus('tennisworld');
+    getModuleStatus('testmodule');
+    getModuleStatus('ui');
+    getModuleStatus('vlcrc');
   }
 
   /**
    * Get module status api url for each webapp.
    */
-  this.getApiUrl = (webapp) => {
+  function getApiUrl(webapp) {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/module/status';
     } else {
@@ -48,17 +48,17 @@ function ModuleStatusManager() {
   /**
    * Get module status.
    */
-  this.getModuleStatus = (webapp) => {
+  function getModuleStatus(webapp) {
     logger.trace("getModuleStatus");
-    debuggerHttpClient.get(self.getApiUrl(webapp),
-      (responseBody, responseCode, responseDescription) => self.displayModuleStatus(responseBody),
-      (responseBody, responseCode, responseDescription) => self.displayErrorGettingModuleStatus(webapp));
+    debuggerHttpClient.get(getApiUrl(webapp),
+      (responseBody, responseCode, responseDescription) => displayModuleStatus(responseBody),
+      (responseBody, responseCode, responseDescription) => displayErrorGettingModuleStatus(webapp));
   }
 
   /**
    * Display module status.
    */
-  this.displayModuleStatus = (moduleStatus) => {
+  function displayModuleStatus(moduleStatus) {
     let webapp = moduleStatus["module"];
     domUtils.setHtml($('#mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
     domUtils.setHtml($('#mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
@@ -67,7 +67,7 @@ function ModuleStatusManager() {
   /**
    * Display error getting data.
    */
-  this.displayErrorGettingModuleStatus = (webapp) => {
+  function displayErrorGettingModuleStatus(webapp) {
     domUtils.removeClass($("#mst-" + webapp + "-error"), "hidden-kh");
     logger.error("Error retrieving module status data for " + webapp + ". Please try again later.");
   }
