@@ -462,6 +462,20 @@ function DomUtils() {
   }
 
   /**
+   * Set an attribute in an element.
+   */
+  this.setAttr = (element, attrKey, attrValue) => {
+    element.attr(attrKey, attrValue);
+  }
+
+  /** Set the html to the element */
+  this.setHtml = (element, html) => {
+    if (html) {
+      element.html(html);
+    }
+  }
+
+  /**
    * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
    */
   this.getElementFromTemplate = (htmlTemplate) => {
@@ -568,7 +582,7 @@ function DomUtils() {
   function getElement(tagType, attr, html) {
     let element = $('<' + tagType + '>');
     setAttributes(element, attr);
-    setHtml(element, html);
+    self.setHtml(element, html);
     return element;
   }
 
@@ -578,13 +592,6 @@ function DomUtils() {
       for (const [key, value] of Object.entries(attr)) {
         element.attr(`${key}`, `${value}`);
       }
-    }
-  }
-
-  /** Set the html to the element */
-  function setHtml(element, html) {
-    if (html) {
-      element.html(html);
     }
   }
 }

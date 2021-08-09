@@ -417,7 +417,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     $("#current-time").text("--:--:--");
     $("#time-slider").val(500);
     $("#total-time").text("--:--:--");
-    $("#time-slider").attr('max', 1000);
+    domUtils.setAttr($("#time-slider"),'max', 1000);
   }
 
   /** Update the displayed current time. */
@@ -432,7 +432,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   this.updateTotalTimeView = (value) => {
     //logger.trace("Total time: " + value);
     $("#total-time").text(timeUtils.convertSecondsToHsMsSs(value));
-    $("#time-slider").attr('max', value);
+    domUtils.setAttr($("#time-slider"),'max', value);
   }
 
   /**
