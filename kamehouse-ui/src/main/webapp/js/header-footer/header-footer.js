@@ -165,9 +165,9 @@ function Header() {
   this.toggleHeaderNav = () => {
     let headerMenu = document.getElementById("header-menu");
     if (headerMenu.className === "header-nav") {
-      headerMenu.className += " responsive";
+      domUtils.classListAdd(headerMenu, "responsive");
     } else {
-      headerMenu.className = "header-nav";
+      domUtils.classListRemove(headerMenu, "responsive");
     }
   }
 

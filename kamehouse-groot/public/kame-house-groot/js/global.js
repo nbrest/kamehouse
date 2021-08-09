@@ -26,9 +26,9 @@ function GrootHeader() {
   this.toggleGrootNav = () => {
     let rootMenu = document.getElementById("groot-menu");
     if (rootMenu.className === "groot-nav") {
-      rootMenu.className += " responsive";
+      domUtils.classListAdd(rootMenu, "responsive");
     } else {
-      rootMenu.className = "groot-nav";
+      domUtils.classListRemove(rootMenu, "responsive");
     }
   }
 

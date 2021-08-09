@@ -58,9 +58,11 @@ function StickyBackToTopManager() {
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
     let verticalScroll = window.scrollY;
     if (verticalScroll > 0) {
-      stickyBackToTopBtn.className = "sticky-back-to-top-link active";
+      domUtils.classListAdd(stickyBackToTopBtn, "active");
+      domUtils.classListRemove(stickyBackToTopBtn, "hidden");
     } else {
-      stickyBackToTopBtn.className = "sticky-back-to-top-link hidden";
+      domUtils.classListAdd(stickyBackToTopBtn, "hidden");
+      domUtils.classListRemove(stickyBackToTopBtn, "active");
     }
   }
 
