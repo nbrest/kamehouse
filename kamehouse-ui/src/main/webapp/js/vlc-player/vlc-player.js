@@ -415,7 +415,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Reset time slider. */
   this.resetTimeSlider = () => {
     domUtils.setHtml($("#current-time"), "--:--:--");
-    $("#time-slider").val(500);
+    domUtils.setVal($("#time-slider"), 500);
     domUtils.setHtml($("#total-time"), "--:--:--");
     domUtils.setAttr($("#time-slider"),'max', 1000);
   }
@@ -425,7 +425,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     //logger.trace("Current time: " + value);
     let currentTime = document.getElementById("current-time");
     currentTime.innerHTML = timeUtils.convertSecondsToHsMsSs(value);
-    $("#time-slider").val(value);
+    domUtils.setVal($("#time-slider"), value);
   }
 
   /** Update the displayed total time. */
@@ -456,7 +456,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update volume percentage to display with the specified value. */
   this.updateVolumeView = (value) => {
     //logger.trace("Current volume value: " + value);
-    $("#volume-slider").val(value);
+    domUtils.setVal($("#volume-slider"), value);
     let volumePercentaje = Math.floor(value * 200 / 512);
     let currentVolume = document.getElementById("current-volume");
     currentVolume.innerHTML = volumePercentaje + "%";

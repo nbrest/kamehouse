@@ -476,6 +476,13 @@ function DomUtils() {
   }
 
   /**
+   * Set the value in an element. Usually used for input fields with a value property.
+   */
+  this.setVal = (element, value) => {
+    element.val(value);
+  }
+
+  /**
    * Add a class to an element.
    */
   this.addClass = (element, className) => {
