@@ -144,15 +144,15 @@ function PlaylistBrowser(vlcPlayer) {
     let $playlistTableBody = $('#playlist-browser-table-body');
     $playlistTableBody.empty();
     if (isNullOrUndefined(self.currentPlaylist)) {
-      $playlistTableBody.append(self.getEmptyPlaylistTableRow());
+      $playlistTableBody.append(self.getEmptyPlaylistTr());
     } else {
-      self.tbodyFilenames = self.getPlaylistBrowserTableBody();
-      self.tbodyAbsolutePaths = self.getPlaylistBrowserTableBody();
+      self.tbodyFilenames = self.getPlaylistBrowserTbody();
+      self.tbodyAbsolutePaths = self.getPlaylistBrowserTbody();
       for (let i = 0; i < self.currentPlaylist.files.length; i++) {
         let absolutePath = self.currentPlaylist.files[i];
         let filename = fileUtils.getShortFilename(absolutePath);
-        self.tbodyFilenames.append(self.getPlaylistBrowserTableRow(filename, absolutePath));
-        self.tbodyAbsolutePaths.append(self.getPlaylistBrowserTableRow(absolutePath, absolutePath));
+        self.tbodyFilenames.append(self.getPlaylistBrowserTr(filename, absolutePath));
+        self.tbodyAbsolutePaths.append(self.getPlaylistBrowserTr(absolutePath, absolutePath));
       }
       $playlistTableBody.replaceWith(self.tbodyFilenames);
     }
@@ -203,58 +203,49 @@ function PlaylistBrowser(vlcPlayer) {
     }
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getInitialDropdownOption = (optionText) => {
-    let option = $('<option>');
-    option.prop("disabled", true);
-    option.prop("selected", true);
-    option.text(optionText);
-    return option;
+    return domUtils.getOption({
+      disabled: true,
+      selected: true
+    }, optionText);
   }
 
   this.getPlaylistOption = (entry, category) => {
-    let option = $('<option>');
-    option.attr('value', entry);
-    option.text(category);
-    return option;
+    return domUtils.getOption({
+      value: entry
+    }, category);
   }
 
   this.getPlaylistCategoryOption = (path, playlistName) => {
-    let option = $('<option>');
-    option.attr('value', path);
-    option.text(playlistName);
-    return option;
+    return domUtils.getOption({
+      value: path
+    }, playlistName);
   }
   
-  this.getPlaylistBrowserTableBody = () => {
-    let tBody = $('<tbody>');
-    tBody.attr("id", "playlist-browser-table-body");
-    return tBody;
+  this.getPlaylistBrowserTbody = () => {
+    return domUtils.getTbody({
+      id: "playlist-browser-table-body"
+    }, null);
   }
 
-  this.getEmptyPlaylistTableRow = () => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.text("No playlist to browse loaded yet or unable to sync. まだまだだね :)");
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getEmptyPlaylistTr = () => {
+    return domUtils.getTrTd("No playlist to browse loaded yet or unable to sync. まだまだだね :)");
   }
 
-  this.getPlaylistBrowserTableRow = (displayName, filePath) => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.append(self.getPlaylistBrowserTableRowButton(displayName, filePath));
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getPlaylistBrowserTr = (displayName, filePath) => {
+    return domUtils.getTrTd(getPlaylistBrowserTrButton(displayName, filePath));
   }
 
-  this.getPlaylistBrowserTableRowButton = (displayName, filePath) => {
-    let button = $('<button>');
-    button.addClass("playlist-browser-table-btn");
-    button.text(displayName);
-    button.click({
-      filename: filePath
-    }, self.clickEventOnPlaylistBrowserRow);
-    return button;
+  function getPlaylistBrowserTrButton(displayName, filePath) {
+    return domUtils.getButton({
+      attr: {
+        class: "playlist-browser-table-btn",
+      },
+      html: displayName,
+      clickData: {
+        filename: filePath
+      },
+      click: self.clickEventOnPlaylistBrowserRow
+    });
   }
 }

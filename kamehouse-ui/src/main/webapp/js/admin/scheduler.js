@@ -76,7 +76,7 @@ function Scheduler() {
     self.jobs.forEach((jobEntry) => {
       let tableIdKey = webapp + jobEntry.key.name;
       $jobsData.append(self.getTableFromTemplate(tableIdKey));
-      $jobsData.append(self.getBr());
+      $jobsData.append(domUtils.getBr());
 
       $("#scheduler-table-" + tableIdKey + "-name-val").text(jobEntry.key.name);
       $("#scheduler-table-" + tableIdKey + "-key-val").text(jobEntry.key.group + "." + jobEntry.key.name);
@@ -96,7 +96,7 @@ function Scheduler() {
    */
   this.getTableFromTemplate = (tableIdKey) => {
     // Create a wrapper div to insert the table template
-    let tableDiv = self.getSchedulerTableDivInstance();
+    let tableDiv = domUtils.getElementFromTemplate(self.schedulerTableTemplate);
     
     // Update the ids and classes on the table generated from the template
     tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val').id = "scheduler-table-" + tableIdKey + "-name-val";
@@ -129,9 +129,14 @@ function Scheduler() {
   this.updateJobsTableError = (webapp) => {
     let $jobsData = $('#jobs-data-' + webapp);
     $jobsData.empty();
-    $jobsData.append(self.getErrorMessage());
+    $jobsData.append(getErrorMessage());
   }
 
+  /** Get the message for the error table */
+  function getErrorMessage() {
+    return domUtils.getP(null, "Error retrieving jobs from the backend");
+  }
+  
   /** Process success response */
   function processSuccess(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
@@ -144,22 +149,5 @@ function Scheduler() {
     loadingWheelModal.close();
     self.updateJobsTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-  }
-
-  /** Dynamic DOM element generation ------------------------------------------ */
-  this.getSchedulerTableDivInstance = () => {
-    let tableDivWrapper = document.createElement('div');
-    tableDivWrapper.innerHTML = self.schedulerTableTemplate;
-    return tableDivWrapper.firstChild;
-  }
-
-  this.getErrorMessage = () => {
-    let errorMessage = $('<p>');
-    errorMessage.text("Error retrieving jobs from the backend");
-    return errorMessage;
-  }
-
-  this.getBr = () => {
-    return $('<br>');
   }
 }

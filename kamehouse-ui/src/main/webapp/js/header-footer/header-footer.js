@@ -80,11 +80,10 @@ function Footer() {
     }
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getFooterContainerDiv = () => {
-    let footerContainer = $('<div>');
-    footerContainer.attr("id", "footerContainer");
-    return footerContainer;
+    return domUtils.getDiv({
+      id: "footerContainer"
+    });
   }
 }
 
@@ -187,37 +186,33 @@ function Header() {
     }
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getHeaderContainerDiv = () => {
-    let headerContainer = $('<div>');
-    headerContainer.attr("id", "headerContainer");
-    return headerContainer;
+    return domUtils.getDiv({
+      id: "headerContainer"
+    });
   }
 
   this.getLoginButton = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/pc/login-left-red.png";
-    img.className = "header-login-status-btn";
-    img.alt = "Login KameHouse";
-    img.title = "Login KameHouse";
-    img.onclick = () => window.location="/kame-house/login";
-    return img;
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/pc/login-left-red.png",
+      className: "header-login-status-btn",
+      alt: "Login KameHouse",
+      onClick: () => window.location="/kame-house/login"
+    });
   }
 
   this.getLogoutButton = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/pc/logout-right-red.png";
-    img.className = "header-login-status-btn";
-    img.alt = "Logout KameHouse";
-    img.title = "Logout KameHouse";
-    img.onclick = () => window.location="/kame-house/logout";
-    return img;
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/pc/logout-right-red.png",
+      className: "header-login-status-btn",
+      alt: "Logout KameHouse",
+      onClick: () => window.location="/kame-house/logout"
+    });
   }
 
   this.getUsernameHeader = (username) => {
-    let usernameHeader = $('<span>');
-    usernameHeader.attr("class", "header-login-status-text");
-    usernameHeader.text(username);
-    return usernameHeader;
+    return domUtils.getSpan({
+      class: "header-login-status-text"
+    }, username);
   }
 }

@@ -131,19 +131,20 @@ function ServerManager() {
     scriptExecutor.execute('win/video-playlists/create-all-video-playlists.sh', "", self.completeCommandCallback);
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getRebootServerModalMessage = () => {
-    return "Are you sure you want to reboot the server? <br><br>";
+    let rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
+    domUtils.append(rebootModalMessage, domUtils.getBr());
+    domUtils.append(rebootModalMessage, domUtils.getBr());
+    return rebootModalMessage;
   }
 
   this.createRebootImg = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/pc/shutdown-red.png";
-    img.className = "img-btn-kh";
-    img.alt = "Reboot";
-    img.title = "Reboot";
-    img.onclick = () => self.rebootServer();
-    return img;
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/pc/shutdown-red.png",
+      className: "img-btn-kh",
+      alt: "Reboot",
+      onClick: () => { self.rebootServer() }
+    });
   }
 }
 
@@ -294,7 +295,7 @@ function DeploymentManager() {
           !scriptOutputLine.includes("tcp") &&
           !scriptOutputLine.includes("Executing script")) {
         $(tomcatProcessStatusDiv).append(scriptOutputLine);
-        $(tomcatProcessStatusDiv).append("<br>");
+        $(tomcatProcessStatusDiv).append(domUtils.getBr());
       }
     });
     $(tomcatProcessStatusDiv).children().last().remove();
@@ -472,33 +473,25 @@ function DeploymentManager() {
     scriptExecutor.execute(hostOs + '/kamehouse/tomcat-stop.sh', "", self.refreshServerView);
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.createStatusBallRedImg = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/other/ball-red.png";
-    img.className = "img-tomcat-manager-status";
-    img.alt = "Status";
-    img.title = "Status";
-    return img;
-  }  
+    return getStatusBallImg("red");
+  }
 
   this.createStatusBallGreenImg = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/other/ball-green.png";
-    img.className = "img-tomcat-manager-status";
-    img.alt = "Status";
-    img.title = "Status";
-    return img;
+    return getStatusBallImg("green");
   }  
 
   this.createStatusBallBlueImg = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/other/ball-blue.png";
-    img.className = "img-tomcat-manager-status";
-    img.alt = "Status";
-    img.title = "Status";
-    return img;
-  }  
+    return getStatusBallImg("blue");
+  }
+
+  function getStatusBallImg(color) {
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/other/ball-" + color + ".png",
+      className: "img-tomcat-manager-status",
+      alt: "Status"
+    });
+  }
 }
 
 /**
@@ -547,27 +540,24 @@ function TailLogManagerWrapper() {
     logger.info("Finished tailLog loop");
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
-  this.createStopImg = () => {
-    let img = new Image();
-    img.id = "toggle-tail-log-img";
-    img.src = "/kame-house/img/mplayer/stop.png";
-    img.className = "img-btn-kh m-7-d-r-kh";
-    img.alt = "Stop Tail Log";
-    img.title = "Stop Tail Log";
-    img.onclick = () => self.toggleTailLog();
-    return img;
+  this.createStartImg = () => {
+    return domUtils.getImgBtn({
+      id: "toggle-tail-log-img",
+      src: "/kame-house/img/mplayer/play-green.png",
+      className: "img-btn-kh m-7-d-r-kh",
+      alt: "Start Tail Log",
+      onClick: () => self.toggleTailLog()
+    });
   }
 
-  this.createStartImg = () => {
-    let img = new Image();
-    img.id = "toggle-tail-log-img";
-    img.src = "/kame-house/img/mplayer/play-green.png";
-    img.className = "img-btn-kh m-7-d-r-kh";
-    img.alt = "Start Tail Log";
-    img.title = "Start Tail Log";
-    img.onclick = () => self.toggleTailLog();
-    return img;
+  this.createStopImg = () => {
+    return domUtils.getImgBtn({
+      id: "toggle-tail-log-img",
+      src: "/kame-house/img/mplayer/stop.png",
+      className: "img-btn-kh m-7-d-r-kh",
+      alt: "Stop Tail Log",
+      onClick: () => self.toggleTailLog()
+    });
   }
 }
 

@@ -752,16 +752,16 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let $playlistTableBody = $('#playlist-table-body');
     if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) ||
       self.currentPlaylist.length <= 0) {
-      $playlistTableBody.append(self.getEmptyPlaylistTableRow());
+      $playlistTableBody.append(self.getEmptyPlaylistTr());
     } else {
-      self.tbodyFilenames = self.getPlaylistTableBody();
-      self.tbodyAbsolutePaths = self.getPlaylistTableBody();
+      self.tbodyFilenames = self.getPlaylistTbody();
+      self.tbodyAbsolutePaths = self.getPlaylistTbody();
       for (let i = 0; i < self.currentPlaylist.length; i++) {
         let absolutePath = self.currentPlaylist[i].filename;
         let filename = fileUtils.getShortFilename(absolutePath);
         let playlistElementId = self.currentPlaylist[i].id
-        self.tbodyFilenames.append(self.getPlaylistTableRow(filename, playlistElementId));
-        self.tbodyAbsolutePaths.append(self.getPlaylistTableRow(absolutePath, playlistElementId));
+        self.tbodyFilenames.append(self.getPlaylistTr(filename, playlistElementId));
+        self.tbodyAbsolutePaths.append(self.getPlaylistTr(absolutePath, playlistElementId));
       }
       $playlistTableBody.replaceWith(self.tbodyFilenames);
       self.highlightCurrentPlayingItem();
@@ -892,39 +892,34 @@ function VlcPlayerPlaylist(vlcPlayer) {
     self.reload();
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
-  this.getEmptyPlaylistTableRow = () => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
+  this.getEmptyPlaylistTr = () => {
     let madaMadaDane = 'まだまだだね';
-    tableRowData.text("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
-    tableRow.append(tableRowData);
-    return tableRow;
+    return domUtils.getTrTd("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
   }
   
-  this.getPlaylistTableBody = () => {
-    let tBody = $('<tbody>');
-    tBody.attr("id", "playlist-table-body");
-    return tBody;
+  this.getPlaylistTbody = () => {
+    return domUtils.getTbody({
+      id: "playlist-table-body"
+    });
   }
 
-  this.getPlaylistTableRow = (displayName, playlistElementId) => {
-    let tableRow = $('<tr>');
-    tableRow.attr("id", "playlist-table-row-id-" + playlistElementId);
-    let tableRowData = $('<td>');
-    tableRowData.append(self.getPlaylistTableRowButton(displayName, playlistElementId));
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getPlaylistTr = (displayName, playlistElementId) => {
+    return domUtils.getTr({
+      id: "playlist-table-row-id-" + playlistElementId
+    }, domUtils.getTd({}, getPlaylistTrBtn(displayName, playlistElementId)));
   }
 
-  this.getPlaylistTableRowButton = (displayName, playlistElementId) => {
-    let button = $('<button>');
-    button.addClass("playlist-table-btn");
-    button.text(displayName);
-    button.click({
-      id: playlistElementId
-    }, self.clickEventOnPlaylistRow);
-    return button;
+  function getPlaylistTrBtn(displayName, playlistElementId) {
+    return domUtils.getButton({
+      attr: {
+        class: "playlist-table-btn",
+      },
+      html: displayName,
+      clickData: {
+        id: playlistElementId
+      },
+      click: self.clickEventOnPlaylistRow
+    });
   }
 }
 

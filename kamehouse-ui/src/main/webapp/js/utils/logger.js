@@ -107,10 +107,7 @@ function Logger() {
     }, 100);
   }
   
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getLogEntryListItem = (logEntry) => {
-    let listItem = $('<li>');
-    listItem.text(logEntry);
-    return listItem;
+    return domUtils.getLi({}, logEntry);
   }
 }

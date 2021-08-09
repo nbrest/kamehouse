@@ -26,14 +26,13 @@
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">DragonBall Users</h3>
     <br>
     <%
-      Enumeration<String> paramNames = request.getParameterNames();
-
-    			while (paramNames.hasMoreElements()) {
-    				String paramName = (String) paramNames.nextElement();
-    				System.out.print(paramName + " : ");
-    				String paramValue = request.getParameter(paramName);
-    				System.out.println(paramValue);
-    			}
+        Enumeration<String> paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String paramName = (String) paramNames.nextElement();
+            System.out.print(paramName + " : ");
+            String paramValue = request.getParameter(paramName);
+            System.out.println(paramValue);
+        }
     %>
     <table class="table-kh">
       <caption class="hidden-kh">DragonBall Users</caption>

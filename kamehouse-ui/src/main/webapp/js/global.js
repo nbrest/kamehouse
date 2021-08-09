@@ -16,6 +16,7 @@ var collapsibleDivUtils;
 var cookiesUtils;
 var coreUtils;
 var cursorUtils;
+var domUtils;
 var fileUtils;
 var moduleUtils;
 var tabUtils;
@@ -50,6 +51,7 @@ function main() {
   coreUtils.setGlobalFunctions();
   cursorUtils = new CursorUtils();
   cursorUtils.loadSpinningWheelMobile();
+  domUtils = new DomUtils();
   fileUtils = new FileUtils();
   tabUtils = new TabUtils();
   tableUtils = new TableUtils();
@@ -429,6 +431,161 @@ function CursorUtils() {
     const response = await fetch('/kame-house/html-snippets/spinning-wheel-mobile.html');
     const spinnigWheelMobileDiv = await response.text();
     document.body.insertAdjacentHTML("beforeBegin", spinnigWheelMobileDiv);
+  }
+}
+
+/**
+ * Functionality that manipulates dom elements.
+ */
+function DomUtils() {
+  let self = this;
+
+  /**
+   * Get DOM node from JQuery element.
+   */
+  this.getDomNode = (jqueryElement) => {
+    return jqueryElement.get(0);
+  }
+
+  /**
+   * Empty the specified div.
+   */
+  this.empty = (div) => {
+    div.empty();
+  }
+
+  /**
+   * Append the appendObject to appendTo.
+   */
+  this.append = (appendTo, appendObject) => {
+    appendTo.append(appendObject);
+  }
+
+  /**
+   * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
+   */
+  this.getElementFromTemplate = (htmlTemplate) => {
+    let domElementWrapper = document.createElement('div');
+    domElementWrapper.innerHTML = htmlTemplate;
+    return domElementWrapper.firstChild;
+  }
+
+  this.getA = (attr, html) => {
+    return getElement('a', attr, html);
+  }
+
+  this.getBr = () => {
+    return getElement('br', null, null);
+  }
+
+  this.getDiv = (attr, html) => {
+    return getElement('div', attr, html);
+  }
+
+  this.getLi = (attr, html) => {
+    return getElement('li', attr, html);
+  }
+  
+  this.getOption = (attr, html) => {
+    return getElement('option', attr, html);
+  }
+
+  this.getP = (attr, html) => {
+    return getElement('p', attr, html);
+  }
+
+  this.getSpan = (attr, html) => {
+    return getElement('span', attr, html);
+  }
+
+  this.getTbody = (attr, html) => {
+    return getElement('tbody', attr, html);
+  }
+
+  this.getTd = (attr, html) => {
+    return getElement('td', attr, html);
+  }
+
+  /**
+   * Returns a <tr> with the specified attributes and html content. 
+   * Pass the attribute object such as:
+   * domUtils.getTr({
+   *   id: "my-id",
+   *   class: "class1 class2"
+   * }, htmlContent);
+   */
+  this.getTr = (attr, html) => {
+    return getElement('tr', attr, html);
+  }
+
+  /** Shorthand used in several places to create dynamic table rows */
+  this.getTrTd = (html) => {
+    return self.getTr(null, self.getTd(null, html));
+  }
+
+  /**
+   * Create a new button using the specified config object which should have a format: 
+   * {
+   *    attr: {
+   *      id: "",
+   *      class: ""
+   *    },
+   *    html: htmlObject,
+   *    clickData: {},
+   *    click: () => {}
+   * }
+   */
+  this.getButton = (config) => {
+    let btn = getElement('button', config.attr, config.html);
+    btn.click(config.clickData, config.click);
+    return btn;
+  }
+
+  /**
+   * Create a new image using the specified config object which should have a format: 
+   * {
+   *    id: "",
+   *    src: "",
+   *    className: "",
+   *    alt: "",
+   *    onClick: () => {}
+   * }
+   */
+  this.getImgBtn = (config) => {
+    let img = new Image();
+    if (config.id) {
+      img.id = config.id;
+    }
+    img.src = config.src;
+    img.className = config.className;
+    img.alt = config.alt;
+    img.title = config.alt;
+    img.onclick = config.onClick;
+    return img;
+  }
+
+  /** Create an element with the specified tag, attributes and html */
+  function getElement(tagType, attr, html) {
+    let element = $('<' + tagType + '>');
+    setAttributes(element, attr);
+    setHtml(element, html);
+    return element;
+  }
+
+  /** Set the attributes to the element */
+  function setAttributes(element, attr) {
+    if (attr) {
+      for (const [key, value] of Object.entries(attr)) {
+        element.attr(`${key}`, `${value}`);
+      }
+    }
+  }
+
+  /** Set the html to the element */
+  function setHtml(element, html) {
+    if (html) {
+      element.html(html);
+    }
   }
 }
 

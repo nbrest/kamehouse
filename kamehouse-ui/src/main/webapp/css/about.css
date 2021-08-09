@@ -90,6 +90,17 @@
   background: #4d0000;
 }
 
+.table-dev-branch-status {
+  width: 70%;
+  margin: auto;
+}
+
+@media ( max-width : 900px) {
+  .table-dev-branch-status {
+    width: 100%;
+  }
+}
+
 .table-dev-branch-status,
 .table-dev-branch-status tr,
 .table-dev-branch-status thead th,

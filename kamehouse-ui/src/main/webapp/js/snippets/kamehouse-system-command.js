@@ -35,7 +35,7 @@ function SystemCommandManager() {
           systemCommandOutput.standardOutput.length > 0) {
         systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
           $(systemCommandOutputDiv).append(standardOutputLine);
-          $(systemCommandOutputDiv).append(getBr());
+          $(systemCommandOutputDiv).append(domUtils.getBr());
         });
       }
       if (!isNullOrUndefined(systemCommandOutput.standardError) && 
@@ -43,7 +43,7 @@ function SystemCommandManager() {
         $(systemCommandOutputDiv).append(getCommandErrorHeaderLine());
         systemCommandOutput.standardError.forEach((standardErrorLine) => {
           $(systemCommandOutputDiv).append(standardErrorLine);
-          $(systemCommandOutputDiv).append(getBr());
+          $(systemCommandOutputDiv).append(domUtils.getBr());
         });
       }
       if (systemCommandOutput.status == "running") {
@@ -63,21 +63,34 @@ function SystemCommandManager() {
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
   
-  /** Dynamic DOM element generation ------------------------------------------ */
   function getCommandLine(command) {
-    return "<span class='bold-kh'>command: " + command + "</span><br><br>";
+    let message = domUtils.getSpan({}, domUtils.getSpan({
+      class: "bold-kh"
+    }, "command: " + command));
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, domUtils.getBr());
+    return message;
   }
 
   function getDaemonRunningLine(command) {
-    return "command: <span class='bold-kh'>" + command + "</span> is <span class='bold-kh'>running</span><br>";
+    let message = domUtils.getSpan({}, domUtils.getSpan({
+      class: "bold-kh"
+    }, command));
+    domUtils.append(message, " is ");
+    domUtils.append(message, domUtils.getSpan({
+      class: "bold-kh"
+    }, "running"));
+    domUtils.append(message, domUtils.getBr());
+    return message;
   }
 
   function getCommandErrorHeaderLine() {
-    return "<span class='bold-kh'>errors:</span><br><br>";
-  }
-
-  function getBr() {
-    return "<br>";
+    let message = domUtils.getSpan({}, domUtils.getSpan({
+      class: "bold-kh"
+    }, "errors:"));
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, domUtils.getBr());
+    return message;
   }
 }
 

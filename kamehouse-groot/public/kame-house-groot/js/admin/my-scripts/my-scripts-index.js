@@ -20,10 +20,10 @@ function MyScriptsManager() {
   /** Populates all my-scripts table */
   this.populateMyScriptsTable = (myScriptsArray) => {
     let $allMyScriptsTableBody = $('#all-my-scripts-table-body');
-    let tbody = self.getAllMyScriptsTableBody();
+    let tbody = self.getAllMyScriptsTbody();
     for (let i = 0; i < myScriptsArray.length; i++) {
       let scriptName = myScriptsArray[i];
-      tbody.append(self.createAllMyScriptsTableRow(scriptName));
+      tbody.append(self.getAllMyScriptsTr(scriptName));
     }
     $allMyScriptsTableBody.replaceWith(tbody);
   }
@@ -70,29 +70,27 @@ function MyScriptsManager() {
       (responseBody, responseCode, responseDescription) => errorCallback(responseBody, responseCode, responseDescription));
   }
   
-  /** Dynamic DOM element generation ------------------------------------------ */
-  this.createAllMyScriptsTableRow = (scriptName) => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.append(self.createAllMyScriptsTableRowButton(scriptName));
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getAllMyScriptsTbody = () => {
+    return domUtils.getTbody({
+      id: "all-my-scripts-table-body"
+    }, null);
   }
   
-  this.createAllMyScriptsTableRowButton = (scriptName) => {
-    let button = $('<button>');
-    button.addClass("my-scripts-table-btn");
-    button.text(scriptName);
-    button.click({
-      scriptName: scriptName
-    }, self.clickEventOnAllMyScriptsRow);
-    return button;
+  this.getAllMyScriptsTr = (scriptName) => {
+    return domUtils.getTrTd(getTrBtn(scriptName));
   }
   
-  this.getAllMyScriptsTableBody = () => {
-    let tBody = $('<tbody>');
-    tBody.attr("id", "all-my-scripts-table-body");
-    return tBody;
+  function getTrBtn(scriptName) {
+    return domUtils.getButton({
+      attr: {
+        class: "my-scripts-table-btn",
+      },
+      html: scriptName,
+      clickData: {
+        scriptName: scriptName
+      },
+      click: self.clickEventOnAllMyScriptsRow
+    });
   }
 }
 

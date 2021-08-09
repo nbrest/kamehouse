@@ -140,65 +140,52 @@ function DragonBallUserServiceJsp() {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     $dragonBallUsersTbody.empty();
-    $dragonBallUsersTbody.append(self.getErrorMessageTableRow(message));
+    $dragonBallUsersTbody.append(self.getErrorMessageTr(message));
   }
   
-  /** Dynamic DOM element generation ------------------------------------------ */
-  this.getErrorMessageTableRow = () => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.text(message);
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getErrorMessageTr = (message) => {
+    return domUtils.getTrTd(message);
   }
 
   this.getDragonBallUserTableRow = (dragonBallUser) => {
-    let tableRow = $('<tr>');
-    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.id));
-    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.username));
-    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.email));
-    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.age));
-    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.powerLevel));
-    tableRow.append(self.getDragonBallUserTableRowData(dragonBallUser.stamina));
-    tableRow.append(self.getActionButtonsTableRowData(dragonBallUser.username, dragonBallUser.id));
-    return tableRow;
+    let tr = domUtils.getTr({}, null);
+    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.id));
+    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.username));
+    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.email));
+    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.age));
+    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.powerLevel));
+    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.stamina));
+    domUtils.append(tr, getActionButtonsTd(dragonBallUser.username, dragonBallUser.id));
+    return tr;
   }
 
-  this.getDragonBallUserTableRowData = (dataValue) => {
-    let tableRowData = $('<td>');
-    tableRowData.text(dataValue);
-    return tableRowData; 
+  function getDragonBallUserTd(dataValue) {
+    return domUtils.getTd({}, dataValue);
   }
 
-  this.getActionButtonsTableRowData = (username, id) => {
-    let tableRowData = $('<td>');
-    tableRowData.append(self.getEditButton(username));
-    tableRowData.append(self.getDeleteButton(id));
-    return tableRowData; 
+  function getActionButtonsTd(username, id) {
+    let td = domUtils.getTd({}, null);
+    domUtils.append(td, getEditButton(username));
+    domUtils.append(td, getDeleteButton(id));
+    return td; 
   }
 
-  this.getEditButton = (username) => {
-    let img = new Image();
-    img.src = "/kame-house/img/other/edit-green.png";
-    img.className = "img-btn-kh m-15-d-r-kh";
-    img.alt = "Edit";
-    img.title = "Edit";
-    img.onclick = () =>  {
-      window.location.href="users-edit?username=" + username;
-    }
-    return img;
+  function getEditButton(username) {
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/other/edit-green.png",
+      className: "img-btn-kh m-15-d-r-kh",
+      alt: "Edit",
+      onClick: () => window.location.href="users-edit?username=" + username
+    });
   }
 
-  this.getDeleteButton = (id) => {
-    let img = new Image();
-    img.src = "/kame-house/img/other/delete-red.png";
-    img.className = "img-btn-kh";
-    img.alt = "Delete";
-    img.title = "Delete";
-    img.onclick = () =>  {
-      self.deleteDragonBallUser(id);
-    }
-    return img;
+  function getDeleteButton(id) {
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/other/delete-red.png",
+      className: "img-btn-kh",
+      alt: "Delete",
+      onClick: () => self.deleteDragonBallUser(id)
+    });
   }
 
   this.getDragonBallUserTableHeader = () => {

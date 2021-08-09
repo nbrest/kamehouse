@@ -299,19 +299,20 @@ function ServerManager() {
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getRebootServerModalMessage = () => {
-    return "Are you sure you want to reboot the server? <br><br>";
+    let rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
+    domUtils.append(rebootModalMessage, domUtils.getBr());
+    domUtils.append(rebootModalMessage, domUtils.getBr());
+    return rebootModalMessage;
   }
 
   this.createRebootImg = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/pc/shutdown-red.png";
-    img.className = "img-btn-kh";
-    img.alt = "Reboot";
-    img.title = "Reboot";
-    img.onclick = () => self.rebootServer();
-    return img;
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/pc/shutdown-red.png",
+      className: "img-btn-kh",
+      alt: "Reboot",
+      onClick: () => { self.rebootServer() }
+    });
   }
 }
 

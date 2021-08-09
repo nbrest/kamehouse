@@ -95,16 +95,11 @@ function showTestWebSocketResponse(testWebSocketResponseBody) {
   logger.trace(arguments.callee.name);
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
   let date = new Date(parseInt(testWebSocketResponseBody.date));
-  $("#websocket-responses").append(getWebsocketResponseTableRow(date.toLocaleDateString(), testWebSocketResponseBody.message));
+  $("#websocket-responses").append(getWebsocketResponseTr(date.toLocaleDateString(), testWebSocketResponseBody.message));
 }
 
-/** Dynamic DOM element generation ------------------------------------------ */
-function getWebsocketResponseTableRow(date, message) {
-  let tableRow = $('<tr>');
-  let tableRowData = $('<td>');
-  tableRowData.text(date + " : " + message);
-  tableRow.append(tableRowData);
-  return tableRow;
+function getWebsocketResponseTr(date, message) {
+  return domUtils.getTrTd(date + " : " + message);
 }
 
 /** Call main. */

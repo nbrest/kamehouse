@@ -64,7 +64,7 @@ function ScriptExecutor() {
   /** Set the script ouput to show that the script is currently executing */
   this.setScriptExecutingScriptOutput = (scriptName, args) => {
     $('#script-output-executing-wrapper').removeClass("hidden-kh");
-    $("#script-output-executing").html(self.getScriptExecutingHtml(scriptName, args));
+    $("#script-output-executing").html(self.getScriptExecutingMessage(scriptName, args));
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
 
@@ -76,35 +76,35 @@ function ScriptExecutor() {
       self.bashScriptOutput = responseBody.bashConsoleOutput;
       let $scriptOutputTableBody = $('#script-output-table-body');
       $scriptOutputTableBody.empty();
-      let tbody = self.getScriptOutputTableBody();
+      let tbody = self.getScriptOutputTbody();
   
       let scriptOutputLength = scriptOutputArray.length;
       if (scriptOutputLength < 400) {
         // Show full output
         for (let i = 0; i < scriptOutputLength; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            tbody.append(self.getScriptOutputTableRow(scriptOutputArray[i]));
+            tbody.append(self.getScriptOutputTr(scriptOutputArray[i]));
           }
         }
       } else {
         // Show only the first x and last y lines
         for (let i = 0; i < 50; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            tbody.append(self.getScriptOutputTableRow(scriptOutputArray[i]));
+            tbody.append(self.getScriptOutputTr(scriptOutputArray[i]));
           }
         }
          
-        tbody.append(self.getScriptOutputTableRow(" "));
-        tbody.append(self.getScriptOutputTableRow(" "));
-        tbody.append(self.getScriptOutputTableRow(" "));
-        tbody.append(self.getScriptOutputTableRow("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
-        tbody.append(self.getScriptOutputTableRow(" "));
-        tbody.append(self.getScriptOutputTableRow(" "));
-        tbody.append(self.getScriptOutputTableRow(" "));
+        tbody.append(self.getScriptOutputTr(" "));
+        tbody.append(self.getScriptOutputTr(" "));
+        tbody.append(self.getScriptOutputTr(" "));
+        tbody.append(self.getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
+        tbody.append(self.getScriptOutputTr(" "));
+        tbody.append(self.getScriptOutputTr(" "));
+        tbody.append(self.getScriptOutputTr(" "));
   
         for (let i = scriptOutputLength - 350; i < scriptOutputLength; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            tbody.append(self.getScriptOutputTableRow(scriptOutputArray[i]));
+            tbody.append(self.getScriptOutputTr(scriptOutputArray[i]));
           }
         }
       }
@@ -132,11 +132,11 @@ function ScriptExecutor() {
       self.updateScriptExecutionEndDate();
       let $scriptOutputTableBody = $('#script-output-table-body');
       $scriptOutputTableBody.empty();
-      let tbody = self.getScriptOutputTableBody();
-      tbody.append(self.getScriptOutputErrorTableRow("Error response from the backend"));
-      tbody.append(self.getScriptOutputErrorTableRow("responseBody : " + JSON.stringify(responseBody, null, 2)));
-      tbody.append(self.getScriptOutputErrorTableRow("responseCode : " + responseCode));
-      tbody.append(self.getScriptOutputErrorTableRow("responseDescription : " + responseDescription));
+      let tbody = self.getScriptOutputTbody();
+      tbody.append(self.getScriptOutputErrorTr("Error response from the backend"));
+      tbody.append(self.getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
+      tbody.append(self.getScriptOutputErrorTr("responseCode : " + responseCode));
+      tbody.append(self.getScriptOutputErrorTr("responseDescription : " + responseDescription));
       $scriptOutputTableBody.replaceWith(tbody);
   
       // Update the view
@@ -198,45 +198,46 @@ function ScriptExecutor() {
     $("#banner-script-status").text(status);
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getDownloadLink = (timestamp) => {
-    let downloadLink = document.createElement('a');
-    downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(self.bashScriptOutput));
-    downloadLink.setAttribute('download', "script-output-" + timestamp + ".log");
-
-    downloadLink.style.display = 'none';
-    return downloadLink;
+    return domUtils.getDomNode(domUtils.getA({
+      href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(self.bashScriptOutput),
+      download:  "script-output-" + timestamp + ".log",
+      class: "hidden-kh"
+    }, null));
   }
 
-  this.getScriptOutputTableBody = () => {
-    let tBody = $('<tbody>');
-    tBody.attr("id", "script-output-table-body");
-    return tBody;
+  this.getScriptOutputTbody = () => {
+    return domUtils.getTbody({
+      id: "script-output-table-body"
+    }, null);
   }
 
-  this.getScriptOutputErrorTableRow = (message) => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.text(message);
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getScriptOutputErrorTr = (message) => {
+    return domUtils.getTrTd(message);
   }
 
-  this.getScriptOutputTableRow = (htmlContent) => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.html(htmlContent);
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getScriptOutputTr = (htmlContent) => {
+    return domUtils.getTrTd(htmlContent);
   }
 
-  this.getScriptExecutingHtml = (scriptName, args) => {
-    let executingScript = "Executing script : <span class=\"bold-kh\">" + scriptName + "</span>";
+  this.getScriptExecutingMessage = (scriptName, args) => {
+    let executingMessageSpan = domUtils.getSpan({}, "Executing script : ");
+    let scriptNameSpan = domUtils.getSpan({
+      class: "bold-kh"
+    }, scriptName);
+    domUtils.append(executingMessageSpan, scriptNameSpan);
     if (args) {
-      return executingScript + "<br><br>with args : <span class=\"bold-kh\">" + args + "</span>";
+      domUtils.append(executingMessageSpan, domUtils.getBr());
+      domUtils.append(executingMessageSpan, domUtils.getBr());
+      domUtils.append(executingMessageSpan, "with args : ");
+      let argsSpan = domUtils.getSpan({
+        class: "bold-kh"
+      }, args);
+      domUtils.append(executingMessageSpan, argsSpan);
     } else {
-      return executingScript + " without args";
+      domUtils.append(executingMessageSpan, " without args");
     }
+    return executingMessageSpan;
   }
 }
 

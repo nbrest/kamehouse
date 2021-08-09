@@ -62,19 +62,19 @@ function TailLogManager() {
   this.updateTailLogOutput = (responseBody, responseCode, responseDescription, numberOfLines, callback) => {
     let tailLogOutputArray = responseBody.htmlConsoleOutput;
     let $tailLogOutputTableBody = $('#tail-log-output-table-body');  
-    let tbody = self.getTailLogOutputTableBody();
+    let tbody = self.getTailLogOutputTbody();
     let tailLogOutputLength = tailLogOutputArray.length;
     if (tailLogOutputLength < numberOfLines) {
       // Show full output
       for (let i = 0; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
-          tbody.append(self.getTailLogOutputTableRow(tailLogOutputArray[i]));
+          tbody.append(self.getTailLogOutputTr(tailLogOutputArray[i]));
         }
       }
     } else {
       for (let i = tailLogOutputLength - numberOfLines; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
-          tbody.append(self.getTailLogOutputTableRow(tailLogOutputArray[i]));
+          tbody.append(self.getTailLogOutputTr(tailLogOutputArray[i]));
         }
       }
     }
@@ -89,11 +89,11 @@ function TailLogManager() {
   /** Displays the error message in the tail log output */
   this.updateTailLogOutputError = (responseBody, responseCode, responseDescription, callback) => {
     let $tailLogOutputTableBody = $('#tail-log-output-table-body');
-    let tbody = self.getTailLogOutputTableBody();
-    tbody.append(self.getTailLogOutputErrorTableRow("Error response from the backend"));
-    tbody.append(self.getTailLogOutputErrorTableRow("responseBody : " + responseBody));
-    tbody.append(self.getTailLogOutputErrorTableRow("responseCode : " + responseCode));
-    tbody.append(self.getTailLogOutputErrorTableRow("responseDescription : " + responseDescription));
+    let tbody = self.getTailLogOutputTbody();
+    tbody.append(self.getTailLogOutputErrorTr("Error response from the backend"));
+    tbody.append(self.getTailLogOutputErrorTr("responseBody : " + responseBody));
+    tbody.append(self.getTailLogOutputErrorTr("responseCode : " + responseCode));
+    tbody.append(self.getTailLogOutputErrorTr("responseDescription : " + responseDescription));
     $tailLogOutputTableBody.empty();
     $tailLogOutputTableBody.replaceWith(tbody);
 
@@ -105,8 +105,8 @@ function TailLogManager() {
   /** Displays the error message in the tail log output from an invalid script */
   this.displayInvalidScript = () => {
     let $tailLogOutputTableBody = $('#tail-log-output-table-body');
-    let tbody = self.getTailLogOutputTableBody();
-    tbody.append(self.getTailLogOutputErrorTableRow("Invalid script sent as parameter"));
+    let tbody = self.getTailLogOutputTbody();
+    tbody.append(self.getTailLogOutputErrorTr("Invalid script sent as parameter"));
     $tailLogOutputTableBody.empty();
     $tailLogOutputTableBody.replaceWith(tbody);
   }
@@ -124,27 +124,18 @@ function TailLogManager() {
     }
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
-  this.getTailLogOutputTableBody = () => {
-    let tBody = $('<tbody>');
-    tBody.attr("id", "tail-log-output-table-body");
-    return tBody;
+  this.getTailLogOutputTbody = () => {
+    return domUtils.getTbody({
+      id: "tail-log-output-table-body"
+    }, null);
   }
 
-  this.getTailLogOutputErrorTableRow = (message) => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.text(message);
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getTailLogOutputErrorTr = (message) => {
+    return domUtils.getTrTd(message);
   }
 
-  this.getTailLogOutputTableRow = (htmlContent) => {
-    let tableRow = $('<tr>');
-    let tableRowData = $('<td>');
-    tableRowData.html(htmlContent);
-    tableRow.append(tableRowData);
-    return tableRow;
+  this.getTailLogOutputTr = (htmlContent) => {
+    return domUtils.getTrTd(htmlContent);
   }
 }
 

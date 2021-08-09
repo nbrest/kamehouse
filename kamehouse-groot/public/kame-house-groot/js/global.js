@@ -97,32 +97,28 @@ function GrootHeader() {
     });
   }
   
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getLoginButton = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/pc/login-left-gray-dark.png";
-    img.className = "groot-header-login-status-btn";
-    img.alt = "Login GRoot";
-    img.title = "Login GRoot";
-    img.onclick = () => window.location="/kame-house-groot/login.html";
-    return img;
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/pc/login-left-gray-dark.png",
+      className: "groot-header-login-status-btn",
+      alt: "Login GRoot",
+      onClick: () => window.location="/kame-house-groot/login.html"
+    });
   }
 
   this.getLogoutButton = () => {
-    let img = new Image();
-    img.src = "/kame-house/img/pc/logout-right-gray-dark.png";
-    img.className = "groot-header-login-status-btn";
-    img.alt = "Logout GRoot";
-    img.title = "Logout GRoot";
-    img.onclick = () => window.location="/kame-house-groot/api/v1/auth/logout.php";
-    return img;
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/pc/logout-right-gray-dark.png",
+      className: "groot-header-login-status-btn",
+      alt: "Logout GRoot",
+      onClick: () => window.location="/kame-house-groot/api/v1/auth/logout.php"
+    });
   }
 
   this.getUsernameHeader = (username) => {
-    let usernameHeader = $('<span>');
-    usernameHeader.attr("class", "groot-header-login-status-text");
-    usernameHeader.text(username);
-    return usernameHeader;
+    return domUtils.getSpan({
+      class: "groot-header-login-status-text"
+    }, username);
   }
 }
 

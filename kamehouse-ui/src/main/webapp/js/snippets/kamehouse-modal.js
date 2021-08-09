@@ -62,15 +62,20 @@ function BasicKamehouseModal() {
     self.openAutoCloseable(self.getErrorMessage(responseBody, responseCode, responseDescription), 7000);
   }
 
-  /** Dynamic DOM element generation ------------------------------------------ */
   this.getEmptyResponseBodyText = () => {
-    return "Error executing the request.<br>Please check the logs for more information";
+    let message = domUtils.getSpan({}, "Error executing the request.");
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, "Please check the logs for more information");
+    return message;
   }
   
   this.getErrorMessage = (responseBody, responseCode, responseDescription) => {
-    return "Error executing the request.<br>Response: [ code: " + responseCode 
-            + ", description: \"" + responseDescription 
-            + "\", body: " + JSON.stringify(responseBody) + " ]";
+    let message = domUtils.getSpan({}, "Error executing the request.");
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, "Response: [ code: " + responseCode + ",");
+    domUtils.append(message, " description: \"" + responseDescription + "\",");
+    domUtils.append(message, " body: " + JSON.stringify(responseBody) + " ]");
+    return message;
   }
 }
 
