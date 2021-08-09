@@ -33,19 +33,19 @@ function EhCacheManager() {
    * Load the templates and get the cache data.
    */
   this.init = async () => {
-    await self.loadEhCacheTableTemplate();
-    ehCacheManager.getAllCacheData('admin');
-    ehCacheManager.getAllCacheData('media');
-    ehCacheManager.getAllCacheData('tennisworld');
-    ehCacheManager.getAllCacheData('testmodule');
-    ehCacheManager.getAllCacheData('ui');
-    ehCacheManager.getAllCacheData('vlcrc');
+    await loadEhCacheTableTemplate();
+    self.getAllCacheData('admin');
+    self.getAllCacheData('media');
+    self.getAllCacheData('tennisworld');
+    self.getAllCacheData('testmodule');
+    self.getAllCacheData('ui');
+    self.getAllCacheData('vlcrc');
   }
 
   /**
    * Loads the ehcache table html snippet into a variable to be reused as a template on render.
    */
-  this.loadEhCacheTableTemplate = async () => {
+  async function loadEhCacheTableTemplate() {
     const ehcacheTableResponse = await fetch('/kame-house/html-snippets/ehcache-table.html');
     self.ehcacheTableTemplate = await ehcacheTableResponse.text();
     const ehcacheErrorTableResponse = await fetch('/kame-house/html-snippets/ehcache-error-table.html');
@@ -55,7 +55,7 @@ function EhCacheManager() {
   /**
    * Get ehcache api url for each webapp.
    */
-  this.getApiUrl = (webapp) => {
+  function getApiUrl(webapp) {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/ehcache';
     } else {
@@ -68,20 +68,20 @@ function EhCacheManager() {
    */
   this.getAllCacheData = (webapp) => {
     logger.trace("getAllCacheData");
-    debuggerHttpClient.get(self.getApiUrl(webapp),
-      (responseBody, responseCode, responseDescription) => self.displayCacheData(responseBody, webapp),
-      (responseBody, responseCode, responseDescription) => self.displayErrorGettingCache(webapp));
+    debuggerHttpClient.get(getApiUrl(webapp),
+      (responseBody, responseCode, responseDescription) => displayCacheData(responseBody, webapp),
+      (responseBody, responseCode, responseDescription) => displayErrorGettingCache(webapp));
   }
 
   /**
    * Display cache data.
    */
-  this.displayCacheData = (caches, webapp) => {
-    self.emptyCacheDataDiv(webapp);
+  function displayCacheData(caches, webapp) {
+    emptyCacheDataDiv(webapp);
     self.ehcacheToggleTableRowIds[webapp] = [];
     let $cacheData = $("#cache-data-" + webapp);
     caches.forEach((cache) => {
-      domUtils.append($cacheData, self.getEhCacheTableFromTemplate(cache.name));
+      domUtils.append($cacheData, getEhCacheTableFromTemplate(cache.name));
       domUtils.append($cacheData, $(domUtils.getBr()));
 
       domUtils.setHtml($('#ehcache-table-' + cache.name + '-header'), cache.name);
@@ -90,10 +90,10 @@ function EhCacheManager() {
       domUtils.setHtml($('#ehcache-table-' + cache.name + '-values-val'), cache["values"]);
 
       domUtils.setClick($("#clear-ehcache-table-" + cache.name), null,
-        () => self.clearCacheData(cache.name, webapp)
+        () => clearCacheData(cache.name, webapp)
       );
       domUtils.setClick($("#toggle-view-ehcache-table-" + cache.name), null,
-        () => self.toggleCacheView(".toggle-ehcache-table-" + cache.name)
+        () => toggleCacheView(".toggle-ehcache-table-" + cache.name)
       );
       $(".toggle-ehcache-table-" + cache.name).toggle();
       self.ehcacheToggleTableRowIds[webapp].push(".toggle-ehcache-table-" + cache.name);
@@ -103,18 +103,18 @@ function EhCacheManager() {
   /**
    * Update the ids and classes of the template ehcache table just inserted to the dom.
    */
-  this.getEhCacheTableFromTemplate = (cacheName) => {
+  function getEhCacheTableFromTemplate(cacheName) {
     // Create a wrapper div to insert the table template
     let ehcacheTableDiv = domUtils.getElementFromTemplate(self.ehcacheTableTemplate);
     
     // Update the ids and classes on the table generated from the template
-    ehcacheTableDiv.id = "ehcache-table-" + cacheName;
-    ehcacheTableDiv.querySelector('tr td #ehcache-table-template-header').id = "ehcache-table-" + cacheName + "-header";
-    ehcacheTableDiv.querySelector('tr td #clear-ehcache-table-template').id = "clear-ehcache-table-" + cacheName;
-    ehcacheTableDiv.querySelector('tr td #toggle-view-ehcache-table-template').id = "toggle-view-ehcache-table-" + cacheName;
-    ehcacheTableDiv.querySelector('tr #ehcache-table-template-status-val').id = "ehcache-table-" + cacheName + "-status-val";
-    ehcacheTableDiv.querySelector('tr #ehcache-table-template-keys-val').id = "ehcache-table-" + cacheName + "-keys-val";
-    ehcacheTableDiv.querySelector('tr #ehcache-table-template-values-val').id = "ehcache-table-" + cacheName + "-values-val";
+    domUtils.setId(ehcacheTableDiv, "ehcache-table-" + cacheName);
+    domUtils.setId(ehcacheTableDiv.querySelector('tr td #ehcache-table-template-header'), "ehcache-table-" + cacheName + "-header");
+    domUtils.setId(ehcacheTableDiv.querySelector('tr td #clear-ehcache-table-template'), "clear-ehcache-table-" + cacheName);
+    domUtils.setId(ehcacheTableDiv.querySelector('tr td #toggle-view-ehcache-table-template'), "toggle-view-ehcache-table-" + cacheName);
+    domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-status-val'), "ehcache-table-" + cacheName + "-status-val");
+    domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-keys-val'), "ehcache-table-" + cacheName + "-keys-val");
+    domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-values-val'), "ehcache-table-" + cacheName + "-values-val");
 
     let toggeableClasses = ehcacheTableDiv.getElementsByClassName("toggle-ehcache-table-template")
     for (var i = 0; i < toggeableClasses.length; i++) {
@@ -130,13 +130,13 @@ function EhCacheManager() {
   /**
    * Display error getting cache data.
    */
-  this.displayErrorGettingCache = (webapp) => {
+  function displayErrorGettingCache(webapp) {
     // Create a wrapper div to insert the error table template
     let ehcacheErrorTableDiv = domUtils.getElementFromTemplate(self.ehcacheErrorTableTemplate);
     // Update the id
-    ehcacheErrorTableDiv.querySelector('tr #ehcache-table-template-error-val').id = "ehcache-table-" + webapp + "-error-val";
+    domUtils.setId(ehcacheErrorTableDiv.querySelector('tr #ehcache-table-template-error-val'), "ehcache-table-" + webapp + "-error-val");
     // Attach the error table to the dom
-    self.emptyCacheDataDiv(webapp);
+    emptyCacheDataDiv(webapp);
     let $cacheData = $("#cache-data-" + webapp);
     domUtils.append($cacheData, ehcacheErrorTableDiv);
     // Update the message
@@ -149,8 +149,8 @@ function EhCacheManager() {
   /**
    * Clear cache data.
    */
-  this.clearCacheData = (cacheName, webapp) => {
-    let url = self.getApiUrl(webapp) + '?name=' + cacheName;
+  function clearCacheData(cacheName, webapp) {
+    let url = getApiUrl(webapp) + '?name=' + cacheName;
     debuggerHttpClient.delete(url, null,
       (responseBody, responseCode, responseDescription) => {
         basicKamehouseModal.openAutoCloseable("Cache " + cacheName + " cleared successfully", 3000);
@@ -167,7 +167,7 @@ function EhCacheManager() {
    * Clear all caches.
    */
   this.clearAllCaches = (webapp) => {
-    debuggerHttpClient.delete(self.getApiUrl(webapp), null,
+    debuggerHttpClient.delete(getApiUrl(webapp), null,
       (responseBody, responseCode, responseDescription) => { 
         basicKamehouseModal.openAutoCloseable("All caches cleared successfully", 3000);
         self.getAllCacheData(webapp);
@@ -182,7 +182,7 @@ function EhCacheManager() {
   /**
    * Empty cache data div.
    */
-  this.emptyCacheDataDiv = (webapp) => {
+  function emptyCacheDataDiv(webapp) {
     let $cacheData = $("#cache-data-" + webapp);
     domUtils.empty($cacheData);
   }
@@ -190,7 +190,7 @@ function EhCacheManager() {
   /**
    * Toggle cache view (expand/collapse).
    */
-  this.toggleCacheView = (className) => {
+  function toggleCacheView(className) {
     $(className).toggle();
   }
 
@@ -199,7 +199,7 @@ function EhCacheManager() {
    */
   this.toggleAllCacheView = (webapp) => {
     for (let i = 0; i < self.ehcacheToggleTableRowIds[webapp].length; i++) {
-      self.toggleCacheView(self.ehcacheToggleTableRowIds[webapp][i]);
+      toggleCacheView(self.ehcacheToggleTableRowIds[webapp][i]);
     }
   }
 }

@@ -99,12 +99,12 @@ function Scheduler() {
     let tableDiv = domUtils.getElementFromTemplate(self.schedulerTableTemplate);
     
     // Update the ids and classes on the table generated from the template
-    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val').id = "scheduler-table-" + tableIdKey + "-name-val";
-    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-key-val').id = "scheduler-table-" + tableIdKey + "-key-val";
-    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-description-val').id = "scheduler-table-" + tableIdKey + "-description-val";
-    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-jobclass-val').id = "scheduler-table-" + tableIdKey + "-jobclass-val";
-    tableDiv.querySelector('tr #scheduler-table-TEMPLATE-schedule-val').id = "scheduler-table-" + tableIdKey + "-schedule-val";
-    tableDiv.querySelector('tr #clear-scheduler-table-TEMPLATE').id = "clear-scheduler-table-" + tableIdKey;
+    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val'), "scheduler-table-" + tableIdKey + "-name-val");
+    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-key-val'), "scheduler-table-" + tableIdKey + "-key-val");
+    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-description-val'), "scheduler-table-" + tableIdKey + "-description-val");
+    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-jobclass-val'), "scheduler-table-" + tableIdKey + "-jobclass-val");
+    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-schedule-val'), "scheduler-table-" + tableIdKey + "-schedule-val");
+    domUtils.setId(tableDiv.querySelector('tr #clear-scheduler-table-TEMPLATE'), "clear-scheduler-table-" + tableIdKey);
 
     return tableDiv;
   }

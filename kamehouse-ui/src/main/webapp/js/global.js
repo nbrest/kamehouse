@@ -444,6 +444,10 @@ function DomUtils() {
   let self = this;
 
   /** ------ Manipulation through plain js --------------------------------- */
+  /** Set the id of an element (non jq) */
+  this.setId = (element, id) => {
+    element.id = id;
+  }
 
   /** Add a class to the element (non jq) */
   this.classListAdd = (element, className) => {
