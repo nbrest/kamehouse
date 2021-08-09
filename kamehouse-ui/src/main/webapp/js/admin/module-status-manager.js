@@ -13,19 +13,21 @@ var loadModuleStatusManager = () => {
  * Manager to get the status of the tomcat modules in the current server.
  */
 function ModuleStatusManager() {
-  let self = this;
 
+  this.init = init;
+  this.getAllModulesStatus = getAllModulesStatus;
+  
   /**
    * Get the data from the backend and import css.
    */
-  this.init = () => {
-    self.getAllModulesStatus();
+  function init() {
+    getAllModulesStatus();
   }
 
   /**
    * Get the data from the backend.
    */
-  this.getAllModulesStatus = () => {
+  function getAllModulesStatus() {
     getModuleStatus('admin');
     getModuleStatus('media');
     getModuleStatus('tennisworld');
