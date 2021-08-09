@@ -71,7 +71,7 @@ function PlaylistBrowser(vlcPlayer) {
         $.each(self.videoPlaylistCategories, function (key, entry) {
           let category = entry;
           let categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
-          playlistCategoryDropdown.append(self.getPlaylistCategoryOption(entry, categoryFormatted));
+          domUtils.append(playlistCategoryDropdown, self.getPlaylistCategoryOption(entry, categoryFormatted));
         });
       },
       (responseBody, responseCode, responseDescription) => 
@@ -85,7 +85,7 @@ function PlaylistBrowser(vlcPlayer) {
   this.resetPlaylistDropdown = () => {
     let playlistDropdown = $('#playlist-dropdown');
     domUtils.empty(playlistDropdown);
-    playlistDropdown.append(self.getInitialDropdownOption("Playlist"));
+    domUtils.append(playlistDropdown, self.getInitialDropdownOption("Playlist"));
   }
 
   /**
@@ -94,7 +94,7 @@ function PlaylistBrowser(vlcPlayer) {
   this.resetPlaylistCategoryDropdown = () => {
     let playlistCategoryDropdown = $('#playlist-category-dropdown');
     domUtils.empty(playlistCategoryDropdown);
-    playlistCategoryDropdown.append(self.getInitialDropdownOption("Playlist Category"));
+    domUtils.append(playlistCategoryDropdown, self.getInitialDropdownOption("Playlist Category"));
   }
 
   /** Populate video playlists dropdown when a playlist category is selected. */
@@ -109,7 +109,7 @@ function PlaylistBrowser(vlcPlayer) {
       if (entry.category === selectedPlaylistCategory) {
         let playlistName = entry.name;
         playlistName = playlistName.replace(/.m3u+$/, "");
-        playlistDropdown.append(self.getPlaylistOption(entry.path, playlistName));
+        domUtils.append(playlistDropdown, self.getPlaylistOption(entry.path, playlistName));
       }
     });
   }
@@ -144,15 +144,15 @@ function PlaylistBrowser(vlcPlayer) {
     let $playlistTableBody = $('#playlist-browser-table-body');
     domUtils.empty($playlistTableBody);
     if (isNullOrUndefined(self.currentPlaylist)) {
-      $playlistTableBody.append(self.getEmptyPlaylistTr());
+      domUtils.append($playlistTableBody, self.getEmptyPlaylistTr());
     } else {
       self.tbodyFilenames = self.getPlaylistBrowserTbody();
       self.tbodyAbsolutePaths = self.getPlaylistBrowserTbody();
       for (let i = 0; i < self.currentPlaylist.files.length; i++) {
         let absolutePath = self.currentPlaylist.files[i];
         let filename = fileUtils.getShortFilename(absolutePath);
-        self.tbodyFilenames.append(self.getPlaylistBrowserTr(filename, absolutePath));
-        self.tbodyAbsolutePaths.append(self.getPlaylistBrowserTr(absolutePath, absolutePath));
+        domUtils.append(self.tbodyFilenames, self.getPlaylistBrowserTr(filename, absolutePath));
+        domUtils.append(self.tbodyAbsolutePaths, self.getPlaylistBrowserTr(absolutePath, absolutePath));
       }
       $playlistTableBody.replaceWith(self.tbodyFilenames);
     }
@@ -180,14 +180,14 @@ function PlaylistBrowser(vlcPlayer) {
       if (!isNullOrUndefined(self.tbodyFilenames)) {
         self.tbodyFilenames.detach();
       }
-      $playlistTable.append(self.tbodyAbsolutePaths);
+      domUtils.append($playlistTable, self.tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
       if (!isNullOrUndefined(self.tbodyAbsolutePaths)) {
         self.tbodyAbsolutePaths.detach();
       }
-      $playlistTable.append(self.tbodyFilenames);
+      domUtils.append($playlistTable, self.tbodyFilenames);
       isExpandedFilename = false;
     }
     self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);

@@ -91,7 +91,7 @@ function Logger() {
         logEntriesSize = debugModeConsoleLog.childElementCount;
       }
       // Add new log entry
-      $("#debug-mode-console-log-entries").append(self.getLogEntryListItem(logEntry));
+      domUtils.append($("#debug-mode-console-log-entries"), self.getLogEntryListItem(logEntry));
       // Scroll down log div
       self.debugModeLogScroll();
     }

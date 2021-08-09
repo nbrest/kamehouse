@@ -81,8 +81,8 @@ function EhCacheManager() {
     self.ehcacheToggleTableRowIds[webapp] = [];
     let $cacheData = $("#cache-data-" + webapp);
     caches.forEach((cache) => {
-      $cacheData.append(self.getEhCacheTableFromTemplate(cache.name));
-      $cacheData.append($(domUtils.getBr()));
+      domUtils.append($cacheData, self.getEhCacheTableFromTemplate(cache.name));
+      domUtils.append($cacheData, $(domUtils.getBr()));
 
       domUtils.setHtml($('#ehcache-table-' + cache.name + '-header'), cache.name);
       domUtils.setHtml($('#ehcache-table-' + cache.name + '-status-val'), cache["status"]);
@@ -138,7 +138,7 @@ function EhCacheManager() {
     // Attach the error table to the dom
     self.emptyCacheDataDiv(webapp);
     let $cacheData = $("#cache-data-" + webapp);
-    $cacheData.append(ehcacheErrorTableDiv);
+    domUtils.append($cacheData, ehcacheErrorTableDiv);
     // Update the message
     domUtils.setHtml($("#ehcache-table-" + webapp + "-error-val"), timeUtils.getTimestamp() +
       " : Error retrieving cache data. Please try again later.");

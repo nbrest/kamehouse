@@ -83,28 +83,28 @@ function ScriptExecutor() {
         // Show full output
         for (let i = 0; i < scriptOutputLength; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            tbody.append(self.getScriptOutputTr(scriptOutputArray[i]));
+            domUtils.append(tbody, self.getScriptOutputTr(scriptOutputArray[i]));
           }
         }
       } else {
         // Show only the first x and last y lines
         for (let i = 0; i < 50; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            tbody.append(self.getScriptOutputTr(scriptOutputArray[i]));
+            domUtils.append(tbody, self.getScriptOutputTr(scriptOutputArray[i]));
           }
         }
          
-        tbody.append(self.getScriptOutputTr(" "));
-        tbody.append(self.getScriptOutputTr(" "));
-        tbody.append(self.getScriptOutputTr(" "));
-        tbody.append(self.getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
-        tbody.append(self.getScriptOutputTr(" "));
-        tbody.append(self.getScriptOutputTr(" "));
-        tbody.append(self.getScriptOutputTr(" "));
+        domUtils.append(tbody, self.getScriptOutputTr(" "));
+        domUtils.append(tbody, self.getScriptOutputTr(" "));
+        domUtils.append(tbody, self.getScriptOutputTr(" "));
+        domUtils.append(tbody, self.getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
+        domUtils.append(tbody, self.getScriptOutputTr(" "));
+        domUtils.append(tbody, self.getScriptOutputTr(" "));
+        domUtils.append(tbody, self.getScriptOutputTr(" "));
   
         for (let i = scriptOutputLength - 350; i < scriptOutputLength; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            tbody.append(self.getScriptOutputTr(scriptOutputArray[i]));
+            domUtils.append(tbody, self.getScriptOutputTr(scriptOutputArray[i]));
           }
         }
       }
@@ -133,10 +133,10 @@ function ScriptExecutor() {
       let $scriptOutputTableBody = $('#script-output-table-body');
       domUtils.empty($scriptOutputTableBody);
       let tbody = self.getScriptOutputTbody();
-      tbody.append(self.getScriptOutputErrorTr("Error response from the backend"));
-      tbody.append(self.getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
-      tbody.append(self.getScriptOutputErrorTr("responseCode : " + responseCode));
-      tbody.append(self.getScriptOutputErrorTr("responseDescription : " + responseDescription));
+      domUtils.append(tbody, self.getScriptOutputErrorTr("Error response from the backend"));
+      domUtils.append(tbody, self.getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
+      domUtils.append(tbody, self.getScriptOutputErrorTr("responseCode : " + responseCode));
+      domUtils.append(tbody, self.getScriptOutputErrorTr("responseDescription : " + responseDescription));
       $scriptOutputTableBody.replaceWith(tbody);
   
       // Update the view

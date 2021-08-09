@@ -28,7 +28,7 @@ function StickyBackToTopManager() {
   this.importHtml = async () => {
     const response = await fetch("/kame-house/html-snippets/sticky-back-to-top.html");
     const stickyBackToTopBtn = await response.text();
-    $('body').append(stickyBackToTopBtn);
+    domUtils.append($('body'), stickyBackToTopBtn);
     self.setupEventHandlers();
   }
 
@@ -36,7 +36,7 @@ function StickyBackToTopManager() {
    * Import the sticky button css.
    */
   this.importCss = () => {
-    $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/sticky-back-to-top.css">');
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/sticky-back-to-top.css">');
   }
 
   /**

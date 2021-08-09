@@ -95,7 +95,7 @@ function showTestWebSocketResponse(testWebSocketResponseBody) {
   logger.trace(arguments.callee.name);
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
   let date = new Date(parseInt(testWebSocketResponseBody.date));
-  $("#websocket-responses").append(getWebsocketResponseTr(date.toLocaleDateString(), testWebSocketResponseBody.message));
+  domUtils.append($("#websocket-responses"), getWebsocketResponseTr(date.toLocaleDateString(), testWebSocketResponseBody.message));
 }
 
 function getWebsocketResponseTr(date, message) {

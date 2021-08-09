@@ -23,7 +23,7 @@ function MyScriptsManager() {
     let tbody = self.getAllMyScriptsTbody();
     for (let i = 0; i < myScriptsArray.length; i++) {
       let scriptName = myScriptsArray[i];
-      tbody.append(self.getAllMyScriptsTr(scriptName));
+      domUtils.append(tbody, self.getAllMyScriptsTr(scriptName));
     }
     $allMyScriptsTableBody.replaceWith(tbody);
   }

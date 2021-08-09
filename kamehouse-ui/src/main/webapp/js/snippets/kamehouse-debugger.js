@@ -23,7 +23,7 @@ function main() {
 
 /** Import debugger-http-client css*/
 function importKameHouseDebuggerCss() {
-  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kamehouse-debugger.css">');
+  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kamehouse-debugger.css">');
 }
 
 /** 

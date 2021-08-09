@@ -75,8 +75,8 @@ function Scheduler() {
     domUtils.empty($jobsData);
     self.jobs.forEach((jobEntry) => {
       let tableIdKey = webapp + jobEntry.key.name;
-      $jobsData.append(self.getTableFromTemplate(tableIdKey));
-      $jobsData.append(domUtils.getBr());
+      domUtils.append($jobsData, self.getTableFromTemplate(tableIdKey));
+      domUtils.append($jobsData, domUtils.getBr());
 
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
@@ -129,7 +129,7 @@ function Scheduler() {
   this.updateJobsTableError = (webapp) => {
     let $jobsData = $('#jobs-data-' + webapp);
     domUtils.empty($jobsData);
-    $jobsData.append(getErrorMessage());
+    domUtils.append($jobsData, getErrorMessage());
   }
 
   /** Get the message for the error table */

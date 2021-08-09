@@ -31,7 +31,7 @@ function main() {
 }
 
 function importKamehouseModalCss() {
-  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kamehouse-modal.css">');
+  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kamehouse-modal.css">');
 }
 
 /**
@@ -115,7 +115,7 @@ function ModalUtils(modalId) {
   this.import = async () => {
     const response = await fetch("/kame-house/html-snippets/" + modalId + ".html");
     const modalDiv = await response.text();
-    $('body').append(modalDiv);
+    domUtils.append($('body'), modalDiv);
     let modalDivCloseBtn = document.getElementById(modalId + "-close");
     modalDivCloseBtn.onclick = () => self.close();
   }
@@ -173,7 +173,7 @@ function ModalUtils(modalId) {
 
   /** Set the html in the modal */
   this.setHtml = (message) => $("#" + self.modalId + "-text").html(message);
-  this.appendHtml = (message) => $("#" + self.modalId + "-text").append(message);
+  this.appendHtml = (message) => domUtils.append($("#" + self.modalId + "-text"), message);
 }
 
 $(document).ready(main);

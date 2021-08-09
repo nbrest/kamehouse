@@ -752,7 +752,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let $playlistTableBody = $('#playlist-table-body');
     if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) ||
       self.currentPlaylist.length <= 0) {
-      $playlistTableBody.append(self.getEmptyPlaylistTr());
+      domUtils.append($playlistTableBody, self.getEmptyPlaylistTr());
     } else {
       self.tbodyFilenames = self.getPlaylistTbody();
       self.tbodyAbsolutePaths = self.getPlaylistTbody();
@@ -760,8 +760,8 @@ function VlcPlayerPlaylist(vlcPlayer) {
         let absolutePath = self.currentPlaylist[i].filename;
         let filename = fileUtils.getShortFilename(absolutePath);
         let playlistElementId = self.currentPlaylist[i].id
-        self.tbodyFilenames.append(self.getPlaylistTr(filename, playlistElementId));
-        self.tbodyAbsolutePaths.append(self.getPlaylistTr(absolutePath, playlistElementId));
+        domUtils.append(self.tbodyFilenames, self.getPlaylistTr(filename, playlistElementId));
+        domUtils.append(self.tbodyAbsolutePaths, self.getPlaylistTr(absolutePath, playlistElementId));
       }
       $playlistTableBody.replaceWith(self.tbodyFilenames);
       self.highlightCurrentPlayingItem();
@@ -835,14 +835,14 @@ function VlcPlayerPlaylist(vlcPlayer) {
       if (!isNullOrUndefined(self.tbodyFilenames)) {
         self.tbodyFilenames.detach();
       }
-      $playlistTable.append(self.tbodyAbsolutePaths);
+      domUtils.append($playlistTable, self.tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
       if (!isNullOrUndefined(self.tbodyAbsolutePaths)) {
         self.tbodyAbsolutePaths.detach();
       }
-      $playlistTable.append(self.tbodyFilenames);
+      domUtils.append($playlistTable, self.tbodyFilenames);
       isExpandedFilename = false;
     }
     self.highlightCurrentPlayingItem();

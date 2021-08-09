@@ -29,25 +29,25 @@ function SystemCommandManager() {
     domUtils.empty($(systemCommandOutputDiv));
     systemCommandOutputArray.forEach((systemCommandOutput) => {
       if (displayCommandLine) {
-        $(systemCommandOutputDiv).append(getCommandLine(systemCommandOutput.command));
+        domUtils.append($(systemCommandOutputDiv), getCommandLine(systemCommandOutput.command));
       }
       if (!isNullOrUndefined(systemCommandOutput.standardOutput) && 
           systemCommandOutput.standardOutput.length > 0) {
         systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
-          $(systemCommandOutputDiv).append(standardOutputLine);
-          $(systemCommandOutputDiv).append(domUtils.getBr());
+          domUtils.append($(systemCommandOutputDiv), standardOutputLine);
+          domUtils.append($(systemCommandOutputDiv), domUtils.getBr());
         });
       }
       if (!isNullOrUndefined(systemCommandOutput.standardError) && 
           systemCommandOutput.standardError.length > 0) {
-        $(systemCommandOutputDiv).append(getCommandErrorHeaderLine());
+        domUtils.append($(systemCommandOutputDiv), getCommandErrorHeaderLine());
         systemCommandOutput.standardError.forEach((standardErrorLine) => {
-          $(systemCommandOutputDiv).append(standardErrorLine);
-          $(systemCommandOutputDiv).append(domUtils.getBr());
+          domUtils.append($(systemCommandOutputDiv), standardErrorLine);
+          domUtils.append($(systemCommandOutputDiv), domUtils.getBr());
         });
       }
       if (systemCommandOutput.status == "running") {
-        $(systemCommandOutputDiv).append(getDaemonRunningLine(systemCommandOutput.command));
+        domUtils.append($(systemCommandOutputDiv), getDaemonRunningLine(systemCommandOutput.command));
       }
     });
     collapsibleDivUtils.refreshCollapsibleDiv();
@@ -59,7 +59,7 @@ function SystemCommandManager() {
   this.renderErrorExecutingCommand = () => {
     let systemCommandOutputDiv = "#system-command-output";
     domUtils.empty($(systemCommandOutputDiv));
-    $(systemCommandOutputDiv).append("Error executing system command. Check the logs on the backend...");
+    domUtils.append($(systemCommandOutputDiv), "Error executing system command. Check the logs on the backend...");
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
   

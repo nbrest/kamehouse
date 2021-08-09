@@ -92,7 +92,7 @@ function BackendLogLevelUtils() {
       let logLevelEntryPair = logLevelEntry.split(":");
       let packageName = logLevelEntryPair[0];
       let logLevel = logLevelEntryPair[1];
-      $tableBody.append(getLogLevelTr(packageName, logLevel));
+      domUtils.append($tableBody, getLogLevelTr(packageName, logLevel));
     });
   }
 
@@ -100,14 +100,14 @@ function BackendLogLevelUtils() {
   this.addLogLevelTableHeader = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
     domUtils.empty($tableBody);
-    $tableBody.append(getLogLevelTh(webapp));
+    domUtils.append($tableBody, getLogLevelTh(webapp));
   }
 
   /** Set log level table to error */
   this.updateLogLevelTableError = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
     domUtils.empty($tableBody);
-    $tableBody.append(getErrorTr());
+    domUtils.append($tableBody, getErrorTr());
   }
 
   /** Get row for errot table */

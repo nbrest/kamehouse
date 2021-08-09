@@ -68,13 +68,13 @@ function TailLogManager() {
       // Show full output
       for (let i = 0; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
-          tbody.append(self.getTailLogOutputTr(tailLogOutputArray[i]));
+          domUtils.append(tbody, self.getTailLogOutputTr(tailLogOutputArray[i]));
         }
       }
     } else {
       for (let i = tailLogOutputLength - numberOfLines; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
-          tbody.append(self.getTailLogOutputTr(tailLogOutputArray[i]));
+          domUtils.append(tbody, self.getTailLogOutputTr(tailLogOutputArray[i]));
         }
       }
     }
@@ -90,10 +90,10 @@ function TailLogManager() {
   this.updateTailLogOutputError = (responseBody, responseCode, responseDescription, callback) => {
     let $tailLogOutputTableBody = $('#tail-log-output-table-body');
     let tbody = self.getTailLogOutputTbody();
-    tbody.append(self.getTailLogOutputErrorTr("Error response from the backend"));
-    tbody.append(self.getTailLogOutputErrorTr("responseBody : " + responseBody));
-    tbody.append(self.getTailLogOutputErrorTr("responseCode : " + responseCode));
-    tbody.append(self.getTailLogOutputErrorTr("responseDescription : " + responseDescription));
+    domUtils.append(tbody, self.getTailLogOutputErrorTr("Error response from the backend"));
+    domUtils.append(tbody, self.getTailLogOutputErrorTr("responseBody : " + responseBody));
+    domUtils.append(tbody, self.getTailLogOutputErrorTr("responseCode : " + responseCode));
+    domUtils.append(tbody, self.getTailLogOutputErrorTr("responseDescription : " + responseDescription));
     domUtils.empty($tailLogOutputTableBody);
     $tailLogOutputTableBody.replaceWith(tbody);
 
@@ -106,7 +106,7 @@ function TailLogManager() {
   this.displayInvalidScript = () => {
     let $tailLogOutputTableBody = $('#tail-log-output-table-body');
     let tbody = self.getTailLogOutputTbody();
-    tbody.append(self.getTailLogOutputErrorTr("Invalid script sent as parameter"));
+    domUtils.append(tbody, self.getTailLogOutputErrorTr("Invalid script sent as parameter"));
     domUtils.empty($tailLogOutputTableBody);
     $tailLogOutputTableBody.replaceWith(tbody);
   }

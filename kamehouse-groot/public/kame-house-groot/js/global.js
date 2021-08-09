@@ -62,13 +62,13 @@ function GrootHeader() {
     domUtils.empty($loginStatusDesktop);
     if (isNullOrUndefined(global.groot.session.username) || global.groot.session.username.trim() == "" ||
       global.groot.session.username.trim() == "anonymousUser") {
-      $loginStatusDesktop.append(self.getLoginButton());
-      $loginStatusMobile.append(self.getLoginButton());
+      domUtils.append($loginStatusDesktop, self.getLoginButton());
+      domUtils.append($loginStatusMobile, self.getLoginButton());
     } else {
-      $loginStatusDesktop.append(self.getUsernameHeader(global.groot.session.username));
-      $loginStatusDesktop.append(self.getLogoutButton());
-      $loginStatusMobile.append(self.getUsernameHeader(global.groot.session.username));
-      $loginStatusMobile.append(self.getLogoutButton());
+      domUtils.append($loginStatusDesktop, self.getUsernameHeader(global.groot.session.username));
+      domUtils.append($loginStatusDesktop, self.getLogoutButton());
+      domUtils.append($loginStatusMobile, self.getUsernameHeader(global.groot.session.username));
+      domUtils.append($loginStatusMobile, self.getLogoutButton());
     }
   }
 

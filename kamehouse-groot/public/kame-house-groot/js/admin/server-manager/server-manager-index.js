@@ -294,8 +294,8 @@ function DeploymentManager() {
           !scriptOutputLine.includes("TCP") &&
           !scriptOutputLine.includes("tcp") &&
           !scriptOutputLine.includes("Executing script")) {
-        $(tomcatProcessStatusDiv).append(scriptOutputLine);
-        $(tomcatProcessStatusDiv).append(domUtils.getBr());
+        domUtils.append($(tomcatProcessStatusDiv), scriptOutputLine);
+        domUtils.append($(tomcatProcessStatusDiv), domUtils.getBr());
       }
     });
     $(tomcatProcessStatusDiv).children().last().remove();

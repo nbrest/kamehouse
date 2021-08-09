@@ -60,8 +60,8 @@ function Footer() {
 
   /** Renders the footer */
   this.renderFooter = () => { 
-    $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
-    $("body").append(self.getFooterContainerDiv());
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
+    domUtils.append($("body"), self.getFooterContainerDiv());
     $("#footerContainer").load("/kame-house/html-snippets/footer.html", () => {
       self.loaded = true;
     });
@@ -96,7 +96,7 @@ function Header() {
   
   /** Render the header */
   this.renderHeader = () => {
-    $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
     $("body").prepend(self.getHeaderContainerDiv());
     $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
       self.updateLoginStatus();
@@ -179,10 +179,10 @@ function Header() {
     domUtils.empty($loginStatus);
     if (isNullOrUndefined(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {
-      $loginStatus.append(self.getLoginButton());
+      domUtils.append($loginStatus, self.getLoginButton());
     } else {
-      $loginStatus.append(self.getUsernameHeader(global.session.username));
-      $loginStatus.append(self.getLogoutButton());
+      domUtils.append($loginStatus, self.getUsernameHeader(global.session.username));
+      domUtils.append($loginStatus, self.getLogoutButton());
     }
   }
 

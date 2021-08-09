@@ -20,7 +20,7 @@ var main = () => {
 };
 
 function importServerManagementCss() {
-  $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
+  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
 }
 
 /**
