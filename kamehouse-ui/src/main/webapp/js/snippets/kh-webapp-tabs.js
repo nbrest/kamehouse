@@ -52,10 +52,10 @@ function KameHouseWebappTabsManager() {
     // Update tab content visibility
     let kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");
     for (let i = 0; i < kamehouseTabContent.length; i++) {
-      domUtils.setStyle(kamehouseTabContent[i], "display", "none");
+      domUtils.setDisplay(kamehouseTabContent[i], "none");
     }
     let selectedTabDiv = document.getElementById(selectedTabDivId);
-    domUtils.setStyle(selectedTabDiv, "display", "block");
+    domUtils.setDisplay(selectedTabDiv, "block");
   }
 
   /**

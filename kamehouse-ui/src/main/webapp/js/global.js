@@ -467,10 +467,15 @@ function DomUtils() {
     }
   }
 
-  /** Set the html to the element (non jq) */
+  /** Set the style for the element (non jq) */
   this.setStyle = (element, styleProperty, stylePropertyValue) => {
     element.style[styleProperty] = stylePropertyValue;
   }
+
+  /** Set the display of the element (non jq) */
+  this.setDisplay = (element, displayValue) => {
+    element.style.display = displayValue;
+  }  
 
   /**
    * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
@@ -762,10 +767,10 @@ function ModuleUtils() {
     // Update tab content visibility
     let kamehouseTabContent = document.getElementsByClassName("tab-content-kh");
     for (let i = 0; i < kamehouseTabContent.length; i++) {
-      domUtils.setStyle(kamehouseTabContent[i], "display", "none");
+      domUtils.setDisplay(kamehouseTabContent[i], "none");
     }
     let selectedTabDiv = document.getElementById(selectedTabDivId);
-    domUtils.setStyle(selectedTabDiv, "display", "block");
+    domUtils.setDisplay(selectedTabDiv, "block");
   }
 
   /**

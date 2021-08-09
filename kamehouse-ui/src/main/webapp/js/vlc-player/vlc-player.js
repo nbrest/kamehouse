@@ -77,25 +77,25 @@ function VlcPlayer(hostname) {
     // Update tab content visibility
     let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
     for (let i = 0; i < vlcPlayerTabContent.length; i++) {
-      domUtils.setStyle(vlcPlayerTabContent[i], "display", "none");
+      domUtils.setDisplay(vlcPlayerTabContent[i], "none");
     }
     let vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
-    domUtils.setStyle(vlcPlayerTabDiv, "display", "block");
+    domUtils.setDisplay(vlcPlayerTabDiv, "block");
 
     setTimeout(() => {
       // Asynchronously show or hide playlist and playlist browser content
       let playlistTable = document.getElementById("playlist-table");
       if ("tab-playlist" == vlcPlayerTabDivId) {
-        domUtils.setStyle(playlistTable, "display", "table");
+        domUtils.setDisplay(playlistTable, "table");
       } else {
-        domUtils.setStyle(playlistTable, "display", "none");
+        domUtils.setDisplay(playlistTable, "none");
       }
 
       let playlistBrowserTable = document.getElementById("playlist-browser-table");
       if ("tab-playlist-browser" == vlcPlayerTabDivId) {
-        domUtils.setStyle(playlistBrowserTable, "display", "table");
+        domUtils.setDisplay(playlistBrowserTable, "table");
       } else {
-        domUtils.setStyle(playlistBrowserTable, "display", "none");
+        domUtils.setDisplay(playlistBrowserTable, "none");
       }
     }, 0);
   }

@@ -136,7 +136,7 @@ function ModalUtils(modalId) {
       self.setHtml(message);
     }
     let modal = document.getElementById(modalId);
-    domUtils.setStyle(modal, "display", "block");
+    domUtils.setDisplay(modal, "block");
     //self.setCloseOnClickOutsideModal();
   }
 
@@ -149,7 +149,7 @@ function ModalUtils(modalId) {
   /** Close modal */
   this.close = () => {
     let modal = document.getElementById(modalId);
-    domUtils.setStyle(modal, "display", "none");
+    domUtils.setDisplay(modal, "none");
   }
 
   /** Auto close modal after the specified miliseconds */
