@@ -89,10 +89,10 @@ function EhCacheManager() {
       domUtils.setHtml($('#ehcache-table-' + cache.name + '-keys-val'), cache["keys"]);
       domUtils.setHtml($('#ehcache-table-' + cache.name + '-values-val'), cache["values"]);
 
-      $("#clear-ehcache-table-" + cache.name).click(
+      domUtils.setClick($("#clear-ehcache-table-" + cache.name), null,
         () => self.clearCacheData(cache.name, webapp)
       );
-      $("#toggle-view-ehcache-table-" + cache.name).click(
+      domUtils.setClick($("#toggle-view-ehcache-table-" + cache.name), null,
         () => self.toggleCacheView(".toggle-ehcache-table-" + cache.name)
       );
       $(".toggle-ehcache-table-" + cache.name).toggle();

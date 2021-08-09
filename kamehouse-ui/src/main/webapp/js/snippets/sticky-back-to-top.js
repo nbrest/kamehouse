@@ -45,10 +45,10 @@ function StickyBackToTopManager() {
   this.setupEventHandlers = () => {
     window.addEventListener("scroll", self.showHideStickyBackToTopBtn);
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
-    stickyBackToTopBtn.onclick = (e) => {
+    domUtils.setOnClick(stickyBackToTopBtn, (e) => {
       e.preventDefault();
       self.backToTop();
-    }
+    });
   }
 
   /**

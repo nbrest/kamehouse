@@ -21,9 +21,9 @@ var main = () => {
     websocket.setPollUrl("/app/test-module/websocket-in");
     
     $("form").on('submit', (e) => e.preventDefault());
-    $("#connect").click(() => connectWebSocket());
-    $("#disconnect").click(() => disconnectWebSocket());
-    $("#send").click(() => sendWebSocketRequest());
+    domUtils.setClick($("#connect"), null, () => connectWebSocket());
+    domUtils.setClick($("#disconnect"), null, () => disconnectWebSocket());
+    domUtils.setClick($("#send"), null, () => sendWebSocketRequest());
   });
 }
 

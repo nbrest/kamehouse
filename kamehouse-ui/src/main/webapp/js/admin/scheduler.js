@@ -84,7 +84,7 @@ function Scheduler() {
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), self.formatSchedule(jobEntry.schedules));
 
-      $("#clear-scheduler-table-" + tableIdKey).click(() => {
+      domUtils.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
         logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
         self.cancelJobExecution(jobEntry.key, webapp);
       });

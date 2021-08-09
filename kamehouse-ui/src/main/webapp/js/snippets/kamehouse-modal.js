@@ -117,17 +117,17 @@ function ModalUtils(modalId) {
     const modalDiv = await response.text();
     domUtils.append($('body'), modalDiv);
     let modalDivCloseBtn = document.getElementById(modalId + "-close");
-    modalDivCloseBtn.onclick = () => self.close();
+    domUtils.setOnClick(modalDivCloseBtn, () => self.close());
   }
 
   /** When the user clicks anywhere outside of the modal, close it */
   this.setCloseOnClickOutsideModal = () => {
     let modalDiv = document.getElementById(modalId);
-    window.onclick = (event) => {
+    domUtils.setOnClick(window, (event) => {
       if (event.target == modalDiv) {
         self.close();
       }
-    }
+    });
   }
 
   /** Open modal */

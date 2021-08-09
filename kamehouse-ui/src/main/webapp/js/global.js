@@ -477,6 +477,11 @@ function DomUtils() {
     element.style.display = displayValue;
   }  
 
+  /** Set onclick function of the element (non jq) */
+  this.setOnClick = (element, onclickFunction) => {
+    element.onclick = onclickFunction;
+  }  
+
   /**
    * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
    */
@@ -543,6 +548,13 @@ function DomUtils() {
     if (html) {
       element.html(html);
     }
+  }
+
+  /**
+   * Set click function in an element.
+   */
+  this.setClick = (element, clickData, clickFunction) => {
+    element.click(clickData, clickFunction);
   }
 
   /**
@@ -633,7 +645,7 @@ function DomUtils() {
    */
   this.getButton = (config) => {
     let btn = getElement('button', config.attr, config.html);
-    btn.click(config.clickData, config.click);
+    self.setClick(btn, config.clickData, config.click);
     return btn;
   }
 
