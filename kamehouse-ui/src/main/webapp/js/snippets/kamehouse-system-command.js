@@ -26,7 +26,7 @@ function SystemCommandManager() {
       systemCommandOutputDiv = "#" + systemCommandOutputDivId;
     }
 
-    $(systemCommandOutputDiv).empty();
+    domUtils.empty($(systemCommandOutputDiv));
     systemCommandOutputArray.forEach((systemCommandOutput) => {
       if (displayCommandLine) {
         $(systemCommandOutputDiv).append(getCommandLine(systemCommandOutput.command));
@@ -58,7 +58,7 @@ function SystemCommandManager() {
    */
   this.renderErrorExecutingCommand = () => {
     let systemCommandOutputDiv = "#system-command-output";
-    $(systemCommandOutputDiv).empty();
+    domUtils.empty($(systemCommandOutputDiv));
     $(systemCommandOutputDiv).append("Error executing system command. Check the logs on the backend...");
     collapsibleDivUtils.refreshCollapsibleDiv();
   }

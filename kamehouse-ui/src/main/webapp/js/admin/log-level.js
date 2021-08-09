@@ -99,14 +99,14 @@ function BackendLogLevelUtils() {
   /** Add log level table header */
   this.addLogLevelTableHeader = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
-    $tableBody.empty();
+    domUtils.empty($tableBody);
     $tableBody.append(getLogLevelTh(webapp));
   }
 
   /** Set log level table to error */
   this.updateLogLevelTableError = (webapp) => {
     let $tableBody = $('#log-level-tbody-' + webapp);
-    $tableBody.empty();
+    domUtils.empty($tableBody);
     $tableBody.append(getErrorTr());
   }
 

@@ -84,7 +84,7 @@ function PlaylistBrowser(vlcPlayer) {
    */
   this.resetPlaylistDropdown = () => {
     let playlistDropdown = $('#playlist-dropdown');
-    playlistDropdown.empty();
+    domUtils.empty(playlistDropdown);
     playlistDropdown.append(self.getInitialDropdownOption("Playlist"));
   }
 
@@ -93,7 +93,7 @@ function PlaylistBrowser(vlcPlayer) {
    */
   this.resetPlaylistCategoryDropdown = () => {
     let playlistCategoryDropdown = $('#playlist-category-dropdown');
-    playlistCategoryDropdown.empty();
+    domUtils.empty(playlistCategoryDropdown);
     playlistCategoryDropdown.append(self.getInitialDropdownOption("Playlist Category"));
   }
 
@@ -142,7 +142,7 @@ function PlaylistBrowser(vlcPlayer) {
   this.populatePlaylistBrowserTable = function populatePlaylistBrowserTable() {
     logger.trace(arguments.callee.name);
     let $playlistTableBody = $('#playlist-browser-table-body');
-    $playlistTableBody.empty();
+    domUtils.empty($playlistTableBody);
     if (isNullOrUndefined(self.currentPlaylist)) {
       $playlistTableBody.append(self.getEmptyPlaylistTr());
     } else {

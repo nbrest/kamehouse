@@ -286,7 +286,7 @@ function DeploymentManager() {
    */
   this.displayTomcatProcessStatus = (scriptOutput) => {
     let tomcatProcessStatusDiv = "#tomcat-process-status-val";
-    $(tomcatProcessStatusDiv).empty();
+    domUtils.empty($(tomcatProcessStatusDiv));
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (!scriptOutputLine.includes("Started executing") && 
           !scriptOutputLine.includes("Finished executing") &&

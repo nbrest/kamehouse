@@ -146,7 +146,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       // breaks the navigation with angular because I need to reload the page to go back to
       // where I was when the error was produced.
       //var mainContent = $('#main-content');
-      //mainContent.empty();
+      //domUtils.empty(mainContent);
       //mainContent.load('/kame-house/app/view/' + statusCode + '.html');
     }
   }

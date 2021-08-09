@@ -176,7 +176,7 @@ function Header() {
    */
   this.updateLoginStatus = () => {
     let $loginStatus = $("#login-status");
-    $loginStatus.empty();
+    domUtils.empty($loginStatus);
     if (isNullOrUndefined(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {
       $loginStatus.append(self.getLoginButton());

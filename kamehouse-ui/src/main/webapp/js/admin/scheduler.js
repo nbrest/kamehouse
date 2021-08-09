@@ -72,7 +72,7 @@ function Scheduler() {
   /** Update the jobs table content */
   this.updateJobsTable = (webapp) => {
     let $jobsData = $("#jobs-data-" + webapp);
-    $jobsData.empty();
+    domUtils.empty($jobsData);
     self.jobs.forEach((jobEntry) => {
       let tableIdKey = webapp + jobEntry.key.name;
       $jobsData.append(self.getTableFromTemplate(tableIdKey));
@@ -128,7 +128,7 @@ function Scheduler() {
   /** Set jobs table to error */
   this.updateJobsTableError = (webapp) => {
     let $jobsData = $('#jobs-data-' + webapp);
-    $jobsData.empty();
+    domUtils.empty($jobsData);
     $jobsData.append(getErrorMessage());
   }
 

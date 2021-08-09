@@ -144,7 +144,7 @@ function KameHouseDebugger() {
    */
   this.emptyDebuggerHttpClientDiv = () => {
     let $debuggerHttpClientDiv = $("#debugger-http-client");
-    $debuggerHttpClientDiv.empty();
+    domUtils.empty($debuggerHttpClientDiv);
   }
 }
 

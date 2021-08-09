@@ -112,7 +112,7 @@ function DragonBallUserServiceJsp() {
   this.displayDragonBallUsers = async (dragonBallUsersList) => {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
-    $dragonBallUsersTbody.empty();
+    domUtils.empty($dragonBallUsersTbody);
     $dragonBallUsersTbody.append(await self.getDragonBallUserTableHeader());
     for (let i = 0; i < dragonBallUsersList.length; i++) {
       $dragonBallUsersTbody.append(self.getDragonBallUserTableRow(dragonBallUsersList[i]));
@@ -139,7 +139,7 @@ function DragonBallUserServiceJsp() {
   this.displayErrorTable = (message) => {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
-    $dragonBallUsersTbody.empty();
+    domUtils.empty($dragonBallUsersTbody);
     $dragonBallUsersTbody.append(self.getErrorMessageTr(message));
   }
   

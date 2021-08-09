@@ -75,7 +75,7 @@ function ScriptExecutor() {
       let scriptOutputArray = responseBody.htmlConsoleOutput;
       self.bashScriptOutput = responseBody.bashConsoleOutput;
       let $scriptOutputTableBody = $('#script-output-table-body');
-      $scriptOutputTableBody.empty();
+      domUtils.empty($scriptOutputTableBody);
       let tbody = self.getScriptOutputTbody();
   
       let scriptOutputLength = scriptOutputArray.length;
@@ -131,7 +131,7 @@ function ScriptExecutor() {
     if (!skipUpdateView) {
       self.updateScriptExecutionEndDate();
       let $scriptOutputTableBody = $('#script-output-table-body');
-      $scriptOutputTableBody.empty();
+      domUtils.empty($scriptOutputTableBody);
       let tbody = self.getScriptOutputTbody();
       tbody.append(self.getScriptOutputErrorTr("Error response from the backend"));
       tbody.append(self.getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));

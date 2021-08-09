@@ -747,7 +747,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     }
     self.currentPlaylist = self.updatedPlaylist;
     // Clear playlist content. 
-    $("#playlist-table-body").empty();
+    domUtils.empty($("#playlist-table-body"));
     // Add the new playlist items received from the server.
     let $playlistTableBody = $('#playlist-table-body');
     if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) ||

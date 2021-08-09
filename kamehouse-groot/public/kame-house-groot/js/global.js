@@ -59,7 +59,7 @@ function GrootHeader() {
   function updateSessionStatus() {
     let $loginStatusDesktop = $("#groot-header-login-status-desktop");
     let $loginStatusMobile = $("#groot-header-login-status-mobile");
-    $loginStatusDesktop.empty();
+    domUtils.empty($loginStatusDesktop);
     if (isNullOrUndefined(global.groot.session.username) || global.groot.session.username.trim() == "" ||
       global.groot.session.username.trim() == "anonymousUser") {
       $loginStatusDesktop.append(self.getLoginButton());

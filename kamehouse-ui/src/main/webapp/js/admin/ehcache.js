@@ -184,7 +184,7 @@ function EhCacheManager() {
    */
   this.emptyCacheDataDiv = (webapp) => {
     let $cacheData = $("#cache-data-" + webapp);
-    $cacheData.empty();
+    domUtils.empty($cacheData);
   }
 
   /**
