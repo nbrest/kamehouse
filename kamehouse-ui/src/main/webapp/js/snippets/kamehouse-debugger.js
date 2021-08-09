@@ -56,7 +56,7 @@ function KameHouseDebugger() {
   this.toggleDebugMode = () => {
     logger.debug("Toggled debug mode")
     let debugModeDiv = document.getElementById("debug-mode");
-    debugModeDiv.classList.toggle("hidden-kh");
+    domUtils.classListToggle(debugModeDiv, "hidden-kh");
   }
   
   /**

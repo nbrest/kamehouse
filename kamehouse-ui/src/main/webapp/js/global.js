@@ -177,11 +177,11 @@ function BannerUtils() {
     // Update banner
     let element = document.getElementById("banner");
     bannerClasses.forEach((bannerClass) => {
-      element.classList.remove(bannerClass);
+      domUtils.classListRemove(element, bannerClass);
     });
-    element.classList.add(bannerClasses[randomBannerIndex]);
+    domUtils.classListAdd(element, bannerClasses[randomBannerIndex]);
 
-    // Trigger banner annimation
+    // Trigger banner animation
     var clonedElement = element.cloneNode(true);
     element.parentNode.replaceChild(clonedElement, element);
   }
@@ -249,7 +249,7 @@ function CollapsibleDivUtils() {
    */
   function collapsibleContentListener() {
     // Can't use self here, need to use this. Also can't use an annonymous function () => {}
-    this.classList.toggle("collapsible-kh-active");
+    domUtils.classListToggle(this, "collapsible-kh-active");
     let content = this.nextElementSibling;
     if (content.style.maxHeight) {
       domUtils.setStyle(content, "maxHeight", null);
@@ -444,6 +444,21 @@ function DomUtils() {
   let self = this;
 
   /** ------ Manipulation through plain js --------------------------------- */
+
+  /** Add a class to the element (non jq) */
+  this.classListAdd = (element, className) => {
+    element.classList.add(className);
+  }
+
+  /** Remove a class from the element (non jq) */
+  this.classListRemove = (element, className) => {
+    element.classList.remove(className);
+  }
+
+  /** Toggle a class on the element (non jq) */
+  this.classListToggle = (element, className) => {
+    element.classList.toggle(className);
+  }
 
   /** Set the html to the element (non jq) */
   this.setInnerHtml = (element, html) => {
@@ -739,10 +754,10 @@ function ModuleUtils() {
     // Update tab links
     let tabLinks = document.getElementsByClassName("tab-kh-link");
     for (let i = 0; i < tabLinks.length; i++) {
-      tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+      domUtils.classListRemove(tabLinks[i], "active");
     }
     let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
-    selectedTabLink.classList.add("active");
+    domUtils.classListAdd(selectedTabLink, "active");
 
     // Update tab content visibility
     let kamehouseTabContent = document.getElementsByClassName("tab-content-kh");

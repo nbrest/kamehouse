@@ -69,10 +69,10 @@ function VlcPlayer(hostname) {
     // Update tab links
     let vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
     for (let i = 0; i < vlcPlayerTabLinks.length; i++) {
-      vlcPlayerTabLinks[i].className = vlcPlayerTabLinks[i].className.replace(" active", "");
+      domUtils.classListRemove(vlcPlayerTabLinks[i], "active");
     }
     let vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
-    vlcPlayerTabLink.classList.add("active");
+    domUtils.classListAdd(vlcPlayerTabLink, "active");
 
     // Update tab content visibility
     let vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");

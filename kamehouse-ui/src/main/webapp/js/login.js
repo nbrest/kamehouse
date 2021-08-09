@@ -5,11 +5,11 @@ function setAlertMessages() {
   const logout = urlParams.get('logout');
   if (!isNullOrUndefined(error)) {
     let element = document.getElementById("login-alert-group-error");
-    element.classList.remove("hidden-kh");
+    domUtils.classListRemove(element, "hidden-kh");
   }
   if (!isNullOrUndefined(logout)) {
     let element = document.getElementById("login-alert-group-logout");
-    element.classList.remove("hidden-kh");
+    domUtils.classListRemove(element, "hidden-kh");
   }
 }
 

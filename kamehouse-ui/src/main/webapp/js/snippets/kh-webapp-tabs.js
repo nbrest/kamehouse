@@ -44,10 +44,10 @@ function KameHouseWebappTabsManager() {
     // Update tab links
     let kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
     for (let i = 0; i < kamehouseTabLinks.length; i++) {
-      kamehouseTabLinks[i].className = kamehouseTabLinks[i].className.replace(" active", "");
+      domUtils.classListRemove(kamehouseTabLinks[i], "active");
     }
     let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
-    selectedTabLink.classList.add("active");
+    domUtils.classListAdd(selectedTabLink, "active");
 
     // Update tab content visibility
     let kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");

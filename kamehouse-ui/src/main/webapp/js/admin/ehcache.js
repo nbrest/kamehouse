@@ -118,10 +118,10 @@ function EhCacheManager() {
 
     let toggeableClasses = ehcacheTableDiv.getElementsByClassName("toggle-ehcache-table-template")
     for (var i = 0; i < toggeableClasses.length; i++) {
-      toggeableClasses.item(i).classList.add("toggle-ehcache-table-" + cacheName);
+      domUtils.classListAdd(toggeableClasses.item(i), "toggle-ehcache-table-" + cacheName);
     }
     for (var i = 0; i < toggeableClasses.length; i++) {
-      toggeableClasses.item(i).classList.remove("toggle-ehcache-table-template");
+      domUtils.classListRemove(toggeableClasses.item(i), "toggle-ehcache-table-template");
     }
    
     return ehcacheTableDiv;
