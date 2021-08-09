@@ -199,7 +199,7 @@ function BannerUtils() {
   /** Update the server name in the banner */
   this.updateServerName = () => {
     if (!isNullOrUndefined(global.session.server)) {
-      $("#banner-server-name").text(global.session.server);
+      domUtils.setHtml($("#banner-server-name"), global.session.server);
     }
   }
   
@@ -414,14 +414,14 @@ function CursorUtils() {
 
   /** Set the cursor to a wait spinning wheel */
   this.setCursorWait = () => {
-    $('html').addClass("wait");
-    $('#spinning-wheel-mobile-wrapper').removeClass("hidden-kh");
+    domUtils.addClass($('html'), "wait");
+    domUtils.removeClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
   }
 
   /** Set the cursor to default shape */
   this.setCursorDefault = () => {
-    $('html').removeClass("wait");
-    $('#spinning-wheel-mobile-wrapper').addClass("hidden-kh");
+    domUtils.removeClass($('html'), "wait");
+    domUtils.addClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
   }
 
   /**
@@ -473,6 +473,20 @@ function DomUtils() {
     if (html) {
       element.html(html);
     }
+  }
+
+  /**
+   * Add a class to an element.
+   */
+  this.addClass = (element, className) => {
+    element.addClass(className);
+  }
+
+  /**
+   * Remove a class from an element.
+   */
+  this.removeClass = (element, className) => {
+    element.removeClass(className);
   }
 
   /**

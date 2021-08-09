@@ -55,7 +55,7 @@ function TailLogManager() {
   this.setScriptName = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
-    $("#st-script-name").text(scriptName);
+    domUtils.setHtml($("#st-script-name"), scriptName);
   }
 
   /** Update the script tail log output with the result of the script */
@@ -119,8 +119,8 @@ function TailLogManager() {
   /** Update server name */
   this.updateServerName = (sessionStatus) => {
     if (!isNullOrUndefined(sessionStatus.server)) {
-      $("#st-server-name").text(sessionStatus.server);
-      $("#banner-server-name").text(sessionStatus.server);
+      domUtils.setHtml($("#st-server-name"), sessionStatus.server);
+      domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
 

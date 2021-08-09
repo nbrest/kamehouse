@@ -84,10 +84,10 @@ function EhCacheManager() {
       $cacheData.append(self.getEhCacheTableFromTemplate(cache.name));
       $cacheData.append($(domUtils.getBr()));
 
-      $('#ehcache-table-' + cache.name + '-header').text(cache.name);
-      $('#ehcache-table-' + cache.name + '-status-val').text(cache["status"]);
-      $('#ehcache-table-' + cache.name + '-keys-val').text(cache["keys"]);
-      $('#ehcache-table-' + cache.name + '-values-val').text(cache["values"]);
+      domUtils.setHtml($('#ehcache-table-' + cache.name + '-header'), cache.name);
+      domUtils.setHtml($('#ehcache-table-' + cache.name + '-status-val'), cache["status"]);
+      domUtils.setHtml($('#ehcache-table-' + cache.name + '-keys-val'), cache["keys"]);
+      domUtils.setHtml($('#ehcache-table-' + cache.name + '-values-val'), cache["values"]);
 
       $("#clear-ehcache-table-" + cache.name).click(
         () => self.clearCacheData(cache.name, webapp)
@@ -140,7 +140,7 @@ function EhCacheManager() {
     let $cacheData = $("#cache-data-" + webapp);
     $cacheData.append(ehcacheErrorTableDiv);
     // Update the message
-    $("#ehcache-table-" + webapp + "-error-val").text(timeUtils.getTimestamp() +
+    domUtils.setHtml($("#ehcache-table-" + webapp + "-error-val"), timeUtils.getTimestamp() +
       " : Error retrieving cache data. Please try again later.");
 
     logger.error("Error retrieving cache data. Please try again later.");

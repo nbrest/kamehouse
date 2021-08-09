@@ -78,20 +78,20 @@ function GrootHeader() {
   function updateGRootMenuActiveTab() {
     let pageUrl = window.location.pathname;
     $("#groot-menu a").toArray().forEach((navItem) => {
-      $(navItem).removeClass("active");
+      domUtils.removeClass($(navItem), "active");
       if (pageUrl == "/kame-house-groot/") {
         if ($(navItem).attr("id") == "nav-groot-home") {
-          $(navItem).addClass("active");
+          domUtils.addClass($(navItem), "active");
         }
       }
       if (pageUrl.startsWith("/kame-house-groot/admin/server-manager")) {
         if ($(navItem).attr("id") == "nav-server-manager") {
-          $(navItem).addClass("active");
+          domUtils.addClass($(navItem), "active");
         }
       }
       if (pageUrl.startsWith("/kame-house-groot/admin/my-scripts")) {
         if ($(navItem).attr("id") == "nav-my-scripts") {
-          $(navItem).addClass("active");
+          domUtils.addClass($(navItem), "active");
         }
       }
     });

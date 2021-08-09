@@ -35,10 +35,10 @@ function ScriptExecutor() {
       logger.info("Executing script : " + scriptName + " with args : " + args);
       if (!skipUpdateView) {
         self.updateScriptExecutionStartDate();
-        $('#script-output-header').addClass("hidden-kh");
-        $('#btn-execute-script').addClass("hidden-kh");
-        $('#btn-download-script-output').addClass("hidden-kh");
-        $('#script-output').addClass("hidden-kh");
+        domUtils.addClass($('#script-output-header'), "hidden-kh");
+        domUtils.addClass($('#btn-execute-script'), "hidden-kh");
+        domUtils.addClass($('#btn-download-script-output'), "hidden-kh");
+        domUtils.addClass($('#script-output'), "hidden-kh");
         self.setScriptExecutingScriptOutput(scriptName, args);
         self.setBannerScriptStatus("in progress...");
       } else {
@@ -57,13 +57,13 @@ function ScriptExecutor() {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
-    $("#st-script-name").text(scriptName);
-    $("#st-script-args").text(args);
+    domUtils.setHtml($("#st-script-name"), scriptName);
+    domUtils.setHtml($("#st-script-args"), args);
   }
 
   /** Set the script ouput to show that the script is currently executing */
   this.setScriptExecutingScriptOutput = (scriptName, args) => {
-    $('#script-output-executing-wrapper').removeClass("hidden-kh");
+    domUtils.removeClass($('#script-output-executing-wrapper'), "hidden-kh");
     $("#script-output-executing").html(self.getScriptExecutingMessage(scriptName, args));
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
@@ -112,12 +112,12 @@ function ScriptExecutor() {
       $scriptOutputTableBody.replaceWith(tbody);
   
       // Update the view
-      $('#script-output-header').removeClass("hidden-kh");
-      $('#btn-execute-script').removeClass("hidden-kh");
-      $('#script-output').removeClass("hidden-kh");
-      $('#script-output-executing-wrapper').addClass("hidden-kh");
+      domUtils.removeClass($('#script-output-header'), "hidden-kh");
+      domUtils.removeClass($('#btn-execute-script'), "hidden-kh");
+      domUtils.removeClass($('#script-output'), "hidden-kh");
+      domUtils.addClass($('#script-output-executing-wrapper'), "hidden-kh");
       self.setBannerScriptStatus("finished!");
-      $('#btn-download-script-output').removeClass("hidden-kh");  
+      domUtils.removeClass($('#btn-download-script-output'), "hidden-kh");  
     } else {
       logger.trace("Skipping view update");
     }
@@ -140,10 +140,10 @@ function ScriptExecutor() {
       $scriptOutputTableBody.replaceWith(tbody);
   
       // Update the view
-      $('#script-output-header').removeClass("hidden-kh");
-      $('#btn-execute-script').removeClass("hidden-kh");
-      $('#script-output').removeClass("hidden-kh");
-      $('#script-output-executing-wrapper').addClass("hidden-kh");
+      domUtils.removeClass($('#script-output-header'), "hidden-kh");
+      domUtils.removeClass($('#btn-execute-script'), "hidden-kh");
+      domUtils.removeClass($('#script-output'), "hidden-kh");
+      domUtils.addClass($('#script-output-executing-wrapper'), "hidden-kh");
       self.setBannerScriptStatus("finished!");
     } else {
       logger.trace("Skipping view update");
@@ -161,8 +161,8 @@ function ScriptExecutor() {
   /** Update server name */
   this.updateServerName = (sessionStatus) => {
     if (!isNullOrUndefined(sessionStatus.server)) {
-      $("#st-server-name").text(sessionStatus.server);
-      $("#banner-server-name").text(sessionStatus.server);
+      domUtils.setHtml($("#st-server-name"), sessionStatus.server);
+      domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
 
@@ -171,8 +171,8 @@ function ScriptExecutor() {
     let clientDate = new Date();
     let clientMonth = clientDate.getMonth() + 1;
     let clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
-    $("#st-script-exec-start-date").text(clientTimeAndDate);
-    $("#st-script-exec-end-date").text("");
+    domUtils.setHtml($("#st-script-exec-start-date"), clientTimeAndDate);
+    domUtils.setHtml($("#st-script-exec-end-date"), "");
   }
 
   /** Update script execution end date */
@@ -180,7 +180,7 @@ function ScriptExecutor() {
     let clientDate = new Date();
     let clientMonth = clientDate.getMonth() + 1;
     let clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
-    $("#st-script-exec-end-date").text(clientTimeAndDate);
+    domUtils.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
   }
 
   /** Allow the user to download the full bash script output */
@@ -195,7 +195,7 @@ function ScriptExecutor() {
   }
 
   this.setBannerScriptStatus = (status) => {
-    $("#banner-script-status").text(status);
+    domUtils.setHtml($("#banner-script-status"), status);
   }
 
   this.getDownloadLink = (timestamp) => {

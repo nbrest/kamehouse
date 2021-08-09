@@ -94,7 +94,7 @@ function ServerManager() {
   /** Update server name */
   this.updateServerName = (sessionStatus) => {
     if (!isNullOrUndefined(sessionStatus.server)) {
-      $("#banner-server-name").text(sessionStatus.server);
+      domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
   
@@ -329,8 +329,8 @@ function DeploymentManager() {
    */
   this.resetModuleStatus = (module) => {
     $("#mst-" + module + "-status-val").html(self.statusBallBlueImg.cloneNode(true));
-    $("#mst-" + module + "-build-version-val").text("N/A");
-    $("#mst-" + module + "-build-date-val").text("N/A");
+    domUtils.setHtml($("#mst-" + module + "-build-version-val"), "N/A");
+    domUtils.setHtml($("#mst-" + module + "-build-date-val"), "N/A");
   }
 
   /**

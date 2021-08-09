@@ -58,7 +58,7 @@ function MyScriptsManager() {
   /** Update server name */
   this.updateServerName = (sessionStatus) => {
     if (!isNullOrUndefined(sessionStatus.server)) {
-      $("#banner-server-name").text(sessionStatus.server);
+      domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
 

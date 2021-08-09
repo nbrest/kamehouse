@@ -160,14 +160,14 @@ function ModalUtils(modalId) {
       autoCloseMs = self.DEFAULT_AUTO_CLOSE_SEC;
     }
     let autoCloseId = modalId + "-autoclose";
-    $("#" + autoCloseId).removeClass("hidden-kh");
+    domUtils.removeClass($("#" + autoCloseId), "hidden-kh");
     while (autoCloseMs > 0) {
       let secondsRemaining = autoCloseMs / 1000;
-      $("#" + autoCloseId).text("Closing in " + secondsRemaining + " seconds");
+      domUtils.setHtml($("#" + autoCloseId), "Closing in " + secondsRemaining + " seconds");
       autoCloseMs = autoCloseMs - 1000;
       await sleep(1000);
     }
-    $("#" + autoCloseId).addClass("hidden-kh");
+    domUtils.addClass($("#" + autoCloseId), "hidden-kh");
     self.close();
   }
 

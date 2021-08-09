@@ -371,7 +371,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
       mediaName.filename = self.vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = self.vlcPlayer.getVlcRcStatus().information.meta.title;
     }
-    $("#media-title").text(mediaName.filename);
+    domUtils.setHtml($("#media-title"), mediaName.filename);
   }
 
   /** Reset the media title. */
@@ -379,7 +379,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     let mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    $("#media-title").text(mediaName.filename);
+    domUtils.setHtml($("#media-title"), mediaName.filename);
   }
 
   /** Update subtitle delay. */
@@ -388,12 +388,12 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     if (isNullOrUndefined(subtitleDelay)) {
       subtitleDelay = "0";
     }
-    $("#subtitle-delay-value").text(subtitleDelay);
+    domUtils.setHtml($("#subtitle-delay-value"), subtitleDelay);
   }
 
   /** Reset subtitle delay. */
   this.resetSubtitleDelay = () => {
-    $("#subtitle-delay-value").text("0");
+    domUtils.setHtml($("#subtitle-delay-value"), "0");
   }
 
   /**
@@ -414,9 +414,9 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Reset time slider. */
   this.resetTimeSlider = () => {
-    $("#current-time").text("--:--:--");
+    domUtils.setHtml($("#current-time"), "--:--:--");
     $("#time-slider").val(500);
-    $("#total-time").text("--:--:--");
+    domUtils.setHtml($("#total-time"), "--:--:--");
     domUtils.setAttr($("#time-slider"),'max', 1000);
   }
 
@@ -431,7 +431,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update the displayed total time. */
   this.updateTotalTimeView = (value) => {
     //logger.trace("Total time: " + value);
-    $("#total-time").text(timeUtils.convertSecondsToHsMsSs(value));
+    domUtils.setHtml($("#total-time"), timeUtils.convertSecondsToHsMsSs(value));
     domUtils.setAttr($("#time-slider"),'max', value);
   }
 
@@ -500,14 +500,14 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
 
   /** Set media button pressed */
   this.setMediaButtonPressed = () => {
-    $('#' + self.id).removeClass(self.btnPrefixClass + '-unpressed');
-    $('#' + self.id).addClass(self.btnPrefixClass + '-pressed');
+    domUtils.removeClass($('#' + self.id), self.btnPrefixClass + '-unpressed');
+    domUtils.addClass($('#' + self.id), self.btnPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
   this.setMediaButtonUnpressed = () => {
-    $('#' + self.id).removeClass(self.btnPrefixClass + '-pressed');
-    $('#' + self.id).addClass(self.btnPrefixClass + '-unpressed');
+    domUtils.removeClass($('#' + self.id), self.btnPrefixClass + '-pressed');
+    domUtils.addClass($('#' + self.id), self.btnPrefixClass + '-unpressed');
   }
 }
 
@@ -818,8 +818,8 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
     //logger.trace("currentPlId: " + currentPlId);
     let currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
-    $('#playlist-table-body tr td button').removeClass("active");
-    $("#" + currentPlIdAsRowId).children().children().addClass("active");
+    domUtils.removeClass($('#playlist-table-body tr td button'), "active");
+    domUtils.addClass($("#" + currentPlIdAsRowId).children().children(), "active");
   }
 
   /** Toggle expand or collapse filenames in the playlist */

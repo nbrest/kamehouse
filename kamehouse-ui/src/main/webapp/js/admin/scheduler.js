@@ -78,11 +78,11 @@ function Scheduler() {
       $jobsData.append(self.getTableFromTemplate(tableIdKey));
       $jobsData.append(domUtils.getBr());
 
-      $("#scheduler-table-" + tableIdKey + "-name-val").text(jobEntry.key.name);
-      $("#scheduler-table-" + tableIdKey + "-key-val").text(jobEntry.key.group + "." + jobEntry.key.name);
-      $("#scheduler-table-" + tableIdKey + "-description-val").text(jobEntry.description);
-      $("#scheduler-table-" + tableIdKey + "-jobclass-val").text(jobEntry.jobClass);
-      $("#scheduler-table-" + tableIdKey + "-schedule-val").text(self.formatSchedule(jobEntry.schedules));
+      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
+      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
+      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
+      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
+      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), self.formatSchedule(jobEntry.schedules));
 
       $("#clear-scheduler-table-" + tableIdKey).click(() => {
         logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));

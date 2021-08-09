@@ -90,14 +90,14 @@ function ServerManager() {
   /** Update the status of Shutdown command */
   function processSuccessShutdownStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    $("#shutdown-status").text(responseBody.message);
+    domUtils.setHtml($("#shutdown-status"), responseBody.message);
   }
 
   /** Update the status of Shutdown command with an error */
   function processErrorShutdownStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    $("#shutdown-status").text("Error getting the status of Shutdown command");
+    domUtils.setHtml($("#shutdown-status"), "Error getting the status of Shutdown command");
   }
 
   /**
@@ -143,14 +143,14 @@ function ServerManager() {
   /** Update the status of suspend command */
   function processSuccessSuspendStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    $("#suspend-status").text(responseBody.message);
+    domUtils.setHtml($("#suspend-status"), responseBody.message);
   }
 
   /** Update the status of suspend command with an error */
   function processErrorSuspendStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    $("#suspend-status").text("Error getting the status of Suspend command");
+    domUtils.setHtml($("#suspend-status"), "Error getting the status of Suspend command");
   }
 
   /**
@@ -250,9 +250,9 @@ function ServerManager() {
     loadingWheelModal.close();
     if (responseCode != 404) {
       basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-      $("#httpd-status").text("Error getting the status of the apache httpd server");      
+      domUtils.setHtml($("#httpd-status"), "Error getting the status of the apache httpd server");      
     } else {
-      $("#httpd-status").text("Unable to get the status of apache httpd server. Is it running?");   
+      domUtils.setHtml($("#httpd-status"), "Unable to get the status of apache httpd server. Is it running?");   
     }
   }
 

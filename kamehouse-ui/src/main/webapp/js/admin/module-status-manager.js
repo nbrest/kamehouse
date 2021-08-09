@@ -60,15 +60,15 @@ function ModuleStatusManager() {
    */
   this.displayModuleStatus = (moduleStatus) => {
     let webapp = moduleStatus["module"];
-    $('#mst-' + webapp + '-build-version-val').text(moduleStatus["buildVersion"]);
-    $('#mst-' + webapp + '-build-date-val').text(moduleStatus["buildDate"]);
+    domUtils.setHtml($('#mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
+    domUtils.setHtml($('#mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
   }
 
   /**
    * Display error getting data.
    */
   this.displayErrorGettingModuleStatus = (webapp) => {
-    $("#mst-" + webapp + "-error").removeClass("hidden-kh");
+    domUtils.removeClass($("#mst-" + webapp + "-error"), "hidden-kh");
     logger.error("Error retrieving module status data for " + webapp + ". Please try again later.");
   }
 }

@@ -70,13 +70,13 @@ function Footer() {
   /** Update the server name, and build info in the footer */
   this.updateFooterWithSessionInfo = () => {
     if (!isNullOrUndefined(global.session.server)) {
-      $("#footer-server-name").text(global.session.server);
+      domUtils.setHtml($("#footer-server-name"), global.session.server);
     }
     if (!isNullOrUndefined(global.session.buildVersion)) {
-      $("#footer-build-version").text(global.session.buildVersion);
+      domUtils.setHtml($("#footer-build-version"), global.session.buildVersion);
     }
     if (!isNullOrUndefined(global.session.buildDate)) {
-      $("#footer-build-date").text(global.session.buildDate);
+      domUtils.setHtml($("#footer-build-date"), global.session.buildDate);
     }
   }
 
@@ -111,26 +111,26 @@ function Header() {
   this.updateActiveTab = () => {
     let pageUrl = window.location.pathname;
     $("#headerContainer header .default-layout #header-menu a").toArray().forEach((navItem) => {
-      $(navItem).removeClass("active");
+      domUtils.removeClass($(navItem), "active");
       switch (pageUrl) {
         case "/kame-house/":
           if ($(navItem).attr("id") == "nav-home") {
-            $(navItem).addClass("active");
+            domUtils.addClass($(navItem), "active");
           }
           break;
         case "/kame-house/about":
           if ($(navItem).attr("id") == "nav-about") {
-            $(navItem).addClass("active");
+            domUtils.addClass($(navItem), "active");
           }
           break;
         case "/kame-house/contact-us":
           if ($(navItem).attr("id") == "nav-contact-us") {
-            $(navItem).addClass("active");
+            domUtils.addClass($(navItem), "active");
           }
           break;
         case "/kame-house-groot":
           if ($(navItem).attr("id") == "nav-groot") {
-            $(navItem).addClass("active");
+            domUtils.addClass($(navItem), "active");
           }
           break;
         default:
@@ -138,22 +138,22 @@ function Header() {
       }
       if (pageUrl.includes("/kame-house/admin")) {
         if ($(navItem).attr("id") == "nav-admin") {
-          $(navItem).addClass("active");
+          domUtils.addClass($(navItem), "active");
         }
       }
       if (pageUrl.includes("/kame-house/test-module")) {
         if ($(navItem).attr("id") == "nav-test-module") {
-          $(navItem).addClass("active");
+          domUtils.addClass($(navItem), "active");
         }
       }
       if (pageUrl.includes("/kame-house/vlc-player")) {
         if ($(navItem).attr("id") == "nav-vlc-player") {
-          $(navItem).addClass("active");
+          domUtils.addClass($(navItem), "active");
         }
       }
       if (pageUrl.startsWith("/kame-house-groot")) {
         if ($(navItem).attr("id") == "nav-groot") {
-          $(navItem).addClass("active");
+          domUtils.addClass($(navItem), "active");
         }
       }
     });

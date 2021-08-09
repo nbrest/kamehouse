@@ -67,14 +67,14 @@ function Scheduler() {
   /** Update the status of SampleJob command */
   function processSuccessSampleJobStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    $("#sample-job-status").text(responseBody.message);
+    domUtils.setHtml($("#sample-job-status"), responseBody.message);
   }
 
   /** Update the status of SampleJob command with an error */
   function processErrorSampleJobStatus(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    $("#sample-job-status").text("Error getting the status of SampleJob command");
+    domUtils.setHtml($("#sample-job-status"), "Error getting the status of SampleJob command");
   }
 }
 

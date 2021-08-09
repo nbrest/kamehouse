@@ -105,7 +105,7 @@ function KameHouseDebugger() {
       self.requests.shift();
     }
     self.requests.push(request);
-    $('#debugger-http-client-previous-requests-val').text(JSON.stringify(self.requests, null, 2));
+    domUtils.setHtml($('#debugger-http-client-previous-requests-val'), JSON.stringify(self.requests, null, 2));
     collapsibleDivUtils.setCollapsibleContent();
   }
 
@@ -115,9 +115,9 @@ function KameHouseDebugger() {
   this.displayResponseData = function displayResponseData(responseBody, responseCode) {
     logger.trace(arguments.callee.name);
     let responseTimestamp = timeUtils.getTimestamp();
-    $("#debugger-http-client-res-code-val").text(responseCode);
-    $("#debugger-http-client-res-timestamp-val").text(responseTimestamp);
-    $("#debugger-http-client-res-body-val").text(JSON.stringify(responseBody, null, 2));
+    domUtils.setHtml($("#debugger-http-client-res-code-val"), responseCode);
+    domUtils.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
+    domUtils.setHtml($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
     collapsibleDivUtils.setCollapsibleContent();
   }
 
@@ -129,13 +129,13 @@ function KameHouseDebugger() {
     self.emptyDebuggerHttpClientDiv();
     document.getElementById("debugger-http-client").innerHTML = self.debuggerHttpClientDivTemplate;
     let requestTimestamp = timeUtils.getTimestamp();
-    $('#debugger-http-client-req-timestamp-val').text(requestTimestamp);
-    $('#debugger-http-client-req-url-val').text(url);
-    $('#debugger-http-client-req-type-val').text(requestType);
-    $('#debugger-http-client-req-body-val').text(JSON.stringify(requestBody, null, 2));
-    $('#debugger-http-client-res-code-val').text(null);
-    $('#debugger-http-client-res-timestamp-val').text(null);
-    $('#debugger-http-client-res-body-val').text(JSON.stringify(null, null, 2));
+    domUtils.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
+    domUtils.setHtml($('#debugger-http-client-req-url-val'), url);
+    domUtils.setHtml($('#debugger-http-client-req-type-val'), requestType);
+    domUtils.setHtml($('#debugger-http-client-req-body-val'), JSON.stringify(requestBody, null, 2));
+    domUtils.setHtml($('#debugger-http-client-res-code-val'), null);
+    domUtils.setHtml($('#debugger-http-client-res-timestamp-val'), null);
+    domUtils.setHtml($('#debugger-http-client-res-body-val'), JSON.stringify(null, null, 2));
     collapsibleDivUtils.setCollapsibleContent();
   }
 

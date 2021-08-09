@@ -9,7 +9,7 @@ function setClientTimeAndDate() {
 /** Update page banner with server name */
 function updateBanner() {
   if (!isNullOrUndefined(global.groot.session.server)) {
-    $("#banner-h1").text(global.groot.session.server);
+    domUtils.setHtml($("#banner-h1"), global.groot.session.server);
   }
 }
 

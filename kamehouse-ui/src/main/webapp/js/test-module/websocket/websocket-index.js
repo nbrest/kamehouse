@@ -33,19 +33,19 @@ var main = () => {
 function setConnected(isConnected) {
   logger.trace(arguments.callee.name);
   if (isConnected) {
-    $("#connect").addClass("hidden-kh");
-    $("#connected").removeClass("hidden-kh");
-    $("#disconnect").removeClass("hidden-kh");
-    $("#disconnected").addClass("hidden-kh");
-    $("#send-label").removeClass("hidden-kh");
-    $("#send").removeClass("hidden-kh");
+    domUtils.addClass($("#connect"), "hidden-kh");
+    domUtils.removeClass($("#connected"), "hidden-kh");
+    domUtils.removeClass($("#disconnect"), "hidden-kh");
+    domUtils.addClass($("#disconnected"), "hidden-kh");
+    domUtils.removeClass($("#send-label"), "hidden-kh");
+    domUtils.removeClass($("#send"), "hidden-kh");
   } else {
-    $("#connect").removeClass("hidden-kh");
-    $("#connected").addClass("hidden-kh");
-    $("#disconnect").addClass("hidden-kh");
-    $("#disconnected").removeClass("hidden-kh");
-    $("#send-label").addClass("hidden-kh");
-    $("#send").addClass("hidden-kh");
+    domUtils.removeClass($("#connect"), "hidden-kh");
+    domUtils.addClass($("#connected"), "hidden-kh");
+    domUtils.addClass($("#disconnect"), "hidden-kh");
+    domUtils.removeClass($("#disconnected"), "hidden-kh");
+    domUtils.addClass($("#send-label"), "hidden-kh");
+    domUtils.addClass($("#send"), "hidden-kh");
   }
   $("#websocket-responses").html("");
   if (isConnected) {
