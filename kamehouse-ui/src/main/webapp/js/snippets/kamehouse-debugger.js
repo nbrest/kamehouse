@@ -127,7 +127,7 @@ function KameHouseDebugger() {
   this.displayRequestData = function displayRequestData(url, requestType, requestBody) {
     logger.trace(arguments.callee.name);
     self.emptyDebuggerHttpClientDiv();
-    document.getElementById("debugger-http-client").innerHTML = self.debuggerHttpClientDivTemplate;
+    domUtils.setInnerHtml(document.getElementById("debugger-http-client"), self.debuggerHttpClientDivTemplate);
     let requestTimestamp = timeUtils.getTimestamp();
     domUtils.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
     domUtils.setHtml($('#debugger-http-client-req-url-val'), url);

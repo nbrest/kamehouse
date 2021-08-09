@@ -3,7 +3,7 @@ function setClientTimeAndDate() {
   let clientDate = new Date();
   let clientMonth = clientDate.getMonth() + 1;
   let clientTimeAndDate = "  Client: " + clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
-  document.getElementById("client-time-and-date").innerHTML = clientTimeAndDate;
+  domUtils.setInnerHtml(document.getElementById("client-time-and-date"), clientTimeAndDate);
 }
 
 /** Update page banner with server name */

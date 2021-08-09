@@ -134,7 +134,7 @@ function refreshPageLoop() {
     countdownCounter = 60;
   }
   if (countdownCounter > 0) {
-    document.getElementById('count').innerHTML = countdownCounter--;
+    domUtils.setInnerHtml(document.getElementById('count'), countdownCounter--);
     setTimeout(refreshPageLoop, 1000);
   } else {
     location.href = '/';

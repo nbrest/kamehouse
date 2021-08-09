@@ -436,6 +436,8 @@ function CursorUtils() {
 
 /**
  * Functionality that manipulates dom elements.
+ * 
+ * Anything that manipulates the dom should go through here.
  */
 function DomUtils() {
   let self = this;
@@ -472,6 +474,13 @@ function DomUtils() {
   this.setHtml = (element, html) => {
     if (html) {
       element.html(html);
+    }
+  }
+
+  /** Set the html to the element (non jq) */
+  this.setInnerHtml = (element, html) => {
+    if (html) {
+      element.innerHTML = html;
     }
   }
 

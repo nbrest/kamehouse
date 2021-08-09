@@ -424,7 +424,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   this.updateCurrentTimeView = (value) => {
     //logger.trace("Current time: " + value);
     let currentTime = document.getElementById("current-time");
-    currentTime.innerHTML = timeUtils.convertSecondsToHsMsSs(value);
+    domUtils.setInnerHtml(currentTime, timeUtils.convertSecondsToHsMsSs(value));
     domUtils.setVal($("#time-slider"), value);
   }
 
@@ -459,7 +459,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     domUtils.setVal($("#volume-slider"), value);
     let volumePercentaje = Math.floor(value * 200 / 512);
     let currentVolume = document.getElementById("current-volume");
-    currentVolume.innerHTML = volumePercentaje + "%";
+    domUtils.setInnerHtml(currentVolume, volumePercentaje + "%");
   }
 }
 
