@@ -239,22 +239,22 @@ function CollapsibleDivUtils() {
     let collapsibleElements = document.getElementsByClassName("collapsible-kh");
     let i;
     for (i = 0; i < collapsibleElements.length; i++) {
-      collapsibleElements[i].removeEventListener("click", self.collapsibleContentListener);
-      collapsibleElements[i].addEventListener("click", self.collapsibleContentListener);
+      collapsibleElements[i].removeEventListener("click", collapsibleContentListener);
+      collapsibleElements[i].addEventListener("click", collapsibleContentListener);
     }
   }
 
   /**
    * Function to toggle height of the collapsible elements from null to it's scrollHeight.
    */
-  this.collapsibleContentListener = function collapsibleContentListener() {
+  function collapsibleContentListener() {
     // Can't use self here, need to use this. Also can't use an annonymous function () => {}
     this.classList.toggle("collapsible-kh-active");
     let content = this.nextElementSibling;
     if (content.style.maxHeight) {
-      content.style.maxHeight = null;
+      domUtils.setStyle(content, "maxHeight", null);
     } else {
-      content.style.maxHeight = content.scrollHeight + "px";
+      domUtils.setStyle(content, "maxHeight", content.scrollHeight + "px");
     }
   }
 }
@@ -443,13 +443,60 @@ function CursorUtils() {
 function DomUtils() {
   let self = this;
 
+  /** ------ Manipulation through plain js --------------------------------- */
+
+  /** Set the html to the element (non jq) */
+  this.setInnerHtml = (element, html) => {
+    if (html) {
+      element.innerHTML = html;
+    }
+  }
+
+  /** Set the html to the element (non jq) */
+  this.setStyle = (element, styleProperty, stylePropertyValue) => {
+    element.style[styleProperty] = stylePropertyValue;
+  }
+
+  /**
+   * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
+   */
+  this.getElementFromTemplate = (htmlTemplate) => {
+    let domElementWrapper = document.createElement('div');
+    domElementWrapper.innerHTML = htmlTemplate;
+    return domElementWrapper.firstChild;
+  }
+
+  /**
+   * Create a new image using the specified config object which should have a format: 
+   * {
+   *    id: "",
+   *    src: "",
+   *    className: "",
+   *    alt: "",
+   *    onClick: () => {}
+   * }
+   */
+   this.getImgBtn = (config) => {
+    let img = new Image();
+    if (config.id) {
+      img.id = config.id;
+    }
+    img.src = config.src;
+    img.className = config.className;
+    img.alt = config.alt;
+    img.title = config.alt;
+    img.onclick = config.onClick;
+    return img;
+  }
+
+  /** ------ Manipulation through jQuery --------------------------------- */
   /**
    * Get DOM node from JQuery element.
    */
-  this.getDomNode = (jqueryElement) => {
+   this.getDomNode = (jqueryElement) => {
     return jqueryElement.get(0);
   }
-
+  
   /**
    * Empty the specified div.
    */
@@ -478,13 +525,6 @@ function DomUtils() {
     }
   }
 
-  /** Set the html to the element (non jq) */
-  this.setInnerHtml = (element, html) => {
-    if (html) {
-      element.innerHTML = html;
-    }
-  }
-
   /**
    * Set the value in an element. Usually used for input fields with a value property.
    */
@@ -504,15 +544,6 @@ function DomUtils() {
    */
   this.removeClass = (element, className) => {
     element.removeClass(className);
-  }
-
-  /**
-   * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
-   */
-  this.getElementFromTemplate = (htmlTemplate) => {
-    let domElementWrapper = document.createElement('div');
-    domElementWrapper.innerHTML = htmlTemplate;
-    return domElementWrapper.firstChild;
   }
 
   this.getA = (attr, html) => {
@@ -584,29 +615,6 @@ function DomUtils() {
     let btn = getElement('button', config.attr, config.html);
     btn.click(config.clickData, config.click);
     return btn;
-  }
-
-  /**
-   * Create a new image using the specified config object which should have a format: 
-   * {
-   *    id: "",
-   *    src: "",
-   *    className: "",
-   *    alt: "",
-   *    onClick: () => {}
-   * }
-   */
-  this.getImgBtn = (config) => {
-    let img = new Image();
-    if (config.id) {
-      img.id = config.id;
-    }
-    img.src = config.src;
-    img.className = config.className;
-    img.alt = config.alt;
-    img.title = config.alt;
-    img.onclick = config.onClick;
-    return img;
   }
 
   /** Create an element with the specified tag, attributes and html */
@@ -739,10 +747,10 @@ function ModuleUtils() {
     // Update tab content visibility
     let kamehouseTabContent = document.getElementsByClassName("tab-content-kh");
     for (let i = 0; i < kamehouseTabContent.length; i++) {
-      kamehouseTabContent[i].style.display = "none";
+      domUtils.setStyle(kamehouseTabContent[i], "display", "none");
     }
     let selectedTabDiv = document.getElementById(selectedTabDivId);
-    selectedTabDiv.style.display = "block";
+    domUtils.setStyle(selectedTabDiv, "display", "block");
   }
 
   /**
