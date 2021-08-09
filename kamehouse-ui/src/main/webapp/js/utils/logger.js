@@ -87,7 +87,7 @@ function Logger() {
       // Remove first log N entries
       let logEntriesSize = debugModeConsoleLog.childElementCount;
       while (logEntriesSize > DEBUG_MODE_LOG_SIZE) {
-        debugModeConsoleLog.removeChild(debugModeConsoleLog.firstChild);
+        domUtils.removeChild(debugModeConsoleLog, debugModeConsoleLog.firstChild);
         logEntriesSize = debugModeConsoleLog.childElementCount;
       }
       // Add new log entry

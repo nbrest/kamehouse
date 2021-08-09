@@ -537,6 +537,20 @@ function DomUtils() {
   }
 
   /**
+   * Append the child to parent.
+   */
+   this.appendChild = (parent, child) => {
+    parent.appendChild(child);
+  }
+
+  /**
+   * Remove the child from parent.
+   */
+   this.removeChild = (parent, child) => {
+    parent.removeChild(child);
+  }
+
+  /**
    * Set an attribute in an element.
    */
   this.setAttr = (element, attrKey, attrValue) => {

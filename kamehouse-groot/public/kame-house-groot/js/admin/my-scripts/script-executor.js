@@ -189,9 +189,9 @@ function ScriptExecutor() {
     let clientMonth = clientDate.getMonth() + 1;
     let timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
     let downloadLink = self.getDownloadLink(timestamp);
-    document.body.appendChild(downloadLink);
+    domUtils.appendChild(document.body, downloadLink);
     downloadLink.click();
-    document.body.removeChild(downloadLink);
+    domUtils.removeChild(document.body, downloadLink);
   }
 
   this.setBannerScriptStatus = (status) => {
