@@ -2,7 +2,6 @@
 
 #### v6.02
 
-* Moved scheduled cardio booking configuration from being hardcoded in the code to the database
 * Added custom form styles and applied it to all current forms
 * Added custom table styles and applied it to all current tables
 * Updated page layout for test module websockets and db users forms
@@ -11,6 +10,7 @@
 * Fixed showing the correct 404 status code when the page is not found in include-static-html
 * Moved tabs in groot to generic kamehouse tabs to reuse them in other pages (currently used in groot server manager)
 * Updated the styles and layout of the about page and the home page
+* Created domUtils and moved all dom manipulation to go through there
 
 #### v6.01
 
