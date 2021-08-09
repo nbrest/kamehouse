@@ -206,8 +206,9 @@ function BannerUtils() {
   /** Preload banner images */
   this.preloadBannerImages = (bannerPath, bannerArray) => {
     bannerArray.forEach((bannerName) => {
-      let img = new Image();
-      img.src = '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg';
+      let img = domUtils.getImgBtn({
+        src: '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg'
+      });
       self.preloadedBannerImages.push(img);
     });
   }

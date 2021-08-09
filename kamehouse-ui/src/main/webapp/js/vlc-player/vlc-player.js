@@ -725,14 +725,13 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
   this.createDoubleArrowImg = (direction) => {
-    let dobleArrowImg = new Image();
-    dobleArrowImg.id = "toggle-playlist-filenames-img";
-    dobleArrowImg.src = "/kame-house/img/other/double-" + direction + "-green.png";
-    dobleArrowImg.className = "img-btn-kh img-btn-s-kh btn-playlist-controls";
-    dobleArrowImg.alt = "Expand/Collapse Filename";
-    dobleArrowImg.title = "Expand/Collapse Filename";
-    dobleArrowImg.onclick = () => self.toggleExpandPlaylistFilenames();
-    return dobleArrowImg;
+    return domUtils.getImgBtn({
+      id: "toggle-playlist-filenames-img",
+      src: "/kame-house/img/other/double-" + direction + "-green.png",
+      className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
+      alt: "Expand/Collapse Filename",
+      onClick: () => self.toggleExpandPlaylistFilenames()
+    });
   }
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
