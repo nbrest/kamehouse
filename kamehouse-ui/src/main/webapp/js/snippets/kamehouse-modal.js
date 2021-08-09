@@ -172,7 +172,7 @@ function ModalUtils(modalId) {
   }
 
   /** Set the html in the modal */
-  this.setHtml = (message) => $("#" + self.modalId + "-text").html(message);
+  this.setHtml = (message) => domUtils.setHtml($("#" + self.modalId + "-text"), message);
   this.appendHtml = (message) => domUtils.append($("#" + self.modalId + "-text"), message);
 }
 

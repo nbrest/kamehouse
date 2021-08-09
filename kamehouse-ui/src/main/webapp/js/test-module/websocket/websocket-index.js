@@ -47,7 +47,7 @@ function setConnected(isConnected) {
     domUtils.addClass($("#send-label"), "hidden-kh");
     domUtils.addClass($("#send"), "hidden-kh");
   }
-  $("#websocket-responses").html("");
+  domUtils.setHtml($("#websocket-responses"), "");
   if (isConnected) {
     $("#websocket-responses-wrapper").show();
   }

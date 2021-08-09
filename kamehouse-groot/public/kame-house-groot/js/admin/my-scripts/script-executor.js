@@ -64,7 +64,7 @@ function ScriptExecutor() {
   /** Set the script ouput to show that the script is currently executing */
   this.setScriptExecutingScriptOutput = (scriptName, args) => {
     domUtils.removeClass($('#script-output-executing-wrapper'), "hidden-kh");
-    $("#script-output-executing").html(self.getScriptExecutingMessage(scriptName, args));
+    domUtils.setHtml($("#script-output-executing"), self.getScriptExecutingMessage(scriptName, args));
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
 

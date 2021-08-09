@@ -232,11 +232,11 @@ function DeploymentManager() {
         let status = scriptOutputLineArray[1];
         let module = self.getModule(webapp);
         if (status == "running") {
-          $("#mst-" + module + "-status-val").html(self.statusBallGreenImg.cloneNode(true));
+          domUtils.setHtml($("#mst-" + module + "-status-val"), self.statusBallGreenImg.cloneNode(true));
         } else if (status == "stopped") {
-          $("#mst-" + module + "-status-val").html(self.statusBallRedImg.cloneNode(true));
+          domUtils.setHtml($("#mst-" + module + "-status-val"), self.statusBallRedImg.cloneNode(true));
         } else {
-          $("#mst-" + module + "-status-val").html(self.statusBallBlueImg.cloneNode(true));
+          domUtils.setHtml($("#mst-" + module + "-status-val"), self.statusBallBlueImg.cloneNode(true));
         }        
       }
     });
@@ -271,12 +271,12 @@ function DeploymentManager() {
       if (scriptOutputLine.startsWith("buildVersion")) {
         let scriptOutputLineArray = scriptOutputLine.split("=");
         let buildVersion = scriptOutputLineArray[1];
-        $("#mst-" + module + "-build-version-val").html(buildVersion);    
+        domUtils.setHtml($("#mst-" + module + "-build-version-val"), buildVersion);    
       }
       if (scriptOutputLine.startsWith("buildDate")) {
         let scriptOutputLineArray = scriptOutputLine.split("=");
         let buildDate = scriptOutputLineArray[1];
-        $("#mst-" + module + "-build-date-val").html(buildDate);    
+        domUtils.setHtml($("#mst-" + module + "-build-date-val"), buildDate);    
       }
     });
   }
@@ -328,7 +328,7 @@ function DeploymentManager() {
    * Reset view of module status.
    */
   this.resetModuleStatus = (module) => {
-    $("#mst-" + module + "-status-val").html(self.statusBallBlueImg.cloneNode(true));
+    domUtils.setHtml($("#mst-" + module + "-status-val"), self.statusBallBlueImg.cloneNode(true));
     domUtils.setHtml($("#mst-" + module + "-build-version-val"), "N/A");
     domUtils.setHtml($("#mst-" + module + "-build-date-val"), "N/A");
   }
