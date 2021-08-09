@@ -36,7 +36,7 @@ function BackendLogLevelUtils() {
   /**
    * Get log-level api url for each webapp.
    */
-  this.getApiUrl = (webapp) => {
+  function getApiUrl(webapp) {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/log-level';
     } else {
@@ -47,8 +47,8 @@ function BackendLogLevelUtils() {
   /**
    * Get log-level request logger config api url for each webapp.
    */
-  this.getRequestLoggerConfigApiUrl = (webapp) => {
-    return self.getApiUrl(webapp) + "/request-logger";
+  function getRequestLoggerConfigApiUrl(webapp) {
+    return getApiUrl(webapp) + "/request-logger";
   }
 
   /** Get all current log levels */
@@ -56,37 +56,37 @@ function BackendLogLevelUtils() {
     if (openModal) {
       loadingWheelModal.open();
     }
-    debuggerHttpClient.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
+    debuggerHttpClient.get(getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
   /** Reset all log levels */
   this.resetLogLevels = (webapp) => {
     loadingWheelModal.open();
-    debuggerHttpClient.delete(self.getApiUrl(webapp), null, processSuccess, processError, webapp);
+    debuggerHttpClient.delete(getApiUrl(webapp), null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log level */
   this.setKamehouseLogLevel = (webapp) => {
     let logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     loadingWheelModal.open();
-    debuggerHttpClient.put(self.getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
+    debuggerHttpClient.put(getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to DEBUG */
   this.setKamehouseLogLevelToDebug = (webapp) => {
     loadingWheelModal.open();
-    debuggerHttpClient.put(self.getApiUrl(webapp) + "/debug", null, processSuccess, processError, webapp);
+    debuggerHttpClient.put(getApiUrl(webapp) + "/debug", null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to TRACE */
   this.setKamehouseLogLevelToTrace = (webapp) => {
     loadingWheelModal.open();
-    debuggerHttpClient.put(self.getApiUrl(webapp) + "/trace", null, processSuccess, processError, webapp);
+    debuggerHttpClient.put(getApiUrl(webapp) + "/trace", null, processSuccess, processError, webapp);
   }
 
   /** Update the log levels table content */
-  this.updateLogLevelTable = (logLevelsArray, webapp) => {
-    self.addLogLevelTableHeader(webapp);
+  function updateLogLevelTable(logLevelsArray, webapp) {
+    addLogLevelTableHeader(webapp);
     let $tableBody = $('#log-level-tbody-' + webapp);
     logLevelsArray.forEach((logLevelEntry) => {
       let logLevelEntryPair = logLevelEntry.split(":");
@@ -97,14 +97,14 @@ function BackendLogLevelUtils() {
   }
 
   /** Add log level table header */
-  this.addLogLevelTableHeader = (webapp) => {
+  function addLogLevelTableHeader(webapp) {
     let $tableBody = $('#log-level-tbody-' + webapp);
     domUtils.empty($tableBody);
     domUtils.append($tableBody, getLogLevelTh(webapp));
   }
 
   /** Set log level table to error */
-  this.updateLogLevelTableError = (webapp) => {
+  function updateLogLevelTableError(webapp) {
     let $tableBody = $('#log-level-tbody-' + webapp);
     domUtils.empty($tableBody);
     domUtils.append($tableBody, getErrorTr());
@@ -137,41 +137,41 @@ function BackendLogLevelUtils() {
   /** Process success response */
   function processSuccess(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    self.updateLogLevelTable(responseBody, webapp);
+    updateLogLevelTable(responseBody, webapp);
   }
 
   /** Process error response */
   function processError(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    self.updateLogLevelTableError(webapp);
+    updateLogLevelTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 
   /** Set request logger config payload */
   this.setRequestLoggerConfigPayload = (webapp) => {
-    self.setRequestLoggerConfig(webapp, "payload", "logPayload");
+    setRequestLoggerConfig(webapp, "payload", "logPayload");
   }
 
   /** Set request logger config headers */
   this.setRequestLoggerConfigHeaders = (webapp) => {
-    self.setRequestLoggerConfig(webapp, "headers", "logHeaders");
+    setRequestLoggerConfig(webapp, "headers", "logHeaders");
   }
 
   /** Set request logger config query string */
   this.setRequestLoggerConfigQueryString = (webapp) => {
-    self.setRequestLoggerConfig(webapp, "query-string", "logQueryString");
+    setRequestLoggerConfig(webapp, "query-string", "logQueryString");
   }
 
   /** Set request logger config client info */
   this.setRequestLoggerConfigClientInfo = (webapp) => {
-    self.setRequestLoggerConfig(webapp, "client-info", "logClientInfo");
+    setRequestLoggerConfig(webapp, "client-info", "logClientInfo");
   }
 
   /** Set request logger config */
-  this.setRequestLoggerConfig = (webapp, propertyToSet, urlParamName) => {
+  function setRequestLoggerConfig(webapp, propertyToSet, urlParamName) {
     loadingWheelModal.open();
     let propertyValue = document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp).value;
-    let url = self.getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet + "?" + urlParamName + "=" + propertyValue;
+    let url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet + "?" + urlParamName + "=" + propertyValue;
     debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
   }
 
