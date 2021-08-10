@@ -39,8 +39,7 @@ function Scheduler() {
    * Loads the ehcache table html snippet into a variable to be reused as a template on render.
    */
   this.loadTableTemplate = async () => {
-    const response = await fetch('/kame-house/html-snippets/scheduler-table.html');
-    self.schedulerTableTemplate = await response.text();
+    self.schedulerTableTemplate = await domUtils.loadHtmlSnippet('/kame-house/html-snippets/scheduler-table.html');
   }
 
   /**

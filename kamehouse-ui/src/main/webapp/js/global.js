@@ -43,14 +43,14 @@ var sleep;
 /** 
  * ----- Global functions ------------------------------------------------------------------
  */
-function main() {
+function mainGlobal() {
+  coreUtils = new CoreUtils();
+  coreUtils.setGlobalFunctions();
+
   bannerUtils = new BannerUtils();
   collapsibleDivUtils = new CollapsibleDivUtils();
-  coreUtils = new CoreUtils();
   cookiesUtils = new CookiesUtils();
-  coreUtils.setGlobalFunctions();
   cursorUtils = new CursorUtils();
-  cursorUtils.loadSpinningWheelMobile();
   domUtils = new DomUtils();
   fileUtils = new FileUtils();
   tabUtils = new TabUtils();
@@ -59,6 +59,7 @@ function main() {
   timeUtils = new TimeUtils();
 
   moduleUtils = new ModuleUtils();
+  cursorUtils.loadSpinningWheelMobile();
   moduleUtils.loadDefaultModules();
   moduleUtils.waitForModules(["logger", "httpClient"], () => {
     logger.info("Started initializing global functions");
@@ -98,7 +99,7 @@ function BannerUtils() {
   ALL_BANNERS.push.apply(ALL_BANNERS, STAR_WARS_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
 
-  this.preloadedBannerImages = [];
+  let preloadedBannerImages = [];
 
   /** Set random saint seiya sanctuary banner */
   this.setRandomSanctuaryBanner = (bannerRotateWaitMs) => {
@@ -209,7 +210,7 @@ function BannerUtils() {
       let img = domUtils.getImgBtn({
         src: '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg'
       });
-      self.preloadedBannerImages.push(img);
+      preloadedBannerImages.push(img);
     });
   }
 }
@@ -429,8 +430,7 @@ function CursorUtils() {
    * Load the spinning wheel for mobile view.
    */
   this.loadSpinningWheelMobile = async () => {
-    const response = await fetch('/kame-house/html-snippets/spinning-wheel-mobile.html');
-    const spinnigWheelMobileDiv = await response.text();
+    const spinnigWheelMobileDiv = await domUtils.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-mobile.html");
     document.body.insertAdjacentHTML("beforeBegin", spinnigWheelMobileDiv);
   }
 }
@@ -442,6 +442,8 @@ function CursorUtils() {
  */
 function DomUtils() {
   let self = this;
+
+  this.loadHtmlSnippet = loadHtmlSnippet;
 
   /** ------ Manipulation through plain js --------------------------------- */
   /** Set the id of an element (non jq) */
@@ -493,6 +495,18 @@ function DomUtils() {
     let domElementWrapper = document.createElement('div');
     domElementWrapper.innerHTML = htmlTemplate;
     return domElementWrapper.firstChild;
+  }
+
+  /**
+   * Load an html snippet to insert to the dom or use as a template.
+   * 
+   * Declare the caller function as async
+   * and call this with await domUtils.loadHtmlSnippet(...);
+   */
+  async function loadHtmlSnippet(htmlSnippetPath) {
+    const htmlSnippetResponse = await fetch(htmlSnippetPath);
+    const htmlSnippet = await htmlSnippetResponse.text();
+    return htmlSnippet;
   }
 
   /**
@@ -820,17 +834,6 @@ function ModuleUtils() {
  */
 function TableUtils() {
 
-  /** 
-   * Load a table header from a snippet to be inserted in dynamic tables 
-   * 
-   * Example usage in dragonball-user-service-jsp.js
-   */
-  this.loadTableHeader = async (tableHeaderHtmlPath) => {
-    const tableHeaderHtmlResponse = await fetch(tableHeaderHtmlPath);
-    const tableHeaderHtml = await tableHeaderHtmlResponse.text();
-    return tableHeaderHtml;
-  }
-
   /** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
   this.filterTableRows = function filterTableRows(filterString, tableBodyId) {
     filterString = filterString.toLowerCase();
@@ -883,4 +886,4 @@ function TimeUtils() {
 }
 
 /** Call main. */
-$(document).ready(main);
+$(document).ready(mainGlobal);

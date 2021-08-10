@@ -1,13 +1,13 @@
 var moduleStatusManager;
 
-var loadModuleStatusManager = () => {
+function loadModuleStatusManager() {
   moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
     moduleStatusManager = new ModuleStatusManager();
     moduleStatusManager.init();
     moduleUtils.setModuleLoaded("moduleStatusManager");
     logger.info("Initialized moduleStatusManager");
   });
-};
+}
 
 /**
  * Manager to get the status of the tomcat modules in the current server.

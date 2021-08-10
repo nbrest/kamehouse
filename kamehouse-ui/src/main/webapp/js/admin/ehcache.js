@@ -46,10 +46,8 @@ function EhCacheManager() {
    * Loads the ehcache table html snippet into a variable to be reused as a template on render.
    */
   async function loadEhCacheTableTemplate() {
-    const ehcacheTableResponse = await fetch('/kame-house/html-snippets/ehcache-table.html');
-    self.ehcacheTableTemplate = await ehcacheTableResponse.text();
-    const ehcacheErrorTableResponse = await fetch('/kame-house/html-snippets/ehcache-error-table.html');
-    self.ehcacheErrorTableTemplate = await ehcacheErrorTableResponse.text();
+    self.ehcacheTableTemplate = await domUtils.loadHtmlSnippet('/kame-house/html-snippets/ehcache-table.html');
+    self.ehcacheErrorTableTemplate = await domUtils.loadHtmlSnippet('/kame-house/html-snippets/ehcache-error-table.html');
   }
 
   /**

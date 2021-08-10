@@ -45,8 +45,7 @@ function KameHouseDebugger() {
    * Loads the debugger http client html snippet into a variable to be reused as a template on render.
    */
   this.loadDebuggerHttpClientTemplate = async () => {
-    const response = await fetch('/kame-house/html-snippets/kamehouse-debugger-http-client-table.html');
-    self.debuggerHttpClientDivTemplate = await response.text();
+    self.debuggerHttpClientDivTemplate = await domUtils.loadHtmlSnippet('/kame-house/html-snippets/kamehouse-debugger-http-client-table.html');
     logger.debug("Loaded debuggerHttpClientDivTemplate");
   }
 

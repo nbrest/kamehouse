@@ -189,6 +189,6 @@ function DragonBallUserServiceJsp() {
   }
 
   this.getDragonBallUserTableHeader = () => {
-    return tableUtils.loadTableHeader("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
+    return domUtils.loadHtmlSnippet("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
   }
 }
