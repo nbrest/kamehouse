@@ -17,10 +17,13 @@ function main() {
  */
 function SystemCommandManager() {
 
+  this.renderCommandOutput = renderCommandOutput;
+  this.renderErrorExecutingCommand = renderErrorExecutingCommand;
+
   /**
    * Render the system command output.
    */
-  this.renderCommandOutput = (systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) => {
+  function renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
     let systemCommandOutputDiv = "#system-command-output";
     if (systemCommandOutputDivId) {
       systemCommandOutputDiv = "#" + systemCommandOutputDivId;
@@ -56,7 +59,7 @@ function SystemCommandManager() {
   /**
    * Display an error executing the system command.
    */
-  this.renderErrorExecutingCommand = () => {
+  function renderErrorExecutingCommand() {
     let systemCommandOutputDiv = "#system-command-output";
     domUtils.empty($(systemCommandOutputDiv));
     domUtils.append($(systemCommandOutputDiv), "Error executing system command. Check the logs on the backend...");

@@ -8,7 +8,7 @@
 /** 
  * ----- Global variables ------------------------------------------------------------------ 
  */
-var global;
+var global = {};
 
 /** Global utils in global.js */
 var bannerUtils;
@@ -18,6 +18,7 @@ var coreUtils;
 var cursorUtils;
 var domUtils;
 var fileUtils;
+var fetchUtils;
 var moduleUtils;
 var tabUtils;
 var tableUtils;
@@ -29,9 +30,10 @@ var httpClient;
 var logger;
 
 /** 
- * Core global functions mapped to their logic in coreUtils.setGlobalFunctions().
+ * Core global functions mapped to their logic in coreUtils
  * Usage example: `if (isEmpty(val)) {...}` 
  */
+var consoleLog;
 var isEmpty;
 var isFunction;
 var isNullOrUndefined;
@@ -43,20 +45,21 @@ var sleep;
 /** 
  * ----- Global functions ------------------------------------------------------------------
  */
-function mainGlobal() {
+function main() {
+  
+  timeUtils = new TimeUtils();
   coreUtils = new CoreUtils();
-  coreUtils.setGlobalFunctions();
 
   bannerUtils = new BannerUtils();
   collapsibleDivUtils = new CollapsibleDivUtils();
   cookiesUtils = new CookiesUtils();
   cursorUtils = new CursorUtils();
   domUtils = new DomUtils();
+  fetchUtils = new FetchUtils();
   fileUtils = new FileUtils();
   tabUtils = new TabUtils();
   tableUtils = new TableUtils();
   testUtils = new TestUtils();
-  timeUtils = new TimeUtils();
 
   moduleUtils = new ModuleUtils();
   cursorUtils.loadSpinningWheelMobile();
@@ -66,13 +69,22 @@ function mainGlobal() {
     coreUtils.loadHeaderAndFooter();
     //testUtils.testLogLevel();
   });
+  //testUtils.testSleep();
 }
 
 /**
  * BannerUtils to manipulate banners.
  */
 function BannerUtils() {
-  let self = this;
+
+  this.setRandomSanctuaryBanner = setRandomSanctuaryBanner;
+  this.setRandomDragonBallBanner = setRandomDragonBallBanner;
+  this.setRandomPrinceOfTennisBanner = setRandomPrinceOfTennisBanner;
+  this.setRandomSaintSeiyaBanner = setRandomSaintSeiyaBanner;
+  this.setRandomTennisBanner = setRandomTennisBanner;
+  this.setRandomAllBanner = setRandomAllBanner;
+  this.updateServerName = updateServerName;
+
   const DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
 
   const CAPTAIN_TSUBASA_BANNERS = ["banner-beni3", "banner-benji-steve", "banner-benji", "banner-benji2", "banner-benji3", "banner-benji4", "banner-niupi", "banner-niupi2", "banner-oliver-benji", "banner-oliver-benji2", "banner-oliver-steve", "banner-oliver", "banner-oliver2"];
@@ -102,62 +114,62 @@ function BannerUtils() {
   let preloadedBannerImages = [];
 
   /** Set random saint seiya sanctuary banner */
-  this.setRandomSanctuaryBanner = (bannerRotateWaitMs) => {
+  function setRandomSanctuaryBanner(bannerRotateWaitMs) {
     let bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
-    self.setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
-    self.preloadBannerImages('saint-seiya', bannerClasses);
+    setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
+    preloadBannerImages('saint-seiya', bannerClasses);
   }
 
   /** Set random dragonball banner */
-  this.setRandomDragonBallBanner = (bannerRotateWaitMs) => {
-    self.setRandomBannerWrapper(DRAGONBALL_BANNERS, true, bannerRotateWaitMs);
-    self.preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
+  function setRandomDragonBallBanner(bannerRotateWaitMs) {
+    setRandomBannerWrapper(DRAGONBALL_BANNERS, true, bannerRotateWaitMs);
+    preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
   }
 
   /** Set random prince of tennis banner */
-  this.setRandomPrinceOfTennisBanner = (bannerRotateWaitMs) => {
-    self.setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true, bannerRotateWaitMs);
-    self.preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
+  function setRandomPrinceOfTennisBanner(bannerRotateWaitMs) {
+    setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true, bannerRotateWaitMs);
+    preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
   }
 
   /** Set random saint seiya banner */
-  this.setRandomSaintSeiyaBanner = (bannerRotateWaitMs) => {
-    self.setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true, bannerRotateWaitMs);
-    self.preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
+  function setRandomSaintSeiyaBanner(bannerRotateWaitMs) {
+    setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true, bannerRotateWaitMs);
+    preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
   }
 
   /** Set random tennis banner */
-  this.setRandomTennisBanner = (bannerRotateWaitMs) => {
-    self.setRandomBannerWrapper(TENNIS_BANNERS, true, bannerRotateWaitMs);
-    self.preloadBannerImages('tennis', TENNIS_BANNERS);
+  function setRandomTennisBanner(bannerRotateWaitMs) {
+    setRandomBannerWrapper(TENNIS_BANNERS, true, bannerRotateWaitMs);
+    preloadBannerImages('tennis', TENNIS_BANNERS);
   }
 
   /** Set random banner from all banners */
-  this.setRandomAllBanner = (bannerRotateWaitMs) => {
-    self.setRandomBannerWrapper(ALL_BANNERS, true, bannerRotateWaitMs);
-    self.preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
-    self.preloadBannerImages('dc', DC_BANNERS);
-    self.preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
-    self.preloadBannerImages('game-of-thrones', GAME_OF_THRONES_BANNERS);
-    self.preloadBannerImages('marvel', MARVEL_BANNERS);
-    self.preloadBannerImages('matrix', MATRIX_BANNERS);
-    self.preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
-    self.preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
-    self.preloadBannerImages('star-wars', STAR_WARS_BANNERS);
-    self.preloadBannerImages('tennis', TENNIS_BANNERS);
+  function setRandomAllBanner(bannerRotateWaitMs) {
+    setRandomBannerWrapper(ALL_BANNERS, true, bannerRotateWaitMs);
+    preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
+    preloadBannerImages('dc', DC_BANNERS);
+    preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
+    preloadBannerImages('game-of-thrones', GAME_OF_THRONES_BANNERS);
+    preloadBannerImages('marvel', MARVEL_BANNERS);
+    preloadBannerImages('matrix', MATRIX_BANNERS);
+    preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
+    preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
+    preloadBannerImages('star-wars', STAR_WARS_BANNERS);
+    preloadBannerImages('tennis', TENNIS_BANNERS);
   }
 
   /** Wrapper to setRandomBanner to decide if it should set it once or loop */
-  this.setRandomBannerWrapper = (bannerClasses, shouldLoop, bannerRotateWaitMs) => {
+  function setRandomBannerWrapper(bannerClasses, shouldLoop, bannerRotateWaitMs) {
     if (shouldLoop) {
-      self.setRandomBannerLoop(bannerClasses, bannerRotateWaitMs);
+      setRandomBannerLoop(bannerClasses, bannerRotateWaitMs);
     } else {
-      self.setRandomBanner(bannerClasses);
+      setRandomBanner(bannerClasses);
     }
   }
 
   /** Set a random image from the banner classes list */
-  this.setRandomBanner = (bannerClasses) => {
+  function setRandomBanner(bannerClasses) {
     // Get a new banner, different from the current one
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     let bannerDivClasses = $('#banner').attr('class');
@@ -188,24 +200,24 @@ function BannerUtils() {
   }
 
   /** Set a random image banner from the classes list at the specified interval */
-  this.setRandomBannerLoop = (bannerClass, bannerRotateWaitMs) => {
+  function setRandomBannerLoop(bannerClass, bannerRotateWaitMs) {
     if (isNullOrUndefined(bannerRotateWaitMs)) {
       bannerRotateWaitMs = DEFAULT_BANNER_ROTATE_WAIT_MS;
     }
     setInterval(() => {
-      self.setRandomBanner(bannerClass);
+      setRandomBanner(bannerClass);
     }, bannerRotateWaitMs);
   }
 
   /** Update the server name in the banner */
-  this.updateServerName = () => {
+  function updateServerName() {
     if (!isNullOrUndefined(global.session.server)) {
       domUtils.setHtml($("#banner-server-name"), global.session.server);
     }
   }
   
   /** Preload banner images */
-  this.preloadBannerImages = (bannerPath, bannerArray) => {
+  function preloadBannerImages(bannerPath, bannerArray) {
     bannerArray.forEach((bannerName) => {
       let img = domUtils.getImgBtn({
         src: '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg'
@@ -219,12 +231,14 @@ function BannerUtils() {
  * Utility to manipulate collapsible divs.
  */
 function CollapsibleDivUtils() {
-  let self = this;
+
+  this.refreshCollapsibleDiv = refreshCollapsibleDiv;
+  this.setCollapsibleContent = setCollapsibleContent;
 
   /**
    * Refresh to resize all the collapsible divs in the current page.
    */
-  this.refreshCollapsibleDiv = () => {
+  function refreshCollapsibleDiv() {
     let collapsibleElements = document.getElementsByClassName("collapsible-kh");
     let i;
     for (i = 0; i < collapsibleElements.length; i++) {
@@ -236,7 +250,7 @@ function CollapsibleDivUtils() {
   /**
    * Set collapsible content listeners.
    */
-  this.setCollapsibleContent = () => {
+  function setCollapsibleContent() {
     let collapsibleElements = document.getElementsByClassName("collapsible-kh");
     let i;
     for (i = 0; i < collapsibleElements.length; i++) {
@@ -262,16 +276,27 @@ function CollapsibleDivUtils() {
 
 /** 
  * Prototype that contains the logic for all the core global functions. 
- * Only add functions here that are truly global and I'd want them to be part of the js language itself.
+ * Only add functions here that are truly global and I'd want them to be part of the js language.
  * If I don't want them to be native, I probably should add them to a more specific utils prototype.
  */
 function CoreUtils() {
-  let self = this;
+
+  this.loadHeaderAndFooter = loadHeaderAndFooter;
 
   /** Set the global variable and set the external reference to global to be used without coreUtils. prefix */
-  this.global = {};
-  this.global.session = {};
-  global = this.global;
+  global = {};
+  global.session = {};
+
+  /** Load header and footer. */
+  function loadHeaderAndFooter() {
+    fetchUtils.getScript("/kame-house/js/header-footer/header-footer.js", () => renderHeaderAndFooter());
+  }
+
+  /** Custom logger to log anything before logger module is loaded */
+  consoleLog = function consoleLog(message) {
+    logEntry = timeUtils.getTimestamp() + " - [INFO] - " + message;
+    console.log(logEntry);
+  }
 
   /** 
    * @deprecated(use isNullOrUndefined())
@@ -287,8 +312,8 @@ function CoreUtils() {
    * 
    * Keeping the definition so I don't attempt to do the same later down the track.
    */
-  this.isEmpty = (val) => {
-    let isUndefinedOrNull = self.isNullOrUndefined(val);
+  isEmpty = function isEmpty(val) {
+    let isUndefinedOrNull = isNullOrUndefined(val);
     let isEmptyString = !isUndefinedOrNull && val === "";
     let isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
     let isEmptyObject = !isUndefinedOrNull && Object.entries(val).length === 0 && val.constructor === Object;
@@ -296,24 +321,21 @@ function CoreUtils() {
   }
 
   /** Checks if a variable is undefined or null. */
-  this.isNullOrUndefined = (val) => {
+  isNullOrUndefined = function isNullOrUndefined(val) {
     return val === undefined || val == null;
   }
 
   /** Returns true if the parameter variable is a fuction. */
-  this.isFunction = (expectedFunction) => expectedFunction instanceof Function;
-
-  /** Load header and footer. */
-  this.loadHeaderAndFooter = () => {
-    $.getScript("/kame-house/js/header-footer/header-footer.js", (data, textStatus, jqxhr) => renderHeaderAndFooter());
-  }
+  isFunction = function isFunction(expectedFunction) {
+    return expectedFunction instanceof Function;
+  } 
 
   /** 
    * Scroll the specified div to it's top.
    * This method doesn't scroll the entire page, it scrolls the scrollable div to it's top.
    * To scroll the page to the top of a particular div, use scrollToTop()
    */
-  this.scrollToTopOfDiv = (divId) => {
+  scrollToTopOfDiv = function scrollToTopOfDiv(divId) {
     let divToScrollToTop = '#' + divId;
     $(divToScrollToTop).animate({
       scrollTop: 0
@@ -323,7 +345,7 @@ function CoreUtils() {
   /** 
    * Scroll the window to the top of a particular div or to the top of the body if no div specified.
    */
-  this.scrollToTop = (divId) => {
+  scrollToTop = function scrollToTop(divId) {
     let scrollPosition;
     if (isNullOrUndefined(divId)) {
       scrollPosition = 0;
@@ -338,7 +360,7 @@ function CoreUtils() {
   /** 
    * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
    */
-  this.scrollToBottom = (divId) => {
+  scrollToBottom = function scrollToBottom(divId) {
     let scrollPosition;
     if (isNullOrUndefined(divId)) {
       scrollPosition = document.body.scrollHeight;
@@ -351,23 +373,14 @@ function CoreUtils() {
     }, '10');
   }
 
-  /** Set the aliases for the global functions to be used everywhere without the prefix coreUtils. */
-  this.setGlobalFunctions = () => {
-    isEmpty = self.isEmpty;
-    isFunction = self.isFunction;
-    isNullOrUndefined = self.isNullOrUndefined;
-    scrollToBottom = self.scrollToBottom;
-    scrollToTop = self.scrollToTop;
-    scrollToTopOfDiv = self.scrollToTopOfDiv;
-    sleep = self.sleep;
-  }
-
   /**
    * Sleep the specified milliseconds.
    * This function needs to be called in an async method, with the await prefix. 
    * Example: await sleep(1000);
    */
-  this.sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  sleep = function sleep(ms) { 
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }
 
 /**
@@ -375,10 +388,13 @@ function CoreUtils() {
  */
 function CookiesUtils() {
 
+  this.getCookie = getCookie;
+  this.setCookie = setCookie;
+
   /**
    * Get a cookie.
    */
-  this.getCookie = (cookieName) => {
+  function getCookie(cookieName) {
     let name = cookieName + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let cookiesArray = decodedCookie.split(';');
@@ -397,7 +413,7 @@ function CookiesUtils() {
   /**
    * Set a cookie.
    */
-  this.setCookie = (cookieName, cookieValue, expiryDays) => {
+  function setCookie(cookieName, cookieValue, expiryDays) {
     if (expiryDays) {
       const expiriyDate = new Date();
       expiriyDate.setTime(expiriyDate.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
@@ -414,14 +430,18 @@ function CookiesUtils() {
  */
 function CursorUtils() {
 
+  this.setCursorWait = setCursorWait;
+  this.setCursorDefault = setCursorDefault;
+  this.loadSpinningWheelMobile = loadSpinningWheelMobile;
+
   /** Set the cursor to a wait spinning wheel */
-  this.setCursorWait = () => {
+  function setCursorWait() {
     domUtils.addClass($('html'), "wait");
     domUtils.removeClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
   }
 
   /** Set the cursor to default shape */
-  this.setCursorDefault = () => {
+  function setCursorDefault() {
     domUtils.removeClass($('html'), "wait");
     domUtils.addClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
   }
@@ -429,8 +449,9 @@ function CursorUtils() {
   /**
    * Load the spinning wheel for mobile view.
    */
-  this.loadSpinningWheelMobile = async () => {
-    const spinnigWheelMobileDiv = await domUtils.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-mobile.html");
+  async function loadSpinningWheelMobile() {
+    const spinnigWheelMobileDiv = await fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-mobile.html");
+    //TODO use domUtils
     document.body.insertAdjacentHTML("beforeBegin", spinnigWheelMobileDiv);
   }
 }
@@ -441,72 +462,94 @@ function CursorUtils() {
  * Anything that manipulates the dom should go through here.
  */
 function DomUtils() {
-  let self = this;
 
-  this.loadHtmlSnippet = loadHtmlSnippet;
+  /** ------ Manipulation through plain js --------------------------------- */  
+  this.setId = setId;
+  this.classListAdd = classListAdd;
+  this.classListRemove = classListRemove;
+  this.classListToggle = classListToggle;
+  this.setInnerHtml = setInnerHtml;
+  this.setStyle = setStyle;
+  this.setDisplay = setDisplay;
+  this.setOnClick = setOnClick;
+  this.getElementFromTemplate = getElementFromTemplate;
+  this.getImgBtn = getImgBtn;
+  
+  /** ------ Manipulation through jQuery --------------------------------- */
+  this.getDomNode = getDomNode;
+  this.empty = empty;
+  this.append = append;
+  this.appendChild = appendChild;
+  this.removeChild = removeChild;
+  this.setAttr = setAttr;
+  this.setHtml = setHtml;
+  this.setClick = setClick;
+  this.setVal = setVal;
+  this.addClass = addClass;
+  this.removeClass = removeClass;
+  this.getA = getA;
+  this.getBr = getBr;
+  this.getDiv = getDiv;
+  this.getLi = getLi;
+  this.getOption = getOption;
+  this.getP = getP;
+  this.getSpan = getSpan;
+  this.getTbody = getTbody;
+  this.getTd = getTd;
+  this.getTr = getTr;
+  this.getTrTd = getTrTd;
+  this.getButton = getButton;
 
   /** ------ Manipulation through plain js --------------------------------- */
   /** Set the id of an element (non jq) */
-  this.setId = (element, id) => {
+  function setId(element, id) {
     element.id = id;
   }
 
   /** Add a class to the element (non jq) */
-  this.classListAdd = (element, className) => {
+  function classListAdd(element, className) {
     element.classList.add(className);
   }
 
   /** Remove a class from the element (non jq) */
-  this.classListRemove = (element, className) => {
+  function classListRemove(element, className) {
     element.classList.remove(className);
   }
 
   /** Toggle a class on the element (non jq) */
-  this.classListToggle = (element, className) => {
+  function classListToggle(element, className) {
     element.classList.toggle(className);
   }
 
   /** Set the html to the element (non jq) */
-  this.setInnerHtml = (element, html) => {
+  function setInnerHtml(element, html) {
     if (html) {
       element.innerHTML = html;
     }
   }
 
   /** Set the style for the element (non jq) */
-  this.setStyle = (element, styleProperty, stylePropertyValue) => {
+  function setStyle(element, styleProperty, stylePropertyValue) {
     element.style[styleProperty] = stylePropertyValue;
   }
 
   /** Set the display of the element (non jq) */
-  this.setDisplay = (element, displayValue) => {
+  function setDisplay(element, displayValue) {
     element.style.display = displayValue;
   }  
 
   /** Set onclick function of the element (non jq) */
-  this.setOnClick = (element, onclickFunction) => {
+  function setOnClick(element, onclickFunction) {
     element.onclick = onclickFunction;
   }  
 
   /**
    * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
    */
-  this.getElementFromTemplate = (htmlTemplate) => {
+  function getElementFromTemplate(htmlTemplate) {
     let domElementWrapper = document.createElement('div');
     domElementWrapper.innerHTML = htmlTemplate;
     return domElementWrapper.firstChild;
-  }
-
-  /**
-   * Load an html snippet to insert to the dom or use as a template.
-   * 
-   * Declare the caller function as async
-   * and call this with await domUtils.loadHtmlSnippet(...);
-   */
-  async function loadHtmlSnippet(htmlSnippetPath) {
-    const htmlSnippetResponse = await fetch(htmlSnippetPath);
-    const htmlSnippet = await htmlSnippetResponse.text();
-    return htmlSnippet;
   }
 
   /**
@@ -519,7 +562,7 @@ function DomUtils() {
    *    onClick: () => {}
    * }
    */
-   this.getImgBtn = (config) => {
+  function getImgBtn(config) {
     let img = new Image();
     if (config.id) {
       img.id = config.id;
@@ -536,47 +579,47 @@ function DomUtils() {
   /**
    * Get DOM node from JQuery element.
    */
-   this.getDomNode = (jqueryElement) => {
+  function getDomNode(jqueryElement) {
     return jqueryElement.get(0);
   }
   
   /**
    * Empty the specified div.
    */
-  this.empty = (div) => {
+  function empty(div) {
     div.empty();
   }
 
   /**
    * Append the appendObject to appendTo.
    */
-  this.append = (appendTo, appendObject) => {
+  function append(appendTo, appendObject) {
     appendTo.append(appendObject);
   }
 
   /**
    * Append the child to parent.
    */
-   this.appendChild = (parent, child) => {
+  function appendChild(parent, child) {
     parent.appendChild(child);
   }
 
   /**
    * Remove the child from parent.
    */
-   this.removeChild = (parent, child) => {
+  function removeChild(parent, child) {
     parent.removeChild(child);
   }
 
   /**
    * Set an attribute in an element.
    */
-  this.setAttr = (element, attrKey, attrValue) => {
+  function setAttr(element, attrKey, attrValue) {
     element.attr(attrKey, attrValue);
   }
 
   /** Set the html to the element */
-  this.setHtml = (element, html) => {
+  function setHtml(element, html) {
     if (html) {
       element.html(html);
     }
@@ -585,64 +628,64 @@ function DomUtils() {
   /**
    * Set click function in an element.
    */
-  this.setClick = (element, clickData, clickFunction) => {
+  function setClick(element, clickData, clickFunction) {
     element.click(clickData, clickFunction);
   }
 
   /**
    * Set the value in an element. Usually used for input fields with a value property.
    */
-  this.setVal = (element, value) => {
+  function setVal(element, value) {
     element.val(value);
   }
 
   /**
    * Add a class to an element.
    */
-  this.addClass = (element, className) => {
+  function addClass(element, className) {
     element.addClass(className);
   }
 
   /**
    * Remove a class from an element.
    */
-  this.removeClass = (element, className) => {
+  function removeClass(element, className) {
     element.removeClass(className);
   }
 
-  this.getA = (attr, html) => {
+  function getA(attr, html) {
     return getElement('a', attr, html);
   }
 
-  this.getBr = () => {
+  function getBr() {
     return getElement('br', null, null);
   }
 
-  this.getDiv = (attr, html) => {
+  function getDiv(attr, html) {
     return getElement('div', attr, html);
   }
 
-  this.getLi = (attr, html) => {
+  function getLi(attr, html) {
     return getElement('li', attr, html);
   }
   
-  this.getOption = (attr, html) => {
+  function getOption(attr, html) {
     return getElement('option', attr, html);
   }
 
-  this.getP = (attr, html) => {
+  function getP(attr, html) {
     return getElement('p', attr, html);
   }
 
-  this.getSpan = (attr, html) => {
+  function getSpan(attr, html) {
     return getElement('span', attr, html);
   }
 
-  this.getTbody = (attr, html) => {
+  function getTbody(attr, html) {
     return getElement('tbody', attr, html);
   }
 
-  this.getTd = (attr, html) => {
+  function getTd(attr, html) {
     return getElement('td', attr, html);
   }
 
@@ -654,13 +697,13 @@ function DomUtils() {
    *   class: "class1 class2"
    * }, htmlContent);
    */
-  this.getTr = (attr, html) => {
+  function getTr(attr, html) {
     return getElement('tr', attr, html);
   }
 
   /** Shorthand used in several places to create dynamic table rows */
-  this.getTrTd = (html) => {
-    return self.getTr(null, self.getTd(null, html));
+  function getTrTd(html) {
+    return getTr(null, getTd(null, html));
   }
 
   /**
@@ -675,9 +718,9 @@ function DomUtils() {
    *    click: () => {}
    * }
    */
-  this.getButton = (config) => {
+  function getButton(config) {
     let btn = getElement('button', config.attr, config.html);
-    self.setClick(btn, config.clickData, config.click);
+    setClick(btn, config.clickData, config.click);
     return btn;
   }
 
@@ -685,7 +728,7 @@ function DomUtils() {
   function getElement(tagType, attr, html) {
     let element = $('<' + tagType + '>');
     setAttributes(element, attr);
-    self.setHtml(element, html);
+    setHtml(element, html);
     return element;
   }
 
@@ -700,51 +743,102 @@ function DomUtils() {
 }
 
 /** 
+ * Functionality to retrieve files from the server.
+ */
+ function FetchUtils() {
+
+  this.loadHtmlSnippet = loadHtmlSnippet;
+  this.getScript = getScript;
+
+  /**
+   * Load an html snippet to insert to the dom or use as a template.
+   * 
+   * Declare the caller function as async
+   * and call this with await fetchUtils.loadHtmlSnippet(...);
+   */
+  async function loadHtmlSnippet(htmlSnippetPath) {
+    const htmlSnippetResponse = await fetch(htmlSnippetPath);
+    const htmlSnippet = await htmlSnippetResponse.text();
+    return htmlSnippet;
+  }
+
+  /** Get a js script from the server. */
+  function getScript(scriptPath, successCallback) { 
+    $.getScript(scriptPath)
+    .done((script, textStatus) => {
+      consoleLog("Loaded successfully script: " + scriptPath);
+      if (isFunction(successCallback)) {
+        successCallback();
+      }
+    })
+    .fail((jqxhr, settings, exception) => {
+      consoleLog("Error loading script: " + scriptPath);
+      consoleLog("jqxhr.readyState: " + jqxhr.readyState);
+      consoleLog("jqxhr.status: " + jqxhr.status);
+      consoleLog("jqxhr.statusText: " + jqxhr.statusText);
+      //consoleLog("jqxhr.responseText: " + jqxhr.responseText);
+      consoleLog("settings: " + settings);
+      consoleLog("exception:");
+      console.error(exception);
+    });
+  }
+}
+
+/** 
  * Functionality related to file and filename manipulation. 
  */
 function FileUtils() {
 
+  this.getShortFilename = getShortFilename;
+
   /** Get the last part of the absolute filename */
   // Split the filename into an array based on the path separators '/' and '\'
-  this.getShortFilename = (filename) => filename.split(/[\\/]+/).pop();
+  function getShortFilename(filename) { return filename.split(/[\\/]+/).pop(); }
 }
 
 /** 
  * Functionality to load different modules and control the dependencies between them.
  */
 function ModuleUtils() {
-  let self = this;
 
+  this.setModuleLoaded = setModuleLoaded;
+  this.waitForModules = waitForModules;
+  this.loadDefaultModules = loadDefaultModules;
+  this.loadWebSocketKameHouse = loadWebSocketKameHouse; 
+  
   /** 
    * Object that determines which module is loaded. 
    * For example, when logger gets loaded, set modules.logger = true;
    * I use it in waitForModules() to check if a module is loaded or not.
    */
-  this.modules = {};
+  let modules = {};
 
   /** Marks the specified module as loaded */
-  this.setModuleLoaded = (moduleName) => self.modules[moduleName] = true;
+  function setModuleLoaded(moduleName) {
+    consoleLog("setModuleLoaded: " + moduleName);
+    modules[moduleName] = true;
+  }
 
   /** Load default modules. */
-  this.loadDefaultModules = () => {
-    self.loadLogger();
-    self.loadHttpClient();
+  function loadDefaultModules() {
+    loadLogger();
+    loadHttpClient();
   }
 
   /** Load logger object. */
-  this.loadLogger = () => {
-    $.getScript("/kame-house/js/utils/logger.js", (data, textStatus, jqxhr) => {
+  function loadLogger() {
+    fetchUtils.getScript("/kame-house/js/utils/logger.js", () => {
       logger = new Logger();
-      self.setModuleLoaded("logger");
+      setModuleLoaded("logger");
     });
   }
 
   /** Load httpClient. */
-  this.loadHttpClient = () => {
-    $.getScript("/kame-house/js/utils/http-client.js", (data, textStatus, jqxhr) => {
-      self.waitForModules(["logger"], () => {
+  function loadHttpClient() {
+    fetchUtils.getScript("/kame-house/js/utils/http-client.js", () => {
+      waitForModules(["logger"], () => {
         httpClient = new HttpClient();
-        self.setModuleLoaded("httpClient");
+        setModuleLoaded("httpClient");
       });
     });
   }
@@ -752,9 +846,10 @@ function ModuleUtils() {
   /**
    * Load kamehouse websockets module.
    */
-  this.loadWebSocketKameHouse = () => {
-    $.getScript("/kame-house/js/utils/websocket-kamehouse.js", (data, textStatus, jqxhr) =>
-      self.waitForModules(["logger"], () => self.setModuleLoaded("webSocketKameHouse")));
+  function loadWebSocketKameHouse() {
+    fetchUtils.getScript("/kame-house/js/utils/websocket-kamehouse.js", () => {
+      waitForModules(["logger"], () => setModuleLoaded("webSocketKameHouse"));
+    });
   }
 
   /** 
@@ -763,25 +858,26 @@ function ModuleUtils() {
    * Use this function in the main() of each page that requires modules like logger and httpClient
    * to be loaded before the main code is executed.
    */
-  this.waitForModules = async function waitForModules(moduleNames, initFunction) {
-    //console.log("init: " + initFunction.name + ". Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+  async function waitForModules(moduleNames, initFunction) {
+    //consoleLog("init: " + initFunction.name + ". Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
     let areAllModulesLoaded = false;
     while (!areAllModulesLoaded) {
-      //console.log("init: " + initFunction.name + ". Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+      //consoleLog("init: " + initFunction.name + ". Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
       let isAnyModuleStillLoading = false;
       moduleNames.forEach((moduleName) => {
-        if (!self.modules[moduleName]) {
+        if (!modules[moduleName]) {
           isAnyModuleStillLoading = true;
         }
       });
       if (!isAnyModuleStillLoading) {
         areAllModulesLoaded = true;
       }
-      await sleep(3);
+      // SLEEP IS IN MS!!
+      await sleep(15);
     }
-    //console.log("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+    //consoleLog("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
     if (isFunction(initFunction)) {
-      //console.log("Executing " + initFunction.name);
+      //consoleLog("Executing " + initFunction.name);
       initFunction();
     }
   }
@@ -791,12 +887,14 @@ function ModuleUtils() {
  * Manage generic kamehouse tabs (used for example in groot server manager).
  */
  function TabUtils() {
-  let self = this;
-  
+
+  this.openTab = openTab;
+  this.openTabFromCookies = openTabFromCookies;
+
   /**
    * Open the tab specified by its id.
    */
-   this.openTab = (selectedTabDivId, cookiePrefix) => {
+  function openTab(selectedTabDivId, cookiePrefix) {
     // Set current-tab cookie
     cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
     
@@ -820,12 +918,12 @@ function ModuleUtils() {
   /**
    * Open the tab from cookies or the default tab if not set in the cookies.
    */
-  this.openTabFromCookies = (cookiePrefix, defaultTab) => {
+  function openTabFromCookies(cookiePrefix, defaultTab) {
     let currentTab = cookiesUtils.getCookie(cookiePrefix + '-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = defaultTab;
     }
-    self.openTab(currentTab, cookiePrefix);
+    openTab(currentTab, cookiePrefix);
   }
 }
 
@@ -834,8 +932,10 @@ function ModuleUtils() {
  */
 function TableUtils() {
 
+  this.filterTableRows = filterTableRows;
+
   /** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
-  this.filterTableRows = function filterTableRows(filterString, tableBodyId) {
+  function filterTableRows(filterString, tableBodyId) {
     filterString = filterString.toLowerCase();
     let playlistBodyRows = $("#" + tableBodyId + " tr");
     let regex;
@@ -857,14 +957,23 @@ function TableUtils() {
  */
 function TestUtils() {
 
+  this.testLogLevel = testLogLevel;
+  this.testSleep = testSleep;
+
   /** Test the different log levels. */
-  this.testLogLevel = () => {
-    console.log("logger.logLevel " + logger.logLevel);
+  function testLogLevel() {
+    consoleLog("logger.logLevel " + logger.logLevel);
     logger.error("This is an ERROR message");
     logger.warn("This is a WARN message");
     logger.info("This is an INFO message");
     logger.debug("This is a DEBUG message");
     logger.trace("This is a TRACE message");
+  }
+
+  async function testSleep() {
+    consoleLog("TEST SLEEP ------------- BEFORE " + new Date());
+    await sleep(3000);
+    consoleLog("TEST SLEEP ------------- AFTER  " + new Date());
   }
 }
 
@@ -873,8 +982,11 @@ function TestUtils() {
  */
 function TimeUtils() {
 
+  this.getTimestamp = getTimestamp;
+  this.convertSecondsToHsMsSs = convertSecondsToHsMsSs;
+
   /** Get current timestamp with client timezone. */
-  this.getTimestamp = () => {
+  function getTimestamp() {
     let newDate = new Date();
     let offsetTime = newDate.getTimezoneOffset() * -1 * 60 * 1000;
     let currentDateTime = newDate.getTime();
@@ -882,8 +994,8 @@ function TimeUtils() {
   }
 
   /** Convert input in seconds to hh:mm:ss output. */
-  this.convertSecondsToHsMsSs = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 8);
+  function convertSecondsToHsMsSs(seconds) { return new Date(seconds * 1000).toISOString().substr(11, 8); }
 }
 
 /** Call main. */
-$(document).ready(mainGlobal);
+$(document).ready(main);

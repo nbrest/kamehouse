@@ -13,29 +13,34 @@ function main() {
  * Manager to load and execute my.scripts.
  */
 function MyScriptsManager() {
-  let self = this;
+
+  this.populateMyScriptsTable = populateMyScriptsTable;
+  this.executeScript = executeScript;
+  this.filterMyScriptsRows = filterMyScriptsRows;
+  this.handleSessionStatus = handleSessionStatus;
+  this.getMyScripts = getMyScripts;
 
   const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/my-scripts/exec-script.php";
 
   /** Populates all my-scripts table */
-  this.populateMyScriptsTable = (myScriptsArray) => {
+  function populateMyScriptsTable(myScriptsArray) {
     let $allMyScriptsTableBody = $('#all-my-scripts-table-body');
-    let tbody = self.getAllMyScriptsTbody();
+    let tbody = getAllMyScriptsTbody();
     for (let i = 0; i < myScriptsArray.length; i++) {
       let scriptName = myScriptsArray[i];
-      domUtils.append(tbody, self.getAllMyScriptsTr(scriptName));
+      domUtils.append(tbody, getAllMyScriptsTr(scriptName));
     }
     $allMyScriptsTableBody.replaceWith(tbody);
   }
   
   /** Execute the clicked script from the table */
-  this.clickEventOnAllMyScriptsRow = (event) => {
+  function clickEventOnAllMyScriptsRow(event) {
     let scriptName = event.data.scriptName;
-    self.executeScript(scriptName, null);
+    executeScript(scriptName, null);
   }
   
   /** Execute the specified script */
-  this.executeScript = (scriptName, scriptArguments) => {
+  function executeScript(scriptName, scriptArguments) {
     logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
     if (scriptArguments) {
       let urlEncodedArgs = encodeURI(scriptArguments);
@@ -46,37 +51,37 @@ function MyScriptsManager() {
   }
   
   /** Filters rows for all my-scripts table */
-  this.filterMyScriptsRows = (filterString) => {
+  function filterMyScriptsRows(filterString) {
     tableUtils.filterTableRows(filterString, 'all-my-scripts-table-body');
   }
   
   /** Handle Session Status */
-  this.handleSessionStatus = () => {
-    self.updateServerName(global.groot.session);
+  function handleSessionStatus() {
+    updateServerName(global.groot.session);
   }
   
   /** Update server name */
-  this.updateServerName = (sessionStatus) => {
+  function updateServerName(sessionStatus) {
     if (!isNullOrUndefined(sessionStatus.server)) {
       domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
 
   /** Get session status from the backend */
-  this.getMyScripts = (successCallback, errorCallback) => {
+  function getMyScripts(successCallback, errorCallback) {
     const MY_SCRIPTS_API = '/kame-house-groot/api/v1/admin/my-scripts/my-scripts.php';
     httpClient.get(MY_SCRIPTS_API, null,
       (responseBody, responseCode, responseDescription) => successCallback(responseBody, responseCode, responseDescription),
       (responseBody, responseCode, responseDescription) => errorCallback(responseBody, responseCode, responseDescription));
   }
   
-  this.getAllMyScriptsTbody = () => {
+  function getAllMyScriptsTbody() {
     return domUtils.getTbody({
       id: "all-my-scripts-table-body"
     }, null);
   }
   
-  this.getAllMyScriptsTr = (scriptName) => {
+  function getAllMyScriptsTr(scriptName) {
     return domUtils.getTrTd(getTrBtn(scriptName));
   }
   
@@ -89,7 +94,7 @@ function MyScriptsManager() {
       clickData: {
         scriptName: scriptName
       },
-      click: self.clickEventOnAllMyScriptsRow
+      click: clickEventOnAllMyScriptsRow
     });
   }
 }

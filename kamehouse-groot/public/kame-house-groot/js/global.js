@@ -20,10 +20,12 @@ function mainGlobalGroot() {
  * Functionality to manage the groot header.
  */
 function GrootHeader() {
-  let self = this;
+
+  this.toggleGrootNav = toggleGrootNav;
+  this.renderGrootMenu = renderGrootMenu;
 
   /** Toggle expanding/collapsing the groot menu hamburguer */
-  this.toggleGrootNav = () => {
+  function toggleGrootNav() {
     let rootMenu = document.getElementById("groot-menu");
     if (rootMenu.className === "groot-nav") {
       domUtils.classListAdd(rootMenu, "responsive");
@@ -33,7 +35,7 @@ function GrootHeader() {
   }
 
   /** Render groot sub menu */
-  this.renderGrootMenu = () => {
+  function renderGrootMenu() {
     $("#groot-menu-wrapper").load("/kame-house-groot/html-snippets/groot-menu.html", () => {
       updateGRootMenuActiveTab();
       loadSessionStatus();
@@ -62,13 +64,13 @@ function GrootHeader() {
     domUtils.empty($loginStatusDesktop);
     if (isNullOrUndefined(global.groot.session.username) || global.groot.session.username.trim() == "" ||
       global.groot.session.username.trim() == "anonymousUser") {
-      domUtils.append($loginStatusDesktop, self.getLoginButton());
-      domUtils.append($loginStatusMobile, self.getLoginButton());
+      domUtils.append($loginStatusDesktop, getLoginButton());
+      domUtils.append($loginStatusMobile, getLoginButton());
     } else {
-      domUtils.append($loginStatusDesktop, self.getUsernameHeader(global.groot.session.username));
-      domUtils.append($loginStatusDesktop, self.getLogoutButton());
-      domUtils.append($loginStatusMobile, self.getUsernameHeader(global.groot.session.username));
-      domUtils.append($loginStatusMobile, self.getLogoutButton());
+      domUtils.append($loginStatusDesktop, getUsernameHeader(global.groot.session.username));
+      domUtils.append($loginStatusDesktop, getLogoutButton());
+      domUtils.append($loginStatusMobile, getUsernameHeader(global.groot.session.username));
+      domUtils.append($loginStatusMobile, getLogoutButton());
     }
   }
 
@@ -97,7 +99,7 @@ function GrootHeader() {
     });
   }
   
-  this.getLoginButton = () => {
+  function getLoginButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/login-left-gray-dark.png",
       className: "groot-header-login-status-btn",
@@ -106,7 +108,7 @@ function GrootHeader() {
     });
   }
 
-  this.getLogoutButton = () => {
+  function getLogoutButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/logout-right-gray-dark.png",
       className: "groot-header-login-status-btn",
@@ -115,7 +117,7 @@ function GrootHeader() {
     });
   }
 
-  this.getUsernameHeader = (username) => {
+  function getUsernameHeader(username) {
     return domUtils.getSpan({
       class: "groot-header-login-status-text"
     }, username);

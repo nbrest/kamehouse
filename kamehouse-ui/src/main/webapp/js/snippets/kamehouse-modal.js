@@ -41,35 +41,39 @@ function importKamehouseModalCss() {
  * 
  */
 function BasicKamehouseModal() {
-  let self = this;
-  this.SITE_UNDER_CONSTRUCTION = "The site is still under construction and this functionality has not been implemented yet.";
-  this.modalUtils = new ModalUtils("basic-kamehouse-modal");
-  this.import = self.modalUtils.import;
-  this.open = self.modalUtils.open;
-  this.openAutoCloseable = self.modalUtils.openAutoCloseable;
-  this.close = self.modalUtils.close;
-  this.setHtml = self.modalUtils.setHtml;
-  this.appendHtml = self.modalUtils.appendHtml;
+  
+  this.openSiteUnderConstruction = openSiteUnderConstruction;
+  this.openApiError = openApiError;
+
+  let modalUtils = new ModalUtils("basic-kamehouse-modal");
+  this.import = modalUtils.importSnippet;
+  this.open = modalUtils.open;
+  this.openAutoCloseable = modalUtils.openAutoCloseable;
+  this.close = modalUtils.close;
+  this.setHtml = modalUtils.setHtml;
+  this.appendHtml = modalUtils.appendHtml;
+
+  const SITE_UNDER_CONSTRUCTION = "The site is still under construction and this functionality has not been implemented yet.";
 
   /** Open site under construction modal */
-  this.openSiteUnderConstruction = () => self.modalUtils.open(self.SITE_UNDER_CONSTRUCTION);
+  function openSiteUnderConstruction() { modalUtils.open(SITE_UNDER_CONSTRUCTION); }
 
   /** Open api call error message auto closeable modal */
-  this.openApiError = (responseBody, responseCode, responseDescription) => {
+  function openApiError(responseBody, responseCode, responseDescription) {
     if (isNullOrUndefined(responseBody)) {
-      responseBody = self.getEmptyResponseBodyText();
+      responseBody = getEmptyResponseBodyText();
     }
-    self.openAutoCloseable(self.getErrorMessage(responseBody, responseCode, responseDescription), 7000);
+    modalUtils.openAutoCloseable(getErrorMessage(responseBody, responseCode, responseDescription), 7000);
   }
 
-  this.getEmptyResponseBodyText = () => {
+  function getEmptyResponseBodyText() {
     let message = domUtils.getSpan({}, "Error executing the request.");
     domUtils.append(message, domUtils.getBr());
     domUtils.append(message, "Please check the logs for more information");
     return message;
   }
   
-  this.getErrorMessage = (responseBody, responseCode, responseDescription) => {
+  function getErrorMessage(responseBody, responseCode, responseDescription) {
     let message = domUtils.getSpan({}, "Error executing the request.");
     domUtils.append(message, domUtils.getBr());
     domUtils.append(message, "Response: [ code: " + responseCode + ",");
@@ -83,23 +87,25 @@ function BasicKamehouseModal() {
  * Loading Wheel Modal.
  */
 function LoadingWheelModal() {
-  let self = this;
-  this.modalUtils = new ModalUtils("loading-wheel-modal");
-  this.import = self.modalUtils.import;
-  this.openAutoCloseable = self.modalUtils.openAutoCloseable;
-  this.close = self.modalUtils.close;
-  this.setHtml = self.modalUtils.setHtml;
-  this.appendHtml = self.modalUtils.appendHtml;
+
+  this.open = open;
+
+  let modalUtils = new ModalUtils("loading-wheel-modal");
+  this.import = modalUtils.importSnippet;
+  this.openAutoCloseable = modalUtils.openAutoCloseable;
+  this.close = modalUtils.close;
+  this.setHtml = modalUtils.setHtml;
+  this.appendHtml = modalUtils.appendHtml;
 
   /**
    * Open modal.
    */
-  this.open = (message) => {
+  function open(message) {
     if (isNullOrUndefined(message) && !isNullOrUndefined(global.session.firstName)) {
       let chottoMatte = 'ちょっと まって';
       message = chottoMatte + ", " + global.session.firstName + "-san!";
     }
-    self.modalUtils.open(message);
+    modalUtils.open(message);
   }
 }
 
@@ -107,56 +113,64 @@ function LoadingWheelModal() {
  * Common functionality shared by all modals.
  */
 function ModalUtils(modalId) {
-  let self = this;
-  this.modalId = modalId;
-  this.DEFAULT_AUTO_CLOSE_SEC = 7000;
+
+  this.importSnippet = importSnippet;
+  this.setCloseOnClickOutsideModal = setCloseOnClickOutsideModal;
+  this.open = open;
+  this.openAutoCloseable = openAutoCloseable;
+  this.close = close;
+  this.autoClose = autoClose;
+  this.setHtml = setHtml;
+  this.appendHtml = appendHtml;
+
+  let DEFAULT_AUTO_CLOSE_SEC = 7000;
 
   /** Import modal content */
-  this.import = async () => {
-    const modalDiv = await domUtils.loadHtmlSnippet("/kame-house/html-snippets/" + modalId + ".html");
+  async function importSnippet() {
+    const modalDiv = await fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/" + modalId + ".html");
     domUtils.append($('body'), modalDiv);
     let modalDivCloseBtn = document.getElementById(modalId + "-close");
-    domUtils.setOnClick(modalDivCloseBtn, () => self.close());
+    domUtils.setOnClick(modalDivCloseBtn, () => close());
   }
 
   /** When the user clicks anywhere outside of the modal, close it */
-  this.setCloseOnClickOutsideModal = () => {
+  function setCloseOnClickOutsideModal() {
     let modalDiv = document.getElementById(modalId);
     domUtils.setOnClick(window, (event) => {
       if (event.target == modalDiv) {
-        self.close();
+        close();
       }
     });
   }
 
   /** Open modal */
-  this.open = (message) => {
+  function open(message) {
     if (!isNullOrUndefined(message)) {
-      self.setHtml(message);
+      setHtml(message);
     }
     let modal = document.getElementById(modalId);
     domUtils.setDisplay(modal, "block");
-    //self.setCloseOnClickOutsideModal();
+    //setCloseOnClickOutsideModal();
   }
 
   /** Open auto closeable modal */
-  this.openAutoCloseable = (message, autoCloseMs) => {
-    self.open(message);
-    self.autoClose(autoCloseMs);
+  function openAutoCloseable(message, autoCloseMs) {
+    open(message);
+    autoClose(autoCloseMs);
   }
 
   /** Close modal */
-  this.close = () => {
+  function close() {
     let modal = document.getElementById(modalId);
     domUtils.setDisplay(modal, "none");
   }
 
   /** Auto close modal after the specified miliseconds */
-  this.autoClose = async function autoClose(autoCloseMs) {
+  async function autoClose(autoCloseMs) {
     logger.trace(arguments.callee.name);
     if (isNullOrUndefined(autoCloseMs)) {
-      logger.trace("autoCloseMs not set. Closing after default value of " + self.DEFAULT_AUTO_CLOSE_SEC + " ms");
-      autoCloseMs = self.DEFAULT_AUTO_CLOSE_SEC;
+      logger.trace("autoCloseMs not set. Closing after default value of " + DEFAULT_AUTO_CLOSE_SEC + " ms");
+      autoCloseMs = DEFAULT_AUTO_CLOSE_SEC;
     }
     let autoCloseId = modalId + "-autoclose";
     domUtils.removeClass($("#" + autoCloseId), "hidden-kh");
@@ -167,12 +181,13 @@ function ModalUtils(modalId) {
       await sleep(1000);
     }
     domUtils.addClass($("#" + autoCloseId), "hidden-kh");
-    self.close();
+    close();
   }
 
   /** Set the html in the modal */
-  this.setHtml = (message) => domUtils.setHtml($("#" + self.modalId + "-text"), message);
-  this.appendHtml = (message) => domUtils.append($("#" + self.modalId + "-text"), message);
+  function setHtml(message) { domUtils.setHtml($("#" + modalId + "-text"), message); }
+
+  function appendHtml(message) { domUtils.append($("#" + modalId + "-text"), message); }
 }
 
 $(document).ready(main);

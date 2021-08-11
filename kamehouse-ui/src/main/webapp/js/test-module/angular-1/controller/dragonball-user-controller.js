@@ -6,8 +6,14 @@
  * @author nbrest
  */
 angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'dragonBallUserService', '$location', function($scope, dragonBallUserService, $location) {
+  
+  this.submit = submit;
+  this.edit = edit;
+  this.remove = remove;
+  this.reset = reset;
+  
   let self = this;
-  self.user = {
+  this.user = {
     id : null,
     username : '',
     email : '',
@@ -15,12 +21,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     powerLevel : 0,
     stamina : 0
   };
-  self.users = [];
-
-  self.submit = submit;
-  self.edit = edit;
-  self.remove = remove;
-  self.reset = reset;
+  this.users = [];
   
   // Fetch dragonBallUsers from backend
   fetchAllDragonBallUsers();

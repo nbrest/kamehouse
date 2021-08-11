@@ -6,53 +6,51 @@
  * @author nbrest
  */
 function HttpClient() {
-  let self = this;
+
+  this.get = get;
+  this.put = put;
+  this.post = post;
+  this.delete = deleteHttp;
+  this.getUrlEncodedHeaders = getUrlEncodedHeaders;
+  this.getApplicationJsonHeaders = getApplicationJsonHeaders;
 
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.get = function httpGet(url, requestHeaders, successCallback, errorCallback, data) {
+  function get(url, requestHeaders, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    self.httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback, data)
+    httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback, data)
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
+  function put(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.post = function httpPost(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
+  function post(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    self.httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback, data)
-  }
-
-  /** Execute an http PUT request.
-   * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
-   * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.put = function httpPut(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
-    self.httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http DELETE request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  this.delete = function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
+  function deleteHttp(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    self.httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http request with the specified http method. 
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
-  this.httpRequest = function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, data) {
+  function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     if (isNullOrUndefined(requestBody)) {
       $.ajax({
         type: httpMethod,
@@ -112,7 +110,7 @@ function HttpClient() {
   }
 
   /** Get request headers object with Url Encoded content type. */
-  this.getUrlEncodedHeaders = () => {
+  function getUrlEncodedHeaders() {
     let requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = "application/x-www-form-urlencoded";
@@ -121,7 +119,7 @@ function HttpClient() {
   }
 
   /** Get request headers object with application json content type. */
-  this.getApplicationJsonHeaders = () => {
+  function getApplicationJsonHeaders() {
     let requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = 'application/json';

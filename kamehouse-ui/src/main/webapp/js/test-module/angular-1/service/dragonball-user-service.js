@@ -10,12 +10,11 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
   var REST_SERVICE_URI = '/kame-house-testmodule/api/v1/test-module/dragonball/users/';
 
   var dragonBallUserService = {
-    fetchAllDragonBallUsers : fetchAllDragonBallUsers,
-    createDragonBallUser : createDragonBallUser,
-    updateDragonBallUser : updateDragonBallUser,
-    deleteDragonBallUser : deleteDragonBallUser
+    fetchAllDragonBallUsers: fetchAllDragonBallUsers,
+    createDragonBallUser: createDragonBallUser,
+    updateDragonBallUser: updateDragonBallUser,
+    deleteDragonBallUser: deleteDragonBallUser
   };
-
   return dragonBallUserService;
 
   /**

@@ -20,7 +20,11 @@ var main = () => {
  * Manager to handle the scheduling of the sample job.
  */
 function Scheduler() {
-  let self = this;
+
+  this.setSampleJob = setSampleJob;
+  this.cancelSampleJob = cancelSampleJob;
+  this.getSampleJobStatus = getSampleJobStatus;
+
   const TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
   const SAMPLE_JOB_URL = '/test-scheduler/sample-job';
 
@@ -29,7 +33,7 @@ function Scheduler() {
    * Sample Job functions
    */
   /** Set a sample job command */
-  this.setSampleJob = () => {
+  function setSampleJob() {
     let delay = document.getElementById("sample-job-delay-dropdown").value;
     logger.trace("Sample job delay: " + delay);
     let requestParam = "delay=" + delay;
@@ -38,13 +42,13 @@ function Scheduler() {
   }
 
   /** Cancel a SampleJob command */
-  this.cancelSampleJob = () => {
+  function cancelSampleJob() {
     loadingWheelModal.open();
     debuggerHttpClient.delete(TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, processSuccessSampleJob, processErrorSampleJob);
   }
 
   /** Get the SampleJob command status */
-  this.getSampleJobStatus = (openModal) => {
+  function getSampleJobStatus(openModal) {
     if (openModal) {
       loadingWheelModal.open();
     }
@@ -54,14 +58,14 @@ function Scheduler() {
   /** Process the success response of a SampleJob command (set/cancel) */
   function processSuccessSampleJob(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    self.getSampleJobStatus();
+    getSampleJobStatus();
   }
 
   /** Process the error response of a SampleJob command (set/cancel) */
   function processErrorSampleJob(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    self.getSampleJobStatus();
+    getSampleJobStatus();
   }
 
   /** Update the status of SampleJob command */

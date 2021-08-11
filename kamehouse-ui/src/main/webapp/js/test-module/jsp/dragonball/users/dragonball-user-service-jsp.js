@@ -2,13 +2,19 @@
  * Functionality to manage the dragonball users in the UI through the jsps and servlet api.
  */
 function DragonBallUserServiceJsp() {
-  let self = this;
+
+  this.getDragonBallUser = getDragonBallUser;
+  this.getAllDragonBallUsers = getAllDragonBallUsers;
+  this.addDragonBallUser = addDragonBallUser;
+  this.updateDragonBallUser = updateDragonBallUser;
+  this.deleteDragonBallUser = deleteDragonBallUser;
+
   var SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
 
   /**
    * Get a dragonball user and populate it to the edit table.
    */
-  this.getDragonBallUser = (event) => {
+  function getDragonBallUser(event) {
     logger.trace(arguments.callee.name);
     const urlParams = new URLSearchParams(window.location.search);
     const params = new URLSearchParams({
@@ -17,7 +23,7 @@ function DragonBallUserServiceJsp() {
     let getUrl = SERVLET_SERVICE_URI + "?" + params;
 
     debuggerHttpClient.get(getUrl, 
-      (responseBody, responseCode, responseDescription) => self.displayDragonBallUserToEdit(responseBody),
+      (responseBody, responseCode, responseDescription) => displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription) => {
         alert("Error getting dragonball user");
         logger.error("Error getting dragonball user " + responseBody + responseCode + responseDescription);
@@ -27,18 +33,18 @@ function DragonBallUserServiceJsp() {
   /**
    * Get all dragonball users.
    */
-  this.getAllDragonBallUsers = () => {
+  function getAllDragonBallUsers() {
     logger.trace(arguments.callee.name);
     debuggerHttpClient.get(SERVLET_SERVICE_URI, 
-      (responseBody, responseCode, responseDescription) => self.displayDragonBallUsers(responseBody),
-      (responseBody, responseCode, responseDescription) => self.displayErrorGettingDragonBallUsers(),
+      (responseBody, responseCode, responseDescription) => displayDragonBallUsers(responseBody),
+      (responseBody, responseCode, responseDescription) => displayErrorGettingDragonBallUsers(),
       null);
   }
 
   /**
    * Add a dragonball user.
    */
-  this.addDragonBallUser = () => {
+  function addDragonBallUser() {
     logger.trace(arguments.callee.name);
     const params = new URLSearchParams({
       username: document.getElementById("input-username").value,
@@ -59,7 +65,7 @@ function DragonBallUserServiceJsp() {
   /**
    * Update a dragonball user.
    */
-  this.updateDragonBallUser = () => {
+  function updateDragonBallUser() {
     logger.trace(arguments.callee.name);
     const params = new URLSearchParams({
       id: document.getElementById("input-id").value,
@@ -81,22 +87,22 @@ function DragonBallUserServiceJsp() {
   /**
   * Delete dragonball user.
   */
-  this.deleteDragonBallUser = (id) => {
+  function deleteDragonBallUser(id) {
     logger.trace(arguments.callee.name);
     const params = new URLSearchParams({
       id: id
     });
 
     debuggerHttpClient.deleteUrlEncoded(SERVLET_SERVICE_URI, params,
-      (responseBody, responseCode, responseDescription) => self.getAllDragonBallUsers(),
-      (responseBody, responseCode, responseDescription) => self.getAllDragonBallUsers(), 
+      (responseBody, responseCode, responseDescription) => getAllDragonBallUsers(),
+      (responseBody, responseCode, responseDescription) => displayErrorDeletingDragonBallUser(), 
       null);
   }
 
   /**
    * Display the dragonball user to edit.
    */
-  this.displayDragonBallUserToEdit = (dragonBallUser) => {
+  function displayDragonBallUserToEdit(dragonBallUser) {
     logger.trace(arguments.callee.name);
     document.getElementById("input-id").value = dragonBallUser.id;
     document.getElementById("input-username").value = dragonBallUser.username;
@@ -109,45 +115,45 @@ function DragonBallUserServiceJsp() {
   /**
    * Display dragonball users table.
    */
-  this.displayDragonBallUsers = async (dragonBallUsersList) => {
+  async function displayDragonBallUsers(dragonBallUsersList) {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     domUtils.empty($dragonBallUsersTbody);
-    domUtils.append($dragonBallUsersTbody, await self.getDragonBallUserTableHeader());
+    domUtils.append($dragonBallUsersTbody, await getDragonBallUserTableHeader());
     for (let i = 0; i < dragonBallUsersList.length; i++) {
-      domUtils.append($dragonBallUsersTbody, self.getDragonBallUserTableRow(dragonBallUsersList[i]));
+      domUtils.append($dragonBallUsersTbody, getDragonBallUserTableRow(dragonBallUsersList[i]));
     }
   }
 
   /**
    * Display dragonball users.
    */
-  this.displayErrorGettingDragonBallUsers = () => {
-    self.displayErrorTable("Error getting dragonball users from the backend");
+  function displayErrorGettingDragonBallUsers() {
+    displayErrorTable("Error getting dragonball users from the backend");
   }
 
   /**
    * Display dragonball users.
    */
-  this.displayErrorDeletingDragonBallUser = () => {
-    self.displayErrorTable("Error deleting dragonball user from the backend");
+  function displayErrorDeletingDragonBallUser() {
+    displayErrorTable("Error deleting dragonball user from the backend");
   }
 
   /**
    * Shows the specified error message in the table.
    */
-  this.displayErrorTable = (message) => {
+  function displayErrorTable(message) {
     logger.trace(arguments.callee.name);
     let $dragonBallUsersTbody = $('#dragonball-users-tbody');
     domUtils.empty($dragonBallUsersTbody);
-    domUtils.append($dragonBallUsersTbody, self.getErrorMessageTr(message));
+    domUtils.append($dragonBallUsersTbody, getErrorMessageTr(message));
   }
   
-  this.getErrorMessageTr = (message) => {
+  function getErrorMessageTr(message) {
     return domUtils.getTrTd(message);
   }
 
-  this.getDragonBallUserTableRow = (dragonBallUser) => {
+  function getDragonBallUserTableRow(dragonBallUser) {
     let tr = domUtils.getTr({}, null);
     domUtils.append(tr, getDragonBallUserTd(dragonBallUser.id));
     domUtils.append(tr, getDragonBallUserTd(dragonBallUser.username));
@@ -184,11 +190,11 @@ function DragonBallUserServiceJsp() {
       src: "/kame-house/img/other/delete-red.png",
       className: "img-btn-kh",
       alt: "Delete",
-      onClick: () => self.deleteDragonBallUser(id)
+      onClick: () => deleteDragonBallUser(id)
     });
   }
 
-  this.getDragonBallUserTableHeader = () => {
-    return domUtils.loadHtmlSnippet("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
+  function getDragonBallUserTableHeader() {
+    return fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
   }
 }

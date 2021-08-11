@@ -27,7 +27,22 @@ function importServerManagementCss() {
  * Manager to execute the admin commands in the current server.
  */
 function ServerManager() {
-  let self = this;
+
+  this.execAdminWakeOnLan = execAdminWakeOnLan;
+  this.setShutdownCommand = setShutdownCommand;
+  this.cancelShutdownCommand = cancelShutdownCommand;
+  this.getShutdownStatus = getShutdownStatus;
+  this.setSuspendCommand = setSuspendCommand;
+  this.cancelSuspendCommand = cancelSuspendCommand;
+  this.getSuspendStatus = getSuspendStatus;
+  this.confirmRebootServer = confirmRebootServer;
+  this.uptime = uptime;
+  this.free = free;
+  this.df = df;
+  this.getHttpdStatus = getHttpdStatus;
+  this.restartHttpd = restartHttpd;
+  this.post = post;
+
   const ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
   const SUSPEND_URL = '/power-management/suspend';
   const SHUTDOWN_URL = '/power-management/shutdown';
@@ -41,7 +56,7 @@ function ServerManager() {
    * --------------------------------------------------------------------------
    * WakeOnLan functions
    */
-  this.execAdminWakeOnLan = (url, server) => {
+  function execAdminWakeOnLan(url, server) {
     let requestParam = "server=" + server;
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
@@ -52,7 +67,7 @@ function ServerManager() {
    * SHUTDOWN functions
    */
   /** Set a Shutdown command */
-  this.setShutdownCommand = () => {
+  function setShutdownCommand() {
     let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
     logger.trace("Shutdown delay: " + shutdownDelay);
     let requestParam = "delay=" + shutdownDelay;
@@ -61,13 +76,13 @@ function ServerManager() {
   }
 
   /** Cancel a Shutdown command */
-  this.cancelShutdownCommand = () => {
+  function cancelShutdownCommand() {
     loadingWheelModal.open();
     debuggerHttpClient.delete(ADMIN_API_URL + SHUTDOWN_URL, null, processSuccessShutdown, processErrorShutdown);
   }
 
   /** Get the Shutdown command status */
-  this.getShutdownStatus = (openModal) => {
+  function getShutdownStatus(openModal) {
     if (openModal) {
       loadingWheelModal.open();
     }
@@ -77,14 +92,14 @@ function ServerManager() {
   /** Process the success response of a Shutdown command (set/cancel) */
   function processSuccessShutdown(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    self.getShutdownStatus();
+    getShutdownStatus();
   }
 
   /** Process the error response of a Shutdown command (set/cancel) */
   function processErrorShutdown(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    self.getShutdownStatus();
+    getShutdownStatus();
   }
 
   /** Update the status of Shutdown command */
@@ -105,7 +120,7 @@ function ServerManager() {
    * SUSPEND functions
    */
   /** Set a suspend command */
-  this.setSuspendCommand = () => {
+  function setSuspendCommand() {
     let suspendDelay = document.getElementById("suspend-delay-dropdown").value;
     logger.trace("Suspend delay: " + suspendDelay);
     let requestParam = "delay=" + suspendDelay;
@@ -114,13 +129,13 @@ function ServerManager() {
   }
 
   /** Cancel a suspend command */
-  this.cancelSuspendCommand = () => { 
+  function cancelSuspendCommand() { 
     loadingWheelModal.open();
     debuggerHttpClient.delete(ADMIN_API_URL + SUSPEND_URL, null, processSuccessSuspend, processErrorSuspend);
   }
 
   /** Get the suspend command status */
-  this.getSuspendStatus = (openModal) => {
+  function getSuspendStatus(openModal) {
     if (openModal) {
       loadingWheelModal.open();
     }
@@ -130,14 +145,14 @@ function ServerManager() {
   /** Process the success response of a suspend command (set/cancel) */
   function processSuccessSuspend(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
-    self.getSuspendStatus();
+    getSuspendStatus();
   }
 
   /** Process the error response of a suspend command (set/cancel) */
   function processErrorSuspend(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    self.getSuspendStatus();
+    getSuspendStatus();
   }
 
   /** Update the status of suspend command */
@@ -160,16 +175,16 @@ function ServerManager() {
   /**
    * Open a modal to confirm rebooting the server.
    */
-   this.confirmRebootServer = () => {
-    basicKamehouseModal.setHtml(self.getRebootServerModalMessage());
-    basicKamehouseModal.appendHtml(self.createRebootImg());
+   function confirmRebootServer() {
+    basicKamehouseModal.setHtml(getRebootServerModalMessage());
+    basicKamehouseModal.appendHtml(createRebootImg());
     basicKamehouseModal.open();
   }
 
   /**
    * Reboot the server.
    */
-  this.rebootServer = () => {
+  function rebootServer() {
     loadingWheelModal.open();
     debuggerHttpClient.post(ADMIN_API_URL + REBOOT_URL, null, processSuccess, processError);
   }
@@ -181,7 +196,7 @@ function ServerManager() {
   /**
    * Check the uptime.
    */
-  this.uptime = () => {
+  function uptime() {
     loadingWheelModal.open();
     debuggerHttpClient.get(ADMIN_API_URL + UPTIME_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
@@ -189,7 +204,7 @@ function ServerManager() {
   /**
    * Check the available memory.
    */
-  this.free = () => {
+  function free() {
     loadingWheelModal.open();
     debuggerHttpClient.get(ADMIN_API_URL + FREE_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
@@ -197,13 +212,13 @@ function ServerManager() {
   /**
    * Check the available disk space.
    */
-  this.df = () => {
+  function df() {
     loadingWheelModal.open();
     debuggerHttpClient.get(ADMIN_API_URL + DF_URL, processSuccessSystemCommand, processErrorSystemCommand);
   }
 
   /** Get the httpd server status */
-  this.getHttpdStatus = (openModal) => {
+  function getHttpdStatus(openModal) {
     if (openModal) {
       loadingWheelModal.open();
     }
@@ -211,7 +226,7 @@ function ServerManager() {
   }
 
   /** Restart apache httpd server */
-  this.restartHttpd = (openModal) => {
+  function restartHttpd(openModal) {
     if (openModal) {
       loadingWheelModal.open();
     }
@@ -263,7 +278,7 @@ function ServerManager() {
     loadingWheelModal.close();
     systemCommandManager.renderCommandOutput(responseBody, false, null);
     setTimeout(() => { 
-      self.getHttpdStatus(false);
+      getHttpdStatus(false);
     }, 5000);
   }
 
@@ -275,15 +290,30 @@ function ServerManager() {
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
     systemCommandManager.renderErrorExecutingCommand();
     setTimeout(() => { 
-      self.getHttpdStatus(false);
+      getHttpdStatus(false);
     }, 5000);
+  }
+  
+  function getRebootServerModalMessage() {
+    let rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
+    domUtils.append(rebootModalMessage, domUtils.getBr());
+    domUtils.append(rebootModalMessage, domUtils.getBr());
+    return rebootModalMessage;
+  }
+
+  function createRebootImg() {
+    return domUtils.getImgBtn({
+      src: "/kame-house/img/pc/shutdown-red.png",
+      className: "img-btn-kh",
+      alt: "Reboot",
+      onClick: () => { rebootServer() }
+    });
   }
 
   /** 
    * --------------------------------------------------------------------------
-   * REST API calls
    */
-  this.post = (url, requestBody) => {
+  function post(url, requestBody) {
     loadingWheelModal.open();
     debuggerHttpClient.post(ADMIN_API_URL + url, requestBody, processSuccess, processError);
   }
@@ -297,22 +327,6 @@ function ServerManager() {
   function processError(responseBody, responseCode, responseDescription) {
     loadingWheelModal.close();
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-  }
-
-  this.getRebootServerModalMessage = () => {
-    let rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
-    domUtils.append(rebootModalMessage, domUtils.getBr());
-    domUtils.append(rebootModalMessage, domUtils.getBr());
-    return rebootModalMessage;
-  }
-
-  this.createRebootImg = () => {
-    return domUtils.getImgBtn({
-      src: "/kame-house/img/pc/shutdown-red.png",
-      className: "img-btn-kh",
-      alt: "Reboot",
-      onClick: () => { self.rebootServer() }
-    });
   }
 }
 

@@ -6,7 +6,15 @@
  * @author nbrest
  */
 function Logger() {
-  let self = this;
+
+  this.setLogLevel = setLogLevel;
+  this.getLogLevel = getLogLevel;
+  this.error = error;
+  this.warn = warn;
+  this.info = info;
+  this.debug = debug;
+  this.trace = trace;
+
   /**
    * Log levels:
    * 0: ERROR
@@ -16,17 +24,24 @@ function Logger() {
    * 4: TRACE
    */
   //Defaults log level to INFO (2)
-  this.logLevel = 2;
+  let logLevelNumber = 2;
 
   /**
    * Set the log level for the console in numeric value, based on the mapping shown above.
    */
-  this.setLogLevel = (levelNumber) => {
-    self.logLevel = levelNumber;
+  function setLogLevel(levelNumber) {
+    logLevelNumber = levelNumber;
+  }
+
+  /**
+   * Get the log level for the console in numeric value, based on the mapping shown above.
+   */
+  function getLogLevel() {
+    return logLevelNumber;
   }
 
   /** Log a specified message with the specified logging level. */
-  this.log = (logLevel, message) => {
+  function log(logLevel, message) {
     if (isNullOrUndefined(logLevel)) {
       console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
       return;
@@ -40,47 +55,47 @@ function Logger() {
     logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
     if (logLevelUpperCase == "ERROR") {
       console.error(logEntry);
-      self.logToDebugMode(logEntry);
+      logToDebugMode(logEntry);
     }
-    if (logLevelUpperCase == "WARN" && self.logLevel >= 1) {
+    if (logLevelUpperCase == "WARN" && logLevelNumber >= 1) {
       console.warn(logEntry);
-      self.logToDebugMode(logEntry);
+      logToDebugMode(logEntry);
     }
-    if (logLevelUpperCase == "INFO" && self.logLevel >= 2) {
+    if (logLevelUpperCase == "INFO" && logLevelNumber >= 2) {
       console.info(logEntry);
-      self.logToDebugMode(logEntry);
+      logToDebugMode(logEntry);
     }
-    if (logLevelUpperCase == "DEBUG" && self.logLevel >= 3) {
+    if (logLevelUpperCase == "DEBUG" && logLevelNumber >= 3) {
       // Use debug to log behavior, such as executing x method, selected x playlist, etc.
       console.debug(logEntry);
-      self.logToDebugMode(logEntry);
+      logToDebugMode(logEntry);
     }
-    if (logLevelUpperCase == "TRACE" && self.logLevel >= 4) {
+    if (logLevelUpperCase == "TRACE" && logLevelNumber >= 4) {
       // Use trace to log content such as responses from api calls. But use debug or info logger. trace prints a useless stack trace in the console that doesn't help.
       console.info(logEntry);
-      self.logToDebugMode(logEntry);
+      logToDebugMode(logEntry);
     }
   }
 
   /** Log an error message */
-  this.error = (message) => self.log("ERROR", message);
+  function error(message) { log("ERROR", message); }
 
   /** Log a warn message */
-  this.warn = (message) => self.log("WARN", message);
+  function warn(message) { log("WARN", message); }
 
   /** Log an info message */
-  this.info = (message) => self.log("INFO", message);
+  function info(message) { log("INFO", message); }
 
   /** Log a debug message */
-  this.debug = (message) => self.log("DEBUG", message);
+  function debug(message) { log("DEBUG", message); }
 
   /** Log a trace message */
-  this.trace = (message) => self.log("TRACE", message);
+  function trace(message) { log("TRACE", message); }
 
   /**
    * Log the entry into the debug mode console log table.
    */
-  this.logToDebugMode = (logEntry) => {
+  function logToDebugMode(logEntry) {
     const DEBUG_MODE_LOG_SIZE = 20;
     let debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
     if (!isNullOrUndefined(debugModeConsoleLog)) {
@@ -91,23 +106,23 @@ function Logger() {
         logEntriesSize = debugModeConsoleLog.childElementCount;
       }
       // Add new log entry
-      domUtils.append($("#debug-mode-console-log-entries"), self.getLogEntryListItem(logEntry));
+      domUtils.append($("#debug-mode-console-log-entries"), getLogEntryListItem(logEntry));
       // Scroll down log div
-      self.debugModeLogScroll();
+      debugModeLogScroll();
     }
   }
 
   /**
    * Scroll to the last entries of the console log.
    */
-  this.debugModeLogScroll = () => {
+  function debugModeLogScroll() {
     let height = $("#debug-mode-console-log-entries").get(0).scrollHeight;
     $("#debug-mode-console-log-entries").animate({
       scrollTop: height
     }, 100);
   }
   
-  this.getLogEntryListItem = (logEntry) => {
+  function getLogEntryListItem(logEntry) {
     return domUtils.getLi({}, logEntry);
   }
 }

@@ -18,34 +18,37 @@ window.onload = () => {
  * Manager to get the scheduled jobs in the current server and cancel their scheduling.
  */
 function Scheduler() {
-  let self = this;
-  this.jobs = [[]];
-  this.schedulerTableTemplate;
+
+  this.init = init;
+  this.getAllJobs = getAllJobs;
+
+  let jobs = [[]];
+  let schedulerTableTemplate;
 
   /**
    * Loads initial data.
    */
-  this.init = async () => {
-    await self.loadTableTemplate();
-    self.getAllJobs('admin', false);
-    self.getAllJobs('media', false);
-    self.getAllJobs('tennisworld', false);
-    self.getAllJobs('testmodule', false);
-    self.getAllJobs('ui', false);
-    self.getAllJobs('vlcrc', false);
+  async function init() {
+    await loadTableTemplate();
+    getAllJobs('admin', false);
+    getAllJobs('media', false);
+    getAllJobs('tennisworld', false);
+    getAllJobs('testmodule', false);
+    getAllJobs('ui', false);
+    getAllJobs('vlcrc', false);
   }
 
   /**
    * Loads the ehcache table html snippet into a variable to be reused as a template on render.
    */
-  this.loadTableTemplate = async () => {
-    self.schedulerTableTemplate = await domUtils.loadHtmlSnippet('/kame-house/html-snippets/scheduler-table.html');
+  async function loadTableTemplate() {
+    schedulerTableTemplate = await fetchUtils.loadHtmlSnippet('/kame-house/html-snippets/scheduler-table.html');
   }
 
   /**
    * Get scheduler api url for each webapp.
    */
-  this.getApiUrl = (webapp) => {
+  function getApiUrl(webapp) {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/scheduler/jobs';
     } else {
@@ -54,38 +57,38 @@ function Scheduler() {
   }
 
   /** Get all jobs */
-  this.getAllJobs = (webapp, openModal) => {
+  function getAllJobs(webapp, openModal) {
     if (openModal) {
       loadingWheelModal.open();
     }
-    debuggerHttpClient.get(self.getApiUrl(webapp), processSuccess, processError, webapp);
+    debuggerHttpClient.get(getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
   /** Cancel job execution */
-  this.cancelJobExecution = (jobKey, webapp) => {
+  function cancelJobExecution(jobKey, webapp) {
     loadingWheelModal.open();
     let urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
-    debuggerHttpClient.delete(self.getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
+    debuggerHttpClient.delete(getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
   }
 
   /** Update the jobs table content */
-  this.updateJobsTable = (webapp) => {
+  function updateJobsTable(webapp) {
     let $jobsData = $("#jobs-data-" + webapp);
     domUtils.empty($jobsData);
-    self.jobs.forEach((jobEntry) => {
+    jobs.forEach((jobEntry) => {
       let tableIdKey = webapp + jobEntry.key.name;
-      domUtils.append($jobsData, self.getTableFromTemplate(tableIdKey));
+      domUtils.append($jobsData, getTableFromTemplate(tableIdKey));
       domUtils.append($jobsData, domUtils.getBr());
 
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
       domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
-      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), self.formatSchedule(jobEntry.schedules));
+      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), formatSchedule(jobEntry.schedules));
 
       domUtils.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
         logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
-        self.cancelJobExecution(jobEntry.key, webapp);
+        cancelJobExecution(jobEntry.key, webapp);
       });
     });
   }
@@ -93,9 +96,9 @@ function Scheduler() {
   /**
    * Get the table from the template.
    */
-  this.getTableFromTemplate = (tableIdKey) => {
+  function getTableFromTemplate(tableIdKey) {
     // Create a wrapper div to insert the table template
-    let tableDiv = domUtils.getElementFromTemplate(self.schedulerTableTemplate);
+    let tableDiv = domUtils.getElementFromTemplate(schedulerTableTemplate);
     
     // Update the ids and classes on the table generated from the template
     domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val'), "scheduler-table-" + tableIdKey + "-name-val");
@@ -109,7 +112,7 @@ function Scheduler() {
   }
 
   /** Returns the schedule formated to display in the UI */
-  this.formatSchedule = (schedules) => {
+  function formatSchedule(schedules) {
     if (!isNullOrUndefined(schedules) && schedules.length != 0) {
       let scheduleFormattedArray = []
       schedules.forEach(schedule => {
@@ -125,7 +128,7 @@ function Scheduler() {
   }
   
   /** Set jobs table to error */
-  this.updateJobsTableError = (webapp) => {
+  function updateJobsTableError(webapp) {
     let $jobsData = $('#jobs-data-' + webapp);
     domUtils.empty($jobsData);
     domUtils.append($jobsData, getErrorMessage());
@@ -139,14 +142,14 @@ function Scheduler() {
   /** Process success response */
   function processSuccess(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    self.jobs = responseBody;
-    self.updateJobsTable(webapp);
+    jobs = responseBody;
+    updateJobsTable(webapp);
   }
 
   /** Process error response */
   function processError(responseBody, responseCode, responseDescription, webapp) {
     loadingWheelModal.close();
-    self.updateJobsTableError(webapp);
+    updateJobsTableError(webapp);
     basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }

@@ -18,19 +18,28 @@ window.onload = () => {
  * Manage the log level of the backend on the current server.
  */
 function BackendLogLevelUtils() {
-  let self = this;
-  this.logLevelTableTemplate;
+
+  this.init = init;
+  this.getLogLevels = getLogLevels;
+  this.resetLogLevels = resetLogLevels;
+  this.setKamehouseLogLevel = setKamehouseLogLevel;
+  this.setKamehouseLogLevelToDebug = setKamehouseLogLevelToDebug;
+  this.setKamehouseLogLevelToTrace = setKamehouseLogLevelToTrace;
+  this.setRequestLoggerConfigPayload = setRequestLoggerConfigPayload;
+  this.setRequestLoggerConfigHeaders = setRequestLoggerConfigHeaders;
+  this.setRequestLoggerConfigQueryString = setRequestLoggerConfigQueryString;
+  this.setRequestLoggerConfigClientInfo = setRequestLoggerConfigClientInfo;
 
   /**
    * Load templates and initial data.
    */
-  this.init = () => {
-    self.getLogLevels('admin', false);
-    self.getLogLevels('media', false);
-    self.getLogLevels('tennisworld', false);
-    self.getLogLevels('testmodule', false);
-    self.getLogLevels('ui', false);
-    self.getLogLevels('vlcrc', false);
+  function init() {
+    getLogLevels('admin', false);
+    getLogLevels('media', false);
+    getLogLevels('tennisworld', false);
+    getLogLevels('testmodule', false);
+    getLogLevels('ui', false);
+    getLogLevels('vlcrc', false);
   }
 
   /**
@@ -52,7 +61,7 @@ function BackendLogLevelUtils() {
   }
 
   /** Get all current log levels */
-  this.getLogLevels = (webapp, openModal) => {
+  function getLogLevels(webapp, openModal) {
     if (openModal) {
       loadingWheelModal.open();
     }
@@ -60,26 +69,26 @@ function BackendLogLevelUtils() {
   }
 
   /** Reset all log levels */
-  this.resetLogLevels = (webapp) => {
+  function resetLogLevels(webapp) {
     loadingWheelModal.open();
     debuggerHttpClient.delete(getApiUrl(webapp), null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log level */
-  this.setKamehouseLogLevel = (webapp) => {
+  function setKamehouseLogLevel(webapp) {
     let logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     loadingWheelModal.open();
     debuggerHttpClient.put(getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to DEBUG */
-  this.setKamehouseLogLevelToDebug = (webapp) => {
+  function setKamehouseLogLevelToDebug(webapp) {
     loadingWheelModal.open();
     debuggerHttpClient.put(getApiUrl(webapp) + "/debug", null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to TRACE */
-  this.setKamehouseLogLevelToTrace = (webapp) => {
+  function setKamehouseLogLevelToTrace(webapp) {
     loadingWheelModal.open();
     debuggerHttpClient.put(getApiUrl(webapp) + "/trace", null, processSuccess, processError, webapp);
   }
@@ -148,22 +157,22 @@ function BackendLogLevelUtils() {
   }
 
   /** Set request logger config payload */
-  this.setRequestLoggerConfigPayload = (webapp) => {
+  function setRequestLoggerConfigPayload(webapp) {
     setRequestLoggerConfig(webapp, "payload", "logPayload");
   }
 
   /** Set request logger config headers */
-  this.setRequestLoggerConfigHeaders = (webapp) => {
+  function setRequestLoggerConfigHeaders(webapp) {
     setRequestLoggerConfig(webapp, "headers", "logHeaders");
   }
 
   /** Set request logger config query string */
-  this.setRequestLoggerConfigQueryString = (webapp) => {
+  function setRequestLoggerConfigQueryString(webapp) {
     setRequestLoggerConfig(webapp, "query-string", "logQueryString");
   }
 
   /** Set request logger config client info */
-  this.setRequestLoggerConfigClientInfo = (webapp) => {
+  function setRequestLoggerConfigClientInfo(webapp) {
     setRequestLoggerConfig(webapp, "client-info", "logClientInfo");
   }
 

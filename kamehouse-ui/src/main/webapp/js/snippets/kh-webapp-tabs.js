@@ -12,34 +12,39 @@ function main() {
  * Prototype to manage the kamehouse webapp tabs.
  */
 function KameHouseWebappTabsManager() {
-  let self = this;
-  this.cookiePrefix = '';
+
+  this.setCookiePrefix = setCookiePrefix;
+  this.loadStateFromCookies = loadStateFromCookies;
+  this.openTab = openTab;
+  this.importTabs = importTabs;
+
+  let cookiePrefix = '';
 
   /**
    * Set the cookie prefix for the tab manager.
    * For example use 'kh-admin-ehcache'.
    */
-  this.setCookiePrefix = (cookiePrefix) => {
-    self.cookiePrefix = cookiePrefix;
+  function setCookiePrefix(cookiePrefixParam) {
+    cookiePrefix = cookiePrefixParam;
   }
 
   /**
    * Load the current state from the cookies.
    */
-   this.loadStateFromCookies = () => {
-    let currentTab = cookiesUtils.getCookie(self.cookiePrefix + '-current-tab');
+  function loadStateFromCookies() {
+    let currentTab = cookiesUtils.getCookie(cookiePrefix + '-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-admin';
     }
-    self.openTab(currentTab);
+    openTab(currentTab);
   }
 
   /**
    * Open the tab specified by its id.
    */
-  this.openTab = (selectedTabDivId) => {
+  function openTab(selectedTabDivId) {
     // Set current-tab cookie
-    cookiesUtils.setCookie(self.cookiePrefix + '-current-tab', selectedTabDivId);
+    cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
 
     // Update tab links
     let kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
@@ -61,13 +66,12 @@ function KameHouseWebappTabsManager() {
   /**
    * Import tabs.
    */
-  this.importTabs = () => {
+  function importTabs() {
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kh-webapp-tabs.css">');
     $("#kh-webapp-tabs-wrapper").load("/kame-house/html-snippets/kh-webapp-tabs.html", () => {
       moduleUtils.setModuleLoaded("kameHouseWebappTabsManager");
     });
   }
-
 }
 
 /**

@@ -31,7 +31,7 @@ function loadSessionStatus() {
 
   httpClient.get(SESSION_STATUS_URL, null,
     (responseBody, responseCode, responseDescription) => {
-      logger.trace("Sessin Status: " + JSON.stringify(responseBody));
+      logger.trace("Session Status: " + JSON.stringify(responseBody));
       global.session = responseBody;
       updateSessionStatus();
     },
@@ -53,22 +53,26 @@ async function updateSessionStatus() {
 
 /** Footer functionality */
 function Footer() {
-  self = this;
-  this.loaded = false;
 
-  this.isLoaded = () => self.loaded;
+  this.isLoaded = isLoaded;
+  this.renderFooter = renderFooter;
+  this.updateFooterWithSessionInfo = updateFooterWithSessionInfo;
+
+  let loaded = false;
+
+  function isLoaded() { return loaded; }
 
   /** Renders the footer */
-  this.renderFooter = () => { 
+  function renderFooter() { 
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
-    domUtils.append($("body"), self.getFooterContainerDiv());
+    domUtils.append($("body"), getFooterContainerDiv());
     $("#footerContainer").load("/kame-house/html-snippets/footer.html", () => {
-      self.loaded = true;
+      loaded = true;
     });
   }
 
   /** Update the server name, and build info in the footer */
-  this.updateFooterWithSessionInfo = () => {
+  function updateFooterWithSessionInfo() {
     if (!isNullOrUndefined(global.session.server)) {
       domUtils.setHtml($("#footer-server-name"), global.session.server);
     }
@@ -80,7 +84,7 @@ function Footer() {
     }
   }
 
-  this.getFooterContainerDiv = () => {
+  function getFooterContainerDiv() {
     return domUtils.getDiv({
       id: "footerContainer"
     });
@@ -89,26 +93,31 @@ function Footer() {
 
 /** Header functionality */
 function Header() {
-  let self = this;
-  this.loaded = false;
 
-  this.isLoaded = () => self.loaded;
+  this.isLoaded = isLoaded;
+  this.renderHeader = renderHeader;
+  this.toggleHeaderNav = toggleHeaderNav;
+  this.updateLoginStatus = updateLoginStatus;
+
+  let loaded = false;
+
+  function isLoaded() { return loaded; }
   
   /** Render the header */
-  this.renderHeader = () => {
+  function renderHeader() {
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
-    $("body").prepend(self.getHeaderContainerDiv());
+    $("body").prepend(getHeaderContainerDiv());
     $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
-      self.updateLoginStatus();
-      self.updateActiveTab();
-      self.loaded = true;
+      updateLoginStatus();
+      updateActiveTab();
+      loaded = true;
     });
   }
 
   /**
    * Set active tab in the menu.
    */
-  this.updateActiveTab = () => {
+  function updateActiveTab() {
     let pageUrl = window.location.pathname;
     $("#headerContainer header .default-layout #header-menu a").toArray().forEach((navItem) => {
       domUtils.removeClass($(navItem), "active");
@@ -162,7 +171,7 @@ function Header() {
   /** 
    * Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon. 
    */
-  this.toggleHeaderNav = () => {
+  function toggleHeaderNav() {
     let headerMenu = document.getElementById("header-menu");
     if (headerMenu.className === "header-nav") {
       domUtils.classListAdd(headerMenu, "responsive");
@@ -174,25 +183,25 @@ function Header() {
   /**
    * Update login status.
    */
-  this.updateLoginStatus = () => {
+  function updateLoginStatus() {
     let $loginStatus = $("#login-status");
     domUtils.empty($loginStatus);
     if (isNullOrUndefined(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {
-      domUtils.append($loginStatus, self.getLoginButton());
+      domUtils.append($loginStatus, getLoginButton());
     } else {
-      domUtils.append($loginStatus, self.getUsernameHeader(global.session.username));
-      domUtils.append($loginStatus, self.getLogoutButton());
+      domUtils.append($loginStatus, getUsernameHeader(global.session.username));
+      domUtils.append($loginStatus, getLogoutButton());
     }
   }
 
-  this.getHeaderContainerDiv = () => {
+  function getHeaderContainerDiv() {
     return domUtils.getDiv({
       id: "headerContainer"
     });
   }
 
-  this.getLoginButton = () => {
+  function getLoginButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/login-left-red.png",
       className: "header-login-status-btn",
@@ -201,7 +210,7 @@ function Header() {
     });
   }
 
-  this.getLogoutButton = () => {
+  function getLogoutButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/logout-right-red.png",
       className: "header-login-status-btn",
@@ -210,7 +219,7 @@ function Header() {
     });
   }
 
-  this.getUsernameHeader = (username) => {
+  function getUsernameHeader(username) {
     return domUtils.getSpan({
       class: "header-login-status-text"
     }, username);

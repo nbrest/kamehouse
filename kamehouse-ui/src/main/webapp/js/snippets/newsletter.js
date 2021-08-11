@@ -1,7 +1,7 @@
 /**
  * Newsletter functions.
  */
-function main() {
+function mainNewsletter() {
   importNewsletter();
 }
 
@@ -16,4 +16,4 @@ function importNewsletter() {
 /**
  * Call main.
  */
-$(document).ready(main);
+$(document).ready(mainNewsletter);

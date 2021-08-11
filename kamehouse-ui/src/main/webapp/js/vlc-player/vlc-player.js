@@ -17,53 +17,90 @@
  * @author nbrest
  */
 function VlcPlayer(hostname) {
-  let self = this;
-  this.hostname = hostname;
-  this.commandExecutor = new VlcPlayerCommandExecutor(self);
-  this.playlist = new VlcPlayerPlaylist(self);
-  this.restClient = new VlcPlayerRestClient(self);
-  this.synchronizer = new VlcPlayerSynchronizer(self);
-  this.mainViewUpdater = new VlcPlayerMainViewUpdater(self);
-  this.debugger = new VlcPlayerDebugger(self);
-  this.vlcRcStatus = {};
+
+  this.init = init;
+  this.loadStateFromApi = loadStateFromApi;
+  this.getHostname = getHostname;
+  this.getPlaylist = getPlaylist;
+  this.openTab = openTab;
+  this.playFile = playFile;
+  this.execVlcRcCommand = execVlcRcCommand;
+  this.updateSubtitleDelay = updateSubtitleDelay;
+  this.updateAspectRatio = updateAspectRatio;
+  this.seek = seek;
+  this.setVolume = setVolume;
+  this.close = close;
+  this.getVlcRcStatus = getVlcRcStatus;
+  this.pollVlcRcStatus = pollVlcRcStatus;
+  this.setVlcRcStatus = setVlcRcStatus;
+  this.setUpdatedPlaylist = setUpdatedPlaylist;
+  this.reloadPlaylist = reloadPlaylist;
+  this.scrollToCurrentlyPlaying = scrollToCurrentlyPlaying;
+  this.filterPlaylistRows = filterPlaylistRows;
+  this.toggleExpandPlaylistFilenames = toggleExpandPlaylistFilenames;
+  this.updateView = updateView;
+  this.resetView = resetView;
+  this.updateCurrentTimeView = updateCurrentTimeView;
+  this.updateVolumeView = updateVolumeView;
+  this.getRestClient = getRestClient;
+  this.getDebugger = getDebugger;
+  this.openServerManagement = openServerManagement;
+
+  let commandExecutor = new VlcPlayerCommandExecutor(this);
+  let playlist = new VlcPlayerPlaylist(this);
+  let restClient = new VlcPlayerRestClient(this);
+  let synchronizer = new VlcPlayerSynchronizer(this);
+  let mainViewUpdater = new VlcPlayerMainViewUpdater(this);
+  let vlcPlayerDebugger = new VlcPlayerDebugger(this);
+  let vlcRcStatus = {};
 
   /** Init VlcPlayer */
-  this.init = function init() {
+  function init() {
     logger.debug(arguments.callee.name);
-    self.playlist.init();
-    self.loadStateFromApi();
-    self.synchronizer.connectVlcRcStatus();
-    self.synchronizer.connectPlaylist();
-    self.synchronizer.syncVlcRcStatusLoop();
-    self.synchronizer.syncPlaylistLoop();
-    self.synchronizer.keepAliveWebSocketsLoop();
-    self.loadStateFromCookies();
+    playlist.init();
+    loadStateFromApi();
+    synchronizer.connectVlcRcStatus();
+    synchronizer.connectPlaylist();
+    synchronizer.syncVlcRcStatusLoop();
+    synchronizer.syncPlaylistLoop();
+    synchronizer.keepAliveWebSocketsLoop();
+    loadStateFromCookies();
   }
 
   /**
    * Load the current state from the cookies.
    */
-  this.loadStateFromCookies = () => {
+  function loadStateFromCookies() {
     let currentTab = cookiesUtils.getCookie('kh-vlc-player-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-playing';
     }
-    self.openTab(currentTab);
+    openTab(currentTab);
   }
 
   /**
    * Load the vlc player state and refresh the view from API calls (not through websockets).
    */
-  this.loadStateFromApi = () => {
-    self.debugger.getVlcRcStatusFromApi();
-    self.debugger.getPlaylistFromApi();
+  function loadStateFromApi() {
+    vlcPlayerDebugger.getVlcRcStatusFromApi();
+    vlcPlayerDebugger.getPlaylistFromApi();
+  }
+
+  /** Get the hostname for this instance of VlcPlayer */
+  function getHostname() {
+    return hostname;
+  }
+
+  /** Get internal object to manage the playlist */
+  function getPlaylist() {
+    return playlist;
   }
 
   /**
    * --------------------------------------------------------------------------
    * Tab manager
    */
-  this.openTab = (vlcPlayerTabDivId) => {
+  function openTab(vlcPlayerTabDivId) {
     // Set kh-vlc-player-current-tab cookie
     cookiesUtils.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId);
     // Update tab links
@@ -107,57 +144,57 @@ function VlcPlayer(hostname) {
   /**
    * Play the specified file in vlc.
    */
-  this.playFile = (fileName) => self.commandExecutor.playFile(fileName);
+  function playFile(fileName) { commandExecutor.playFile(fileName); }
 
   /**
    * Execute the specified vlc command.
    */
-  this.execVlcRcCommand = (name, val) => self.commandExecutor.execVlcRcCommand(name, val);
+  function execVlcRcCommand(name, val) { commandExecutor.execVlcRcCommand(name, val); }
 
   /**
    * Set the subtitle delay.
    */
-  this.updateSubtitleDelay = (increment) => {
-    let subtitleDelay = self.getVlcRcStatus().subtitleDelay;
+  function updateSubtitleDelay(increment) {
+    let subtitleDelay = getVlcRcStatus().subtitleDelay;
     if (!isNullOrUndefined(subtitleDelay)) {
       subtitleDelay = Number(subtitleDelay) + Number(increment);
     } else {
       subtitleDelay = 0 + Number(increment);
     }
-    self.commandExecutor.execVlcRcCommand('subdelay', subtitleDelay);
+    commandExecutor.execVlcRcCommand('subdelay', subtitleDelay);
   }
 
   /**
    * Set aspect ratio.
    */
-  this.updateAspectRatio = (aspectRatio) => {
+  function updateAspectRatio(aspectRatio) {
     if (!isNullOrUndefined(aspectRatio)) {
-      self.commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
+      commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
   }
 
   /**
    * Seek through the current playing file.
    */
-  this.seek = (value) => {
-    self.mainViewUpdater.updateCurrentTimeView(value);
-    self.commandExecutor.execVlcRcCommand('seek', value);
-    self.mainViewUpdater.setTimeSliderLocked(false);
+  function seek(value) {
+    mainViewUpdater.updateCurrentTimeView(value);
+    commandExecutor.execVlcRcCommand('seek', value);
+    mainViewUpdater.setTimeSliderLocked(false);
   }
 
   /**
    * Update the volume.
-   */
-  this.setVolume = (value) => {
-    self.mainViewUpdater.updateVolumeView(value);
-    self.commandExecutor.execVlcRcCommand('volume', value);
-    self.mainViewUpdater.setVolumeSliderLocked(false);
+   */ 
+  function setVolume(value) {
+    mainViewUpdater.updateVolumeView(value);
+    commandExecutor.execVlcRcCommand('volume', value);
+    mainViewUpdater.setVolumeSliderLocked(false);
   }
 
   /**
    * Close vlc player.
    */
-  this.close = () => self.commandExecutor.close();
+  function close() { commandExecutor.close(); }
 
   /**
    * --------------------------------------------------------------------------
@@ -166,24 +203,24 @@ function VlcPlayer(hostname) {
   /**
    * Get the current vlcRc status.
    */
-  this.getVlcRcStatus = () => self.vlcRcStatus;
+  function getVlcRcStatus() { return vlcRcStatus; }
 
   /**
    * Pol vlcrc status from the websocket.
    */
-  this.pollVlcRcStatus = () => self.synchronizer.pollVlcRcStatus();
+  function pollVlcRcStatus() { synchronizer.pollVlcRcStatus(); }
 
   /** 
    * Set the VlcRcStatus. vlcRcStatus must never be undefined or null.
    * If no value is passed, set an empty object. Always set vlcRcStatus
    * through this method.
    */
-  this.setVlcRcStatus = (vlcRcStatus) => {
-    //logger.trace("vlcRcStatus " + JSON.stringify(vlcRcStatus));
-    if (!isNullOrUndefined(vlcRcStatus)) {
-      self.vlcRcStatus = vlcRcStatus;
+  function setVlcRcStatus(vlcRcStatusParam) {
+    //logger.trace("vlcRcStatus " + JSON.stringify(vlcRcStatusParam));
+    if (!isNullOrUndefined(vlcRcStatusParam)) {
+      vlcRcStatus = vlcRcStatusParam;
     } else {
-      self.vlcRcStatus = {};
+      vlcRcStatus = {};
     }
   }
 
@@ -191,45 +228,45 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Playlist functionality
    */
-  this.setUpdatedPlaylist = (updatedPlaylist) => self.playlist.setUpdatedPlaylist(updatedPlaylist);
+  function setUpdatedPlaylist(updatedPlaylist) { playlist.setUpdatedPlaylist(updatedPlaylist); }
 
-  this.reloadPlaylist = () => self.playlist.reload();
+  function reloadPlaylist() { playlist.reload(); }
 
-  this.scrollToCurrentlyPlaying = () => self.playlist.scrollToCurrentlyPlaying();
+  function scrollToCurrentlyPlaying() { playlist.scrollToCurrentlyPlaying(); }
 
-  this.filterPlaylistRows = () => {
+  function filterPlaylistRows() {
     let filterString = document.getElementById("playlist-filter-input").value;
     tableUtils.filterTableRows(filterString, 'playlist-table-body');
   }
 
-  this.toggleExpandPlaylistFilenames = () => self.playlist.toggleExpandPlaylistFilenames();
+  function toggleExpandPlaylistFilenames() { playlist.toggleExpandPlaylistFilenames(); }
 
   /**
    * --------------------------------------------------------------------------
    * Update view functionality
    */
   /** Calls each internal module that has view logic to update it's view. */
-  this.updateView = () => {
-    self.mainViewUpdater.updateView();
-    self.playlist.updateView();
+  function updateView() {
+    mainViewUpdater.updateView();
+    playlist.updateView();
   }
 
   /** Calls each internal module that has view logic to reset it's view. */
-  this.resetView = function resetView() {
+  function resetView() {
     logger.debug(arguments.callee.name);
-    self.setVlcRcStatus({});
-    self.mainViewUpdater.resetView();
-    self.playlist.resetView();
+    setVlcRcStatus({});
+    mainViewUpdater.resetView();
+    playlist.resetView();
   }
 
-  this.updateCurrentTimeView = (value) => {
-    self.mainViewUpdater.setTimeSliderLocked(true);
-    self.mainViewUpdater.updateCurrentTimeView(value);
+  function updateCurrentTimeView(value) {
+    mainViewUpdater.setTimeSliderLocked(true);
+    mainViewUpdater.updateCurrentTimeView(value);
   }
 
-  this.updateVolumeView = (value) => {
-    self.mainViewUpdater.setVolumeSliderLocked(true);
-    self.mainViewUpdater.updateVolumeView(value);
+  function updateVolumeView(value) {
+    mainViewUpdater.setVolumeSliderLocked(true);
+    mainViewUpdater.updateVolumeView(value);
   }
 
   /**
@@ -237,19 +274,19 @@ function VlcPlayer(hostname) {
    * Rest Client functionality
    */
   // Use this getter internally from other components of VlcPlayer. Not externally.
-  this.getRestClient = () => self.restClient;
+  function getRestClient() { return restClient; }
 
   /**
    * --------------------------------------------------------------------------
    * Debugger functionality
    */
-  this.getDebugger = () => self.debugger;
+  function getDebugger() { return vlcPlayerDebugger; }
 
   /**
    * --------------------------------------------------------------------------
    * Links to external resources
    */
-  this.openServerManagement = () => {
+  function openServerManagement() {
     cursorUtils.setCursorWait();
     window.location.href = '/kame-house/admin/server-management';
   }
@@ -265,13 +302,16 @@ function VlcPlayer(hostname) {
  * @author nbrest
  */
 function VlcPlayerCommandExecutor(vlcPlayer) {
-  let self = this;
+
+  this.execVlcRcCommand = execVlcRcCommand;
+  this.playFile = playFile;
+  this.close = close;
+
   const vlcPlayerProcessControlUrl = '/kame-house-vlcrc/api/v1/vlc-rc/vlc-process';
-  this.vlcPlayer = vlcPlayer;
-  this.vlcRcCommandUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/commands';
+  let vlcRcCommandUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/commands';
 
   /** Create a vlcrc command with the parameters and execute the request to the server. */
-  this.execVlcRcCommand = function execVlcRcCommand(name, val) {
+  function execVlcRcCommand(name, val) {
     logger.debug(arguments.callee.name);
     let requestBody;
     if (isNullOrUndefined(val)) {
@@ -284,22 +324,22 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
         val: val
       };
     }
-    self.vlcPlayer.getRestClient().post(self.vlcRcCommandUrl, requestBody);
+    vlcPlayer.getRestClient().post(vlcRcCommandUrl, requestBody);
   }
 
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
-  this.playFile = function playFile(fileName) {
+  function playFile(fileName) {
     logger.debug(arguments.callee.name);
     logger.debug("File to play: " + fileName);
     let requestParam = "file=" + fileName;
     loadingWheelModal.open();
-    self.vlcPlayer.getRestClient().postUrlEncoded(vlcPlayerProcessControlUrl, requestParam, self.vlcPlayer.loadStateFromApi);
+    vlcPlayer.getRestClient().postUrlEncoded(vlcPlayerProcessControlUrl, requestParam, vlcPlayer.loadStateFromApi);
   }
 
   /** Close vlc player. */
-  this.close = function close() {
+  function close() {
     logger.debug(arguments.callee.name);
-    self.vlcPlayer.getRestClient().delete(vlcPlayerProcessControlUrl, null);
+    vlcPlayer.getRestClient().delete(vlcPlayerProcessControlUrl, null);
   }
 }
 
@@ -314,68 +354,74 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
  * @author nbrest
  */
 function VlcPlayerMainViewUpdater(vlcPlayer) {
-  let self = this;
-  this.vlcPlayer = vlcPlayer;
-  this.statefulButtons = [];
-  this.timeSliderLocked = false;
-  this.volumeSliderLocked = false;
+
+  this.setTimeSliderLocked = setTimeSliderLocked;
+  this.setVolumeSliderLocked = setVolumeSliderLocked;
+  this.updateView = updateView;
+  this.resetView = resetView;
+  this.updateCurrentTimeView = updateCurrentTimeView;
+  this.updateVolumeView = updateVolumeView;
+
+  let statefulButtons = [];
+  let timeSliderLocked = false;
+  let volumeSliderLocked = false;
 
   function setStatefulButtons() {
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-fullscreen', "fullscreen", true));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-repeat-1', "repeat", true));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-repeat', "loop", true));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-shuffle', "random", true));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-stop', "state", "stopped"));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-mute', "volume", 0, 'btn-mute'));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-16-9', "aspectRatio", "16:9"));
-    self.statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-4-3', "aspectRatio", "4:3"));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-fullscreen', "fullscreen", true));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-repeat-1', "repeat", true));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-repeat', "loop", true));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-shuffle', "random", true));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-stop', "state", "stopped"));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-mute', "volume", 0, 'btn-mute'));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-16-9', "aspectRatio", "16:9"));
+    statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-4-3', "aspectRatio", "4:3"));
   }
   setStatefulButtons();
 
   /** Set time slider locked. */
-  this.setTimeSliderLocked = (value) => self.timeSliderLocked = value;
+  function setTimeSliderLocked(value) { timeSliderLocked = value; }
 
   /** Set volume slider locked. */
-  this.setVolumeSliderLocked = (value) => self.volumeSliderLocked = value;
+  function setVolumeSliderLocked(value) { volumeSliderLocked = value; }
 
   /** Update vlc player view for main view objects. */
-  this.updateView = () => {
+  function updateView() {
     //logger.info("updateView");
-    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus())) {
-      self.updateMediaTitle();
-      self.updateTimeSlider();
-      self.updateVolumeSlider();
-      self.updateSubtitleDelay();
-      self.statefulButtons.forEach(statefulButton => statefulButton.updateState());
+    if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus())) {
+      updateMediaTitle();
+      updateTimeSlider();
+      updateVolumeSlider();
+      updateSubtitleDelay();
+      statefulButtons.forEach(statefulButton => statefulButton.updateState());
     } else {
-      self.resetView();
+      resetView();
     }
   }
 
   /** Reset vlc player view for main view objects. */
-  this.resetView = () => {
+  function resetView() {
     //logger.trace(arguments.callee.name);
-    self.resetMediaTitle();
-    self.resetTimeSlider();
-    self.resetVolumeSlider();
-    self.resetSubtitleDelay();
-    self.statefulButtons.forEach(statefulButton => statefulButton.updateState());
+    resetMediaTitle();
+    resetTimeSlider();
+    resetVolumeSlider();
+    resetSubtitleDelay();
+    statefulButtons.forEach(statefulButton => statefulButton.updateState());
   }
 
   /** Update the media title. */
-  this.updateMediaTitle = () => {
+  function updateMediaTitle() {
     let mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().information)) {
-      mediaName.filename = self.vlcPlayer.getVlcRcStatus().information.meta.filename;
-      mediaName.title = self.vlcPlayer.getVlcRcStatus().information.meta.title;
+    if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().information)) {
+      mediaName.filename = vlcPlayer.getVlcRcStatus().information.meta.filename;
+      mediaName.title = vlcPlayer.getVlcRcStatus().information.meta.title;
     }
     domUtils.setHtml($("#media-title"), mediaName.filename);
   }
 
   /** Reset the media title. */
-  this.resetMediaTitle = () => {
+  function resetMediaTitle() {
     let mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
@@ -383,16 +429,16 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   }
 
   /** Update subtitle delay. */
-  this.updateSubtitleDelay = () => {
-    let subtitleDelay = self.vlcPlayer.getVlcRcStatus().subtitleDelay;
+  function updateSubtitleDelay() {
+    let subtitleDelay = vlcPlayer.getVlcRcStatus().subtitleDelay;
     if (isNullOrUndefined(subtitleDelay)) {
       subtitleDelay = "0";
     }
-    domUtils.setHtml($("#subtitle-delay-value"), subtitleDelay);
+    domUtils.setHtml($("#subtitle-delay-value"), new String(subtitleDelay));
   }
 
   /** Reset subtitle delay. */
-  this.resetSubtitleDelay = () => {
+  function resetSubtitleDelay() {
     domUtils.setHtml($("#subtitle-delay-value"), "0");
   }
 
@@ -401,19 +447,19 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
    * Update time Functionality
    */
   /** Update media time slider from VlcRcStatus and resets view when there's no input. */
-  this.updateTimeSlider = () => {
-    if (!self.timeSliderLocked) {
-      if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().time)) {
-        self.updateCurrentTimeView(self.vlcPlayer.getVlcRcStatus().time);
-        self.updateTotalTimeView(self.vlcPlayer.getVlcRcStatus().length);
+  function updateTimeSlider() {
+    if (!timeSliderLocked) {
+      if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().time)) {
+        updateCurrentTimeView(vlcPlayer.getVlcRcStatus().time);
+        updateTotalTimeView(vlcPlayer.getVlcRcStatus().length);
       } else {
-        self.resetTimeSlider();
+        resetTimeSlider();
       }
     }
   }
 
   /** Reset time slider. */
-  this.resetTimeSlider = () => {
+  function resetTimeSlider() {
     domUtils.setHtml($("#current-time"), "--:--:--");
     domUtils.setVal($("#time-slider"), 500);
     domUtils.setHtml($("#total-time"), "--:--:--");
@@ -421,7 +467,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   }
 
   /** Update the displayed current time. */
-  this.updateCurrentTimeView = (value) => {
+  function updateCurrentTimeView(value) {
     //logger.trace("Current time: " + value);
     let currentTime = document.getElementById("current-time");
     domUtils.setInnerHtml(currentTime, timeUtils.convertSecondsToHsMsSs(value));
@@ -429,7 +475,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   }
 
   /** Update the displayed total time. */
-  this.updateTotalTimeView = (value) => {
+  function updateTotalTimeView(value) {
     //logger.trace("Total time: " + value);
     domUtils.setHtml($("#total-time"), timeUtils.convertSecondsToHsMsSs(value));
     domUtils.setAttr($("#time-slider"),'max', value);
@@ -440,21 +486,21 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
    * Update volume Functionality
    */
   /** Update volume slider from VlcRcStatus. */
-  this.updateVolumeSlider = () => {
-    if (!self.volumeSliderLocked) {
-      if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().volume)) {
-        self.updateVolumeView(self.vlcPlayer.getVlcRcStatus().volume);
+  function updateVolumeSlider() {
+    if (!volumeSliderLocked) {
+      if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().volume)) {
+        updateVolumeView(vlcPlayer.getVlcRcStatus().volume);
       } else {
-        self.resetVolumeSlider();
+        resetVolumeSlider();
       }
     }
   }
 
   /** Reset volume slider. */
-  this.resetVolumeSlider = () => self.updateVolumeView(256);
+  function resetVolumeSlider() { updateVolumeView(256); }
 
   /** Update volume percentage to display with the specified value. */
-  this.updateVolumeView = (value) => {
+  function updateVolumeView(value) {
     //logger.trace("Current volume value: " + value);
     domUtils.setVal($("#volume-slider"), value);
     let volumePercentaje = Math.floor(value * 200 / 512);
@@ -473,41 +519,37 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
  * @author nbrest
  */
 function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnPrefixClass) {
-  let self = this;
+
+  this.updateState = updateState;
+
   const defaultBtnPrefixClass = 'media-btn';
-  this.vlcPlayer = vlcPlayer;
-  this.id = id;
-  this.pressedField = pressedField;
-  this.pressedCondition = pressedCondition;
-  this.btnPrefixClass = null;
-  if (!isNullOrUndefined(btnPrefixClass)) {
-    this.btnPrefixClass = btnPrefixClass;
-  } else {
-    this.btnPrefixClass = defaultBtnPrefixClass;
+
+  if (isNullOrUndefined(btnPrefixClass)) {
+    btnPrefixClass = defaultBtnPrefixClass;
   }
 
   /** Determines if the button is pressed or unpressed. */
-  this.isPressed = () => self.vlcPlayer.getVlcRcStatus()[pressedField] == self.pressedCondition;
+  function isPressed() { return vlcPlayer.getVlcRcStatus()[pressedField] == pressedCondition; }
 
   /** Update the state of the button (pressed/unpressed) */
-  this.updateState = () => {
-    if (self.isPressed()) {
-      self.setMediaButtonPressed();
+  function updateState() {
+    if (isPressed()) {
+      setMediaButtonPressed();
     } else {
-      self.setMediaButtonUnpressed();
+      setMediaButtonUnpressed();
     }
   }
 
   /** Set media button pressed */
-  this.setMediaButtonPressed = () => {
-    domUtils.removeClass($('#' + self.id), self.btnPrefixClass + '-unpressed');
-    domUtils.addClass($('#' + self.id), self.btnPrefixClass + '-pressed');
+  function setMediaButtonPressed() {
+    domUtils.removeClass($('#' + id), btnPrefixClass + '-unpressed');
+    domUtils.addClass($('#' + id), btnPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
-  this.setMediaButtonUnpressed = () => {
-    domUtils.removeClass($('#' + self.id), self.btnPrefixClass + '-pressed');
-    domUtils.addClass($('#' + self.id), self.btnPrefixClass + '-unpressed');
+  function setMediaButtonUnpressed() {
+    domUtils.removeClass($('#' + id), btnPrefixClass + '-pressed');
+    domUtils.addClass($('#' + id), btnPrefixClass + '-unpressed');
   }
 }
 
@@ -521,29 +563,35 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
  * @author nbrest
  */
 function VlcPlayerSynchronizer(vlcPlayer) {
-  let self = this;
-  this.vlcPlayer = vlcPlayer;
-  this.vlcRcStatusWebSocket = new WebSocketKameHouse();
-  this.playlistWebSocket = new WebSocketKameHouse();
-  this.isRunningSyncVlcRcStatusLoop = false;
-  this.isRunningSyncPlaylistLoop = false;
-  this.isRunningKeepAliveWebSocketLoop = false;
+
+  this.pollVlcRcStatus = pollVlcRcStatus;
+  this.connectVlcRcStatus = connectVlcRcStatus;
+  this.connectPlaylist = connectPlaylist;
+  this.syncVlcRcStatusLoop = syncVlcRcStatusLoop;
+  this.syncPlaylistLoop = syncPlaylistLoop;
+  this.keepAliveWebSocketsLoop = keepAliveWebSocketsLoop;
+
+  let vlcRcStatusWebSocket = new WebSocketKameHouse();
+  let playlistWebSocket = new WebSocketKameHouse();
+  let isRunningSyncVlcRcStatusLoop = false;
+  let isRunningSyncPlaylistLoop = false;
+  let isRunningKeepAliveWebSocketLoop = false;
 
   function setWebSockets() {
     logger.trace(arguments.callee.name);
     const vlcRcStatusWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/status';
     const vlcRcStatusWebSocketPollUrl = "/app/vlc-player/status-in";
     const vlcRcStatusWebSocketTopicUrl = '/topic/vlc-player/status-out';
-    self.vlcRcStatusWebSocket.setStatusUrl(vlcRcStatusWebSocketStatusUrl);
-    self.vlcRcStatusWebSocket.setPollUrl(vlcRcStatusWebSocketPollUrl);
-    self.vlcRcStatusWebSocket.setTopicUrl(vlcRcStatusWebSocketTopicUrl);
+    vlcRcStatusWebSocket.setStatusUrl(vlcRcStatusWebSocketStatusUrl);
+    vlcRcStatusWebSocket.setPollUrl(vlcRcStatusWebSocketPollUrl);
+    vlcRcStatusWebSocket.setTopicUrl(vlcRcStatusWebSocketTopicUrl);
 
     const playlistWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/playlist';
     const playlistWebSocketPollUrl = "/app/vlc-player/playlist-in";
     const playlistWebSocketTopicUrl = '/topic/vlc-player/playlist-out';
-    self.playlistWebSocket.setStatusUrl(playlistWebSocketStatusUrl);
-    self.playlistWebSocket.setPollUrl(playlistWebSocketPollUrl);
-    self.playlistWebSocket.setTopicUrl(playlistWebSocketTopicUrl);
+    playlistWebSocket.setStatusUrl(playlistWebSocketStatusUrl);
+    playlistWebSocket.setPollUrl(playlistWebSocketPollUrl);
+    playlistWebSocket.setTopicUrl(playlistWebSocketTopicUrl);
   }
   setWebSockets();
 
@@ -552,25 +600,25 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * VlcRcStatus WebSocket functionality
    */
   /** Poll for an update of vlcRcStatus through the web socket. */
-  this.pollVlcRcStatus = () => self.vlcRcStatusWebSocket.poll();
+  function pollVlcRcStatus() { vlcRcStatusWebSocket.poll(); }
 
   /** Connects the websocket to the backend. */
-  this.connectVlcRcStatus = function connectVlcRcStatus() {
+  function connectVlcRcStatus() {
     logger.debug(arguments.callee.name);
-    self.vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
+    vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
-        self.vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
+        vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
       } else {
-        self.vlcPlayer.setVlcRcStatus({});
+        vlcPlayer.setVlcRcStatus({});
       }
     });
   }
 
   /** Reconnects the VlcRcStatus websocket to the backend. */
-  this.reconnectVlcRcStatus = function reconnectVlcRcStatus() {
+  function reconnectVlcRcStatus() {
     logger.debug(arguments.callee.name);
-    self.vlcRcStatusWebSocket.disconnect();
-    self.connectVlcRcStatus();
+    vlcRcStatusWebSocket.disconnect();
+    connectVlcRcStatus();
   }
 
   /**
@@ -578,22 +626,22 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Playlist WebSocket functionality
    */
   /** Connects the playlist websocket to the backend. */
-  this.connectPlaylist = function connectPlaylist() {
+  function connectPlaylist() {
     logger.debug(arguments.callee.name);
-    self.playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
+    playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
-        self.vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
+        vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
       } else {
-        self.vlcPlayer.setUpdatedPlaylist(null);
+        vlcPlayer.setUpdatedPlaylist(null);
       }
     });
   }
 
   /** Reconnects the playlist websocket to the backend. */
-  this.reconnectPlaylist = function reconnectPlaylist() {
+  function reconnectPlaylist() {
     logger.debug(arguments.callee.name);
-    self.playlistWebSocket.disconnect();
-    self.connectPlaylist();
+    playlistWebSocket.disconnect();
+    connectPlaylist();
   }
 
   /**
@@ -606,23 +654,23 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * If it fails to get an update from the websocket for 10 seconds in a row,
    * it increases the wait time between syncs, until the first succesful sync.
    */
-  this.syncVlcRcStatusLoop = async function syncVlcRcStatusLoop() {
+  async function syncVlcRcStatusLoop() {
     logger.info("Started syncVlcRcStatusLoop");
-    if (self.isRunningSyncVlcRcStatusLoop) {
+    if (isRunningSyncVlcRcStatusLoop) {
       logger.error("syncVlcRcStatusLoop is already running");
       return;
     }
-    self.isRunningSyncVlcRcStatusLoop = true;
+    isRunningSyncVlcRcStatusLoop = true;
     let vlcRcStatusPullWaitTimeMs = 1000;
     let failedCount = 0;
-    while (self.isRunningSyncVlcRcStatusLoop) {
+    while (isRunningSyncVlcRcStatusLoop) {
       logger.trace("Poll vlcRcStatus loop");
-      //logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(self.vlcPlayer.getVlcRcStatus()));
-      if (self.vlcRcStatusWebSocket.isConnected()) {
+      //logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
+      if (vlcRcStatusWebSocket.isConnected()) {
         // poll VlcRcStatus from the websocket.
-        self.vlcRcStatusWebSocket.poll();
-        self.vlcPlayer.updateView();
-        if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus().information)) {
+        vlcRcStatusWebSocket.poll();
+        vlcPlayer.updateView();
+        if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().information)) {
           vlcRcStatusPullWaitTimeMs = 1000;
           failedCount = 0;
         } else {
@@ -634,7 +682,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       } else {
         vlcRcStatusPullWaitTimeMs = 3000;
         //logger.trace("WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
-        self.vlcPlayer.resetView();
+        vlcPlayer.resetView();
       }
       await sleep(vlcRcStatusPullWaitTimeMs);
     }
@@ -645,20 +693,20 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Start infinite loop to sync the current playlist from the server.
    * Break the loop setting isRunningSyncPlaylistLoop to false.
    */
-  this.syncPlaylistLoop = async function syncPlaylistLoop() {
+  async function syncPlaylistLoop() {
     logger.info("Started syncPlaylistLoop");
-    if (self.isRunningSyncPlaylistLoop) {
+    if (isRunningSyncPlaylistLoop) {
       logger.error("syncPlaylistLoop is already running");
       return;
     }
-    self.isRunningSyncPlaylistLoop = true;
+    isRunningSyncPlaylistLoop = true;
     let playlistSyncWaitTimeMs = 5000;
-    while (self.isRunningSyncPlaylistLoop) {
+    while (isRunningSyncPlaylistLoop) {
       logger.trace("Poll playlist loop");
-      if (self.playlistWebSocket.isConnected()) {
+      if (playlistWebSocket.isConnected()) {
         // poll playlist from the websocket.
-        self.playlistWebSocket.poll();
-        self.vlcPlayer.reloadPlaylist();
+        playlistWebSocket.poll();
+        vlcPlayer.reloadPlaylist();
       }
       await sleep(playlistSyncWaitTimeMs);
     }
@@ -669,24 +717,24 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Start infinite loop to keep alive the websocket connections.
    * Break the loop setting isRunningKeepAliveWebSocketLoop to false.
    */
-  this.keepAliveWebSocketsLoop = async function keepAliveWebSocketsLoop() {
+  async function keepAliveWebSocketsLoop() {
     logger.info("Started keepAliveWebSocketsLoop");
-    if (self.isRunningKeepAliveWebSocketLoop) {
+    if (isRunningKeepAliveWebSocketLoop) {
       logger.error("keepAliveWebSocketsLoop is already running");
       return;
     }
-    self.isRunningKeepAliveWebSocketLoop = true;
+    isRunningKeepAliveWebSocketLoop = true;
     let keepAliveWebSocketWaitTimeMs = 5000;
-    while (self.isRunningKeepAliveWebSocketLoop) {
+    while (isRunningKeepAliveWebSocketLoop) {
       logger.trace("Keep websockets connected loop");
       await sleep(keepAliveWebSocketWaitTimeMs);
-      if (!self.vlcRcStatusWebSocket.isConnected()) {
+      if (!vlcRcStatusWebSocket.isConnected()) {
         logger.debug("VlcRcStatus webSocket not connected. Reconnecting.");
-        self.reconnectVlcRcStatus();
+        reconnectVlcRcStatus();
       }
-      if (!self.playlistWebSocket.isConnected()) {
+      if (!playlistWebSocket.isConnected()) {
         logger.debug("Playlist webSocket not connected. Reconnecting.");
-        self.reconnectPlaylist();
+        reconnectPlaylist();
       }
     }
     logger.info("Finished keepAliveWebSocketsLoop");
@@ -697,79 +745,86 @@ function VlcPlayerSynchronizer(vlcPlayer) {
  * Represents the Playlist component in vlc-player page. 
  * It also handles the updates to the view of the playlist.
  * 
- * This prototype is meant to be instantiated by VlcPlayer() constructor
- * and added as a property to VlcPlayer.playlist inside that constructor.
+ * This prototype is meant to be instantiated by VlcPlayer() constructor.
  * It's not meant to be used standalone. The vlcPlayer parameter to the constructor
  * should be a reference to the enclosing VlcPlayer that contains this prototype.
  * 
  * @author nbrest
  */
 function VlcPlayerPlaylist(vlcPlayer) {
-  let self = this;
-  this.vlcPlayer = vlcPlayer;
-  this.currentPlaylist = null;
-  this.updatedPlaylist = null;
+
+  this.init = init;
+  this.setUpdatedPlaylist = setUpdatedPlaylist;
+  this.reload = reload;
+  this.scrollToCurrentlyPlaying = scrollToCurrentlyPlaying;
+  this.updateView = updateView;
+  this.resetView = resetView;
+
   const playSelectedUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands';
-  this.tbodyAbsolutePaths = null;
-  this.tbodyFilenames = null;
-  this.dobleLeftImg = null;
-  this.dobleRightImg = null;
+  let currentPlaylist = null;
+  let updatedPlaylist = null;
+  let tbodyAbsolutePaths = null;
+  let tbodyFilenames = null;
+  let dobleLeftImg = null;
+  let dobleRightImg = null;
 
   /** Init Playlist. */
-  this.init = function init() {
+  function init() {
     logger.debug(arguments.callee.name);
-    self.dobleLeftImg = self.createDoubleArrowImg("left");
-    self.dobleRightImg = self.createDoubleArrowImg("right");
-    $("#toggle-playlist-filenames-img").replaceWith(self.dobleRightImg);
+    dobleLeftImg = createDoubleArrowImg("left");
+    dobleRightImg = createDoubleArrowImg("right");
+    $("#toggle-playlist-filenames-img").replaceWith(dobleRightImg);
   }
 
   /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
-  this.createDoubleArrowImg = (direction) => {
+  function createDoubleArrowImg(direction) {
     return domUtils.getImgBtn({
       id: "toggle-playlist-filenames-img",
       src: "/kame-house/img/other/double-" + direction + "-green.png",
       className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
       alt: "Expand/Collapse Filename",
-      onClick: () => self.toggleExpandPlaylistFilenames()
+      onClick: () => toggleExpandPlaylistFilenames()
     });
   }
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
-  this.setUpdatedPlaylist = (updatedPlaylist) => self.updatedPlaylist = updatedPlaylist;
+  function setUpdatedPlaylist(updatedPlaylistParam) { 
+    updatedPlaylist = updatedPlaylistParam; 
+  }
 
   /** Reload playlist updating the playlist view. */
-  this.reload = () => {
-    if (!self.isPlaylistUpdated(self.currentPlaylist, self.updatedPlaylist)) {
+  function reload() {
+    if (!isPlaylistUpdated(currentPlaylist, updatedPlaylist)) {
       // Playlist content not updated, just update currently playing element and return
-      self.highlightCurrentPlayingItem();
+      highlightCurrentPlayingItem();
       return;
     }
-    self.currentPlaylist = self.updatedPlaylist;
+    currentPlaylist = updatedPlaylist;
     // Clear playlist content. 
     domUtils.empty($("#playlist-table-body"));
     // Add the new playlist items received from the server.
     let $playlistTableBody = $('#playlist-table-body');
-    if (isNullOrUndefined(self.currentPlaylist) || isNullOrUndefined(self.currentPlaylist.length) ||
-      self.currentPlaylist.length <= 0) {
-      domUtils.append($playlistTableBody, self.getEmptyPlaylistTr());
+    if (isNullOrUndefined(currentPlaylist) || isNullOrUndefined(currentPlaylist.length) ||
+      currentPlaylist.length <= 0) {
+      domUtils.append($playlistTableBody, getEmptyPlaylistTr());
     } else {
-      self.tbodyFilenames = self.getPlaylistTbody();
-      self.tbodyAbsolutePaths = self.getPlaylistTbody();
-      for (let i = 0; i < self.currentPlaylist.length; i++) {
-        let absolutePath = self.currentPlaylist[i].filename;
+      tbodyFilenames = getPlaylistTbody();
+      tbodyAbsolutePaths = getPlaylistTbody();
+      for (let i = 0; i < currentPlaylist.length; i++) {
+        let absolutePath = currentPlaylist[i].filename;
         let filename = fileUtils.getShortFilename(absolutePath);
-        let playlistElementId = self.currentPlaylist[i].id
-        domUtils.append(self.tbodyFilenames, self.getPlaylistTr(filename, playlistElementId));
-        domUtils.append(self.tbodyAbsolutePaths, self.getPlaylistTr(absolutePath, playlistElementId));
+        let playlistElementId = currentPlaylist[i].id
+        domUtils.append(tbodyFilenames, getPlaylistTr(filename, playlistElementId));
+        domUtils.append(tbodyAbsolutePaths, getPlaylistTr(absolutePath, playlistElementId));
       }
-      $playlistTableBody.replaceWith(self.tbodyFilenames);
-      self.highlightCurrentPlayingItem();
-      self.vlcPlayer.filterPlaylistRows();
+      $playlistTableBody.replaceWith(tbodyFilenames);
+      highlightCurrentPlayingItem();
+      vlcPlayer.filterPlaylistRows();
     }
   }
 
   /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */
-  this.isPlaylistUpdated = (currentPlaylist, updatedPlaylist) => {
+  function isPlaylistUpdated(currentPlaylist, updatedPlaylist) {
     let MAX_COMPARISONS = 30;
     // For empty playlists, return true, so it updates the UI
     if (isNullOrUndefined(currentPlaylist) || isNullOrUndefined(updatedPlaylist)) {
@@ -803,18 +858,18 @@ function VlcPlayerPlaylist(vlcPlayer) {
   }
 
   /** Play the clicked element from the playlist. */
-  this.clickEventOnPlaylistRow = (event) => {
+  function clickEventOnPlaylistRow(event) {
     logger.debug("Play playlist id: " + event.data.id);
     let requestBody = {
       name: 'pl_play',
       id: event.data.id
     };
-    self.vlcPlayer.getRestClient().post(playSelectedUrl, requestBody);
+    vlcPlayer.getRestClient().post(playSelectedUrl, requestBody);
   }
 
   /** Highlight currently playing item in the playlist. */
-  this.highlightCurrentPlayingItem = () => {
-    let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
+  function highlightCurrentPlayingItem() {
+    let currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
     //logger.trace("currentPlId: " + currentPlId);
     let currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
     domUtils.removeClass($('#playlist-table-body tr td button'), "active");
@@ -822,46 +877,46 @@ function VlcPlayerPlaylist(vlcPlayer) {
   }
 
   /** Toggle expand or collapse filenames in the playlist */
-  this.toggleExpandPlaylistFilenames = function toggleExpandPlaylistFilenames() {
+  function toggleExpandPlaylistFilenames() {
     logger.debug(arguments.callee.name);
     let isExpandedFilename = null;
-    let filenamesFirstFile = $(self.tbodyFilenames).children().first().text();
+    let filenamesFirstFile = $(tbodyFilenames).children().first().text();
     let currentFirstFile = $('#playlist-table-body tr:first').text();
     let $playlistTable = $('#playlist-table');
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
-      if (!isNullOrUndefined(self.tbodyFilenames)) {
-        self.tbodyFilenames.detach();
+      if (!isNullOrUndefined(tbodyFilenames)) {
+        tbodyFilenames.detach();
       }
-      domUtils.append($playlistTable, self.tbodyAbsolutePaths);
+      domUtils.append($playlistTable, tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
-      if (!isNullOrUndefined(self.tbodyAbsolutePaths)) {
-        self.tbodyAbsolutePaths.detach();
+      if (!isNullOrUndefined(tbodyAbsolutePaths)) {
+        tbodyAbsolutePaths.detach();
       }
-      domUtils.append($playlistTable, self.tbodyFilenames);
+      domUtils.append($playlistTable, tbodyFilenames);
       isExpandedFilename = false;
     }
-    self.highlightCurrentPlayingItem();
-    self.updateExpandPlaylistFilenamesIcon(isExpandedFilename);
-    self.vlcPlayer.filterPlaylistRows();
+    highlightCurrentPlayingItem();
+    updateExpandPlaylistFilenamesIcon(isExpandedFilename);
+    vlcPlayer.filterPlaylistRows();
   }
 
   /** Update the icon to expand or collapse the playlist filenames */
-  this.updateExpandPlaylistFilenamesIcon = (isExpandedFilename) => {
+  function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      $("#toggle-playlist-filenames-img").replaceWith(self.dobleLeftImg);
+      $("#toggle-playlist-filenames-img").replaceWith(dobleLeftImg);
     } else {
-      $("#toggle-playlist-filenames-img").replaceWith(self.dobleRightImg);
+      $("#toggle-playlist-filenames-img").replaceWith(dobleRightImg);
     }
   }
 
   /** Scroll to the current playing element in the playlist. */
-  this.scrollToCurrentlyPlaying = () => {
+  function scrollToCurrentlyPlaying() {
     //logger.debug(arguments.callee.name);
-    let currentPlId = self.vlcPlayer.getVlcRcStatus().currentPlId;
+    let currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
     let $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
     if ($currentPlayingRow.length) {
       let playlistTableWrapper = $('#playlist-table-wrapper');
@@ -875,34 +930,34 @@ function VlcPlayerPlaylist(vlcPlayer) {
    * Update the playlist view. Add all the functionality that needs to happen 
    * to update the view of the playlist when vlcRcStatus changes  
    */
-  this.updateView = () => {
-    if (!isNullOrUndefined(self.vlcPlayer.getVlcRcStatus())) {
-      self.highlightCurrentPlayingItem();
+  function updateView() {
+    if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus())) {
+      highlightCurrentPlayingItem();
     } else {
-      self.resetView();
+      resetView();
     }
   }
 
   /** 
    * Reset the playlist view.
    */
-  this.resetView = () => {
-    self.updatedPlaylist = null;
-    self.reload();
+  function resetView() {
+    updatedPlaylist = null;
+    reload();
   }
 
-  this.getEmptyPlaylistTr = () => {
+  function getEmptyPlaylistTr() {
     let madaMadaDane = 'まだまだだね';
     return domUtils.getTrTd("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
   }
   
-  this.getPlaylistTbody = () => {
+  function getPlaylistTbody() {
     return domUtils.getTbody({
       id: "playlist-table-body"
     });
   }
 
-  this.getPlaylistTr = (displayName, playlistElementId) => {
+  function getPlaylistTr(displayName, playlistElementId) {
     return domUtils.getTr({
       id: "playlist-table-row-id-" + playlistElementId
     }, domUtils.getTd({}, getPlaylistTrBtn(displayName, playlistElementId)));
@@ -917,7 +972,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
       clickData: {
         id: playlistElementId
       },
-      click: self.clickEventOnPlaylistRow
+      click: clickEventOnPlaylistRow
     });
   }
 }
@@ -933,11 +988,14 @@ function VlcPlayerPlaylist(vlcPlayer) {
  * @author nbrest
  */
 function VlcPlayerRestClient(vlcPlayer) {
-  let self = this;
-  this.vlcPlayer = vlcPlayer;
+
+  this.get = get;
+  this.post = httpPost;
+  this.postUrlEncoded = httpPostUrlEncoded;
+  this.delete = httpDelete;
 
   /** Execute GET on the specified url and display the output in the debug table. */
-  this.get = function httpGet(url, updateCursor, successCallback, errorCallback) {
+  function get(url, updateCursor, successCallback, errorCallback) {
     logger.debug(arguments.callee.name);
     if (updateCursor) {
       cursorUtils.setCursorWait();
@@ -963,7 +1021,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   }
 
   /** Execute a POST request to the specified url with the specified request body. */
-  this.post = function httpPost(url, requestBody) {
+  function httpPost(url, requestBody) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.post(url, requestBody,
@@ -973,7 +1031,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   }
 
   /** Execute a POST request to the specified url with the specified request url parameters. */
-  this.postUrlEncoded = function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback) {
+  function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.postUrlEncoded(url, requestParam,
@@ -998,7 +1056,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   }
 
   /** Execute a DELETE request to the specified url with the specified request body. */
-  this.delete = function httpDelete(url, requestBody) {
+  function httpDelete(url, requestBody) {
     logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.delete(url, requestBody,
@@ -1011,7 +1069,7 @@ function VlcPlayerRestClient(vlcPlayer) {
   function apiCallSuccessDefault(responseBody) {
     cursorUtils.setCursorDefault();
     logger.debug("Response: " + JSON.stringify(responseBody));
-    self.vlcPlayer.pollVlcRcStatus();
+    vlcPlayer.pollVlcRcStatus();
   }
 
   /** Default actions for error api responses */
@@ -1031,16 +1089,18 @@ function VlcPlayerRestClient(vlcPlayer) {
  * @author nbrest
  */
 function VlcPlayerDebugger(vlcPlayer) {
-  let self = this;
-  this.vlcPlayer = vlcPlayer;
-  this.vlcRcStatusApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/status';
-  this.playlistApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.hostname + '/playlist';
+
+  this.getVlcRcStatusFromApi = getVlcRcStatusFromApi;
+  this.getPlaylistFromApi = getPlaylistFromApi;
+
+  let vlcRcStatusApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/status';
+  let playlistApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/playlist';
 
   /** Get the vlcRcStatus from an http api call instead of from the websocket. */
-  this.getVlcRcStatusFromApi = () => self.vlcPlayer.getRestClient().get(self.vlcRcStatusApiUrl, false, getVlcRcStatusApiSuccessCallback, getVlcRcStatusApiErrorCallback);
+  function getVlcRcStatusFromApi() { vlcPlayer.getRestClient().get(vlcRcStatusApiUrl, false, getVlcRcStatusApiSuccessCallback, getVlcRcStatusApiErrorCallback); }
 
   /** Get the playlist from an http api call instead of from the websocket. */
-  this.getPlaylistFromApi = () => self.vlcPlayer.getRestClient().get(self.playlistApiUrl, false, getPlaylistApiSuccessCallback, null);
+  function getPlaylistFromApi() { vlcPlayer.getRestClient().get(playlistApiUrl, false, getPlaylistApiSuccessCallback, null); }
 
   /** Update the main player view. */
   function getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription) {
@@ -1058,7 +1118,7 @@ function VlcPlayerDebugger(vlcPlayer) {
   /** Update the playlist view. */
   function getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription) {
     cursorUtils.setCursorDefault();
-    vlcPlayer.playlist.setUpdatedPlaylist(responseBody);
-    vlcPlayer.playlist.reload();
+    vlcPlayer.getPlaylist().setUpdatedPlaylist(responseBody);
+    vlcPlayer.getPlaylist().reload();
   }
 }

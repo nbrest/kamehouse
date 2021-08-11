@@ -8,27 +8,39 @@
  * @author nbrest
  */
 function WebSocketKameHouse() {
-  let self = this;
-  this.stompClient = null;
-  this.stompClientDebugFunction = null;
-  this.stompClients = [];
-  this.statusUrl = null;
-  this.topicUrl = null;
-  this.pollUrl = null;
+
+  this.setStatusUrl = setStatusUrl;
+  this.setTopicUrl = setTopicUrl;
+  this.setPollUrl = setPollUrl;
+  this.isConnected = isConnected;
+  this.connect = connect;
+  this.disconnect = disconnect;
+  this.poll = poll;
+  this.enableStompDebugMode = enableStompDebugMode;
+  this.disableStompDebugMode = disableStompDebugMode;
+
+  let stompClient = null;
+  let stompClientDebugFunction = null;
+  let stompClients = [];
+  let statusUrl = null;
+  let topicUrl = null;
+  let pollUrl = null;
   
-  this.setStatusUrl = (statusUrl) => self.statusUrl = statusUrl; 
-  this.setTopicUrl = (topicUrl) => self.topicUrl = topicUrl;
-  this.setPollUrl = (pollUrl) => self.pollUrl = pollUrl;
+  function setStatusUrl(statusUrlParam) { statusUrl = statusUrlParam; }
+
+  function setTopicUrl(topicUrlParam) { topicUrl = topicUrlParam; }
+
+  function setPollUrl(pollUrlParam) { pollUrl = pollUrlParam; }
  
   /** Checks if the websocket is connected. */
-  this.isConnected = (stompClient) => {
+  function isConnected(stompClientParam) {
     try {
-      if (isNullOrUndefined(stompClient)) {
+      if (isNullOrUndefined(stompClientParam)) {
         // Check the current stompClient by default.
-        stompClient = self.stompClient;
+        stompClientParam = stompClient;
       }
-      if (!isNullOrUndefined(stompClient)) {
-        return stompClient.connected;
+      if (!isNullOrUndefined(stompClientParam)) {
+        return stompClientParam.connected;
       } else {
         return false;
       }
@@ -38,12 +50,12 @@ function WebSocketKameHouse() {
   }
 
   /** Connect the websocket. */
-  this.connect = function connect(topicResponseCallback) {
+  function connect(topicResponseCallback) {
     logger.debug(arguments.callee.name);
-    if (self.isConnected()) {
+    if (isConnected()) {
       logger.warn("WebSocket is already connected!");
     }
-    if (isNullOrUndefined(self.statusUrl) || isNullOrUndefined(self.topicUrl) || isNullOrUndefined(self.pollUrl)) {
+    if (isNullOrUndefined(statusUrl) || isNullOrUndefined(topicUrl) || isNullOrUndefined(pollUrl)) {
       logger.error("statusUrl or topicUrl are not set. Can't connect.");
       return;
     }
@@ -52,15 +64,15 @@ function WebSocketKameHouse() {
       return;
     }
     try {
-      self.disconnectPreviousConnections();
-      let socket = new SockJS(self.statusUrl);
-      self.stompClient = Stomp.over(socket);
-      self.stompClientDebugFunction = self.stompClient.debug;
-      self.disableStompDebugMode();
-      self.stompClient.connect({}, (frame) => {
+      disconnectPreviousConnections();
+      let socket = new SockJS(statusUrl);
+      stompClient = Stomp.over(socket);
+      stompClientDebugFunction = stompClient.debug;
+      disableStompDebugMode();
+      stompClient.connect({}, (frame) => {
         try {
           logger.debug('Connected WebSocket: ' + frame);
-          self.stompClient.subscribe(self.topicUrl, (topicResponse) => { 
+          stompClient.subscribe(topicUrl, (topicResponse) => { 
             try {
               topicResponseCallback(topicResponse);
             } catch (error) {
@@ -71,33 +83,33 @@ function WebSocketKameHouse() {
           logger.error("Error during stompClient.connect() callback: " + error);
         }
       });
-      self.stompClients.push(self.stompClient);
+      stompClients.push(stompClient);
     } catch (error) {
       logger.error("Error connecting websocket: " + error);
     }
   }
 
   /** Disconnect the websocket. */
-  this.disconnect = function disconnect(stompClient) {
+  function disconnect(stompClientParam) {
     logger.debug(arguments.callee.name);
-    if (isNullOrUndefined(stompClient)) {
+    if (isNullOrUndefined(stompClientParam)) {
       // Disconnect the current connection.
-      stompClient = self.stompClient;
+      stompClientParam = stompClient;
     }
-    if (!isNullOrUndefined(stompClient)) {
-      if (!self.isConnected(stompClient)) {
+    if (!isNullOrUndefined(stompClientParam)) {
+      if (!isConnected(stompClientParam)) {
         logger.debug("WebSocket is not connected. No need to disconnect but attempting anyway.");
       }
       try {
-        let subscriptions = Object.keys(stompClient.subscriptions);
+        let subscriptions = Object.keys(stompClientParam.subscriptions);
         if (!isNullOrUndefined(subscriptions)) {
           subscriptions.forEach(subscription => {
             logger.debug("Unsubscribing from " + subscription);
-            stompClient.unsubscribe(subscription);
+            stompClientParam.unsubscribe(subscription);
           });
         }
         logger.debug("Disconnecting websocket.");
-        stompClient.disconnect();
+        stompClientParam.disconnect();
       } catch (error) {
         logger.error("Error disconnecting web socket: " + error);
       }
@@ -108,23 +120,23 @@ function WebSocketKameHouse() {
   }
 
   /** Clean up previous stompClient connections. */
-  this.disconnectPreviousConnections = () => {
-    for (let i = self.stompClients.length - 1; i >= 0; i--) {
-      self.disconnect(self.stompClients[i]); 
-      self.stompClients.splice(i, 1);
+  function disconnectPreviousConnections() {
+    for (let i = stompClients.length - 1; i >= 0; i--) {
+      disconnect(stompClients[i]); 
+      stompClients.splice(i, 1);
     }
   }
 
   /** Poll for an updated from the server. */
-  this.poll = function poll(pollBody, pollHeaders) {
+  function poll(pollBody, pollHeaders) {
     // Setting this as trace as it executes every second in VlcPlayer 
     // so if I want to debug other stuff it's noisy.
     logger.trace(arguments.callee.name);
-    if (isNullOrUndefined(self.pollUrl)) {
+    if (isNullOrUndefined(pollUrl)) {
       logger.error("pollUrl is not set. Can't poll");
       return;
     }
-    if (!self.isConnected()) {
+    if (!isConnected()) {
       logger.warn("WebSocket is not connected. Can't poll");
     }
     if (isNullOrUndefined(pollBody)) {
@@ -134,15 +146,15 @@ function WebSocketKameHouse() {
       pollHeaders = {};
     }
     try {
-      self.stompClient.send(self.pollUrl, pollHeaders, pollBody);
+      stompClient.send(pollUrl, pollHeaders, pollBody);
     } catch (error) {
       logger.error("Error polling the websocket: " + error);
     }
   }
 
   //Enable console messages for stomp. Only enable if I need to debug connection issues.
-  this.enableStompDebugMode = () => self.stompClient.debug = self.stompClientDebugFunction;
+  function enableStompDebugMode() { stompClient.debug = stompClientDebugFunction; }
 
   //Disable console messages for stomp. Only enable if I need to debug connection issues.
-  this.disableStompDebugMode = () => self.stompClient.debug = null;
+  function disableStompDebugMode() { stompClient.debug = null; }
 }

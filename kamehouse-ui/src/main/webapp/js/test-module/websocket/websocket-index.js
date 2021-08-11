@@ -6,7 +6,6 @@
  * @author nbrest
  */
 var websocket;
-var stompClient = null;
 
 /** Main function. */
 var main = () => {
@@ -47,7 +46,7 @@ function setConnected(isConnected) {
     domUtils.addClass($("#send-label"), "hidden-kh");
     domUtils.addClass($("#send"), "hidden-kh");
   }
-  domUtils.setHtml($("#websocket-responses"), "");
+  domUtils.empty($("#websocket-responses"));
   if (isConnected) {
     $("#websocket-responses-wrapper").show();
   }
