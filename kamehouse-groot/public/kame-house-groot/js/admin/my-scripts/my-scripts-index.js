@@ -2,7 +2,7 @@ var myScriptsManager;
 
 function main() {
   bannerUtils.setRandomDragonBallBanner();
-  moduleUtils.waitForModules(["httpClient", "grootHeader"], () => {
+  moduleUtils.waitForModules(["grootHeader"], () => {
     myScriptsManager = new MyScriptsManager();
     myScriptsManager.handleSessionStatus();
     myScriptsManager.getMyScripts(myScriptsManager.populateMyScriptsTable, () => { logger.error("Error getting my.scripts csv"); });

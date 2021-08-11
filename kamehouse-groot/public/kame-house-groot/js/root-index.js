@@ -15,7 +15,7 @@ function updateBanner() {
 
 window.onload = () => {
   bannerUtils.setRandomTennisBanner();
-  moduleUtils.waitForModules(["httpClient", "grootHeader"], () => {
+  moduleUtils.waitForModules(["grootHeader"], () => {
     updateBanner();
   });
 };

@@ -11,9 +11,7 @@ var grootHeader;
 
 function mainGlobalGroot() {
   grootHeader = new GrootHeader();
-  moduleUtils.waitForModules(["httpClient"], () => {
-    grootHeader.renderGrootMenu();
-  });
+  grootHeader.renderGrootMenu();
 }
 
 /**

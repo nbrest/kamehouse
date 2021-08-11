@@ -13,14 +13,12 @@ var footer;
  */
 function renderHeaderAndFooter() {
   logger.trace(arguments.callee.name);
-  moduleUtils.waitForModules(["httpClient"], () => {
-    logger.info("Started initializing header and footer");
-    header = new Header();
-    header.renderHeader();
-    footer = new Footer();
-    footer.renderFooter();
-    loadSessionStatus();
-  });
+  logger.info("Started initializing header and footer");
+  header = new Header();
+  header.renderHeader();
+  footer = new Footer();
+  footer.renderFooter();
+  loadSessionStatus();
 }
 
 /** 
