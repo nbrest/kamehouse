@@ -8,7 +8,7 @@ var kameHouseDebugger;
 
 function main() {
   importKameHouseDebuggerCss();
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+  moduleUtils.waitForModules(["httpClient"], () => {
     logger.info("Started initializing kameHouseDebugger");
     kameHouseDebugger = new KameHouseDebugger();
     kameHouseDebugger.init();

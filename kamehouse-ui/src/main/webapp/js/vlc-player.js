@@ -13,7 +13,7 @@ var playlistBrowser;
 var mainVlcPlayer = () => {
   loadVlcPlayer();
   loadPlaylistBrowser(); 
-  moduleUtils.waitForModules(["logger", "vlcPlayer", "playlistBrowser"], function initVlcPlayerAndBrowser() {
+  moduleUtils.waitForModules(["vlcPlayer", "playlistBrowser"], function initVlcPlayerAndBrowser() {
     logger.info("Started initializing VLC Player");
     playlistBrowser.init();
     playlistBrowser.populateVideoPlaylistCategories();
@@ -30,7 +30,7 @@ var mainVlcPlayer = () => {
 function loadVlcPlayer() {
   moduleUtils.loadWebSocketKameHouse();
   fetchUtils.getScript("/kame-house/js/vlc-player/vlc-player.js", () => {
-    moduleUtils.waitForModules(["logger", "debuggerHttpClient", "webSocketKameHouse"], () => {
+    moduleUtils.waitForModules(["debuggerHttpClient", "webSocketKameHouse"], () => {
       vlcPlayer = new VlcPlayer("localhost");
       moduleUtils.setModuleLoaded("vlcPlayer");
     });
@@ -42,7 +42,7 @@ function loadVlcPlayer() {
  */
 function loadPlaylistBrowser() {
   fetchUtils.getScript("/kame-house/js/media/video/playlist-browser.js", () => {
-    moduleUtils.waitForModules(["logger", "debuggerHttpClient", "vlcPlayer"], () => {
+    moduleUtils.waitForModules(["debuggerHttpClient", "vlcPlayer"], () => {
       playlistBrowser = new PlaylistBrowser(vlcPlayer);
       moduleUtils.setModuleLoaded("playlistBrowser");
     });

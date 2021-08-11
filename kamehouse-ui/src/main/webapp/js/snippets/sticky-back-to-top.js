@@ -4,11 +4,9 @@
 var stickyBackToTopManager;
 
 function loadStickyBackToTop() {
-  moduleUtils.waitForModules(["logger"], () => {
-    logger.info("Started initializing sticky back to top");
-    stickyBackToTopManager = new StickyBackToTopManager();
-    stickyBackToTopManager.init();
-  });
+  logger.info("Started initializing sticky back to top");
+  stickyBackToTopManager = new StickyBackToTopManager();
+  stickyBackToTopManager.init();
 }
 
 /**

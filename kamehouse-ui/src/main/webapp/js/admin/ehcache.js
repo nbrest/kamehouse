@@ -9,7 +9,7 @@ var ehCacheManager;
 
 var mainEhcache = () => {
   bannerUtils.setRandomPrinceOfTennisBanner();
-  moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
+  moduleUtils.waitForModules(["debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
     kameHouseWebappTabsManager.setCookiePrefix('kh-admin-ehcache');

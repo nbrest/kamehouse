@@ -1,7 +1,7 @@
 var moduleStatusManager;
 
 function loadModuleStatusManager() {
-  moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
+  moduleUtils.waitForModules(["debuggerHttpClient"], () => {
     moduleStatusManager = new ModuleStatusManager();
     moduleStatusManager.init();
     moduleUtils.setModuleLoaded("moduleStatusManager");

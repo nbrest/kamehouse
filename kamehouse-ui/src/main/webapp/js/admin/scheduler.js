@@ -5,7 +5,7 @@ var scheduler;
 
 window.onload = () => {
   scheduler = new Scheduler();
-  moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
+  moduleUtils.waitForModules(["debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing scheduler");
     kameHouseWebappTabsManager.setCookiePrefix('kh-admin-scheduler');
     kameHouseWebappTabsManager.loadStateFromCookies();

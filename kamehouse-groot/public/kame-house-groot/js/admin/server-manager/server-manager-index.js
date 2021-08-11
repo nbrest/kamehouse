@@ -5,7 +5,7 @@ var tailLogManagerWrapper;
 
 function main() {
   bannerUtils.setRandomAllBanner();
-  moduleUtils.waitForModules(["logger", "httpClient", "tailLogManager", "scriptExecutor", "grootHeader"], () => {
+  moduleUtils.waitForModules(["httpClient", "tailLogManager", "scriptExecutor", "grootHeader"], () => {
     gitManager = new GitManager();
     deploymentManager = new DeploymentManager();
     deploymentManager.init();

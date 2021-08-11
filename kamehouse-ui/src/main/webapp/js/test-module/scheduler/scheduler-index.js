@@ -9,7 +9,7 @@ var scheduler;
 
 var main = () => {
   bannerUtils.setRandomAllBanner();
-  moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
+  moduleUtils.waitForModules(["debuggerHttpClient"], () => {
     logger.info("Started initializing scheduler");
     scheduler = new Scheduler();
     scheduler.getSampleJobStatus(false);

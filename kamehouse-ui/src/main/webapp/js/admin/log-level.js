@@ -5,7 +5,7 @@ var backendLogLevelUtils;
 
 window.onload = () => {
   backendLogLevelUtils = new BackendLogLevelUtils();
-  moduleUtils.waitForModules(["logger", "debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
+  moduleUtils.waitForModules(["debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing log-level");
     kameHouseWebappTabsManager.setCookiePrefix('kh-admin-log-level');
     kameHouseWebappTabsManager.loadStateFromCookies();

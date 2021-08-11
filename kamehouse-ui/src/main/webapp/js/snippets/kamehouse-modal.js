@@ -20,14 +20,12 @@ var basicKamehouseModal;
 var loadingWheelModal;
 
 function main() {
-  moduleUtils.waitForModules(["logger"], () => {
-    logger.info("Started initializing kamehouse modal framework");
-    importKamehouseModalCss();
-    basicKamehouseModal = new BasicKamehouseModal();
-    basicKamehouseModal.import();
-    loadingWheelModal = new LoadingWheelModal();
-    loadingWheelModal.import();
-  });
+  logger.info("Started initializing kamehouse modal framework");
+  importKamehouseModalCss();
+  basicKamehouseModal = new BasicKamehouseModal();
+  basicKamehouseModal.import();
+  loadingWheelModal = new LoadingWheelModal();
+  loadingWheelModal.import();
 }
 
 function importKamehouseModalCss() {

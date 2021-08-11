@@ -6,10 +6,8 @@
  var systemCommandManager;
  
 function main() {
-  moduleUtils.waitForModules(["logger"], () => {
-    logger.info("Started initializing systemCommandManager");
-    systemCommandManager = new SystemCommandManager();
-  });
+  logger.info("Started initializing systemCommandManager");
+  systemCommandManager = new SystemCommandManager();
 }
 
 /**

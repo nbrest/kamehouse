@@ -1,7 +1,7 @@
 var dragonBallUserServiceJsp;
 
 window.onload = () => {
-  moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
+  moduleUtils.waitForModules(["debuggerHttpClient"], () => {
     dragonBallUserServiceJsp = new DragonBallUserServiceJsp();
     dragonBallUserServiceJsp.getDragonBallUser();
   });

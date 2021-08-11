@@ -1,7 +1,7 @@
 var tailLogManager;
 
 function loadTailLogManager() {
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+  moduleUtils.waitForModules(["httpClient"], () => {
     tailLogManager = new TailLogManager();
     moduleUtils.setModuleLoaded("tailLogManager");
     logger.info("Initialized tailLogManager");

@@ -1,7 +1,7 @@
 var scriptExecutor;
 
 function loadScriptExecutor() {
-  moduleUtils.waitForModules(["logger", "httpClient"], () => {
+  moduleUtils.waitForModules(["httpClient"], () => {
     scriptExecutor = new ScriptExecutor();
     moduleUtils.setModuleLoaded("scriptExecutor");
     logger.info("Initialized scriptExecutor");

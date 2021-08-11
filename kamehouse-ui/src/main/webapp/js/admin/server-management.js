@@ -10,7 +10,7 @@ var serverManager;
 var main = () => {
   bannerUtils.setRandomAllBanner();
   importServerManagementCss();
-  moduleUtils.waitForModules(["logger", "debuggerHttpClient"], () => {
+  moduleUtils.waitForModules(["debuggerHttpClient"], () => {
     logger.info("Started initializing server management");
     serverManager = new ServerManager();
     serverManager.getSuspendStatus(false);

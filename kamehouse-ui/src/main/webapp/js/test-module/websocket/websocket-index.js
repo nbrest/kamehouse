@@ -11,7 +11,7 @@ var websocket;
 var main = () => {
   bannerUtils.setRandomSaintSeiyaBanner();
   moduleUtils.loadWebSocketKameHouse();
-  moduleUtils.waitForModules(["logger", "webSocketKameHouse"], () => {
+  moduleUtils.waitForModules(["webSocketKameHouse"], () => {
     logger.info("Started initializing WebSocket");
     logger.setLogLevel(4);
     websocket = new WebSocketKameHouse();
