@@ -104,7 +104,7 @@ function Header() {
   /** Render the header */
   function renderHeader() {
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
-    $("body").prepend(getHeaderContainerDiv());
+    domUtils.prepend($("body"), getHeaderContainerDiv());
     $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
       updateLoginStatus();
       updateActiveTab();

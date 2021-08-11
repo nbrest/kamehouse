@@ -470,6 +470,7 @@ function DomUtils() {
   /** ------ Manipulation through jQuery --------------------------------- */
   this.getDomNode = getDomNode;
   this.empty = empty;
+  this.prepend = prepend;
   this.append = append;
   this.appendChild = appendChild;
   this.removeChild = removeChild;
@@ -584,6 +585,13 @@ function DomUtils() {
    */
   function empty(div) {
     div.empty();
+  }
+
+  /**
+   * Prepend the prependObject to prependTo.
+   */
+   function prepend(prependTo, prependObject) {
+    prependTo.prepend(prependObject);
   }
 
   /**
