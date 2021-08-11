@@ -443,8 +443,7 @@ function CursorUtils() {
    */
   async function loadSpinningWheelMobile() {
     const spinnigWheelMobileDiv = await fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-mobile.html");
-    //TODO use domUtils
-    document.body.insertAdjacentHTML("beforeBegin", spinnigWheelMobileDiv);
+    domUtils.insertBeforeBegin(spinnigWheelMobileDiv);
   }
 }
 
@@ -466,7 +465,8 @@ function DomUtils() {
   this.setOnClick = setOnClick;
   this.getElementFromTemplate = getElementFromTemplate;
   this.getImgBtn = getImgBtn;
-  
+  this.insertBeforeBegin = insertBeforeBegin;
+
   /** ------ Manipulation through jQuery --------------------------------- */
   this.getDomNode = getDomNode;
   this.empty = empty;
@@ -565,6 +565,10 @@ function DomUtils() {
     img.title = config.alt;
     img.onclick = config.onClick;
     return img;
+  }
+
+  function insertBeforeBegin(html) {
+    document.body.insertAdjacentHTML("beforeBegin", html);
   }
 
   /** ------ Manipulation through jQuery --------------------------------- */
