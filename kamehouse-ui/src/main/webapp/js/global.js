@@ -8,7 +8,7 @@
 /** 
  * ----- Global variables ------------------------------------------------------------------ 
  */
-var global = {};
+const global = {};
 
 /** Global utils in global.js */
 var bannerUtils;
@@ -282,7 +282,6 @@ function CoreUtils() {
   this.loadHeaderAndFooter = loadHeaderAndFooter;
 
   /** Set the global variable and set the external reference to global to be used without coreUtils. prefix */
-  global = {};
   global.session = {};
 
   /** Load header and footer. */
