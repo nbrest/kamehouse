@@ -38,6 +38,7 @@ function setConnected(isConnected) {
     domUtils.addClass($("#disconnected"), "hidden-kh");
     domUtils.removeClass($("#send-label"), "hidden-kh");
     domUtils.removeClass($("#send"), "hidden-kh");
+    domUtils.removeClass($("#websocket-responses-wrapper"), "hidden-kh");
   } else {
     domUtils.removeClass($("#connect"), "hidden-kh");
     domUtils.addClass($("#connected"), "hidden-kh");
@@ -45,14 +46,9 @@ function setConnected(isConnected) {
     domUtils.removeClass($("#disconnected"), "hidden-kh");
     domUtils.addClass($("#send-label"), "hidden-kh");
     domUtils.addClass($("#send"), "hidden-kh");
+    domUtils.addClass($("#websocket-responses-wrapper"), "hidden-kh");
   }
   domUtils.empty($("#websocket-responses"));
-  if (isConnected) {
-    $("#websocket-responses-wrapper").show();
-  }
-  else {
-    $("#websocket-responses-wrapper").hide();
-  }
 }
 
 /**

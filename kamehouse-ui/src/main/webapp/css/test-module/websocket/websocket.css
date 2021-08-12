@@ -1,7 +1,3 @@
-#websocket-responses-wrapper {
-	display: none;
-}
-
 #websocket-responses-wrapper tbody tr td {
   text-align: left;
 }
