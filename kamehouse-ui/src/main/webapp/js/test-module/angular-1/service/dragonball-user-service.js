@@ -7,9 +7,9 @@
  */
 angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', function($http, $q) {
 
-  var REST_SERVICE_URI = '/kame-house-testmodule/api/v1/test-module/dragonball/users/';
+  const REST_SERVICE_URI = '/kame-house-testmodule/api/v1/test-module/dragonball/users/';
 
-  var dragonBallUserService = {
+  const dragonBallUserService = {
     fetchAllDragonBallUsers: fetchAllDragonBallUsers,
     createDragonBallUser: createDragonBallUser,
     updateDragonBallUser: updateDragonBallUser,

@@ -10,7 +10,7 @@
 var vlcPlayer;
 var playlistBrowser;
 
-var mainVlcPlayer = () => {
+function mainVlcPlayer() {
   loadVlcPlayer();
   loadPlaylistBrowser(); 
   moduleUtils.waitForModules(["vlcPlayer", "playlistBrowser"], function initVlcPlayerAndBrowser() {

@@ -8,7 +8,7 @@
 var websocket;
 
 /** Main function. */
-var main = () => {
+function mainWebSocket() {
   bannerUtils.setRandomSaintSeiyaBanner();
   moduleUtils.loadWebSocketKameHouse();
   moduleUtils.waitForModules(["webSocketKameHouse"], () => {
@@ -102,4 +102,4 @@ function getWebsocketResponseTr(date, message) {
 }
 
 /** Call main. */
-$(document).ready(main);
+$(document).ready(mainWebSocket);

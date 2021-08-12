@@ -7,7 +7,7 @@
  */
 var scheduler;
 
-var main = () => {
+function mainScheduler() {
   bannerUtils.setRandomAllBanner();
   moduleUtils.waitForModules(["debuggerHttpClient"], () => {
     logger.info("Started initializing scheduler");
@@ -85,4 +85,4 @@ function Scheduler() {
 /**
  * Call main.
  */
-$(document).ready(main);
+$(document).ready(mainScheduler);

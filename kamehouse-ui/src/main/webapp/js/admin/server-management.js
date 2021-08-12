@@ -7,7 +7,7 @@
  */
 var serverManager;
 
-var main = () => {
+function mainServerManagement() {
   bannerUtils.setRandomAllBanner();
   importServerManagementCss();
   moduleUtils.waitForModules(["debuggerHttpClient"], () => {
@@ -333,4 +333,4 @@ function ServerManager() {
 /**
  * Call main.
  */
-$(document).ready(main);
+$(document).ready(mainServerManagement);

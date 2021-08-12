@@ -9,7 +9,7 @@ function DragonBallUserServiceJsp() {
   this.updateDragonBallUser = updateDragonBallUser;
   this.deleteDragonBallUser = deleteDragonBallUser;
 
-  var SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
+  const SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
 
   /**
    * Get a dragonball user and populate it to the edit table.

@@ -7,7 +7,7 @@
  */
 var ehCacheManager;
 
-var mainEhcache = () => {
+function mainEhcache() {
   bannerUtils.setRandomPrinceOfTennisBanner();
   moduleUtils.waitForModules(["debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
     logger.info("Started initializing ehcache");
@@ -122,10 +122,10 @@ function EhCacheManager() {
     domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-values-val'), "ehcache-table-" + cacheName + "-values-val");
 
     const toggeableClasses = ehcacheTableDiv.getElementsByClassName("toggle-ehcache-table-template")
-    for (var i = 0; i < toggeableClasses.length; i++) {
+    for (let i = 0; i < toggeableClasses.length; i++) {
       domUtils.classListAdd(toggeableClasses.item(i), "toggle-ehcache-table-" + cacheName);
     }
-    for (var i = 0; i < toggeableClasses.length; i++) {
+    for (let i = 0; i < toggeableClasses.length; i++) {
       domUtils.classListRemove(toggeableClasses.item(i), "toggle-ehcache-table-template");
     }
    

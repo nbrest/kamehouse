@@ -3,8 +3,8 @@
  * 
  * @author nbrest
  */
-var main = () => {
+function mainModuleStatus() {
   bannerUtils.setRandomPrinceOfTennisBanner();
 };
 
-$(document).ready(main);
+$(document).ready(mainModuleStatus);
