@@ -15,10 +15,10 @@ mainProcess() {
   cd ${TOMCAT_DIR}
   if ${IS_LINUX_HOST}; then
     USERNAME=`${HOME}/my.scripts/kamehouse/get-username.sh`  
-    log.info "Starting tomcat as user ${USERNAME}"
+    log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME}"
     sudo -u ${USERNAME} ${TOMCAT_DIR}/bin/startup.sh
   else
-    log.info "Starting tomcat"
+    log.info "Starting tomcat ${TOMCAT_DIR}"
     cd ${TOMCAT_DIR}/bin
     powershell.exe -c "Start-Process ./startup.bat" &
   fi
