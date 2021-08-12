@@ -61,7 +61,7 @@ function ModuleStatusManager() {
    * Display module status.
    */
   function displayModuleStatus(moduleStatus) {
-    let webapp = moduleStatus["module"];
+    const webapp = moduleStatus["module"];
     domUtils.setHtml($('#mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
     domUtils.setHtml($('#mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
   }

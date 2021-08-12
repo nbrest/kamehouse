@@ -76,7 +76,7 @@ function BackendLogLevelUtils() {
 
   /** Set Kamehouse log level */
   function setKamehouseLogLevel(webapp) {
-    let logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
+    const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     loadingWheelModal.open();
     debuggerHttpClient.put(getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
   }
@@ -96,25 +96,25 @@ function BackendLogLevelUtils() {
   /** Update the log levels table content */
   function updateLogLevelTable(logLevelsArray, webapp) {
     addLogLevelTableHeader(webapp);
-    let $tableBody = $('#log-level-tbody-' + webapp);
+    const $tableBody = $('#log-level-tbody-' + webapp);
     logLevelsArray.forEach((logLevelEntry) => {
-      let logLevelEntryPair = logLevelEntry.split(":");
-      let packageName = logLevelEntryPair[0];
-      let logLevel = logLevelEntryPair[1];
+      const logLevelEntryPair = logLevelEntry.split(":");
+      const packageName = logLevelEntryPair[0];
+      const logLevel = logLevelEntryPair[1];
       domUtils.append($tableBody, getLogLevelTr(packageName, logLevel));
     });
   }
 
   /** Add log level table header */
   function addLogLevelTableHeader(webapp) {
-    let $tableBody = $('#log-level-tbody-' + webapp);
+    const $tableBody = $('#log-level-tbody-' + webapp);
     domUtils.empty($tableBody);
     domUtils.append($tableBody, getLogLevelTh(webapp));
   }
 
   /** Set log level table to error */
   function updateLogLevelTableError(webapp) {
-    let $tableBody = $('#log-level-tbody-' + webapp);
+    const $tableBody = $('#log-level-tbody-' + webapp);
     domUtils.empty($tableBody);
     domUtils.append($tableBody, getErrorTr());
   }
@@ -126,7 +126,7 @@ function BackendLogLevelUtils() {
 
   /** Get data row for log level table */
   function getLogLevelTr(packageName, logLevel) {
-    let tr = domUtils.getTr(null, null);
+    const tr = domUtils.getTr(null, null);
     domUtils.append(tr, domUtils.getTd(null, packageName));
     domUtils.append(tr, domUtils.getTd(null, logLevel));
     return tr;
@@ -134,7 +134,7 @@ function BackendLogLevelUtils() {
 
   /** Get header row for log level table */
   function getLogLevelTh(webapp) {
-    let tr = domUtils.getTr({
+    const tr = domUtils.getTr({
       id: "log-level-thead-" + webapp,
       class: "table-kh-header"
     }, null);
@@ -179,8 +179,8 @@ function BackendLogLevelUtils() {
   /** Set request logger config */
   function setRequestLoggerConfig(webapp, propertyToSet, urlParamName) {
     loadingWheelModal.open();
-    let propertyValue = document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp).value;
-    let url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet + "?" + urlParamName + "=" + propertyValue;
+    const propertyValue = document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp).value;
+    const url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet + "?" + urlParamName + "=" + propertyValue;
     debuggerHttpClient.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
   }
 

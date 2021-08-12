@@ -32,7 +32,7 @@ function TailLogManager() {
       const params = new URLSearchParams({
         script: scriptName
       });
-      let getUrl = EXEC_SCRIPT_API + "?" + params;
+      const getUrl = EXEC_SCRIPT_API + "?" + params;
       httpClient.get(getUrl, null,
         (responseBody, responseCode, responseDescription) => updateTailLogOutput(responseBody, responseCode, responseDescription, numberOfLines, callback),
         (responseBody, responseCode, responseDescription) => updateTailLogOutputError(responseBody, responseCode, responseDescription, callback));
@@ -63,10 +63,10 @@ function TailLogManager() {
 
   /** Update the script tail log output with the result of the script */
   function updateTailLogOutput(responseBody, responseCode, responseDescription, numberOfLines, callback) {
-    let tailLogOutputArray = responseBody.htmlConsoleOutput;
-    let $tailLogOutputTableBody = $('#tail-log-output-table-body');  
-    let tbody = getTailLogOutputTbody();
-    let tailLogOutputLength = tailLogOutputArray.length;
+    const tailLogOutputArray = responseBody.htmlConsoleOutput;
+    const $tailLogOutputTableBody = $('#tail-log-output-table-body');  
+    const tbody = getTailLogOutputTbody();
+    const tailLogOutputLength = tailLogOutputArray.length;
     if (tailLogOutputLength < numberOfLines) {
       // Show full output
       for (let i = 0; i < tailLogOutputLength; i++) {
@@ -91,8 +91,8 @@ function TailLogManager() {
 
   /** Displays the error message in the tail log output */
   function updateTailLogOutputError(responseBody, responseCode, responseDescription, callback) {
-    let $tailLogOutputTableBody = $('#tail-log-output-table-body');
-    let tbody = getTailLogOutputTbody();
+    const $tailLogOutputTableBody = $('#tail-log-output-table-body');
+    const tbody = getTailLogOutputTbody();
     domUtils.append(tbody, getTailLogOutputErrorTr("Error response from the backend"));
     domUtils.append(tbody, getTailLogOutputErrorTr("responseBody : " + responseBody));
     domUtils.append(tbody, getTailLogOutputErrorTr("responseCode : " + responseCode));
@@ -107,8 +107,8 @@ function TailLogManager() {
 
   /** Displays the error message in the tail log output from an invalid script */
   function displayInvalidScript() {
-    let $tailLogOutputTableBody = $('#tail-log-output-table-body');
-    let tbody = getTailLogOutputTbody();
+    const $tailLogOutputTableBody = $('#tail-log-output-table-body');
+    const tbody = getTailLogOutputTbody();
     domUtils.append(tbody, getTailLogOutputErrorTr("Invalid script sent as parameter"));
     domUtils.empty($tailLogOutputTableBody);
     domUtils.replaceWith($tailLogOutputTableBody, tbody);

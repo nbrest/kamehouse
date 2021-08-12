@@ -58,14 +58,14 @@ function SystemCommandManager() {
    * Display an error executing the system command.
    */
   function renderErrorExecutingCommand() {
-    let systemCommandOutputDiv = "#system-command-output";
+    const systemCommandOutputDiv = "#system-command-output";
     domUtils.empty($(systemCommandOutputDiv));
     domUtils.append($(systemCommandOutputDiv), "Error executing system command. Check the logs on the backend...");
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
   
   function getCommandLine(command) {
-    let message = domUtils.getSpan({}, domUtils.getSpan({
+    const message = domUtils.getSpan({}, domUtils.getSpan({
       class: "bold-kh"
     }, "command: " + command));
     domUtils.append(message, domUtils.getBr());
@@ -74,7 +74,7 @@ function SystemCommandManager() {
   }
 
   function getDaemonRunningLine(command) {
-    let message = domUtils.getSpan({}, domUtils.getSpan({
+    const message = domUtils.getSpan({}, domUtils.getSpan({
       class: "bold-kh"
     }, command));
     domUtils.append(message, " is ");
@@ -86,7 +86,7 @@ function SystemCommandManager() {
   }
 
   function getCommandErrorHeaderLine() {
-    let message = domUtils.getSpan({}, domUtils.getSpan({
+    const message = domUtils.getSpan({}, domUtils.getSpan({
       class: "bold-kh"
     }, "errors:"));
     domUtils.append(message, domUtils.getBr());

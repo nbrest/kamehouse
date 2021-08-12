@@ -1,8 +1,8 @@
 /** @deprecated Set client time and date */
 function setClientTimeAndDate() {
-  let clientDate = new Date();
-  let clientMonth = clientDate.getMonth() + 1;
-  let clientTimeAndDate = "  Client: " + clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
+  const clientDate = new Date();
+  const clientMonth = clientDate.getMonth() + 1;
+  const clientTimeAndDate = "  Client: " + clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
   domUtils.setInnerHtml(document.getElementById("client-time-and-date"), clientTimeAndDate);
 }
 

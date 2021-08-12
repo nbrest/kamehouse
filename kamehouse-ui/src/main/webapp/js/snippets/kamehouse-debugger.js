@@ -39,7 +39,7 @@ function KameHouseDebugger() {
   this.displayResponseData = displayResponseData;
   this.displayRequestData = displayRequestData;
 
-  let requests = [];
+  const requests = [];
   let debuggerHttpClientDivTemplate;  
   
   async function init() {
@@ -60,7 +60,7 @@ function KameHouseDebugger() {
    */
   function toggleDebugMode() {
     logger.debug("Toggled debug mode")
-    let debugModeDiv = document.getElementById("debug-mode");
+    const debugModeDiv = document.getElementById("debug-mode");
     domUtils.classListToggle(debugModeDiv, "hidden-kh");
   }
   
@@ -68,7 +68,7 @@ function KameHouseDebugger() {
    * Set the log level of the console.
    */
   function setConsoleLogLevel() {
-    let logLevel = document.getElementById("debug-mode-log-level-dropdown").value;
+    const logLevel = document.getElementById("debug-mode-log-level-dropdown").value;
     logger.setLogLevel(logLevel);
     
     logger.error("Set log level to " + logLevel);
@@ -100,7 +100,7 @@ function KameHouseDebugger() {
    * Displays the list of the N previous requests.
    */
   function displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode) {
-    let request = {};
+    const request = {};
     request.requestData = dataWithRequestInfo.requestData;
     request.responseData = {};
     request.responseData.responseCode = responseCode;
@@ -119,7 +119,7 @@ function KameHouseDebugger() {
    */
   function displayResponseData(responseBody, responseCode) {
     logger.trace(arguments.callee.name);
-    let responseTimestamp = timeUtils.getTimestamp();
+    const responseTimestamp = timeUtils.getTimestamp();
     domUtils.setHtml($("#debugger-http-client-res-code-val"), responseCode);
     domUtils.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
     domUtils.setHtml($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
@@ -133,7 +133,7 @@ function KameHouseDebugger() {
     logger.trace(arguments.callee.name);
     emptyDebuggerHttpClientDiv();
     domUtils.setInnerHtml(document.getElementById("debugger-http-client"), debuggerHttpClientDivTemplate);
-    let requestTimestamp = timeUtils.getTimestamp();
+    const requestTimestamp = timeUtils.getTimestamp();
     domUtils.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
     domUtils.setHtml($('#debugger-http-client-req-url-val'), url);
     domUtils.setHtml($('#debugger-http-client-req-type-val'), requestType);
@@ -148,7 +148,7 @@ function KameHouseDebugger() {
    * Empty debugger http client div.
    */
   function emptyDebuggerHttpClientDiv() {
-    let $debuggerHttpClientDiv = $("#debugger-http-client");
+    const $debuggerHttpClientDiv = $("#debugger-http-client");
     domUtils.empty($debuggerHttpClientDiv);
   }
 }
@@ -184,7 +184,7 @@ function DebuggerHttpClient() {
   function get(url, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "GET", null);
-    let dataWithRequestInfo = createDataWithRequestInfo(data, url, "GET", null);
+    const dataWithRequestInfo = createDataWithRequestInfo(data, url, "GET", null);
     httpClient.get(url, null,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -197,10 +197,10 @@ function DebuggerHttpClient() {
    */
   function getUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    let urlEncoded = encodeURI(url + "?" + requestParam);
+    const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "GET", null);
-    let dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "GET", null);
-    let requestHeaders = httpClient.getUrlEncodedHeaders();
+    const dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "GET", null);
+    const requestHeaders = httpClient.getUrlEncodedHeaders();
     httpClient.get(urlEncoded, requestHeaders,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -214,8 +214,8 @@ function DebuggerHttpClient() {
   function put(url, requestBody, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "PUT", requestBody);
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
-    let dataWithRequestInfo = createDataWithRequestInfo(data, url, "PUT", requestBody);
+    const requestHeaders = httpClient.getApplicationJsonHeaders();
+    const dataWithRequestInfo = createDataWithRequestInfo(data, url, "PUT", requestBody);
     httpClient.put(url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -228,10 +228,10 @@ function DebuggerHttpClient() {
    */
   function putUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    let urlEncoded = encodeURI(url + "?" + requestParam);
+    const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "PUT", null);
-    let requestHeaders = httpClient.getUrlEncodedHeaders();
-    let dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "PUT", null);
+    const requestHeaders = httpClient.getUrlEncodedHeaders();
+    const dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "PUT", null);
     httpClient.put(urlEncoded, requestHeaders, null,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -245,8 +245,8 @@ function DebuggerHttpClient() {
   function post(url, requestBody, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "POST", requestBody);
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
-    let dataWithRequestInfo = createDataWithRequestInfo(data, url, "POST", requestBody);
+    const requestHeaders = httpClient.getApplicationJsonHeaders();
+    const dataWithRequestInfo = createDataWithRequestInfo(data, url, "POST", requestBody);
     httpClient.post(url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -259,10 +259,10 @@ function DebuggerHttpClient() {
    */
   function postUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    let urlEncoded = encodeURI(url + "?" + requestParam);
+    const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "POST", null);
-    let requestHeaders = httpClient.getUrlEncodedHeaders();
-    let dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "POST", null);
+    const requestHeaders = httpClient.getUrlEncodedHeaders();
+    const dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "POST", null);
     httpClient.post(urlEncoded, requestHeaders, null,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -276,8 +276,8 @@ function DebuggerHttpClient() {
   function httpDelete(url, requestBody, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "DELETE", requestBody);
-    let requestHeaders = httpClient.getApplicationJsonHeaders();
-    let dataWithRequestInfo = createDataWithRequestInfo(data, url, "DELETE", null);
+    const requestHeaders = httpClient.getApplicationJsonHeaders();
+    const dataWithRequestInfo = createDataWithRequestInfo(data, url, "DELETE", null);
     httpClient.delete(url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -290,10 +290,10 @@ function DebuggerHttpClient() {
    */
   function deleteUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     logger.trace(arguments.callee.name);
-    let urlEncoded = encodeURI(url + "?" + requestParam);
+    const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "POST", null);
-    let requestHeaders = httpClient.getUrlEncodedHeaders();
-    let dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "DELETE", null);
+    const requestHeaders = httpClient.getUrlEncodedHeaders();
+    const dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "DELETE", null);
     httpClient.delete(urlEncoded, requestHeaders, null,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
@@ -304,7 +304,7 @@ function DebuggerHttpClient() {
    * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
    */
   function createDataWithRequestInfo(data, url, method, requestBody) {
-    let dataWithRequestInfo = {};
+    const dataWithRequestInfo = {};
     dataWithRequestInfo.data = data;
     dataWithRequestInfo.requestData = {};
     dataWithRequestInfo.requestData.url = url;

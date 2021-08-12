@@ -12,7 +12,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
   this.remove = remove;
   this.reset = reset;
   
-  let self = this;
+  const self = this;
   this.user = {
     id : null,
     username : '',

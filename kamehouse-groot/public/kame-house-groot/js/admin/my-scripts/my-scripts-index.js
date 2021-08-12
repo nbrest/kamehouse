@@ -24,10 +24,10 @@ function MyScriptsManager() {
 
   /** Populates all my-scripts table */
   function populateMyScriptsTable(myScriptsArray) {
-    let $allMyScriptsTableBody = $('#all-my-scripts-table-body');
-    let tbody = getAllMyScriptsTbody();
+    const $allMyScriptsTableBody = $('#all-my-scripts-table-body');
+    const tbody = getAllMyScriptsTbody();
     for (let i = 0; i < myScriptsArray.length; i++) {
-      let scriptName = myScriptsArray[i];
+      const scriptName = myScriptsArray[i];
       domUtils.append(tbody, getAllMyScriptsTr(scriptName));
     }
     domUtils.replaceWith($allMyScriptsTableBody, tbody);
@@ -35,7 +35,7 @@ function MyScriptsManager() {
   
   /** Execute the clicked script from the table */
   function clickEventOnAllMyScriptsRow(event) {
-    let scriptName = event.data.scriptName;
+    const scriptName = event.data.scriptName;
     executeScript(scriptName, null);
   }
   
@@ -43,7 +43,7 @@ function MyScriptsManager() {
   function executeScript(scriptName, scriptArguments) {
     logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
     if (!isEmpty(scriptArguments)) {
-      let urlEncodedArgs = encodeURI(scriptArguments);
+      const urlEncodedArgs = encodeURI(scriptArguments);
       window.location.href = EXEC_SCRIPT_PAGE + "?script=" + scriptName + "&args=" + urlEncodedArgs;
     } else {
       window.location.href = EXEC_SCRIPT_PAGE + "?script=" + scriptName;

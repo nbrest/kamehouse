@@ -47,19 +47,19 @@ function KameHouseWebappTabsManager() {
     cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
 
     // Update tab links
-    let kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
+    const kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
     for (let i = 0; i < kamehouseTabLinks.length; i++) {
       domUtils.classListRemove(kamehouseTabLinks[i], "active");
     }
-    let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
+    const selectedTabLink = document.getElementById(selectedTabDivId + '-link');
     domUtils.classListAdd(selectedTabLink, "active");
 
     // Update tab content visibility
-    let kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");
+    const kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");
     for (let i = 0; i < kamehouseTabContent.length; i++) {
       domUtils.setDisplay(kamehouseTabContent[i], "none");
     }
-    let selectedTabDiv = document.getElementById(selectedTabDivId);
+    const selectedTabDiv = document.getElementById(selectedTabDivId);
     domUtils.setDisplay(selectedTabDiv, "block");
   }
 

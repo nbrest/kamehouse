@@ -24,7 +24,7 @@ function GrootHeader() {
 
   /** Toggle expanding/collapsing the groot menu hamburguer */
   function toggleGrootNav() {
-    let rootMenu = document.getElementById("groot-menu");
+    const rootMenu = document.getElementById("groot-menu");
     if (rootMenu.className === "groot-nav") {
       domUtils.classListAdd(rootMenu, "responsive");
     } else {
@@ -57,8 +57,8 @@ function GrootHeader() {
    * Update groot session status.
    */
   function updateSessionStatus() {
-    let $loginStatusDesktop = $("#groot-header-login-status-desktop");
-    let $loginStatusMobile = $("#groot-header-login-status-mobile");
+    const $loginStatusDesktop = $("#groot-header-login-status-desktop");
+    const $loginStatusMobile = $("#groot-header-login-status-mobile");
     domUtils.empty($loginStatusDesktop);
     if (isEmpty(global.groot.session.username) || global.groot.session.username.trim() == "" ||
       global.groot.session.username.trim() == "anonymousUser") {
@@ -76,7 +76,7 @@ function GrootHeader() {
   * Set active tab in the groot sub menu.
   */
   function updateGRootMenuActiveTab() {
-    let pageUrl = window.location.pathname;
+    const pageUrl = window.location.pathname;
     $("#groot-menu a").toArray().forEach((navItem) => {
       domUtils.removeClass($(navItem), "active");
       if (pageUrl == "/kame-house-groot/") {

@@ -46,14 +46,14 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Filter playlist browser rows based on the search string. */
   function filterPlaylistRows() {
-    let filterString = document.getElementById("playlist-browser-filter-input").value;
+    const filterString = document.getElementById("playlist-browser-filter-input").value;
     tableUtils.filterTableRows(filterString, 'playlist-browser-table-body');
   }
 
   /** Returns the selected playlist from the dropdowns. */
   function getSelectedPlaylist() {
     logger.debug(arguments.callee.name);
-    let playlistSelected = document.getElementById("playlist-dropdown").value;
+    const playlistSelected = document.getElementById("playlist-dropdown").value;
     logger.debug("Playlist selected: " + playlistSelected);
     return playlistSelected;
   }
@@ -71,10 +71,10 @@ function PlaylistBrowser(vlcPlayer) {
         videoPlaylistCategories = [...new Set(videoPlaylists.map((playlist) => playlist.category))];
         logger.debug("Playlists: " + JSON.stringify(videoPlaylists));
         logger.debug("Playlist categories: " + videoPlaylistCategories);
-        let playlistCategoryDropdown = $('#playlist-category-dropdown');
+        const playlistCategoryDropdown = $('#playlist-category-dropdown');
         $.each(videoPlaylistCategories, function (key, entry) {
-          let category = entry;
-          let categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
+          const category = entry;
+          const categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
           domUtils.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, categoryFormatted));
         });
       },
@@ -87,7 +87,7 @@ function PlaylistBrowser(vlcPlayer) {
    * Reset playlist dropdown view.
    */
   function resetPlaylistDropdown() {
-    let playlistDropdown = $('#playlist-dropdown');
+    const playlistDropdown = $('#playlist-dropdown');
     domUtils.empty(playlistDropdown);
     domUtils.append(playlistDropdown, getInitialDropdownOption("Playlist"));
   }
@@ -96,7 +96,7 @@ function PlaylistBrowser(vlcPlayer) {
    * Reset playlist category dropdown view.
    */
   function resetPlaylistCategoryDropdown() {
-    let playlistCategoryDropdown = $('#playlist-category-dropdown');
+    const playlistCategoryDropdown = $('#playlist-category-dropdown');
     domUtils.empty(playlistCategoryDropdown);
     domUtils.append(playlistCategoryDropdown, getInitialDropdownOption("Playlist Category"));
   }
@@ -104,11 +104,11 @@ function PlaylistBrowser(vlcPlayer) {
   /** Populate video playlists dropdown when a playlist category is selected. */
   function populateVideoPlaylists() {
     logger.debug(arguments.callee.name);
-    let playlistCategoriesList = document.getElementById('playlist-category-dropdown');
-    let selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
+    const playlistCategoriesList = document.getElementById('playlist-category-dropdown');
+    const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
     logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
     resetPlaylistDropdown();
-    let playlistDropdown = $('#playlist-dropdown');
+    const playlistDropdown = $('#playlist-dropdown');
     $.each(videoPlaylists, (key, entry) => {
       if (entry.category === selectedPlaylistCategory) {
         let playlistName = entry.name;
@@ -120,9 +120,9 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Load the selected playlist's content in the view */
   function loadPlaylistContent() {
-    let playlistFilename = getSelectedPlaylist();
+    const playlistFilename = getSelectedPlaylist();
     logger.debug("Getting content for " + playlistFilename);
-    let requestParam = "path=" + playlistFilename;
+    const requestParam = "path=" + playlistFilename;
     debuggerHttpClient.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
       (responseBody, responseCode, responseDescription) => {
         currentPlaylist = responseBody;
@@ -136,7 +136,7 @@ function PlaylistBrowser(vlcPlayer) {
   /** Play selected file in the specified VlcPlayer. */
   function playSelectedPlaylist() {
     logger.debug(arguments.callee.name);
-    let playlist = getSelectedPlaylist();
+    const playlist = getSelectedPlaylist();
     vlcPlayer.playFile(playlist);
     vlcPlayer.openTab('tab-playlist');
     vlcPlayer.reloadPlaylist();
@@ -145,7 +145,7 @@ function PlaylistBrowser(vlcPlayer) {
   /** Populate the playlist table for browsing. */
   function populatePlaylistBrowserTable() {
     logger.trace(arguments.callee.name);
-    let $playlistTableBody = $('#playlist-browser-table-body');
+    const $playlistTableBody = $('#playlist-browser-table-body');
     domUtils.empty($playlistTableBody);
     if (isEmpty(currentPlaylist)) {
       domUtils.append($playlistTableBody, getEmptyPlaylistTr());
@@ -153,8 +153,8 @@ function PlaylistBrowser(vlcPlayer) {
       tbodyFilenames = getPlaylistBrowserTbody();
       tbodyAbsolutePaths = getPlaylistBrowserTbody();
       for (i = 0; i < currentPlaylist.files.length; i++) {
-        let absolutePath = currentPlaylist.files[i];
-        let filename = fileUtils.getShortFilename(absolutePath);
+        const absolutePath = currentPlaylist.files[i];
+        const filename = fileUtils.getShortFilename(absolutePath);
         domUtils.append(tbodyFilenames, getPlaylistBrowserTr(filename, absolutePath));
         domUtils.append(tbodyAbsolutePaths, getPlaylistBrowserTr(absolutePath, absolutePath));
       }
@@ -165,7 +165,7 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Play the clicked element from the playlist. */
   function clickEventOnPlaylistBrowserRow(event) {
-    let filename = event.data.filename;
+    const filename = event.data.filename;
     logger.debug("Play selected playlist browser file : " + filename);
     vlcPlayer.playFile(filename);
     vlcPlayer.openTab('tab-playing');
@@ -175,9 +175,9 @@ function PlaylistBrowser(vlcPlayer) {
   function toggleExpandPlaylistFilenames() {
     logger.debug(arguments.callee.name);
     let isExpandedFilename = null;
-    let filenamesFirstFile = $(tbodyFilenames).children().first().text();
-    let currentFirstFile = $('#playlist-browser-table-body tr:first').text();
-    let $playlistTable = $('#playlist-browser-table');
+    const filenamesFirstFile = $(tbodyFilenames).children().first().text();
+    const currentFirstFile = $('#playlist-browser-table-body tr:first').text();
+    const $playlistTable = $('#playlist-browser-table');
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 

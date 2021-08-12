@@ -25,7 +25,7 @@ function renderHeaderAndFooter() {
  * Get session status and update the header and footer status. 
  */
 function loadSessionStatus() {
-  let SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
+  const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
   httpClient.get(SESSION_STATUS_URL, null,
     (responseBody, responseCode, responseDescription) => {
@@ -116,7 +116,7 @@ function Header() {
    * Set active tab in the menu.
    */
   function updateActiveTab() {
-    let pageUrl = window.location.pathname;
+    const pageUrl = window.location.pathname;
     $("#headerContainer header .default-layout #header-menu a").toArray().forEach((navItem) => {
       domUtils.removeClass($(navItem), "active");
       switch (pageUrl) {
@@ -170,7 +170,7 @@ function Header() {
    * Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon. 
    */
   function toggleHeaderNav() {
-    let headerMenu = document.getElementById("header-menu");
+    const headerMenu = document.getElementById("header-menu");
     if (headerMenu.className === "header-nav") {
       domUtils.classListAdd(headerMenu, "responsive");
     } else {
@@ -182,7 +182,7 @@ function Header() {
    * Update login status.
    */
   function updateLoginStatus() {
-    let $loginStatus = $("#login-status");
+    const $loginStatus = $("#login-status");
     domUtils.empty($loginStatus);
     if (isEmpty(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {

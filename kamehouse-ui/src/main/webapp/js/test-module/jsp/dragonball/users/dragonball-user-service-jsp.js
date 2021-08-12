@@ -1,5 +1,5 @@
 /**
- * Functionality to manage the dragonball users in the UI through the jsps and servlet api.
+ * Functionality to manage the dragonball users in the UI through the jsps and servconst api.
  */
 function DragonBallUserServiceJsp() {
 
@@ -20,7 +20,7 @@ function DragonBallUserServiceJsp() {
     const params = new URLSearchParams({
       username: urlParams.get('username')
     });
-    let getUrl = SERVLET_SERVICE_URI + "?" + params;
+    const getUrl = SERVLET_SERVICE_URI + "?" + params;
 
     debuggerHttpClient.get(getUrl, 
       (responseBody, responseCode, responseDescription) => displayDragonBallUserToEdit(responseBody),
@@ -117,7 +117,7 @@ function DragonBallUserServiceJsp() {
    */
   async function displayDragonBallUsers(dragonBallUsersList) {
     logger.trace(arguments.callee.name);
-    let $dragonBallUsersTbody = $('#dragonball-users-tbody');
+    const $dragonBallUsersTbody = $('#dragonball-users-tbody');
     domUtils.empty($dragonBallUsersTbody);
     domUtils.append($dragonBallUsersTbody, await getDragonBallUserTableHeader());
     for (let i = 0; i < dragonBallUsersList.length; i++) {
@@ -144,7 +144,7 @@ function DragonBallUserServiceJsp() {
    */
   function displayErrorTable(message) {
     logger.trace(arguments.callee.name);
-    let $dragonBallUsersTbody = $('#dragonball-users-tbody');
+    const $dragonBallUsersTbody = $('#dragonball-users-tbody');
     domUtils.empty($dragonBallUsersTbody);
     domUtils.append($dragonBallUsersTbody, getErrorMessageTr(message));
   }
@@ -154,7 +154,7 @@ function DragonBallUserServiceJsp() {
   }
 
   function getDragonBallUserTableRow(dragonBallUser) {
-    let tr = domUtils.getTr({}, null);
+    const tr = domUtils.getTr({}, null);
     domUtils.append(tr, getDragonBallUserTd(dragonBallUser.id));
     domUtils.append(tr, getDragonBallUserTd(dragonBallUser.username));
     domUtils.append(tr, getDragonBallUserTd(dragonBallUser.email));
@@ -170,7 +170,7 @@ function DragonBallUserServiceJsp() {
   }
 
   function getActionButtonsTd(username, id) {
-    let td = domUtils.getTd({}, null);
+    const td = domUtils.getTd({}, null);
     domUtils.append(td, getEditButton(username));
     domUtils.append(td, getDeleteButton(id));
     return td; 

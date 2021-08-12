@@ -67,16 +67,16 @@ function Scheduler() {
   /** Cancel job execution */
   function cancelJobExecution(jobKey, webapp) {
     loadingWheelModal.open();
-    let urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
+    const urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
     debuggerHttpClient.delete(getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
   }
 
   /** Update the jobs table content */
   function updateJobsTable(webapp) {
-    let $jobsData = $("#jobs-data-" + webapp);
+    const $jobsData = $("#jobs-data-" + webapp);
     domUtils.empty($jobsData);
     jobs.forEach((jobEntry) => {
-      let tableIdKey = webapp + jobEntry.key.name;
+      const tableIdKey = webapp + jobEntry.key.name;
       domUtils.append($jobsData, getTableFromTemplate(tableIdKey));
       domUtils.append($jobsData, domUtils.getBr());
 
@@ -98,7 +98,7 @@ function Scheduler() {
    */
   function getTableFromTemplate(tableIdKey) {
     // Create a wrapper div to insert the table template
-    let tableDiv = domUtils.getElementFromTemplate(schedulerTableTemplate);
+    const tableDiv = domUtils.getElementFromTemplate(schedulerTableTemplate);
     
     // Update the ids and classes on the table generated from the template
     domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val'), "scheduler-table-" + tableIdKey + "-name-val");
@@ -114,10 +114,10 @@ function Scheduler() {
   /** Returns the schedule formated to display in the UI */
   function formatSchedule(schedules) {
     if (!isEmpty(schedules) && schedules.length != 0) {
-      let scheduleFormattedArray = []
+      const scheduleFormattedArray = [];
       schedules.forEach(schedule => {
         if (!isEmpty(schedule.nextRun)) {
-          let date = new Date(parseInt(schedule.nextRun));
+          const date = new Date(parseInt(schedule.nextRun));
           scheduleFormattedArray.push(date.toLocaleString());
         }
       });
@@ -129,7 +129,7 @@ function Scheduler() {
   
   /** Set jobs table to error */
   function updateJobsTableError(webapp) {
-    let $jobsData = $('#jobs-data-' + webapp);
+    const $jobsData = $('#jobs-data-' + webapp);
     domUtils.empty($jobsData);
     domUtils.append($jobsData, getErrorMessage());
   }

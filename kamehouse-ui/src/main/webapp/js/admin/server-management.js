@@ -57,7 +57,7 @@ function ServerManager() {
    * WakeOnLan functions
    */
   function execAdminWakeOnLan(url, server) {
-    let requestParam = "server=" + server;
+    const requestParam = "server=" + server;
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
   }
@@ -68,9 +68,9 @@ function ServerManager() {
    */
   /** Set a Shutdown command */
   function setShutdownCommand() {
-    let shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
+    const shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
     logger.trace("Shutdown delay: " + shutdownDelay);
-    let requestParam = "delay=" + shutdownDelay;
+    const requestParam = "delay=" + shutdownDelay;
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + SHUTDOWN_URL, requestParam, processSuccessShutdown, processErrorShutdown);
   }
@@ -121,9 +121,9 @@ function ServerManager() {
    */
   /** Set a suspend command */
   function setSuspendCommand() {
-    let suspendDelay = document.getElementById("suspend-delay-dropdown").value;
+    const suspendDelay = document.getElementById("suspend-delay-dropdown").value;
     logger.trace("Suspend delay: " + suspendDelay);
-    let requestParam = "delay=" + suspendDelay;
+    const requestParam = "delay=" + suspendDelay;
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + SUSPEND_URL, requestParam, processSuccessSuspend, processErrorSuspend);
   }
@@ -295,7 +295,7 @@ function ServerManager() {
   }
   
   function getRebootServerModalMessage() {
-    let rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
+    const rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
     domUtils.append(rebootModalMessage, domUtils.getBr());
     domUtils.append(rebootModalMessage, domUtils.getBr());
     return rebootModalMessage;

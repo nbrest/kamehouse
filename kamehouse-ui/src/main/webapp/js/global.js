@@ -96,7 +96,7 @@ function BannerUtils() {
   const STAR_WARS_BANNERS = ["banner-anakin", "banner-anakin2", "banner-anakin3", "banner-anakin4", "banner-anakin5", "banner-luke-vader", "banner-luke-vader2", "banner-luke-vader3", "banner-star-wars-ep3", "banner-star-wars-poster", "banner-star-wars-trilogy", "banner-vader", "banner-vader2", "banner-yoda", "banner-yoda2"];
   const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
 
-  let ALL_BANNERS = [];
+  const ALL_BANNERS = [];
   // When adding new arrays here, also add them to preloadedBannerImages in setRandomAllBanner().
   ALL_BANNERS.push.apply(ALL_BANNERS, CAPTAIN_TSUBASA_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, DC_BANNERS);
@@ -109,11 +109,11 @@ function BannerUtils() {
   ALL_BANNERS.push.apply(ALL_BANNERS, STAR_WARS_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
 
-  let preloadedBannerImages = [];
+  const preloadedBannerImages = [];
 
   /** Set random saint seiya sanctuary banner */
   function setRandomSanctuaryBanner(bannerRotateWaitMs) {
-    let bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
+    const bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
     setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
     preloadBannerImages('saint-seiya', bannerClasses);
   }
@@ -170,23 +170,23 @@ function BannerUtils() {
   function setRandomBanner(bannerClasses) {
     // Get a new banner, different from the current one
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
-    let bannerDivClasses = $('#banner').attr('class');
+    const bannerDivClasses = $('#banner').attr('class');
     if (isEmpty(bannerDivClasses)) {
       return;
     }
-    let currentClassList = bannerDivClasses.split(/\s+/);
+    const currentClassList = bannerDivClasses.split(/\s+/);
     let currentBannerClass = "";
     currentClassList.forEach((currentClass) => {
       if (currentClass.startsWith("banner-")) {
         currentBannerClass = currentClass;
       }
     });
-    let indexOfCurrentBannerClass = bannerClasses.indexOf(currentBannerClass);
+    const indexOfCurrentBannerClass = bannerClasses.indexOf(currentBannerClass);
     while (randomBannerIndex == indexOfCurrentBannerClass) {
       randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     }
     // Update banner
-    let element = document.getElementById("banner");
+    const element = document.getElementById("banner");
     bannerClasses.forEach((bannerClass) => {
       domUtils.classListRemove(element, bannerClass);
     });
@@ -217,7 +217,7 @@ function BannerUtils() {
   /** Preload banner images */
   function preloadBannerImages(bannerPath, bannerArray) {
     bannerArray.forEach((bannerName) => {
-      let img = domUtils.getImgBtn({
+      const img = domUtils.getImgBtn({
         src: '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg'
       });
       preloadedBannerImages.push(img);
@@ -237,7 +237,7 @@ function CollapsibleDivUtils() {
    * Refresh to resize all the collapsible divs in the current page.
    */
   function refreshCollapsibleDiv() {
-    let collapsibleElements = document.getElementsByClassName("collapsible-kh");
+    const collapsibleElements = document.getElementsByClassName("collapsible-kh");
     let i;
     for (i = 0; i < collapsibleElements.length; i++) {
       collapsibleElements[i].click();
@@ -249,7 +249,7 @@ function CollapsibleDivUtils() {
    * Set collapsible content listeners.
    */
   function setCollapsibleContent() {
-    let collapsibleElements = document.getElementsByClassName("collapsible-kh");
+    const collapsibleElements = document.getElementsByClassName("collapsible-kh");
     let i;
     for (i = 0; i < collapsibleElements.length; i++) {
       collapsibleElements[i].removeEventListener("click", collapsibleContentListener);
@@ -263,7 +263,7 @@ function CollapsibleDivUtils() {
   function collapsibleContentListener() {
     // Can't use self here, need to use this. Also can't use an annonymous function () => {}
     domUtils.classListToggle(this, "collapsible-kh-active");
-    let content = this.nextElementSibling;
+    const content = this.nextElementSibling;
     if (content.style.maxHeight != 0) {
       domUtils.setStyle(content, "maxHeight", null);
     } else {
@@ -305,10 +305,10 @@ function CoreUtils() {
    * Keeping the definition so I don't attempt to do the same later down the track.
    */
   function isEmptyDeprecated(val) {
-    let isUndefinedOrNull = isEmpty(val);
-    let isEmptyString = !isUndefinedOrNull && val === "";
-    let isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
-    let isEmptyObject = !isUndefinedOrNull && Object.entries(val).length === 0 && val.constructor === Object;
+    const isUndefinedOrNull = isEmpty(val);
+    const isEmptyString = !isUndefinedOrNull && val === "";
+    const isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
+    const isEmptyObject = !isUndefinedOrNull && Object.entries(val).length === 0 && val.constructor === Object;
     return isUndefinedOrNull || isEmptyString || isEmptyArray || isEmptyObject;
   }
 
@@ -328,7 +328,7 @@ function CoreUtils() {
    * To scroll the page to the top of a particular div, use scrollToTop()
    */
   scrollToTopOfDiv = function scrollToTopOfDiv(divId) {
-    let divToScrollToTop = '#' + divId;
+    const divToScrollToTop = '#' + divId;
     $(divToScrollToTop).animate({
       scrollTop: 0
     }, '10');
@@ -357,7 +357,7 @@ function CoreUtils() {
     if (isEmpty(divId)) {
       scrollPosition = document.body.scrollHeight;
     } else {
-      let jqDivId = '#' + divId;
+      const jqDivId = '#' + divId;
       scrollPosition = $(jqDivId).offset().top + $(jqDivId).height() - window.innerHeight;
     }
     $('html, body').animate({
@@ -387,9 +387,9 @@ function CookiesUtils() {
    * Get a cookie.
    */
   function getCookie(cookieName) {
-    let name = cookieName + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let cookiesArray = decodedCookie.split(';');
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookiesArray = decodedCookie.split(';');
     for(let i = 0; i < cookiesArray.length; i++) {
       let cookie = cookiesArray[i];
       while (cookie.charAt(0) == ' ') {
@@ -409,7 +409,7 @@ function CookiesUtils() {
     if (!isEmpty(expiryDays)) {
       const expiriyDate = new Date();
       expiriyDate.setTime(expiriyDate.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
-      let expires = "expires=" + expiriyDate.toUTCString();
+      const expires = "expires=" + expiriyDate.toUTCString();
       document.cookie = cookieName + "=" + cookieValue + ";" + expires + "; path=/";
     } else {
       document.cookie = cookieName + "=" + cookieValue + "; path=/";
@@ -543,7 +543,7 @@ function DomUtils() {
    * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
    */
   function getElementFromTemplate(htmlTemplate) {
-    let domElementWrapper = document.createElement('div');
+    const domElementWrapper = document.createElement('div');
     domElementWrapper.innerHTML = htmlTemplate;
     return domElementWrapper.firstChild;
   }
@@ -559,7 +559,7 @@ function DomUtils() {
    * }
    */
   function getImgBtn(config) {
-    let img = new Image();
+    const img = new Image();
     if (!isEmpty(config.id)) {
       img.id = config.id;
     }
@@ -751,14 +751,14 @@ function DomUtils() {
    * }
    */
   function getButton(config) {
-    let btn = getElement('button', config.attr, config.html);
+    const btn = getElement('button', config.attr, config.html);
     setClick(btn, config.clickData, config.click);
     return btn;
   }
 
   /** Create an element with the specified tag, attributes and html */
   function getElement(tagType, attr, html) {
-    let element = $('<' + tagType + '>');
+    const element = $('<' + tagType + '>');
     setAttributes(element, attr);
     setHtml(element, html);
     return element;
@@ -842,7 +842,7 @@ function ModuleUtils() {
    * For example, when logger gets loaded, set modules.logger = true;
    * I use it in waitForModules() to check if a module is loaded or not.
    */
-  let modules = {};
+  const modules = {};
 
   /** Marks the specified module as loaded */
   function setModuleLoaded(moduleName) {
@@ -906,19 +906,19 @@ function ModuleUtils() {
     cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
     
     // Update tab links
-    let tabLinks = document.getElementsByClassName("tab-kh-link");
+    const tabLinks = document.getElementsByClassName("tab-kh-link");
     for (let i = 0; i < tabLinks.length; i++) {
       domUtils.classListRemove(tabLinks[i], "active");
     }
-    let selectedTabLink = document.getElementById(selectedTabDivId + '-link');
+    const selectedTabLink = document.getElementById(selectedTabDivId + '-link');
     domUtils.classListAdd(selectedTabLink, "active");
 
     // Update tab content visibility
-    let kamehouseTabContent = document.getElementsByClassName("tab-content-kh");
+    const kamehouseTabContent = document.getElementsByClassName("tab-content-kh");
     for (let i = 0; i < kamehouseTabContent.length; i++) {
       domUtils.setDisplay(kamehouseTabContent[i], "none");
     }
-    let selectedTabDiv = document.getElementById(selectedTabDivId);
+    const selectedTabDiv = document.getElementById(selectedTabDivId);
     domUtils.setDisplay(selectedTabDiv, "block");
   }
 
@@ -944,7 +944,7 @@ function TableUtils() {
   /** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
   function filterTableRows(filterString, tableBodyId) {
     filterString = filterString.toLowerCase();
-    let playlistBodyRows = $("#" + tableBodyId + " tr");
+    const playlistBodyRows = $("#" + tableBodyId + " tr");
     let regex;
     try {
       filterString = filterString.split('').join('.*').replace(/\s/g, '');
@@ -994,9 +994,9 @@ function TimeUtils() {
 
   /** Get current timestamp with client timezone. */
   function getTimestamp() {
-    let newDate = new Date();
-    let offsetTime = newDate.getTimezoneOffset() * -1 * 60 * 1000;
-    let currentDateTime = newDate.getTime();
+    const newDate = new Date();
+    const offsetTime = newDate.getTimezoneOffset() * -1 * 60 * 1000;
+    const currentDateTime = newDate.getTime();
     return new Date(currentDateTime + offsetTime).toISOString().replace("T", " ").slice(0, 19);
   }
 
@@ -1058,7 +1058,7 @@ function TimeUtils() {
       console.error("Invalid use of log(logLevel, message) function. Message is empty");
       return;
     }
-    let logLevelUpperCase = logLevel.toUpperCase();
+    const logLevelUpperCase = logLevel.toUpperCase();
     let logEntry = "";
     logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
     if (logLevelUpperCase == "ERROR") {
@@ -1105,7 +1105,7 @@ function TimeUtils() {
    */
   function logToDebugMode(logEntry) {
     const DEBUG_MODE_LOG_SIZE = 20;
-    let debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
+    const debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
     if (!isEmpty(debugModeConsoleLog)) {
       // Remove first log N entries
       let logEntriesSize = debugModeConsoleLog.childElementCount;
@@ -1124,7 +1124,7 @@ function TimeUtils() {
    * Scroll to the last entries of the console log.
    */
   function debugModeLogScroll() {
-    let height = $("#debug-mode-console-log-entries").get(0).scrollHeight;
+    const height = $("#debug-mode-console-log-entries").get(0).scrollHeight;
     $("#debug-mode-console-log-entries").animate({
       scrollTop: height
     }, 100);
@@ -1221,9 +1221,9 @@ function TimeUtils() {
      *    statusText: status code as text (success/error)
      * }
      */
-    let responseBody = data;
-    let responseCode = xhr.status;
-    let responseDescription = xhr.statusText;
+    const responseBody = data;
+    const responseCode = xhr.status;
+    const responseDescription = xhr.statusText;
     successCallback(responseBody, responseCode, responseDescription, data);
   }
 
@@ -1239,16 +1239,16 @@ function TimeUtils() {
       * textStatus: response body
       * errorMessage: (so far came empty, might have the response body)
       */
-     let responseBody = jqXhr.responseText;
-     let responseCode = jqXhr.status;
-     let responseDescription = jqXhr.statusText;
+     const responseBody = jqXhr.responseText;
+     const responseCode = jqXhr.status;
+     const responseDescription = jqXhr.statusText;
      logger.error(JSON.stringify(jqXhr));
      errorCallback(responseBody, responseCode, responseDescription, data);
   }
 
   /** Get request headers object with Url Encoded content type. */
   function getUrlEncodedHeaders() {
-    let requestHeaders = {};
+    const requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = "application/x-www-form-urlencoded";
     logger.trace("request headers: " + JSON.stringify(requestHeaders));
@@ -1257,7 +1257,7 @@ function TimeUtils() {
 
   /** Get request headers object with application json content type. */
   function getApplicationJsonHeaders() {
-    let requestHeaders = {};
+    const requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = 'application/json';
     logger.trace("request headers: " + JSON.stringify(requestHeaders));

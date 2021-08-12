@@ -35,7 +35,7 @@ function ScriptExecutor() {
         script: scriptName,
         args: args
       });
-      let getUrl = EXEC_SCRIPT_API + "?" + params;
+      const getUrl = EXEC_SCRIPT_API + "?" + params;
       logger.info("Executing script : " + scriptName + " with args : " + args);
       if (!skipUpdateView) {
         updateScriptExecutionStartDate();
@@ -76,13 +76,13 @@ function ScriptExecutor() {
   function updateScriptOutput(responseBody, responseCode, responseDescription, callback, skipUpdateView) {
     if (!skipUpdateView) {
       updateScriptExecutionEndDate();
-      let scriptOutputArray = responseBody.htmlConsoleOutput;
+      const scriptOutputArray = responseBody.htmlConsoleOutput;
       bashScriptOutput = responseBody.bashConsoleOutput;
-      let $scriptOutputTableBody = $('#script-output-table-body');
+      const $scriptOutputTableBody = $('#script-output-table-body');
       domUtils.empty($scriptOutputTableBody);
-      let tbody = getScriptOutputTbody();
+      const tbody = getScriptOutputTbody();
   
-      let scriptOutputLength = scriptOutputArray.length;
+      const scriptOutputLength = scriptOutputArray.length;
       if (scriptOutputLength < 400) {
         // Show full output
         for (let i = 0; i < scriptOutputLength; i++) {
@@ -134,9 +134,9 @@ function ScriptExecutor() {
   function updateScriptOutputError(responseBody, responseCode, responseDescription, callback, skipUpdateView) {
     if (!skipUpdateView) {
       updateScriptExecutionEndDate();
-      let $scriptOutputTableBody = $('#script-output-table-body');
+      const $scriptOutputTableBody = $('#script-output-table-body');
       domUtils.empty($scriptOutputTableBody);
-      let tbody = getScriptOutputTbody();
+      const tbody = getScriptOutputTbody();
       domUtils.append(tbody, getScriptOutputErrorTr("Error response from the backend"));
       domUtils.append(tbody, getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
       domUtils.append(tbody, getScriptOutputErrorTr("responseCode : " + responseCode));
@@ -172,27 +172,27 @@ function ScriptExecutor() {
 
   /** Update script execution start date */
   function updateScriptExecutionStartDate() {
-    let clientDate = new Date();
-    let clientMonth = clientDate.getMonth() + 1;
-    let clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
+    const clientDate = new Date();
+    const clientMonth = clientDate.getMonth() + 1;
+    const clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
     domUtils.setHtml($("#st-script-exec-start-date"), clientTimeAndDate);
     domUtils.setHtml($("#st-script-exec-end-date"), "");
   }
 
   /** Update script execution end date */
   function updateScriptExecutionEndDate() {
-    let clientDate = new Date();
-    let clientMonth = clientDate.getMonth() + 1;
-    let clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
+    const clientDate = new Date();
+    const clientMonth = clientDate.getMonth() + 1;
+    const clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
     domUtils.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
   }
 
   /** Allow the user to download the full bash script output */
   function downloadBashScriptOutput() {
-    let clientDate = new Date();
-    let clientMonth = clientDate.getMonth() + 1;
-    let timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
-    let downloadLink = getDownloadLink(timestamp);
+    const clientDate = new Date();
+    const clientMonth = clientDate.getMonth() + 1;
+    const timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
+    const downloadLink = getDownloadLink(timestamp);
     domUtils.appendChild(document.body, downloadLink);
     downloadLink.click();
     domUtils.removeChild(document.body, downloadLink);
@@ -225,8 +225,8 @@ function ScriptExecutor() {
   }
 
   function getScriptExecutingMessage(scriptName, args) {
-    let executingMessageSpan = domUtils.getSpan({}, "Executing script : ");
-    let scriptNameSpan = domUtils.getSpan({
+    const executingMessageSpan = domUtils.getSpan({}, "Executing script : ");
+    const scriptNameSpan = domUtils.getSpan({
       class: "bold-kh"
     }, scriptName);
     domUtils.append(executingMessageSpan, scriptNameSpan);
@@ -234,7 +234,7 @@ function ScriptExecutor() {
       domUtils.append(executingMessageSpan, domUtils.getBr());
       domUtils.append(executingMessageSpan, domUtils.getBr());
       domUtils.append(executingMessageSpan, "with args : ");
-      let argsSpan = domUtils.getSpan({
+      const argsSpan = domUtils.getSpan({
         class: "bold-kh"
       }, args);
       domUtils.append(executingMessageSpan, argsSpan);

@@ -43,7 +43,7 @@ function BasicKamehouseModal() {
   this.openSiteUnderConstruction = openSiteUnderConstruction;
   this.openApiError = openApiError;
 
-  let modalUtils = new ModalUtils("basic-kamehouse-modal");
+  const modalUtils = new ModalUtils("basic-kamehouse-modal");
   this.import = modalUtils.importSnippet;
   this.open = modalUtils.open;
   this.openAutoCloseable = modalUtils.openAutoCloseable;
@@ -65,14 +65,14 @@ function BasicKamehouseModal() {
   }
 
   function getEmptyResponseBodyText() {
-    let message = domUtils.getSpan({}, "Error executing the request.");
+    const message = domUtils.getSpan({}, "Error executing the request.");
     domUtils.append(message, domUtils.getBr());
     domUtils.append(message, "Please check the logs for more information");
     return message;
   }
   
   function getErrorMessage(responseBody, responseCode, responseDescription) {
-    let message = domUtils.getSpan({}, "Error executing the request.");
+    const message = domUtils.getSpan({}, "Error executing the request.");
     domUtils.append(message, domUtils.getBr());
     domUtils.append(message, "Response: [ code: " + responseCode + ",");
     domUtils.append(message, " description: \"" + responseDescription + "\",");
@@ -88,7 +88,7 @@ function LoadingWheelModal() {
 
   this.open = open;
 
-  let modalUtils = new ModalUtils("loading-wheel-modal");
+  const modalUtils = new ModalUtils("loading-wheel-modal");
   this.import = modalUtils.importSnippet;
   this.openAutoCloseable = modalUtils.openAutoCloseable;
   this.close = modalUtils.close;
@@ -100,7 +100,7 @@ function LoadingWheelModal() {
    */
   function open(message) {
     if (isEmpty(message) && !isEmpty(global.session.firstName)) {
-      let chottoMatte = 'ちょっと まって';
+      const chottoMatte = 'ちょっと まって';
       message = chottoMatte + ", " + global.session.firstName + "-san!";
     }
     modalUtils.open(message);
@@ -121,19 +121,19 @@ function ModalUtils(modalId) {
   this.setHtml = setHtml;
   this.appendHtml = appendHtml;
 
-  let DEFAULT_AUTO_CLOSE_SEC = 7000;
+  const DEFAULT_AUTO_CLOSE_SEC = 7000;
 
   /** Import modal content */
   async function importSnippet() {
     const modalDiv = await fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/" + modalId + ".html");
     domUtils.append($('body'), modalDiv);
-    let modalDivCloseBtn = document.getElementById(modalId + "-close");
+    const modalDivCloseBtn = document.getElementById(modalId + "-close");
     domUtils.setOnClick(modalDivCloseBtn, () => close());
   }
 
   /** When the user clicks anywhere outside of the modal, close it */
   function setCloseOnClickOutsideModal() {
-    let modalDiv = document.getElementById(modalId);
+    const modalDiv = document.getElementById(modalId);
     domUtils.setOnClick(window, (event) => {
       if (event.target == modalDiv) {
         close();
@@ -146,7 +146,7 @@ function ModalUtils(modalId) {
     if (!isEmpty(message)) {
       setHtml(message);
     }
-    let modal = document.getElementById(modalId);
+    const modal = document.getElementById(modalId);
     domUtils.setDisplay(modal, "block");
     //setCloseOnClickOutsideModal();
   }
@@ -159,7 +159,7 @@ function ModalUtils(modalId) {
 
   /** Close modal */
   function close() {
-    let modal = document.getElementById(modalId);
+    const modal = document.getElementById(modalId);
     domUtils.setDisplay(modal, "none");
   }
 
@@ -170,10 +170,10 @@ function ModalUtils(modalId) {
       logger.trace("autoCloseMs not set. Closing after default value of " + DEFAULT_AUTO_CLOSE_SEC + " ms");
       autoCloseMs = DEFAULT_AUTO_CLOSE_SEC;
     }
-    let autoCloseId = modalId + "-autoclose";
+    const autoCloseId = modalId + "-autoclose";
     domUtils.removeClass($("#" + autoCloseId), "hidden-kh");
     while (autoCloseMs > 0) {
-      let secondsRemaining = autoCloseMs / 1000;
+      const secondsRemaining = autoCloseMs / 1000;
       domUtils.setHtml($("#" + autoCloseId), "Closing in " + secondsRemaining + " seconds");
       autoCloseMs = autoCloseMs - 1000;
       await sleep(1000);

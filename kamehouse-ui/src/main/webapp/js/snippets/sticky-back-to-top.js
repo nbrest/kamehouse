@@ -54,7 +54,7 @@ function StickyBackToTopManager() {
    */
   function showHideStickyBackToTopBtn() {
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
-    let verticalScroll = window.scrollY;
+    const verticalScroll = window.scrollY;
     if (verticalScroll > 0) {
       domUtils.classListAdd(stickyBackToTopBtn, "active");
       domUtils.classListRemove(stickyBackToTopBtn, "hidden");

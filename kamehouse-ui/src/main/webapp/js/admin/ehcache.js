@@ -30,7 +30,7 @@ function EhCacheManager() {
   this.toggleCacheView = toggleCacheView;
   this.toggleAllCacheView = toggleAllCacheView;
 
-  let ehcacheToggleTableRowIds = [
+  const ehcacheToggleTableRowIds = [
     []
   ];
   let ehcacheTableTemplate;
@@ -84,7 +84,7 @@ function EhCacheManager() {
   function displayCacheData(caches, webapp) {
     emptyCacheDataDiv(webapp);
     ehcacheToggleTableRowIds[webapp] = [];
-    let $cacheData = $("#cache-data-" + webapp);
+    const $cacheData = $("#cache-data-" + webapp);
     caches.forEach((cache) => {
       domUtils.append($cacheData, getEhCacheTableFromTemplate(cache.name));
       domUtils.append($cacheData, $(domUtils.getBr()));
@@ -110,7 +110,7 @@ function EhCacheManager() {
    */
   function getEhCacheTableFromTemplate(cacheName) {
     // Create a wrapper div to insert the table template
-    let ehcacheTableDiv = domUtils.getElementFromTemplate(ehcacheTableTemplate);
+    const ehcacheTableDiv = domUtils.getElementFromTemplate(ehcacheTableTemplate);
     
     // Update the ids and classes on the table generated from the template
     domUtils.setId(ehcacheTableDiv, "ehcache-table-" + cacheName);
@@ -121,7 +121,7 @@ function EhCacheManager() {
     domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-keys-val'), "ehcache-table-" + cacheName + "-keys-val");
     domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-values-val'), "ehcache-table-" + cacheName + "-values-val");
 
-    let toggeableClasses = ehcacheTableDiv.getElementsByClassName("toggle-ehcache-table-template")
+    const toggeableClasses = ehcacheTableDiv.getElementsByClassName("toggle-ehcache-table-template")
     for (var i = 0; i < toggeableClasses.length; i++) {
       domUtils.classListAdd(toggeableClasses.item(i), "toggle-ehcache-table-" + cacheName);
     }
@@ -137,12 +137,12 @@ function EhCacheManager() {
    */
   function displayErrorGettingCache(webapp) {
     // Create a wrapper div to insert the error table template
-    let ehcacheErrorTableDiv = domUtils.getElementFromTemplate(ehcacheErrorTableTemplate);
+    const ehcacheErrorTableDiv = domUtils.getElementFromTemplate(ehcacheErrorTableTemplate);
     // Update the id
     domUtils.setId(ehcacheErrorTableDiv.querySelector('tr #ehcache-table-template-error-val'), "ehcache-table-" + webapp + "-error-val");
     // Attach the error table to the dom
     emptyCacheDataDiv(webapp);
-    let $cacheData = $("#cache-data-" + webapp);
+    const $cacheData = $("#cache-data-" + webapp);
     domUtils.append($cacheData, ehcacheErrorTableDiv);
     // Update the message
     domUtils.setHtml($("#ehcache-table-" + webapp + "-error-val"), timeUtils.getTimestamp() +
@@ -155,7 +155,7 @@ function EhCacheManager() {
    * Clear cache data.
    */
   function clearCacheData(cacheName, webapp) {
-    let url = getApiUrl(webapp) + '?name=' + cacheName;
+    const url = getApiUrl(webapp) + '?name=' + cacheName;
     debuggerHttpClient.delete(url, null,
       (responseBody, responseCode, responseDescription) => {
         basicKamehouseModal.openAutoCloseable("Cache " + cacheName + " cleared successfully", 3000);
@@ -188,7 +188,7 @@ function EhCacheManager() {
    * Empty cache data div.
    */
   function emptyCacheDataDiv(webapp) {
-    let $cacheData = $("#cache-data-" + webapp);
+    const $cacheData = $("#cache-data-" + webapp);
     domUtils.empty($cacheData);
   }
 

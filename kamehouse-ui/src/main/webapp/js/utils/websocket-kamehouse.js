@@ -21,7 +21,7 @@ function WebSocketKameHouse() {
 
   let stompClient = null;
   let stompClientDebugFunction = null;
-  let stompClients = [];
+  const stompClients = [];
   let statusUrl = null;
   let topicUrl = null;
   let pollUrl = null;
@@ -65,7 +65,7 @@ function WebSocketKameHouse() {
     }
     try {
       disconnectPreviousConnections();
-      let socket = new SockJS(statusUrl);
+      const socket = new SockJS(statusUrl);
       stompClient = Stomp.over(socket);
       stompClientDebugFunction = stompClient.debug;
       disableStompDebugMode();
@@ -101,7 +101,7 @@ function WebSocketKameHouse() {
         logger.debug("WebSocket is not connected. No need to disconnect but attempting anyway.");
       }
       try {
-        let subscriptions = Object.keys(stompClientParam.subscriptions);
+        const subscriptions = Object.keys(stompClientParam.subscriptions);
         if (!isEmpty(subscriptions)) {
           subscriptions.forEach(subscription => {
             logger.debug("Unsubscribing from " + subscription);

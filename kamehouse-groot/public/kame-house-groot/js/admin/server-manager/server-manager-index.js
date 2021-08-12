@@ -126,7 +126,7 @@ function ServerManager() {
       return;
     }
     setCommandRunning();
-    let hostOs = getHostOs();
+    const hostOs = getHostOs();
     scriptExecutor.execute(hostOs + '/shutdown/reboot.sh', "", completeCommandCallback);
   }
 
@@ -143,7 +143,7 @@ function ServerManager() {
   }
 
   function getRebootServerModalMessage() {
-    let rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
+    const rebootModalMessage = domUtils.getSpan({}, "Are you sure you want to reboot the server? ");
     domUtils.append(rebootModalMessage, domUtils.getBr());
     domUtils.append(rebootModalMessage, domUtils.getBr());
     return rebootModalMessage;
@@ -176,7 +176,7 @@ function GitManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let hostOs = serverManager.getHostOs();
+    const hostOs = serverManager.getHostOs();
     scriptExecutor.execute(hostOs + '/git/git-pull-all.sh', "", serverManager.completeCommandCallback);
   }
 
@@ -244,7 +244,7 @@ function DeploymentManager() {
    * Get the tomcat process status.
    */
   function getTomcatProcessStatus() {
-    let hostOs = serverManager.getHostOs();
+    const hostOs = serverManager.getHostOs();
     scriptExecutor.execute(hostOs + '/kamehouse/tomcat-status.sh', "", displayTomcatProcessStatus, true);
   }
 
@@ -255,10 +255,10 @@ function DeploymentManager() {
     collapsibleDivUtils.refreshCollapsibleDiv();
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("/kame-house")) {
-        let scriptOutputLineArray = scriptOutputLine.split(":");
-        let webapp = scriptOutputLineArray[0];
-        let status = scriptOutputLineArray[1];
-        let module = getModule(webapp);
+        const scriptOutputLineArray = scriptOutputLine.split(":");
+        const webapp = scriptOutputLineArray[0];
+        const status = scriptOutputLineArray[1];
+        const module = getModule(webapp);
         if (status == "running") {
           domUtils.setHtml($("#mst-" + module + "-status-val"), statusBallGreenImg.cloneNode(true));
         } else if (status == "stopped") {
@@ -297,13 +297,13 @@ function DeploymentManager() {
   function displayNonTomcatModuleStatus(scriptOutput, module) {
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("buildVersion")) {
-        let scriptOutputLineArray = scriptOutputLine.split("=");
-        let buildVersion = scriptOutputLineArray[1];
+        const scriptOutputLineArray = scriptOutputLine.split("=");
+        const buildVersion = scriptOutputLineArray[1];
         domUtils.setHtml($("#mst-" + module + "-build-version-val"), buildVersion);    
       }
       if (scriptOutputLine.startsWith("buildDate")) {
-        let scriptOutputLineArray = scriptOutputLine.split("=");
-        let buildDate = scriptOutputLineArray[1];
+        const scriptOutputLineArray = scriptOutputLine.split("=");
+        const buildDate = scriptOutputLineArray[1];
         domUtils.setHtml($("#mst-" + module + "-build-date-val"), buildDate);    
       }
     });
@@ -313,7 +313,7 @@ function DeploymentManager() {
    * Render tomcat process status.
    */
   function displayTomcatProcessStatus(scriptOutput) {
-    let tomcatProcessStatusDiv = "#tomcat-process-status-val";
+    const tomcatProcessStatusDiv = "#tomcat-process-status-val";
     domUtils.empty($(tomcatProcessStatusDiv));
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (!scriptOutputLine.includes("Started executing") && 
@@ -382,7 +382,7 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let args = "-m " + module;
+    const args = "-m " + module;
     scriptExecutor.execute('kamehouse/start-java-web-kamehouse.sh', args, refreshServerView);
   }
 
@@ -395,7 +395,7 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let args = "-m " + module;
+    const args = "-m " + module;
     scriptExecutor.execute('kamehouse/stop-java-web-kamehouse.sh', args, refreshServerView);
   }
 
@@ -408,9 +408,9 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let hostOs = serverManager.getHostOs();
-    let script = 'kamehouse/deploy-java-web-kamehouse.sh';
-    let args = "-f -m " + module;
+    const hostOs = serverManager.getHostOs();
+    const script = 'kamehouse/deploy-java-web-kamehouse.sh';
+    const args = "-f -m " + module;
 
     if (module == "groot") {
       script = hostOs + '/git/git-pull-prod-java-web-kamehouse.sh';
@@ -434,7 +434,7 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let args = "-m " + module;
+    const args = "-m " + module;
     scriptExecutor.execute('kamehouse/deploy-all-servers.sh', args, refreshServerView);
   }
 
@@ -447,7 +447,7 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let args = "-m " + module;
+    const args = "-m " + module;
     scriptExecutor.execute('kamehouse/undeploy-java-web-kamehouse.sh', args, refreshServerView);
   }
 
@@ -460,7 +460,7 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let args = "-f";
+    const args = "-f";
     scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, refreshServerView);
   }
 
@@ -497,7 +497,7 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    let hostOs = serverManager.getHostOs();
+    const hostOs = serverManager.getHostOs();
     scriptExecutor.execute(hostOs + '/kamehouse/tomcat-stop.sh', "", refreshServerView);
   }
 
