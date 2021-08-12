@@ -193,8 +193,8 @@ function BannerUtils() {
     domUtils.classListAdd(element, bannerClasses[randomBannerIndex]);
 
     // Trigger banner animation
-    var clonedElement = element.cloneNode(true);
-    element.parentNode.replaceChild(clonedElement, element);
+    const clonedElement = element.cloneNode(true);
+    domUtils.replaceChild(element.parentNode, clonedElement, element);
   }
 
   /** Set a random image banner from the classes list at the specified interval */
@@ -465,6 +465,7 @@ function DomUtils() {
   this.getElementFromTemplate = getElementFromTemplate;
   this.getImgBtn = getImgBtn;
   this.insertBeforeBegin = insertBeforeBegin;
+  this.replaceChild = replaceChild;
 
   /** ------ Manipulation through jQuery --------------------------------- */
   this.getDomNode = getDomNode;
@@ -570,8 +571,14 @@ function DomUtils() {
     return img;
   }
 
+  /** Insert the html before the body */
   function insertBeforeBegin(html) {
     document.body.insertAdjacentHTML("beforeBegin", html);
+  }
+
+  /** Replace the old child with the new one in the parent */
+  function replaceChild(parentNode, newChild, oldChild) {
+    parentNode.replaceChild(newChild, oldChild);
   }
 
   /** ------ Manipulation through jQuery --------------------------------- */

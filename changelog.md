@@ -12,7 +12,7 @@
 * Updated the styles and layout of the about page and the home page
 * Created domUtils and moved all dom manipulation to go through there
 * Added fetchUtils to pull html snippets and js from there
-* Huge refactor of the frontend code with all the changes done above also removing all `self.` references and updated function definitions to make it more readable
+* Huge refactor of the frontend code with all the changes done above. Also removed all `self.` references and updated function definitions to make it more readable. Moved let to const when possible
 * Moved logger and httpClient into global.js and removed them as loadable modules
 * Updated layout for groot home page
 
