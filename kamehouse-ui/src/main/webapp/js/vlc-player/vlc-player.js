@@ -57,6 +57,7 @@ function VlcPlayer(hostname) {
   /** Init VlcPlayer */
   function init() {
     logger.debug(arguments.callee.name);
+    loadStateFromCookies();
     playlist.init();
     loadStateFromApi();
     synchronizer.connectVlcRcStatus();
@@ -64,7 +65,6 @@ function VlcPlayer(hostname) {
     synchronizer.syncVlcRcStatusLoop();
     synchronizer.syncPlaylistLoop();
     synchronizer.keepAliveWebSocketsLoop();
-    loadStateFromCookies();
   }
 
   /**
@@ -773,7 +773,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     logger.debug(arguments.callee.name);
     dobleLeftImg = createDoubleArrowImg("left");
     dobleRightImg = createDoubleArrowImg("right");
-    $("#toggle-playlist-filenames-img").replaceWith(dobleRightImg);
+    domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
   }
 
   /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
@@ -817,7 +817,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
         domUtils.append(tbodyFilenames, getPlaylistTr(filename, playlistElementId));
         domUtils.append(tbodyAbsolutePaths, getPlaylistTr(absolutePath, playlistElementId));
       }
-      $playlistTableBody.replaceWith(tbodyFilenames);
+      domUtils.replaceWith($playlistTableBody, tbodyFilenames);
       highlightCurrentPlayingItem();
       vlcPlayer.filterPlaylistRows();
     }
@@ -887,14 +887,14 @@ function VlcPlayerPlaylist(vlcPlayer) {
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
       if (!isNullOrUndefined(tbodyFilenames)) {
-        tbodyFilenames.detach();
+        domUtils.detach(tbodyFilenames);
       }
       domUtils.append($playlistTable, tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
       if (!isNullOrUndefined(tbodyAbsolutePaths)) {
-        tbodyAbsolutePaths.detach();
+        domUtils.detach(tbodyAbsolutePaths);
       }
       domUtils.append($playlistTable, tbodyFilenames);
       isExpandedFilename = false;
@@ -907,9 +907,9 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** Update the icon to expand or collapse the playlist filenames */
   function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      $("#toggle-playlist-filenames-img").replaceWith(dobleLeftImg);
+      domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleLeftImg);
     } else {
-      $("#toggle-playlist-filenames-img").replaceWith(dobleRightImg);
+      domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
     }
   }
 
@@ -1097,10 +1097,14 @@ function VlcPlayerDebugger(vlcPlayer) {
   let playlistApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/playlist';
 
   /** Get the vlcRcStatus from an http api call instead of from the websocket. */
-  function getVlcRcStatusFromApi() { vlcPlayer.getRestClient().get(vlcRcStatusApiUrl, false, getVlcRcStatusApiSuccessCallback, getVlcRcStatusApiErrorCallback); }
+  function getVlcRcStatusFromApi() { 
+    vlcPlayer.getRestClient().get(vlcRcStatusApiUrl, false, getVlcRcStatusApiSuccessCallback, getVlcRcStatusApiErrorCallback); 
+  }
 
   /** Get the playlist from an http api call instead of from the websocket. */
-  function getPlaylistFromApi() { vlcPlayer.getRestClient().get(playlistApiUrl, false, getPlaylistApiSuccessCallback, null); }
+  function getPlaylistFromApi() { 
+    vlcPlayer.getRestClient().get(playlistApiUrl, false, getPlaylistApiSuccessCallback, null); 
+  }
 
   /** Update the main player view. */
   function getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription) {

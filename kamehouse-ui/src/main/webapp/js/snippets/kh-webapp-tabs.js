@@ -68,7 +68,7 @@ function KameHouseWebappTabsManager() {
    */
   function importTabs() {
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kh-webapp-tabs.css">');
-    $("#kh-webapp-tabs-wrapper").load("/kame-house/html-snippets/kh-webapp-tabs.html", () => {
+    domUtils.load($("#kh-webapp-tabs-wrapper"), "/kame-house/html-snippets/kh-webapp-tabs.html", () => {
       moduleUtils.setModuleLoaded("kameHouseWebappTabsManager");
     });
   }

@@ -113,7 +113,7 @@ function ScriptExecutor() {
         }
       }
   
-      $scriptOutputTableBody.replaceWith(tbody);
+      domUtils.replaceWith($scriptOutputTableBody, tbody);
   
       // Update the view
       domUtils.removeClass($('#script-output-header'), "hidden-kh");
@@ -141,7 +141,7 @@ function ScriptExecutor() {
       domUtils.append(tbody, getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
       domUtils.append(tbody, getScriptOutputErrorTr("responseCode : " + responseCode));
       domUtils.append(tbody, getScriptOutputErrorTr("responseDescription : " + responseDescription));
-      $scriptOutputTableBody.replaceWith(tbody);
+      domUtils.replaceWith($scriptOutputTableBody, tbody);
   
       // Update the view
       domUtils.removeClass($('#script-output-header'), "hidden-kh");

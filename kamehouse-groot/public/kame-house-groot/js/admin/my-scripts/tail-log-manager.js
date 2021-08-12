@@ -82,7 +82,7 @@ function TailLogManager() {
       }
     }
     domUtils.empty($tailLogOutputTableBody);
-    $tailLogOutputTableBody.replaceWith(tbody);
+    domUtils.replaceWith($tailLogOutputTableBody, tbody);
 
     if (isFunction(callback)) {
       callback();
@@ -98,7 +98,7 @@ function TailLogManager() {
     domUtils.append(tbody, getTailLogOutputErrorTr("responseCode : " + responseCode));
     domUtils.append(tbody, getTailLogOutputErrorTr("responseDescription : " + responseDescription));
     domUtils.empty($tailLogOutputTableBody);
-    $tailLogOutputTableBody.replaceWith(tbody);
+    domUtils.replaceWith($tailLogOutputTableBody, tbody);
 
     if (isFunction(callback)) {
       callback();
@@ -111,7 +111,7 @@ function TailLogManager() {
     let tbody = getTailLogOutputTbody();
     domUtils.append(tbody, getTailLogOutputErrorTr("Invalid script sent as parameter"));
     domUtils.empty($tailLogOutputTableBody);
-    $tailLogOutputTableBody.replaceWith(tbody);
+    domUtils.replaceWith($tailLogOutputTableBody, tbody);
   }
 
   /** Handle Session Status */

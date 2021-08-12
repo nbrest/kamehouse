@@ -30,7 +30,7 @@ function PlaylistBrowser(vlcPlayer) {
     logger.debug(arguments.callee.name);
     dobleLeftImg = createDoubleArrowImg("left");
     dobleRightImg = createDoubleArrowImg("right");
-    $("#toggle-playlist-browser-filenames-img").replaceWith(dobleRightImg);
+    domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
   }
 
   /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
@@ -158,7 +158,7 @@ function PlaylistBrowser(vlcPlayer) {
         domUtils.append(tbodyFilenames, getPlaylistBrowserTr(filename, absolutePath));
         domUtils.append(tbodyAbsolutePaths, getPlaylistBrowserTr(absolutePath, absolutePath));
       }
-      $playlistTableBody.replaceWith(tbodyFilenames);
+      domUtils.replaceWith($playlistTableBody, tbodyFilenames);
     }
     filterPlaylistRows();
   }
@@ -182,14 +182,14 @@ function PlaylistBrowser(vlcPlayer) {
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
       if (!isNullOrUndefined(tbodyFilenames)) {
-        tbodyFilenames.detach();
+        domUtils.detach(tbodyFilenames);
       }
       domUtils.append($playlistTable, tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
       if (!isNullOrUndefined(tbodyAbsolutePaths)) {
-        tbodyAbsolutePaths.detach();
+        domUtils.detach(tbodyAbsolutePaths);
       }
       domUtils.append($playlistTable, tbodyFilenames);
       isExpandedFilename = false;
@@ -201,9 +201,9 @@ function PlaylistBrowser(vlcPlayer) {
   /** Update the icon to expand or collapse the playlist filenames */
   function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      $("#toggle-playlist-browser-filenames-img").replaceWith(dobleLeftImg);
+      domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleLeftImg);
     } else {
-      $("#toggle-playlist-browser-filenames-img").replaceWith(dobleRightImg);
+      domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
     }
   }
 

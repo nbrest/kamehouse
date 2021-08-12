@@ -470,10 +470,13 @@ function DomUtils() {
   /** ------ Manipulation through jQuery --------------------------------- */
   this.getDomNode = getDomNode;
   this.empty = empty;
+  this.load = load;
+  this.detach = detach;
   this.prepend = prepend;
   this.append = append;
   this.appendChild = appendChild;
   this.removeChild = removeChild;
+  this.replaceWith = replaceWith;
   this.setAttr = setAttr;
   this.setHtml = setHtml;
   this.setClick = setClick;
@@ -586,6 +589,24 @@ function DomUtils() {
   function empty(div) {
     div.empty();
   }
+  
+  /**
+   * Load the specified htmlPath into the div.
+   */
+  function load(divToLoadTo, htmlPath, successCallback) {
+    if (isFunction(successCallback)) {
+      divToLoadTo.load(htmlPath, successCallback);
+    } else {
+      divToLoadTo.load(htmlPath);
+    }
+  }
+
+  /**
+   * Detach the specified element from the dom.
+   */
+   function detach(elementToDetach) {
+    elementToDetach.detach();
+  }
 
   /**
    * Prepend the prependObject to prependTo.
@@ -613,6 +634,13 @@ function DomUtils() {
    */
   function removeChild(parent, child) {
     parent.removeChild(child);
+  }
+
+  /**
+   * Replaces the specified dom element with the 
+   */
+  function replaceWith(elementToReplace, replacement) {
+    elementToReplace.replaceWith(replacement);
   }
 
   /**
@@ -941,7 +969,7 @@ function TestUtils() {
 
   /** Test the different log levels. */
   function testLogLevel() {
-    console.log("logger.logLevel " + logger.getLogLevel());
+    console.log("logger.getLogLevel(): " + logger.getLogLevel());
     logger.error("This is an ERROR message");
     logger.warn("This is a WARN message");
     logger.info("This is an INFO message");
@@ -995,13 +1023,15 @@ function TimeUtils() {
 
   /**
    * Log levels:
+   * 
    * 0: ERROR
    * 1: WARN
    * 2: INFO
    * 3: DEBUG
    * 4: TRACE
+   * 
+   * Default log level: INFO (2)
    */
-  //Defaults log level to INFO (2)
   let logLevelNumber = 2;
 
   /**

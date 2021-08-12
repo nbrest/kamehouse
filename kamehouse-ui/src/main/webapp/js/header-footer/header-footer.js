@@ -64,7 +64,7 @@ function Footer() {
   function renderFooter() { 
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
     domUtils.append($("body"), getFooterContainerDiv());
-    $("#footerContainer").load("/kame-house/html-snippets/footer.html", () => {
+    domUtils.load($("#footerContainer"), "/kame-house/html-snippets/footer.html", () => {
       loaded = true;
     });
   }
@@ -105,7 +105,7 @@ function Header() {
   function renderHeader() {
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
     domUtils.prepend($("body"), getHeaderContainerDiv());
-    $("#headerContainer").load("/kame-house/html-snippets/header.html", () => {
+    domUtils.load($("#headerContainer"), "/kame-house/html-snippets/header.html", () => {
       updateLoginStatus();
       updateActiveTab();
       loaded = true;

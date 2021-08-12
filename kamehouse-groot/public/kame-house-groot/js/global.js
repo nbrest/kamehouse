@@ -34,7 +34,7 @@ function GrootHeader() {
 
   /** Render groot sub menu */
   function renderGrootMenu() {
-    $("#groot-menu-wrapper").load("/kame-house-groot/html-snippets/groot-menu.html", () => {
+    domUtils.load($("#groot-menu-wrapper"), "/kame-house-groot/html-snippets/groot-menu.html", () => {
       updateGRootMenuActiveTab();
       loadSessionStatus();
     });

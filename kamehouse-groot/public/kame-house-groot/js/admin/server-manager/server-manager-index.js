@@ -546,12 +546,12 @@ function TailLogManagerWrapper() {
     if (isTailLogRunning) {
       logger.info("Stopped tailLog loop");
       isTailLogRunning = false;
-      $("#toggle-tail-log-img").replaceWith(startImg);
+      domUtils.replaceWith($("#toggle-tail-log-img"), startImg);
       return;
     }
     logger.info("Started tailLog loop");
     isTailLogRunning = true;
-    $("#toggle-tail-log-img").replaceWith(stopImg);
+    domUtils.replaceWith($("#toggle-tail-log-img"), stopImg);
     tailLog();
   }
 

@@ -11,8 +11,10 @@
 * Moved tabs in groot to generic kamehouse tabs to reuse them in other pages (currently used in groot server manager)
 * Updated the styles and layout of the about page and the home page
 * Created domUtils and moved all dom manipulation to go through there
-* Moved some local functions away from the scope to make the calls cleaner
-* Big refactor of the frontend code with all the changes done above
+* Added fetchUtils to pull html snippets and js from there
+* Huge refactor of the frontend code with all the changes done above also removing all `self.` references and updated function definitions to make it more readable
+* Moved logger and httpClient into global.js and removed them as loadable modules
+* Updated layout for groot home page
 
 #### v6.01
 

@@ -30,7 +30,7 @@ function MyScriptsManager() {
       let scriptName = myScriptsArray[i];
       domUtils.append(tbody, getAllMyScriptsTr(scriptName));
     }
-    $allMyScriptsTableBody.replaceWith(tbody);
+    domUtils.replaceWith($allMyScriptsTableBody, tbody);
   }
   
   /** Execute the clicked script from the table */

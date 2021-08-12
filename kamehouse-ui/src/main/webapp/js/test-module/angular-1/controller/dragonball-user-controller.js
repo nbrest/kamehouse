@@ -148,7 +148,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       // where I was when the error was produced.
       //var mainContent = $('#main-content');
       //domUtils.empty(mainContent);
-      //mainContent.load('/kame-house/app/view/' + statusCode + '.html');
+      //domUtils.load(mainContent, '/kame-house/app/view/' + statusCode + '.html');
     }
   }
 }]);

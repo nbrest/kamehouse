@@ -82,8 +82,8 @@ function KameHouseDebugger() {
    * Render debug mode div and it's button.
    */
   function renderDebugMode() {
-    $("#debug-mode-button-wrapper").load("/kame-house/html-snippets/kamehouse-debugger-button.html");
-    $("#debug-mode-wrapper").load("/kame-house/html-snippets/kamehouse-debugger.html", () => {
+    domUtils.load($("#debug-mode-button-wrapper"), "/kame-house/html-snippets/kamehouse-debugger-button.html");
+    domUtils.load($("#debug-mode-wrapper"), "/kame-house/html-snippets/kamehouse-debugger.html", () => {
       moduleUtils.setModuleLoaded("kameHouseDebugger");
       displayRequestData(null, null, null);
     });
@@ -93,7 +93,7 @@ function KameHouseDebugger() {
    * Render the specified html snippet into the custom div of the debugger.
    */
   function renderCustomDebugger(htmlSnippet) {
-    $("#debug-mode-custom-wrapper").load(htmlSnippet);
+    domUtils.load($("#debug-mode-custom-wrapper"), htmlSnippet);
   }
 
   /**
