@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.03
+
+* Moved cardio booking schedule from hardcoded in the code to the database
+
 #### v6.02
 
 * Added custom form styles and applied it to all current forms
