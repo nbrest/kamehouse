@@ -42,7 +42,7 @@ function MyScriptsManager() {
   /** Execute the specified script */
   function executeScript(scriptName, scriptArguments) {
     logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
-    if (scriptArguments) {
+    if (!isEmpty(scriptArguments)) {
       let urlEncodedArgs = encodeURI(scriptArguments);
       window.location.href = EXEC_SCRIPT_PAGE + "?script=" + scriptName + "&args=" + urlEncodedArgs;
     } else {
@@ -62,7 +62,7 @@ function MyScriptsManager() {
   
   /** Update server name */
   function updateServerName(sessionStatus) {
-    if (!isNullOrUndefined(sessionStatus.server)) {
+    if (!isEmpty(sessionStatus.server)) {
       domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }

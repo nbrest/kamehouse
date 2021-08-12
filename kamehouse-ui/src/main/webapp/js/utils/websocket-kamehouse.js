@@ -35,11 +35,11 @@ function WebSocketKameHouse() {
   /** Checks if the websocket is connected. */
   function isConnected(stompClientParam) {
     try {
-      if (isNullOrUndefined(stompClientParam)) {
+      if (isEmpty(stompClientParam)) {
         // Check the current stompClient by default.
         stompClientParam = stompClient;
       }
-      if (!isNullOrUndefined(stompClientParam)) {
+      if (!isEmpty(stompClientParam)) {
         return stompClientParam.connected;
       } else {
         return false;
@@ -55,7 +55,7 @@ function WebSocketKameHouse() {
     if (isConnected()) {
       logger.warn("WebSocket is already connected!");
     }
-    if (isNullOrUndefined(statusUrl) || isNullOrUndefined(topicUrl) || isNullOrUndefined(pollUrl)) {
+    if (isEmpty(statusUrl) || isEmpty(topicUrl) || isEmpty(pollUrl)) {
       logger.error("statusUrl or topicUrl are not set. Can't connect.");
       return;
     }
@@ -92,17 +92,17 @@ function WebSocketKameHouse() {
   /** Disconnect the websocket. */
   function disconnect(stompClientParam) {
     logger.debug(arguments.callee.name);
-    if (isNullOrUndefined(stompClientParam)) {
+    if (isEmpty(stompClientParam)) {
       // Disconnect the current connection.
       stompClientParam = stompClient;
     }
-    if (!isNullOrUndefined(stompClientParam)) {
+    if (!isEmpty(stompClientParam)) {
       if (!isConnected(stompClientParam)) {
         logger.debug("WebSocket is not connected. No need to disconnect but attempting anyway.");
       }
       try {
         let subscriptions = Object.keys(stompClientParam.subscriptions);
-        if (!isNullOrUndefined(subscriptions)) {
+        if (!isEmpty(subscriptions)) {
           subscriptions.forEach(subscription => {
             logger.debug("Unsubscribing from " + subscription);
             stompClientParam.unsubscribe(subscription);
@@ -132,17 +132,17 @@ function WebSocketKameHouse() {
     // Setting this as trace as it executes every second in VlcPlayer 
     // so if I want to debug other stuff it's noisy.
     logger.trace(arguments.callee.name);
-    if (isNullOrUndefined(pollUrl)) {
+    if (isEmpty(pollUrl)) {
       logger.error("pollUrl is not set. Can't poll");
       return;
     }
     if (!isConnected()) {
       logger.warn("WebSocket is not connected. Can't poll");
     }
-    if (isNullOrUndefined(pollBody)) {
+    if (isEmpty(pollBody)) {
       pollBody = {};
     }
-    if (isNullOrUndefined(pollHeaders)) {
+    if (isEmpty(pollHeaders)) {
       pollHeaders = {};
     }
     try {

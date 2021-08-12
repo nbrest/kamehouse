@@ -71,13 +71,13 @@ function Footer() {
 
   /** Update the server name, and build info in the footer */
   function updateFooterWithSessionInfo() {
-    if (!isNullOrUndefined(global.session.server)) {
+    if (!isEmpty(global.session.server)) {
       domUtils.setHtml($("#footer-server-name"), global.session.server);
     }
-    if (!isNullOrUndefined(global.session.buildVersion)) {
+    if (!isEmpty(global.session.buildVersion)) {
       domUtils.setHtml($("#footer-build-version"), global.session.buildVersion);
     }
-    if (!isNullOrUndefined(global.session.buildDate)) {
+    if (!isEmpty(global.session.buildDate)) {
       domUtils.setHtml($("#footer-build-date"), global.session.buildDate);
     }
   }
@@ -184,7 +184,7 @@ function Header() {
   function updateLoginStatus() {
     let $loginStatus = $("#login-status");
     domUtils.empty($loginStatus);
-    if (isNullOrUndefined(global.session.username) || global.session.username.trim() == "" ||
+    if (isEmpty(global.session.username) || global.session.username.trim() == "" ||
       global.session.username.trim() == "anonymousUser") {
       domUtils.append($loginStatus, getLoginButton());
     } else {

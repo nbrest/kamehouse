@@ -147,7 +147,7 @@ function PlaylistBrowser(vlcPlayer) {
     logger.trace(arguments.callee.name);
     let $playlistTableBody = $('#playlist-browser-table-body');
     domUtils.empty($playlistTableBody);
-    if (isNullOrUndefined(currentPlaylist)) {
+    if (isEmpty(currentPlaylist)) {
       domUtils.append($playlistTableBody, getEmptyPlaylistTr());
     } else {
       tbodyFilenames = getPlaylistBrowserTbody();
@@ -181,14 +181,14 @@ function PlaylistBrowser(vlcPlayer) {
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
-      if (!isNullOrUndefined(tbodyFilenames)) {
+      if (!isEmpty(tbodyFilenames)) {
         domUtils.detach(tbodyFilenames);
       }
       domUtils.append($playlistTable, tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
-      if (!isNullOrUndefined(tbodyAbsolutePaths)) {
+      if (!isEmpty(tbodyAbsolutePaths)) {
         domUtils.detach(tbodyAbsolutePaths);
       }
       domUtils.append($playlistTable, tbodyFilenames);

@@ -58,7 +58,7 @@ function BasicKamehouseModal() {
 
   /** Open api call error message auto closeable modal */
   function openApiError(responseBody, responseCode, responseDescription) {
-    if (isNullOrUndefined(responseBody)) {
+    if (isEmpty(responseBody)) {
       responseBody = getEmptyResponseBodyText();
     }
     modalUtils.openAutoCloseable(getErrorMessage(responseBody, responseCode, responseDescription), 7000);
@@ -99,7 +99,7 @@ function LoadingWheelModal() {
    * Open modal.
    */
   function open(message) {
-    if (isNullOrUndefined(message) && !isNullOrUndefined(global.session.firstName)) {
+    if (isEmpty(message) && !isEmpty(global.session.firstName)) {
       let chottoMatte = 'ちょっと まって';
       message = chottoMatte + ", " + global.session.firstName + "-san!";
     }
@@ -143,7 +143,7 @@ function ModalUtils(modalId) {
 
   /** Open modal */
   function open(message) {
-    if (!isNullOrUndefined(message)) {
+    if (!isEmpty(message)) {
       setHtml(message);
     }
     let modal = document.getElementById(modalId);
@@ -166,7 +166,7 @@ function ModalUtils(modalId) {
   /** Auto close modal after the specified miliseconds */
   async function autoClose(autoCloseMs) {
     logger.trace(arguments.callee.name);
-    if (isNullOrUndefined(autoCloseMs)) {
+    if (isEmpty(autoCloseMs)) {
       logger.trace("autoCloseMs not set. Closing after default value of " + DEFAULT_AUTO_CLOSE_SEC + " ms");
       autoCloseMs = DEFAULT_AUTO_CLOSE_SEC;
     }

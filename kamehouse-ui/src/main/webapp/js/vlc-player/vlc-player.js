@@ -156,7 +156,7 @@ function VlcPlayer(hostname) {
    */
   function updateSubtitleDelay(increment) {
     let subtitleDelay = getVlcRcStatus().subtitleDelay;
-    if (!isNullOrUndefined(subtitleDelay)) {
+    if (!isEmpty(subtitleDelay)) {
       subtitleDelay = Number(subtitleDelay) + Number(increment);
     } else {
       subtitleDelay = 0 + Number(increment);
@@ -168,7 +168,7 @@ function VlcPlayer(hostname) {
    * Set aspect ratio.
    */
   function updateAspectRatio(aspectRatio) {
-    if (!isNullOrUndefined(aspectRatio)) {
+    if (!isEmpty(aspectRatio)) {
       commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
   }
@@ -217,7 +217,7 @@ function VlcPlayer(hostname) {
    */
   function setVlcRcStatus(vlcRcStatusParam) {
     //logger.trace("vlcRcStatus " + JSON.stringify(vlcRcStatusParam));
-    if (!isNullOrUndefined(vlcRcStatusParam)) {
+    if (!isEmpty(vlcRcStatusParam)) {
       vlcRcStatus = vlcRcStatusParam;
     } else {
       vlcRcStatus = {};
@@ -314,7 +314,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
   function execVlcRcCommand(name, val) {
     logger.debug(arguments.callee.name);
     let requestBody;
-    if (isNullOrUndefined(val)) {
+    if (isEmpty(val)) {
       requestBody = {
         name: name
       };
@@ -387,7 +387,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update vlc player view for main view objects. */
   function updateView() {
     //logger.info("updateView");
-    if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus())) {
+    if (!isEmpty(vlcPlayer.getVlcRcStatus())) {
       updateMediaTitle();
       updateTimeSlider();
       updateVolumeSlider();
@@ -413,7 +413,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     let mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().information)) {
+    if (!isEmpty(vlcPlayer.getVlcRcStatus().information)) {
       mediaName.filename = vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = vlcPlayer.getVlcRcStatus().information.meta.title;
     }
@@ -431,7 +431,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update subtitle delay. */
   function updateSubtitleDelay() {
     let subtitleDelay = vlcPlayer.getVlcRcStatus().subtitleDelay;
-    if (isNullOrUndefined(subtitleDelay)) {
+    if (isEmpty(subtitleDelay)) {
       subtitleDelay = "0";
     }
     domUtils.setHtml($("#subtitle-delay-value"), new String(subtitleDelay));
@@ -449,7 +449,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update media time slider from VlcRcStatus and resets view when there's no input. */
   function updateTimeSlider() {
     if (!timeSliderLocked) {
-      if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().time)) {
+      if (!isEmpty(vlcPlayer.getVlcRcStatus().time)) {
         updateCurrentTimeView(vlcPlayer.getVlcRcStatus().time);
         updateTotalTimeView(vlcPlayer.getVlcRcStatus().length);
       } else {
@@ -488,7 +488,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update volume slider from VlcRcStatus. */
   function updateVolumeSlider() {
     if (!volumeSliderLocked) {
-      if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().volume)) {
+      if (!isEmpty(vlcPlayer.getVlcRcStatus().volume)) {
         updateVolumeView(vlcPlayer.getVlcRcStatus().volume);
       } else {
         resetVolumeSlider();
@@ -524,7 +524,7 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
 
   const defaultBtnPrefixClass = 'media-btn';
 
-  if (isNullOrUndefined(btnPrefixClass)) {
+  if (isEmpty(btnPrefixClass)) {
     btnPrefixClass = defaultBtnPrefixClass;
   }
 
@@ -606,7 +606,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   function connectVlcRcStatus() {
     logger.debug(arguments.callee.name);
     vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
-      if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
+      if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
         vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
       } else {
         vlcPlayer.setVlcRcStatus({});
@@ -629,7 +629,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   function connectPlaylist() {
     logger.debug(arguments.callee.name);
     playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
-      if (!isNullOrUndefined(topicResponse) && !isNullOrUndefined(topicResponse.body)) {
+      if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
         vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
       } else {
         vlcPlayer.setUpdatedPlaylist(null);
@@ -670,7 +670,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         // poll VlcRcStatus from the websocket.
         vlcRcStatusWebSocket.poll();
         vlcPlayer.updateView();
-        if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus().information)) {
+        if (!isEmpty(vlcPlayer.getVlcRcStatus().information)) {
           vlcRcStatusPullWaitTimeMs = 1000;
           failedCount = 0;
         } else {
@@ -804,7 +804,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     domUtils.empty($("#playlist-table-body"));
     // Add the new playlist items received from the server.
     let $playlistTableBody = $('#playlist-table-body');
-    if (isNullOrUndefined(currentPlaylist) || isNullOrUndefined(currentPlaylist.length) ||
+    if (isEmpty(currentPlaylist) || isEmpty(currentPlaylist.length) ||
       currentPlaylist.length <= 0) {
       domUtils.append($playlistTableBody, getEmptyPlaylistTr());
     } else {
@@ -827,7 +827,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
   function isPlaylistUpdated(currentPlaylist, updatedPlaylist) {
     let MAX_COMPARISONS = 30;
     // For empty playlists, return true, so it updates the UI
-    if (isNullOrUndefined(currentPlaylist) || isNullOrUndefined(updatedPlaylist)) {
+    if (isEmpty(currentPlaylist) || isEmpty(updatedPlaylist)) {
       return true;
     }
     // If the sizes don't match, it's updated
@@ -886,14 +886,14 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
-      if (!isNullOrUndefined(tbodyFilenames)) {
+      if (!isEmpty(tbodyFilenames)) {
         domUtils.detach(tbodyFilenames);
       }
       domUtils.append($playlistTable, tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
-      if (!isNullOrUndefined(tbodyAbsolutePaths)) {
+      if (!isEmpty(tbodyAbsolutePaths)) {
         domUtils.detach(tbodyAbsolutePaths);
       }
       domUtils.append($playlistTable, tbodyFilenames);
@@ -918,7 +918,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     //logger.debug(arguments.callee.name);
     let currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
     let $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
-    if ($currentPlayingRow.length) {
+    if (!isEmpty($currentPlayingRow.length)) {
       let playlistTableWrapper = $('#playlist-table-wrapper');
       playlistTableWrapper.scrollTop(0);
       let scrollToOffset = $currentPlayingRow.offset().top - playlistTableWrapper.offset().top;
@@ -931,7 +931,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
    * to update the view of the playlist when vlcRcStatus changes  
    */
   function updateView() {
-    if (!isNullOrUndefined(vlcPlayer.getVlcRcStatus())) {
+    if (!isEmpty(vlcPlayer.getVlcRcStatus())) {
       highlightCurrentPlayingItem();
     } else {
       resetView();
@@ -1002,14 +1002,14 @@ function VlcPlayerRestClient(vlcPlayer) {
     }
     debuggerHttpClient.get(url,
       (responseBody, responseCode, responseDescription) => {
-        if (!isNullOrUndefined(successCallback)) {
+        if (!isEmpty(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallSuccessDefault(responseBody);
         }
       },
       (responseBody, responseCode, responseDescription) => {
-        if (!isNullOrUndefined(errorCallback)) {
+        if (!isEmpty(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallErrorDefault(responseBody, responseCode, responseDescription);
@@ -1036,7 +1036,7 @@ function VlcPlayerRestClient(vlcPlayer) {
     cursorUtils.setCursorWait();
     debuggerHttpClient.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
-        if (!isNullOrUndefined(successCallback)) {
+        if (!isEmpty(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallSuccessDefault(responseBody);
@@ -1045,7 +1045,7 @@ function VlcPlayerRestClient(vlcPlayer) {
         loadingWheelModal.close();
       },
       (responseBody, responseCode, responseDescription) => {
-        if (!isNullOrUndefined(errorCallback)) {
+        if (!isEmpty(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallErrorDefault(responseBody, responseCode, responseDescription);

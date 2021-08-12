@@ -38,6 +38,7 @@
     <br>
     <p class="p-15-m-kh">Executes the specified script from my-scripts in my
       kame-house server and displays the console output</p>
+    <br>
     <table id="script-table"
       class="table-kh">
       <tr class="table-kh-header">
@@ -61,19 +62,22 @@
         <td id="st-script-exec-end-date"></td>
       </tr>
     </table>
-    <h4 id="script-output-header" class="hidden-kh">Script Output</h4>
-
+    <br>
+    <h4 id="script-output-header" class="">Script Output</h4>
+    <br>
     <!-- pre and the divs need to be in the same line or it prints some extra lines -->
     <pre id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh"><div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
 
     <!-- pre and table need to be in the same line or it prints some extra lines -->
-    <pre id="script-output" class="console-output hidden-kh"><table class="console-output-table">
+    <pre id="script-output" class="console-output"><table class="console-output-table">
         <caption class="hidden-kh">Script Output</caption>
         <tr class="hidden-kh">
           <th scope="row">Script Output</th>
         </tr>
-        <tbody id="script-output-table-body"></tbody>
+        <tbody id="script-output-table-body">No script executed yet...</tbody>
       </table></pre>
+    
+    <div class="p-15-d-kh p-15-m-kh"></div>
 
     <img id="btn-execute-script"
       class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh"

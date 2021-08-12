@@ -23,7 +23,7 @@ function SystemCommandManager() {
    */
   function renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
     let systemCommandOutputDiv = "#system-command-output";
-    if (systemCommandOutputDivId) {
+    if (!isEmpty(systemCommandOutputDivId)) {
       systemCommandOutputDiv = "#" + systemCommandOutputDivId;
     }
 
@@ -32,14 +32,14 @@ function SystemCommandManager() {
       if (displayCommandLine) {
         domUtils.append($(systemCommandOutputDiv), getCommandLine(systemCommandOutput.command));
       }
-      if (!isNullOrUndefined(systemCommandOutput.standardOutput) && 
+      if (!isEmpty(systemCommandOutput.standardOutput) && 
           systemCommandOutput.standardOutput.length > 0) {
         systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
           domUtils.append($(systemCommandOutputDiv), standardOutputLine);
           domUtils.append($(systemCommandOutputDiv), domUtils.getBr());
         });
       }
-      if (!isNullOrUndefined(systemCommandOutput.standardError) && 
+      if (!isEmpty(systemCommandOutput.standardError) && 
           systemCommandOutput.standardError.length > 0) {
         domUtils.append($(systemCommandOutputDiv), getCommandErrorHeaderLine());
         systemCommandOutput.standardError.forEach((standardErrorLine) => {

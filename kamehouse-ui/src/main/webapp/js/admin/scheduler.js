@@ -113,10 +113,10 @@ function Scheduler() {
 
   /** Returns the schedule formated to display in the UI */
   function formatSchedule(schedules) {
-    if (!isNullOrUndefined(schedules) && schedules.length != 0) {
+    if (!isEmpty(schedules) && schedules.length != 0) {
       let scheduleFormattedArray = []
       schedules.forEach(schedule => {
-        if (!isNullOrUndefined(schedule.nextRun)) {
+        if (!isEmpty(schedule.nextRun)) {
           let date = new Date(parseInt(schedule.nextRun));
           scheduleFormattedArray.push(date.toLocaleString());
         }

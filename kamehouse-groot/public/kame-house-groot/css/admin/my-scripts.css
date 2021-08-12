@@ -11,7 +11,7 @@
 /** all-my-scripts-table-wrapper begin*/
 /** Set scrollbar style FIREFOX */
 #all-my-scripts-table-wrapper {
-  scrollbar-color: #ea0000 #171e22 !important;
+  scrollbar-color: #ea0000 #060606 !important;
   scrollbar-width: thin !important;
 }
 
@@ -29,7 +29,7 @@
 }
 
 #all-my-scripts-table-wrapper::-webkit-scrollbar-track {
-  background: #171e22;
+  background: #060606;
 }
 
 #all-my-scripts-table-wrapper::-webkit-scrollbar-thumb {
@@ -37,7 +37,7 @@
 }
 
 #all-my-scripts-table-wrapper::-webkit-scrollbar-corner {
-  background: #171e22;
+  background: #060606;
 }
 /** all-my-scripts-table-wrapper end*/
 
@@ -77,7 +77,7 @@
 
 .my-scripts-wrapper {
   padding: 10px;
-  background: #171e22;
+  background: #060606;
   max-height: 500px;
   overflow: scroll;
 }
@@ -115,10 +115,10 @@
 /** my-scripts table btn end*/
 
 .table-filter-input {
-  border: 1px solid #131a1f;
+  border: 1px solid #292929;
   border-radius: 0px;
   color: #868686;
-  background: #1a242a;
+  background: #101010;
   padding: 5px;
   width: 100%;
   margin-left: 10px;

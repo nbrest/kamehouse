@@ -30,7 +30,7 @@ function ScriptExecutor() {
 
   /** Execute the specified script*/
   function execute(scriptName, args, callback, skipUpdateView) {
-    if (!isNullOrUndefined(scriptName)) {
+    if (!isEmpty(scriptName)) {
       const params = new URLSearchParams({
         script: scriptName,
         args: args
@@ -164,7 +164,7 @@ function ScriptExecutor() {
 
   /** Update server name */
   function updateServerName(sessionStatus) {
-    if (!isNullOrUndefined(sessionStatus.server)) {
+    if (!isEmpty(sessionStatus.server)) {
       domUtils.setHtml($("#st-server-name"), sessionStatus.server);
       domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
@@ -230,7 +230,7 @@ function ScriptExecutor() {
       class: "bold-kh"
     }, scriptName);
     domUtils.append(executingMessageSpan, scriptNameSpan);
-    if (args) {
+    if (!isEmpty(args)) {
       domUtils.append(executingMessageSpan, domUtils.getBr());
       domUtils.append(executingMessageSpan, domUtils.getBr());
       domUtils.append(executingMessageSpan, "with args : ");

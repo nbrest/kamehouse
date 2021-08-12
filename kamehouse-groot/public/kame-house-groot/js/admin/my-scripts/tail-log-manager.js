@@ -43,7 +43,7 @@ function TailLogManager() {
   }
 
   function isValidScript(scriptName) {
-    if (!isNullOrUndefined(scriptName)) { 
+    if (!isEmpty(scriptName)) { 
       if (scriptName.startsWith("common/logs/cat-") && scriptName.endsWith("-log.sh")) {
         return true;
       } else {
@@ -121,7 +121,7 @@ function TailLogManager() {
 
   /** Update server name */
   function updateServerName(sessionStatus) {
-    if (!isNullOrUndefined(sessionStatus.server)) {
+    if (!isEmpty(sessionStatus.server)) {
       domUtils.setHtml($("#st-server-name"), sessionStatus.server);
       domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }

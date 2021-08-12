@@ -32,12 +32,11 @@
   </div>
   <div class="default-layout">
   <br>
-  <p class="p-15-m-kh">Lists the scripts in my-scripts repo that can be executed in this server</p>
-
-  <div class="default-layout p-7-d-kh p-7-m-kh"></div>
   <h3>All Scripts</h3>
+  <br>
+  <p class="p-15-m-kh">Lists the scripts in my-scripts repo that can be executed in this server</p>
   <div class="default-layout p-7-d-kh p-7-m-kh"></div>
-  <div class="default-layout bg-lighter-1-kh">
+  <div class="default-layout bg-darker-1-kh border-gray-dark-kh">
     <table id="all-my-scripts-table-controls" class="all-my-scripts-table-controls-table">
       <caption class="hidden-kh">All My Scripts Controls</caption>
       <colgroup>
@@ -71,7 +70,6 @@
       <tbody id="all-my-scripts-table-body"></tbody>
     </table>
   </div>
-  
   </div>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
   <script src="/kame-house-groot/js/admin/my-scripts/my-scripts-index.js"></script>

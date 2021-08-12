@@ -104,7 +104,7 @@ function ServerManager() {
   
   /** Update server name */
   function updateServerName(sessionStatus) {
-    if (!isNullOrUndefined(sessionStatus.server)) {
+    if (!isEmpty(sessionStatus.server)) {
       domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }

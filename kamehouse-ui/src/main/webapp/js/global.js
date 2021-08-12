@@ -35,7 +35,7 @@ var logger;
  */
 var isEmpty;
 var isFunction;
-var isNullOrUndefined;
+var isEmpty;
 var scrollToBottom;
 var scrollToTop;
 var scrollToTopOfDiv;
@@ -171,7 +171,7 @@ function BannerUtils() {
     // Get a new banner, different from the current one
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     let bannerDivClasses = $('#banner').attr('class');
-    if (isNullOrUndefined(bannerDivClasses)) {
+    if (isEmpty(bannerDivClasses)) {
       return;
     }
     let currentClassList = bannerDivClasses.split(/\s+/);
@@ -199,7 +199,7 @@ function BannerUtils() {
 
   /** Set a random image banner from the classes list at the specified interval */
   function setRandomBannerLoop(bannerClass, bannerRotateWaitMs) {
-    if (isNullOrUndefined(bannerRotateWaitMs)) {
+    if (isEmpty(bannerRotateWaitMs)) {
       bannerRotateWaitMs = DEFAULT_BANNER_ROTATE_WAIT_MS;
     }
     setInterval(() => {
@@ -209,7 +209,7 @@ function BannerUtils() {
 
   /** Update the server name in the banner */
   function updateServerName() {
-    if (!isNullOrUndefined(global.session.server)) {
+    if (!isEmpty(global.session.server)) {
       domUtils.setHtml($("#banner-server-name"), global.session.server);
     }
   }
@@ -264,7 +264,7 @@ function CollapsibleDivUtils() {
     // Can't use self here, need to use this. Also can't use an annonymous function () => {}
     domUtils.classListToggle(this, "collapsible-kh-active");
     let content = this.nextElementSibling;
-    if (content.style.maxHeight) {
+    if (content.style.maxHeight != 0) {
       domUtils.setStyle(content, "maxHeight", null);
     } else {
       domUtils.setStyle(content, "maxHeight", content.scrollHeight + "px");
@@ -291,7 +291,7 @@ function CoreUtils() {
   }
 
   /** 
-   * @deprecated(use isNullOrUndefined())
+   * @deprecated(use isEmpty())
    * 
    * Checks if a variable is undefined or null, an empty array [] or an empty object {}. 
    * 
@@ -300,12 +300,12 @@ function CoreUtils() {
    * takes more than 1 seconds causing a lag in the entire view. Use it for objects that I don't expect
    * to be large and be aware of performance issues that can be caused from using it.
    * 
-   * For better performance, use isNullOrUndefined() when that check is enough.
+   * For better performance, use isEmpty() when that check is enough.
    * 
    * Keeping the definition so I don't attempt to do the same later down the track.
    */
-  isEmpty = function isEmpty(val) {
-    let isUndefinedOrNull = isNullOrUndefined(val);
+  function isEmptyDeprecated(val) {
+    let isUndefinedOrNull = isEmpty(val);
     let isEmptyString = !isUndefinedOrNull && val === "";
     let isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
     let isEmptyObject = !isUndefinedOrNull && Object.entries(val).length === 0 && val.constructor === Object;
@@ -313,7 +313,7 @@ function CoreUtils() {
   }
 
   /** Checks if a variable is undefined or null. */
-  isNullOrUndefined = function isNullOrUndefined(val) {
+  isEmpty = function isEmpty(val) {
     return val === undefined || val == null;
   }
 
@@ -339,7 +339,7 @@ function CoreUtils() {
    */
   scrollToTop = function scrollToTop(divId) {
     let scrollPosition;
-    if (isNullOrUndefined(divId)) {
+    if (isEmpty(divId)) {
       scrollPosition = 0;
     } else {
       scrollPosition = $('#' + divId).offset().top;
@@ -354,7 +354,7 @@ function CoreUtils() {
    */
   scrollToBottom = function scrollToBottom(divId) {
     let scrollPosition;
-    if (isNullOrUndefined(divId)) {
+    if (isEmpty(divId)) {
       scrollPosition = document.body.scrollHeight;
     } else {
       let jqDivId = '#' + divId;
@@ -406,7 +406,7 @@ function CookiesUtils() {
    * Set a cookie.
    */
   function setCookie(cookieName, cookieValue, expiryDays) {
-    if (expiryDays) {
+    if (!isEmpty(expiryDays)) {
       const expiriyDate = new Date();
       expiriyDate.setTime(expiriyDate.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
       let expires = "expires=" + expiriyDate.toUTCString();
@@ -519,7 +519,7 @@ function DomUtils() {
 
   /** Set the html to the element (non jq) */
   function setInnerHtml(element, html) {
-    if (html) {
+    if (!isEmpty(html)) {
       element.innerHTML = html;
     }
   }
@@ -560,7 +560,7 @@ function DomUtils() {
    */
   function getImgBtn(config) {
     let img = new Image();
-    if (config.id) {
+    if (!isEmpty(config.id)) {
       img.id = config.id;
     }
     img.src = config.src;
@@ -652,7 +652,7 @@ function DomUtils() {
 
   /** Set the html to the element */
   function setHtml(element, html) {
-    if (html) {
+    if (!isEmpty(html)) {
       element.html(html);
     }
   }
@@ -766,7 +766,7 @@ function DomUtils() {
 
   /** Set the attributes to the element */
   function setAttributes(element, attr) {
-    if (attr) {
+    if (!isEmpty(attr)) {
       for (const [key, value] of Object.entries(attr)) {
         element.attr(`${key}`, `${value}`);
       }
@@ -1050,7 +1050,7 @@ function TimeUtils() {
 
   /** Log a specified message with the specified logging level. */
   function log(logLevel, message) {
-    if (isNullOrUndefined(logLevel)) {
+    if (isEmpty(logLevel)) {
       console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
       return;
     }
@@ -1106,7 +1106,7 @@ function TimeUtils() {
   function logToDebugMode(logEntry) {
     const DEBUG_MODE_LOG_SIZE = 20;
     let debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
-    if (!isNullOrUndefined(debugModeConsoleLog)) {
+    if (!isEmpty(debugModeConsoleLog)) {
       // Remove first log N entries
       let logEntriesSize = debugModeConsoleLog.childElementCount;
       while (logEntriesSize > DEBUG_MODE_LOG_SIZE) {
@@ -1188,7 +1188,7 @@ function TimeUtils() {
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    if (isNullOrUndefined(requestBody)) {
+    if (isEmpty(requestBody)) {
       $.ajax({
         type: httpMethod,
         url: url,
