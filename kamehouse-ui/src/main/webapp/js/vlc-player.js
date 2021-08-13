@@ -13,11 +13,11 @@ var playlistBrowser;
 function mainVlcPlayer() {
   loadVlcPlayer();
   loadPlaylistBrowser(); 
-  moduleUtils.waitForModules(["vlcPlayer", "playlistBrowser"], function initVlcPlayerAndBrowser() {
+  moduleUtils.waitForModules(["vlcPlayer", "playlistBrowser"], () => {
     logger.info("Started initializing VLC Player");
+    vlcPlayer.init();
     playlistBrowser.init();
     playlistBrowser.populateVideoPlaylistCategories();
-    vlcPlayer.init();
   });
   moduleUtils.waitForModules(["kameHouseDebugger"], () => {
     kameHouseDebugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");

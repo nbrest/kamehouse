@@ -52,6 +52,7 @@ function VlcPlayer(hostname) {
   const synchronizer = new VlcPlayerSynchronizer(this);
   const mainViewUpdater = new VlcPlayerMainViewUpdater(this);
   const vlcPlayerDebugger = new VlcPlayerDebugger(this);
+
   let vlcRcStatus = {};
 
   /** Init VlcPlayer */
@@ -363,6 +364,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   this.updateVolumeView = updateVolumeView;
 
   const statefulButtons = [];
+
   let timeSliderLocked = false;
   let volumeSliderLocked = false;
 
@@ -761,18 +763,17 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.resetView = resetView;
 
   const playSelectedUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands';
+  const dobleLeftImg = createDoubleArrowImg("left");
+  const dobleRightImg = createDoubleArrowImg("right");
+
   let currentPlaylist = null;
   let updatedPlaylist = null;
   let tbodyAbsolutePaths = null;
   let tbodyFilenames = null;
-  let dobleLeftImg = null;
-  let dobleRightImg = null;
 
   /** Init Playlist. */
   function init() {
     logger.debug(arguments.callee.name);
-    dobleLeftImg = createDoubleArrowImg("left");
-    dobleRightImg = createDoubleArrowImg("right");
     domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
   }
 
@@ -879,10 +880,10 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** Toggle expand or collapse filenames in the playlist */
   function toggleExpandPlaylistFilenames() {
     logger.debug(arguments.callee.name);
-    let isExpandedFilename = null;
     const filenamesFirstFile = $(tbodyFilenames).children().first().text();
     const currentFirstFile = $('#playlist-table-body tr:first').text();
     const $playlistTable = $('#playlist-table');
+    let isExpandedFilename = null;
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
@@ -918,7 +919,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
     //logger.debug(arguments.callee.name);
     const currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
     const $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
-    if (!isEmpty($currentPlayingRow.length)) {
+    if (!isEmpty($currentPlayingRow.length) && $currentPlayingRow.length != 0) {
       const playlistTableWrapper = $('#playlist-table-wrapper');
       playlistTableWrapper.scrollTop(0);
       const scrollToOffset = $currentPlayingRow.offset().top - playlistTableWrapper.offset().top;

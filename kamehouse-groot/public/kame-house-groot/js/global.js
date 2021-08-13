@@ -129,6 +129,9 @@ function GrootHeader() {
  */
 var countdownCounter = 60;
 
+/** 
+ * @deprecated
+ */
 function refreshPageLoop() {
   if (typeof countdownCounter == 'undefined') {
     countdownCounter = 60;

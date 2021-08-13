@@ -17,19 +17,18 @@ function PlaylistBrowser(vlcPlayer) {
 
   const mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
   const mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
+  const dobleLeftImg = createDoubleArrowImg("left");
+  const dobleRightImg = createDoubleArrowImg("right");
+
   let videoPlaylists = [];
   let videoPlaylistCategories = [];
   let currentPlaylist = null;
   let tbodyAbsolutePaths = null;
   let tbodyFilenames = null;
-  let dobleLeftImg = null;
-  let dobleRightImg = null;
 
   /** Init Playlist Browser. */
   function init() {
     logger.debug(arguments.callee.name);
-    dobleLeftImg = createDoubleArrowImg("left");
-    dobleRightImg = createDoubleArrowImg("right");
     domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
   }
 
@@ -72,7 +71,7 @@ function PlaylistBrowser(vlcPlayer) {
         logger.debug("Playlists: " + JSON.stringify(videoPlaylists));
         logger.debug("Playlist categories: " + videoPlaylistCategories);
         const playlistCategoryDropdown = $('#playlist-category-dropdown');
-        $.each(videoPlaylistCategories, function (key, entry) {
+        $.each(videoPlaylistCategories, (key, entry) => {
           const category = entry;
           const categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
           domUtils.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, categoryFormatted));
@@ -111,8 +110,7 @@ function PlaylistBrowser(vlcPlayer) {
     const playlistDropdown = $('#playlist-dropdown');
     $.each(videoPlaylists, (key, entry) => {
       if (entry.category === selectedPlaylistCategory) {
-        let playlistName = entry.name;
-        playlistName = playlistName.replace(/.m3u+$/, "");
+        const playlistName = entry.name.replace(/.m3u+$/, "");
         domUtils.append(playlistDropdown, getPlaylistOption(entry.path, playlistName));
       }
     });

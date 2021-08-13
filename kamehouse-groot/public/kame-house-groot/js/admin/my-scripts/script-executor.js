@@ -172,19 +172,22 @@ function ScriptExecutor() {
 
   /** Update script execution start date */
   function updateScriptExecutionStartDate() {
-    const clientDate = new Date();
-    const clientMonth = clientDate.getMonth() + 1;
-    const clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
+    const clientTimeAndDate = getClientTimeAndDate();
     domUtils.setHtml($("#st-script-exec-start-date"), clientTimeAndDate);
     domUtils.setHtml($("#st-script-exec-end-date"), "");
   }
 
   /** Update script execution end date */
   function updateScriptExecutionEndDate() {
+    const clientTimeAndDate = getClientTimeAndDate();
+    domUtils.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
+  }
+
+  /** Get the current time and date on the client */
+  function getClientTimeAndDate() {
     const clientDate = new Date();
     const clientMonth = clientDate.getMonth() + 1;
-    const clientTimeAndDate = clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
-    domUtils.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
+    return clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
   }
 
   /** Allow the user to download the full bash script output */

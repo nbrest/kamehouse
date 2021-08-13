@@ -11,61 +11,42 @@
 const global = {};
 
 /** Global utils in global.js */
-var bannerUtils;
-var collapsibleDivUtils;
-var cookiesUtils;
-var coreUtils;
-var cursorUtils;
-var domUtils;
-var fileUtils;
-var fetchUtils;
-var moduleUtils;
-var tabUtils;
-var tableUtils;
-var testUtils;
-var timeUtils;
+const bannerUtils = new BannerUtils();
+const collapsibleDivUtils = new CollapsibleDivUtils();
+const cookiesUtils = new CookiesUtils();
+const coreUtils = new CoreUtils();
+const cursorUtils = new CursorUtils();
+const domUtils = new DomUtils();
+const fetchUtils = new FetchUtils();
+const fileUtils = new FileUtils();
+const moduleUtils = new ModuleUtils();
+const tabUtils = new TabUtils();
+const tableUtils = new TableUtils();
+const testUtils = new TestUtils();
+const timeUtils = new TimeUtils();
 
 /** Global modules */
-var httpClient;
-var logger;
+const httpClient = new HttpClient();
+const logger = new Logger();
 
 /** 
  * Core global functions mapped to their logic in coreUtils
  * Usage example: `if (isEmpty(val)) {...}` 
  */
-var isEmpty;
-var isFunction;
-var isEmpty;
-var scrollToBottom;
-var scrollToTop;
-var scrollToTopOfDiv;
-var sleep;
+const isEmpty = coreUtils.isEmpty;
+const isFunction = coreUtils.isFunction;
+const scrollToBottom = coreUtils.scrollToBottom;
+const scrollToTop = coreUtils.scrollToTop;
+const scrollToTopOfDiv = coreUtils.scrollToTopOfDiv;
+const sleep = coreUtils.sleep;
 
 /** 
  * ----- Global functions ------------------------------------------------------------------
  */
-function main() {
-
-  timeUtils = new TimeUtils();
-  logger = new Logger();
-  httpClient = new HttpClient();
-  coreUtils = new CoreUtils();
-
-  bannerUtils = new BannerUtils();
-  collapsibleDivUtils = new CollapsibleDivUtils();
-  cookiesUtils = new CookiesUtils();
-  cursorUtils = new CursorUtils();
-  domUtils = new DomUtils();
-  fetchUtils = new FetchUtils();
-  fileUtils = new FileUtils();
-  tabUtils = new TabUtils();
-  tableUtils = new TableUtils();
-  testUtils = new TestUtils();
-
-  moduleUtils = new ModuleUtils();
+function mainGlobal() {
+  coreUtils.loadHeaderAndFooter();
   cursorUtils.loadSpinningWheelMobile();
   logger.info("Initialized global functions");
-  coreUtils.loadHeaderAndFooter();
   //testUtils.testLogLevel();
   //testUtils.testSleep();
 }
@@ -279,7 +260,13 @@ function CollapsibleDivUtils() {
  */
 function CoreUtils() {
 
+  this.isEmpty = isEmpty;
+  this.isFunction = isFunction;
   this.loadHeaderAndFooter = loadHeaderAndFooter;
+  this.scrollToTopOfDiv = scrollToTopOfDiv;
+  this.scrollToTop = scrollToTop;
+  this.scrollToBottom = scrollToBottom;
+  this.sleep = sleep;
 
   /** Set the global variable and set the external reference to global to be used without coreUtils. prefix */
   global.session = {};
@@ -303,7 +290,7 @@ function CoreUtils() {
    * 
    * Keeping the definition so I don't attempt to do the same later down the track.
    */
-  function isEmptyDeprecated(val) {
+   function isEmptyDeprecated(val) {
     const isUndefinedOrNull = isEmpty(val);
     const isEmptyString = !isUndefinedOrNull && val === "";
     const isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
@@ -312,12 +299,12 @@ function CoreUtils() {
   }
 
   /** Checks if a variable is undefined or null. */
-  isEmpty = function isEmpty(val) {
+  function isEmpty(val) {
     return val === undefined || val == null;
   }
 
   /** Returns true if the parameter variable is a fuction. */
-  isFunction = function isFunction(expectedFunction) {
+  function isFunction(expectedFunction) {
     return expectedFunction instanceof Function;
   } 
 
@@ -326,7 +313,7 @@ function CoreUtils() {
    * This method doesn't scroll the entire page, it scrolls the scrollable div to it's top.
    * To scroll the page to the top of a particular div, use scrollToTop()
    */
-  scrollToTopOfDiv = function scrollToTopOfDiv(divId) {
+  function scrollToTopOfDiv(divId) {
     const divToScrollToTop = '#' + divId;
     $(divToScrollToTop).animate({
       scrollTop: 0
@@ -336,7 +323,7 @@ function CoreUtils() {
   /** 
    * Scroll the window to the top of a particular div or to the top of the body if no div specified.
    */
-  scrollToTop = function scrollToTop(divId) {
+  function scrollToTop(divId) {
     let scrollPosition;
     if (isEmpty(divId)) {
       scrollPosition = 0;
@@ -351,7 +338,7 @@ function CoreUtils() {
   /** 
    * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
    */
-  scrollToBottom = function scrollToBottom(divId) {
+  function scrollToBottom(divId) {
     let scrollPosition;
     if (isEmpty(divId)) {
       scrollPosition = document.body.scrollHeight;
@@ -369,7 +356,7 @@ function CoreUtils() {
    * This function needs to be called in an async method, with the await prefix. 
    * Example: await sleep(1000);
    */
-  sleep = function sleep(ms) { 
+  function sleep(ms) { 
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
@@ -483,6 +470,7 @@ function DomUtils() {
   this.setVal = setVal;
   this.addClass = addClass;
   this.removeClass = removeClass;
+  this.toggle = toggle;
   this.getA = getA;
   this.getBr = getBr;
   this.getDiv = getDiv;
@@ -689,6 +677,11 @@ function DomUtils() {
    */
   function removeClass(element, className) {
     element.removeClass(className);
+  }
+
+  /** Toggle the visibility of all element that have the specified className */
+  function toggle(className) {
+    $('.' + className).toggle();
   }
 
   function getA(attr, html) {
@@ -950,7 +943,7 @@ function TableUtils() {
   /** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
   function filterTableRows(filterString, tableBodyId) {
     filterString = filterString.toLowerCase();
-    const playlistBodyRows = $("#" + tableBodyId + " tr");
+    const tableRows = $("#" + tableBodyId + " tr");
     let regex;
     try {
       filterString = filterString.split('').join('.*').replace(/\s/g, '');
@@ -959,7 +952,7 @@ function TableUtils() {
       logger.error("Error creating regex from filter string " + filterString);
       regex = RegExp("");
     }
-    playlistBodyRows.filter(function () {
+    tableRows.filter(function () {
       $(this).toggle(regex.test($(this).text().toLowerCase()))
     });
   }
@@ -1272,4 +1265,4 @@ function TimeUtils() {
 }
 
 /** Call main. */
-$(document).ready(main);
+$(document).ready(mainGlobal);

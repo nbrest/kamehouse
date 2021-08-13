@@ -22,33 +22,35 @@ function SystemCommandManager() {
    * Render the system command output.
    */
   function renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
-    let systemCommandOutputDiv = "#system-command-output";
+    let systemCommandOutputDivSelector;
     if (!isEmpty(systemCommandOutputDivId)) {
-      systemCommandOutputDiv = "#" + systemCommandOutputDivId;
+      systemCommandOutputDivSelector = "#" + systemCommandOutputDivId;
+    } else {
+      systemCommandOutputDivSelector = "#system-command-output";
     }
-
-    domUtils.empty($(systemCommandOutputDiv));
+    const systemCommandOutputDiv = $(systemCommandOutputDivSelector);
+    domUtils.empty(systemCommandOutputDiv);
     systemCommandOutputArray.forEach((systemCommandOutput) => {
       if (displayCommandLine) {
-        domUtils.append($(systemCommandOutputDiv), getCommandLine(systemCommandOutput.command));
+        domUtils.append(systemCommandOutputDiv, getCommandLine(systemCommandOutput.command));
       }
       if (!isEmpty(systemCommandOutput.standardOutput) && 
           systemCommandOutput.standardOutput.length > 0) {
         systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
-          domUtils.append($(systemCommandOutputDiv), standardOutputLine);
-          domUtils.append($(systemCommandOutputDiv), domUtils.getBr());
+          domUtils.append(systemCommandOutputDiv, standardOutputLine);
+          domUtils.append(systemCommandOutputDiv, domUtils.getBr());
         });
       }
       if (!isEmpty(systemCommandOutput.standardError) && 
           systemCommandOutput.standardError.length > 0) {
-        domUtils.append($(systemCommandOutputDiv), getCommandErrorHeaderLine());
+        domUtils.append(systemCommandOutputDiv, getCommandErrorHeaderLine());
         systemCommandOutput.standardError.forEach((standardErrorLine) => {
-          domUtils.append($(systemCommandOutputDiv), standardErrorLine);
-          domUtils.append($(systemCommandOutputDiv), domUtils.getBr());
+          domUtils.append(systemCommandOutputDiv, standardErrorLine);
+          domUtils.append(systemCommandOutputDiv, domUtils.getBr());
         });
       }
       if (systemCommandOutput.status == "running") {
-        domUtils.append($(systemCommandOutputDiv), getDaemonRunningLine(systemCommandOutput.command));
+        domUtils.append(systemCommandOutputDiv, getDaemonRunningLine(systemCommandOutput.command));
       }
     });
     collapsibleDivUtils.refreshCollapsibleDiv();
@@ -58,9 +60,9 @@ function SystemCommandManager() {
    * Display an error executing the system command.
    */
   function renderErrorExecutingCommand() {
-    const systemCommandOutputDiv = "#system-command-output";
-    domUtils.empty($(systemCommandOutputDiv));
-    domUtils.append($(systemCommandOutputDiv), "Error executing system command. Check the logs on the backend...");
+    const systemCommandOutputDiv = $("#system-command-output");
+    domUtils.empty(systemCommandOutputDiv);
+    domUtils.append(systemCommandOutputDiv, "Error executing system command. Check the logs on the backend...");
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
   

@@ -19,9 +19,10 @@ function WebSocketKameHouse() {
   this.enableStompDebugMode = enableStompDebugMode;
   this.disableStompDebugMode = disableStompDebugMode;
 
+  const stompClients = [];
+  
   let stompClient = null;
   let stompClientDebugFunction = null;
-  const stompClients = [];
   let statusUrl = null;
   let topicUrl = null;
   let pollUrl = null;

@@ -98,10 +98,10 @@ function EhCacheManager() {
         () => clearCacheData(cache.name, webapp)
       );
       domUtils.setClick($("#toggle-view-ehcache-table-" + cache.name), null,
-        () => toggleCacheView(".toggle-ehcache-table-" + cache.name)
+        () => toggleCacheView("toggle-ehcache-table-" + cache.name)
       );
-      $(".toggle-ehcache-table-" + cache.name).toggle();
-      ehcacheToggleTableRowIds[webapp].push(".toggle-ehcache-table-" + cache.name);
+      domUtils.toggle("toggle-ehcache-table-" + cache.name);
+      ehcacheToggleTableRowIds[webapp].push("toggle-ehcache-table-" + cache.name);
     });
   }
 
@@ -196,7 +196,7 @@ function EhCacheManager() {
    * Toggle cache view (expand/collapse).
    */
   function toggleCacheView(className) {
-    $(className).toggle();
+    domUtils.toggle(className);
   }
 
   /**

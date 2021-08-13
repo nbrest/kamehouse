@@ -1,6 +1,6 @@
 var myScriptsManager;
 
-function main() {
+function mainMyScripts() {
   bannerUtils.setRandomDragonBallBanner();
   moduleUtils.waitForModules(["grootHeader"], () => {
     myScriptsManager = new MyScriptsManager();
@@ -100,5 +100,5 @@ function MyScriptsManager() {
 }
 
 window.onload = () => {
-  main();
+  mainMyScripts();
 }

@@ -3,15 +3,13 @@ var gitManager;
 var deploymentManager;
 var tailLogManagerWrapper;
 
-function main() {
+function mainServerManager() {
   bannerUtils.setRandomAllBanner();
   moduleUtils.waitForModules(["tailLogManager", "scriptExecutor", "grootHeader"], () => {
     gitManager = new GitManager();
     deploymentManager = new DeploymentManager();
-    deploymentManager.init();
     serverManager = new ServerManager();
     tailLogManagerWrapper = new TailLogManagerWrapper();
-    tailLogManagerWrapper.init();
     serverManager.handleSessionStatus();
     deploymentManager.getTomcatModulesStatus();
     deploymentManager.getNonTomcatModulesStatus();
@@ -198,7 +196,6 @@ function GitManager() {
  */
 function DeploymentManager() {
 
-  this.init = init;
   this.getTomcatModulesStatus = getTomcatModulesStatus;
   this.getNonTomcatModulesStatus = getNonTomcatModulesStatus;
   this.getTomcatProcessStatus = getTomcatProcessStatus;
@@ -213,15 +210,9 @@ function DeploymentManager() {
   this.startTomcat = startTomcat;
   this.stopTomcat = stopTomcat;
 
-  let statusBallBlueImg = null;
-  let statusBallRedImg = null;
-  let statusBallGreenImg = null;
-
-  function init() {
-    statusBallBlueImg = createStatusBallBlueImg();
-    statusBallRedImg = createStatusBallRedImg();
-    statusBallGreenImg = createStatusBallGreenImg();
-  }
+  const statusBallBlueImg = createStatusBallBlueImg();
+  const statusBallRedImg = createStatusBallRedImg();
+  const statusBallGreenImg = createStatusBallGreenImg();
 
   /**
    * Get status from all tomcat modules.
@@ -409,8 +400,8 @@ function DeploymentManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     const hostOs = serverManager.getHostOs();
-    const script = 'kamehouse/deploy-java-web-kamehouse.sh';
-    const args = "-f -m " + module;
+    let script = 'kamehouse/deploy-java-web-kamehouse.sh';
+    let args = "-f -m " + module;
 
     if (module == "groot") {
       script = hostOs + '/git/git-pull-prod-java-web-kamehouse.sh';
@@ -527,17 +518,11 @@ function DeploymentManager() {
  */
 function TailLogManagerWrapper() {
 
-  this.init = init;
   this.toggleTailLog = toggleTailLog;
 
+  const stopImg = createStopImg();
+  const startImg = createStartImg();
   let isTailLogRunning = false;
-  let stopImg = null;
-  let startImg = null;
-
-  function init() {
-    stopImg = createStopImg();
-    startImg = createStartImg();
-  }
 
   /**
    * Toggle start and stop tailing log.
@@ -592,5 +577,5 @@ function TailLogManagerWrapper() {
 }
 
 window.onload = () => {
-  main();
+  mainServerManager();
 }

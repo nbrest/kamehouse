@@ -44,6 +44,7 @@ function BasicKamehouseModal() {
   this.openApiError = openApiError;
 
   const modalUtils = new ModalUtils("basic-kamehouse-modal");
+
   this.import = modalUtils.importSnippet;
   this.open = modalUtils.open;
   this.openAutoCloseable = modalUtils.openAutoCloseable;
@@ -89,6 +90,7 @@ function LoadingWheelModal() {
   this.open = open;
 
   const modalUtils = new ModalUtils("loading-wheel-modal");
+
   this.import = modalUtils.importSnippet;
   this.openAutoCloseable = modalUtils.openAutoCloseable;
   this.close = modalUtils.close;
@@ -185,6 +187,7 @@ function ModalUtils(modalId) {
   /** Set the html in the modal */
   function setHtml(message) { domUtils.setHtml($("#" + modalId + "-text"), message); }
 
+  /** Append the message to the modal */
   function appendHtml(message) { domUtils.append($("#" + modalId + "-text"), message); }
 }
 
