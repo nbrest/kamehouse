@@ -55,7 +55,7 @@ function DragonBallUserServiceJsp() {
     });
 
     debuggerHttpClient.postUrlEncoded(SERVLET_SERVICE_URI, params,
-      (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
+      (responseBody, responseCode, responseDescription) => { window.location.href = 'users-list'; },
       (responseBody, responseCode, responseDescription) => {
         alert("Error adding dragonball user. Check console logs for more details");
         logger.error("Error adding dragonball user " + responseBody + responseCode + responseDescription);

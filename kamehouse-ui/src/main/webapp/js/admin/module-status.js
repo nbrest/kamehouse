@@ -5,6 +5,6 @@
  */
 function mainModuleStatus() {
   bannerUtils.setRandomPrinceOfTennisBanner();
-};
+}
 
 $(document).ready(mainModuleStatus);

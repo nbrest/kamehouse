@@ -16,7 +16,7 @@ function mainEhcache() {
     kameHouseWebappTabsManager.loadStateFromCookies();
     ehCacheManager.init();
   });
-};
+}
 
 /**
  * Manage ehcache in the current server.
@@ -121,7 +121,7 @@ function EhCacheManager() {
     domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-keys-val'), "ehcache-table-" + cacheName + "-keys-val");
     domUtils.setId(ehcacheTableDiv.querySelector('tr #ehcache-table-template-values-val'), "ehcache-table-" + cacheName + "-values-val");
 
-    const toggeableClasses = ehcacheTableDiv.getElementsByClassName("toggle-ehcache-table-template")
+    const toggeableClasses = ehcacheTableDiv.getElementsByClassName("toggle-ehcache-table-template");
     for (let i = 0; i < toggeableClasses.length; i++) {
       domUtils.classListAdd(toggeableClasses.item(i), "toggle-ehcache-table-" + cacheName);
     }

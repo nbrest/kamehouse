@@ -72,7 +72,7 @@ function VlcPlayer(hostname) {
    * Load the current state from the cookies.
    */
   function loadStateFromCookies() {
-    const currentTab = cookiesUtils.getCookie('kh-vlc-player-current-tab');
+    let currentTab = cookiesUtils.getCookie('kh-vlc-player-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-playing';
     }
@@ -394,7 +394,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
       updateTimeSlider();
       updateVolumeSlider();
       updateSubtitleDelay();
-      statefulButtons.forEach(statefulButton => statefulButton.updateState());
+      statefulButtons.forEach((statefulButton) => statefulButton.updateState());
     } else {
       resetView();
     }
@@ -814,7 +814,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
       for (let i = 0; i < currentPlaylist.length; i++) {
         const absolutePath = currentPlaylist[i].filename;
         const filename = fileUtils.getShortFilename(absolutePath);
-        const playlistElementId = currentPlaylist[i].id
+        const playlistElementId = currentPlaylist[i].id;
         domUtils.append(tbodyFilenames, getPlaylistTr(filename, playlistElementId));
         domUtils.append(tbodyAbsolutePaths, getPlaylistTr(absolutePath, playlistElementId));
       }

@@ -1,3 +1,4 @@
+/*global logger*/
 /**
  * VLC Player page functions.
  * 

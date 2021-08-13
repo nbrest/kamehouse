@@ -104,7 +104,7 @@ function WebSocketKameHouse() {
       try {
         const subscriptions = Object.keys(stompClientParam.subscriptions);
         if (!isEmpty(subscriptions)) {
-          subscriptions.forEach(subscription => {
+          subscriptions.forEach((subscription) => {
             logger.debug("Unsubscribing from " + subscription);
             stompClientParam.unsubscribe(subscription);
           });

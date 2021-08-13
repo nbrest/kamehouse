@@ -306,7 +306,7 @@ function ServerManager() {
       src: "/kame-house/img/pc/shutdown-red.png",
       className: "img-btn-kh",
       alt: "Reboot",
-      onClick: () => { rebootServer() }
+      onClick: () => { rebootServer(); }
     });
   }
 

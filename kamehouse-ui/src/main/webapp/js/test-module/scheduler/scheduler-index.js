@@ -14,7 +14,7 @@ function mainScheduler() {
     scheduler = new Scheduler();
     scheduler.getSampleJobStatus(false);
   });
-};
+}
 
 /**
  * Manager to handle the scheduling of the sample job.

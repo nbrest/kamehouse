@@ -115,7 +115,7 @@ function Scheduler() {
   function formatSchedule(schedules) {
     if (!isEmpty(schedules) && schedules.length != 0) {
       const scheduleFormattedArray = [];
-      schedules.forEach(schedule => {
+      schedules.forEach((schedule) => {
         if (!isEmpty(schedule.nextRun)) {
           const date = new Date(parseInt(schedule.nextRun));
           scheduleFormattedArray.push(date.toLocaleString());
