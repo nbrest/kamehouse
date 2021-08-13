@@ -44,7 +44,7 @@ function VlcPlayer(hostname) {
   this.updateVolumeView = updateVolumeView;
   this.getRestClient = getRestClient;
   this.getDebugger = getDebugger;
-  this.openServerManagement = openServerManagement;
+  this.unlockScreen = unlockScreen;
 
   const commandExecutor = new VlcPlayerCommandExecutor(this);
   const playlist = new VlcPlayerPlaylist(this);
@@ -287,9 +287,9 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Links to external resources
    */
-  function openServerManagement() {
-    cursorUtils.setCursorWait();
-    window.location.href = '/kame-house/admin/server-management';
+  function unlockScreen() {
+    const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
+    restClient.post(UNLOCK_SCREEN_API_URL, null);
   }
 }
 
