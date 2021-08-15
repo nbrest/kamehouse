@@ -1,8 +1,14 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import com.nicobrest.kamehouse.commons.model.TestUserEntity;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test class for the password utility class.
@@ -24,5 +30,22 @@ public class PasswordUtilsTest {
     
     assertTrue("Plain and hashed passwords should match", PasswordUtils.isValidPassword(
         plainTextPassword, hashedPassword));
+  }
+
+  /**
+   * Tests removing the password from entities.
+   */
+  @Test
+  public void unsetPasswordTest() {
+    List<TestUserEntity> userEntityList = new ArrayList<>();
+    TestUserEntity entity = new TestUserEntity();
+    entity.setName("gohan");
+    entity.setPassword("mada mada dane");
+    userEntityList.add(entity);
+    assertNotNull(userEntityList.get(0).getPassword());
+
+    PasswordUtils.unsetPassword(userEntityList);
+
+    assertNull("Password should be null", userEntityList.get(0).getPassword());
   }
 }

@@ -56,14 +56,41 @@ public class JsonUtils {
   /**
    * Converts an object to a JSON string filtering the specified masked fields.
    * Returns the specified default value if the conversion to JSON fails.
+   * A masked field can be at the root object or in the any of the sub objects. If it's at the
+   * root, it would just be the field name. For example [ "password" ].
+   * If it's in a sub object, the field is prepended by the sub object and separated by a dot.
+   * For example [ "tennisWorldUser.password" ] would mask the password of the tennisWorldUser.
+   * And tennisWorldUser is an element of the root node.
+   *
    */
   public static String toJsonString(Object object, String defaultValue, String[] maskedFields) {
     try {
       ObjectNode objectNode = MAPPER.valueToTree(object);
       for (String maskedField : maskedFields) {
-        if (objectNode.has(maskedField)) {
-          objectNode.remove(maskedField);
-          objectNode.put(maskedField, FIELD_MASK);
+        String[] maskFieldPath = maskedField.split("\\.");
+        int maskedFieldPathDepth = maskFieldPath.length;
+        if (maskedFieldPathDepth == 1) {
+          if (objectNode.has(maskedField)) {
+            objectNode.remove(maskedField);
+            objectNode.put(maskedField, FIELD_MASK);
+          }
+        }
+        if (maskedFieldPathDepth > 1) {
+          JsonNode childNode = objectNode;
+          for (int i = 0 ; i < maskedFieldPathDepth - 1 ; i++) {
+            if (childNode != null && childNode.has(maskFieldPath[i])) {
+              childNode = childNode.get(maskFieldPath[i]);
+            } else {
+              childNode = null;
+              break;
+            }
+          }
+          String finalMaskedField = maskFieldPath[maskedFieldPathDepth - 1];
+          if (childNode != null && childNode.has(finalMaskedField)) {
+            ObjectNode childObjectNode = (ObjectNode) childNode;
+            childObjectNode.remove(finalMaskedField);
+            childObjectNode.put(finalMaskedField, FIELD_MASK);
+          }
         }
       }
       return MAPPER.writer().writeValueAsString(objectNode);

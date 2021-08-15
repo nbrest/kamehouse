@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.IdentifiableUserEntity;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
 import java.io.Serializable;
@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tennisworld_user")
-public class TennisWorldUser implements Identifiable, Serializable {
+public class TennisWorldUser implements IdentifiableUserEntity<byte[]>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 

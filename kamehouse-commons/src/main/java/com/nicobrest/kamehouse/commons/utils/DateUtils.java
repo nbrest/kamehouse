@@ -127,6 +127,9 @@ public class DateUtils {
    * Ej yyyy-MM-dd.
    */
   public static String getFormattedDate(String pattern, Date date) {
+    if (date == null) {
+      return null;
+    }
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     String formattedDate = simpleDateFormat.format(date);
     return formattedDate;
@@ -156,22 +159,45 @@ public class DateUtils {
   public static String getDayOfWeek(Integer dayOfWeek) {
     switch (dayOfWeek) {
       case Calendar.SUNDAY:
-        return "Sunday";
+        return Day.SUNDAY.getValue();
       case Calendar.MONDAY:
-        return "Monday";
+        return Day.MONDAY.getValue();
       case Calendar.TUESDAY:
-        return "Tuesday";
+        return Day.TUESDAY.getValue();
       case Calendar.WEDNESDAY:
-        return "Wednesday";
+        return Day.WEDNESDAY.getValue();
       case Calendar.THURSDAY:
-        return "Thursday";
+        return Day.THURSDAY.getValue();
       case Calendar.FRIDAY:
-        return "Friday";
+        return Day.FRIDAY.getValue();
       case Calendar.SATURDAY:
-        return "Saturday";
+        return Day.SATURDAY.getValue();
       default:
         break;
     }
     throw new IllegalArgumentException("Invalid dayOfWeek int parameter passed. Expected 1 to 7");
+  }
+
+  /**
+   * Day of the week enum.
+   */
+  public enum Day {
+    SUNDAY("Sunday"),
+    MONDAY("Monday"),
+    TUESDAY("Tuesday"),
+    WEDNESDAY("Wednesday"),
+    THURSDAY("Thursday"),
+    FRIDAY("Friday"),
+    SATURDAY("Saturday");
+
+    private String value;
+
+    Day(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
   }
 }

@@ -43,7 +43,7 @@ public class TestEntityCrudController extends AbstractCrudController {
   @GetMapping(path = "/test-entity/{id}")
   @ResponseBody
   public ResponseEntity<TestEntity> read(@PathVariable Long id) {
-    return read(testEntityCrudService, id);
+    return generatePasswordLessResponseEntity(read(testEntityCrudService, id));
   }
 
   /**

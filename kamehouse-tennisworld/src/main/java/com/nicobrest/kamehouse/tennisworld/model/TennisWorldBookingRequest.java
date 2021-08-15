@@ -140,7 +140,7 @@ public class TennisWorldBookingRequest implements Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password", "cardDetails" };
+    String[] maskedFields = { "password", "cardDetails.number", "cardDetails.cvv" };
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 

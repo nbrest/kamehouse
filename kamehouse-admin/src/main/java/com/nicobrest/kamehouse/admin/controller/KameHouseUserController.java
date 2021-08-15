@@ -46,11 +46,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<KameHouseUser> read(@PathVariable Long id) {
-    ResponseEntity<KameHouseUser> responseEntity =
-        read(kameHouseUserService, id);
-    // Don't return the password through the API.
-    removePassword(responseEntity.getBody());
-    return responseEntity;
+    return generatePasswordLessResponseEntity(read(kameHouseUserService, id));
   }
 
   /**
@@ -59,11 +55,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<KameHouseUser>> readAll() {
-    ResponseEntity<List<KameHouseUser>> responseEntity =
-        readAll(kameHouseUserService);
-    // Don't return the passwords through the API.
-    removePassword(responseEntity.getBody());
-    return responseEntity;
+    return generatePasswordLessResponseEntity(readAll(kameHouseUserService));
   }
 
   /**
@@ -81,11 +73,7 @@ public class KameHouseUserController extends AbstractCrudController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<KameHouseUser> delete(@PathVariable Long id) {
-    ResponseEntity<KameHouseUser> responseEntity =
-        delete(kameHouseUserService, id);
-    // Don't return the password through the API.
-    removePassword(responseEntity.getBody());
-    return responseEntity;
+    return generatePasswordLessResponseEntity(delete(kameHouseUserService, id));
   }
 
   /**
@@ -95,28 +83,6 @@ public class KameHouseUserController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<KameHouseUser> loadUserByUsername(@PathVariable String username) {
     KameHouseUser kameHouseUser = kameHouseUserService.loadUserByUsername(username);
-    // Don't return the password through the API.
-    removePassword(kameHouseUser);
-    return generateGetResponseEntity(kameHouseUser);
-  }
-
-  /**
-   * Removes the password from the kamehouse user.
-   */
-  private void removePassword(KameHouseUser kameHouseUser) {
-    if (kameHouseUser != null) {
-      kameHouseUser.setPassword(null);
-    }
-  }
-  
-  /**
-   * Removes the password from the kamehouse users.
-   */
-  private void removePassword(List<KameHouseUser> kameHouseUsers) {
-    if (kameHouseUsers != null) {
-      for (KameHouseUser kameHouseUser : kameHouseUsers) {
-        kameHouseUser.setPassword(null);
-      }
-    }
+    return generatePasswordLessResponseEntity(generateGetResponseEntity(kameHouseUser));
   }
 }

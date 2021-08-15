@@ -2,10 +2,14 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 
+import com.nicobrest.kamehouse.commons.model.IdentifiableUserEntity;
+import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 /**
  * Superclass to all controllers that groups common functionality to all of
@@ -91,6 +95,21 @@ public abstract class AbstractController {
    */
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity) {
     return generatePostResponseEntity(entity, true);
+  }
+
+  /**
+   * Removes the password from the entity of the response body.
+   */
+  protected static <T> ResponseEntity<T> generatePasswordLessResponseEntity(
+      ResponseEntity<T> responseEntity) {
+    T responseBody = responseEntity.getBody();
+    if (responseBody instanceof IdentifiableUserEntity) {
+      PasswordUtils.unsetPassword((IdentifiableUserEntity) responseBody);
+    }
+    if (responseBody instanceof List) {
+      PasswordUtils.unsetPassword((List<T>) responseBody);
+    }
+    return responseEntity;
   }
 
   /**

@@ -37,6 +37,18 @@ public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
     em.close();
   }
 
+  /**
+   * Execute the specified insert query.
+   */
+  protected void insertData(String insertQuery) {
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin();
+    Query query = em.createNativeQuery(insertQuery);
+    query.executeUpdate();
+    em.getTransaction().commit();
+    em.close();
+  }
+
   @Override
   protected <E> void updateEntityValues(E persistedEntity, E entity) {
     // Method required by AbstractDaoJpa overriden here as it's not needed in child test classes.

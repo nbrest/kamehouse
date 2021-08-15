@@ -46,7 +46,7 @@ public class TennisWorldUserController extends AbstractCrudController {
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<TennisWorldUser> read(@PathVariable Long id) {
-    return read(tennisWorldUserService, id);
+    return generatePasswordLessResponseEntity(read(tennisWorldUserService, id));
   }
 
   /**
@@ -55,7 +55,7 @@ public class TennisWorldUserController extends AbstractCrudController {
   @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<TennisWorldUser>> readAll() {
-    return readAll(tennisWorldUserService);
+    return generatePasswordLessResponseEntity(readAll(tennisWorldUserService));
   }
 
   /**
@@ -73,6 +73,6 @@ public class TennisWorldUserController extends AbstractCrudController {
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<TennisWorldUser> delete(@PathVariable Long id) {
-    return delete(tennisWorldUserService, id);
+    return generatePasswordLessResponseEntity(delete(tennisWorldUserService, id));
   }
 }

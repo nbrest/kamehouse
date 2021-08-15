@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "kamehouse_user")
-public class KameHouseUser implements Identifiable, UserDetails {
+public class KameHouseUser implements IdentifiableUserEntity<String>, UserDetails {
  
   private static final long serialVersionUID = 1L;
 
@@ -142,6 +141,8 @@ public class KameHouseUser implements Identifiable, UserDetails {
   public void setLastLogin(Date lastLogin) {
     if (lastLogin != null) {
       this.lastLogin = (Date) lastLogin.clone();
+    } else {
+      this.lastLogin = null;
     }
   }
 

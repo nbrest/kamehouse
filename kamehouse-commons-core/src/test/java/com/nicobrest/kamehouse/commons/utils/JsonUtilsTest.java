@@ -21,6 +21,7 @@ public class JsonUtilsTest {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private JsonNode jsonNode;
+  private JsonNode jsonNodeWithSubNode;
   private JsonNode emptyJsonNode;
   private ArrayNode jsonArray;
   private ArrayNode emptyJsonArray;
@@ -49,6 +50,18 @@ public class JsonUtilsTest {
     String output = JsonUtils.toJsonString(jsonNode, null, maskedFields);
     String expectedOutput = "{\"intField\":128,\"booleanField\":true,\"textField\":\"****\"," +
         "\"doubleField\":\"****\"}";
+    assertEquals(expectedOutput, output);
+  }
+
+  /**
+   * Tests toJsonString with masked fields in subnode.
+   */
+  @Test
+  public void toJsonStringWithMaskedFieldsInSubNodeTest() {
+    String[] maskedFields = { "textField", "doubleField", "user.password"};
+    String output = JsonUtils.toJsonString(jsonNodeWithSubNode, null, maskedFields);
+    String expectedOutput = "{\"intField\":128,\"booleanField\":true,\"user\":{\"username\":" +
+        "\"goku@dbz.com\",\"password\":\"****\"},\"textField\":\"****\",\"doubleField\":\"****\"}";
     assertEquals(expectedOutput, output);
   }
 
@@ -186,6 +199,11 @@ public class JsonUtilsTest {
     objectNode.put("doubleField", new Double(255));
     objectNode.put("booleanField", true);
     jsonNode = MAPPER.readTree(objectNode.toString());
+    ObjectNode subNode = MAPPER.createObjectNode();
+    subNode.put("password", "mada mada dane");
+    subNode.put("username", "goku@dbz.com");
+    objectNode.set("user", subNode);
+    jsonNodeWithSubNode = MAPPER.readTree(objectNode.toString());
     jsonArray = MAPPER.createArrayNode();
     int i = 0;
     while (i < 6) {

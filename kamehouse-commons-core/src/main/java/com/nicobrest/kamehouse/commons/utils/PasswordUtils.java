@@ -1,8 +1,11 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import com.nicobrest.kamehouse.commons.model.IdentifiableUserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import java.util.List;
 
 /**
  * Utility class to generate and check hashed passwords.
@@ -37,5 +40,33 @@ public class PasswordUtils {
       LOGGER.error("Error validating password.", e);
     }
     return isValidPassword;
+  }
+
+  /**
+   * Unset the password from the identifiableUserEntity.
+   * This is usually called on the Controller layer to avoid returning passwords in the APIs.
+   */
+  public static void unsetPassword(IdentifiableUserEntity entity) {
+    if (entity != null) {
+      if (entity.getPassword() instanceof byte[]) {
+        entity.setPassword(new byte[0]);
+      } else {
+        entity.setPassword(null);
+      }
+    }
+  }
+
+  /**
+   * Unset the password from the list of entities.
+   */
+  public static <T> void unsetPassword(List<T> entities) {
+    if (entities == null) {
+      return;
+    }
+    for (T entity : entities) {
+      if (entity != null && entity instanceof IdentifiableUserEntity) {
+        unsetPassword((IdentifiableUserEntity) entity);
+      }
+    }
   }
 }
