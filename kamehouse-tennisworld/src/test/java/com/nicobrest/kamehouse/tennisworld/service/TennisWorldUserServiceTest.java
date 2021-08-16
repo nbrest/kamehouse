@@ -1,8 +1,11 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
-import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
+import com.nicobrest.kamehouse.tennisworld.dao.TennisWorldUserDao;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldUserTestUtils;
@@ -24,16 +27,16 @@ import org.powermock.modules.junit4.PowerMockRunner;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ EncryptionUtils.class })
-public class TennisWorldUserServiceTest extends
-    AbstractCrudServiceTest<TennisWorldUser, TennisWorldUserDto> {
+public class TennisWorldUserServiceTest
+    extends AbstractCrudServiceTest<TennisWorldUser, TennisWorldUserDto> {
 
   private TennisWorldUser tennisWorldUser;
 
   @InjectMocks
   private TennisWorldUserService tennisWorldUserService;
 
-  @Mock(name = "TennisWorldUserDao")
-  private CrudDao<TennisWorldUser> tennisWorldUserDaoMock;
+  @Mock(name = "tennisWorldUserDao")
+  private TennisWorldUserDao tennisWorldUserDaoMock;
 
   /**
    * Resets mock objects and initializes test repository.
@@ -92,5 +95,19 @@ public class TennisWorldUserServiceTest extends
   @Test
   public void deleteEntityTest() {
     deleteTest(tennisWorldUserService, tennisWorldUserDaoMock);
+  }
+
+  /**
+   * Tests calling the service to get a single TennisWorldUser in the
+   * repository by its email.
+   */
+  @Test
+  public void getByEmailTest() {
+    when(tennisWorldUserDaoMock.getByEmail(tennisWorldUser.getEmail())).thenReturn(tennisWorldUser);
+
+    TennisWorldUser returnedUser = tennisWorldUserService.getByEmail(tennisWorldUser.getEmail());
+
+    testUtils.assertEqualsAllAttributes(tennisWorldUser, returnedUser);
+    verify(tennisWorldUserDaoMock, times(1)).getByEmail(tennisWorldUser.getEmail());
   }
 }

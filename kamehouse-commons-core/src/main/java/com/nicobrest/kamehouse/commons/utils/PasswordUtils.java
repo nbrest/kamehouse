@@ -47,6 +47,7 @@ public class PasswordUtils {
    * This is usually called on the Controller layer to avoid returning passwords in the APIs.
    */
   public static void unsetPassword(IdentifiableUserEntity entity) {
+    //TODO check if there's a better generic way to do this than checking with instanceof
     if (entity != null) {
       if (entity.getPassword() instanceof byte[]) {
         entity.setPassword(new byte[0]);

@@ -20,6 +20,7 @@ public class TennisWorldUserTestUtils extends AbstractTestUtils<TennisWorldUser,
     implements TestUtils<TennisWorldUser, TennisWorldUserDto> {
 
   public static final String API_V1_TENNISWORLD_USERS = "/api/v1/tennis-world/users/";
+  public static final String INVALID_EMAIL = "yukimura@dbz.com";
 
   @Override
   public void initTestData() {

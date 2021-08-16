@@ -66,7 +66,8 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
   private String time;
 
   /**
-   * If specified, the booking will only happen for the specified date (yyyy/mm/dd).
+   * Format: 'yyyy-mm-dd'. Passing 'yyyy/mm/dd' sets the date as null and then to its default value.
+   * If specified, the booking will only happen for the specified date (yyyy-mm-dd).
    * This configuration will not be activated for other dates even if it matches all the
    * other criteria.
    * This field is to allow the possibility of one-off scheduled bookings for a specific date.

@@ -46,9 +46,10 @@ public class BookingScheduleConfigDaoJpaTest
     // Using a normal insert made some tests hang when executed in parallel.
     // Adding a clearTable("TENNISWORLD_USER") also made tests hang.
     String insertQuery = "MERGE INTO TENNISWORLD_USER " +
-        "  USING (VALUES 1, 'goku@dbz.com', '') I (id, email, password) " +
-        "  ON (TENNISWORLD_USER.ID=I.id) " +
-        "  WHEN NOT MATCHED THEN INSERT (id, email, password) VALUES (I.id, I.email, I.password)";
+        " USING (VALUES 1, 'goku@dbz.com', '') I (id, email, password) " +
+        " ON (TENNISWORLD_USER.ID = I.id) " +
+        " WHEN NOT MATCHED THEN " +
+        " INSERT (id, email, password) VALUES (I.id, I.email, I.password)";
     insertData(insertQuery);
   }
 

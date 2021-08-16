@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
-import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
@@ -29,7 +29,7 @@ public class TennisWorldUserDaoJpaTest
   private TennisWorldUser tennisWorldUser;
 
   @Autowired
-  private CrudDao<TennisWorldUser> tennisWorldUserDaoJpa;
+  private TennisWorldUserDao tennisWorldUserDaoJpa;
 
   /**
    * Clears data from the repository before each test.
@@ -128,5 +128,30 @@ public class TennisWorldUserDaoJpaTest
   @Test
   public void deleteNotFoundExceptionTest() {
     deleteNotFoundExceptionTest(tennisWorldUserDaoJpa, TennisWorldUser.class);
+  }
+
+
+  /**
+   * Tests getting a single TennisWorldUser in the repository by its email.
+   */
+  @Test
+  public void getByEmailTest() {
+    persistEntityInRepository(tennisWorldUser);
+
+    TennisWorldUser returnedUser = tennisWorldUserDaoJpa.getByEmail(tennisWorldUser.getEmail());
+
+    testUtils.assertEqualsAllAttributes(tennisWorldUser, returnedUser);
+  }
+
+  /**
+   * Tests getting a single TennisWorldUser in the repository by its email
+   * Exception flows.
+   */
+  @Test
+  public void getByEmailNotFoundExceptionTest() {
+    thrown.expect(KameHouseNotFoundException.class);
+    thrown.expectMessage("NoResultException: Entity not found in the repository.");
+
+    tennisWorldUserDaoJpa.getByEmail(TennisWorldUserTestUtils.INVALID_EMAIL);
   }
 }

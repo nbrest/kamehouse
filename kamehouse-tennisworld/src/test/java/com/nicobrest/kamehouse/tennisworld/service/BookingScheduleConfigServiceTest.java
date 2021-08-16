@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.powermock.api.mockito.PowerMockito.when;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
@@ -28,6 +30,9 @@ public class BookingScheduleConfigServiceTest extends
   @Mock(name = "bookingScheduleConfigDao")
   private CrudDao<BookingScheduleConfig> bookingScheduleConfigDaoMock;
 
+  @Mock(name = "tennisWorldUserService")
+  private TennisWorldUserService tennisWorldUserServiceMock;
+
   /**
    * Resets mock objects and initializes test repository.
    */
@@ -41,6 +46,8 @@ public class BookingScheduleConfigServiceTest extends
     // Reset mock objects before each test
     MockitoAnnotations.initMocks(this);
     Mockito.reset(bookingScheduleConfigDaoMock);
+    when(tennisWorldUserServiceMock.getByEmail((any())))
+        .thenReturn(bookingScheduleConfig.getTennisWorldUser());
   }
 
   /**

@@ -38,7 +38,7 @@ public class TennisWorldUserControllerTest
   @InjectMocks
   private TennisWorldUserController tennisWorldUserController;
 
-  @Mock(name = "TennisWorldUserService")
+  @Mock(name = "tennisWorldUserService")
   private TennisWorldUserService tennisWorldUserServiceMock;
 
   /**

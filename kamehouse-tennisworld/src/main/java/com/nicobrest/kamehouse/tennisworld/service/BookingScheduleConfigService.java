@@ -1,9 +1,13 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
+import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +28,9 @@ public class BookingScheduleConfigService
   @Autowired
   @Qualifier("bookingScheduleConfigDaoJpa")
   private CrudDao<BookingScheduleConfig> bookingScheduleConfigDao;
+
+  @Autowired
+  private TennisWorldUserService tennisWorldUserService;
 
   @Override
   public Long create(BookingScheduleConfigDto dto) {
@@ -54,7 +61,7 @@ public class BookingScheduleConfigService
   protected BookingScheduleConfig getModel(BookingScheduleConfigDto dto) {
     BookingScheduleConfig entity = new BookingScheduleConfig();
     entity.setId(dto.getId());
-    entity.setTennisWorldUser(dto.getTennisWorldUser());
+    entity.setTennisWorldUser(getTennisWorldUser(dto));
     entity.setSessionType(dto.getSessionType());
     entity.setSite(dto.getSite());
     entity.setDay(dto.getDay());
@@ -69,5 +76,21 @@ public class BookingScheduleConfigService
   @Override
   protected void validate(BookingScheduleConfig entity) {
     // Validate duration length max 3, all numbers and other fields here
+  }
+
+  /**
+   * Get the TennisWorldUser from the email on the booking schedule config request.
+   */
+  private TennisWorldUser getTennisWorldUser(BookingScheduleConfigDto dto) {
+    TennisWorldUser requestUser = dto.getTennisWorldUser();
+    if (requestUser == null || StringUtils.isEmpty(requestUser.getEmail())) {
+      throw new KameHouseInvalidDataException("tennisWorld.email is empty");
+    }
+    String email = requestUser.getEmail();
+    try {
+      return tennisWorldUserService.getByEmail(email);
+    } catch (KameHouseNotFoundException e) {
+      throw new KameHouseInvalidDataException("User not found for email: " + email);
+    }
   }
 }

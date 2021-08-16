@@ -13,7 +13,7 @@ import java.util.List;
  * @author nbrest
  */
 @Repository
-public class TennisWorldUserDaoJpa extends AbstractCrudDaoJpa implements CrudDao<TennisWorldUser> {
+public class TennisWorldUserDaoJpa extends AbstractCrudDaoJpa implements TennisWorldUserDao {
 
   @Override
   public Long create(TennisWorldUser entity) {
@@ -38,6 +38,14 @@ public class TennisWorldUserDaoJpa extends AbstractCrudDaoJpa implements CrudDao
   @Override
   public TennisWorldUser delete(Long id) {
     return delete(TennisWorldUser.class, id);
+  }
+
+  @Override
+  public TennisWorldUser getByEmail(String email) {
+    logger.trace("Get TennisWorldUser: {}", email);
+    TennisWorldUser tennisWorldUser = findByEmail(TennisWorldUser.class, email);
+    logger.trace("Get TennisWorldUser: {} response {}", email, tennisWorldUser);
+    return tennisWorldUser;
   }
 
   @Override
