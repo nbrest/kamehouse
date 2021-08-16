@@ -7,13 +7,11 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.tennisworld.dao.BookingScheduleConfigDaoJpa;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSessionType;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSite;
+import com.nicobrest.kamehouse.tennisworld.model.SessionType;
+import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
-import org.apache.maven.doxia.siterenderer.sink.SiteRendererSink;
 
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 
 /**
@@ -72,8 +70,8 @@ public class BookingScheduleConfigTestUtils
     singleTestData.setDay(DateUtils.Day.FRIDAY);
     singleTestData.setDuration("45");
     singleTestData.setEnabled(true);
-    singleTestData.setSessionType(TennisWorldSessionType.CARDIO);
-    singleTestData.setSite(TennisWorldSite.MELBOURNE_PARK);
+    singleTestData.setSessionType(SessionType.CARDIO);
+    singleTestData.setSite(Site.MELBOURNE_PARK);
     singleTestData.setTime("12:00pm");
   }
 
@@ -85,8 +83,8 @@ public class BookingScheduleConfigTestUtils
     testDataDto.setDay(DateUtils.Day.FRIDAY);
     testDataDto.setDuration("45");
     testDataDto.setEnabled(true);
-    testDataDto.setSessionType(TennisWorldSessionType.CARDIO);
-    testDataDto.setSite(TennisWorldSite.MELBOURNE_PARK);
+    testDataDto.setSessionType(SessionType.CARDIO);
+    testDataDto.setSite(Site.MELBOURNE_PARK);
     testDataDto.setTime("12:00pm");
   }
 
@@ -98,8 +96,8 @@ public class BookingScheduleConfigTestUtils
     user2.setDay(DateUtils.Day.FRIDAY);
     user2.setDuration("45");
     user2.setEnabled(true);
-    user2.setSessionType(TennisWorldSessionType.CARDIO);
-    user2.setSite(TennisWorldSite.MELBOURNE_PARK);
+    user2.setSessionType(SessionType.CARDIO);
+    user2.setSite(Site.MELBOURNE_PARK);
     user2.setTime("12:00pm");
 
     BookingScheduleConfig user3 = new BookingScheduleConfig();
@@ -109,8 +107,8 @@ public class BookingScheduleConfigTestUtils
     user3.setDay(DateUtils.Day.FRIDAY);
     user3.setDuration("45");
     user3.setEnabled(true);
-    user3.setSessionType(TennisWorldSessionType.CARDIO);
-    user3.setSite(TennisWorldSite.MELBOURNE_PARK);
+    user3.setSessionType(SessionType.CARDIO);
+    user3.setSite(Site.MELBOURNE_PARK);
     user3.setTime("12:00pm");
 
     testDataList = new LinkedList<>();

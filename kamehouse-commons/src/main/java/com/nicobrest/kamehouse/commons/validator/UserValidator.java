@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 public class UserValidator {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(UserValidator.class);
-  private static final int MAX_STRING_LENGTH = 255;
   private static final String EMAIL_REGEX = "^[_A-Za-z0-9]+[\\._\\-A-Za-z0-9]*@"
       + "[A-Za-z0-9]+\\.[A-Za-z]{2,}$";
   private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
@@ -54,17 +53,6 @@ public class UserValidator {
       handleError(INVALID_EMAIL + email);
     }
   }  
-  
-  /**
-   * Validates that the string length is accepted by the database.
-   */
-  public static void validateStringLength(String value) {
-    if (value.length() > MAX_STRING_LENGTH) {
-      String errorMessage = "The string attribute excedes the maximum length of "
-              + MAX_STRING_LENGTH + ". Current length: " + value.length();
-      handleError(errorMessage);
-    }
-  }
 
   /**
    * Handle validation error.

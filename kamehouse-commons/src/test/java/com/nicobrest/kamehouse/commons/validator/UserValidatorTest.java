@@ -33,14 +33,6 @@ public class UserValidatorTest {
   }
 
   /**
-   * Tests valid string length. Should finish without throwing exceptions.
-   */
-  @Test
-  public void validateStringLength() {
-    UserValidator.validateStringLength("mada mada dane");
-  }
-
-  /**
    * Tests the failure flow of validateUsernameFormat.
    */
   @Test
@@ -60,21 +52,5 @@ public class UserValidatorTest {
     thrown.expectMessage("Invalid email address: ");
 
     UserValidator.validateEmailFormat("goku.9.enzo@@dbz.com");
-  }
-
-  /**
-   * Tests the failure flow of validateStringLength.
-   */
-  @Test
-  public void validateStringLengthExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("The string attribute excedes the maximum length of ");
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 70; i++) {
-      sb.append("goku");
-    }
-    String username = sb.toString();
-
-    UserValidator.validateStringLength(username);
   }
 }

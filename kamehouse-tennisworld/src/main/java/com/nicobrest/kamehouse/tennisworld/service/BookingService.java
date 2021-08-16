@@ -10,12 +10,12 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.utils.ThreadUtils;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest.CardDetails;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse.Status;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSessionType;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSite;
+import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
+import com.nicobrest.kamehouse.tennisworld.model.BookingRequest.CardDetails;
+import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
+import com.nicobrest.kamehouse.tennisworld.model.BookingResponse.Status;
+import com.nicobrest.kamehouse.tennisworld.model.SessionType;
+import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.CardioSessionBookingJob;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -50,7 +50,7 @@ import javax.annotation.Nonnull;
  * @author nbrest
  */
 @Service
-public class TennisWorldBookingService {
+public class BookingService {
 
   // URLs
   public static final String ROOT_URL = "https://bookings.tennisworld.net.au";
@@ -97,33 +97,33 @@ public class TennisWorldBookingService {
    * Set the sleep ms between requests.
    */
   public static void setSleepMs(int sleepMs) {
-    TennisWorldBookingService.sleepMs = sleepMs;
+    BookingService.sleepMs = sleepMs;
   }
 
   /**
    * Initiate a booking request to tennis world.
    */
-  public TennisWorldBookingResponse book(TennisWorldBookingRequest tennisWorldBookingRequest) {
+  public BookingResponse book(BookingRequest bookingRequest) {
     try {
-      setRequestId(tennisWorldBookingRequest);
-      setThreadName(tennisWorldBookingRequest.getId());
-      TennisWorldSessionType sessionType = getSessionType(tennisWorldBookingRequest);
-      logger.info("Booking tennis world request: " + tennisWorldBookingRequest);
+      setRequestId(bookingRequest);
+      setThreadName(bookingRequest.getId());
+      SessionType sessionType = getSessionType(bookingRequest);
+      logger.info("Booking tennis world request: " + bookingRequest);
       switch (sessionType) {
         case CARDIO:
-          return bookCardioSessionRequest(tennisWorldBookingRequest);
+          return bookCardioSessionRequest(bookingRequest);
         case NTC_CLAY_COURTS:
         case NTC_OUTDOOR:
         case ROD_LAVER_OUTDOOR:
         case ROD_LAVER_SHOW_COURTS:
-          return bookFacilityOverlayRequest(tennisWorldBookingRequest);
+          return bookFacilityOverlayRequest(bookingRequest);
         case UNKNOWN:
         default:
           return buildResponse(Status.INTERNAL_ERROR,
-              "Unhandled sessionType: " + sessionType.name(), tennisWorldBookingRequest);
+              "Unhandled sessionType: " + sessionType.name(), bookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), tennisWorldBookingRequest);
+      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
     }
   }
 
@@ -131,12 +131,12 @@ public class TennisWorldBookingService {
    * Book the cardio sessions automatically.
    * This method is to be triggered only by the {@link CardioSessionBookingJob}.
    */
-  public TennisWorldBookingResponse bookScheduledCardioSession() {
+  public BookingResponse bookScheduledCardioSession() {
     if (!isBookingServer()) {
       logger.error(INVALID_BOOKING_SERVER);
       return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER, null);
     }
-    TennisWorldBookingRequest request = getScheduledCardioBookingRequest();
+    BookingRequest request = getScheduledCardioBookingRequest();
     int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
     switch (currentDayOfWeek) {
       case Calendar.SUNDAY:
@@ -164,8 +164,8 @@ public class TennisWorldBookingService {
   /**
    * Book the specified scheduled cardio request at the specified time.
    */
-  private TennisWorldBookingResponse bookScheduledCardioSession(TennisWorldBookingRequest request,
-                                                                String time) {
+  private BookingResponse bookScheduledCardioSession(BookingRequest request,
+                                                     String time) {
     String dayOfWeek = DateUtils.getDayOfWeek(DateUtils.getCurrentDayOfWeek());
     String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getCurrentDate());
@@ -214,30 +214,30 @@ public class TennisWorldBookingService {
   /**
    * Create the cardio scheduled booking tennis world request.
    */
-  private TennisWorldBookingRequest getScheduledCardioBookingRequest() {
+  private BookingRequest getScheduledCardioBookingRequest() {
     String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getTwoWeeksFromToday());
-    TennisWorldBookingRequest request = new TennisWorldBookingRequest();
+    BookingRequest request = new BookingRequest();
     request.setDate(bookingDate);
     request.setUsername(getScheduledCardioUsername());
     request.setPassword(getScheduledCardioPassword());
     request.setDryRun(false);
     request.setDuration("45");
-    request.setSessionType(TennisWorldSessionType.CARDIO.name());
-    request.setSite(TennisWorldSite.MELBOURNE_PARK.name());
+    request.setSessionType(SessionType.CARDIO.name());
+    request.setSite(Site.MELBOURNE_PARK.name());
     return request;
   }
 
   /**
    * Get the sessionType enum from the request.
    */
-  private static TennisWorldSessionType getSessionType(TennisWorldBookingRequest
-                                                    tennisWorldBookingRequest) {
+  private static SessionType getSessionType(BookingRequest
+                                                           bookingRequest) {
     try {
-      return TennisWorldSessionType.valueOf(tennisWorldBookingRequest.getSessionType());
+      return SessionType.valueOf(bookingRequest.getSessionType());
     } catch (IllegalArgumentException e) {
       throw new KameHouseBadRequestException("Invalid sessionType: "
-          + tennisWorldBookingRequest.getSessionType());
+          + bookingRequest.getSessionType());
     }
   }
 
@@ -264,49 +264,49 @@ public class TennisWorldBookingService {
    * <li>7) GET Confirm booking url. Check the final result of the booking request</li>
    * </ul>
    */
-  private TennisWorldBookingResponse bookCardioSessionRequest(
-      TennisWorldBookingRequest tennisWorldBookingRequest) {
+  private BookingResponse bookCardioSessionRequest(
+      BookingRequest bookingRequest) {
     HttpClient httpClient = HttpClientUtils.getClient(null, null);
     try {
       // 1 -------------------------------------------------------------------------
-      Document dashboard = loginToTennisWorld(httpClient, tennisWorldBookingRequest);
-      TennisWorldSessionType sessionType = getSessionType(tennisWorldBookingRequest);
+      Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
+      SessionType sessionType = getSessionType(bookingRequest);
       String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getValue());
 
       // 2 -------------------------------------------------------------------------
       Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
       String selectedSessionDatePath = getSelectedSessionDatePath(sessionTypePage,
-          selectedSessionTypeId, tennisWorldBookingRequest.getDate());
+          selectedSessionTypeId, bookingRequest.getDate());
 
       // 3 -------------------------------------------------------------------------
       Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
-      String sessionId = getSessionId(sessionDatePage, tennisWorldBookingRequest);
+      String sessionId = getSessionId(sessionDatePage, bookingRequest);
 
       // 4 -------------------------------------------------------------------------
-      postSessionBookOverlayAjax(httpClient, sessionId, tennisWorldBookingRequest.getDate());
+      postSessionBookOverlayAjax(httpClient, sessionId, bookingRequest.getDate());
 
       // 5 -------------------------------------------------------------------------
       getSessionConfirmBookingUrl(httpClient, selectedSessionDatePath);
-      if (!tennisWorldBookingRequest.isDryRun()) {
+      if (!bookingRequest.isDryRun()) {
 
         // 6 -------------------------------------------------------------------------
         String confirmBookingRedirectUrl = postSessionBookingRequest(httpClient,
-            tennisWorldBookingRequest.getCardDetails());
+            bookingRequest.getCardDetails());
 
         // 7 -------------------------------------------------------------------------
         confirmSessionBookingResult(httpClient, confirmBookingRedirectUrl);
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, tennisWorldBookingRequest);
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, bookingRequest);
       } else {
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, tennisWorldBookingRequest);
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, bookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), tennisWorldBookingRequest);
+      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
     } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), tennisWorldBookingRequest);
+      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
       return buildResponse(Status.INTERNAL_ERROR, "Error executing booking request to tennis"
-          + " world Message: " + e.getMessage(), tennisWorldBookingRequest);
+          + " world Message: " + e.getMessage(), bookingRequest);
     }
   }
 
@@ -314,14 +314,14 @@ public class TennisWorldBookingService {
    * Get the sessionId from the sessionDatePage.
    */
   private String getSessionId(Document sessionDatePage,
-                              TennisWorldBookingRequest tennisWorldBookingRequest) {
+                              BookingRequest bookingRequest) {
     String sessionId = null;
     for (Element listItem : sessionDatePage.getElementsByTag("li")) {
       String sessionDate = listItem.attr(ATTR_SESSION_DATE);
       if (listItem.childrenSize() > 0) {
         String sessionTime = listItem.child(0).text();
-        if (sessionTime != null && sessionTime.contains(tennisWorldBookingRequest.getTime())
-            && sessionDate.equals(tennisWorldBookingRequest.getDate())) {
+        if (sessionTime != null && sessionTime.contains(bookingRequest.getTime())
+            && sessionDate.equals(bookingRequest.getDate())) {
           sessionId = listItem.attr(ATTR_SESSION_ID);
           break;
         }
@@ -459,24 +459,24 @@ public class TennisWorldBookingService {
    * <li>8) GET Confirm booking url. Check the final result of the booking request</li>
    * </ul>
    */
-  private TennisWorldBookingResponse bookFacilityOverlayRequest(
-      TennisWorldBookingRequest tennisWorldBookingRequest) {
+  private BookingResponse bookFacilityOverlayRequest(
+      BookingRequest bookingRequest) {
     HttpClient httpClient = HttpClientUtils.getClient(null, null);
     try {
       // 1 -------------------------------------------------------------------------
-      Document dashboard = loginToTennisWorld(httpClient, tennisWorldBookingRequest);
-      TennisWorldSessionType sessionType = getSessionType(tennisWorldBookingRequest);
+      Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
+      SessionType sessionType = getSessionType(bookingRequest);
       String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getValue());
 
       // 2 -------------------------------------------------------------------------
       Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
       String selectedSessionDatePath = getSelectedSessionDatePath(sessionTypePage,
-          selectedSessionTypeId, tennisWorldBookingRequest.getDate());
+          selectedSessionTypeId, bookingRequest.getDate());
 
       // 3 -------------------------------------------------------------------------
       Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
       String selectedSessionPath = getSelectedSessionPath(sessionDatePage,
-          tennisWorldBookingRequest.getTime());
+          bookingRequest.getTime());
 
       // 4 -------------------------------------------------------------------------
       Document sessionPage = getSessionPage(httpClient, selectedSessionPath);
@@ -485,45 +485,45 @@ public class TennisWorldBookingService {
 
       // 5 -------------------------------------------------------------------------
       postFacilityBookOverlayAjax(httpClient, selectedSessionDatePath, siteFacilityGroupId,
-          bookingTime, tennisWorldBookingRequest.getDuration());
+          bookingTime, bookingRequest.getDuration());
 
       // 6 -------------------------------------------------------------------------
       getFacilityConfirmBookingUrl(httpClient, selectedSessionDatePath);
-      if (!tennisWorldBookingRequest.isDryRun()) {
+      if (!bookingRequest.isDryRun()) {
 
         // 7 -------------------------------------------------------------------------
         String confirmBookingRedirectUrl = postFacilityBookingRequest(httpClient,
-            tennisWorldBookingRequest.getCardDetails());
+            bookingRequest.getCardDetails());
 
         // 8 -------------------------------------------------------------------------
         confirmFacilityBookingResult(httpClient, confirmBookingRedirectUrl);
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, tennisWorldBookingRequest);
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, bookingRequest);
       } else {
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, tennisWorldBookingRequest);
+        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, bookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), tennisWorldBookingRequest);
+      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
     } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), tennisWorldBookingRequest);
+      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
       return buildResponse(Status.INTERNAL_ERROR, "Error executing booking request to tennis"
-          + " world Message: " + e.getMessage(), tennisWorldBookingRequest);
+          + " world Message: " + e.getMessage(), bookingRequest);
     }
   }
 
   /**
    * Steps 1.1, 1.2 and 1.3.
    * Attempts to login to tennis world using the specified site and credentials in the
-   * TennisWorldBookingRequest and returns the dashboard page if the login is successful.
+   * BookingRequest and returns the dashboard page if the login is successful.
    */
   private Document loginToTennisWorld(HttpClient httpClient,
-                                      TennisWorldBookingRequest tennisWorldBookingRequest)
+                                      BookingRequest bookingRequest)
       throws IOException {
     // 1.1 -------------------------------------------------------------------------
     List<NameValuePair> params = new ArrayList<>();
-    params.add(new BasicNameValuePair("username", tennisWorldBookingRequest.getUsername()));
-    params.add(new BasicNameValuePair("password", tennisWorldBookingRequest.getPassword()));
+    params.add(new BasicNameValuePair("username", bookingRequest.getUsername()));
+    params.add(new BasicNameValuePair("password", bookingRequest.getPassword()));
 
     HttpPost initialLoginPostRequest = new HttpPost(INITIAL_LOGIN_URL);
     initialLoginPostRequest.setEntity(new UrlEncodedFormEntity(params));
@@ -560,14 +560,14 @@ public class TennisWorldBookingService {
       String siteName = tennisWorldSiteLink.getElementsByTag("p").text();
       String siteId = tennisWorldSiteLink.attr("href").substring(SITE_LINK_HREF.length());
       logger.debug("siteName:{}; siteId:{}", siteName, siteId);
-      TennisWorldSite tennisWorldSite = getSite(tennisWorldBookingRequest);
-      if (siteName != null && siteName.equalsIgnoreCase(tennisWorldSite.getValue())) {
+      Site site = getSite(bookingRequest);
+      if (siteName != null && siteName.equalsIgnoreCase(site.getValue())) {
         selectedSiteId = siteId;
       }
     }
     if (selectedSiteId == null || hasError(completeLoginAllSitesResponsePage)) {
       throw new KameHouseBadRequestException("Unable to determine the site id for "
-          + tennisWorldBookingRequest.getSite());
+          + bookingRequest.getSite());
     }
 
     // 1.3 -------------------------------------------------------------------------
@@ -595,12 +595,12 @@ public class TennisWorldBookingService {
   /**
    * Get the tennis world site location.
    */
-  private static TennisWorldSite getSite(TennisWorldBookingRequest tennisWorldBookingRequest) {
+  private static Site getSite(BookingRequest bookingRequest) {
     try {
-      return TennisWorldSite.valueOf(tennisWorldBookingRequest.getSite());
+      return Site.valueOf(bookingRequest.getSite());
     } catch (IllegalArgumentException e) {
       throw new KameHouseBadRequestException("Invalid site: "
-          + tennisWorldBookingRequest.getSite());
+          + bookingRequest.getSite());
     }
   }
 
@@ -880,25 +880,25 @@ public class TennisWorldBookingService {
   /**
    * Build a tennis world response with the specified status and message.
    */
-  private TennisWorldBookingResponse buildResponse(Status status, String message,
-                                                   TennisWorldBookingRequest request) {
-    TennisWorldBookingResponse tennisWorldBookingResponse = new TennisWorldBookingResponse();
-    tennisWorldBookingResponse.setStatus(status);
-    tennisWorldBookingResponse.setMessage(message);
+  private BookingResponse buildResponse(Status status, String message,
+                                        BookingRequest request) {
+    BookingResponse bookingResponse = new BookingResponse();
+    bookingResponse.setStatus(status);
+    bookingResponse.setMessage(message);
     if (request != null) {
-      tennisWorldBookingResponse.setId(request.getId());
-      tennisWorldBookingResponse.setUsername(request.getUsername());
-      tennisWorldBookingResponse.setDate(request.getDate());
-      tennisWorldBookingResponse.setTime(request.getTime());
-      tennisWorldBookingResponse.setSessionType(request.getSessionType());
-      tennisWorldBookingResponse.setSite(request.getSite());
+      bookingResponse.setId(request.getId());
+      bookingResponse.setUsername(request.getUsername());
+      bookingResponse.setDate(request.getDate());
+      bookingResponse.setTime(request.getTime());
+      bookingResponse.setSessionType(request.getSessionType());
+      bookingResponse.setSite(request.getSite());
     }
-    if (tennisWorldBookingResponse.getStatus() != Status.SUCCESS) {
-      logger.error(BOOKING_FINISHED + tennisWorldBookingResponse);
+    if (bookingResponse.getStatus() != Status.SUCCESS) {
+      logger.error(BOOKING_FINISHED + bookingResponse);
     } else {
-      logger.info(BOOKING_FINISHED + tennisWorldBookingResponse);
+      logger.info(BOOKING_FINISHED + bookingResponse);
     }
-    return tennisWorldBookingResponse;
+    return bookingResponse;
   }
 
   /**
@@ -1017,7 +1017,7 @@ public class TennisWorldBookingService {
   /**
    * Set a new request id on a tennisworld booking request.
    */
-  private static void setRequestId(TennisWorldBookingRequest request) {
+  private static void setRequestId(BookingRequest request) {
     request.setId(generateRequestId());
   }
 

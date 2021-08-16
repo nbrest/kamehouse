@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author nbrest
  */
-public class TennisWorldBookingResponse implements Serializable {
+public class BookingResponse implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -95,7 +95,7 @@ public class TennisWorldBookingResponse implements Serializable {
     if (other == null || getClass() != other.getClass()) {
       return false;
     }
-    TennisWorldBookingResponse that = (TennisWorldBookingResponse) other;
+    BookingResponse that = (BookingResponse) other;
     return status == that.status
         && Objects.equals(id, that.id)
         && Objects.equals(message, that.message)

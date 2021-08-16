@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-public enum TennisWorldSessionType {
+public enum SessionType {
   CARDIO("Book a Cardio Tennis Class"),
   NTC_CLAY_COURTS("NTC Clay Courts"),
   NTC_OUTDOOR("National Tennis Outdoor"),
@@ -11,7 +11,7 @@ public enum TennisWorldSessionType {
 
   private String value;
 
-  TennisWorldSessionType(String value) {
+  SessionType(String value) {
     this.value = value;
   }
 

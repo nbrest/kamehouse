@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
 import com.nicobrest.kamehouse.tennisworld.dao.TennisWorldUserDao;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
@@ -76,6 +77,6 @@ public class TennisWorldUserService extends AbstractCrudService<TennisWorldUser,
   @Override
   protected void validate(TennisWorldUser entity) {
     UserValidator.validateEmailFormat(entity.getEmail());
-    UserValidator.validateStringLength(entity.getEmail());
+    InputValidator.validateStringLength(entity.getEmail());
   }
 }

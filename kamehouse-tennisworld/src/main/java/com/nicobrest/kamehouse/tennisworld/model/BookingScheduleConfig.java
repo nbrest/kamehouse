@@ -49,11 +49,11 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
 
   @Enumerated(EnumType.STRING)
   @Column(length = 50, name = "session_type", unique = false, nullable = false)
-  private TennisWorldSessionType sessionType;
+  private SessionType sessionType;
 
   @Enumerated(EnumType.STRING)
   @Column(length = 50, name = "site", unique = false, nullable = false)
-  private TennisWorldSite site;
+  private Site site;
 
   @Enumerated(EnumType.STRING)
   @Column(length = 10, name = "day", unique = false, nullable = false)
@@ -121,19 +121,19 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
     this.tennisWorldUser = tennisWorldUser;
   }
 
-  public TennisWorldSessionType getSessionType() {
+  public SessionType getSessionType() {
     return sessionType;
   }
 
-  public void setSessionType(TennisWorldSessionType sessionType) {
+  public void setSessionType(SessionType sessionType) {
     this.sessionType = sessionType;
   }
 
-  public TennisWorldSite getSite() {
+  public Site getSite() {
     return site;
   }
 
-  public void setSite(TennisWorldSite site) {
+  public void setSite(Site site) {
     this.site = site;
   }
 

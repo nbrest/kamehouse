@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model.scheduler.job;
 
-import com.nicobrest.kamehouse.tennisworld.service.TennisWorldBookingService;
+import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ public class CardioSessionBookingJob implements Job {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
-  private TennisWorldBookingService tennisWorldBookingService;
+  private BookingService bookingService;
 
   /**
    * Execute the CardioSessionBookingJob.
@@ -26,7 +26,7 @@ public class CardioSessionBookingJob implements Job {
   public void execute(JobExecutionContext context) {
     logger.info("Job {} fired @ {}", context.getJobDetail().getKey().getName(),
         context.getFireTime());
-    tennisWorldBookingService.bookScheduledCardioSession();
+    bookingService.bookScheduledCardioSession();
     logger.info("Next job scheduled @ {}", context.getNextFireTime());
   }
 }

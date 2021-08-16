@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.KameHouseUserValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
 
@@ -133,10 +134,10 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
     KameHouseUserValidator.validateLastNameFormat(kameHouseUser.getLastName());
     UserValidator.validateUsernameFormat(kameHouseUser.getUsername());
     UserValidator.validateEmailFormat(kameHouseUser.getEmail());
-    UserValidator.validateStringLength(kameHouseUser.getFirstName());
-    UserValidator.validateStringLength(kameHouseUser.getLastName());
-    UserValidator.validateStringLength(kameHouseUser.getUsername());
-    UserValidator.validateStringLength(kameHouseUser.getEmail());
-    UserValidator.validateStringLength(kameHouseUser.getPassword());
+    InputValidator.validateStringLength(kameHouseUser.getFirstName());
+    InputValidator.validateStringLength(kameHouseUser.getLastName());
+    InputValidator.validateStringLength(kameHouseUser.getUsername());
+    InputValidator.validateStringLength(kameHouseUser.getEmail());
+    InputValidator.validateStringLength(kameHouseUser.getPassword());
   }
 }

@@ -7,11 +7,11 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingResponse;
-import com.nicobrest.kamehouse.tennisworld.service.TennisWorldBookingService;
-import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldBookingRequestTestUtils;
-import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldBookingResponseTestUtils;
+import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
+import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
+import com.nicobrest.kamehouse.tennisworld.service.BookingService;
+import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
+import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * Unit tests for TennisWorldBookingControllerTest class.
+ * Unit tests for BookingControllerTest class.
  * 
  * @author nbrest
  *
@@ -36,30 +36,30 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class TennisWorldBookingControllerTest
-    extends AbstractControllerTest<TennisWorldBookingResponse, Object> {
+public class BookingControllerTest
+    extends AbstractControllerTest<BookingResponse, Object> {
 
   private static final String API_V1_TENNISWORLD_BOOKINGS =
-      TennisWorldBookingResponseTestUtils.API_V1_TENNISWORLD_BOOKINGS;
+      BookingResponseTestUtils.API_V1_TENNISWORLD_BOOKINGS;
 
-  private TennisWorldBookingRequestTestUtils tennisWorldBookingRequestTestUtils =
-      new TennisWorldBookingRequestTestUtils();
+  private BookingRequestTestUtils bookingRequestTestUtils =
+      new BookingRequestTestUtils();
 
   @InjectMocks
-  private TennisWorldBookingController tennisWorldBookingController;
+  private BookingController bookingController;
 
   @Mock
-  private TennisWorldBookingService tennisWorldBookingService;
+  private BookingService bookingService;
 
   @Before
   public void beforeTest() {
-    testUtils = new TennisWorldBookingResponseTestUtils();
+    testUtils = new BookingResponseTestUtils();
     testUtils.initTestData();
-    tennisWorldBookingRequestTestUtils.initTestData();
+    bookingRequestTestUtils.initTestData();
 
     MockitoAnnotations.initMocks(this);
-    Mockito.reset(tennisWorldBookingService);
-    mockMvc = MockMvcBuilders.standaloneSetup(tennisWorldBookingController).build();
+    Mockito.reset(bookingService);
+    mockMvc = MockMvcBuilders.standaloneSetup(bookingController).build();
   }
 
   /**
@@ -67,18 +67,18 @@ public class TennisWorldBookingControllerTest
    */
   @Test
   public void bookingsSuccessfulTest() throws Exception {
-    when(tennisWorldBookingService.book(any())).thenReturn(testUtils.getSingleTestData());
-    TennisWorldBookingRequest requestBody = tennisWorldBookingRequestTestUtils.getSingleTestData();
+    when(bookingService.book(any())).thenReturn(testUtils.getSingleTestData());
+    BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
     MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_BOOKINGS, requestPayload);
-    TennisWorldBookingResponse responseBody = getResponseBody(response,
-        TennisWorldBookingResponse.class);
+    BookingResponse responseBody = getResponseBody(response,
+        BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     testUtils.assertEqualsAllAttributes(testUtils.getSingleTestData(), responseBody);
-    verify(tennisWorldBookingService, times(1)).book(any());
-    verifyNoMoreInteractions(tennisWorldBookingService);
+    verify(bookingService, times(1)).book(any());
+    verifyNoMoreInteractions(bookingService);
   }
 
   /**
@@ -86,19 +86,19 @@ public class TennisWorldBookingControllerTest
    */
   @Test
   public void bookingsClientErrorTest() throws Exception {
-    TennisWorldBookingResponse expectedResponse = testUtils.getTestDataList().get(1);
-    when(tennisWorldBookingService.book(any())).thenReturn(expectedResponse);
-    TennisWorldBookingRequest requestBody = tennisWorldBookingRequestTestUtils.getSingleTestData();
+    BookingResponse expectedResponse = testUtils.getTestDataList().get(1);
+    when(bookingService.book(any())).thenReturn(expectedResponse);
+    BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
     MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_BOOKINGS, requestPayload);
-    TennisWorldBookingResponse responseBody = getResponseBody(response,
-        TennisWorldBookingResponse.class);
+    BookingResponse responseBody = getResponseBody(response,
+        BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.BAD_REQUEST);
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     testUtils.assertEqualsAllAttributes(expectedResponse, responseBody);
-    verify(tennisWorldBookingService, times(1)).book(any());
-    verifyNoMoreInteractions(tennisWorldBookingService);
+    verify(bookingService, times(1)).book(any());
+    verifyNoMoreInteractions(bookingService);
   }
 
   /**
@@ -106,18 +106,18 @@ public class TennisWorldBookingControllerTest
    */
   @Test
   public void bookingsServerErrorTest() throws Exception {
-    TennisWorldBookingResponse expectedResponse = testUtils.getTestDataList().get(2);
-    when(tennisWorldBookingService.book(any())).thenReturn(expectedResponse);
-    TennisWorldBookingRequest requestBody = tennisWorldBookingRequestTestUtils.getSingleTestData();
+    BookingResponse expectedResponse = testUtils.getTestDataList().get(2);
+    when(bookingService.book(any())).thenReturn(expectedResponse);
+    BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
     MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_BOOKINGS, requestPayload);
-    TennisWorldBookingResponse responseBody = getResponseBody(response,
-        TennisWorldBookingResponse.class);
+    BookingResponse responseBody = getResponseBody(response,
+        BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.INTERNAL_SERVER_ERROR);
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     testUtils.assertEqualsAllAttributes(expectedResponse, responseBody);
-    verify(tennisWorldBookingService, times(1)).book(any());
-    verifyNoMoreInteractions(tennisWorldBookingService);
+    verify(bookingService, times(1)).book(any());
+    verifyNoMoreInteractions(bookingService);
   }
 }

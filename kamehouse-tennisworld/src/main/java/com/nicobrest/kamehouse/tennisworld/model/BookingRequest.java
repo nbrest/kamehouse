@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author nbrest
  *
  */
-public class TennisWorldBookingRequest implements Serializable {
+public class BookingRequest implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -122,8 +122,8 @@ public class TennisWorldBookingRequest implements Serializable {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof TennisWorldBookingRequest) {
-      final TennisWorldBookingRequest other = (TennisWorldBookingRequest) obj;
+    if (obj instanceof BookingRequest) {
+      final BookingRequest other = (BookingRequest) obj;
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())

@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.testmodule.service;
 
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
@@ -99,8 +100,8 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
   protected void validate(DragonBallUser dragonBallUser) {
     UserValidator.validateUsernameFormat(dragonBallUser.getUsername());
     UserValidator.validateEmailFormat(dragonBallUser.getEmail());
-    UserValidator.validateStringLength(dragonBallUser.getUsername());
-    UserValidator.validateStringLength(dragonBallUser.getEmail());
+    InputValidator.validateStringLength(dragonBallUser.getUsername());
+    InputValidator.validateStringLength(dragonBallUser.getEmail());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getAge());
     DragonBallUserValidator.validatePositiveValue(dragonBallUser.getPowerLevel());
   }

@@ -1,12 +1,13 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-public enum TennisWorldSite {
+public enum Site {
+  ALBERT_RESERVE("Tennis World - Albert Reserve"),
   MELBOURNE_PARK("Tennis World - Melbourne Park")
   ;
 
   private String value;
 
-  TennisWorldSite(String value) {
+  Site(String value) {
     this.value = value;
   }
 

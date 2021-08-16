@@ -3,8 +3,8 @@ package com.nicobrest.kamehouse.tennisworld.model.dto;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSessionType;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldSite;
+import com.nicobrest.kamehouse.tennisworld.model.SessionType;
+import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 
 import java.io.Serializable;
@@ -22,8 +22,8 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
 
   private Long id;
   private TennisWorldUser tennisWorldUser;
-  private TennisWorldSessionType sessionType;
-  private TennisWorldSite site;
+  private SessionType sessionType;
+  private Site site;
   private DateUtils.Day day;
   private String time;
   private Date bookingDate;
@@ -49,19 +49,19 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
     this.tennisWorldUser = tennisWorldUser;
   }
 
-  public TennisWorldSessionType getSessionType() {
+  public SessionType getSessionType() {
     return sessionType;
   }
 
-  public void setSessionType(TennisWorldSessionType sessionType) {
+  public void setSessionType(SessionType sessionType) {
     this.sessionType = sessionType;
   }
 
-  public TennisWorldSite getSite() {
+  public Site getSite() {
     return site;
   }
 
-  public void setSite(TennisWorldSite site) {
+  public void setSite(Site site) {
     this.site = site;
   }
 

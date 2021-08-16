@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.testutils;
 import static org.junit.Assert.assertEquals;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldBookingRequest;
+import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 
 import java.util.LinkedList;
 
@@ -14,13 +14,12 @@ import java.util.LinkedList;
  * @author nbrest
  *
  */
-public class TennisWorldBookingRequestTestUtils extends
-    AbstractTestUtils<TennisWorldBookingRequest, Object>
-    implements TestUtils<TennisWorldBookingRequest, Object> {
+public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, Object>
+    implements TestUtils<BookingRequest, Object> {
 
-  private TennisWorldBookingRequest sessionRequest = null;
+  private BookingRequest sessionRequest = null;
 
-  public TennisWorldBookingRequest getSessionRequest() {
+  public BookingRequest getSessionRequest() {
     return sessionRequest;
   }
 
@@ -32,8 +31,7 @@ public class TennisWorldBookingRequestTestUtils extends
   }
 
   @Override
-  public void assertEqualsAllAttributes(TennisWorldBookingRequest expected,
-                                        TennisWorldBookingRequest returned) {
+  public void assertEqualsAllAttributes(BookingRequest expected, BookingRequest returned) {
     assertEquals(expected, returned);
     assertEquals(expected.getSite(), returned.getSite());
     assertEquals(expected.getDate(), returned.getDate());
@@ -46,7 +44,7 @@ public class TennisWorldBookingRequestTestUtils extends
   }
 
   private void initSingleTestData() {
-    singleTestData = new TennisWorldBookingRequest();
+    singleTestData = new BookingRequest();
     singleTestData.setDate("2020-07-28");
     singleTestData.setTime("06:45pm");
     singleTestData.setDuration("60");
@@ -54,7 +52,7 @@ public class TennisWorldBookingRequestTestUtils extends
     singleTestData.setUsername("goku@dbz.com");
     singleTestData.setSessionType("ROD_LAVER_OUTDOOR");
     singleTestData.setSite("MELBOURNE_PARK");
-    TennisWorldBookingRequest.CardDetails cardDetails = new TennisWorldBookingRequest.CardDetails();
+    BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
     cardDetails.setName("SON GOKU");
     cardDetails.setNumber("1111222233334444");
     cardDetails.setCvv("999");
@@ -69,7 +67,7 @@ public class TennisWorldBookingRequestTestUtils extends
   }
 
   private void initSessionRequest() {
-    sessionRequest = new TennisWorldBookingRequest();
+    sessionRequest = new BookingRequest();
     sessionRequest.setDate("2021-07-30");
     sessionRequest.setTime("06:30am");
     sessionRequest.setDuration("45");
@@ -77,7 +75,7 @@ public class TennisWorldBookingRequestTestUtils extends
     sessionRequest.setUsername("goku@dbz.com");
     sessionRequest.setSessionType("CARDIO");
     sessionRequest.setSite("MELBOURNE_PARK");
-    TennisWorldBookingRequest.CardDetails cardDetails = new TennisWorldBookingRequest.CardDetails();
+    BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
     cardDetails.setName("SON GOKU");
     cardDetails.setNumber("1111222233334444");
     cardDetails.setCvv("999");
