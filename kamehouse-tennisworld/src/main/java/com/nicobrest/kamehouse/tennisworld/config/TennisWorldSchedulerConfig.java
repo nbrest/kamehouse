@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.config;
 
-import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.CardioSessionBookingJob;
+import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -41,39 +41,38 @@ public class TennisWorldSchedulerConfig {
   public void init() {
     logger.info("init TennisWorldSchedulerConfig");
     try {
-      JobDetail cardioSessionBookingJobDetail = cardioSessionBookingJobDetail();
-      scheduler.addJob(cardioSessionBookingJobDetail, true);
-      scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 0, 2));
-      scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 0, 10));
-      scheduler.scheduleJob(cardioSessionBookingTrigger(cardioSessionBookingJobDetail, 1, 30));
+      JobDetail scheduledBookingJobDetail = scheduledBookingJobDetail();
+      scheduler.addJob(scheduledBookingJobDetail, true);
+      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 2));
+      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 10));
+      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 30));
     } catch (SchedulerException e) {
       logger.error("Error adding tennisworld jobs to the scheduler", e);
     }
   }
 
   /**
-   * cardioSessionBookingJobDetail bean.
+   * scheduledBookingJobDetail bean.
    */
-  @Bean(name = "cardioSessionBookingJobDetail")
-  public JobDetail cardioSessionBookingJobDetail() {
+  @Bean(name = "scheduledBookingJobDetail")
+  public JobDetail scheduledBookingJobDetail() {
     return JobBuilder.newJob()
-        .ofType(CardioSessionBookingJob.class)
+        .ofType(ScheduledBookingJob.class)
         .storeDurably()
-        .withIdentity(JobKey.jobKey("cardioSessionBookingJobDetail"))
-        .withDescription("Cardio session booking job")
+        .withIdentity(JobKey.jobKey("scheduledBookingJobDetail"))
+        .withDescription("Scheduled booking job")
         .build();
   }
 
   /**
-   * Trigger for the cardioSessionBookingJobDetail at the specified hour and minutes.
+   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes.
    */
-  private static Trigger cardioSessionBookingTrigger(JobDetail cardioSessionBookingJobDetail,
-                                                   int hour, int minute) {
+  private static Trigger scheduledBookingTrigger(JobDetail scheduledBookingJobDetail,
+                                                 int hour, int minute) {
     return TriggerBuilder.newTrigger()
-        .forJob(cardioSessionBookingJobDetail)
-        .withIdentity(TriggerKey.triggerKey("cardioSessionBookingTrigger_" + hour + "_" + minute))
-        .withDescription("Trigger to schedule a cardio session booking job at " + hour + ":"
-            + minute)
+        .forJob(scheduledBookingJobDetail)
+        .withIdentity(TriggerKey.triggerKey("scheduledBookingTrigger_" + hour + "_" + minute))
+        .withDescription("Trigger to schedule a booking job at " + hour + ":" + minute)
         .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(hour, minute)
             .withMisfireHandlingInstructionDoNothing())
         .build();

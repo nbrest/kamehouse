@@ -40,10 +40,8 @@ import java.util.Date;
 @PrepareForTest({ HttpClientUtils.class, DateUtils.class, PropertiesUtils.class, FileUtils.class })
 public class BookingServiceTest {
 
-  private BookingRequestTestUtils bookingRequestTestUtils =
-      new BookingRequestTestUtils();
-  private BookingResponseTestUtils bookingResponseTestUtils =
-      new BookingResponseTestUtils();
+  private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
+  private BookingResponseTestUtils bookingResponseTestUtils = new BookingResponseTestUtils();
   private BookingService bookingServiceSpy;
 
   private static final String[] BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES = {
@@ -380,10 +378,10 @@ public class BookingServiceTest {
   }
 
   /**
-   * Test booking a scheduled cardio session for sundays.
+   * Test booking a scheduled session for sundays.
    */
   @Test
-  public void bookScheduledCardioSessionSundaySuccessTest() throws Exception {
+  public void bookScheduledSessionsSundaySuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_SUNDAY_STANDARD_RESPONSES);
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -391,20 +389,19 @@ public class BookingServiceTest {
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 25);
     when(DateUtils.getTwoWeeksFromToday()).thenReturn(bookingDate);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
-        "12:00pm", "2021-07-25");
+    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,"12:00pm","2021-07-25");
 
-    BookingResponse response = bookingServiceSpy.bookScheduledCardioSession();
+    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchIds(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
   /**
-   * Test booking a scheduled cardio session for mondays.
+   * Test booking a scheduled session for mondays.
    */
   @Test
-  public void bookScheduledCardioSessionMondaySuccessTest() throws Exception {
+  public void bookScheduledSessionsMondaySuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -415,41 +412,40 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
         "07:15pm", "2021-07-26");
 
-    BookingResponse response = bookingServiceSpy.bookScheduledCardioSession();
+    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchIds(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
   /**
-   * Test booking a scheduled cardio session for unscheduled days.
+   * Test booking a scheduled session for unscheduled days.
    */
   @Test
-  public void bookScheduledCardioSessionUnscheduledDaysSuccessTest() {
+  public void bookScheduledSessionsUnscheduledDaysSuccessTest() {
     when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.TUESDAY);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    expected.setMessage("Today is Tuesday. No cardio booking is scheduled.");
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
-        null, null);
+    expected.setMessage("Today is Tuesday. No booking is scheduled for today");
+    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected, null, null);
 
-    BookingResponse response = bookingServiceSpy.bookScheduledCardioSession();
+    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
 
     expected.setDate(response.getDate());
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
   /**
-   * Test booking a scheduled cardio session from an invalid booking server.
+   * Test booking a scheduled session from an invalid booking server.
    */
   @Test
-  public void bookScheduledCardioSessionFromInvalidBookingServerTest() {
+  public void bookScheduledSessionsFromInvalidBookingServerTest() {
     PowerMockito.when(PropertiesUtils.getProperty("booking.server")).thenReturn("namek-host");
     when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.MONDAY);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setStatus(BookingResponse.Status.INTERNAL_ERROR);
     expected.setMessage(BookingService.INVALID_BOOKING_SERVER);
 
-    BookingResponse response = bookingServiceSpy.bookScheduledCardioSession();
+    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchIds(response, expected);
 
     expected.setDate(response.getDate());

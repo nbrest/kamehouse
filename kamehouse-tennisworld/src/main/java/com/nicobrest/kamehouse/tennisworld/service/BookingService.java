@@ -16,7 +16,7 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse.Status;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
-import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.CardioSessionBookingJob;
+import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
@@ -128,29 +128,29 @@ public class BookingService {
   }
 
   /**
-   * Book the cardio sessions automatically.
-   * This method is to be triggered only by the {@link CardioSessionBookingJob}.
+   * Execute the scheduled bookings based on the BookingScheduleConfigs set in the database.
+   * This method is to be triggered by the {@link ScheduledBookingJob}.
    */
-  public BookingResponse bookScheduledCardioSession() {
+  public BookingResponse bookScheduledSessions() {
     if (!isBookingServer()) {
       logger.error(INVALID_BOOKING_SERVER);
       return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER, null);
     }
-    BookingRequest request = getScheduledCardioBookingRequest();
+    BookingRequest request = getScheduledBookingRequest();
     int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
     switch (currentDayOfWeek) {
       case Calendar.SUNDAY:
-        return bookScheduledCardioSession(request, "12:00pm");
+        return bookScheduledSession(request, "12:00pm");
       case Calendar.MONDAY:
-        return bookScheduledCardioSession(request, "07:15pm");
+        return bookScheduledSession(request, "07:15pm");
       case Calendar.FRIDAY:
-        return bookScheduledCardioSession(request, "12:15pm");
+        return bookScheduledSession(request, "12:15pm");
       case Calendar.TUESDAY:
       case Calendar.WEDNESDAY:
       case Calendar.THURSDAY:
       case Calendar.SATURDAY:
         String message = "Today is " + DateUtils.getDayOfWeek(currentDayOfWeek)
-            + ". No cardio booking is scheduled.";
+            + ". No booking is scheduled for today";
         logger.info(message);
         return buildResponse(Status.SUCCESS, message, request);
       default:
@@ -164,8 +164,8 @@ public class BookingService {
   /**
    * Book the specified scheduled cardio request at the specified time.
    */
-  private BookingResponse bookScheduledCardioSession(BookingRequest request,
-                                                     String time) {
+  private BookingResponse bookScheduledSession(BookingRequest request,
+                                                String time) {
     String dayOfWeek = DateUtils.getDayOfWeek(DateUtils.getCurrentDayOfWeek());
     String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getCurrentDate());
@@ -214,7 +214,7 @@ public class BookingService {
   /**
    * Create the cardio scheduled booking tennis world request.
    */
-  private BookingRequest getScheduledCardioBookingRequest() {
+  private BookingRequest getScheduledBookingRequest() {
     String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getTwoWeeksFromToday());
     BookingRequest request = new BookingRequest();

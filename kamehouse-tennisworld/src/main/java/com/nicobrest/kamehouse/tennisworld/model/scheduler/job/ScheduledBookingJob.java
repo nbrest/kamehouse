@@ -8,12 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * CardioSessionBookingJob to be scheduled.
+ * ScheduledBookingJob to be executed at the scheduled time.
  *
  * @author nbrest
  *
  */
-public class CardioSessionBookingJob implements Job {
+public class ScheduledBookingJob implements Job {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -21,12 +21,12 @@ public class CardioSessionBookingJob implements Job {
   private BookingService bookingService;
 
   /**
-   * Execute the CardioSessionBookingJob.
+   * Execute the ScheduledBookingJob.
    */
   public void execute(JobExecutionContext context) {
     logger.info("Job {} fired @ {}", context.getJobDetail().getKey().getName(),
         context.getFireTime());
-    bookingService.bookScheduledCardioSession();
+    bookingService.bookScheduledSessions();
     logger.info("Next job scheduled @ {}", context.getNextFireTime());
   }
 }
