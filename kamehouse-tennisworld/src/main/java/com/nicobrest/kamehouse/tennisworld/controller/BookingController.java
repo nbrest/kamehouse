@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
@@ -30,10 +31,8 @@ public class BookingController extends AbstractController {
    */
   @PostMapping(path = "/bookings")
   @ResponseBody
-  public ResponseEntity<BookingResponse> bookings(
-      @RequestBody BookingRequest bookingRequest) {
-    BookingResponse bookingResponse =
-        bookingService.book(bookingRequest);
+  public ResponseEntity<BookingResponse> bookings(@RequestBody BookingRequest bookingRequest) {
+    BookingResponse bookingResponse = bookingService.book(bookingRequest);
     switch (bookingResponse.getStatus()) {
       case ERROR:
         logger.error("Response {}", bookingResponse);
@@ -44,5 +43,17 @@ public class BookingController extends AbstractController {
       default:
         return generatePostResponseEntity(bookingResponse);
     }
+  }
+
+  /**
+   * Trigger an execution to process all the scheduled bookings configured in the database.
+   */
+  @PostMapping(path = "/scheduled-bookings")
+  @ResponseBody
+  public ResponseEntity<KameHouseGenericResponse> scheduledBookings() {
+    bookingService.bookScheduledSessions();
+    KameHouseGenericResponse response = new KameHouseGenericResponse();
+    response.setMessage("Triggered execution of scheduled bookings");
+    return generatePostResponseEntity(response);
   }
 }

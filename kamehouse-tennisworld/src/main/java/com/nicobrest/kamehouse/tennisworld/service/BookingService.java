@@ -162,10 +162,9 @@ public class BookingService {
   }
 
   /**
-   * Book the specified scheduled cardio request at the specified time.
+   * Book the specified scheduled request.
    */
-  private BookingResponse bookScheduledSession(BookingRequest request,
-                                                String time) {
+  private BookingResponse bookScheduledSession(BookingRequest request, String time) {
     String dayOfWeek = DateUtils.getDayOfWeek(DateUtils.getCurrentDayOfWeek());
     String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getCurrentDate());
@@ -231,8 +230,7 @@ public class BookingService {
   /**
    * Get the sessionType enum from the request.
    */
-  private static SessionType getSessionType(BookingRequest
-                                                           bookingRequest) {
+  private static SessionType getSessionType(BookingRequest bookingRequest) {
     try {
       return SessionType.valueOf(bookingRequest.getSessionType());
     } catch (IllegalArgumentException e) {
@@ -264,8 +262,7 @@ public class BookingService {
    * <li>7) GET Confirm booking url. Check the final result of the booking request</li>
    * </ul>
    */
-  private BookingResponse bookCardioSessionRequest(
-      BookingRequest bookingRequest) {
+  private BookingResponse bookCardioSessionRequest(BookingRequest bookingRequest) {
     HttpClient httpClient = HttpClientUtils.getClient(null, null);
     try {
       // 1 -------------------------------------------------------------------------
@@ -313,8 +310,7 @@ public class BookingService {
   /**
    * Get the sessionId from the sessionDatePage.
    */
-  private String getSessionId(Document sessionDatePage,
-                              BookingRequest bookingRequest) {
+  private String getSessionId(Document sessionDatePage, BookingRequest bookingRequest) {
     String sessionId = null;
     for (Element listItem : sessionDatePage.getElementsByTag("li")) {
       String sessionDate = listItem.attr(ATTR_SESSION_DATE);
@@ -459,8 +455,7 @@ public class BookingService {
    * <li>8) GET Confirm booking url. Check the final result of the booking request</li>
    * </ul>
    */
-  private BookingResponse bookFacilityOverlayRequest(
-      BookingRequest bookingRequest) {
+  private BookingResponse bookFacilityOverlayRequest(BookingRequest bookingRequest) {
     HttpClient httpClient = HttpClientUtils.getClient(null, null);
     try {
       // 1 -------------------------------------------------------------------------
@@ -517,8 +512,7 @@ public class BookingService {
    * Attempts to login to tennis world using the specified site and credentials in the
    * BookingRequest and returns the dashboard page if the login is successful.
    */
-  private Document loginToTennisWorld(HttpClient httpClient,
-                                      BookingRequest bookingRequest)
+  private Document loginToTennisWorld(HttpClient httpClient, BookingRequest bookingRequest)
       throws IOException {
     // 1.1 -------------------------------------------------------------------------
     List<NameValuePair> params = new ArrayList<>();
@@ -880,8 +874,7 @@ public class BookingService {
   /**
    * Build a tennis world response with the specified status and message.
    */
-  private BookingResponse buildResponse(Status status, String message,
-                                        BookingRequest request) {
+  private BookingResponse buildResponse(Status status, String message, BookingRequest request) {
     BookingResponse bookingResponse = new BookingResponse();
     bookingResponse.setStatus(status);
     bookingResponse.setMessage(message);
@@ -1026,7 +1019,7 @@ public class BookingService {
    */
   private static void setThreadName(@Nonnull String requestId) {
     StringBuilder sb = new StringBuilder();
-    sb.append("tw-book-");
+    sb.append("twb-");
     sb.append(requestId.substring(14, 22));
     sb.append("-");
     sb.append(requestId.substring(requestId.length() - 12, requestId.length()));
