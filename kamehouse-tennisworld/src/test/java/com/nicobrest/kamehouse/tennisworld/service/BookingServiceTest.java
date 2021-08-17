@@ -3,19 +3,22 @@ package com.nicobrest.kamehouse.tennisworld.service;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
-import com.nicobrest.kamehouse.commons.utils.FileUtils;
+import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
+import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
+import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
+import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -29,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Test class for the BookingService.
@@ -37,12 +41,25 @@ import java.util.Date;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ HttpClientUtils.class, DateUtils.class, PropertiesUtils.class, FileUtils.class })
+@PrepareForTest({ HttpClientUtils.class, DateUtils.class, EncryptionUtils.class })
 public class BookingServiceTest {
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
   private BookingResponseTestUtils bookingResponseTestUtils = new BookingResponseTestUtils();
+  private BookingScheduleConfigTestUtils bookingScheduleConfigTestUtils =
+      new BookingScheduleConfigTestUtils();
+
+  @InjectMocks
   private BookingService bookingServiceSpy;
+
+  @Mock
+  private BookingScheduleConfigService bookingScheduleConfigService;
+
+  @Mock
+  HttpClient httpClientMock;
+
+  @Mock
+  HttpResponse httpResponseMock;
 
   private static final String[] BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES = {
       "facility-booking-responses/step-1.1.html",
@@ -109,12 +126,6 @@ public class BookingServiceTest {
       "monday-cardio-booking-responses/step-7.html",
   };
 
-  @Mock
-  HttpClient httpClientMock;
-
-  @Mock
-  HttpResponse httpResponseMock;
-
   @Before
   public void init() throws Exception {
     bookingRequestTestUtils.initTestData();
@@ -122,6 +133,7 @@ public class BookingServiceTest {
     bookingServiceSpy = PowerMockito.spy(bookingService);
     bookingService.setSleepMs(0);
     bookingResponseTestUtils.initTestData();
+    bookingScheduleConfigTestUtils.initTestData();
 
     MockitoAnnotations.initMocks(this);
     Mockito.reset(httpClientMock);
@@ -137,7 +149,6 @@ public class BookingServiceTest {
 
     PowerMockito.mockStatic(DateUtils.class);
     when(DateUtils.getCurrentDate()).thenCallRealMethod();
-    when(DateUtils.getTwoWeeksFromToday()).thenCallRealMethod();
     when(DateUtils.getTwoWeeksFrom(any())).thenCallRealMethod();
     when(DateUtils.getDate(any(), any(), any())).thenCallRealMethod();
     when(DateUtils.getDate(any(), any(), any(), any(), any(), any())).thenCallRealMethod();
@@ -146,16 +157,11 @@ public class BookingServiceTest {
     when(DateUtils.getCurrentDayOfWeek()).thenCallRealMethod();
     when(DateUtils.getDayOfWeek(any())).thenCallRealMethod();
 
-    PowerMockito.mockStatic(PropertiesUtils.class);
-    PowerMockito.when(PropertiesUtils.getHostname()).thenReturn("saiyajin-host");
-    PowerMockito.when(PropertiesUtils.getProperty("booking.server")).thenReturn("saiyajin-host");
-    PowerMockito.when(PropertiesUtils.getProperty("scheduled.cardio.user.file"))
-        .thenCallRealMethod();
-    PowerMockito.when(PropertiesUtils.getProperty("scheduled.cardio.pwd.file")).thenCallRealMethod();
-    PowerMockito.when(PropertiesUtils.getUserHome()).thenCallRealMethod();
+    PowerMockito.mockStatic(EncryptionUtils.class);
+    when(EncryptionUtils.decrypt(any(), any())).thenReturn(new byte[2]);
 
-    PowerMockito.mockStatic(FileUtils.class);
-    PowerMockito.when(FileUtils.getDecodedFileContent((any()))).thenReturn("saiyajin");
+    when(bookingScheduleConfigService.readAll())
+        .thenReturn(bookingScheduleConfigTestUtils.getTestDataList());
   }
 
   /**
@@ -378,78 +384,72 @@ public class BookingServiceTest {
   }
 
   /**
-   * Test booking a scheduled session for sundays.
+   * Test booking a recurring scheduled session.
    */
   @Test
-  public void bookScheduledSessionsSundaySuccessTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_SUNDAY_STANDARD_RESPONSES);
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
-    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
-    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.SUNDAY);
-    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 25);
-    when(DateUtils.getTwoWeeksFromToday()).thenReturn(bookingDate);
-    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,"12:00pm","2021-07-25");
-
-    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
-    bookingResponseTestUtils.matchIds(response, expected);
-
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
-  }
-
-  /**
-   * Test booking a scheduled session for mondays.
-   */
-  @Test
-  public void bookScheduledSessionsMondaySuccessTest() throws Exception {
+  public void bookRecurringScheduledSessionSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
-    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
-    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.MONDAY);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
-    when(DateUtils.getTwoWeeksFromToday()).thenReturn(bookingDate);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+    when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
+    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    BookingScheduleConfig bookingScheduleConfig =
+        bookingScheduleConfigTestUtils.getSingleTestData();
+    bookingScheduleConfig.setBookingDate(null);
+    bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
+    bookingScheduleConfig.setTime("07:15pm");
+    bookingScheduleConfig.setId(1L);
+    bookingScheduleConfig.setBookAheadDays(14);
+    bookingScheduleConfig.setEnabled(true);
+    bookingScheduleConfig.setSessionType(SessionType.CARDIO);
+    bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
+    expected.setUsername(bookingScheduleConfig.getTennisWorldUser().getEmail());
     bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
         "07:15pm", "2021-07-26");
 
-    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
-    bookingResponseTestUtils.matchIds(response, expected);
+    List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
+    bookingResponseTestUtils.matchIds(response.get(0), expected);
 
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
 
-  /**
-   * Test booking a scheduled session for unscheduled days.
-   */
-  @Test
-  public void bookScheduledSessionsUnscheduledDaysSuccessTest() {
-    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.TUESDAY);
-    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    expected.setMessage("Today is Tuesday. No booking is scheduled for today");
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected, null, null);
-
-    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
-
-    expected.setDate(response.getDate());
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
-  }
 
   /**
-   * Test booking a scheduled session from an invalid booking server.
+   * Test booking a one off scheduled session.
    */
   @Test
-  public void bookScheduledSessionsFromInvalidBookingServerTest() {
-    PowerMockito.when(PropertiesUtils.getProperty("booking.server")).thenReturn("namek-host");
-    when(DateUtils.getCurrentDayOfWeek()).thenReturn(Calendar.MONDAY);
+  public void bookOneOffScheduledSessionSuccessTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
+    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+    when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
+    when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
+    when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
+    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    expected.setStatus(BookingResponse.Status.INTERNAL_ERROR);
-    expected.setMessage(BookingService.INVALID_BOOKING_SERVER);
+    BookingScheduleConfig bookingScheduleConfig =
+        bookingScheduleConfigTestUtils.getSingleTestData();
+    bookingScheduleConfig.setBookingDate(bookingDate);
+    bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
+    bookingScheduleConfig.setTime("07:15pm");
+    bookingScheduleConfig.setId(1L);
+    bookingScheduleConfig.setBookAheadDays(14);
+    bookingScheduleConfig.setEnabled(true);
+    bookingScheduleConfig.setSessionType(SessionType.CARDIO);
+    bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
+    expected.setUsername(bookingScheduleConfig.getTennisWorldUser().getEmail());
+    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
+        "07:15pm", "2021-07-26");
 
-    BookingResponse response = bookingServiceSpy.bookScheduledSessions();
-    bookingResponseTestUtils.matchIds(response, expected);
+    List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
+    bookingResponseTestUtils.matchIds(response.get(0), expected);
 
-    expected.setDate(response.getDate());
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
 
   /**

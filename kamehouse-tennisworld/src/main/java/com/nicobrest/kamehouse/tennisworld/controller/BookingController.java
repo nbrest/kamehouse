@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
-import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Controller to do bookings to tennis world.
@@ -50,10 +51,8 @@ public class BookingController extends AbstractController {
    */
   @PostMapping(path = "/scheduled-bookings")
   @ResponseBody
-  public ResponseEntity<KameHouseGenericResponse> scheduledBookings() {
-    bookingService.bookScheduledSessions();
-    KameHouseGenericResponse response = new KameHouseGenericResponse();
-    response.setMessage("Triggered execution of scheduled bookings");
-    return generatePostResponseEntity(response);
+  public ResponseEntity<List<BookingResponse>> scheduledBookings() {
+    List<BookingResponse> responses = bookingService.bookScheduledSessions();
+    return generatePostResponseEntity(responses);
   }
 }

@@ -3,7 +3,10 @@ package com.nicobrest.kamehouse.commons.utils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +18,9 @@ import java.util.GregorianCalendar;
  * @author nbrest
  */
 public class DateUtilsTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Tests the several methods to get a cron expression.
@@ -56,19 +62,19 @@ public class DateUtilsTest {
   }
 
   /**
-   * Test getTwoWeeksFromToday.
-   */
-  @Test
-  public void getTwoWeeksFromTodayTest() {
-    assertNotNull(DateUtils.getTwoWeeksFromToday());
-  }
-
-  /**
    * Test getTwoWeeksFrom.
    */
   @Test
   public void getTwoWeeksFromTest() {
     assertNotNull(DateUtils.getTwoWeeksFrom(new Date()));
+  }
+
+  /**
+   * Test getDateFromToday.
+   */
+  @Test
+  public void getDateFromTodayTest() {
+    assertNotNull(DateUtils.getDateFromToday(2));
   }
 
   /**
@@ -131,4 +137,48 @@ public class DateUtilsTest {
     dayOfWeek = DateUtils.getDayOfWeek(Calendar.SATURDAY);
     assertEquals("Saturday", dayOfWeek);
   }
+
+  /**
+   * Test getDaysBetweenDates.
+   */
+  @Test
+  public void getDaysBetweenDatesTest() {
+    assertEquals(0, DateUtils.getDaysBetweenDates(new Date(), new Date()));
+  }
+
+  /**
+   * Test isOnOrAfter.
+   */
+  @Test
+  public void isOnOrAfterTest() {
+    assertEquals(true, DateUtils.isOnOrAfter(new Date(), new Date()));
+  }
+
+  /**
+   * Test isOnOrAfter exception test.
+   */
+  @Test
+  public void isOnOrAfterExceptionTest() {
+    thrown.expect(KameHouseInvalidDataException.class);
+    thrown.expectMessage("beforeDate and afterDate can't be null");
+
+    DateUtils.isOnOrAfter(null, new Date());
+  }
+
+  /**
+   * Test getLocalDateTime.
+   */
+  @Test
+  public void getLocalDateTimeTest() {
+    assertNotNull(DateUtils.getLocalDateTime(new Date()));
+  }
+
+  /**
+   * Test getDay.
+   */
+  @Test
+  public void getDayTest() {
+    assertNotNull(DateUtils.getDay(new Date()));
+  }
+
 }

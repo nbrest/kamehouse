@@ -1,6 +1,12 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -66,19 +72,18 @@ public class DateUtils {
   }
 
   /**
-   * Get the current date.
+   * Get the current date with hours set to 00:00.
    */
   public static Date getCurrentDate() {
     return new Date();
   }
 
   /**
-   * Get the date for two weeks from today.
-   * Used for scheduled cardio bookings.
+   * Get a Date in the future with the specified days from today.
    */
-  public static Date getTwoWeeksFromToday() {
+  public static Date getDateFromToday(Integer daysFromToday) {
     Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.DAY_OF_MONTH, 14);
+    calendar.add(Calendar.DAY_OF_MONTH, daysFromToday);
     return calendar.getTime();
   }
 
@@ -179,25 +184,107 @@ public class DateUtils {
   }
 
   /**
+   * Returns the difference in days between the dates, in absolute value.
+   * Returns 0 if the dates are on the same day.
+   * If the difference is 1 week, then it returns 6 days in between dates. (Ej. Monday this week
+   * to Monday next weeks).
+   * If the difference is 2 weeks, then it returns 13 days in between dates. (Ej Monday this week
+   * to monday 2 weeks from now)
+   */
+  public static long getDaysBetweenDates(Date date1, Date date2) {
+    if (date1 == null || date2 == null) {
+      throw new KameHouseInvalidDataException("Dates to compare can't be null");
+    }
+    LocalDateTime dateTime1 =
+        getLocalDateTime(date1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+    LocalDateTime dateTime2 =
+        getLocalDateTime(date2).withHour(0).withMinute(0).withSecond(0).withNano(0);
+    long daysBetween = Duration.between(dateTime1, dateTime2).toDays();
+    return Math.abs(daysBetween);
+  }
+
+  /**
+   * Returns true if afterDate is equal or after to beforeDate (ignoring timestamps).
+   */
+  public static boolean isOnOrAfter(Date beforeDate, Date afterDate) {
+    if (beforeDate == null || afterDate == null) {
+      throw new KameHouseInvalidDataException("beforeDate and afterDate can't be null");
+    }
+    long daysBetween = Duration.between(getLocalDateTime(beforeDate), getLocalDateTime(afterDate))
+        .toDays();
+    return daysBetween >= 0;
+  }
+
+  /**
+   * Convert a Date to LocalDateTime.
+   */
+  public static LocalDateTime getLocalDateTime(Date date) {
+    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+  }
+
+  /**
+   * Return the day of the week as {@link Day} for the specified date.
+   */
+  public static Day getDay(Date date) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+    return getDay(dayOfWeek);
+  }
+
+  /**
+   * Get the day of the week as a string from an int.
+   * Pass the value as Calendar.SUNDAY for example to get the string Sunday.
+   * Expects values 1 to 7.
+   */
+  public static Day getDay(Integer dayOfWeek) {
+    switch (dayOfWeek) {
+      case Calendar.SUNDAY:
+        return Day.SUNDAY;
+      case Calendar.MONDAY:
+        return Day.MONDAY;
+      case Calendar.TUESDAY:
+        return Day.TUESDAY;
+      case Calendar.WEDNESDAY:
+        return Day.WEDNESDAY;
+      case Calendar.THURSDAY:
+        return Day.THURSDAY;
+      case Calendar.FRIDAY:
+        return Day.FRIDAY;
+      case Calendar.SATURDAY:
+        return Day.SATURDAY;
+      default:
+        break;
+    }
+    throw new IllegalArgumentException("Invalid dayOfWeek int parameter passed. Expected 1 to 7");
+  }
+
+  /**
    * Day of the week enum.
    */
   public enum Day {
-    SUNDAY("Sunday"),
-    MONDAY("Monday"),
-    TUESDAY("Tuesday"),
-    WEDNESDAY("Wednesday"),
-    THURSDAY("Thursday"),
-    FRIDAY("Friday"),
-    SATURDAY("Saturday");
+    SUNDAY("Sunday", 1),
+    MONDAY("Monday", 2),
+    TUESDAY("Tuesday", 3),
+    WEDNESDAY("Wednesday", 4),
+    THURSDAY("Thursday", 5),
+    FRIDAY("Friday", 6),
+    SATURDAY("Saturday", 7);
 
     private String value;
+    private int number;
 
-    Day(String value) {
+    Day(String value, int number) {
       this.value = value;
+      this.number = number;
     }
 
     public String getValue() {
       return value;
+    }
+
+    public int getNumber() {
+      return number;
     }
   }
 }

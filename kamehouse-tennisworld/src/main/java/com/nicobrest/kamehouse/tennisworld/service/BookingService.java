@@ -1,21 +1,23 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.utils.ThreadUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest.CardDetails;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse.Status;
+import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
+import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -33,13 +35,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nonnull;
@@ -93,6 +97,9 @@ public class BookingService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
+  @Autowired
+  private BookingScheduleConfigService bookingScheduleConfigService;
+
   /**
    * Set the sleep ms between requests.
    */
@@ -105,10 +112,11 @@ public class BookingService {
    */
   public BookingResponse book(BookingRequest bookingRequest) {
     try {
+      validateRequest(bookingRequest);
       setRequestId(bookingRequest);
       setThreadName(bookingRequest.getId());
       SessionType sessionType = getSessionType(bookingRequest);
-      logger.info("Booking tennis world request: " + bookingRequest);
+      logger.info("Booking tennis world request: {}", bookingRequest);
       switch (sessionType) {
         case CARDIO:
           return bookCardioSessionRequest(bookingRequest);
@@ -129,102 +137,129 @@ public class BookingService {
 
   /**
    * Execute the scheduled bookings based on the BookingScheduleConfigs set in the database.
-   * This method is to be triggered by the {@link ScheduledBookingJob}.
+   * This method is to be triggered by the {@link ScheduledBookingJob}. It can also be manually
+   * triggered through an API.
    */
-  public BookingResponse bookScheduledSessions() {
-    if (!isBookingServer()) {
-      logger.error(INVALID_BOOKING_SERVER);
-      return buildResponse(Status.INTERNAL_ERROR, INVALID_BOOKING_SERVER, null);
+  public List<BookingResponse> bookScheduledSessions() {
+    List<BookingScheduleConfig> bookingScheduleConfigs = bookingScheduleConfigService.readAll();
+    List<BookingResponse> bookingResponses = new ArrayList<>();
+    if (bookingScheduleConfigs == null || bookingScheduleConfigs.isEmpty()) {
+      logger.info("No scheduled booking configurations setup in this server");
+      return bookingResponses;
     }
-    BookingRequest request = getScheduledBookingRequest();
-    int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
-    switch (currentDayOfWeek) {
-      case Calendar.SUNDAY:
-        return bookScheduledSession(request, "12:00pm");
-      case Calendar.MONDAY:
-        return bookScheduledSession(request, "07:15pm");
-      case Calendar.FRIDAY:
-        return bookScheduledSession(request, "12:15pm");
-      case Calendar.TUESDAY:
-      case Calendar.WEDNESDAY:
-      case Calendar.THURSDAY:
-      case Calendar.SATURDAY:
-        String message = "Today is " + DateUtils.getDayOfWeek(currentDayOfWeek)
-            + ". No booking is scheduled for today";
-        logger.info(message);
-        return buildResponse(Status.SUCCESS, message, request);
-      default:
-        break;
+    for (BookingScheduleConfig bookingScheduleConfig : bookingScheduleConfigs) {
+      logger.trace("Processing {}", bookingScheduleConfig);
+      if (!bookingScheduleConfig.getEnabled()) {
+        logger.debug("BookingScheduleConfig id {} is disabled. Skipping.",
+            bookingScheduleConfig.getId());
+        continue;
+      }
+      try {
+        String bookingDate = calculateBookingDate(bookingScheduleConfig);
+        if (bookingDate != null) {
+          BookingRequest bookingRequest = createScheduledBookingRequest(bookingScheduleConfig,
+              bookingDate);
+          BookingResponse response = book(bookingRequest);
+          bookingResponses.add(response);
+        } else {
+          logger.debug("No scheduled booking to be executed today for BookingScheduleConfig id {}",
+              bookingScheduleConfig.getId());
+        }
+      } catch (KameHouseException e) {
+        logger.error("Error executing scheduled booking for {}", bookingScheduleConfig, e);
+      }
     }
-    String errorMessage = "Invalid currentDayOfWeek. Should never reach this point!";
-    logger.error(errorMessage);
-    throw new KameHouseServerErrorException(errorMessage);
+    logger.trace("Booking scheduled sessions finished with the following responses: {}",
+        bookingResponses);
+    return bookingResponses;
   }
 
   /**
-   * Book the specified scheduled request.
+   * Create a tennisworld booking request based on the schedule config.
    */
-  private BookingResponse bookScheduledSession(BookingRequest request, String time) {
-    String dayOfWeek = DateUtils.getDayOfWeek(DateUtils.getCurrentDayOfWeek());
-    String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-        DateUtils.getCurrentDate());
-    logger.info("Today is {} {}. Booking cardio for {} at {}", dayOfWeek, currentDate,
-        request.getDate(), time);
-    request.setTime(time);
-    return book(request);
-  }
-
-  /**
-   * Check if the current server is the booking sever.
-   */
-  private static boolean isBookingServer() {
-    String bookingServer = PropertiesUtils.getProperty("booking.server");
-    return PropertiesUtils.getHostname().equals(bookingServer);
-  }
-
-  /**
-   * Gets the scheduled cardio username.
-   */
-  private String getScheduledCardioUsername() {
-    String filename = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
-        .getProperty("scheduled.cardio.user.file");
-    try {
-      return EncryptionUtils.decryptKameHouseFileToString(filename);
-    } catch (KameHouseInvalidDataException e) {
-      logger.error("Could not retrieve the scheduled cardio username");
-      return null;
-    }
-  }
-
-  /**
-   * Gets the scheduled cardio password.
-   */
-  private String getScheduledCardioPassword() {
-    String filename = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
-        .getProperty("scheduled.cardio.pwd.file");
-    try {
-      return EncryptionUtils.decryptKameHouseFileToString(filename);
-    } catch (KameHouseInvalidDataException e) {
-      logger.error("Could not retrieve the scheduled cardio password");
-      return null;
-    }
-  }
-
-  /**
-   * Create the cardio scheduled booking tennis world request.
-   */
-  private BookingRequest getScheduledBookingRequest() {
-    String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-        DateUtils.getTwoWeeksFromToday());
+  private BookingRequest createScheduledBookingRequest(BookingScheduleConfig
+      bookingScheduleConfig, String bookingDate) {
     BookingRequest request = new BookingRequest();
     request.setDate(bookingDate);
-    request.setUsername(getScheduledCardioUsername());
-    request.setPassword(getScheduledCardioPassword());
+    TennisWorldUser tennisWorldUser = bookingScheduleConfig.getTennisWorldUser();
+    request.setUsername(tennisWorldUser.getEmail());
+    request.setPassword(getDecryptedPassword(tennisWorldUser));
     request.setDryRun(false);
-    request.setDuration("45");
-    request.setSessionType(SessionType.CARDIO.name());
-    request.setSite(Site.MELBOURNE_PARK.name());
+    request.setDuration(bookingScheduleConfig.getDuration());
+    request.setSessionType(bookingScheduleConfig.getSessionType().name());
+    request.setSite(bookingScheduleConfig.getSite().name());
+    request.setTime(bookingScheduleConfig.getTime());
     return request;
+  }
+
+  /**
+   * Get the bookingDate calculated from the schedule config.
+   * If null is returned then no booking should be executed.
+   */
+  private String calculateBookingDate(BookingScheduleConfig bookingScheduleConfig) {
+    if (bookingScheduleConfig.getBookingDate() != null) {
+      /*
+       * One-off bookingDate is set in the config. Check if it's should be used to book.
+       */
+      Date bookingDate = bookingScheduleConfig.getBookingDate();
+      if (isActiveBookingDate(bookingDate)
+          && bookingDateMatchesBookAheadDays(bookingScheduleConfig)) {
+        logger.trace("Calculated one-off bookingDate {}", bookingDate);
+        return DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingDate);
+      }
+    } else {
+      /*
+       * One-off bookingDate is not set in the config. Checking recurring booking
+       * schedule config
+       */
+      int bookAheadDays = bookingScheduleConfig.getBookAheadDays();
+      Date bookingDate = DateUtils.getDateFromToday(bookAheadDays);
+      DateUtils.Day configDay = bookingScheduleConfig.getDay();
+      DateUtils.Day bookingDateDay = DateUtils.getDay(bookingDate);
+      if (configDay == bookingDateDay) {
+        logger.trace("Calculated recurring bookingDate {}", bookingDate);
+        return DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingDate);
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns true if the bookingDate is on or after the current date.
+   */
+  boolean isActiveBookingDate(Date bookingDate) {
+    if (bookingDate == null) {
+      return false;
+    }
+    return DateUtils.isOnOrAfter(DateUtils.getCurrentDate(), bookingDate);
+  }
+
+  /**
+   * Returns true if the bookingDate is 'bookAheadDays' days ahead from the current date.
+   */
+  boolean bookingDateMatchesBookAheadDays(BookingScheduleConfig bookingScheduleConfig) {
+    Date bookingDate = bookingScheduleConfig.getBookingDate();
+    long daysToBookingDate = DateUtils.getDaysBetweenDates(DateUtils.getCurrentDate(), bookingDate);
+    return daysToBookingDate == bookingScheduleConfig.getBookAheadDays();
+  }
+
+  /**
+   * Gets the decrypted password for the tennisworld user.
+   */
+  private String getDecryptedPassword(TennisWorldUser tennisWorldUser) {
+    byte[] decryptedPassword = EncryptionUtils.decrypt(tennisWorldUser.getPassword(),
+        EncryptionUtils.getKameHousePrivateKey());
+    return new String(decryptedPassword, StandardCharsets.UTF_8);
+  }
+
+  /**
+   * Validate the format of the booking request fields.
+   */
+  private void validateRequest(BookingRequest bookingRequest) {
+    if (bookingRequest.getDate() == null) {
+      throw new KameHouseInvalidDataException("Invalid date");
+    }
+    //TODO add more validations here
   }
 
   /**
