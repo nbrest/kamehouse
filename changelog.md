@@ -3,6 +3,7 @@
 #### v6.03
 
 * Moved cardio booking schedule from hardcoded in the code to the database
+* Added functionality to configure scheduled bookings for any kind of session, not just cardio, for one off and recurring bookings and with flexible time to book ahead
 * Cleaned up a bit more the js code using more const and from the issues reported in codacy and codefactor
 
 #### v6.02
