@@ -22,6 +22,8 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     implements TestUtils<BookingResponse, Object> {
 
   public static final String API_V1_TENNISWORLD_BOOKINGS = "/api/v1/tennis-world/bookings";
+  public static final String API_V1_TENNISWORLD_SCHEDULED_BOOKINGS = "/api/v1/tennis-world" +
+      "/scheduled-bookings";
 
   @Override
   public void initTestData() {

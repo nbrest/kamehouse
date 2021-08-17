@@ -27,6 +27,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.List;
+
 /**
  * Unit tests for BookingControllerTest class.
  * 
@@ -36,14 +38,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class BookingControllerTest
-    extends AbstractControllerTest<BookingResponse, Object> {
+public class BookingControllerTest extends AbstractControllerTest<BookingResponse, Object> {
 
   private static final String API_V1_TENNISWORLD_BOOKINGS =
       BookingResponseTestUtils.API_V1_TENNISWORLD_BOOKINGS;
+  private static final String API_V1_TENNISWORLD_SCHEDULED_BOOKINGS =
+      BookingResponseTestUtils.API_V1_TENNISWORLD_SCHEDULED_BOOKINGS;
 
-  private BookingRequestTestUtils bookingRequestTestUtils =
-      new BookingRequestTestUtils();
+  private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
 
   @InjectMocks
   private BookingController bookingController;
@@ -78,6 +80,25 @@ public class BookingControllerTest
     verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
     testUtils.assertEqualsAllAttributes(testUtils.getSingleTestData(), responseBody);
     verify(bookingService, times(1)).book(any());
+    verifyNoMoreInteractions(bookingService);
+  }
+
+
+  /**
+   * Tests a successful tennis world scheduled booking.
+   */
+  @Test
+  public void scheduledBookingsSuccessfulTest() throws Exception {
+    when(bookingService.bookScheduledSessions()).thenReturn(testUtils.getTestDataList());
+    List<BookingRequest> requestBody = bookingRequestTestUtils.getTestDataList();
+    byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
+    MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_SCHEDULED_BOOKINGS, requestPayload);
+    List<BookingResponse> responseBody = getResponseBodyList(response, BookingResponse.class);
+
+    verifyResponseStatus(response, HttpStatus.CREATED);
+    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    testUtils.assertEqualsAllAttributesList(testUtils.getTestDataList(), responseBody);
+    verify(bookingService, times(1)).bookScheduledSessions();
     verifyNoMoreInteractions(bookingService);
   }
 
