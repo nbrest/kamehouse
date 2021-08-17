@@ -83,7 +83,6 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     verifyNoMoreInteractions(bookingService);
   }
 
-
   /**
    * Tests a successful tennis world scheduled booking.
    */

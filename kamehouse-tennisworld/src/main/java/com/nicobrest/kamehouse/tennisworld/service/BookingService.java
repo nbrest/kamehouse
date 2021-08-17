@@ -169,7 +169,7 @@ public class BookingService {
         logger.error("Error executing scheduled booking for {}", bookingScheduleConfig, e);
       }
     }
-    logger.trace("Booking scheduled sessions finished with the following responses: {}",
+    logger.info("Booking scheduled sessions finished with the following responses: {}",
         bookingResponses);
     return bookingResponses;
   }
