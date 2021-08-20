@@ -75,6 +75,7 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
 
   @Override
   public void update(KameHouseUserDto dto) {
+    dto.setPassword(PasswordUtils.generateHashedPassword(dto.getPassword()));
     update(kameHouseUserDao, dto);
   }
 

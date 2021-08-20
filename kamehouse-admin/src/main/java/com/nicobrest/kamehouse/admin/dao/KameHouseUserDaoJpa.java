@@ -63,6 +63,8 @@ public class KameHouseUserDaoJpa extends AbstractCrudDaoJpa implements KameHouse
     persistedKameHouseUser.setFirstName(updatedKameHouseUser.getFirstName());
     persistedKameHouseUser.setLastLogin(updatedKameHouseUser.getLastLogin());
     persistedKameHouseUser.setLastName(updatedKameHouseUser.getLastName());
+    persistedKameHouseUser.setPassword(updatedKameHouseUser.getPassword());
+    persistedKameHouseUser.setUsername(updatedKameHouseUser.getUsername());
     Set<KameHouseRole> persistedKameHouseRoles = persistedKameHouseUser.getAuthorities();
     Set<KameHouseRole> updatedKameHouseRoles = updatedKameHouseUser.getAuthorities();
     Iterator<KameHouseRole> persistedApplicationRolesIterator = persistedKameHouseRoles
