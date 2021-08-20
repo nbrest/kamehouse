@@ -1,0 +1,66 @@
+<div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-goku-ssj4-earth">
+    <div class="default-layout banner-text">
+      <h1 id="crud-manager-banner-title"></h1>
+    </div>
+  </div>
+  </div>
+  <div class="tabs-kh bg-lighter-1-kh">
+    <div class="default-layout">
+      <button id="tab-list-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-list', 'kh-crud-manager')">List</button>
+
+      <button id="tab-add-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-add', 'kh-crud-manager')">Add</button>
+
+      <button id="tab-edit-link" class="tab-kh-link"
+        onclick="tabUtils.openTab('tab-edit', 'kh-crud-manager')">Edit</button>
+    </div>
+  </div>
+  <div id="tab-list" class="default-layout tab-content-kh">
+
+    <br>
+    <h4 id="crud-manager-list-title" class="h4-kh txt-l-d-kh txt-c-m-kh">List</h4>
+    <br>
+    <table class="table-kh">
+      <caption class="hidden-kh">CRUD Manager entities</caption>
+      <tbody id="crud-manager-tbody"></tbody>
+    </table>
+
+  </div> <!-- tab-list -->
+
+  <div id="tab-add" class="default-layout tab-content-kh">
+
+    <br>
+    <h4 id="crud-manager-add-title" class="h4-kh txt-l-d-kh txt-c-m-kh">Add</h4>
+    <br>
+    <form class="form-kh">
+      <div id="crud-add-input-fields"></div>
+      <div class="form-submit-wrapper-kh">
+        <img class="img-btn-kh" onclick="crudManager.create()" 
+          src="/kame-house/img/other/submit-gray-dark.png" alt="Add" title="Add"/>
+        <img class="img-btn-kh fl-r-d-kh" onclick="crudManager.clearForm('crud-add-input-fields')" 
+          src="/kame-house/img/other/clear-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
+      </div>
+    </form>
+
+  </div> <!-- tab-add -->
+
+  <div id="tab-edit" class="default-layout tab-content-kh">
+
+    <br>
+    <h4 id="crud-manager-edit-title" class="h4-kh txt-l-d-kh txt-c-m-kh">Edit</h4>
+    <br>
+    <form class="form-kh">
+      <div id="crud-edit-input-fields"></div>
+      <div class="form-submit-wrapper-kh">
+        <img class="img-btn-kh" onclick="crudManager.update()" 
+          src="/kame-house/img/other/submit-gray-dark.png" alt="Update" title="Update"/>
+        <img class="img-btn-kh fl-r-d-kh" onclick="crudManager.clearForm('crud-edit-input-fields')" 
+          src="/kame-house/img/other/clear-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
+      </div>
+    </form>
+
+  </div> <!-- tab-edit -->
+
+  <br>

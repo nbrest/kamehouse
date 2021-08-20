@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
@@ -68,9 +69,14 @@ public class TennisWorldUserService extends AbstractCrudService<TennisWorldUser,
     TennisWorldUser entity = new TennisWorldUser();
     entity.setId(dto.getId());
     entity.setEmail(dto.getEmail());
-    byte[] encryptedPassword = EncryptionUtils.encrypt(dto.getPassword().getBytes(Charsets.UTF_8),
-        EncryptionUtils.getKameHouseCertificate());
-    entity.setPassword(encryptedPassword);
+    String password = dto.getPassword();
+    if (password != null) {
+      byte[] encryptedPassword = EncryptionUtils.encrypt(dto.getPassword().getBytes(Charsets.UTF_8),
+          EncryptionUtils.getKameHouseCertificate());
+      entity.setPassword(encryptedPassword);
+    } else {
+      throw new KameHouseInvalidDataException("Received empty password for TennisWorldUser");
+    }
     return entity;
   }
 

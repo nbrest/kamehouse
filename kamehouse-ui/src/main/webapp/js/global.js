@@ -442,6 +442,7 @@ function DomUtils() {
 
   /** ------ Manipulation through plain js --------------------------------- */  
   this.setId = setId;
+  this.setAttribute = setAttribute;
   this.classListAdd = classListAdd;
   this.classListRemove = classListRemove;
   this.classListToggle = classListToggle;
@@ -474,6 +475,8 @@ function DomUtils() {
   this.getA = getA;
   this.getBr = getBr;
   this.getDiv = getDiv;
+  this.getInput = getInput;
+  this.getLabel = getLabel;
   this.getLi = getLi;
   this.getOption = getOption;
   this.getP = getP;
@@ -488,6 +491,11 @@ function DomUtils() {
   /** Set the id of an element (non jq) */
   function setId(element, id) {
     element.id = id;
+  }
+
+  /** Set an attribute of an element (non jq) */
+  function setAttribute(element, attrKey, attrVal) {
+    element.setAttribute(attrKey, attrVal);
   }
 
   /** Add a class to the element (non jq) */
@@ -694,6 +702,14 @@ function DomUtils() {
 
   function getDiv(attr, html) {
     return getElement('div', attr, html);
+  }
+
+  function getInput(attr, html) {
+    return getElement('input', attr, html);
+  }
+
+  function getLabel(attr, html) {
+    return getElement('label', attr, html);
   }
 
   function getLi(attr, html) {
@@ -990,6 +1006,7 @@ function TimeUtils() {
 
   this.getTimestamp = getTimestamp;
   this.convertSecondsToHsMsSs = convertSecondsToHsMsSs;
+  this.getDateWithTimezoneOffset = getDateWithTimezoneOffset;
 
   /** Get current timestamp with client timezone. */
   function getTimestamp() {
@@ -997,6 +1014,13 @@ function TimeUtils() {
     const offsetTime = newDate.getTimezoneOffset() * -1 * 60 * 1000;
     const currentDateTime = newDate.getTime();
     return new Date(currentDateTime + offsetTime).toISOString().replace("T", " ").slice(0, 19);
+  }
+  
+  /** Get current timestamp with client timezone. */
+  function getDateWithTimezoneOffset(date) {
+    const offsetTime = date.getTimezoneOffset() * -1 * 60 * 1000;
+    const currentDateTime = date.getTime();
+    return new Date(currentDateTime + offsetTime);
   }
 
   /** Convert input in seconds to hh:mm:ss output. */

@@ -148,6 +148,11 @@ function Header() {
           domUtils.addClass($(navItem), "active");
         }
       }
+      if (pageUrl.includes("/kame-house/tennisworld")) {
+        if ($(navItem).attr("id") == "nav-tennisworld") {
+          domUtils.addClass($(navItem), "active");
+        }
+      }
       if (pageUrl.includes("/kame-house/test-module")) {
         if ($(navItem).attr("id") == "nav-test-module") {
           domUtils.addClass($(navItem), "active");

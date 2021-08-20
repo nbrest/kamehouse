@@ -368,6 +368,32 @@ body {
 .form-submit-wrapper-kh img {
   vertical-align: unset;
 }
+
+.form-submit-btn-kh {
+  text-align: center;
+  outline: none;
+  padding: 5px 20px 5px 20px;
+  line-height:1.5;
+  color: #6b6b6b;
+  font-weight: bold;
+  background-color: #1a1a1a;
+  background-image: none;
+  border: 1px solid #383838;
+  width: 105px;
+  cursor: pointer;
+}
+
+.form-submit-btn-kh:hover {
+  color: #969696;
+  background: #4d0000;
+}
+
+@media (max-width : 900px) {
+  .form-submit-btn-kh {
+    width:100%;
+  }
+}
+
 /** form styles end */
 .h3-kh {
   text-align: center;
@@ -953,6 +979,11 @@ hr {
   font-weight: bold;
 }
 
+.table-kh-actions {
+  min-width: 120px;
+}
+
+/** crud manager end ------------------------------*/
 /* tabs (used for example in groot server-manager) */
 .tab-content-kh {
   display: none;
