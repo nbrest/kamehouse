@@ -273,7 +273,7 @@ function CrudManager() {
           continue;
         } 
         if (isArray(entity[property])) {
-          domUtils.setVal(inputField, JSON.stringify(entity[property], null, 2)); 
+          domUtils.setVal(inputField, JSON.stringify(entity[property], null, 6)); 
           continue;
         }
         domUtils.setVal(inputField, entity[property]); 
