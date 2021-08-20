@@ -39,6 +39,7 @@ public class ViewResolverController extends AbstractController {
       "/admin", "/admin/**",
       "/contact-us",
       "/login",
+      "/tennisworld", "/tennisworld/**",
       "/test-module", "/test-module/", "/test-module/index.html",
       "/test-module/angular-1", "/test-module/angular-1/**",
       "/test-module/scheduler", "/test-module/scheduler/**",
@@ -55,6 +56,7 @@ public class ViewResolverController extends AbstractController {
     // those, I need to make sure I call them with the trailing /. If I don't, I
     // need to add that trailing / here so it maps to an index page.
     if (staticHtmlToLoad.endsWith("admin")
+        || staticHtmlToLoad.endsWith("tennisworld")
         || staticHtmlToLoad.endsWith("test-module")
         || staticHtmlToLoad.endsWith("test-module/angular-1")
         || staticHtmlToLoad.endsWith("test-module/scheduler")

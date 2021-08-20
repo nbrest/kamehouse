@@ -64,6 +64,7 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
     testIncludeStaticHtml("/admin", "/admin/index.html");
     testIncludeStaticHtml("/contact-us", "/contact-us.html");
     testIncludeStaticHtml("/login", "/login.html");
+    testIncludeStaticHtml("/tennisworld/", "/tennisworld/index.html");
     testIncludeStaticHtml("/test-module/", "/test-module/index.html");
     testIncludeStaticHtml("/vlc-player", "/vlc-player.html");
   }

@@ -12,6 +12,9 @@
 
     <intercept-url pattern="/admin/**" access="hasRole('ROLE_KAMISAMA')" method="GET" />
 
+    <intercept-url pattern="/tennisworld/**" access="hasRole('ROLE_SAIYAJIN')"
+                   method="GET" />
+
     <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="permitAll"
       method="GET" />
     <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
