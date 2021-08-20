@@ -1061,6 +1061,10 @@ hr {
   }
 }
 
+textarea {
+  min-height: 160px;
+}
+
 ul {
   margin: 0;
   padding: 0;

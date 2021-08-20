@@ -482,6 +482,7 @@ function DomUtils() {
   this.getP = getP;
   this.getSpan = getSpan;
   this.getTbody = getTbody;
+  this.getTextArea = getTextArea;
   this.getTd = getTd;
   this.getTr = getTr;
   this.getTrTd = getTrTd;
@@ -730,6 +731,10 @@ function DomUtils() {
 
   function getTbody(attr, html) {
     return getElement('tbody', attr, html);
+  }
+
+  function getTextArea(attr, html) {
+    return getElement('textarea', attr, html);
   }
 
   function getTd(attr, html) {

@@ -273,7 +273,7 @@ function CrudManager() {
           continue;
         } 
         if (isArray(entity[property])) {
-          domUtils.setVal(inputField, JSON.stringify(entity[property])); 
+          domUtils.setVal(inputField, JSON.stringify(entity[property], null, 2)); 
           continue;
         }
         domUtils.setVal(inputField, entity[property]); 
@@ -525,7 +525,7 @@ function CrudManager() {
         if (parentNode) {
           propertyName = parentNode + "." + property;
         }
-        domUtils.append(div, getFormField(formFieldsId, propertyName));
+        domUtils.append(div, getFormField(formFieldsId, propertyName, entity[property]));
       } else {
         getEntityFormFields(div, formFieldsId, entity[property], property);
       }
@@ -535,9 +535,9 @@ function CrudManager() {
   /**
    * Add a form field.
    */
-  function getFormField(formFieldsId, fieldName) {
+  function getFormField(formFieldsId, fieldName, property) {
     const div = domUtils.getDiv({}, null);
-    const type = getInputFieldType(fieldName);
+    const type = getInputFieldType(fieldName, property);
     const fieldId = formFieldsId + "-" + fieldName;
     const fieldClassList = "form-input-kh " + formFieldsId + "-field";
     
@@ -552,12 +552,21 @@ function CrudManager() {
    * Add an input field for the form.
    */
   function addFormInputField(div, fieldId, fieldName, fieldClassList, type) {
-    domUtils.append(div, domUtils.getInput({
-      id: fieldId,
-      class: fieldClassList,
-      type: type,
-      name: fieldName
-    }, null));
+    if (type == "textarea") {
+      domUtils.append(div, domUtils.getTextArea({
+        id: fieldId,
+        class: fieldClassList,
+        type: type,
+        name: fieldName
+      }, null));
+    } else {
+      domUtils.append(div, domUtils.getInput({
+        id: fieldId,
+        class: fieldClassList,
+        type: type,
+        name: fieldName
+      }, null));
+    }
   }
 
   /**
@@ -581,12 +590,15 @@ function CrudManager() {
   /**
    * Get the input field type.
    */
-  function getInputFieldType(fieldName) {
+  function getInputFieldType(fieldName, property) {
     if (isPasswordField(fieldName)) {
       return "password";
     }
     if (isIdField(fieldName)) {
       return "hidden";
+    }
+    if (isArray(property) || isStringArray(property)) {
+      return "textarea";
     }
     return "input";
   }
