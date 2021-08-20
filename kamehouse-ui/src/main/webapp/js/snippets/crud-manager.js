@@ -263,16 +263,20 @@ function CrudManager() {
    */
   function updateEditFormFieldValues(entity, parentNode) {
     for (const property in entity) {
-      if (!isObject(entity[property])) {
+      if (!isObject(entity[property]) || isArray(entity[property])) {
         let inputField = $("#" + editInputFieldsId + "-" + property);
         if (parentNode) {
           inputField = $("#" + editInputFieldsId + "-" + parentNode + "\\." + property);
         }
         if (isDateField(property)) {
-          domUtils.setVal(inputField, getFormattedDateFieldValue(entity[property])); 
-        } else {
-          domUtils.setVal(inputField, entity[property]); 
+          domUtils.setVal(inputField, getFormattedDateFieldValue(entity[property]));
+          continue;
+        } 
+        if (isArray(entity[property])) {
+          domUtils.setVal(inputField, JSON.stringify(entity[property])); 
+          continue;
         }
+        domUtils.setVal(inputField, entity[property]); 
       } else {
         updateEditFormFieldValues(entity[property], property);
       }
@@ -328,13 +332,17 @@ function CrudManager() {
    */
    function defaultCreateEntityRow(tr, entity) {
     for (const property in entity) {
-      if (!isObject(entity[property])) {
+      if (!isObject(entity[property]) || isArray(entity[property])) {
         if (isPasswordField(property)) {
           domUtils.append(tr, getMaskedFieldTd());
           continue;
         }
         if (isDateField(property)) {
           domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(entity[property])));
+          continue;
+        }
+        if (isArray(entity[property])) {
+          domUtils.append(tr, domUtils.getTd({}, JSON.stringify(entity[property])));
           continue;
         }
         domUtils.append(tr, domUtils.getTd({}, entity[property]));
@@ -446,7 +454,7 @@ function CrudManager() {
    */
   function addColumnsFromEntityToHeader(tr, entity, parentNode) {
     for (const property in entity) {
-      if (!isObject(entity[property])) {
+      if (!isObject(entity[property]) || isArray(entity[property])) {
         let propertyName = property;
         if (parentNode) {
           propertyName = parentNode + "." + property;
@@ -463,6 +471,24 @@ function CrudManager() {
    */
   function isObject(obj) {
     return obj === Object(obj);
+  }
+
+  /**
+   * Check if the specified variable is an array.
+   */
+  function isArray(obj) {
+    return !isEmpty(obj) && Array.isArray(obj);
+  }
+
+  /**
+   * Checks if it's an array converted to a string.
+   */
+  function isStringArray(val) {
+    try {
+      return isArray(JSON.parse(val));
+    } catch (error) {
+      return false;
+    }
   }
 
   /**
@@ -494,7 +520,7 @@ function CrudManager() {
    */
   function getEntityFormFields(div, formFieldsId, entity, parentNode) {
     for (const property in entity) { 
-      if (!isObject(entity[property])) {
+      if (!isObject(entity[property]) || isArray(entity[property])) {
         let propertyName = property;
         if (parentNode) {
           propertyName = parentNode + "." + property;
@@ -633,21 +659,27 @@ function CrudManager() {
           entity[parentNode] = {};
         }
 
-        if (!isEmpty(val) && val != "") {
-          entity[parentNode][propertyName] = val;
-        } else {
-          entity[parentNode][propertyName] = null;
-        }
-
+        addPropertyToEntity(entity[parentNode], propertyName, val);
       } else {
-        if (!isEmpty(val) && val != "") {
-          entity[name] = val;
-        } else {
-          entity[name] = null;
-        }
+        addPropertyToEntity(entity, name, val);
       }
     }
     return entity;
+  }
+
+  /**
+   * Add a property to the entity
+   */
+  function addPropertyToEntity(entity, propertyName, propertyValue) {
+    if (!isEmpty(propertyValue) && propertyValue != "") {
+      if (isArray(propertyValue) || isStringArray(propertyValue)) {
+        entity[propertyName] = JSON.parse(propertyValue);
+      } else {
+        entity[propertyName] = propertyValue;
+      }
+    } else {
+      entity[propertyName] = null;
+    }
   }
 
   /**
