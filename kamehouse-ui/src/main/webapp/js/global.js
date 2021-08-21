@@ -480,6 +480,7 @@ function DomUtils() {
   this.getLi = getLi;
   this.getOption = getOption;
   this.getP = getP;
+  this.getSelect = getSelect;
   this.getSpan = getSpan;
   this.getTbody = getTbody;
   this.getTextArea = getTextArea;
@@ -723,6 +724,10 @@ function DomUtils() {
 
   function getP(attr, html) {
     return getElement('p', attr, html);
+  }
+
+  function getSelect(attr, html) {
+    return getElement('select', attr, html);
   }
 
   function getSpan(attr, html) {

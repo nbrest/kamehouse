@@ -28,15 +28,21 @@ window.onload = () => {
         }, 
         { 
           name: "sessionType",
-          type: "text"
-        }, 
+          type: "select",
+          values: ["CARDIO", "NTC_CLAY_COURTS", "NTC_OUTDOOR", "ROD_LAVER_OUTDOOR", "ROD_LAVER_SHOW_COURTS"],
+          displayValues: ["Cardio", "NTC Clay Courts", "NTC Outdoors", "Rod Laver Outdoors", "Rod Laver Show Courts"]
+        },
         { 
           name: "site",
-          type: "text"
+          type: "select",
+          values: ["MELBOURNE_PARK", "ALBERT_RESERVE"],
+          displayValues: ["Melbourne Park", "Albert Reserve"]
         }, 
         { 
           name: "day",
-          type: "text"
+          type: "select",
+          values: ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
+          displayValues: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         }, 
         { 
           name: "time",

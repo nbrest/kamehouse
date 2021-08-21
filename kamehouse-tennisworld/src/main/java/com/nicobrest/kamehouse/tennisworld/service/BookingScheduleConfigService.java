@@ -10,6 +10,7 @@ import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,7 @@ public class BookingScheduleConfigService
     entity.setTime(dto.getTime());
     entity.setBookingDate(dto.getBookingDate());
     entity.setBookAheadDays(dto.getBookAheadDays());
-    entity.setEnabled(dto.getEnabled());
+    entity.setEnabled(BooleanUtils.toBoolean(dto.getEnabled()));
     entity.setDuration(dto.getDuration());
     return entity;
   }

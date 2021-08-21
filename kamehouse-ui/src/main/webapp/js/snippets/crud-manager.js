@@ -456,7 +456,7 @@ function CrudManager() {
       const fieldClassList = "form-input-kh " + formFieldsId + "-field";
       
       addFieldLabel(div, type, name);
-      domUtils.append(div, getFormInputField(name, type, fieldId, fieldClassList));
+      domUtils.append(div, getFormInputField(column, fieldId, fieldClassList));
       addShowPasswordCheckbox(div, type, fieldId);
       addBreak(div, type);
     }
@@ -465,17 +465,30 @@ function CrudManager() {
   /**
    * Gets an input field for the form of the correct type.
    */
-  function getFormInputField(name, type, fieldId, fieldClassList) {
+  function getFormInputField(column, fieldId, fieldClassList) {
+    const type = column.type;
     const inputFieldType = getInputFieldType(type);
     const config = {
       id: fieldId,
       class: fieldClassList,
       type: inputFieldType,
-      name: name
+      name: column.name
     };
 
-    if (type == "array") {
+    if (isArrayField(type)) {
       return domUtils.getTextArea(config, null);
+    }
+
+    if (isSelectField(type)) {
+      const select = domUtils.getSelect(config, null);
+      const values = column.values;
+      const displayValues = column.displayValues;
+      for (let i = 0; i < values.length; i++) { 
+        domUtils.append(select, domUtils.getOption({
+          value: values[i]
+        }, displayValues[i]));
+      }
+      return select;
     }
 
     return domUtils.getInput(config, null);
@@ -596,6 +609,13 @@ function CrudManager() {
    function isBooleanField(type) {
     return type == "boolean";
   }  
+  
+  /**
+   * Check if it's a array field.
+   */
+   function isSelectField(type) {
+    return type == "select";
+  }
 
   /**
    * Build the entity to pass to the backend from the form data.
