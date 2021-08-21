@@ -191,16 +191,19 @@ function CrudManager() {
   /**
    * Delete entity from the server.
    */
-  function deleteEntity(id) {
+  function deleteEntity(event) {
+    const id = event.data.id;
     logger.trace("deleteEntity");
     const deleteUrl = url + "/" + id;
     debuggerHttpClient.delete(deleteUrl, null,
       (responseBody, responseCode, responseDescription) => {
         logger.info("Deleted entity successfully. Id: " + responseBody.id);
+        basicKamehouseModal.close();
         readAll();
       },
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error deleting entity: " + responseBody + responseCode + responseDescription);
+        basicKamehouseModal.close();
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
       }, null);
@@ -376,7 +379,7 @@ function CrudManager() {
   function getActionButtonsTd(id) {
     const td = domUtils.getTd({}, null);
     domUtils.append(td, getEditButton(id));
-    domUtils.append(td, getDeleteButton(id));
+    domUtils.append(td, getConfirmDeleteButton(id));
     return td;
   }
 
@@ -396,15 +399,50 @@ function CrudManager() {
   }
 
   /**
-   * Get the delete button for the entity.
+   * Get the button to open a modal to delete the entity.
    */
-  function getDeleteButton(id) {
+  function getConfirmDeleteButton(id) {
     return domUtils.getImgBtn({
       src: "/kame-house/img/other/delete-red.png",
       className: "img-btn-kh",
       alt: "Delete",
-      onClick: () => deleteEntity(id)
+      onClick: () => confirmDelete(id)
     });
+  }
+
+  /**
+   * Get the delete button for the entity.
+   */
+  function getDeleteButton(id) {
+    return domUtils.getButton({
+      attr: {
+        class: "form-submit-btn-kh",
+      },
+      html: "Yes",
+      clickData: {
+        id: id
+      },
+      click: deleteEntity
+    });
+  }
+  
+  /**
+   * Open modal to confirm reboot.
+   */
+   function confirmDelete(id) {
+    basicKamehouseModal.setHtml(getDeleteModalMessage(id));
+    basicKamehouseModal.appendHtml(getDeleteButton(id));
+    basicKamehouseModal.open();
+  }
+
+  /**
+   * Get delete modal message.
+   */
+  function getDeleteModalMessage(id) {
+    const message = domUtils.getSpan({}, "Are you sure you want to delete the entity with id " + id + " ?");
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, domUtils.getBr());
+    return message;
   }
 
   /**
