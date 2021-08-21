@@ -54,7 +54,9 @@ window.onload = () => {
         }, 
         { 
           name: "bookAheadDays",
-          type: "number"
+          type: "number",
+          min: 0,
+          max: 90
         }, 
         { 
           name: "enabled",

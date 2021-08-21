@@ -529,6 +529,15 @@ function CrudManager() {
       return select;
     }
 
+    if (isNumberField(type)) {
+      if (!isEmpty(column.min) || column.min == 0) {
+        config.min = column.min;
+      }
+      if (!isEmpty(column.max) || column.max == 0) {
+        config.max = column.max;
+      }
+    }
+
     return domUtils.getInput(config, null);
   }
 
@@ -553,6 +562,9 @@ function CrudManager() {
     }
     if (columnType == "id") {
       return "hidden";
+    }
+    if (columnType == "number") {
+      return "number";
     }
     if (columnType == "password") {
       return "password";
@@ -656,6 +668,13 @@ function CrudManager() {
    */
    function isSelectField(type) {
     return type == "select";
+  }
+ 
+  /**
+   * Check if it's a array field.
+   */
+   function isNumberField(type) {
+    return type == "number";
   }
 
   /**
