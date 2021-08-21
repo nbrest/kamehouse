@@ -443,6 +443,7 @@ function DomUtils() {
   /** ------ Manipulation through plain js --------------------------------- */  
   this.setId = setId;
   this.setAttribute = setAttribute;
+  this.setValue = setValue;
   this.classListAdd = classListAdd;
   this.classListRemove = classListRemove;
   this.classListToggle = classListToggle;
@@ -498,6 +499,11 @@ function DomUtils() {
   /** Set an attribute of an element (non jq) */
   function setAttribute(element, attrKey, attrVal) {
     element.setAttribute(attrKey, attrVal);
+  }
+
+  /** Set the value of an element (non jq) */
+  function setValue(element, val) {
+    element.value = val;
   }
 
   /** Add a class to the element (non jq) */

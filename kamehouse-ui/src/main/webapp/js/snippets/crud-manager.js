@@ -58,7 +58,7 @@ function CrudManager() {
    * 
    * - type is a custom definition of a type that I can then map to an input field
    * - types: 
-   *    [ array, boolean, calendar, date, email, id, hidden, number, object, password, select, text, time ]
+   *    [ array, boolean, date, email, id, hidden, number, object, password, select, text, time ]
    * 
    * - values and displayValues are optional to be used in certain types such as select
    */
@@ -725,7 +725,7 @@ function CrudManager() {
     const fieldsClass = formFieldsId + "-field";
     const intputFields = document.getElementsByClassName(fieldsClass);
     for (let i = 0; i < intputFields.length; i++) {
-      domUtils.setVal($("#" + intputFields[i].id), "");
+      domUtils.setValue(intputFields[i], "");
     }
   }
 }
