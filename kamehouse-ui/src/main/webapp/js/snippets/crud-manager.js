@@ -346,7 +346,7 @@ function CrudManager() {
     try {
       const date = new Date(parseInt(value));
       if (isValidDate(date)) {
-        return timeUtils.getDateWithTimezoneOffset(date).toISOString();
+        return timeUtils.getDateWithTimezoneOffset(date).toISOString().substring(0,10);
       } else {
         return value;
       }
@@ -489,7 +489,10 @@ function CrudManager() {
       return "textarea"
     }
     if (columnType == "boolean") {
-      return "checkbox"; //TODO change to checkbox
+      return "checkbox";
+    }
+    if (columnType == "date") {
+      return "date";
     }
     if (columnType == "email") {
       return "email";
