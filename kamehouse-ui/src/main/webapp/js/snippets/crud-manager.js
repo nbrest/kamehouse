@@ -229,7 +229,7 @@ function CrudManager() {
       const column = currentNodeColumns[i];
       const type = column.type;
       const name = column.name;
-      if (type == "object") {
+      if (isObjectField(type)) {
         updateEditFormFieldValues(entity[name], column.columns, parentNodeChain + name);
         continue;
       }
@@ -332,7 +332,7 @@ function CrudManager() {
       const column = currentNodeColumns[i];
       const type = column.type;
       const name = column.name;
-      if (type == "object") {
+      if (isObjectField(type)) {
         createEntityRow(tr, entity[name], column.columns, parentNodeChain + name);
         continue;
       }
@@ -478,7 +478,7 @@ function CrudManager() {
     for (let i = 0; i < currentNodeColumns.length; i++) {
       const column = currentNodeColumns[i];
       const type = column.type;
-      if (type == "object") {
+      if (isObjectField(type)) {
         setHeaderColumns(tr, column.columns, parentNodeChain + column.name);
         continue;
       }
@@ -495,7 +495,7 @@ function CrudManager() {
     for (let i = 0; i < currentNodeColumns.length; i++) {
       const column = currentNodeColumns[i];
       const type = column.type;
-      if (type == "object") {
+      if (isObjectField(type)) {
         getFormFields(div, formFieldsId, column.columns, parentNodeChain + column.name);
         continue;
       }
@@ -688,6 +688,13 @@ function CrudManager() {
   function isDateField(type) {
     return type == "date";
   }
+  
+  /**
+   * Check if it's a array field.
+   */
+   function isObjectField(type) {
+    return type == "object";
+  }
 
   /**
    * Check if it's a array field.
@@ -732,7 +739,7 @@ function CrudManager() {
       const column = currentNodeColumns[i];
       const type = column.type;
       const name = column.name;
-      if (type == "object") {
+      if (isObjectField(type)) {
         if (isEmpty(entity[name])) {
           entity[name] = {};
         }
@@ -762,7 +769,7 @@ function CrudManager() {
         const arrayVal = [];
         for (let i = 0; i < array.length; i++) {
           if (!isEmpty(array[i].value) && array[i].value != "") {
-            if (arrayType == "object") {
+            if (isObjectField(arrayType)) {
               arrayVal.push(JSON.parse(array[i].value));
             } else {
               arrayVal.push(array[i].value);
