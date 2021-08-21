@@ -251,11 +251,11 @@ function DeploymentManager() {
         const status = scriptOutputLineArray[1];
         const module = getModule(webapp);
         if (status == "running") {
-          domUtils.setHtml($("#mst-" + module + "-status-val"), statusBallGreenImg.cloneNode(true));
+          domUtils.setHtml($("#mst-" + module + "-status-val"), domUtils.cloneNode(statusBallGreenImg, true));
         } else if (status == "stopped") {
-          domUtils.setHtml($("#mst-" + module + "-status-val"), statusBallRedImg.cloneNode(true));
+          domUtils.setHtml($("#mst-" + module + "-status-val"), domUtils.cloneNode(statusBallRedImg, true));
         } else {
-          domUtils.setHtml($("#mst-" + module + "-status-val"), statusBallBlueImg.cloneNode(true));
+          domUtils.setHtml($("#mst-" + module + "-status-val"), domUtils.cloneNode(statusBallBlueImg, true));
         }        
       }
     });
@@ -347,7 +347,7 @@ function DeploymentManager() {
    * Reset view of module status.
    */
   function resetModuleStatus(module) {
-    domUtils.setHtml($("#mst-" + module + "-status-val"), statusBallBlueImg.cloneNode(true));
+    domUtils.setHtml($("#mst-" + module + "-status-val"), domUtils.cloneNode(statusBallBlueImg, true));
     domUtils.setHtml($("#mst-" + module + "-build-version-val"), "N/A");
     domUtils.setHtml($("#mst-" + module + "-build-date-val"), "N/A");
   }

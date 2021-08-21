@@ -34,8 +34,9 @@ window.onload = () => {
         }, 
         { 
           name: "authorities",
-          type: "array"
-        }, 
+          type: "array",
+          arrayType: "object"
+        },
         { 
           name: "accountNonExpired",
           type: "boolean"

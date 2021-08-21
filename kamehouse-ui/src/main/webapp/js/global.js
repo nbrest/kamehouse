@@ -174,7 +174,7 @@ function BannerUtils() {
     domUtils.classListAdd(element, bannerClasses[randomBannerIndex]);
 
     // Trigger banner animation
-    const clonedElement = element.cloneNode(true);
+    const clonedElement = domUtils.cloneNode(element, true);
     domUtils.replaceChild(element.parentNode, clonedElement, element);
   }
 
@@ -455,6 +455,10 @@ function DomUtils() {
   this.getImgBtn = getImgBtn;
   this.insertBeforeBegin = insertBeforeBegin;
   this.replaceChild = replaceChild;
+  this.appendChild = appendChild;
+  this.removeChild = removeChild;
+  this.insertBefore = insertBefore;
+  this.cloneNode = cloneNode;
 
   /** ------ Manipulation through jQuery --------------------------------- */
   this.getDomNode = getDomNode;
@@ -463,8 +467,6 @@ function DomUtils() {
   this.detach = detach;
   this.prepend = prepend;
   this.append = append;
-  this.appendChild = appendChild;
-  this.removeChild = removeChild;
   this.replaceWith = replaceWith;
   this.setAttr = setAttr;
   this.setHtml = setHtml;
@@ -585,6 +587,37 @@ function DomUtils() {
     parentNode.replaceChild(newChild, oldChild);
   }
 
+  /**
+   * Append the child to parent.
+   */
+   function appendChild(parent, child) {
+    parent.appendChild(child);
+  }
+
+  /**
+   * Remove the child from parent.
+   */
+  function removeChild(parent, child) {
+    parent.removeChild(child);
+  }
+
+  /**
+   * Insert the new node under the parent.
+   */
+  function insertBefore(parent, newNode, nextSibling) {
+    parent.insertBefore(newNode, nextSibling);
+  }
+
+  /**
+   * Clone a node.
+   */
+   function cloneNode(nodeToClone, deep) {
+    if (isEmpty(deep)) {
+      deep = false;
+    }
+    return nodeToClone.cloneNode(deep);
+  }
+
   /** ------ Manipulation through jQuery --------------------------------- */
   /**
    * Get DOM node from JQuery element.
@@ -630,20 +663,6 @@ function DomUtils() {
    */
   function append(appendTo, appendObject) {
     appendTo.append(appendObject);
-  }
-
-  /**
-   * Append the child to parent.
-   */
-  function appendChild(parent, child) {
-    parent.appendChild(child);
-  }
-
-  /**
-   * Remove the child from parent.
-   */
-  function removeChild(parent, child) {
-    parent.removeChild(child);
   }
 
   /**

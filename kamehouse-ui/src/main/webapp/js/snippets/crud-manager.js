@@ -216,6 +216,7 @@ function CrudManager() {
    */
   function setEditFormValues(responseBody, responseCode, responseDescription) { 
     logger.debug("readCallback: override this with setReadCallback when required");
+    reloadForm(editInputFieldsId);
     updateEditFormFieldValues(responseBody, columns, null);
   }
 
@@ -233,14 +234,24 @@ function CrudManager() {
         continue;
       }
       const inputFieldId = editInputFieldsId + "-" + parentNodeChain + name;
-      let inputField = $(document.getElementById(inputFieldId));
+      const inputField = $(document.getElementById(inputFieldId));
       domUtils.setVal(inputField, entity[name]); 
 
       if (isDateField(type)) {
         domUtils.setVal(inputField, getFormattedDateFieldValue(entity[name]));
       }
       if (isArrayField(type)) {
-        domUtils.setVal(inputField, JSON.stringify(entity[name], null, 6)); 
+        domUtils.setVal(inputField, null);
+        const array = entity[name];
+        const arraySourceNode = document.getElementById(inputFieldId); 
+        for (let i = 0; i < array.length; i++) {
+          const newNode = domUtils.cloneNode(arraySourceNode, false);
+          newNode.value = JSON.stringify(array[i]);
+          newNode.id = arraySourceNode.id + "-" + i;
+          domUtils.classListAdd(newNode, "m-5-t-d-kh");
+          domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+        }
+        domUtils.removeChild(arraySourceNode.parentNode, arraySourceNode);
       }
       if (isBooleanField(type)) {
         if (entity[name] == true || entity[name] == "true") {
@@ -495,6 +506,7 @@ function CrudManager() {
       
       addFieldLabel(div, type, name);
       domUtils.append(div, getFormInputField(column, fieldId, fieldClassList));
+      addAddArrayRowButton(div, column, fieldId);
       addShowPasswordCheckbox(div, type, fieldId);
       addBreak(div, type);
     }
@@ -512,10 +524,6 @@ function CrudManager() {
       type: inputFieldType,
       name: column.name
     };
-
-    if (isArrayField(type)) {
-      return domUtils.getTextArea(config, null);
-    }
 
     if (isSelectField(type)) {
       const select = domUtils.getSelect(config, null);
@@ -538,6 +546,10 @@ function CrudManager() {
       }
     }
 
+    if (isArrayField(type)) {
+      config.name = fieldId + "[]";
+    }
+
     return domUtils.getInput(config, null);
   }
 
@@ -545,9 +557,6 @@ function CrudManager() {
    * Map the type of the column to an input field type.
    */
   function getInputFieldType(columnType) {
-    if (columnType == "array") {
-      return "textarea"
-    }
     if (columnType == "boolean") {
       return "checkbox";
     }
@@ -575,7 +584,7 @@ function CrudManager() {
     if (columnType == "time") {
       return "time";
     }
-    return "input";
+    return "text";
   }
 
   /**
@@ -597,16 +606,47 @@ function CrudManager() {
   }
 
   /**
+   * Add button to add extra rows for arrays.
+   */
+  function addAddArrayRowButton(div, column, fieldId) {
+    if (!isArrayField(column.type)) {
+      return;
+    }
+    const buttonId = fieldId + "-add";
+    const button = domUtils.getImgBtn({
+      id: buttonId,
+      src: "/kame-house/img/other/add-gray-dark.png",
+      className: "img-btn-kh p-7-d-kh m-7-d-kh",
+      alt: "Add",
+      onClick: () => addArrayInputFieldElement(buttonId)
+    });
+    domUtils.append(div, button);
+  }
+
+  /**
+   * Add a new entry to the array input field.
+   */
+  function addArrayInputFieldElement(buttonId) {
+    const arraySourceNode = document.getElementById(buttonId).previousSibling; 
+    const newNode = domUtils.cloneNode(arraySourceNode, false);
+    newNode.value = "";
+    newNode.id = "";
+    domUtils.classListAdd(newNode, "m-5-t-d-kh");
+    domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+  }
+
+  /**
    * Add checkbox to show password.
    */
   function addShowPasswordCheckbox(div, type, fieldId) {
-    if (isPasswordField(type)) {
-      const checkbox = domUtils.getInput({
-        type: "checkbox",
-       }, null);
-      domUtils.setClick(checkbox, () => toggleShowHidePassword(fieldId));
-      domUtils.append(div, checkbox);
+    if (!isPasswordField(type)) {
+      return;
     }
+    const checkbox = domUtils.getInput({
+      type: "checkbox",
+     }, null);
+    domUtils.setClick(checkbox, () => toggleShowHidePassword(fieldId));
+    domUtils.append(div, checkbox);
   }
 
   /**
@@ -701,9 +741,14 @@ function CrudManager() {
       }
 
       const inputFieldId = formFieldsId + "-" + parentNodeChain + name;
-      let val = document.getElementById(inputFieldId).value;
+      const inputField = document.getElementById(inputFieldId);
+      let val = null;
+      if (inputField) {
+        val = inputField.value;
+      }
+       
       if (isBooleanField(type)) {
-        val = document.getElementById(inputFieldId).checked;
+        val = inputField.checked;
       }
 
       entity[name] = val;
@@ -712,21 +757,28 @@ function CrudManager() {
         entity[name] = null;
       }
       if (isArrayField(type)) {
-        entity[name] = JSON.parse(val);
+        const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
+        const arrayType = column.arrayType;
+        const arrayVal = [];
+        for (let i = 0; i < array.length; i++) {
+          if (!isEmpty(array[i].value) && array[i].value != "") {
+            if (arrayType == "object") {
+              arrayVal.push(JSON.parse(array[i].value));
+            } else {
+              arrayVal.push(array[i].value);
+            }
+          }
+        }
+        entity[name] = arrayVal;
       }
     }
   }
-
 
   /**
    * Clear all the form fields.
    */
   function clearForm(formFieldsId) {
-    const fieldsClass = formFieldsId + "-field";
-    const intputFields = document.getElementsByClassName(fieldsClass);
-    for (let i = 0; i < intputFields.length; i++) {
-      domUtils.setValue(intputFields[i], "");
-    }
+    reloadForm(formFieldsId);
   }
 }
 
