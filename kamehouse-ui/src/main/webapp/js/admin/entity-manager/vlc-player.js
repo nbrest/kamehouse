@@ -6,19 +6,19 @@ window.onload = () => {
       columns: [
         { 
           name: "id",
-          type: "hidden"
+          type: "id"
         },
         { 
           name: "hostname",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "port",
-          type: "input"
+          type: "number"
         }, 
         { 
           name: "username",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "password",

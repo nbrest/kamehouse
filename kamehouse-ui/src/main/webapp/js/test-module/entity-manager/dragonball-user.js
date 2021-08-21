@@ -6,27 +6,27 @@ window.onload = () => {
       columns: [
         { 
           name: "id",
-          type: "hidden"
+          type: "id"
         },
         { 
           name: "username",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "email",
-          type: "input"
+          type: "email"
         }, 
         { 
           name: "age",
-          type: "input"
+          type: "number"
         }, 
         { 
           name: "powerLevel",
-          type: "input"
+          type: "number"
         }, 
         { 
           name: "stamina",
-          type: "input"
+          type: "number"
         }
       ]
     });

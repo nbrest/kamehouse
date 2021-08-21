@@ -57,7 +57,8 @@ function CrudManager() {
    * }
    * 
    * - type is a custom definition of a type that I can then map to an input field
-   * - types: [ id, hidden, password, text, array, object, select, number, date]
+   * - types: 
+   *    [ array, boolean, calendar, date, email, id, hidden, number, object, password, select, text ]
    * 
    * - values and displayValues are optional to be used in certain types such as select
    */
@@ -232,11 +233,16 @@ function CrudManager() {
       let inputField = $(document.getElementById(inputFieldId));
       domUtils.setVal(inputField, entity[name]); 
 
-      if (isDateField(name)) {
+      if (isDateField(type)) {
         domUtils.setVal(inputField, getFormattedDateFieldValue(entity[name]));
       }
-      if (isArray(entity[name])) {
+      if (isArrayField(type)) {
         domUtils.setVal(inputField, JSON.stringify(entity[name], null, 6)); 
+      }
+      if (isBooleanField(type)) {
+        if (entity[name] == true || entity[name] == "true") {
+          domUtils.setAttr(inputField, "checked", "true"); 
+        }
       }
     }
   }
@@ -317,15 +323,15 @@ function CrudManager() {
         continue;
       }
 
-      if (isPasswordField(name)) {
+      if (isPasswordField(type) || isHiddenField(type)) {
         domUtils.append(tr, getMaskedFieldTd());
         continue;
       }
-      if (isDateField(name)) {
+      if (isDateField(type)) {
         domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(entity[name])));
         continue;
       }
-      if (isArray(entity[name])) {
+      if (isArrayField(type)) {
         domUtils.append(tr, domUtils.getTd({}, JSON.stringify(entity[name])));
         continue;
       }
@@ -433,24 +439,6 @@ function CrudManager() {
   }
 
   /**
-   * Check if the specified variable is an array.
-   */
-  function isArray(obj) {
-    return !isEmpty(obj) && Array.isArray(obj);
-  }
-
-  /**
-   * Checks if it's an array converted to a string.
-   */
-  function isStringArray(val) {
-    try {
-      return isArray(JSON.parse(val));
-    } catch (error) {
-      return false;
-    }
-  }
-
-  /**
    * Get all the form fields.
    */
    function getFormFields(div, formFieldsId, currentNodeColumns, parentNodeChain) {
@@ -467,10 +455,10 @@ function CrudManager() {
       const fieldId = formFieldsId + "-" + name;
       const fieldClassList = "form-input-kh " + formFieldsId + "-field";
       
-      addFieldLabel(div, name);
+      addFieldLabel(div, type, name);
       domUtils.append(div, getFormInputField(name, type, fieldId, fieldClassList));
-      addShowPasswordCheckbox(div, name, fieldId);
-      addBreak(div, name);
+      addShowPasswordCheckbox(div, type, fieldId);
+      addBreak(div, type);
     }
   }
 
@@ -478,14 +466,15 @@ function CrudManager() {
    * Gets an input field for the form of the correct type.
    */
   function getFormInputField(name, type, fieldId, fieldClassList) {
+    const inputFieldType = getInputFieldType(type);
     const config = {
       id: fieldId,
       class: fieldClassList,
-      type: type,
+      type: inputFieldType,
       name: name
     };
 
-    if (type == "textarea") {
+    if (type == "array") {
       return domUtils.getTextArea(config, null);
     }
 
@@ -493,10 +482,38 @@ function CrudManager() {
   }
 
   /**
+   * Map the type of the column to an input field type.
+   */
+  function getInputFieldType(columnType) {
+    if (columnType == "array") {
+      return "textarea"
+    }
+    if (columnType == "boolean") {
+      return "checkbox"; //TODO change to checkbox
+    }
+    if (columnType == "email") {
+      return "email";
+    }
+    if (columnType == "hidden") {
+      return "hidden";
+    }
+    if (columnType == "id") {
+      return "hidden";
+    }
+    if (columnType == "password") {
+      return "password";
+    }
+    if (columnType == "select") {
+      return "select";
+    }
+    return "input";
+  }
+
+  /**
    * Add label to field.
    */
-  function addFieldLabel(div, name) {
-    if (!isIdField(name)) {
+  function addFieldLabel(div, type, name) {
+    if (!isIdField(type) && !isHiddenField(type)) {
       domUtils.append(div, domUtils.getLabel({}, name));
     }
   }
@@ -504,8 +521,8 @@ function CrudManager() {
   /**
    * Add break after input field.
    */
-  function addBreak(div, name) {
-    if (!isIdField(name)) {
+  function addBreak(div, type) {
+    if (!isIdField(type) && !isHiddenField(type)) {
       domUtils.append(div, domUtils.getBr());
     }
   }
@@ -513,8 +530,8 @@ function CrudManager() {
   /**
    * Add checkbox to show password.
    */
-  function addShowPasswordCheckbox(div, name, fieldId) {
-    if (isPasswordField(name)) {
+  function addShowPasswordCheckbox(div, type, fieldId) {
+    if (isPasswordField(type)) {
       const checkbox = domUtils.getInput({
         type: "checkbox",
        }, null);
@@ -538,23 +555,44 @@ function CrudManager() {
   /**
    * Check for id field.
    */
-  function isIdField(fieldName) {
-    return fieldName == "id" || fieldName == "Id" || fieldName.includes(".id") || fieldName.includes(".Id");
+  function isIdField(type) {
+    return type == "id";
   }
 
   /**
    * Check if it's a password field.
    */
-  function isPasswordField(fieldName) {
-    return fieldName == "password" || fieldName == "Password" || fieldName.includes(".password") || fieldName.includes(".Password");
+  function isPasswordField(type) {
+    return type == "password";
+  }
+
+  /**
+   * Check if it's a hidden field.
+   */
+  function isHiddenField(type) {
+    return type == "hidden";
   }
 
   /**
    * Check if it's a date field.
    */
-  function isDateField(fieldName) {
-    return fieldName.includes("date") || fieldName.includes("Date");
+  function isDateField(type) {
+    return type == "date";
   }
+
+  /**
+   * Check if it's a array field.
+   */
+   function isArrayField(type) {
+    return type == "array";
+  }
+
+  /**
+   * Check if it's a boolean field.
+   */
+   function isBooleanField(type) {
+    return type == "boolean";
+  }  
 
   /**
    * Build the entity to pass to the backend from the form data.
@@ -580,17 +618,22 @@ function CrudManager() {
       }
 
       const inputFieldId = formFieldsId + "-" + parentNodeChain + name;
-      const val = document.getElementById(inputFieldId).value;
+      let val = document.getElementById(inputFieldId).value;
+      if (isBooleanField(type)) {
+        val = document.getElementById(inputFieldId).checked;
+      }
+
       entity[name] = val;
 
       if (isEmpty(val) || val == "") {
         entity[name] = null;
       }
-      if (isArray(val) || isStringArray(val)) {
+      if (isArrayField(type)) {
         entity[name] = JSON.parse(val);
       }
     }
   }
+
 
   /**
    * Clear all the form fields.

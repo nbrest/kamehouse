@@ -6,51 +6,51 @@ window.onload = () => {
       columns: [
         { 
           name: "id",
-          type: "hidden"
+          type: "id"
         },
         { 
           name: "username",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "password",
-          type: "input"
+          type: "password"
         }, 
         { 
           name: "email",
-          type: "input"
+          type: "email"
         }, 
         { 
           name: "firstName",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "lastName",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "lastLogin",
-          type: "input"
+          type: "date"
         }, 
         { 
           name: "authorities",
-          type: "input"
+          type: "array"
         }, 
         { 
           name: "accountNonExpired",
-          type: "input"
+          type: "boolean"
         }, 
         { 
           name: "accountNonLocked",
-          type: "input"
+          type: "boolean"
         }, 
         { 
           name: "credentialsNonExpired",
-          type: "input"
+          type: "boolean"
         }, 
         { 
           name: "enabled",
-          type: "input"
+          type: "boolean"
         }
       ]
     });

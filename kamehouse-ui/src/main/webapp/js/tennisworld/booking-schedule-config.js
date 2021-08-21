@@ -6,7 +6,7 @@ window.onload = () => {
       columns: [
         { 
           name: "id",
-          type: "hidden"
+          type: "id"
         }, 
         {
           name: "tennisWorldUser",
@@ -14,49 +14,49 @@ window.onload = () => {
           columns: [
             {
               name: "id",
-              type: "hidden"
+              type: "id"
             },
             {
               name: "email",
-              type: "input"
+              type: "email"
             },
             {
               name: "password",
-              type: "password"
+              type: "hidden"
             }
           ]
         }, 
         { 
           name: "sessionType",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "site",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "day",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "time",
-          type: "input"
+          type: "text"
         }, 
         { 
           name: "bookingDate",
-          type: "input"
+          type: "date"
         }, 
         { 
           name: "bookAheadDays",
-          type: "input"
+          type: "number"
         }, 
         { 
           name: "enabled",
-          type: "input"
+          type: "boolean"
         }, 
         { 
           name: "duration",
-          type: "input"
+          type: "number"
         }
       ]
     });

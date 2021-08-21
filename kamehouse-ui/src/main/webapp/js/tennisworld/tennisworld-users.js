@@ -6,11 +6,11 @@ window.onload = () => {
       columns: [
         { 
           name: "id",
-          type: "hidden"
+          type: "id"
         },
         { 
           name: "email",
-          type: "input"
+          type: "email"
         }, 
         { 
           name: "password",

@@ -356,6 +356,10 @@ body {
   outline: none;
 }
 
+.form-input-kh[type="checkbox"] {
+  width: auto;
+}
+
 .form-input-kh:focus {
   border: 1px solid #616161;
   border-radius: 0px;
