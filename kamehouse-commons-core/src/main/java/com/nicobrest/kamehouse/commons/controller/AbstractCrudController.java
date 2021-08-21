@@ -42,8 +42,7 @@ public abstract class AbstractCrudController extends AbstractController {
   /**
    * Updates an entity in the repository for the specified id and dto.
    */
-  protected <D, E> ResponseEntity<Void> update(CrudService<E, D> service, Long id,
-      D dto) {
+  protected <D, E> ResponseEntity<Void> update(CrudService<E, D> service, Long id, D dto) {
     Identifiable identifiableDto = (Identifiable) dto;
     validatePathAndRequestBodyIds(id, identifiableDto.getId());
     service.update(dto);

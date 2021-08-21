@@ -29,9 +29,6 @@ function CrudManager() {
   let entityName = "Set EntityName";
   let url = "/kame-house-module/api/v1/override-url";
   let columns = [];
-  let createEntityRow = defaultCreateEntityRow;
-  let setEditFormValues = defaultSetEditFormValues;
-  let getEntityFromForm = defaultGetEntityFromForm;
   
   /**
    * Load the crud manager module.
@@ -44,37 +41,30 @@ function CrudManager() {
   }
 
   /**
-   * Initialize the crud manager. Configuration object can be: 
+   * Initialize the crud manager. Configuration object is: 
    * {
    *    entityName: "EntityName",
    *    url: "/kame-house-module/etc",
-   *    columns: ["col1", "col2"],
-   *    createEntityRow: () => {},
-   *    setEditFormValues: () => {},
-   *    getEntityFromForm: () => {}
+   *    columns: [ 
+   *      {
+   *        name: "columnName",
+   *        type: "columnType",
+   *        values: ["val1", "val2"],
+   *        displayValues: ["dispVal1", "dispVal2"]
+   *      },
+   *      ...
+   *    ]
    * }
-   * It doesn't need to contail all elements, only the ones I need to override
-   * from the default behavior.
+   * 
+   * - type is a custom definition of a type that I can then map to an input field
+   * - types: [ id, hidden, password, text, array, object, select, number, date]
+   * 
+   * - values and displayValues are optional to be used in certain types such as select
    */
   function init(config) {
-    if (!isEmpty(config.entityName)) {
-      setEntityName(config.entityName);
-    }
-    if (!isEmpty(config.url)) {
-      setUrl(config.url);
-    }
-    if (!isEmpty(config.columns)) {
-      setColumns(config.columns);
-    }
-    if (!isEmpty(config.createEntityRow)) {
-      setCreateEntityRow(config.createEntityRow);
-    }
-    if (!isEmpty(config.setEditFormValues)) {
-      setSetEditFormValues(config.setEditFormValues);
-    }
-    if (!isEmpty(config.getEntityFromForm)) {
-      setGetEntityFromForm(config.getEntityFromForm);
-    }
+    setEntityName(config.entityName);
+    setUrl(config.url);
+    setColumns(config.columns);
     updateEntityNameInView();
     loadStateFromCookies();
     readAll();
@@ -124,39 +114,6 @@ function CrudManager() {
    */
   function setColumns(crudColumns) {
     columns = crudColumns;
-  }
-
-  /**
-   * Override the createEntityRow function called after readAll() to populate the table of all entities.
-   */
-   function setCreateEntityRow(createEntityRowFunction) {
-    if (isFunction(createEntityRowFunction)) {
-      createEntityRow = createEntityRowFunction;
-    } else {
-      logger.error("The parameter passed to createEntityRow is not a function. Using default function");
-    }
-  }
-
-  /**
-   * Override the function to set the edit form values before editing an entity.
-   */
-   function setSetEditFormValues(setEditFormValuesFunction) {
-    if (isFunction(setEditFormValuesFunction)) {
-      setEditFormValues = setEditFormValuesFunction;
-    } else {
-      logger.error("The parameter passed to setEditFormValues is not a function. Using default function");
-    } 
-  }
-  
-  /**
-   * Override the function to create the entity to send the backend requests from the form fields.
-   */
-   function setGetEntityFromForm(getEntityFromFormFunction) {
-    if (isFunction(getEntityFromFormFunction)) {
-      getEntityFromForm = getEntityFromFormFunction;
-    } else {
-      logger.error("The parameter passed to getEntityFromForm is not a function. Using default function");
-    } 
   }
 
   /**
@@ -253,33 +210,45 @@ function CrudManager() {
    * This should usually be used to load the form fields to edit an entity.
    * Probably needs to be overriden if custom columns are set or the forms are loaded from a snippet.
    */
-  function defaultSetEditFormValues(responseBody, responseCode, responseDescription) { 
+  function setEditFormValues(responseBody, responseCode, responseDescription) { 
     logger.debug("readCallback: override this with setReadCallback when required");
-    updateEditFormFieldValues(responseBody, null);
+    updateEditFormFieldValues(responseBody, columns, null);
   }
 
   /**
-   * Set the input fields in the edit form from the entity. Supports one level of nested objects.
+   * Set the input fields in the edit form from the entity.
    */
-  function updateEditFormFieldValues(entity, parentNode) {
-    for (const property in entity) {
-      if (!isObject(entity[property]) || isArray(entity[property])) {
-        let inputField = $("#" + editInputFieldsId + "-" + property);
-        if (parentNode) {
-          inputField = $("#" + editInputFieldsId + "-" + parentNode + "\\." + property);
-        }
-        if (isDateField(property)) {
-          domUtils.setVal(inputField, getFormattedDateFieldValue(entity[property]));
-          continue;
-        } 
-        if (isArray(entity[property])) {
-          domUtils.setVal(inputField, JSON.stringify(entity[property], null, 6)); 
-          continue;
-        }
-        domUtils.setVal(inputField, entity[property]); 
-      } else {
-        updateEditFormFieldValues(entity[property], property);
+  function updateEditFormFieldValues(entity, currentNodeColumns, parentNodeChain) {
+    parentNodeChain = initParentNodeChain(parentNodeChain);
+    for (let i = 0; i < currentNodeColumns.length; i++) {
+      const column = currentNodeColumns[i];
+      const type = column.type;
+      const name = column.name;
+      if (type == "object") {
+        updateEditFormFieldValues(entity[name], column.columns, parentNodeChain + name);
+        continue;
       }
+      const inputFieldId = editInputFieldsId + "-" + parentNodeChain + name;
+      let inputField = $(document.getElementById(inputFieldId));
+      domUtils.setVal(inputField, entity[name]); 
+
+      if (isDateField(name)) {
+        domUtils.setVal(inputField, getFormattedDateFieldValue(entity[name]));
+      }
+      if (isArray(entity[name])) {
+        domUtils.setVal(inputField, JSON.stringify(entity[name], null, 6)); 
+      }
+    }
+  }
+
+  /**
+   * Initialize the parentNodeChain used in recursive function calls.
+   */
+  function initParentNodeChain(parentNodeChain) {
+    if (parentNodeChain) {
+      return parentNodeChain + ".";
+    } else {
+      return "";
     }
   }
 
@@ -290,21 +259,21 @@ function CrudManager() {
     logger.trace("reloadView");
     const crudTbody = $('#' + tbodyId);
     domUtils.empty(crudTbody);
-    domUtils.append(crudTbody, getCrudTableHeader(entities[0]));
+    domUtils.append(crudTbody, getCrudTableHeader());
     for (let i = 0; i < entities.length; i++) {
       domUtils.append(crudTbody, getEntityTr(entities[i]));
     }
-    reloadForm(addInputFieldsId, entities[0]);
-    reloadForm(editInputFieldsId, entities[0]);
+    reloadForm(addInputFieldsId);
+    reloadForm(editInputFieldsId);
   }
 
   /**
    * Reload form view.
    */
-  function reloadForm(formFieldsId, entity) {
+  function reloadForm(formFieldsId) {
     const formFields = $('#' + formFieldsId);
     domUtils.empty(formFields);
-    domUtils.append(formFields, getFormFields(formFieldsId, entity, null));
+    getFormFields(formFields, formFieldsId, columns, null);
   }
 
   /**
@@ -321,7 +290,7 @@ function CrudManager() {
    */
   function getEntityTr(entity) {
     const tr = domUtils.getTr({}, null);
-    createEntityRow(tr, entity);
+    createEntityRow(tr, entity, columns, null);
     domUtils.append(tr, getActionButtonsTd(entity.id));
     return tr;
   }
@@ -329,26 +298,38 @@ function CrudManager() {
   /**
    * Override this function with setCreateEntityTd() to create the data row for the entity
    * this crud manager will display in the table if the fields to show need to be customized.
+   * 
+   * If entity[property] is an object and not an array, then it's called recursively to add each subobject 
+   * property as a separate column. 
+   * For arrays it just stringifies the array to display it's content because for every row of data the array 
+   * can be of different lengths, so I can't split the array into separate columns.
+   * This behaviour should be consistent with the generation of table header columns, generation of form fields
+   * and with the generation of the entity to pass to the backend for create and update.
    */
-   function defaultCreateEntityRow(tr, entity) {
-    for (const property in entity) {
-      if (!isObject(entity[property]) || isArray(entity[property])) {
-        if (isPasswordField(property)) {
-          domUtils.append(tr, getMaskedFieldTd());
-          continue;
-        }
-        if (isDateField(property)) {
-          domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(entity[property])));
-          continue;
-        }
-        if (isArray(entity[property])) {
-          domUtils.append(tr, domUtils.getTd({}, JSON.stringify(entity[property])));
-          continue;
-        }
-        domUtils.append(tr, domUtils.getTd({}, entity[property]));
-      } else {
-        defaultCreateEntityRow(tr, entity[property]);
+   function createEntityRow(tr, entity, currentNodeColumns, parentNodeChain) {
+    parentNodeChain= initParentNodeChain(parentNodeChain);
+    for (let i = 0; i < currentNodeColumns.length; i++) {
+      const column = currentNodeColumns[i];
+      const type = column.type;
+      const name = column.name;
+      if (type == "object") {
+        createEntityRow(tr, entity[name], column.columns, parentNodeChain + name);
+        continue;
       }
+
+      if (isPasswordField(name)) {
+        domUtils.append(tr, getMaskedFieldTd());
+        continue;
+      }
+      if (isDateField(name)) {
+        domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(entity[name])));
+        continue;
+      }
+      if (isArray(entity[name])) {
+        domUtils.append(tr, domUtils.getTd({}, JSON.stringify(entity[name])));
+        continue;
+      }
+      domUtils.append(tr, domUtils.getTd({}, entity[name]));
     }
   };
 
@@ -423,17 +404,11 @@ function CrudManager() {
   /**
    * Get the table header row.
    */
-  function getCrudTableHeader(entity) {
+  function getCrudTableHeader() {
     const tr = domUtils.getTr({
       class: "table-kh-header"
     }, null);
-    if ((isEmpty(columns) || columns.length == 0) && !isEmpty(entity)) {
-      // create the column names from the entity object keys
-      addColumnsFromEntityToHeader(tr, entity, null);
-    } else {
-      // create the column names from the columns property
-      addColumnsFromPropertyToHeader(tr);
-    }
+    setHeaderColumns(tr, columns, null);
     domUtils.append(tr, domUtils.getTd({
       class: "table-kh-actions"
     }, "actions"));
@@ -441,36 +416,20 @@ function CrudManager() {
   }
 
   /**
-   * Add columns to the header from the columns property
+   * Set the table header columns.
    */
-  function addColumnsFromPropertyToHeader(tr) {
-    columns.forEach((column) => {
-      domUtils.append(tr, domUtils.getTd(null, column));
-    });
-  }
-
-  /**
-   * Add columns to table header. Supports one level of object nesting.
-   */
-  function addColumnsFromEntityToHeader(tr, entity, parentNode) {
-    for (const property in entity) {
-      if (!isObject(entity[property]) || isArray(entity[property])) {
-        let propertyName = property;
-        if (parentNode) {
-          propertyName = parentNode + "." + property;
-        }
-        domUtils.append(tr, domUtils.getTd({}, propertyName));
-      } else {
-        addColumnsFromEntityToHeader(tr, entity[property], property);
+  function setHeaderColumns(tr, currentNodeColumns, parentNodeChain) {
+    parentNodeChain= initParentNodeChain(parentNodeChain);
+    for (let i = 0; i < currentNodeColumns.length; i++) {
+      const column = currentNodeColumns[i];
+      const type = column.type;
+      if (type == "object") {
+        setHeaderColumns(tr, column.columns, parentNodeChain + column.name);
+        continue;
       }
-    }
-  }
 
-  /**
-   * Check if the specified variable is an object.
-   */
-  function isObject(obj) {
-    return obj === Object(obj);
+      domUtils.append(tr, domUtils.getTd(null, parentNodeChain + column.name)); 
+    }
   }
 
   /**
@@ -492,122 +451,70 @@ function CrudManager() {
   }
 
   /**
-   * Get the table header row.
+   * Get all the form fields.
    */
-   function getFormFields(formFieldsId, entity, parentNode) {
-    const div = domUtils.getDiv({}, null);
-    if ((isEmpty(columns) || columns.length == 0) && !isEmpty(entity)) {
-      // create the input fields from the entity object keys
-      getEntityFormFields(div, formFieldsId, entity, parentNode);
-    } else {
-      // create the input fields from the columns property
-      getColumnsPropertyFormFields(div, formFieldsId);
-    }
-    return div;
-  }
-
-  /**
-   * Get form fields from the columns property.
-   */
-  function getColumnsPropertyFormFields(div, formFieldsId) {
-    columns.forEach((column) => {
-      domUtils.append(div, getFormField(formFieldsId, column));
-    });
-  }
-
-  /**
-   * Get the form fields from the entity.
-   */
-  function getEntityFormFields(div, formFieldsId, entity, parentNode) {
-    for (const property in entity) { 
-      if (!isObject(entity[property]) || isArray(entity[property])) {
-        let propertyName = property;
-        if (parentNode) {
-          propertyName = parentNode + "." + property;
-        }
-        domUtils.append(div, getFormField(formFieldsId, propertyName, entity[property]));
-      } else {
-        getEntityFormFields(div, formFieldsId, entity[property], property);
+   function getFormFields(div, formFieldsId, currentNodeColumns, parentNodeChain) {
+    parentNodeChain= initParentNodeChain(parentNodeChain);
+    for (let i = 0; i < currentNodeColumns.length; i++) {
+      const column = currentNodeColumns[i];
+      const type = column.type;
+      if (type == "object") {
+        getFormFields(div, formFieldsId, column.columns, parentNodeChain + column.name);
+        continue;
       }
+
+      const name = parentNodeChain + column.name;
+      const fieldId = formFieldsId + "-" + name;
+      const fieldClassList = "form-input-kh " + formFieldsId + "-field";
+      
+      addFieldLabel(div, name);
+      domUtils.append(div, getFormInputField(name, type, fieldId, fieldClassList));
+      addShowPasswordCheckbox(div, name, fieldId);
+      addBreak(div, name);
     }
   }
 
   /**
-   * Add a form field.
+   * Gets an input field for the form of the correct type.
    */
-  function getFormField(formFieldsId, fieldName, property) {
-    const div = domUtils.getDiv({}, null);
-    const type = getInputFieldType(fieldName, property);
-    const fieldId = formFieldsId + "-" + fieldName;
-    const fieldClassList = "form-input-kh " + formFieldsId + "-field";
-    
-    addFieldLabel(div, fieldName);
-    addFormInputField(div, fieldId, fieldName, fieldClassList, type);
-    addShowPasswordCheckbox(div, fieldId, fieldName);
-    addBreak(div, fieldName);
-    return div;
-  }
+  function getFormInputField(name, type, fieldId, fieldClassList) {
+    const config = {
+      id: fieldId,
+      class: fieldClassList,
+      type: type,
+      name: name
+    };
 
-  /**
-   * Add an input field for the form.
-   */
-  function addFormInputField(div, fieldId, fieldName, fieldClassList, type) {
     if (type == "textarea") {
-      domUtils.append(div, domUtils.getTextArea({
-        id: fieldId,
-        class: fieldClassList,
-        type: type,
-        name: fieldName
-      }, null));
-    } else {
-      domUtils.append(div, domUtils.getInput({
-        id: fieldId,
-        class: fieldClassList,
-        type: type,
-        name: fieldName
-      }, null));
+      return domUtils.getTextArea(config, null);
     }
+
+    return domUtils.getInput(config, null);
   }
 
   /**
    * Add label to field.
    */
-  function addFieldLabel(div, fieldName) {
-    if (!isIdField(fieldName)) {
-      domUtils.append(div, domUtils.getLabel({}, fieldName));
+  function addFieldLabel(div, name) {
+    if (!isIdField(name)) {
+      domUtils.append(div, domUtils.getLabel({}, name));
     }
   }
 
   /**
    * Add break after input field.
    */
-  function addBreak(div, fieldName) {
-    if (!isIdField(fieldName)) {
+  function addBreak(div, name) {
+    if (!isIdField(name)) {
       domUtils.append(div, domUtils.getBr());
     }
   }
 
   /**
-   * Get the input field type.
-   */
-  function getInputFieldType(fieldName, property) {
-    if (isPasswordField(fieldName)) {
-      return "password";
-    }
-    if (isIdField(fieldName)) {
-      return "hidden";
-    }
-    if (isArray(property) || isStringArray(property)) {
-      return "textarea";
-    }
-    return "input";
-  }
-
-  /**
    * Add checkbox to show password.
    */
-  function addShowPasswordCheckbox(div, fieldId, fieldName) {
-    if (isPasswordField(fieldName)) {
+  function addShowPasswordCheckbox(div, name, fieldId) {
+    if (isPasswordField(name)) {
       const checkbox = domUtils.getInput({
         type: "checkbox",
        }, null);
@@ -651,46 +558,37 @@ function CrudManager() {
 
   /**
    * Build the entity to pass to the backend from the form data.
-   * This method can be overriden to build entities from custom forms.
-   * By default it handles entities with up to one level of nested objects.
    */
-  function defaultGetEntityFromForm(formFieldsId) {
-    const fieldsClass = formFieldsId + "-field";
+  function getEntityFromForm(formFieldsId) {
     const entity = {};
-    const intputFields = document.getElementsByClassName(fieldsClass);
-    for (let i = 0; i < intputFields.length; i++) {
-      const name = intputFields[i].getAttribute("name");
-      const val = intputFields[i].value;
-
-      if (name.includes(".")) {
-        const nameArray = name.split(".");
-        const parentNode = nameArray[0];
-        const propertyName = nameArray[1];
-       
-        if (isEmpty(entity[parentNode])) {
-          entity[parentNode] = {};
-        }
-
-        addPropertyToEntity(entity[parentNode], propertyName, val);
-      } else {
-        addPropertyToEntity(entity, name, val);
-      }
-    }
+    setEntityProperties(entity, formFieldsId, columns, null);
     return entity;
   }
 
-  /**
-   * Add a property to the entity
-   */
-  function addPropertyToEntity(entity, propertyName, propertyValue) {
-    if (!isEmpty(propertyValue) && propertyValue != "") {
-      if (isArray(propertyValue) || isStringArray(propertyValue)) {
-        entity[propertyName] = JSON.parse(propertyValue);
-      } else {
-        entity[propertyName] = propertyValue;
+  function setEntityProperties(entity, formFieldsId, currentNodeColumns, parentNodeChain) {
+    parentNodeChain = initParentNodeChain(parentNodeChain);
+    for (let i = 0; i < currentNodeColumns.length; i++) {
+      const column = currentNodeColumns[i];
+      const type = column.type;
+      const name = column.name;
+      if (type == "object") {
+        if (isEmpty(entity[name])) {
+          entity[name] = {};
+        }
+        setEntityProperties(entity[name], formFieldsId, column.columns, parentNodeChain + name);
+        continue;
       }
-    } else {
-      entity[propertyName] = null;
+
+      const inputFieldId = formFieldsId + "-" + parentNodeChain + name;
+      const val = document.getElementById(inputFieldId).value;
+      entity[name] = val;
+
+      if (isEmpty(val) || val == "") {
+        entity[name] = null;
+      }
+      if (isArray(val) || isStringArray(val)) {
+        entity[name] = JSON.parse(val);
+      }
     }
   }
 
