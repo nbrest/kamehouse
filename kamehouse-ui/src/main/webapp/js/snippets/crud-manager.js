@@ -58,7 +58,7 @@ function CrudManager() {
    * 
    * - type is a custom definition of a type that I can then map to an input field
    * - types: 
-   *    [ array, boolean, calendar, date, email, id, hidden, number, object, password, select, text ]
+   *    [ array, boolean, calendar, date, email, id, hidden, number, object, password, select, text, time ]
    * 
    * - values and displayValues are optional to be used in certain types such as select
    */
@@ -559,6 +559,9 @@ function CrudManager() {
     }
     if (columnType == "select") {
       return "select";
+    }
+    if (columnType == "time") {
+      return "time";
     }
     return "input";
   }

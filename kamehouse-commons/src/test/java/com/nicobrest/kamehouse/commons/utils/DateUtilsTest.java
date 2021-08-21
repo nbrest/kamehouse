@@ -155,6 +155,42 @@ public class DateUtilsTest {
   }
 
   /**
+   * Test convertTime.
+   */
+  @Test
+  public void convertTimeTest() {
+    assertEquals("08:15 PM", DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS,
+        DateUtils.HH_MM_AM_PM));
+
+    assertEquals("08:15 AM", DateUtils.convertTime("08:15", DateUtils.HH_MM_24HS,
+        DateUtils.HH_MM_AM_PM));
+
+    assertEquals("20:15", DateUtils.convertTime("08:15 PM", DateUtils.HH_MM_AM_PM,
+        DateUtils.HH_MM_24HS));
+
+    assertEquals("08:15", DateUtils.convertTime("08:15 AM", DateUtils.HH_MM_AM_PM,
+        DateUtils.HH_MM_24HS));
+
+    assertEquals("08:15 pm", DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS,
+        DateUtils.HH_MM_AM_PM, false, true));
+
+    assertEquals("08:15pm", DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS,
+        DateUtils.HH_MMAM_PM, false, true));
+
+    assertEquals("20:15", DateUtils.convertTime("08:15pm", DateUtils.HH_MMAM_PM,
+        DateUtils.HH_MM_24HS, true, false));
+  }
+
+  /**
+   * Test convertTime exception.
+   */
+  @Test
+  public void convertTimeExceptionTest() {
+    thrown.expect(KameHouseInvalidDataException.class);
+    DateUtils.convertTime("20:1 5", DateUtils.HH_MM_24HS, DateUtils.HH_MM_AM_PM);
+  }
+
+  /**
    * Test isOnOrAfter exception test.
    */
   @Test

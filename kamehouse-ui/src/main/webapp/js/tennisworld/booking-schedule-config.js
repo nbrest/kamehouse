@@ -46,7 +46,7 @@ window.onload = () => {
         }, 
         { 
           name: "time",
-          type: "text"
+          type: "time"
         }, 
         { 
           name: "bookingDate",

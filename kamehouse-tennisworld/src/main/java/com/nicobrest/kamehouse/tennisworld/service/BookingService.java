@@ -188,7 +188,9 @@ public class BookingService {
     request.setDuration(bookingScheduleConfig.getDuration());
     request.setSessionType(bookingScheduleConfig.getSessionType().name());
     request.setSite(bookingScheduleConfig.getSite().name());
-    request.setTime(bookingScheduleConfig.getTime());
+    String time = DateUtils.convertTime(bookingScheduleConfig.getTime(), DateUtils.HH_MM_24HS,
+        DateUtils.HH_MMAM_PM, false, true);
+    request.setTime(time);
     return request;
   }
 

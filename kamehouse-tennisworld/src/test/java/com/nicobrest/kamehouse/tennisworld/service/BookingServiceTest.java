@@ -156,6 +156,8 @@ public class BookingServiceTest {
     when(DateUtils.getFormattedDate(any(), any())).thenCallRealMethod();
     when(DateUtils.getCurrentDayOfWeek()).thenCallRealMethod();
     when(DateUtils.getDayOfWeek(any())).thenCallRealMethod();
+    when(DateUtils.convertTime(any(), any(), any())).thenCallRealMethod();
+    when(DateUtils.convertTime(any(), any(), any(), any(), any())).thenCallRealMethod();
 
     PowerMockito.mockStatic(EncryptionUtils.class);
     when(EncryptionUtils.decrypt(any(), any())).thenReturn(new byte[2]);
@@ -400,7 +402,7 @@ public class BookingServiceTest {
         bookingScheduleConfigTestUtils.getSingleTestData();
     bookingScheduleConfig.setBookingDate(null);
     bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
-    bookingScheduleConfig.setTime("07:15pm");
+    bookingScheduleConfig.setTime("19:15");
     bookingScheduleConfig.setId(1L);
     bookingScheduleConfig.setBookAheadDays(14);
     bookingScheduleConfig.setEnabled(true);
@@ -436,7 +438,7 @@ public class BookingServiceTest {
         bookingScheduleConfigTestUtils.getSingleTestData();
     bookingScheduleConfig.setBookingDate(bookingDate);
     bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
-    bookingScheduleConfig.setTime("07:15pm");
+    bookingScheduleConfig.setTime("19:15");
     bookingScheduleConfig.setId(1L);
     bookingScheduleConfig.setBookAheadDays(14);
     bookingScheduleConfig.setEnabled(true);

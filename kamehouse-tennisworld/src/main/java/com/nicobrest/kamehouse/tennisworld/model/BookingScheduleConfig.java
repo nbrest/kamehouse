@@ -60,9 +60,9 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
   private DateUtils.Day day;
 
   /**
-   * Format: HH:MM[am|pm] 07:15pm, 11:30am, 12:00pm, etc.
+   * Format: HH:MM 24hs : 07:15, 11:30, 20:15, etc.
    */
-  @Column(length = 7, name = "time", unique = false, nullable = false)
+  @Column(length = 5, name = "time", unique = false, nullable = false)
   private String time;
 
   /**

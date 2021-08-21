@@ -2,13 +2,18 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Utility class to manipulate dates.
@@ -18,6 +23,9 @@ import java.util.Date;
 public class DateUtils {
 
   public static final String YYYY_MM_DD = "yyyy-MM-dd";
+  public static final String HH_MM_24HS = "HH:mm";
+  public static final String HH_MM_AM_PM = "hh:mm a";
+  public static final String HH_MMAM_PM = "hh:mma";
 
   private DateUtils() {
     throw new IllegalStateException("Utility class");
@@ -220,6 +228,38 @@ public class DateUtils {
    */
   public static LocalDateTime getLocalDateTime(Date date) {
     return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+  }
+
+  /**
+   * Converts time from one format to another.
+   * To convert from 24hs to hh:mm [AM|PM] use inFormat:'HH:mm' and outFormat:'hh:mm a'
+   */
+  public static String convertTime(String input, String inFormat, String outFormat) {
+    return convertTime(input, inFormat, outFormat, false, false);
+  }
+
+  /**
+   * Converts time from one format to another.
+   * To convert from 24hs to hh:mm [AM|PM] use inFormat:'HH:mm' and outFormat:'hh:mm a'
+   */
+  public static String convertTime(String input, String inFormat, String outFormat,
+                                   Boolean lowerCaseIn, Boolean lowerCaseOut) {
+    if (input == null) {
+      return null;
+    }
+    try {
+      if (lowerCaseIn) {
+        input = input.toUpperCase(Locale.getDefault());
+      }
+      String result = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat))
+          .format(DateTimeFormatter.ofPattern(outFormat));
+      if (lowerCaseOut) {
+        result = result.toLowerCase(Locale.getDefault());
+      }
+      return result;
+    } catch (DateTimeParseException e) {
+      throw new KameHouseInvalidDataException("Unable to parse input time");
+    }
   }
 
   /**
