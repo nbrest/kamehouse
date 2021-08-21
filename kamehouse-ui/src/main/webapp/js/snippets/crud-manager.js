@@ -439,7 +439,7 @@ function CrudManager() {
    * Get delete modal message.
    */
   function getDeleteModalMessage(id) {
-    const message = domUtils.getSpan({}, "Are you sure you want to delete the entity with id " + id + " ?");
+    const message = domUtils.getSpan({}, "Are you sure you want to delete the " + entityName + " with id " + id + " ?");
     domUtils.append(message, domUtils.getBr());
     domUtils.append(message, domUtils.getBr());
     return message;
