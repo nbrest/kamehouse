@@ -690,7 +690,7 @@ function CrudManager() {
   }
   
   /**
-   * Check if it's a array field.
+   * Check if it's an object field.
    */
    function isObjectField(type) {
     return type == "object";
