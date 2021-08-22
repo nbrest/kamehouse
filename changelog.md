@@ -3,6 +3,7 @@
 #### v6.04
 
 * Fix bug api call errors with html response messing up the view
+* Improved logging in the ui
 
 #### v6.03
 

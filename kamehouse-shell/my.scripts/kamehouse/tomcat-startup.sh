@@ -19,8 +19,8 @@ mainProcess() {
     sudo -u ${USERNAME} ${TOMCAT_DIR}/bin/startup.sh
   else
     log.info "Starting tomcat ${TOMCAT_DIR}"
-    cd ${TOMCAT_DIR}/bin
-    powershell.exe -c "Start-Process ./startup.bat" &
+    cd ${TOMCAT_DIR}
+    powershell.exe -c "Start-Process ./bin/startup.bat" &
   fi
 }
 

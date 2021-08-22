@@ -13,6 +13,8 @@ GLOBAL_VAR="Use this script as a base for new scripts"
 
 mainProcess() {
   sudo find /var/lib/jenkins -type f -name '*.war' -exec rm -v {} +
+  sudo find /var/lib/jenkins -type f -name 'kame-house-*.zip' -exec rm -v {} +
+  sudo find /var/lib/jenkins -type f -name 'kamehouse-*.zip' -exec rm -v {} +
 }
 
 main "$@"
