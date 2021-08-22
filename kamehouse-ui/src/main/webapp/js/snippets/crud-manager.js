@@ -57,10 +57,16 @@ function CrudManager() {
    * }
    * 
    * - type is a custom definition of a type that I can then map to an input field
-   * - types: 
-   *    [ array, boolean, date, email, id, hidden, number, object, password, select, text, time ]
+   * Types: 
+   *  - [ array, boolean, date, email, id, hidden, number, object, password, select, text, time ]
    * 
-   * - values and displayValues are optional to be used in certain types such as select
+   * Optional fields:
+   * 
+   * - arrayType (array)
+   * - displayValues (select)
+   * - min (number)
+   * - max (number)
+   * - values (select)
    */
   function init(config) {
     setEntityName(config.entityName);
@@ -246,7 +252,7 @@ function CrudManager() {
         const arraySourceNode = document.getElementById(inputFieldId); 
         for (let i = 0; i < array.length; i++) {
           const newNode = domUtils.cloneNode(arraySourceNode, false);
-          newNode.value = JSON.stringify(array[i]);
+          newNode.value = JSON.stringify(array[i], null, 4);
           newNode.id = arraySourceNode.id + "-" + i;
           domUtils.classListAdd(newNode, "m-5-t-d-kh");
           domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
