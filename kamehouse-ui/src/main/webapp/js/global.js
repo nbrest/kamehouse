@@ -1262,7 +1262,7 @@ function TimeUtils() {
         url: url,
         headers: requestHeaders,
         success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, data),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data)
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data, url)
       });
     } else {
       $.ajax({
@@ -1271,7 +1271,7 @@ function TimeUtils() {
         data: JSON.stringify(requestBody),
         headers: requestHeaders,
         success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, data),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data)
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data, url)
       });
     }
   }
@@ -1296,7 +1296,7 @@ function TimeUtils() {
   }
 
   /** Process an error response from the api call */
-  function processError(jqXhr, textStatus, errorMessage, errorCallback, data) {
+  function processError(jqXhr, textStatus, errorMessage, errorCallback, data, url) {
      /**
       * jqXhr: {
       *    readyState: 4
@@ -1310,7 +1310,7 @@ function TimeUtils() {
      const responseBody = jqXhr.responseText;
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
-     logger.error(JSON.stringify(jqXhr));
+     logger.error("API call error. Url: " + url + " jqXhr: " + JSON.stringify(jqXhr));
      errorCallback(responseBody, responseCode, responseDescription, data);
   }
 
