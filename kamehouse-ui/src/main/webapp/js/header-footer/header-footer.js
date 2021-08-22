@@ -229,7 +229,7 @@ function Header() {
     }
     const menu = document.getElementById("groot-menu-wrapper");
     if (!isEmpty(menu)) {
-      domUtils.setDisplay(menu, "block");
+      domUtils.setDisplay(menu, "none");
     }
   }
 
