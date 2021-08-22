@@ -59,6 +59,7 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
    */
   @Test
   public void includeStaticUrlsTest() throws Exception {
+    testIncludeStaticHtml("", "/index.html");
     testIncludeStaticHtml("/", "/index.html");
     testIncludeStaticHtml("/about", "/about.html");
     testIncludeStaticHtml("/admin", "/admin/index.html");
