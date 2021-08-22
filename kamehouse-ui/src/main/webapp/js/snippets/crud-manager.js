@@ -332,7 +332,7 @@ function CrudManager() {
    * This behaviour should be consistent with the generation of table header columns, generation of form fields
    * and with the generation of the entity to pass to the backend for create and update.
    */
-   function createEntityRow(tr, entity, currentNodeColumns, parentNodeChain) {
+  function createEntityRow(tr, entity, currentNodeColumns, parentNodeChain) {
     parentNodeChain= initParentNodeChain(parentNodeChain);
     for (let i = 0; i < currentNodeColumns.length; i++) {
       const column = currentNodeColumns[i];
@@ -554,6 +554,10 @@ function CrudManager() {
 
     if (isArrayField(type)) {
       config.name = fieldId + "[]";
+      const arrayType = column.arrayType;
+      if (arrayType == "object") {
+        return domUtils.getTextArea(config, null);
+      }
     }
 
     return domUtils.getInput(config, null);
