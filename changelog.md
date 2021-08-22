@@ -8,8 +8,12 @@
 
 * Added tennisworld user entity storing the password encrypted
 * Added tennisworld booking schedule config entity
+* Moved getting the tennisworld user and password from the db instead of encrypted files in the filesystem
+* Changed thread names to the tenniswold bookings
 * Moved cardio booking schedule from hardcoded in the code to the database
+* Added ui to manage scheduled bookings
 * Added functionality to configure scheduled bookings for any kind of session, not just cardio, for one off and recurring bookings and with flexible time to book ahead
+* Added endpoint to trigger scheduled bookings
 * Cleaned up a bit more the js code using more const and from the issues reported in codacy and codefactor
 * Added generic crud for all entities in the frontend
 * Added unlock screen button in vlc view instead of link to server management
