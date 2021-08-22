@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.04
+
+* 
+
 #### v6.03
 
 * Added tennisworld user entity storing the password encrypted
