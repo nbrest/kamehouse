@@ -470,6 +470,7 @@ function DomUtils() {
   this.replaceWith = replaceWith;
   this.setAttr = setAttr;
   this.setHtml = setHtml;
+  this.setText = setText;
   this.setClick = setClick;
   this.setVal = setVal;
   this.addClass = addClass;
@@ -683,6 +684,13 @@ function DomUtils() {
   function setHtml(element, html) {
     if (!isEmpty(html)) {
       element.html(html);
+    }
+  }
+
+  /** Set the text to the element */
+  function setText(element, text) {
+    if (!isEmpty(text)) {
+      element.text(text);
     }
   }
 
@@ -1189,7 +1197,9 @@ function TimeUtils() {
   }
   
   function getLogEntryListItem(logEntry) {
-    return domUtils.getLi({}, logEntry);
+    const li = domUtils.getLi({}, null);
+    domUtils.setText(li, logEntry);
+    return li;
   }
 }
 

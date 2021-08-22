@@ -2,7 +2,7 @@
 
 #### v6.04
 
-* 
+* Fix bug api call errors with html response messing up the view
 
 #### v6.03
 

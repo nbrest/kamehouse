@@ -75,9 +75,16 @@ function BasicKamehouseModal() {
   function getErrorMessage(responseBody, responseCode, responseDescription) {
     const message = domUtils.getSpan({}, "Error executing the request.");
     domUtils.append(message, domUtils.getBr());
-    domUtils.append(message, "Response: [ code: " + responseCode + ",");
-    domUtils.append(message, " description: \"" + responseDescription + "\",");
-    domUtils.append(message, " body: " + JSON.stringify(responseBody) + " ]");
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, "Response code: " + responseCode);
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, "Response description: " + responseDescription);
+    domUtils.append(message, domUtils.getBr());
+    domUtils.append(message, "Response body: ");
+    domUtils.append(message, domUtils.getBr());
+    const bodySpan = domUtils.getSpan({}, null);
+    domUtils.setText(bodySpan, JSON.stringify(responseBody));
+    domUtils.append(message, bodySpan);
     return message;
   }
 }

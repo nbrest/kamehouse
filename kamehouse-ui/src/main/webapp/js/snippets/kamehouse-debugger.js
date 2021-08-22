@@ -110,7 +110,7 @@ function KameHouseDebugger() {
       requests.shift();
     }
     requests.push(request);
-    domUtils.setHtml($('#debugger-http-client-previous-requests-val'), JSON.stringify(requests, null, 2));
+    domUtils.setText($('#debugger-http-client-previous-requests-val'), JSON.stringify(requests, null, 2));
     collapsibleDivUtils.setCollapsibleContent();
   }
 
@@ -122,7 +122,7 @@ function KameHouseDebugger() {
     const responseTimestamp = timeUtils.getTimestamp();
     domUtils.setHtml($("#debugger-http-client-res-code-val"), responseCode);
     domUtils.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
-    domUtils.setHtml($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
+    domUtils.setText($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
     collapsibleDivUtils.setCollapsibleContent();
   }
 
@@ -137,10 +137,10 @@ function KameHouseDebugger() {
     domUtils.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
     domUtils.setHtml($('#debugger-http-client-req-url-val'), url);
     domUtils.setHtml($('#debugger-http-client-req-type-val'), requestType);
-    domUtils.setHtml($('#debugger-http-client-req-body-val'), JSON.stringify(requestBody, null, 2));
+    domUtils.setText($('#debugger-http-client-req-body-val'), JSON.stringify(requestBody, null, 2));
     domUtils.setHtml($('#debugger-http-client-res-code-val'), null);
     domUtils.setHtml($('#debugger-http-client-res-timestamp-val'), null);
-    domUtils.setHtml($('#debugger-http-client-res-body-val'), JSON.stringify(null, null, 2));
+    domUtils.setText($('#debugger-http-client-res-body-val'), JSON.stringify(null, null, 2));
     collapsibleDivUtils.setCollapsibleContent();
   }
 
