@@ -654,6 +654,7 @@ function CrudManager() {
     }
     const checkbox = domUtils.getInput({
       type: "checkbox",
+      class: "m-7-d-kh"
      }, null);
     domUtils.setClick(checkbox, () => toggleShowHidePassword(fieldId));
     domUtils.append(div, checkbox);
