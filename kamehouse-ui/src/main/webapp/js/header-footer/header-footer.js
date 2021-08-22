@@ -215,7 +215,9 @@ function Header() {
       return;
     }
     const menu = document.getElementById("groot-menu-wrapper");
-    domUtils.setDisplay(menu, "block");
+    if (!isEmpty(menu)) {
+      domUtils.setDisplay(menu, "block");
+    }
   }
 
   /**
@@ -226,7 +228,9 @@ function Header() {
       return;
     }
     const menu = document.getElementById("groot-menu-wrapper");
-    domUtils.setDisplay(menu, "none");
+    if (!isEmpty(menu)) {
+      domUtils.setDisplay(menu, "block");
+    }
   }
 
   /**
