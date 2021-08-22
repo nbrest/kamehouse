@@ -96,6 +96,8 @@ function Header() {
   this.renderHeader = renderHeader;
   this.toggleHeaderNav = toggleHeaderNav;
   this.updateLoginStatus = updateLoginStatus;
+  this.showGrootMenu = showGrootMenu;
+  this.hideGrootMenu = hideGrootMenu;
 
   let loaded = false;
 
@@ -198,12 +200,47 @@ function Header() {
     }
   }
 
+  /**
+   * Checks if it's running in mobile device view.
+   */
+  function isMobile() {
+    return window.matchMedia("only screen and (max-width: 900px)").matches;
+  }
+
+  /**
+   * Show groot submenu.
+   */
+  function showGrootMenu() {
+    if (isMobile()) {
+      return;
+    }
+    const menu = document.getElementById("groot-menu-wrapper");
+    domUtils.setDisplay(menu, "block");
+  }
+
+  /**
+   * Hide groot submenu.
+   */
+  function hideGrootMenu() {
+    if (isMobile()) {
+      return;
+    }
+    const menu = document.getElementById("groot-menu-wrapper");
+    domUtils.setDisplay(menu, "none");
+  }
+
+  /**
+   * Get header container.
+   */
   function getHeaderContainerDiv() {
     return domUtils.getDiv({
       id: "headerContainer"
     });
   }
 
+  /**
+   * Get login button.
+   */
   function getLoginButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/login-left-red.png",
@@ -213,6 +250,9 @@ function Header() {
     });
   }
 
+  /**
+   * Get logout button.
+   */
   function getLogoutButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/logout-right-red.png",
@@ -222,6 +262,9 @@ function Header() {
     });
   }
 
+  /**
+   * Get username login status header span.
+   */
   function getUsernameHeader(username) {
     return domUtils.getSpan({
       class: "header-login-status-text"

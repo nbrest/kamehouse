@@ -6,7 +6,6 @@ header {
 	padding-top: 10px;
 	padding-bottom: 0px;
 	min-height: 40px;
-	border-bottom: #d90000 3px solid;
 }
 
 header .default-layout {
@@ -97,6 +96,11 @@ header #header-top #login-status {
   .header-login-status-btn:hover {
     transform: scale(1.2);
   }
+}
+
+#header-border-bottom {
+  height: 3px;
+  background-color: #d90000;
 }
 
 /* Media Queries */

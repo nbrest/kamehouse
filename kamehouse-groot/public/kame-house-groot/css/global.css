@@ -75,6 +75,16 @@ a:active {
 }
 
 /** groot header */
+#groot-menu-wrapper {
+  display: none;
+}
+
+@media ( max-width : 900px) {  
+  #groot-menu-wrapper {
+    display: block;
+  }
+}
+
 #groot-header-branding-desktop {
   display: block;
 }

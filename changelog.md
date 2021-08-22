@@ -4,6 +4,7 @@
 
 * Fix bug api call errors with html response messing up the view
 * Improved logging in the ui
+* Added auto hide groot submenu on desktop
 
 #### v6.03
 

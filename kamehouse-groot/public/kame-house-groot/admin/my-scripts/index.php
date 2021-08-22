@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="/kame-house-groot/css/admin/my-scripts.css" />
 </head>
 <body>
-  <div id="groot-menu-wrapper"></div>
+  <div id="groot-menu-wrapper" onmouseover="header.showGrootMenu()" onmouseleave="header.hideGrootMenu()"></div>
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-goku-ssj4-earth">
     <div class="default-layout banner-text">
