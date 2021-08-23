@@ -1005,7 +1005,11 @@ function TableUtils() {
     const tableRows = $("#" + tableBodyId + " tr");
     let regex;
     try {
-      filterString = filterString.split('').join('.*').replace(/\s/g, '');
+      if (filterString.startsWith("\"") && filterString.endsWith("\"")) {
+        filterString = filterString.substring(1, filterString.length-1);
+      } else {
+        filterString = filterString.split('').join('.*').replace(/\s/g, ''); 
+      }
       regex = RegExp(filterString);
     } catch (error) {
       logger.error("Error creating regex from filter string " + filterString);
