@@ -1007,8 +1007,7 @@ hr {
 .table-kh-controls {
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   display: table;
   background-color: #131010;
   color: #5e5e5e;
@@ -1018,7 +1017,7 @@ hr {
 .table-kh-filter-input {
   border: 1px solid #292929;
   border-radius: 0px;
-  color: #868686;
+  color: #5e5e5e;
   background: #101010;
   padding: 5px;
   width: 100%;
