@@ -65,7 +65,7 @@
         <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
         <javax.xml.bind.version>2.2.8</javax.xml.bind.version>              <!-- Updated 2021/07 -->
         <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
-        <jsoup.version>1.13.1</jsoup.version>                               <!-- Updated 2020/07 -->
+        <jsoup.version>1.14.2</jsoup.version>                               <!-- Updated 2020/07 -->
         <jstl.version>1.2</jstl.version>                                    <!-- Updated 2016/02 -->
         <junit.version>4.12</junit.version>                                 <!-- Updated 2016/02 -->
         <logback.version>1.1.2</logback.version>                            <!-- Updated 2016/02 -->
