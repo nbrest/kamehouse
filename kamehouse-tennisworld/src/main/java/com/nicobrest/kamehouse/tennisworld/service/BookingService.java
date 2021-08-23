@@ -922,6 +922,7 @@ public class BookingService {
       bookingResponse.setTime(request.getTime());
       bookingResponse.setSessionType(request.getSessionType());
       bookingResponse.setSite(request.getSite());
+      bookingResponse.setDuration(request.getDuration());
     }
     if (bookingResponse.getStatus() != Status.SUCCESS) {
       logger.error(BOOKING_FINISHED + bookingResponse);

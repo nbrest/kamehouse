@@ -45,6 +45,7 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     response.setTime(request.getTime());
     response.setSessionType(request.getSessionType());
     response.setSite(request.getSite());
+    response.setDuration(request.getDuration());
   }
 
   /**
@@ -54,18 +55,20 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     expected.setId(response.getId());
   }
 
-  public static void updateResponseWithCardioRequestData(BookingResponse response,
-                                                         String time, String date) {
+  public static void updateResponseWithCardioRequestData(BookingResponse response, String time,
+                                                         String date, String duration) {
     response.setDate(date);
     response.setTime(time);
     response.setSessionType(SessionType.CARDIO.name());
     response.setSite(Site.MELBOURNE_PARK.name());
+    response.setDuration(duration);
   }
 
   private void initSingleTestData() {
     singleTestData = new BookingResponse();
     singleTestData.setStatus(BookingResponse.Status.SUCCESS);
     singleTestData.setMessage(BookingService.SUCCESSFUL_BOOKING);
+    singleTestData.setDuration("60");
   }
 
   private void initTestDataList() {

@@ -22,6 +22,7 @@ public class BookingResponse implements Serializable {
   private String time;
   private String sessionType;
   private String site;
+  private String duration;
 
   public String getId() {
     return id;
@@ -87,6 +88,14 @@ public class BookingResponse implements Serializable {
     this.site = site;
   }
 
+  public String getDuration() {
+    return duration;
+  }
+
+  public void setDuration(String duration) {
+    this.duration = duration;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (this == other) {
@@ -103,12 +112,13 @@ public class BookingResponse implements Serializable {
         && Objects.equals(date, that.date)
         && Objects.equals(time, that.time)
         && Objects.equals(sessionType, that.sessionType)
-        && Objects.equals(site, that.site);
+        && Objects.equals(site, that.site)
+        && Objects.equals(duration, that.duration);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, message, username, date, time, sessionType, site);
+    return Objects.hash(id, status, message, username, date, time, sessionType, site, duration);
   }
 
   @Override

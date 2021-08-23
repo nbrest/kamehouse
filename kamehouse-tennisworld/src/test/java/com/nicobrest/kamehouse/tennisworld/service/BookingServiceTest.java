@@ -410,7 +410,7 @@ public class BookingServiceTest {
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
     expected.setUsername(bookingScheduleConfig.getTennisWorldUser().getEmail());
     bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
-        "07:15pm", "2021-07-26");
+        "07:15pm", "2021-07-26", "45");
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchIds(response.get(0), expected);
@@ -446,7 +446,7 @@ public class BookingServiceTest {
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
     expected.setUsername(bookingScheduleConfig.getTennisWorldUser().getEmail());
     bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
-        "07:15pm", "2021-07-26");
+        "07:15pm", "2021-07-26", "45");
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchIds(response.get(0), expected);
