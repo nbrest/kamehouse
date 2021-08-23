@@ -45,6 +45,7 @@ function VlcPlayer(hostname) {
   this.getRestClient = getRestClient;
   this.getDebugger = getDebugger;
   this.unlockScreen = unlockScreen;
+  this.wolMediaServer = wolMediaServer;
 
   const commandExecutor = new VlcPlayerCommandExecutor(this);
   const playlist = new VlcPlayerPlaylist(this);
@@ -290,6 +291,12 @@ function VlcPlayer(hostname) {
   function unlockScreen() {
     const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
     restClient.post(UNLOCK_SCREEN_API_URL, null);
+  }
+
+  function wolMediaServer() {
+    const requestParam = "server=media.server";
+    const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
+    restClient.postUrlEncoded(WOL_MEDIA_SERVER_API_URL, requestParam);
   }
 }
 
