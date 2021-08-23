@@ -1012,7 +1012,12 @@ function TableUtils() {
       regex = RegExp("");
     }
     tableRows.filter(function () {
-      $(this).toggle(regex.test($(this).text().toLowerCase()))
+      const tr = this;
+      const classList = tr.classList.value;
+      if (isEmpty(classList) || !classList.includes("table-kh-header")) {
+        // Filter if it's not the header row
+        $(tr).toggle(regex.test($(tr).text().toLowerCase()));
+      }
     });
   }
 }

@@ -48,7 +48,7 @@
       </tr>
       <tr>
         <td>
-          <input class="table-filter-input"
+          <input class="table-kh-filter-input"
             type="text" placeholder="Search..."
             onkeyup="myScriptsManager.filterMyScriptsRows(this.value)" />
         </td>
@@ -59,7 +59,7 @@
             alt="Back To Top" title="Back To Top" />
         </td>
       </tr> 
-  </table>  
+    </table>  
 
   <div id="all-my-scripts-table-wrapper" class="my-scripts-wrapper">
     <table id="all-my-scripts-table" class="my-scripts-table">

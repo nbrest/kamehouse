@@ -22,10 +22,30 @@
     <br>
     <h4 id="crud-manager-list-title" class="h4-kh txt-l-d-kh txt-c-m-kh">List</h4>
     <br>
-    <table class="table-kh">
-      <caption class="hidden-kh">CRUD Manager entities</caption>
-      <tbody id="crud-manager-tbody"></tbody>
+    <table class="table-kh-controls">
+      <caption class="hidden-kh">CRUD Manager table controls</caption>
+      <tr class="hidden-kh">
+        <th scope="row" class="hidden-kh">CRUD Manager table controls</th>
+      </tr>
+      <tr>
+        <td class="p-10-d-kh">
+          <input class="table-kh-filter-input" type="text" placeholder="Search..."
+            onkeyup="tableUtils.filterTableRows(this.value, 'crud-manager-tbody')" />
+        </td>
+        <td class="p-10-d-kh txt-r-d-kh txt-r-m-kh">
+          <img class="img-btn-kh img-btn-s-kh"
+            onclick="scrollToTopOfDiv('table-kh-vertical-scroll-wrapper')"
+            src="/kame-house/img/other/back-to-top.png"
+            alt="Back To Top" title="Back To Top" />
+        </td>
+      </tr> 
     </table>
+    <div id="table-kh-vertical-scroll-wrapper">
+      <table class="table-kh">
+        <caption class="hidden-kh">CRUD Manager entities</caption>
+        <tbody id="crud-manager-tbody"></tbody>
+      </table>
+    </div>
 
   </div> <!-- tab-list -->
 

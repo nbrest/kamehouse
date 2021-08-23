@@ -703,6 +703,17 @@ hr {
   }
 }
 
+/** padding 10 */
+.p-10-d-kh {
+  padding: 10px;
+}
+
+@media (max-width : 900px) {
+  .p-10-m-kh {
+    padding: 10px;
+  }
+}
+
 /** padding 15 */
 .p-15-d-kh {
   padding: 15px;
@@ -919,7 +930,6 @@ hr {
   border-collapse: collapse;
   background-color: #240000;
   color: #8b8b8b;
-  margin-bottom: 5px;
   text-align: center;
   width: 100%;
   display: block;
@@ -994,7 +1004,54 @@ hr {
   min-width: 120px;
 }
 
-/** crud manager end ------------------------------*/
+.table-kh-controls {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: table;
+  background-color: #131010;
+  color: #5e5e5e;
+  border: 3px solid #000000;
+}
+
+.table-kh-filter-input {
+  border: 1px solid #292929;
+  border-radius: 0px;
+  color: #868686;
+  background: #101010;
+  padding: 5px;
+  width: 100%;
+  margin-left: 10px;
+  outline: none;
+}
+
+.table-kh-filter-input:hover {
+  border: 1px solid #292929;
+  background: #1d1d1d;
+}
+
+.table-kh-filter-input:focus {
+  border: 1px solid #3f3f3f;
+  background: #202020;
+}
+
+#table-kh-vertical-scroll-wrapper {
+  max-height: 750px;
+  overflow: scroll;
+}
+
+#table-kh-vertical-scroll-wrapper .table-kh {
+  border-right: none;
+  border-bottom: none;
+}
+
+@media (max-width : 900px) {
+  #table-kh-vertical-scroll-wrapper {
+    max-height: 380px;
+  }
+}
+
 /* tabs (used for example in groot server-manager) */
 .tab-content-kh {
   display: none;
