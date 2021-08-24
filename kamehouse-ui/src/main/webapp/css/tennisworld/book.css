@@ -1,0 +1,53 @@
+#booking-response-table {
+  margin: auto;
+  width: 70%;
+}
+
+@media (max-width : 900px) { 
+  #booking-response-table {
+    width: 100%;
+  }  
+}
+
+.cc-card-holder-name {
+  width: 300px;
+}
+
+.cc-card-number {
+  width: 250px;
+}
+
+.cc-exp-month {
+  width: 55px;
+  display: inline;
+}
+
+.cc-exp-year {
+  width: 70px;
+  display: inline;
+}
+
+.cc-cvv {
+  width: 70px;
+}
+
+.form-book {
+  margin: auto;
+  width: 40%;
+}
+
+@media (max-width : 900px) {
+  .form-book {
+    width: 100%;
+  }
+}
+
+.header {
+  margin-left: 150px;
+}
+
+@media (max-width : 900px) { 
+  .header {
+    margin-left: unset;
+  }
+}
