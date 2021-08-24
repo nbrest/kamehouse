@@ -30,17 +30,18 @@
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Book A Session</h3>
       <br>
       <form class="form-kh">
-        <label>username</label>
-        <input id="username" class="form-input-kh" type="email" name="username" value="goku@dbz.com">
+        <label>Username</label>
+        <input id="username" class="form-input-kh" type="email" name="username">
         <br>
 
-        <label>password</label>
-        <input id="password" class="form-input-kh" type="password" name="password" value="gohan">
+        <label>Password</label>
+        <input id="password" class="form-input-kh" type="password" name="password">
+        <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('password')">
         <br>
 
-        <label>sessionType</label>
-        <select id="sessionType" class="form-input-kh" type="select" name="sessionType">
-          <option value="CARDIO" selected>Cardio</option>
+        <label>Session Type</label>
+        <select id="session-type" class="form-input-kh" type="select" name="session-type">
+          <option value="CARDIO">Cardio</option>
           <option value="NTC_CLAY_COURTS">NTC Clay Courts</option>
           <option value="NTC_OUTDOOR">NTC Outdoors</option>
           <option value="ROD_LAVER_OUTDOOR">Rod Laver Outdoors</option>
@@ -48,26 +49,26 @@
         </select>
         <br>
 
-        <label>site</label>
+        <label>Site</label>
         <select id="site" class="form-input-kh" type="select" name="site">
-          <option value="MELBOURNE_PARK" selected>Melbourne Park</option>
+          <option value="MELBOURNE_PARK">Melbourne Park</option>
           <option value="ALBERT_RESERVE">Albert Reserve</option>
         </select>
         <br>
-
-        <label>time</label>
-        <input id="time" class="form-input-kh" type="time" name="time" value="20:15">
-        <br>
         
-        <label>date</label>
-        <input id="date" class="form-input-kh" type="date" name="date" value="2021-09-15">
+        <label>Date</label>
+        <input id="date" class="form-input-kh" type="date" name="date">
         <br>
 
-        <label>duration</label>
+        <label>Time</label>
+        <input id="time" class="form-input-kh" type="time" name="time">
+        <br>
+
+        <label>Duration</label>
         <select id="duration" class="form-input-kh" type="select" name="duration">
           <option value="0">0</option>
           <option value="15">15</option>
-          <option value="30" selected>30</option>
+          <option value="30">30</option>
           <option value="45">45</option>
           <option value="60">60</option>
           <option value="90">90</option>
@@ -77,29 +78,35 @@
         </select>
         <br>
 
+        <label>Dry Run</label>
+        <input id="dry-run" class="form-input-kh" type="checkbox" name="dry-run">
+        <br>
+
         <h6>Card Details</h6>
         <br>
 
         <label>Card Holder</label>
-        <input id="card-holder-name" class="form-input-kh" type="text" name="card-holder-name" value="son goku">
+        <input id="card-holder-name" class="form-input-kh" type="text" name="card-holder-name">
         <br>
 
         <label>Card Number</label>
-        <input id="card-number" class="form-input-kh" type="number" name="card-number" placeholder="0000111122223333" value="4444555566667777">
+        <input id="card-number" class="form-input-kh" type="number" name="card-number" placeholder="0000111122223333">
         <br>
 
         <label>Exp Month</label>
-        <input id="card-exp-month" pattern="[0-9]{2}" class="form-input-kh" type="text" placeholder="MM" value="02"
+        <input id="card-exp-month" pattern="[0-9]{2}" class="form-input-kh" type="text" placeholder="MM"
           min="01" max="12" name="card-exp-month">
         <br>
 
         <label>Exp Year</label>
-        <input id="card-exp-year" class="form-input-kh" type="number" placeholder="YYYY" value="2020"
+        <input id="card-exp-year" class="form-input-kh" type="number" placeholder="YYYY"
           min="2000" max="3000" name="card-exp-year">
         <br>
 
         <label>CVV</label>
-        <input id="card-cvv" class="form-input-kh" type="password" name="card-cvv" value="444">
+        <input id="card-cvv" class="form-input-kh" type="password" name="card-cvv">
+        <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('card-cvv')">
+        <br>
         <br>
 
         <div class="form-submit-wrapper-kh">
@@ -112,6 +119,54 @@
             title="Clear Form">
         </div>
       </form>
+
+      <br>
+      <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Booking Response</h3>
+      <br>
+      <br>
+      <table id="booking-response-table" class="table-kh">
+        <tr class="table-kh-header">
+          <td>Request Id</td>
+          <td id="brt-id">N/A</td>
+        </tr>
+        <tr>
+          <td>Response Code</td>
+          <td id="brt-response-code">N/A</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td id="brt-status">N/A</td>
+        </tr>
+        <tr>
+          <td>Message</td>
+          <td id="brt-message">N/A</td>
+        </tr>
+        <tr>
+          <td>Username</td>
+          <td id="brt-username">N/A</td>
+        </tr>
+        <tr>
+          <td>Date</td>
+          <td id="brt-date">N/A</td>
+        </tr>
+        <tr>
+          <td>Time</td>
+          <td id="brt-time">N/A</td>
+        </tr>
+        <tr>
+          <td>Session Type</td>
+          <td id="brt-session-type">N/A</td>
+        </tr>
+        <tr>
+          <td>Site</td>
+          <td id="brt-site">N/A</td>
+        </tr>
+        <tr>
+          <td>Duration</td>
+          <td id="brt-duration">N/A</td>
+        </tr>
+      </table>
+      <br>
     </div>
   </div>
   <div class="default-layout txt-c-d-kh txt-c-m-kh">
