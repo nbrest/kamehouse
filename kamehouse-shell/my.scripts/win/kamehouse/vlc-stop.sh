@@ -15,16 +15,18 @@ VLC_PORT=""
 
 mainProcess() {
   VLC_PORT_PARAM=$1
-  if [ -z "${VLC_PORT_PARAM}" ]; then
+  if [ -z ${VLC_PORT_PARAM} ]; then
     VLC_PORT=${DEFAULT_VLC_PORT}
   else
     VLC_PORT=${VLC_PORT_PARAM}
   fi
+  #log.debug "VLC_PORT ${VLC_PORT}"
 
   log.info "Searching for vlc process with an http server"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
   VLC_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
-  if [ -z ${VLC_PID} ]; then
+  log.info "VLC_PID: " ${VLC_PID}
+  if [ -z "${VLC_PID}" ]; then
     log.info "vlc is not running with an http server"
   else
     log.info "Killing process ${COL_PURPLE}${VLC_PID}"

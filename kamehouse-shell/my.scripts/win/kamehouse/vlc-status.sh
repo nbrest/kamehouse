@@ -8,9 +8,11 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
+DEFAULT_VLC_PORT="8080"
+VLC_PORT=${DEFAULT_VLC_PORT}
 
 mainProcess() {
-  netstat -ano | grep "LISTENING" | grep "8080" | tail -n 1
+  netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
 }
 
 main "$@"

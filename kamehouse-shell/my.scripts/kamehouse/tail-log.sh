@@ -160,6 +160,9 @@ setGlobalVariables() {
     addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.out"
     ;;
   "kamehouse")
+    if ${IS_LINUX_HOST}; then
+      addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.${LOG_DATE}.log"
+    fi
     addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"
     ;;
   "tomcat")

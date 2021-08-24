@@ -40,6 +40,13 @@
         <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('password')">
         <br>
 
+        <label>Site</label>
+        <select id="site" class="form-input-kh" type="select" name="site">
+          <option value="MELBOURNE_PARK">Melbourne Park</option>
+          <option value="ALBERT_RESERVE">Albert Reserve</option>
+        </select>
+        <br>
+
         <label>Session Type</label>
         <select id="session-type" class="form-input-kh" type="select" name="session-type">
           <option value="CARDIO">Cardio</option>
@@ -47,13 +54,6 @@
           <option value="NTC_OUTDOOR">NTC Outdoors</option>
           <option value="ROD_LAVER_OUTDOOR">Rod Laver Outdoors</option>
           <option value="ROD_LAVER_SHOW_COURTS">Rod Laver Show Courts</option>
-        </select>
-        <br>
-
-        <label>Site</label>
-        <select id="site" class="form-input-kh" type="select" name="site">
-          <option value="MELBOURNE_PARK">Melbourne Park</option>
-          <option value="ALBERT_RESERVE">Albert Reserve</option>
         </select>
         <br>
         
@@ -82,8 +82,11 @@
         <label>Dry Run</label>
         <input id="dry-run" class="form-input-kh" type="checkbox" name="dry-run">
         <br>
+      </form>
+      <br>
 
-        <h5>Card Details</h5>
+      <form class="form-kh form-book">
+        <h5 class="bold-kh">Payment Details</h5>
         <br>
 
         <label>Card Holder</label>
@@ -106,17 +109,26 @@
         <label>CVV</label>
         <input id="card-cvv" class="form-input-kh cc-cvv" type="password" name="card-cvv">
         <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('card-cvv')">
-        <br>
-        <br>
+      </form>
+      <br>
 
+      <form class="form-kh form-book">
         <div class="form-submit-wrapper-kh">
-          <span class="form-submit-btn-kh" 
-            onclick="bookingService.book()">Book
-          </span>
-          <img class="img-btn-kh fl-r-d-kh"
-            onclick="bookingService.clear()"
-            src="/kame-house/img/other/clear-yellow-dark.png" alt="Clear Form"
-            title="Clear Form">
+          <table class="w-100-pc-kh">
+            <tr>
+              <td>
+                <span class="form-submit-btn-kh" 
+                onclick="bookingService.book()">Book
+              </span>
+              </td>
+              <td class="txt-r-d-kh">
+                <img class="img-btn-kh"
+                onclick="bookingService.clear()"
+                src="/kame-house/img/other/clear-yellow-dark.png" alt="Clear Form"
+                title="Clear Form">
+              </td>
+            </tr>
+          </table>
         </div>
       </form>
 
