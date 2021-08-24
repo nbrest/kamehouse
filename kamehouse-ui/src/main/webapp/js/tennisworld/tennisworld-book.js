@@ -17,12 +17,12 @@ function BookingService() {
    * Execute a booking request.
    */
   function book() {
-    logger.info("Booking to tennisworld");
+    logger.info("Executing booking request...");
     loadingWheelModal.open("Executing booking request...");
     const bookingRequest = getFormData();
     debuggerHttpClient.post(BOOK_API_URL, bookingRequest,
       (responseBody, responseCode, responseDescription) => {
-        logger.info("Booking request executed successfully");
+        logger.info("Booking request completed successfully");
         updateBookingResponseTable(responseBody, responseCode);
         loadingWheelModal.close();
       },
