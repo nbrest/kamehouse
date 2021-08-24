@@ -23,13 +23,13 @@ function BookingService() {
     debuggerHttpClient.post(BOOK_API_URL, bookingRequest,
       (responseBody, responseCode, responseDescription) => {
         logger.info("Booking request completed successfully");
-        updateBookingResponseTable(responseBody, responseCode);
         loadingWheelModal.close();
+        updateBookingResponseTable(responseBody, responseCode);
       },
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error executing booking request: " + responseBody + responseCode + responseDescription);
-        updateBookingResponseTable(responseBody, responseCode);
         loadingWheelModal.close();
+        updateBookingResponseTable(responseBody, responseCode);
       });
   }
 
@@ -97,17 +97,22 @@ function BookingService() {
    * Update the view with the booking response.
    */
   function updateBookingResponseTable(responseBody, responseCode) {
-    const bookingResponse = JSON.parse(responseBody);
-    domUtils.setHtml($('#brt-response-code'), responseCode);
-    domUtils.setHtml($('#brt-id'), bookingResponse.id);
-    domUtils.setHtml($('#brt-status'), bookingResponse.status);
-    domUtils.setHtml($('#brt-message'), bookingResponse.message);
-    domUtils.setHtml($('#brt-username'), bookingResponse.username);
-    domUtils.setHtml($('#brt-date'), bookingResponse.date);
-    domUtils.setHtml($('#brt-time'), bookingResponse.time);
-    domUtils.setHtml($('#brt-session-type'), bookingResponse.sessionType);
-    domUtils.setHtml($('#brt-site'), bookingResponse.site);
-    domUtils.setHtml($('#brt-duration'), bookingResponse.duration);
+    try {
+      domUtils.setHtml($('#brt-response-code'), responseCode);
+      const bookingResponse = JSON.parse(responseBody);
+      domUtils.setHtml($('#brt-id'), bookingResponse.id);
+      domUtils.setHtml($('#brt-status'), bookingResponse.status);
+      domUtils.setHtml($('#brt-message'), bookingResponse.message);
+      domUtils.setHtml($('#brt-username'), bookingResponse.username);
+      domUtils.setHtml($('#brt-date'), bookingResponse.date);
+      domUtils.setHtml($('#brt-time'), bookingResponse.time);
+      domUtils.setHtml($('#brt-session-type'), bookingResponse.sessionType);
+      domUtils.setHtml($('#brt-site'), bookingResponse.site);
+      domUtils.setHtml($('#brt-duration'), bookingResponse.duration);      
+    } catch (error) {
+      logger.error("Error parsing the response: " + error);
+      domUtils.setHtml($('#brt-status'), "Error parsing response body");
+    }
   }
 }
 
