@@ -2,6 +2,7 @@
 
 #### v6.04
 
+* Added ui to execute one off bookings to tennisworld
 * Fix bug api call errors with html response messing up the view
 * Improved logging in the ui
 * Added auto hide groot submenu on desktop
