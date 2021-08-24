@@ -43,6 +43,10 @@
    * Execute the specified script. 
    */
   function executeShellScript($script, $scriptArgs) {
+    if ($scriptArgs == 'null') {
+      $scriptArgs = '';
+    }
+
     if(!isValidInputForShell($script)) {
       exitWithError(400, "script is invalid for shell execution");
     }
