@@ -42,17 +42,18 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
                                                    BookingResponse response) {
     response.setUsername(request.getUsername());
     response.setDate(request.getDate());
-    response.setTime(request.getTime());
     response.setSessionType(request.getSessionType());
     response.setSite(request.getSite());
     response.setDuration(request.getDuration());
   }
 
   /**
-   * The id is generated during the booking so it can't be mocked and matched automatically.
+   * The id and booking time are generated during the booking so it can't be mocked and matched
+   * automatically.
    */
-  public static void matchIds(BookingResponse response, BookingResponse expected) {
+  public static void matchDynamicFields(BookingResponse response, BookingResponse expected) {
     expected.setId(response.getId());
+    expected.setTime(response.getTime());
   }
 
   public static void updateResponseWithCardioRequestData(BookingResponse response, String time,

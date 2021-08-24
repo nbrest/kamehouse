@@ -46,7 +46,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, O
   private void initSingleTestData() {
     singleTestData = new BookingRequest();
     singleTestData.setDate("2020-07-28");
-    singleTestData.setTime("06:45pm");
+    singleTestData.setTime("18:45");
     singleTestData.setDuration("60");
     singleTestData.setPassword("goku-son");
     singleTestData.setUsername("goku@dbz.com");
@@ -69,7 +69,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, O
   private void initSessionRequest() {
     sessionRequest = new BookingRequest();
     sessionRequest.setDate("2021-07-30");
-    sessionRequest.setTime("06:30am");
+    sessionRequest.setTime("06:30");
     sessionRequest.setDuration("45");
     sessionRequest.setPassword("goku-son");
     sessionRequest.setUsername("goku@dbz.com");

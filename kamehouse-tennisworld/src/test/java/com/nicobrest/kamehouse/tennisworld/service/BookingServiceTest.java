@@ -177,7 +177,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -195,7 +195,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -214,7 +214,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -233,7 +233,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -252,7 +252,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -264,14 +264,14 @@ public class BookingServiceTest {
   public void bookFacilityOverlayRequestInvalidTimeTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    request.setTime("00:00am");
+    request.setTime("00:00");
     BookingResponse expected =
         bookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Unable to get the selectedSessionPath");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -290,7 +290,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -310,7 +310,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -328,7 +328,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -344,7 +344,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -362,7 +362,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -380,7 +380,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchIds(response, expected);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -413,7 +413,7 @@ public class BookingServiceTest {
         "07:15pm", "2021-07-26", "45");
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
-    bookingResponseTestUtils.matchIds(response.get(0), expected);
+    bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
@@ -449,7 +449,7 @@ public class BookingServiceTest {
         "07:15pm", "2021-07-26", "45");
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
-    bookingResponseTestUtils.matchIds(response.get(0), expected);
+    bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }

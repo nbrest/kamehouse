@@ -20,10 +20,10 @@ public class BookingRequest implements Serializable {
   private String username;
   private String password;
   private String date; // Format: YYYY-MM-DD
-  private String time; // Format: HH:MMam or HH:MMpm
+  private String time; // Format: HH:MM [24hs] which then gets converted to TennisWorld format
   private String site;
   private String sessionType;
-  private String duration; // Format: MM (optional depending on sessionType)
+  private String duration; // Format: MMM (optional depending on sessionType)
   private CardDetails cardDetails;
   private boolean dryRun = false;
 

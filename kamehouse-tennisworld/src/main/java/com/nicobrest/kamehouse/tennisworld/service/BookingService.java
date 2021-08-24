@@ -113,6 +113,7 @@ public class BookingService {
   public BookingResponse book(BookingRequest bookingRequest) {
     try {
       validateRequest(bookingRequest);
+      updateTimeFormatForTennisWorld(bookingRequest);
       setRequestId(bookingRequest);
       setThreadName(bookingRequest.getId());
       SessionType sessionType = getSessionType(bookingRequest);
@@ -175,6 +176,16 @@ public class BookingService {
   }
 
   /**
+   * TennisWorld expects a time in the format hh:mm[am|pm] but the standard way to get the time
+   * from the UI is HH:MM. This method converts between the formats.
+   */
+  private void updateTimeFormatForTennisWorld(BookingRequest bookingRequest) {
+    String formattedTime = DateUtils.convertTime(bookingRequest.getTime(), DateUtils.HH_MM_24HS,
+        DateUtils.HH_MMAM_PM, false, true);
+    bookingRequest.setTime(formattedTime);
+  }
+
+  /**
    * Create a tennisworld booking request based on the schedule config.
    */
   private BookingRequest createScheduledBookingRequest(BookingScheduleConfig
@@ -188,9 +199,7 @@ public class BookingService {
     request.setDuration(bookingScheduleConfig.getDuration());
     request.setSessionType(bookingScheduleConfig.getSessionType().name());
     request.setSite(bookingScheduleConfig.getSite().name());
-    String time = DateUtils.convertTime(bookingScheduleConfig.getTime(), DateUtils.HH_MM_24HS,
-        DateUtils.HH_MMAM_PM, false, true);
-    request.setTime(time);
+    request.setTime(bookingScheduleConfig.getTime());
     return request;
   }
 
@@ -260,6 +269,9 @@ public class BookingService {
   private void validateRequest(BookingRequest bookingRequest) {
     if (bookingRequest.getDate() == null) {
       throw new KameHouseInvalidDataException("Invalid date");
+    }
+    if (bookingRequest.getTime() == null) {
+      throw new KameHouseInvalidDataException("Invalid time");
     }
     //TODO add more validations here
   }

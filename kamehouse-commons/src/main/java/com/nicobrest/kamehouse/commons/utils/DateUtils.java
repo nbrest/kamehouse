@@ -258,7 +258,7 @@ public class DateUtils {
       }
       return result;
     } catch (DateTimeParseException e) {
-      throw new KameHouseInvalidDataException("Unable to parse input time");
+      throw new KameHouseInvalidDataException("Unable to parse input time " + input);
     }
   }
 
