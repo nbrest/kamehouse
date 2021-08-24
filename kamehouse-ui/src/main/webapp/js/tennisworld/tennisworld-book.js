@@ -29,7 +29,13 @@ function BookingService() {
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error executing booking request: " + responseBody + responseCode + responseDescription);
         loadingWheelModal.close();
-        updateBookingResponseTable(responseBody, responseCode);
+        try {
+          const bookingResponse = JSON.parse(responseBody);
+          updateBookingResponseTable(bookingResponse, responseCode);
+        } catch (error) {
+          logger.error("Error parsing the response: " + error);
+          domUtils.setHtml($('#brt-status'), "Error parsing response body");
+        }
       });
   }
 
@@ -96,10 +102,8 @@ function BookingService() {
   /**
    * Update the view with the booking response.
    */
-  function updateBookingResponseTable(responseBody, responseCode) {
-    try {
+  function updateBookingResponseTable(bookingResponse, responseCode) {
       domUtils.setHtml($('#brt-response-code'), responseCode);
-      const bookingResponse = JSON.parse(responseBody);
       domUtils.setHtml($('#brt-id'), bookingResponse.id);
       domUtils.setHtml($('#brt-status'), bookingResponse.status);
       domUtils.setHtml($('#brt-message'), bookingResponse.message);
@@ -109,10 +113,6 @@ function BookingService() {
       domUtils.setHtml($('#brt-session-type'), bookingResponse.sessionType);
       domUtils.setHtml($('#brt-site'), bookingResponse.site);
       domUtils.setHtml($('#brt-duration'), bookingResponse.duration);      
-    } catch (error) {
-      logger.error("Error parsing the response: " + error);
-      domUtils.setHtml($('#brt-status'), "Error parsing response body");
-    }
   }
 }
 
