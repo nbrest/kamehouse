@@ -998,6 +998,7 @@ function ModuleUtils() {
 function TableUtils() {
 
   this.filterTableRows = filterTableRows;
+  this.sortTable = sortTable;
 
   /** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
   function filterTableRows(filterString, tableBodyId) {
@@ -1046,6 +1047,61 @@ function TableUtils() {
    */
   function addAsterisksBetweenAllCharsToRegex(string) {
     return string.split('').join('.*').replace(/\s/g, '');
+  }
+
+  /**
+   * Sort the table by the specified column number.
+   * This sorts lexicographically, so for example, number 331 is put before number 36
+   */
+  function sortTable(tableId, columnNumber) {
+    const table = document.getElementById(tableId);
+    const rows = table.rows;
+
+    let sorting = true; 
+    let sortDirection = "asc";
+    let swapRows = false;
+    let swapCount = 0;
+    let currentRowIndex = 0;
+    let currentRow = null;
+    let nextRow = null; 
+
+    while (sorting) {
+      sorting = false;
+      for (currentRowIndex = 1; currentRowIndex < (rows.length - 1); currentRowIndex++) {
+        swapRows = false;
+        currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
+        nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];        
+        if (shouldSwap(currentRow, nextRow, sortDirection)) {
+          swapRows = true;
+          break;
+        }
+      }
+      if (swapRows) {
+        domUtils.insertBefore(rows[currentRowIndex].parentNode, rows[currentRowIndex + 1], rows[currentRowIndex]);
+        sorting = true;
+        swapCount++;
+      } else {
+        if (swapCount == 0 && sortDirection == "asc") {
+          sortDirection = "desc";
+          sorting = true;
+        }
+      }
+    }
+  }
+
+  /**
+   * Returns true if the current and next rows need to be swapped.
+   */
+  function shouldSwap(currentRow, nextRow, sortDirection) {
+    if (sortDirection == "asc") {
+      if (currentRow.innerHTML.toLowerCase() > nextRow.innerHTML.toLowerCase()) {
+        return true;
+      }
+    } else if (sortDirection == "desc") {
+      if (currentRow.innerHTML.toLowerCase() < nextRow.innerHTML.toLowerCase()) {
+        return true;
+      }
+    }
   }
 }
 

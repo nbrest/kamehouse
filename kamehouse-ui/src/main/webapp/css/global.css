@@ -99,6 +99,10 @@ body {
   /** Make all buttons square overriding bootstrap's default */
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 /** Collapsible content. Begin.*/
 .collapsible-kh {
   cursor: pointer;

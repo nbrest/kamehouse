@@ -29,6 +29,7 @@ function CrudManager() {
   let entityName = "Set EntityName";
   let url = "/kame-house-module/api/v1/override-url";
   let columns = [];
+  let entities = [];
   
   /**
    * Load the crud manager module.
@@ -146,7 +147,8 @@ function CrudManager() {
     logger.trace("readAll");
     debuggerHttpClient.get(url,
       (responseBody, responseCode, responseDescription) => {
-        reloadView(responseBody)
+        entities = responseBody;
+        reloadView();
       },
       (responseBody, responseCode, responseDescription) => {
         logger.error("Error getting all entities: " + responseBody + responseCode + responseDescription);
@@ -281,7 +283,7 @@ function CrudManager() {
   /**
    * Display all entities and reload forms.
    */
-  function reloadView(entities) {
+  function reloadView() {
     logger.trace("reloadView");
     const crudTbody = $('#' + tbodyId);
     domUtils.empty(crudTbody);
@@ -488,8 +490,15 @@ function CrudManager() {
         setHeaderColumns(tr, column.columns, parentNodeChain + column.name);
         continue;
       }
-
-      domUtils.append(tr, domUtils.getTd(null, parentNodeChain + column.name)); 
+      const td = domUtils.getTd({
+        class: "clickable",
+        alt: "Sort by " + column.name,
+        title: "Sort by " + column.name
+      }, parentNodeChain + column.name);
+      domUtils.setClick(td, null,
+        () => tableUtils.sortTable("crud-manager-table", i)
+      );
+      domUtils.append(tr, td); 
     }
   }
 
