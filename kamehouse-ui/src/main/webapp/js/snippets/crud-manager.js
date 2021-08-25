@@ -31,6 +31,7 @@ function CrudManager() {
   let url = "/kame-house-module/api/v1/override-url";
   let columns = [];
   let entities = [];
+  let readOnly = false;
   
   /**
    * Load the crud manager module.
@@ -75,6 +76,7 @@ function CrudManager() {
     setEntityName(config.entityName);
     setUrl(config.url);
     setColumns(config.columns);
+    setReadOnly(config.readOnly);
     updateEntityNameInView();
     loadStateFromCookies();
     readAll();
@@ -127,6 +129,15 @@ function CrudManager() {
   }
 
   /**
+   * Set the crud manager as readOnly, to disable updates, only to query data.
+   */
+  function setReadOnly(crudReadOnly) {
+    if (!isEmpty(crudReadOnly)) {
+      readOnly = crudReadOnly;
+    }
+  }
+
+  /**
    * Get an entity by it's id.
    */
   function read(id) {
@@ -164,6 +175,10 @@ function CrudManager() {
    */
   function create() {
     logger.trace("create");
+    if (readOnly) {
+      basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      return;
+    }
     const entity = getEntityFromForm(addInputFieldsId);
     debuggerHttpClient.post(url, entity,
       (responseBody, responseCode, responseDescription) => {
@@ -183,6 +198,10 @@ function CrudManager() {
    */
   function update() {
     logger.trace("update");
+    if (readOnly) {
+      basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      return;
+    }
     const entity = getEntityFromForm(editInputFieldsId);
     const updateUrl = url + "/" + entity.id;
     debuggerHttpClient.put(updateUrl, entity,
@@ -204,6 +223,10 @@ function CrudManager() {
   function deleteEntity(event) {
     const id = event.data.id;
     logger.trace("deleteEntity");
+    if (readOnly) {
+      basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      return;
+    }
     const deleteUrl = url + "/" + id;
     debuggerHttpClient.delete(deleteUrl, null,
       (responseBody, responseCode, responseDescription) => {
