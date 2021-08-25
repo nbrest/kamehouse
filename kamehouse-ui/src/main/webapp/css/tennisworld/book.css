@@ -9,17 +9,16 @@
   }  
 }
 
-.cc-card-holder-name {
-  width: 300px;
-}
-
 .cc-card-number {
-  width: 250px;
+  width: 70px;
+  display: inline;
+  margin-right: 7px;
 }
 
 .cc-exp-month {
   width: 55px;
   display: inline;
+  margin-right: 7px;
 }
 
 .cc-exp-year {
@@ -29,6 +28,27 @@
 
 .cc-cvv {
   width: 70px;
+  display: inline;
+}
+
+.clear-booking-td {
+  text-align: right;
+  padding-top: 9px;
+}
+
+.clear-payment-td {
+  text-align: right;
+  padding-top: 34px;
+}
+
+.exp-date-td {
+  max-width: 65px;
+}
+
+@media (max-width : 900px) {
+  .exp-date-td {
+    max-width: 95px;
+  }
 }
 
 .form-book {

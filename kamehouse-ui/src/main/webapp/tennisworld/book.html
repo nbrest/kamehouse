@@ -79,8 +79,20 @@
         </select>
         <br>
 
-        <label>Dry Run</label>
-        <input id="dry-run" class="form-input-kh" type="checkbox" name="dry-run">
+        <table class="w-100-pc-kh">
+          <tr>
+            <td>
+              <label>Dry Run</label>
+              <input id="dry-run" class="form-input-kh" type="checkbox" name="dry-run">      
+            </td>
+            <td class="clear-booking-td">
+              <img class="img-btn-kh"
+                onclick="bookingService.clearBookingDetails()"
+                src="/kame-house/img/other/clear-yellow-dark.png" 
+                alt="Clear Booking Details" title="Clear Booking Details">
+            </td>
+          </tr>
+        </table>
       </form>
       <br>
 
@@ -93,97 +105,120 @@
         <br>
 
         <label>Card Number</label>
-        <input id="card-number" class="form-input-kh cc-card-number" type="text" name="card-number" placeholder="0000111122223333">
         <br>
-
-        <label>Expiry Date</label>
-        <br>
-        <input id="card-exp-month" class="form-input-kh cc-exp-month" type="text" placeholder="MM"
-          min="01" max="12" name="card-exp-month">
-        <input id="card-exp-year" class="form-input-kh cc-exp-year" type="text" placeholder="YYYY"
-          min="2000" max="3000" name="card-exp-year">
+        <input id="card-number-1" class="form-input-kh cc-card-number" type="text" name="card-number-1" maxlength="4" placeholder="XXXX"> 
+        <input id="card-number-2" class="form-input-kh cc-card-number" type="text" name="card-number-2" maxlength="4" placeholder="XXXX">
+        <input id="card-number-3" class="form-input-kh cc-card-number" type="text" name="card-number-3" maxlength="4" placeholder="XXXX">
+        <input id="card-number-4" class="form-input-kh cc-card-number" type="text" name="card-number-4" maxlength="4" placeholder="XXXX">
         <br>
         <br>
 
-        <label>CVV</label>
-        <input id="card-cvv" class="form-input-kh cc-cvv" type="password" name="card-cvv">
-        <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('card-cvv')">
+        <table class="w-100-pc-kh">
+          <tr>
+            <td class="exp-date-td">
+              <label>Expiry Date</label>
+              <br>
+              <input id="card-exp-month" class="form-input-kh cc-exp-month" type="text" placeholder="MM"
+                min="01" max="12" maxlength="2" name="card-exp-month">
+              <input id="card-exp-year" class="form-input-kh cc-exp-year" type="text" placeholder="YYYY"
+                min="2000" max="3000" maxlength="4" name="card-exp-year">
+            </td>
+            <td>
+              <label>CVV</label>
+              <br>
+              <input id="card-cvv" class="form-input-kh cc-cvv" type="password" maxlength="3" name="card-cvv">
+              <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('card-cvv')">
+            </td>
+            <td class="clear-payment-td">
+              <img class="img-btn-kh"
+                onclick="bookingService.clearPaymentDetails()"
+                src="/kame-house/img/other/clear-yellow-dark.png" 
+                alt="Clear Payment Details" title="Clear Payment Details">
+            </td>
+          </tr>
+        </table>
+        <table class="w-100-pc-kh">
+          <tr>
+            
+          </tr>
+        </table>
       </form>
       <br>
 
-      <form class="form-kh form-book">
+      <form class="form-book">
         <div class="form-submit-wrapper-kh">
           <table class="w-100-pc-kh">
             <tr>
               <td>
-                <span class="form-submit-btn-kh" 
+                <span class="form-submit-btn-kh m-15-d-kh" 
                   onclick="bookingService.book()">Book
                 </span>
-              </td>
-              <td class="txt-r-d-kh">
-                <img class="img-btn-kh"
-                  onclick="bookingService.clear()"
-                  src="/kame-house/img/other/clear-yellow-dark.png" 
-                  alt="Clear Form" title="Clear Form">
               </td>
             </tr>
           </table>
         </div>
       </form>
-
       <br>
-      <h3 class="h3-kh txt-l-d-kh txt-l-m-kh header">Booking Response</h3>
-      <br>
-      <br>
-      <table id="booking-response-table" class="table-kh">
-        <tr class="table-kh-header">
-          <td>Request Id</td>
-          <td id="brt-id">N/A</td>
-        </tr>
-        <tr>
-          <td>Response Code</td>
-          <td id="brt-response-code">N/A</td>
-        </tr>
-        <tr>
-          <td>Status</td>
-          <td id="brt-status">N/A</td>
-        </tr>
-        <tr>
-          <td>Message</td>
-          <td id="brt-message">N/A</td>
-        </tr>
-        <tr>
-          <td>Username</td>
-          <td id="brt-username">N/A</td>
-        </tr>
-        <tr>
-          <td>Date</td>
-          <td id="brt-date">N/A</td>
-        </tr>
-        <tr>
-          <td>Time</td>
-          <td id="brt-time">N/A</td>
-        </tr>
-        <tr>
-          <td>Session Type</td>
-          <td id="brt-session-type">N/A</td>
-        </tr>
-        <tr>
-          <td>Site</td>
-          <td id="brt-site">N/A</td>
-        </tr>
-        <tr>
-          <td>Duration</td>
-          <td id="brt-duration">N/A</td>
-        </tr>
-      </table>
       <br>
     </div>
+    <div class="bg-darker-1-kh">
+      <div class="default-layout">      
+        <br>
+        <h3 class="h3-kh txt-l-d-kh txt-l-m-kh header">Booking Response</h3>
+        <br>
+        <br>
+        <table id="booking-response-table" class="table-kh">
+          <tr class="table-kh-header">
+            <td>Request Id</td>
+            <td id="brt-id">N/A</td>
+          </tr>
+          <tr>
+            <td>Response Code</td>
+            <td id="brt-response-code">N/A</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td id="brt-status">N/A</td>
+          </tr>
+          <tr>
+            <td>Message</td>
+            <td id="brt-message">N/A</td>
+          </tr>
+          <tr>
+            <td>Username</td>
+            <td id="brt-username">N/A</td>
+          </tr>
+          <tr>
+            <td>Date</td>
+            <td id="brt-date">N/A</td>
+          </tr>
+          <tr>
+            <td>Time</td>
+            <td id="brt-time">N/A</td>
+          </tr>
+          <tr>
+            <td>Session Type</td>
+            <td id="brt-session-type">N/A</td>
+          </tr>
+          <tr>
+            <td>Site</td>
+            <td id="brt-site">N/A</td>
+          </tr>
+          <tr>
+            <td>Duration</td>
+            <td id="brt-duration">N/A</td>
+          </tr>
+        </table>
+        <br>
+      </div>
+    </div>
   </div>
-  <div class="default-layout txt-c-d-kh txt-c-m-kh">
+  <div class="bg-darker-1-kh txt-c-d-kh txt-c-m-kh">
     <span id="debug-mode-button-wrapper"></span>
+    <br>
+    <br>
   </div>
-  <span id="debug-mode-wrapper"></span>
+  <span id="debug-mode-wrapper" class="bg-darker-1-kh"></span>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
 </body>

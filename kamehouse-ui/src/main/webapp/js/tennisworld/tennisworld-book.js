@@ -8,7 +8,8 @@ function mainBook() {
 function BookingService() {
 
   this.book = book;
-  this.clear = clear;
+  this.clearBookingDetails = clearBookingDetails;
+  this.clearPaymentDetails = clearPaymentDetails;
   this.togglePasswordField = togglePasswordField;
 
   const BOOK_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/bookings';
@@ -59,7 +60,8 @@ function BookingService() {
     if (!isEmpty(cardHolder) && cardHolder != "") {
       const cardDetails = {};
       cardDetails['name'] = cardHolder;
-      cardDetails['number'] = document.getElementById('card-holder-name').value;
+      const cardNumber = document.getElementById('card-number-1').value + "" + document.getElementById('card-number-2').value + "" + document.getElementById('card-number-3').value + "" + document.getElementById('card-number-4').value;
+      cardDetails['number'] = cardNumber;
       const expiryDate = document.getElementById('card-exp-month').value + "/" + document.getElementById('card-exp-year').value;
       cardDetails['expiryDate'] = expiryDate;
       cardDetails['cvv'] = document.getElementById('card-cvv').value;
@@ -81,10 +83,10 @@ function BookingService() {
   }
 
   /**
-   * Clear the form.
+   * Clear the booking details.
    */
-  function clear() {
-    logger.info("Clear form");
+  function clearBookingDetails() {
+    logger.info("clearBookingDetails");
     document.getElementById('username').value = "";
     document.getElementById('password').value = "";
     document.getElementById('session-type').value = "";
@@ -93,7 +95,18 @@ function BookingService() {
     document.getElementById('date').value = "";
     document.getElementById('duration').value = "";
     document.getElementById('dry-run').checked = "";
+  }
+
+  /**
+   * Clear the payment details.
+   */
+  function clearPaymentDetails() {
+    logger.info("clearPaymentDetails");
     document.getElementById('card-holder-name').value = "";
+    document.getElementById('card-number-1').value = "";
+    document.getElementById('card-number-2').value = "";
+    document.getElementById('card-number-3').value = "";
+    document.getElementById('card-number-4').value = "";
     document.getElementById('card-exp-month').value = "";
     document.getElementById('card-exp-year').value = "";
     document.getElementById('card-cvv').value = "";
