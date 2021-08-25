@@ -1005,10 +1005,10 @@ function TableUtils() {
     const tableRows = $("#" + tableBodyId + " tr");
     let regex;
     try {
-      if (filterString.startsWith("\"") && filterString.endsWith("\"")) {
-        filterString = filterString.substring(1, filterString.length-1);
+      if (isQuotedString(filterString)) {
+        filterString = removeQuotes(filterString);
       } else {
-        filterString = filterString.split('').join('.*').replace(/\s/g, ''); 
+        filterString = addAsterisksBetweenAllCharsToRegex(filterString);
       }
       regex = RegExp(filterString);
     } catch (error) {
@@ -1020,9 +1020,32 @@ function TableUtils() {
       const classList = tr.classList.value;
       if (isEmpty(classList) || !classList.includes("table-kh-header")) {
         // Filter if it's not the header row
-        $(tr).toggle(regex.test($(tr).text().toLowerCase()));
+        const trText = $(tr).text().toLowerCase();
+        const shouldDisplayRow = regex.test(trText);
+        $(tr).toggle(shouldDisplayRow);
       }
     });
+  }
+
+  /**
+   * Check for double quotes at the beginning and end of the string.
+   */
+  function isQuotedString(string) {
+    return string.startsWith("\"") && string.endsWith("\"");
+  }
+
+  /**
+   * Remove the double quotes from the string.
+   */
+  function removeQuotes(string) {
+    return string.substring(1, string.length-1);
+  }
+
+  /**
+   * Adds .* between each character to expand the matching criteria of the regex.
+   */
+  function addAsterisksBetweenAllCharsToRegex(string) {
+    return string.split('').join('.*').replace(/\s/g, '');
   }
 }
 
