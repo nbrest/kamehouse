@@ -21,6 +21,7 @@ function CrudManager() {
   this.delete = deleteEntity;
 
   this.clearForm = clearForm;
+  this.filterRows = filterRows;
 
   const tbodyId = "crud-manager-tbody";
   const addInputFieldsId = "crud-add-input-fields";
@@ -35,6 +36,7 @@ function CrudManager() {
    * Load the crud manager module.
    */
   function load() {
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/crud-manager.css">');
     domUtils.load($("#crud-manager-body-wrapper"), "/kame-house/html-snippets/crud-manager.html", () => {
       moduleUtils.setModuleLoaded("crudManager");
       bannerUtils.setRandomPrinceOfTennisBanner();
@@ -291,6 +293,7 @@ function CrudManager() {
     for (let i = 0; i < entities.length; i++) {
       domUtils.append(crudTbody, getEntityTr(entities[i]));
     }
+    filterRows();
     reloadForm(addInputFieldsId);
     reloadForm(editInputFieldsId);
   }
@@ -496,7 +499,10 @@ function CrudManager() {
         title: "Sort by " + column.name
       }, parentNodeChain + column.name);
       domUtils.setClick(td, null,
-        () => tableUtils.sortTable("crud-manager-table", i)
+        () => {
+          tableUtils.sortTable("crud-manager-table", i);
+          filterRows();
+        }
       );
       domUtils.append(tr, td); 
     }
@@ -806,6 +812,18 @@ function CrudManager() {
    */
   function clearForm(formFieldsId) {
     reloadForm(formFieldsId);
+  }
+
+  /**
+   * Filter the table rows from the search criteria 
+   * and limited to the selected number of rows.
+   */
+  function filterRows() {
+    const numRows = document.getElementById('num-rows').value;
+    tableUtils.limitRows('crud-manager-table', numRows);
+
+    const filterString = document.getElementById('table-filter').value;
+    tableUtils.filterTableRows(filterString, 'crud-manager-tbody', numRows);
   }
 }
 

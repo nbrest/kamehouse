@@ -999,9 +999,19 @@ function TableUtils() {
 
   this.filterTableRows = filterTableRows;
   this.sortTable = sortTable;
+  this.limitRows = limitRows;
 
-  /** Filter table rows based on the specified filter string. Shouldn't filter the header row. */
-  function filterTableRows(filterString, tableBodyId) {
+  /** 
+   * Filter table rows based on the specified filter string. Shouldn't filter the header row. 
+   * Toggles a maximum of maxRows.
+   */
+  function filterTableRows(filterString, tableBodyId, maxRows) {
+    const table = document.getElementById(tableBodyId);
+    const rows = table.rows;
+    if (isEmpty(maxRows) || maxRows == "" || maxRows == "all") {
+      maxRows = rows.length;
+    }
+
     filterString = filterString.toLowerCase();
     const tableRows = $("#" + tableBodyId + " tr");
     let regex;
@@ -1023,7 +1033,10 @@ function TableUtils() {
         // Filter if it's not the header row
         const trText = $(tr).text().toLowerCase();
         const shouldDisplayRow = regex.test(trText);
-        $(tr).toggle(shouldDisplayRow);
+        if (maxRows > 0) {
+          $(tr).toggle(shouldDisplayRow);
+          maxRows--;
+        }
       }
     });
   }
@@ -1100,6 +1113,25 @@ function TableUtils() {
     } else if (sortDirection == "desc") {
       if (currentRow.innerHTML.toLowerCase() < nextRow.innerHTML.toLowerCase()) {
         return true;
+      }
+    }
+  }
+
+  /**
+   * Limit the number of rows displayed on the table.
+   */
+  function limitRows(tableId, maxRows) {
+    const table = document.getElementById(tableId);
+    const rows = table.rows;
+    if (isEmpty(maxRows) || maxRows == "" || maxRows == "all") {
+      maxRows = rows.length;
+    }
+
+    for (let i = 1; i < rows.length; i++) { 
+      if (i <= maxRows) {
+        domUtils.setDisplay(rows[i], "table-row");
+      } else {
+        domUtils.setDisplay(rows[i], "none");
       }
     }
   }

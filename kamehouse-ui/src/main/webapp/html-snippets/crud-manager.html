@@ -22,6 +22,7 @@
     <br>
     <h4 id="crud-manager-list-title" class="h4-kh txt-l-d-kh txt-c-m-kh">List</h4>
     <br>
+
     <table class="table-kh-controls">
       <caption class="hidden-kh">CRUD Manager table controls</caption>
       <tr class="hidden-kh">
@@ -29,10 +30,21 @@
       </tr>
       <tr>
         <td class="p-10-d-kh">
-          <input class="table-kh-filter-input" type="search" placeholder="Search..."
-            onkeyup="tableUtils.filterTableRows(this.value, 'crud-manager-tbody')" />
+          <input id="table-filter" class="table-kh-filter-input" type="search" placeholder="Search..."
+            onkeyup="crudManager.filterRows()" />
         </td>
-        <td class="p-10-d-kh txt-r-d-kh txt-r-m-kh">
+        <td class="num-rows-dropdown-td">
+          <select id="num-rows" class="form-input-kh num-rows-dropdown" type="select" name="num-rows"
+            onchange="crudManager.filterRows()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="500">500</option>
+            <option value="" selected>ALL</option>
+          </select>
+        </td>
+        <td class="scroll-up-td">
           <img class="img-btn-kh img-btn-s-kh"
             onclick="scrollToTopOfDiv('table-kh-vertical-scroll-wrapper')"
             src="/kame-house/img/other/back-to-top.png"
