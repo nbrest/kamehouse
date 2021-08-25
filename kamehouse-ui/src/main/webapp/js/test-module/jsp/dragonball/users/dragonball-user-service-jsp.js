@@ -26,7 +26,7 @@ function DragonBallUserServiceJsp() {
       (responseBody, responseCode, responseDescription) => displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription) => {
         alert("Error getting dragonball user");
-        logger.error("Error getting dragonball user " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error getting dragonball user");
       }, null);
   }
 
@@ -58,7 +58,7 @@ function DragonBallUserServiceJsp() {
       (responseBody, responseCode, responseDescription) => { window.location.href = 'users-list'; },
       (responseBody, responseCode, responseDescription) => {
         alert("Error adding dragonball user. Check console logs for more details");
-        logger.error("Error adding dragonball user " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error adding dragonball user");
       });
   }
 
@@ -80,7 +80,7 @@ function DragonBallUserServiceJsp() {
       (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
       (responseBody, responseCode, responseDescription) => {
         alert("Error updating dragonball user. Check console logs for more details");
-        logger.error("Error updating dragonball user " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error updating dragonball user");
       }, null);
   }
 

@@ -28,7 +28,7 @@ function BookingService() {
         updateBookingResponseTable(responseBody, responseCode);
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.error("Error executing booking request: " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error executing booking request");
         loadingWheelModal.close();
         try {
           const bookingResponse = JSON.parse(responseBody);

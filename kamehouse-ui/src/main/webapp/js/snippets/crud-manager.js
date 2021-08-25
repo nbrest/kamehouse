@@ -137,7 +137,7 @@ function CrudManager() {
         setEditFormValues(responseBody, responseCode, responseDescription);
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.error("Error getting entity: " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error getting entity");
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
       }, null);
   }
@@ -153,7 +153,7 @@ function CrudManager() {
         reloadView();
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.error("Error getting all entities: " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error getting all entities");
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
         displayErrorGettingEntities();
       }, null);
@@ -172,7 +172,7 @@ function CrudManager() {
         tabUtils.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.error("Error creating entity: " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error creating entity");
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
       });
@@ -192,7 +192,7 @@ function CrudManager() {
         tabUtils.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.error("Error updating entity: " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error updating entity");
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
       }, null);
@@ -212,7 +212,7 @@ function CrudManager() {
         readAll();
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.error("Error deleting entity: " + responseBody + responseCode + responseDescription);
+        logger.logApiError(responseBody, responseCode, responseDescription, "Error deleting entity");
         basicKamehouseModal.close();
         basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();

@@ -1206,6 +1206,7 @@ function TimeUtils() {
   this.info = info;
   this.debug = debug;
   this.trace = trace;
+  this.logApiError = logApiError;
 
   /**
    * Log levels:
@@ -1320,6 +1321,17 @@ function TimeUtils() {
     const li = domUtils.getLi({}, null);
     domUtils.setText(li, logEntry);
     return li;
+  }
+
+  /**
+   * Log an api call error to the console.
+   */
+  function logApiError(responseBody, responseCode, responseDescription, message) {
+    if (isEmpty(message) || message == "") {
+      message = "Error executing api call";
+    }
+    const errorMessage = message + ": responseBody=" + responseBody + "; responseCode=" + responseCode + "; responseDescription=" + responseDescription + ";";
+    error(errorMessage);
   }
 }
 
