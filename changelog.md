@@ -7,6 +7,8 @@
 * Improved logging in the ui
 * Added auto hide groot submenu on desktop
 * Added search bar to crud manager
+* Added dropdown to limit the number of displayed rows to the crud manager
+* Added sorting of table by any column to the crud manager
 
 #### v6.03
 
