@@ -80,6 +80,7 @@ function CrudManager() {
     updateEntityNameInView();
     loadStateFromCookies();
     readAll();
+    disableEditFunctionalityForReadOnly();
   }
 
   /**
@@ -91,6 +92,17 @@ function CrudManager() {
     domUtils.setHtml($("#crud-manager-list-title"), "List " + getEntityNames());
     domUtils.setHtml($("#crud-manager-add-title"), "Add " + entityName);
     domUtils.setHtml($("#crud-manager-edit-title"), "Edit " + entityName);
+  }
+
+  /**
+   * When set to read only, disable add and edit tabs.
+   */
+  function disableEditFunctionalityForReadOnly() {
+    if (readOnly) {
+      domUtils.addClass($("#tab-add-link"), "hidden-kh");
+      domUtils.addClass($("#tab-edit-link"), "hidden-kh");
+      tabUtils.openTab('tab-list', 'kh-crud-manager');
+    }
   }
 
   /**
@@ -345,7 +357,9 @@ function CrudManager() {
   function getEntityTr(entity) {
     const tr = domUtils.getTr({}, null);
     createEntityRow(tr, entity, columns, null);
-    domUtils.append(tr, getActionButtonsTd(entity.id));
+    if (!readOnly) {
+      domUtils.append(tr, getActionButtonsTd(entity.id));
+    }
     return tr;
   }
 
@@ -498,9 +512,11 @@ function CrudManager() {
       class: "table-kh-header"
     }, null);
     setHeaderColumns(tr, columns, null);
-    domUtils.append(tr, domUtils.getTd({
-      class: "table-kh-actions"
-    }, "actions"));
+    if (!readOnly) {
+      domUtils.append(tr, domUtils.getTd({
+        class: "table-kh-actions"
+      }, "actions"));
+    }
     return tr;
   }
 
