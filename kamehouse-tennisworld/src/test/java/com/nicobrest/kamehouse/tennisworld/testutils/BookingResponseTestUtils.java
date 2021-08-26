@@ -6,9 +6,9 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
-import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -25,8 +25,11 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
   public static final String API_V1_TENNISWORLD_SCHEDULED_BOOKINGS = "/api/v1/tennis-world" +
       "/scheduled-bookings";
 
+  private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
+
   @Override
   public void initTestData() {
+    bookingRequestTestUtils.initTestData();
     initSingleTestData();
     initTestDataList();
   }
@@ -40,11 +43,7 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
 
   public static void updateResponseWithRequestData(BookingRequest request,
                                                    BookingResponse response) {
-    response.setUsername(request.getUsername());
-    response.setDate(request.getDate());
-    response.setSessionType(request.getSessionType());
-    response.setSite(request.getSite());
-    response.setDuration(request.getDuration());
+    response.setRequest(request);
   }
 
   /**
@@ -53,23 +52,24 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
    */
   public static void matchDynamicFields(BookingResponse response, BookingResponse expected) {
     expected.setId(response.getId());
-    expected.setTime(response.getTime());
+    expected.getRequest().setPassword(response.getRequest().getPassword());
   }
 
-  public static void updateResponseWithCardioRequestData(BookingResponse response, String time,
-                                                         String date, String duration) {
-    response.setDate(date);
-    response.setTime(time);
-    response.setSessionType(SessionType.CARDIO.name());
-    response.setSite(Site.MELBOURNE_PARK.name());
-    response.setDuration(duration);
+  public static void updateResponseWithCardioRequestData(BookingResponse response, Date date,
+                                                         String time, SessionType sessionType,
+                                                         String duration) {
+    response.getRequest().setDate(date);
+    response.getRequest().setDuration(duration);
+    response.getRequest().setTime(time);
+    response.getRequest().setSessionType(sessionType);
+    response.getRequest().setDuration(duration);
   }
 
   private void initSingleTestData() {
     singleTestData = new BookingResponse();
     singleTestData.setStatus(BookingResponse.Status.SUCCESS);
     singleTestData.setMessage(BookingService.SUCCESSFUL_BOOKING);
-    singleTestData.setDuration("60");
+    singleTestData.setRequest(bookingRequestTestUtils.getSingleTestData());
   }
 
   private void initTestDataList() {
@@ -78,10 +78,12 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     BookingResponse error = new BookingResponse();
     error.setStatus(BookingResponse.Status.ERROR);
     error.setMessage("Client error");
+    error.setRequest(bookingRequestTestUtils.getSingleTestData());
     testDataList.add(error);
     BookingResponse internalError = new BookingResponse();
     internalError.setStatus(BookingResponse.Status.INTERNAL_ERROR);
     internalError.setMessage("Server error");
+    internalError.setRequest(bookingRequestTestUtils.getSingleTestData());
     testDataList.add(internalError);
   }
 }

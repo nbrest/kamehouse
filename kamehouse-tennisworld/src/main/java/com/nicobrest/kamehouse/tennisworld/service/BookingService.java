@@ -45,8 +45,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
-import javax.annotation.Nonnull;
 
 /**
  * Service to execute tennis world bookings.
@@ -114,9 +112,8 @@ public class BookingService {
     try {
       validateRequest(bookingRequest);
       updateTimeFormatForTennisWorld(bookingRequest);
-      setRequestId(bookingRequest);
       setThreadName(bookingRequest.getId());
-      SessionType sessionType = getSessionType(bookingRequest);
+      SessionType sessionType = bookingRequest.getSessionType();
       logger.info("Booking tennis world request: {}", bookingRequest);
       switch (sessionType) {
         case CARDIO:
@@ -156,7 +153,7 @@ public class BookingService {
         continue;
       }
       try {
-        String bookingDate = calculateBookingDate(bookingScheduleConfig);
+        Date bookingDate = calculateBookingDate(bookingScheduleConfig);
         if (bookingDate != null) {
           BookingRequest bookingRequest = createScheduledBookingRequest(bookingScheduleConfig,
               bookingDate);
@@ -189,7 +186,7 @@ public class BookingService {
    * Create a tennisworld booking request based on the schedule config.
    */
   private BookingRequest createScheduledBookingRequest(BookingScheduleConfig
-      bookingScheduleConfig, String bookingDate) {
+      bookingScheduleConfig, Date bookingDate) {
     BookingRequest request = new BookingRequest();
     request.setDate(bookingDate);
     TennisWorldUser tennisWorldUser = bookingScheduleConfig.getTennisWorldUser();
@@ -197,17 +194,24 @@ public class BookingService {
     request.setPassword(getDecryptedPassword(tennisWorldUser));
     request.setDryRun(false);
     request.setDuration(bookingScheduleConfig.getDuration());
-    request.setSessionType(bookingScheduleConfig.getSessionType().name());
-    request.setSite(bookingScheduleConfig.getSite().name());
+    request.setSessionType(bookingScheduleConfig.getSessionType());
+    request.setSite(bookingScheduleConfig.getSite());
     request.setTime(bookingScheduleConfig.getTime());
     return request;
+  }
+
+  /**
+   * Get the booking request date as a formatted string.
+   */
+  private String getBookingRequestDate(BookingRequest bookingRequest) {
+    return DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingRequest.getDate());
   }
 
   /**
    * Get the bookingDate calculated from the schedule config.
    * If null is returned then no booking should be executed.
    */
-  private String calculateBookingDate(BookingScheduleConfig bookingScheduleConfig) {
+  private Date calculateBookingDate(BookingScheduleConfig bookingScheduleConfig) {
     if (bookingScheduleConfig.getBookingDate() != null) {
       /*
        * One-off bookingDate is set in the config. Check if it's should be used to book.
@@ -216,7 +220,7 @@ public class BookingService {
       if (isActiveBookingDate(bookingDate)
           && bookingDateMatchesBookAheadDays(bookingScheduleConfig)) {
         logger.trace("Calculated one-off bookingDate {}", bookingDate);
-        return DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingDate);
+        return bookingDate;
       }
     } else {
       /*
@@ -229,7 +233,7 @@ public class BookingService {
       DateUtils.Day bookingDateDay = DateUtils.getDay(bookingDate);
       if (configDay == bookingDateDay) {
         logger.trace("Calculated recurring bookingDate {}", bookingDate);
-        return DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingDate);
+        return bookingDate;
       }
     }
     return null;
@@ -273,19 +277,13 @@ public class BookingService {
     if (bookingRequest.getTime() == null) {
       throw new KameHouseInvalidDataException("Invalid time");
     }
-    //TODO add more validations here
-  }
-
-  /**
-   * Get the sessionType enum from the request.
-   */
-  private static SessionType getSessionType(BookingRequest bookingRequest) {
-    try {
-      return SessionType.valueOf(bookingRequest.getSessionType());
-    } catch (IllegalArgumentException e) {
-      throw new KameHouseBadRequestException("Invalid sessionType: "
-          + bookingRequest.getSessionType());
+    if (bookingRequest.getSite() == null) {
+      throw new KameHouseInvalidDataException("Invalid site");
     }
+    if (bookingRequest.getSessionType() == null) {
+      throw new KameHouseInvalidDataException("Invalid sessionType");
+    }
+    //TODO add more validations here
   }
 
   /**
@@ -316,20 +314,21 @@ public class BookingService {
     try {
       // 1 -------------------------------------------------------------------------
       Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
-      SessionType sessionType = getSessionType(bookingRequest);
+      SessionType sessionType = bookingRequest.getSessionType();
       String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getValue());
+      String bookingDate = getBookingRequestDate(bookingRequest);
 
       // 2 -------------------------------------------------------------------------
       Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
       String selectedSessionDatePath = getSelectedSessionDatePath(sessionTypePage,
-          selectedSessionTypeId, bookingRequest.getDate());
+          selectedSessionTypeId, bookingDate);
 
       // 3 -------------------------------------------------------------------------
       Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
       String sessionId = getSessionId(sessionDatePage, bookingRequest);
 
       // 4 -------------------------------------------------------------------------
-      postSessionBookOverlayAjax(httpClient, sessionId, bookingRequest.getDate());
+      postSessionBookOverlayAjax(httpClient, sessionId, bookingDate);
 
       // 5 -------------------------------------------------------------------------
       getSessionConfirmBookingUrl(httpClient, selectedSessionDatePath);
@@ -366,7 +365,7 @@ public class BookingService {
       if (listItem.childrenSize() > 0) {
         String sessionTime = listItem.child(0).text();
         if (sessionTime != null && sessionTime.contains(bookingRequest.getTime())
-            && sessionDate.equals(bookingRequest.getDate())) {
+            && sessionDate.equals(getBookingRequestDate(bookingRequest))) {
           sessionId = listItem.attr(ATTR_SESSION_ID);
           break;
         }
@@ -509,13 +508,14 @@ public class BookingService {
     try {
       // 1 -------------------------------------------------------------------------
       Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
-      SessionType sessionType = getSessionType(bookingRequest);
+      SessionType sessionType = bookingRequest.getSessionType();
       String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getValue());
+      String bookingDate = getBookingRequestDate(bookingRequest);
 
       // 2 -------------------------------------------------------------------------
       Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
       String selectedSessionDatePath = getSelectedSessionDatePath(sessionTypePage,
-          selectedSessionTypeId, bookingRequest.getDate());
+          selectedSessionTypeId, bookingDate);
 
       // 3 -------------------------------------------------------------------------
       Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
@@ -603,8 +603,8 @@ public class BookingService {
       String siteName = tennisWorldSiteLink.getElementsByTag("p").text();
       String siteId = tennisWorldSiteLink.attr("href").substring(SITE_LINK_HREF.length());
       logger.debug("siteName:{}; siteId:{}", siteName, siteId);
-      Site site = getSite(bookingRequest);
-      if (siteName != null && siteName.equalsIgnoreCase(site.getValue())) {
+      Site site = bookingRequest.getSite();
+      if (siteName != null && site != null && siteName.equalsIgnoreCase(site.getValue())) {
         selectedSiteId = siteId;
       }
     }
@@ -633,18 +633,6 @@ public class BookingService {
           + selectedSiteId);
     }
     return completeLoginSelectedSiteResponsePage;
-  }
-
-  /**
-   * Get the tennis world site location.
-   */
-  private static Site getSite(BookingRequest bookingRequest) {
-    try {
-      return Site.valueOf(bookingRequest.getSite());
-    } catch (IllegalArgumentException e) {
-      throw new KameHouseBadRequestException("Invalid site: "
-          + bookingRequest.getSite());
-    }
   }
 
   /**
@@ -892,8 +880,8 @@ public class BookingService {
     if (cardDetails != null) {
       params.add(new BasicNameValuePair("name_on_card", cardDetails.getName()));
       params.add(new BasicNameValuePair("credit_card_number", cardDetails.getNumber()));
-      params.add(new BasicNameValuePair("expiry_month", cardDetails.getExpiryMonth()));
-      params.add(new BasicNameValuePair("expiry_year", cardDetails.getExpiryYear()));
+      params.add(new BasicNameValuePair("expiry_month", cardDetails.calculateExpiryMonth()));
+      params.add(new BasicNameValuePair("expiry_year", cardDetails.calculateExpiryYear()));
       params.add(new BasicNameValuePair("cvv_number", cardDetails.getCvv()));
     }
   }
@@ -927,15 +915,7 @@ public class BookingService {
     BookingResponse bookingResponse = new BookingResponse();
     bookingResponse.setStatus(status);
     bookingResponse.setMessage(message);
-    if (request != null) {
-      bookingResponse.setId(request.getId());
-      bookingResponse.setUsername(request.getUsername());
-      bookingResponse.setDate(request.getDate());
-      bookingResponse.setTime(request.getTime());
-      bookingResponse.setSessionType(request.getSessionType());
-      bookingResponse.setSite(request.getSite());
-      bookingResponse.setDuration(request.getDuration());
-    }
+    bookingResponse.setRequest(request);
     if (bookingResponse.getStatus() != Status.SUCCESS) {
       logger.error(BOOKING_FINISHED + bookingResponse);
     } else {
@@ -1047,32 +1027,12 @@ public class BookingService {
   }
 
   /**
-   * Generates a random request id.
-   */
-  private static String generateRequestId() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(System.currentTimeMillis());
-    sb.append("-");
-    sb.append(UUID.randomUUID().toString());
-    return sb.toString();
-  }
-
-  /**
-   * Set a new request id on a tennisworld booking request.
-   */
-  private static void setRequestId(BookingRequest request) {
-    request.setId(generateRequestId());
-  }
-
-  /**
    * Sets the current processing thread id from the tennisworld request id.
    */
-  private static void setThreadName(@Nonnull String requestId) {
+  private static void setThreadName(Long requestId) {
     StringBuilder sb = new StringBuilder();
     sb.append("twb-");
-    sb.append(requestId.substring(14, 22));
-    sb.append("-");
-    sb.append(requestId.substring(requestId.length() - 12, requestId.length()));
+    sb.append(requestId);
     ThreadUtils.setCurrentThreadName(sb.toString());
   }
 }

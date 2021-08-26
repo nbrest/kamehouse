@@ -98,7 +98,7 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
   private Boolean enabled;
 
   /**
-   * Duration in minutes. Format: MM (optional depending on sessionType)
+   * Duration in minutes. Format: MMM (optional depending on sessionType)
    */
   @Column(length = 3, name = "duration", unique = false, nullable = true)
   private String duration;
@@ -173,7 +173,6 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
     } else {
       this.bookingDate = null;
     }
-
   }
 
   public Integer getBookAheadDays() {

@@ -1,10 +1,25 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
+import static javax.persistence.TemporalType.DATE;
+
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 /**
  * Represents a tennis world booking request.
@@ -12,26 +27,61 @@ import java.io.Serializable;
  * @author nbrest
  *
  */
-public class BookingRequest implements Serializable {
+@Entity
+@Table(name = "booking_request")
+public class BookingRequest implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String id;
+  @Id
+  @Column(name = "id", unique = true, nullable = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @Column(length = 100, name = "username", unique = false, nullable = false)
   private String username;
+
+  @Transient
   private String password;
-  private String date; // Format: YYYY-MM-DD
-  private String time; // Format: HH:MM [24hs] which then gets converted to TennisWorld format
-  private String site;
-  private String sessionType;
-  private String duration; // Format: MMM (optional depending on sessionType)
+
+  /**
+   * Format yyyy-mm-dd.
+   */
+  @Column(name = "booking_date", unique = false, nullable = false)
+  @Temporal(DATE)
+  private Date date;
+
+  /**
+   * Format: HH:MM 24hs : 07:15, 11:30, 20:15, etc.
+   */
+  @Column(length = 5, name = "time", unique = false, nullable = false)
+  private String time;
+
+  @Enumerated(EnumType.STRING)
+  @Column(length = 50, name = "site", unique = false, nullable = false)
+  private Site site;
+
+  @Enumerated(EnumType.STRING)
+  @Column(length = 50, name = "session_type", unique = false, nullable = false)
+  private SessionType sessionType;
+
+  /**
+   * Duration in minutes. Format: MMM (optional depending on sessionType)
+   */
+  @Column(length = 3, name = "duration", unique = false, nullable = true)
+  private String duration;
+
+  @Transient
   private CardDetails cardDetails;
+
+  @Column(name = "dry_run", unique = false, nullable = true)
   private boolean dryRun = false;
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -51,12 +101,26 @@ public class BookingRequest implements Serializable {
     return password;
   }
 
-  public String getDate() {
-    return date;
+  /**
+   * Get booking date.
+   */
+  public Date getDate() {
+    if (date != null) {
+      return (Date) date.clone();
+    } else {
+      return null;
+    }
   }
 
-  public void setDate(String date) {
-    this.date = date;
+  /**
+   * Set booking date.
+   */
+  public void setDate(Date date) {
+    if (date != null) {
+      this.date = (Date) date.clone();
+    } else {
+      this.date = null;
+    }
   }
 
   public String getTime() {
@@ -67,19 +131,19 @@ public class BookingRequest implements Serializable {
     this.time = time;
   }
 
-  public String getSite() {
+  public Site getSite() {
     return site;
   }
 
-  public void setSite(String site) {
+  public void setSite(Site site) {
     this.site = site;
   }
 
-  public String getSessionType() {
+  public SessionType getSessionType() {
     return sessionType;
   }
 
-  public void setSessionType(String sessionType) {
+  public void setSessionType(SessionType sessionType) {
     this.sessionType = sessionType;
   }
 
@@ -189,9 +253,9 @@ public class BookingRequest implements Serializable {
     }
 
     /**
-     * Get the card expiry month.
+     * Calculate the card expiry month.
      */
-    public String getExpiryMonth() {
+    public String calculateExpiryMonth() {
       if (expiryDate != null && expiryDate.length() == 7) {
         return expiryDate.substring(0,2);
       } else {
@@ -200,9 +264,9 @@ public class BookingRequest implements Serializable {
     }
 
     /**
-     * Get the card expiry year.
+     * Calculate the card expiry year.
      */
-    public String getExpiryYear() {
+    public String calculateExpiryYear() {
       if (expiryDate != null && expiryDate.length() == 7) {
         return expiryDate.substring(3,7);
       } else {

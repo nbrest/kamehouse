@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
@@ -16,7 +17,9 @@ import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUt
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -60,6 +63,9 @@ public class BookingServiceTest {
 
   @Mock
   HttpResponse httpResponseMock;
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private static final String[] BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES = {
       "facility-booking-responses/step-1.1.html",
@@ -205,18 +211,13 @@ public class BookingServiceTest {
    */
   @Test
   public void bookFacilityOverlayRequestInvalidSiteTest() throws Exception {
+    thrown.expect(KameHouseInvalidDataException.class);
+
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    request.setSite("Melbourne Park - Invalid Site");
-    BookingResponse expected =
-        bookingResponseTestUtils.getTestDataList().get(1);
-    expected.setMessage("Invalid site: Melbourne Park - Invalid Site");
-    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+    request.setSite(null);
 
-    BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchDynamicFields(response, expected);
-
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+    bookingServiceSpy.book(request);
   }
 
   /**
@@ -224,18 +225,13 @@ public class BookingServiceTest {
    */
   @Test
   public void bookFacilityOverlayRequestInvalidSessionTypeTest() throws Exception {
+    thrown.expect(KameHouseInvalidDataException.class);
+
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    request.setSessionType("Rod Laver Arena Center Court");
-    BookingResponse expected =
-        bookingResponseTestUtils.getTestDataList().get(1);
-    expected.setMessage("Invalid sessionType: Rod Laver Arena Center Court");
-    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+    request.setSessionType(null);
 
-    BookingResponse response = bookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchDynamicFields(response, expected);
-
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+    bookingServiceSpy.book(request);
   }
 
   /**
@@ -245,7 +241,7 @@ public class BookingServiceTest {
   public void bookFacilityOverlayRequestInvalidDateTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    request.setDate("1800-12-10");
+    request.setDate(DateUtils.getDate(1800, Calendar.DECEMBER, 10));
     BookingResponse expected =
         bookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Error getting the selectedSessionDatePath");
@@ -373,7 +369,7 @@ public class BookingServiceTest {
   @Test
   public void bookSessionOverlayRequestErrorTest() {
     BookingRequest request = bookingRequestTestUtils.getSessionRequest();
-    request.setSessionType(SessionType.UNKNOWN.name());
+    request.setSessionType(SessionType.UNKNOWN);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setStatus(BookingResponse.Status.INTERNAL_ERROR);
     expected.setMessage("Unhandled sessionType: UNKNOWN");
@@ -408,9 +404,9 @@ public class BookingServiceTest {
     bookingScheduleConfig.setEnabled(true);
     bookingScheduleConfig.setSessionType(SessionType.CARDIO);
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    expected.setUsername(bookingScheduleConfig.getTennisWorldUser().getEmail());
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
-        "07:15pm", "2021-07-26", "45");
+    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected, bookingDate,
+       "07:15pm", SessionType.CARDIO, "45");
+    expected.getRequest().setCardDetails(null);
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
@@ -444,9 +440,8 @@ public class BookingServiceTest {
     bookingScheduleConfig.setEnabled(true);
     bookingScheduleConfig.setSessionType(SessionType.CARDIO);
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    expected.setUsername(bookingScheduleConfig.getTennisWorldUser().getEmail());
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected,
-        "07:15pm", "2021-07-26", "45");
+    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected, bookingDate,
+        "07:15pm", SessionType.CARDIO, "45");
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);

@@ -10,6 +10,9 @@
 * Added dropdown to limit the number of displayed rows to the crud manager
 * Added sorting of table by any column to the crud manager
 * Added read only functionality to crud manager
+* Added ui to trigger scheduled booking configurations execution to tennisworld
+* Added persistence for booking requests and responses
+* Added ui to view all booking requests and responses
 
 #### v6.03
 

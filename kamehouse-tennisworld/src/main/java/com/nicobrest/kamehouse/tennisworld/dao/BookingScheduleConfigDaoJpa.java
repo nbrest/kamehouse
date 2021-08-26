@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import org.springframework.stereotype.Repository;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
     implements CrudDao<BookingScheduleConfig> {
 
-  public static final Date DEFAULT_BOOKING_DATE = DateUtils.getDate(1984, 9, 15);
+  public static final Date DEFAULT_BOOKING_DATE = DateUtils.getDate(1984, Calendar.OCTOBER, 15);
   public static final String DEFAULT_BOOKING_DATE_STR = "1984-10-15";
 
   @Override
