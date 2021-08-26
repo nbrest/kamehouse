@@ -102,6 +102,22 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
     testDataList.add(sessionRequest);
+
+    BookingRequest sessionRequest2 = new BookingRequest();
+    sessionRequest2.setDate(DateUtils.getDate(2021, Calendar.JULY, 30));
+    sessionRequest2.setTime("06:30");
+    sessionRequest2.setDuration("45");
+    sessionRequest2.setPassword("goku-son");
+    sessionRequest2.setUsername("goku@dbz.com");
+    sessionRequest2.setSessionType(SessionType.CARDIO);
+    sessionRequest2.setSite(Site.MELBOURNE_PARK);
+    BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
+    cardDetails.setName("SON GOKU");
+    cardDetails.setNumber("1111222233334444");
+    cardDetails.setCvv("999");
+    cardDetails.setExpiryDate("12/3099");
+    sessionRequest2.setCardDetails(cardDetails);
+    testDataList.add(sessionRequest2);
   }
 
   private void initSessionRequest() {

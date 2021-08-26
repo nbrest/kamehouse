@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.tennisworld.model;
 
 import static javax.persistence.TemporalType.DATE;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
@@ -49,7 +48,7 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
   /**
    * Format yyyy-mm-dd.
    */
-  @Column(name = "booking_date", unique = false, nullable = false)
+  @Column(name = "date", unique = false, nullable = false)
   @Temporal(DATE)
   private Date date;
 
@@ -77,7 +76,7 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
   private CardDetails cardDetails;
 
   @Column(name = "dry_run", unique = false, nullable = true)
-  private boolean dryRun = false;
+  private Boolean dryRun = false;
 
   public Long getId() {
     return id;
@@ -165,11 +164,11 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
     this.cardDetails = cardDetails;
   }
 
-  public boolean isDryRun() {
+  public Boolean isDryRun() {
     return dryRun;
   }
 
-  public void setDryRun(boolean dryRun) {
+  public void setDryRun(Boolean dryRun) {
     this.dryRun = dryRun;
   }
 

@@ -11,6 +11,7 @@ import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Test data and common test methods to test Tennis World Booking Responses in all layers of the
@@ -29,10 +30,21 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
       "/scheduled-bookings";
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
+  private BookingRequest bookingRequest;
 
   @Override
   public void initTestData() {
     bookingRequestTestUtils.initTestData();
+    bookingRequest = bookingRequestTestUtils.getSingleTestData();
+    List<BookingRequest> bookingRequestList = bookingRequestTestUtils.getTestDataList();
+    for (int i = 0; i <= 2; i++) {
+      BookingRequest request = bookingRequestList.get(i);
+      request.setId(i + 1L);
+      request.setCardDetails(null);
+      request.setDryRun(null);
+      request.setPassword(null);
+    }
+
     initSingleTestData();
     initTestDataList();
     initTestDataDto();
@@ -57,6 +69,7 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
   public static void matchDynamicFields(BookingResponse response, BookingResponse expected) {
     expected.setId(response.getId());
     expected.getRequest().setPassword(response.getRequest().getPassword());
+    expected.getRequest().setId(response.getRequest().getId());
   }
 
   public static void updateResponseWithCardioRequestData(BookingResponse response, Date date,
@@ -73,14 +86,14 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     singleTestData = new BookingResponse();
     singleTestData.setStatus(BookingResponse.Status.SUCCESS);
     singleTestData.setMessage(BookingService.SUCCESSFUL_BOOKING);
-    singleTestData.setRequest(bookingRequestTestUtils.getSingleTestData());
+    singleTestData.setRequest(bookingRequest);
   }
 
   private void initTestDataDto() {
     testDataDto = new BookingResponseDto();
     testDataDto.setStatus(BookingResponse.Status.SUCCESS);
     testDataDto.setMessage(BookingService.SUCCESSFUL_BOOKING);
-    testDataDto.setRequest(bookingRequestTestUtils.getSingleTestData());
+    testDataDto.setRequest(bookingRequest);
   }
 
   private void initTestDataList() {
@@ -89,12 +102,17 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     BookingResponse error = new BookingResponse();
     error.setStatus(BookingResponse.Status.ERROR);
     error.setMessage("Client error");
-    error.setRequest(bookingRequestTestUtils.getSingleTestData());
+    BookingRequest bookingRequest2 = bookingRequestTestUtils.getTestDataList().get(1);
+    bookingRequest2.setId(2L);
+    error.setRequest(bookingRequest2);
     testDataList.add(error);
+
     BookingResponse internalError = new BookingResponse();
     internalError.setStatus(BookingResponse.Status.INTERNAL_ERROR);
     internalError.setMessage("Server error");
-    internalError.setRequest(bookingRequestTestUtils.getSingleTestData());
+    BookingRequest bookingRequest3 = bookingRequestTestUtils.getTestDataList().get(2);
+    bookingRequest3.setId(3L);
+    internalError.setRequest(bookingRequest3);
     testDataList.add(internalError);
   }
 }
