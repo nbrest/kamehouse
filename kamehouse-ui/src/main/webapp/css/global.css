@@ -532,6 +532,16 @@ hr {
 }
 
 /** Set margins -t top -b bottom -l left -r right | -d desktop -m mobile */
+/** margin auto */
+.m-auto-d-kh {
+  margin: auto;
+}
+
+@media (max-width : 900px) {
+  .m-auto-m-kh {
+    margin: auto;
+  }
+}
 
 /** margin 5 */
 .m-5-d-kh {
