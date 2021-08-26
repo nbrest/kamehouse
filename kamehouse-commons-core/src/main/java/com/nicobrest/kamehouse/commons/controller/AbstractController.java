@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 
-import com.nicobrest.kamehouse.commons.model.IdentifiableUserEntity;
+import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,8 +104,8 @@ public abstract class AbstractController {
       ResponseEntity<T> responseEntity) {
     T responseBody = responseEntity.getBody();
     //TODO check if there's a better generic way to do this than checking with instanceof
-    if (responseBody instanceof IdentifiableUserEntity) {
-      PasswordUtils.unsetPassword((IdentifiableUserEntity) responseBody);
+    if (responseBody instanceof IdentifiablePasswordEntity) {
+      PasswordUtils.unsetPassword((IdentifiablePasswordEntity) responseBody);
     }
     if (responseBody instanceof List) {
       PasswordUtils.unsetPassword((List<T>) responseBody);

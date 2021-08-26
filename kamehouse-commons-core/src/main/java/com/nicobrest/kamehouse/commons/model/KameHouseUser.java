@@ -26,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "kamehouse_user")
-public class KameHouseUser implements IdentifiableUserEntity<String>, UserDetails {
+public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDetails {
  
   private static final long serialVersionUID = 1L;
 

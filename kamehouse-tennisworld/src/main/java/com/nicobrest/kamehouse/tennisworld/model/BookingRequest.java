@@ -3,6 +3,8 @@ package com.nicobrest.kamehouse.tennisworld.model;
 import static javax.persistence.TemporalType.DATE;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
+import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -29,7 +31,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "booking_request")
-public class BookingRequest implements Identifiable, Serializable {
+public class BookingRequest implements IdentifiablePasswordEntity<String>, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -173,11 +175,12 @@ public class BookingRequest implements Identifiable, Serializable {
 
   @Override
   public int hashCode() {
+    String dateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, date);
     return new HashCodeBuilder()
         .append(id)
         .append(username)
         .append(password)
-        .append(date)
+        .append(dateFormatted)
         .append(time)
         .append(site)
         .append(sessionType)
@@ -188,11 +191,13 @@ public class BookingRequest implements Identifiable, Serializable {
   public boolean equals(final Object obj) {
     if (obj instanceof BookingRequest) {
       final BookingRequest other = (BookingRequest) obj;
+      String dateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, date);
+      String otherDateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, other.getDate());
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())
           .append(password,other.getPassword())
-          .append(date,other.getDate())
+          .append(dateFormatted, otherDateFormatted)
           .append(time,other.getTime())
           .append(site,other.getSite())
           .append(sessionType,other.getSessionType())

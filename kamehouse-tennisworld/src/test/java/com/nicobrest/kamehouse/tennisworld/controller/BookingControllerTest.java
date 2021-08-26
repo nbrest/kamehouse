@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
@@ -38,7 +39,8 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
-public class BookingControllerTest extends AbstractControllerTest<BookingResponse, Object> {
+public class BookingControllerTest extends AbstractControllerTest<BookingResponse,
+    BookingResponseDto> {
 
   private static final String API_V1_TENNISWORLD_BOOKINGS =
       BookingResponseTestUtils.API_V1_TENNISWORLD_BOOKINGS;

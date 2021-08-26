@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Test User Entity to test password utils.
  */
-public class TestUserEntity implements IdentifiableUserEntity<String>, Serializable {
+public class TestUserEntity implements IdentifiablePasswordEntity<String>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 

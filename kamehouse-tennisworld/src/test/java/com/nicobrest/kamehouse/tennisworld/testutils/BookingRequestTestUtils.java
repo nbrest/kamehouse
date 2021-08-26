@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -18,9 +19,11 @@ import java.util.LinkedList;
  * @author nbrest
  *
  */
-public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, Object>
-    implements TestUtils<BookingRequest, Object> {
+public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, BookingRequestDto>
+    implements TestUtils<BookingRequest, BookingRequestDto> {
 
+  public static final String API_V1_TENNISWORLD_BOOKING_REQUESTS = "/api/v1/tennis-world"
+      + "/booking-requests/";
   private BookingRequest sessionRequest = null;
 
   public BookingRequest getSessionRequest() {
@@ -32,19 +35,33 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, O
     initSessionRequest();
     initSingleTestData();
     initTestDataList();
+    initTestDataDto();
   }
 
   @Override
   public void assertEqualsAllAttributes(BookingRequest expected, BookingRequest returned) {
     assertEquals(expected, returned);
     assertEquals(expected.getSite(), returned.getSite());
-    assertEquals(expected.getDate(), returned.getDate());
     assertEquals(expected.getPassword(), returned.getPassword());
     assertEquals(expected.getSessionType(), returned.getSessionType());
     assertEquals(expected.getTime(), returned.getTime());
     assertEquals(expected.getUsername(), returned.getUsername());
     assertEquals(expected.getCardDetails(), returned.getCardDetails());
     assertEquals(expected.getDuration(), returned.getDuration());
+
+    String expectedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, expected.getDate());
+    String returnedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, returned.getDate());
+    assertEquals(expectedDate, returnedDate);
+  }
+
+  /**
+   * Unset transient data for DAO tests.
+   */
+  public void unsetTransientData() {
+    for (BookingRequest request : testDataList) {
+      request.setPassword(null);
+      request.setCardDetails(null);
+    }
   }
 
   private void initSingleTestData() {
@@ -62,6 +79,23 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, O
     cardDetails.setCvv("999");
     cardDetails.setExpiryDate("12/3099");
     singleTestData.setCardDetails(cardDetails);
+  }
+
+  private void initTestDataDto() {
+    testDataDto = new BookingRequestDto();
+    testDataDto.setDate(DateUtils.getDate(2020, Calendar.JULY, 28));
+    testDataDto.setTime("18:45");
+    testDataDto.setDuration("60");
+    testDataDto.setPassword("goku-son");
+    testDataDto.setUsername("goku@dbz.com");
+    testDataDto.setSessionType(SessionType.ROD_LAVER_OUTDOOR);
+    testDataDto.setSite(Site.MELBOURNE_PARK);
+    BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
+    cardDetails.setName("SON GOKU");
+    cardDetails.setNumber("1111222233334444");
+    cardDetails.setCvv("999");
+    cardDetails.setExpiryDate("12/3099");
+    testDataDto.setCardDetails(cardDetails);
   }
 
   private void initTestDataList() {

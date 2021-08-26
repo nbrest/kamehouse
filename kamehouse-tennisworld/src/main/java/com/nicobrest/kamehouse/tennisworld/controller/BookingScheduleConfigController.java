@@ -34,7 +34,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   /**
    * Creates a new entity in the repository.
    */
-  @PostMapping(path = "/booking-schedule-config")
+  @PostMapping(path = "/booking-schedule-configs")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody BookingScheduleConfigDto dto) {
     return create(bookingScheduleConfigService, dto);
@@ -43,7 +43,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   /**
    * Returns a specific entity from the repository based on the id.
    */
-  @GetMapping(path = "/booking-schedule-config/{id}")
+  @GetMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<BookingScheduleConfig> read(@PathVariable Long id) {
     return generatePasswordLessResponse(read(bookingScheduleConfigService, id));
@@ -52,7 +52,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   /**
    * Returns all entities.
    */
-  @GetMapping(path = "/booking-schedule-config")
+  @GetMapping(path = "/booking-schedule-configs")
   @ResponseBody
   public ResponseEntity<List<BookingScheduleConfig>> readAll() {
     return generatePasswordLessResponseList(readAll(bookingScheduleConfigService));
@@ -61,7 +61,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   /**
    * Updates an entity in the repository.
    */
-  @PutMapping(path = "/booking-schedule-config/{id}")
+  @PutMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id,
                                      @RequestBody BookingScheduleConfigDto dto) {
@@ -71,7 +71,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   /**
    * Deletes an entity from the repository.
    */
-  @DeleteMapping(path = "/booking-schedule-config/{id}")
+  @DeleteMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<BookingScheduleConfig> delete(@PathVariable Long id) {
     return generatePasswordLessResponse(delete(bookingScheduleConfigService, id));

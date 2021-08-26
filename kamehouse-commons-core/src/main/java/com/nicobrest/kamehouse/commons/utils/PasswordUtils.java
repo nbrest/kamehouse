@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import com.nicobrest.kamehouse.commons.model.IdentifiableUserEntity;
+import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -46,7 +46,7 @@ public class PasswordUtils {
    * Unset the password from the identifiableUserEntity.
    * This is usually called on the Controller layer to avoid returning passwords in the APIs.
    */
-  public static <P> void unsetPassword(IdentifiableUserEntity<P> entity) {
+  public static <P> void unsetPassword(IdentifiablePasswordEntity<P> entity) {
     //TODO check if there's a better generic way to do this than checking with instanceof
     if (entity != null) {
       if (entity.getPassword() instanceof byte[]) {
@@ -65,8 +65,8 @@ public class PasswordUtils {
       return;
     }
     for (T entity : entities) {
-      if (entity != null && entity instanceof IdentifiableUserEntity) {
-        unsetPassword((IdentifiableUserEntity) entity);
+      if (entity != null && entity instanceof IdentifiablePasswordEntity) {
+        unsetPassword((IdentifiablePasswordEntity) entity);
       }
     }
   }

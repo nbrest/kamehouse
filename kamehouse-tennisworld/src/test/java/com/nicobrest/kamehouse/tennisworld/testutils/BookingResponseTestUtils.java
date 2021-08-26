@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 
 import java.util.Date;
@@ -18,9 +19,11 @@ import java.util.LinkedList;
  * @author nbrest
  *
  */
-public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse, Object>
-    implements TestUtils<BookingResponse, Object> {
+public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse, BookingResponseDto>
+    implements TestUtils<BookingResponse, BookingResponseDto> {
 
+  public static final String API_V1_TENNISWORLD_BOOKING_RESPONSES = "/api/v1/tennis-world"
+      + "/booking-responses/";
   public static final String API_V1_TENNISWORLD_BOOKINGS = "/api/v1/tennis-world/bookings";
   public static final String API_V1_TENNISWORLD_SCHEDULED_BOOKINGS = "/api/v1/tennis-world" +
       "/scheduled-bookings";
@@ -32,6 +35,7 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     bookingRequestTestUtils.initTestData();
     initSingleTestData();
     initTestDataList();
+    initTestDataDto();
   }
 
   @Override
@@ -70,6 +74,13 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     singleTestData.setStatus(BookingResponse.Status.SUCCESS);
     singleTestData.setMessage(BookingService.SUCCESSFUL_BOOKING);
     singleTestData.setRequest(bookingRequestTestUtils.getSingleTestData());
+  }
+
+  private void initTestDataDto() {
+    testDataDto = new BookingResponseDto();
+    testDataDto.setStatus(BookingResponse.Status.SUCCESS);
+    testDataDto.setMessage(BookingService.SUCCESSFUL_BOOKING);
+    testDataDto.setRequest(bookingRequestTestUtils.getSingleTestData());
   }
 
   private void initTestDataList() {

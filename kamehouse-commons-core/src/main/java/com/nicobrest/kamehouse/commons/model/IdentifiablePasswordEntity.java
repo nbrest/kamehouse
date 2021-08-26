@@ -11,7 +11,7 @@ import com.nicobrest.kamehouse.commons.dao.Identifiable;
  * @author nbrest
  *
  */
-public interface IdentifiableUserEntity<P> extends Identifiable {
+public interface IdentifiablePasswordEntity<P> extends Identifiable {
 
   /**
    * Gets the password of the entity.
