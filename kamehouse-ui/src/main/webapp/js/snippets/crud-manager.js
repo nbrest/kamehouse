@@ -554,7 +554,7 @@ function CrudManager() {
       }, parentNodeChain + column.name);
       domUtils.setClick(td, null,
         () => {
-          tableUtils.sortTable("crud-manager-table", i);
+          tableUtils.sortTable("crud-manager-table", i, type);
           filterRows();
         }
       );

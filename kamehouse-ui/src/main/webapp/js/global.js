@@ -1064,9 +1064,11 @@ function TableUtils() {
 
   /**
    * Sort the table by the specified column number.
-   * This sorts lexicographically, so for example, number 331 is put before number 36
+   * This sorts lexicographically by default, so for example, number 331 is put before number 36
+   * sortType can be:
+   * lexicographically (default if null), numeric, date, timestamp
    */
-  function sortTable(tableId, columnNumber) {
+  function sortTable(tableId, columnNumber, dataType) {
     const table = document.getElementById(tableId);
     const rows = table.rows;
 
@@ -1080,21 +1082,24 @@ function TableUtils() {
 
     while (sorting) {
       sorting = false;
+
       for (currentRowIndex = 1; currentRowIndex < (rows.length - 1); currentRowIndex++) {
         swapRows = false;
         currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
         nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];        
-        if (shouldSwap(currentRow, nextRow, sortDirection)) {
+        if (shouldSwap(currentRow, nextRow, sortDirection, dataType)) {
           swapRows = true;
           break;
         }
       }
+
       if (swapRows) {
         domUtils.insertBefore(rows[currentRowIndex].parentNode, rows[currentRowIndex + 1], rows[currentRowIndex]);
         sorting = true;
         swapCount++;
       } else {
         if (swapCount == 0 && sortDirection == "asc") {
+          // if no sorting was done, swap sort direction, and sort reversely.
           sortDirection = "desc";
           sorting = true;
         }
@@ -1105,16 +1110,39 @@ function TableUtils() {
   /**
    * Returns true if the current and next rows need to be swapped.
    */
-  function shouldSwap(currentRow, nextRow, sortDirection) {
-    if (sortDirection == "asc") {
-      if (currentRow.innerHTML.toLowerCase() > nextRow.innerHTML.toLowerCase()) {
-        return true;
-      }
-    } else if (sortDirection == "desc") {
-      if (currentRow.innerHTML.toLowerCase() < nextRow.innerHTML.toLowerCase()) {
-        return true;
-      }
+  function shouldSwap(currentRow, nextRow, sortDirection, dataType) {
+    let compare = getComparatorFunction(dataType);
+    let shouldSwap = compare(currentRow, nextRow);
+    if (sortDirection == "desc") {
+      shouldSwap = !shouldSwap;
     }
+    return shouldSwap;
+  }
+
+  /**
+   * Get the function to
+   */
+  function getComparatorFunction(dataType) {
+    if (dataType == "numeric" || dataType == "id") {
+      return isNumericallyHigher;
+    }
+    return isLexicographicallyHigher;
+  }
+
+  /**
+   * Returns true if first parameter is higher than second lexicographically.
+   */
+  function isLexicographicallyHigher(currentRow, nextRow) {
+    return currentRow.innerHTML.toLowerCase() > nextRow.innerHTML.toLowerCase();
+  }
+
+  /**
+   * Returns true if first parameter is higher than second lexicographically.
+   */
+  function isNumericallyHigher(currentRow, nextRow) {
+    const currentRowVal = parseInt(currentRow.innerHTML);
+    const nextRowVal = parseInt(nextRow.innerHTML);
+    return currentRowVal > nextRowVal;
   }
 
   /**
