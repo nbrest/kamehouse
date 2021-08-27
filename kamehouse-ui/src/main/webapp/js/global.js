@@ -1170,6 +1170,7 @@ function TimeUtils() {
   this.getTimestamp = getTimestamp;
   this.convertSecondsToHsMsSs = convertSecondsToHsMsSs;
   this.getDateWithTimezoneOffset = getDateWithTimezoneOffset;
+  this.getDateFromEpoch = getDateFromEpoch;
 
   /** Get current timestamp with client timezone. */
   function getTimestamp() {
@@ -1187,7 +1188,16 @@ function TimeUtils() {
   }
 
   /** Convert input in seconds to hh:mm:ss output. */
-  function convertSecondsToHsMsSs(seconds) { return new Date(seconds * 1000).toISOString().substr(11, 8); }
+  function convertSecondsToHsMsSs(seconds) { 
+    return new Date(seconds * 1000).toISOString().substr(11, 8); 
+  }
+
+  /**
+   * Get the date from an epoch string.
+   */
+  function getDateFromEpoch(epoch) {
+    return new Date(parseInt(epoch));
+  }
 }
 
 /**

@@ -89,12 +89,12 @@ function sendWebSocketRequest() {
 function showTestWebSocketResponse(testWebSocketResponseBody) {
   logger.trace(arguments.callee.name);
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
-  const date = new Date(parseInt(testWebSocketResponseBody.date));
-  domUtils.append($("#websocket-responses"), getWebsocketResponseTr(date.toLocaleDateString(), testWebSocketResponseBody.message));
+  const date = timeUtils.getDateFromEpoch(testWebSocketResponseBody.date);
+  domUtils.append($("#websocket-responses"), getWebsocketResponseTr(date, testWebSocketResponseBody.message));
 }
 
 function getWebsocketResponseTr(date, message) {
-  return domUtils.getTrTd(date + " : " + message);
+  return domUtils.getTrTd(date.toLocaleString() + " : " + message);
 }
 
 /** Call main. */

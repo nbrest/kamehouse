@@ -117,15 +117,19 @@ function BookingService() {
    */
   function updateBookingResponseTable(bookingResponse, responseCode) {
       domUtils.setHtml($('#brt-response-code'), responseCode);
-      domUtils.setHtml($('#brt-id'), bookingResponse.id);
+      domUtils.setHtml($('#brt-response-id'), bookingResponse.id);
       domUtils.setHtml($('#brt-status'), bookingResponse.status);
       domUtils.setHtml($('#brt-message'), bookingResponse.message);
-      domUtils.setHtml($('#brt-username'), bookingResponse.username);
-      domUtils.setHtml($('#brt-date'), bookingResponse.date);
-      domUtils.setHtml($('#brt-time'), bookingResponse.time);
-      domUtils.setHtml($('#brt-session-type'), bookingResponse.sessionType);
-      domUtils.setHtml($('#brt-site'), bookingResponse.site);
-      domUtils.setHtml($('#brt-duration'), bookingResponse.duration);      
+      domUtils.setHtml($('#brt-request-id'), bookingResponse.request.id);
+      domUtils.setHtml($('#brt-username'), bookingResponse.request.username);
+      const date = timeUtils.getDateFromEpoch(bookingResponse.request.date);
+      domUtils.setHtml($('#brt-date'), date.toLocaleDateString());
+      domUtils.setHtml($('#brt-time'), bookingResponse.request.time);
+      domUtils.setHtml($('#brt-session-type'), bookingResponse.request.sessionType);
+      domUtils.setHtml($('#brt-site'), bookingResponse.request.site);
+      domUtils.setHtml($('#brt-duration'), bookingResponse.request.duration);    
+      const creationDate = timeUtils.getDateFromEpoch(bookingResponse.request.creationDate);
+      domUtils.setHtml($('#brt-creation-date'), creationDate.toLocaleString());   
   }
 }
 
