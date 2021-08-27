@@ -4,6 +4,11 @@ window.onload = () => {
       readOnly: true,
       entityName: "Booking Response",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-responses",
+      defaultSorting: {
+        columnNumber: 11, //creationDate
+        sortType: "timestamp",
+        direction: "desc"
+      },
       columns: [
         { 
           name: "id",
@@ -41,7 +46,8 @@ window.onload = () => {
               name: "sessionType",
               type: "select",
               values: ["CARDIO", "NTC_CLAY_COURTS", "NTC_OUTDOOR", "ROD_LAVER_OUTDOOR", "ROD_LAVER_SHOW_COURTS"],
-              displayValues: ["Cardio", "NTC Clay Courts", "NTC Outdoors", "Rod Laver Outdoors", "Rod Laver Show Courts"]
+              displayValues: ["Cardio", "NTC Clay Courts", "NTC Outdoors", "Rod Laver Outdoors", "Rod Laver Show Courts"],
+              sortType: "text"
             },
             { 
               name: "site",
@@ -53,7 +59,8 @@ window.onload = () => {
               name: "duration",
               type: "select",
               values: ["0", "15", "30", "45", "60", "90", "120", "150", "180"],
-              displayValues: ["0", "15", "30", "45", "60", "90", "120", "150", "180"]
+              displayValues: ["0", "15", "30", "45", "60", "90", "120", "150", "180"],
+              sortType: "number"
             },
             { 
               name: "dryRun",

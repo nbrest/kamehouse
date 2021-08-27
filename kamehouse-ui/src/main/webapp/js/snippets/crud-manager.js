@@ -32,6 +32,7 @@ function CrudManager() {
   let columns = [];
   let entities = [];
   let readOnly = false;
+  let defaultSorting = null;
   
   /**
    * Load the crud manager module.
@@ -77,10 +78,11 @@ function CrudManager() {
     setUrl(config.url);
     setColumns(config.columns);
     setReadOnly(config.readOnly);
+    setDefaultSorting(config.defaultSorting);
     updateEntityNameInView();
     loadStateFromCookies();
-    readAll();
     disableEditFunctionalityForReadOnly();
+    readAll();
   }
 
   /**
@@ -146,6 +148,15 @@ function CrudManager() {
   function setReadOnly(crudReadOnly) {
     if (!isEmpty(crudReadOnly)) {
       readOnly = crudReadOnly;
+    }
+  }
+
+  /**
+   * Set the default sorting of table data.
+   */
+  function setDefaultSorting(crudDefaultSorting) {
+    if (!isEmpty(crudDefaultSorting)) {
+      defaultSorting = crudDefaultSorting;
     }
   }
 
@@ -331,6 +342,7 @@ function CrudManager() {
     filterRows();
     reloadForm(addInputFieldsId);
     reloadForm(editInputFieldsId);
+    sortTable();
   }
 
   /**
@@ -429,7 +441,7 @@ function CrudManager() {
     try {
       const date = timeUtils.getDateFromEpoch(value);
       if (timeUtils.isValidDate(date)) {
-        return date.toLocaleString();
+        return timeUtils.getTimestamp(date);
       } else {
         logger.warn("Invalid timestamp " + value);
         return value;
@@ -526,7 +538,7 @@ function CrudManager() {
     const tr = domUtils.getTr({
       class: "table-kh-header"
     }, null);
-    setHeaderColumns(tr, columns, null);
+    setHeaderColumns(tr, columns, null, 0);
     if (!readOnly) {
       domUtils.append(tr, domUtils.getTd({
         class: "table-kh-actions"
@@ -538,28 +550,43 @@ function CrudManager() {
   /**
    * Set the table header columns.
    */
-  function setHeaderColumns(tr, currentNodeColumns, parentNodeChain) {
+  function setHeaderColumns(tr, currentNodeColumns, parentNodeChain, columnIndex) {
     parentNodeChain= initParentNodeChain(parentNodeChain);
     for (let i = 0; i < currentNodeColumns.length; i++) {
       const column = currentNodeColumns[i];
       const type = column.type;
+      const name = column.name;
       if (isObjectField(type)) {
-        setHeaderColumns(tr, column.columns, parentNodeChain + column.name);
+        setHeaderColumns(tr, column.columns, parentNodeChain + name, columnIndex);
         continue;
       }
       const td = domUtils.getTd({
         class: "clickable",
-        alt: "Sort by " + column.name,
-        title: "Sort by " + column.name
-      }, parentNodeChain + column.name);
+        alt: "Sort by " + name,
+        title: "Sort by " + name
+      }, parentNodeChain + name);
+      const currentColumnIndex = columnIndex;
+      const sortType = getSortType(column);
       domUtils.setClick(td, null,
         () => {
-          tableUtils.sortTable("crud-manager-table", i, type);
+          tableUtils.sortTable("crud-manager-table", currentColumnIndex, sortType);
           filterRows();
         }
       );
-      domUtils.append(tr, td); 
+      domUtils.append(tr, td);
+      columnIndex++;
     }
+  }
+
+  /**
+   * Get the sort type based on the column type.
+   */
+  function getSortType(column) {
+    const type = column.type;
+    if (type == "select" && !isEmpty(column.sortType)) {
+      return column.sortType;
+    }
+    return type;
   }
 
   /**
@@ -885,6 +912,19 @@ function CrudManager() {
 
     const filterString = document.getElementById('table-filter').value;
     tableUtils.filterTableRows(filterString, 'crud-manager-tbody', numRows);
+  }
+
+  /**
+   * Sort the table data if default sorting is specified.
+   * Column numbers start with 0.
+   * 
+   */
+  function sortTable() {
+    if (isEmpty(defaultSorting)) {
+      return;
+    }
+    logger.trace("Sorting table data with default sorting config: " + JSON.stringify(defaultSorting));
+    tableUtils.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction);
   }
 }
 

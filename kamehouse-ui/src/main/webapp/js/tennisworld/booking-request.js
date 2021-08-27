@@ -4,6 +4,11 @@ window.onload = () => {
       readOnly: true,
       entityName: "Booking Request",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-requests",
+      defaultSorting: {
+        columnNumber: 8, //creationDate
+        sortType: "timestamp",
+        direction: "desc"
+      },
       columns: [
         { 
           name: "id",

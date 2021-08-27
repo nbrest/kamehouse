@@ -1064,22 +1064,38 @@ function TableUtils() {
 
   /**
    * Sort the table by the specified column number.
-   * This sorts lexicographically by default, so for example, number 331 is put before number 36
-   * dataType can be:
-   * mull(lexicographical sorting), number, date, timestamp, etc
-   * (all types used in crud-manager.js)
+   * 
+   * getComparatorFunction() determines which type of sorting will be used depending on the dataType.
+   * The dataType is the same type used in crud-manager.js to determine the column types.
+   * For some columns, such as select, there's a separate sortType property set to determine the sorting type.
+   * The default sorting type if not specified will be lexicographically, 
+   * which also works for dates formatted as yyyy-mm-dd and timestamps formatted as yyyy-mm-dd hh:mm:ss 
+   * 
+   * sortDirection can either be "asc" or "desc"
    */
-  function sortTable(tableId, columnNumber, dataType) {
+  function sortTable(tableId, columnNumber, dataType, initialSortDirection) {
+    logger.trace("tableId " + tableId);
+    logger.trace("columnNumber " + columnNumber);
+    logger.trace("dataType " + dataType);
+    logger.trace("initialSortDirection " + initialSortDirection);
+
     const table = document.getElementById(tableId);
     const rows = table.rows;
+    const MAX_SORTING_CYCLES = 50000;
+    const compareFunction = getComparatorFunction(dataType);
 
-    let sorting = true; 
-    let sortDirection = "asc";
+    let numSortingCycles = 0;
+    let sorting = true;
     let swapRows = false;
     let swapCount = 0;
     let currentRowIndex = 0;
     let currentRow = null;
-    let nextRow = null; 
+    let nextRow = null;
+    let sortDirection = "asc";
+
+    if (initialSortDirection != "asc" && initialSortDirection != "desc") {
+      initialSortDirection = null;
+    }
 
     while (sorting) {
       sorting = false;
@@ -1088,7 +1104,7 @@ function TableUtils() {
         swapRows = false;
         currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
         nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];        
-        if (shouldSwap(currentRow, nextRow, sortDirection, dataType)) {
+        if (shouldSwap(currentRow, nextRow, sortDirection, compareFunction)) {
           swapRows = true;
           break;
         }
@@ -1099,51 +1115,65 @@ function TableUtils() {
         sorting = true;
         swapCount++;
       } else {
-        if (swapCount == 0 && sortDirection == "asc") {
+        if (swapCount == 0 && sortDirection == "asc" && initialSortDirection != "asc") {
           // if no sorting was done, swap sort direction, and sort reversely.
           sortDirection = "desc";
           sorting = true;
         }
       }
+      if (numSortingCycles > MAX_SORTING_CYCLES) {
+        sorting = false;
+        logger.error("Ending sorting after " + MAX_SORTING_CYCLES + " sorting cycles. Something is VERY likely off with the sorting function. Breaking either infinite loop or a very inefficient sorting");
+      }
+      numSortingCycles++;
     }
+    logger.trace("numSortingCycles " + numSortingCycles);
   }
 
   /**
    * Returns true if the current and next rows need to be swapped.
    */
-  function shouldSwap(currentRow, nextRow, sortDirection, dataType) {
-    let compare = getComparatorFunction(dataType);
-    let shouldSwap = compare(currentRow, nextRow);
-    if (sortDirection == "desc") {
-      shouldSwap = !shouldSwap;
-    }
-    return shouldSwap;
+  function shouldSwap(currentRow, nextRow, sortDirection, compareFunction) {
+    return compareFunction(currentRow, nextRow, sortDirection);
   }
 
   /**
-   * Get the function to
+   * Get the sorting function depending on the data type.
    */
   function getComparatorFunction(dataType) {
     if (dataType == "number" || dataType == "id") {
-      return isNumericallyHigher;
+      logger.trace("Using compareNumerically");
+      return compareNumerically;
     }
-    return isLexicographicallyHigher;
+
+    logger.trace("Using compareLexicographically");
+    return compareLexicographically;
   }
 
   /**
    * Returns true if first parameter is higher than second lexicographically.
    */
-  function isLexicographicallyHigher(currentRow, nextRow) {
-    return currentRow.innerHTML.toLowerCase() > nextRow.innerHTML.toLowerCase();
+  function compareLexicographically(currentRow, nextRow, sortDirection) {
+    const currentRowVal = currentRow.innerHTML.toLowerCase();
+    const nextRowVal = nextRow.innerHTML.toLowerCase();
+    if (sortDirection == "asc") {
+      return currentRowVal > nextRowVal;
+    } else {
+      return currentRowVal < nextRowVal;
+    }
   }
 
   /**
-   * Returns true if first parameter is higher than second lexicographically.
+   * Returns true if first parameter is higher than second numerically.
    */
-  function isNumericallyHigher(currentRow, nextRow) {
+  function compareNumerically(currentRow, nextRow, sortDirection) {
     const currentRowVal = parseInt(currentRow.innerHTML);
     const nextRowVal = parseInt(nextRow.innerHTML);
-    return currentRowVal > nextRowVal;
+    if (sortDirection == "asc") {
+      return currentRowVal > nextRowVal;
+    } else {
+      return currentRowVal < nextRowVal;
+    }
   }
 
   /**
@@ -1202,11 +1232,13 @@ function TimeUtils() {
   this.getDateFromEpoch = getDateFromEpoch;
   this.isValidDate = isValidDate;
 
-  /** Get current timestamp with client timezone. */
-  function getTimestamp() {
-    const newDate = new Date();
-    const offsetTime = newDate.getTimezoneOffset() * -1 * 60 * 1000;
-    const currentDateTime = newDate.getTime();
+  /** Get timestamp with client timezone for the specified date or current date if null. */
+  function getTimestamp(date) {
+    if (isEmpty(date)) {
+      date = new Date();
+    }
+    const offsetTime = date.getTimezoneOffset() * -1 * 60 * 1000;
+    const currentDateTime = date.getTime();
     return new Date(currentDateTime + offsetTime).toISOString().replace("T", " ").slice(0, 19);
   }
   
