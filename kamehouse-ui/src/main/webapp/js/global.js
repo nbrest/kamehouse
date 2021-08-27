@@ -1065,8 +1065,9 @@ function TableUtils() {
   /**
    * Sort the table by the specified column number.
    * This sorts lexicographically by default, so for example, number 331 is put before number 36
-   * sortType can be:
-   * lexicographically (default if null), numeric, date, timestamp
+   * dataType can be:
+   * mull(lexicographical sorting), number, date, timestamp, etc
+   * (all types used in crud-manager.js)
    */
   function sortTable(tableId, columnNumber, dataType) {
     const table = document.getElementById(tableId);
@@ -1123,7 +1124,7 @@ function TableUtils() {
    * Get the function to
    */
   function getComparatorFunction(dataType) {
-    if (dataType == "numeric" || dataType == "id") {
+    if (dataType == "number" || dataType == "id") {
       return isNumericallyHigher;
     }
     return isLexicographicallyHigher;
