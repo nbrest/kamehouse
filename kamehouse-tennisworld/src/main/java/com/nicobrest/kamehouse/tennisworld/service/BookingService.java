@@ -18,6 +18,7 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -40,7 +41,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -98,6 +98,12 @@ public class BookingService {
   @Autowired
   private BookingScheduleConfigService bookingScheduleConfigService;
 
+  @Autowired
+  private BookingRequestService bookingRequestService;
+
+  @Autowired
+  private BookingResponseService bookingResponseService;
+
   /**
    * Set the sleep ms between requests.
    */
@@ -111,8 +117,10 @@ public class BookingService {
   public BookingResponse book(BookingRequest bookingRequest) {
     try {
       validateRequest(bookingRequest);
+      Long requestId = bookingRequestService.create(bookingRequest.toDto());
+      bookingRequest.setId(requestId);
+      setThreadName(requestId);
       updateTimeFormatForTennisWorld(bookingRequest);
-      setThreadName(bookingRequest.getId());
       SessionType sessionType = bookingRequest.getSessionType();
       logger.info("Booking tennis world request: {}", bookingRequest);
       switch (sessionType) {
@@ -185,6 +193,7 @@ public class BookingService {
   /**
    * Create a tennisworld booking request based on the schedule config.
    */
+  // TODO move to a builder in booking request
   private BookingRequest createScheduledBookingRequest(BookingScheduleConfig
       bookingScheduleConfig, Date bookingDate) {
     BookingRequest request = new BookingRequest();
@@ -197,6 +206,7 @@ public class BookingService {
     request.setSessionType(bookingScheduleConfig.getSessionType());
     request.setSite(bookingScheduleConfig.getSite());
     request.setTime(bookingScheduleConfig.getTime());
+    request.setScheduled(true);
     return request;
   }
 
@@ -262,9 +272,8 @@ public class BookingService {
    * Gets the decrypted password for the tennisworld user.
    */
   private String getDecryptedPassword(TennisWorldUser tennisWorldUser) {
-    byte[] decryptedPassword = EncryptionUtils.decrypt(tennisWorldUser.getPassword(),
+    return EncryptionUtils.decryptToString(tennisWorldUser.getPassword(),
         EncryptionUtils.getKameHousePrivateKey());
-    return new String(decryptedPassword, StandardCharsets.UTF_8);
   }
 
   /**
@@ -911,16 +920,20 @@ public class BookingService {
   /**
    * Build a tennis world response with the specified status and message.
    */
+  //TODO move this to a builder inside BookingResponse
   private BookingResponse buildResponse(Status status, String message, BookingRequest request) {
     BookingResponse bookingResponse = new BookingResponse();
     bookingResponse.setStatus(status);
     bookingResponse.setMessage(message);
+    request.setPassword(null);
     bookingResponse.setRequest(request);
     if (bookingResponse.getStatus() != Status.SUCCESS) {
       logger.error(BOOKING_FINISHED + bookingResponse);
     } else {
       logger.info(BOOKING_FINISHED + bookingResponse);
     }
+    Long responseId = bookingResponseService.create(bookingResponse.toDto());
+    bookingResponse.setId(responseId);
     return bookingResponse;
   }
 

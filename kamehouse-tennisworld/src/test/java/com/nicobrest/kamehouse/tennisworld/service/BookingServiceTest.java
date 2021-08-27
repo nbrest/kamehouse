@@ -59,6 +59,12 @@ public class BookingServiceTest {
   private BookingScheduleConfigService bookingScheduleConfigService;
 
   @Mock
+  private BookingRequestService bookingRequestService;
+
+  @Mock
+  private BookingResponseService bookingResponseService;
+
+  @Mock
   HttpClient httpClientMock;
 
   @Mock
@@ -170,6 +176,8 @@ public class BookingServiceTest {
 
     when(bookingScheduleConfigService.readAll())
         .thenReturn(bookingScheduleConfigTestUtils.getTestDataList());
+    when(bookingRequestService.create((any()))).thenReturn(1L);
+    when(bookingResponseService.create((any()))).thenReturn(1L);
   }
 
   /**
@@ -394,6 +402,8 @@ public class BookingServiceTest {
     when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
 
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.getRequest().setScheduled(true);
+
     BookingScheduleConfig bookingScheduleConfig =
         bookingScheduleConfigTestUtils.getSingleTestData();
     bookingScheduleConfig.setBookingDate(null);
@@ -414,7 +424,6 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
 
-
   /**
    * Test booking a one off scheduled session.
    */
@@ -430,6 +439,8 @@ public class BookingServiceTest {
     when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
 
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.getRequest().setScheduled(true);
+
     BookingScheduleConfig bookingScheduleConfig =
         bookingScheduleConfigTestUtils.getSingleTestData();
     bookingScheduleConfig.setBookingDate(bookingDate);

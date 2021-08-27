@@ -31,6 +31,28 @@ public class BookingRequestDto implements Identifiable, Serializable {
   private String duration;
   private BookingRequest.CardDetails cardDetails;
   private boolean dryRun = false;
+  private Date creationDate = new Date();
+  private boolean scheduled = false;
+
+  /**
+   * Get entity.
+   */
+  public BookingRequest toEntity() {
+    BookingRequest entity = new BookingRequest();
+    entity.setId(getId());
+    entity.setCreationDate(getCreationDate());
+    entity.setCardDetails(getCardDetails());
+    entity.setDate(getDate());
+    entity.setDuration(getDuration());
+    entity.setDryRun(isDryRun());
+    entity.setUsername(getUsername());
+    entity.setPassword(getPassword());
+    entity.setScheduled(isScheduled());
+    entity.setSessionType(getSessionType());
+    entity.setSite(getSite());
+    entity.setTime(getTime());
+    return entity;
+  }
 
   public Long getId() {
     return id;
@@ -126,6 +148,36 @@ public class BookingRequestDto implements Identifiable, Serializable {
     this.dryRun = dryRun;
   }
 
+  /**
+   * Get date.
+   */
+  public Date getCreationDate() {
+    if (creationDate != null) {
+      return (Date) creationDate.clone();
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Set date.
+   */
+  public void setCreationDate(Date creationDate) {
+    if (creationDate != null) {
+      this.creationDate = (Date) creationDate.clone();
+    } else {
+      this.creationDate = null;
+    }
+  }
+
+  public boolean isScheduled() {
+    return scheduled;
+  }
+
+  public void setScheduled(boolean scheduled) {
+    this.scheduled = scheduled;
+  }
+
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
@@ -136,6 +188,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
         .append(time)
         .append(site)
         .append(sessionType)
+        .append(scheduled)
         .toHashCode();
   }
 
@@ -146,11 +199,12 @@ public class BookingRequestDto implements Identifiable, Serializable {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())
-          .append(password,other.getPassword())
-          .append(date,other.getDate())
-          .append(time,other.getTime())
-          .append(site,other.getSite())
-          .append(sessionType,other.getSessionType())
+          .append(password, other.getPassword())
+          .append(date, other.getDate())
+          .append(time, other.getTime())
+          .append(site, other.getSite())
+          .append(sessionType, other.getSessionType())
+          .append(scheduled, other.isScheduled())
           .isEquals();
     } else {
       return false;

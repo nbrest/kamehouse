@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.model;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -43,6 +44,18 @@ public class BookingResponse implements Identifiable, Serializable {
   @OneToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "booking_request_id", referencedColumnName = "id")
   private BookingRequest request;
+
+  /**
+   * Convert this entity to it's dto.
+   */
+  public BookingResponseDto toDto() {
+    BookingResponseDto dto = new BookingResponseDto();
+    dto.setId(getId());
+    dto.setStatus(getStatus());
+    dto.setMessage(getMessage());
+    dto.setRequest(getRequest());
+    return dto;
+  }
 
   public Long getId() {
     return id;

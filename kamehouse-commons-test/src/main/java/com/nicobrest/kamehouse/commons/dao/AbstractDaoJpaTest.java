@@ -24,7 +24,23 @@ public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
 
   @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
   protected TestUtils<T, D> testUtils;
-  
+
+  /**
+   * Using a normal insert made some tests hang when executed in parallel.
+   * Get an insert statement for hsqldb for the specified table, columns and values.
+   * columns and values should be separated by ", " and without any leading or trailing spaces.
+   */
+  protected static String getInsertQuery(String table, String columns, String values) {
+    String columnsI = columns.replace(" ", " I.");
+    String insertQuery = "MERGE INTO " + table
+        + " USING (VALUES " + values + " ) "
+        + " I ( " + columns + " ) ON ( " + table + ".ID = I.id ) "
+        + " WHEN NOT MATCHED THEN "
+        + " INSERT ( " + columns + " ) "
+        + " VALUES ( I." + columnsI + " )";
+    return insertQuery;
+  }
+
   /**
    * Clears all table data for the specified table.
    */

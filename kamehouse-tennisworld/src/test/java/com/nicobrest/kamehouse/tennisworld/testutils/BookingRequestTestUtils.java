@@ -52,6 +52,12 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     String expectedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, expected.getDate());
     String returnedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, returned.getDate());
     assertEquals(expectedDate, returnedDate);
+
+    String expectedCreationDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+        expected.getCreationDate());
+    String returnedCreationDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+        returned.getCreationDate());
+    assertEquals(expectedCreationDate, returnedCreationDate);
   }
 
   /**
@@ -79,23 +85,11 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     cardDetails.setCvv("999");
     cardDetails.setExpiryDate("12/3099");
     singleTestData.setCardDetails(cardDetails);
+    singleTestData.setScheduled(false);
   }
 
   private void initTestDataDto() {
-    testDataDto = new BookingRequestDto();
-    testDataDto.setDate(DateUtils.getDate(2020, Calendar.JULY, 28));
-    testDataDto.setTime("18:45");
-    testDataDto.setDuration("60");
-    testDataDto.setPassword("goku-son");
-    testDataDto.setUsername("goku@dbz.com");
-    testDataDto.setSessionType(SessionType.ROD_LAVER_OUTDOOR);
-    testDataDto.setSite(Site.MELBOURNE_PARK);
-    BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
-    cardDetails.setName("SON GOKU");
-    cardDetails.setNumber("1111222233334444");
-    cardDetails.setCvv("999");
-    cardDetails.setExpiryDate("12/3099");
-    testDataDto.setCardDetails(cardDetails);
+    testDataDto = singleTestData.toDto();
   }
 
   private void initTestDataList() {
@@ -117,6 +111,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     cardDetails.setCvv("999");
     cardDetails.setExpiryDate("12/3099");
     sessionRequest2.setCardDetails(cardDetails);
+    sessionRequest2.setScheduled(false);
     testDataList.add(sessionRequest2);
   }
 
@@ -135,5 +130,6 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     cardDetails.setCvv("999");
     cardDetails.setExpiryDate("12/3099");
     sessionRequest.setCardDetails(cardDetails);
+    sessionRequest.setScheduled(false);
   }
 }

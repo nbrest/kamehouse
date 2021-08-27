@@ -41,7 +41,7 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
       BookingRequest request = bookingRequestList.get(i);
       request.setId(i + 1L);
       request.setCardDetails(null);
-      request.setDryRun(null);
+      request.setDryRun(false);
       request.setPassword(null);
     }
 
@@ -70,6 +70,7 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     expected.setId(response.getId());
     expected.getRequest().setPassword(response.getRequest().getPassword());
     expected.getRequest().setId(response.getRequest().getId());
+    expected.getRequest().setCreationDate(response.getRequest().getCreationDate());
   }
 
   public static void updateResponseWithCardioRequestData(BookingResponse response, Date date,

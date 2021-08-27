@@ -6,8 +6,10 @@ import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -75,8 +77,35 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
   @Transient
   private CardDetails cardDetails;
 
-  @Column(name = "dry_run", unique = false, nullable = true)
-  private Boolean dryRun = false;
+  @Column(name = "dry_run", unique = false, nullable = false)
+  private boolean dryRun = false;
+
+  @CreationTimestamp
+  @Column(name = "creation_date", unique = false, nullable = false)
+  private Date creationDate = new Date();
+
+  @Column(name = "scheduled", unique = false, nullable = false)
+  private boolean scheduled = false;
+
+  /**
+   * Convert this entity to it's dto.
+   */
+  public BookingRequestDto toDto() {
+    BookingRequestDto dto = new BookingRequestDto();
+    dto.setId(getId());
+    dto.setCardDetails(getCardDetails());
+    dto.setCreationDate(getCreationDate());
+    dto.setDate(getDate());
+    dto.setDryRun(isDryRun());
+    dto.setDuration(getDuration());
+    dto.setPassword(getPassword());
+    dto.setScheduled(isScheduled());
+    dto.setSessionType(getSessionType());
+    dto.setSite(getSite());
+    dto.setTime(getTime());
+    dto.setUsername(getUsername());
+    return dto;
+  }
 
   public Long getId() {
     return id;
@@ -164,12 +193,42 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
     this.cardDetails = cardDetails;
   }
 
-  public Boolean isDryRun() {
+  public boolean isDryRun() {
     return dryRun;
   }
 
-  public void setDryRun(Boolean dryRun) {
+  public void setDryRun(boolean dryRun) {
     this.dryRun = dryRun;
+  }
+
+  /**
+   * Get date.
+   */
+  public Date getCreationDate() {
+    if (creationDate != null) {
+      return (Date) creationDate.clone();
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Set date.
+   */
+  public void setCreationDate(Date creationDate) {
+    if (creationDate != null) {
+      this.creationDate = (Date) creationDate.clone();
+    } else {
+      this.creationDate = null;
+    }
+  }
+
+  public boolean isScheduled() {
+    return scheduled;
+  }
+
+  public void setScheduled(boolean scheduled) {
+    this.scheduled = scheduled;
   }
 
   @Override
@@ -183,6 +242,7 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
         .append(time)
         .append(site)
         .append(sessionType)
+        .append(scheduled)
         .toHashCode();
   }
 
@@ -195,11 +255,12 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())
-          .append(password,other.getPassword())
+          .append(password, other.getPassword())
           .append(dateFormatted, otherDateFormatted)
-          .append(time,other.getTime())
-          .append(site,other.getSite())
-          .append(sessionType,other.getSessionType())
+          .append(time, other.getTime())
+          .append(site, other.getSite())
+          .append(sessionType, other.getSessionType())
+          .append(scheduled, other.isScheduled())
           .isEquals();
     } else {
       return false;

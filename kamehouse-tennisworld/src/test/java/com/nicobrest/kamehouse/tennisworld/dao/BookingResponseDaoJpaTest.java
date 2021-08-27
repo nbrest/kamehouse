@@ -44,35 +44,21 @@ public class BookingResponseDaoJpaTest
     clearTable("BOOKING_RESPONSE");
 
     // Using a normal insert made some tests hang when executed in parallel.
-    String insertQuery = "MERGE INTO BOOKING_REQUEST " +
-        " USING (VALUES 1, 'goku@dbz.com', '2020-07-28', '18:45', 'MELBOURNE_PARK', " +
-        "'ROD_LAVER_OUTDOOR', '60') " +
-        " I (id, username, date, time, site, session_type, duration) " +
-        " ON (BOOKING_REQUEST.ID = I.id) " +
-        " WHEN NOT MATCHED THEN " +
-        " INSERT (id, username, date, time, site, session_type, duration) " +
-        " VALUES (I.id, I.username, I.date, I.time, I.site, I.session_type, I.duration)";
-    insertData(insertQuery);
+    String table = "BOOKING_REQUEST";
+    String columns = "id, username, date, time, site, session_type, duration, dry_run, " +
+        "creation_date, scheduled";
+    String[] rows = {
+        "1, 'goku@dbz.com', '2020-07-28', '18:45', 'MELBOURNE_PARK', 'ROD_LAVER_OUTDOOR'"
+            + ", '60', 'false', '2020-07-28 20:08:08.235', 'false'",
+        "2, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', 'CARDIO'"
+            + ", '45', 'false', '2020-07-28 20:08:08.235', 'false'",
+        "3, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', 'CARDIO'"
+            + ", '45', 'false', '2020-07-28 20:08:08.235', 'false'"
+    };
 
-    insertQuery = "MERGE INTO BOOKING_REQUEST " +
-        " USING (VALUES 2, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', " +
-        "'CARDIO', '45') " +
-        " I (id, username, date, time, site, session_type, duration) " +
-        " ON (BOOKING_REQUEST.ID = I.id) " +
-        " WHEN NOT MATCHED THEN " +
-        " INSERT (id, username, date, time, site, session_type, duration) " +
-        " VALUES (I.id, I.username, I.date, I.time, I.site, I.session_type, I.duration)";
-    insertData(insertQuery);
-
-    insertQuery = "MERGE INTO BOOKING_REQUEST " +
-        " USING (VALUES 3, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', " +
-        "'CARDIO', '45') " +
-        " I (id, username, date, time, site, session_type, duration) " +
-        " ON (BOOKING_REQUEST.ID = I.id) " +
-        " WHEN NOT MATCHED THEN " +
-        " INSERT (id, username, date, time, site, session_type, duration) " +
-        " VALUES (I.id, I.username, I.date, I.time, I.site, I.session_type, I.duration)";
-    insertData(insertQuery);
+    for (String row : rows) {
+      insertData(getInsertQuery(table, columns, row));
+    }
   }
 
   /**

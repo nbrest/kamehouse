@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.controller;
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +33,10 @@ public class BookingController extends AbstractController {
    */
   @PostMapping(path = "/bookings")
   @ResponseBody
-  public ResponseEntity<BookingResponse> bookings(@RequestBody BookingRequest bookingRequest) {
-    BookingResponse bookingResponse = bookingService.book(bookingRequest);
+  public ResponseEntity<BookingResponse> bookings(
+      @RequestBody BookingRequestDto bookingRequestDto) {
+    bookingRequestDto.setScheduled(false);
+    BookingResponse bookingResponse = bookingService.book(bookingRequestDto.toEntity());
     switch (bookingResponse.getStatus()) {
       case ERROR:
         logger.error("Response {}", bookingResponse);
