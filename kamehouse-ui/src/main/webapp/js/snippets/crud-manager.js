@@ -393,6 +393,10 @@ function CrudManager() {
         domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(entity[name])));
         continue;
       }
+      if (isTimestampField(type)) {
+        domUtils.append(tr, domUtils.getTd({}, getFormattedTimestampFieldValue(entity[name])));
+        continue;
+      }
       if (isArrayField(type)) {
         domUtils.append(tr, domUtils.getTd({}, JSON.stringify(entity[name])));
         continue;
@@ -406,8 +410,8 @@ function CrudManager() {
    */
   function getFormattedDateFieldValue(value) {
     try {
-      const date = new Date(parseInt(value));
-      if (isValidDate(date)) {
+      const date = timeUtils.getDateFromEpoch(value);
+      if (timeUtils.isValidDate(date)) {
         return timeUtils.getDateWithTimezoneOffset(date).toISOString().substring(0,10);
       } else {
         return value;
@@ -419,11 +423,22 @@ function CrudManager() {
   }
 
   /**
-   * Checks if it's a valid date.
+   * Returns a timestamp field formatted.
    */
-  function isValidDate(date) {
-    return date instanceof Date && !isNaN(date);
-  }
+   function getFormattedTimestampFieldValue(value) {
+    try {
+      const date = timeUtils.getDateFromEpoch(value);
+      if (timeUtils.isValidDate(date)) {
+        return date.toLocaleString();
+      } else {
+        logger.warn("Invalid timestamp " + value);
+        return value;
+      }
+    } catch (error) {
+      logger.warn("Unable to parse " + value + " as a date");
+      return value;
+    }
+  }  
 
   /**
    * Returns a masked field td. Used for passwords for example.
@@ -752,6 +767,13 @@ function CrudManager() {
    */
   function isDateField(type) {
     return type == "date";
+  }
+
+  /**
+   * Check if it's a date field.
+   */
+  function isTimestampField(type) {
+    return type == "timestamp";
   }
   
   /**

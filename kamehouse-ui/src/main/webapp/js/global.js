@@ -1171,6 +1171,7 @@ function TimeUtils() {
   this.convertSecondsToHsMsSs = convertSecondsToHsMsSs;
   this.getDateWithTimezoneOffset = getDateWithTimezoneOffset;
   this.getDateFromEpoch = getDateFromEpoch;
+  this.isValidDate = isValidDate;
 
   /** Get current timestamp with client timezone. */
   function getTimestamp() {
@@ -1197,6 +1198,13 @@ function TimeUtils() {
    */
   function getDateFromEpoch(epoch) {
     return new Date(parseInt(epoch));
+  }
+
+  /**
+   * Checks if it's a valid date.
+   */
+  function isValidDate(date) {
+    return date instanceof Date && !isNaN(date);
   }
 }
 
