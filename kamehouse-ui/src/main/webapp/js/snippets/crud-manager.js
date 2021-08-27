@@ -81,6 +81,7 @@ function CrudManager() {
     setDefaultSorting(config.defaultSorting);
     updateEntityNameInView();
     loadStateFromCookies();
+    loadStateFromUrlParams();
     disableEditFunctionalityForReadOnly();
     readAll();
   }
@@ -119,6 +120,17 @@ function CrudManager() {
    */
   function loadStateFromCookies() {
     tabUtils.openTabFromCookies('kh-crud-manager', 'tab-list');
+  }
+
+  /**
+   * Load the current state from the url parameters.
+   */
+  function loadStateFromUrlParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const search = urlParams.get('search');
+    if (!isEmpty(search)) {
+      domUtils.setValue(document.getElementById('table-filter'), search);
+    }
   }
 
   /**
