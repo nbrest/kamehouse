@@ -102,6 +102,7 @@ function CrudManager() {
    */
   function disableEditFunctionalityForReadOnly() {
     if (readOnly) {
+      domUtils.addClass($("#crud-manager-tabs"), "hidden-kh");
       domUtils.addClass($("#tab-add-link"), "hidden-kh");
       domUtils.addClass($("#tab-edit-link"), "hidden-kh");
       tabUtils.openTab('tab-list', 'kh-crud-manager');
