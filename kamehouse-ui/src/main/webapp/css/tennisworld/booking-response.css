@@ -1,3 +1,7 @@
+.custom-dropdown-label {
+  padding-bottom: 5px;
+}
+
 #crud-manager-tbody-col-0 {
   min-width: 0px;
 }
