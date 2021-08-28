@@ -193,7 +193,6 @@ public class BookingService {
   /**
    * Create a tennisworld booking request based on the schedule config.
    */
-  // TODO move to a builder in booking request
   private BookingRequest createScheduledBookingRequest(BookingScheduleConfig
       bookingScheduleConfig, Date bookingDate) {
     BookingRequest request = new BookingRequest();
@@ -292,7 +291,9 @@ public class BookingService {
     if (bookingRequest.getSessionType() == null) {
       throw new KameHouseInvalidDataException("Invalid sessionType");
     }
-    //TODO add more validations here
+    if (bookingRequest.getUsername() == null) {
+      throw new KameHouseInvalidDataException("Invalid username");
+    }
   }
 
   /**
@@ -920,12 +921,12 @@ public class BookingService {
   /**
    * Build a tennis world response with the specified status and message.
    */
-  //TODO move this to a builder inside BookingResponse
   private BookingResponse buildResponse(Status status, String message, BookingRequest request) {
     BookingResponse bookingResponse = new BookingResponse();
     bookingResponse.setStatus(status);
     bookingResponse.setMessage(message);
     request.setPassword(null);
+    request.setCardDetails(null);
     bookingResponse.setRequest(request);
     if (bookingResponse.getStatus() != Status.SUCCESS) {
       logger.error(BOOKING_FINISHED + bookingResponse);
