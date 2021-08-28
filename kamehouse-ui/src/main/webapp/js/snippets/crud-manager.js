@@ -140,7 +140,7 @@ function CrudManager() {
     const urlParams = new URLSearchParams(window.location.search);
     const search = urlParams.get('search');
     if (!isEmpty(search)) {
-      domUtils.setValue(document.getElementById('table-filter'), search);
+      domUtils.setValue(document.getElementById('search-filter'), search);
     }
   }
 
@@ -943,15 +943,39 @@ function CrudManager() {
   }
 
   /**
-   * Filter the table rows from the search criteria 
-   * and limited to the selected number of rows.
+   * Filter the table rows based on all the filters registered in the crud manager.
+   * 
+   * Register filters tagging them with the classes 
+   * 'crud-manager-filter' for filters that apply across all columns
+   * 'crud-manager-column-filter' for filters that apply to a particular column
+   * and they will be picked up here.
+   * 
+   * For 'crud-manager-column-filter' also specify the attribute data-column-number on the select
+   * with the column number to apply the filter on.
+   * 
+   * All the filters tagged with those classes will be applied.
    */
   function filterRows() {
-    const numRows = document.getElementById('num-rows').value;
-    tableUtils.limitRows('crud-manager-table', numRows);
+    // first show all rows, then apply sequentially each of the filters, ignoring hidden rows, then limit row number
+    tableUtils.filterTableRows("", 'crud-manager-tbody', null);
 
-    const filterString = document.getElementById('table-filter').value;
-    tableUtils.filterTableRows(filterString, 'crud-manager-tbody', numRows);
+    const filters = document.getElementsByClassName("crud-manager-filter");
+    for (let i = 0; i < filters.length; i++) {
+      const filterString = filters[i].value;
+      logger.trace("Applying filter " + filters[i].id + " with string " + filterString);
+      tableUtils.filterTableRows(filterString, 'crud-manager-tbody', null, true);
+    }
+
+    const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
+    for (let i = 0; i < columnFilters.length; i++) {
+      const filterString = columnFilters[i].value;
+      const columnNumber = columnFilters[i].dataset.columnNumber;
+      logger.trace("Applying filter " + columnFilters[i].id + " with string " + filterString);
+      tableUtils.filterTableRowsByColumn(filterString, 'crud-manager-tbody', columnNumber, null, true);
+    } 
+    
+    const numRows = document.getElementById('num-rows').value;
+    tableUtils.limitRows('crud-manager-table', numRows, true);
   }
 
   /**
@@ -969,6 +993,17 @@ function CrudManager() {
 
   function refreshView() {
     domUtils.setValue(document.getElementById('num-rows'), "");
+    
+    const filters = document.getElementsByClassName("crud-manager-filter");
+    for (let i = 0; i < filters.length; i++) {
+      filters[i].selectedIndex = -1;
+    }
+
+    const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
+    for (let i = 0; i < columnFilters.length; i++) {
+      columnFilters[i].selectedIndex = -1;
+    } 
+    
     readAll();
   }
 }

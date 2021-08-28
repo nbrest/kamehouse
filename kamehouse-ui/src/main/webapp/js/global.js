@@ -219,8 +219,7 @@ function CollapsibleDivUtils() {
    */
   function refreshCollapsibleDiv() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
-    let i;
-    for (i = 0; i < collapsibleElements.length; i++) {
+    for (let i = 0; i < collapsibleElements.length; i++) {
       collapsibleElements[i].click();
       collapsibleElements[i].click();
     } 
@@ -231,8 +230,7 @@ function CollapsibleDivUtils() {
    */
   function setCollapsibleContent() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
-    let i;
-    for (i = 0; i < collapsibleElements.length; i++) {
+    for (let i = 0; i < collapsibleElements.length; i++) {
       collapsibleElements[i].removeEventListener("click", collapsibleContentListener);
       collapsibleElements[i].addEventListener("click", collapsibleContentListener);
     }
@@ -1005,8 +1003,9 @@ function TableUtils() {
   /** 
    * Filter table rows based on the specified filter string. Shouldn't filter the header row. 
    * Toggles a maximum of maxRows.
+   * Set skipHiddenRows to process only currently visible rows.   
    */
-  function filterTableRows(filterString, tableBodyId, maxRows) {
+  function filterTableRows(filterString, tableBodyId, maxRows, skipHiddenRows) {
     const table = document.getElementById(tableBodyId);
     const rows = table.rows;
     if (isEmpty(maxRows) || maxRows == "" || maxRows == "all") {
@@ -1033,7 +1032,10 @@ function TableUtils() {
       if (isEmpty(classList) || !classList.includes("table-kh-header")) {
         // Filter if it's not the header row
         const trText = $(tr).text().toLowerCase();
-        const shouldDisplayRow = regex.test(trText);
+        let shouldDisplayRow = regex.test(trText);
+        if (skipHiddenRows && isHiddenRow(tr)) {
+          shouldDisplayRow = false;
+        }
         if (maxRows > 0) {
           $(tr).toggle(shouldDisplayRow);
           maxRows--;
@@ -1066,8 +1068,9 @@ function TableUtils() {
   /** 
    * Filter table rows by a specific column based on the specified filter string. Shouldn't filter the header row. 
    * Toggles a maximum of maxRows.
+   * Set skipHiddenRows to process only currently visible rows.
    */
-  function filterTableRowsByColumn(filterString, tableBodyId, columnIndex, maxRows) {
+  function filterTableRowsByColumn(filterString, tableBodyId, columnIndex, maxRows, skipHiddenRows) {
     const table = document.getElementById(tableBodyId);
     const rows = table.rows;
     if (isEmpty(columnIndex)) {
@@ -1099,13 +1102,23 @@ function TableUtils() {
         // Filter if it's not the header row
         const td = tr.getElementsByTagName("td")[columnIndex];
         const tdText = $(td).text().toLowerCase();
-        const shouldDisplayRow = regex.test(tdText);
+        let shouldDisplayRow = regex.test(tdText);
+        if (skipHiddenRows && isHiddenRow(tr)) {
+          shouldDisplayRow = false;
+        }
         if (maxRows > 0) {
           $(tr).toggle(shouldDisplayRow);
           maxRows--;
         }
       }
     });
+  }
+
+  /**
+   * Check if it's a hidden row.
+   */
+  function isHiddenRow(tr) {
+    return tr.style.display == "none";
   }
 
   /**
@@ -1223,18 +1236,23 @@ function TableUtils() {
   }
 
   /**
-   * Limit the number of rows displayed on the table.
+   * Limit the number of rows displayed on the table. 
+   * Set skipHiddenRows to process only currently visible rows.
    */
-  function limitRows(tableId, maxRows) {
+  function limitRows(tableId, maxRows, skipHiddenRows) {
     const table = document.getElementById(tableId);
     const rows = table.rows;
     if (isEmpty(maxRows) || maxRows == "" || maxRows == "all") {
       maxRows = rows.length;
     }
-
+    let shownRows = 0;
     for (let i = 1; i < rows.length; i++) { 
-      if (i <= maxRows) {
+      if (skipHiddenRows && isHiddenRow(rows[i])) {
+        continue;
+      }
+      if (shownRows < maxRows) {
         domUtils.setDisplay(rows[i], "table-row");
+        shownRows++;
       } else {
         domUtils.setDisplay(rows[i], "none");
       }

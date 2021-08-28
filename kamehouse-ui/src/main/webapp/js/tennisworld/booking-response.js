@@ -77,45 +77,9 @@ const config = {
     }, 
   ],
 };
-var customListManager;
 
 window.onload = () => {
-  customListManager = new CustomListManager();
   moduleUtils.waitForModules(["debuggerHttpClient", "crudManager"], () => {    
     crudManager.init(config);
   });
-}
-
-/**
- * Handler for all the custom filters.
- */
-function CustomListManager() {
-  
-  this.filterByStatus = filterByStatus;
-  this.filterByDryRun = filterByDryRun;
-  this.filterByScheduled = filterByScheduled;
-
-  /**
-   * Filter rows by status.
-   */
-  function filterByStatus() {    
-    const filterString = document.getElementById('status-dropdown').value;
-    tableUtils.filterTableRowsByColumn(filterString, 'crud-manager-tbody', 1);
-  }
-
-  /**
-   * Filter rows by dry run.
-   */
-  function filterByDryRun() {    
-    const filterString = document.getElementById('dry-run-dropdown').value;
-    tableUtils.filterTableRowsByColumn(filterString, 'crud-manager-tbody', 10);
-  }
-
-  /**
-   * Filter rows by scheduled.
-   */
-   function filterByScheduled() {    
-    const filterString = document.getElementById('scheduled-dropdown').value;
-    tableUtils.filterTableRowsByColumn(filterString, 'crud-manager-tbody', 12);
-  }
 }

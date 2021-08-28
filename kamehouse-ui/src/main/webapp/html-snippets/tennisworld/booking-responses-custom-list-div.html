@@ -7,8 +7,8 @@
     <tr>
       <td class="p-10-d-kh">
         <div class="bold-kh custom-dropdown-label">Status:</div>
-        <select id="status-dropdown" class="form-input-kh" type="select"
-          onchange="customListManager.filterByStatus()" onfocus="this.selectedIndex = -1;">
+        <select id="status-dropdown" class="form-input-kh crud-manager-column-filter" type="select"
+          data-column-number="1" onchange="crudManager.filterRows()" onfocus="this.selectedIndex = -1;">
           <option value="SUCCESS">SUCCESS</option>
           <option value="ERROR">ERROR</option>
           <option value="INTERNAL_ERROR">INTERNAL_ERROR</option>
@@ -17,8 +17,8 @@
       </td>
       <td class="p-10-d-kh">
         <div class="bold-kh custom-dropdown-label">Dry Run:</div>
-        <select id="dry-run-dropdown" class="form-input-kh" type="select"
-          onchange="customListManager.filterByDryRun()" onfocus="this.selectedIndex = -1;">
+        <select id="dry-run-dropdown" class="form-input-kh crud-manager-column-filter" type="select"
+          data-column-number="10" onchange="crudManager.filterRows()" onfocus="this.selectedIndex = -1;">
           <option value="false">false</option>
           <option value="true">true</option>
           <option value="" selected>ALL</option>
@@ -26,8 +26,8 @@
       </td>
       <td class="p-10-d-kh">
         <div class="bold-kh custom-dropdown-label">Scheduled:</div>
-        <select id="scheduled-dropdown" class="form-input-kh" type="select"
-          onchange="customListManager.filterByScheduled()" onfocus="this.selectedIndex = -1;">
+        <select id="scheduled-dropdown" class="form-input-kh crud-manager-column-filter" type="select" 
+          data-column-number="12" onchange="crudManager.filterRows()" onfocus="this.selectedIndex = -1;">
           <option value="false">false</option>
           <option value="true">true</option>
           <option value="" selected>ALL</option>
