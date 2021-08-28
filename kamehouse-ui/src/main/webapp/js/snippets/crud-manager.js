@@ -50,12 +50,19 @@ function CrudManager() {
    * {
    *    entityName: "EntityName",
    *    url: "/kame-house-module/etc",
+   *    readOnly: true,
+   *    defaultSorting: {
+   *     columnNumber: 11,
+   *     sortType: "timestamp",
+   *     direction: "desc"
+   *    },
    *    columns: [ 
    *      {
    *        name: "columnName",
    *        type: "columnType",
    *        values: ["val1", "val2"],
-   *        displayValues: ["dispVal1", "dispVal2"]
+   *        displayValues: ["dispVal1", "dispVal2"],
+   *        sortType: "number"
    *      },
    *      ...
    *    ]
@@ -72,6 +79,7 @@ function CrudManager() {
    * - min (number)
    * - max (number)
    * - values (select)
+   * - sortType (select)
    */
   function init(config) {
     setEntityName(config.entityName);
@@ -79,6 +87,7 @@ function CrudManager() {
     setColumns(config.columns);
     setReadOnly(config.readOnly);
     setDefaultSorting(config.defaultSorting);
+    loadCustomSections(config);
     updateEntityNameInView();
     loadStateFromCookies();
     loadStateFromUrlParams();
@@ -170,6 +179,12 @@ function CrudManager() {
   function setDefaultSorting(crudDefaultSorting) {
     if (!isEmpty(crudDefaultSorting)) {
       defaultSorting = crudDefaultSorting;
+    }
+  }
+
+  function loadCustomSections(config) {
+    if (!isEmpty(config.customListSection)) {
+      domUtils.load($("#custom-list-section"), config.customListSection);
     }
   }
 

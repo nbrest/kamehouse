@@ -998,6 +998,7 @@ function ModuleUtils() {
 function TableUtils() {
 
   this.filterTableRows = filterTableRows;
+  this.filterTableRowsByColumn = filterTableRowsByColumn;
   this.sortTable = sortTable;
   this.limitRows = limitRows;
 
@@ -1060,6 +1061,51 @@ function TableUtils() {
    */
   function addAsterisksBetweenAllCharsToRegex(string) {
     return string.split('').join('.*').replace(/\s/g, '');
+  }
+
+  /** 
+   * Filter table rows by a specific column based on the specified filter string. Shouldn't filter the header row. 
+   * Toggles a maximum of maxRows.
+   */
+  function filterTableRowsByColumn(filterString, tableBodyId, columnIndex, maxRows) {
+    const table = document.getElementById(tableBodyId);
+    const rows = table.rows;
+    if (isEmpty(columnIndex)) {
+      logger.trace("columnIndex not set. Using 0");
+      columnIndex = 0;
+    }
+    if (isEmpty(maxRows) || maxRows == "" || maxRows == "all") {
+      maxRows = rows.length;
+    }
+
+    filterString = filterString.toLowerCase();
+    const tableRows = $("#" + tableBodyId + " tr");
+    let regex;
+    try {
+      if (isQuotedString(filterString)) {
+        filterString = removeQuotes(filterString);
+      } else {
+        filterString = addAsterisksBetweenAllCharsToRegex(filterString);
+      }
+      regex = RegExp(filterString);
+    } catch (error) {
+      logger.error("Error creating regex from filter string " + filterString);
+      regex = RegExp("");
+    }
+    tableRows.filter(function () {
+      const tr = this;
+      const classList = tr.classList.value;
+      if (isEmpty(classList) || !classList.includes("table-kh-header")) {
+        // Filter if it's not the header row
+        const td = tr.getElementsByTagName("td")[columnIndex];
+        const tdText = $(td).text().toLowerCase();
+        const shouldDisplayRow = regex.test(tdText);
+        if (maxRows > 0) {
+          $(tr).toggle(shouldDisplayRow);
+          maxRows--;
+        }
+      }
+    });
   }
 
   /**
