@@ -15,18 +15,18 @@
 
 @media (max-width : 900px) {
   .num-rows-dropdown-td {
-    max-width: 60px;
+    max-width: 90px;
   } 
 }
 
 .scroll-up-td {
-  max-width: 20px;
+  max-width: 50px;
   padding: 10px;
   text-align: right;
 }
 
 @media (max-width : 900px) {
   .scroll-up-td {
-    max-width: 30px;
+    max-width: 80px;
   } 
 }

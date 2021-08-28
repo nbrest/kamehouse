@@ -569,6 +569,16 @@ hr {
   }
 }
 
+.m-7-d-r-kh {
+  margin-right: 7px;
+}
+
+@media (max-width : 900px) {
+  .m-7-m-r-kh {
+    margin-right: 7px;
+  }
+}
+
 /** margin 10 */
 .m-10-d-kh {
   margin: 10px;

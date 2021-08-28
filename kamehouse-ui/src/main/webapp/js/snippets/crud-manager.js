@@ -176,7 +176,7 @@ function CrudManager() {
    * Get an entity by it's id.
    */
   function read(id) {
-    logger.trace("read");
+    logger.info("read");
     const getUrl = url + "/" + id;
     debuggerHttpClient.get(getUrl,
       (responseBody, responseCode, responseDescription) => {
@@ -192,7 +192,7 @@ function CrudManager() {
    * Get all entities.
    */
   function readAll() {
-    logger.trace("readAll");
+    logger.info("readAll");
     debuggerHttpClient.get(url,
       (responseBody, responseCode, responseDescription) => {
         entities = responseBody;
@@ -209,7 +209,7 @@ function CrudManager() {
    * Create an entity.
    */
   function create() {
-    logger.trace("create");
+    logger.info("create");
     if (readOnly) {
       basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
@@ -232,7 +232,7 @@ function CrudManager() {
    * Update an entity.
    */
   function update() {
-    logger.trace("update");
+    logger.info("update");
     if (readOnly) {
       basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
@@ -257,7 +257,7 @@ function CrudManager() {
    */
   function deleteEntity(event) {
     const id = event.data.id;
-    logger.trace("deleteEntity");
+    logger.info("deleteEntity");
     if (readOnly) {
       basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
@@ -314,6 +314,7 @@ function CrudManager() {
         const arraySourceNode = document.getElementById(inputFieldId); 
         for (let i = 0; i < array.length; i++) {
           const newNode = domUtils.cloneNode(arraySourceNode, false);
+          //TODO use domUtils
           newNode.value = JSON.stringify(array[i], null, 4);
           newNode.id = arraySourceNode.id + "-" + i;
           domUtils.classListAdd(newNode, "m-5-t-d-kh");
