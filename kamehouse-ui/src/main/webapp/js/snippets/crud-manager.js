@@ -22,6 +22,7 @@ function CrudManager() {
 
   this.clearForm = clearForm;
   this.filterRows = filterRows;
+  this.refreshView = refreshView;
 
   const tbodyId = "crud-manager-tbody";
   const addInputFieldsId = "crud-add-input-fields";
@@ -965,6 +966,11 @@ function CrudManager() {
     }
     logger.trace("Sorting table data with default sorting config: " + JSON.stringify(defaultSorting));
     tableUtils.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction);
+  }
+
+  function refreshView() {
+    domUtils.setValue(document.getElementById('num-rows'), "");
+    readAll();
   }
 }
 
