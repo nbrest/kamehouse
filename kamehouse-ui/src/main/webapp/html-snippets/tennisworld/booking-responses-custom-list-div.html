@@ -9,11 +9,33 @@
         <span class="bold-kh">Status:</span>
       </td>
       <td class="p-10-d-kh">
-        <select id="status-dropdown" class="form-input-kh" type="select" name="status-dropdown"
+        <select id="status-dropdown" class="form-input-kh" type="select"
           onchange="customListManager.filterByStatus()">
           <option value="SUCCESS">SUCCESS</option>
           <option value="ERROR">ERROR</option>
           <option value="INTERNAL_ERROR">INTERNAL_ERROR</option>
+          <option value="" selected>ALL</option>
+        </select>
+      </td>
+      <td class="p-10-d-kh">
+        <span class="bold-kh">Dry Run:</span>
+      </td>
+      <td class="p-10-d-kh">
+        <select id="dry-run-dropdown" class="form-input-kh" type="select"
+          onchange="customListManager.filterByDryRun()">
+          <option value="false">false</option>
+          <option value="true">true</option>
+          <option value="" selected>ALL</option>
+        </select>
+      </td>
+      <td class="p-10-d-kh">
+        <span class="bold-kh">Scheduled:</span>
+      </td>
+      <td class="p-10-d-kh">
+        <select id="scheduled-dropdown" class="form-input-kh" type="select"
+          onchange="customListManager.filterByScheduled()">
+          <option value="false">false</option>
+          <option value="true">true</option>
           <option value="" selected>ALL</option>
         </select>
       </td>

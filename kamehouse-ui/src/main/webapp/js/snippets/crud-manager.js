@@ -442,6 +442,16 @@ function CrudManager() {
         domUtils.append(tr, domUtils.getTd({}, JSON.stringify(entity[name])));
         continue;
       }
+      if (isBooleanField(type)) {
+        let val;
+        if (entity[name] == "true" || entity[name] == true || entity[name] == "TRUE") {
+          val = "true";
+        } else {
+          val = "false";
+        }
+        domUtils.append(tr, domUtils.getTd({}, val));
+        continue;
+      }
       domUtils.append(tr, domUtils.getTd({}, entity[name]));
     }
   };
