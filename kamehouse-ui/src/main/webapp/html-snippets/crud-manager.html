@@ -36,7 +36,7 @@
         </td>
         <td class="num-rows-dropdown-td">
           <select id="num-rows" class="form-input-kh num-rows-dropdown" type="select" name="num-rows"
-            onchange="crudManager.filterRows()">
+            onchange="crudManager.filterRows()" onfocus="this.selectedIndex = -1;">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="50">50</option>
