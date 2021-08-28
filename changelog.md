@@ -13,6 +13,13 @@
 * Added ui to trigger scheduled booking configurations execution to tennisworld
 * Added persistence for booking requests and responses
 * Added ui to view all booking requests and responses
+* Added numeric sorting support to table sorting function
+* Disabled tabs on crud manager for read only mode
+* Added initial sorting support to crud manager
+* Added refresh data to list view in crud manager
+* Added custom filters to booking response ui
+* Added wol media server to debug mode on vlc player
+* Fixed bugs
 
 #### v6.03
 
