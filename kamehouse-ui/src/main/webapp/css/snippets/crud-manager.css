@@ -1,3 +1,15 @@
+.control-buttons-td {
+  max-width: 50px;
+  padding: 10px;
+  text-align: right;
+}
+
+@media (max-width : 900px) {
+  .control-buttons-td {
+    max-width: 80px;
+  } 
+}
+
 .num-rows-dropdown {
   border: 1px solid #292929;
   border-radius: 0px;
@@ -16,17 +28,5 @@
 @media (max-width : 900px) {
   .num-rows-dropdown-td {
     max-width: 90px;
-  } 
-}
-
-.scroll-up-td {
-  max-width: 50px;
-  padding: 10px;
-  text-align: right;
-}
-
-@media (max-width : 900px) {
-  .scroll-up-td {
-    max-width: 80px;
   } 
 }

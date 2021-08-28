@@ -574,12 +574,13 @@ function CrudManager() {
         setHeaderColumns(tr, column.columns, parentNodeChain + name, columnIndex);
         continue;
       }
-      const td = domUtils.getTd({
-        class: "clickable",
-        alt: "Sort by " + name,
-        title: "Sort by " + name
-      }, parentNodeChain + name);
       const currentColumnIndex = columnIndex;
+      const td = domUtils.getTd({
+        id: tbodyId + "-col-" + currentColumnIndex,
+        class: "clickable",
+        alt: "Sort by " + parentNodeChain + name,
+        title: "Sort by " + parentNodeChain + name
+      }, parentNodeChain + name);
       const sortType = getSortType(column);
       domUtils.setClick(td, null,
         () => {
