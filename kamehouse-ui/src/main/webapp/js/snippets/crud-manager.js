@@ -331,9 +331,8 @@ function CrudManager() {
         const arraySourceNode = document.getElementById(inputFieldId); 
         for (let i = 0; i < array.length; i++) {
           const newNode = domUtils.cloneNode(arraySourceNode, false);
-          //TODO use domUtils
-          newNode.value = JSON.stringify(array[i], null, 4);
-          newNode.id = arraySourceNode.id + "-" + i;
+          domUtils.setValue(newNode, JSON.stringify(array[i], null, 4));
+          domUtils.setId(newNode, arraySourceNode.id + "-" + i);
           domUtils.classListAdd(newNode, "m-5-t-d-kh");
           domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
         }
