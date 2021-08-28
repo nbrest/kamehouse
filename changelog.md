@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.05
+
+* Added a sample vue app to the test module
+
 #### v6.04
 
 * Added ui to execute one off bookings to tennisworld
