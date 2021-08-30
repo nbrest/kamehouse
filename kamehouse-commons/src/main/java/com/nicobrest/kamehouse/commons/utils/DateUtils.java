@@ -235,7 +235,7 @@ public class DateUtils {
    * To convert from 24hs to hh:mm [AM|PM] use inFormat:'HH:mm' and outFormat:'hh:mm a'
    */
   public static String convertTime(String input, String inFormat, String outFormat) {
-    return convertTime(input, inFormat, outFormat, false, false);
+    return convertTime(input, inFormat, outFormat, false);
   }
 
   /**
@@ -243,18 +243,22 @@ public class DateUtils {
    * To convert from 24hs to hh:mm [AM|PM] use inFormat:'HH:mm' and outFormat:'hh:mm a'
    */
   public static String convertTime(String input, String inFormat, String outFormat,
-                                   Boolean lowerCaseIn, Boolean lowerCaseOut) {
+                                   Boolean lowerCaseOut) {
     if (input == null) {
       return null;
     }
     try {
-      if (lowerCaseIn) {
+      if (PropertiesUtils.isWindowsHost()) {
         input = input.toUpperCase(Locale.getDefault());
+      } else {
+        input = input.toLowerCase(Locale.getDefault());
       }
       String result = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat))
           .format(DateTimeFormatter.ofPattern(outFormat));
       if (lowerCaseOut) {
         result = result.toLowerCase(Locale.getDefault());
+      } else {
+        result = result.toUpperCase(Locale.getDefault());
       }
       return result;
     } catch (DateTimeParseException e) {

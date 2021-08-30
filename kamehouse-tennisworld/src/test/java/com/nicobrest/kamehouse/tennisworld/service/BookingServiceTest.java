@@ -166,7 +166,7 @@ public class BookingServiceTest {
     when(DateUtils.getCurrentDayOfWeek()).thenCallRealMethod();
     when(DateUtils.getDayOfWeek(any())).thenCallRealMethod();
     when(DateUtils.convertTime(any(), any(), any())).thenCallRealMethod();
-    when(DateUtils.convertTime(any(), any(), any(), any(), any())).thenCallRealMethod();
+    when(DateUtils.convertTime(any(), any(), any(), any())).thenCallRealMethod();
 
     encryptionUtilsMock = Mockito.mockStatic(EncryptionUtils.class);
     when(EncryptionUtils.decrypt(any(), any())).thenReturn(new byte[2]);

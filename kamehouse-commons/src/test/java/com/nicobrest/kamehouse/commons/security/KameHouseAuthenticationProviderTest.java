@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
@@ -37,7 +38,6 @@ public class KameHouseAuthenticationProviderTest {
 
   @Mock
   private KameHouseUserAuthenticationService kameHouseUserServiceMock;
-
 
   /**
    * Resets mock objects and initializes test repository.
@@ -84,9 +84,6 @@ public class KameHouseAuthenticationProviderTest {
           .thenReturn(badUsernameKameHouseUser);
 
       kameHouseAuthenticationProvider.authenticate(authentication);
-
-      verify(kameHouseUserServiceMock, times(1))
-          .loadUserByUsername(badUsernameKameHouseUser.getUsername());
     });
   }
 
@@ -103,9 +100,6 @@ public class KameHouseAuthenticationProviderTest {
           .thenReturn(badPasswordKameHouseUser);
 
       kameHouseAuthenticationProvider.authenticate(authentication);
-
-      verify(kameHouseUserServiceMock, times(1))
-          .loadUserByUsername(badPasswordKameHouseUser.getUsername());
     });
   }
 }

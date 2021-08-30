@@ -43,6 +43,6 @@ public class AddSecurityContextFilterTest {
 
     addSecurityContextFilterSpy.doFilter(request, response, chain);
 
-    Mockito.verify(addSecurityContextFilterSpy, Mockito.times(1));
+    // no exception thrown
   }
 }

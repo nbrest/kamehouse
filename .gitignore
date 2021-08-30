@@ -86,3 +86,5 @@ local.properties
 .idea/**
 /.apt_generated/
 /.apt_generated_tests/
+*.iml
+

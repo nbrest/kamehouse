@@ -171,13 +171,13 @@ public class DateUtilsTest {
         DateUtils.HH_MM_24HS));
 
     assertEquals("08:15 pm", DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS,
-        DateUtils.HH_MM_AM_PM, false, true));
+        DateUtils.HH_MM_AM_PM, true));
 
     assertEquals("08:15pm", DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS,
-        DateUtils.HH_MMAM_PM, false, true));
+        DateUtils.HH_MMAM_PM, true));
 
     assertEquals("20:15", DateUtils.convertTime("08:15pm", DateUtils.HH_MMAM_PM,
-        DateUtils.HH_MM_24HS, true, false));
+        DateUtils.HH_MM_24HS, false));
   }
 
   /**

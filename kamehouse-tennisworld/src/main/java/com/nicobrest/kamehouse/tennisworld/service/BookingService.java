@@ -188,7 +188,7 @@ public class BookingService {
    */
   private void updateTimeFormatForTennisWorld(BookingRequest bookingRequest) {
     String formattedTime = DateUtils.convertTime(bookingRequest.getTime(), DateUtils.HH_MM_24HS,
-        DateUtils.HH_MMAM_PM, false, true);
+        DateUtils.HH_MMAM_PM, true);
     bookingRequest.setTime(formattedTime);
   }
 
