@@ -1,21 +1,21 @@
 package com.nicobrest.kamehouse.commons.service;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 /**
  * Unit tests for the AbstractCrudService through a TestEntity service.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class AbstractCrudServiceUnitTest {
 

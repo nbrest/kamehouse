@@ -1,10 +1,9 @@
 package com.nicobrest.kamehouse.testmodule.validator;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the DragonBallUserValidator.
@@ -14,8 +13,6 @@ import org.junit.rules.ExpectedException;
  */
 public class DragonBallUserValidatorTest {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Tests valid positive value. Should execute without throwing exceptions.
@@ -30,9 +27,8 @@ public class DragonBallUserValidatorTest {
    */
   @Test
   public void validatePositiveValueExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("The attribute should be a positive value. Current value:");
-
-    DragonBallUserValidator.validatePositiveValue(-10);
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      DragonBallUserValidator.validatePositiveValue(-10);
+    });
   }
 }

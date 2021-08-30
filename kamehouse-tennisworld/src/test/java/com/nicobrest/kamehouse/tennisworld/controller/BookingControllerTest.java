@@ -13,9 +13,9 @@ import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -24,7 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -36,7 +36,7 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class BookingControllerTest extends AbstractControllerTest<BookingResponse,
@@ -55,13 +55,13 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
   @Mock
   private BookingService bookingService;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new BookingResponseTestUtils();
     testUtils.initTestData();
     bookingRequestTestUtils.initTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(bookingService);
     mockMvc = MockMvcBuilders.standaloneSetup(bookingController).build();
   }
@@ -79,7 +79,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
         BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributes(testUtils.getSingleTestData(), responseBody);
     verify(bookingService, times(1)).book(any());
     verifyNoMoreInteractions(bookingService);
@@ -97,7 +97,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     List<BookingResponse> responseBody = getResponseBodyList(response, BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributesList(testUtils.getTestDataList(), responseBody);
     verify(bookingService, times(1)).bookScheduledSessions();
     verifyNoMoreInteractions(bookingService);
@@ -117,7 +117,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
         BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.BAD_REQUEST);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributes(expectedResponse, responseBody);
     verify(bookingService, times(1)).book(any());
     verifyNoMoreInteractions(bookingService);
@@ -137,7 +137,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
         BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributes(expectedResponse, responseBody);
     verify(bookingService, times(1)).book(any());
     verifyNoMoreInteractions(bookingService);

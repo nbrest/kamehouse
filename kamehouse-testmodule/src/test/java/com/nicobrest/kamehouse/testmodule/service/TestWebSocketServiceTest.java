@@ -1,11 +1,11 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.testmodule.model.TestWebSocketRequestMessage;
 import com.nicobrest.kamehouse.testmodule.model.TestWebSocketResponseMessage;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the test module websocket service.

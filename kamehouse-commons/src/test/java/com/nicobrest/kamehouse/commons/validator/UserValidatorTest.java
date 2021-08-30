@@ -1,9 +1,8 @@
 package com.nicobrest.kamehouse.commons.validator;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the UserValidator.
@@ -13,8 +12,6 @@ import org.junit.rules.ExpectedException;
  */
 public class UserValidatorTest {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Tests valid username format. Should finish without throwing exceptions.
@@ -37,10 +34,9 @@ public class UserValidatorTest {
    */
   @Test
   public void validateUsernameFormatExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("Invalid username format:");
-
-    UserValidator.validateUsernameFormat(".goku.9.enzo");
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      UserValidator.validateUsernameFormat(".goku.9.enzo");
+    });
   }
 
   /**
@@ -48,9 +44,8 @@ public class UserValidatorTest {
    */
   @Test
   public void validateEmailFormatExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("Invalid email address: ");
-
-    UserValidator.validateEmailFormat("goku.9.enzo@@dbz.com");
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      UserValidator.validateEmailFormat("goku.9.enzo@@dbz.com");
+    });
   }
 }

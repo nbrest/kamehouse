@@ -1,15 +1,15 @@
 package com.nicobrest.kamehouse.ui.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class SampleControllerTest extends AbstractControllerTest {
@@ -28,9 +28,9 @@ public class SampleControllerTest extends AbstractControllerTest {
   /**
    * Resets mock objects and test data.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     mockMvc = MockMvcBuilders.standaloneSetup(sampleController).build();
   }
 

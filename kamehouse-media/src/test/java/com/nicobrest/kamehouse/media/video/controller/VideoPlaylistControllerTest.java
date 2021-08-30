@@ -12,9 +12,9 @@ import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -35,7 +35,7 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
@@ -52,13 +52,13 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
   @Mock
   private VideoPlaylistService videoPlaylistService;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new VideoPlaylistTestUtils();
     testUtils.initTestData();
     videoPlaylistsList = testUtils.getTestDataList();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(videoPlaylistService);
     mockMvc = MockMvcBuilders.standaloneSetup(videoPlaylistController).build();
   }
@@ -74,7 +74,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     List<Playlist> responseBody = getResponseBodyList(response, Playlist.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributesList(videoPlaylistsList, responseBody);
     verify(videoPlaylistService, times(1)).getAll();
     verifyNoMoreInteractions(videoPlaylistService);
@@ -93,7 +93,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     Playlist responseBody = getResponseBody(response, Playlist.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributes(expectedPlaylist, responseBody);
     verify(videoPlaylistService, times(1))
         .getPlaylist(anyString(), anyBoolean());

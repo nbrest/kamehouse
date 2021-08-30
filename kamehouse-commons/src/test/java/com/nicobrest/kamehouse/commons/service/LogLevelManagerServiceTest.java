@@ -1,12 +1,11 @@
 package com.nicobrest.kamehouse.commons.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -19,13 +18,11 @@ public class LogLevelManagerServiceTest {
 
   private LogLevelManagerService logLevelManagerService;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Resets mock objects.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     logLevelManagerService = new LogLevelManagerService();
   }
@@ -44,10 +41,9 @@ public class LogLevelManagerServiceTest {
    */
   @Test
   public void validateLogLevelInvalidLevelTest() {
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("Invalid log level TRACEs");
-
-    logLevelManagerService.validateLogLevel("TRACEs");
+    assertThrows(KameHouseBadRequestException.class, () -> {
+      logLevelManagerService.validateLogLevel("TRACEs");
+    });
   }
 
   /**

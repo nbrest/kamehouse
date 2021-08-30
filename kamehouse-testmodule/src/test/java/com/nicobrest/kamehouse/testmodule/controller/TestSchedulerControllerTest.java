@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,9 +10,9 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.testmodule.service.TestSchedulerService;
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -19,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
@@ -30,7 +31,7 @@ import org.springframework.web.util.NestedServletException;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class TestSchedulerControllerTest
@@ -42,9 +43,9 @@ public class TestSchedulerControllerTest
   @Mock
   protected TestSchedulerService testSchedulerService;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     mockMvc = MockMvcBuilders.standaloneSetup(testSchedulerController).build();
   }
 
@@ -85,13 +86,12 @@ public class TestSchedulerControllerTest
    */
   @Test
   public void cancelSampleJobServerErrorTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseServerErrorException.class));
-    Mockito.doThrow(new KameHouseServerErrorException("")).when(testSchedulerService)
-        .cancelScheduledSampleJob();
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseServerErrorException("")).when(testSchedulerService)
+          .cancelScheduledSampleJob();
 
-    doDelete("/api/v1/test-module/test-scheduler/sample-job");
+      doDelete("/api/v1/test-module/test-scheduler/sample-job");
+    });
   }
 
   /**

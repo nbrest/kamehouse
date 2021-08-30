@@ -1,13 +1,13 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseForbiddenException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;

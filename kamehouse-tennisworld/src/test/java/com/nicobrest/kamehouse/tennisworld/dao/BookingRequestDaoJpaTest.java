@@ -1,18 +1,18 @@
 package com.nicobrest.kamehouse.tennisworld.dao;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
-import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class BookingRequestDaoJpaTest
     extends AbstractCrudDaoJpaTest<BookingRequest, BookingRequestDto> {
@@ -34,7 +34,7 @@ public class BookingRequestDaoJpaTest
   /**
    * Clears data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new BookingRequestTestUtils();
     testUtils.initTestData();
@@ -75,7 +75,7 @@ public class BookingRequestDaoJpaTest
   @Test
   public void updateTest() throws IllegalAccessException, InstantiationException,
       InvocationTargetException, NoSuchMethodException {
-    BookingRequest updatedEntity = (BookingRequest) BeanUtils.cloneBean(bookingRequest);
+    BookingRequest updatedEntity = bookingRequest;
     updatedEntity.setDuration("99");
 
     updateTest(bookingRequestDaoJpa, BookingRequest.class, updatedEntity);
@@ -94,17 +94,17 @@ public class BookingRequestDaoJpaTest
    */
   @Test
   public void updateServerErrorExceptionTest() {
-    thrown.expect(KameHouseServerErrorException.class);
-    thrown.expectMessage("PersistenceException");
-    persistEntityInRepository(bookingRequest);
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 70; i++) {
-      sb.append("goku");
-    }
-    String duration = sb.toString();
-    bookingRequest.setDuration(duration);
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      persistEntityInRepository(bookingRequest);
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < 70; i++) {
+        sb.append("goku");
+      }
+      String duration = sb.toString();
+      bookingRequest.setDuration(duration);
 
-    bookingRequestDaoJpa.update(bookingRequest);
+      bookingRequestDaoJpa.update(bookingRequest);
+    });
   }
 
   /**

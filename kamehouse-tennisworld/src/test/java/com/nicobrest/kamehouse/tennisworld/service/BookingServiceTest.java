@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
@@ -16,19 +17,15 @@ import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.OngoingStubbing;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
@@ -43,8 +40,7 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ HttpClientUtils.class, DateUtils.class, EncryptionUtils.class })
+
 public class BookingServiceTest {
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
@@ -69,9 +65,6 @@ public class BookingServiceTest {
 
   @Mock
   HttpResponse httpResponseMock;
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private static final String[] BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES = {
       "facility-booking-responses/step-1.1.html",
@@ -138,20 +131,24 @@ public class BookingServiceTest {
       "monday-cardio-booking-responses/step-7.html",
   };
 
-  @Before
+  private MockedStatic<HttpClientUtils> httpClientUtilsMock;
+  private MockedStatic<DateUtils> dateUtilsMock;
+  private MockedStatic<EncryptionUtils> encryptionUtilsMock;
+
+  @BeforeEach
   public void init() throws Exception {
     bookingRequestTestUtils.initTestData();
     BookingService bookingService = new BookingService();
-    bookingServiceSpy = PowerMockito.spy(bookingService);
+    bookingServiceSpy = Mockito.spy(bookingService);
     bookingService.setSleepMs(0);
     bookingResponseTestUtils.initTestData();
     bookingScheduleConfigTestUtils.initTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(httpClientMock);
     Mockito.reset(httpResponseMock);
 
-    PowerMockito.mockStatic(HttpClientUtils.class);
+    httpClientUtilsMock = Mockito.mockStatic(HttpClientUtils.class);
     when(HttpClientUtils.getClient(any(), any())).thenReturn(httpClientMock);
     when(HttpClientUtils.execRequest(any(), any())).thenReturn(httpResponseMock);
     when(HttpClientUtils.httpGet(any())).thenCallRealMethod();
@@ -159,7 +156,7 @@ public class BookingServiceTest {
     when(HttpClientUtils.getHeader(any(), any())).thenReturn(BookingService.ROOT_URL);
     when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.FOUND.value());
 
-    PowerMockito.mockStatic(DateUtils.class);
+    dateUtilsMock = Mockito.mockStatic(DateUtils.class);
     when(DateUtils.getCurrentDate()).thenCallRealMethod();
     when(DateUtils.getTwoWeeksFrom(any())).thenCallRealMethod();
     when(DateUtils.getDate(any(), any(), any())).thenCallRealMethod();
@@ -171,13 +168,20 @@ public class BookingServiceTest {
     when(DateUtils.convertTime(any(), any(), any())).thenCallRealMethod();
     when(DateUtils.convertTime(any(), any(), any(), any(), any())).thenCallRealMethod();
 
-    PowerMockito.mockStatic(EncryptionUtils.class);
+    encryptionUtilsMock = Mockito.mockStatic(EncryptionUtils.class);
     when(EncryptionUtils.decrypt(any(), any())).thenReturn(new byte[2]);
 
     when(bookingScheduleConfigService.readAll())
         .thenReturn(bookingScheduleConfigTestUtils.getTestDataList());
     when(bookingRequestService.create((any()))).thenReturn(1L);
     when(bookingResponseService.create((any()))).thenReturn(1L);
+  }
+
+  @AfterEach
+  public void close() {
+    httpClientUtilsMock.close();
+    dateUtilsMock.close();
+    encryptionUtilsMock.close();
   }
 
   /**
@@ -219,13 +223,13 @@ public class BookingServiceTest {
    */
   @Test
   public void bookFacilityOverlayRequestInvalidSiteTest() throws Exception {
-    thrown.expect(KameHouseInvalidDataException.class);
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
+      BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+      request.setSite(null);
 
-    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    request.setSite(null);
-
-    bookingServiceSpy.book(request);
+      bookingServiceSpy.book(request);
+    });
   }
 
   /**
@@ -233,13 +237,13 @@ public class BookingServiceTest {
    */
   @Test
   public void bookFacilityOverlayRequestInvalidSessionTypeTest() throws Exception {
-    thrown.expect(KameHouseInvalidDataException.class);
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
+      BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+      request.setSessionType(null);
 
-    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    request.setSessionType(null);
-
-    bookingServiceSpy.book(request);
+      bookingServiceSpy.book(request);
+    });
   }
 
   /**

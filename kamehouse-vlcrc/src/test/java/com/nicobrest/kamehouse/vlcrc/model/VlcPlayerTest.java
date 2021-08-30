@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -14,15 +14,13 @@ import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.InputStream;
 import java.util.List;
@@ -33,8 +31,6 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ HttpClientUtils.class })
 public class VlcPlayerTest {
 
   private VlcPlayerTestUtils vlcPlayerTestUtils = new VlcPlayerTestUtils();
@@ -47,16 +43,18 @@ public class VlcPlayerTest {
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<VlcRcFileListItem> vlcRcFileList;
 
+  private MockedStatic<HttpClientUtils> httpClientUtilsMock;
+
   @Mock
   HttpClient httpClientMock;
 
   @Mock
   HttpResponse httpResponseMock;
 
-  @Before
+  @BeforeEach
   public void init() throws Exception {
     vlcPlayerTestUtils.initTestData();
-    vlcPlayer = PowerMockito.spy(vlcPlayerTestUtils.getSingleTestData());
+    vlcPlayer = Mockito.spy(vlcPlayerTestUtils.getSingleTestData());
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();
@@ -65,15 +63,20 @@ public class VlcPlayerTest {
     vlcRcFileList = vlcRcFileListTestUtils.getSingleTestData();
     vlcRcCommandTestUtils.initTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(httpClientMock);
     Mockito.reset(httpResponseMock);
-    PowerMockito.mockStatic(HttpClientUtils.class);
+    httpClientUtilsMock = Mockito.mockStatic(HttpClientUtils.class);
     when(HttpClientUtils.getClient(any(), any())).thenReturn(httpClientMock);
     when(HttpClientUtils.execRequest(any(), any())).thenReturn(httpResponseMock);
     when(HttpClientUtils.urlEncode(any())).thenCallRealMethod();
     when(HttpClientUtils.urlDecode(any())).thenCallRealMethod();
     when(HttpClientUtils.httpGet(any())).thenCallRealMethod();
+  }
+
+  @AfterEach
+  public void close() {
+    httpClientUtilsMock.close();
   }
 
   /**

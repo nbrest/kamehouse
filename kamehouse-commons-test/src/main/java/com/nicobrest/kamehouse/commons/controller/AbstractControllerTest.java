@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,9 +12,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -33,20 +30,18 @@ import java.util.List;
  */
 public abstract class AbstractControllerTest<E, D> {
 
-  @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
   protected MockMvc mockMvc;
 
-  @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
   protected TestUtils<E, D> testUtils;
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Executes a get request for the specified url on the mock server.
    */
   protected MockHttpServletResponse doGet(String url) throws Exception {
-    return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
+    return mockMvc.perform(get(url))
+        .andDo(print())
+        .andReturn()
+        .getResponse();
   }
 
   /**
@@ -55,7 +50,7 @@ public abstract class AbstractControllerTest<E, D> {
   protected MockHttpServletResponse doPost(String url, byte[] requestPayload)
       throws Exception {
     return mockMvc
-        .perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
         .andDo(print()).andReturn().getResponse();
   }
 
@@ -71,7 +66,7 @@ public abstract class AbstractControllerTest<E, D> {
    */
   protected MockHttpServletResponse doPut(String url, byte[] requestPayload) throws Exception {
     return mockMvc
-        .perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .perform(put(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
         .andDo(print()).andReturn().getResponse();
   }
 

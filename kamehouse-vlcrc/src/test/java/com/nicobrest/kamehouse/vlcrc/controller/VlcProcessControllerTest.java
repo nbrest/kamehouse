@@ -4,12 +4,12 @@ import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommand
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseSystemCommand;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -21,7 +21,7 @@ import java.io.IOException;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerTest {
@@ -29,7 +29,7 @@ public class VlcProcessControllerTest extends AbstractKameHouseSystemCommandCont
   @InjectMocks
   private VlcProcessController vlcProcessController;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(vlcProcessController).build();

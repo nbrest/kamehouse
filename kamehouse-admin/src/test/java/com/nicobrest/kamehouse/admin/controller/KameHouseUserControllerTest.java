@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
@@ -9,10 +10,9 @@ import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudControllerTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
@@ -30,7 +30,7 @@ import org.springframework.web.util.NestedServletException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class KameHouseUserControllerTest
@@ -49,14 +49,14 @@ public class KameHouseUserControllerTest
   /**
    * Resets mock objects.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
     kameHouseUser = testUtils.getSingleTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(kameHouseUserServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(kameHouseUserController).build();
   }
@@ -154,12 +154,12 @@ public class KameHouseUserControllerTest
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(kameHouseUserServiceMock)
-        .loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseNotFoundException("")).when(kameHouseUserServiceMock)
+          .loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
 
-    doGet(
-        API_V1_ADMIN_KAMEHOUSE_USERS + "username/" + KameHouseUserTestUtils.INVALID_USERNAME);
+      doGet(
+          API_V1_ADMIN_KAMEHOUSE_USERS + "username/" + KameHouseUserTestUtils.INVALID_USERNAME);
+    });
   }
 }

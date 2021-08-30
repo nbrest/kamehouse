@@ -1,12 +1,12 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -19,8 +19,6 @@ import java.util.GregorianCalendar;
  */
 public class DateUtilsTest {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Tests the several methods to get a cron expression.
@@ -50,7 +48,8 @@ public class DateUtilsTest {
     // format: Xxx Xxx 99 99:99:99 XXXX 9999
     String expectedDateRegex = "[A-Za-z]{3} [A-Za-z]{3} [0-9]{1,2} [0-9]{2}:[0-9]{2}:[0-9]{2} " +
         "[A-Za-z]+ [0-9]{4}";
-    assertTrue("Date doesn't match expected format", output.toString().matches(expectedDateRegex));
+    Assertions.assertTrue(output.toString().matches(expectedDateRegex),
+        "Date doesn't match expected format");
   }
 
   /**
@@ -83,12 +82,12 @@ public class DateUtilsTest {
   @Test
   public void getDateTest() {
     Date date = DateUtils.getDate(1984, Calendar.OCTOBER, 15);
-    assertTrue("Date doesn't match the expected value",
-        date.toString().startsWith("Mon Oct 15 00:00:00"));
+    assertTrue(date.toString().startsWith("Mon Oct 15 00:00:00"),
+        "Date doesn't match the expected value");
 
     date = DateUtils.getDate(1984, Calendar.OCTOBER, 15, 9, 10, 11);
-    assertTrue("Date doesn't match the expected value",
-        date.toString().startsWith("Mon Oct 15 09:10:11"));
+    assertTrue(date.toString().startsWith("Mon Oct 15 09:10:11"),
+        "Date doesn't match the expected value");
   }
 
   /**
@@ -99,12 +98,12 @@ public class DateUtilsTest {
     String expectedDateRegex = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
     String formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD);
-    assertTrue("Date doesn't match expected format",
-        formattedDate.matches(expectedDateRegex));
+    assertTrue(formattedDate.matches(expectedDateRegex),
+        "Date doesn't match expected format");
 
     formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, new Date());
-    assertTrue("Date doesn't match expected format",
-        formattedDate.matches(expectedDateRegex));
+    assertTrue(formattedDate.matches(expectedDateRegex),
+        "Date doesn't match expected format");
   }
 
   /**
@@ -113,8 +112,8 @@ public class DateUtilsTest {
   @Test
   public void getCurrentDayOfWeekTest() {
     int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
-    assertTrue("currentDayOfWeek has an invalid value",
-        currentDayOfWeek >= 1 && currentDayOfWeek <= 7);
+    assertTrue(currentDayOfWeek >= 1 && currentDayOfWeek <= 7,
+        "currentDayOfWeek has an invalid value");
   }
 
   /**
@@ -186,8 +185,9 @@ public class DateUtilsTest {
    */
   @Test
   public void convertTimeExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    DateUtils.convertTime("20:1 5", DateUtils.HH_MM_24HS, DateUtils.HH_MM_AM_PM);
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      DateUtils.convertTime("20:1 5", DateUtils.HH_MM_24HS, DateUtils.HH_MM_AM_PM);
+    });
   }
 
   /**
@@ -195,10 +195,9 @@ public class DateUtilsTest {
    */
   @Test
   public void isOnOrAfterExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("beforeDate and afterDate can't be null");
-
-    DateUtils.isOnOrAfter(null, new Date());
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      DateUtils.isOnOrAfter(null, new Date());
+    });
   }
 
   /**

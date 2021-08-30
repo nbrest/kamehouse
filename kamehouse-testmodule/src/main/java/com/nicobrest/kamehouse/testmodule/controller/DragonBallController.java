@@ -112,14 +112,9 @@ public class DragonBallController extends AbstractCrudController {
    */
   @GetMapping(path = "/users/emails")
   @ResponseBody
-  public ResponseEntity<String> getByEmail(@RequestParam(value = "email",
+  public ResponseEntity<DragonBallUser> getByEmail(@RequestParam(value = "email",
       required = true) String email) {
     DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
-    String dbUserJson = JsonUtils.toJsonString(dbUser);
-    // Leaving this one as is as a test instead of using
-    // generateGetResponseEntity
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Content-Type", "application/json;charset=UTF-8");
-    return new ResponseEntity<>(dbUserJson, headers, HttpStatus.OK);
+    return generateGetResponseEntity(dbUser);
   }
 }

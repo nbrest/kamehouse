@@ -1,9 +1,6 @@
 package com.nicobrest.kamehouse.commons.dao;
 
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -18,11 +15,6 @@ import javax.persistence.Query;
  */
 public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
 
-  @Rule
-  @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
-  public ExpectedException thrown = ExpectedException.none();
-
-  @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
   protected TestUtils<T, D> testUtils;
 
   /**

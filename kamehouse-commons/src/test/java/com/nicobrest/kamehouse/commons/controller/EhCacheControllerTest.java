@@ -1,18 +1,16 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-
 import com.nicobrest.kamehouse.commons.model.ApplicationCache;
 import com.nicobrest.kamehouse.commons.service.EhCacheService;
 import com.nicobrest.kamehouse.commons.testutils.ApplicationCacheTestUtils;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -31,7 +29,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCache, Object> {
@@ -48,14 +46,14 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   /**
    * Resets mock objects.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new ApplicationCacheTestUtils();
     testUtils.initTestData();
     applicationCache = testUtils.getSingleTestData();
     applicationCacheList = testUtils.getTestDataList();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(ehCacheServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(ehCacheController).build();
   }

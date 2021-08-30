@@ -21,9 +21,9 @@ import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -31,7 +31,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -43,7 +43,7 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, VlcPlayerDto> {
@@ -67,7 +67,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Mock(name = "vlcPlayerService")
   private VlcPlayerService vlcPlayerServiceMock;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new VlcPlayerTestUtils();
     testUtils.initTestData();
@@ -81,7 +81,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     vlcRcFileListTestUtils.initTestData();
     vlcRcFileList = vlcRcFileListTestUtils.getSingleTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(vlcRcServiceMock);
     Mockito.reset(vlcPlayerServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(vlcRcController).build();

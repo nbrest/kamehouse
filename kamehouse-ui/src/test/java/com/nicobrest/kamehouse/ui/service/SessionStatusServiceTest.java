@@ -1,21 +1,16 @@
 package com.nicobrest.kamehouse.ui.service;
 
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 import com.nicobrest.kamehouse.ui.testutils.SessionStatusTestUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,7 +27,7 @@ import javax.servlet.http.HttpSession;
  * @author nbrest
  *
  */
-@RunWith(PowerMockRunner.class)
+
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class SessionStatusServiceTest {
@@ -46,12 +41,12 @@ public class SessionStatusServiceTest {
   @Mock
   private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
-  @Before
+  @BeforeEach
   public void init() {
     testUtils.initTestData();
     sessionStatus = testUtils.getSingleTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(kameHouseUserAuthenticationService);
   }
 
@@ -63,7 +58,7 @@ public class SessionStatusServiceTest {
     UsernamePasswordAuthenticationToken authentication =
         new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
     authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
-    SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
+    SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))
@@ -83,7 +78,7 @@ public class SessionStatusServiceTest {
     UsernamePasswordAuthenticationToken authentication =
         new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
     authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
-    SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
+    SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))
@@ -102,7 +97,7 @@ public class SessionStatusServiceTest {
     UsernamePasswordAuthenticationToken authentication =
         new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
     authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
-    SessionStatusService sessionStatusServiceSpy = PowerMockito.spy(sessionStatusService);
+    SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))
         .thenThrow(new UsernameNotFoundException("User not found"));

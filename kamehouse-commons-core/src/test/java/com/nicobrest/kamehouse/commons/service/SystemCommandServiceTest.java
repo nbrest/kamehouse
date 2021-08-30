@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.service;
 
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
@@ -9,15 +9,11 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemComman
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,8 +28,6 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ PropertiesUtils.class, ProcessUtils.class })
 public class SystemCommandServiceTest {
 
   private SystemCommandService systemCommandService;
@@ -44,14 +38,21 @@ public class SystemCommandServiceTest {
   private static final String RUNNING = "running";
   private static final List<String> INPUT_STREAM_LIST = Arrays.asList("/home /bin /opt");
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+  private MockedStatic<PropertiesUtils> propertiesUtils;
+  private MockedStatic<ProcessUtils> processUtils;
 
-  @Before
-  public void before() {
-    PowerMockito.mockStatic(PropertiesUtils.class, ProcessUtils.class);
-    systemCommandService = PowerMockito.spy(new SystemCommandService());
+  @BeforeEach
+  public void before() throws IOException {
+    propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
+    processUtils = Mockito.mockStatic(ProcessUtils.class);
+    systemCommandService = Mockito.spy(new SystemCommandService());
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
+  }
+
+  @AfterEach
+  public void close() {
+    propertiesUtils.close();
+    processUtils.close();
   }
 
   /**
@@ -126,6 +127,7 @@ public class SystemCommandServiceTest {
   @Test
   public void execIOExceptionTest() throws Exception {
     when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
+
     List<String> errorStream = Arrays.asList("An error occurred executing the command. Message: " +
         "null");
     List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
@@ -140,7 +142,8 @@ public class SystemCommandServiceTest {
   /**
    * Setup mock input and error streams.
    */
-  private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent) {
+  private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent)
+      throws IOException {
     InputStream processInputStream = new ByteArrayInputStream(inputStreamContent.getBytes());
     InputStream processErrorStream = new ByteArrayInputStream(errorStreamContent.getBytes());
     when(ProcessUtils.getInputStream(Mockito.any())).thenReturn(processInputStream);

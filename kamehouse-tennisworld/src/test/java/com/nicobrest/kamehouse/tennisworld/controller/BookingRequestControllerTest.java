@@ -5,15 +5,15 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingRequestService;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -24,7 +24,7 @@ import java.io.IOException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class BookingRequestControllerTest
@@ -44,14 +44,14 @@ public class BookingRequestControllerTest
   /**
    * Init test data.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new BookingRequestTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
     bookingRequest = testUtils.getSingleTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(bookingRequestServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(bookingRequestController).build();
   }

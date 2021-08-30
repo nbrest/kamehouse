@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
@@ -7,13 +8,12 @@ import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -22,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
@@ -35,7 +35,7 @@ public class DragonBallUserDaoJpaTest
   /**
    * Clears data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new DragonBallUserTestUtils();
     testUtils.initTestData();
@@ -83,7 +83,7 @@ public class DragonBallUserDaoJpaTest
   @Test
   public void updateTest() throws IllegalAccessException, InstantiationException,
       InvocationTargetException, NoSuchMethodException {
-    DragonBallUser updatedEntity = (DragonBallUser) BeanUtils.cloneBean(dragonBallUser);
+    DragonBallUser updatedEntity = dragonBallUser;
     updatedEntity.setEmail("gokuUpdated@dbz.com");
 
     updateTest(dragonBallUserDaoJpa, DragonBallUser.class, updatedEntity);
@@ -102,18 +102,18 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void updateServerErrorExceptionTest() {
-    thrown.expect(KameHouseServerErrorException.class);
-    thrown.expectMessage("PersistenceException");
-    persistEntityInRepository(dragonBallUser);
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 70; i++) {
-      sb.append("goku");
-    }
-    String username = sb.toString();
-    dragonBallUser.setUsername(username);
-    dragonBallUser.setEmail("gokuUpdated@dbz.com");
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      persistEntityInRepository(dragonBallUser);
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < 70; i++) {
+        sb.append("goku");
+      }
+      String username = sb.toString();
+      dragonBallUser.setUsername(username);
+      dragonBallUser.setEmail("gokuUpdated@dbz.com");
 
-    dragonBallUserDaoJpa.update(dragonBallUser);
+      dragonBallUserDaoJpa.update(dragonBallUser);
+    });
   }
 
   /**
@@ -149,10 +149,9 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void getByUsernameNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("Entity not found in the repository.");
-
-    dragonBallUserDaoJpa.getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      dragonBallUserDaoJpa.getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
+    });
   }
 
   /**
@@ -173,9 +172,8 @@ public class DragonBallUserDaoJpaTest
    */
   @Test
   public void getByEmailNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("NoResultException: Entity not found in the repository.");
-
-    dragonBallUserDaoJpa.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      dragonBallUserDaoJpa.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+    });
   }
 }

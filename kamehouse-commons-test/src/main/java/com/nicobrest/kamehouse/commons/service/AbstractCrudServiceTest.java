@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,7 +9,6 @@ import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.mockito.Mockito;
 
 import java.util.List;
@@ -22,7 +21,6 @@ import java.util.List;
  */
 public abstract class AbstractCrudServiceTest<E, D> {
 
-  @SuppressFBWarnings // False positive: UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD
   protected TestUtils<E, D> testUtils;
   
   /**

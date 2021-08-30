@@ -1,18 +1,18 @@
 package com.nicobrest.kamehouse.admin.dao;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class KameHouseUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<KameHouseUser, KameHouseUserDto> {
@@ -34,7 +34,7 @@ public class KameHouseUserDaoJpaTest
   /**
    * Clear data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
@@ -81,9 +81,8 @@ public class KameHouseUserDaoJpaTest
    * Test for updating an existing user in the repository.
    */
   @Test
-  public void updateTest() throws IllegalAccessException, InstantiationException,
-      InvocationTargetException, NoSuchMethodException {
-    KameHouseUser updatedEntity = (KameHouseUser) BeanUtils.cloneBean(kameHouseUser);
+  public void updateTest() {
+    KameHouseUser updatedEntity = kameHouseUser;
     updatedEntity.setEmail("gokuUpdatedEmail@dbz.com");
 
     updateTest(kameHouseUserDaoJpa, KameHouseUser.class, updatedEntity);
@@ -132,9 +131,8 @@ public class KameHouseUserDaoJpaTest
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("Entity not found in the repository.");
-
-    kameHouseUserDaoJpa.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      kameHouseUserDaoJpa.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    });
   }
 }

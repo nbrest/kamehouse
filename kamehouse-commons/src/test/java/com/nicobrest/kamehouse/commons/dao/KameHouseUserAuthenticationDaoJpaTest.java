@@ -1,22 +1,23 @@
 package com.nicobrest.kamehouse.commons.dao;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Unit tests for the KameHouseUserAuthenticationDaoJpa class.
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class KameHouseUserAuthenticationDaoJpaTest
     extends AbstractCrudDaoJpaTest<KameHouseUser, KameHouseUserDto> {
@@ -29,7 +30,7 @@ public class KameHouseUserAuthenticationDaoJpaTest
   /**
    * Clear data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
@@ -59,9 +60,8 @@ public class KameHouseUserAuthenticationDaoJpaTest
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("Entity not found in the repository.");
-
-    kameHouseUserAuthenticationDaoJpa.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      kameHouseUserAuthenticationDaoJpa.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    });
   }
 }

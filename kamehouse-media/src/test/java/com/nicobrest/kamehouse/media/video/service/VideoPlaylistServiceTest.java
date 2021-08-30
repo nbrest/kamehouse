@@ -1,21 +1,20 @@
 package com.nicobrest.kamehouse.media.video.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.util.List;
@@ -26,22 +25,22 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ PropertiesUtils.class })
 public class VideoPlaylistServiceTest {
 
   private static VideoPlaylistService videoPlaylistService;
   private VideoPlaylistTestUtils videoPlaylistTestUtils = new VideoPlaylistTestUtils();
   private Playlist expectedPlaylist;
 
-  @BeforeClass
+  private MockedStatic<PropertiesUtils> propertiesUtils;
+
+  @BeforeAll
   public static void beforeClass() {
     videoPlaylistService = new VideoPlaylistService();
   }
 
-  @Before
+  @BeforeEach
   public void before() {
-    PowerMockito.mockStatic(PropertiesUtils.class);
+    propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
     when(PropertiesUtils.getHostname()).thenReturn(VideoPlaylistTestUtils.MEDIA_SERVER);
     when(PropertiesUtils.getUserHome()).thenReturn(""); // Use git project root as home
@@ -59,6 +58,11 @@ public class VideoPlaylistServiceTest {
         .thenCallRealMethod();
     videoPlaylistTestUtils.initTestData();
     expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
+  }
+
+  @AfterEach
+  public void close() {
+    propertiesUtils.close();
   }
 
   /**
@@ -139,7 +143,7 @@ public class VideoPlaylistServiceTest {
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidPath, true);
 
-    assertNull("Expect a null playlist returned", returnedPlaylist);
+    assertNull(returnedPlaylist, "Expect a null playlist returned");
   }
 
   /**
@@ -151,7 +155,7 @@ public class VideoPlaylistServiceTest {
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidExtension, true);
 
-    assertNull("Expect a null playlist returned", returnedPlaylist);
+    assertNull(returnedPlaylist, "Expect a null playlist returned");
   }
 
   /**
@@ -164,6 +168,6 @@ public class VideoPlaylistServiceTest {
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidPath, true);
 
-    assertNull("Expect a null playlist returned", returnedPlaylist);
+    assertNull(returnedPlaylist, "Expect a null playlist returned");
   }
 }

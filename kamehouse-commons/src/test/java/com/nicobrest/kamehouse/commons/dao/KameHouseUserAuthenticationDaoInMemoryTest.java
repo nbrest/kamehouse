@@ -1,15 +1,14 @@
 package com.nicobrest.kamehouse.commons.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
@@ -23,13 +22,10 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
   private KameHouseUser kameHouseUser;
   private KameHouseUserAuthenticationDaoInMemory kameHouseUserAuthenticationDao;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   /**
    * Initializes test repositories.
    */
-  @Before
+  @BeforeEach
   public void init() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
@@ -53,10 +49,8 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
-    thrown.expect(UsernameNotFoundException.class);
-    thrown.expectMessage(
-        "User with username " + KameHouseUserTestUtils.INVALID_USERNAME + " not found.");
-
-    kameHouseUserAuthenticationDao.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    assertThrows(UsernameNotFoundException.class, () -> {
+      kameHouseUserAuthenticationDao.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    });
   }
 }

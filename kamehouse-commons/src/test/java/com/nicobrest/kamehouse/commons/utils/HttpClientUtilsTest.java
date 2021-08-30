@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.apache.http.client.HttpClient;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * HttpClient tests.
@@ -39,7 +39,7 @@ public class HttpClientUtilsTest {
   @Test
   public void urlEncodeErrorEncodingTest() {
     String encodedParam = HttpClientUtils.urlEncode(null);
-    assertNull("Expected null from urlEncode", encodedParam);
+    assertNull(encodedParam, "Expected null from urlEncode");
   }
 
   /**
@@ -59,6 +59,6 @@ public class HttpClientUtilsTest {
   @Test
   public void urlDecodeErrorDecodingTest() {
     String decodedParam = HttpClientUtils.urlDecode(null);
-    assertNull("Expected null from urlDecode", decodedParam);
+    assertNull(decodedParam, "Expected null from urlDecode");
   }
 }

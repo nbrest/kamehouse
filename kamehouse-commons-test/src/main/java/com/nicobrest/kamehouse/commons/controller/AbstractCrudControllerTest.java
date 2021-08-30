@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -8,13 +9,11 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
-import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 
-import org.hamcrest.core.IsInstanceOf;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,12 +57,12 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   protected void createConflictExceptionTest(String url, CrudService<E, D> service)
       throws Exception {
     D dto = testUtils.getTestDataDto();
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseConflictException.class));
-    Mockito.doThrow(new KameHouseConflictException("")).when(service).create(dto);
-    byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseConflictException("")).when(service).create(dto);
+      byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    doPost(url, requestPayload);
+      doPost(url, requestPayload);
+    });
   }
 
   /**
@@ -94,7 +93,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     List<E> responseBody = getResponseBodyList(response, clazz);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    verifyContentType(response, MediaType.APPLICATION_JSON_UTF8);
+    verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributesList(entityList, responseBody);
     verify(service, times(1)).readAll();
     verifyNoMoreInteractions(service);
@@ -120,11 +119,11 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    */
   protected void updateInvalidPathId(String url) throws IOException, Exception {
     D dto = testUtils.getTestDataDto();
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseBadRequestException.class));
-    byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
+    assertThrows(NestedServletException.class, () -> {
+      byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    doPut(url + INVALID_ID, requestPayload);
+      doPut(url + INVALID_ID, requestPayload);
+    });
   }
 
   /**
@@ -133,12 +132,12 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   protected void updateNotFoundExceptionTest(String url, CrudService<E, D> service)
       throws Exception {
     D dto = testUtils.getTestDataDto();
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(service).update(dto);
-    byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
-    Identifiable identifiableDto = (Identifiable) dto;
-    doPut(url + identifiableDto.getId(), requestPayload);
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseNotFoundException("")).when(service).update(dto);
+      byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
+      Identifiable identifiableDto = (Identifiable) dto;
+      doPut(url + identifiableDto.getId(), requestPayload);
+    });
   }
 
   /**
@@ -163,10 +162,10 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    */
   protected void deleteNotFoundExceptionTest(String url, CrudService<E, D> service)
       throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(service).delete(INVALID_ID);
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseNotFoundException("")).when(service).delete(INVALID_ID);
 
-    doDelete(url + INVALID_ID);
+      doDelete(url + INVALID_ID);
+    });
   }
 }

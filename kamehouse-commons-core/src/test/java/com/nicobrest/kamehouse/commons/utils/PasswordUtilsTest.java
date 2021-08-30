@@ -1,11 +1,11 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
+
 import com.nicobrest.kamehouse.commons.model.TestUserEntity;
-import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +46,6 @@ public class PasswordUtilsTest {
 
     PasswordUtils.unsetPassword(userEntityList);
 
-    assertNull("Password should be null", userEntityList.get(0).getPassword());
+    assertNull(userEntityList.get(0).getPassword(), "Password should be null");
   }
 }

@@ -9,24 +9,20 @@ import com.nicobrest.kamehouse.tennisworld.dao.TennisWorldUserDao;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldUserTestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Unit tests for the TennisWorldUserService class.
  *
  * @author nbrest
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ EncryptionUtils.class })
 public class TennisWorldUserServiceTest
     extends AbstractCrudServiceTest<TennisWorldUser, TennisWorldUserDto> {
 
@@ -38,10 +34,12 @@ public class TennisWorldUserServiceTest
   @Mock(name = "tennisWorldUserDao")
   private TennisWorldUserDao tennisWorldUserDaoMock;
 
+  private MockedStatic<EncryptionUtils> encryptionUtilsMock;
+
   /**
    * Resets mock objects and initializes test repository.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new TennisWorldUserTestUtils();
     testUtils.initTestData();
@@ -49,9 +47,14 @@ public class TennisWorldUserServiceTest
     tennisWorldUser = testUtils.getSingleTestData();
 
     // Reset mock objects before each test
-    MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(EncryptionUtils.class);
+    MockitoAnnotations.openMocks(this);
+    encryptionUtilsMock = Mockito.mockStatic(EncryptionUtils.class);
     Mockito.reset(tennisWorldUserDaoMock);
+  }
+
+  @AfterEach
+  public void close() {
+    encryptionUtilsMock.close();
   }
 
   /**

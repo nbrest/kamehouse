@@ -9,8 +9,8 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,13 +35,13 @@ public class KameHouseUserAuthenticationServiceTest
   /**
    * Resets mock objects and initializes test repository.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
     kameHouseUser = testUtils.getSingleTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(kameHouseUserDaoMock);
   }
 

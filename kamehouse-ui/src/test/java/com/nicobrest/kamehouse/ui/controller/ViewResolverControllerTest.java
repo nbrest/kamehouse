@@ -1,40 +1,41 @@
 package com.nicobrest.kamehouse.ui.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
  * Unit tests for the ViewResolverController class.
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndView, Object> {
 
-  @Mock
   private MockHttpServletRequest request;
 
-  @Mock
   private MockHttpServletResponse response;
 
   @InjectMocks
@@ -43,14 +44,15 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
   /**
    * Resets mock objects.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
     viewResolver.setPrefix("/WEB-INF/jsp");
     viewResolver.setSuffix(".jsp");
 
-    MockitoAnnotations.initMocks(this);
-    mockMvc = MockMvcBuilders.standaloneSetup(viewResolverController).setViewResolvers(viewResolver)
+    MockitoAnnotations.openMocks(this);
+    mockMvc = MockMvcBuilders.standaloneSetup(viewResolverController)
+        .setViewResolvers(viewResolver)
         .build();
   }
 
@@ -95,6 +97,8 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
    * specified source url.
    */
   private void testIncludeStaticHtml(String sourceUrl, String expectedHtml) {
+    HttpServletRequestWrapper request =
+        Mockito.spy(new HttpServletRequestWrapper(new MockHttpServletRequest()));
     ModelAndView returnedModelAndView = null;
     when(request.getServletPath()).thenReturn(sourceUrl);
 
@@ -108,6 +112,8 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
    * Tests test module jsp view generated from the source url.
    */
   private void testTestModuleJsp(String sourceUrl, String expectedView) {
+    HttpServletRequestWrapper request =
+        Mockito.spy(new HttpServletRequestWrapper(new MockHttpServletRequest()));
     when(request.getServletPath()).thenReturn(sourceUrl);
 
     String testModuleJspView = viewResolverController.testModuleJsp(request, response);

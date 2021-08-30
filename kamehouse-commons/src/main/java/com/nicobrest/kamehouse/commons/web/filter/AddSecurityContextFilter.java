@@ -49,7 +49,7 @@ public class AddSecurityContextFilter implements Filter {
   /**
    * Gets the Authentication object from the spring security context.
    */
-  private Authentication getAuthentication() {
+  protected Authentication getAuthentication() {
     return SecurityContextHolder.getContext().getAuthentication();
   }
 }

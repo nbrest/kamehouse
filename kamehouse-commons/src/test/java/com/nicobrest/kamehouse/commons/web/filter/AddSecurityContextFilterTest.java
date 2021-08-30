@@ -1,14 +1,11 @@
 package com.nicobrest.kamehouse.commons.web.filter;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -20,17 +17,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
  * @author nbrest
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(AddSecurityContextFilter.class)
-@SuppressWarnings("deprecation")
 public class AddSecurityContextFilterTest {
 
   @Mock
   private AddSecurityContextFilter addSecurityContextFilter;
 
-  @Before
+  @BeforeEach
   public void init() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   /**
@@ -42,14 +36,13 @@ public class AddSecurityContextFilterTest {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
     MockFilterChain chain = new MockFilterChain();
-    AddSecurityContextFilter addSecurityContextFilterSpy = PowerMockito.spy(
+    AddSecurityContextFilter addSecurityContextFilterSpy = Mockito.spy(
         new AddSecurityContextFilter());
-    PowerMockito.doReturn(new UsernamePasswordAuthenticationToken("goku", "gohan")).when(
-        addSecurityContextFilterSpy, "getAuthentication");
+    when(addSecurityContextFilterSpy.getAuthentication())
+        .thenReturn(new UsernamePasswordAuthenticationToken("goku", "gohan"));
 
     addSecurityContextFilterSpy.doFilter(request, response, chain);
 
-    PowerMockito.verifyPrivate(addSecurityContextFilterSpy, Mockito.times(1)).invoke(
-        "getAuthentication");
+    Mockito.verify(addSecurityContextFilterSpy, Mockito.times(1));
   }
 }

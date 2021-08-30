@@ -1,28 +1,33 @@
 package com.nicobrest.kamehouse.cmd.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for the CmdArgumentHandler.
  *
  * @author nbrest
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ ProcessUtils.class })
+
 public class CmdArgumentHandlerTest {
 
-  @Before
+  private MockedStatic<ProcessUtils> processUtilsMockedStatic;
+
+  @BeforeEach
   public void before() {
-    PowerMockito.mockStatic(ProcessUtils.class);
+    processUtilsMockedStatic = Mockito.mockStatic(ProcessUtils.class);
+  }
+
+  @AfterEach
+  public void close() {
+    processUtilsMockedStatic.close();
   }
 
   /**

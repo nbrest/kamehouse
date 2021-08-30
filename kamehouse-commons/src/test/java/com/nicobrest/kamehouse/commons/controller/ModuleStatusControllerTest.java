@@ -1,20 +1,21 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -26,8 +27,7 @@ import java.util.Map;
  * @author nbrest
  *
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ PropertiesUtils.class })
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class ModuleStatusControllerTest extends AbstractControllerTest {
@@ -38,19 +38,27 @@ public class ModuleStatusControllerTest extends AbstractControllerTest {
   private static final String BUILD_VERSION_MOCK = "2.00.1";
   private static final String BUILD_DATE_MOCK = "Sat Jun 26 11:05:18 AEST 2021";
 
+  private MockedStatic<PropertiesUtils> propertiesUtils;
+
   @InjectMocks
   private ModuleStatusController moduleStatusController;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
-    MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(PropertiesUtils.class);
+    MockitoAnnotations.openMocks(this);
+    propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
+
     when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
     when(PropertiesUtils.getHostname()).thenReturn("kamehouse-ultimate-server");
     when(PropertiesUtils.getModuleName()).thenReturn("kamehouse-ultimate-module");
     when(PropertiesUtils.getProperty(BUILD_VERSION_PROP)).thenReturn(BUILD_VERSION_MOCK);
     when(PropertiesUtils.getProperty(BUILD_DATE_PROP)).thenReturn(BUILD_DATE_MOCK);
     mockMvc = MockMvcBuilders.standaloneSetup(moduleStatusController).build();
+  }
+
+  @AfterEach
+  public void close() {
+    propertiesUtils.close();
   }
 
   /**

@@ -15,8 +15,8 @@ import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -49,7 +49,7 @@ public class VlcRcServiceTest {
   @Mock(name = "vlcPlayer")
   private VlcPlayer vlcPlayer;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
@@ -59,7 +59,7 @@ public class VlcRcServiceTest {
     vlcRcFileList = vlcRcFileListTestUtils.getSingleTestData();
     vlcRcCommandTestUtils.initTestData();
     
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(vlcPlayer);
     Mockito.reset(vlcPlayerService);
 

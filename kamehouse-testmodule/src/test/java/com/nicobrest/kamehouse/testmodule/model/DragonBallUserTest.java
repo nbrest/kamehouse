@@ -1,13 +1,13 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the DragonBallUser class.
@@ -21,7 +21,7 @@ public class DragonBallUserTest {
   /**
    * Clears data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new DragonBallUserTestUtils();
     testUtils.initTestData();

@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,7 +41,7 @@ public class ProcessUtils {
   /**
    * Gets the input stream from the specified process.
    */
-  public static InputStream getInputStream(Process process) {
+  public static InputStream getInputStream(Process process) throws IOException {
     return process.getInputStream();
   }
 
@@ -60,7 +58,6 @@ public class ProcessUtils {
    * <bold>DONT'T call this from any webapp!!!.</bold>
    *
    */
-  @SuppressFBWarnings(value = "DM_EXIT", justification = "It's ok to exit here")
   public static void exitProcess(int status) {
     System.exit(status);
   }

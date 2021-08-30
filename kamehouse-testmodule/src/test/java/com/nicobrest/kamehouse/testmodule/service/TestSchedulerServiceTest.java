@@ -1,14 +1,13 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.config.TestModuleSchedulerConfig;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -29,12 +28,10 @@ public class TestSchedulerServiceTest {
   @Mock(name = "scheduler")
   private Scheduler scheduler;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
-  @Before
+  @BeforeEach
   public void before() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   /**
@@ -53,12 +50,12 @@ public class TestSchedulerServiceTest {
    */
   @Test
   public void scheduleSampleJobExceptionTest() throws SchedulerException {
-    thrown.expect(KameHouseServerErrorException.class);
-    thrown.expectMessage("mada mada dane");
-    when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
-    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
+      testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
-    testSchedulerService.scheduleSampleJob(5400);
+      testSchedulerService.scheduleSampleJob(5400);
+    });
   }
 
   /**

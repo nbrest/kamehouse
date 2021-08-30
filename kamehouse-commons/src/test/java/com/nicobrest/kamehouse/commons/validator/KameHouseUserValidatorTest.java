@@ -1,9 +1,8 @@
 package com.nicobrest.kamehouse.commons.validator;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the KameHouseUserValidator.
@@ -13,8 +12,6 @@ import org.junit.rules.ExpectedException;
  */
 public class KameHouseUserValidatorTest {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Tests valid first name format. Should finish without throwing exceptions.
@@ -37,10 +34,9 @@ public class KameHouseUserValidatorTest {
    */
   @Test
   public void validateFirstNameFormatExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("Invalid first name:");
-
-    KameHouseUserValidator.validateFirstNameFormat(".Yukimura");
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      KameHouseUserValidator.validateFirstNameFormat(".Yukimura");
+    });
   }
 
   /**
@@ -48,9 +44,8 @@ public class KameHouseUserValidatorTest {
    */
   @Test
   public void validateLastNameFormatExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("Invalid last name: ");
-
-    KameHouseUserValidator.validateLastNameFormat("Seichi9");
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      KameHouseUserValidator.validateLastNameFormat("Seichi9");
+    });
   }
 }

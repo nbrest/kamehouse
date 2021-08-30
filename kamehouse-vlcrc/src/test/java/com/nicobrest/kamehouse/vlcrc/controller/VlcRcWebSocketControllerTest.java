@@ -11,15 +11,15 @@ import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class VlcRcWebSocketControllerTest {
 
@@ -45,13 +45,13 @@ public class VlcRcWebSocketControllerTest {
   @Mock(name = "vlcRcService")
   private VlcRcService vlcRcServiceMock;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();
     vlcRcPlaylist = vlcRcPlaylistTestUtils.getSingleTestData();
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(vlcRcServiceMock);
   }
 

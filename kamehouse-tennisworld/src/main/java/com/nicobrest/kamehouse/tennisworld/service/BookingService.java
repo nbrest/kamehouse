@@ -20,6 +20,7 @@ import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
+import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
@@ -41,6 +42,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -407,7 +409,7 @@ public class BookingService {
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient,
         loadSessionAjaxRequestHttpPost);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasJsonErrorResponse(html) || hasError(Jsoup.parse(html))) {
       throw new KameHouseServerErrorException("Error posting book overlay ajax");

@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.security;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -7,10 +8,8 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -39,20 +38,18 @@ public class KameHouseAuthenticationProviderTest {
   @Mock
   private KameHouseUserAuthenticationService kameHouseUserServiceMock;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Resets mock objects and initializes test repository.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils.initTestData();
     kameHouseUser = testUtils.getSingleTestData();
     badUsernameKameHouseUser = testUtils.getBadUsernameKameHouseUser();
     badPasswordKameHouseUser = testUtils.getBadPasswordKameHouseUser();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(kameHouseUserServiceMock);
   }
 
@@ -79,18 +76,18 @@ public class KameHouseAuthenticationProviderTest {
    */
   @Test
   public void authenticateBadUsernameTest() {
-    thrown.expect(BadCredentialsException.class);
-    thrown.expectMessage("Username not found.");
-    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-        badUsernameKameHouseUser.getUsername(), badUsernameKameHouseUser.getPassword());
-    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
-    when(kameHouseUserServiceMock.loadUserByUsername(badUsernameKameHouseUser.getUsername()))
-        .thenReturn(badUsernameKameHouseUser);
+    assertThrows(BadCredentialsException.class, () -> {
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+          badUsernameKameHouseUser.getUsername(), badUsernameKameHouseUser.getPassword());
+      authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
+      when(kameHouseUserServiceMock.loadUserByUsername(badUsernameKameHouseUser.getUsername()))
+          .thenReturn(badUsernameKameHouseUser);
 
-    kameHouseAuthenticationProvider.authenticate(authentication);
+      kameHouseAuthenticationProvider.authenticate(authentication);
 
-    verify(kameHouseUserServiceMock, times(1))
-        .loadUserByUsername(badUsernameKameHouseUser.getUsername());
+      verify(kameHouseUserServiceMock, times(1))
+          .loadUserByUsername(badUsernameKameHouseUser.getUsername());
+    });
   }
 
   /**
@@ -98,17 +95,17 @@ public class KameHouseAuthenticationProviderTest {
    */
   @Test
   public void authenticateBadPasswordTest() {
-    thrown.expect(BadCredentialsException.class);
-    thrown.expectMessage("Wrong password.");
-    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-        badPasswordKameHouseUser.getUsername(), badPasswordKameHouseUser.getPassword());
-    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
-    when(kameHouseUserServiceMock.loadUserByUsername(badPasswordKameHouseUser.getUsername()))
-        .thenReturn(badPasswordKameHouseUser);
+    assertThrows(BadCredentialsException.class, () -> {
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+          badPasswordKameHouseUser.getUsername(), badPasswordKameHouseUser.getPassword());
+      authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
+      when(kameHouseUserServiceMock.loadUserByUsername(badPasswordKameHouseUser.getUsername()))
+          .thenReturn(badPasswordKameHouseUser);
 
-    kameHouseAuthenticationProvider.authenticate(authentication);
+      kameHouseAuthenticationProvider.authenticate(authentication);
 
-    verify(kameHouseUserServiceMock, times(1))
-        .loadUserByUsername(badPasswordKameHouseUser.getUsername());
+      verify(kameHouseUserServiceMock, times(1))
+          .loadUserByUsername(badPasswordKameHouseUser.getUsername());
+    });
   }
 }

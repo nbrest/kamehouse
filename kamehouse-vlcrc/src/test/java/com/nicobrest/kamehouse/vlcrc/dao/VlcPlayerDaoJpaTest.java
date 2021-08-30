@@ -1,18 +1,18 @@
 package com.nicobrest.kamehouse.vlcrc.dao;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPlayerDto> {
 
@@ -33,7 +33,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
   /**
    * Clears data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new VlcPlayerTestUtils();
     testUtils.initTestData();
@@ -79,9 +79,12 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    * Tests updating an existing user in the repository.
    */
   @Test
-  public void updateTest() throws IllegalAccessException, InstantiationException,
-      InvocationTargetException, NoSuchMethodException {
-    VlcPlayer updatedEntity = (VlcPlayer) BeanUtils.cloneBean(vlcPlayer);
+  public void updateTest() {
+    VlcPlayer updatedEntity = new VlcPlayer();
+    updatedEntity.setPassword(vlcPlayer.getPassword());
+    updatedEntity.setId(vlcPlayer.getId());
+    updatedEntity.setPort(vlcPlayer.getPort());
+    updatedEntity.setUsername(vlcPlayer.getUsername());
     updatedEntity.setHostname("kamehameha-updated-hostname");
 
     updateTest(vlcPlayerDaoJpa, VlcPlayer.class, updatedEntity);
@@ -128,9 +131,8 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    */
   @Test
   public void getByHostnameNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("Entity not found in the repository.");
-
-    vlcPlayerDaoJpa.getByHostname(VlcPlayerTestUtils.INVALID_HOSTNAME);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      vlcPlayerDaoJpa.getByHostname(VlcPlayerTestUtils.INVALID_HOSTNAME);
+    });
   }
 }

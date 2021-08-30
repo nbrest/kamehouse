@@ -36,47 +36,128 @@
     </repositories>
 
     <properties>
-        <java.target.version>1.8</java.target.version>
+        <java.target.version>11</java.target.version>
+        <maven.compiler.source>${java.target.version}</maven.compiler.source>
+        <maven.compiler.target>${java.target.version}</maven.compiler.target>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <kamehouse.version>6.04.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
         <filters.dir>${basedir}/../src/main/filters</filters.dir>
 
-        <assembly.plugin.version>3.0.0</assembly.plugin.version>            <!-- Updated 2016/02 -->
-        <bouncy.castle.version>1.58</bouncy.castle.version>                 <!-- Updated 2021/07 -->
-        <checkstyle.version>2.17</checkstyle.version>                       <!-- Updated 2016/02 -->
-        <codehaus.jackson.version>1.9.13</codehaus.jackson.version>         <!-- Updated 2016/02 -->
-        <commons.cli.version>1.4</commons.cli.version>                      <!-- Updated 2021/07 -->
-        <commons.lang.version>2.6</commons.lang.version>                    <!-- Updated 2016/02 -->
-        <commons.httpclient.version>3.1</commons.httpclient.version>        <!-- Updated 2017/11 -->
-        <compiler.plugin.version>3.5</compiler.plugin.version>              <!-- Updated 2016/02 -->
-        <dependency.plugin.version>2.10</dependency.plugin.version>         <!-- Updated 2016/02 -->
-        <ehcache.version>2.9.0</ehcache.version>                            <!-- Updated 2016/02 -->
-        <findbugs.version>3.0.5</findbugs.version>                          <!-- Updated 2019/09 -->
-        <hamcrest.version>1.3</hamcrest.version>                            <!-- Updated 2016/02 -->
-        <hibernate.version>5.1.0.Final</hibernate.version>                  <!-- Updated 2016/02 -->
-        <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>          <!-- Updated 2016/02 -->
-        <hsql.version>2.3.2</hsql.version>                                  <!-- Updated 2016/02 -->
-        <httpclient.version>4.5.3</httpclient.version>                      <!-- Updated 2017/10 -->
-        <jackson.version>2.9.9</jackson.version>                            <!-- Updated 2019/09 -->
-        <jacoco.version>0.8.5</jacoco.version>                              <!-- Updated 2020/07 -->
-        <jar.plugin.version>3.0.2</jar.plugin.version>                      <!-- Updated 2016/02 -->
-        <javax.servlet.version>3.0.1</javax.servlet.version>                <!-- Updated 2016/02 -->
-        <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>        <!-- Updated 2016/02 -->
-        <javax.xml.bind.version>2.2.8</javax.xml.bind.version>              <!-- Updated 2021/07 -->
-        <jcloverslf4j.version>1.7.13</jcloverslf4j.version>                 <!-- Updated 2016/02 -->
-        <jsoup.version>1.13.1</jsoup.version>                               <!-- Updated 2020/07 -->
-        <jstl.version>1.2</jstl.version>                                    <!-- Updated 2016/02 -->
-        <junit.version>4.12</junit.version>                                 <!-- Updated 2016/02 -->
-        <logback.version>1.1.2</logback.version>                            <!-- Updated 2016/02 -->
-        <mysql.connector.java.version>8.0.20</mysql.connector.java.version> <!-- Updated 2020/05 -->
-        <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>               <!-- Updated 2016/02 -->
-        <powermock.version>1.7.3</powermock.version>                        <!-- Updated 2016/02 -->
-        <quartz.version>2.3.0</quartz.version>                              <!-- Updated 2020/12 -->
-        <spring.version>4.3.25.RELEASE</spring.version>                     <!-- Updated 2019/09 -->
-        <spring.session.version>2.0.10.RELEASE</spring.session.version>     <!-- Updated 2021/06 -->
-        <spring.security.version>4.2.13.RELEASE</spring.security.version>   <!-- Updated 2019/09 -->
-        <war.plugin.version>2.1.1</war.plugin.version>                      <!-- Updated 2016/02 -->
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <assembly.plugin.version>3.0.0</assembly.plugin.version>
+
+        <!-- Updated : 2021/07 | Dependency version date:  -->
+        <bouncy.castle.version>1.58</bouncy.castle.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <checkstyle.version>2.17</checkstyle.version>
+
+        <!-- Updated : 2021/07 | Dependency version date:  -->
+        <commons.cli.version>1.4</commons.cli.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <commons.io.version>2.11.0</commons.io.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <commons.lang.version>2.6</commons.lang.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <commons.lang3.version>3.12.0</commons.lang3.version>
+
+        <!-- Updated : 2017/11 | Dependency version date:  -->
+        <commons.httpclient.version>3.1</commons.httpclient.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <compiler.plugin.version>3.8.1</compiler.plugin.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <dependency.plugin.version>2.10</dependency.plugin.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <ehcache.version>2.10.9.2</ehcache.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <hamcrest.version>1.3</hamcrest.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <hibernate.version>5.5.7.Final</hibernate.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <hsql.version>2.3.2</hsql.version>
+
+        <!-- Updated : 2017/10 | Dependency version date:  -->
+        <httpclient.version>4.5.3</httpclient.version>
+
+        <!-- Updated : 2019/09 | Dependency version date:  -->
+        <jackson.version>2.12.5</jackson.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <jacoco.version>0.8.7</jacoco.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <jar.plugin.version>3.0.2</jar.plugin.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <javax.annotation.version>1.3.2</javax.annotation.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <javax.servlet.version>3.0.1</javax.servlet.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <javax.servlet.version>3.0.1</javax.servlet.version>
+
+        <!-- Updated : 2021/07 | Dependency version date:  -->
+        <javax.xml.bind.version>2.2.8</javax.xml.bind.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <jcloverslf4j.version>1.7.13</jcloverslf4j.version>
+
+        <!-- Updated : 2020/07 | Dependency version date:  -->
+        <jsoup.version>1.13.1</jsoup.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <jstl.version>1.2</jstl.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <junit.jupiter.version>5.8.0-M1</junit.jupiter.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <logback.version>1.1.2</logback.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <mockito.version>3.8.0</mockito.version>
+
+        <!-- Updated : 2020/05 | Dependency version date:  -->
+        <mysql.connector.java.version>8.0.20</mysql.connector.java.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
+
+        <!-- Updated : 2020/12 | Dependency version date:  -->
+        <quartz.version>2.3.0</quartz.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <spring.version>5.3.9</spring.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <spring.session.version>2.5.2</spring.session.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <spring.security.version>5.5.2</spring.security.version>
+
+        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <surefire.plugin.version>2.22.0</surefire.plugin.version>
+
+        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <war.plugin.version>2.1.1</war.plugin.version>
     </properties>
 
     <dependencies>
@@ -116,6 +197,12 @@
             <version>${javax.xml.bind.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax.annotation.version}</version>
+        </dependency>
+
         <!-- JSP -->
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
@@ -138,9 +225,21 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${commons.lang.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
         </dependency>
 
         <dependency>
@@ -303,18 +402,6 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${codehaus.jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${codehaus.jackson.version}</version>
-        </dependency>
-
         <!-- Logging dependencies -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -344,9 +431,16 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -357,23 +451,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-core</artifactId>
-            <version>${powermock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito2</artifactId>
-            <version>${powermock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>${powermock.version}</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -393,30 +473,33 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-            <version>${findbugs.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-jdk14</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-nop</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- maven war plugin: disable build failure because of no web.xml -->
+
+            <!-- checkstyle: Checks that the code sticks to standard conventions -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${war.plugin.version}</version>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.version}</version>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <configLocation>google_checks.xml</configLocation>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>true</failOnViolation>
+                            <violationSeverity>warning</violationSeverity>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- maven compiler plugin: Compiler configurations for maven -->
@@ -424,108 +507,32 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler.plugin.version}</version>
+                <configuration>
+                    <!-- Removes compiler warnings about java version in eclipse -->
+                    <source>${java.target.version}</source>
+                    <target>${java.target.version}</target>
+                    <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
             </plugin>
 
-            <!-- findbugs: Detect bugs at compilation time and generate a report -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${findbugs.version}</version>
-            </plugin>
-
-            <!-- checkstyle: Checks that the code sticks to standard conventions -->
+            <!-- maven surefire plugin: test execution -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${checkstyle.version}</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
+            </plugin>
+
+            <!-- maven war plugin: disable build failure because of no web.xml -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${war.plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
             </plugin>
         </plugins>
-
-        <pluginManagement>
-            <!-- Adding the pluginManagement fixes the errors of lifecycle not covered
-              in eclipse but it seems to disable the plugins when compiling from the command line.
-              So compile everything with eclipse and remove all the warnings within eclipse before
-              committing and pushing the changes to the repositories -->
-
-            <plugins>
-                <!-- maven war plugin: disable build failure because of no web.xml -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${war.plugin.version}</version>
-                    <configuration>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
-
-                <!-- maven compiler plugin: Compiler configurations for maven -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${compiler.plugin.version}</version>
-                    <configuration>
-                        <!-- Removes compiler warnings about java version in eclipse -->
-                        <source>${java.target.version}</source>
-                        <target>${java.target.version}</target>
-                        <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
-                        <encoding>${project.build.sourceEncoding}</encoding>
-                    </configuration>
-                </plugin>
-
-                <!-- findbugs: Detect bugs at compilation time and generate a report -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>${findbugs.version}</version>
-                    <configuration>
-                        <!-- Enables analysis which takes more memory but finds more bugs. If
-                          you run out of memory, changes the value of the effort element to 'Low'. -->
-                        <effort>Max</effort>
-                        <!-- Reports all bugs (other values are medium and max) -->
-                        <threshold>Low</threshold>
-                        <!-- Produces XML report -->
-                        <xmlOutput>true</xmlOutput>
-                        <!-- Configures the directory in which the XML report is created -->
-                        <findbugsXmlOutputDirectory>${project.build.directory}/findbugs
-                        </findbugsXmlOutputDirectory>
-                    </configuration>
-                    <executions>
-                        <!-- Ensures that FindBugs inspects source code when project is compiled. -->
-                        <execution>
-                            <id>findbugs</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- checkstyle: Checks that the code sticks to standard conventions -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${checkstyle.version}</version>
-                    <executions>
-                        <execution>
-                            <id>checkstyle</id>
-                            <phase>compile</phase>
-                            <configuration>
-                                <configLocation>google_checks.xml</configLocation>
-                                <encoding>${project.build.sourceEncoding}</encoding>
-                                <consoleOutput>true</consoleOutput>
-                                <failsOnError>true</failsOnError>
-                                <failOnViolation>true</failOnViolation>
-                                <violationSeverity>warning</violationSeverity>
-                            </configuration>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
 
         <!-- Enable resource filtering based on profiles -->
         <resources>

@@ -1,20 +1,18 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.doThrow;
-import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
-import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
-import com.nicobrest.kamehouse.commons.controller.LogLevelManagerController;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -22,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
@@ -36,7 +34,7 @@ import java.util.List;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class LogLevelManagerControllerTest extends AbstractControllerTest<List<String>, Object> {
@@ -54,9 +52,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
   /**
    * Resets mock objects.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(logLevelManagerService);
     mockMvc = MockMvcBuilders.standaloneSetup(logLevelManagerController).build();
   }
@@ -138,13 +136,12 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    */
   @Test
   public void setLogLevelInvalidLogLevelTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseBadRequestException.class));
+    assertThrows(NestedServletException.class, () -> {
+      doThrow(new KameHouseBadRequestException("Invalid log level TRACEs"))
+          .when(logLevelManagerService).validateLogLevel("TRACEs");
 
-    doThrow(new KameHouseBadRequestException("Invalid log level TRACEs"))
-        .when(logLevelManagerService).validateLogLevel("TRACEs");
-
-    doPut("/api/v1/commons/log-level?level=TRACEs");
+      doPut("/api/v1/commons/log-level?level=TRACEs");
+    });
   }
 
   /**

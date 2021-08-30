@@ -3,15 +3,15 @@ package com.nicobrest.kamehouse.ui.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.verifyNoMoreInteractions;
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 import com.nicobrest.kamehouse.ui.service.SessionStatusService;
 import com.nicobrest.kamehouse.ui.testutils.SessionStatusTestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -22,7 +22,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class SessionStatusControllerTest extends AbstractControllerTest<SessionStatus, Object> {
@@ -51,13 +51,13 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
   /**
    * Resets mock objects.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new SessionStatusTestUtils();
     testUtils.initTestData();
     sessionStatus = testUtils.getSingleTestData();
     
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(sessionStatusServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(sessionStatusController)
         .apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain)).build();

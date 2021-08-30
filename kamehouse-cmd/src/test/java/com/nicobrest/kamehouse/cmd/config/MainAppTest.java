@@ -1,16 +1,15 @@
 package com.nicobrest.kamehouse.cmd.config;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 
@@ -20,13 +19,25 @@ import java.io.IOException;
  *
  * @author nbrest
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ ProcessUtils.class, EncryptionUtils.class, FileUtils.class })
+
 public class MainAppTest {
 
-  @Before
+  private MockedStatic<ProcessUtils> processUtilsMockedStatic;
+  private MockedStatic<EncryptionUtils> encryptionUtilsMockedStatic;
+  private MockedStatic<FileUtils> fileUtilsMockedStatic;
+
+  @BeforeEach
   public void before() {
-    PowerMockito.mockStatic(ProcessUtils.class, EncryptionUtils.class, FileUtils.class);
+    processUtilsMockedStatic = Mockito.mockStatic(ProcessUtils.class);
+    encryptionUtilsMockedStatic = Mockito.mockStatic(EncryptionUtils.class);
+    fileUtilsMockedStatic = Mockito.mockStatic(FileUtils.class);
+  }
+
+  @AfterEach
+  public void close() {
+    processUtilsMockedStatic.close();
+    encryptionUtilsMockedStatic.close();
+    fileUtilsMockedStatic.close();
   }
 
   /**

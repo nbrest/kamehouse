@@ -1,14 +1,14 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ public class JsonUtilsTest {
   private ArrayNode jsonArray;
   private ArrayNode emptyJsonArray;
 
-  @Before
+  @BeforeEach
   public void init() throws IOException {
     populateTestData();
   }
@@ -93,10 +93,10 @@ public class JsonUtilsTest {
     assertEquals("goku", validKeyOutput);
 
     String invalidKeyOutput = JsonUtils.getText(jsonNode, "invalidField");
-    assertNull("Expecting null for invalid key", invalidKeyOutput);
+    assertNull(invalidKeyOutput, "Expecting null for invalid key");
 
     String emptyJsonOutput = JsonUtils.getText(emptyJsonNode, "textField");
-    assertNull("Expecting null for empty json", emptyJsonOutput);
+    assertNull(emptyJsonOutput, "Expecting null for empty json");
   }
 
   /**
@@ -105,13 +105,13 @@ public class JsonUtilsTest {
   @Test
   public void getIntTest() {
     Integer validKeyOutput = JsonUtils.getInt(jsonNode, "intField");
-    assertEquals(new Integer(128), validKeyOutput);
+    assertEquals(Integer.valueOf(128), validKeyOutput);
 
     Integer invalidKeyOutput = JsonUtils.getInt(jsonNode, "invalidField");
-    assertEquals(new Integer(0), invalidKeyOutput);
+    assertEquals(Integer.valueOf(0), invalidKeyOutput);
 
     Integer emptyJsonOutput = JsonUtils.getInt(emptyJsonNode, "intField");
-    assertEquals(new Integer(0), emptyJsonOutput);
+    assertEquals(Integer.valueOf(0), emptyJsonOutput);
   }
 
   /**
@@ -120,13 +120,13 @@ public class JsonUtilsTest {
   @Test
   public void getDoubleTest() {
     Double validKeyOutput = JsonUtils.getDouble(jsonNode, "doubleField");
-    assertEquals(new Double(255), validKeyOutput);
+    assertEquals(Double.valueOf(255), validKeyOutput);
 
     Double invalidKeyOutput = JsonUtils.getDouble(jsonNode, "invalidField");
-    assertEquals(new Double(0), invalidKeyOutput);
+    assertEquals(Double.valueOf(0), invalidKeyOutput);
 
     Double emptyJsonOutput = JsonUtils.getDouble(emptyJsonNode, "doubleField");
-    assertEquals(new Double(0), emptyJsonOutput);
+    assertEquals(Double.valueOf(0), emptyJsonOutput);
   }
 
   /**
@@ -196,7 +196,7 @@ public class JsonUtilsTest {
     ObjectNode objectNode = MAPPER.createObjectNode();
     objectNode.put("textField", "goku");
     objectNode.put("intField", 128);
-    objectNode.put("doubleField", new Double(255));
+    objectNode.put("doubleField", Double.valueOf(255));
     objectNode.put("booleanField", true);
     jsonNode = MAPPER.readTree(objectNode.toString());
     ObjectNode subNode = MAPPER.createObjectNode();

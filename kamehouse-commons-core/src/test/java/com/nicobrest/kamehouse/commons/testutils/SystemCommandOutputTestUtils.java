@@ -1,12 +1,11 @@
 package com.nicobrest.kamehouse.commons.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,11 +47,11 @@ public class SystemCommandOutputTestUtils  {
 
   public void assertEqualsAllAttributes(SystemCommand.Output expectedEntity,
       SystemCommand.Output returnedEntity) {
-    Assert.assertEquals(expectedEntity, returnedEntity);
-    Assert.assertEquals(expectedEntity.getCommand(), returnedEntity.getCommand());
-    Assert.assertEquals(expectedEntity.getExitCode(), returnedEntity.getExitCode());
-    Assert.assertEquals(expectedEntity.getPid(), returnedEntity.getPid());
-    Assert.assertEquals(expectedEntity.getStatus(), returnedEntity.getStatus());
+    assertEquals(expectedEntity, returnedEntity);
+    assertEquals(expectedEntity.getCommand(), returnedEntity.getCommand());
+    assertEquals(expectedEntity.getExitCode(), returnedEntity.getExitCode());
+    assertEquals(expectedEntity.getPid(), returnedEntity.getPid());
+    assertEquals(expectedEntity.getStatus(), returnedEntity.getStatus());
     assertThat(returnedEntity.getStandardOutput(),
         CoreMatchers.is(expectedEntity.getStandardOutput()));
     assertThat(returnedEntity.getStandardError(),
@@ -98,9 +97,9 @@ public class SystemCommandOutputTestUtils  {
   public void assertSystemCommandOutputFields(int expectedExitCode, int expectedPid,
       String expectedStatus, List<String> expectedStandardOutput,
       List<String> expectedStandardError, SystemCommand.Output returnedSystemCommandOutput) {
-    Assert.assertEquals(expectedExitCode, returnedSystemCommandOutput.getExitCode());
-    Assert.assertEquals(expectedPid, returnedSystemCommandOutput.getPid());
-    Assert.assertEquals(expectedStatus, returnedSystemCommandOutput.getStatus());
+    assertEquals(expectedExitCode, returnedSystemCommandOutput.getExitCode());
+    assertEquals(expectedPid, returnedSystemCommandOutput.getPid());
+    assertEquals(expectedStatus, returnedSystemCommandOutput.getStatus());
     assertThat(returnedSystemCommandOutput.getStandardOutput(), is(expectedStandardOutput));
     assertThat(returnedSystemCommandOutput.getStandardError(), is(expectedStandardError));
   }

@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.media.video.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;

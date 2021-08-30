@@ -1,13 +1,11 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,9 +27,6 @@ public class EncryptionUtilsTest {
   private static final String SAMPLE_ENCRYPTED_FILE = TEST_RESOURCES_PATH + "files/input.enc";
   private static final String SAMPLE_ENCRYPTED_EMPTY_FILE = TEST_RESOURCES_PATH
       + "files/input-empty.enc";
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Test encrypt and decrypt strings.
@@ -98,8 +93,9 @@ public class EncryptionUtilsTest {
    */
   @Test
   public void decryptInvalidFileTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    EncryptionUtils.decryptFileToString("", getSamplePrivateKey());
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      EncryptionUtils.decryptFileToString("", getSamplePrivateKey());
+    });
   }
 
   /**
@@ -107,8 +103,9 @@ public class EncryptionUtilsTest {
    */
   @Test
   public void decryptEmptyDataTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    EncryptionUtils.decrypt(null, getSamplePrivateKey());
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      EncryptionUtils.decrypt(null, getSamplePrivateKey());
+    });
   }
 
   /**
@@ -116,8 +113,9 @@ public class EncryptionUtilsTest {
    */
   @Test
   public void decryptEmptyPrivateKeyTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    EncryptionUtils.decrypt(new byte[2], null);
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      EncryptionUtils.decrypt(new byte[2], null);
+    });
   }
 
   /**
@@ -125,8 +123,9 @@ public class EncryptionUtilsTest {
    */
   @Test
   public void encryptEmptyDataTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    EncryptionUtils.encrypt(null, getSampleCertificate());
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      EncryptionUtils.encrypt(null, getSampleCertificate());
+    });
   }
 
   /**
@@ -134,8 +133,9 @@ public class EncryptionUtilsTest {
    */
   @Test
   public void decryptEmptyCertificateTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    EncryptionUtils.encrypt(new byte[2], null);
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      EncryptionUtils.encrypt(new byte[2], null);
+    });
   }
 
   /**

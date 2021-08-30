@@ -125,8 +125,10 @@ public class ViewResolverController extends AbstractController {
       if (session != null && session.getServletContext() != null) {
         ServletContext servletContext = session.getServletContext();
         String staticHtmlToLoadAbsolutePath = servletContext.getRealPath(staticHtmlToLoad);
-        byte[] staticHtmlBytes = Files.readAllBytes(Paths.get(staticHtmlToLoadAbsolutePath));
-        return new String(staticHtmlBytes, StandardCharsets.UTF_8);
+        if (staticHtmlToLoadAbsolutePath != null) {
+          byte[] staticHtmlBytes = Files.readAllBytes(Paths.get(staticHtmlToLoadAbsolutePath));
+          return new String(staticHtmlBytes, StandardCharsets.UTF_8);
+        }
       }
     } catch (IOException e) {
       logger.error("Error loading {} content", staticHtmlToLoad);

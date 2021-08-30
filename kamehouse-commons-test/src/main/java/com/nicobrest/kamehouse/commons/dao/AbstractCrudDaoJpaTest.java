@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.commons.dao;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 
@@ -32,12 +34,12 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
    * Creates entity ConflictException test.
    */
   public void createConflictExceptionTest(CrudDao<T> dao) {
-    thrown.expect(KameHouseConflictException.class);
-    thrown.expectMessage("ConstraintViolationException: Error inserting data");
-    dao.create(testUtils.getSingleTestData());
-    testUtils.initTestData();
+    assertThrows(KameHouseConflictException.class, () -> {
+      dao.create(testUtils.getSingleTestData());
+      testUtils.initTestData();
 
-    dao.create(testUtils.getSingleTestData());
+      dao.create(testUtils.getSingleTestData());
+    });
   }
 
   /**
@@ -87,14 +89,13 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
    * Updates entity NotFoundException test.
    */
   public void updateNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage(
-        clazz.getSimpleName() + " with id " + INVALID_ID + " was not found in the repository.");
-    T entity = testUtils.getSingleTestData();
-    Identifiable identifiableEntity = (Identifiable) entity;
-    identifiableEntity.setId(INVALID_ID);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      T entity = testUtils.getSingleTestData();
+      Identifiable identifiableEntity = (Identifiable) entity;
+      identifiableEntity.setId(INVALID_ID);
 
-    dao.update(entity);
+      dao.update(entity);
+    });
   }
 
   /**
@@ -114,10 +115,8 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
    * Deletes entity NotFoundException test.
    */
   public void deleteNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage(
-        clazz.getSimpleName() + " with id " + INVALID_ID + " was not found in the repository.");
-
-    dao.delete(INVALID_ID);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      dao.delete(INVALID_ID);
+    });
   }
 }

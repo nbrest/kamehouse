@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.controller;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,7 +48,7 @@ public abstract class AbstractKameHouseSystemCommandControllerTest extends
     testUtils.initTestData();
     systemCommandOutputList = testUtils.getTestDataList();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(systemCommandService);
     when(systemCommandService.execute(Mockito.any(KameHouseSystemCommand.class))).thenReturn(
         systemCommandOutputList);
@@ -86,11 +87,9 @@ public abstract class AbstractKameHouseSystemCommandControllerTest extends
    * request body.
    */
   protected void execPostInvalidKameHouseSystemCommandTest(String url) throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(
-        KameHouseInvalidCommandException.class));
-
-    doPost(url);
+    assertThrows(NestedServletException.class, () -> {
+      doPost(url);
+    });
   }
 
   /**

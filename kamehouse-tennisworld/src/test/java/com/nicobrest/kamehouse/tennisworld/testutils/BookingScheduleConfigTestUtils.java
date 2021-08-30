@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.testutils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;

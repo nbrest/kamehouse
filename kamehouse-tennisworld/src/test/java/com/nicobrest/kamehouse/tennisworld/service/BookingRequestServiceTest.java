@@ -5,8 +5,8 @@ import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -31,7 +31,7 @@ public class BookingRequestServiceTest extends
   /**
    * Resets mock objects and initializes test repository.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new BookingRequestTestUtils();
     testUtils.initTestData();
@@ -39,7 +39,7 @@ public class BookingRequestServiceTest extends
     bookingRequest = testUtils.getSingleTestData();
 
     // Reset mock objects before each test
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(bookingRequestDaoMock);
   }
 

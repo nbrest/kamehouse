@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -18,16 +19,16 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
@@ -38,7 +39,7 @@ import org.springframework.web.util.NestedServletException;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class PowerManagementControllerTest extends AbstractKameHouseSystemCommandControllerTest {
@@ -49,7 +50,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   @Mock
   protected PowerManagementService powerManagementService;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(powerManagementController).build();
@@ -75,13 +76,12 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
 
   @Test
   public void setShutdownExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseBadRequestException.class));
-    Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified")).when(powerManagementService)
-        .scheduleShutdown(59);
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified")).when(powerManagementService)
+          .scheduleShutdown(59);
 
-    doPost("/api/v1/admin/power-management/shutdown?delay=59");
+      doPost("/api/v1/admin/power-management/shutdown?delay=59");
+    });
   }
 
   /**
@@ -105,13 +105,12 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    */
   @Test
   public void cancelShutdownServerErrorTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseServerErrorException.class));
-    Mockito.doThrow(new KameHouseServerErrorException("")).when(powerManagementService)
-        .cancelScheduledShutdown();
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseServerErrorException("")).when(powerManagementService)
+          .cancelScheduledShutdown();
 
-    doDelete("/api/v1/admin/power-management/shutdown");
+      doDelete("/api/v1/admin/power-management/shutdown");
+    });
   }
 
   /**
@@ -150,13 +149,12 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
 
   @Test
   public void setSuspendExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseBadRequestException.class));
-    Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified")).when(powerManagementService)
-        .scheduleSuspend(-1);
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified")).when(powerManagementService)
+          .scheduleSuspend(-1);
 
-    doPost("/api/v1/admin/power-management/suspend?delay=-1");
+      doPost("/api/v1/admin/power-management/suspend?delay=-1");
+    });
   }
 
   /**
@@ -180,13 +178,12 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    */
   @Test
   public void cancelSuspendServerErrorTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseServerErrorException.class));
-    Mockito.doThrow(new KameHouseServerErrorException("")).when(powerManagementService)
-        .cancelScheduledSuspend();
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseServerErrorException("")).when(powerManagementService)
+          .cancelScheduledSuspend();
 
-    doDelete("/api/v1/admin/power-management/suspend");
+      doDelete("/api/v1/admin/power-management/suspend");
+    });
   }
 
   /**
@@ -246,11 +243,8 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   @Test
   public void wolInvalidRequestTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString());
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable> instanceOf(
-        KameHouseBadRequestException.class));
-    thrown.expectMessage("server OR mac and broadcast parameters are required");
-
-    doPost("/api/v1/admin/power-management/wol");
+    assertThrows(NestedServletException.class, () -> {
+      doPost("/api/v1/admin/power-management/wol");
+    });
   }
 }

@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.testutils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;

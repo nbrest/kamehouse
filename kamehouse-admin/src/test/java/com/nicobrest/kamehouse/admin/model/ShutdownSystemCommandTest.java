@@ -1,26 +1,33 @@
 package com.nicobrest.kamehouse.admin.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.admin.model.systemcommand.ShutdownSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 /**
  * Test for the ShutdownSystemCommand.
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ PropertiesUtils.class })
+
 public class ShutdownSystemCommandTest {
 
-  @Before
+  private MockedStatic<PropertiesUtils> propertiesUtils;
+
+  @BeforeEach
   public void before() {
-    PowerMockito.mockStatic(PropertiesUtils.class);
+    MockitoAnnotations.openMocks(this);
+    propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
+  }
+
+  @AfterEach
+  public void close() {
+    propertiesUtils.close();
   }
 
   @Test

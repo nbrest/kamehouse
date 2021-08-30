@@ -1,14 +1,14 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -36,7 +36,7 @@ public class BookingScheduleConfigServiceTest extends
   /**
    * Resets mock objects and initializes test repository.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new BookingScheduleConfigTestUtils();
     testUtils.initTestData();
@@ -44,7 +44,7 @@ public class BookingScheduleConfigServiceTest extends
     bookingScheduleConfig = testUtils.getSingleTestData();
 
     // Reset mock objects before each test
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(bookingScheduleConfigDaoMock);
     when(tennisWorldUserServiceMock.getByEmail((any())))
         .thenReturn(bookingScheduleConfig.getTennisWorldUser());

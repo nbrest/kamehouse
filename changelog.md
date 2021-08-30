@@ -2,7 +2,10 @@
 
 #### v6.05
 
-* Added a sample vue app to the test module
+* Upgraded project to java 11 and tomcat 9
+* Upgraded to latest spring, hibernate and junit versions
+* Upgraded to latest versions of other dependencies
+* Replaced findbugs with spotbugs
 
 #### v6.04
 

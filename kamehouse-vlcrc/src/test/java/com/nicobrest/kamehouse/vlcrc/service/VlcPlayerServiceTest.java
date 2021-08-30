@@ -10,8 +10,8 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,14 +35,14 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
   /**
    * Resets mock objects and initializes test repository.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new VlcPlayerTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
     vlcPlayer = testUtils.getSingleTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(vlcPlayerDaoMock);
   }
 

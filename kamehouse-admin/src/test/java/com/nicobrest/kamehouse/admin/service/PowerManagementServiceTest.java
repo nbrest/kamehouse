@@ -1,17 +1,16 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.admin.config.AdminSchedulerConfig;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -21,7 +20,7 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 
-import java.util.Date;
+import java.net.UnknownHostException;
 
 /**
  * Unit tests for the PowerManagementService class.
@@ -37,23 +36,23 @@ public class PowerManagementServiceTest {
   @Mock(name = "scheduler")
   private Scheduler scheduler;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
-  @Before
+  @BeforeEach
   public void before() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   /**
    * WOL server successful test.
    */
   @Test
-  public void wakeOnLanServerTest() throws KameHouseBadRequestException {
-    powerManagementService = new PowerManagementService();
-
-    powerManagementService.wakeOnLan("media.server");
-    // no exception thrown expected
+  public void wakeOnLanServerTest() {
+    try {
+      powerManagementService = new PowerManagementService();
+      powerManagementService.wakeOnLan("media.server");
+    } catch (KameHouseBadRequestException e) {
+      // If an exception is thrown, I expect it to be for UnknownHostException
+      assertTrue(e.getCause() instanceof UnknownHostException);
+    }
   }
 
   /**
@@ -61,11 +60,11 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void wakeOnLanInvalidServerTest() {
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("INVALID_SERVER");
-    powerManagementService = new PowerManagementService();
+    assertThrows(KameHouseBadRequestException.class, () -> {
+      powerManagementService = new PowerManagementService();
 
-    powerManagementService.wakeOnLan("INVALID_SERVER");
+      powerManagementService.wakeOnLan("INVALID_SERVER");
+    });
   }
 
   /**
@@ -73,11 +72,11 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void wakeOnLanInvalidMacAddressLengthTest() {
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("Invalid MAC address");
-    powerManagementService = new PowerManagementService();
+    assertThrows(KameHouseBadRequestException.class, () -> {
+      powerManagementService = new PowerManagementService();
 
-    powerManagementService.wakeOnLan("AA:BB:CC:DD:EE", "10.10.9.9");
+      powerManagementService.wakeOnLan("AA:BB:CC:DD:EE", "10.10.9.9");
+    });
   }
 
   /**
@@ -85,11 +84,11 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void wakeOnLanInvalidMacAddressNumberFormatTest() {
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("Invalid MAC address");
-    powerManagementService = new PowerManagementService();
+    assertThrows(KameHouseBadRequestException.class, () -> {
+      powerManagementService = new PowerManagementService();
 
-    powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:ZZ", "10.10.9.9");
+      powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:ZZ", "10.10.9.9");
+    });
   }
 
   /**
@@ -97,11 +96,11 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void wakeOnLanInvalidBroadcastTest() {
-    thrown.expect(KameHouseException.class);
-    thrown.expectMessage("java.net.UnknownHostException: 10.10.9.9.999");
-    powerManagementService = new PowerManagementService();
+    assertThrows(KameHouseException.class, () -> {
+      powerManagementService = new PowerManagementService();
 
-    powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:FF", "10.10.9.9.999");
+      powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:FF", "10.10.9.9.999");
+    });
   }
 
   /**
@@ -131,11 +130,11 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void scheduleShutdownExceptionTest() {
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("Invalid delay specified");
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    assertThrows(KameHouseBadRequestException.class, () -> {
+      powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
 
-    powerManagementService.scheduleShutdown(59);
+      powerManagementService.scheduleShutdown(59);
+    });
   }
 
   /**
@@ -155,11 +154,12 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void scheduleShutdownSchedulerExceptionTest() throws SchedulerException {
-    thrown.expect(KameHouseServerErrorException.class);
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
-    when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenThrow(new SchedulerException());
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+      when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenThrow(new SchedulerException());
 
-    powerManagementService.scheduleShutdown(5400);
+      powerManagementService.scheduleShutdown(5400);
+    });
   }
 
   /**
@@ -203,13 +203,14 @@ public class PowerManagementServiceTest {
    * Get Shutdown server status exception test.
    */
   @Test
-  public void getShutdownStatusExceptionTest() throws SchedulerException {
-    thrown.expect(KameHouseServerErrorException.class);
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
-    when(scheduler.getTrigger(Mockito.any(TriggerKey.class)))
-        .thenThrow(new SchedulerException());
+  public void getShutdownStatusExceptionTest() {
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+      when(scheduler.getTrigger(Mockito.any(TriggerKey.class)))
+          .thenThrow(new SchedulerException());
 
-    powerManagementService.getShutdownStatus();
+      powerManagementService.getShutdownStatus();
+    });
   }
 
   /**
@@ -241,12 +242,13 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void cancelScheduledShutdownExceptionTest() throws SchedulerException {
-    thrown.expect(KameHouseServerErrorException.class);
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
-    when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class)))
-        .thenThrow(new SchedulerException());
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+      when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class)))
+          .thenThrow(new SchedulerException());
 
-    powerManagementService.cancelScheduledShutdown();
+      powerManagementService.cancelScheduledShutdown();
+    });
   }
 
   /**
@@ -265,11 +267,11 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void scheduleSuspendExceptionTest() {
-    thrown.expect(KameHouseBadRequestException.class);
-    thrown.expectMessage("Invalid delay specified");
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    assertThrows(KameHouseBadRequestException.class, () -> {
+      powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
 
-    powerManagementService.scheduleSuspend(-1);
+      powerManagementService.scheduleSuspend(-1);
+    });
   }
 
   /**
@@ -289,11 +291,12 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void scheduleSuspendSchedulerExceptionTest() throws SchedulerException {
-    thrown.expect(KameHouseServerErrorException.class);
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
-    when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenThrow(new SchedulerException());
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+      when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenThrow(new SchedulerException());
 
-    powerManagementService.scheduleSuspend(5400);
+      powerManagementService.scheduleSuspend(5400);
+    });
   }
 
   /**
@@ -338,12 +341,13 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void getSuspendStatusExceptionTest() throws SchedulerException {
-    thrown.expect(KameHouseServerErrorException.class);
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
-    when(scheduler.getTrigger(Mockito.any(TriggerKey.class)))
-        .thenThrow(new SchedulerException());
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+      when(scheduler.getTrigger(Mockito.any(TriggerKey.class)))
+          .thenThrow(new SchedulerException());
 
-    powerManagementService.getSuspendStatus();
+      powerManagementService.getSuspendStatus();
+    });
   }
 
   /**
@@ -374,11 +378,12 @@ public class PowerManagementServiceTest {
    */
   @Test
   public void cancelScheduledSuspendExceptionTest() throws SchedulerException {
-    thrown.expect(KameHouseServerErrorException.class);
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
-    when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class)))
-        .thenThrow(new SchedulerException());
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+      when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class)))
+          .thenThrow(new SchedulerException());
 
-    powerManagementService.cancelScheduledSuspend();
+      powerManagementService.cancelScheduledSuspend();
+    });
   }
 }

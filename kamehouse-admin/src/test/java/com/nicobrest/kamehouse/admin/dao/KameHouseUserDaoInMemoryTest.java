@@ -1,17 +1,16 @@
 package com.nicobrest.kamehouse.admin.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
@@ -25,13 +24,11 @@ public class KameHouseUserDaoInMemoryTest {
   private KameHouseUser kameHouseUser;
   private KameHouseUserDaoInMemory kameHouseUserDao;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Initializes test repositories.
    */
-  @Before
+  @BeforeEach
   public void init() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
@@ -81,11 +78,9 @@ public class KameHouseUserDaoInMemoryTest {
   @Test
   public void updateNotFoundExceptionTest() {
     kameHouseUser.setUsername(KameHouseUserTestUtils.INVALID_USERNAME);
-    thrown.expect(UsernameNotFoundException.class);
-    thrown.expectMessage(
-        "User with username " + KameHouseUserTestUtils.INVALID_USERNAME + " not found.");
-
-    kameHouseUserDao.update(kameHouseUser);
+    assertThrows(UsernameNotFoundException.class, () -> {
+      kameHouseUserDao.update(kameHouseUser);
+    });
   }
 
   /**
@@ -105,10 +100,9 @@ public class KameHouseUserDaoInMemoryTest {
    */
   @Test
   public void deleteNotFoundExceptionTest() {
-    thrown.expect(UsernameNotFoundException.class);
-    thrown.expectMessage("User with id " + KameHouseUserTestUtils.INVALID_ID + " not found.");
-
-    kameHouseUserDao.delete(KameHouseUserTestUtils.INVALID_ID);
+    assertThrows(UsernameNotFoundException.class, () -> {
+      kameHouseUserDao.delete(KameHouseUserTestUtils.INVALID_ID);
+    });
   }
 
   /**
@@ -127,10 +121,8 @@ public class KameHouseUserDaoInMemoryTest {
    */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
-    thrown.expect(UsernameNotFoundException.class);
-    thrown.expectMessage(
-        "User with username " + KameHouseUserTestUtils.INVALID_USERNAME + " not found.");
-
-    kameHouseUserDao.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    assertThrows(UsernameNotFoundException.class, () -> {
+      kameHouseUserDao.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+    });
   }
 }

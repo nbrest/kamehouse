@@ -1,7 +1,8 @@
 package com.nicobrest.kamehouse.testmodule.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
@@ -10,22 +11,20 @@ import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Unit tests for the DragonBallUserInMemoryDao class.
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class DragonBallUserDaoInMemoryTest {
 
@@ -36,13 +35,11 @@ public class DragonBallUserDaoInMemoryTest {
   @Qualifier("dragonBallUserDaoInMemory")
   private DragonBallUserDaoInMemory dragonBallUserDao;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Clears data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new DragonBallUserTestUtils();
     testUtils.initTestData();
@@ -81,12 +78,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void createConflictExceptionTest() {
-    thrown.expect(KameHouseConflictException.class);
-    thrown.expectMessage("DragonBallUser with username " + dragonBallUser.getUsername()
-        + " already exists in the repository.");
-    dragonBallUserDao.create(dragonBallUser);
+    assertThrows(KameHouseConflictException.class, () -> {
+      dragonBallUserDao.create(dragonBallUser);
 
-    dragonBallUserDao.create(dragonBallUser);
+      dragonBallUserDao.create(dragonBallUser);
+    });
   }
 
   /**
@@ -129,12 +125,11 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void updateNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-    dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
 
-    dragonBallUserDao.update(dragonBallUser);
+      dragonBallUserDao.update(dragonBallUser);
+    });
   }
 
   /**
@@ -154,11 +149,9 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void deleteNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with id " + DragonBallUserTestUtils.INVALID_ID
-        + " was not found in the repository.");
-
-    dragonBallUserDao.delete(DragonBallUserTestUtils.INVALID_ID);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      dragonBallUserDao.delete(DragonBallUserTestUtils.INVALID_ID);
+    });
   }
 
   /**
@@ -177,11 +170,9 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getByUsernameNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("DragonBallUser with username " + DragonBallUserTestUtils.INVALID_EMAIL
-        + " was not found in the repository.");
-
-    dragonBallUserDao.getByUsername(DragonBallUserTestUtils.INVALID_EMAIL);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      dragonBallUserDao.getByUsername(DragonBallUserTestUtils.INVALID_EMAIL);
+    });
   }
 
   /**
@@ -189,10 +180,8 @@ public class DragonBallUserDaoInMemoryTest {
    */
   @Test
   public void getByEmailTest() {
-    thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage(
-        "This functionality is not implemented for the DragonBallUserInMemory repository.");
-
-    dragonBallUserDao.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+    assertThrows(UnsupportedOperationException.class, () -> {
+      dragonBallUserDao.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+    });
   }
 }

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -9,27 +10,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
 /**
- * Unit tests for the AbstractCrudController and Abstractontroller through a TestEntity controller.
+ * Unit tests for the AbstractCrudController and AbstractController through a TestEntity controller.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class AbstractCrudControllerUnitTest {
@@ -42,10 +42,7 @@ public class AbstractCrudControllerUnitTest {
   @Autowired
   private TestEntityCrudController testEntityCrudController;
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testEntity = new TestEntity();
     testEntity.setId(1L);
@@ -55,7 +52,7 @@ public class AbstractCrudControllerUnitTest {
     testEntityDto.setId(1L);
     testEntityDto.setName("goku");
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     mockMvc = MockMvcBuilders.standaloneSetup(testEntityCrudController).build();
   }
 
@@ -106,10 +103,10 @@ public class AbstractCrudControllerUnitTest {
    */
   @Test
   public void updatePathIdNotValidTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectMessage("KameHouseBadRequestException");
-    byte[] requestPayload = JsonUtils.toJsonByteArray(testEntityDto);
-    doPut(API_TEST_ENTITY + "/2", requestPayload);
+    assertThrows(NestedServletException.class, () -> {
+      byte[] requestPayload = JsonUtils.toJsonByteArray(testEntityDto);
+      doPut(API_TEST_ENTITY + "/2", requestPayload);
+    }, "KameHouseBadRequestException");
   }
 
   /**
@@ -135,7 +132,7 @@ public class AbstractCrudControllerUnitTest {
   protected MockHttpServletResponse doPost(String url, byte[] requestPayload)
       throws Exception {
     return mockMvc
-        .perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
         .andDo(print()).andReturn().getResponse();
   }
 
@@ -144,7 +141,7 @@ public class AbstractCrudControllerUnitTest {
    */
   protected MockHttpServletResponse doPut(String url, byte[] requestPayload) throws Exception {
     return mockMvc
-        .perform(put(url).contentType(MediaType.APPLICATION_JSON_UTF8).content(requestPayload))
+        .perform(put(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
         .andDo(print()).andReturn().getResponse();
   }
 

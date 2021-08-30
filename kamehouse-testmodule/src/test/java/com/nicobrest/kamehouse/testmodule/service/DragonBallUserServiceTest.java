@@ -10,8 +10,8 @@ import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -36,7 +36,7 @@ public class DragonBallUserServiceTest extends
   /**
    * Resets mock objects and initializes test repository.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new DragonBallUserTestUtils();
     testUtils.initTestData();
@@ -44,7 +44,7 @@ public class DragonBallUserServiceTest extends
     dragonBallUser = testUtils.getSingleTestData();
 
     // Reset mock objects before each test
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(dragonBallUserDaoMock);
   }
 

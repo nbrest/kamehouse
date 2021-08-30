@@ -1,9 +1,8 @@
 package com.nicobrest.kamehouse.commons.validator;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the InputValidator.
@@ -13,8 +12,6 @@ import org.junit.rules.ExpectedException;
  */
 public class InputValidatorTest {
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Tests valid string length. Should finish without throwing exceptions.
@@ -29,14 +26,14 @@ public class InputValidatorTest {
    */
   @Test
   public void validateStringLengthExceptionTest() {
-    thrown.expect(KameHouseInvalidDataException.class);
-    thrown.expectMessage("The string attribute excedes the maximum length of ");
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 70; i++) {
-      sb.append("goku");
-    }
-    String username = sb.toString();
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < 70; i++) {
+        sb.append("goku");
+      }
+      String username = sb.toString();
 
-    InputValidator.validateStringLength(username);
+      InputValidator.validateStringLength(username);
+    });
   }
 }

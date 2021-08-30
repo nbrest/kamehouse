@@ -1,23 +1,19 @@
 package com.nicobrest.kamehouse.testmodule.controller;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
-
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudControllerTest;
-import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
-
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-//import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -25,7 +21,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
@@ -37,7 +33,7 @@ import java.io.IOException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class DragonBallControllerTest
@@ -56,7 +52,7 @@ public class DragonBallControllerTest
   /**
    * Actions to perform once before all tests.
    */
-  @BeforeClass
+  @BeforeAll
   public static void beforeClassTest() {
     /* Initialization tasks that happen once for all tests. */
   }
@@ -64,14 +60,14 @@ public class DragonBallControllerTest
   /**
    * Resets mock objects and test data.
    */
-  @Before
+  @BeforeEach
   public void beforeTest() {
     testUtils = new DragonBallUserTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
     dragonBallUser = testUtils.getSingleTestData();
 
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     Mockito.reset(dragonBallUserServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(dragonBallController).build();
   }
@@ -79,7 +75,7 @@ public class DragonBallControllerTest
   /**
    * Clean up after each test.
    */
-  @After
+  @AfterEach
   public void afterTest() {
     /* Actions to perform after each test */
 
@@ -88,7 +84,7 @@ public class DragonBallControllerTest
   /**
    * Cleanup after all tests have executed.
    */
-  @AfterClass
+  @AfterAll
   public static void afterClassTest() {
     /* Actions to perform ONCE after all tests in the class */
   }
@@ -133,10 +129,9 @@ public class DragonBallControllerTest
    */
   @Test
   public void readAllExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseException.class));
-
-    doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
+    assertThrows(NestedServletException.class, () -> {
+      doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
+    });
   }
 
   /**
@@ -145,10 +140,9 @@ public class DragonBallControllerTest
    */
   @Test
   public void readAllNotFoundExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
-
-    doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
+    assertThrows(NestedServletException.class, () -> {
+      doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
+    });
   }
 
   /**
@@ -212,12 +206,12 @@ public class DragonBallControllerTest
    */
   @Test
   public void getByUsernameNotFoundExceptionTest() throws Exception {
-    thrown.expect(NestedServletException.class);
-    thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(KameHouseNotFoundException.class));
-    Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
-        .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
+    assertThrows(NestedServletException.class, () -> {
+      Mockito.doThrow(new KameHouseNotFoundException("")).when(dragonBallUserServiceMock)
+          .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 
-    doGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
+      doGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
+    });
   }
 
   /**

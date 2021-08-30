@@ -11,8 +11,8 @@ import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -46,10 +46,10 @@ public class DragonBallUserServletTest {
     dragonBallUser = testUtils.getSingleTestData();
   }
 
-  @Before
+  @BeforeEach
   public void init() {
     initTestData();
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   /**

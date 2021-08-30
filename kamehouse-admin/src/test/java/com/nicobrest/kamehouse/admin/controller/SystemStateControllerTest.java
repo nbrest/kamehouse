@@ -6,12 +6,12 @@ import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdRestartKameHous
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdStatusKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.UptimeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * @author nbrest
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @WebAppConfiguration
 public class SystemStateControllerTest extends AbstractKameHouseSystemCommandControllerTest {
@@ -29,7 +29,7 @@ public class SystemStateControllerTest extends AbstractKameHouseSystemCommandCon
   @InjectMocks
   private SystemStateController systemStateController;
 
-  @Before
+  @BeforeEach
   public void beforeTest() {
     kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(systemStateController).build();

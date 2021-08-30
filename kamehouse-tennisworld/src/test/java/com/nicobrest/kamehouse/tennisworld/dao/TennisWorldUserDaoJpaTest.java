@@ -1,18 +1,18 @@
 package com.nicobrest.kamehouse.tennisworld.dao;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.TennisWorldUserTestUtils;
-import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author nbrest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class TennisWorldUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<TennisWorldUser, TennisWorldUserDto> {
@@ -34,7 +34,7 @@ public class TennisWorldUserDaoJpaTest
   /**
    * Clears data from the repository before each test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     testUtils = new TennisWorldUserTestUtils();
     testUtils.initTestData();
@@ -82,7 +82,7 @@ public class TennisWorldUserDaoJpaTest
   @Test
   public void updateTest() throws IllegalAccessException, InstantiationException,
       InvocationTargetException, NoSuchMethodException {
-    TennisWorldUser updatedEntity = (TennisWorldUser) BeanUtils.cloneBean(tennisWorldUser);
+    TennisWorldUser updatedEntity = tennisWorldUser;
     updatedEntity.setEmail("gokuUpdated@dbz.com");
 
     updateTest(tennisWorldUserDaoJpa, TennisWorldUser.class, updatedEntity);
@@ -101,17 +101,17 @@ public class TennisWorldUserDaoJpaTest
    */
   @Test
   public void updateServerErrorExceptionTest() {
-    thrown.expect(KameHouseServerErrorException.class);
-    thrown.expectMessage("PersistenceException");
-    persistEntityInRepository(tennisWorldUser);
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 70; i++) {
-      sb.append("goku");
-    }
-    String email = sb.toString();
-    tennisWorldUser.setEmail(email);
+    assertThrows(KameHouseServerErrorException.class, () -> {
+      persistEntityInRepository(tennisWorldUser);
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < 70; i++) {
+        sb.append("goku");
+      }
+      String email = sb.toString();
+      tennisWorldUser.setEmail(email);
 
-    tennisWorldUserDaoJpa.update(tennisWorldUser);
+      tennisWorldUserDaoJpa.update(tennisWorldUser);
+    });
   }
 
   /**
@@ -149,9 +149,8 @@ public class TennisWorldUserDaoJpaTest
    */
   @Test
   public void getByEmailNotFoundExceptionTest() {
-    thrown.expect(KameHouseNotFoundException.class);
-    thrown.expectMessage("NoResultException: Entity not found in the repository.");
-
-    tennisWorldUserDaoJpa.getByEmail(TennisWorldUserTestUtils.INVALID_EMAIL);
+    assertThrows(KameHouseNotFoundException.class, () -> {
+      tennisWorldUserDaoJpa.getByEmail(TennisWorldUserTestUtils.INVALID_EMAIL);
+    });
   }
 }
