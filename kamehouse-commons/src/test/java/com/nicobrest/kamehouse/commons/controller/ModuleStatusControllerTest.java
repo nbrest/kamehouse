@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class ModuleStatusControllerTest extends AbstractControllerTest {
+public class ModuleStatusControllerTest extends AbstractControllerTest<Object, Object> {
 
   private static final String MODULE_STATUS_API = "/api/v1/commons/module/status";
   private static final String BUILD_VERSION_PROP = "kamehouse.build.version";

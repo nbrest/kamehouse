@@ -7,12 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,12 +28,16 @@ public abstract class AbstractControllerTest<E, D> {
 
   protected TestUtils<E, D> testUtils;
 
-  /** Executes a get request for the specified url on the mock server. */
+  /**
+   * Executes a get request for the specified url on the mock server.
+   */
   protected MockHttpServletResponse doGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }
 
-  /** Executes a post request for the specified url and payload on the mock server. */
+  /**
+   * Executes a post request for the specified url and payload on the mock server.
+   */
   protected MockHttpServletResponse doPost(String url, byte[] requestPayload) throws Exception {
     return mockMvc
         .perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
@@ -45,12 +46,16 @@ public abstract class AbstractControllerTest<E, D> {
         .getResponse();
   }
 
-  /** Executes a post request for the specified url with an empty payload. */
+  /**
+   * Executes a post request for the specified url with an empty payload.
+   */
   protected MockHttpServletResponse doPost(String url) throws Exception {
     return mockMvc.perform(post(url)).andDo(print()).andReturn().getResponse();
   }
 
-  /** Executes a put request for the specified url and payload on the mock server. */
+  /**
+   * Executes a put request for the specified url and payload on the mock server.
+   */
   protected MockHttpServletResponse doPut(String url, byte[] requestPayload) throws Exception {
     return mockMvc
         .perform(put(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
@@ -59,31 +64,41 @@ public abstract class AbstractControllerTest<E, D> {
         .getResponse();
   }
 
-  /** Executes a put request for the specified url with an empty payload. */
+  /**
+   * Executes a put request for the specified url with an empty payload.
+   */
   protected MockHttpServletResponse doPut(String url) throws Exception {
     return mockMvc.perform(put(url)).andDo(print()).andReturn().getResponse();
   }
 
-  /** Executes a delete request for the specified url on the mock server. */
+  /**
+   * Executes a delete request for the specified url on the mock server.
+   */
   protected MockHttpServletResponse doDelete(String url) throws Exception {
     return mockMvc.perform(delete(url)).andDo(print()).andReturn().getResponse();
   }
 
-  /** Verifies that the response's status code matches the expected one. */
+  /**
+   * Verifies that the response's status code matches the expected one.
+   */
   protected static void verifyResponseStatus(
       MockHttpServletResponse response, HttpStatus expectedStatus) {
     assertEquals(expectedStatus.value(), response.getStatus());
   }
 
-  /** Verifies that the response's content type matches the expected one. */
+  /**
+   * Verifies that the response's content type matches the expected one.
+   */
   protected static void verifyContentType(
       MockHttpServletResponse response, MediaType expectedContentType) {
     assertEquals(expectedContentType.toString(), response.getContentType());
   }
 
-  /** Gets the response body of the request as an object of the specified class. */
+  /**
+   * Gets the response body of the request as an object of the specified class.
+   */
   protected static <T> T getResponseBody(MockHttpServletResponse response, Class<T> clazz)
-      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException {
+      throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     T responseBody =
         mapper.readValue(
@@ -91,10 +106,11 @@ public abstract class AbstractControllerTest<E, D> {
     return responseBody;
   }
 
-  /** Gets the response body of the request as a list of objects of the specified class. */
+  /**
+   * Gets the response body of the request as a list of objects of the specified class.
+   */
   protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response, Class<T> clazz)
-      throws JsonParseException, JsonMappingException, UnsupportedEncodingException, IOException,
-          InstantiationException, IllegalAccessException {
+      throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     List<T> responseBody =
         mapper.readValue(

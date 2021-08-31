@@ -103,9 +103,9 @@ public class VlcRcServiceTest {
   public void browseTest() {
     when(vlcPlayer.browse(any())).thenReturn(vlcRcFileList);
 
-    List<VlcRcFileListItem> returnedFilelist = vlcRcService.browse(null, "niko-nba");
+    List<VlcRcFileListItem> returnedFiles = vlcRcService.browse(null, "niko-nba");
 
-    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
+    vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFiles);
     verify(vlcPlayer, times(1)).browse(any());
   }
 }
