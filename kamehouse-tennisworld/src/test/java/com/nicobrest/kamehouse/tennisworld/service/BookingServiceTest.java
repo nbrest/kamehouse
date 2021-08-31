@@ -128,6 +128,9 @@ public class BookingServiceTest {
   private MockedStatic<DateUtils> dateUtilsMock;
   private MockedStatic<EncryptionUtils> encryptionUtilsMock;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void init() throws Exception {
     bookingRequestTestUtils.initTestData();
@@ -170,6 +173,9 @@ public class BookingServiceTest {
     when(bookingResponseService.create((any()))).thenReturn(1L);
   }
 
+  /**
+   * Tests cleanup.
+   */
   @AfterEach
   public void close() {
     httpClientUtilsMock.close();

@@ -44,6 +44,9 @@ public class VlcRcServiceTest {
   @Mock(name = "vlcPlayer")
   private VlcPlayer vlcPlayer;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     vlcRcStatusTestUtils.initTestData();

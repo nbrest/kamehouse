@@ -40,6 +40,9 @@ public class ModuleStatusControllerTest extends AbstractControllerTest {
 
   @InjectMocks private ModuleStatusController moduleStatusController;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     MockitoAnnotations.openMocks(this);

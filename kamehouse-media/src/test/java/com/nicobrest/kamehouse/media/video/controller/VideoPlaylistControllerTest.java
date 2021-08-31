@@ -47,6 +47,9 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
 
   @Mock private VideoPlaylistService videoPlaylistService;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils = new VideoPlaylistTestUtils();

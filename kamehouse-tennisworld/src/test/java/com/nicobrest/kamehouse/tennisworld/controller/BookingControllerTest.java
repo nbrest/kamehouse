@@ -52,6 +52,9 @@ public class BookingControllerTest
 
   @Mock private BookingService bookingService;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils = new BookingResponseTestUtils();

@@ -44,6 +44,9 @@ public class SchedulerControllerTest extends AbstractControllerTest {
 
   @Mock protected SchedulerService schedulerService;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     MockitoAnnotations.openMocks(this);

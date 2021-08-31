@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import org.hamcrest.CoreMatchers;
 
 /**
  * Test data and common test methods to test SystemCommandOutputs in all layers of the application.
@@ -41,19 +40,6 @@ public class SystemCommandOutputTestUtils {
   public void initTestData() {
     initSingleTestData();
     initTestDataList();
-  }
-
-  public void assertEqualsAllAttributes(
-      SystemCommand.Output expectedEntity, SystemCommand.Output returnedEntity) {
-    assertEquals(expectedEntity, returnedEntity);
-    assertEquals(expectedEntity.getCommand(), returnedEntity.getCommand());
-    assertEquals(expectedEntity.getExitCode(), returnedEntity.getExitCode());
-    assertEquals(expectedEntity.getPid(), returnedEntity.getPid());
-    assertEquals(expectedEntity.getStatus(), returnedEntity.getStatus());
-    assertThat(
-        returnedEntity.getStandardOutput(), CoreMatchers.is(expectedEntity.getStandardOutput()));
-    assertThat(
-        returnedEntity.getStandardError(), CoreMatchers.is(expectedEntity.getStandardError()));
   }
 
   /**

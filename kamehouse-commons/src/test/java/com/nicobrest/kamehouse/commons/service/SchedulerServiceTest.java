@@ -41,6 +41,9 @@ public class SchedulerServiceTest {
   @Mock(name = "scheduler")
   private Scheduler scheduler;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void before() {
     MockitoAnnotations.openMocks(this);

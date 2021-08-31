@@ -37,6 +37,9 @@ public class SessionStatusServiceTest {
 
   @Mock private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void init() {
     testUtils.initTestData();

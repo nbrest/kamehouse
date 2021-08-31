@@ -40,6 +40,9 @@ public class SystemCommandServiceTest {
   private MockedStatic<PropertiesUtils> propertiesUtils;
   private MockedStatic<ProcessUtils> processUtils;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void before() throws IOException {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
@@ -48,6 +51,9 @@ public class SystemCommandServiceTest {
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
   }
 
+  /**
+   * Tests cleanup.
+   */
   @AfterEach
   public void close() {
     propertiesUtils.close();

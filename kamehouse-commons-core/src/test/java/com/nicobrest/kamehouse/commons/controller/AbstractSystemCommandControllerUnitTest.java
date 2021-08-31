@@ -37,6 +37,9 @@ public class AbstractSystemCommandControllerUnitTest {
 
   @Mock private SystemCommandService systemCommandService;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils.initTestData();

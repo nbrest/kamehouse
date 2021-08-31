@@ -77,6 +77,9 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     assertThat(returnedPlaylist.getFiles(), is(expectedPlaylist.getFiles()));
   }
 
+  /**
+   * Unset files.
+   */
   public void clearFiles() {
     for (Playlist playlist : testDataList) {
       playlist.setFiles(null);

@@ -63,6 +63,9 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Mock(name = "vlcPlayerService")
   private VlcPlayerService vlcPlayerServiceMock;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils = new VlcPlayerTestUtils();

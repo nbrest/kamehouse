@@ -25,6 +25,9 @@ public class MainAppTest {
   private MockedStatic<EncryptionUtils> encryptionUtilsMockedStatic;
   private MockedStatic<FileUtils> fileUtilsMockedStatic;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void before() {
     processUtilsMockedStatic = Mockito.mockStatic(ProcessUtils.class);
@@ -32,6 +35,9 @@ public class MainAppTest {
     fileUtilsMockedStatic = Mockito.mockStatic(FileUtils.class);
   }
 
+  /**
+   * Tests cleanup.
+   */
   @AfterEach
   public void close() {
     processUtilsMockedStatic.close();

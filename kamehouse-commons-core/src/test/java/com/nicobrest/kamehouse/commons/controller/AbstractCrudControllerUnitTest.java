@@ -41,6 +41,9 @@ public class AbstractCrudControllerUnitTest {
 
   @Autowired private TestEntityCrudController testEntityCrudController;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     testEntity = new TestEntity();

@@ -72,6 +72,9 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     expected.getRequest().setCreationDate(response.getRequest().getCreationDate());
   }
 
+  /**
+   * Update response with cardio request data.
+   */
   public static void updateResponseWithCardioRequestData(
       BookingResponse response, Date date, String time, SessionType sessionType, String duration) {
     response.getRequest().setDate(date);

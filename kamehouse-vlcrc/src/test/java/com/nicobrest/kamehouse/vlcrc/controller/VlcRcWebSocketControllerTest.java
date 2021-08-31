@@ -41,6 +41,9 @@ public class VlcRcWebSocketControllerTest {
   @Mock(name = "vlcRcService")
   private VlcRcService vlcRcServiceMock;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void beforeTest() {
     vlcRcStatusTestUtils.initTestData();

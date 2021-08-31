@@ -46,6 +46,9 @@ public class VlcPlayerTest {
 
   @Mock HttpResponse httpResponseMock;
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void init() throws Exception {
     vlcPlayerTestUtils.initTestData();

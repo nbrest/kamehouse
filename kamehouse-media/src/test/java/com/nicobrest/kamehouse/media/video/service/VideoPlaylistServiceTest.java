@@ -35,6 +35,9 @@ public class VideoPlaylistServiceTest {
     videoPlaylistService = new VideoPlaylistService();
   }
 
+  /**
+   * Tests setup.
+   */
   @BeforeEach
   public void before() {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
