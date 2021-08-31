@@ -1,21 +1,16 @@
 package com.nicobrest.kamehouse.commons.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.model.ApplicationCache;
-import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
-import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-
 import java.util.LinkedList;
 
 /**
- * Test data and common test methods to test ApplicationCaches in all layers of
- * the application.
- * 
- * @author nbrest
+ * Test data and common test methods to test ApplicationCaches in all layers of the application.
  *
+ * @author nbrest
  */
 public class ApplicationCacheTestUtils extends AbstractTestUtils<ApplicationCache, Object>
     implements TestUtils<ApplicationCache, Object> {
@@ -47,7 +42,7 @@ public class ApplicationCacheTestUtils extends AbstractTestUtils<ApplicationCach
     applicationCache.setName("vlcPlayer");
     applicationCache.setStatus("STATUS_ALIVE");
     applicationCache.setKeys("[]");
-    
+
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
     testDataList.add(applicationCache);

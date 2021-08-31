@@ -8,15 +8,6 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.utils.VlcRcStatusBuilder;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,40 +16,37 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Represents a VLC Player in the system. It connects to the web API of the VLC
- * Player that it represents to execute commands on it and retrieve the status
- * of the player.
- * 
- * @author nbrest
+ * Represents a VLC Player in the system. It connects to the web API of the VLC Player that it
+ * represents to execute commands on it and retrieve the status of the player.
  *
+ * @author nbrest
  */
 @Entity
 @Table(name = "vlc_player")
 public class VlcPlayer implements Identifiable, Serializable {
 
-  @JsonIgnore
-  private static final long serialVersionUID = 1L;
-  @JsonIgnore
-  private static final Logger LOGGER = LoggerFactory.getLogger(VlcPlayer.class);
-  @JsonIgnore
-  private static final String PROTOCOL = "http://";
-  @JsonIgnore
-  private static final String STATUS_URL = "/requests/status.json";
-  @JsonIgnore
-  private static final String PLAYLIST_URL = "/requests/playlist.json";
-  @JsonIgnore
-  private static final String BROWSE_URL = "/requests/browse.json";
-  @JsonIgnore
-  private static final String FILE_PROTOCOL = "file://";
+  @JsonIgnore private static final long serialVersionUID = 1L;
+  @JsonIgnore private static final Logger LOGGER = LoggerFactory.getLogger(VlcPlayer.class);
+  @JsonIgnore private static final String PROTOCOL = "http://";
+  @JsonIgnore private static final String STATUS_URL = "/requests/status.json";
+  @JsonIgnore private static final String PLAYLIST_URL = "/requests/playlist.json";
+  @JsonIgnore private static final String BROWSE_URL = "/requests/browse.json";
+  @JsonIgnore private static final String FILE_PROTOCOL = "file://";
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
@@ -121,9 +109,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     return password;
   }
 
-  /**
-   * Executes a command in the VLC Player and return it's status.
-   */
+  /** Executes a command in the VLC Player and return it's status. */
   public VlcRcStatus execute(VlcRcCommand command) {
     String commandUrl = buildCommandUrl(command);
     if (commandUrl != null) {
@@ -136,9 +122,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Gets the status information of the VLC Player.
-   */
+  /** Gets the status information of the VLC Player. */
   @JsonIgnore
   public VlcRcStatus getVlcRcStatus() {
     StringBuilder statusUrl = new StringBuilder();
@@ -154,9 +138,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     return vlcRcStatus;
   }
 
-  /**
-   * Gets the current playlist.
-   */
+  /** Gets the current playlist. */
   @JsonIgnore
   public List<VlcRcPlaylistItem> getPlaylist() {
     StringBuilder playlistUrl = new StringBuilder();
@@ -171,9 +153,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     return playlist;
   }
 
-  /**
-   * Browses through the server running vlc.
-   */
+  /** Browses through the server running vlc. */
   public List<VlcRcFileListItem> browse(String uri) {
     StringBuilder browseUrl = new StringBuilder();
     browseUrl.append(PROTOCOL);
@@ -192,9 +172,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     return filelist;
   }
 
-  /**
-   * Builds the URL to execute the command in the VLC Player through its web API.
-   */
+  /** Builds the URL to execute the command in the VLC Player through its web API. */
   private String buildCommandUrl(VlcRcCommand command) {
     String encodedCommand = HttpClientUtils.urlEncode(command.getName());
     if (encodedCommand == null) {
@@ -226,8 +204,8 @@ public class VlcPlayer implements Identifiable, Serializable {
   }
 
   /**
-   * Executes a request to the web API of the VLC Player using the provided URL
-   * and returns the payload as a String.
+   * Executes a request to the web API of the VLC Player using the provided URL and returns the
+   * payload as a String.
    */
   private String execRequestToVlcServer(String url) {
     HttpClient client = HttpClientUtils.getClient(username, password);
@@ -237,8 +215,8 @@ public class VlcPlayer implements Identifiable, Serializable {
     try {
       response = HttpClientUtils.execRequest(client, request);
       try (InputStream resInStream = HttpClientUtils.getInputStream(response);
-           BufferedReader responseReader = new BufferedReader(new InputStreamReader(resInStream,
-               StandardCharsets.UTF_8))) {
+          BufferedReader responseReader =
+              new BufferedReader(new InputStreamReader(resInStream, StandardCharsets.UTF_8))) {
         StringBuilder responseBody = new StringBuilder();
         String line = "";
         while ((line = responseReader.readLine()) != null) {
@@ -254,10 +232,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Converts the playlist returned by the VLC Player into an internal playlist
-   * format.
-   */
+  /** Converts the playlist returned by the VLC Player into an internal playlist format. */
   private List<VlcRcPlaylistItem> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
     List<VlcRcPlaylistItem> vlcRcPlaylist = new ArrayList<>();
     if (vlcRcPlaylistResponse == null) {
@@ -284,9 +259,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Iterates through the JsonNode array and generate the VlcRcPlaylist.
-   */
+  /** Iterates through the JsonNode array and generate the VlcRcPlaylist. */
   private List<VlcRcPlaylistItem> getVlcRcPlaylistFromJsonNode(JsonNode playlistArrayNode) {
     List<VlcRcPlaylistItem> vlcRcPlaylist = new ArrayList<>();
     for (JsonNode jsonNode : playlistArrayNode) {
@@ -310,10 +283,7 @@ public class VlcPlayer implements Identifiable, Serializable {
     return decodedUri;
   }
 
-  /**
-   * Converts the file list returned by the VLC Player into an internal file list
-   * format.
-   */
+  /** Converts the file list returned by the VLC Player into an internal file list format. */
   private List<VlcRcFileListItem> buildVlcRcFilelist(String vlcRcFileListResponse) {
     List<VlcRcFileListItem> vlcRcFilelist = new ArrayList<>();
     if (vlcRcFileListResponse == null) {
@@ -348,13 +318,13 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Log vlcRcStatus response.
-   */
+  /** Log vlcRcStatus response. */
   private void logVlcRcStatus(VlcRcStatus vlcRcStatus) {
-    if (vlcRcStatus != null && vlcRcStatus.getInformation() != null
+    if (vlcRcStatus != null
+        && vlcRcStatus.getInformation() != null
         && vlcRcStatus.getInformation().getMeta() != null) {
-      LOGGER.trace("Response from VLC: status - filename: {}",
+      LOGGER.trace(
+          "Response from VLC: status - filename: {}",
           vlcRcStatus.getInformation().getMeta().getFilename());
     } else {
       LOGGER.trace("Response from VLC: status - No filename present in the response");
@@ -370,8 +340,11 @@ public class VlcPlayer implements Identifiable, Serializable {
   public boolean equals(final Object obj) {
     if (obj instanceof VlcPlayer) {
       final VlcPlayer other = (VlcPlayer) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(hostname, other.getHostname())
-          .append(port, other.getPort()).isEquals();
+      return new EqualsBuilder()
+          .append(id, other.getId())
+          .append(hostname, other.getHostname())
+          .append(port, other.getPort())
+          .isEquals();
     } else {
       return false;
     }
@@ -379,7 +352,7 @@ public class VlcPlayer implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password" };
+    String[] maskedFields = {"password"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

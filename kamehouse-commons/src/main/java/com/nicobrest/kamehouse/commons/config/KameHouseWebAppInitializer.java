@@ -1,18 +1,17 @@
 package com.nicobrest.kamehouse.commons.config;
 
 import com.nicobrest.kamehouse.commons.web.filter.logger.CustomRequestLoggingFilter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration;
-
 /**
- * Configure the web application for kamehouse.
- * This class replaces most of the configuration done in web.xml on each module.
+ * Configure the web application for kamehouse. This class replaces most of the configuration done
+ * in web.xml on each module.
  */
 public class KameHouseWebAppInitializer implements WebApplicationInitializer {
 
@@ -25,8 +24,8 @@ public class KameHouseWebAppInitializer implements WebApplicationInitializer {
     servletContext.addListener(new ContextLoaderListener(context));
 
     // Set dispatcher servlet
-    ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher",
-        new DispatcherServlet());
+    ServletRegistration.Dynamic dispatcher =
+        servletContext.addServlet("dispatcher", new DispatcherServlet());
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping("/");
 
@@ -35,10 +34,12 @@ public class KameHouseWebAppInitializer implements WebApplicationInitializer {
     CustomRequestLoggingFilter customRequestLoggingFilter =
         (CustomRequestLoggingFilter) context.getBean("customRequestLoggingFilter");
 
-    servletContext.addFilter("customRequestLoggingFilter", customRequestLoggingFilter)
+    servletContext
+        .addFilter("customRequestLoggingFilter", customRequestLoggingFilter)
         .addMappingForServletNames(null, true, "dispatcher");
 
-    servletContext.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class)
+    servletContext
+        .addFilter("springSecurityFilterChain", DelegatingFilterProxy.class)
         .addMappingForServletNames(null, true, "dispatcher");
   }
 }

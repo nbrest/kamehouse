@@ -6,9 +6,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Class to validate the attributes of a DragonBallUser.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class DragonBallUserValidator {
 
@@ -17,10 +16,8 @@ public class DragonBallUserValidator {
   private DragonBallUserValidator() {
     throw new IllegalStateException("Utility class");
   }
-  
-  /**
-   * Validates that the integer has a positive value.
-   */
+
+  /** Validates that the integer has a positive value. */
   public static void validatePositiveValue(int value) {
     if (value < 0) {
       String errorMessage = "The attribute should be a positive value. Current value: " + value;

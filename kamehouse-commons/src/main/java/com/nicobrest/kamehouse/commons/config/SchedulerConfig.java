@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.commons.config;
 
+import java.io.IOException;
+import java.util.Properties;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.spi.TriggerFiredBundle;
@@ -17,14 +19,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-import java.io.IOException;
-import java.util.Properties;
-
 /**
  * Configuration class to setup the scheduler beans in the main package.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Configuration
 @EnableScheduling
@@ -32,12 +30,9 @@ public class SchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private ApplicationContext applicationContext;
+  @Autowired private ApplicationContext applicationContext;
 
-  /**
-   * Workaround to add autowiring support to SpringBeanJobFactory.
-   */
+  /** Workaround to add autowiring support to SpringBeanJobFactory. */
   @Bean
   public SpringBeanJobFactory springBeanJobFactory() {
     logger.info("Configuring Job factory");
@@ -46,9 +41,7 @@ public class SchedulerConfig {
     return jobFactory;
   }
 
-  /**
-   * schedulerFactoryBean bean.
-   */
+  /** schedulerFactoryBean bean. */
   @Bean
   public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
     SchedulerFactoryBean factory = new SchedulerFactoryBean();
@@ -57,9 +50,7 @@ public class SchedulerConfig {
     return factory;
   }
 
-  /**
-   * Get quartz propeties file.
-   */
+  /** Get quartz propeties file. */
   private static Properties quartzProperties() throws IOException {
     PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
     propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
@@ -67,9 +58,7 @@ public class SchedulerConfig {
     return propertiesFactoryBean.getObject();
   }
 
-  /**
-   * Scheduler bean.
-   */
+  /** Scheduler bean. */
   @Bean
   public Scheduler scheduler(SchedulerFactoryBean schedulerFactoryBean) throws SchedulerException {
     logger.info("Setting up the Scheduler");
@@ -83,7 +72,6 @@ public class SchedulerConfig {
    * Adds auto-wiring support to quartz jobs.
    *
    * @author nbrest
-   *
    */
   public static final class AutoWiringSpringBeanJobFactory extends SpringBeanJobFactory
       implements ApplicationContextAware {

@@ -3,14 +3,13 @@ package com.nicobrest.kamehouse.cmd.executor;
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Executor for the encrypt operation.
@@ -22,9 +21,7 @@ public class EncryptExecutor {
 
   private final Logger logger = LoggerFactory.getLogger(EncryptExecutor.class);
 
-  /**
-   * Execute the operation.
-   */
+  /** Execute the operation. */
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String inputFileName = cmdArgumentHandler.getArgument("if");
     String outputFileName = cmdArgumentHandler.getArgument("of");

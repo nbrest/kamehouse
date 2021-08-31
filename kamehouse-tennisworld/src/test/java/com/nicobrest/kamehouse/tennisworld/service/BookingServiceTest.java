@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
@@ -15,6 +16,11 @@ import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.junit.jupiter.api.AfterEach;
@@ -28,19 +34,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.http.HttpStatus;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Test class for the BookingService.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
-
 public class BookingServiceTest {
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
@@ -48,87 +46,82 @@ public class BookingServiceTest {
   private BookingScheduleConfigTestUtils bookingScheduleConfigTestUtils =
       new BookingScheduleConfigTestUtils();
 
-  @InjectMocks
-  private BookingService bookingServiceSpy;
+  @InjectMocks private BookingService bookingServiceSpy;
 
-  @Mock
-  private BookingScheduleConfigService bookingScheduleConfigService;
+  @Mock private BookingScheduleConfigService bookingScheduleConfigService;
 
-  @Mock
-  private BookingRequestService bookingRequestService;
+  @Mock private BookingRequestService bookingRequestService;
 
-  @Mock
-  private BookingResponseService bookingResponseService;
+  @Mock private BookingResponseService bookingResponseService;
 
-  @Mock
-  HttpClient httpClientMock;
+  @Mock HttpClient httpClientMock;
 
-  @Mock
-  HttpResponse httpResponseMock;
+  @Mock HttpResponse httpResponseMock;
 
   private static final String[] BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES = {
-      "facility-booking-responses/step-1.1.html",
-      "facility-booking-responses/step-1.2.html",
-      "facility-booking-responses/step-1.3.html",
-      "facility-booking-responses/step-2.html",
-      "facility-booking-responses/step-3.html",
-      "facility-booking-responses/step-4.html",
-      "facility-booking-responses/step-5.html",
-      "facility-booking-responses/step-6.html",
-      "facility-booking-responses/step-7.html",
-      "facility-booking-responses/step-8.html"
+    "facility-booking-responses/step-1.1.html",
+    "facility-booking-responses/step-1.2.html",
+    "facility-booking-responses/step-1.3.html",
+    "facility-booking-responses/step-2.html",
+    "facility-booking-responses/step-3.html",
+    "facility-booking-responses/step-4.html",
+    "facility-booking-responses/step-5.html",
+    "facility-booking-responses/step-6.html",
+    "facility-booking-responses/step-7.html",
+    "facility-booking-responses/step-8.html"
   };
 
   private static final String[] BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSES = {
-      "facility-booking-responses/step-1.1.html",
-      "facility-booking-responses/step-1.2.html",
-      "facility-booking-responses/step-1.3.html",
-      "facility-booking-responses/step-2.html",
-      "facility-booking-responses/step-3.html",
-      "facility-booking-responses/step-4.html",
-      "facility-booking-responses/step-5.html",
-      "facility-booking-responses/step-6.html",
-      "facility-booking-responses/step-7.html",
-      "facility-booking-responses/step-8-error.html"};
+    "facility-booking-responses/step-1.1.html",
+    "facility-booking-responses/step-1.2.html",
+    "facility-booking-responses/step-1.3.html",
+    "facility-booking-responses/step-2.html",
+    "facility-booking-responses/step-3.html",
+    "facility-booking-responses/step-4.html",
+    "facility-booking-responses/step-5.html",
+    "facility-booking-responses/step-6.html",
+    "facility-booking-responses/step-7.html",
+    "facility-booking-responses/step-8-error.html"
+  };
 
   private static final String[] BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSES = {
-      "facility-booking-responses/step-1.1-error.html"
+    "facility-booking-responses/step-1.1-error.html"
   };
 
   private static final String[] BOOK_SESSION_OVERLAY_STANDARD_RESPONSES = {
-      "session-booking-responses/step-1.1.html",
-      "session-booking-responses/step-1.2.html",
-      "session-booking-responses/step-1.3.html",
-      "session-booking-responses/step-2.html",
-      "session-booking-responses/step-3.html",
-      "session-booking-responses/step-4.html",
-      "session-booking-responses/step-5.html",
-      "session-booking-responses/step-6.html",
-      "session-booking-responses/step-7.html",
+    "session-booking-responses/step-1.1.html",
+    "session-booking-responses/step-1.2.html",
+    "session-booking-responses/step-1.3.html",
+    "session-booking-responses/step-2.html",
+    "session-booking-responses/step-3.html",
+    "session-booking-responses/step-4.html",
+    "session-booking-responses/step-5.html",
+    "session-booking-responses/step-6.html",
+    "session-booking-responses/step-7.html",
   };
 
   private static final String[] BOOK_CARDIO_SESSION_SUNDAY_STANDARD_RESPONSES = {
-      "sunday-cardio-booking-responses/step-1.1.html",
-      "sunday-cardio-booking-responses/step-1.2.html",
-      "sunday-cardio-booking-responses/step-1.3.html",
-      "sunday-cardio-booking-responses/step-2.html",
-      "sunday-cardio-booking-responses/step-3.html",
-      "sunday-cardio-booking-responses/step-4.html",
-      "sunday-cardio-booking-responses/step-5.html",
-      "sunday-cardio-booking-responses/step-6.html",
-      "sunday-cardio-booking-responses/step-7.html",
+    "sunday-cardio-booking-responses/step-1.1.html",
+    "sunday-cardio-booking-responses/step-1.2.html",
+    "sunday-cardio-booking-responses/step-1.3.html",
+    "sunday-cardio-booking-responses/step-2.html",
+    "sunday-cardio-booking-responses/step-3.html",
+    "sunday-cardio-booking-responses/step-4.html",
+    "sunday-cardio-booking-responses/step-5.html",
+    "sunday-cardio-booking-responses/step-6.html",
+    "sunday-cardio-booking-responses/step-7.html",
   };
 
   private static final String[] BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES = {
-      "monday-cardio-booking-responses/step-1.1.html",
-      "monday-cardio-booking-responses/step-1.2.html",
-      "monday-cardio-booking-responses/step-1.3.html",
-      "monday-cardio-booking-responses/step-2.html",
-      "monday-cardio-booking-responses/step-3.html",
-      "monday-cardio-booking-responses/step-4.html",
-      "monday-cardio-booking-responses/step-5.html",
-      "monday-cardio-booking-responses/step-6.html",
-      "monday-cardio-booking-responses/step-7.html",
+    "monday-cardio-booking-responses/step-1.1.html",
+    "monday-cardio-booking-responses/step-1.2.html",
+    "monday-cardio-booking-responses/step-1.3.html",
+    "monday-cardio-booking-responses/step-2.html",
+    "monday-cardio-booking-responses/step-3.html",
+    "monday-cardio-booking-responses/step-4.html",
+    "monday-cardio-booking-responses/step-5.html",
+    "monday-cardio-booking-responses/step-6.html",
+    "monday-cardio-booking-responses/step-7.html",
   };
 
   private MockedStatic<HttpClientUtils> httpClientUtilsMock;
@@ -184,9 +177,7 @@ public class BookingServiceTest {
     encryptionUtilsMock.close();
   }
 
-  /**
-   * Test booking a facility overlay request success flow.
-   */
+  /** Test booking a facility overlay request success flow. */
   @Test
   public void bookFacilityOverlayRequestSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
@@ -200,9 +191,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a facility overlay request dry run flow.
-   */
+  /** Test booking a facility overlay request dry run flow. */
   @Test
   public void bookFacilityOverlayRequestDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
@@ -218,44 +207,41 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a facility overlay request invalid site flow.
-   */
+  /** Test booking a facility overlay request invalid site flow. */
   @Test
   public void bookFacilityOverlayRequestInvalidSiteTest() throws Exception {
-    assertThrows(KameHouseInvalidDataException.class, () -> {
-      setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-      BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-      request.setSite(null);
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setSite(null);
 
-      bookingServiceSpy.book(request);
-    });
+          bookingServiceSpy.book(request);
+        });
   }
 
-  /**
-   * Test booking a facility overlay request invalid session type flow.
-   */
+  /** Test booking a facility overlay request invalid session type flow. */
   @Test
   public void bookFacilityOverlayRequestInvalidSessionTypeTest() throws Exception {
-    assertThrows(KameHouseInvalidDataException.class, () -> {
-      setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-      BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-      request.setSessionType(null);
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setSessionType(null);
 
-      bookingServiceSpy.book(request);
-    });
+          bookingServiceSpy.book(request);
+        });
   }
 
-  /**
-   * Test booking a facility overlay request invalid date flow.
-   */
+  /** Test booking a facility overlay request invalid date flow. */
   @Test
   public void bookFacilityOverlayRequestInvalidDateTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     request.setDate(DateUtils.getDate(1800, Calendar.DECEMBER, 10));
-    BookingResponse expected =
-        bookingResponseTestUtils.getTestDataList().get(1);
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Error getting the selectedSessionDatePath");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
@@ -265,16 +251,13 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a facility overlay request invalid time flow.
-   */
+  /** Test booking a facility overlay request invalid time flow. */
   @Test
   public void bookFacilityOverlayRequestInvalidTimeTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     request.setTime("00:00");
-    BookingResponse expected =
-        bookingResponseTestUtils.getTestDataList().get(1);
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Unable to get the selectedSessionPath");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
@@ -284,16 +267,13 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a facility overlay request invalid login flow.
-   */
+  /** Test booking a facility overlay request invalid login flow. */
   @Test
   public void bookFacilityOverlayRequestInvalidLoginTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSES);
     when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    BookingResponse expected =
-        bookingResponseTestUtils.getTestDataList().get(1);
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Invalid login to tennis world");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
@@ -303,18 +283,16 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a facility overlay request error confirming pay flow.
-   */
+  /** Test booking a facility overlay request error confirming pay flow. */
   @Test
   public void bookFacilityOverlayRequestErrorConfirmingPayTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    BookingResponse expected =
-        bookingResponseTestUtils.getTestDataList().get(2);
-    expected.setMessage("Error confirming booking result: [Name on card is required, Credit card "
-       + "number is invalid, CVV number is required, Expiry month is required, Expiry year is "
-       + "required]");
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
+    expected.setMessage(
+        "Error confirming booking result: [Name on card is required, Credit card "
+            + "number is invalid, CVV number is required, Expiry month is required, Expiry year is "
+            + "required]");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = bookingServiceSpy.book(request);
@@ -323,15 +301,12 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a facility overlay request IOException error.
-   */
+  /** Test booking a facility overlay request IOException error. */
   @Test
-  public void bookFacilityOverlayRequestIOExceptionTest() throws IOException {
+  public void bookFacilityOverlayRequestIoExceptionTest() throws IOException {
     when(HttpClientUtils.execRequest(any(), any())).thenThrow(new IOException("IO Error"));
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    BookingResponse expected =
-        bookingResponseTestUtils.getTestDataList().get(2);
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
     expected.setMessage("Error executing booking request to tennis world Message: IO Error");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
@@ -341,9 +316,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a session overlay request success flow.
-   */
+  /** Test booking a session overlay request success flow. */
   @Test
   public void bookSessionOverlayRequestSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
@@ -357,9 +330,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a session overlay request dry run flow.
-   */
+  /** Test booking a session overlay request dry run flow. */
   @Test
   public void bookSessionOverlayRequestDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
@@ -375,9 +346,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test unhandled session type error flow.
-   */
+  /** Test unhandled session type error flow. */
   @Test
   public void bookSessionOverlayRequestErrorTest() {
     BookingRequest request = bookingRequestTestUtils.getSessionRequest();
@@ -393,9 +362,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
-  /**
-   * Test booking a recurring scheduled session.
-   */
+  /** Test booking a recurring scheduled session. */
   @Test
   public void bookRecurringScheduledSessionSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
@@ -418,8 +385,8 @@ public class BookingServiceTest {
     bookingScheduleConfig.setEnabled(true);
     bookingScheduleConfig.setSessionType(SessionType.CARDIO);
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected, bookingDate,
-       "07:15pm", SessionType.CARDIO, "45");
+    bookingResponseTestUtils.updateResponseWithCardioRequestData(
+        expected, bookingDate, "07:15pm", SessionType.CARDIO, "45");
     expected.getRequest().setCardDetails(null);
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
@@ -428,9 +395,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
 
-  /**
-   * Test booking a one off scheduled session.
-   */
+  /** Test booking a one off scheduled session. */
   @Test
   public void bookOneOffScheduledSessionSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
@@ -455,8 +420,8 @@ public class BookingServiceTest {
     bookingScheduleConfig.setEnabled(true);
     bookingScheduleConfig.setSessionType(SessionType.CARDIO);
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(expected, bookingDate,
-        "07:15pm", SessionType.CARDIO, "45");
+    bookingResponseTestUtils.updateResponseWithCardioRequestData(
+        expected, bookingDate, "07:15pm", SessionType.CARDIO, "45");
 
     List<BookingResponse> response = bookingServiceSpy.bookScheduledSessions();
     bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
@@ -464,9 +429,7 @@ public class BookingServiceTest {
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
 
-  /**
-   * Setup http response input stream mocks from files in test resources.
-   */
+  /** Setup http response input stream mocks from files in test resources. */
   private void setupHttpResponseInputStreamMocks(String[] testFilenames) throws Exception {
     OngoingStubbing ongoingStubbing = when(HttpClientUtils.getInputStream(any()));
     for (String testFilename : testFilenames) {

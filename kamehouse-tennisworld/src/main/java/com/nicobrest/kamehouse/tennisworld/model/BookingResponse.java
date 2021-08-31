@@ -3,7 +3,6 @@ package com.nicobrest.kamehouse.tennisworld.model;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
-
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -45,9 +44,7 @@ public class BookingResponse implements Identifiable, Serializable {
   @JoinColumn(name = "booking_request_id", referencedColumnName = "id")
   private BookingRequest request;
 
-  /**
-   * Convert this entity to it's dto.
-   */
+  /** Convert this entity to it's dto. */
   public BookingResponseDto toDto() {
     BookingResponseDto dto = new BookingResponseDto();
     dto.setId(getId());
@@ -111,14 +108,13 @@ public class BookingResponse implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "request.password", "request.cardDetails.number",
-        "request.cardDetails.cvv" };
+    String[] maskedFields = {
+      "request.password", "request.cardDetails.number", "request.cardDetails.cvv"
+    };
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 
-  /**
-   * Final status of the tennis world booking request.
-   */
+  /** Final status of the tennis world booking request. */
   public enum Status {
     SUCCESS,
     ERROR,

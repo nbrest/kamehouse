@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to reboot the server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class RebootKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public RebootKameHouseSystemCommand() {
     systemCommands.add(new RebootSystemCommand());
   }

@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.commons.exception;
 
 /**
  * KameHouseException base exceptions class.
- * 
+ *
  * @author nbrest
  */
 public class KameHouseException extends RuntimeException {
@@ -16,7 +16,7 @@ public class KameHouseException extends RuntimeException {
   public KameHouseException(String message, Exception cause) {
     super(message, cause);
   }
-  
+
   public KameHouseException(Exception cause) {
     super(cause);
   }

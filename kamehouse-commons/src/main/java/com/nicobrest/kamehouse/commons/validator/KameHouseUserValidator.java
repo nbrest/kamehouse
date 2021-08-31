@@ -1,17 +1,15 @@
 package com.nicobrest.kamehouse.commons.validator;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Class to validate the attributes of a KameHouseUser.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class KameHouseUserValidator {
 
@@ -24,10 +22,8 @@ public class KameHouseUserValidator {
   private KameHouseUserValidator() {
     throw new IllegalStateException("Utility class");
   }
-  
-  /**
-   * Validates that the first name has a valid format.
-   */
+
+  /** Validates that the first name has a valid format. */
   public static void validateFirstNameFormat(String firstName) {
     Matcher matcher = FIRST_NAME_PATTERN.matcher(firstName);
     if (!matcher.matches()) {
@@ -35,11 +31,9 @@ public class KameHouseUserValidator {
       LOGGER.error(errorMessage);
       throw new KameHouseInvalidDataException(errorMessage);
     }
-  }   
+  }
 
-  /**
-   * Validates that the last name respects the established format.
-   */
+  /** Validates that the last name respects the established format. */
   public static void validateLastNameFormat(String lastName) {
     Matcher matcher = LAST_NAME_PATTERN.matcher(lastName);
     if (!matcher.matches()) {

@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to check the uptime of the server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class UptimeKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public UptimeKameHouseSystemCommand() {
     systemCommands.add(new UptimeSystemCommand());
   }

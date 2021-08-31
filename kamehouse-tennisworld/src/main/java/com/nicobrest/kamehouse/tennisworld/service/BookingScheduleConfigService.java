@@ -10,13 +10,12 @@ import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
+import java.util.List;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Service layer to manage the TennisWorldBookingScheduleConfigs.
@@ -35,8 +34,7 @@ public class BookingScheduleConfigService
   @Qualifier("bookingScheduleConfigDaoJpa")
   private CrudDao<BookingScheduleConfig> bookingScheduleConfigDao;
 
-  @Autowired
-  private TennisWorldUserService tennisWorldUserService;
+  @Autowired private TennisWorldUserService tennisWorldUserService;
 
   @Override
   public Long create(BookingScheduleConfigDto dto) {
@@ -100,9 +98,7 @@ public class BookingScheduleConfigService
     }
   }
 
-  /**
-   * Get the TennisWorldUser from the email on the booking schedule config request.
-   */
+  /** Get the TennisWorldUser from the email on the booking schedule config request. */
   private TennisWorldUser getTennisWorldUser(BookingScheduleConfigDto dto) {
     TennisWorldUser requestUser = dto.getTennisWorldUser();
     if (requestUser == null || StringUtils.isEmpty(requestUser.getEmail())) {

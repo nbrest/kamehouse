@@ -3,7 +3,6 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.dao.KameHouseUserAuthenticationDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,8 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service layer to get read access to the KameHouse users.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Service
 public class KameHouseUserAuthenticationService implements UserDetailsService {
@@ -35,8 +33,8 @@ public class KameHouseUserAuthenticationService implements UserDetailsService {
     return kameHouseUserAuthenticationDao;
   }
 
-  public void setKameHouseUserAuthenticationDao(KameHouseUserAuthenticationDao
-                                                    kameHouseUserAuthenticationDao) {
+  public void setKameHouseUserAuthenticationDao(
+      KameHouseUserAuthenticationDao kameHouseUserAuthenticationDao) {
     this.kameHouseUserAuthenticationDao = kameHouseUserAuthenticationDao;
   }
 
@@ -56,8 +54,7 @@ public class KameHouseUserAuthenticationService implements UserDetailsService {
       return anonymousUser;
     }
     try {
-      KameHouseUser kameHouseUser = kameHouseUserAuthenticationDao
-          .loadUserByUsername(username);
+      KameHouseUser kameHouseUser = kameHouseUserAuthenticationDao.loadUserByUsername(username);
       logger.trace("loadUserByUsername {} response {}", username, kameHouseUser);
       return kameHouseUser;
     } catch (KameHouseNotFoundException e) {

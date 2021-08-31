@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to get the available disk space of the server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class DfKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public DfKameHouseSystemCommand() {
     systemCommands.add(new DfSystemCommand());
   }

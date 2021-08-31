@@ -1,23 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import org.bouncycastle.cms.CMSAlgorithm;
-import org.bouncycastle.cms.CMSEnvelopedData;
-import org.bouncycastle.cms.CMSEnvelopedDataGenerator;
-import org.bouncycastle.cms.CMSException;
-import org.bouncycastle.cms.CMSProcessableByteArray;
-import org.bouncycastle.cms.CMSTypedData;
-import org.bouncycastle.cms.KeyTransRecipientInformation;
-import org.bouncycastle.cms.RecipientInformation;
-import org.bouncycastle.cms.jcajce.JceCMSContentEncryptorBuilder;
-import org.bouncycastle.cms.jcajce.JceKeyTransEnvelopedRecipient;
-import org.bouncycastle.cms.jcajce.JceKeyTransRecipient;
-import org.bouncycastle.cms.jcajce.JceKeyTransRecipientInfoGenerator;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.operator.OutputEncryptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,6 +17,22 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
+import org.bouncycastle.cms.CMSAlgorithm;
+import org.bouncycastle.cms.CMSEnvelopedData;
+import org.bouncycastle.cms.CMSEnvelopedDataGenerator;
+import org.bouncycastle.cms.CMSException;
+import org.bouncycastle.cms.CMSProcessableByteArray;
+import org.bouncycastle.cms.CMSTypedData;
+import org.bouncycastle.cms.KeyTransRecipientInformation;
+import org.bouncycastle.cms.RecipientInformation;
+import org.bouncycastle.cms.jcajce.JceCMSContentEncryptorBuilder;
+import org.bouncycastle.cms.jcajce.JceKeyTransEnvelopedRecipient;
+import org.bouncycastle.cms.jcajce.JceKeyTransRecipient;
+import org.bouncycastle.cms.jcajce.JceKeyTransRecipientInfoGenerator;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.operator.OutputEncryptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to manage encryption and decryption in the application.
@@ -73,21 +72,18 @@ public class EncryptionUtils {
     throw new IllegalStateException("Utility class");
   }
 
-  /**
-   * Encrypt the specified data with the certificate.
-   */
+  /** Encrypt the specified data with the certificate. */
   public static byte[] encrypt(byte[] data, X509Certificate certificate) {
     if (data == null || certificate == null) {
       throw new KameHouseInvalidDataException("data or certificate are null");
     }
     try {
       CMSEnvelopedDataGenerator cmsEnvelopedDataGenerator = new CMSEnvelopedDataGenerator();
-      JceKeyTransRecipientInfoGenerator jceKey =
-          new JceKeyTransRecipientInfoGenerator(certificate);
+      JceKeyTransRecipientInfoGenerator jceKey = new JceKeyTransRecipientInfoGenerator(certificate);
       cmsEnvelopedDataGenerator.addRecipientInfoGenerator(jceKey);
       CMSTypedData msg = new CMSProcessableByteArray(data);
-      OutputEncryptor outputEncryptor = new JceCMSContentEncryptorBuilder(CMSAlgorithm.AES128_CBC)
-          .setProvider(BC).build();
+      OutputEncryptor outputEncryptor =
+          new JceCMSContentEncryptorBuilder(CMSAlgorithm.AES128_CBC).setProvider(BC).build();
       CMSEnvelopedData cmsEnvelopedData = cmsEnvelopedDataGenerator.generate(msg, outputEncryptor);
       return cmsEnvelopedData.getEncoded();
     } catch (CertificateEncodingException | CMSException | IOException e) {
@@ -96,9 +92,7 @@ public class EncryptionUtils {
     }
   }
 
-  /**
-   * Decrypt the specified data with the private key.
-   */
+  /** Decrypt the specified data with the private key. */
   public static byte[] decrypt(byte[] data, PrivateKey privateKey) {
     if (data == null || privateKey == null) {
       throw new KameHouseInvalidDataException("data or private key are null");
@@ -117,23 +111,17 @@ public class EncryptionUtils {
     }
   }
 
-  /**
-   * Decrypt the data into a string.
-   */
+  /** Decrypt the data into a string. */
   public static String decryptToString(byte[] data, PrivateKey privateKey) {
     return new String(decrypt(data, privateKey), StandardCharsets.UTF_8);
   }
 
-  /**
-   * Decrypt the specified file into a string using kamehouse keys.
-   */
+  /** Decrypt the specified file into a string using kamehouse keys. */
   public static String decryptKameHouseFileToString(String filename) {
     return decryptFileToString(filename, getKameHousePrivateKey());
   }
 
-  /**
-   * Decrypt the specified file into a string.
-   */
+  /** Decrypt the specified file into a string. */
   public static String decryptFileToString(String filename, PrivateKey privateKey) {
     try {
       byte[] encryptedFile = FileUtils.readFileToByteArray(new File(filename));
@@ -144,22 +132,18 @@ public class EncryptionUtils {
     }
   }
 
-  /**
-   * Get the certificate used to encrypt kamehouse content.
-   */
+  /** Get the certificate used to encrypt kamehouse content. */
   public static synchronized X509Certificate getKameHouseCertificate() {
     if (KAMEHOUSE_CERTIFICATE != null) {
       return KAMEHOUSE_CERTIFICATE;
     }
-    String certPath = PropertiesUtils.getUserHome() + "/"
-        + PropertiesUtils.getProperty("kamehouse.crt");
+    String certPath =
+        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("kamehouse.crt");
     KAMEHOUSE_CERTIFICATE = getCertificate(certPath);
     return KAMEHOUSE_CERTIFICATE;
   }
 
-  /**
-   * Get the specified certificate to encrypt content with.
-   */
+  /** Get the specified certificate to encrypt content with. */
   public static X509Certificate getCertificate(String certPath) {
     try (FileInputStream fis = new FileInputStream(certPath)) {
       Security.addProvider(new BouncyCastleProvider());
@@ -172,32 +156,34 @@ public class EncryptionUtils {
     }
   }
 
-  /**
-   * Get the private key used to decrypt kamehouse content.
-   */
+  /** Get the private key used to decrypt kamehouse content. */
   public static synchronized PrivateKey getKameHousePrivateKey() {
     if (KAMEHOUSE_PRIVATE_KEY != null) {
       return KAMEHOUSE_PRIVATE_KEY;
     }
-    String keyStorePath = PropertiesUtils.getUserHome() + "/"
-        + PropertiesUtils.getProperty("kamehouse.pkcs12");
-    KAMEHOUSE_PRIVATE_KEY = getPrivateKey(keyStorePath, PKCS12, null,"1", null);
+    String keyStorePath =
+        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("kamehouse.pkcs12");
+    KAMEHOUSE_PRIVATE_KEY = getPrivateKey(keyStorePath, PKCS12, null, "1", null);
     return KAMEHOUSE_PRIVATE_KEY;
   }
 
-  /**
-   * Get the private key from the specified keystore and alias.
-   */
-  public static PrivateKey getPrivateKey(String keyStorePath, String keyStoreType,
-                                         char[] keyStorePassword, String keyAlias,
-                                         char[] keyPassword) {
+  /** Get the private key from the specified keystore and alias. */
+  public static PrivateKey getPrivateKey(
+      String keyStorePath,
+      String keyStoreType,
+      char[] keyStorePassword,
+      String keyAlias,
+      char[] keyPassword) {
     try (FileInputStream fis = new FileInputStream(keyStorePath)) {
       KeyStore keystore = KeyStore.getInstance(keyStoreType);
       keystore.load(fis, keyStorePassword);
       PrivateKey privateKey = (PrivateKey) keystore.getKey(keyAlias, keyPassword);
       return privateKey;
-    } catch (KeyStoreException | CertificateException | UnrecoverableKeyException
-        | NoSuchAlgorithmException | IOException e) {
+    } catch (KeyStoreException
+        | CertificateException
+        | UnrecoverableKeyException
+        | NoSuchAlgorithmException
+        | IOException e) {
       LOGGER.error(ERROR_GETTING_PRIVATE_KEY, e);
       throw new KameHouseInvalidDataException(ERROR_GETTING_PRIVATE_KEY);
     }

@@ -4,10 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,15 +12,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Builder class to generate a VlcRcStatus object based on an input. The
- * VlcRcStatus class is so complex to build, that it seems right to separate
- * it's creation to a helper class and not have it mixed with the vlc player
- * logic. It could even be a service.
- * 
- * @author nbrest
+ * Builder class to generate a VlcRcStatus object based on an input. The VlcRcStatus class is so
+ * complex to build, that it seems right to separate it's creation to a helper class and not have it
+ * mixed with the vlc player logic. It could even be a service.
  *
+ * @author nbrest
  */
 public class VlcRcStatusBuilder {
 
@@ -41,10 +37,7 @@ public class VlcRcStatusBuilder {
     throw new IllegalStateException("Utility class to build VlcRcStatus objects.");
   }
 
-  /**
-   * Builds a VlcRcStatus object from the VlcRcStatus string response returned by
-   * a vlc player.
-   */
+  /** Builds a VlcRcStatus object from the VlcRcStatus string response returned by a vlc player. */
   public static VlcRcStatus build(String vlcRcStatusString) {
     if (vlcRcStatusString == null) {
       return null;
@@ -67,9 +60,7 @@ public class VlcRcStatusBuilder {
     return vlcRcStatus;
   }
 
-  /**
-   * Sets VlcRcStatus root main attributes.
-   */
+  /** Sets VlcRcStatus root main attributes. */
   private static void setVlcRcStatusRootMainAttributes(JsonNode jsonNode, VlcRcStatus vlcRcStatus) {
     vlcRcStatus.setFullscreen(JsonUtils.getBoolean(jsonNode, "fullscreen"));
     vlcRcStatus.setRepeat(JsonUtils.getBoolean(jsonNode, "repeat"));
@@ -83,11 +74,9 @@ public class VlcRcStatusBuilder {
     vlcRcStatus.setLoop(JsonUtils.getBoolean(jsonNode, "loop"));
   }
 
-  /**
-   * Sets VlcRcStatus root additional attributes.
-   */
-  private static void setVlcRcStatusRootAdditionalAttributes(JsonNode jsonNode,
-      VlcRcStatus vlcRcStatus) {
+  /** Sets VlcRcStatus root additional attributes. */
+  private static void setVlcRcStatusRootAdditionalAttributes(
+      JsonNode jsonNode, VlcRcStatus vlcRcStatus) {
     vlcRcStatus.setApiVersion(JsonUtils.getInt(jsonNode, "apiversion"));
     vlcRcStatus.setAudioDelay(JsonUtils.getInt(jsonNode, "audiodelay"));
     vlcRcStatus.setPosition(JsonUtils.getDouble(jsonNode, "position"));
@@ -96,9 +85,7 @@ public class VlcRcStatusBuilder {
     vlcRcStatus.setVersion(JsonUtils.getText(jsonNode, "version"));
   }
 
-  /**
-   * Sets VlcRcStatus stats.
-   */
+  /** Sets VlcRcStatus stats. */
   private static void setVlcRcStatusStats(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     VlcRcStatus.Stats stats = new VlcRcStatus.Stats();
     JsonNode jsonNode = vlcStatusResponseJson.get("stats");
@@ -126,11 +113,9 @@ public class VlcRcStatusBuilder {
     vlcRcStatus.setStats(stats);
   }
 
-  /**
-   * Sets VlcRcStatus audio filters.
-   */
-  private static void setVlcRcStatusAudioFilters(JsonNode vlcStatusResponseJson,
-      VlcRcStatus vlcRcStatus) {
+  /** Sets VlcRcStatus audio filters. */
+  private static void setVlcRcStatusAudioFilters(
+      JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     Map<String, String> audioFilters = new HashMap<>();
     JsonNode audioFiltersJson = vlcStatusResponseJson.get("audiofilters");
     if (audioFiltersJson != null) {
@@ -143,11 +128,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /**
-   * Sets VlcRcStatus video filters.
-   */
-  private static void setVlcRcStatusVideoEffects(JsonNode vlcStatusResponseJson,
-      VlcRcStatus vlcRcStatus) {
+  /** Sets VlcRcStatus video filters. */
+  private static void setVlcRcStatusVideoEffects(
+      JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     VlcRcStatus.VideoEffects videoEffects = new VlcRcStatus.VideoEffects();
     JsonNode jsonNode = vlcStatusResponseJson.get("videoeffects");
     if (jsonNode != null) {
@@ -160,11 +143,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /**
-   * Sets VlcRcStatus equalizer.
-   */
-  private static void setVlcRcStatusEqualizer(JsonNode vlcStatusResponseJson,
-      VlcRcStatus vlcRcStatus) {
+  /** Sets VlcRcStatus equalizer. */
+  private static void setVlcRcStatusEqualizer(
+      JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     JsonNode equalizerJson = vlcStatusResponseJson.get("equalizer");
     if (equalizerJson != null) {
       VlcRcStatus.Equalizer equalizer = new VlcRcStatus.Equalizer();
@@ -195,11 +176,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /**
-   * Sets VlcRcStatus information.
-   */
-  private static void setVlcRcStatusInformation(JsonNode vlcStatusResponseJson,
-      VlcRcStatus vlcRcStatus) {
+  /** Sets VlcRcStatus information. */
+  private static void setVlcRcStatusInformation(
+      JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     JsonNode informationJson = vlcStatusResponseJson.get("information");
     if (informationJson != null) {
       VlcRcStatus.Information information = new VlcRcStatus.Information();
@@ -225,11 +204,11 @@ public class VlcRcStatusBuilder {
   }
 
   /**
-   * Sets vlcRcStatus information categories. Current ones are subclasses Audio,
-   * Video, Subtitle and Meta.
+   * Sets vlcRcStatus information categories. Current ones are subclasses Audio, Video, Subtitle and
+   * Meta.
    */
-  private static void setInformationCategories(JsonNode informationJson,
-      VlcRcStatus.Information information) {
+  private static void setInformationCategories(
+      JsonNode informationJson, VlcRcStatus.Information information) {
     JsonNode categoryJson = informationJson.get("category");
     Iterator<Entry<String, JsonNode>> categoryIterator = categoryJson.fields();
     while (categoryIterator.hasNext()) {
@@ -258,11 +237,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /**
-   * Sets vlcRcStatus information meta category.
-   */
-  private static void setInformationMeta(JsonNode jsonNode, String name,
-      VlcRcStatus.Information information) {
+  /** Sets vlcRcStatus information meta category. */
+  private static void setInformationMeta(
+      JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Meta meta = new VlcRcStatus.Information.Meta();
     meta.setArtist(JsonUtils.getText(jsonNode, ARTIST));
     meta.setFilename(JsonUtils.getText(jsonNode, FILENAME));
@@ -274,11 +251,9 @@ public class VlcRcStatusBuilder {
     information.setMeta(meta);
   }
 
-  /**
-   * Sets vlcRcStatus information video category.
-   */
-  private static void setInformationVideo(JsonNode jsonNode, String name,
-      VlcRcStatus.Information information) {
+  /** Sets vlcRcStatus information video category. */
+  private static void setInformationVideo(
+      JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Video video = new VlcRcStatus.Information.Video();
     video.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
     video.setDecodedFormat(JsonUtils.getText(jsonNode, "Decoded_format"));
@@ -291,11 +266,9 @@ public class VlcRcStatusBuilder {
     information.setVideo(video);
   }
 
-  /**
-   * Sets vlcRcStatus information audio category.
-   */
-  private static void setInformationAudio(JsonNode jsonNode, String name,
-      VlcRcStatus.Information information) {
+  /** Sets vlcRcStatus information audio category. */
+  private static void setInformationAudio(
+      JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Audio audio = new VlcRcStatus.Information.Audio();
     audio.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
     audio.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
@@ -307,11 +280,9 @@ public class VlcRcStatusBuilder {
     information.setAudio(audio);
   }
 
-  /**
-   * Sets vlcRcStatus information audio category.
-   */
-  private static void setInformationSubtitle(JsonNode jsonNode, String name,
-      VlcRcStatus.Information information) {
+  /** Sets vlcRcStatus information audio category. */
+  private static void setInformationSubtitle(
+      JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();
     subtitle.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
     subtitle.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));

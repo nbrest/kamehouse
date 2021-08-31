@@ -1,20 +1,18 @@
 package com.nicobrest.kamehouse.tennisworld.testutils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
-
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 
 /**
- * Test data and common test methods to test TennisWorldUsers in all layers of
- * the application.
- * 
- * @author nbrest
+ * Test data and common test methods to test TennisWorldUsers in all layers of the application.
  *
+ * @author nbrest
  */
 public class TennisWorldUserTestUtils extends AbstractTestUtils<TennisWorldUser, TennisWorldUserDto>
     implements TestUtils<TennisWorldUser, TennisWorldUserDto> {
@@ -30,12 +28,13 @@ public class TennisWorldUserTestUtils extends AbstractTestUtils<TennisWorldUser,
   }
 
   @Override
-  public void assertEqualsAllAttributes(TennisWorldUser expectedEntity,
-      TennisWorldUser returnedEntity) {
+  public void assertEqualsAllAttributes(
+      TennisWorldUser expectedEntity, TennisWorldUser returnedEntity) {
     assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
     assertEquals(expectedEntity.getEmail(), returnedEntity.getEmail());
-    assertEquals(new String(expectedEntity.getPassword(), StandardCharsets.UTF_8),
+    assertEquals(
+        new String(expectedEntity.getPassword(), StandardCharsets.UTF_8),
         new String(returnedEntity.getPassword(), StandardCharsets.UTF_8));
   }
 

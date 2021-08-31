@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.commons.exception;
 
 /**
  * KameHouseInvalidCommandException class.
- * 
+ *
  * @author nbrest
  */
 public class KameHouseInvalidCommandException extends KameHouseException {

@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.testutils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
@@ -11,22 +11,19 @@ import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
-
 import java.util.LinkedList;
 
 /**
- * Test data and common test methods to test BookingScheduleConfig in all layers of
- * the application.
- * 
- * @author nbrest
+ * Test data and common test methods to test BookingScheduleConfig in all layers of the application.
  *
+ * @author nbrest
  */
 public class BookingScheduleConfigTestUtils
     extends AbstractTestUtils<BookingScheduleConfig, BookingScheduleConfigDto>
     implements TestUtils<BookingScheduleConfig, BookingScheduleConfigDto> {
 
-  public static final String API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG = "/api/v1/tennis-world"
-      + "/booking-schedule-configs/";
+  public static final String API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG =
+      "/api/v1/tennis-world" + "/booking-schedule-configs/";
 
   private TennisWorldUserTestUtils tennisWorldUserTestUtils = new TennisWorldUserTestUtils();
   private TennisWorldUser tennisWorldUser;
@@ -42,8 +39,8 @@ public class BookingScheduleConfigTestUtils
   }
 
   @Override
-  public void assertEqualsAllAttributes(BookingScheduleConfig expectedEntity,
-      BookingScheduleConfig returnedEntity) {
+  public void assertEqualsAllAttributes(
+      BookingScheduleConfig expectedEntity, BookingScheduleConfig returnedEntity) {
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
     assertEquals(expectedEntity.getTennisWorldUser(), returnedEntity.getTennisWorldUser());
     assertEquals(expectedEntity.getSessionType(), returnedEntity.getSessionType());
@@ -54,10 +51,10 @@ public class BookingScheduleConfigTestUtils
     assertEquals(expectedEntity.getEnabled(), returnedEntity.getEnabled());
     assertEquals(expectedEntity.getDuration(), returnedEntity.getDuration());
     if (expectedEntity.getBookingDate() != null && returnedEntity.getBookingDate() != null) {
-      String expectedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-          expectedEntity.getBookingDate());
-      String returnedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-          returnedEntity.getBookingDate());
+      String expectedDate =
+          DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, expectedEntity.getBookingDate());
+      String returnedDate =
+          DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, returnedEntity.getBookingDate());
       assertEquals(expectedDate, returnedDate);
     }
   }

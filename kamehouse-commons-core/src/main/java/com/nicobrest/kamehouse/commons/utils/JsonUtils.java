@@ -5,10 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * Utility class to process jsons.
@@ -17,8 +16,8 @@ import java.io.IOException;
  */
 public class JsonUtils {
 
-  public static final String DEFAULT_VALUE = "{\"message\": \"Unable to convert object to json "
-      + "string.\"}";
+  public static final String DEFAULT_VALUE =
+      "{\"message\": \"Unable to convert object to json " + "string.\"}";
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
   private static final String FIELD_MASK = "****";
   private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -27,18 +26,14 @@ public class JsonUtils {
     throw new IllegalStateException("Utility class");
   }
 
-  /**
-   * Converts an object to a JSON byte array.
-   */
+  /** Converts an object to a JSON byte array. */
   public static byte[] toJsonByteArray(Object object) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(Include.NON_NULL);
     return mapper.writeValueAsBytes(object);
   }
 
-  /**
-   * Converts a string to a JSON object. Returns null if it can't do the mapping.
-   */
+  /** Converts a string to a JSON object. Returns null if it can't do the mapping. */
   public static JsonNode toJson(String objectString) {
     if (objectString == null) {
       return null;
@@ -54,14 +49,12 @@ public class JsonUtils {
   }
 
   /**
-   * Converts an object to a JSON string filtering the specified masked fields.
-   * Returns the specified default value if the conversion to JSON fails.
-   * A masked field can be at the root object or in the any of the sub objects. If it's at the
-   * root, it would just be the field name. For example [ "password" ].
-   * If it's in a sub object, the field is prepended by the sub object and separated by a dot.
-   * For example [ "tennisWorldUser.password" ] would mask the password of the tennisWorldUser.
-   * And tennisWorldUser is an element of the root node.
-   *
+   * Converts an object to a JSON string filtering the specified masked fields. Returns the
+   * specified default value if the conversion to JSON fails. A masked field can be at the root
+   * object or in the any of the sub objects. If it's at the root, it would just be the field name.
+   * For example [ "password" ]. If it's in a sub object, the field is prepended by the sub object
+   * and separated by a dot. For example [ "tennisWorldUser.password" ] would mask the password of
+   * the tennisWorldUser. And tennisWorldUser is an element of the root node.
    */
   public static String toJsonString(Object object, String defaultValue, String[] maskedFields) {
     try {
@@ -77,7 +70,7 @@ public class JsonUtils {
         }
         if (maskedFieldPathDepth > 1) {
           JsonNode childNode = objectNode;
-          for (int i = 0 ; i < maskedFieldPathDepth - 1 ; i++) {
+          for (int i = 0; i < maskedFieldPathDepth - 1; i++) {
             if (childNode != null && childNode.has(maskFieldPath[i])) {
               childNode = childNode.get(maskFieldPath[i]);
             } else {
@@ -101,8 +94,8 @@ public class JsonUtils {
   }
 
   /**
-   * Converts an object to a JSON string. Returns the specified default value if
-   * the conversion to JSON fails.
+   * Converts an object to a JSON string. Returns the specified default value if the conversion to
+   * JSON fails.
    */
   public static String toJsonString(Object object, String defaultValue) {
     try {
@@ -119,17 +112,14 @@ public class JsonUtils {
   }
 
   /**
-   * Converts an object to a JSON string. Returns a standard error message if the
-   * conversion to JSON fails.
+   * Converts an object to a JSON string. Returns a standard error message if the conversion to JSON
+   * fails.
    */
   public static String toJsonString(Object object) {
     return toJsonString(object, DEFAULT_VALUE);
   }
 
-  /**
-   * Returns the text value of the specified key and node. Returns null if not
-   * found.
-   */
+  /** Returns the text value of the specified key and node. Returns null if not found. */
   public static String getText(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asText();
@@ -138,10 +128,7 @@ public class JsonUtils {
     }
   }
 
-  /**
-   * Returns the int value of the specified key and node. Returns 0 if not
-   * found.
-   */
+  /** Returns the int value of the specified key and node. Returns 0 if not found. */
   public static Integer getInt(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asInt();
@@ -150,10 +137,7 @@ public class JsonUtils {
     }
   }
 
-  /**
-   * Returns the double value of the specified key and node. Returns 0 if not
-   * found.
-   */
+  /** Returns the double value of the specified key and node. Returns 0 if not found. */
   public static Double getDouble(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asDouble();
@@ -162,10 +146,7 @@ public class JsonUtils {
     }
   }
 
-  /**
-   * Returns the boolean value of the specified key and node. Returns null if not
-   * found.
-   */
+  /** Returns the boolean value of the specified key and node. Returns null if not found. */
   public static boolean getBoolean(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asBoolean();
@@ -174,9 +155,7 @@ public class JsonUtils {
     }
   }
 
-  /**
-   * Checks if the specified JsonNode is an array and is empty.
-   */
+  /** Checks if the specified JsonNode is an array and is empty. */
   public static boolean isJsonNodeArrayEmpty(JsonNode jsonNodeArray) {
     return !(jsonNodeArray != null && jsonNodeArray.isArray() && jsonNodeArray.size() > 0);
   }

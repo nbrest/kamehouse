@@ -4,24 +4,20 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import java.util.function.BiFunction;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Abstract class to group common functionality to Jpa DAOs.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public abstract class AbstractDaoJpa {
 
@@ -37,8 +33,7 @@ public abstract class AbstractDaoJpa {
   protected static final Logger STATIC_LOGGER = LoggerFactory.getLogger(AbstractDaoJpa.class);
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private EntityManagerFactory entityManagerFactory;
+  @Autowired private EntityManagerFactory entityManagerFactory;
 
   public EntityManagerFactory getEntityManagerFactory() {
     return entityManagerFactory;
@@ -52,9 +47,7 @@ public abstract class AbstractDaoJpa {
     return entityManagerFactory.createEntityManager();
   }
 
-  /**
-   * Finds all objects of the specified class from the repository.
-   */
+  /** Finds all objects of the specified class from the repository. */
   protected <T> List<T> findAll(Class<T> clazz) {
     EntityManager em = getEntityManager();
     List<T> entitiesList = null;
@@ -72,9 +65,7 @@ public abstract class AbstractDaoJpa {
     return entitiesList;
   }
 
-  /**
-   * Finds the specified entity from the repository by id.
-   */
+  /** Finds the specified entity from the repository by id. */
   protected <T, V> T findById(Class<T> clazz, V id) {
     EntityManager em = getEntityManager();
     T entity = null;
@@ -105,23 +96,17 @@ public abstract class AbstractDaoJpa {
     return entity;
   }
 
-  /**
-   * Finds the specified entity from the repository by username.
-   */
+  /** Finds the specified entity from the repository by username. */
   protected <T, Z> T findByUsername(Class<T> clazz, Z username) {
     return findByAttribute(clazz, "username", username);
   }
 
-  /**
-   * Finds the specified entity from the repository by email.
-   */
+  /** Finds the specified entity from the repository by email. */
   protected <T, Z> T findByEmail(Class<T> clazz, Z email) {
     return findByAttribute(clazz, "email", email);
   }
 
-  /**
-   * Finds the specified entity from the repository by the specified attribute.
-   */
+  /** Finds the specified entity from the repository by the specified attribute. */
   protected <T, V, Z> T findByAttribute(Class<T> clazz, V attributeName, Z attributeValue) {
     EntityManager em = getEntityManager();
     T entity = null;
@@ -129,8 +114,14 @@ public abstract class AbstractDaoJpa {
       logger.trace("findByAttribute {} {}", attributeName, attributeValue);
       em.getTransaction().begin();
       String parameterName = "p" + attributeName;
-      Query query = em.createQuery("SELECT entity from " + clazz.getSimpleName()
-          + " entity where entity." + attributeName + "=:" + parameterName);
+      Query query =
+          em.createQuery(
+              "SELECT entity from "
+                  + clazz.getSimpleName()
+                  + " entity where entity."
+                  + attributeName
+                  + "=:"
+                  + parameterName);
       query.setParameter(parameterName, attributeValue);
       entity = (T) query.getSingleResult();
       em.getTransaction().commit();
@@ -143,23 +134,17 @@ public abstract class AbstractDaoJpa {
     return entity;
   }
 
-  /**
-   * Persists the specified entity in the repository.
-   */
+  /** Persists the specified entity in the repository. */
   protected <T> void persistEntityInRepository(T entity) {
     addEntityToRepository(entity, new PersistFunction<T>());
   }
 
-  /**
-   * Merges the specified entity in the repository.
-   */
+  /** Merges the specified entity in the repository. */
   protected <T> T mergeEntityInRepository(T entity) {
     return addEntityToRepository(entity, new MergeFunction<T>());
   }
 
-  /**
-   * Updates the specified entity in the repository.
-   */
+  /** Updates the specified entity in the repository. */
   protected <T> void updateEntityInRepository(Class<T> clazz, T entity, Long entityId) {
     EntityManager em = getEntityManager();
     try {
@@ -186,15 +171,10 @@ public abstract class AbstractDaoJpa {
     }
   }
 
-  /**
-   * Updates the values of the persistedEntity with the object received as a
-   * second parameter.
-   */
+  /** Updates the values of the persistedEntity with the object received as a second parameter. */
   protected abstract <T> void updateEntityValues(T persistedEntity, T entity);
 
-  /**
-   * Deletes the entity of the specified class from the repository.
-   */
+  /** Deletes the entity of the specified class from the repository. */
   protected <T> T deleteEntityFromRepository(Class<T> clazz, Long entityId) {
     EntityManager em = getEntityManager();
     T entityToRemove = null;
@@ -222,9 +202,7 @@ public abstract class AbstractDaoJpa {
     return entityToRemove;
   }
 
-  /**
-   * Adds the specified entity in the repository.
-   */
+  /** Adds the specified entity in the repository. */
   private <T> T addEntityToRepository(T entity, BiFunction<EntityManager, T, T> addFunction) {
     T addedEntity = null;
     EntityManager em = getEntityManager();
@@ -242,10 +220,7 @@ public abstract class AbstractDaoJpa {
     return addedEntity;
   }
 
-  /**
-   * Persist() implementation of the BiFunction interface to add an entity to the
-   * repository.
-   */
+  /** Persist() implementation of the BiFunction interface to add an entity to the repository. */
   private static class PersistFunction<T> implements BiFunction<EntityManager, T, T> {
     @Override
     public T apply(EntityManager em, T entity) {
@@ -254,10 +229,7 @@ public abstract class AbstractDaoJpa {
     }
   }
 
-  /**
-   * Merge() implementation of the BiFunction interface to add an entity to the
-   * repository.
-   */
+  /** Merge() implementation of the BiFunction interface to add an entity to the repository. */
   private static class MergeFunction<T> implements BiFunction<EntityManager, T, T> {
     @Override
     public T apply(EntityManager em, T entity) {
@@ -265,10 +237,7 @@ public abstract class AbstractDaoJpa {
     }
   }
 
-  /**
-   * Processes the thrown persistent exception to throw the appropriate exception
-   * type.
-   */
+  /** Processes the thrown persistent exception to throw the appropriate exception type. */
   private static void handlePersistentException(PersistenceException pe) {
     Throwable cause = pe;
     while (cause != null) {
@@ -291,10 +260,7 @@ public abstract class AbstractDaoJpa {
     }
   }
 
-  /**
-   * Returns a bad request response if the code throws an
-   * IllegalArgumentException.
-   */
+  /** Returns a bad request response if the code throws an IllegalArgumentException. */
   private static void handleIllegalArgumentException(IllegalArgumentException ex) {
     String errorMessage = ILLEGAL_ARGUMENT + ex.getMessage();
     STATIC_LOGGER.error(errorMessage, ex);

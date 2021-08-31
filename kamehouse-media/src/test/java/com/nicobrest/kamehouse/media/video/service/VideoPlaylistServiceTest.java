@@ -1,14 +1,15 @@
 package com.nicobrest.kamehouse.media.video.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
-
+import java.io.File;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,14 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
-import java.io.File;
-import java.util.List;
-
 /**
  * Unit tests for the VideoPlaylistService class.
  *
  * @author nbrest
- *
  */
 public class VideoPlaylistServiceTest {
 
@@ -48,12 +45,10 @@ public class VideoPlaylistServiceTest {
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_WINDOWS))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
-    when(PropertiesUtils.getProperty(
-        VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE))
+    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_LAN_SHARE_DIR);
-    when(PropertiesUtils.getProperty(
-            VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_HTTP))
-            .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
+    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_HTTP))
+        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_MEDIA_SERVER_NAME))
         .thenCallRealMethod();
     videoPlaylistTestUtils.initTestData();
@@ -65,9 +60,7 @@ public class VideoPlaylistServiceTest {
     propertiesUtils.close();
   }
 
-  /**
-   * Gets all video playlists successful test.
-   */
+  /** Gets all video playlists successful test. */
   @Test
   public void getAllLocalMediaServerTest() {
     videoPlaylistTestUtils.clearFiles();
@@ -78,9 +71,7 @@ public class VideoPlaylistServiceTest {
     videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
   }
 
-  /**
-   * Gets all video playlists from remote media server successful test.
-   */
+  /** Gets all video playlists from remote media server successful test. */
   @Test
   public void getAllRemoteMediaServerTest() {
     when(PropertiesUtils.getHostname()).thenReturn("niko-kh-client");
@@ -91,18 +82,22 @@ public class VideoPlaylistServiceTest {
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
-    if(PropertiesUtils.isWindowsHost()) {
-      assertTrue(returnedPlaylists.get(0).getPath().contains("lan-share-"
-          + VideoPlaylistTestUtils.MEDIA_SERVER));
+    if (PropertiesUtils.isWindowsHost()) {
+      assertTrue(
+          returnedPlaylists
+              .get(0)
+              .getPath()
+              .contains("lan-share-" + VideoPlaylistTestUtils.MEDIA_SERVER));
     } else {
-      assertTrue(returnedPlaylists.get(0).getPath().contains("http-"
-          + VideoPlaylistTestUtils.MEDIA_SERVER));
+      assertTrue(
+          returnedPlaylists
+              .get(0)
+              .getPath()
+              .contains("http-" + VideoPlaylistTestUtils.MEDIA_SERVER));
     }
   }
 
-  /**
-   * Gets all video playlists successful fetching playlist content test.
-   */
+  /** Gets all video playlists successful fetching playlist content test. */
   @Test
   public void getAllWithContentTest() {
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
@@ -112,9 +107,7 @@ public class VideoPlaylistServiceTest {
     videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
   }
 
-  /**
-   * Get a single video playlist successful test.
-   */
+  /** Get a single video playlist successful test. */
   @Test
   public void getPlaylistTest() {
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(expectedPlaylist.getPath(), true);
@@ -122,9 +115,7 @@ public class VideoPlaylistServiceTest {
     videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
   }
 
-  /**
-   * Get a single video playlist without fetching content successful test.
-   */
+  /** Get a single video playlist without fetching content successful test. */
   @Test
   public void getPlaylistWithoutContentTest() {
     videoPlaylistTestUtils.clearFiles();
@@ -134,9 +125,7 @@ public class VideoPlaylistServiceTest {
     videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
   }
 
-  /**
-   * Get a single video playlist invalid path test.
-   */
+  /** Get a single video playlist invalid path test. */
   @Test
   public void getPlaylistInvalidPathTest() {
     String invalidPath = expectedPlaylist.getPath() + File.separator + "invalidFile.m3u";
@@ -146,9 +135,7 @@ public class VideoPlaylistServiceTest {
     assertNull(returnedPlaylist, "Expect a null playlist returned");
   }
 
-  /**
-   * Get a single video playlist non supported extension test.
-   */
+  /** Get a single video playlist non supported extension test. */
   @Test
   public void getPlaylistNonSupportedExtensionTest() {
     String invalidExtension = expectedPlaylist.getPath().replace(".m3u", ".pdf");
@@ -158,13 +145,13 @@ public class VideoPlaylistServiceTest {
     assertNull(returnedPlaylist, "Expect a null playlist returned");
   }
 
-  /**
-   * Get a single video playlist path with non supported .. jumps test.
-   */
+  /** Get a single video playlist path with non supported .. jumps test. */
   @Test
   public void getPlaylistNonSupportedPathJumpsTest() {
-    String invalidPath = expectedPlaylist.getPath().replace("dc.m3u", ".."
-        + File.separator + "dc" + File.separator + "dc.m3u");
+    String invalidPath =
+        expectedPlaylist
+            .getPath()
+            .replace("dc.m3u", ".." + File.separator + "dc" + File.separator + "dc.m3u");
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidPath, true);
 

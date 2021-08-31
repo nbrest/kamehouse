@@ -3,16 +3,14 @@ package com.nicobrest.kamehouse.testmodule.dao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 /**
  * In-Memory DAO for the test endpoint dragonball.
@@ -29,8 +27,7 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   private static final String DBUSER_WITH_USERNAME = "DragonBallUser with username ";
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
 
-  @Autowired
-  private DragonBallUser gohanDragonBallUser;
+  @Autowired private DragonBallUser gohanDragonBallUser;
 
   @Autowired
   @Qualifier("gotenDragonBallUser")
@@ -57,15 +54,13 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     return this.gotenDragonBallUser;
   }
 
-  /**
-   * Initializes In-Memory repository.
-   */
+  /** Initializes In-Memory repository. */
   public static void initRepository() {
     repository = new HashMap<>();
     usernamesById = new HashMap<>();
 
-    DragonBallUser user1 = new DragonBallUser(IdGenerator.getId(), "goku", "goku@dbz.com", 49, 30,
-        1000);
+    DragonBallUser user1 =
+        new DragonBallUser(IdGenerator.getId(), "goku", "goku@dbz.com", 49, 30, 1000);
     repository.put(user1.getUsername(), user1);
     usernamesById.put(user1.getId(), user1.getUsername());
 
@@ -79,8 +74,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     repository.put(user2.getUsername(), user2);
     usernamesById.put(user2.getId(), user2.getUsername());
 
-    DragonBallUser user3 = new DragonBallUser(IdGenerator.getId(), "goten", "goten@dbz.com", 19,
-        10, 1000);
+    DragonBallUser user3 =
+        new DragonBallUser(IdGenerator.getId(), "goten", "goten@dbz.com", 19, 10, 1000);
     repository.put(user3.getUsername(), user3);
     usernamesById.put(user3.getId(), user3.getUsername());
   }
@@ -88,8 +83,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   @Override
   public Long create(DragonBallUser entity) {
     if (repository.get(entity.getUsername()) != null) {
-      throw new KameHouseConflictException(DBUSER_WITH_USERNAME + entity.getUsername()
-          + ALREADY_IN_REPOSITORY);
+      throw new KameHouseConflictException(
+          DBUSER_WITH_USERNAME + entity.getUsername() + ALREADY_IN_REPOSITORY);
     }
     entity.setId(IdGenerator.getId());
     repository.put(entity.getUsername(), entity);
@@ -116,16 +111,16 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   public void update(DragonBallUser entity) {
     // Check that the user being updated exists in the repo
     if (usernamesById.get(entity.getId()) == null) {
-      throw new KameHouseNotFoundException(DBUSER_WITH_ID + entity.getId()
-          + NOT_FOUND_IN_REPOSITORY);
+      throw new KameHouseNotFoundException(
+          DBUSER_WITH_ID + entity.getId() + NOT_FOUND_IN_REPOSITORY);
     }
 
     // If the username changes, check that the new username doesn´t already
     // exist in the repo
     if (!entity.getUsername().equals(usernamesById.get(entity.getId()))
         && (repository.get(entity.getUsername()) != null)) {
-      throw new KameHouseConflictException(DBUSER_WITH_USERNAME + entity.getUsername()
-          + ALREADY_IN_REPOSITORY);
+      throw new KameHouseConflictException(
+          DBUSER_WITH_USERNAME + entity.getUsername() + ALREADY_IN_REPOSITORY);
     }
 
     // Remove old entry for the updated user
@@ -150,8 +145,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   public DragonBallUser getByUsername(String username) {
     DragonBallUser user = repository.get(username);
     if (user == null) {
-      throw new KameHouseNotFoundException(DBUSER_WITH_USERNAME + username
-          + NOT_FOUND_IN_REPOSITORY);
+      throw new KameHouseNotFoundException(
+          DBUSER_WITH_USERNAME + username + NOT_FOUND_IN_REPOSITORY);
     }
     return user;
   }
@@ -161,20 +156,15 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     throw new UnsupportedOperationException(
         "This functionality is not implemented for the DragonBallUserInMemory repository.");
   }
-  
-  /**
-   * Static inner class that generates Ids.
-   */
+
+  /** Static inner class that generates Ids. */
   private static class IdGenerator {
 
     private static final AtomicInteger sequence = new AtomicInteger(1);
 
-    private IdGenerator() {
-    }
+    private IdGenerator() {}
 
-    /**
-     * Returns next number in the sequence.
-     */
+    /** Returns next number in the sequence. */
     public static Long getId() {
       return Long.valueOf(sequence.getAndIncrement());
     }

@@ -9,12 +9,11 @@ import com.nicobrest.kamehouse.commons.validator.UserValidator;
 import com.nicobrest.kamehouse.tennisworld.dao.TennisWorldUserDao;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
+import java.util.List;
 import org.apache.commons.codec.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Service layer to manage the TennisWorldUsers.
@@ -54,9 +53,7 @@ public class TennisWorldUserService extends AbstractCrudService<TennisWorldUser,
     return delete(tennisWorldUserDao, id);
   }
 
-  /**
-   * Returns a single instance of a TennisWorldUser looking up by email.
-   */
+  /** Returns a single instance of a TennisWorldUser looking up by email. */
   public TennisWorldUser getByEmail(String email) {
     logger.trace("Get TennisWorldUser: {}", email);
     TennisWorldUser tennisWorldUser = tennisWorldUserDao.getByEmail(email);
@@ -71,8 +68,10 @@ public class TennisWorldUserService extends AbstractCrudService<TennisWorldUser,
     entity.setEmail(dto.getEmail());
     String password = dto.getPassword();
     if (password != null) {
-      byte[] encryptedPassword = EncryptionUtils.encrypt(dto.getPassword().getBytes(Charsets.UTF_8),
-          EncryptionUtils.getKameHouseCertificate());
+      byte[] encryptedPassword =
+          EncryptionUtils.encrypt(
+              dto.getPassword().getBytes(Charsets.UTF_8),
+              EncryptionUtils.getKameHouseCertificate());
       entity.setPassword(encryptedPassword);
     } else {
       throw new KameHouseInvalidDataException("Received empty password for TennisWorldUser");

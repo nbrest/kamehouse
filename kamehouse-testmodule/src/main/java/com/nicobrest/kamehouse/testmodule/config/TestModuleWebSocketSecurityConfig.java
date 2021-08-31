@@ -6,9 +6,8 @@ import org.springframework.security.config.annotation.web.socket.AbstractSecurit
 
 /**
  * Class to configure the security of all websockets in the application.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Configuration
 public class TestModuleWebSocketSecurityConfig

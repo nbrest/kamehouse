@@ -1,7 +1,10 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
+import org.apache.commons.codec.Charsets;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -15,17 +18,12 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
+import org.springframework.web.util.UriUtils;
 
 /**
  * Utility class to perform HTTP requests to other services from the backend.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class HttpClientUtils {
 
@@ -114,8 +112,8 @@ public class HttpClientUtils {
    */
   public static String urlEncode(String parameter) {
     try {
-      return URIUtil.encodeQuery(parameter);
-    } catch (URIException | IllegalArgumentException e) {
+      return UriUtils.encodeQuery(parameter, Charsets.UTF_8);
+    } catch (IllegalArgumentException e) {
       LOGGER.error("Failed to encode parameter: " + parameter, e);
       return null;
     }
@@ -129,8 +127,8 @@ public class HttpClientUtils {
       return null;
     }
     try {
-      return URIUtil.decode(url, StandardCharsets.UTF_8.name());
-    } catch (URIException | IllegalArgumentException e) {
+      return UriUtils.decode(url, StandardCharsets.UTF_8.name());
+    } catch (IllegalArgumentException e) {
       LOGGER.error("Failed to decode url: {}", url, e);
       return null;
     }

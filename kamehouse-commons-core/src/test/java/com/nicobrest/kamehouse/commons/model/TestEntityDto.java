@@ -1,13 +1,10 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
-
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * Test Entity DTO to test the abstract classes.
- */
+/** Test Entity DTO to test the abstract classes. */
 public class TestEntityDto implements Identifiable, Serializable {
 
   private Long id;
@@ -31,11 +28,14 @@ public class TestEntityDto implements Identifiable, Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     TestEntityDto that = (TestEntityDto) o;
-    return Objects.equals(id, that.id) &&
-        Objects.equals(name, that.name);
+    return Objects.equals(id, that.id) && Objects.equals(name, that.name);
   }
 
   @Override

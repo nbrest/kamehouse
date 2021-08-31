@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -12,9 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * Test Entity to test all the abstract classes.
- */
+/** Test Entity to test all the abstract classes. */
 @Entity
 @Table(name = "test_entity")
 public class TestEntity implements Identifiable, Serializable {
@@ -49,11 +46,14 @@ public class TestEntity implements Identifiable, Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     TestEntity that = (TestEntity) o;
-    return Objects.equals(id, that.id) &&
-        Objects.equals(name, that.name);
+    return Objects.equals(id, that.id) && Objects.equals(name, that.name);
   }
 
   @Override

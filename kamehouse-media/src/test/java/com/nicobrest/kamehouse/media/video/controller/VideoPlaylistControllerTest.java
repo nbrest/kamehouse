@@ -11,7 +11,7 @@ import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
-
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,16 +27,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.List;
-
 /**
  * Unit tests for VideoPlaylistController class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
 
@@ -46,11 +43,9 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
       VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLIST;
   private List<Playlist> videoPlaylistsList;
 
-  @InjectMocks
-  private VideoPlaylistController videoPlaylistController;
+  @InjectMocks private VideoPlaylistController videoPlaylistController;
 
-  @Mock
-  private VideoPlaylistService videoPlaylistService;
+  @Mock private VideoPlaylistService videoPlaylistService;
 
   @BeforeEach
   public void beforeTest() {
@@ -63,9 +58,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     mockMvc = MockMvcBuilders.standaloneSetup(videoPlaylistController).build();
   }
 
-  /**
-   * Tests getting all video playlists.
-   */
+  /** Tests getting all video playlists. */
   @Test
   public void getAllTest() throws Exception {
     when(videoPlaylistService.getAll()).thenReturn(videoPlaylistsList);
@@ -80,23 +73,20 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     verifyNoMoreInteractions(videoPlaylistService);
   }
 
-  /**
-   * Tests getting a specific video playlist.
-   */
+  /** Tests getting a specific video playlist. */
   @Test
   public void getPlaylist() throws Exception {
     Playlist expectedPlaylist = testUtils.getSingleTestData();
     when(videoPlaylistService.getPlaylist(anyString(), anyBoolean())).thenReturn(expectedPlaylist);
 
-    MockHttpServletResponse response = doGet(API_V1_MEDIA_VIDEO_PLAYLIST
-        + "?path=/home/goku/movies/dc.m3u");
+    MockHttpServletResponse response =
+        doGet(API_V1_MEDIA_VIDEO_PLAYLIST + "?path=/home/goku/movies/dc.m3u");
     Playlist responseBody = getResponseBody(response, Playlist.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributes(expectedPlaylist, responseBody);
-    verify(videoPlaylistService, times(1))
-        .getPlaylist(anyString(), anyBoolean());
+    verify(videoPlaylistService, times(1)).getPlaylist(anyString(), anyBoolean());
     verifyNoMoreInteractions(videoPlaylistService);
   }
 }

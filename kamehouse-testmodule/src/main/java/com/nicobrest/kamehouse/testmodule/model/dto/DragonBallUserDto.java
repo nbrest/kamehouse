@@ -2,19 +2,17 @@ package com.nicobrest.kamehouse.testmodule.model.dto;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * DragonBallUser DTO used for the test endpoints.
- * 
+ *
  * @author nbrest
  */
 public class DragonBallUserDto implements Identifiable, Serializable {
- 
+
   private static final long serialVersionUID = 159367676076449689L;
 
   private Long id;
@@ -24,14 +22,11 @@ public class DragonBallUserDto implements Identifiable, Serializable {
   private int powerLevel;
   private int stamina;
 
-  public DragonBallUserDto() {
-  }
+  public DragonBallUserDto() {}
 
-  /** 
-   * Constructor.
-   */
-  public DragonBallUserDto(Long id, String username, String email, int age, int powerLevel,
-      int stamina) {
+  /** Constructor. */
+  public DragonBallUserDto(
+      Long id, String username, String email, int age, int powerLevel, int stamina) {
 
     this.id = id;
     this.username = username;
@@ -98,7 +93,9 @@ public class DragonBallUserDto implements Identifiable, Serializable {
   public boolean equals(final Object obj) {
     if (obj instanceof DragonBallUserDto) {
       final DragonBallUserDto other = (DragonBallUserDto) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(username, other.getUsername())
+      return new EqualsBuilder()
+          .append(id, other.getId())
+          .append(username, other.getUsername())
           .isEquals();
     } else {
       return false;

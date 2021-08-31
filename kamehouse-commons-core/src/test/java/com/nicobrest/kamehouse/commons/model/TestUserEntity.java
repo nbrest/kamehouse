@@ -1,13 +1,10 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * Test User Entity to test password utils.
- */
+/** Test User Entity to test password utils. */
 public class TestUserEntity implements IdentifiablePasswordEntity<String>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
@@ -65,7 +62,7 @@ public class TestUserEntity implements IdentifiablePasswordEntity<String>, Seria
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password" };
+    String[] maskedFields = {"password"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

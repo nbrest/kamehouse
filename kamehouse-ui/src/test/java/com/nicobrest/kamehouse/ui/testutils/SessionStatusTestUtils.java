@@ -1,17 +1,16 @@
 package com.nicobrest.kamehouse.ui.testutils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 
 /**
- * Test data and common test methods to test SessionStatus in all layers of
- * the application.
- * 
- * @author nbrest
+ * Test data and common test methods to test SessionStatus in all layers of the application.
  *
+ * @author nbrest
  */
 public class SessionStatusTestUtils extends AbstractTestUtils<SessionStatus, Object>
     implements TestUtils<SessionStatus, Object> {

@@ -20,7 +20,7 @@ import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
-
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,16 +35,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.List;
-
 /**
  * Test class for the VlcRcController.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, VlcPlayerDto> {
 
@@ -58,8 +55,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<VlcRcFileListItem> vlcRcFileList;
 
-  @InjectMocks
-  private VlcRcController vlcRcController;
+  @InjectMocks private VlcRcController vlcRcController;
 
   @Mock(name = "vlcRcService")
   private VlcRcService vlcRcServiceMock;
@@ -87,65 +83,50 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     mockMvc = MockMvcBuilders.standaloneSetup(vlcRcController).build();
   }
 
-  /**
-   * Tests creating a VLC Player.
-   */
+  /** Tests creating a VLC Player. */
   @Test
   public void createTest() throws Exception {
     createTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock);
   }
 
-  /**
-   * Tests reading a single vlc player.
-   */
+  /** Tests reading a single vlc player. */
   @Test
   public void readTest() throws Exception {
     readTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
   }
 
-  /**
-   * Tests getting all VLC Players.
-   */
+  /** Tests getting all VLC Players. */
   @Test
   public void readAllTest() throws Exception {
     readAllTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
   }
 
-  /**
-   * Tests updating a VLC Player in the system.
-   */
+  /** Tests updating a VLC Player in the system. */
   @Test
   public void updateTest() throws Exception {
     updateTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock);
   }
 
-  /**
-   * Tests deleting a VLC Player from the system.
-   */
+  /** Tests deleting a VLC Player from the system. */
   @Test
   public void deleteTest() throws Exception {
     deleteTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
   }
 
-  /**
-   * Tests getting a specific VLC Player.
-   */
+  /** Tests getting a specific VLC Player. */
   @Test
   public void getByHostnameTest() throws Exception {
     when(vlcPlayerServiceMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 
-    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "hostname/" + vlcPlayer
-        .getHostname());
+    MockHttpServletResponse response =
+        doGet(API_V1_VLCPLAYERS + "hostname/" + vlcPlayer.getHostname());
     VlcPlayer responseBody = getResponseBody(response, VlcPlayer.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributes(vlcPlayer, responseBody);
   }
 
-  /**
-   * Tests getting the status information of the VLC Player passed through the
-   * URL.
-   */
+  /** Tests getting the status information of the VLC Player passed through the URL. */
   @Test
   public void getVlcRcStatusTest() throws Exception {
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatus);
@@ -158,10 +139,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
   }
 
-  /**
-   * Tests getting 404 not found when the server can't reach the specified vlc
-   * player.
-   */
+  /** Tests getting 404 not found when the server can't reach the specified vlc player. */
   @Test
   public void getVlcRcStatusNotFoundTest() throws Exception {
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(null);
@@ -172,9 +150,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
   }
 
-  /**
-   * Tests Executing a command in the selected VLC Player.
-   */
+  /** Tests Executing a command in the selected VLC Player. */
   @Test
   public void execCommandTest() throws Exception {
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
@@ -182,8 +158,8 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     when(vlcRcServiceMock.execute(any(), anyString())).thenReturn(vlcRcStatus);
     byte[] requestPayload = JsonUtils.toJsonByteArray(vlcRcCommand);
 
-    MockHttpServletResponse response = doPost(API_V1_VLCPLAYERS + "niko-nba/commands",
-        requestPayload);
+    MockHttpServletResponse response =
+        doPost(API_V1_VLCPLAYERS + "niko-nba/commands", requestPayload);
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
@@ -191,9 +167,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     verify(vlcRcServiceMock, times(1)).execute(any(), anyString());
   }
 
-  /**
-   * Tests getting the playlist from the VLC Player.
-   */
+  /** Tests getting the playlist from the VLC Player. */
   @Test
   public void getPlaylistTest() throws Exception {
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
@@ -205,9 +179,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());
   }
 
-  /**
-   * Tests browsing files in the VLC Player.
-   */
+  /** Tests browsing files in the VLC Player. */
   @Test
   public void browseTest() throws Exception {
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);

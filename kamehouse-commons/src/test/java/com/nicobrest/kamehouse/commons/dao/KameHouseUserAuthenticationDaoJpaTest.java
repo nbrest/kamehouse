@@ -1,10 +1,11 @@
 package com.nicobrest.kamehouse.commons.dao;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
-import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,18 +19,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class KameHouseUserAuthenticationDaoJpaTest
     extends AbstractCrudDaoJpaTest<KameHouseUser, KameHouseUserDto> {
 
   private KameHouseUser kameHouseUser;
 
-  @Autowired
-  private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDaoJpa;
+  @Autowired private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDaoJpa;
 
-  /**
-   * Clear data from the repository before each test.
-   */
+  /** Clear data from the repository before each test. */
   @BeforeEach
   public void setUp() {
     testUtils = new KameHouseUserTestUtils();
@@ -41,9 +39,7 @@ public class KameHouseUserAuthenticationDaoJpaTest
     clearTable("KAMEHOUSE_USER");
   }
 
-  /**
-   * Test for getting a single KameHouseUser in the repository by username.
-   */
+  /** Test for getting a single KameHouseUser in the repository by username. */
   @Test
   public void loadUserByUsernameTest() {
     mergeEntityInRepository(kameHouseUser);
@@ -55,13 +51,14 @@ public class KameHouseUserAuthenticationDaoJpaTest
     testUtils.assertEqualsAllAttributes(kameHouseUser, returnedUser);
   }
 
-  /**
-   * Test for getting a single KameHouseUser in the repository Exception flows.
-   */
+  /** Test for getting a single KameHouseUser in the repository Exception flows. */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
-    assertThrows(KameHouseNotFoundException.class, () -> {
-      kameHouseUserAuthenticationDaoJpa.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
-    });
+    assertThrows(
+        KameHouseNotFoundException.class,
+        () -> {
+          kameHouseUserAuthenticationDaoJpa.loadUserByUsername(
+              KameHouseUserTestUtils.INVALID_USERNAME);
+        });
   }
 }

@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to get the available memory of the server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class FreeKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public FreeKameHouseSystemCommand() {
     systemCommands.add(new FreeSystemCommand());
   }

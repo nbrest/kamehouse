@@ -8,18 +8,15 @@ import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
 /**
- * Test data and common test methods to test KameHouseUsers in all layers of
- * the application.
- * 
- * @author nbrest
+ * Test data and common test methods to test KameHouseUsers in all layers of the application.
  *
+ * @author nbrest
  */
 public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, KameHouseUserDto> {
 
@@ -35,8 +32,8 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
   }
 
   @Override
-  public void assertEqualsAllAttributes(KameHouseUser expectedEntity,
-                                        KameHouseUser returnedEntity) {
+  public void assertEqualsAllAttributes(
+      KameHouseUser expectedEntity, KameHouseUser returnedEntity) {
     assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
     assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername());
@@ -48,9 +45,7 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
     assertThat(returnedEntity.getAuthorities(), is(expectedEntity.getAuthorities()));
   }
 
-  /**
-   * Returns a KameHouse user with an invalid username.
-   */
+  /** Returns a KameHouse user with an invalid username. */
   public KameHouseUser getBadUsernameKameHouseUser() {
     KameHouseUser badUsernameKameHouseUser = new KameHouseUser();
     badUsernameKameHouseUser.setId(1000L);
@@ -59,10 +54,8 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
     badUsernameKameHouseUser.setPassword("gokupass");
     return badUsernameKameHouseUser;
   }
-  
-  /**
-   * Returns a KameHouse user with an invalid password.
-   */
+
+  /** Returns a KameHouse user with an invalid password. */
   public KameHouseUser getBadPasswordKameHouseUser() {
     KameHouseUser badPasswordKameHouseUser = new KameHouseUser();
     badPasswordKameHouseUser.setId(1000L);
@@ -71,7 +64,7 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
     badPasswordKameHouseUser.setPassword(null);
     return badPasswordKameHouseUser;
   }
-  
+
   private void initSingleTestData() {
     singleTestData = new KameHouseUser();
     singleTestData.setId(null);

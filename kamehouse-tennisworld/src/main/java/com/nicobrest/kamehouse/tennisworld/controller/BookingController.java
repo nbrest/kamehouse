@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
-import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  * Controller to do bookings to tennis world.
@@ -25,12 +23,9 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingController extends AbstractController {
 
-  @Autowired
-  private BookingService bookingService;
+  @Autowired private BookingService bookingService;
 
-  /**
-   * Process a tennis world booking request.
-   */
+  /** Process a tennis world booking request. */
   @PostMapping(path = "/bookings")
   @ResponseBody
   public ResponseEntity<BookingResponse> bookings(
@@ -49,9 +44,7 @@ public class BookingController extends AbstractController {
     }
   }
 
-  /**
-   * Trigger an execution to process all the scheduled bookings configured in the database.
-   */
+  /** Trigger an execution to process all the scheduled bookings configured in the database. */
   @PostMapping(path = "/scheduled-bookings")
   @ResponseBody
   public ResponseEntity<List<BookingResponse>> scheduledBookings() {

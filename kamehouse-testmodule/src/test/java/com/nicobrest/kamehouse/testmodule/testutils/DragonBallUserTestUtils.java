@@ -6,15 +6,12 @@ import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
-
 import java.util.LinkedList;
 
 /**
- * Test data and common test methods to test DragonBallUsers in all layers of
- * the application.
- * 
- * @author nbrest
+ * Test data and common test methods to test DragonBallUsers in all layers of the application.
  *
+ * @author nbrest
  */
 public class DragonBallUserTestUtils extends AbstractTestUtils<DragonBallUser, DragonBallUserDto>
     implements TestUtils<DragonBallUser, DragonBallUserDto> {
@@ -32,8 +29,8 @@ public class DragonBallUserTestUtils extends AbstractTestUtils<DragonBallUser, D
   }
 
   @Override
-  public void assertEqualsAllAttributes(DragonBallUser expectedEntity,
-      DragonBallUser returnedEntity) {
+  public void assertEqualsAllAttributes(
+      DragonBallUser expectedEntity, DragonBallUser returnedEntity) {
     assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
     assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername());

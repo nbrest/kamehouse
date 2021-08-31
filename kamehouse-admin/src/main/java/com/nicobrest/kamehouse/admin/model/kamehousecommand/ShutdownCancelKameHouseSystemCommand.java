@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to cancel a scheduled shutdown of the server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class ShutdownCancelKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public ShutdownCancelKameHouseSystemCommand() {
     systemCommands.add(new ShutdownCancelSystemCommand());
   }

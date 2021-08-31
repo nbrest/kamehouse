@@ -5,22 +5,19 @@ import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * Service layer to manage the registered VLC Players in the application.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Service
-public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDto> implements
-    CrudService<VlcPlayer, VlcPlayerDto> {
+public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDto>
+    implements CrudService<VlcPlayer, VlcPlayerDto> {
 
   @Autowired
   @Qualifier("vlcPlayerDaoJpa")
@@ -59,9 +56,7 @@ public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDt
     return delete(vlcPlayerDao, id);
   }
 
-  /**
-   * Gets a VLC Player by hostname.
-   */
+  /** Gets a VLC Player by hostname. */
   public VlcPlayer getByHostname(String hostname) {
     logger.trace("getByHostname {}", hostname);
     VlcPlayer vlcPlayer = vlcPlayerDao.getByHostname(hostname);

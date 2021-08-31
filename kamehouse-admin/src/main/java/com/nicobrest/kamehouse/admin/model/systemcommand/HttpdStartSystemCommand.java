@@ -2,20 +2,16 @@ package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-
 import java.util.Arrays;
 
 /**
  * System command to start the httpd server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class HttpdStartSystemCommand extends SystemCommand {
 
-  /**
-   * Sets the command line for each operation system required for this SystemCommand.
-   */
+  /** Sets the command line for each operation system required for this SystemCommand. */
   public HttpdStartSystemCommand() {
     isDaemon = true;
     String userHome = PropertiesUtils.getUserHome();

@@ -2,12 +2,6 @@ package com.nicobrest.kamehouse.media.video.service;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,20 +12,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 /**
  * Service to manage the video playlists in the local system.
  *
  * @author nbrest
- *
  */
 @Service
 public class VideoPlaylistService {
 
   public static final String PROP_MEDIA_SERVER_NAME = "media.server.name";
   public static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
-  public static final String PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE = "playlists.path.remote.lan"
-      + ".share";
+  public static final String PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE =
+      "playlists.path.remote.lan" + ".share";
   public static final String PROP_PLAYLISTS_PATH_REMOTE_HTTP = "playlists.path.remote.http";
   public static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
   private static final String REMOTE_SERVER = "[REMOTE_SERVER]";
@@ -43,17 +40,13 @@ public class VideoPlaylistService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  /**
-   * Gets all video playlists without their contents.
-   */
+  /** Gets all video playlists without their contents. */
   @Cacheable(value = VIDEO_PLAYLISTS_CACHE)
   public List<Playlist> getAll() {
     return getAll(false);
   }
 
-  /**
-   * Gets all video playlists specifying if it should get the contents of each playlist or not.
-   */
+  /** Gets all video playlists specifying if it should get the contents of each playlist or not. */
   public List<Playlist> getAll(Boolean fetchContent) {
     logger.trace("getAll");
     Path basePlaylistPath = getBasePlaylistsPath();
@@ -77,16 +70,14 @@ public class VideoPlaylistService {
     return videoPlaylists;
   }
 
-  /**
-   * Get the specified playlist.
-   */
+  /** Get the specified playlist. */
   @Cacheable(value = VIDEO_PLAYLIST_CACHE)
   public Playlist getPlaylist(String playlistFilename, boolean fetchContent) {
     logger.trace("Get playlist {}", playlistFilename);
     Path playlistPath = Paths.get(playlistFilename);
     if (!isValidPlaylist(playlistPath)) {
-      logger.error("Invalid playlist path specified. Check the validations for supported "
-          + "playlists");
+      logger.error(
+          "Invalid playlist path specified. Check the validations for supported " + "playlists");
       return null;
     }
     Playlist playlist = null;
@@ -107,9 +98,7 @@ public class VideoPlaylistService {
     return playlist;
   }
 
-  /**
-   * Get the base path where to look for playlists.
-   */
+  /** Get the base path where to look for playlists. */
   private Path getBasePlaylistsPath() {
     String userHome = PropertiesUtils.getUserHome();
     String videoPlaylistsHome;
@@ -125,8 +114,7 @@ public class VideoPlaylistService {
       String mediaServer = PropertiesUtils.getProperty(PROP_MEDIA_SERVER_NAME);
       String playlistsPathRemote = null;
       if (PropertiesUtils.isWindowsHost()) {
-        playlistsPathRemote = PropertiesUtils.getProperty(
-            PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE);
+        playlistsPathRemote = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE);
       } else {
         playlistsPathRemote = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE_HTTP);
       }
@@ -136,17 +124,13 @@ public class VideoPlaylistService {
     return Paths.get(videoPlaylistsHome);
   }
 
-  /**
-   * Checks if the current server running kamehouse is the media server.
-   */
+  /** Checks if the current server running kamehouse is the media server. */
   private static boolean isMediaServerLocalhost() {
     String mediaServer = PropertiesUtils.getProperty(PROP_MEDIA_SERVER_NAME);
     return mediaServer.equalsIgnoreCase(PropertiesUtils.getHostname());
   }
 
-  /**
-   * Gets the category of the playlist based on the base path.
-   */
+  /** Gets the category of the playlist based on the base path. */
   private String getCategory(Path basePath, Path filePath) {
     String absoluteBasePath = sanitizePath(basePath.toFile().getAbsolutePath());
     int basePathLength = absoluteBasePath.length();
@@ -166,17 +150,12 @@ public class VideoPlaylistService {
     }
   }
 
-  /**
-   * Clean up path from unnecessary jumps such as '/./' or '\.\'.
-   */
+  /** Clean up path from unnecessary jumps such as '/./' or '\.\'. */
   private String sanitizePath(String path) {
-    return path.replaceAll("\\\\.\\\\", "\\\\")
-        .replaceAll("/./","/");
+    return path.replaceAll("\\\\.\\\\", "\\\\").replaceAll("/./", "/");
   }
 
-  /**
-   * Validate that the playlist specified is valid.
-   */
+  /** Validate that the playlist specified is valid. */
   private boolean isValidPlaylist(Path playlistPath) {
     // Check that file exists
     if (!playlistPath.toFile().exists()) {
@@ -195,20 +174,18 @@ public class VideoPlaylistService {
     return true;
   }
 
-  /**
-   * Get the files in the playlist for the specified file (absolute or relative path).
-   */
+  /** Get the files in the playlist for the specified file (absolute or relative path). */
   private List<String> getPlaylistContent(String playlistFilename) {
     List<String> files = null;
     logger.trace("Getting content for playlist {}", playlistFilename);
     try {
-      files = Files.readAllLines(Paths.get(playlistFilename))
-          .stream()
-          // Remove comments of m3u files
-          .filter(file -> !file.startsWith("#"))
-          // Remove empty lines
-          .filter(file -> !file.trim().isEmpty())
-          .collect(Collectors.toList());
+      files =
+          Files.readAllLines(Paths.get(playlistFilename)).stream()
+              // Remove comments of m3u files
+              .filter(file -> !file.startsWith("#"))
+              // Remove empty lines
+              .filter(file -> !file.trim().isEmpty())
+              .collect(Collectors.toList());
     } catch (IOException e) {
       logger.error("Error reading {} content", playlistFilename, e);
     }

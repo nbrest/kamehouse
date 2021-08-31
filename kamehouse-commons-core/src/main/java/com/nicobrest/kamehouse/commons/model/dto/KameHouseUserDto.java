@@ -3,35 +3,32 @@ package com.nicobrest.kamehouse.commons.model.dto;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * DTO for an KameHouseUser.
- * 
- * @author nbrest
  *
- */ 
+ * @author nbrest
+ */
 public class KameHouseUserDto implements Identifiable, Serializable {
-   
+
   private static final long serialVersionUID = 1L;
- 
-  private Long id; 
-  private String username; 
-  private String password; 
-  private String email; 
-  private String firstName; 
-  private String lastName; 
-  private Date lastLogin; 
-  @JsonManagedReference
-  private Set<KameHouseRoleDto> authorities;
-  private boolean accountNonExpired = true; 
-  private boolean accountNonLocked = true; 
-  private boolean credentialsNonExpired = true; 
+
+  private Long id;
+  private String username;
+  private String password;
+  private String email;
+  private String firstName;
+  private String lastName;
+  private Date lastLogin;
+  @JsonManagedReference private Set<KameHouseRoleDto> authorities;
+  private boolean accountNonExpired = true;
+  private boolean accountNonLocked = true;
+  private boolean credentialsNonExpired = true;
   private boolean enabled = true;
 
   public Long getId() {
@@ -82,9 +79,7 @@ public class KameHouseUserDto implements Identifiable, Serializable {
     this.lastName = lastName;
   }
 
-  /**
-   * Get last login date.
-   */
+  /** Get last login date. */
   public Date getLastLogin() {
     if (lastLogin != null) {
       return (Date) lastLogin.clone();
@@ -93,15 +88,13 @@ public class KameHouseUserDto implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Set last login date.
-   */
+  /** Set last login date. */
   public void setLastLogin(Date lastLogin) {
     if (lastLogin != null) {
       this.lastLogin = (Date) lastLogin.clone();
     }
   }
- 
+
   public Set<KameHouseRoleDto> getAuthorities() {
     return authorities;
   }
@@ -109,8 +102,7 @@ public class KameHouseUserDto implements Identifiable, Serializable {
   public void setAuthorities(Set<KameHouseRoleDto> authorities) {
     this.authorities = authorities;
   }
- 
- 
+
   public boolean isAccountNonExpired() {
     return accountNonExpired;
   }
@@ -126,7 +118,7 @@ public class KameHouseUserDto implements Identifiable, Serializable {
   public void setAccountNonLocked(boolean accountNonLocked) {
     this.accountNonLocked = accountNonLocked;
   }
- 
+
   public boolean isCredentialsNonExpired() {
     return credentialsNonExpired;
   }
@@ -134,7 +126,7 @@ public class KameHouseUserDto implements Identifiable, Serializable {
   public void setCredentialsNonExpired(boolean credentialsNonExpired) {
     this.credentialsNonExpired = credentialsNonExpired;
   }
- 
+
   public boolean isEnabled() {
     return enabled;
   }
@@ -152,7 +144,9 @@ public class KameHouseUserDto implements Identifiable, Serializable {
   public boolean equals(final Object obj) {
     if (obj instanceof KameHouseUserDto) {
       final KameHouseUserDto other = (KameHouseUserDto) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(username, other.getUsername())
+      return new EqualsBuilder()
+          .append(id, other.getId())
+          .append(username, other.getUsername())
           .isEquals();
     } else {
       return false;
@@ -161,7 +155,7 @@ public class KameHouseUserDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password", "authorities" };
+    String[] maskedFields = {"password", "authorities"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

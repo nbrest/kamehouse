@@ -5,15 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Test data and common test methods to test VlcRcPlaylists.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class VlcRcPlaylistTestUtils extends AbstractTestUtils<List<VlcRcPlaylistItem>, Object>
     implements TestUtils<List<VlcRcPlaylistItem>, Object> {
@@ -24,8 +22,8 @@ public class VlcRcPlaylistTestUtils extends AbstractTestUtils<List<VlcRcPlaylist
   }
 
   @Override
-  public void assertEqualsAllAttributes(List<VlcRcPlaylistItem> expected,
-      List<VlcRcPlaylistItem> returned) {
+  public void assertEqualsAllAttributes(
+      List<VlcRcPlaylistItem> expected, List<VlcRcPlaylistItem> returned) {
     assertEquals(expected, returned);
     if (expected != null && returned != null) {
       assertEquals(expected.size(), returned.size());
@@ -47,10 +45,11 @@ public class VlcRcPlaylistTestUtils extends AbstractTestUtils<List<VlcRcPlaylist
     VlcRcPlaylistItem playlistItem1 = new VlcRcPlaylistItem();
     playlistItem1.setId(5);
     playlistItem1.setName("Lleyton Hewitt- Brash teenager to Aussie great.mp4");
-    playlistItem1.setUri("file:///home/nbrest/Videos/Lleyton%20"
-        + "Hewitt-%20Brash%20teenager%20to%20Aussie%20great.mp4");
-    playlistItem1.setFilename("/home/nbrest/Videos/Lleyton "
-        + "Hewitt- Brash teenager to Aussie great.mp4");
+    playlistItem1.setUri(
+        "file:///home/nbrest/Videos/Lleyton%20"
+            + "Hewitt-%20Brash%20teenager%20to%20Aussie%20great.mp4");
+    playlistItem1.setFilename(
+        "/home/nbrest/Videos/Lleyton " + "Hewitt- Brash teenager to Aussie great.mp4");
     playlistItem1.setDuration(281);
     singleTestData.add(playlistItem1);
     VlcRcPlaylistItem playlistItem2 = new VlcRcPlaylistItem();

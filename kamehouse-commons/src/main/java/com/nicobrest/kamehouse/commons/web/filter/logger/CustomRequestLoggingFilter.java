@@ -1,13 +1,10 @@
 package com.nicobrest.kamehouse.commons.web.filter.logger;
 
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
-/**
- * Custom request logging filter to log all incoming requests.
- */
+/** Custom request logging filter to log all incoming requests. */
 public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
 
   @Override
@@ -47,9 +44,7 @@ public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
     }
   }
 
-  /**
-   * Get the http method to log it.
-   */
+  /** Get the http method to log it. */
   private String getHttpMethod(HttpServletRequest request) {
     return ";method=" + request.getMethod();
   }

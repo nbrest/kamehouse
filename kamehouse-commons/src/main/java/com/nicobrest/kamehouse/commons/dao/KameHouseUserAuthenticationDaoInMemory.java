@@ -2,20 +2,18 @@ package com.nicobrest.kamehouse.commons.dao;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Repository;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 
 /**
  * In-Memory DAO for the KameHouse Users.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Repository
 public class KameHouseUserAuthenticationDaoInMemory implements KameHouseUserAuthenticationDao {
@@ -25,7 +23,7 @@ public class KameHouseUserAuthenticationDaoInMemory implements KameHouseUserAuth
   public KameHouseUserAuthenticationDaoInMemory() {
     initRepository();
   }
- 
+
   @Override
   public KameHouseUser loadUserByUsername(final String username) {
     KameHouseUser kameHouseUser = repository.get(username);
@@ -35,9 +33,7 @@ public class KameHouseUserAuthenticationDaoInMemory implements KameHouseUserAuth
     return kameHouseUser;
   }
 
-  /**
-   * Initializes in-memory repository with test users.
-   */
+  /** Initializes in-memory repository with test users. */
   private static void initRepository() {
     KameHouseRole userRole = new KameHouseRole();
     userRole.setName("ROLE_SAIYAJIN");
@@ -97,19 +93,14 @@ public class KameHouseUserAuthenticationDaoInMemory implements KameHouseUserAuth
     repository.put(guest.getUsername(), guest);
   }
 
-  /**
-   * Static inner class that generates Ids.
-   */
+  /** Static inner class that generates Ids. */
   private static class IdGenerator {
 
     private static final AtomicInteger sequence = new AtomicInteger(1);
 
-    private IdGenerator() {
-    }
+    private IdGenerator() {}
 
-    /**
-     * Return next number in the sequence.
-     */
+    /** Return next number in the sequence. */
     public static Long getId() {
       return Long.valueOf(sequence.getAndIncrement());
     }

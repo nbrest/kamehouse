@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.service;
 
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
@@ -9,24 +10,22 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemComman
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for the SystemCommandService class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class SystemCommandServiceTest {
 
@@ -55,9 +54,7 @@ public class SystemCommandServiceTest {
     processUtils.close();
   }
 
-  /**
-   * Executes process successful test.
-   */
+  /** Executes process successful test. */
   @Test
   public void execKameHouseSystemCommandTest() throws Exception {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
@@ -66,33 +63,29 @@ public class SystemCommandServiceTest {
     List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
 
     testUtils.assertCommandExecutedMatch(kameHouseSystemCommand, returnedList);
-    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST,
-        returnedList.get(0));
-    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST,
-        returnedList.get(1));
-    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST,
-        returnedList.get(2));
+    testUtils.assertSystemCommandOutputFields(
+        0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST, returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(
+        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(1));
+    testUtils.assertSystemCommandOutputFields(
+        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(2));
   }
 
-  /**
-   * Executes process successful for linux test.
-   */
+  /** Executes process successful for linux test. */
   @Test
   public void execLinuxCommandTest() throws Exception {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
-    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), ""); 
+    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST,
-        returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(
+        0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST, returnedList.get(0));
   }
 
-  /**
-   * Executes process with failing VncDo command test.
-   */
+  /** Executes process with failing VncDo command test. */
   @Test
   public void execVncDoFailedTest() throws Exception {
     List<String> errorStream = Arrays.asList("no errors");
@@ -103,13 +96,11 @@ public class SystemCommandServiceTest {
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, INPUT_STREAM_LIST, errorStream,
-        returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(
+        1, -1, FAILED, INPUT_STREAM_LIST, errorStream, returnedList.get(0));
   }
 
-  /**
-   * Executes daemon process successful test.
-   */
+  /** Executes daemon process successful test. */
   @Test
   public void execDaemonTest() throws Exception {
     setupProcessStreamMocks("", "");
@@ -121,27 +112,23 @@ public class SystemCommandServiceTest {
     testUtils.assertSystemCommandOutputFields(-1, -1, RUNNING, null, null, returnedCommandOutput);
   }
 
-  /**
-   * Executes process throwing an IOException test.
-   */
+  /** Executes process throwing an IOException test. */
   @Test
-  public void execIOExceptionTest() throws Exception {
+  public void execIoExceptionTest() throws Exception {
     when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
 
-    List<String> errorStream = Arrays.asList("An error occurred executing the command. Message: " +
-        "null");
+    List<String> errorStream =
+        Arrays.asList("An error occurred executing the command. Message: " + "null");
     List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(1, -1, FAILED, null, errorStream,
-        returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(
+        1, -1, FAILED, null, errorStream, returnedList.get(0));
   }
 
-  /**
-   * Setup mock input and error streams.
-   */
+  /** Setup mock input and error streams. */
   private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent)
       throws IOException {
     InputStream processInputStream = new ByteArrayInputStream(inputStreamContent.getBytes());
@@ -150,15 +137,10 @@ public class SystemCommandServiceTest {
     when(ProcessUtils.getErrorStream(Mockito.any())).thenReturn(processErrorStream);
   }
 
-  /**
-   * Test KameHouseSystemCommand to test the SystemCommandService.
-   *
-   */
+  /** Test KameHouseSystemCommand to test the SystemCommandService. */
   public static class TestKameHouseSystemCommand extends KameHouseSystemCommand {
 
-    /**
-     * Test KameHouseSystemCommand to test the SystemCommandService.
-     */
+    /** Test KameHouseSystemCommand to test the SystemCommandService. */
     public TestKameHouseSystemCommand() {
       systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));
       systemCommands.add(new VncDoKeyPressSystemCommand("1"));
@@ -166,14 +148,10 @@ public class SystemCommandServiceTest {
     }
   }
 
-  /**
-   * Test Daemon command to test the SystemCommandService.
-   */
+  /** Test Daemon command to test the SystemCommandService. */
   public static class TestDaemonCommand extends VncDoKeyPressSystemCommand {
 
-    /**
-     * Test Daemon command.
-     */
+    /** Test Daemon command. */
     public TestDaemonCommand(String key) {
       super(key);
       isDaemon = true;

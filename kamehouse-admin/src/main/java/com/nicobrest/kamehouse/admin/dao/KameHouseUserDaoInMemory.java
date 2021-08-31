@@ -2,10 +2,6 @@ package com.nicobrest.kamehouse.admin.dao;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
-
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,12 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 
 /**
  * In-Memory DAO for the KameHouse Users.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Repository
 public class KameHouseUserDaoInMemory implements KameHouseUserDao {
@@ -35,18 +32,18 @@ public class KameHouseUserDaoInMemory implements KameHouseUserDao {
     repository.put(entity.getUsername(), entity);
     return entity.getId();
   }
-  
+
   @Override
   public KameHouseUser read(Long id) {
     throw new UnsupportedOperationException(
         "This method is not supported. Use loadUserByUsername() for this repository.");
   }
-  
+
   @Override
   public List<KameHouseUser> readAll() {
     return new ArrayList<>(repository.values());
   }
-  
+
   @Override
   public void update(KameHouseUser entity) {
     KameHouseUser kameHouseUserToUpdate = loadUserByUsername(entity.getUsername());
@@ -66,7 +63,7 @@ public class KameHouseUserDaoInMemory implements KameHouseUserDao {
     }
     throw new UsernameNotFoundException("User with id " + id + " not found.");
   }
- 
+
   @Override
   public KameHouseUser loadUserByUsername(final String username) {
     KameHouseUser kameHouseUser = repository.get(username);
@@ -76,9 +73,7 @@ public class KameHouseUserDaoInMemory implements KameHouseUserDao {
     return kameHouseUser;
   }
 
-  /**
-   * Initializes in-memory repository with test users.
-   */
+  /** Initializes in-memory repository with test users. */
   private static void initRepository() {
     KameHouseRole userRole = new KameHouseRole();
     userRole.setName("ROLE_SAIYAJIN");
@@ -138,19 +133,14 @@ public class KameHouseUserDaoInMemory implements KameHouseUserDao {
     repository.put(guest.getUsername(), guest);
   }
 
-  /**
-   * Static inner class that generates Ids.
-   */
+  /** Static inner class that generates Ids. */
   private static class IdGenerator {
 
     private static final AtomicInteger sequence = new AtomicInteger(1);
 
-    private IdGenerator() {
-    }
+    private IdGenerator() {}
 
-    /**
-     * Return next number in the sequence.
-     */
+    /** Return next number in the sequence. */
     public static Long getId() {
       return Long.valueOf(sequence.getAndIncrement());
     }

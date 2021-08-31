@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 import com.nicobrest.kamehouse.ui.service.SessionStatusService;
@@ -28,46 +29,40 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
  * Test class for the SessionStatusController.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class SessionStatusControllerTest extends AbstractControllerTest<SessionStatus, Object> {
 
   private SessionStatus sessionStatus;
-  
-  @Autowired
-  private FilterChainProxy springSecurityFilterChain;
 
-  @InjectMocks
-  private SessionStatusController sessionStatusController;
+  @Autowired private FilterChainProxy springSecurityFilterChain;
 
-  @Mock
-  private SessionStatusService sessionStatusServiceMock;
+  @InjectMocks private SessionStatusController sessionStatusController;
 
-  /**
-   * Resets mock objects.
-   */
+  @Mock private SessionStatusService sessionStatusServiceMock;
+
+  /** Resets mock objects. */
   @BeforeEach
   public void beforeTest() {
     testUtils = new SessionStatusTestUtils();
     testUtils.initTestData();
     sessionStatus = testUtils.getSingleTestData();
-    
+
     MockitoAnnotations.openMocks(this);
     Mockito.reset(sessionStatusServiceMock);
-    mockMvc = MockMvcBuilders.standaloneSetup(sessionStatusController)
-        .apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain)).build();
+    mockMvc =
+        MockMvcBuilders.standaloneSetup(sessionStatusController)
+            .apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain))
+            .build();
   }
 
-  /**
-   * Tests getting the current session information.
-   */
+  /** Tests getting the current session information. */
   @Test
-  public void getSessionStatusTest() throws Exception { 
+  public void getSessionStatusTest() throws Exception {
     when(sessionStatusServiceMock.get(any())).thenReturn(sessionStatus);
 
     MockHttpServletResponse response = doGet("/api/v1/ui/session/status");

@@ -6,14 +6,13 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * BookingScheduleConfig DTO.
- * 
+ *
  * @author nbrest
  */
 public class BookingScheduleConfigDto implements Identifiable, Serializable {
@@ -81,9 +80,7 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
     this.time = time;
   }
 
-  /**
-   * Get booking date.
-   */
+  /** Get booking date. */
   public Date getBookingDate() {
     if (bookingDate != null) {
       return (Date) bookingDate.clone();
@@ -92,9 +89,7 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Set booking date.
-   */
+  /** Set booking date. */
   public void setBookingDate(Date bookingDate) {
     if (bookingDate != null) {
       this.bookingDate = (Date) bookingDate.clone();
@@ -146,8 +141,8 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, tennisWorldUser, sessionType, site, day, time, bookingDate,
-        bookAheadDays);
+    return Objects.hash(
+        id, tennisWorldUser, sessionType, site, day, time, bookingDate, bookAheadDays);
   }
 
   @Override

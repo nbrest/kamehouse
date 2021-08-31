@@ -5,11 +5,10 @@ import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Service layer to manage the TennisWorld BookingResponses.

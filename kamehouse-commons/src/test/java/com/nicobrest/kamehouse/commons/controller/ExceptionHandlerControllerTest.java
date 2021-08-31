@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseForbiddenException;
@@ -30,8 +31,8 @@ public class ExceptionHandlerControllerTest {
   @Test
   public void handleBadRequestTest() {
     ResponseEntity<Object> responseEntity =
-        exceptionHandlerController.handleBadRequest(new KameHouseBadRequestException(""),
-        webRequest);
+        exceptionHandlerController.handleBadRequest(
+            new KameHouseBadRequestException(""), webRequest);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
   }
@@ -39,8 +40,7 @@ public class ExceptionHandlerControllerTest {
   @Test
   public void handleConflictTest() {
     ResponseEntity<Object> responseEntity =
-        exceptionHandlerController.handleConflict(new KameHouseConflictException(""),
-            webRequest);
+        exceptionHandlerController.handleConflict(new KameHouseConflictException(""), webRequest);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
   }
@@ -48,8 +48,7 @@ public class ExceptionHandlerControllerTest {
   @Test
   public void handleForbiddenTest() {
     ResponseEntity<Object> responseEntity =
-        exceptionHandlerController.handleForbidden(new KameHouseForbiddenException(""),
-            webRequest);
+        exceptionHandlerController.handleForbidden(new KameHouseForbiddenException(""), webRequest);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
   }
@@ -57,8 +56,7 @@ public class ExceptionHandlerControllerTest {
   @Test
   public void handleNotFoundTest() {
     ResponseEntity<Object> responseEntity =
-        exceptionHandlerController.handleNotFound(new KameHouseNotFoundException(""),
-            webRequest);
+        exceptionHandlerController.handleNotFound(new KameHouseNotFoundException(""), webRequest);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
   }
@@ -66,8 +64,8 @@ public class ExceptionHandlerControllerTest {
   @Test
   public void handleServerErrorTest() {
     ResponseEntity<Object> responseEntity =
-        exceptionHandlerController.handleServerError(new KameHouseServerErrorException(""),
-            webRequest);
+        exceptionHandlerController.handleServerError(
+            new KameHouseServerErrorException(""), webRequest);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
   }
@@ -75,8 +73,7 @@ public class ExceptionHandlerControllerTest {
   @Test
   public void handleGenericExceptionTest() {
     ResponseEntity<Object> responseEntity =
-        exceptionHandlerController.handleGenericException(new NullPointerException(""),
-            webRequest);
+        exceptionHandlerController.handleGenericException(new NullPointerException(""), webRequest);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
   }

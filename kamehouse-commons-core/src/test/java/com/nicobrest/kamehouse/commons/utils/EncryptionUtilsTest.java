@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import org.junit.jupiter.api.Test;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import org.junit.jupiter.api.Test;
 
 /**
  * EncryptionUtils tests.
@@ -25,12 +25,10 @@ public class EncryptionUtilsTest {
   private static final String SAMPLE_KEYSTORE = TEST_RESOURCES_PATH + "keys/sample.pkcs12";
   private static final String SAMPLE_DECRYPTED_FILE = TEST_RESOURCES_PATH + "files/input.txt";
   private static final String SAMPLE_ENCRYPTED_FILE = TEST_RESOURCES_PATH + "files/input.enc";
-  private static final String SAMPLE_ENCRYPTED_EMPTY_FILE = TEST_RESOURCES_PATH
-      + "files/input-empty.enc";
+  private static final String SAMPLE_ENCRYPTED_EMPTY_FILE =
+      TEST_RESOURCES_PATH + "files/input-empty.enc";
 
-  /**
-   * Test encrypt and decrypt strings.
-   */
+  /** Test encrypt and decrypt strings. */
   @Test
   public void encryptAndDecryptStringsTest() {
     String inputString = "mada mada dane echizen kun";
@@ -42,9 +40,7 @@ public class EncryptionUtilsTest {
     assertEquals(inputString, decryptedString);
   }
 
-  /**
-   * Test encrypt a decrypted file.
-   */
+  /** Test encrypt a decrypted file. */
   @Test
   public void encryptDecryptedFileTest() throws IOException {
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_DECRYPTED_FILE));
@@ -57,9 +53,7 @@ public class EncryptionUtilsTest {
     assertEquals(inputString, decryptedString);
   }
 
-  /**
-   * Test decrypt an encrypted file.
-   */
+  /** Test decrypt an encrypted file. */
   @Test
   public void decryptEncryptedFileTest() throws IOException {
     String expectedDecrypted = "mada mada dane - pegasus seiya";
@@ -73,74 +67,71 @@ public class EncryptionUtilsTest {
     assertEquals(expectedDecrypted, decryptedString);
   }
 
-  /**
-   * Test decrypt an encrypted empty file.
-   */
+  /** Test decrypt an encrypted empty file. */
   @Test
   public void decryptEncryptedEmptyFileTest() throws IOException {
     String expectedDecrypted = "";
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_ENCRYPTED_EMPTY_FILE));
     String inputString = new String(inputBytes, StandardCharsets.UTF_8);
 
-    String decryptedString = EncryptionUtils.decryptFileToString(SAMPLE_ENCRYPTED_EMPTY_FILE, getSamplePrivateKey());
+    String decryptedString =
+        EncryptionUtils.decryptFileToString(SAMPLE_ENCRYPTED_EMPTY_FILE, getSamplePrivateKey());
 
     assertNotEquals(inputString, decryptedString);
     assertEquals(expectedDecrypted, decryptedString);
   }
 
-  /**
-   * Test decrypt error flow with invalid file.
-   */
+  /** Test decrypt error flow with invalid file. */
   @Test
   public void decryptInvalidFileTest() {
-    assertThrows(KameHouseInvalidDataException.class, () -> {
-      EncryptionUtils.decryptFileToString("", getSamplePrivateKey());
-    });
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          EncryptionUtils.decryptFileToString("", getSamplePrivateKey());
+        });
   }
 
-  /**
-   * Test decrypt error flow with empty data.
-   */
+  /** Test decrypt error flow with empty data. */
   @Test
   public void decryptEmptyDataTest() {
-    assertThrows(KameHouseInvalidDataException.class, () -> {
-      EncryptionUtils.decrypt(null, getSamplePrivateKey());
-    });
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          EncryptionUtils.decrypt(null, getSamplePrivateKey());
+        });
   }
 
-  /**
-   * Test decrypt error flow with empty private key.
-   */
+  /** Test decrypt error flow with empty private key. */
   @Test
   public void decryptEmptyPrivateKeyTest() {
-    assertThrows(KameHouseInvalidDataException.class, () -> {
-      EncryptionUtils.decrypt(new byte[2], null);
-    });
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          EncryptionUtils.decrypt(new byte[2], null);
+        });
   }
 
-  /**
-   * Test encrypt error flow with empty data.
-   */
+  /** Test encrypt error flow with empty data. */
   @Test
   public void encryptEmptyDataTest() {
-    assertThrows(KameHouseInvalidDataException.class, () -> {
-      EncryptionUtils.encrypt(null, getSampleCertificate());
-    });
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          EncryptionUtils.encrypt(null, getSampleCertificate());
+        });
   }
 
-  /**
-   * Test encrypt error flow with empty certificate.
-   */
+  /** Test encrypt error flow with empty certificate. */
   @Test
   public void decryptEmptyCertificateTest() {
-    assertThrows(KameHouseInvalidDataException.class, () -> {
-      EncryptionUtils.encrypt(new byte[2], null);
-    });
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          EncryptionUtils.encrypt(new byte[2], null);
+        });
   }
 
-  /**
-   * Test encrypt error flow with empty certificate.
-   */
+  /** Test encrypt error flow with empty certificate. */
   @Test
   public void kameHouseKeysTest() {
     try {
@@ -158,16 +149,12 @@ public class EncryptionUtilsTest {
     }
   }
 
-  /**
-   * Get the sample private key.
-   */
+  /** Get the sample private key. */
   private static PrivateKey getSamplePrivateKey() {
-    return EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12",null, "1", null);
+    return EncryptionUtils.getPrivateKey(SAMPLE_KEYSTORE, "PKCS12", null, "1", null);
   }
 
-  /**
-   * Get the sample certificate.
-   */
+  /** Get the sample certificate. */
   private static X509Certificate getSampleCertificate() {
     return EncryptionUtils.getCertificate(SAMPLE_CERT);
   }

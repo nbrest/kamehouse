@@ -5,36 +5,30 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 import com.nicobrest.kamehouse.commons.model.TestUserEntity;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the password utility class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class PasswordUtilsTest {
 
-  /**
-   * Tests the hashed password generation and it's validation with the plain
-   * text password.
-   */
+  /** Tests the hashed password generation and it's validation with the plain text password. */
   @Test
   public void validateGenerateHashedPasswordTest() {
     String plainTextPassword = "SonGoku1234";
-    
+
     String hashedPassword = PasswordUtils.generateHashedPassword(plainTextPassword);
-    
-    assertTrue("Plain and hashed passwords should match", PasswordUtils.isValidPassword(
-        plainTextPassword, hashedPassword));
+
+    assertTrue(
+        "Plain and hashed passwords should match",
+        PasswordUtils.isValidPassword(plainTextPassword, hashedPassword));
   }
 
-  /**
-   * Tests removing the password from entities.
-   */
+  /** Tests removing the password from entities. */
   @Test
   public void unsetPasswordTest() {
     List<TestUserEntity> userEntityList = new ArrayList<>();

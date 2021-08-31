@@ -3,11 +3,10 @@ package com.nicobrest.kamehouse.admin.dao;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
-import org.springframework.stereotype.Repository;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.springframework.stereotype.Repository;
 
 /**
  * JPA DAO for the KameHouseUser entities.
@@ -26,12 +25,12 @@ public class KameHouseUserDaoJpa extends AbstractCrudDaoJpa implements KameHouse
   public KameHouseUser read(Long id) {
     return read(KameHouseUser.class, id);
   }
-  
+
   @Override
   public List<KameHouseUser> readAll() {
     return readAll(KameHouseUser.class);
   }
-  
+
   @Override
   public void update(KameHouseUser entity) {
     update(KameHouseUser.class, entity);
@@ -49,15 +48,14 @@ public class KameHouseUserDaoJpa extends AbstractCrudDaoJpa implements KameHouse
     logger.trace("loadUserByUsername {} response {}", username, kameHouseUser);
     return kameHouseUser;
   }
-  
+
   @Override
   protected <T> void updateEntityValues(T persistedEntity, T entity) {
     KameHouseUser persistedKameHouseUser = (KameHouseUser) persistedEntity;
     KameHouseUser updatedKameHouseUser = (KameHouseUser) entity;
     persistedKameHouseUser.setAccountNonExpired(updatedKameHouseUser.isAccountNonExpired());
     persistedKameHouseUser.setAccountNonLocked(updatedKameHouseUser.isAccountNonLocked());
-    persistedKameHouseUser.setCredentialsNonExpired(updatedKameHouseUser
-        .isCredentialsNonExpired());
+    persistedKameHouseUser.setCredentialsNonExpired(updatedKameHouseUser.isCredentialsNonExpired());
     persistedKameHouseUser.setEmail(updatedKameHouseUser.getEmail());
     persistedKameHouseUser.setEnabled(updatedKameHouseUser.isEnabled());
     persistedKameHouseUser.setFirstName(updatedKameHouseUser.getFirstName());
@@ -67,8 +65,7 @@ public class KameHouseUserDaoJpa extends AbstractCrudDaoJpa implements KameHouse
     persistedKameHouseUser.setUsername(updatedKameHouseUser.getUsername());
     Set<KameHouseRole> persistedKameHouseRoles = persistedKameHouseUser.getAuthorities();
     Set<KameHouseRole> updatedKameHouseRoles = updatedKameHouseUser.getAuthorities();
-    Iterator<KameHouseRole> persistedApplicationRolesIterator = persistedKameHouseRoles
-        .iterator();
+    Iterator<KameHouseRole> persistedApplicationRolesIterator = persistedKameHouseRoles.iterator();
     while (persistedApplicationRolesIterator.hasNext()) {
       KameHouseRole persistedRole = persistedApplicationRolesIterator.next();
       if (!updatedKameHouseRoles.contains(persistedRole)) {

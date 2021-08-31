@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.testutils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
@@ -8,7 +9,6 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,16 +18,15 @@ import java.util.List;
  * application.
  *
  * @author nbrest
- *
  */
 public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse, BookingResponseDto>
     implements TestUtils<BookingResponse, BookingResponseDto> {
 
-  public static final String API_V1_TENNISWORLD_BOOKING_RESPONSES = "/api/v1/tennis-world"
-      + "/booking-responses/";
+  public static final String API_V1_TENNISWORLD_BOOKING_RESPONSES =
+      "/api/v1/tennis-world" + "/booking-responses/";
   public static final String API_V1_TENNISWORLD_BOOKINGS = "/api/v1/tennis-world/bookings";
-  public static final String API_V1_TENNISWORLD_SCHEDULED_BOOKINGS = "/api/v1/tennis-world" +
-      "/scheduled-bookings";
+  public static final String API_V1_TENNISWORLD_SCHEDULED_BOOKINGS =
+      "/api/v1/tennis-world" + "/scheduled-bookings";
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
   private BookingRequest bookingRequest;
@@ -57,8 +56,8 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     assertEquals(expected.getMessage(), returned.getMessage());
   }
 
-  public static void updateResponseWithRequestData(BookingRequest request,
-                                                   BookingResponse response) {
+  public static void updateResponseWithRequestData(
+      BookingRequest request, BookingResponse response) {
     response.setRequest(request);
   }
 
@@ -73,9 +72,8 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     expected.getRequest().setCreationDate(response.getRequest().getCreationDate());
   }
 
-  public static void updateResponseWithCardioRequestData(BookingResponse response, Date date,
-                                                         String time, SessionType sessionType,
-                                                         String duration) {
+  public static void updateResponseWithCardioRequestData(
+      BookingResponse response, Date date, String time, SessionType sessionType, String duration) {
     response.getRequest().setDate(date);
     response.getRequest().setDuration(duration);
     response.getRequest().setTime(time);

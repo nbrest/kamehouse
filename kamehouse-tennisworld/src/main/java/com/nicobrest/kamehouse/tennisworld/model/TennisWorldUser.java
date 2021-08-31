@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.tennisworld.model;
 
 import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -15,7 +14,7 @@ import javax.persistence.Table;
 
 /**
  * TennisWorld user to send requests to tennisworld with.
- * 
+ *
  * @author nbrest
  */
 @Entity
@@ -54,9 +53,7 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
     this.email = email;
   }
 
-  /**
-   * Get the password, return empty byte[] if null.
-   */
+  /** Get the password, return empty byte[] if null. */
   public byte[] getPassword() {
     if (password != null) {
       return password.clone();
@@ -65,9 +62,7 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
     }
   }
 
-  /**
-   * Set the password.
-   */
+  /** Set the password. */
   public void setPassword(byte[] password) {
     if (password != null) {
       this.password = password.clone();
@@ -83,8 +78,7 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
       return false;
     }
     TennisWorldUser that = (TennisWorldUser) other;
-    return id.equals(that.id)
-        && email.equals(that.email);
+    return id.equals(that.id) && email.equals(that.email);
   }
 
   @Override
@@ -94,7 +88,7 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password" };
+    String[] maskedFields = {"password"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

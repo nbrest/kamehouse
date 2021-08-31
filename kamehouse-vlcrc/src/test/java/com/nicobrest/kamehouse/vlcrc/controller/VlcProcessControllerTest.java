@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommand
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseSystemCommand;
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,21 +14,17 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.IOException;
-
 /**
  * Unit tests for the VlcController class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
-  @InjectMocks
-  private VlcProcessController vlcProcessController;
+  @InjectMocks private VlcProcessController vlcProcessController;
 
   @BeforeEach
   public void beforeTest() {
@@ -35,9 +32,7 @@ public class VlcProcessControllerTest extends AbstractKameHouseSystemCommandCont
     mockMvc = MockMvcBuilders.standaloneSetup(vlcProcessController).build();
   }
 
-  /**
-   * Starts VLC player successful test.
-   */
+  /** Starts VLC player successful test. */
   @Test
   public void startVlcPlayerTest() throws Exception {
     execPostKameHouseSystemCommandTest(
@@ -45,38 +40,30 @@ public class VlcProcessControllerTest extends AbstractKameHouseSystemCommandCont
         VlcStartKameHouseSystemCommand.class);
   }
 
-  /**
-   * Starts vlc exception test.
-   */
+  /** Starts vlc exception test. */
   @Test
   public void startVlcExceptionTest() throws IOException, Exception {
     execPostInvalidKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc-process?file=invalid-file");
   }
 
-  /**
-   * Stops VLC player successful test.
-   */
+  /** Stops VLC player successful test. */
   @Test
   public void stopVlcPlayerTest() throws Exception {
-    execDeleteKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc-process",
-        VlcStopKameHouseSystemCommand.class);
+    execDeleteKameHouseSystemCommandTest(
+        "/api/v1/vlc-rc/vlc-process", VlcStopKameHouseSystemCommand.class);
   }
 
-  /**
-   * Stops VLC server error test.
-   */
+  /** Stops VLC server error test. */
   @Test
   public void stopVlcPlayerServerErrorTest() throws Exception {
-    execDeleteServerErrorKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc-process",
-        VlcStopKameHouseSystemCommand.class);
+    execDeleteServerErrorKameHouseSystemCommandTest(
+        "/api/v1/vlc-rc/vlc-process", VlcStopKameHouseSystemCommand.class);
   }
 
-  /**
-   * Gets the status of VLC successful test.
-   */
+  /** Gets the status of VLC successful test. */
   @Test
   public void statusVlcPlayerTest() throws Exception {
-    execGetKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc-process",
-        VlcStatusKameHouseSystemCommand.class);
+    execGetKameHouseSystemCommandTest(
+        "/api/v1/vlc-rc/vlc-process", VlcStatusKameHouseSystemCommand.class);
   }
 }

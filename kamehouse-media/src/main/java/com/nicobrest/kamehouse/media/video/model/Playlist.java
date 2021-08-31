@@ -1,18 +1,15 @@
 package com.nicobrest.kamehouse.media.video.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
 import java.util.List;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents a playlist file.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class Playlist implements Serializable, Comparable<Playlist> {
 
@@ -69,27 +66,28 @@ public class Playlist implements Serializable, Comparable<Playlist> {
   public int hashCode() {
     return new HashCodeBuilder().append(name).append(path).append(category).toHashCode();
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Playlist) {
       final Playlist other = (Playlist) obj;
-      return new EqualsBuilder().append(name, other.getName()).append(path, other.getPath())
-          .append(category, other.getCategory()).isEquals();
+      return new EqualsBuilder()
+          .append(name, other.getName())
+          .append(path, other.getPath())
+          .append(category, other.getCategory())
+          .isEquals();
     } else {
       return false;
     }
   }
-  
+
   @Override
   public String toString() {
-    String[] maskedFields = { "files" };
+    String[] maskedFields = {"files"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 
-  /**
-   * Compares playlists based on its compareTo implementation.
-   */
+  /** Compares playlists based on its compareTo implementation. */
   public static class Comparator implements java.util.Comparator<Playlist>, Serializable {
 
     private static final long serialVersionUID = 1L;

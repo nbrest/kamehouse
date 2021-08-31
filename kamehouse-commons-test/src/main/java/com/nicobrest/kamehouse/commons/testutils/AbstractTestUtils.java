@@ -3,15 +3,13 @@ package com.nicobrest.kamehouse.commons.testutils;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
-
 import java.io.InputStream;
 import java.util.List;
 
 /**
  * Abstract class to inherit by Test Utils classes.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
 
@@ -20,8 +18,8 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
   protected D testDataDto = null;
 
   /**
-   * Gets the input stream of the specified resource. Can be used to load files
-   * such as vlcrc/vlc-rc-status.json on test cases.
+   * Gets the input stream of the specified resource. Can be used to load files such as
+   * vlcrc/vlc-rc-status.json on test cases.
    */
   public static InputStream getInputStream(String resourceName) {
     ClassLoader classLoader = AbstractTestUtils.class.getClassLoader();

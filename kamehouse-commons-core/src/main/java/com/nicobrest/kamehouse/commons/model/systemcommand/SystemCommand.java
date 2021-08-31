@@ -2,18 +2,16 @@ package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Represents a command to execute as a system process. It's a single operation
- * executed through the command line.
- * 
- * @author nbrest
+ * Represents a command to execute as a system process. It's a single operation executed through the
+ * command line.
  *
+ * @author nbrest
  */
 public abstract class SystemCommand {
 
@@ -35,9 +33,7 @@ public abstract class SystemCommand {
     this.output = output;
   }
 
-  /**
-   * Gets the specified system command for the correct operating system.
-   */
+  /** Gets the specified system command for the correct operating system. */
   public List<String> getCommand() {
     if (PropertiesUtils.isWindowsHost()) {
       return windowsCommand;
@@ -54,9 +50,7 @@ public abstract class SystemCommand {
     output.setCommand(getCommand().toString());
   }
 
-  /**
-   * Get sleep time (in seconds) to sleep AFTER the command executes.
-   */
+  /** Get sleep time (in seconds) to sleep AFTER the command executes. */
   public int getSleepTime() {
     return sleepTime;
   }
@@ -65,10 +59,8 @@ public abstract class SystemCommand {
   public String toString() {
     return JsonUtils.toJsonString(this, super.toString());
   }
-  
-  /**
-   * Represents the output and status of an executed system command.
-   */
+
+  /** Represents the output and status of an executed system command. */
   public static class Output {
 
     private String command;
@@ -128,7 +120,11 @@ public abstract class SystemCommand {
 
     @Override
     public int hashCode() {
-      return new HashCodeBuilder().append(command).append(exitCode).append(pid).append(status)
+      return new HashCodeBuilder()
+          .append(command)
+          .append(exitCode)
+          .append(pid)
+          .append(status)
           .toHashCode();
     }
 
@@ -136,8 +132,11 @@ public abstract class SystemCommand {
     public boolean equals(final Object obj) {
       if (obj instanceof Output) {
         final Output other = (Output) obj;
-        return new EqualsBuilder().append(command, other.getCommand()).append(exitCode, other
-            .getExitCode()).append(pid, other.getPid()).append(status, other.getStatus())
+        return new EqualsBuilder()
+            .append(command, other.getCommand())
+            .append(exitCode, other.getExitCode())
+            .append(pid, other.getPid())
+            .append(status, other.getStatus())
             .isEquals();
       } else {
         return false;

@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to lock the screen.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class ScreenLockKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public ScreenLockKameHouseSystemCommand() {
     systemCommands.add(new ScreenLockSystemCommand());
   }

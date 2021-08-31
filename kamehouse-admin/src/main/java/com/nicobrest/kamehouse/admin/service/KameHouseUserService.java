@@ -12,22 +12,19 @@ import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.KameHouseUserValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Service layer to manage the users in KameHouse.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Service
 public class KameHouseUserService extends AbstractCrudService<KameHouseUser, KameHouseUserDto>

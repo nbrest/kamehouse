@@ -5,15 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Test data and common test methods to test VlcRcFileLists.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class VlcRcFileListTestUtils extends AbstractTestUtils<List<VlcRcFileListItem>, Object>
     implements TestUtils<List<VlcRcFileListItem>, Object> {
@@ -24,8 +22,8 @@ public class VlcRcFileListTestUtils extends AbstractTestUtils<List<VlcRcFileList
   }
 
   @Override
-  public void assertEqualsAllAttributes(List<VlcRcFileListItem> expected,
-      List<VlcRcFileListItem> returned) {
+  public void assertEqualsAllAttributes(
+      List<VlcRcFileListItem> expected, List<VlcRcFileListItem> returned) {
     assertEquals(expected, returned);
     if (expected != null && returned != null) {
       assertEquals(expected.size(), returned.size());

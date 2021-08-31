@@ -1,37 +1,31 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.util.List;
-
 /**
  * Utility class to generate and check hashed passwords.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class PasswordUtils {
-  
+
   private static final Logger LOGGER = LoggerFactory.getLogger(PasswordUtils.class);
   private static final int LOG_ROUNDS = 12;
 
   private PasswordUtils() {
     throw new IllegalStateException("Utility class");
   }
-  
-  /**
-   * Generates a hashed password from a plain text one.
-   */
-  public static String generateHashedPassword(String plainTextPassword) { 
+
+  /** Generates a hashed password from a plain text one. */
+  public static String generateHashedPassword(String plainTextPassword) {
     return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt(LOG_ROUNDS));
   }
-  
-  /**
-   * Checks if the plain text and hashed passwords match.
-   */
+
+  /** Checks if the plain text and hashed passwords match. */
   public static boolean isValidPassword(String plainTextPassword, String hashedPassword) {
     boolean isValidPassword = false;
     try {
@@ -43,11 +37,11 @@ public class PasswordUtils {
   }
 
   /**
-   * Unset the password from the identifiableUserEntity.
-   * This is usually called on the Controller layer to avoid returning passwords in the APIs.
+   * Unset the password from the identifiableUserEntity. This is usually called on the Controller
+   * layer to avoid returning passwords in the APIs.
    */
   public static <P> void unsetPassword(IdentifiablePasswordEntity<P> entity) {
-    //TODO check if there's a better generic way to do this than checking with instanceof
+    // TODO check if there's a better generic way to do this than checking with instanceof
     if (entity != null) {
       if (entity.getPassword() instanceof byte[]) {
         entity.setPassword((P) new byte[0]);
@@ -57,9 +51,7 @@ public class PasswordUtils {
     }
   }
 
-  /**
-   * Unset the password from the list of entities.
-   */
+  /** Unset the password from the list of entities. */
   public static <T> void unsetPassword(List<T> entities) {
     if (entities == null) {
       return;

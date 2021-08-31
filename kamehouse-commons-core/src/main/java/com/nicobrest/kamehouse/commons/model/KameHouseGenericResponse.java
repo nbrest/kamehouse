@@ -1,14 +1,12 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import java.util.Objects;
 
 /**
  * Generic response to return by APIs when only a simple message needs to be returned.
  *
  * @author nbrest
- *
  */
 public class KameHouseGenericResponse {
 

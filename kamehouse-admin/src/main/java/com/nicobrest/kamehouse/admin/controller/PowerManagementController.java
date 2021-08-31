@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandControlle
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,37 +17,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 /**
  * Controller class for the power management commands.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Controller
 @RequestMapping(value = "/api/v1/admin/power-management")
 public class PowerManagementController extends AbstractSystemCommandController {
 
-  @Autowired
-  PowerManagementService powerManagementService;
+  @Autowired PowerManagementService powerManagementService;
 
-  /**
-   * Shutdowns the local server with the specified delay in seconds.
-   */
+  /** Shutdowns the local server with the specified delay in seconds. */
   @PostMapping(path = "/shutdown")
   @ResponseBody
-  public ResponseEntity<KameHouseGenericResponse>
-      setShutdown(@RequestParam(value = "delay", required = true) Integer delay) {
+  public ResponseEntity<KameHouseGenericResponse> setShutdown(
+      @RequestParam(value = "delay", required = true) Integer delay) {
     powerManagementService.scheduleShutdown(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage("Scheduled shutdown at the specified delay of " + delay + " seconds");
     return generatePostResponseEntity(response);
   }
 
-  /**
-   * Gets the status of a shutdown command.
-   */
+  /** Gets the status of a shutdown command. */
   @GetMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
@@ -56,9 +49,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generateGetResponseEntity(response);
   }
 
-  /**
-   * Cancels a shutdown command.
-   */
+  /** Cancels a shutdown command. */
   @DeleteMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {
@@ -69,22 +60,20 @@ public class PowerManagementController extends AbstractSystemCommandController {
   }
 
   /**
-   * Schedule a job to suspend the server. Executed through a scheduled job because the
-   * suspend command doesn't natively support scheduling/delay in windows.
+   * Schedule a job to suspend the server. Executed through a scheduled job because the suspend
+   * command doesn't natively support scheduling/delay in windows.
    */
   @PostMapping(path = "/suspend")
   @ResponseBody
-  public ResponseEntity<KameHouseGenericResponse>
-      setSuspend(@RequestParam(value = "delay", required = true) Integer delay) {
+  public ResponseEntity<KameHouseGenericResponse> setSuspend(
+      @RequestParam(value = "delay", required = true) Integer delay) {
     powerManagementService.scheduleSuspend(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage("Scheduled suspend at the specified delay of " + delay + " seconds");
     return generatePostResponseEntity(response);
   }
 
-  /**
-   * Gets the status of a scheduled suspend.
-   */
+  /** Gets the status of a scheduled suspend. */
   @GetMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> getSuspend() {
@@ -94,9 +83,7 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generateGetResponseEntity(response);
   }
 
-  /**
-   * Cancel a scheduled suspend.
-   */
+  /** Cancel a scheduled suspend. */
   @DeleteMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelSuspend() {
@@ -106,18 +93,14 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generateGetResponseEntity(response);
   }
 
-  /**
-   * Reboot the server.
-   */
+  /** Reboot the server. */
   @PostMapping(path = "/reboot")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> reboot() {
     return execKameHouseSystemCommand(new RebootKameHouseSystemCommand());
   }
 
-  /**
-   * Wake on lan the specified server or mac address.
-   */
+  /** Wake on lan the specified server or mac address. */
   @PostMapping(path = "/wol")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> wakeOnLan(

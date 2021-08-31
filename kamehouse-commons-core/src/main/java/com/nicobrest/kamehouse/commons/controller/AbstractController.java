@@ -1,19 +1,16 @@
 package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
-
 import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 /**
- * Superclass to all controllers that groups common functionality to all of
- * them.
+ * Superclass to all controllers that groups common functionality to all of them.
  *
  * @author nbrest
  */
@@ -26,39 +23,29 @@ public abstract class AbstractController {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   private static final String RESPONSE_ENTITY = "Response {}";
   private static final String ENTITY_NOT_FOUND = "Empty response. Entity not found.";
-  
-  /**
-   * Generates a standard response entity for get requests.
-   */
+
+  /** Generates a standard response entity for get requests. */
   protected static <T> ResponseEntity<T> generateGetResponseEntity(T entity, boolean logResponse) {
     return generateStandardResponseEntity(entity, logResponse);
   }
 
-  /**
-   * Generates a standard response entity for get requests.
-   */
+  /** Generates a standard response entity for get requests. */
   protected static <T> ResponseEntity<T> generateGetResponseEntity(T entity) {
     return generateStandardResponseEntity(entity);
   }
 
-  /**
-   * Generates a standard response entity for delete requests.
-   */
+  /** Generates a standard response entity for delete requests. */
   protected static <T> ResponseEntity<T> generateDeleteResponseEntity(T entity) {
     return generateStandardResponseEntity(entity);
   }
 
-  /**
-   * Generates a standard EMPTY response entity for put requests.
-   */
+  /** Generates a standard EMPTY response entity for put requests. */
   protected static ResponseEntity<Void> generatePutResponseEntity() {
     STATIC_LOGGER.trace("PUT operation executed successfully");
     return EMPTY_SUCCESS_RESPONSE;
   }
 
-  /**
-   * Generates a standard response entity for put requests that expect a response body.
-   */
+  /** Generates a standard response entity for put requests that expect a response body. */
   protected static <T> ResponseEntity<T> generatePutResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
@@ -71,9 +58,7 @@ public abstract class AbstractController {
     return responseEntity;
   }
 
-  /**
-   * Generates a standard response entity for post requests.
-   */
+  /** Generates a standard response entity for post requests. */
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity, boolean logResponse) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
@@ -90,20 +75,16 @@ public abstract class AbstractController {
     return responseEntity;
   }
 
-  /**
-   * Generates a standard response entity for post requests logging the response.
-   */
+  /** Generates a standard response entity for post requests logging the response. */
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity) {
     return generatePostResponseEntity(entity, true);
   }
 
-  /**
-   * Removes the password from the entity of the response body.
-   */
+  /** Removes the password from the entity of the response body. */
   protected static <T> ResponseEntity<T> generatePasswordLessResponseEntity(
       ResponseEntity<T> responseEntity) {
     T responseBody = responseEntity.getBody();
-    //TODO check if there's a better generic way to do this than checking with instanceof
+    // TODO check if there's a better generic way to do this than checking with instanceof
     if (responseBody instanceof IdentifiablePasswordEntity) {
       PasswordUtils.unsetPassword((IdentifiablePasswordEntity) responseBody);
     }
@@ -114,8 +95,8 @@ public abstract class AbstractController {
   }
 
   /**
-   * Checks that the id in the path of the url matches the id of the request body.
-   * This is to avoid updating a wrong entity if they don't match.
+   * Checks that the id in the path of the url matches the id of the request body. This is to avoid
+   * updating a wrong entity if they don't match.
    */
   protected static void validatePathAndRequestBodyIds(Long pathId, Long requestBodyId) {
     if (pathId == null) {
@@ -124,19 +105,19 @@ public abstract class AbstractController {
       throw new KameHouseBadRequestException(errorMessage);
     }
     if (!pathId.equals(requestBodyId)) {
-      String errorMessage = "Id in path " + pathId
-          + " doesn't match id in request body " + requestBodyId;
+      String errorMessage =
+          "Id in path " + pathId + " doesn't match id in request body " + requestBodyId;
       STATIC_LOGGER.error(errorMessage);
       throw new KameHouseBadRequestException(errorMessage);
     }
   }
 
   /**
-   * Generates a standard response entity with the entity parameter as a body and
-   * 200 return code and a 404 with empty body if the entity is null.
+   * Generates a standard response entity with the entity parameter as a body and 200 return code
+   * and a 404 with empty body if the entity is null.
    */
-  private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity,
-                                                                      boolean logResponse) {
+  private static <T> ResponseEntity<T> generateStandardResponseEntity(
+      T entity, boolean logResponse) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
       if (logResponse) {
@@ -152,9 +133,7 @@ public abstract class AbstractController {
     return responseEntity;
   }
 
-  /**
-   * Generate a standard response entity logging the response.
-   */
+  /** Generate a standard response entity logging the response. */
   private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity) {
     return generateStandardResponseEntity(entity, true);
   }

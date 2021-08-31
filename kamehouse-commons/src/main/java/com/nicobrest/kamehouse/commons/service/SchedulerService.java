@@ -3,6 +3,9 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -13,10 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Service to execute scheduler commands.
  *
@@ -26,47 +25,40 @@ import java.util.Set;
 public class SchedulerService {
 
   private static final Logger logger = LoggerFactory.getLogger(SchedulerService.class);
-  private static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
-      + "trigger will never fire";
+  private static final String TRIGGER_WONT_FIRE =
+      "Based on configured schedule, the given " + "trigger will never fire";
   private static final String TRIGGER = "-trigger";
 
-  @Autowired
-  private Scheduler scheduler;
+  @Autowired private Scheduler scheduler;
 
-  /**
-   * Getters and Setters.
-   */
+  /** Getters and Setters. */
   public void setScheduler(Scheduler scheduler) {
     this.scheduler = scheduler;
   }
 
-  /**
-   * Schedule a job based on the supplied delay.
-   */
+  /** Schedule a job based on the supplied delay. */
   public void scheduleJob(JobKey jobKey, Integer delay) {
     try {
       JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-      Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + TRIGGER,
-          jobKey.getName() + TRIGGER);
+      Trigger trigger =
+          SchedulerUtils.getTrigger(
+              delay, jobDetail, jobKey.getName() + TRIGGER, jobKey.getName() + TRIGGER);
       scheduleJob(trigger);
     } catch (SchedulerException e) {
       throw new KameHouseServerErrorException(e.getMessage(), e);
     }
   }
 
-  /**
-   * Schedule a job based on the supplied delay.
-   */
+  /** Schedule a job based on the supplied delay. */
   public void scheduleJob(JobDetail jobDetail, Integer delay) {
     JobKey jobKey = jobDetail.getKey();
-    Trigger trigger = SchedulerUtils.getTrigger(delay, jobDetail, jobKey.getName() + TRIGGER,
-        jobKey.getName() + TRIGGER);
+    Trigger trigger =
+        SchedulerUtils.getTrigger(
+            delay, jobDetail, jobKey.getName() + TRIGGER, jobKey.getName() + TRIGGER);
     scheduleJob(trigger);
   }
 
-  /**
-   * Schedule a job based on it's supplied trigger.
-   */
+  /** Schedule a job based on it's supplied trigger. */
   public void scheduleJob(Trigger trigger) {
     try {
       if (scheduler.checkExists(trigger.getKey())) {
@@ -74,8 +66,11 @@ public class SchedulerService {
       } else {
         scheduler.scheduleJob(trigger);
       }
-      logger.debug("Scheduling the job {} based on the trigger {}. Next run at {}",
-          trigger.getJobKey(), trigger.getKey(), trigger.getNextFireTime());
+      logger.debug(
+          "Scheduling the job {} based on the trigger {}. Next run at {}",
+          trigger.getJobKey(),
+          trigger.getKey(),
+          trigger.getNextFireTime());
     } catch (SchedulerException e) {
       if (e.getMessage() != null && e.getMessage().contains(TRIGGER_WONT_FIRE)) {
         logger.debug(e.getMessage());
@@ -85,14 +80,12 @@ public class SchedulerService {
     }
   }
 
-  /**
-   * Get the status of all jobs in the system with their triggers.
-   */
+  /** Get the status of all jobs in the system with their triggers. */
   public List<KameHouseJob> getAllJobsStatus() {
     try {
       List<KameHouseJob> jobs = new ArrayList<>();
       Set<JobKey> jobKeySet = scheduler.getJobKeys(null);
-      for (JobKey jobKey: jobKeySet) {
+      for (JobKey jobKey : jobKeySet) {
         KameHouseJob kamehouseJob = new KameHouseJob();
         JobDetail jobDetail = scheduler.getJobDetail(jobKey);
         kamehouseJob.setKey(new KameHouseJob.Key(jobKey.getGroup(), jobKey.getName()));
@@ -104,8 +97,8 @@ public class SchedulerService {
           List<KameHouseJob.Schedule> schedules = kamehouseJob.getSchedules();
           for (Trigger trigger : triggers) {
             KameHouseJob.Schedule schedule = new KameHouseJob.Schedule();
-            KameHouseJob.Key triggerKey = new KameHouseJob.Key(trigger.getKey().getGroup(),
-                trigger.getKey().getName());
+            KameHouseJob.Key triggerKey =
+                new KameHouseJob.Key(trigger.getKey().getGroup(), trigger.getKey().getName());
             schedule.setKey(triggerKey);
             schedule.setDescription(trigger.getDescription());
             schedule.setNextRun(trigger.getNextFireTime());
@@ -122,9 +115,7 @@ public class SchedulerService {
     }
   }
 
-  /**
-   * Cancel a current scheduled job.
-   */
+  /** Cancel a current scheduled job. */
   public void cancelScheduledJob(JobKey jobKey) {
     try {
       List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);

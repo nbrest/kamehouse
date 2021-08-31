@@ -1,13 +1,12 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import java.util.Date;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobDetail;
 import org.quartz.ScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
-
-import java.util.Date;
 
 /**
  * Utility class for Scheduler functionality.
@@ -20,11 +19,9 @@ public class SchedulerUtils {
     throw new IllegalStateException("Utility class");
   }
 
-  /**
-   * Creates a trigger for the specified delay in seconds and JobDetail.
-   */
-  public static Trigger getTrigger(int delay, JobDetail jobDetail, String triggerName,
-                                   String triggerDescription) {
+  /** Creates a trigger for the specified delay in seconds and JobDetail. */
+  public static Trigger getTrigger(
+      int delay, JobDetail jobDetail, String triggerName, String triggerDescription) {
     Date currentDate = DateUtils.getCurrentDate();
     Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
     String cronExpression = DateUtils.toCronExpression(scheduleDate);

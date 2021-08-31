@@ -6,37 +6,47 @@ import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-
 import java.util.Arrays;
 
 /**
  * Base class for VncDo system commands.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public abstract class VncDoSystemCommand extends SystemCommand {
 
-  /**
-   * Sets a VncDo system command that is specified by an action and a parameter.
-   */
+  /** Sets a VncDo system command that is specified by an action and a parameter. */
   protected void setVncDoSystemCommand(String action, String parameter) {
     String hostname = PropertiesUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
-    String vncDoCommandLinux = "/usr/local/bin/vncdo --server " + hostname + " --password "
-        + vncServerPassword + " " + action + " " + parameter;
+    String vncDoCommandLinux =
+        "/usr/local/bin/vncdo --server "
+            + hostname
+            + " --password "
+            + vncServerPassword
+            + " "
+            + action
+            + " "
+            + parameter;
     linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", vncDoCommandLinux));
-    windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "vncdo", "--server", hostname,
-        "--password", vncServerPassword, action, parameter));
+    windowsCommand.addAll(
+        Arrays.asList(
+            "cmd.exe",
+            "/c",
+            "vncdo",
+            "--server",
+            hostname,
+            "--password",
+            vncServerPassword,
+            action,
+            parameter));
     setOutputCommand();
   }
 
-  /**
-   * Gets the vnc server password from a file.
-   */
+  /** Gets the vnc server password from a file. */
   protected String getVncServerPassword() {
-    String vncServerPwdFile = PropertiesUtils.getUserHome() + "/" + PropertiesUtils
-        .getProperty("vnc.server.pwd.file");
+    String vncServerPwdFile =
+        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("vnc.server.pwd.file");
     try {
       String decryptedFile = EncryptionUtils.decryptKameHouseFileToString(vncServerPwdFile);
       if (StringUtils.isEmpty(decryptedFile)) {
@@ -49,9 +59,8 @@ public abstract class VncDoSystemCommand extends SystemCommand {
   }
 
   /**
-   * Hide the output of vncdo commands, as it contains passwords.
-   * Call this method in the constructor of <b>EVERY</b> concrete subclass,
-   * after initializing the command lists.
+   * Hide the output of vncdo commands, as it contains passwords. Call this method in the
+   * constructor of <b>EVERY</b> concrete subclass, after initializing the command lists.
    */
   @Override
   protected void setOutputCommand() {
@@ -60,7 +69,7 @@ public abstract class VncDoSystemCommand extends SystemCommand {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "linuxCommand", "windowsCommand" };
+    String[] maskedFields = {"linuxCommand", "windowsCommand"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

@@ -8,7 +8,6 @@ import com.nicobrest.kamehouse.commons.dao.KameHouseUserAuthenticationDao;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,15 +25,11 @@ public class KameHouseUserAuthenticationServiceTest
 
   private KameHouseUser kameHouseUser;
 
-  @InjectMocks
-  private KameHouseUserAuthenticationService kameHouseUserService;
+  @InjectMocks private KameHouseUserAuthenticationService kameHouseUserService;
 
-  @Mock
-  private KameHouseUserAuthenticationDao kameHouseUserDaoMock;
+  @Mock private KameHouseUserAuthenticationDao kameHouseUserDaoMock;
 
-  /**
-   * Resets mock objects and initializes test repository.
-   */
+  /** Resets mock objects and initializes test repository. */
   @BeforeEach
   public void beforeTest() {
     testUtils = new KameHouseUserTestUtils();
@@ -45,10 +40,7 @@ public class KameHouseUserAuthenticationServiceTest
     Mockito.reset(kameHouseUserDaoMock);
   }
 
-  /**
-   * Tests calling the service to get a single KameHouseUser in the repository
-   * by username.
-   */
+  /** Tests calling the service to get a single KameHouseUser in the repository by username. */
   @Test
   public void loadUserByUsernameTest() {
     when(kameHouseUserDaoMock.loadUserByUsername(kameHouseUser.getUsername()))

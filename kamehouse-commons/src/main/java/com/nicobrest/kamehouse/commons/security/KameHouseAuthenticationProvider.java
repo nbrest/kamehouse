@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.security;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,23 +12,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-
 /**
  * Custom AuthenticationProvider for the application that uses the
  * kameHouseUserAuthenticationService to get the kamehouse users from the repository.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Component
 public class KameHouseAuthenticationProvider implements AuthenticationProvider {
 
-  @Autowired
-  private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
+  @Autowired private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
-  public void setKameHouseUserAuthenticationService(KameHouseUserAuthenticationService
-                                                        kameHouseUserAuthenticationService) {
+  public void setKameHouseUserAuthenticationService(
+      KameHouseUserAuthenticationService kameHouseUserAuthenticationService) {
     this.kameHouseUserAuthenticationService = kameHouseUserAuthenticationService;
   }
 

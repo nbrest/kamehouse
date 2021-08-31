@@ -8,17 +8,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdRestartKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdStatusKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.RebootKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.ShutdownKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
 import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
-
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,20 +30,17 @@ import org.springframework.web.util.NestedServletException;
 
 /**
  * Unit tests for PowerManagementController class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class PowerManagementControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
-  @InjectMocks
-  private PowerManagementController powerManagementController;
+  @InjectMocks private PowerManagementController powerManagementController;
 
-  @Mock
-  protected PowerManagementService powerManagementService;
+  @Mock protected PowerManagementService powerManagementService;
 
   @BeforeEach
   public void beforeTest() {
@@ -56,195 +48,183 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
     mockMvc = MockMvcBuilders.standaloneSetup(powerManagementController).build();
   }
 
-  /**
-   * Sets shutdown successful test.
-   */
+  /** Sets shutdown successful test. */
   @Test
   public void setShutdownTest() throws Exception {
     MockHttpServletResponse response = doPost("/api/v1/admin/power-management/shutdown?delay=5400");
-    KameHouseGenericResponse responseBody = getResponseBody(response,
-        KameHouseGenericResponse.class);
+    KameHouseGenericResponse responseBody =
+        getResponseBody(response, KameHouseGenericResponse.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
-    assertEquals("Scheduled shutdown at the specified delay of 5400 seconds", responseBody.getMessage());
+    assertEquals(
+        "Scheduled shutdown at the specified delay of 5400 seconds", responseBody.getMessage());
     verify(powerManagementService, times(1)).scheduleShutdown(Mockito.anyInt());
   }
 
-  /**
-   * Sets shutdown exception test.
-   */
-
+  /** Sets shutdown exception test. */
   @Test
   public void setShutdownExceptionTest() throws Exception {
-    assertThrows(NestedServletException.class, () -> {
-      Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified")).when(powerManagementService)
-          .scheduleShutdown(59);
+    assertThrows(
+        NestedServletException.class,
+        () -> {
+          Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified"))
+              .when(powerManagementService)
+              .scheduleShutdown(59);
 
-      doPost("/api/v1/admin/power-management/shutdown?delay=59");
-    });
+          doPost("/api/v1/admin/power-management/shutdown?delay=59");
+        });
   }
 
-  /**
-   * Cancels shutdown successful test.
-   */
+  /** Cancels shutdown successful test. */
   @Test
   public void cancelShutdownTest() throws Exception {
     when(powerManagementService.cancelScheduledShutdown()).thenReturn("Shutdown cancelled");
 
     MockHttpServletResponse response = doDelete("/api/v1/admin/power-management/shutdown");
-    KameHouseGenericResponse responseBody = getResponseBody(response,
-        KameHouseGenericResponse.class);
+    KameHouseGenericResponse responseBody =
+        getResponseBody(response, KameHouseGenericResponse.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("Shutdown cancelled", responseBody.getMessage());
     verify(powerManagementService, times(1)).cancelScheduledShutdown();
   }
 
-  /**
-   * Cancels shutdown server error test.
-   */
+  /** Cancels shutdown server error test. */
   @Test
   public void cancelShutdownServerErrorTest() throws Exception {
-    assertThrows(NestedServletException.class, () -> {
-      Mockito.doThrow(new KameHouseServerErrorException("")).when(powerManagementService)
-          .cancelScheduledShutdown();
+    assertThrows(
+        NestedServletException.class,
+        () -> {
+          Mockito.doThrow(new KameHouseServerErrorException(""))
+              .when(powerManagementService)
+              .cancelScheduledShutdown();
 
-      doDelete("/api/v1/admin/power-management/shutdown");
-    });
+          doDelete("/api/v1/admin/power-management/shutdown");
+        });
   }
 
-  /**
-   * Shutdowns status successful test.
-   */
+  /** Shutdowns status successful test. */
   @Test
   public void statusShutdownTest() throws Exception {
     when(powerManagementService.getShutdownStatus()).thenReturn("Shutdown not scheduled");
 
     MockHttpServletResponse response = doGet("/api/v1/admin/power-management/shutdown");
-    KameHouseGenericResponse responseBody = getResponseBody(response,
-        KameHouseGenericResponse.class);
+    KameHouseGenericResponse responseBody =
+        getResponseBody(response, KameHouseGenericResponse.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("Shutdown not scheduled", responseBody.getMessage());
     verify(powerManagementService, times(1)).getShutdownStatus();
   }
 
-  /**
-   * Sets suspend successful test.
-   */
+  /** Sets suspend successful test. */
   @Test
   public void setSuspendTest() throws Exception {
     MockHttpServletResponse response = doPost("/api/v1/admin/power-management/suspend?delay=5400");
-    KameHouseGenericResponse responseBody = getResponseBody(response,
-        KameHouseGenericResponse.class);
+    KameHouseGenericResponse responseBody =
+        getResponseBody(response, KameHouseGenericResponse.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
-    assertEquals("Scheduled suspend at the specified delay of 5400 seconds", responseBody.getMessage());
+    assertEquals(
+        "Scheduled suspend at the specified delay of 5400 seconds", responseBody.getMessage());
     verify(powerManagementService, times(1)).scheduleSuspend(Mockito.anyInt());
   }
 
-  /**
-   * Sets suspend exception test.
-   */
-
+  /** Sets suspend exception test. */
   @Test
   public void setSuspendExceptionTest() throws Exception {
-    assertThrows(NestedServletException.class, () -> {
-      Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified")).when(powerManagementService)
-          .scheduleSuspend(-1);
+    assertThrows(
+        NestedServletException.class,
+        () -> {
+          Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified"))
+              .when(powerManagementService)
+              .scheduleSuspend(-1);
 
-      doPost("/api/v1/admin/power-management/suspend?delay=-1");
-    });
+          doPost("/api/v1/admin/power-management/suspend?delay=-1");
+        });
   }
 
-  /**
-   * Cancels suspend successful test.
-   */
+  /** Cancels suspend successful test. */
   @Test
   public void cancelSuspendTest() throws Exception {
     when(powerManagementService.cancelScheduledSuspend()).thenReturn("Suspend cancelled");
 
     MockHttpServletResponse response = doDelete("/api/v1/admin/power-management/suspend");
-    KameHouseGenericResponse responseBody = getResponseBody(response,
-        KameHouseGenericResponse.class);
+    KameHouseGenericResponse responseBody =
+        getResponseBody(response, KameHouseGenericResponse.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("Suspend cancelled", responseBody.getMessage());
     verify(powerManagementService, times(1)).cancelScheduledSuspend();
   }
 
-  /**
-   * Cancels suspend server error test.
-   */
+  /** Cancels suspend server error test. */
   @Test
   public void cancelSuspendServerErrorTest() throws Exception {
-    assertThrows(NestedServletException.class, () -> {
-      Mockito.doThrow(new KameHouseServerErrorException("")).when(powerManagementService)
-          .cancelScheduledSuspend();
+    assertThrows(
+        NestedServletException.class,
+        () -> {
+          Mockito.doThrow(new KameHouseServerErrorException(""))
+              .when(powerManagementService)
+              .cancelScheduledSuspend();
 
-      doDelete("/api/v1/admin/power-management/suspend");
-    });
+          doDelete("/api/v1/admin/power-management/suspend");
+        });
   }
 
-  /**
-   * Suspend status successful test.
-   */
+  /** Suspend status successful test. */
   @Test
   public void statusSuspendTest() throws Exception {
     when(powerManagementService.getSuspendStatus()).thenReturn("Suspend not scheduled");
 
     MockHttpServletResponse response = doGet("/api/v1/admin/power-management/suspend");
-    KameHouseGenericResponse responseBody = getResponseBody(response,
-        KameHouseGenericResponse.class);
+    KameHouseGenericResponse responseBody =
+        getResponseBody(response, KameHouseGenericResponse.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("Suspend not scheduled", responseBody.getMessage());
     verify(powerManagementService, times(1)).getSuspendStatus();
   }
 
-  /**
-   * reboot server successful test.
-   */
+  /** reboot server successful test. */
   @Test
   public void rebootSuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest("/api/v1/admin/power-management/reboot",
-        RebootKameHouseSystemCommand.class);
+    execPostKameHouseSystemCommandTest(
+        "/api/v1/admin/power-management/reboot", RebootKameHouseSystemCommand.class);
   }
 
-  /**
-   * WOL server successful test.
-   */
+  /** WOL server successful test. */
   @Test
   public void wolServerTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString(), anyString());
 
-    MockHttpServletResponse response = doPost("/api/v1/admin/power-management/wol"
-        + "?server=media.server");
+    MockHttpServletResponse response =
+        doPost("/api/v1/admin/power-management/wol" + "?server=media.server");
 
     assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }
 
-  /**
-   * WOL mac and broadcast successful test.
-   */
+  /** WOL mac and broadcast successful test. */
   @Test
   public void wolMacAndBroadcastTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString(), anyString());
 
-    MockHttpServletResponse response = doPost("/api/v1/admin/power-management/wol"
-       + "?mac=AA:BB:CC:DD:EE:FF&broadcast=192.168.0.255");
+    MockHttpServletResponse response =
+        doPost(
+            "/api/v1/admin/power-management/wol"
+                + "?mac=AA:BB:CC:DD:EE:FF&broadcast=192.168.0.255");
 
     assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }
 
-  /**
-   * WOL invalid request test.
-   */
+  /** WOL invalid request test. */
   @Test
   public void wolInvalidRequestTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString());
-    assertThrows(NestedServletException.class, () -> {
-      doPost("/api/v1/admin/power-management/wol");
-    });
+    assertThrows(
+        NestedServletException.class,
+        () -> {
+          doPost("/api/v1/admin/power-management/wol");
+        });
   }
 }

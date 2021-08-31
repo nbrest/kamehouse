@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.web.filter;
 
 import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,31 +14,26 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 /**
  * Test class for the AddSecurityContextFilter.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class AddSecurityContextFilterTest {
 
-  @Mock
-  private AddSecurityContextFilter addSecurityContextFilter;
+  @Mock private AddSecurityContextFilter addSecurityContextFilter;
 
   @BeforeEach
   public void init() {
     MockitoAnnotations.openMocks(this);
   }
 
-  /**
-   * Tests the filter to add the logged in username on each request as a
-   * parameter.
-   */
+  /** Tests the filter to add the logged in username on each request as a parameter. */
   @Test
   public void doFilterTest() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
     MockFilterChain chain = new MockFilterChain();
-    AddSecurityContextFilter addSecurityContextFilterSpy = Mockito.spy(
-        new AddSecurityContextFilter());
+    AddSecurityContextFilter addSecurityContextFilterSpy =
+        Mockito.spy(new AddSecurityContextFilter());
     when(addSecurityContextFilterSpy.getAuthentication())
         .thenReturn(new UsernamePasswordAuthenticationToken("goku", "gohan"));
 

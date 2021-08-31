@@ -9,7 +9,11 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,29 +29,20 @@ import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.quartz.impl.JobDetailImpl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Unit tests for the SchedulerService class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class SchedulerServiceTest {
 
-  @InjectMocks
-  private SchedulerService schedulerService;
+  @InjectMocks private SchedulerService schedulerService;
 
   @Mock(name = "scheduler")
   private Scheduler scheduler;
 
-
   @BeforeEach
-  public void before()  {
+  public void before() {
     MockitoAnnotations.openMocks(this);
     try {
       Set<JobKey> jobKeySet = new HashSet<>();
@@ -68,9 +63,7 @@ public class SchedulerServiceTest {
     }
   }
 
-  /**
-   * Get all jobs status successful test.
-   */
+  /** Get all jobs status successful test. */
   @Test
   public void getAllJobsStatusSuccessTest() {
     KameHouseJob expectedKameHouseJob = new KameHouseJob();
@@ -87,7 +80,7 @@ public class SchedulerServiceTest {
     jobKey.setName("sampleJob");
     jobKey.setGroup("DEFAULT");
     expectedKameHouseJob.setKey(jobKey);
-    expectedKameHouseJob.setSchedules(Arrays.asList(new KameHouseJob.Schedule[]{schedule}));
+    expectedKameHouseJob.setSchedules(Arrays.asList(new KameHouseJob.Schedule[] {schedule}));
 
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();
     assertEquals(1, jobs.size());
@@ -101,13 +94,11 @@ public class SchedulerServiceTest {
     assertEquals(expectedKameHouseJob.getKey().hashCode(), returnedJob.getKey().hashCode());
 
     assertEquals(expectedKameHouseJob.getSchedules(), returnedJob.getSchedules());
-    assertEquals(expectedKameHouseJob.getSchedules().hashCode(),
-        returnedJob.getSchedules().hashCode());
+    assertEquals(
+        expectedKameHouseJob.getSchedules().hashCode(), returnedJob.getSchedules().hashCode());
   }
 
-  /**
-   * Cancel scheduled job successful test.
-   */
+  /** Cancel scheduled job successful test. */
   @Test
   public void cancelScheduledJobSuccessTest() throws SchedulerException {
     when(scheduler.unscheduleJob(any())).thenReturn(true);
@@ -117,9 +108,7 @@ public class SchedulerServiceTest {
     // no exception thrown
   }
 
-  /**
-   * Schedule job successful test.
-   */
+  /** Schedule job successful test. */
   @Test
   public void scheduleJobSuccessTest() {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
@@ -132,9 +121,7 @@ public class SchedulerServiceTest {
     // no exception thrown
   }
 
-  /**
-   * Schedule job successful test.
-   */
+  /** Schedule job successful test. */
   @Test
   public void scheduleJobJobKeySuccessTest() {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
@@ -143,37 +130,35 @@ public class SchedulerServiceTest {
     // no exception thrown
   }
 
-  /**
-   * Schedule job exception flow test.
-   */
+  /** Schedule job exception flow test. */
   @Test
   public void scheduleJobJobKeyExceptionTest() throws SchedulerException {
-    assertThrows(KameHouseServerErrorException.class, () -> {
-      when(scheduler.scheduleJob(any(Trigger.class))).thenThrow(new SchedulerException("mada"));
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          when(scheduler.scheduleJob(any(Trigger.class))).thenThrow(new SchedulerException("mada"));
 
-      JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
+          JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
 
-      schedulerService.scheduleJob(jobKey, 2);
-    });
+          schedulerService.scheduleJob(jobKey, 2);
+        });
   }
 
-  /**
-   * Schedule job exception flow test.
-   */
+  /** Schedule job exception flow test. */
   @Test
   public void scheduleJobGetJobDetailExceptionTest() throws SchedulerException {
-    assertThrows(KameHouseServerErrorException.class, () -> {
-      when(scheduler.getJobDetail(any())).thenThrow(new SchedulerException("mada"));
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          when(scheduler.getJobDetail(any())).thenThrow(new SchedulerException("mada"));
 
-      JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
+          JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
 
-      schedulerService.scheduleJob(jobKey, 2);
-    });
+          schedulerService.scheduleJob(jobKey, 2);
+        });
   }
 
-  /**
-   * Reschedule job successful test.
-   */
+  /** Reschedule job successful test. */
   @Test
   public void rescheduleJobSuccessTest() throws SchedulerException {
     when(scheduler.checkExists(any(TriggerKey.class))).thenReturn(true);
@@ -187,17 +172,10 @@ public class SchedulerServiceTest {
     // no exception thrown
   }
 
-
-  /**
-   * Dummy sample job test class for unit tests.
-   */
+  /** Dummy sample job test class for unit tests. */
   public class SampleTestJob implements Job {
 
-    /**
-     * Dummy sample execute method for unit tests.
-     */
-    public void execute(JobExecutionContext context) {
-
-    }
+    /** Dummy sample execute method for unit tests. */
+    public void execute(JobExecutionContext context) {}
   }
 }

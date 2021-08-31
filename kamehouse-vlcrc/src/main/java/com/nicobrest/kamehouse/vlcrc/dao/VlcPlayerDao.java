@@ -5,14 +5,11 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 
 /**
  * DAO layer to manage registered VLC Players in the application.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public interface VlcPlayerDao extends CrudDao<VlcPlayer> {
 
-  /**
-   * Gets a VLC Player by hostname.
-   */
+  /** Gets a VLC Player by hostname. */
   public VlcPlayer getByHostname(String hostname);
 }

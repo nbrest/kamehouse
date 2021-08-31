@@ -8,24 +8,19 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-
-import org.mockito.Mockito;
-
 import java.util.List;
+import org.mockito.Mockito;
 
 /**
  * Abstract class to group test functionality for all CRUD services.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public abstract class AbstractCrudServiceTest<E, D> {
 
   protected TestUtils<E, D> testUtils;
-  
-  /**
-   * Creates entity test.
-   */
+
+  /** Creates entity test. */
   protected void createTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
@@ -37,12 +32,10 @@ public abstract class AbstractCrudServiceTest<E, D> {
     assertEquals(identifiableEntity.getId(), returnedId);
     verify(dao, times(1)).create(entity);
   }
-  
-  /**
-   * Reads entity test.
-   */
+
+  /** Reads entity test. */
   protected void readTest(CrudService<E, D> service, CrudDao<E> dao) {
-    E entity = testUtils.getSingleTestData(); 
+    E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
     when(dao.read(identifiableEntity.getId())).thenReturn(entity);
 
@@ -51,10 +44,8 @@ public abstract class AbstractCrudServiceTest<E, D> {
     testUtils.assertEqualsAllAttributes(entity, returnedEntity);
     verify(dao, times(1)).read(identifiableEntity.getId());
   }
-  
-  /**
-   * Reads all entities test.
-   */
+
+  /** Reads all entities test. */
   public void readAllTest(CrudService<E, D> service, CrudDao<E> dao) {
     List<E> entityList = testUtils.getTestDataList();
     when(dao.readAll()).thenReturn(entityList);
@@ -64,10 +55,8 @@ public abstract class AbstractCrudServiceTest<E, D> {
     testUtils.assertEqualsAllAttributesList(entityList, returnedList);
     verify(dao, times(1)).readAll();
   }
-  
-  /**
-   * Updates entity test.
-   */
+
+  /** Updates entity test. */
   public void updateTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
@@ -77,10 +66,8 @@ public abstract class AbstractCrudServiceTest<E, D> {
 
     verify(dao, times(1)).update(entity);
   }
-  
-  /**
-   * Deletes entity test.
-   */
+
+  /** Deletes entity test. */
   public void deleteTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;

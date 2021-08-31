@@ -1,15 +1,13 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents a command to be executed in a VLC Player.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class VlcRcCommand {
 
@@ -70,17 +68,28 @@ public class VlcRcCommand {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder().append(id).append(input).append(option).append(val).append(id)
-        .append(band).toHashCode();
+    return new HashCodeBuilder()
+        .append(id)
+        .append(input)
+        .append(option)
+        .append(val)
+        .append(id)
+        .append(band)
+        .toHashCode();
   }
 
   @Override
   public boolean equals(final Object obj) {
     if (obj instanceof VlcRcCommand) {
       final VlcRcCommand other = (VlcRcCommand) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(input, other.getInput()).append(
-          option, other.getOption()).append(val, other.getVal()).append(id, other.getId()).append(
-              band, other.getBand()).isEquals();
+      return new EqualsBuilder()
+          .append(id, other.getId())
+          .append(input, other.getInput())
+          .append(option, other.getOption())
+          .append(val, other.getVal())
+          .append(id, other.getId())
+          .append(band, other.getBand())
+          .isEquals();
     } else {
       return false;
     }

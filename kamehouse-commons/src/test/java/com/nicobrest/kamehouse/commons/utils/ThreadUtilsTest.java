@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -10,9 +11,7 @@ import org.junit.jupiter.api.Test;
  */
 public class ThreadUtilsTest {
 
-  /**
-   * Test get and set the current thread name.
-   */
+  /** Test get and set the current thread name. */
   @Test
   public void getAndSetCurrentThreadName() {
     String newThreadName = "pegasus-seiya-yukimura";

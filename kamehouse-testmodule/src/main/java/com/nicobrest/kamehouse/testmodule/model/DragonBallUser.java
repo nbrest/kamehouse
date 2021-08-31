@@ -2,22 +2,19 @@ package com.nicobrest.kamehouse.testmodule.model;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * DragonBallUser used for the test endpoints.
- * 
+ *
  * @author nbrest
  */
 @Entity
@@ -46,14 +43,11 @@ public class DragonBallUser implements Identifiable, Serializable {
   @Column(name = "stamina")
   private int stamina;
 
-  public DragonBallUser() {
-  }
+  public DragonBallUser() {}
 
-  /**
-   * Constructor.
-   */
-  public DragonBallUser(Long id, String username, String email, int age, int powerLevel,
-      int stamina) {
+  /** Constructor. */
+  public DragonBallUser(
+      Long id, String username, String email, int age, int powerLevel, int stamina) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -110,9 +104,7 @@ public class DragonBallUser implements Identifiable, Serializable {
     return stamina;
   }
 
-  /**
-   * Attacks another DragonBallUser.
-   */
+  /** Attacks another DragonBallUser. */
   public void attack(DragonBallUser opponent) {
     /*
      * Check for nulls in parameters in methods that can be called from outside
@@ -130,9 +122,7 @@ public class DragonBallUser implements Identifiable, Serializable {
     opponent.setStamina(currentOpponentStamina);
   }
 
-  /**
-   * Recovers stamina.
-   */
+  /** Recovers stamina. */
   public void recoverStamina() {
     stamina = stamina + powerLevel;
   }
@@ -146,7 +136,9 @@ public class DragonBallUser implements Identifiable, Serializable {
   public boolean equals(final Object obj) {
     if (obj instanceof DragonBallUser) {
       final DragonBallUser other = (DragonBallUser) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(username, other.getUsername())
+      return new EqualsBuilder()
+          .append(id, other.getId())
+          .append(username, other.getUsername())
           .isEquals();
     } else {
       return false;

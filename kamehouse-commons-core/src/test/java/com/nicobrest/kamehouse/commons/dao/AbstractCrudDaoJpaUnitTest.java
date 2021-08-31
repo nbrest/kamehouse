@@ -3,9 +3,12 @@ package com.nicobrest.kamehouse.commons.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
+import java.util.List;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,27 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
-import javax.persistence.EntityManager;
-
-/**
- * Unit tests for the AbstractCrudDaoJpa though a TestEntity dao.
- */
+/** Unit tests for the AbstractCrudDaoJpa though a TestEntity dao. */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class AbstractCrudDaoJpaUnitTest {
 
-  @Autowired
-  private TestEntityCrudDaoJpa testEntityCrudDaoJpa;
+  @Autowired private TestEntityCrudDaoJpa testEntityCrudDaoJpa;
 
   @BeforeEach
   public void setup() {
     setupTestData();
   }
 
-  /**
-   * create entity test.
-   */
+  /** create entity test. */
   @Test
   public void createTest() {
     TestEntity testEntity = new TestEntity();
@@ -43,59 +38,51 @@ public class AbstractCrudDaoJpaUnitTest {
     assertNotNull(id);
   }
 
-  /**
-   * create entity conflict test.
-   */
+  /** create entity conflict test. */
   @Test
   public void createConflictExceptionTest() {
-    assertThrows(KameHouseConflictException.class, () -> {
-      TestEntity testEntity = new TestEntity();
-      testEntity.setName("goku");
+    assertThrows(
+        KameHouseConflictException.class,
+        () -> {
+          TestEntity testEntity = new TestEntity();
+          testEntity.setName("goku");
 
-      testEntityCrudDaoJpa.create(TestEntity.class, testEntity);
-    });
+          testEntityCrudDaoJpa.create(TestEntity.class, testEntity);
+        });
   }
 
-  /**
-   * find by attribute test.
-   */
+  /** find by attribute test. */
   @Test
   public void findByAttributeTest() {
-    TestEntity testEntity = testEntityCrudDaoJpa.findByAttribute(TestEntity.class, "name","goku");
+    TestEntity testEntity = testEntityCrudDaoJpa.findByAttribute(TestEntity.class, "name", "goku");
     assertNotNull(testEntity);
   }
 
-  /**
-   * read entity test.
-   */
+  /** read entity test. */
   @Test
   public void readTest() {
     TestEntity testEntity = testEntityCrudDaoJpa.read(TestEntity.class, 999999L);
     assertNotNull(testEntity);
   }
 
-  /**
-   * read not found test.
-   */
+  /** read not found test. */
   @Test
   public void readNotFoundTest() {
-    assertThrows(KameHouseNotFoundException.class, () -> {
-      testEntityCrudDaoJpa.read(TestEntity.class, 888888L);
-    });
+    assertThrows(
+        KameHouseNotFoundException.class,
+        () -> {
+          testEntityCrudDaoJpa.read(TestEntity.class, 888888L);
+        });
   }
 
-  /**
-   * read all test.
-   */
+  /** read all test. */
   @Test
   public void readAllTest() {
     List<TestEntity> testEntities = testEntityCrudDaoJpa.readAll(TestEntity.class);
     assertEquals(1, testEntities.size());
   }
 
-  /**
-   * update entity test.
-   */
+  /** update entity test. */
   @Test
   public void updateTest() {
     TestEntity testEntity = new TestEntity();
@@ -106,42 +93,38 @@ public class AbstractCrudDaoJpaUnitTest {
     // no exception expected
   }
 
-  /**
-   * update entity not found test.
-   */
+  /** update entity not found test. */
   @Test
   public void updateNotFoundTest() {
-    assertThrows(KameHouseNotFoundException.class, () -> {
-      TestEntity testEntity = new TestEntity();
-      testEntity.setId(888888L);
-      testEntity.setName("goku");
+    assertThrows(
+        KameHouseNotFoundException.class,
+        () -> {
+          TestEntity testEntity = new TestEntity();
+          testEntity.setId(888888L);
+          testEntity.setName("goku");
 
-      testEntityCrudDaoJpa.update(TestEntity.class, testEntity);
-    });
+          testEntityCrudDaoJpa.update(TestEntity.class, testEntity);
+        });
   }
 
-  /**
-   * delete entity test.
-   */
+  /** delete entity test. */
   @Test
   public void deleteTest() {
     TestEntity testEntity = testEntityCrudDaoJpa.delete(TestEntity.class, 999999L);
     assertNotNull(testEntity);
   }
 
-  /**
-   * delete entity not found test.
-   */
+  /** delete entity not found test. */
   @Test
   public void deleteNotFoundTest() {
-    assertThrows(KameHouseNotFoundException.class, () -> {
-      testEntityCrudDaoJpa.delete(TestEntity.class, 888888L);
-    });
+    assertThrows(
+        KameHouseNotFoundException.class,
+        () -> {
+          testEntityCrudDaoJpa.delete(TestEntity.class, 888888L);
+        });
   }
 
-  /**
-   * Setup test data in the hsql db.
-   */
+  /** Setup test data in the hsql db. */
   private void setupTestData() {
     String clearTableSql = "DELETE FROM TEST_ENTITY";
     String insertEntitySql = "INSERT INTO TEST_ENTITY (id, name) VALUES (999999, 'goku')";

@@ -8,7 +8,6 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,10 +23,7 @@ public class KameHouseUserDaoInMemoryTest {
   private KameHouseUser kameHouseUser;
   private KameHouseUserDaoInMemory kameHouseUserDao;
 
-
-  /**
-   * Initializes test repositories.
-   */
+  /** Initializes test repositories. */
   @BeforeEach
   public void init() {
     testUtils = new KameHouseUserTestUtils();
@@ -36,30 +32,23 @@ public class KameHouseUserDaoInMemoryTest {
     kameHouseUserDao = new KameHouseUserDaoInMemory();
   }
 
-  /**
-   * Tests creating a KameHouseUser in the repository.
-   */
+  /** Tests creating a KameHouseUser in the repository. */
   @Test
   public void createTest() {
     kameHouseUserDao.create(kameHouseUser);
 
-    KameHouseUser createdUser =
-        kameHouseUserDao.loadUserByUsername(kameHouseUser.getUsername());
-    
+    KameHouseUser createdUser = kameHouseUserDao.loadUserByUsername(kameHouseUser.getUsername());
+
     testUtils.assertEqualsAllAttributes(kameHouseUser, createdUser);
   }
 
-  /**
-   * Tests getting all the KameHouseUser in the repository.
-   */
+  /** Tests getting all the KameHouseUser in the repository. */
   @Test
   public void readAllTest() {
     assertEquals(4, kameHouseUserDao.readAll().size());
   }
 
-  /**
-   * Tests updating an existing user in the repository.
-   */
+  /** Tests updating an existing user in the repository. */
   @Test
   public void updateTest() {
     KameHouseUser originalUser = kameHouseUserDao.loadUserByUsername("admin");
@@ -72,20 +61,18 @@ public class KameHouseUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(kameHouseUser, updatedUser);
   }
 
-  /**
-   * Tests updating an existing user in the repository Exception flows.
-   */
+  /** Tests updating an existing user in the repository Exception flows. */
   @Test
   public void updateNotFoundExceptionTest() {
     kameHouseUser.setUsername(KameHouseUserTestUtils.INVALID_USERNAME);
-    assertThrows(UsernameNotFoundException.class, () -> {
-      kameHouseUserDao.update(kameHouseUser);
-    });
+    assertThrows(
+        UsernameNotFoundException.class,
+        () -> {
+          kameHouseUserDao.update(kameHouseUser);
+        });
   }
 
-  /**
-   * Tests deleting an existing user from the repository.
-   */
+  /** Tests deleting an existing user from the repository. */
   @Test
   public void deleteTest() {
     KameHouseUser userToDelete = kameHouseUserDao.loadUserByUsername("admin");
@@ -95,19 +82,17 @@ public class KameHouseUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(userToDelete, deletedUser);
   }
 
-  /**
-   * Tests deleting an existing user from the repository Exception flows.
-   */
+  /** Tests deleting an existing user from the repository Exception flows. */
   @Test
   public void deleteNotFoundExceptionTest() {
-    assertThrows(UsernameNotFoundException.class, () -> {
-      kameHouseUserDao.delete(KameHouseUserTestUtils.INVALID_ID);
-    });
+    assertThrows(
+        UsernameNotFoundException.class,
+        () -> {
+          kameHouseUserDao.delete(KameHouseUserTestUtils.INVALID_ID);
+        });
   }
 
-  /**
-   * Tests getting a single KameHouseUser in the repository by its username.
-   */
+  /** Tests getting a single KameHouseUser in the repository by its username. */
   @Test
   public void loadUserByUsernameTest() {
     KameHouseUser user = kameHouseUserDao.loadUserByUsername("admin");
@@ -116,13 +101,13 @@ public class KameHouseUserDaoInMemoryTest {
     assertEquals("admin", user.getUsername());
   }
 
-  /**
-   * Tests getting a single KameHouseUser in the repository Exception flows.
-   */
+  /** Tests getting a single KameHouseUser in the repository Exception flows. */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
-    assertThrows(UsernameNotFoundException.class, () -> {
-      kameHouseUserDao.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
-    });
+    assertThrows(
+        UsernameNotFoundException.class,
+        () -> {
+          kameHouseUserDao.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
+        });
   }
 }

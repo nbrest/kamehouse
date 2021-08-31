@@ -15,24 +15,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Controller class for the test scheduler commands.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Controller
 @RequestMapping(value = "/api/v1/test-module/test-scheduler")
 public class TestSchedulerController extends AbstractController {
 
-  @Autowired
-  TestSchedulerService testSchedulerService;
+  @Autowired TestSchedulerService testSchedulerService;
 
   /**
    * Schedules the sample job at the specified delay, or at a fixed schedule, if no delay specified.
    */
   @PostMapping(path = "/sample-job")
   @ResponseBody
-  public ResponseEntity<KameHouseGenericResponse>
-      setShutdown(@RequestParam(value = "delay", required = false) Integer delay) {
+  public ResponseEntity<KameHouseGenericResponse> setShutdown(
+      @RequestParam(value = "delay", required = false) Integer delay) {
     testSchedulerService.scheduleSampleJob(delay);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     if (delay != null) {
@@ -43,9 +41,7 @@ public class TestSchedulerController extends AbstractController {
     return generatePostResponseEntity(response);
   }
 
-  /**
-   * Gets the status of a sample-job command.
-   */
+  /** Gets the status of a sample-job command. */
   @GetMapping(path = "/sample-job")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
@@ -55,9 +51,7 @@ public class TestSchedulerController extends AbstractController {
     return generateGetResponseEntity(response);
   }
 
-  /**
-   * Cancels a sample-job scheduled command.
-   */
+  /** Cancels a sample-job scheduled command. */
   @DeleteMapping(path = "/sample-job")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {

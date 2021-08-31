@@ -2,10 +2,6 @@ package com.nicobrest.kamehouse.commons.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -17,17 +13,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Class that represents a user in kamehouse.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Entity
 @Table(name = "kamehouse_user")
 public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDetails {
- 
+
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -53,13 +51,16 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
   @Column(name = "last_login")
   private Date lastLogin;
 
-  /* Spring Security related fields 
-   * 
+  /* Spring Security related fields
+   *
    * In this case, because I know the amount of roles to retrieve is always going to be limited,
    * it's ok to use FetchType.EAGER, but in a dataset that I know will grow to thousands of
    * records or more, I should use FetchType.LAZY.
    * */
-  @OneToMany(mappedBy = "kameHouseUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+  @OneToMany(
+      mappedBy = "kameHouseUser",
+      fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL,
       orphanRemoval = true)
   @JsonManagedReference
   private Set<KameHouseRole> authorities;
@@ -156,8 +157,8 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
   }
 
   /**
-   * Add an application role to the user. Important to set the current
-   * kamehouse user to that role for hibernate mappings.
+   * Add an application role to the user. Important to set the current kamehouse user to that role
+   * for hibernate mappings.
    */
   public void addAuthority(KameHouseRole kameHouseRole) {
     authorities.add(kameHouseRole);
@@ -165,8 +166,8 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
   }
 
   /**
-   * Add an application role to the user. Important to set the kamehouse user
-   * to null for that role for hibernate mappings.
+   * Add an application role to the user. Important to set the kamehouse user to null for that role
+   * for hibernate mappings.
    */
   public void removeAuthority(KameHouseRole kameHouseRole) {
     authorities.remove(kameHouseRole);
@@ -218,7 +219,9 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
   public boolean equals(final Object obj) {
     if (obj instanceof KameHouseUser) {
       final KameHouseUser other = (KameHouseUser) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(username, other.getUsername())
+      return new EqualsBuilder()
+          .append(id, other.getId())
+          .append(username, other.getUsername())
           .isEquals();
     } else {
       return false;
@@ -227,7 +230,7 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password", "authorities" };
+    String[] maskedFields = {"password", "authorities"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

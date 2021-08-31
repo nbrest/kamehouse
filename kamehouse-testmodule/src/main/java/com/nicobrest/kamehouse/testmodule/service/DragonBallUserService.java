@@ -8,12 +8,10 @@ import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.validator.DragonBallUserValidator;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Service layer to manage the DragonBallUsers.
@@ -64,9 +62,7 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
     return delete(dragonBallUserDao, id);
   }
 
-  /**
-   * Returns a single instance of a DragonBallUser looking up by username.
-   */
+  /** Returns a single instance of a DragonBallUser looking up by username. */
   public DragonBallUser getByUsername(String username) {
     logger.trace(GET_DRAGONBALLUSER, username);
     DragonBallUser dragonBallUser = dragonBallUserDao.getByUsername(username);
@@ -74,9 +70,7 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
     return dragonBallUser;
   }
 
-  /**
-   * Returns a single instance of a DragonBallUser looking up by email.
-   */
+  /** Returns a single instance of a DragonBallUser looking up by email. */
   public DragonBallUser getByEmail(String email) {
     logger.trace(GET_DRAGONBALLUSER, email);
     DragonBallUser dragonBallUser = dragonBallUserDao.getByEmail(email);

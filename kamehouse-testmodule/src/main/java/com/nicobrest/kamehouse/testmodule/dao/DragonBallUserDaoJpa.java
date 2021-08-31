@@ -2,12 +2,10 @@ package com.nicobrest.kamehouse.testmodule.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
-
+import java.util.List;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * JPA DAO for the DragonBallUser test entities.
@@ -25,8 +23,14 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBa
   private static final String DRAGONBALL_USER_BY_EMAIL_CACHE = "dragonBallUserByEmail";
 
   @Override
-  @CacheEvict(value = { DRAGONBALL_USERS_CACHE, DRAGONBALL_USER_CACHE,
-      DRAGONBALL_USER_BY_USERNAME_CACHE, DRAGONBALL_USER_BY_EMAIL_CACHE }, allEntries = true)
+  @CacheEvict(
+      value = {
+        DRAGONBALL_USERS_CACHE,
+        DRAGONBALL_USER_CACHE,
+        DRAGONBALL_USER_BY_USERNAME_CACHE,
+        DRAGONBALL_USER_BY_EMAIL_CACHE
+      },
+      allEntries = true)
   public Long create(DragonBallUser entity) {
     return create(DragonBallUser.class, entity);
   }
@@ -44,15 +48,27 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBa
   }
 
   @Override
-  @CacheEvict(value = { DRAGONBALL_USERS_CACHE, DRAGONBALL_USER_CACHE,
-      DRAGONBALL_USER_BY_USERNAME_CACHE, DRAGONBALL_USER_BY_EMAIL_CACHE }, allEntries = true)
+  @CacheEvict(
+      value = {
+        DRAGONBALL_USERS_CACHE,
+        DRAGONBALL_USER_CACHE,
+        DRAGONBALL_USER_BY_USERNAME_CACHE,
+        DRAGONBALL_USER_BY_EMAIL_CACHE
+      },
+      allEntries = true)
   public void update(DragonBallUser entity) {
     update(DragonBallUser.class, entity);
   }
 
   @Override
-  @CacheEvict(value = { DRAGONBALL_USERS_CACHE, DRAGONBALL_USER_CACHE,
-      DRAGONBALL_USER_BY_USERNAME_CACHE, DRAGONBALL_USER_BY_EMAIL_CACHE }, allEntries = true)
+  @CacheEvict(
+      value = {
+        DRAGONBALL_USERS_CACHE,
+        DRAGONBALL_USER_CACHE,
+        DRAGONBALL_USER_BY_USERNAME_CACHE,
+        DRAGONBALL_USER_BY_EMAIL_CACHE
+      },
+      allEntries = true)
   public DragonBallUser delete(Long id) {
     return delete(DragonBallUser.class, id);
   }

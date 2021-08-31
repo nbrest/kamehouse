@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to suspend the server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class SuspendKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public SuspendKameHouseSystemCommand() {
     systemCommands.add(new SuspendSystemCommand());
   }

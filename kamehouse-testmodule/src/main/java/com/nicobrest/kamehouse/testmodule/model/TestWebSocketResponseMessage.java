@@ -4,9 +4,8 @@ import java.util.Date;
 
 /**
  * Test WebSocket response message.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class TestWebSocketResponseMessage {
 

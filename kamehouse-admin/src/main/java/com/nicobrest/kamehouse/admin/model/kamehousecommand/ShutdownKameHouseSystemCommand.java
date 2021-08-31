@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 
 /**
  * KameHouseSystemCommand to shutdown the server.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class ShutdownKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public ShutdownKameHouseSystemCommand(int shutdownDelaySeconds) {
     systemCommands.add(new ShutdownSystemCommand(shutdownDelaySeconds));
   }

@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,8 +80,7 @@ public class KameHouseJob {
   }
 
   /**
-   * Key used to identify a job or a schedule.
-   * Similar to a JobKey or TriggerKey on quartz.
+   * Key used to identify a job or a schedule. Similar to a JobKey or TriggerKey on quartz.
    *
    * @author nbrest
    */
@@ -122,8 +120,7 @@ public class KameHouseJob {
         return false;
       }
       Key key = (Key) obj;
-      return Objects.equals(group, key.group)
-          && Objects.equals(name, key.name);
+      return Objects.equals(group, key.group) && Objects.equals(name, key.name);
     }
 
     @Override
@@ -138,8 +135,8 @@ public class KameHouseJob {
   }
 
   /**
-   * The schedule class represents a scheduling of a job. A job can have multiple schedules.
-   * Similar to what a Trigger class represents on quartz framework.
+   * The schedule class represents a scheduling of a job. A job can have multiple schedules. Similar
+   * to what a Trigger class represents on quartz framework.
    *
    * @author nbrest
    */

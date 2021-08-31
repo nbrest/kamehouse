@@ -9,7 +9,6 @@ import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,15 +25,12 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
 
   private VlcPlayer vlcPlayer;
 
-  @InjectMocks
-  private VlcPlayerService vlcPlayerService;
+  @InjectMocks private VlcPlayerService vlcPlayerService;
 
   @Mock(name = "vlcPlayerDao")
   private VlcPlayerDao vlcPlayerDaoMock;
 
-  /**
-   * Resets mock objects and initializes test repository.
-   */
+  /** Resets mock objects and initializes test repository. */
   @BeforeEach
   public void beforeTest() {
     testUtils = new VlcPlayerTestUtils();
@@ -46,52 +42,37 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
     Mockito.reset(vlcPlayerDaoMock);
   }
 
-  /**
-   * Tests calling the service to create a VlcPlayer in the repository.
-   */
+  /** Tests calling the service to create a VlcPlayer in the repository. */
   @Test
   public void createTest() {
     createTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
-  /**
-   * Reads an entity test.
-   */
+  /** Reads an entity test. */
   @Test
   public void readTest() {
     readTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
-  /**
-   * Tests calling the service to get all the VlcPlayers in the repository.
-   */
+  /** Tests calling the service to get all the VlcPlayers in the repository. */
   @Test
   public void readAllTest() {
     readAllTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
-  /**
-   * Tests calling the service to update an existing VlcPlayer in the
-   * repository.
-   */
+  /** Tests calling the service to update an existing VlcPlayer in the repository. */
   @Test
   public void updateTest() {
     updateTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
-  /**
-   * Tests calling the service to delete an existing entity in the
-   * repository.
-   */
+  /** Tests calling the service to delete an existing entity in the repository. */
   @Test
   public void deleteTest() {
     deleteTest(vlcPlayerService, vlcPlayerDaoMock);
   }
 
-  /**
-   * Tests calling the service to get a single VlcPlayer in the repository by
-   * hostname.
-   */
+  /** Tests calling the service to get a single VlcPlayer in the repository by hostname. */
   @Test
   public void getByHostnameTest() {
     when(vlcPlayerDaoMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);

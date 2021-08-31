@@ -1,19 +1,15 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Cache representation object used to display cache information on the
- * frontend.
- * 
- * @author nbrest
+ * Cache representation object used to display cache information on the frontend.
  *
+ * @author nbrest
  */
 public class ApplicationCache {
 
@@ -63,8 +59,11 @@ public class ApplicationCache {
   public boolean equals(final Object obj) {
     if (obj instanceof ApplicationCache) {
       final ApplicationCache other = (ApplicationCache) obj;
-      return new EqualsBuilder().append(name, other.getName()).append(status, other.getStatus())
-          .append(keys, other.getKeys()).isEquals();
+      return new EqualsBuilder()
+          .append(name, other.getName())
+          .append(status, other.getStatus())
+          .append(keys, other.getKeys())
+          .isEquals();
     } else {
       return false;
     }
@@ -72,7 +71,7 @@ public class ApplicationCache {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "values" };
+    String[] maskedFields = {"values"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

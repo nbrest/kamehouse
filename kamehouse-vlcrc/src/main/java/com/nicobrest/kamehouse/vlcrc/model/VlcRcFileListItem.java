@@ -1,17 +1,14 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * File list item returned by a vlc player when browsing for files.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class VlcRcFileListItem implements Serializable {
 
@@ -118,7 +115,12 @@ public class VlcRcFileListItem implements Serializable {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder().append(type).append(name).append(path).append(uri).append(size)
+    return new HashCodeBuilder()
+        .append(type)
+        .append(name)
+        .append(path)
+        .append(uri)
+        .append(size)
         .toHashCode();
   }
 
@@ -126,8 +128,12 @@ public class VlcRcFileListItem implements Serializable {
   public boolean equals(final Object obj) {
     if (obj instanceof VlcRcFileListItem) {
       final VlcRcFileListItem other = (VlcRcFileListItem) obj;
-      return new EqualsBuilder().append(type, other.getType()).append(name, other.getName())
-          .append(path, other.getPath()).append(uri, other.getUri()).append(size, other.getSize())
+      return new EqualsBuilder()
+          .append(type, other.getType())
+          .append(name, other.getName())
+          .append(path, other.getPath())
+          .append(uri, other.getUri())
+          .append(size, other.getSize())
           .isEquals();
     } else {
       return false;

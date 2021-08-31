@@ -6,21 +6,19 @@ import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
-
 import java.util.LinkedList;
 
 /**
  * Test data and common test methods to test VlcPlayers.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDto>
     implements TestUtils<VlcPlayer, VlcPlayerDto> {
 
   public static final String API_V1_VLCPLAYERS = "/api/v1/vlc-rc/players/";
   public static final String INVALID_HOSTNAME = "yukimura";
-  
+
   @Override
   public void initTestData() {
     initSingleTestData();
@@ -32,9 +30,9 @@ public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDt
   public void assertEqualsAllAttributes(VlcPlayer expectedEntity, VlcPlayer returnedEntity) {
     assertEquals(expectedEntity, returnedEntity);
     assertEquals(expectedEntity.getId(), returnedEntity.getId());
-    assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername()); 
-    assertEquals(expectedEntity.getPassword(), returnedEntity.getPassword()); 
-    assertEquals(expectedEntity.getHostname(), returnedEntity.getHostname()); 
+    assertEquals(expectedEntity.getUsername(), returnedEntity.getUsername());
+    assertEquals(expectedEntity.getPassword(), returnedEntity.getPassword());
+    assertEquals(expectedEntity.getHostname(), returnedEntity.getHostname());
     assertEquals(expectedEntity.getPort(), returnedEntity.getPort());
   }
 
@@ -63,7 +61,7 @@ public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDt
     vlcPlayer2.setPort(9000);
     vlcPlayer2.setUsername("user-kame");
     vlcPlayer2.setPassword("pass-kame");
-    
+
     VlcPlayer vlcPlayer3 = new VlcPlayer();
     vlcPlayer3.setId(null);
     vlcPlayer3.setHostname("namek");

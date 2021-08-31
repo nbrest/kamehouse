@@ -2,13 +2,12 @@ package com.nicobrest.kamehouse.tennisworld.model.dto;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * TennisWorldUser DTO.
- * 
+ *
  * @author nbrest
  */
 public class TennisWorldUserDto implements Identifiable, Serializable {
@@ -54,8 +53,7 @@ public class TennisWorldUserDto implements Identifiable, Serializable {
       return false;
     }
     TennisWorldUserDto that = (TennisWorldUserDto) other;
-    return Objects.equals(id, that.id)
-        && Objects.equals(email, that.email) ;
+    return Objects.equals(id, that.id) && Objects.equals(email, that.email);
   }
 
   @Override
@@ -65,7 +63,7 @@ public class TennisWorldUserDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password" };
+    String[] maskedFields = {"password"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

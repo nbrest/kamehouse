@@ -45,116 +45,113 @@
         <kamehouse.version>6.04.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
         <filters.dir>${basedir}/../src/main/filters</filters.dir>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <assembly.plugin.version>3.0.0</assembly.plugin.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2020/04 -->
+        <assembly.plugin.version>3.3.0</assembly.plugin.version>
 
-        <!-- Updated : 2021/07 | Dependency version date:  -->
-        <bouncy.castle.version>1.58</bouncy.castle.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/06 -->
+        <bouncy.castle.version>1.69</bouncy.castle.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <checkstyle.version>2.17</checkstyle.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/01 -->
+        <checkstyle.version>3.1.2</checkstyle.version>
 
-        <!-- Updated : 2021/07 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
+        <checkstyle.puppycrawl.version>8.45.1</checkstyle.puppycrawl.version>
+
+        <!-- Updated : 2021/09 | Dependency version date: 2017/03 -->
         <commons.cli.version>1.4</commons.cli.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
         <commons.io.version>2.11.0</commons.io.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <commons.lang.version>2.6</commons.lang.version>
-
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/03 -->
         <commons.lang3.version>3.12.0</commons.lang3.version>
 
-        <!-- Updated : 2017/11 | Dependency version date:  -->
-        <commons.httpclient.version>3.1</commons.httpclient.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
+        <commons.text.version>1.9</commons.text.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2019/05 -->
         <compiler.plugin.version>3.8.1</compiler.plugin.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <dependency.plugin.version>2.10</dependency.plugin.version>
+        <!-- Updated : 2016/02 | Dependency version date: 2021/06 -->
+        <dependency.plugin.version>3.2.0</dependency.plugin.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/04 -->
         <ehcache.version>2.10.9.2</ehcache.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2012/07 TODO REPLACE ME -->
         <hamcrest.version>1.3</hamcrest.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
         <hibernate.version>5.5.7.Final</hibernate.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2018/01 -->
         <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <hsql.version>2.3.2</hsql.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/04 -->
+        <hsql.version>2.6.0</hsql.version>
 
-        <!-- Updated : 2017/10 | Dependency version date:  -->
-        <httpclient.version>4.5.3</httpclient.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2020/10 -->
+        <httpclient.version>4.5.13</httpclient.version>
 
-        <!-- Updated : 2019/09 | Dependency version date:  -->
+        <!-- Updated : 2019/09 | Dependency version date: 2021/08 -->
         <jackson.version>2.12.5</jackson.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/05 -->
         <jacoco.version>0.8.7</jacoco.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <jar.plugin.version>3.0.2</jar.plugin.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
+        <jar.plugin.version>3.2.0</jar.plugin.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2018/02 -->
         <javax.annotation.version>1.3.2</javax.annotation.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <javax.servlet.version>3.0.1</javax.servlet.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2018/04 -->
+        <javax.servlet.version>4.0.1</javax.servlet.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <javax.servlet.jsp.version>2.3.1</javax.servlet.jsp.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2018/08 -->
+        <javax.servlet.jsp.version>2.3.3</javax.servlet.jsp.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <javax.servlet.version>3.0.1</javax.servlet.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2018/10 -->
+        <javax.xml.bind.version>2.3.1</javax.xml.bind.version>
 
-        <!-- Updated : 2021/07 | Dependency version date:  -->
-        <javax.xml.bind.version>2.2.8</javax.xml.bind.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
+        <jcloverslf4j.version>1.7.32</jcloverslf4j.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <jcloverslf4j.version>1.7.13</jcloverslf4j.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
+        <jsoup.version>1.14.2</jsoup.version>
 
-        <!-- Updated : 2020/07 | Dependency version date:  -->
-        <jsoup.version>1.13.1</jsoup.version>
-
-        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2015/05 -->
         <jstl.version>1.2</jstl.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/02 -->
         <junit.jupiter.version>5.8.0-M1</junit.jupiter.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
-        <logback.version>1.1.2</logback.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
+        <logback.version>1.2.5</logback.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
-        <mockito.version>3.8.0</mockito.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
+        <mockito.version>3.12.4</mockito.version>
 
-        <!-- Updated : 2020/05 | Dependency version date:  -->
-        <mysql.connector.java.version>8.0.20</mysql.connector.java.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
+        <mysql.connector.java.version>8.0.26</mysql.connector.java.version>
 
-        <!-- Updated : 2016/02 | Dependency version date:  -->
+        <!-- Updated : 2016/02 | Dependency version date: 2016/02 -->
         <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
 
-        <!-- Updated : 2020/12 | Dependency version date:  -->
-        <quartz.version>2.3.0</quartz.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
+        <quartz.version>2.3.2</quartz.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
         <spring.version>5.3.9</spring.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
         <spring.session.version>2.5.2</spring.session.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
+        <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
         <spring.security.version>5.5.2</spring.security.version>
 
-        <!-- Updated : 2021/09 | Dependency version date:  -->
-        <surefire.plugin.version>2.22.0</surefire.plugin.version>
+        <!-- Updated : 2021/09 | Dependency version date: 2019/05 -->
+        <surefire.plugin.version>2.22.2</surefire.plugin.version>
 
         <!-- Updated : 2016/02 | Dependency version date:  -->
         <war.plugin.version>2.1.1</war.plugin.version>
@@ -231,27 +228,21 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons.lang.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons.lang3.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>${commons.text.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>${commons.httpclient.version}</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
         </dependency>
 
         <!-- Hibernate/JPA dependencies -->
@@ -483,6 +474,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.puppycrawl.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>checkstyle</id>

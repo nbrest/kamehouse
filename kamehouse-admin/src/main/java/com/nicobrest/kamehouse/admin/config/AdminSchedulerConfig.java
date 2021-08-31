@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.config;
 
 import com.nicobrest.kamehouse.admin.model.scheduler.job.ShutdownJob;
 import com.nicobrest.kamehouse.admin.model.scheduler.job.SuspendJob;
+import javax.annotation.PostConstruct;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -13,25 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-
 /**
  * Configuration class to setup the scheduler beans for the admin package.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Configuration
 public class AdminSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private Scheduler scheduler;
+  @Autowired private Scheduler scheduler;
 
-  /**
-   * Init AdminSchedulerConfig.
-   */
+  /** Init AdminSchedulerConfig. */
   @PostConstruct
   public void init() {
     logger.info("init AdminSchedulerConfig");
@@ -43,9 +38,7 @@ public class AdminSchedulerConfig {
     }
   }
 
-  /**
-   * shutdownJobDetail bean.
-   */
+  /** shutdownJobDetail bean. */
   @Bean(name = "shutdownJobDetail")
   public JobDetail shutdownJobDetail() {
     logger.info("Setting up shutdownJobDetail");
@@ -57,9 +50,7 @@ public class AdminSchedulerConfig {
         .build();
   }
 
-  /**
-   * suspendJobDetail bean.
-   */
+  /** suspendJobDetail bean. */
   @Bean(name = "suspendJobDetail")
   public JobDetail suspendJobDetail() {
     logger.info("Setting up suspendJobDetail");

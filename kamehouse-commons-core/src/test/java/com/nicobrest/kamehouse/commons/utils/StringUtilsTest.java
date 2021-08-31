@@ -1,9 +1,12 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 /**
+ * StringUtils tests.
+ *
  * @author nbrest
  */
 public class StringUtilsTest {

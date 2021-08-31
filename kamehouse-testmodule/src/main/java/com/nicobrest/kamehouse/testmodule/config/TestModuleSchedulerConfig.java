@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.config;
 
 import com.nicobrest.kamehouse.testmodule.model.scheduler.job.SampleJob;
+import javax.annotation.PostConstruct;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -17,13 +18,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import javax.annotation.PostConstruct;
-
 /**
  * Configuration class to setup the scheduler beans in the test-module package.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Configuration
 @EnableScheduling
@@ -31,12 +29,9 @@ public class TestModuleSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private Scheduler scheduler;
+  @Autowired private Scheduler scheduler;
 
-  /**
-   * Init TestModuleSchedulerConfig.
-   */
+  /** Init TestModuleSchedulerConfig. */
   @PostConstruct
   public void init() {
     logger.info("init TestModuleSchedulerConfig");
@@ -47,9 +42,7 @@ public class TestModuleSchedulerConfig {
     }
   }
 
-  /**
-   * sampleJobDetail bean.
-   */
+  /** sampleJobDetail bean. */
   @Bean(name = "sampleJobDetail")
   public JobDetail sampleJobDetail() {
     return JobBuilder.newJob()
@@ -60,18 +53,15 @@ public class TestModuleSchedulerConfig {
         .build();
   }
 
-  /**
-   * sampleTrigger bean.
-   */
+  /** sampleTrigger bean. */
   @Bean(name = "sampleTrigger")
   public Trigger sampleTrigger(JobDetail sampleJobDetail) {
     return TriggerBuilder.newTrigger()
         .forJob(sampleJobDetail)
         .withIdentity(TriggerKey.triggerKey("sampleJobTrigger"))
         .withDescription("Trigger to schedule a sample job")
-        .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-            .withIntervalInSeconds(15)
-            .withRepeatCount(10))
+        .withSchedule(
+            SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(15).withRepeatCount(10))
         .build();
   }
 }

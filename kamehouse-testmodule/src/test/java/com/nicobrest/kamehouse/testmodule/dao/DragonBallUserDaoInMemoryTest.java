@@ -10,7 +10,6 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class DragonBallUserDaoInMemoryTest {
 
   private TestUtils<DragonBallUser, DragonBallUserDto> testUtils;
@@ -35,10 +34,7 @@ public class DragonBallUserDaoInMemoryTest {
   @Qualifier("dragonBallUserDaoInMemory")
   private DragonBallUserDaoInMemory dragonBallUserDao;
 
-
-  /**
-   * Clears data from the repository before each test.
-   */
+  /** Clears data from the repository before each test. */
   @BeforeEach
   public void setUp() {
     testUtils = new DragonBallUserTestUtils();
@@ -47,9 +43,7 @@ public class DragonBallUserDaoInMemoryTest {
     DragonBallUserDaoInMemory.initRepository();
   }
 
-  /**
-   * Tests the autowired beans.
-   */
+  /** Tests the autowired beans. */
   @Test
   public void autoWiredBeansTest() {
     DragonBallUser gohan = dragonBallUserDao.getGohanDragonBallUser();
@@ -61,9 +55,7 @@ public class DragonBallUserDaoInMemoryTest {
     assertEquals("gotenBean", goten.getUsername());
   }
 
-  /**
-   * Tests creating a DragonBallUser in the repository.
-   */
+  /** Tests creating a DragonBallUser in the repository. */
   @Test
   public void createTest() {
     Long createdId = dragonBallUserDao.create(dragonBallUser);
@@ -73,21 +65,19 @@ public class DragonBallUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(dragonBallUser, createdUser);
   }
 
-  /**
-   * Tests creating a DragonBallUser in the repository Exception flows.
-   */
+  /** Tests creating a DragonBallUser in the repository Exception flows. */
   @Test
   public void createConflictExceptionTest() {
-    assertThrows(KameHouseConflictException.class, () -> {
-      dragonBallUserDao.create(dragonBallUser);
+    assertThrows(
+        KameHouseConflictException.class,
+        () -> {
+          dragonBallUserDao.create(dragonBallUser);
 
-      dragonBallUserDao.create(dragonBallUser);
-    });
+          dragonBallUserDao.create(dragonBallUser);
+        });
   }
 
-  /**
-   * Tests getting a single DragonBallUser in the repository by its id.
-   */
+  /** Tests getting a single DragonBallUser in the repository by its id. */
   @Test
   public void readTest() {
     DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
@@ -98,17 +88,13 @@ public class DragonBallUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(userByUsername, userById);
   }
 
-  /**
-   * Tests getting all the DragonBallUsers in the repository.
-   */
+  /** Tests getting all the DragonBallUsers in the repository. */
   @Test
   public void readAllTest() {
     assertEquals(3, dragonBallUserDao.readAll().size());
   }
 
-  /**
-   * Tests updating an existing user in the repository.
-   */
+  /** Tests updating an existing user in the repository. */
   @Test
   public void updateTest() {
     DragonBallUser originalUser = dragonBallUserDao.getByUsername("goku");
@@ -120,21 +106,19 @@ public class DragonBallUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(originalUser, updatedUser);
   }
 
-  /**
-   * Tests updating an existing user in the repository Exception flows.
-   */
+  /** Tests updating an existing user in the repository Exception flows. */
   @Test
   public void updateNotFoundExceptionTest() {
-    assertThrows(KameHouseNotFoundException.class, () -> {
-      dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
+    assertThrows(
+        KameHouseNotFoundException.class,
+        () -> {
+          dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
 
-      dragonBallUserDao.update(dragonBallUser);
-    });
+          dragonBallUserDao.update(dragonBallUser);
+        });
   }
 
-  /**
-   * Tests deleting an existing user from the repository.
-   */
+  /** Tests deleting an existing user from the repository. */
   @Test
   public void deleteTest() {
     dragonBallUserDao.create(dragonBallUser);
@@ -144,19 +128,17 @@ public class DragonBallUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(dragonBallUser, deletedUser);
   }
 
-  /**
-   * Tests deleting an existing user from the repository Exception flows.
-   */
+  /** Tests deleting an existing user from the repository Exception flows. */
   @Test
   public void deleteNotFoundExceptionTest() {
-    assertThrows(KameHouseNotFoundException.class, () -> {
-      dragonBallUserDao.delete(DragonBallUserTestUtils.INVALID_ID);
-    });
+    assertThrows(
+        KameHouseNotFoundException.class,
+        () -> {
+          dragonBallUserDao.delete(DragonBallUserTestUtils.INVALID_ID);
+        });
   }
 
-  /**
-   * Tests getting a single DragonBallUser in the repository by its username.
-   */
+  /** Tests getting a single DragonBallUser in the repository by its username. */
   @Test
   public void getByUsernameTest() {
     DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
@@ -165,23 +147,23 @@ public class DragonBallUserDaoInMemoryTest {
     assertEquals("goku", userByUsername.getUsername());
   }
 
-  /**
-   * Tests getting a single DragonBallUser in the repository Exception flows.
-   */
+  /** Tests getting a single DragonBallUser in the repository Exception flows. */
   @Test
   public void getByUsernameNotFoundExceptionTest() {
-    assertThrows(KameHouseNotFoundException.class, () -> {
-      dragonBallUserDao.getByUsername(DragonBallUserTestUtils.INVALID_EMAIL);
-    });
+    assertThrows(
+        KameHouseNotFoundException.class,
+        () -> {
+          dragonBallUserDao.getByUsername(DragonBallUserTestUtils.INVALID_EMAIL);
+        });
   }
 
-  /**
-   * Tests getting a single DragonBallUser in the repository by email.
-   */
+  /** Tests getting a single DragonBallUser in the repository by email. */
   @Test
   public void getByEmailTest() {
-    assertThrows(UnsupportedOperationException.class, () -> {
-      dragonBallUserDao.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
-    });
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> {
+          dragonBallUserDao.getByEmail(DragonBallUserTestUtils.INVALID_EMAIL);
+        });
   }
 }

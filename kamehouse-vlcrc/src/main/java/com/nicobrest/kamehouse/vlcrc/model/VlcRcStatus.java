@@ -1,15 +1,13 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
 import java.util.List;
 import java.util.Map;
 
 /**
  * Represents the status returned by a VLC Player.
- * 
+ *
  * @author nbrest
- * 
  */
 public class VlcRcStatus {
 
@@ -209,9 +207,7 @@ public class VlcRcStatus {
     return JsonUtils.toJsonString(this, super.toString());
   }
 
-  /**
-   * Equalizer element of the VlcRcStatus.
-   */
+  /** Equalizer element of the VlcRcStatus. */
   public static class Equalizer {
 
     // presets: Don't come with fixed key names, so I keep it as a Map
@@ -250,9 +246,7 @@ public class VlcRcStatus {
     }
   }
 
-  /**
-   * Video effects of the VlcRcStatus.
-   */
+  /** Video effects of the VlcRcStatus. */
   public static class VideoEffects {
 
     private int hue;
@@ -307,9 +301,7 @@ public class VlcRcStatus {
     }
   }
 
-  /**
-   * Stats element of the VlcRcStatus.
-   */
+  /** Stats element of the VlcRcStatus. */
   public static class Stats {
 
     private Double inputBitrate;
@@ -490,9 +482,7 @@ public class VlcRcStatus {
     }
   }
 
-  /**
-   * Information element of the VlcRcStatus.
-   */
+  /** Information element of the VlcRcStatus. */
   public static class Information {
 
     private String chapter;
@@ -573,9 +563,7 @@ public class VlcRcStatus {
       return JsonUtils.toJsonString(this, super.toString());
     }
 
-    /**
-     * Audio element of the Information class of VlcRcStatus.
-     */
+    /** Audio element of the Information class of VlcRcStatus. */
     public static class Audio {
       private String name;
       private String type;
@@ -647,9 +635,7 @@ public class VlcRcStatus {
       }
     }
 
-    /**
-     * Meta element of the Information class of VlcRcStatus.
-     */
+    /** Meta element of the Information class of VlcRcStatus. */
     public static class Meta {
       private String name;
       private String filename;
@@ -721,9 +707,7 @@ public class VlcRcStatus {
       }
     }
 
-    /**
-     * Subtitle element of the Information class of VlcRcStatus.
-     */
+    /** Subtitle element of the Information class of VlcRcStatus. */
     public static class Subtitle {
       private String name;
       private String type;
@@ -768,9 +752,7 @@ public class VlcRcStatus {
       }
     }
 
-    /**
-     * Video element of the Information class of VlcRcStatus.
-     */
+    /** Video element of the Information class of VlcRcStatus. */
     public static class Video {
       private String name;
       private String type;

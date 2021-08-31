@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
@@ -13,6 +14,7 @@ import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,19 +30,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.List;
-
 /**
  * Unit tests for BookingControllerTest class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class BookingControllerTest extends AbstractControllerTest<BookingResponse,
-    BookingResponseDto> {
+public class BookingControllerTest
+    extends AbstractControllerTest<BookingResponse, BookingResponseDto> {
 
   private static final String API_V1_TENNISWORLD_BOOKINGS =
       BookingResponseTestUtils.API_V1_TENNISWORLD_BOOKINGS;
@@ -49,11 +48,9 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
 
-  @InjectMocks
-  private BookingController bookingController;
+  @InjectMocks private BookingController bookingController;
 
-  @Mock
-  private BookingService bookingService;
+  @Mock private BookingService bookingService;
 
   @BeforeEach
   public void beforeTest() {
@@ -66,17 +63,14 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     mockMvc = MockMvcBuilders.standaloneSetup(bookingController).build();
   }
 
-  /**
-   * Tests a successful tennis world booking.
-   */
+  /** Tests a successful tennis world booking. */
   @Test
   public void bookingsSuccessfulTest() throws Exception {
     when(bookingService.book(any())).thenReturn(testUtils.getSingleTestData());
     BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
     MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_BOOKINGS, requestPayload);
-    BookingResponse responseBody = getResponseBody(response,
-        BookingResponse.class);
+    BookingResponse responseBody = getResponseBody(response, BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
     verifyContentType(response, MediaType.APPLICATION_JSON);
@@ -85,15 +79,14 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     verifyNoMoreInteractions(bookingService);
   }
 
-  /**
-   * Tests a successful tennis world scheduled booking.
-   */
+  /** Tests a successful tennis world scheduled booking. */
   @Test
   public void scheduledBookingsSuccessfulTest() throws Exception {
     when(bookingService.bookScheduledSessions()).thenReturn(testUtils.getTestDataList());
     List<BookingRequest> requestBody = bookingRequestTestUtils.getTestDataList();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
-    MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_SCHEDULED_BOOKINGS, requestPayload);
+    MockHttpServletResponse response =
+        doPost(API_V1_TENNISWORLD_SCHEDULED_BOOKINGS, requestPayload);
     List<BookingResponse> responseBody = getResponseBodyList(response, BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
@@ -103,9 +96,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     verifyNoMoreInteractions(bookingService);
   }
 
-  /**
-   * Tests a client error tennis world booking.
-   */
+  /** Tests a client error tennis world booking. */
   @Test
   public void bookingsClientErrorTest() throws Exception {
     BookingResponse expectedResponse = testUtils.getTestDataList().get(1);
@@ -113,8 +104,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
     MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_BOOKINGS, requestPayload);
-    BookingResponse responseBody = getResponseBody(response,
-        BookingResponse.class);
+    BookingResponse responseBody = getResponseBody(response, BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.BAD_REQUEST);
     verifyContentType(response, MediaType.APPLICATION_JSON);
@@ -123,9 +113,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     verifyNoMoreInteractions(bookingService);
   }
 
-  /**
-   * Tests a server error tennis world booking.
-   */
+  /** Tests a server error tennis world booking. */
   @Test
   public void bookingsServerErrorTest() throws Exception {
     BookingResponse expectedResponse = testUtils.getTestDataList().get(2);
@@ -133,8 +121,7 @@ public class BookingControllerTest extends AbstractControllerTest<BookingRespons
     BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
     MockHttpServletResponse response = doPost(API_V1_TENNISWORLD_BOOKINGS, requestPayload);
-    BookingResponse responseBody = getResponseBody(response,
-        BookingResponse.class);
+    BookingResponse responseBody = getResponseBody(response, BookingResponse.class);
 
     verifyResponseStatus(response, HttpStatus.INTERNAL_SERVER_ERROR);
     verifyContentType(response, MediaType.APPLICATION_JSON);

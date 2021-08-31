@@ -3,17 +3,14 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
-import org.springframework.stereotype.Component;
-
 import java.util.Collections;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
-/**
- * Test service to test AbstractCrudService.
- */
+/** Test service to test AbstractCrudService. */
 @Component
 public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestEntityDto>
-  implements CrudService<TestEntity, TestEntityDto> {
+    implements CrudService<TestEntity, TestEntityDto> {
 
   private CrudDao<TestEntity> crudDao = new CrudDaoMock();
 
@@ -55,9 +52,7 @@ public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestE
     return super.delete(crudDao, id);
   }
 
-  /**
-   * TestEntity CrudDao mock.
-   */
+  /** TestEntity CrudDao mock. */
   public static class CrudDaoMock implements CrudDao<TestEntity> {
 
     @Override

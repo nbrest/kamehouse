@@ -1,22 +1,16 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
-import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.service.CrudService;
-import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
-import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
-import org.apache.commons.lang3.BooleanUtils;
+import java.util.List;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Service layer to manage the TennisWorld BookingRequests.
@@ -60,7 +54,7 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
   }
 
   @Override
-  //TODO Create an interface for toEntity for all dtos and remove this method from service layers
+  // TODO Create an interface for toEntity for all dtos and remove this method from service layers
   protected BookingRequest getModel(BookingRequestDto dto) {
     return dto.toEntity();
   }

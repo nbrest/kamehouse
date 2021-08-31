@@ -1,41 +1,48 @@
 package com.nicobrest.kamehouse.commons.dao;
 
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
- * Abstract class to group common functionality to execute DaoJpa tests. Extends
- * AbstractDaoJpa so I get the raw Jpa data access methods to setup the
- * test data to test the DAOs.
- * 
- * @author nbrest
+ * Abstract class to group common functionality to execute DaoJpa tests. Extends AbstractDaoJpa so I
+ * get the raw Jpa data access methods to setup the test data to test the DAOs.
  *
+ * @author nbrest
  */
 public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
 
   protected TestUtils<T, D> testUtils;
 
   /**
-   * Using a normal insert made some tests hang when executed in parallel.
-   * Get an insert statement for hsqldb for the specified table, columns and values.
-   * columns and values should be separated by ", " and without any leading or trailing spaces.
+   * Using a normal insert made some tests hang when executed in parallel. Get an insert statement
+   * for hsqldb for the specified table, columns and values. columns and values should be separated
+   * by ", " and without any leading or trailing spaces.
    */
   protected static String getInsertQuery(String table, String columns, String values) {
     String columnsI = columns.replace(" ", " I.");
-    String insertQuery = "MERGE INTO " + table
-        + " USING (VALUES " + values + " ) "
-        + " I ( " + columns + " ) ON ( " + table + ".ID = I.id ) "
-        + " WHEN NOT MATCHED THEN "
-        + " INSERT ( " + columns + " ) "
-        + " VALUES ( I." + columnsI + " )";
+    String insertQuery =
+        "MERGE INTO "
+            + table
+            + " USING (VALUES "
+            + values
+            + " ) "
+            + " I ( "
+            + columns
+            + " ) ON ( "
+            + table
+            + ".ID = I.id ) "
+            + " WHEN NOT MATCHED THEN "
+            + " INSERT ( "
+            + columns
+            + " ) "
+            + " VALUES ( I."
+            + columnsI
+            + " )";
     return insertQuery;
   }
 
-  /**
-   * Clears all table data for the specified table.
-   */
+  /** Clears all table data for the specified table. */
   protected void clearTable(String tableName) {
     EntityManager em = getEntityManager();
     em.getTransaction().begin();
@@ -45,9 +52,7 @@ public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
     em.close();
   }
 
-  /**
-   * Execute the specified insert query.
-   */
+  /** Execute the specified insert query. */
   protected void insertData(String insertQuery) {
     EntityManager em = getEntityManager();
     em.getTransaction().begin();

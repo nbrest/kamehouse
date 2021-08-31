@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.ui.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,15 +20,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class SampleControllerTest extends AbstractControllerTest {
 
   private SampleController sampleController = new SampleController();
 
-  /**
-   * Resets mock objects and test data.
-   */
+  /** Resets mock objects and test data. */
   @BeforeEach
   public void beforeTest() {
     MockitoAnnotations.openMocks(this);
@@ -35,9 +34,8 @@ public class SampleControllerTest extends AbstractControllerTest {
   }
 
   /**
-   * Tests the endpoint /dragonball/model-and-view
-   * with the HTTP method GET. The service should respond with HTTP status 200 OK
-   * and a view defined in dragonball/model-and-view.jsp.
+   * Tests the endpoint /dragonball/model-and-view with the HTTP method GET. The service should
+   * respond with HTTP status 200 OK and a view defined in dragonball/model-and-view.jsp.
    */
   @Test
   public void getModelAndViewTest() throws Exception {
@@ -46,5 +44,4 @@ public class SampleControllerTest extends AbstractControllerTest {
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals("/test-module/jsp/dragonball/model-and-view", response.getForwardedUrl());
   }
-
 }

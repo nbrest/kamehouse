@@ -4,7 +4,8 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,26 +13,19 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Controller for the Vlc Player WebSockets.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Controller
 public class VlcRcWebSocketController {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private VlcRcService vlcRcService;
+  @Autowired private VlcRcService vlcRcService;
 
-  /**
-   * Processes the websocket input request for vlc player status.
-   */
+  /** Processes the websocket input request for vlc player status. */
   @MessageMapping("/vlc-player/status-in")
   @SendTo("/topic/vlc-player/status-out")
   public VlcRcStatus getVlcRcStatus() {
@@ -50,9 +44,7 @@ public class VlcRcWebSocketController {
     return vlcRcStatus;
   }
 
-  /**
-   * Processes the websocket input request for vlc player playlist.
-   */
+  /** Processes the websocket input request for vlc player playlist. */
   @MessageMapping("/vlc-player/playlist-in")
   @SendTo("/topic/vlc-player/playlist-out")
   public List<VlcRcPlaylistItem> getPlaylist() {

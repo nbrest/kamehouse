@@ -1,40 +1,66 @@
 package com.nicobrest.kamehouse.media.video.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Test data and common test methods to test VideoPlaylists in all layers of the
- * application.
+ * Test data and common test methods to test VideoPlaylists in all layers of the application.
  *
  * @author nbrest
- *
  */
-public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> implements
-    TestUtils<Playlist, Object> {
+public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
+    implements TestUtils<Playlist, Object> {
 
   public static final String MEDIA_SERVER = "niko-server";
   public static final String API_V1_MEDIA_VIDEO_PLAYLIST = "/api/v1/media/video/playlist";
   public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
-  public static final String TEST_PLAYLISTS_ROOT_DIR = "src" + File.separator + "test"
-      + File.separator + "resources" + File.separator + "media.video" + File.separator +
-      "playlists" + File.separator + "localhost";
-  public static final String TEST_PLAYLISTS_REMOTE_LAN_SHARE_DIR = "src" + File.separator + "test"
-      + File.separator + "resources" + File.separator + "media.video" + File.separator +
-      "playlists" + File.separator + "lan-share-" + MEDIA_SERVER;
-  public static final String TEST_PLAYLISTS_REMOTE_HTTP_DIR = "src" + File.separator + "test"
-      + File.separator + "resources" + File.separator + "media.video" + File.separator +
-      "playlists" + File.separator + "http-" + MEDIA_SERVER;
+  public static final String TEST_PLAYLISTS_ROOT_DIR =
+      "src"
+          + File.separator
+          + "test"
+          + File.separator
+          + "resources"
+          + File.separator
+          + "media.video"
+          + File.separator
+          + "playlists"
+          + File.separator
+          + "localhost";
+  public static final String TEST_PLAYLISTS_REMOTE_LAN_SHARE_DIR =
+      "src"
+          + File.separator
+          + "test"
+          + File.separator
+          + "resources"
+          + File.separator
+          + "media.video"
+          + File.separator
+          + "playlists"
+          + File.separator
+          + "lan-share-"
+          + MEDIA_SERVER;
+  public static final String TEST_PLAYLISTS_REMOTE_HTTP_DIR =
+      "src"
+          + File.separator
+          + "test"
+          + File.separator
+          + "resources"
+          + File.separator
+          + "media.video"
+          + File.separator
+          + "playlists"
+          + File.separator
+          + "http-"
+          + MEDIA_SERVER;
 
   @Override
   public void initTestData() {
@@ -52,7 +78,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
   }
 
   public void clearFiles() {
-    for(Playlist playlist : testDataList) {
+    for (Playlist playlist : testDataList) {
       playlist.setFiles(null);
     }
   }
@@ -68,11 +94,12 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
   private void initTestDataList() {
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
-    Playlist playlist = getHeroesPlaylist("marvel");
     List<String> files = new ArrayList<>();
     files.add("N:\\movies\\heroes\\marvel\\Avengers Infinity War\\Avengers.Infinity.War.mp4");
-    files.add("N:\\movies\\heroes\\marvel\\Avengers.Age.of.Ultron.2015\\Avengers.Age.of.Ultron.2015.mkv");
+    files.add(
+        "N:\\movies\\heroes\\marvel\\Avengers.Age.of.Ultron.2015\\Avengers.Age.of.Ultron.2015.mkv");
     files.add("N:\\movies\\heroes\\marvel\\Avengers.The.2012\\The.Avengers.2012.mkv");
+    Playlist playlist = getHeroesPlaylist("marvel");
     playlist.setFiles(files);
     testDataList.add(playlist);
   }
@@ -82,8 +109,8 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object> 
     String playlistName = heroesStudio + ".m3u";
     playlist.setName(playlistName);
     String category = "heroes" + File.separator + heroesStudio;
-    playlist.setPath(TEST_PLAYLISTS_ROOT_DIR + File.separator + category + File.separator
-        + playlistName);
+    playlist.setPath(
+        TEST_PLAYLISTS_ROOT_DIR + File.separator + category + File.separator + playlistName);
     playlist.setCategory(category);
     return playlist;
   }

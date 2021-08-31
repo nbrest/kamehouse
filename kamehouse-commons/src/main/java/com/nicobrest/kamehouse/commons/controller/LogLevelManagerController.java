@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,13 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 /**
  * Controller to manage the log level of kamehouse.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Controller
 @RequestMapping(value = "/api/v1/commons")
@@ -26,12 +24,9 @@ public class LogLevelManagerController extends AbstractController {
 
   private static final String DEFAULT_PACKAGE = "com.nicobrest.kamehouse";
 
-  @Autowired
-  private LogLevelManagerService logLevelManagerService;
+  @Autowired private LogLevelManagerService logLevelManagerService;
 
-  /**
-   * Sets whether the request logger should include the payload or not.
-   */
+  /** Sets whether the request logger should include the payload or not. */
   @PutMapping(path = "/log-level/request-logger/payload")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> logPayload(
@@ -44,9 +39,7 @@ public class LogLevelManagerController extends AbstractController {
     return generatePutResponseEntity(response);
   }
 
-  /**
-   * Sets whether the request logger should include the headers or not.
-   */
+  /** Sets whether the request logger should include the headers or not. */
   @PutMapping(path = "/log-level/request-logger/headers")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> logHeaders(
@@ -59,9 +52,7 @@ public class LogLevelManagerController extends AbstractController {
     return generatePutResponseEntity(response);
   }
 
-  /**
-   * Sets whether the request logger should include the client info or not.
-   */
+  /** Sets whether the request logger should include the client info or not. */
   @PutMapping(path = "/log-level/request-logger/client-info")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> logClientInfo(
@@ -74,9 +65,7 @@ public class LogLevelManagerController extends AbstractController {
     return generatePutResponseEntity(response);
   }
 
-  /**
-   * Sets whether the request logger should include the query string or not.
-   */
+  /** Sets whether the request logger should include the query string or not. */
   @PutMapping(path = "/log-level/request-logger/query-string")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> logQueryString(
@@ -90,8 +79,8 @@ public class LogLevelManagerController extends AbstractController {
   }
 
   /**
-   * Returns the current log level for the specified package or all packages with levels set, if
-   * no package is specified.
+   * Returns the current log level for the specified package or all packages with levels set, if no
+   * package is specified.
    */
   @GetMapping(path = "/log-level")
   @ResponseBody
@@ -101,9 +90,7 @@ public class LogLevelManagerController extends AbstractController {
     return generateGetResponseEntity(logLevelList);
   }
 
-  /**
-   * Set the log level for the specified package.
-   */
+  /** Set the log level for the specified package. */
   @PutMapping(path = "/log-level")
   @ResponseBody
   public ResponseEntity<List<String>> setLogLevel(
@@ -119,9 +106,7 @@ public class LogLevelManagerController extends AbstractController {
     return generatePutResponseEntity(logLevelList);
   }
 
-  /**
-   * Set kamehouse log levels to DEBUG.
-   */
+  /** Set kamehouse log levels to DEBUG. */
   @PutMapping(path = "/log-level/debug")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToDebug() {
@@ -130,9 +115,7 @@ public class LogLevelManagerController extends AbstractController {
     return generatePutResponseEntity(logLevelList);
   }
 
-  /**
-   * Set kamehouse log levels to TRACE.
-   */
+  /** Set kamehouse log levels to TRACE. */
   @PutMapping(path = "/log-level/trace")
   @ResponseBody
   public ResponseEntity<List<String>> setKamehouseLogLevelsToTrace() {
@@ -141,9 +124,7 @@ public class LogLevelManagerController extends AbstractController {
     return generatePutResponseEntity(logLevelList);
   }
 
-  /**
-   * Reset all log levels.
-   */
+  /** Reset all log levels. */
   @DeleteMapping(path = "/log-level")
   @ResponseBody
   public ResponseEntity<List<String>> resetLogLevels() {

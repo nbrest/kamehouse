@@ -4,11 +4,10 @@ import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
-import org.springframework.stereotype.Repository;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * JPA DAO for BookingScheduleConfig entity.
@@ -30,7 +29,7 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
 
   @Override
   public BookingScheduleConfig read(Long id) {
-    BookingScheduleConfig entity =  read(BookingScheduleConfig.class, id);
+    BookingScheduleConfig entity = read(BookingScheduleConfig.class, id);
     unsetDefaultBookingDate(entity);
     return entity;
   }
@@ -57,8 +56,7 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
 
   @Override
   protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    BookingScheduleConfig persistedObject =
-        (BookingScheduleConfig) persistedEntity;
+    BookingScheduleConfig persistedObject = (BookingScheduleConfig) persistedEntity;
     BookingScheduleConfig updatedObject = (BookingScheduleConfig) entity;
     persistedObject.setTennisWorldUser(updatedObject.getTennisWorldUser());
     persistedObject.setSessionType(updatedObject.getSessionType());
@@ -71,9 +69,7 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
     persistedObject.setDuration(updatedObject.getDuration());
   }
 
-  /**
-   * BookingDate needs to be set for the @UniqueConstraint defined in BookingScheduleConfig.
-   */
+  /** BookingDate needs to be set for the @UniqueConstraint defined in BookingScheduleConfig. */
   private void setDefaultBookingDate(BookingScheduleConfig entity) {
     if (entity.getBookingDate() == null) {
       logger.trace("Setting default booking date for entity {}", entity);
@@ -82,8 +78,8 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
   }
 
   /**
-   * The default booking date is only set to handle @UniqueConstraint in the database layer.
-   * In all other layers, if the value is the default, it should be treated as null.
+   * The default booking date is only set to handle @UniqueConstraint in the database layer. In all
+   * other layers, if the value is the default, it should be treated as null.
    */
   private void unsetDefaultBookingDate(BookingScheduleConfig entity) {
     Date bookingDate = entity.getBookingDate();
@@ -97,9 +93,7 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
     }
   }
 
-  /**
-   * Unset the booking date for all entities.
-   */
+  /** Unset the booking date for all entities. */
   private void unsetDefaultBookingDate(List<BookingScheduleConfig> entities) {
     if (entities == null || entities.isEmpty()) {
       return;

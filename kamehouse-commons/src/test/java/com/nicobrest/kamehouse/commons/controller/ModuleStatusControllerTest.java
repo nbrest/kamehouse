@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,16 +20,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Map;
-
 /**
  * Unit tests for ModuleStatusController class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class ModuleStatusControllerTest extends AbstractControllerTest {
 
@@ -40,8 +38,7 @@ public class ModuleStatusControllerTest extends AbstractControllerTest {
 
   private MockedStatic<PropertiesUtils> propertiesUtils;
 
-  @InjectMocks
-  private ModuleStatusController moduleStatusController;
+  @InjectMocks private ModuleStatusController moduleStatusController;
 
   @BeforeEach
   public void beforeTest() {
@@ -61,9 +58,7 @@ public class ModuleStatusControllerTest extends AbstractControllerTest {
     propertiesUtils.close();
   }
 
-  /**
-   * Get module status test.
-   */
+  /** Get module status test. */
   @Test
   public void getModuleStatusTest() throws Exception {
     MockHttpServletResponse response = doGet(MODULE_STATUS_API);

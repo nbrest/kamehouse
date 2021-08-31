@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
@@ -22,9 +23,7 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
   private KameHouseUser kameHouseUser;
   private KameHouseUserAuthenticationDaoInMemory kameHouseUserAuthenticationDao;
 
-  /**
-   * Initializes test repositories.
-   */
+  /** Initializes test repositories. */
   @BeforeEach
   public void init() {
     testUtils = new KameHouseUserTestUtils();
@@ -33,9 +32,7 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
     kameHouseUserAuthenticationDao = new KameHouseUserAuthenticationDaoInMemory();
   }
 
-  /**
-   * Tests getting a single KameHouseUser in the repository by its username.
-   */
+  /** Tests getting a single KameHouseUser in the repository by its username. */
   @Test
   public void loadUserByUsernameTest() {
     KameHouseUser user = kameHouseUserAuthenticationDao.loadUserByUsername("admin");
@@ -44,13 +41,14 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
     assertEquals("admin", user.getUsername());
   }
 
-  /**
-   * Tests getting a single KameHouseUser in the repository Exception flows.
-   */
+  /** Tests getting a single KameHouseUser in the repository Exception flows. */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
-    assertThrows(UsernameNotFoundException.class, () -> {
-      kameHouseUserAuthenticationDao.loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
-    });
+    assertThrows(
+        UsernameNotFoundException.class,
+        () -> {
+          kameHouseUserAuthenticationDao.loadUserByUsername(
+              KameHouseUserTestUtils.INVALID_USERNAME);
+        });
   }
 }

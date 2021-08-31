@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.config.TestModuleSchedulerConfig;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,27 +17,22 @@ import org.quartz.SchedulerException;
 
 /**
  * Unit tests for the TestSchedulerService class.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class TestSchedulerServiceTest {
 
-  @InjectMocks
-  private TestSchedulerService testSchedulerService;
+  @InjectMocks private TestSchedulerService testSchedulerService;
 
   @Mock(name = "scheduler")
   private Scheduler scheduler;
-
 
   @BeforeEach
   public void before() {
     MockitoAnnotations.openMocks(this);
   }
 
-  /**
-   * Sample job successful test.
-   */
+  /** Sample job successful test. */
   @Test
   public void scheduleSampleJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
@@ -45,22 +41,21 @@ public class TestSchedulerServiceTest {
     // no exception thrown expected
   }
 
-  /**
-   * Sample job exception test.
-   */
+  /** Sample job exception test. */
   @Test
   public void scheduleSampleJobExceptionTest() throws SchedulerException {
-    assertThrows(KameHouseServerErrorException.class, () -> {
-      when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
-      testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
+          testSchedulerService.setSampleJobJobDetail(
+              new TestModuleSchedulerConfig().sampleJobDetail());
 
-      testSchedulerService.scheduleSampleJob(5400);
-    });
+          testSchedulerService.scheduleSampleJob(5400);
+        });
   }
 
-  /**
-   * Sample job exception trigger won't fire test.
-   */
+  /** Sample job exception trigger won't fire test. */
   @Test
   public void scheduleSampleJobExceptionTriggerWontFireTest() throws SchedulerException {
     when(scheduler.scheduleJob(any()))
@@ -71,9 +66,7 @@ public class TestSchedulerServiceTest {
     // No exception thrown from the service
   }
 
-  /**
-   * Get job status successful test.
-   */
+  /** Get job status successful test. */
   @Test
   public void getJobStatusSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
@@ -82,9 +75,7 @@ public class TestSchedulerServiceTest {
     assertEquals("Sample job not scheduled", status);
   }
 
-  /**
-   * Cancel job successful test.
-   */
+  /** Cancel job successful test. */
   @Test
   public void cancelJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());

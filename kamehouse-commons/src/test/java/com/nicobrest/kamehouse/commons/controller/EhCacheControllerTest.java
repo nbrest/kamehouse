@@ -5,9 +5,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+
 import com.nicobrest.kamehouse.commons.model.ApplicationCache;
 import com.nicobrest.kamehouse.commons.service.EhCacheService;
 import com.nicobrest.kamehouse.commons.testutils.ApplicationCacheTestUtils;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,30 +24,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.List;
-
 /**
  * Unit tests for the EhCacheController class.
  *
  * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
 public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCache, Object> {
 
   private ApplicationCache applicationCache;
   private List<ApplicationCache> applicationCacheList;
 
-  @InjectMocks
-  private EhCacheController ehCacheController;
+  @InjectMocks private EhCacheController ehCacheController;
 
   @Mock(name = "ehCacheService")
   private EhCacheService ehCacheServiceMock;
 
-  /**
-   * Resets mock objects.
-   */
+  /** Resets mock objects. */
   @BeforeEach
   public void beforeTest() {
     testUtils = new ApplicationCacheTestUtils();
@@ -58,9 +55,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
     mockMvc = MockMvcBuilders.standaloneSetup(ehCacheController).build();
   }
 
-  /**
-   * Tests getting all caches.
-   */
+  /** Tests getting all caches. */
   @Test
   public void readAllTest() throws Exception {
     when(ehCacheServiceMock.getAll()).thenReturn(applicationCacheList);
@@ -74,9 +69,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 
-  /**
-   * Tests getting a single cache.
-   */
+  /** Tests getting a single cache. */
   @Test
   public void readSingleCacheTest() throws Exception {
     when(ehCacheServiceMock.get("dragonBallUsers")).thenReturn(applicationCache);
@@ -91,9 +84,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 
-  /**
-   * Tests clearing all caches.
-   */
+  /** Tests clearing all caches. */
   @Test
   public void clearAllTest() throws Exception {
     MockHttpServletResponse response = doDelete("/api/v1/commons/ehcache");
@@ -103,9 +94,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
 
-  /**
-   * Tests clearing a single cache.
-   */
+  /** Tests clearing a single cache. */
   @Test
   public void clearSingleCacheTest() throws Exception {
     MockHttpServletResponse response = doDelete("/api/v1/commons/ehcache?name=dragonBallUsers");

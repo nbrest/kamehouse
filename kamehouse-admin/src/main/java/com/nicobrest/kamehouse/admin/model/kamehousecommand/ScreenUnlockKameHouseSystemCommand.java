@@ -12,15 +12,12 @@ import com.nicobrest.kamehouse.commons.utils.StringUtils;
 
 /**
  * KameHouseSystemCommand to unlock the screen.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class ScreenUnlockKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public ScreenUnlockKameHouseSystemCommand() {
     String decodedPassword = getUnlockScreenPassword();
     systemCommands.add(new ScreenLockSystemCommand());
@@ -28,13 +25,11 @@ public class ScreenUnlockKameHouseSystemCommand extends KameHouseSystemCommand {
     systemCommands.add(new VncDoTypeSystemCommand(decodedPassword));
     systemCommands.add(new VncDoKeyPressSystemCommand("enter"));
   }
-  
-  /**
-   * Gets the unlock screen password.
-   */
+
+  /** Gets the unlock screen password. */
   private static String getUnlockScreenPassword() {
-    String unlockScreenPwdFile = PropertiesUtils.getUserHome() + "/"
-        + PropertiesUtils.getProperty("unlock.screen.pwd.file");
+    String unlockScreenPwdFile =
+        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("unlock.screen.pwd.file");
     try {
       String decryptedFile = EncryptionUtils.decryptKameHouseFileToString(unlockScreenPwdFile);
       if (StringUtils.isEmpty(decryptedFile)) {

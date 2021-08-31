@@ -5,7 +5,10 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
-
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -17,11 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
 /**
  * Service to execute power management commands.
  *
@@ -30,15 +28,14 @@ import java.net.InetAddress;
 @Service
 public class PowerManagementService {
 
-  public static final String TRIGGER_WONT_FIRE = "Based on configured schedule, the given "
-      + "trigger will never fire";
+  public static final String TRIGGER_WONT_FIRE =
+      "Based on configured schedule, the given " + "trigger will never fire";
   private static final Logger logger = LoggerFactory.getLogger(PowerManagementService.class);
   private static final int WOL_PORT = 9;
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
   private static final String SUSPEND_TRIGGER = "suspendTrigger";
 
-  @Autowired
-  private Scheduler scheduler;
+  @Autowired private Scheduler scheduler;
 
   @Autowired
   @Qualifier("shutdownJobDetail")
@@ -48,31 +45,24 @@ public class PowerManagementService {
   @Qualifier("suspendJobDetail")
   private JobDetail suspendJobDetail;
 
-  /**
-   * Getters and Setters.
-   */
+  /** Getters and Setters. */
   public void setScheduler(Scheduler scheduler) {
     this.scheduler = scheduler;
   }
 
-  /**
-   * Getters and Setters.
-   */
+  /** Getters and Setters. */
   public void setShutdownJobDetail(JobDetail shutdownJobDetail) {
     this.shutdownJobDetail = shutdownJobDetail;
   }
 
-  /**
-   * Getters and Setters.
-   */
+  /** Getters and Setters. */
   public void setSuspendJobDetail(JobDetail suspendJobDetail) {
     this.suspendJobDetail = suspendJobDetail;
   }
 
   /**
    * Wake on lan the specified server. The server should be the base of the the admin.properties
-   * [server].mac and [server].broadcast.
-   * For example: "media.server"
+   * [server].mac and [server].broadcast. For example: "media.server"
    */
   public void wakeOnLan(String server) {
     logger.trace("Waking up {}", server);
@@ -85,8 +75,8 @@ public class PowerManagementService {
   }
 
   /**
-   * Wake on lan the specified MAC address in format FF:FF:FF:FF:FF:FF or FF-FF-FF-FF-FF-FF
-   * using the specified broadcast address.
+   * Wake on lan the specified MAC address in format FF:FF:FF:FF:FF:FF or FF-FF-FF-FF-FF-FF using
+   * the specified broadcast address.
    */
   public void wakeOnLan(String macAddress, String broadcastAddress) {
     try {
@@ -100,8 +90,8 @@ public class PowerManagementService {
       }
 
       InetAddress broadcastInetAddress = InetAddress.getByName(broadcastAddress);
-      DatagramPacket wolPacket = new DatagramPacket(wolPacketBytes, wolPacketBytes.length,
-          broadcastInetAddress, WOL_PORT);
+      DatagramPacket wolPacket =
+          new DatagramPacket(wolPacketBytes, wolPacketBytes.length, broadcastInetAddress, WOL_PORT);
       DatagramSocket datagramSocket = new DatagramSocket();
       datagramSocket.send(wolPacket);
       datagramSocket.close();
@@ -112,9 +102,7 @@ public class PowerManagementService {
     }
   }
 
-  /**
-   * Get the mac address as a byte array.
-   */
+  /** Get the mac address as a byte array. */
   private static byte[] getMacAddressBytes(String macAddress) {
     try {
       byte[] macAddressBytes = new byte[6];
@@ -131,9 +119,7 @@ public class PowerManagementService {
     }
   }
 
-  /**
-   * Schedule a server shutdown at the specified delay in seconds.
-   */
+  /** Schedule a server shutdown at the specified delay in seconds. */
   public void scheduleShutdown(Integer delay) {
     try {
       if (delay == null || delay < 60) {
@@ -155,9 +141,7 @@ public class PowerManagementService {
     }
   }
 
-  /**
-   * Get current shutdown status.
-   */
+  /** Get current shutdown status. */
   public String getShutdownStatus() {
     try {
       Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(SHUTDOWN_TRIGGER));
@@ -171,9 +155,7 @@ public class PowerManagementService {
     }
   }
 
-  /**
-   * Cancel a current scheduled shutdown.
-   */
+  /** Cancel a current scheduled shutdown. */
   public String cancelScheduledShutdown() {
     try {
       boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey(SHUTDOWN_TRIGGER));
@@ -187,9 +169,7 @@ public class PowerManagementService {
     }
   }
 
-  /**
-   * Schedule a server suspend at the specified delay in seconds.
-   */
+  /** Schedule a server suspend at the specified delay in seconds. */
   public void scheduleSuspend(Integer delay) {
     try {
       if (delay == null || delay < 0) {
@@ -211,9 +191,7 @@ public class PowerManagementService {
     }
   }
 
-  /**
-   * Get current suspend status.
-   */
+  /** Get current suspend status. */
   public String getSuspendStatus() {
     try {
       Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(SUSPEND_TRIGGER));
@@ -227,9 +205,7 @@ public class PowerManagementService {
     }
   }
 
-  /**
-   * Cancel a current scheduled suspend.
-   */
+  /** Cancel a current scheduled suspend. */
   public String cancelScheduledSuspend() {
     try {
       boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey(SUSPEND_TRIGGER));
@@ -247,15 +223,15 @@ public class PowerManagementService {
    * Get the trigger to schedule the job to shutdown the server at the specified delay in seconds.
    */
   private Trigger getShutdownTrigger(int delay) {
-    return SchedulerUtils.getTrigger(delay, shutdownJobDetail, SHUTDOWN_TRIGGER, "Trigger to "
-        + "schedule a server shutdown");
+    return SchedulerUtils.getTrigger(
+        delay, shutdownJobDetail, SHUTDOWN_TRIGGER, "Trigger to " + "schedule a server shutdown");
   }
 
   /**
    * Get the trigger to schedule the job to suspend the server at the specified delay in seconds.
    */
   private Trigger getSuspendTrigger(int delay) {
-    return SchedulerUtils.getTrigger(delay, suspendJobDetail, SUSPEND_TRIGGER, "Trigger to "
-        + "schedule a server suspend");
+    return SchedulerUtils.getTrigger(
+        delay, suspendJobDetail, SUSPEND_TRIGGER, "Trigger to " + "schedule a server suspend");
   }
 }

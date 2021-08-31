@@ -3,29 +3,25 @@ package com.nicobrest.kamehouse.vlcrc.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * DTO for a VLC Player.
- * 
- * @author nbrest
  *
- */ 
+ * @author nbrest
+ */
 public class VlcPlayerDto implements Identifiable, Serializable {
 
-  @JsonIgnore
-  private static final long serialVersionUID = 1L; 
-  
-  private Long id; 
-  private String hostname; 
-  private int port; 
-  private String username; 
+  @JsonIgnore private static final long serialVersionUID = 1L;
+
+  private Long id;
+  private String hostname;
+  private int port;
+  private String username;
   private String password;
-  
+
   public void setId(Long id) {
     this.id = id;
   }
@@ -75,8 +71,11 @@ public class VlcPlayerDto implements Identifiable, Serializable {
   public boolean equals(final Object obj) {
     if (obj instanceof VlcPlayerDto) {
       final VlcPlayerDto other = (VlcPlayerDto) obj;
-      return new EqualsBuilder().append(id, other.getId()).append(hostname, other.getHostname())
-          .append(port, other.getPort()).isEquals();
+      return new EqualsBuilder()
+          .append(id, other.getId())
+          .append(hostname, other.getHostname())
+          .append(port, other.getPort())
+          .isEquals();
     } else {
       return false;
     }
@@ -84,7 +83,7 @@ public class VlcPlayerDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password" };
+    String[] maskedFields = {"password"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

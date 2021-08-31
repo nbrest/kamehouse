@@ -3,7 +3,8 @@ package com.nicobrest.kamehouse.commons.service;
 import static com.nicobrest.kamehouse.commons.utils.StringUtils.sanitizeInput;
 
 import com.nicobrest.kamehouse.commons.model.ApplicationCache;
-
+import java.util.ArrayList;
+import java.util.List;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.slf4j.Logger;
@@ -12,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Service class to manage the ehcache in the system.
@@ -38,9 +36,7 @@ public class EhCacheService {
     return cacheManager;
   }
 
-  /**
-   * Returns the cache information of the cache specified as a parameter.
-   */
+  /** Returns the cache information of the cache specified as a parameter. */
   public ApplicationCache get(String cacheName) {
     logger.trace("get {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
@@ -49,9 +45,7 @@ public class EhCacheService {
     return applicationCache;
   }
 
-  /**
-   * Returns the status of all the ehcaches.
-   */
+  /** Returns the status of all the ehcaches. */
   public List<ApplicationCache> getAll() {
     logger.trace("getAll");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
@@ -66,9 +60,7 @@ public class EhCacheService {
     return cacheList;
   }
 
-  /**
-   * Clears the ehcache specified as a parameter.
-   */
+  /** Clears the ehcache specified as a parameter. */
   public void clear(String cacheName) {
     logger.trace("clear {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
@@ -82,9 +74,7 @@ public class EhCacheService {
     }
   }
 
-  /**
-   * Clears all the ehcaches.
-   */
+  /** Clears all the ehcaches. */
   public void clearAll() {
     logger.trace("clearAll");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
@@ -93,9 +83,7 @@ public class EhCacheService {
     }
   }
 
-  /**
-   * Populates the map that represents the cache with the cache information.
-   */
+  /** Populates the map that represents the cache with the cache information. */
   private ApplicationCache getCacheInformation(Cache cache) {
     ApplicationCache applicationCache = null;
     if (cache != null) {

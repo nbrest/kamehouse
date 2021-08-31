@@ -5,31 +5,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the DragonBallUser class.
- * 
+ *
  * @author nbrest
  */
 public class DragonBallUserTest {
 
-  private TestUtils<DragonBallUser, DragonBallUserDto> testUtils; 
-  
-  /**
-   * Clears data from the repository before each test.
-   */
+  private TestUtils<DragonBallUser, DragonBallUserDto> testUtils;
+
+  /** Clears data from the repository before each test. */
   @BeforeEach
   public void setUp() {
     testUtils = new DragonBallUserTestUtils();
     testUtils.initTestData();
   }
-  
-  /**
-   * Tests attack and recover.
-   */
+
+  /** Tests attack and recover. */
   @Test
   public void attackAndRecoverTest() {
     DragonBallUser goku = testUtils.getTestDataList().get(0);

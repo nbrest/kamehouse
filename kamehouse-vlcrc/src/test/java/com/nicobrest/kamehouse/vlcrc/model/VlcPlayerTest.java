@@ -11,7 +11,8 @@ import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcCommandTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcFileListTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcPlaylistTestUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
-
+import java.io.InputStream;
+import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.junit.jupiter.api.AfterEach;
@@ -22,14 +23,10 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.io.InputStream;
-import java.util.List;
-
 /**
  * Test class for the VlcPlayer.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class VlcPlayerTest {
 
@@ -45,11 +42,9 @@ public class VlcPlayerTest {
 
   private MockedStatic<HttpClientUtils> httpClientUtilsMock;
 
-  @Mock
-  HttpClient httpClientMock;
+  @Mock HttpClient httpClientMock;
 
-  @Mock
-  HttpResponse httpResponseMock;
+  @Mock HttpResponse httpResponseMock;
 
   @BeforeEach
   public void init() throws Exception {
@@ -79,9 +74,7 @@ public class VlcPlayerTest {
     httpClientUtilsMock.close();
   }
 
-  /**
-   * Executes a command in the VLC Player and return it's status.
-   */
+  /** Executes a command in the VLC Player and return it's status. */
   @Test
   public void executeTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-status.json");
@@ -92,9 +85,7 @@ public class VlcPlayerTest {
     vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
   }
 
-  /**
-   * Executes a command in the VLC Player and return it's status.
-   */
+  /** Executes a command in the VLC Player and return it's status. */
   @Test
   public void executeCommandWithAllParametersTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-status-equalizer.json");
@@ -108,9 +99,7 @@ public class VlcPlayerTest {
     assertEquals("1 - Winter Is Coming.avi", vlcRcStatus.getInformation().getMeta().getFilename());
   }
 
-  /**
-   * Executes a command in the VLC Player with an invalid requestUrl.
-   */
+  /** Executes a command in the VLC Player with an invalid requestUrl. */
   @Test
   public void executeNullCommandTest() {
     VlcRcStatus vlcRcStatus = vlcPlayer.execute(new VlcRcCommand());
@@ -118,9 +107,7 @@ public class VlcPlayerTest {
     assertEquals(null, vlcRcStatus);
   }
 
-  /**
-   * Gets the status information of the VLC Player.
-   */
+  /** Gets the status information of the VLC Player. */
   @Test
   public void getVlcRcStatusTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-status.json");
@@ -130,9 +117,7 @@ public class VlcPlayerTest {
     vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
   }
 
-  /**
-   * Gets the current playlist of the VLC Player.
-   */
+  /** Gets the current playlist of the VLC Player. */
   @Test
   public void getVlcRcPlaylistTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-playlist.json");
@@ -142,9 +127,7 @@ public class VlcPlayerTest {
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, returnedPlaylist);
   }
 
-  /**
-   * Browses files in the VLC Player server.
-   */
+  /** Browses files in the VLC Player server. */
   @Test
   public void browseTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-filelist.json");
@@ -154,9 +137,7 @@ public class VlcPlayerTest {
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
   }
 
-  /**
-   * Browses files in the VLC Player server.
-   */
+  /** Browses files in the VLC Player server. */
   @Test
   public void browseEmptyParameterTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-filelist.json");
@@ -166,9 +147,7 @@ public class VlcPlayerTest {
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFilelist);
   }
 
-  /**
-   * Setup input stream mock from files in test resources.
-   */
+  /** Setup input stream mock from files in test resources. */
   private void setupInputStreamMock(String resourceName) throws Exception {
     InputStream inputStream = VlcPlayerTestUtils.getInputStream(resourceName);
     when(HttpClientUtils.getInputStream(any())).thenReturn(inputStream);

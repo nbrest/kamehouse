@@ -6,9 +6,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Common Input field validations.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class InputValidator {
 
@@ -19,27 +18,24 @@ public class InputValidator {
     throw new IllegalStateException("Utility class");
   }
 
-  /**
-   * Validates that the string length is within the accepted length.
-   */
+  /** Validates that the string length is within the accepted length. */
   public static void validateStringLength(String value, int maxLength) {
     if (value.length() > maxLength) {
-      String errorMessage = "The string attribute excedes the maximum length of "
-              + maxLength + ". Current length: " + value.length();
+      String errorMessage =
+          "The string attribute excedes the maximum length of "
+              + maxLength
+              + ". Current length: "
+              + value.length();
       throwInputValidationError(errorMessage);
     }
   }
 
-  /**
-   * Validates that the string length is within the accepted length.
-   */
+  /** Validates that the string length is within the accepted length. */
   public static void validateStringLength(String value) {
     validateStringLength(value, MAX_STRING_LENGTH);
   }
 
-  /**
-   * Handle validation error.
-   */
+  /** Handle validation error. */
   public static void throwInputValidationError(String errorMessage) {
     LOGGER.error(errorMessage);
     throw new KameHouseInvalidDataException(errorMessage);

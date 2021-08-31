@@ -3,11 +3,6 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * Service to execute and manage system commands.
@@ -33,16 +32,12 @@ public class SystemCommandService {
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Error occurred while executing the process.";
 
-  /**
-   * Executes an KameHouseSystemCommand. Translates it to system commands and executes them.
-   */
+  /** Executes an KameHouseSystemCommand. Translates it to system commands and executes them. */
   public List<SystemCommand.Output> execute(KameHouseSystemCommand kameHouseSystemCommand) {
     return execute(kameHouseSystemCommand.getSystemCommands());
   }
 
-  /**
-   * Executes the specified SystemCommand.
-   */
+  /** Executes the specified SystemCommand. */
   public SystemCommand.Output execute(SystemCommand systemCommand) {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
@@ -72,8 +67,8 @@ public class SystemCommandService {
       logger.error(EXCEPTION_EXECUTING_PROCESS, e);
       commandOutput.setExitCode(1);
       commandOutput.setStatus(FAILED);
-      commandOutput.setStandardError(Arrays.asList(
-          "An error occurred executing the command. Message: " + e.getMessage()));
+      commandOutput.setStandardError(
+          Arrays.asList("An error occurred executing the command. Message: " + e.getMessage()));
     } catch (InterruptedException e) {
       logger.error(EXCEPTION_EXECUTING_PROCESS, e);
       Thread.currentThread().interrupt();
@@ -96,9 +91,7 @@ public class SystemCommandService {
     return commandOutput;
   }
 
-  /**
-   * Executes the specified list of system commands.
-   */
+  /** Executes the specified list of system commands. */
   public List<SystemCommand.Output> execute(List<SystemCommand> systemCommands) {
     List<SystemCommand.Output> systemCommandOutputs = new ArrayList<>();
     for (SystemCommand systemCommand : systemCommands) {
@@ -108,18 +101,15 @@ public class SystemCommandService {
     return systemCommandOutputs;
   }
 
-  /**
-   * Gets input and error streams from process and add them to the system command
-   * output.
-   */
+  /** Gets input and error streams from process and add them to the system command output. */
   private void getStreamsFromProcess(Process process, SystemCommand.Output commandOutput)
       throws IOException {
     try (InputStream processInputStream = ProcessUtils.getInputStream(process);
-         BufferedReader processBufferedReader =
-             new BufferedReader(new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
-         InputStream processErrorStream = ProcessUtils.getErrorStream(process);
-         BufferedReader processErrorBufferedReader = new BufferedReader(
-             new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
+        BufferedReader processBufferedReader =
+            new BufferedReader(new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
+        InputStream processErrorStream = ProcessUtils.getErrorStream(process);
+        BufferedReader processErrorBufferedReader =
+            new BufferedReader(new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
       // Read command standard output stream
       List<String> processStandardOuputList = readStreamIntoList(processBufferedReader);
       commandOutput.setStandardOutput(processStandardOuputList);
@@ -129,9 +119,7 @@ public class SystemCommandService {
     }
   }
 
-  /**
-   * Reads the stream from a buffered reader and store it in a List of Strings.
-   */
+  /** Reads the stream from a buffered reader and store it in a List of Strings. */
   private List<String> readStreamIntoList(BufferedReader bufferedReader) throws IOException {
     List<String> streamAsList = new ArrayList<>();
     String streamLine;

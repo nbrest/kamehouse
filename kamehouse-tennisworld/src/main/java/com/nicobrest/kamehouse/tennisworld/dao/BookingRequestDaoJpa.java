@@ -3,9 +3,8 @@ package com.nicobrest.kamehouse.tennisworld.dao;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * JPA DAO for BookingRequest entity.
@@ -22,7 +21,7 @@ public class BookingRequestDaoJpa extends AbstractCrudDaoJpa implements CrudDao<
 
   @Override
   public BookingRequest read(Long id) {
-    BookingRequest entity =  read(BookingRequest.class, id);
+    BookingRequest entity = read(BookingRequest.class, id);
     return entity;
   }
 

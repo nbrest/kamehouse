@@ -5,15 +5,12 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystem
 
 /**
  * KameHouseSystemCommand to wake up the screen.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class ScreenWakeUpKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
+  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
   public ScreenWakeUpKameHouseSystemCommand() {
     systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));
     systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "500"));

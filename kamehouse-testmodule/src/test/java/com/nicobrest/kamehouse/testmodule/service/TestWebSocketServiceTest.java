@@ -4,14 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.testmodule.model.TestWebSocketRequestMessage;
 import com.nicobrest.kamehouse.testmodule.model.TestWebSocketResponseMessage;
-
 import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the test module websocket service.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class TestWebSocketServiceTest {
 
@@ -22,9 +20,9 @@ public class TestWebSocketServiceTest {
     testWebSocketRequestMessage.setFirstName("Goku");
     testWebSocketRequestMessage.setLastName("Son");
     TestWebSocketService testWebSocketService = new TestWebSocketService();
-    
-    TestWebSocketResponseMessage testWebSocketResponseMessage = testWebSocketService
-        .generateTestWebSocketResponseMessage(testWebSocketRequestMessage);
+
+    TestWebSocketResponseMessage testWebSocketResponseMessage =
+        testWebSocketService.generateTestWebSocketResponseMessage(testWebSocketRequestMessage);
 
     assertEquals(expectedMessage, testWebSocketResponseMessage.getMessage());
   }

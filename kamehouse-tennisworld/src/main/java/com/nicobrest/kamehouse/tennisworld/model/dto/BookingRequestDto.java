@@ -5,17 +5,15 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
 import java.util.Date;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents a tennis world booking request dto.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public class BookingRequestDto implements Identifiable, Serializable {
 
@@ -34,9 +32,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
   private Date creationDate = new Date();
   private boolean scheduled = false;
 
-  /**
-   * Get entity.
-   */
+  /** Get entity. */
   public BookingRequest toEntity() {
     BookingRequest entity = new BookingRequest();
     entity.setId(getId());
@@ -78,9 +74,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
     return password;
   }
 
-  /**
-   * Get booking date.
-   */
+  /** Get booking date. */
   public Date getDate() {
     if (date != null) {
       return (Date) date.clone();
@@ -89,9 +83,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Set booking date.
-   */
+  /** Set booking date. */
   public void setDate(Date date) {
     if (date != null) {
       this.date = (Date) date.clone();
@@ -148,9 +140,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
     this.dryRun = dryRun;
   }
 
-  /**
-   * Get date.
-   */
+  /** Get date. */
   public Date getCreationDate() {
     if (creationDate != null) {
       return (Date) creationDate.clone();
@@ -159,9 +149,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
     }
   }
 
-  /**
-   * Set date.
-   */
+  /** Set date. */
   public void setCreationDate(Date creationDate) {
     if (creationDate != null) {
       this.creationDate = (Date) creationDate.clone();
@@ -213,7 +201,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = { "password", "cardDetails.number", "cardDetails.cvv" };
+    String[] maskedFields = {"password", "cardDetails.number", "cardDetails.cvv"};
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 }

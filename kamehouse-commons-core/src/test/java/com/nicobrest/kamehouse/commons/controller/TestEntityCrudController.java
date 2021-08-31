@@ -3,6 +3,8 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import com.nicobrest.kamehouse.commons.service.TestEntityCrudService;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,58 +17,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-
-/**
- * Test controller to test AbstractCrudController and AbstractController.
- */
+/** Test controller to test AbstractCrudController and AbstractController. */
 @Controller
 @RequestMapping(value = "/api/v1/unit-tests")
 public class TestEntityCrudController extends AbstractCrudController {
 
-  @Autowired
-  private TestEntityCrudService testEntityCrudService;
+  @Autowired private TestEntityCrudService testEntityCrudService;
 
-  /**
-   * Create a TestEntity.
-   */
+  /** Create a TestEntity. */
   @PostMapping(path = "/test-entity")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody TestEntityDto dto, HttpServletRequest request) {
     return create(testEntityCrudService, dto);
   }
 
-  /**
-   * Read a TestEntity.
-   */
+  /** Read a TestEntity. */
   @GetMapping(path = "/test-entity/{id}")
   @ResponseBody
   public ResponseEntity<TestEntity> read(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(read(testEntityCrudService, id));
   }
 
-  /**
-   * Read all TestEntities.
-   */
+  /** Read all TestEntities. */
   @GetMapping(path = "/test-entity")
   @ResponseBody
   public ResponseEntity<List<TestEntity>> readAll() {
     return readAll(testEntityCrudService);
   }
 
-  /**
-   * Update a TestEntity.
-   */
+  /** Update a TestEntity. */
   @PutMapping(path = "/test-entity/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TestEntityDto dto) {
     return update(testEntityCrudService, id, dto);
   }
 
-  /**
-   * Delete a TestEntity.
-   */
+  /** Delete a TestEntity. */
   @DeleteMapping(path = "/test-entity/{id}")
   @ResponseBody
   public ResponseEntity<TestEntity> delete(@PathVariable Long id) {

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.config;
 
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
+import javax.annotation.PostConstruct;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -17,13 +18,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import javax.annotation.PostConstruct;
-
 /**
  * Configuration class to setup the scheduler beans in the tennisworld module.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Configuration
 @EnableScheduling
@@ -31,12 +29,9 @@ public class TennisWorldSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private Scheduler scheduler;
+  @Autowired private Scheduler scheduler;
 
-  /**
-   * Init TennisWorldSchedulerConfig.
-   */
+  /** Init TennisWorldSchedulerConfig. */
   @PostConstruct
   public void init() {
     logger.info("init TennisWorldSchedulerConfig");
@@ -51,9 +46,7 @@ public class TennisWorldSchedulerConfig {
     }
   }
 
-  /**
-   * scheduledBookingJobDetail bean.
-   */
+  /** scheduledBookingJobDetail bean. */
   @Bean(name = "scheduledBookingJobDetail")
   public JobDetail scheduledBookingJobDetail() {
     return JobBuilder.newJob()
@@ -64,17 +57,16 @@ public class TennisWorldSchedulerConfig {
         .build();
   }
 
-  /**
-   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes.
-   */
-  private static Trigger scheduledBookingTrigger(JobDetail scheduledBookingJobDetail,
-                                                 int hour, int minute) {
+  /** Trigger for the scheduledBookingJobDetail at the specified hour and minutes. */
+  private static Trigger scheduledBookingTrigger(
+      JobDetail scheduledBookingJobDetail, int hour, int minute) {
     return TriggerBuilder.newTrigger()
         .forJob(scheduledBookingJobDetail)
         .withIdentity(TriggerKey.triggerKey("scheduledBookingTrigger_" + hour + "_" + minute))
         .withDescription("Trigger to schedule a booking job at " + hour + ":" + minute)
-        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(hour, minute)
-            .withMisfireHandlingInstructionDoNothing())
+        .withSchedule(
+            CronScheduleBuilder.dailyAtHourAndMinute(hour, minute)
+                .withMisfireHandlingInstructionDoNothing())
         .build();
   }
 }

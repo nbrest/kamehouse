@@ -5,14 +5,11 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 
 /**
  * Interface for the KameHouseUserDao repositories.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 public interface KameHouseUserDao extends CrudDao<KameHouseUser> {
 
-  /**
-   * Gets a kamehouse user from the repository by it's username.
-   */
+  /** Gets a kamehouse user from the repository by it's username. */
   public KameHouseUser loadUserByUsername(String username);
 }

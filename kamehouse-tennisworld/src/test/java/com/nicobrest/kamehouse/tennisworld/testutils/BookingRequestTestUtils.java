@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.testutils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
@@ -8,7 +9,6 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
-
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -17,13 +17,12 @@ import java.util.LinkedList;
  * application.
  *
  * @author nbrest
- *
  */
 public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, BookingRequestDto>
     implements TestUtils<BookingRequest, BookingRequestDto> {
 
-  public static final String API_V1_TENNISWORLD_BOOKING_REQUESTS = "/api/v1/tennis-world"
-      + "/booking-requests/";
+  public static final String API_V1_TENNISWORLD_BOOKING_REQUESTS =
+      "/api/v1/tennis-world" + "/booking-requests/";
   private BookingRequest sessionRequest = null;
 
   public BookingRequest getSessionRequest() {
@@ -53,16 +52,14 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     String returnedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, returned.getDate());
     assertEquals(expectedDate, returnedDate);
 
-    String expectedCreationDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-        expected.getCreationDate());
-    String returnedCreationDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-        returned.getCreationDate());
+    String expectedCreationDate =
+        DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, expected.getCreationDate());
+    String returnedCreationDate =
+        DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, returned.getCreationDate());
     assertEquals(expectedCreationDate, returnedCreationDate);
   }
 
-  /**
-   * Unset transient data for DAO tests.
-   */
+  /** Unset transient data for DAO tests. */
   public void unsetTransientData() {
     for (BookingRequest request : testDataList) {
       request.setPassword(null);

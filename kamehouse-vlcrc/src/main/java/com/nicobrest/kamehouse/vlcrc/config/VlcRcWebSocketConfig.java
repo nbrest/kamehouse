@@ -8,9 +8,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 /**
  * Configuration class for all web sockets in the application.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
 @Configuration
 @EnableWebSocketMessageBroker

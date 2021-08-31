@@ -1,25 +1,23 @@
 package com.nicobrest.kamehouse.vlcrc.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Test data and common test methods to test VlcRcStatus.
- * 
- * @author nbrest
  *
+ * @author nbrest
  */
-public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object> implements
-    TestUtils<VlcRcStatus, Object> {
+public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
+    implements TestUtils<VlcRcStatus, Object> {
 
   @Override
   public void initTestData() {
@@ -48,9 +46,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     assertInformation(expected, returned);
   }
 
-  /**
-   * Assert root attributes of VlcRcStatus.
-   */
+  /** Assert root attributes of VlcRcStatus. */
   private void assertRootAttributes(VlcRcStatus expected, VlcRcStatus returned) {
     assertEquals(expected.getApiVersion(), returned.getApiVersion());
     assertEquals(expected.getAspectRatio(), returned.getAspectRatio());
@@ -69,10 +65,8 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     assertEquals(expected.getVersion(), returned.getVersion());
     assertEquals(expected.getVolume(), returned.getVolume());
   }
-  
-  /**
-   * Assert stats of VlcRcStatus.
-   */
+
+  /** Assert stats of VlcRcStatus. */
   private void assertStats(VlcRcStatus expected, VlcRcStatus returned) {
     VlcRcStatus.Stats expectedStats = expected.getStats();
     VlcRcStatus.Stats returnedStats = returned.getStats();
@@ -102,9 +96,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
-  /**
-   * Assert video effects of VlcRcStatus.
-   */
+  /** Assert video effects of VlcRcStatus. */
   private void assertVideoEffects(VlcRcStatus expectedEntity, VlcRcStatus returnedEntity) {
     VlcRcStatus.VideoEffects expected = expectedEntity.getVideoEffects();
     VlcRcStatus.VideoEffects returned = returnedEntity.getVideoEffects();
@@ -119,10 +111,8 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
       assertEquals(expected, returned);
     }
   }
-  
-  /**
-   * Assert information attribute of VlcRcStatus.
-   */
+
+  /** Assert information attribute of VlcRcStatus. */
   private void assertInformation(VlcRcStatus expected, VlcRcStatus returned) {
     VlcRcStatus.Information expectedInformation = expected.getInformation();
     VlcRcStatus.Information returnedInformation = returned.getInformation();
@@ -141,11 +131,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
-  /**
-   * Assert meta attribute of information of VlcRcStatus.
-   */
-  private void assertMeta(VlcRcStatus.Information expectedInformation,
-      VlcRcStatus.Information returnedInformation) {
+  /** Assert meta attribute of information of VlcRcStatus. */
+  private void assertMeta(
+      VlcRcStatus.Information expectedInformation, VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Meta expected = expectedInformation.getMeta();
     VlcRcStatus.Information.Meta returned = returnedInformation.getMeta();
     if (expected != null && returned != null) {
@@ -162,11 +150,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
-  /**
-   * Assert audio attribute of information of VlcRcStatus.
-   */
-  private void assertAudio(VlcRcStatus.Information expectedInformation,
-      VlcRcStatus.Information returnedInformation) {
+  /** Assert audio attribute of information of VlcRcStatus. */
+  private void assertAudio(
+      VlcRcStatus.Information expectedInformation, VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Audio expected = expectedInformation.getAudio();
     VlcRcStatus.Information.Audio returned = returnedInformation.getAudio();
     if (expected != null && returned != null) {
@@ -183,11 +169,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
-  /**
-   * Assert video attribute of information of VlcRcStatus.
-   */
-  private void assertVideo(VlcRcStatus.Information expectedInformation,
-      VlcRcStatus.Information returnedInformation) {
+  /** Assert video attribute of information of VlcRcStatus. */
+  private void assertVideo(
+      VlcRcStatus.Information expectedInformation, VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Video expected = expectedInformation.getVideo();
     VlcRcStatus.Information.Video returned = returnedInformation.getVideo();
     if (expected != null && returned != null) {
@@ -205,11 +189,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     }
   }
 
-  /**
-   * Assert subtitle attribute of information of VlcRcStatus.
-   */
-  private void assertSubtitle(VlcRcStatus.Information expectedInformation,
-      VlcRcStatus.Information returnedInformation) {
+  /** Assert subtitle attribute of information of VlcRcStatus. */
+  private void assertSubtitle(
+      VlcRcStatus.Information expectedInformation, VlcRcStatus.Information returnedInformation) {
     VlcRcStatus.Information.Subtitle expected = expectedInformation.getSubtitle();
     VlcRcStatus.Information.Subtitle returned = returnedInformation.getSubtitle();
     if (expected != null && returned != null) {
@@ -314,8 +296,9 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     meta.setFilename("1 - Winter Is Coming.avi");
     meta.setTitle("Winter Is Coming.avi");
     meta.setArtist("1");
-    meta.setArtworkUrl("file:///C:/Users/nbrest/AppData/Roaming/vlc"
-        + "/art/arturl/939adb7ed723657d6a078ce9085e83ab/art");
+    meta.setArtworkUrl(
+        "file:///C:/Users/nbrest/AppData/Roaming/vlc"
+            + "/art/arturl/939adb7ed723657d6a078ce9085e83ab/art");
     meta.setSetting(" HAS_INDEX IS_INTERLEAVED");
     meta.setSoftware("Nandub v1.0rc2");
     information.setMeta(meta);

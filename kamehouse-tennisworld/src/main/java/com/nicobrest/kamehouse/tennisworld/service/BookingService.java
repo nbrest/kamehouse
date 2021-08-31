@@ -18,8 +18,12 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
-import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -41,13 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Service to execute tennis world bookings.
  *
@@ -61,14 +58,14 @@ public class BookingService {
   private static final String INITIAL_LOGIN_URL = ROOT_URL + "/customer/mobile/login";
   private static final String SITE_LINK_HREF = "/customer/mobile/login/complete_login/";
   private static final String DASHBOARD_URL = ROOT_URL + "/customer/mobile/dashboard";
-  private static final String BOOK_FACILITY_OVERLAY_AJAX_URL = ROOT_URL + "/customer/mobile/"
-      + "facility/book_overlay_ajax";
-  private static final String BOOK_SESSION_OVERLAY_AJAX_URL = ROOT_URL + "/customer/mobile/"
-      + "session/load_session_ajax";
-  private static final String FACILITY_CONFIRM_BOOKING_URL = ROOT_URL + "/customer/mobile"
-      + "/facility/confirm";
-  private static final String SESSION_CONFIRM_BOOKING_URL = ROOT_URL + "/customer/mobile"
-      + "/session/confirm";
+  private static final String BOOK_FACILITY_OVERLAY_AJAX_URL =
+      ROOT_URL + "/customer/mobile/" + "facility/book_overlay_ajax";
+  private static final String BOOK_SESSION_OVERLAY_AJAX_URL =
+      ROOT_URL + "/customer/mobile/" + "session/load_session_ajax";
+  private static final String FACILITY_CONFIRM_BOOKING_URL =
+      ROOT_URL + "/customer/mobile" + "/facility/confirm";
+  private static final String SESSION_CONFIRM_BOOKING_URL =
+      ROOT_URL + "/customer/mobile" + "/session/confirm";
   // Headers
   private static final String LOCATION = "Location";
   private static final String REFERER = "Referer";
@@ -86,36 +83,30 @@ public class BookingService {
   private static final String ID_ERROR_STACK = "error-stack";
   private static final String ID_ERROR_MESSAGE = "error-message";
   // Other constants
-  public static final String INVALID_BOOKING_SERVER = "The current server is not the booking"
-      + " server. Can't book a scheduled cardio session from this server.";
+  public static final String INVALID_BOOKING_SERVER =
+      "The current server is not the booking"
+          + " server. Can't book a scheduled cardio session from this server.";
   public static final String SUCCESSFUL_BOOKING = "Completed the booking request successfully";
-  public static final String SUCCESSFUL_BOOKING_DRY_RUN = "Completed the booking request DRY-RUN"
-      + " successfully";
+  public static final String SUCCESSFUL_BOOKING_DRY_RUN =
+      "Completed the booking request DRY-RUN" + " successfully";
   public static final String BOOKING_FINISHED = "Booking to tennis world finished: ";
 
   private static int sleepMs = 500;
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private BookingScheduleConfigService bookingScheduleConfigService;
+  @Autowired private BookingScheduleConfigService bookingScheduleConfigService;
 
-  @Autowired
-  private BookingRequestService bookingRequestService;
+  @Autowired private BookingRequestService bookingRequestService;
 
-  @Autowired
-  private BookingResponseService bookingResponseService;
+  @Autowired private BookingResponseService bookingResponseService;
 
-  /**
-   * Set the sleep ms between requests.
-   */
+  /** Set the sleep ms between requests. */
   public static void setSleepMs(int sleepMs) {
     BookingService.sleepMs = sleepMs;
   }
 
-  /**
-   * Initiate a booking request to tennis world.
-   */
+  /** Initiate a booking request to tennis world. */
   public BookingResponse book(BookingRequest bookingRequest) {
     try {
       validateRequest(bookingRequest);
@@ -135,8 +126,10 @@ public class BookingService {
           return bookFacilityOverlayRequest(bookingRequest);
         case UNKNOWN:
         default:
-          return buildResponse(Status.INTERNAL_ERROR,
-              "Unhandled sessionType: " + sessionType.name(), bookingRequest);
+          return buildResponse(
+              Status.INTERNAL_ERROR,
+              "Unhandled sessionType: " + sessionType.name(),
+              bookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
       return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
@@ -144,9 +137,9 @@ public class BookingService {
   }
 
   /**
-   * Execute the scheduled bookings based on the BookingScheduleConfigs set in the database.
-   * This method is to be triggered by the {@link ScheduledBookingJob}. It can also be manually
-   * triggered through an API.
+   * Execute the scheduled bookings based on the BookingScheduleConfigs set in the database. This
+   * method is to be triggered by the {@link ScheduledBookingJob}. It can also be manually triggered
+   * through an API.
    */
   public List<BookingResponse> bookScheduledSessions() {
     List<BookingScheduleConfig> bookingScheduleConfigs = bookingScheduleConfigService.readAll();
@@ -158,45 +151,45 @@ public class BookingService {
     for (BookingScheduleConfig bookingScheduleConfig : bookingScheduleConfigs) {
       logger.trace("Processing {}", bookingScheduleConfig);
       if (!bookingScheduleConfig.getEnabled()) {
-        logger.debug("BookingScheduleConfig id {} is disabled. Skipping.",
-            bookingScheduleConfig.getId());
+        logger.debug(
+            "BookingScheduleConfig id {} is disabled. Skipping.", bookingScheduleConfig.getId());
         continue;
       }
       try {
         Date bookingDate = calculateBookingDate(bookingScheduleConfig);
         if (bookingDate != null) {
-          BookingRequest bookingRequest = createScheduledBookingRequest(bookingScheduleConfig,
-              bookingDate);
+          BookingRequest bookingRequest =
+              createScheduledBookingRequest(bookingScheduleConfig, bookingDate);
           BookingResponse response = book(bookingRequest);
           bookingResponses.add(response);
         } else {
-          logger.debug("No scheduled booking to be executed today for BookingScheduleConfig id {}",
+          logger.debug(
+              "No scheduled booking to be executed today for BookingScheduleConfig id {}",
               bookingScheduleConfig.getId());
         }
       } catch (KameHouseException e) {
         logger.error("Error executing scheduled booking for {}", bookingScheduleConfig, e);
       }
     }
-    logger.info("Booking scheduled sessions finished with the following responses: {}",
-        bookingResponses);
+    logger.info(
+        "Booking scheduled sessions finished with the following responses: {}", bookingResponses);
     return bookingResponses;
   }
 
   /**
-   * TennisWorld expects a time in the format hh:mm[am|pm] but the standard way to get the time
-   * from the UI is HH:MM. This method converts between the formats.
+   * TennisWorld expects a time in the format hh:mm[am|pm] but the standard way to get the time from
+   * the UI is HH:MM. This method converts between the formats.
    */
   private void updateTimeFormatForTennisWorld(BookingRequest bookingRequest) {
-    String formattedTime = DateUtils.convertTime(bookingRequest.getTime(), DateUtils.HH_MM_24HS,
-        DateUtils.HH_MMAM_PM, true);
+    String formattedTime =
+        DateUtils.convertTime(
+            bookingRequest.getTime(), DateUtils.HH_MM_24HS, DateUtils.HH_MMAM_PM, true);
     bookingRequest.setTime(formattedTime);
   }
 
-  /**
-   * Create a tennisworld booking request based on the schedule config.
-   */
-  private BookingRequest createScheduledBookingRequest(BookingScheduleConfig
-      bookingScheduleConfig, Date bookingDate) {
+  /** Create a tennisworld booking request based on the schedule config. */
+  private BookingRequest createScheduledBookingRequest(
+      BookingScheduleConfig bookingScheduleConfig, Date bookingDate) {
     BookingRequest request = new BookingRequest();
     request.setDate(bookingDate);
     TennisWorldUser tennisWorldUser = bookingScheduleConfig.getTennisWorldUser();
@@ -211,16 +204,14 @@ public class BookingService {
     return request;
   }
 
-  /**
-   * Get the booking request date as a formatted string.
-   */
+  /** Get the booking request date as a formatted string. */
   private String getBookingRequestDate(BookingRequest bookingRequest) {
     return DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingRequest.getDate());
   }
 
   /**
-   * Get the bookingDate calculated from the schedule config.
-   * If null is returned then no booking should be executed.
+   * Get the bookingDate calculated from the schedule config. If null is returned then no booking
+   * should be executed.
    */
   private Date calculateBookingDate(BookingScheduleConfig bookingScheduleConfig) {
     if (bookingScheduleConfig.getBookingDate() != null) {
@@ -250,9 +241,7 @@ public class BookingService {
     return null;
   }
 
-  /**
-   * Returns true if the bookingDate is on or after the current date.
-   */
+  /** Returns true if the bookingDate is on or after the current date. */
   boolean isActiveBookingDate(Date bookingDate) {
     if (bookingDate == null) {
       return false;
@@ -260,26 +249,20 @@ public class BookingService {
     return DateUtils.isOnOrAfter(DateUtils.getCurrentDate(), bookingDate);
   }
 
-  /**
-   * Returns true if the bookingDate is 'bookAheadDays' days ahead from the current date.
-   */
+  /** Returns true if the bookingDate is 'bookAheadDays' days ahead from the current date. */
   boolean bookingDateMatchesBookAheadDays(BookingScheduleConfig bookingScheduleConfig) {
     Date bookingDate = bookingScheduleConfig.getBookingDate();
     long daysToBookingDate = DateUtils.getDaysBetweenDates(DateUtils.getCurrentDate(), bookingDate);
     return daysToBookingDate == bookingScheduleConfig.getBookAheadDays();
   }
 
-  /**
-   * Gets the decrypted password for the tennisworld user.
-   */
+  /** Gets the decrypted password for the tennisworld user. */
   private String getDecryptedPassword(TennisWorldUser tennisWorldUser) {
-    return EncryptionUtils.decryptToString(tennisWorldUser.getPassword(),
-        EncryptionUtils.getKameHousePrivateKey());
+    return EncryptionUtils.decryptToString(
+        tennisWorldUser.getPassword(), EncryptionUtils.getKameHousePrivateKey());
   }
 
-  /**
-   * Validate the format of the booking request fields.
-   */
+  /** Validate the format of the booking request fields. */
   private void validateRequest(BookingRequest bookingRequest) {
     if (bookingRequest.getDate() == null) {
       throw new KameHouseInvalidDataException("Invalid date");
@@ -300,25 +283,24 @@ public class BookingService {
 
   /**
    * Handle a tennis world booking for session overlay bookings. Currently those are session type:
+   *
    * <ul>
-   *  <li>Book a Cardio Tennis Class</li>
+   *   <li>Book a Cardio Tennis Class
    * </ul>
    * The current process to complete this type of booking is:
    * <ul>
-   * <li>1.1) POST Initial login request</li>
-   * <li>1.2) GET Complete login - show all sites</li>
-   * <li>1.3) GET Complete login in specific site (ej. Melbourne Park)</li>
-   * <li>2) GET Specific session type page</li>
-   * <li>3) GET Specific session date page</li>
-   * <li>4) POST Load book_overlay_ajax with the selected session_id and session_date. Check if
-   * there's any errors in the response</li>
-   * <li>5) GET Confirm booking url to submit the final booking request with the
-   * site_session_group_id</li>
-   * <li>
-   *   6) POST Confirm booking for the selected session. Send the final booking request (with
-   *   payment details when required)
-   * </li>
-   * <li>7) GET Confirm booking url. Check the final result of the booking request</li>
+   *   <li>1.1) POST Initial login request
+   *   <li>1.2) GET Complete login - show all sites
+   *   <li>1.3) GET Complete login in specific site (ej. Melbourne Park)
+   *   <li>2) GET Specific session type page
+   *   <li>3) GET Specific session date page
+   *   <li>4) POST Load book_overlay_ajax with the selected session_id and session_date. Check if
+   *       there's any errors in the response
+   *   <li>5) GET Confirm booking url to submit the final booking request with the
+   *       site_session_group_id
+   *   <li>6) POST Confirm booking for the selected session. Send the final booking request (with
+   *       payment details when required)
+   *   <li>7) GET Confirm booking url. Check the final result of the booking request
    * </ul>
    */
   private BookingResponse bookCardioSessionRequest(BookingRequest bookingRequest) {
@@ -332,8 +314,8 @@ public class BookingService {
 
       // 2 -------------------------------------------------------------------------
       Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
-      String selectedSessionDatePath = getSelectedSessionDatePath(sessionTypePage,
-          selectedSessionTypeId, bookingDate);
+      String selectedSessionDatePath =
+          getSelectedSessionDatePath(sessionTypePage, selectedSessionTypeId, bookingDate);
 
       // 3 -------------------------------------------------------------------------
       Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
@@ -347,8 +329,8 @@ public class BookingService {
       if (!bookingRequest.isDryRun()) {
 
         // 6 -------------------------------------------------------------------------
-        String confirmBookingRedirectUrl = postSessionBookingRequest(httpClient,
-            bookingRequest.getCardDetails());
+        String confirmBookingRedirectUrl =
+            postSessionBookingRequest(httpClient, bookingRequest.getCardDetails());
 
         // 7 -------------------------------------------------------------------------
         confirmSessionBookingResult(httpClient, confirmBookingRedirectUrl);
@@ -362,21 +344,22 @@ public class BookingService {
       return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
-      return buildResponse(Status.INTERNAL_ERROR, "Error executing booking request to tennis"
-          + " world Message: " + e.getMessage(), bookingRequest);
+      return buildResponse(
+          Status.INTERNAL_ERROR,
+          "Error executing booking request to tennis" + " world Message: " + e.getMessage(),
+          bookingRequest);
     }
   }
 
-  /**
-   * Get the sessionId from the sessionDatePage.
-   */
+  /** Get the sessionId from the sessionDatePage. */
   private String getSessionId(Document sessionDatePage, BookingRequest bookingRequest) {
     String sessionId = null;
     for (Element listItem : sessionDatePage.getElementsByTag("li")) {
       String sessionDate = listItem.attr(ATTR_SESSION_DATE);
       if (listItem.childrenSize() > 0) {
         String sessionTime = listItem.child(0).text();
-        if (sessionTime != null && sessionTime.contains(bookingRequest.getTime())
+        if (sessionTime != null
+            && sessionTime.contains(bookingRequest.getTime())
             && sessionDate.equals(getBookingRequestDate(bookingRequest))) {
           sessionId = listItem.attr(ATTR_SESSION_ID);
           break;
@@ -394,8 +377,8 @@ public class BookingService {
    * Step 4. Post the session book overlay ajax request and confirm that the response is not empty
    * and that it doesn't contain errors.
    */
-  private void postSessionBookOverlayAjax(HttpClient httpClient, String sessionId,
-                                          String sessionDate) throws IOException {
+  private void postSessionBookOverlayAjax(
+      HttpClient httpClient, String sessionId, String sessionDate) throws IOException {
     sleep();
     List<NameValuePair> loadSessionAjaxParams = new ArrayList<>();
     loadSessionAjaxParams.add(new BasicNameValuePair(ATTR_SESSION_ID, sessionId));
@@ -406,8 +389,8 @@ public class BookingService {
     loadSessionAjaxRequestHttpPost.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 4: POST request to: {}", BOOK_SESSION_OVERLAY_AJAX_URL);
     logRequestHeaders(loadSessionAjaxRequestHttpPost);
-    HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient,
-        loadSessionAjaxRequestHttpPost);
+    HttpResponse httpResponse =
+        HttpClientUtils.execRequest(httpClient, loadSessionAjaxRequestHttpPost);
     logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
@@ -416,9 +399,7 @@ public class BookingService {
     }
   }
 
-  /**
-   * Step 5. Go to the confirm booking url for facility requests.
-   */
+  /** Step 5. Go to the confirm booking url for facility requests. */
   private void getSessionConfirmBookingUrl(HttpClient httpClient, String selectedSessionDatePath)
       throws IOException {
     sleep();
@@ -438,8 +419,8 @@ public class BookingService {
   }
 
   /**
-   * Step 6. Post the session booking request (finally!) and check if there's any errors.
-   * I expect a 302 redirect response, so if that's not the case, mark the request as error.
+   * Step 6. Post the session booking request (finally!) and check if there's any errors. I expect a
+   * 302 redirect response, so if that's not the case, mark the request as error.
    */
   private String postSessionBookingRequest(HttpClient httpClient, CardDetails cardDetails)
       throws IOException {
@@ -459,19 +440,18 @@ public class BookingService {
     logger.debug(html);
     Document postBookingResponsePage = Jsoup.parse(html);
     if (hasError(postBookingResponsePage)) {
-      throw new KameHouseServerErrorException("Error posting booking request: "
-          + Arrays.toString(getErrorStackMessages(postBookingResponsePage).toArray()));
+      throw new KameHouseServerErrorException(
+          "Error posting booking request: "
+              + Arrays.toString(getErrorStackMessages(postBookingResponsePage).toArray()));
     }
     if (HttpClientUtils.getStatusCode(httpResponse) != HttpStatus.FOUND.value()) {
-      throw new KameHouseServerErrorException("Error posting booking request. Expected a "
-          + "redirect response");
+      throw new KameHouseServerErrorException(
+          "Error posting booking request. Expected a " + "redirect response");
     }
     return HttpClientUtils.getHeader(httpResponse, LOCATION);
   }
 
-  /**
-   * Step 7. Confirm the session booking final result.
-   */
+  /** Step 7. Confirm the session booking final result. */
   private void confirmSessionBookingResult(HttpClient httpClient, String confirmBookingRedirectUrl)
       throws IOException {
     sleep();
@@ -486,33 +466,34 @@ public class BookingService {
     logger.debug(html);
     Document confirmFinalBookingPage = Jsoup.parse(html);
     if (hasError(confirmFinalBookingPage)) {
-      throw new KameHouseServerErrorException("Error confirming booking result: "
-          + Arrays.toString(getErrorStackMessages(confirmFinalBookingPage).toArray()));
+      throw new KameHouseServerErrorException(
+          "Error confirming booking result: "
+              + Arrays.toString(getErrorStackMessages(confirmFinalBookingPage).toArray()));
     }
   }
 
   /**
    * Handle a tennis world booking for facility overlay bookings. Currently those are session types:
+   *
    * <ul>
-   *  <li>National Tennis Outdoor</li>
-   *  <li>NTC Clay Courts</li>
-   *  <li>Rod Laver Arena Outdoor</li>
-   *  <li>Rod Laver Arena Show Courts</li>
+   *   <li>National Tennis Outdoor
+   *   <li>NTC Clay Courts
+   *   <li>Rod Laver Arena Outdoor
+   *   <li>Rod Laver Arena Show Courts
    * </ul>
    * The current process to complete a facility overlay booking is:
    * <ul>
-   * <li>1.1) POST Initial login request</li>
-   * <li>1.2) GET Complete login - show all sites</li>
-   * <li>1.3) GET Complete login in specific site (ej. Melbourne Park)</li>
-   * <li>2) GET Specific session type page</li>
-   * <li>3) GET Specific session date page</li>
-   * <li>4) GET Specific session page (session type, date and time)</li>
-   * <li>5) POST Load book_overlay_ajax. Check if there's any errors in the response</li>
-   * <li>6) GET Confirm booking url to submit the final booking request</li>
-   * <li>
-   *   7) POST Confirm booking. Send the final booking request (with payment details when required)
-   * </li>
-   * <li>8) GET Confirm booking url. Check the final result of the booking request</li>
+   *   <li>1.1) POST Initial login request
+   *   <li>1.2) GET Complete login - show all sites
+   *   <li>1.3) GET Complete login in specific site (ej. Melbourne Park)
+   *   <li>2) GET Specific session type page
+   *   <li>3) GET Specific session date page
+   *   <li>4) GET Specific session page (session type, date and time)
+   *   <li>5) POST Load book_overlay_ajax. Check if there's any errors in the response
+   *   <li>6) GET Confirm booking url to submit the final booking request
+   *   <li>7) POST Confirm booking. Send the final booking request (with payment details when
+   *       required)
+   *   <li>8) GET Confirm booking url. Check the final result of the booking request
    * </ul>
    */
   private BookingResponse bookFacilityOverlayRequest(BookingRequest bookingRequest) {
@@ -526,13 +507,13 @@ public class BookingService {
 
       // 2 -------------------------------------------------------------------------
       Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
-      String selectedSessionDatePath = getSelectedSessionDatePath(sessionTypePage,
-          selectedSessionTypeId, bookingDate);
+      String selectedSessionDatePath =
+          getSelectedSessionDatePath(sessionTypePage, selectedSessionTypeId, bookingDate);
 
       // 3 -------------------------------------------------------------------------
       Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
-      String selectedSessionPath = getSelectedSessionPath(sessionDatePage,
-          bookingRequest.getTime());
+      String selectedSessionPath =
+          getSelectedSessionPath(sessionDatePage, bookingRequest.getTime());
 
       // 4 -------------------------------------------------------------------------
       Document sessionPage = getSessionPage(httpClient, selectedSessionPath);
@@ -540,16 +521,20 @@ public class BookingService {
       String bookingTime = getBookingTime(sessionPage);
 
       // 5 -------------------------------------------------------------------------
-      postFacilityBookOverlayAjax(httpClient, selectedSessionDatePath, siteFacilityGroupId,
-          bookingTime, bookingRequest.getDuration());
+      postFacilityBookOverlayAjax(
+          httpClient,
+          selectedSessionDatePath,
+          siteFacilityGroupId,
+          bookingTime,
+          bookingRequest.getDuration());
 
       // 6 -------------------------------------------------------------------------
       getFacilityConfirmBookingUrl(httpClient, selectedSessionDatePath);
       if (!bookingRequest.isDryRun()) {
 
         // 7 -------------------------------------------------------------------------
-        String confirmBookingRedirectUrl = postFacilityBookingRequest(httpClient,
-            bookingRequest.getCardDetails());
+        String confirmBookingRedirectUrl =
+            postFacilityBookingRequest(httpClient, bookingRequest.getCardDetails());
 
         // 8 -------------------------------------------------------------------------
         confirmFacilityBookingResult(httpClient, confirmBookingRedirectUrl);
@@ -563,15 +548,16 @@ public class BookingService {
       return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
-      return buildResponse(Status.INTERNAL_ERROR, "Error executing booking request to tennis"
-          + " world Message: " + e.getMessage(), bookingRequest);
+      return buildResponse(
+          Status.INTERNAL_ERROR,
+          "Error executing booking request to tennis" + " world Message: " + e.getMessage(),
+          bookingRequest);
     }
   }
 
   /**
-   * Steps 1.1, 1.2 and 1.3.
-   * Attempts to login to tennis world using the specified site and credentials in the
-   * BookingRequest and returns the dashboard page if the login is successful.
+   * Steps 1.1, 1.2 and 1.3. Attempts to login to tennis world using the specified site and
+   * credentials in the BookingRequest and returns the dashboard page if the login is successful.
    */
   private Document loginToTennisWorld(HttpClient httpClient, BookingRequest bookingRequest)
       throws IOException {
@@ -603,13 +589,13 @@ public class BookingService {
     HttpResponse completeLoginAllSitesGetResponse =
         HttpClientUtils.execRequest(httpClient, completeLoginAllSitesGetRequest);
     logHttpResponseCode(completeLoginAllSitesGetResponse);
-    String completeLoginAllSitesResponseHtml = IOUtils.toString(
-            HttpClientUtils.getInputStream(completeLoginAllSitesGetResponse));
+    String completeLoginAllSitesResponseHtml =
+        IOUtils.toString(HttpClientUtils.getInputStream(completeLoginAllSitesGetResponse));
     logger.debug(completeLoginAllSitesResponseHtml);
-    Document completeLoginAllSitesResponsePage =
-        Jsoup.parse(completeLoginAllSitesResponseHtml);
-    Elements tennisWorldSiteLinks = completeLoginAllSitesResponsePage
-        .getElementsByAttributeValueMatching("href", SITE_LINK_HREF);
+    Document completeLoginAllSitesResponsePage = Jsoup.parse(completeLoginAllSitesResponseHtml);
+    Elements tennisWorldSiteLinks =
+        completeLoginAllSitesResponsePage.getElementsByAttributeValueMatching(
+            "href", SITE_LINK_HREF);
     String selectedSiteId = null;
     for (Element tennisWorldSiteLink : tennisWorldSiteLinks) {
       String siteName = tennisWorldSiteLink.getElementsByTag("p").text();
@@ -621,8 +607,8 @@ public class BookingService {
       }
     }
     if (selectedSiteId == null || hasError(completeLoginAllSitesResponsePage)) {
-      throw new KameHouseBadRequestException("Unable to determine the site id for "
-          + bookingRequest.getSite());
+      throw new KameHouseBadRequestException(
+          "Unable to determine the site id for " + bookingRequest.getSite());
     }
 
     // 1.3 -------------------------------------------------------------------------
@@ -635,21 +621,19 @@ public class BookingService {
     HttpResponse completeLoginSelectedSiteResponse =
         HttpClientUtils.execRequest(httpClient, completeLoginSelectedSiteGetRequest);
     logHttpResponseCode(completeLoginSelectedSiteResponse);
-    String completeLoginSelectedSiteResponseHtml = IOUtils.toString(
-            HttpClientUtils.getInputStream(completeLoginSelectedSiteResponse));
+    String completeLoginSelectedSiteResponseHtml =
+        IOUtils.toString(HttpClientUtils.getInputStream(completeLoginSelectedSiteResponse));
     logger.debug(completeLoginSelectedSiteResponseHtml);
     Document completeLoginSelectedSiteResponsePage =
         Jsoup.parse(completeLoginSelectedSiteResponseHtml);
     if (hasError(completeLoginSelectedSiteResponsePage)) {
-      throw new KameHouseServerErrorException("Unable to complete login to siteId "
-          + selectedSiteId);
+      throw new KameHouseServerErrorException(
+          "Unable to complete login to siteId " + selectedSiteId);
     }
     return completeLoginSelectedSiteResponsePage;
   }
 
-  /**
-   * Get the session type id from the specified session type.
-   */
+  /** Get the session type id from the specified session type. */
   private String getSessionTypeId(Document dashboard, String sessionType) {
     String selectedSessionTypeId = null;
     Elements sessionTypes = dashboard.getElementsByAttributeValue(ATTR_DATA_ROLE, "page");
@@ -657,8 +641,7 @@ public class BookingService {
       String sessionTypeName = sessionTypeElement.getElementsByTag("h1").text();
       String sessionTypeId = sessionTypeElement.attr("id");
       logger.debug("sessionTypeName:{}; sessionTypeId:{}", sessionTypeName, sessionTypeId);
-      if (sessionTypeName != null
-          && sessionTypeName.equalsIgnoreCase(sessionType)) {
+      if (sessionTypeName != null && sessionTypeName.equalsIgnoreCase(sessionType)) {
         selectedSessionTypeId = sessionTypeId;
       }
     }
@@ -669,12 +652,10 @@ public class BookingService {
     return selectedSessionTypeId;
   }
 
-  /**
-   * Step 2. Get the session type page.
-   */
+  /** Step 2. Get the session type page. */
   private Document getSessionTypePage(HttpClient httpClient, String selectedSessionTypeId)
       throws IOException {
-    String selectedSessionTypeUrl = DASHBOARD_URL + "#" +  selectedSessionTypeId;
+    String selectedSessionTypeUrl = DASHBOARD_URL + "#" + selectedSessionTypeId;
     HttpGet httpGet = HttpClientUtils.httpGet(selectedSessionTypeUrl);
     logger.info("Step 2: GET request to: {}", selectedSessionTypeUrl);
     logRequestHeaders(httpGet);
@@ -689,11 +670,9 @@ public class BookingService {
     return sessionTypePage;
   }
 
-  /**
-   * Get the selected session date path from the session type page returned from tennis world.
-   */
-  private String getSelectedSessionDatePath(Document sessionTypePage, String selectedSessionTypeId,
-                                            String date) {
+  /** Get the selected session date path from the session type page returned from tennis world. */
+  private String getSelectedSessionDatePath(
+      Document sessionTypePage, String selectedSessionTypeId, String date) {
     Elements sessionsForTheSelectedSessionType =
         sessionTypePage.getElementById(selectedSessionTypeId).getElementsByTag("a");
     String selectedSessionDatePath = null;
@@ -711,9 +690,7 @@ public class BookingService {
     return selectedSessionDatePath;
   }
 
-  /**
-   * Step 3. Get the selected session date page.
-   */
+  /** Step 3. Get the selected session date page. */
   private Document getSessionDatePage(HttpClient httpClient, String selectedSessionDatePath)
       throws IOException {
     sleep();
@@ -732,9 +709,7 @@ public class BookingService {
     return sessionDatePage;
   }
 
-  /**
-   * Get the selected session path.
-   */
+  /** Get the selected session path. */
   private String getSelectedSessionPath(Document sessionDatePage, String bookingTime) {
     Elements listView = sessionDatePage.getElementsByAttributeValue(ATTR_DATA_ROLE, "listview");
     String selectedSessionPath = null;
@@ -756,9 +731,7 @@ public class BookingService {
     return selectedSessionPath;
   }
 
-  /**
-   * Step 4. Get the selected session page (session type, date and time).
-   */
+  /** Step 4. Get the selected session page (session type, date and time). */
   private Document getSessionPage(HttpClient httpClient, String selectedSessionPath)
       throws IOException {
     sleep();
@@ -777,12 +750,10 @@ public class BookingService {
     return sessionPage;
   }
 
-  /**
-   * Get the site facility group id from the session page.
-   */
+  /** Get the site facility group id from the session page. */
   private String getSiteFacilityGroupId(Document sessionPage) {
-    String siteFacilityGroupId = sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY)
-        .attr(ATTR_SITE_FACILITYGROUP_ID);
+    String siteFacilityGroupId =
+        sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY).attr(ATTR_SITE_FACILITYGROUP_ID);
     logger.debug("siteFacilityGroupId:{}", siteFacilityGroupId);
     if (siteFacilityGroupId == null) {
       throw new KameHouseBadRequestException("Unable to get the siteFacilityGroupId");
@@ -790,12 +761,10 @@ public class BookingService {
     return siteFacilityGroupId;
   }
 
-  /**
-   * Get the booking time from the session page.
-   */
+  /** Get the booking time from the session page. */
   private String getBookingTime(Document sessionPage) {
-    String bookingTime = sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY)
-        .attr(ATTR_BOOKING_TIME);
+    String bookingTime =
+        sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY).attr(ATTR_BOOKING_TIME);
     logger.debug("bookingTime:{}", bookingTime);
     if (bookingTime == null) {
       throw new KameHouseBadRequestException("Unable to get the bookingTime");
@@ -804,16 +773,20 @@ public class BookingService {
   }
 
   /**
-   * Step 5. Post the book overlay ajax request and confirm that the response is not empty and
-   * that it doesn't contain errors.
+   * Step 5. Post the book overlay ajax request and confirm that the response is not empty and that
+   * it doesn't contain errors.
    */
-  private void postFacilityBookOverlayAjax(HttpClient httpClient, String selectedSessionDatePath,
-                                          String siteFacilityGroupId, String bookingTime,
-                                          String bookingDuration) throws IOException {
+  private void postFacilityBookOverlayAjax(
+      HttpClient httpClient,
+      String selectedSessionDatePath,
+      String siteFacilityGroupId,
+      String bookingTime,
+      String bookingDuration)
+      throws IOException {
     sleep();
     List<NameValuePair> loadSessionAjaxParams = new ArrayList<>();
-    loadSessionAjaxParams.add(new BasicNameValuePair(ATTR_SITE_FACILITYGROUP_ID,
-        siteFacilityGroupId));
+    loadSessionAjaxParams.add(
+        new BasicNameValuePair(ATTR_SITE_FACILITYGROUP_ID, siteFacilityGroupId));
     loadSessionAjaxParams.add(new BasicNameValuePair(ATTR_BOOKING_TIME, bookingTime));
     loadSessionAjaxParams.add(new BasicNameValuePair(ATTR_EVENT_DURATION, bookingDuration));
     HttpPost loadSessionAjaxRequestHttpPost = new HttpPost(BOOK_FACILITY_OVERLAY_AJAX_URL);
@@ -822,8 +795,8 @@ public class BookingService {
     loadSessionAjaxRequestHttpPost.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 5: POST request to: {}", BOOK_FACILITY_OVERLAY_AJAX_URL);
     logRequestHeaders(loadSessionAjaxRequestHttpPost);
-    HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient,
-        loadSessionAjaxRequestHttpPost);
+    HttpResponse httpResponse =
+        HttpClientUtils.execRequest(httpClient, loadSessionAjaxRequestHttpPost);
     logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
     logger.debug(html);
@@ -832,9 +805,7 @@ public class BookingService {
     }
   }
 
-  /**
-   * Step 6. Go to the confirm booking url for facility requests.
-   */
+  /** Step 6. Go to the confirm booking url for facility requests. */
   private void getFacilityConfirmBookingUrl(HttpClient httpClient, String selectedSessionDatePath)
       throws IOException {
     sleep();
@@ -854,8 +825,8 @@ public class BookingService {
   }
 
   /**
-   * Step 7. Post the booking request (finally!) and check if there's any errors.
-   * I expect a 302 redirect response, so if that's not the case, mark the request as error.
+   * Step 7. Post the booking request (finally!) and check if there's any errors. I expect a 302
+   * redirect response, so if that's not the case, mark the request as error.
    */
   private String postFacilityBookingRequest(HttpClient httpClient, CardDetails cardDetails)
       throws IOException {
@@ -875,19 +846,18 @@ public class BookingService {
     logger.debug(html);
     Document postBookingResponsePage = Jsoup.parse(html);
     if (hasError(postBookingResponsePage)) {
-      throw new KameHouseServerErrorException("Error posting booking request: "
-          + Arrays.toString(getErrorStackMessages(postBookingResponsePage).toArray()));
+      throw new KameHouseServerErrorException(
+          "Error posting booking request: "
+              + Arrays.toString(getErrorStackMessages(postBookingResponsePage).toArray()));
     }
     if (HttpClientUtils.getStatusCode(httpResponse) != HttpStatus.FOUND.value()) {
-      throw new KameHouseServerErrorException("Error posting booking request. Expected a "
-          + "redirect response");
+      throw new KameHouseServerErrorException(
+          "Error posting booking request. Expected a " + "redirect response");
     }
     return HttpClientUtils.getHeader(httpResponse, LOCATION);
   }
 
-  /**
-   * Set the payment details to complete the booking request.
-   */
+  /** Set the payment details to complete the booking request. */
   private static void populateCardDetails(List<NameValuePair> params, CardDetails cardDetails) {
     if (cardDetails != null) {
       params.add(new BasicNameValuePair("name_on_card", cardDetails.getName()));
@@ -898,9 +868,7 @@ public class BookingService {
     }
   }
 
-  /**
-   * Step 8. Confirm the facility booking final result.
-   */
+  /** Step 8. Confirm the facility booking final result. */
   private void confirmFacilityBookingResult(HttpClient httpClient, String confirmBookingRedirectUrl)
       throws IOException {
     sleep();
@@ -915,14 +883,13 @@ public class BookingService {
     logger.debug(html);
     Document confirmFinalBookingPage = Jsoup.parse(html);
     if (hasError(confirmFinalBookingPage)) {
-      throw new KameHouseServerErrorException("Error confirming booking result: "
-            + Arrays.toString(getErrorStackMessages(confirmFinalBookingPage).toArray()));
+      throw new KameHouseServerErrorException(
+          "Error confirming booking result: "
+              + Arrays.toString(getErrorStackMessages(confirmFinalBookingPage).toArray()));
     }
   }
 
-  /**
-   * Build a tennis world response with the specified status and message.
-   */
+  /** Build a tennis world response with the specified status and message. */
   private BookingResponse buildResponse(Status status, String message, BookingRequest request) {
     BookingResponse bookingResponse = new BookingResponse();
     bookingResponse.setStatus(status);
@@ -940,9 +907,7 @@ public class BookingService {
     return bookingResponse;
   }
 
-  /**
-   * Log request headers.
-   */
+  /** Log request headers. */
   private void logRequestHeaders(HttpRequest httpRequest) {
     logger.debug("Request headers:");
     if (httpRequest.getAllHeaders() == null || httpRequest.getAllHeaders().length == 0) {
@@ -953,20 +918,15 @@ public class BookingService {
     }
   }
 
-  /**
-   * Log the response code received from tennis world.
-   */
+  /** Log the response code received from tennis world. */
   private void logHttpResponseCode(HttpResponse httpResponse) {
     logger.info("Response code: {}", HttpClientUtils.getStatusLine(httpResponse));
   }
 
-  /**
-   * Returns the list of errors in the error stack or an empty list if no errors.
-   */
+  /** Returns the list of errors in the error stack or an empty list if no errors. */
   private List<String> getErrorStackMessages(Document page) {
     List<String> errors = new ArrayList<>();
-    if (page != null
-        && page.getElementById(ID_ERROR_STACK) != null) {
+    if (page != null && page.getElementById(ID_ERROR_STACK) != null) {
       Elements errorMessages = page.getElementById(ID_ERROR_STACK).getElementsByTag("p");
       if (errorMessages != null && !errorMessages.isEmpty()) {
         addErrorMessagesToList(errorMessages, errors);
@@ -975,13 +935,10 @@ public class BookingService {
     return errors;
   }
 
-  /**
-   * Iterate over error messages and add them to the specified list of errors.
-   */
+  /** Iterate over error messages and add them to the specified list of errors. */
   private void addErrorMessagesToList(Elements errorMessages, List<String> errors) {
     for (Element errorMessage : errorMessages) {
-      if (ID_ERROR_MESSAGE.equals(errorMessage.id())
-          && !StringUtils.isEmpty(errorMessage.text())) {
+      if (ID_ERROR_MESSAGE.equals(errorMessage.id()) && !StringUtils.isEmpty(errorMessage.text())) {
         if (logger.isErrorEnabled()) {
           logger.error(errorMessage.text());
         }
@@ -991,8 +948,8 @@ public class BookingService {
   }
 
   /**
-   * Checks if the specified html string contains error messages from tennis world.
-   * Expects a page to be always set, so if it's null, return true.
+   * Checks if the specified html string contains error messages from tennis world. Expects a page
+   * to be always set, so if it's null, return true.
    */
   private boolean hasError(Document page) {
     if (page == null) {
@@ -1006,8 +963,8 @@ public class BookingService {
   }
 
   /**
-   * Checks if the specified html has a login error message. If the html is empty return true, as
-   * I expect content when calling this method.
+   * Checks if the specified html has a login error message. If the html is empty return true, as I
+   * expect content when calling this method.
    */
   private static boolean hasLoginError(String html) {
     if (StringUtils.isEmpty(html)) {
@@ -1021,8 +978,8 @@ public class BookingService {
   }
 
   /**
-   * Checks if the response is a json object with an error:true property. I'm expecting content
-   * when calling this method, so return true if the input html is empty.
+   * Checks if the response is a json object with an error:true property. I'm expecting content when
+   * calling this method, so return true if the input html is empty.
    */
   private static boolean hasJsonErrorResponse(String html) {
     if (StringUtils.isEmpty(html)) {
@@ -1031,9 +988,7 @@ public class BookingService {
     return JsonUtils.getBoolean(JsonUtils.toJson(html), "error");
   }
 
-  /**
-   * Sleep for the specified ms by sleepMs.
-   */
+  /** Sleep for the specified ms by sleepMs. */
   private static void sleep() {
     try {
       Thread.sleep(sleepMs);
@@ -1042,9 +997,7 @@ public class BookingService {
     }
   }
 
-  /**
-   * Sets the current processing thread id from the tennisworld request id.
-   */
+  /** Sets the current processing thread id from the tennisworld request id. */
   private static void setThreadName(Long requestId) {
     StringBuilder sb = new StringBuilder();
     sb.append("twb-");

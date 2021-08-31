@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.ui.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents the session status information that can be returned by the status API.
