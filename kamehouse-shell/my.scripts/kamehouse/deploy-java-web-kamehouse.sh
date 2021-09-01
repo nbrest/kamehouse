@@ -136,7 +136,7 @@ buildProject() {
   
   if ${FAST_DEPLOYMENT}; then
     log.info "Executing fast deployment. Skipping checkstyle, findbugs and tests"
-    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dfindbugs.skip=true"
+    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
   fi
 
   if [ -n "${MODULE}" ]; then

@@ -19,6 +19,7 @@ MODULE=
 KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 MAVEN_COMMAND=
 MAVEN_PROFILE="prod"
+RESUME=false
 
 mainProcess() {
   buildProject
@@ -32,12 +33,17 @@ buildProject() {
 
   if ${FAST_BUILD}; then
     log.info "Executing fast build. Skipping checkstyle, findbugs and tests"
-    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dfindbugs.skip=true"
+    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
   fi
 
   if [ -n "${MODULE}" ]; then
     log.info "Building module ${COL_PURPLE}${MODULE}"
-    MAVEN_COMMAND="${MAVEN_COMMAND} -pl :${MODULE} -am"
+    if ${RESUME}; then
+      log.info "Resuming from last build"
+      MAVEN_COMMAND="${MAVEN_COMMAND} -rf :${MODULE}"
+    else
+      MAVEN_COMMAND="${MAVEN_COMMAND} -pl :${MODULE} -am"
+    fi
   else
     log.info "Building all modules"
   fi
@@ -58,7 +64,7 @@ deployKameHouseCmd() {
 }
 
 parseArguments() {
-  while getopts ":fhm:p:" OPT; do
+  while getopts ":fhm:p:r" OPT; do
     case $OPT in
     ("f")
       FAST_BUILD=true
@@ -83,6 +89,9 @@ parseArguments() {
             
       MAVEN_PROFILE=${PROFILE_ARG}
       ;;
+    ("r")
+      RESUME=true
+      ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -100,6 +109,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
+  echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
 }
 
 main "$@"

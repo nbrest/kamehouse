@@ -17,7 +17,6 @@ source ${HOME}/my.scripts/.cred/.cred
 
 # dev environment: eclipse or intellij
 DEV_ENVIRONMENT=
-TOMCAT_VERSION="8.5"
 PROJECT_DIR=
 TOMCAT_WEBAPPS_DIR=
 TOMCAT_PORT=9980
@@ -40,12 +39,15 @@ mainProcess() {
 setGlobalVariables() {
   WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
   PROJECT_DIR=${WORKSPACE}/java.web.kamehouse
-  TOMCAT_WEBAPPS_DIR=${WORKSPACE}/apache-tomcat-${TOMCAT_VERSION}/webapps
+  TOMCAT_WEBAPPS_DIR=${WORKSPACE}/apache-tomcat/webapps
+  if ${IS_LINUX_HOST}; then
+    source ${HOME}/my.scripts/lin/bashrc/java-home.sh
+  fi
 }
 
 buildProject() {
   log.info "Building kamehouse (skipping tests, checkstyle and findbugs) in ${DEV_ENVIRONMENT}"
-  MAVEN_COMMAND="mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dfindbugs.skip=true"
+  MAVEN_COMMAND="mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
   
   if [ -n "${MODULE}" ]; then
     log.info "Building module ${COL_PURPLE}${MODULE}"

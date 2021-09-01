@@ -10,8 +10,7 @@ fi
 # dev environment: eclipse or intellij
 DEV_ENVIRONMENT=
 LOG_PROCESS_TO_FILE=false
-TOMCAT_VERSION=8.5
-TOMCAT_DIR=${HOME}/workspace-intellij/apache-tomcat-${TOMCAT_VERSION}
+TOMCAT_DIR=${HOME}/workspace-intellij/apache-tomcat
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 
 mainProcess() {
@@ -34,8 +33,11 @@ mainProcess() {
 }
 
 setGlobalVariables() {
-  TOMCAT_DIR=${HOME}/workspace-${DEV_ENVIRONMENT}/apache-tomcat-${TOMCAT_VERSION}
+  TOMCAT_DIR=${HOME}/workspace-${DEV_ENVIRONMENT}/apache-tomcat
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
+  if ${IS_LINUX_HOST}; then
+    source ${HOME}/my.scripts/lin/bashrc/java-home.sh
+  fi
 }
 
 main "$@"

@@ -4,8 +4,6 @@
 LOG_PROCESS_TO_FILE=true
 GIT_BRANCH="dev"
 PROJECT_DIR="${HOME}/git/java.web.kamehouse.private"
-ECLIPSE_TOMCAT_VERSION=8.5
-INTELLI_TOMCAT_VERSION=8.5
 
 mainProcess() {
   # Set in DEST_HOME mainProcess because HOSTNAME is overriden for aws
@@ -94,14 +92,19 @@ copyTomcatFolders() {
   local SOURCE_TOMCAT=$1
   local DEST_TOMCAT=$2
 
-  mkdir -p ${DEST_TOMCAT}/bin
-  checkCommandStatus "$?" "An error occurred creating directories"
-	cp -vrf ${SOURCE_TOMCAT}/conf ${DEST_TOMCAT}/
-	checkCommandStatus "$?" "An error occurred during file copy"
-  cp -vrf ${SOURCE_TOMCAT}/bin/*.sh ${DEST_TOMCAT}/bin
-  checkCommandStatus "$?" "An error occurred during file copy"
-  cp -vrf ${SOURCE_TOMCAT}/bin/*.bat ${DEST_TOMCAT}/bin
-  checkCommandStatus "$?" "An error occurred during file copy"
+  if [ -d "${SOURCE_TOMCAT}" ]; then
+    mkdir -p ${DEST_TOMCAT}/bin
+    checkCommandStatus "$?" "An error occurred creating directories"
+
+  	cp -vrf ${SOURCE_TOMCAT}/conf ${DEST_TOMCAT}/
+  	checkCommandStatus "$?" "An error occurred during file copy"
+    cp -vrf ${SOURCE_TOMCAT}/bin/*.sh ${DEST_TOMCAT}/bin
+    checkCommandStatus "$?" "An error occurred during file copy"
+    cp -vrf ${SOURCE_TOMCAT}/bin/*.bat ${DEST_TOMCAT}/bin
+    checkCommandStatus "$?" "An error occurred during file copy"
+  else 
+    log.warn "${SOURCE_TOMCAT} doesn't exist"
+  fi
 }
 
 backupHomeFiles() {
@@ -135,8 +138,8 @@ backupWorkspaceEclipse() {
   log.info "Backing up workspace-eclipse config folders"
   local SOURCE_WORKSPACE_ECLIPSE=${HOME}/workspace-eclipse
   local DEST_WORKSPACE_ECLIPSE=${DEST_HOME}/workspace-eclipse
-  local SOURCE_TOMCAT=${SOURCE_WORKSPACE_ECLIPSE}/apache-tomcat-${ECLIPSE_TOMCAT_VERSION}
-  local DEST_TOMCAT=${DEST_WORKSPACE_ECLIPSE}/apache-tomcat-${ECLIPSE_TOMCAT_VERSION}
+  local SOURCE_TOMCAT=${SOURCE_WORKSPACE_ECLIPSE}/apache-tomcat
+  local DEST_TOMCAT=${DEST_WORKSPACE_ECLIPSE}/apache-tomcat
   copyTomcatFolders "${SOURCE_TOMCAT}" "${DEST_TOMCAT}"
   copyWorkspaceApacheFolders "${SOURCE_WORKSPACE_ECLIPSE}" "${DEST_WORKSPACE_ECLIPSE}"
 }
@@ -145,8 +148,8 @@ backupWorkspaceIntellij() {
   log.info "Backing up workspace-intellij config folders"
   local SOURCE_WORKSPACE_INTELLIJ=${HOME}/workspace-intellij
   local DEST_WORKSPACE_INTELLIJ=${DEST_HOME}/workspace-intellij
-  local SOURCE_TOMCAT=${SOURCE_WORKSPACE_INTELLIJ}/apache-tomcat-${INTELLI_TOMCAT_VERSION}
-  local DEST_TOMCAT=${DEST_WORKSPACE_INTELLIJ}/apache-tomcat-${INTELLI_TOMCAT_VERSION}
+  local SOURCE_TOMCAT=${SOURCE_WORKSPACE_INTELLIJ}/apache-tomcat
+  local DEST_TOMCAT=${DEST_WORKSPACE_INTELLIJ}/apache-tomcat
   copyTomcatFolders "${SOURCE_TOMCAT}" "${DEST_TOMCAT}"
   copyWorkspaceApacheFolders "${SOURCE_WORKSPACE_INTELLIJ}" "${DEST_WORKSPACE_INTELLIJ}"
 }
@@ -156,9 +159,14 @@ copyWorkspaceApacheFolders() {
   local DEST_WORKSPACE=$2
   local SOURCE_WWW=${SOURCE_WORKSPACE}/apache-httpd/www
   local DEST_WWW=${DEST_WORKSPACE}/apache-httpd/www
-  mkdir -p ${DEST_WWW}
-  cp -vrf ${SOURCE_WWW}/*.html ${DEST_WWW}
-  checkCommandStatus "$?" "An error occurred during file copy" 
+
+  if [ -d "${SOURCE_WWW}" ]; then
+    mkdir -p ${DEST_WWW}
+    cp -vrf ${SOURCE_WWW}/*.html ${DEST_WWW}
+    checkCommandStatus "$?" "An error occurred during file copy" 
+  else
+    log.warn "${SOURCE_WWW} doesn't exist"
+  fi
 }
 
 backupMysqlConfig() {

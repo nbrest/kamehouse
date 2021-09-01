@@ -20,11 +20,8 @@ DEFAULT_ENV="local"
 DEFAULT_LOG_LEVEL="trace"
 DEFAULT_NUM_LINES="5"
 
-# When I update the INTELLIJ_TOMCAT_VERSION here, also update it in my.scripts/win/bat/start-tomcat-intellij.bat
-INTELLIJ_TOMCAT_VERSION="8.5"
-INTELLIJ_LOG_DIR="workspace-intellij/apache-tomcat-${INTELLIJ_TOMCAT_VERSION}/logs"
-ECLIPSE_TOMCAT_VERSION="8.5"
-ECLIPSE_LOG_DIR="workspace-eclipse/apache-tomcat-${ECLIPSE_TOMCAT_VERSION}/logs"
+INTELLIJ_LOG_DIR="workspace-intellij/apache-tomcat/logs"
+ECLIPSE_LOG_DIR="workspace-eclipse/apache-tomcat/logs"
 TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
 
 # Variables set by command line arguments

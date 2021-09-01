@@ -25,7 +25,7 @@ mainProcess() {
   log.info "Searching for vlc process with an http server"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
   VLC_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
-  log.info "VLC_PID: " ${VLC_PID}
+  log.info "VLC_PID: ${VLC_PID}" 
   if [ -z "${VLC_PID}" ]; then
     log.info "vlc is not running with an http server"
   else
