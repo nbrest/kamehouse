@@ -20,7 +20,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class KameHouseUserAuthenticationDaoInMemoryTest {
 
   private TestUtils<KameHouseUser, KameHouseUserDto> testUtils;
-  private KameHouseUser kameHouseUser;
   private KameHouseUserAuthenticationDaoInMemory kameHouseUserAuthenticationDao;
 
   /** Initializes test repositories. */
@@ -28,7 +27,6 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
   public void init() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
-    kameHouseUser = testUtils.getSingleTestData();
     kameHouseUserAuthenticationDao = new KameHouseUserAuthenticationDaoInMemory();
   }
 

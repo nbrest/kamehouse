@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
+import org.apache.commons.codec.Charsets;
 
 /**
  * Test data and common test methods to test TennisWorldUsers in all layers of the application.
@@ -41,7 +42,7 @@ public class TennisWorldUserTestUtils extends AbstractTestUtils<TennisWorldUser,
   private void initSingleTestData() {
     singleTestData = new TennisWorldUser();
     singleTestData.setEmail("goku@dbz.com");
-    singleTestData.setPassword("mada mada dane".getBytes());
+    singleTestData.setPassword("mada mada dane".getBytes(Charsets.UTF_8));
   }
 
   private void initTestDataDto() {
@@ -54,12 +55,12 @@ public class TennisWorldUserTestUtils extends AbstractTestUtils<TennisWorldUser,
     TennisWorldUser user2 = new TennisWorldUser();
     user2.setId(null);
     user2.setEmail("gohanTestMock@dbz.com");
-    user2.setPassword("pegasus seiya".getBytes());
+    user2.setPassword("pegasus seiya".getBytes(Charsets.UTF_8));
 
     TennisWorldUser user3 = new TennisWorldUser();
     user3.setId(null);
     user3.setEmail("gotenTestMock@dbz.com");
-    user3.setPassword("mada mada".getBytes());
+    user3.setPassword("mada mada".getBytes(Charsets.UTF_8));
 
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);

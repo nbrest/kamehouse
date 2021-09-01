@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
+import org.apache.commons.codec.Charsets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ public class JsonUtilsTest {
   public void toJsonByteArraySuccessTest() throws IOException {
     byte[] output = JsonUtils.toJsonByteArray(jsonNode);
     String expectedOutput = JsonUtils.toJsonString(jsonNode);
-    assertEquals(expectedOutput, new String(output));
+    assertEquals(expectedOutput, new String(output, Charsets.UTF_8));
   }
 
   /** Tests toJsonString with masked fields. */

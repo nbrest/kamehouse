@@ -32,40 +32,46 @@ public class BookingScheduleConfigControllerTest
   private static final String API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG =
       BookingScheduleConfigTestUtils.API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG;
 
-  private BookingScheduleConfig bookingScheduleConfig;
-
-  @InjectMocks private BookingScheduleConfigController bookingScheduleConfigController;
+  @InjectMocks
+  private BookingScheduleConfigController bookingScheduleConfigController;
 
   @Mock(name = "bookingScheduleConfigService")
   private BookingScheduleConfigService bookingScheduleConfigServiceMock;
 
-  /** Init test data. */
+  /**
+   * Init test data.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils = new BookingScheduleConfigTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
-    bookingScheduleConfig = testUtils.getSingleTestData();
 
     MockitoAnnotations.openMocks(this);
     Mockito.reset(bookingScheduleConfigServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(bookingScheduleConfigController).build();
   }
 
-  /** Tests creating a new entity in the repository. */
+  /**
+   * Tests creating a new entity in the repository.
+   */
   @Test
   public void createTest() throws Exception {
     createTest(API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG, bookingScheduleConfigServiceMock);
   }
 
-  /** Tests creating a new entity in the repository that already exists. */
+  /**
+   * Tests creating a new entity in the repository that already exists.
+   */
   @Test
   public void createConflictExceptionTest() throws Exception {
     createConflictExceptionTest(
         API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG, bookingScheduleConfigServiceMock);
   }
 
-  /** Tests getting a specific entity from the repository. */
+  /**
+   * Tests getting a specific entity from the repository.
+   */
   @Test
   public void readTest() throws Exception {
     readTest(
@@ -74,7 +80,9 @@ public class BookingScheduleConfigControllerTest
         BookingScheduleConfig.class);
   }
 
-  /** Tests getting all the entities from the repository. */
+  /**
+   * Tests getting all the entities from the repository.
+   */
   @Test
   public void readAllTest() throws Exception {
     readAllTest(
@@ -83,26 +91,34 @@ public class BookingScheduleConfigControllerTest
         BookingScheduleConfig.class);
   }
 
-  /** Tests updating an existing entity in the repository. */
+  /**
+   * Tests updating an existing entity in the repository.
+   */
   @Test
   public void updateTest() throws Exception {
     updateTest(API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG, bookingScheduleConfigServiceMock);
   }
 
-  /** Tests failing to update an existing entity in the repository with bad request. */
+  /**
+   * Tests failing to update an existing entity in the repository with bad request.
+   */
   @Test
   public void updateInvalidPathId() throws IOException, Exception {
     updateInvalidPathId(API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG);
   }
 
-  /** Tests trying to update a non existing entity in the repository. */
+  /**
+   * Tests trying to update a non existing entity in the repository.
+   */
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
     updateNotFoundExceptionTest(
         API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG, bookingScheduleConfigServiceMock);
   }
 
-  /** Tests for deleting an existing entity from the repository. */
+  /**
+   * Tests for deleting an existing entity from the repository.
+   */
   @Test
   public void deleteTest() throws Exception {
     deleteTest(
@@ -111,7 +127,9 @@ public class BookingScheduleConfigControllerTest
         BookingScheduleConfig.class);
   }
 
-  /** Tests for deleting an entity not found in the repository. */
+  /**
+   * Tests for deleting an entity not found in the repository.
+   */
   @Test
   public void deleteNotFoundExceptionTest() throws Exception {
     deleteNotFoundExceptionTest(

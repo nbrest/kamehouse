@@ -20,8 +20,6 @@ import org.mockito.MockitoAnnotations;
 public class BookingRequestServiceTest extends
     AbstractCrudServiceTest<BookingRequest, BookingRequestDto> {
 
-  private BookingRequest bookingRequest;
-
   @InjectMocks
   private BookingRequestService bookingRequestService;
 
@@ -36,7 +34,6 @@ public class BookingRequestServiceTest extends
     testUtils = new BookingRequestTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
-    bookingRequest = testUtils.getSingleTestData();
 
     // Reset mock objects before each test
     MockitoAnnotations.openMocks(this);
@@ -52,8 +49,7 @@ public class BookingRequestServiceTest extends
   }
 
   /**
-   * Tests calling the service to get a single BookingRequest in the
-   * repository by id.
+   * Tests calling the service to get a single BookingRequest in the repository by id.
    */
   @Test
   public void readTest() {
@@ -61,8 +57,7 @@ public class BookingRequestServiceTest extends
   }
 
   /**
-   * Tests calling the service to get all the BookingRequests in the
-   * repository.
+   * Tests calling the service to get all the BookingRequests in the repository.
    */
   @Test
   public void readAllTest() {
@@ -70,8 +65,7 @@ public class BookingRequestServiceTest extends
   }
 
   /**
-   * Tests calling the service to update an existing BookingRequest in the
-   * repository.
+   * Tests calling the service to update an existing BookingRequest in the repository.
    */
   @Test
   public void updateTest() {

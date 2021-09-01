@@ -31,72 +31,88 @@ public class BookingResponseControllerTest
   private static final String API_V1_TENNISWORLD_BOOKING_RESPONSES =
       BookingResponseTestUtils.API_V1_TENNISWORLD_BOOKING_RESPONSES;
 
-  private BookingResponse bookingResponse;
-
-  @InjectMocks private BookingResponseController bookingResponseController;
+  @InjectMocks
+  private BookingResponseController bookingResponseController;
 
   @Mock(name = "bookingResponseService")
   private BookingResponseService bookingResponseServiceMock;
 
-  /** Init test data. */
+  /**
+   * Init test data.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils = new BookingResponseTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
-    bookingResponse = testUtils.getSingleTestData();
 
     MockitoAnnotations.openMocks(this);
     Mockito.reset(bookingResponseServiceMock);
     mockMvc = MockMvcBuilders.standaloneSetup(bookingResponseController).build();
   }
 
-  /** Tests creating a new entity in the repository. */
+  /**
+   * Tests creating a new entity in the repository.
+   */
   @Test
   public void createTest() throws Exception {
     createTest(API_V1_TENNISWORLD_BOOKING_RESPONSES, bookingResponseServiceMock);
   }
 
-  /** Tests getting a specific entity from the repository. */
+  /**
+   * Tests getting a specific entity from the repository.
+   */
   @Test
   public void readTest() throws Exception {
     readTest(
         API_V1_TENNISWORLD_BOOKING_RESPONSES, bookingResponseServiceMock, BookingResponse.class);
   }
 
-  /** Tests getting all the entities from the repository. */
+  /**
+   * Tests getting all the entities from the repository.
+   */
   @Test
   public void readAllTest() throws Exception {
     readAllTest(
         API_V1_TENNISWORLD_BOOKING_RESPONSES, bookingResponseServiceMock, BookingResponse.class);
   }
 
-  /** Tests updating an existing entity in the repository. */
+  /**
+   * Tests updating an existing entity in the repository.
+   */
   @Test
   public void updateTest() throws Exception {
     updateTest(API_V1_TENNISWORLD_BOOKING_RESPONSES, bookingResponseServiceMock);
   }
 
-  /** Tests failing to update an existing entity in the repository with bad request. */
+  /**
+   * Tests failing to update an existing entity in the repository with bad request.
+   */
   @Test
   public void updateInvalidPathId() throws Exception {
     updateInvalidPathId(API_V1_TENNISWORLD_BOOKING_RESPONSES);
   }
 
-  /** Tests trying to update a non existing entity in the repository. */
+  /**
+   * Tests trying to update a non existing entity in the repository.
+   */
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
     updateNotFoundExceptionTest(API_V1_TENNISWORLD_BOOKING_RESPONSES, bookingResponseServiceMock);
   }
 
-  /** Tests for deleting an existing entity from the repository. */
+  /**
+   * Tests for deleting an existing entity from the repository.
+   */
   @Test
   public void deleteTest() throws Exception {
     deleteTest(
         API_V1_TENNISWORLD_BOOKING_RESPONSES, bookingResponseServiceMock, BookingResponse.class);
   }
 
-  /** Tests for deleting an entity not found in the repository. */
+  /**
+   * Tests for deleting an entity not found in the repository.
+   */
   @Test
   public void deleteNotFoundExceptionTest() throws Exception {
     deleteNotFoundExceptionTest(API_V1_TENNISWORLD_BOOKING_RESPONSES, bookingResponseServiceMock);

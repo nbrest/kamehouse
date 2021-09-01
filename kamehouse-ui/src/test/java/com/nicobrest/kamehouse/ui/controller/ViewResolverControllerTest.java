@@ -31,9 +31,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @WebAppConfiguration
 public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndView, Object> {
 
-  private MockHttpServletRequest request;
-
-  private MockHttpServletResponse response;
+  private MockHttpServletResponse response = new MockHttpServletResponse();
 
   @InjectMocks private ViewResolverController viewResolverController;
 
@@ -87,10 +85,9 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
   private void testIncludeStaticHtml(String sourceUrl, String expectedHtml) {
     HttpServletRequestWrapper request =
         Mockito.spy(new HttpServletRequestWrapper(new MockHttpServletRequest()));
-    ModelAndView returnedModelAndView = null;
     when(request.getServletPath()).thenReturn(sourceUrl);
 
-    returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
+    ModelAndView returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
 
     assertEquals("/include-static-html", returnedModelAndView.getViewName());
     assertEquals(expectedHtml, returnedModelAndView.getModel().get("staticHtmlToLoad"));

@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.codec.Charsets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,9 @@ public class SystemCommandServiceTest {
     processUtils.close();
   }
 
-  /** Executes process successful test. */
+  /**
+   * Executes process successful test.
+   */
   @Test
   public void execKameHouseSystemCommandTest() throws Exception {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
@@ -77,7 +80,9 @@ public class SystemCommandServiceTest {
         0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(2));
   }
 
-  /** Executes process successful for linux test. */
+  /**
+   * Executes process successful for linux test.
+   */
   @Test
   public void execLinuxCommandTest() throws Exception {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
@@ -91,7 +96,9 @@ public class SystemCommandServiceTest {
         0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST, returnedList.get(0));
   }
 
-  /** Executes process with failing VncDo command test. */
+  /**
+   * Executes process with failing VncDo command test.
+   */
   @Test
   public void execVncDoFailedTest() throws Exception {
     List<String> errorStream = Arrays.asList("no errors");
@@ -106,7 +113,9 @@ public class SystemCommandServiceTest {
         1, -1, FAILED, INPUT_STREAM_LIST, errorStream, returnedList.get(0));
   }
 
-  /** Executes daemon process successful test. */
+  /**
+   * Executes daemon process successful test.
+   */
   @Test
   public void execDaemonTest() throws Exception {
     setupProcessStreamMocks("", "");
@@ -118,7 +127,9 @@ public class SystemCommandServiceTest {
     testUtils.assertSystemCommandOutputFields(-1, -1, RUNNING, null, null, returnedCommandOutput);
   }
 
-  /** Executes process throwing an IOException test. */
+  /**
+   * Executes process throwing an IOException test.
+   */
   @Test
   public void execIoExceptionTest() throws Exception {
     when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
@@ -134,19 +145,27 @@ public class SystemCommandServiceTest {
         1, -1, FAILED, null, errorStream, returnedList.get(0));
   }
 
-  /** Setup mock input and error streams. */
+  /**
+   * Setup mock input and error streams.
+   */
   private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent)
       throws IOException {
-    InputStream processInputStream = new ByteArrayInputStream(inputStreamContent.getBytes());
-    InputStream processErrorStream = new ByteArrayInputStream(errorStreamContent.getBytes());
+    InputStream processInputStream = new ByteArrayInputStream(
+        inputStreamContent.getBytes(Charsets.UTF_8));
+    InputStream processErrorStream = new ByteArrayInputStream(
+        errorStreamContent.getBytes(Charsets.UTF_8));
     when(ProcessUtils.getInputStream(Mockito.any())).thenReturn(processInputStream);
     when(ProcessUtils.getErrorStream(Mockito.any())).thenReturn(processErrorStream);
   }
 
-  /** Test KameHouseSystemCommand to test the SystemCommandService. */
+  /**
+   * Test KameHouseSystemCommand to test the SystemCommandService.
+   */
   public static class TestKameHouseSystemCommand extends KameHouseSystemCommand {
 
-    /** Test KameHouseSystemCommand to test the SystemCommandService. */
+    /**
+     * Test KameHouseSystemCommand to test the SystemCommandService.
+     */
     public TestKameHouseSystemCommand() {
       systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));
       systemCommands.add(new VncDoKeyPressSystemCommand("1"));
@@ -154,10 +173,14 @@ public class SystemCommandServiceTest {
     }
   }
 
-  /** Test Daemon command to test the SystemCommandService. */
+  /**
+   * Test Daemon command to test the SystemCommandService.
+   */
   public static class TestDaemonCommand extends VncDoKeyPressSystemCommand {
 
-    /** Test Daemon command. */
+    /**
+     * Test Daemon command.
+     */
     public TestDaemonCommand(String key) {
       super(key);
       isDaemon = true;
