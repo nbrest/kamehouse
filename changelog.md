@@ -2,7 +2,7 @@
 
 #### v6.05
 
-* Upgraded project to java 11 and tomcat 9
+* Upgraded project to java 11 and tomcat 9 and latest maven version
 * Upgraded to latest spring, hibernate and junit versions
 * Upgraded to latest versions of all other dependencies
 * Replaced findbugs with spotbugs
