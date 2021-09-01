@@ -19,8 +19,15 @@ import org.mockito.Mockito;
  */
 public abstract class AbstractCrudServiceTest<E, D> {
 
-  @SuppressFBWarnings(value = "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD")
   protected TestUtils<E, D> testUtils;
+
+  /**
+   * Set testUtils.
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setTestUtils(TestUtils<E, D> testUtils) {
+    this.testUtils = testUtils;
+  }
 
   /**
    * Creates entity test.

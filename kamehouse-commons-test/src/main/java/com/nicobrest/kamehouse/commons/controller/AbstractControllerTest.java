@@ -30,9 +30,16 @@ public abstract class AbstractControllerTest<E, D> {
   protected TestUtils<E, D> testUtils;
 
   /**
+   * Set mockMvc.
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setMockMvc(MockMvc mockMvc) {
+    this.mockMvc = mockMvc;
+  }
+
+  /**
    * Executes a get request for the specified url on the mock server.
    */
-  @SuppressFBWarnings(value = "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD")
   protected MockHttpServletResponse doGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }

@@ -79,13 +79,14 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
   }
 
   @Override
-  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive")
   public void assertEqualsAllAttributesList(List<T> expectedList, List<T> returnedList) {
     if (expectedList == null || returnedList == null) {
       fail("Received a null list");
+      return;
     }
     if (expectedList.size() != returnedList.size()) {
       fail("Lists have different sizes");
+      return;
     }
     for (int i = 0; i < expectedList.size(); i++) {
       assertEqualsAllAttributes(expectedList.get(i), returnedList.get(i));

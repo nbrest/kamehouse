@@ -13,8 +13,15 @@ import javax.persistence.Query;
  */
 public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
 
-  @SuppressFBWarnings(value = "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD")
   protected TestUtils<T, D> testUtils;
+
+  /**
+   * Set testUtils.
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setTestUtils(TestUtils<T, D> testUtils) {
+    this.testUtils = testUtils;
+  }
 
   /**
    * Using a normal insert made some tests hang when executed in parallel. Get an insert statement
@@ -44,7 +51,9 @@ public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
     return insertQuery;
   }
 
-  /** Clears all table data for the specified table. */
+  /**
+   * Clears all table data for the specified table.
+   */
   protected void clearTable(String tableName) {
     EntityManager em = getEntityManager();
     em.getTransaction().begin();
@@ -54,7 +63,9 @@ public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
     em.close();
   }
 
-  /** Execute the specified insert query. */
+  /**
+   * Execute the specified insert query.
+   */
   protected void insertData(String insertQuery) {
     EntityManager em = getEntityManager();
     em.getTransaction().begin();
