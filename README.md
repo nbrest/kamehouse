@@ -1,11 +1,12 @@
 ## Dev branch status:
-[![Build Status](https://travis-ci.org/nbrest/java.web.kamehouse.svg?branch=dev)](https://travis-ci.org/nbrest/java.web.kamehouse)
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=com.nicobrest%3Ajava-web-kame-house&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.nicobrest%3Ajava-web-kame-house&branch=dev)
 [![CodeFactor](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/badge/dev)](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/overview/dev)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9e85a73da34684b042a6c85bd35607)](https://www.codacy.com/manual/nbrest/java.web.kamehouse?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nbrest/java.web.kamehouse&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/nbrest/java.web.kamehouse/branch/dev/graph/badge.svg)](https://codecov.io/gh/nbrest/java.web.kamehouse)
 [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev)](https://github.com/nbrest/java.web.kamehouse/tree/dev)
  
+
 # Description:
 
 This application (forever under construction) contains the following modules: 
@@ -52,7 +53,7 @@ The main idea of this application is to keep improving and learning best practic
  So if you are a software developer and can look through the code and see vulnerabilities or
   things to improve I'd be more than happy to hear about them!
 
-The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **jacoco**, validate code with **findbugs** and the style with **checkstyle**.
+The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **jacoco**, validate code with **spotbugs** and the style with **checkstyle**.
 
 ### Java frameworks/libraries:
 
@@ -75,7 +76,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 ### Software Configuration Management:
 
 * Maven 
-* Travis-ci and Jenkins for CI
+* Jenkins for CI
 * Trello for organizing tasks
 * Postman for automated API tests
 * Sonarcube, Codacy, Codefactor, Codecov for quality checks
@@ -92,6 +93,7 @@ It's currently running on a Raspberry Pi, so might not be up all the time
  dependencies are not installed though and it's not configured to execute shutdown or lock
   commands. So you can test the UI (remember I'm a backend developer :p) and some of the
    functionality in the VLC player and test module with some limitations. For example, AWS EC2
+
     Ubuntu's kernel isn't compiled with audio modules (not even dummy), so audio will always
      revert to 0%, even if you update it with the buttons or slider.~~
 

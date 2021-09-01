@@ -35,7 +35,7 @@
     <!-- Testing dependencies -->
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
+      <artifactId>hamcrest</artifactId>
       <version>${hamcrest.version}</version>
     </dependency>
 
@@ -46,7 +46,7 @@
       <exclusions>
         <exclusion>
           <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
+          <artifactId>hamcrest</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

@@ -5,7 +5,6 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingScheduleConfigService;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
-import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -103,7 +102,7 @@ public class BookingScheduleConfigControllerTest
    * Tests failing to update an existing entity in the repository with bad request.
    */
   @Test
-  public void updateInvalidPathId() throws IOException, Exception {
+  public void updateInvalidPathId() throws Exception {
     updateInvalidPathId(API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG);
   }
 
