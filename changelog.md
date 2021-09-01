@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.06
+
+* 
+
 #### v6.05
 
 * Upgraded project to java 11 and tomcat 9 and latest maven version
