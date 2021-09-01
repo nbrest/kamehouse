@@ -2,11 +2,12 @@ package com.nicobrest.kamehouse.commons.service;
 
 import static com.nicobrest.kamehouse.commons.utils.StringUtils.sanitizeInput;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.ApplicationCache;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,18 +25,23 @@ import org.springframework.stereotype.Service;
 public class EhCacheService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
+  private static final String CACHE_MANAGER_NULL = "Cache manager is null";
 
   @Autowired
   @Qualifier("cacheManager")
-  private EhCacheCacheManager cacheManager;
+  private EhCacheCacheManager ehCacheManager;
 
   /**
    * Returns the cache information of the cache specified as a parameter.
    */
-  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public ApplicationCache get(String cacheName) {
     logger.trace("get {}", cacheName);
-    Cache cache = cacheManager.getCacheManager().getCache(cacheName);
+    CacheManager cacheManager = ehCacheManager.getCacheManager();
+    if (cacheManager == null) {
+      logger.error(CACHE_MANAGER_NULL);
+      throw new KameHouseServerErrorException(CACHE_MANAGER_NULL);
+    }
+    Cache cache = cacheManager.getCache(cacheName);
     ApplicationCache applicationCache = getCacheInformation(cache);
     logger.trace("get {} response {}", cacheName, applicationCache);
     return applicationCache;
@@ -44,10 +50,14 @@ public class EhCacheService {
   /**
    * Returns the status of all the ehcaches.
    */
-  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public List<ApplicationCache> getAll() {
     logger.trace("getAll");
-    String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
+    CacheManager cacheManager = ehCacheManager.getCacheManager();
+    if (cacheManager == null) {
+      logger.error(CACHE_MANAGER_NULL);
+      throw new KameHouseServerErrorException(CACHE_MANAGER_NULL);
+    }
+    String[] cacheNames = cacheManager.getCacheNames();
     List<ApplicationCache> cacheList = new ArrayList<>();
     for (int i = 0; i < cacheNames.length; i++) {
       ApplicationCache applicationCache = get(cacheNames[i]);
@@ -62,10 +72,14 @@ public class EhCacheService {
   /**
    * Clears the ehcache specified as a parameter.
    */
-  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public void clear(String cacheName) {
     logger.trace("clear {}", cacheName);
-    Cache cache = cacheManager.getCacheManager().getCache(cacheName);
+    CacheManager cacheManager = ehCacheManager.getCacheManager();
+    if (cacheManager == null) {
+      logger.error(CACHE_MANAGER_NULL);
+      return;
+    }
+    Cache cache = cacheManager.getCache(cacheName);
     if (cache != null) {
       cache.removeAll();
       logger.trace("clear {} successfully", cacheName);
@@ -79,10 +93,14 @@ public class EhCacheService {
   /**
    * Clears all the ehcaches.
    */
-  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public void clearAll() {
     logger.trace("clearAll");
-    String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
+    CacheManager cacheManager = ehCacheManager.getCacheManager();
+    if (cacheManager == null) {
+      logger.error(CACHE_MANAGER_NULL);
+      return;
+    }
+    String[] cacheNames = cacheManager.getCacheNames();
     for (int i = 0; i < cacheNames.length; i++) {
       clear(cacheNames[i]);
     }
