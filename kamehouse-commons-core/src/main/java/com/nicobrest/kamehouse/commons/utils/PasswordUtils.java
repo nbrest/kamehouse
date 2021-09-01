@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import java.util.List;
 import org.slf4j.Logger;
@@ -22,6 +23,9 @@ public class PasswordUtils {
 
   /** Generates a hashed password from a plain text one. */
   public static String generateHashedPassword(String plainTextPassword) {
+    if (plainTextPassword == null) {
+      throw new KameHouseInvalidDataException("Input password is null");
+    }
     return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt(LOG_ROUNDS));
   }
 

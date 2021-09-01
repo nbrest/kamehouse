@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -124,10 +125,12 @@ public class BookingRequestDto implements Identifiable, Serializable {
     this.duration = duration;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public BookingRequest.CardDetails getCardDetails() {
     return cardDetails;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setCardDetails(BookingRequest.CardDetails cardDetails) {
     this.cardDetails = cardDetails;
   }

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.media.video.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -43,10 +44,12 @@ public class Playlist implements Serializable, Comparable<Playlist> {
     this.path = path;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<String> getFiles() {
     return files;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setFiles(List<String> files) {
     this.files = files;
   }
@@ -87,7 +90,9 @@ public class Playlist implements Serializable, Comparable<Playlist> {
     return JsonUtils.toJsonString(this, super.toString(), maskedFields);
   }
 
-  /** Compares playlists based on its compareTo implementation. */
+  /**
+   * Compares playlists based on its compareTo implementation.
+   */
   public static class Comparator implements java.util.Comparator<Playlist>, Serializable {
 
     private static final long serialVersionUID = 1L;

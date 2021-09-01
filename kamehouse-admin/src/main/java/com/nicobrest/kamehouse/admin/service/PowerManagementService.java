@@ -35,7 +35,8 @@ public class PowerManagementService {
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
   private static final String SUSPEND_TRIGGER = "suspendTrigger";
 
-  @Autowired private Scheduler scheduler;
+  @Autowired
+  private Scheduler scheduler;
 
   @Autowired
   @Qualifier("shutdownJobDetail")
@@ -45,17 +46,16 @@ public class PowerManagementService {
   @Qualifier("suspendJobDetail")
   private JobDetail suspendJobDetail;
 
-  /** Getters and Setters. */
-  public void setScheduler(Scheduler scheduler) {
-    this.scheduler = scheduler;
-  }
-
-  /** Getters and Setters. */
+  /**
+   * Getters and Setters.
+   */
   public void setShutdownJobDetail(JobDetail shutdownJobDetail) {
     this.shutdownJobDetail = shutdownJobDetail;
   }
 
-  /** Getters and Setters. */
+  /**
+   * Getters and Setters.
+   */
   public void setSuspendJobDetail(JobDetail suspendJobDetail) {
     this.suspendJobDetail = suspendJobDetail;
   }
@@ -102,7 +102,9 @@ public class PowerManagementService {
     }
   }
 
-  /** Get the mac address as a byte array. */
+  /**
+   * Get the mac address as a byte array.
+   */
   private static byte[] getMacAddressBytes(String macAddress) {
     try {
       byte[] macAddressBytes = new byte[6];
@@ -119,7 +121,9 @@ public class PowerManagementService {
     }
   }
 
-  /** Schedule a server shutdown at the specified delay in seconds. */
+  /**
+   * Schedule a server shutdown at the specified delay in seconds.
+   */
   public void scheduleShutdown(Integer delay) {
     try {
       if (delay == null || delay < 60) {
@@ -141,7 +145,9 @@ public class PowerManagementService {
     }
   }
 
-  /** Get current shutdown status. */
+  /**
+   * Get current shutdown status.
+   */
   public String getShutdownStatus() {
     try {
       Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(SHUTDOWN_TRIGGER));
@@ -155,7 +161,9 @@ public class PowerManagementService {
     }
   }
 
-  /** Cancel a current scheduled shutdown. */
+  /**
+   * Cancel a current scheduled shutdown.
+   */
   public String cancelScheduledShutdown() {
     try {
       boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey(SHUTDOWN_TRIGGER));
@@ -169,7 +177,9 @@ public class PowerManagementService {
     }
   }
 
-  /** Schedule a server suspend at the specified delay in seconds. */
+  /**
+   * Schedule a server suspend at the specified delay in seconds.
+   */
   public void scheduleSuspend(Integer delay) {
     try {
       if (delay == null || delay < 0) {
@@ -191,7 +201,9 @@ public class PowerManagementService {
     }
   }
 
-  /** Get current suspend status. */
+  /**
+   * Get current suspend status.
+   */
   public String getSuspendStatus() {
     try {
       Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(SUSPEND_TRIGGER));
@@ -205,7 +217,9 @@ public class PowerManagementService {
     }
   }
 
-  /** Cancel a current scheduled suspend. */
+  /**
+   * Cancel a current scheduled suspend.
+   */
   public String cancelScheduledSuspend() {
     try {
       boolean cancelledSuspend = scheduler.unscheduleJob(TriggerKey.triggerKey(SUSPEND_TRIGGER));

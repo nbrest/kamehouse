@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.Map;
 
@@ -162,42 +163,52 @@ public class VlcRcStatus {
     this.version = version;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Equalizer getEqualizer() {
     return equalizer;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setEqualizer(Equalizer equalizer) {
     this.equalizer = equalizer;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Map<String, String> getAudioFilters() {
     return audioFilters;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setAudioFilters(Map<String, String> audioFilters) {
     this.audioFilters = audioFilters;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Stats getStats() {
     return stats;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setStats(Stats stats) {
     this.stats = stats;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public VideoEffects getVideoEffects() {
     return videoEffects;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setVideoEffects(VideoEffects videoEffects) {
     this.videoEffects = videoEffects;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Information getInformation() {
     return information;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setInformation(Information information) {
     this.information = information;
   }
@@ -216,18 +227,22 @@ public class VlcRcStatus {
     private Map<String, Integer> bands;
     private int preAmp;
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public Map<String, String> getPresets() {
       return presets;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setPresets(Map<String, String> presets) {
       this.presets = presets;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public Map<String, Integer> getBands() {
       return bands;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setBands(Map<String, Integer> bands) {
       this.bands = bands;
     }
@@ -502,10 +517,12 @@ public class VlcRcStatus {
       this.chapter = chapter;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public List<String> getChapters() {
       return chapters;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setChapters(List<String> chapters) {
       this.chapters = chapters;
     }
@@ -518,42 +535,52 @@ public class VlcRcStatus {
       this.title = title;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public List<String> getTitles() {
       return titles;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setTitles(List<String> titles) {
       this.titles = titles;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public Audio getAudio() {
       return audio;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setAudio(Audio audio) {
       this.audio = audio;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public Meta getMeta() {
       return meta;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setMeta(Meta meta) {
       this.meta = meta;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public Subtitle getSubtitle() {
       return subtitle;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setSubtitle(Subtitle subtitle) {
       this.subtitle = subtitle;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public Video getVideo() {
       return video;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setVideo(Video video) {
       this.video = video;
     }

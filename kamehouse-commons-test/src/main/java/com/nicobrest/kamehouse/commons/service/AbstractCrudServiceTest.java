@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.mockito.Mockito;
 
@@ -18,9 +19,12 @@ import org.mockito.Mockito;
  */
 public abstract class AbstractCrudServiceTest<E, D> {
 
+  @SuppressFBWarnings(value = "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD")
   protected TestUtils<E, D> testUtils;
 
-  /** Creates entity test. */
+  /**
+   * Creates entity test.
+   */
   protected void createTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
@@ -33,7 +37,9 @@ public abstract class AbstractCrudServiceTest<E, D> {
     verify(dao, times(1)).create(entity);
   }
 
-  /** Reads entity test. */
+  /**
+   * Reads entity test.
+   */
   protected void readTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
@@ -45,7 +51,9 @@ public abstract class AbstractCrudServiceTest<E, D> {
     verify(dao, times(1)).read(identifiableEntity.getId());
   }
 
-  /** Reads all entities test. */
+  /**
+   * Reads all entities test.
+   */
   public void readAllTest(CrudService<E, D> service, CrudDao<E> dao) {
     List<E> entityList = testUtils.getTestDataList();
     when(dao.readAll()).thenReturn(entityList);
@@ -56,7 +64,9 @@ public abstract class AbstractCrudServiceTest<E, D> {
     verify(dao, times(1)).readAll();
   }
 
-  /** Updates entity test. */
+  /**
+   * Updates entity test.
+   */
   public void updateTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
@@ -67,7 +77,9 @@ public abstract class AbstractCrudServiceTest<E, D> {
     verify(dao, times(1)).update(entity);
   }
 
-  /** Deletes entity test. */
+  /**
+   * Deletes entity test.
+   */
   public void deleteTest(CrudService<E, D> service, CrudDao<E> dao) {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;

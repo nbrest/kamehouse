@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +23,12 @@ public class KameHouseJob {
     this.schedules = new ArrayList<>();
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Key getKey() {
     return key;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setKey(Key key) {
     this.key = key;
   }
@@ -46,10 +49,12 @@ public class KameHouseJob {
     this.jobClass = jobClass;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<Schedule> getSchedules() {
     return schedules;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setSchedules(List<Schedule> schedules) {
     this.schedules = schedules;
   }
@@ -85,10 +90,12 @@ public class KameHouseJob {
    * @author nbrest
    */
   public static class Key {
+
     private String group;
     private String name;
 
-    public Key() {}
+    public Key() {
+    }
 
     public Key(String group, String name) {
       this.group = group;
@@ -141,15 +148,18 @@ public class KameHouseJob {
    * @author nbrest
    */
   public static class Schedule {
+
     private Key key;
     private String description;
     private Date nextRun;
     private int priority;
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public Key getKey() {
       return key;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setKey(Key key) {
       this.key = key;
     }

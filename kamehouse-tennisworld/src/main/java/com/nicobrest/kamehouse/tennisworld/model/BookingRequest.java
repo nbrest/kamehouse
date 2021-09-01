@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -168,10 +169,12 @@ public class BookingRequest implements IdentifiablePasswordEntity<String>, Seria
     this.duration = duration;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public CardDetails getCardDetails() {
     return cardDetails;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setCardDetails(CardDetails cardDetails) {
     this.cardDetails = cardDetails;
   }

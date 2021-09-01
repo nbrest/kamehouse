@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.testutils;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.InputStream;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
   }
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<T> getTestDataList() {
     return testDataList;
   }
@@ -77,6 +79,7 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
   }
 
   @Override
+  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive")
   public void assertEqualsAllAttributesList(List<T> expectedList, List<T> returnedList) {
     if (expectedList == null || returnedList == null) {
       fail("Received a null list");

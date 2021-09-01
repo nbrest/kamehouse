@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -42,10 +43,12 @@ public class ApplicationCache {
     this.keys = keys;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<String> getValues() {
     return values;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setValues(List<String> values) {
     this.values = values;
   }

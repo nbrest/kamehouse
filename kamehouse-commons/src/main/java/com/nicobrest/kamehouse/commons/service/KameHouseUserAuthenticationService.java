@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.dao.KameHouseUserAuthenticationDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +30,8 @@ public class KameHouseUserAuthenticationService implements UserDetailsService {
   @Qualifier("anonymousUser")
   private KameHouseUser anonymousUser;
 
-  public KameHouseUserAuthenticationDao getKameHouseUserAuthenticationDao() {
-    return kameHouseUserAuthenticationDao;
-  }
-
-  public void setKameHouseUserAuthenticationDao(
-      KameHouseUserAuthenticationDao kameHouseUserAuthenticationDao) {
-    this.kameHouseUserAuthenticationDao = kameHouseUserAuthenticationDao;
-  }
-
-  public KameHouseUser getAnonymousUser() {
-    return anonymousUser;
-  }
-
-  public void setAnonymousUser(KameHouseUser anonymousUser) {
-    this.anonymousUser = anonymousUser;
-  }
-
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public KameHouseUser loadUserByUsername(String username) {
     logger.trace("loadUserByUsername {}", username);
     if (username.equals("anonymousUser")) {

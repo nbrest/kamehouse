@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,10 +59,12 @@ public class KameHouseRole implements GrantedAuthority {
     this.name = name;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public KameHouseUser getKameHouseUser() {
     return kameHouseUser;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setKameHouseUser(KameHouseUser kameHouseUser) {
     this.kameHouseUser = kameHouseUser;
   }

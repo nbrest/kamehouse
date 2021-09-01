@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.service;
 import static com.nicobrest.kamehouse.commons.utils.StringUtils.sanitizeInput;
 
 import com.nicobrest.kamehouse.commons.model.ApplicationCache;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.ehcache.Cache;
@@ -28,15 +29,10 @@ public class EhCacheService {
   @Qualifier("cacheManager")
   private EhCacheCacheManager cacheManager;
 
-  public void setCacheManager(EhCacheCacheManager cacheManager) {
-    this.cacheManager = cacheManager;
-  }
-
-  public EhCacheCacheManager getCacheManager() {
-    return cacheManager;
-  }
-
-  /** Returns the cache information of the cache specified as a parameter. */
+  /**
+   * Returns the cache information of the cache specified as a parameter.
+   */
+  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public ApplicationCache get(String cacheName) {
     logger.trace("get {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
@@ -45,7 +41,10 @@ public class EhCacheService {
     return applicationCache;
   }
 
-  /** Returns the status of all the ehcaches. */
+  /**
+   * Returns the status of all the ehcaches.
+   */
+  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public List<ApplicationCache> getAll() {
     logger.trace("getAll");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
@@ -60,7 +59,10 @@ public class EhCacheService {
     return cacheList;
   }
 
-  /** Clears the ehcache specified as a parameter. */
+  /**
+   * Clears the ehcache specified as a parameter.
+   */
+  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public void clear(String cacheName) {
     logger.trace("clear {}", cacheName);
     Cache cache = cacheManager.getCacheManager().getCache(cacheName);
@@ -74,7 +76,10 @@ public class EhCacheService {
     }
   }
 
-  /** Clears all the ehcaches. */
+  /**
+   * Clears all the ehcaches.
+   */
+  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public void clearAll() {
     logger.trace("clearAll");
     String[] cacheNames = cacheManager.getCacheManager().getCacheNames();
@@ -83,7 +88,9 @@ public class EhCacheService {
     }
   }
 
-  /** Populates the map that represents the cache with the cache information. */
+  /**
+   * Populates the map that represents the cache with the cache information.
+   */
   private ApplicationCache getCacheInformation(Cache cache) {
     ApplicationCache applicationCache = null;
     if (cache != null) {

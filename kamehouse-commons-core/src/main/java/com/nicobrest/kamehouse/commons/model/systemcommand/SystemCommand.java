@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -25,15 +26,20 @@ public abstract class SystemCommand {
     return isDaemon;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Output getOutput() {
     return output;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setOutput(Output output) {
     this.output = output;
   }
 
-  /** Gets the specified system command for the correct operating system. */
+  /**
+   * Gets the specified system command for the correct operating system.
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<String> getCommand() {
     if (PropertiesUtils.isWindowsHost()) {
       return windowsCommand;
@@ -50,7 +56,9 @@ public abstract class SystemCommand {
     output.setCommand(getCommand().toString());
   }
 
-  /** Get sleep time (in seconds) to sleep AFTER the command executes. */
+  /**
+   * Get sleep time (in seconds) to sleep AFTER the command executes.
+   */
   public int getSleepTime() {
     return sleepTime;
   }
@@ -60,7 +68,9 @@ public abstract class SystemCommand {
     return JsonUtils.toJsonString(this, super.toString());
   }
 
-  /** Represents the output and status of an executed system command. */
+  /**
+   * Represents the output and status of an executed system command.
+   */
   public static class Output {
 
     private String command;
@@ -102,18 +112,22 @@ public abstract class SystemCommand {
       this.status = status;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public List<String> getStandardOutput() {
       return standardOutput;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setStandardOutput(List<String> standardOutput) {
       this.standardOutput = standardOutput;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP")
     public List<String> getStandardError() {
       return standardError;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setStandardError(List<String> standardError) {
       this.standardError = standardError;
     }

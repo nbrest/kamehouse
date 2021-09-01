@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.testmodule.dao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,18 +39,12 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     initRepository();
   }
 
-  public void setGohanDragonBallUser(DragonBallUser gohanDragonBallUser) {
-    this.gohanDragonBallUser = gohanDragonBallUser;
-  }
-
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public DragonBallUser getGohanDragonBallUser() {
     return this.gohanDragonBallUser;
   }
 
-  public void setGotenDragonBallUser(DragonBallUser gotenDragonBallUser) {
-    this.gotenDragonBallUser = gotenDragonBallUser;
-  }
-
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public DragonBallUser getGotenDragonBallUser() {
     return this.gotenDragonBallUser;
   }

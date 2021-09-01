@@ -40,13 +40,6 @@ public class TestSchedulerService {
   /**
    * Getters and Setters.
    */
-  public void setScheduler(Scheduler scheduler) {
-    this.scheduler = scheduler;
-  }
-
-  /**
-   * Getters and Setters.
-   */
   public void setSampleJobJobDetail(JobDetail sampleJobDetail) {
     this.sampleJobDetail = sampleJobDetail;
   }

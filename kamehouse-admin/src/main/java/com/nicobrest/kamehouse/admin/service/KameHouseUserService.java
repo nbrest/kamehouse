@@ -12,6 +12,7 @@ import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.KameHouseUserValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,22 +38,6 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
   @Autowired
   @Qualifier("anonymousUser")
   private KameHouseUser anonymousUser;
-
-  public void setKameHouseUserDao(KameHouseUserDao kameHouseUserDao) {
-    this.kameHouseUserDao = kameHouseUserDao;
-  }
-
-  public KameHouseUserDao getKameHouseUserDao() {
-    return kameHouseUserDao;
-  }
-
-  public void setAnonymousUser(KameHouseUser anonymousUser) {
-    this.anonymousUser = anonymousUser;
-  }
-
-  public KameHouseUser getAnonymousUser() {
-    return anonymousUser;
-  }
 
   @Override
   public Long create(KameHouseUserDto dto) {
@@ -82,6 +67,7 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
   }
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public KameHouseUser loadUserByUsername(String username) {
     logger.trace("loadUserByUsername {}", username);
     if (username.equals("anonymousUser")) {

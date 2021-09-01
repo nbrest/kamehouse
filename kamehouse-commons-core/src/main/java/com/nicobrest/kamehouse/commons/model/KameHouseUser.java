@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -148,10 +149,12 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
   }
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Set<KameHouseRole> getAuthorities() {
     return authorities;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setAuthorities(Set<KameHouseRole> authorities) {
     this.authorities = authorities;
   }

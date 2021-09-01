@@ -78,6 +78,9 @@
         <!-- Updated : 2021/09 | Dependency version date: 2021/04 -->
         <ehcache.version>2.10.9.2</ehcache.version>
 
+        <!-- Updated : 2021/09 | Dependency version date: 2015/03 (discontinued) -->
+        <findbugs.version>3.0.1</findbugs.version>
+
         <!-- Updated : 2021/09 | Dependency version date: 2012/07 TODO REPLACE ME -->
         <hamcrest.version>1.3</hamcrest.version>
 
@@ -142,6 +145,9 @@
         <quartz.version>2.3.2</quartz.version>
 
         <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
+        <spotbugs.version>4.3.0</spotbugs.version>
+
+        <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
         <spring.version>5.3.9</spring.version>
 
         <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
@@ -158,6 +164,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>findbugs</artifactId>
+            <version>${findbugs.version}</version>
+        </dependency>
 
         <!-- Bouncy Castle Encryption -->
         <dependency>
@@ -493,6 +505,20 @@
                             <failOnViolation>true</failOnViolation>
                             <violationSeverity>warning</violationSeverity>
                         </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- maven spotbugs plugin: Static code analysis -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.version}</version>
+                <executions>
+                    <execution>
                         <goals>
                             <goal>check</goal>
                         </goals>

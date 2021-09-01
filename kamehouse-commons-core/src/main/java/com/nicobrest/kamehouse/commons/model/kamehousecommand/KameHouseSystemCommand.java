@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,10 @@ public abstract class KameHouseSystemCommand {
 
   protected List<SystemCommand> systemCommands = new ArrayList<>();
 
-  /** Gets the list of system commands required to execute to perform this admin command. */
+  /**
+   * Gets the list of system commands required to execute to perform this admin command.
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<SystemCommand> getSystemCommands() {
     return systemCommands;
   }

@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -40,10 +41,12 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
     this.id = id;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public TennisWorldUser getTennisWorldUser() {
     return tennisWorldUser;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setTennisWorldUser(TennisWorldUser tennisWorldUser) {
     this.tennisWorldUser = tennisWorldUser;
   }

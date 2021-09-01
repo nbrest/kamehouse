@@ -5,6 +5,7 @@ import static javax.persistence.TemporalType.DATE;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -32,16 +33,16 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(
     name = "booking_schedule_config",
     uniqueConstraints =
-        @UniqueConstraint(
-            columnNames = {
-              "tennisworld_user_id",
-              "session_type",
-              "site",
-              "day",
-              "time",
-              "booking_date",
-              "book_ahead_days"
-            }))
+    @UniqueConstraint(
+        columnNames = {
+            "tennisworld_user_id",
+            "session_type",
+            "site",
+            "day",
+            "time",
+            "booking_date",
+            "book_ahead_days"
+        }))
 public class BookingScheduleConfig implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
@@ -67,7 +68,9 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
   @Column(length = 10, name = "day", unique = false, nullable = false)
   private DateUtils.Day day;
 
-  /** Format: HH:MM 24hs : 07:15, 11:30, 20:15, etc. */
+  /**
+   * Format: HH:MM 24hs : 07:15, 11:30, 20:15, etc.
+   */
   @Column(length = 5, name = "time", unique = false, nullable = false)
   private String time;
 
@@ -99,7 +102,9 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
   @Column(name = "enabled", unique = false, nullable = false)
   private Boolean enabled;
 
-  /** Duration in minutes. Format: MMM (optional depending on sessionType) */
+  /**
+   * Duration in minutes. Format: MMM (optional depending on sessionType)
+   */
   @Column(length = 3, name = "duration", unique = false, nullable = true)
   private String duration;
 
@@ -113,10 +118,12 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
     this.id = id;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public TennisWorldUser getTennisWorldUser() {
     return tennisWorldUser;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setTennisWorldUser(TennisWorldUser tennisWorldUser) {
     this.tennisWorldUser = tennisWorldUser;
   }
@@ -153,7 +160,9 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
     this.time = time;
   }
 
-  /** Get booking date. */
+  /**
+   * Get booking date.
+   */
   public Date getBookingDate() {
     if (bookingDate != null) {
       return (Date) bookingDate.clone();
@@ -162,7 +171,9 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
     }
   }
 
-  /** Set booking date. */
+  /**
+   * Set booking date.
+   */
   public void setBookingDate(Date bookingDate) {
     if (bookingDate != null) {
       this.bookingDate = (Date) bookingDate.clone();

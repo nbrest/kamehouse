@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class DataSourceConfig {
    * Default DataSource.
    */
   @Bean
+  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public DriverManagerDataSource dataSource() {
     DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
     driverManagerDataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
@@ -42,6 +44,7 @@ public class DataSourceConfig {
    * Default entityManagerFactory.
    */
   @Bean
+  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Autowired")
   public LocalContainerEntityManagerFactoryBean entityManagerFactory(
       DriverManagerDataSource dataSource) {
     LocalContainerEntityManagerFactoryBean entityManagerFactory =
@@ -52,28 +55,25 @@ public class DataSourceConfig {
     jpaProperties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
     jpaProperties.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
     jpaProperties.setProperty(
-        "hibernate.generate_statistics", env.getProperty("hibernate" + ".generate_statistics"));
+        "hibernate.generate_statistics", env.getProperty("hibernate.generate_statistics"));
     jpaProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
     jpaProperties.setProperty(
-        "connection.provider_class", env.getProperty("connection" + ".provider_class"));
+        "connection.provider_class", env.getProperty("connection.provider_class"));
+    jpaProperties.setProperty("hibernate.c3p0.acquire_increment",
+        env.getProperty("hibernate.c3p0.acquire_increment"));
     jpaProperties.setProperty(
-        "hibernate.c3p0.acquire_increment",
-        env.getProperty("hibernate.c3p0" + ".acquire_increment"));
+        "hibernate.c3p0.idle_test_period", env.getProperty("hibernate.c3p0.idle_test_period"));
     jpaProperties.setProperty(
-        "hibernate.c3p0.idle_test_period", env.getProperty("hibernate.c3p0" + ".idle_test_period"));
+        "hibernate.c3p0.min_size", env.getProperty("hibernate.c3p0.min_size"));
     jpaProperties.setProperty(
-        "hibernate.c3p0.min_size", env.getProperty("hibernate.c3p0" + ".min_size"));
+        "hibernate.c3p0.max_size", env.getProperty("hibernate.c3p0.max_size"));
     jpaProperties.setProperty(
-        "hibernate.c3p0.max_size", env.getProperty("hibernate.c3p0" + ".max_size"));
-    jpaProperties.setProperty(
-        "hibernate.c3p0.max_statements", env.getProperty("hibernate.c3p0" + ".max_statements"));
+        "hibernate.c3p0.max_statements", env.getProperty("hibernate.c3p0.max_statements"));
     jpaProperties.setProperty("hibernate.c3p0.timeout", env.getProperty("hibernate.c3p0.timeout"));
-    jpaProperties.setProperty(
-        "hibernate.c3p0.acquireRetryAttempts",
-        env.getProperty("hibernate" + ".c3p0.acquireRetryAttempts"));
-    jpaProperties.setProperty(
-        "hibernate.c3p0.acquireRetryDelay",
-        env.getProperty("hibernate.c3p0" + ".acquireRetryDelay"));
+    jpaProperties.setProperty("hibernate.c3p0.acquireRetryAttempts",
+        env.getProperty("hibernate.c3p0.acquireRetryAttempts"));
+    jpaProperties.setProperty("hibernate.c3p0.acquireRetryDelay",
+        env.getProperty("hibernate.c3p0.acquireRetryDelay"));
     entityManagerFactory.setJpaProperties(jpaProperties);
     return entityManagerFactory;
   }

@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.model;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -78,10 +79,12 @@ public class BookingResponse implements Identifiable, Serializable {
     this.message = message;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public BookingRequest getRequest() {
     return request;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setRequest(BookingRequest request) {
     this.request = request;
   }

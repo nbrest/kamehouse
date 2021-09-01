@@ -29,14 +29,12 @@ public class SchedulerService {
       "Based on configured schedule, the given " + "trigger will never fire";
   private static final String TRIGGER = "-trigger";
 
-  @Autowired private Scheduler scheduler;
+  @Autowired
+  private Scheduler scheduler;
 
-  /** Getters and Setters. */
-  public void setScheduler(Scheduler scheduler) {
-    this.scheduler = scheduler;
-  }
-
-  /** Schedule a job based on the supplied delay. */
+  /**
+   * Schedule a job based on the supplied delay.
+   */
   public void scheduleJob(JobKey jobKey, Integer delay) {
     try {
       JobDetail jobDetail = scheduler.getJobDetail(jobKey);
@@ -49,7 +47,9 @@ public class SchedulerService {
     }
   }
 
-  /** Schedule a job based on the supplied delay. */
+  /**
+   * Schedule a job based on the supplied delay.
+   */
   public void scheduleJob(JobDetail jobDetail, Integer delay) {
     JobKey jobKey = jobDetail.getKey();
     Trigger trigger =
@@ -58,7 +58,9 @@ public class SchedulerService {
     scheduleJob(trigger);
   }
 
-  /** Schedule a job based on it's supplied trigger. */
+  /**
+   * Schedule a job based on it's supplied trigger.
+   */
   public void scheduleJob(Trigger trigger) {
     try {
       if (scheduler.checkExists(trigger.getKey())) {
@@ -80,7 +82,9 @@ public class SchedulerService {
     }
   }
 
-  /** Get the status of all jobs in the system with their triggers. */
+  /**
+   * Get the status of all jobs in the system with their triggers.
+   */
   public List<KameHouseJob> getAllJobsStatus() {
     try {
       List<KameHouseJob> jobs = new ArrayList<>();
@@ -115,7 +119,9 @@ public class SchedulerService {
     }
   }
 
-  /** Cancel a current scheduled job. */
+  /**
+   * Cancel a current scheduled job.
+   */
   public void cancelScheduledJob(JobKey jobKey) {
     try {
       List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);

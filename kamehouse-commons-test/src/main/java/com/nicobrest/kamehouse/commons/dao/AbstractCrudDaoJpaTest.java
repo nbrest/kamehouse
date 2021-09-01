@@ -15,7 +15,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
 
   public static final Long INVALID_ID = 987987L;
 
-  /** Creates entity test. */
+  /**
+   * Creates entity test.
+   */
   protected void createTest(CrudDao<T> dao, Class<T> clazz) {
     T entity = testUtils.getSingleTestData();
     Long createdId = dao.create(entity);
@@ -26,7 +28,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     testUtils.assertEqualsAllAttributes(entity, createdEntity);
   }
 
-  /** Creates entity ConflictException test. */
+  /**
+   * Creates entity ConflictException test.
+   */
   public void createConflictExceptionTest(CrudDao<T> dao) {
     assertThrows(
         KameHouseConflictException.class,
@@ -38,7 +42,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
         });
   }
 
-  /** Reads entity test. */
+  /**
+   * Reads entity test.
+   */
   public void readTest(CrudDao<T> dao) {
     T entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
@@ -49,7 +55,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     testUtils.assertEqualsAllAttributes(entity, returnedEntity);
   }
 
-  /** Reads all entities test. */
+  /**
+   * Reads all entities test.
+   */
   public void readAllTest(CrudDao<T> dao) {
     List<T> entitiesList = testUtils.getTestDataList();
     for (T entity : entitiesList) {
@@ -61,7 +69,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     testUtils.assertEqualsAllAttributesList(entitiesList, returnedList);
   }
 
-  /** Updates entity test. */
+  /**
+   * Updates entity test.
+   */
   public void updateTest(CrudDao<T> dao, Class<T> clazz, T updatedEntity) {
     T entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
@@ -75,7 +85,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     testUtils.assertEqualsAllAttributes(updatedEntity, returnedEntity);
   }
 
-  /** Updates entity NotFoundException test. */
+  /**
+   * Updates entity NotFoundException test.
+   */
   public void updateNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
     assertThrows(
         KameHouseNotFoundException.class,
@@ -88,7 +100,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
         });
   }
 
-  /** Deletes entity test. */
+  /**
+   * Deletes entity test.
+   */
   public void deleteTest(CrudDao<T> dao) {
     T entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
@@ -99,7 +113,9 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
     testUtils.assertEqualsAllAttributes(entity, deletedEntity);
   }
 
-  /** Deletes entity NotFoundException test. */
+  /**
+   * Deletes entity NotFoundException test.
+   */
   public void deleteNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
     assertThrows(
         KameHouseNotFoundException.class,

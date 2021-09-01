@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ public abstract class AbstractControllerTest<E, D> {
   /**
    * Executes a get request for the specified url on the mock server.
    */
+  @SuppressFBWarnings(value = "UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD")
   protected MockHttpServletResponse doGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }

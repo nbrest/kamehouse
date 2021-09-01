@@ -13,24 +13,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 /**
- * Custom AuthenticationProvider for the application that uses the
- * kameHouseUserAuthenticationService to get the kamehouse users from the repository.
+ * Custom AuthenticationProvider for the application that uses kameHouseUserAuthenticationService to
+ * get the kamehouse users from the repository.
  *
  * @author nbrest
  */
 @Component
 public class KameHouseAuthenticationProvider implements AuthenticationProvider {
 
-  @Autowired private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
-
-  public void setKameHouseUserAuthenticationService(
-      KameHouseUserAuthenticationService kameHouseUserAuthenticationService) {
-    this.kameHouseUserAuthenticationService = kameHouseUserAuthenticationService;
-  }
-
-  public KameHouseUserAuthenticationService getKameHouseUserAuthenticationService() {
-    return kameHouseUserAuthenticationService;
-  }
+  @Autowired
+  private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
   @Override
   public Authentication authenticate(Authentication authentication) {

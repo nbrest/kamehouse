@@ -27,30 +27,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingScheduleConfigController extends AbstractCrudController {
 
-  @Autowired private BookingScheduleConfigService bookingScheduleConfigService;
+  @Autowired
+  private BookingScheduleConfigService bookingScheduleConfigService;
 
-  /** Creates a new entity in the repository. */
+  /**
+   * Creates a new entity in the repository.
+   */
   @PostMapping(path = "/booking-schedule-configs")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody BookingScheduleConfigDto dto) {
     return create(bookingScheduleConfigService, dto);
   }
 
-  /** Returns a specific entity from the repository based on the id. */
+  /**
+   * Returns a specific entity from the repository based on the id.
+   */
   @GetMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<BookingScheduleConfig> read(@PathVariable Long id) {
     return generatePasswordLessResponse(read(bookingScheduleConfigService, id));
   }
 
-  /** Returns all entities. */
+  /**
+   * Returns all entities.
+   */
   @GetMapping(path = "/booking-schedule-configs")
   @ResponseBody
   public ResponseEntity<List<BookingScheduleConfig>> readAll() {
     return generatePasswordLessResponseList(readAll(bookingScheduleConfigService));
   }
 
-  /** Updates an entity in the repository. */
+  /**
+   * Updates an entity in the repository.
+   */
   @PutMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(
@@ -58,23 +67,30 @@ public class BookingScheduleConfigController extends AbstractCrudController {
     return update(bookingScheduleConfigService, id, dto);
   }
 
-  /** Deletes an entity from the repository. */
+  /**
+   * Deletes an entity from the repository.
+   */
   @DeleteMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<BookingScheduleConfig> delete(@PathVariable Long id) {
     return generatePasswordLessResponse(delete(bookingScheduleConfigService, id));
   }
 
-  /** Remove the password from the tennisWorldUser in the response. */
+  /**
+   * Remove the password from the tennisWorldUser in the response.
+   */
   private ResponseEntity<BookingScheduleConfig> generatePasswordLessResponse(
       ResponseEntity<BookingScheduleConfig> responseEntity) {
-    if (responseEntity.getBody() != null) {
-      PasswordUtils.unsetPassword(responseEntity.getBody().getTennisWorldUser());
+    BookingScheduleConfig responseBody = responseEntity.getBody();
+    if (responseBody != null) {
+      PasswordUtils.unsetPassword(responseBody.getTennisWorldUser());
     }
     return responseEntity;
   }
 
-  /** Remove the password from the tennisWorldUser in the response. */
+  /**
+   * Remove the password from the tennisWorldUser in the response.
+   */
   private ResponseEntity<List<BookingScheduleConfig>> generatePasswordLessResponseList(
       ResponseEntity<List<BookingScheduleConfig>> responseEntity) {
     List<BookingScheduleConfig> responseBody = responseEntity.getBody();

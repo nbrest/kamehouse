@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -35,10 +36,12 @@ public class KameHouseRoleDto implements Serializable {
     this.name = name;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public KameHouseUserDto getKameHouseUser() {
     return kameHouseUser;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setKameHouseUser(KameHouseUserDto kameHouseUser) {
     this.kameHouseUser = kameHouseUser;
   }

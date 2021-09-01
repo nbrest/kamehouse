@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.model.dto;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -25,7 +26,8 @@ public class KameHouseUserDto implements Identifiable, Serializable {
   private String firstName;
   private String lastName;
   private Date lastLogin;
-  @JsonManagedReference private Set<KameHouseRoleDto> authorities;
+  @JsonManagedReference
+  private Set<KameHouseRoleDto> authorities;
   private boolean accountNonExpired = true;
   private boolean accountNonLocked = true;
   private boolean credentialsNonExpired = true;
@@ -79,7 +81,9 @@ public class KameHouseUserDto implements Identifiable, Serializable {
     this.lastName = lastName;
   }
 
-  /** Get last login date. */
+  /**
+   * Get last login date.
+   */
   public Date getLastLogin() {
     if (lastLogin != null) {
       return (Date) lastLogin.clone();
@@ -88,17 +92,21 @@ public class KameHouseUserDto implements Identifiable, Serializable {
     }
   }
 
-  /** Set last login date. */
+  /**
+   * Set last login date.
+   */
   public void setLastLogin(Date lastLogin) {
     if (lastLogin != null) {
       this.lastLogin = (Date) lastLogin.clone();
     }
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public Set<KameHouseRoleDto> getAuthorities() {
     return authorities;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setAuthorities(Set<KameHouseRoleDto> authorities) {
     this.authorities = authorities;
   }
