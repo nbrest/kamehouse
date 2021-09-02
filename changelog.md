@@ -4,6 +4,7 @@
 
 * Updated jquery to it's latest version
 * Fixed websockets for kame.com and going through vm-ubuntu.com
+* Added fallback synchronization of vlc player through http calls when the websockets are disconnected
 
 #### v6.05
 

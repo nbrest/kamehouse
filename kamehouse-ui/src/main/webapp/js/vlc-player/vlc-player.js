@@ -752,7 +752,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     logger.info("Finished keepAliveWebSocketsLoop");
   }
 
-  
   /** 
    * Start infinite loop to sync falling back to http calls when the websockets are disconnected.
    */
