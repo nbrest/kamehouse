@@ -67,6 +67,7 @@ function VlcPlayer(hostname) {
     synchronizer.syncVlcRcStatusLoop();
     synchronizer.syncPlaylistLoop();
     synchronizer.keepAliveWebSocketsLoop();
+    synchronizer.syncVlcPlayerHttpLoop();
   }
 
   /**
@@ -579,12 +580,14 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   this.syncVlcRcStatusLoop = syncVlcRcStatusLoop;
   this.syncPlaylistLoop = syncPlaylistLoop;
   this.keepAliveWebSocketsLoop = keepAliveWebSocketsLoop;
+  this.syncVlcPlayerHttpLoop = syncVlcPlayerHttpLoop;
 
   const vlcRcStatusWebSocket = new WebSocketKameHouse();
   const playlistWebSocket = new WebSocketKameHouse();
   let isRunningSyncVlcRcStatusLoop = false;
   let isRunningSyncPlaylistLoop = false;
   let isRunningKeepAliveWebSocketLoop = false;
+  let isRunningSyncVlcPlayerHttpLoop = false;
 
   function setWebSockets() {
     logger.trace(arguments.callee.name);
@@ -747,6 +750,31 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       }
     }
     logger.info("Finished keepAliveWebSocketsLoop");
+  }
+
+  
+  /** 
+   * Start infinite loop to sync falling back to http calls when the websockets are disconnected.
+   */
+  async function syncVlcPlayerHttpLoop() {
+    logger.info("Started syncVlcPlayerHttpLoop");
+    if (isRunningSyncVlcPlayerHttpLoop) {
+      logger.error("syncVlcPlayerHttpLoop is already running");
+      return;
+    }
+    isRunningSyncVlcPlayerHttpLoop = true;
+    const syncVlcPlayerHttpWaitMs = 30000;
+    while (isRunningSyncVlcPlayerHttpLoop) {
+      logger.trace("sync vlc player through fallback to http requests loop");
+      await sleep(syncVlcPlayerHttpWaitMs);
+      if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
+        logger.debug("Websockets disconnected, synchronizing vlc player through http requests");
+        vlcPlayer.loadStateFromApi();
+      } else {
+        logger.trace("Websockets connected. Skipping synchronization through http requests");
+      }
+    }
+    logger.info("Finished syncVlcPlayerHttpLoop");
   }
 }
 
