@@ -23,7 +23,11 @@ public class VlcRcWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/api/ws/vlc-player/status").withSockJS();
-    registry.addEndpoint("/api/ws/vlc-player/playlist").withSockJS();
+    registry.addEndpoint("/api/ws/vlc-player/status")
+        .setAllowedOriginPatterns("*")
+        .withSockJS();
+    registry.addEndpoint("/api/ws/vlc-player/playlist")
+        .setAllowedOriginPatterns("*")
+        .withSockJS();
   }
 }

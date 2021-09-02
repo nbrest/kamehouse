@@ -23,6 +23,8 @@ public class TestModuleWebSocketConfig implements WebSocketMessageBrokerConfigur
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/api/ws/test-module/websocket").withSockJS();
+    registry.addEndpoint("/api/ws/test-module/websocket")
+        .setAllowedOriginPatterns("*")
+        .withSockJS();
   }
 }
