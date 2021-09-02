@@ -26,7 +26,9 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 @EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 2629746, cleanupCron = "0 0 2 1 1 *")
 public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer {
 
-  /** Replaces the default name for the session cookie from SESSION to KAMEHOUSE-SESSION-ID. */
+  /**
+   * Replaces the default name for the session cookie from SESSION to KAMEHOUSE-SESSION-ID.
+   */
   @Bean
   public CookieSerializer cookieSerializer() {
     DefaultCookieSerializer serializer = new DefaultCookieSerializer();
@@ -36,7 +38,9 @@ public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer
     return serializer;
   }
 
-  /** Default user to return when the user is not logged in. */
+  /**
+   * Default user to return when the user is not logged in.
+   */
   @Bean
   public KameHouseUser anonymousUser() {
     KameHouseUser anonymousUser = new KameHouseUser();

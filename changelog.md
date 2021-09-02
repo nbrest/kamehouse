@@ -3,6 +3,7 @@
 #### v6.06
 
 * Updated jquery to it's latest version
+* Fixed websockets for kame.com
 
 #### v6.05
 

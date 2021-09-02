@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.config;
 
 import com.nicobrest.kamehouse.commons.web.filter.logger.CustomRequestLoggingFilter;
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
@@ -28,18 +29,21 @@ public class KameHouseWebAppInitializer implements WebApplicationInitializer {
         servletContext.addServlet("dispatcher", new DispatcherServlet());
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping("/");
+    dispatcher.setAsyncSupported(true);
 
     // Add filters
     context.refresh();
     CustomRequestLoggingFilter customRequestLoggingFilter =
         (CustomRequestLoggingFilter) context.getBean("customRequestLoggingFilter");
 
-    servletContext
-        .addFilter("customRequestLoggingFilter", customRequestLoggingFilter)
-        .addMappingForServletNames(null, true, "dispatcher");
+    FilterRegistration.Dynamic customRequestLoggingFilterReg = servletContext
+        .addFilter("customRequestLoggingFilter", customRequestLoggingFilter);
+    customRequestLoggingFilterReg.addMappingForServletNames(null, true, "dispatcher");
+    customRequestLoggingFilterReg.setAsyncSupported(true);
 
-    servletContext
-        .addFilter("springSecurityFilterChain", DelegatingFilterProxy.class)
-        .addMappingForServletNames(null, true, "dispatcher");
+    FilterRegistration.Dynamic springSecurityFilterChain = servletContext
+        .addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);
+    springSecurityFilterChain.addMappingForServletNames(null, true, "dispatcher");
+    springSecurityFilterChain.setAsyncSupported(true);
   }
 }
