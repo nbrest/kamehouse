@@ -11,7 +11,7 @@
 
 <title>Edit DragonBallUser Form</title>
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
-<script src="/kame-house/lib/js/jquery-2.0.3.min.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/js/global.js"></script>
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-user-service-jsp.js"></script>
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-users-edit.js"></script>

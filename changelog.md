@@ -2,7 +2,7 @@
 
 #### v6.06
 
-* 
+* Updated jquery to it's latest version
 
 #### v6.05
 

@@ -136,7 +136,7 @@ public class BookingServiceTest {
     bookingRequestTestUtils.initTestData();
     BookingService bookingService = new BookingService();
     bookingServiceSpy = Mockito.spy(bookingService);
-    bookingService.setSleepMs(0);
+    BookingService.setSleepMs(0);
     bookingResponseTestUtils.initTestData();
     bookingScheduleConfigTestUtils.initTestData();
 
