@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model.dto;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class TennisWorldUserDto implements Identifiable, Serializable {
 
   private Long id;
   private String email;
+  @Masked
   private String password;
 
   @Override
@@ -63,7 +65,6 @@ public class TennisWorldUserDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }

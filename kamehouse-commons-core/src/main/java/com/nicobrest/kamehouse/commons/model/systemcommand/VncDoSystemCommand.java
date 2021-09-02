@@ -15,7 +15,9 @@ import java.util.Arrays;
  */
 public abstract class VncDoSystemCommand extends SystemCommand {
 
-  /** Sets a VncDo system command that is specified by an action and a parameter. */
+  /**
+   * Sets a VncDo system command that is specified by an action and a parameter.
+   */
   protected void setVncDoSystemCommand(String action, String parameter) {
     String hostname = PropertiesUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
@@ -43,7 +45,9 @@ public abstract class VncDoSystemCommand extends SystemCommand {
     setOutputCommand();
   }
 
-  /** Gets the vnc server password from a file. */
+  /**
+   * Gets the vnc server password from a file.
+   */
   protected String getVncServerPassword() {
     String vncServerPwdFile =
         PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("vnc.server.pwd.file");
@@ -69,7 +73,6 @@ public abstract class VncDoSystemCommand extends SystemCommand {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"linuxCommand", "windowsCommand"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }

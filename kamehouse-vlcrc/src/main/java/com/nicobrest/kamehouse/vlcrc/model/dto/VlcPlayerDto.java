@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class VlcPlayerDto implements Identifiable, Serializable {
   private String hostname;
   private int port;
   private String username;
+  @Masked
   private String password;
 
   public void setId(Long id) {
@@ -83,7 +85,6 @@ public class VlcPlayerDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }

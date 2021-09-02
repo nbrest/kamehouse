@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.model;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,6 +12,7 @@ public class TestUserEntity implements IdentifiablePasswordEntity<String>, Seria
 
   private Long id;
   private String name;
+  @Masked
   private String password;
 
   @Override
@@ -62,7 +64,6 @@ public class TestUserEntity implements IdentifiablePasswordEntity<String>, Seria
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }

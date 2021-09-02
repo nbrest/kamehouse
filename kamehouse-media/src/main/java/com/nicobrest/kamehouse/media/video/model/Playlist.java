@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.media.video.model;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class Playlist implements Serializable, Comparable<Playlist> {
   private String name;
   private String category;
   private String path;
+  @Masked
   private List<String> files;
 
   public String getName() {
@@ -86,8 +88,7 @@ public class Playlist implements Serializable, Comparable<Playlist> {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"files"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 
   /**

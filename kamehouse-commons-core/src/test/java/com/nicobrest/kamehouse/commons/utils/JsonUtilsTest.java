@@ -8,7 +8,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.nicobrest.kamehouse.commons.annotations.Masked;
+import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import java.io.IOException;
+import java.util.Objects;
 import org.apache.commons.codec.Charsets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +35,9 @@ public class JsonUtilsTest {
     populateTestData();
   }
 
-  /** Tests getting the byte array from an object and compares it's string representation. */
+  /**
+   * Tests getting the byte array from an object and compares it's string representation.
+   */
   @Test
   public void toJsonByteArraySuccessTest() throws IOException {
     byte[] output = JsonUtils.toJsonByteArray(jsonNode);
@@ -40,7 +45,9 @@ public class JsonUtilsTest {
     assertEquals(expectedOutput, new String(output, Charsets.UTF_8));
   }
 
-  /** Tests toJsonString with masked fields. */
+  /**
+   * Tests toJsonString with masked fields.
+   */
   @Test
   public void toJsonStringWithMaskedFieldsTest() {
     String[] maskedFields = {"textField", "doubleField"};
@@ -51,7 +58,36 @@ public class JsonUtilsTest {
     assertEquals(expectedOutput, output);
   }
 
-  /** Tests toJsonString with masked fields in subnode. */
+  /**
+   * Tests toJsonString with masked annotated fields.
+   */
+  @Test
+  public void toJsonStringMaskedAnnotatedFieldsTest() {
+    TestClass testClass = new TestClass();
+    testClass.setId(1L);
+    testClass.setName("goku");
+    TestSubClass testSubClass = new TestSubClass();
+    testSubClass.setId(2L);
+    testSubClass.setPassword("pegasus");
+    testClass.setTestSubClass(testSubClass);
+
+    String output = JsonUtils.toJsonString(testClass, null, true);
+
+    String expectedOutput = "{"
+        + "\"id\":1,"
+        + "\"testSubClass\":"
+        + "{"
+        + "\"id\":2,"
+        + "\"password\":\"****\""
+        + "},"
+        + "\"name\":\"****\""
+        + "}";
+    assertEquals(expectedOutput, output);
+  }
+
+  /**
+   * Tests toJsonString with masked fields in subnode.
+   */
   @Test
   public void toJsonStringWithMaskedFieldsInSubNodeTest() {
     String[] maskedFields = {"textField", "doubleField", "user.password"};
@@ -63,7 +99,9 @@ public class JsonUtilsTest {
     assertEquals(expectedOutput, output);
   }
 
-  /** Tests toJsonString returning a custom default value. */
+  /**
+   * Tests toJsonString returning a custom default value.
+   */
   @Test
   public void toJsonStringWithDefaultValueTest() {
     String defaultValue = "{\"msg\":\"my custom default\"}";
@@ -71,14 +109,18 @@ public class JsonUtilsTest {
     assertEquals(defaultValue, output);
   }
 
-  /** Tests toJsonString returning the standard default value. */
+  /**
+   * Tests toJsonString returning the standard default value.
+   */
   @Test
   public void toJsonStringWithoutDefaultValueTest() {
     String output = JsonUtils.toJsonString(new Object());
     assertEquals(JsonUtils.DEFAULT_VALUE, output);
   }
 
-  /** Tests the getText method from a jsonNode. */
+  /**
+   * Tests the getText method from a jsonNode.
+   */
   @Test
   public void getTextTest() {
     String validKeyOutput = JsonUtils.getText(jsonNode, "textField");
@@ -91,7 +133,9 @@ public class JsonUtilsTest {
     assertNull(emptyJsonOutput, "Expecting null for empty json");
   }
 
-  /** Tests the getInt method from a jsonNode. */
+  /**
+   * Tests the getInt method from a jsonNode.
+   */
   @Test
   public void getIntTest() {
     Integer validKeyOutput = JsonUtils.getInt(jsonNode, "intField");
@@ -104,7 +148,9 @@ public class JsonUtilsTest {
     assertEquals(Integer.valueOf(0), emptyJsonOutput);
   }
 
-  /** Tests the getDouble method from a jsonNode. */
+  /**
+   * Tests the getDouble method from a jsonNode.
+   */
   @Test
   public void getDoubleTest() {
     Double validKeyOutput = JsonUtils.getDouble(jsonNode, "doubleField");
@@ -117,7 +163,9 @@ public class JsonUtilsTest {
     assertEquals(Double.valueOf(0), emptyJsonOutput);
   }
 
-  /** Tests the getBoolean method from a jsonNode. */
+  /**
+   * Tests the getBoolean method from a jsonNode.
+   */
   @Test
   public void getBooleanTest() {
     Boolean validKeyOutput = JsonUtils.getBoolean(jsonNode, "booleanField");
@@ -130,28 +178,36 @@ public class JsonUtilsTest {
     assertEquals(false, emptyJsonOutput);
   }
 
-  /** Tests an empty array check. */
+  /**
+   * Tests an empty array check.
+   */
   @Test
   public void isJsonNodeArrayEmptyTest() {
     boolean output = JsonUtils.isJsonNodeArrayEmpty(emptyJsonArray);
     assertEquals(true, output);
   }
 
-  /** Tests a on empty array check. */
+  /**
+   * Tests a on empty array check.
+   */
   @Test
   public void isJsonNodeArrayEmptyNonEmptyTest() {
     boolean output = JsonUtils.isJsonNodeArrayEmpty(jsonArray);
     assertEquals(false, output);
   }
 
-  /** Tests a non array check. */
+  /**
+   * Tests a non array check.
+   */
   @Test
   public void isJsonNodeArrayEmptyNonArrayTest() {
     boolean output = JsonUtils.isJsonNodeArrayEmpty(jsonNode);
     assertEquals(true, output);
   }
 
-  /** Tests toJson. */
+  /**
+   * Tests toJson.
+   */
   @Test
   public void toJsonTest() {
     String jsonString = "{}";
@@ -166,7 +222,9 @@ public class JsonUtilsTest {
     assertNull(output);
   }
 
-  /** Set mock objects. */
+  /**
+   * Set mock objects.
+   */
   private void populateTestData() throws IOException {
     emptyJsonNode = MAPPER.readTree(MAPPER.createObjectNode().toString());
     ObjectNode objectNode = MAPPER.createObjectNode();
@@ -186,5 +244,108 @@ public class JsonUtilsTest {
       jsonArray.add(MAPPER.createArrayNode().add("" + i++).add("" + i++));
     }
     emptyJsonArray = MAPPER.createArrayNode();
+  }
+
+  public static class TestClass {
+
+    private Long id;
+
+    @Masked
+    private String name;
+
+    private TestSubClass testSubClass;
+
+    public Long getId() {
+      return id;
+    }
+
+    public void setId(Long id) {
+      this.id = id;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public TestSubClass getTestSubClass() {
+      return testSubClass;
+    }
+
+    public void setTestSubClass(
+        TestSubClass testSubClass) {
+      this.testSubClass = testSubClass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      TestClass that = (TestClass) o;
+      return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
+    }
+  }
+
+  public static class TestSubClass {
+
+    private Long id;
+
+    @Masked
+    private String password;
+
+    public Long getId() {
+      return id;
+    }
+
+    public void setId(Long id) {
+      this.id = id;
+    }
+
+    public String getPassword() {
+      return password;
+    }
+
+    public void setPassword(String password) {
+      this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      TestSubClass that = (TestSubClass) o;
+      return Objects.equals(id, that.id) && Objects.equals(password, that.password);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(id, password);
+    }
+
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
+    }
   }
 }

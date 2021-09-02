@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -17,7 +18,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public abstract class SystemCommand {
 
   protected boolean isDaemon = false;
+  @Masked
   protected List<String> linuxCommand = new ArrayList<>();
+  @Masked
   protected List<String> windowsCommand = new ArrayList<>();
   protected int sleepTime = 0;
   protected Output output = new Output();
@@ -159,7 +162,7 @@ public abstract class SystemCommand {
 
     @Override
     public String toString() {
-      return JsonUtils.toJsonString(this, super.toString());
+      return JsonUtils.toJsonString(this, super.toString(), true);
     }
   }
 }

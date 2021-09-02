@@ -5,7 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +30,18 @@ public class JsonUtils {
     throw new IllegalStateException("Utility class");
   }
 
-  /** Converts an object to a JSON byte array. */
+  /**
+   * Converts an object to a JSON byte array.
+   */
   public static byte[] toJsonByteArray(Object object) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(Include.NON_NULL);
     return mapper.writeValueAsBytes(object);
   }
 
-  /** Converts a string to a JSON object. Returns null if it can't do the mapping. */
+  /**
+   * Converts a string to a JSON object. Returns null if it can't do the mapping.
+   */
   public static JsonNode toJson(String objectString) {
     if (objectString == null) {
       return null;
@@ -94,6 +102,17 @@ public class JsonUtils {
   }
 
   /**
+   * Converts an object to a JSON string.
+   */
+  public static String toJsonString(Object object, String defaultValue, boolean maskFields) {
+    if (maskFields) {
+      return toJsonString(object, defaultValue, getMaskedFields(object));
+    } else {
+      return toJsonString(object, defaultValue);
+    }
+  }
+
+  /**
    * Converts an object to a JSON string. Returns the specified default value if the conversion to
    * JSON fails.
    */
@@ -119,7 +138,9 @@ public class JsonUtils {
     return toJsonString(object, DEFAULT_VALUE);
   }
 
-  /** Returns the text value of the specified key and node. Returns null if not found. */
+  /**
+   * Returns the text value of the specified key and node. Returns null if not found.
+   */
   public static String getText(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asText();
@@ -128,7 +149,9 @@ public class JsonUtils {
     }
   }
 
-  /** Returns the int value of the specified key and node. Returns 0 if not found. */
+  /**
+   * Returns the int value of the specified key and node. Returns 0 if not found.
+   */
   public static Integer getInt(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asInt();
@@ -137,7 +160,9 @@ public class JsonUtils {
     }
   }
 
-  /** Returns the double value of the specified key and node. Returns 0 if not found. */
+  /**
+   * Returns the double value of the specified key and node. Returns 0 if not found.
+   */
   public static Double getDouble(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asDouble();
@@ -146,7 +171,9 @@ public class JsonUtils {
     }
   }
 
-  /** Returns the boolean value of the specified key and node. Returns null if not found. */
+  /**
+   * Returns the boolean value of the specified key and node. Returns null if not found.
+   */
   public static boolean getBoolean(JsonNode jsonNode, String key) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asBoolean();
@@ -155,8 +182,65 @@ public class JsonUtils {
     }
   }
 
-  /** Checks if the specified JsonNode is an array and is empty. */
+  /**
+   * Checks if the specified JsonNode is an array and is empty.
+   */
   public static boolean isJsonNodeArrayEmpty(JsonNode jsonNodeArray) {
     return !(jsonNodeArray != null && jsonNodeArray.isArray() && jsonNodeArray.size() > 0);
+  }
+
+  /**
+   * Get all the masked fields for an object annotated with @Masked annotation.
+   */
+  private static String[] getMaskedFields(Object object) {
+    List<String> maskedFields = new ArrayList<>();
+    populateMaskedFieldsList(object, maskedFields, null);
+    return maskedFields.toArray(new String[0]);
+  }
+
+  /**
+   * Populate the list of masked fields on the object and it's sub objects annotated with the Masked
+   * annotation. It doesn't handle masking fields in Lists or Maps.
+   */
+  private static void populateMaskedFieldsList(Object object, List<String> maskedFields,
+      String parentNode) {
+    if (parentNode != null) {
+      parentNode = parentNode + ".";
+    } else {
+      parentNode = "";
+    }
+    if (object == null || object.getClass() == null) {
+      return;
+    }
+    Class<?> clazz = object.getClass();
+    Field[] fields = clazz.getDeclaredFields();
+    if (fields == null || fields.length == 0) {
+      return;
+    }
+    for (Field field : clazz.getDeclaredFields()) {
+      if (field.isAnnotationPresent(Masked.class)) {
+        maskedFields.add(parentNode + field.getName());
+      }
+      Class<?> fieldClass = field.getType();
+      if (fieldClass == null || fieldClass.getPackage() == null) {
+        continue;
+      }
+      String packageName = fieldClass.getPackage().getName();
+      if (!packageName.startsWith("com.nicobrest.kamehouse")) {
+        // Only iterate recursively over fields that are KameHouse objects.
+        continue;
+      }
+      Field[] subfields = fieldClass.getDeclaredFields();
+      if (subfields != null && subfields.length > 0) {
+        try {
+          field.setAccessible(true);
+          Object fieldValue = field.get(object);
+          populateMaskedFieldsList(fieldValue, maskedFields, field.getName());
+        } catch (IllegalAccessException e) {
+          LOGGER.trace(
+              "Error accessing object field to get masked fields. Field: " + field.getName());
+        }
+      }
+    }
   }
 }

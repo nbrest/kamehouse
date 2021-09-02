@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.model;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class ApplicationCache {
   private String name;
   private String status;
   private String keys;
+  @Masked
   private List<String> values = new ArrayList<>();
 
   public String getName() {
@@ -74,7 +76,6 @@ public class ApplicationCache {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"values"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -21,11 +22,13 @@ public class KameHouseUserDto implements Identifiable, Serializable {
 
   private Long id;
   private String username;
+  @Masked
   private String password;
   private String email;
   private String firstName;
   private String lastName;
   private Date lastLogin;
+  @Masked
   @JsonManagedReference
   private Set<KameHouseRoleDto> authorities;
   private boolean accountNonExpired = true;
@@ -163,7 +166,6 @@ public class KameHouseUserDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password", "authorities"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }

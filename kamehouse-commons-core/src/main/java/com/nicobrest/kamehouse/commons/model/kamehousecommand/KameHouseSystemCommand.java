@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public abstract class KameHouseSystemCommand {
 
+  @Masked
   protected List<SystemCommand> systemCommands = new ArrayList<>();
 
   /**
@@ -28,7 +30,6 @@ public abstract class KameHouseSystemCommand {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"systemCommands"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }

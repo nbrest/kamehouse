@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Date;
@@ -37,6 +38,7 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
   @Column(name = "username", unique = true, nullable = false)
   private String username;
 
+  @Masked
   @Column(name = "password")
   private String password;
 
@@ -58,6 +60,7 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
    * it's ok to use FetchType.EAGER, but in a dataset that I know will grow to thousands of
    * records or more, I should use FetchType.LAZY.
    * */
+  @Masked
   @OneToMany(
       mappedBy = "kameHouseUser",
       fetch = FetchType.EAGER,
@@ -233,7 +236,6 @@ public class KameHouseUser implements IdentifiablePasswordEntity<String>, UserDe
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password", "authorities"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString(), true);
   }
 }
