@@ -37,6 +37,12 @@ public class KameHouseUserControllerIntegrationTest
   }
 
   @Override
+  public void initTestUtils() {
+    testUtils = new KameHouseUserTestUtils();
+    testUtils.initTestData();
+  }
+
+  @Override
   public KameHouseUser createEntity() {
     KameHouseUser kameHouseUser = testUtils.getSingleTestData();
     String randomUsername = RandomStringUtils.randomAlphabetic(12);
@@ -48,11 +54,6 @@ public class KameHouseUserControllerIntegrationTest
   @Override
   public void updateEntity(KameHouseUser entity) {
     entity.setFirstName(RandomStringUtils.randomAlphabetic(12));
-  }
-
-  public KameHouseUserControllerIntegrationTest() {
-    testUtils = new KameHouseUserTestUtils();
-    testUtils.initTestData();
   }
 
   /**

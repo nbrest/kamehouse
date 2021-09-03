@@ -42,8 +42,14 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   public AbstractCrudControllerIntegrationTest() {
     entityClass = getEntityClass();
     dtoClass = getDtoClass();
+    initTestUtils();
     logger.info("dtoClass {}", dtoClass);
   }
+
+  /**
+   * Init test data.
+   */
+  public abstract void initTestUtils();
 
   /**
    * Webapp to connect to.
@@ -79,14 +85,6 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
     return entity;
   }
 
-  public void setEntity(E entity) {
-    this.entity = entity;
-  }
-
-  public Long getCreatedId() {
-    return createdId;
-  }
-
   /**
    * Creates an entity.
    */
@@ -94,9 +92,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Order(1)
   public void createTest() throws Exception {
     logger.info("Running createTest");
-    setEntity(createEntity());
+    entity = createEntity();
     HttpPost httpPost = new HttpPost(getCrudUrl());
-    httpPost.setEntity(getRequestBody(getEntity()));
+    httpPost.setEntity(getRequestBody(entity));
 
     HttpResponse response = getHttpClient().execute(httpPost);
 
@@ -113,9 +111,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Test
   @Order(2)
   public void createConflictExceptionTest() throws Exception {
-    logger.info("Running createConflictExceptionTest createdId " + getCreatedId());
+    logger.info("Running createConflictExceptionTest createdId {}", createdId);
     HttpPost httpPost = new HttpPost(getCrudUrl());
-    httpPost.setEntity(getRequestBody(getEntity()));
+    httpPost.setEntity(getRequestBody(entity));
 
     HttpResponse response = getHttpClient().execute(httpPost);
 
@@ -169,7 +167,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
     Identifiable identifiable = (Identifiable) entity;
     identifiable.setId(createdId);
     HttpPut httpPut = new HttpPut(getCrudUrl() + createdId);
-    httpPut.setEntity(getRequestBody(getEntity()));
+    httpPut.setEntity(getRequestBody(entity));
 
     HttpResponse response = getHttpClient().execute(httpPut);
 
