@@ -36,9 +36,9 @@ public class AbstractControllerIntegrationTest {
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  private String protocol = "http://";
-  private String hostname = "localhost";
-  private String port = "9980";
+  private static String protocol = "http://";
+  private static String hostname = "localhost";
+  private static String port = "9980";
 
   private HttpClient httpClient;
 
@@ -64,7 +64,7 @@ public class AbstractControllerIntegrationTest {
   /**
    * Get the base url for all requests.
    */
-  protected String getBaseUrl() {
+  protected static String getBaseUrl() {
     return protocol + hostname + ":" + port;
   }
 

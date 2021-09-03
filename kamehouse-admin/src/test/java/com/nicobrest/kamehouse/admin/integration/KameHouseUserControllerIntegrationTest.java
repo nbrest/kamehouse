@@ -4,17 +4,15 @@ import com.nicobrest.kamehouse.commons.integration.AbstractCrudControllerIntegra
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * Integration tests for the KameHouseUserController class.
  *
  * @author nbrest
  */
-@TestMethodOrder(OrderAnnotation.class)
 public class KameHouseUserControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<KameHouseUser, KameHouseUserDto> {
 
@@ -35,85 +33,19 @@ public class KameHouseUserControllerIntegrationTest
     return KameHouseUserDto.class;
   }
 
-  /**
-   * Creates a user.
-   */
-  @Test
-  @Order(1)
-  public void createTest() throws Exception {
-    logger.info("Running createTest");
+  @Override
+  public KameHouseUser createEntity() {
+    KameHouseUser kameHouseUser = testUtils.getSingleTestData();
+    kameHouseUser.setId(null);
+    String randomUsername = RandomStringUtils.randomAlphabetic(12);
+    kameHouseUser.setUsername(randomUsername);
+    kameHouseUser.setEmail(randomUsername + "@dbz.com");
+    return kameHouseUser;
   }
 
-  /**
-   * Creates an user conflict exception.
-   */
-  @Test
-  @Order(2)
-  public void createConflictExceptionTest() throws Exception {
-    logger.info("Running createConflictExceptionTest");
-  }
-
-  /**
-   * Gets a specific user from the repository.
-   */
-  @Test
-  @Order(3)
-  public void readTest() throws Exception {
-    logger.info("Running readTest");
-  }
-
-  /**
-   * Gets all KameHouseUsers.
-   */
-  @Test
-  @Order(4)
-  public void readAllTest() throws Exception {
-    readAllCrudTest();
-  }
-
-  /**
-   * Updates an user.
-   */
-  @Test
-  @Order(5)
-  public void updateTest() throws Exception {
-    logger.info("Running updateTest");
-  }
-
-  /**
-   * Updates an user with invalid path id. Exception expected.
-   */
-  @Test
-  @Order(6)
-  public void updateInvalidPathId() throws Exception {
-    logger.info("Running updateInvalidPathId");
-  }
-
-  /**
-   * Updates an user not found.
-   */
-  @Test
-  @Order(7)
-  public void updateNotFoundExceptionTest() throws Exception {
-    logger.info("Running updateNotFoundExceptionTest");
-  }
-
-  /**
-   * Deletes an user.
-   */
-  @Test
-  @Order(8)
-  public void deleteTest() throws Exception {
-    logger.info("Running deleteTest");
-  }
-
-  /**
-   * Deletes an user not found.
-   */
-  @Test
-  @Order(9)
-  public void deleteNotFoundExceptionTest() throws Exception {
-    logger.info("Running deleteNotFoundExceptionTest");
+  public KameHouseUserControllerIntegrationTest() {
+    testUtils = new KameHouseUserTestUtils();
+    testUtils.initTestData();
   }
 
   /**
