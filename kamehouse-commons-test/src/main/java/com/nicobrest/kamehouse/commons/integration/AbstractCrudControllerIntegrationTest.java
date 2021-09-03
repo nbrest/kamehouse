@@ -46,9 +46,14 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   }
 
   /**
-   * Crud url to execute operations.
+   * Webapp to connect to.
    */
-  public abstract String getCrudUrl();
+  public abstract String getWebapp();
+
+  /**
+   * Get crud suffix for the url.
+   */
+  public abstract String getCrudSuffix();
 
   /**
    * Crud entity class.
@@ -218,5 +223,12 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("deleteNotFoundExceptionTest completed successfully");
+  }
+
+  /**
+   * Crud url to execute operations.
+   */
+  private String getCrudUrl() {
+    return getBaseUrl() + getWebapp() + getCrudSuffix();
   }
 }

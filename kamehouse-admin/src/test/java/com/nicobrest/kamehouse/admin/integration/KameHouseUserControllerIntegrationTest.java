@@ -16,11 +16,14 @@ import org.junit.jupiter.api.Test;
 public class KameHouseUserControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<KameHouseUser, KameHouseUserDto> {
 
-  private static final String WEBAPP = "/kame-house-admin";
+  @Override
+  public String getWebapp() {
+    return "/kame-house-admin";
+  }
 
   @Override
-  public String getCrudUrl() {
-    return getBaseUrl() + WEBAPP + KameHouseUserTestUtils.API_V1_ADMIN_KAMEHOUSE_USERS;
+  public String getCrudSuffix() {
+    return KameHouseUserTestUtils.API_V1_ADMIN_KAMEHOUSE_USERS;
   }
 
   @Override
