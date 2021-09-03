@@ -78,6 +78,9 @@
     <!-- Updated : 2021/09 | Dependency version date: 2021/04 -->
     <ehcache.version>2.10.9.2</ehcache.version>
 
+    <!-- Updated : 2021/09 | Dependency version date: 2020/06 -->
+    <failsafe.plugin.version>3.0.0-M5</failsafe.plugin.version>
+
     <!-- Updated : 2021/09 | Dependency version date: 2015/03 (discontinued) -->
     <findbugs.version>3.0.1</findbugs.version>
 
@@ -546,6 +549,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire.plugin.version}</version>
+        <configuration>
+          <excludes>
+            <exclude>**/*IntegrationTest</exclude>
+          </excludes>
+        </configuration>
       </plugin>
 
       <!-- maven war plugin: disable build failure because of no web.xml -->
@@ -557,6 +565,19 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
+
+      <!-- maven failsafe plugin: Run integration tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${failsafe.plugin.version}</version>
+        <configuration>
+          <includes>
+            <include>**/*IntegrationTest</include>
+          </includes>
+        </configuration>
+      </plugin>
+
     </plugins>
 
     <!-- Enable resource filtering based on profiles -->

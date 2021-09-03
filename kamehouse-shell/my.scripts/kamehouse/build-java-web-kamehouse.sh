@@ -15,6 +15,7 @@ if [ "$?" != "0" ]; then
 fi
 
 FAST_BUILD=false
+INTEGRATION_TESTS=false
 MODULE=
 KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 MAVEN_COMMAND=
@@ -34,6 +35,10 @@ buildProject() {
   if ${FAST_BUILD}; then
     log.info "Executing fast build. Skipping checkstyle, findbugs and tests"
     MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+  fi
+
+  if ${INTEGRATION_TESTS}; then
+    MAVEN_COMMAND="mvn compile failsafe:integration-test"
   fi
 
   if [ -n "${MODULE}" ]; then
@@ -64,7 +69,7 @@ deployKameHouseCmd() {
 }
 
 parseArguments() {
-  while getopts ":fhm:p:r" OPT; do
+  while getopts ":fhim:p:r" OPT; do
     case $OPT in
     ("f")
       FAST_BUILD=true
@@ -72,6 +77,9 @@ parseArguments() {
     ("h")
       parseHelp
       ;;
+    ("i")
+      INTEGRATION_TESTS=true
+      ;;      
     ("m")
       MODULE="kamehouse-$OPTARG"
       ;;
@@ -107,6 +115,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast build. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-i${COL_NORMAL} run integration tests only" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
   echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
