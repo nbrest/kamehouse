@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.vlcrc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
@@ -62,6 +63,7 @@ public class VlcPlayer implements Identifiable, Serializable {
   @Column(name = "username")
   private String username;
 
+  @Masked
   @Column(name = "password")
   private String password;
 
@@ -352,7 +354,6 @@ public class VlcPlayer implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

@@ -31,7 +31,8 @@ public class DragonBallUserServletTest {
   private TestUtils<DragonBallUser, DragonBallUserDto> testUtils;
   private DragonBallUser dragonBallUser;
 
-  @Mock private static DragonBallUserService dragonBallUserServiceMock;
+  @Mock
+  private static DragonBallUserService dragonBallUserServiceMock;
 
   private MockHttpServletRequest request = new MockHttpServletRequest();
   private MockHttpServletResponse response = new MockHttpServletResponse();
@@ -49,7 +50,9 @@ public class DragonBallUserServletTest {
     MockitoAnnotations.openMocks(this);
   }
 
-  /** Tests the method to get a DragonBallUser from the system through a servlet. */
+  /**
+   * Tests the method to get a DragonBallUser from the system through a servlet.
+   */
   @Test
   public void doGetTest() throws ServletException {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
@@ -63,7 +66,9 @@ public class DragonBallUserServletTest {
     verify(dragonBallUserServiceMock, times(1)).readAll();
   }
 
-  /** Tests the method to add a DragonBallUser from the system through the servlet. */
+  /**
+   * Tests the method to add a DragonBallUser from the system through the servlet.
+   */
   @Test
   public void doPostTest() throws ServletException {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
@@ -76,7 +81,9 @@ public class DragonBallUserServletTest {
     verify(dragonBallUserServiceMock, times(1)).create(any());
   }
 
-  /** Tests the method to edit a DragonBallUser from the system through the servlet. */
+  /**
+   * Tests the method to edit a DragonBallUser from the system through the servlet.
+   */
   @Test
   public void doPutTest() throws ServletException {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
@@ -90,7 +97,9 @@ public class DragonBallUserServletTest {
     verify(dragonBallUserServiceMock, times(1)).update(any());
   }
 
-  /** Tests the method to delete a DragonBallUser from the system through the servlet. */
+  /**
+   * Tests the method to delete a DragonBallUser from the system through the servlet.
+   */
   @Test
   public void doDeleteTest() throws ServletException {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
@@ -103,12 +112,16 @@ public class DragonBallUserServletTest {
     verify(dragonBallUserServiceMock, times(1)).delete(dragonBallUser.getId());
   }
 
-  /** Set id request parameter. */
+  /**
+   * Set id request parameter.
+   */
   private void setIdRequestParameter() {
     request.setParameter("id", dragonBallUser.getId().toString());
   }
 
-  /** Set request parameters with dragonball user attributes. */
+  /**
+   * Set request parameters with dragonball user attributes.
+   */
   private void setDragonBallUserRequestParameters() {
     request.setParameter("username", dragonBallUser.getUsername());
     request.setParameter("email", dragonBallUser.getEmail());

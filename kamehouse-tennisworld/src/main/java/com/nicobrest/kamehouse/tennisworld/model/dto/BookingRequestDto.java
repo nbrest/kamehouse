@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model.dto;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
@@ -22,6 +23,7 @@ public class BookingRequestDto implements Identifiable, Serializable {
 
   private Long id;
   private String username;
+  @Masked
   private String password;
   private Date date;
   private String time;
@@ -204,7 +206,6 @@ public class BookingRequestDto implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password", "cardDetails.number", "cardDetails.cvv"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

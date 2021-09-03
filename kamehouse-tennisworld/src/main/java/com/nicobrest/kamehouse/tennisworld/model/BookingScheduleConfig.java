@@ -237,7 +237,6 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = {"tennisWorldUser.password"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

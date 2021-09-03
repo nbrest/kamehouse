@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
+import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.io.Serializable;
@@ -31,6 +32,7 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
   @Column(name = "email", unique = true, nullable = false)
   private String email;
 
+  @Masked
   @Column(name = "password", unique = false, nullable = false)
   @Lob
   private byte[] password;
@@ -88,7 +90,6 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
 
   @Override
   public String toString() {
-    String[] maskedFields = {"password"};
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

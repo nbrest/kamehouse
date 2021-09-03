@@ -1,15 +1,11 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.nicobrest.kamehouse.commons.annotations.Masked;
+import com.nicobrest.kamehouse.commons.annotations.Masked.MaskedUtils;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,11 +58,16 @@ public class JsonUtils {
    * object or in the any of the sub objects. If it's at the root, it would just be the field name.
    * For example [ "password" ]. If it's in a sub object, the field is prepended by the sub object
    * and separated by a dot. For example [ "tennisWorldUser.password" ] would mask the password of
-   * the tennisWorldUser. And tennisWorldUser is an element of the root node.
+   * the tennisWorldUser. And tennisWorldUser is an element of the root node. It doesn't mask fields
+   * in Maps or Lists.
    */
   public static String toJsonString(Object object, String defaultValue, String[] maskedFields) {
     try {
-      ObjectNode objectNode = MAPPER.valueToTree(object);
+      JsonNode jsonNode = MAPPER.valueToTree(object);
+      if (!(jsonNode instanceof ObjectNode)) {
+        return MAPPER.writer().writeValueAsString(jsonNode);
+      }
+      ObjectNode objectNode = (ObjectNode) jsonNode;
       for (String maskedField : maskedFields) {
         String[] maskFieldPath = maskedField.split("\\.");
         int maskedFieldPathDepth = maskFieldPath.length;
@@ -94,8 +95,13 @@ public class JsonUtils {
           }
         }
       }
+      /*
+        If I ever need output with pretty print, create a new method
+        toJsonStringPrettyPrint that uses the pretty print writer;
+        new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
+      */
       return MAPPER.writer().writeValueAsString(objectNode);
-    } catch (IOException e) {
+    } catch (IllegalArgumentException | IOException e) {
       LOGGER.error("Error formatting object as json", e);
       return defaultValue;
     }
@@ -106,28 +112,18 @@ public class JsonUtils {
    */
   public static String toJsonString(Object object, String defaultValue, boolean maskFields) {
     if (maskFields) {
-      return toJsonString(object, defaultValue, getMaskedFields(object));
+      return toJsonString(object, defaultValue, MaskedUtils.getMaskedFields(object));
     } else {
-      return toJsonString(object, defaultValue);
+      return toJsonString(object, defaultValue, new String[0]);
     }
   }
 
   /**
    * Converts an object to a JSON string. Returns the specified default value if the conversion to
-   * JSON fails.
+   * JSON fails. By default, mask fields.
    */
   public static String toJsonString(Object object, String defaultValue) {
-    try {
-      /*
-        If I ever need output with pretty print, create a new method
-        toJsonStringPrettyPrint that uses the pretty print writer;
-        new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
-      */
-      return MAPPER.writer().writeValueAsString(object);
-    } catch (JsonProcessingException e) {
-      LOGGER.error("Error formatting object as json", e);
-      return defaultValue;
-    }
+    return toJsonString(object, defaultValue, true);
   }
 
   /**
@@ -187,60 +183,5 @@ public class JsonUtils {
    */
   public static boolean isJsonNodeArrayEmpty(JsonNode jsonNodeArray) {
     return !(jsonNodeArray != null && jsonNodeArray.isArray() && jsonNodeArray.size() > 0);
-  }
-
-  /**
-   * Get all the masked fields for an object annotated with @Masked annotation.
-   */
-  private static String[] getMaskedFields(Object object) {
-    List<String> maskedFields = new ArrayList<>();
-    populateMaskedFieldsList(object, maskedFields, null);
-    return maskedFields.toArray(new String[0]);
-  }
-
-  /**
-   * Populate the list of masked fields on the object and it's sub objects annotated with the Masked
-   * annotation. It doesn't handle masking fields in Lists or Maps.
-   */
-  private static void populateMaskedFieldsList(Object object, List<String> maskedFields,
-      String parentNode) {
-    if (parentNode != null) {
-      parentNode = parentNode + ".";
-    } else {
-      parentNode = "";
-    }
-    if (object == null || object.getClass() == null) {
-      return;
-    }
-    Class<?> clazz = object.getClass();
-    Field[] fields = clazz.getDeclaredFields();
-    if (fields == null || fields.length == 0) {
-      return;
-    }
-    for (Field field : clazz.getDeclaredFields()) {
-      if (field.isAnnotationPresent(Masked.class)) {
-        maskedFields.add(parentNode + field.getName());
-      }
-      Class<?> fieldClass = field.getType();
-      if (fieldClass == null || fieldClass.getPackage() == null) {
-        continue;
-      }
-      String packageName = fieldClass.getPackage().getName();
-      if (!packageName.startsWith("com.nicobrest.kamehouse")) {
-        // Only iterate recursively over fields that are KameHouse objects.
-        continue;
-      }
-      Field[] subfields = fieldClass.getDeclaredFields();
-      if (subfields != null && subfields.length > 0) {
-        try {
-          field.setAccessible(true);
-          Object fieldValue = field.get(object);
-          populateMaskedFieldsList(fieldValue, maskedFields, field.getName());
-        } catch (IllegalAccessException e) {
-          LOGGER.trace(
-              "Error accessing object field to get masked fields. Field: " + field.getName());
-        }
-      }
-    }
   }
 }

@@ -162,7 +162,7 @@ public abstract class SystemCommand {
 
     @Override
     public String toString() {
-      return JsonUtils.toJsonString(this, super.toString(), true);
+      return JsonUtils.toJsonString(this, super.toString());
     }
   }
 }

@@ -111,10 +111,7 @@ public class BookingResponse implements Identifiable, Serializable {
 
   @Override
   public String toString() {
-    String[] maskedFields = {
-      "request.password", "request.cardDetails.number", "request.cardDetails.cvv"
-    };
-    return JsonUtils.toJsonString(this, super.toString(), maskedFields);
+    return JsonUtils.toJsonString(this, super.toString());
   }
 
   /** Final status of the tennis world booking request. */

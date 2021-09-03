@@ -9,8 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.apache.commons.codec.Charsets;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,9 +55,13 @@ public class JsonUtilsTest {
   public void toJsonStringWithMaskedFieldsTest() {
     String[] maskedFields = {"textField", "doubleField"};
     String output = JsonUtils.toJsonString(jsonNode, null, maskedFields);
-    String expectedOutput =
-        "{\"intField\":128,\"booleanField\":true,\"textField\":\"****\","
-            + "\"doubleField\":\"****\"}";
+    String expectedOutput = "{"
+        + "  \"intField\":128,"
+        + "  \"booleanField\":true,"
+        + "  \"textField\":\"****\","
+        + "  \"doubleField\":\"****\""
+        + "}";
+    expectedOutput = expectedOutput.replace(" ", "");
     assertEquals(expectedOutput, output);
   }
 
@@ -68,20 +75,87 @@ public class JsonUtilsTest {
     testClass.setName("goku");
     TestSubClass testSubClass = new TestSubClass();
     testSubClass.setId(2L);
-    testSubClass.setPassword("pegasus");
+    testSubClass.setPasswordSub("pegasus");
     testClass.setTestSubClass(testSubClass);
 
     String output = JsonUtils.toJsonString(testClass, null, true);
 
     String expectedOutput = "{"
-        + "\"id\":1,"
-        + "\"testSubClass\":"
-        + "{"
-        + "\"id\":2,"
-        + "\"password\":\"****\""
-        + "},"
-        + "\"name\":\"****\""
+        + "  \"id\":1,"
+        + "  \"testSubClass\":{"
+        + "      \"id\":2,"
+        + "      \"testSubSubClass\":null,"
+        + "      \"passwordSub\":\"****\""
+        + "  },"
+        + "  \"testSubClassList\":null,"
+        + "  \"testSubClassMap\":null,"
+        + "  \"name\":\"****\""
         + "}";
+    expectedOutput = expectedOutput.replace(" ", "");
+    assertEquals(expectedOutput, output);
+  }
+
+
+  /**
+   * Tests toJsonString with masked annotated fields with nested fields and lists.
+   */
+  //TODO Fix JsonUtils.toJsonString() to handle Masked fields on lists and maps. I expect name,
+  // passwordSub and passwordSubSub to be hidden at all levels. The current fix is to annotate the
+  // list or map with Masked and mask the entire list, when some property in an object of the list
+  // needs to be hidden
+  @Test
+  public void toJsonStringMaskedAnnotatedNestedFieldsTest() {
+    TestClass testClass = new TestClass();
+    testClass.setId(1L);
+    testClass.setName("goku");
+    TestSubClass testSubClass = new TestSubClass();
+    testSubClass.setId(2L);
+    testSubClass.setPasswordSub("pegasus");
+    TestSubSubClass testSubSubClass = new TestSubSubClass();
+    testSubSubClass.setId(3L);
+    testSubSubClass.setPasswordSubSub("seiya");
+    testSubClass.setTestSubSubClass(testSubSubClass);
+    testClass.setTestSubClass(testSubClass);
+    List<TestSubClass> testSubClassList = new ArrayList<>();
+    testSubClassList.add(testSubClass);
+    testClass.setTestSubClassList(testSubClassList);
+    Map<Long, TestSubClass> testSubClassMap = new HashMap<>();
+    testSubClassMap.put(2L, testSubClass);
+    testClass.setTestSubClassMap(testSubClassMap);
+
+    String output = JsonUtils.toJsonString(testClass, null, true);
+
+    String expectedOutput = "{"
+        + "  \"id\":1,"
+        + "  \"testSubClass\":{"
+        + "      \"id\":2,"
+        + "      \"testSubSubClass\":{"
+        + "          \"id\":3,"
+        + "          \"passwordSubSub\":\"****\""
+        + "      },"
+        + "      \"passwordSub\":\"****\""
+        + "  },"
+        + "  \"testSubClassList\":[{"
+        + "      \"id\":2,"
+        + "      \"passwordSub\":\"pegasus\","
+        + "      \"testSubSubClass\":{"
+        + "          \"id\":3,"
+        + "          \"passwordSubSub\":\"seiya\""
+        + "      }"
+        + "  }],"
+        + "  \"testSubClassMap\":{"
+        + "      \"2\":{"
+        + "          \"id\":2,"
+        + "          \"passwordSub\":\"pegasus\","
+        + "          \"testSubSubClass\":{"
+        + "              \"id\":3,"
+        + "              \"passwordSubSub\":\"seiya\""
+        + "          }"
+        + "    }"
+        + "  },"
+        + "  \"name\":\"****\""
+        + "}";
+    expectedOutput = expectedOutput.replace(" ", "");
     assertEquals(expectedOutput, output);
   }
 
@@ -92,10 +166,17 @@ public class JsonUtilsTest {
   public void toJsonStringWithMaskedFieldsInSubNodeTest() {
     String[] maskedFields = {"textField", "doubleField", "user.password"};
     String output = JsonUtils.toJsonString(jsonNodeWithSubNode, null, maskedFields);
-    String expectedOutput =
-        "{\"intField\":128,\"booleanField\":true,\"user\":{\"username\":"
-            + "\"goku@dbz.com\",\"password\":\"****\"},\"textField\":\"****\""
-            + ",\"doubleField\":\"****\"}";
+    String expectedOutput = "{"
+        + "  \"intField\":128,"
+        + "  \"booleanField\":true,"
+        + "  \"user\":{"
+        + "      \"username\":\"goku@dbz.com\","
+        + "      \"password\":\"****\""
+        + "  },"
+        + "  \"textField\":\"****\","
+        + "  \"doubleField\":\"****\""
+        + "}";
+    expectedOutput = expectedOutput.replace(" ", "");
     assertEquals(expectedOutput, output);
   }
 
@@ -246,6 +327,9 @@ public class JsonUtilsTest {
     emptyJsonArray = MAPPER.createArrayNode();
   }
 
+  /**
+   * Test class to test Masked annotation.
+   */
   public static class TestClass {
 
     private Long id;
@@ -254,6 +338,10 @@ public class JsonUtilsTest {
     private String name;
 
     private TestSubClass testSubClass;
+
+    private List<TestSubClass> testSubClassList;
+
+    private Map<Long, TestSubClass> testSubClassMap;
 
     public Long getId() {
       return id;
@@ -280,6 +368,22 @@ public class JsonUtilsTest {
       this.testSubClass = testSubClass;
     }
 
+    public List<TestSubClass> getTestSubClassList() {
+      return testSubClassList;
+    }
+
+    public void setTestSubClassList(List<TestSubClass> testSubClassList) {
+      this.testSubClassList = testSubClassList;
+    }
+
+    public Map<Long, TestSubClass> getTestSubClassMap() {
+      return testSubClassMap;
+    }
+
+    public void setTestSubClassMap(Map<Long, TestSubClass> testSubClassMap) {
+      this.testSubClassMap = testSubClassMap;
+    }
+
     @Override
     public boolean equals(Object o) {
       if (this == o) {
@@ -303,12 +407,17 @@ public class JsonUtilsTest {
     }
   }
 
+  /**
+   * Test class to test Masked annotation.
+   */
   public static class TestSubClass {
 
     private Long id;
 
     @Masked
-    private String password;
+    private String passwordSub;
+
+    private TestSubSubClass testSubSubClass;
 
     public Long getId() {
       return id;
@@ -318,12 +427,20 @@ public class JsonUtilsTest {
       this.id = id;
     }
 
-    public String getPassword() {
-      return password;
+    public String getPasswordSub() {
+      return passwordSub;
     }
 
-    public void setPassword(String password) {
-      this.password = password;
+    public void setPasswordSub(String passwordSub) {
+      this.passwordSub = passwordSub;
+    }
+
+    public TestSubSubClass getTestSubSubClass() {
+      return testSubSubClass;
+    }
+
+    public void setTestSubSubClass(TestSubSubClass testSubSubClass) {
+      this.testSubSubClass = testSubSubClass;
     }
 
     @Override
@@ -335,12 +452,61 @@ public class JsonUtilsTest {
         return false;
       }
       TestSubClass that = (TestSubClass) o;
-      return Objects.equals(id, that.id) && Objects.equals(password, that.password);
+      return Objects.equals(id, that.id) && Objects.equals(passwordSub, that.passwordSub);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(id, password);
+      return Objects.hash(id, passwordSub);
+    }
+
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
+    }
+  }
+
+  /**
+   * Test class to test Masked annotation.
+   */
+  public static class TestSubSubClass {
+
+    private Long id;
+
+    @Masked
+    private String passwordSubSub;
+
+    public Long getId() {
+      return id;
+    }
+
+    public void setId(Long id) {
+      this.id = id;
+    }
+
+    public String getPasswordSubSub() {
+      return passwordSubSub;
+    }
+
+    public void setPasswordSubSub(String passwordSubSub) {
+      this.passwordSubSub = passwordSubSub;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      TestSubSubClass that = (TestSubSubClass) o;
+      return Objects.equals(id, that.id) && Objects.equals(passwordSubSub, that.passwordSubSub);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(id, passwordSubSub);
     }
 
     @Override

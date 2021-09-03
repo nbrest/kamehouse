@@ -30,6 +30,6 @@ public abstract class KameHouseSystemCommand {
 
   @Override
   public String toString() {
-    return JsonUtils.toJsonString(this, super.toString(), true);
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }
