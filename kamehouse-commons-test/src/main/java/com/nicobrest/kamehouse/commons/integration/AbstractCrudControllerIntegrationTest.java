@@ -4,17 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
-import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.util.List;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.ContentType;
+import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -66,6 +65,11 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
    */
   public abstract E createEntity();
 
+  /**
+   * Update the entity before executing the update request.
+   */
+  public abstract void updateEntity(E entity);
+
   public E getEntity() {
     return entity;
   }
@@ -79,20 +83,17 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   }
 
   /**
-   * Creates a user.
+   * Creates an entity.
    */
   @Test
   @Order(1)
   public void createTest() throws Exception {
     logger.info("Running createTest");
     setEntity(createEntity());
-    HttpPost createRequest = new HttpPost(getCrudUrl());
-    byte[] requestBody = JsonUtils.toJsonByteArray(getEntity());
-    HttpEntity entity = new ByteArrayEntity(requestBody, ContentType.APPLICATION_JSON);
-    createRequest.setEntity(entity);
-    createRequest.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
+    HttpPost httpPost = new HttpPost(getCrudUrl());
+    httpPost.setEntity(getRequestBody(getEntity()));
 
-    HttpResponse response = getHttpClient().execute(createRequest);
+    HttpResponse response = getHttpClient().execute(httpPost);
 
     assertEquals(HttpStatus.SC_CREATED, response.getStatusLine().getStatusCode());
     Long responseBody = getResponseBody(response, Long.class);
@@ -102,16 +103,23 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   }
 
   /**
-   * Creates an user conflict exception.
+   * Creates an entity conflict exception.
    */
   @Test
   @Order(2)
   public void createConflictExceptionTest() throws Exception {
     logger.info("Running createConflictExceptionTest createdId " + getCreatedId());
+    HttpPost httpPost = new HttpPost(getCrudUrl());
+    httpPost.setEntity(getRequestBody(getEntity()));
+
+    HttpResponse response = getHttpClient().execute(httpPost);
+
+    assertEquals(HttpStatus.SC_CONFLICT, response.getStatusLine().getStatusCode());
+    logger.info("createConflictExceptionTest completed successfully");
   }
 
   /**
-   * Gets a specific user from the repository.
+   * Gets a specific entity from the repository.
    */
   @Test
   @Order(3)
@@ -128,7 +136,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   }
 
   /**
-   * Gets all users.
+   * Gets all entities.
    */
   @Test
   @Order(4)
@@ -146,16 +154,26 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   }
 
   /**
-   * Updates an user.
+   * Updates an entity.
    */
   @Test
   @Order(5)
   public void updateTest() throws Exception {
     logger.info("Running updateTest");
+    updateEntity(entity);
+    Identifiable identifiable = (Identifiable) entity;
+    identifiable.setId(createdId);
+    HttpPut httpPut = new HttpPut(getCrudUrl() + createdId);
+    httpPut.setEntity(getRequestBody(getEntity()));
+
+    HttpResponse response = getHttpClient().execute(httpPut);
+
+    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+    logger.info("updateTest completed successfully");
   }
 
   /**
-   * Updates an user with invalid path id. Exception expected.
+   * Updates an entity with invalid path id. Exception expected.
    */
   @Test
   @Order(6)
@@ -164,7 +182,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   }
 
   /**
-   * Updates an user not found.
+   * Updates an entity not found.
    */
   @Test
   @Order(7)
@@ -173,20 +191,32 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   }
 
   /**
-   * Deletes an user.
+   * Deletes an entity.
    */
   @Test
   @Order(8)
   public void deleteTest() throws Exception {
     logger.info("Running deleteTest");
+    HttpDelete httpDelete = new HttpDelete(getCrudUrl() + createdId);
+
+    HttpResponse response = getHttpClient().execute(httpDelete);
+
+    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+    logger.info("deleteTest completed successfully");
   }
 
   /**
-   * Deletes an user not found.
+   * Deletes an entity not found.
    */
   @Test
   @Order(9)
   public void deleteNotFoundExceptionTest() throws Exception {
     logger.info("Running deleteNotFoundExceptionTest");
+    HttpDelete httpDelete = new HttpDelete(getCrudUrl() + createdId);
+
+    HttpResponse response = getHttpClient().execute(httpDelete);
+
+    assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
+    logger.info("deleteNotFoundExceptionTest completed successfully");
   }
 }

@@ -36,11 +36,15 @@ public class KameHouseUserControllerIntegrationTest
   @Override
   public KameHouseUser createEntity() {
     KameHouseUser kameHouseUser = testUtils.getSingleTestData();
-    kameHouseUser.setId(null);
     String randomUsername = RandomStringUtils.randomAlphabetic(12);
     kameHouseUser.setUsername(randomUsername);
     kameHouseUser.setEmail(randomUsername + "@dbz.com");
     return kameHouseUser;
+  }
+
+  @Override
+  public void updateEntity(KameHouseUser entity) {
+    entity.setFirstName(RandomStringUtils.randomAlphabetic(12));
   }
 
   public KameHouseUserControllerIntegrationTest() {
@@ -52,7 +56,7 @@ public class KameHouseUserControllerIntegrationTest
    * Gets an kamehouse user.
    */
   @Test
-  @Order(10)
+  @Order(5)
   public void loadUserByUsernameTest() throws Exception {
     logger.info("Running loadUserByUsernameTest");
   }
@@ -61,7 +65,7 @@ public class KameHouseUserControllerIntegrationTest
    * Tests get user not found exception.
    */
   @Test
-  @Order(11)
+  @Order(5)
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByUsernameTest");
   }

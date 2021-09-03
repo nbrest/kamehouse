@@ -3,17 +3,21 @@ package com.nicobrest.kamehouse.commons.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.codec.Charsets;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
 import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
@@ -28,9 +32,6 @@ public class AbstractControllerIntegrationTest {
 
   private static final String LOGIN_CREDENTIALS_FILE =
       "/home-synced/.kamehouse/integration-test-cred.enc";
-
-  protected static final String X_REQUESTED_WITH = "X-Requested-With";
-  protected static final String XML_HTTP_REQUEST = "XMLHttpRequest";
 
   private static final String LOGIN_URL = "/kame-house/login";
 
@@ -66,6 +67,14 @@ public class AbstractControllerIntegrationTest {
    */
   protected static String getBaseUrl() {
     return protocol + hostname + ":" + port;
+  }
+
+  /**
+   * Get the request body from the entity.
+   */
+  protected <T> HttpEntity getRequestBody(T object) throws IOException {
+    byte[] requestBody = JsonUtils.toJsonByteArray(object);
+    return new ByteArrayEntity(requestBody, ContentType.APPLICATION_JSON);
   }
 
   /**
@@ -135,7 +144,6 @@ public class AbstractControllerIntegrationTest {
     List<NameValuePair> loginCredentials = getLoginCredentials();
     HttpPost login = new HttpPost(getLoginUrl());
     login.setEntity(new UrlEncodedFormEntity(loginCredentials));
-    login.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     return login;
   }
 }
