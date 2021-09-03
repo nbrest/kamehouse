@@ -6,6 +6,7 @@
 * Fixed websockets for kame.com and going through vm-ubuntu.com
 * Added fallback synchronization of vlc player through http calls when the websockets are disconnected
 * Added a @Masked annotation to mask hidden fields on toString() calls
+* Added integration tests to replace my current postman tests
 
 #### v6.05
 
