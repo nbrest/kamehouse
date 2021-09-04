@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -25,7 +25,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "booking_response")
-public class BookingResponse implements Identifiable, Serializable {
+public class BookingResponse implements KameHouseEntity<BookingResponseDto>, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -45,8 +45,8 @@ public class BookingResponse implements Identifiable, Serializable {
   @JoinColumn(name = "booking_request_id", referencedColumnName = "id")
   private BookingRequest request;
 
-  /** Convert this entity to it's dto. */
-  public BookingResponseDto toDto() {
+  @Override
+  public BookingResponseDto buildDto() {
     BookingResponseDto dto = new BookingResponseDto();
     dto.setId(getId());
     dto.setStatus(getStatus());
@@ -114,7 +114,9 @@ public class BookingResponse implements Identifiable, Serializable {
     return JsonUtils.toJsonString(this, super.toString());
   }
 
-  /** Final status of the tennis world booking request. */
+  /**
+   * Final status of the tennis world booking request.
+   */
   public enum Status {
     SUCCESS,
     ERROR,

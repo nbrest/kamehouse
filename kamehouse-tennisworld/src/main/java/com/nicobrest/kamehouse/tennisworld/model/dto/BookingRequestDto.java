@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.model.dto;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
@@ -17,7 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class BookingRequestDto implements Identifiable, Serializable {
+public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -35,8 +36,8 @@ public class BookingRequestDto implements Identifiable, Serializable {
   private Date creationDate = new Date();
   private boolean scheduled = false;
 
-  /** Get entity. */
-  public BookingRequest toEntity() {
+  @Override
+  public BookingRequest buildEntity() {
     BookingRequest entity = new BookingRequest();
     entity.setId(getId());
     entity.setCreationDate(getCreationDate());

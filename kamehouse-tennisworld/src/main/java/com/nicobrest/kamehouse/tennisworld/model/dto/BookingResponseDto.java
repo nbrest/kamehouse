@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model.dto;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author nbrest
  */
-public class BookingResponseDto implements Identifiable, Serializable {
+public class BookingResponseDto implements KameHouseDto<BookingResponse>, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -21,6 +21,16 @@ public class BookingResponseDto implements Identifiable, Serializable {
   private BookingResponse.Status status;
   private String message;
   private BookingRequest request;
+
+  @Override
+  public BookingResponse buildEntity() {
+    BookingResponse entity = new BookingResponse();
+    entity.setId(getId());
+    entity.setStatus(getStatus());
+    entity.setMessage(getMessage());
+    entity.setRequest(getRequest());
+    return entity;
+  }
 
   public Long getId() {
     return id;

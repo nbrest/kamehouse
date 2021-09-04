@@ -110,7 +110,7 @@ public class BookingService {
   public BookingResponse book(BookingRequest bookingRequest) {
     try {
       validateRequest(bookingRequest);
-      Long requestId = bookingRequestService.create(bookingRequest.toDto());
+      Long requestId = bookingRequestService.create(bookingRequest.buildDto());
       bookingRequest.setId(requestId);
       setThreadName(requestId);
       updateTimeFormatForTennisWorld(bookingRequest);
@@ -902,7 +902,7 @@ public class BookingService {
     } else {
       logger.info(BOOKING_FINISHED + bookingResponse);
     }
-    Long responseId = bookingResponseService.create(bookingResponse.toDto());
+    Long responseId = bookingResponseService.create(bookingResponse.buildDto());
     bookingResponse.setId(responseId);
     return bookingResponse;
   }

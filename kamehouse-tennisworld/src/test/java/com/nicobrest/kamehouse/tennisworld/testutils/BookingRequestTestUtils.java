@@ -22,7 +22,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     implements TestUtils<BookingRequest, BookingRequestDto> {
 
   public static final String API_V1_TENNISWORLD_BOOKING_REQUESTS =
-      "/api/v1/tennis-world" + "/booking-requests/";
+      "/api/v1/tennis-world/booking-requests/";
   private BookingRequest sessionRequest = null;
 
   public BookingRequest getSessionRequest() {
@@ -59,7 +59,9 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     assertEquals(expectedCreationDate, returnedCreationDate);
   }
 
-  /** Unset transient data for DAO tests. */
+  /**
+   * Unset transient data for DAO tests.
+   */
   public void unsetTransientData() {
     for (BookingRequest request : testDataList) {
       request.setPassword(null);
@@ -86,7 +88,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
   }
 
   private void initTestDataDto() {
-    testDataDto = singleTestData.toDto();
+    testDataDto = singleTestData.buildDto();
   }
 
   private void initTestDataList() {

@@ -34,7 +34,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
 
   private Class<E> entityClass;
   private D dto;
-  private Long createdId;
+  private long createdId = -1;
 
   /**
    * Init abstract class.
@@ -75,8 +75,19 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   public abstract void updateDto(D dto);
 
+  /**
+   * Get the dto of the entity.
+   */
   public D getDto() {
     return dto;
+  }
+
+  /**
+   * Check if the entity has unique constraints. By default yes, it can be overriden to false in the
+   * concrete integration test subclasses.
+   */
+  public boolean hasUniqueConstraints() {
+    return true;
   }
 
   /**
@@ -106,6 +117,10 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   @Test
   @Order(2)
   public void createConflictExceptionTest() throws Exception {
+    if (!hasUniqueConstraints()) {
+      logger.info("Skipping createConflictExceptionTest");
+      return;
+    }
     logger.info("Running createConflictExceptionTest createdId {}", createdId);
     HttpPost httpPost = new HttpPost(getCrudUrl());
     httpPost.setEntity(getRequestBody(dto));

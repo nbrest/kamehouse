@@ -4,6 +4,7 @@ import static javax.persistence.TemporalType.DATE;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
@@ -32,7 +33,8 @@ import org.hibernate.annotations.CreationTimestamp;
  */
 @Entity
 @Table(name = "booking_request")
-public class BookingRequest implements PasswordEntity<String>, Identifiable, Serializable {
+public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<BookingRequestDto>,
+    Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -88,10 +90,8 @@ public class BookingRequest implements PasswordEntity<String>, Identifiable, Ser
   @Column(name = "scheduled", unique = false, nullable = false)
   private boolean scheduled = false;
 
-  /**
-   * Convert this entity to it's dto.
-   */
-  public BookingRequestDto toDto() {
+  @Override
+  public BookingRequestDto buildDto() {
     BookingRequestDto dto = new BookingRequestDto();
     dto.setId(getId());
     dto.setCardDetails(getCardDetails());

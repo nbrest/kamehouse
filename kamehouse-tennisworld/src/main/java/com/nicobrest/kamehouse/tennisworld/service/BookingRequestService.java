@@ -56,7 +56,7 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
   @Override
   // TODO Create an interface for toEntity for all dtos and remove this method from service layers
   protected BookingRequest getModel(BookingRequestDto dto) {
-    return dto.toEntity();
+    return dto.buildEntity();
   }
 
   @Override
