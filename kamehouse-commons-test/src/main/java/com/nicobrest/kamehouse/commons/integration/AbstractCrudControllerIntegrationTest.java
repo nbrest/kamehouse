@@ -32,7 +32,6 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   protected TestUtils<E, D> testUtils;
 
   private Class<E> entityClass;
-  private Class<D> dtoClass;
   private E entity;
   private Long createdId;
 
@@ -41,15 +40,14 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
    */
   public AbstractCrudControllerIntegrationTest() {
     entityClass = getEntityClass();
-    dtoClass = getDtoClass();
-    initTestUtils();
-    logger.info("dtoClass {}", dtoClass);
+    testUtils = getTestUtils();
+    testUtils.initTestData();
   }
 
   /**
-   * Init test data.
+   * Get test utils.
    */
-  public abstract void initTestUtils();
+  public abstract TestUtils<E, D> getTestUtils();
 
   /**
    * Webapp to connect to.
@@ -67,14 +65,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   public abstract Class<E> getEntityClass();
 
   /**
-   * Crud dto class.
+   * Build entity to execute all crud operations using the testUtils entity as base.
    */
-  public abstract Class<D> getDtoClass();
-
-  /**
-   * Create entity to execute all crud operations.
-   */
-  public abstract E createEntity();
+  public abstract E buildEntity(E entity);
 
   /**
    * Update the entity before executing the update request.
@@ -92,9 +85,10 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Order(1)
   public void createTest() throws Exception {
     logger.info("Running createTest");
-    entity = createEntity();
+    entity = buildEntity(testUtils.getSingleTestData());
     HttpPost httpPost = new HttpPost(getCrudUrl());
     httpPost.setEntity(getRequestBody(entity));
+    logger.info("Creating entity {}", entity);
 
     HttpResponse response = getHttpClient().execute(httpPost);
 
@@ -114,6 +108,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
     logger.info("Running createConflictExceptionTest createdId {}", createdId);
     HttpPost httpPost = new HttpPost(getCrudUrl());
     httpPost.setEntity(getRequestBody(entity));
+    logger.info("Creating entity {}", entity);
 
     HttpResponse response = getHttpClient().execute(httpPost);
 
@@ -168,6 +163,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
     identifiable.setId(createdId);
     HttpPut httpPut = new HttpPut(getCrudUrl() + createdId);
     httpPut.setEntity(getRequestBody(entity));
+    logger.info("Updating entity {}", entity);
 
     HttpResponse response = getHttpClient().execute(httpPut);
 
@@ -182,6 +178,14 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Order(6)
   public void updateInvalidPathId() throws Exception {
     logger.info("Running updateInvalidPathId");
+    HttpPut httpPut = new HttpPut(getCrudUrl() + createdId + createdId);
+    httpPut.setEntity(getRequestBody(entity));
+    logger.info("Updating entity {}", entity);
+
+    HttpResponse response = getHttpClient().execute(httpPut);
+
+    assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusLine().getStatusCode());
+    logger.info("updateInvalidPathId completed successfully");
   }
 
   /**
@@ -191,6 +195,17 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Order(7)
   public void updateNotFoundExceptionTest() throws Exception {
     logger.info("Running updateNotFoundExceptionTest");
+    Long invalidId = createdId * 2;
+    Identifiable identifiable = (Identifiable) entity;
+    identifiable.setId(invalidId);
+    HttpPut httpPut = new HttpPut(getCrudUrl() + invalidId);
+    httpPut.setEntity(getRequestBody(entity));
+    logger.info("Updating entity {}", entity);
+
+    HttpResponse response = getHttpClient().execute(httpPut);
+
+    assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
+    logger.info("updateNotFoundExceptionTest completed successfully");
   }
 
   /**
@@ -226,7 +241,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   /**
    * Crud url to execute operations.
    */
-  private String getCrudUrl() {
+  protected String getCrudUrl() {
     return getBaseUrl() + getWebapp() + getCrudSuffix();
   }
 }
