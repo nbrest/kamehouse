@@ -1,8 +1,9 @@
 package com.nicobrest.kamehouse.tennisworld.model.dto;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
@@ -16,7 +17,7 @@ import java.util.Objects;
  *
  * @author nbrest
  */
-public class BookingScheduleConfigDto implements Identifiable, Serializable {
+public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleConfig>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -30,6 +31,22 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
   private Integer bookAheadDays;
   private Boolean enabled;
   private String duration;
+
+  @Override
+  public BookingScheduleConfig buildEntity() {
+    BookingScheduleConfig entity = new BookingScheduleConfig();
+    entity.setId(getId());
+    entity.setTennisWorldUser(getTennisWorldUser());
+    entity.setSessionType(getSessionType());
+    entity.setSite(getSite());
+    entity.setDay(getDay());
+    entity.setTime(getTime());
+    entity.setBookingDate(getBookingDate());
+    entity.setBookAheadDays(getBookAheadDays());
+    entity.setEnabled(getEnabled());
+    entity.setDuration(getDuration());
+    return entity;
+  }
 
   @Override
   public Long getId() {
@@ -83,7 +100,9 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
     this.time = time;
   }
 
-  /** Get booking date. */
+  /**
+   * Get booking date.
+   */
   public Date getBookingDate() {
     if (bookingDate != null) {
       return (Date) bookingDate.clone();
@@ -92,7 +111,9 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
     }
   }
 
-  /** Set booking date. */
+  /**
+   * Set booking date.
+   */
   public void setBookingDate(Date bookingDate) {
     if (bookingDate != null) {
       this.bookingDate = (Date) bookingDate.clone();
