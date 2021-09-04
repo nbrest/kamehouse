@@ -1,7 +1,8 @@
 package com.nicobrest.kamehouse.testmodule.model.dto;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,7 +12,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class DragonBallUserDto implements Identifiable, Serializable {
+public class DragonBallUserDto implements KameHouseDto<DragonBallUser>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -22,9 +23,24 @@ public class DragonBallUserDto implements Identifiable, Serializable {
   private int powerLevel;
   private int stamina;
 
-  public DragonBallUserDto() {}
+  @Override
+  public DragonBallUser buildEntity() {
+    DragonBallUser entity = new DragonBallUser();
+    entity.setId(getId());
+    entity.setUsername(getUsername());
+    entity.setEmail(getEmail());
+    entity.setAge(getAge());
+    entity.setPowerLevel(getPowerLevel());
+    entity.setStamina(getStamina());
+    return entity;
+  }
 
-  /** Constructor. */
+  public DragonBallUserDto() {
+  }
+
+  /**
+   * Constructor.
+   */
   public DragonBallUserDto(
       Long id, String username, String email, int age, int powerLevel, int stamina) {
 

@@ -1,7 +1,8 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name = "dragonball_user")
-public class DragonBallUser implements Identifiable, Serializable {
+public class DragonBallUser implements KameHouseEntity<DragonBallUserDto>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -43,9 +44,24 @@ public class DragonBallUser implements Identifiable, Serializable {
   @Column(name = "stamina")
   private int stamina;
 
-  public DragonBallUser() {}
+  @Override
+  public DragonBallUserDto buildDto() {
+    DragonBallUserDto dto = new DragonBallUserDto();
+    dto.setId(getId());
+    dto.setUsername(getUsername());
+    dto.setEmail(getEmail());
+    dto.setAge(getAge());
+    dto.setPowerLevel(getPowerLevel());
+    dto.setStamina(getStamina());
+    return dto;
+  }
 
-  /** Constructor. */
+  public DragonBallUser() {
+  }
+
+  /**
+   * Constructor.
+   */
   public DragonBallUser(
       Long id, String username, String email, int age, int powerLevel, int stamina) {
     this.id = id;
@@ -104,7 +120,9 @@ public class DragonBallUser implements Identifiable, Serializable {
     return stamina;
   }
 
-  /** Attacks another DragonBallUser. */
+  /**
+   * Attacks another DragonBallUser.
+   */
   public void attack(DragonBallUser opponent) {
     /*
      * Check for nulls in parameters in methods that can be called from outside
@@ -122,7 +140,9 @@ public class DragonBallUser implements Identifiable, Serializable {
     opponent.setStamina(currentOpponentStamina);
   }
 
-  /** Recovers stamina. */
+  /**
+   * Recovers stamina.
+   */
   public void recoverStamina() {
     stamina = stamina + powerLevel;
   }
