@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import java.util.List;
@@ -26,13 +27,13 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public abstract class AbstractCrudControllerIntegrationTest<E, D>
-    extends AbstractControllerIntegrationTest {
+public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseEntity<D>,
+    D extends KameHouseDto<E>> extends AbstractControllerIntegrationTest {
 
   protected TestUtils<E, D> testUtils;
 
   private Class<E> entityClass;
-  private E entity;
+  private D dto;
   private Long createdId;
 
   /**
@@ -65,17 +66,17 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   public abstract Class<E> getEntityClass();
 
   /**
-   * Build entity to execute all crud operations using the testUtils entity as base.
+   * Build dto to execute all crud operations using the testUtils entity as base.
    */
-  public abstract E buildEntity(E entity);
+  public abstract D buildDto(D dto);
 
   /**
-   * Update the entity before executing the update request.
+   * Update the dto before executing the update request.
    */
-  public abstract void updateEntity(E entity);
+  public abstract void updateDto(D dto);
 
-  public E getEntity() {
-    return entity;
+  public D getDto() {
+    return dto;
   }
 
   /**
@@ -85,10 +86,10 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Order(1)
   public void createTest() throws Exception {
     logger.info("Running createTest");
-    entity = buildEntity(testUtils.getSingleTestData());
+    dto = buildDto(testUtils.getTestDataDto());
     HttpPost httpPost = new HttpPost(getCrudUrl());
-    httpPost.setEntity(getRequestBody(entity));
-    logger.info("Creating entity {}", entity);
+    httpPost.setEntity(getRequestBody(dto));
+    logger.info("Creating entity {}", dto);
 
     HttpResponse response = getHttpClient().execute(httpPost);
 
@@ -107,8 +108,8 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   public void createConflictExceptionTest() throws Exception {
     logger.info("Running createConflictExceptionTest createdId {}", createdId);
     HttpPost httpPost = new HttpPost(getCrudUrl());
-    httpPost.setEntity(getRequestBody(entity));
-    logger.info("Creating entity {}", entity);
+    httpPost.setEntity(getRequestBody(dto));
+    logger.info("Creating entity {}", dto);
 
     HttpResponse response = getHttpClient().execute(httpPost);
 
@@ -157,13 +158,12 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Test
   @Order(5)
   public void updateTest() throws Exception {
-    logger.info("Running updateTest");
-    updateEntity(entity);
-    Identifiable identifiable = (Identifiable) entity;
-    identifiable.setId(createdId);
+    logger.info("Running updateTest with id {}", createdId);
+    updateDto(dto);
+    dto.setId(createdId);
     HttpPut httpPut = new HttpPut(getCrudUrl() + createdId);
-    httpPut.setEntity(getRequestBody(entity));
-    logger.info("Updating entity {}", entity);
+    httpPut.setEntity(getRequestBody(dto));
+    logger.info("Updating entity {}", dto);
 
     HttpResponse response = getHttpClient().execute(httpPut);
 
@@ -177,10 +177,10 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Test
   @Order(6)
   public void updateInvalidPathId() throws Exception {
-    logger.info("Running updateInvalidPathId");
+    logger.info("Running updateInvalidPathId with id {}", createdId + createdId);
     HttpPut httpPut = new HttpPut(getCrudUrl() + createdId + createdId);
-    httpPut.setEntity(getRequestBody(entity));
-    logger.info("Updating entity {}", entity);
+    httpPut.setEntity(getRequestBody(dto));
+    logger.info("Updating entity {}", dto);
 
     HttpResponse response = getHttpClient().execute(httpPut);
 
@@ -194,13 +194,12 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Test
   @Order(7)
   public void updateNotFoundExceptionTest() throws Exception {
-    logger.info("Running updateNotFoundExceptionTest");
     Long invalidId = createdId * 2;
-    Identifiable identifiable = (Identifiable) entity;
-    identifiable.setId(invalidId);
+    logger.info("Running updateNotFoundExceptionTest with id {}", invalidId);
+    dto.setId(invalidId);
     HttpPut httpPut = new HttpPut(getCrudUrl() + invalidId);
-    httpPut.setEntity(getRequestBody(entity));
-    logger.info("Updating entity {}", entity);
+    httpPut.setEntity(getRequestBody(dto));
+    logger.info("Updating entity {}", dto);
 
     HttpResponse response = getHttpClient().execute(httpPut);
 
@@ -214,7 +213,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Test
   @Order(8)
   public void deleteTest() throws Exception {
-    logger.info("Running deleteTest");
+    logger.info("Running deleteTest with id {}", createdId);
     HttpDelete httpDelete = new HttpDelete(getCrudUrl() + createdId);
 
     HttpResponse response = getHttpClient().execute(httpDelete);
@@ -229,7 +228,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   @Test
   @Order(9)
   public void deleteNotFoundExceptionTest() throws Exception {
-    logger.info("Running deleteNotFoundExceptionTest");
+    logger.info("Running deleteNotFoundExceptionTest with id {}", createdId);
     HttpDelete httpDelete = new HttpDelete(getCrudUrl() + createdId);
 
     HttpResponse response = getHttpClient().execute(httpDelete);

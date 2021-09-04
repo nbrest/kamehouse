@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
+import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class PasswordUtils {
    * Unset the password from the identifiableUserEntity. This is usually called on the Controller
    * layer to avoid returning passwords in the APIs.
    */
-  public static <P> void unsetPassword(IdentifiablePasswordEntity<P> entity) {
+  public static <P> void unsetPassword(PasswordEntity<P> entity) {
     // TODO check if there's a better generic way to do this than checking with instanceof
     if (entity != null) {
       if (entity.getPassword() instanceof byte[]) {
@@ -61,8 +61,8 @@ public class PasswordUtils {
       return;
     }
     for (T entity : entities) {
-      if (entity != null && entity instanceof IdentifiablePasswordEntity) {
-        unsetPassword((IdentifiablePasswordEntity) entity);
+      if (entity != null && entity instanceof PasswordEntity) {
+        unsetPassword((PasswordEntity) entity);
       }
     }
   }

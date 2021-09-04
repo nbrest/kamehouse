@@ -53,7 +53,9 @@ public class TennisWorldUserService extends AbstractCrudService<TennisWorldUser,
     return delete(tennisWorldUserDao, id);
   }
 
-  /** Returns a single instance of a TennisWorldUser looking up by email. */
+  /**
+   * Returns a single instance of a TennisWorldUser looking up by email.
+   */
   public TennisWorldUser getByEmail(String email) {
     logger.trace("Get TennisWorldUser: {}", email);
     TennisWorldUser tennisWorldUser = tennisWorldUserDao.getByEmail(email);
@@ -68,10 +70,8 @@ public class TennisWorldUserService extends AbstractCrudService<TennisWorldUser,
     entity.setEmail(dto.getEmail());
     String password = dto.getPassword();
     if (password != null) {
-      byte[] encryptedPassword =
-          EncryptionUtils.encrypt(
-              dto.getPassword().getBytes(Charsets.UTF_8),
-              EncryptionUtils.getKameHouseCertificate());
+      byte[] encryptedPassword = EncryptionUtils.encrypt(dto.getPassword().getBytes(Charsets.UTF_8),
+          EncryptionUtils.getKameHouseCertificate());
       entity.setPassword(encryptedPassword);
     } else {
       throw new KameHouseInvalidDataException("Received empty password for TennisWorldUser");

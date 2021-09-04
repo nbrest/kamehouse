@@ -66,6 +66,8 @@ public class CommonsCoreModelTest {
     kameHouseRoleDto1.setId(1L);
     kameHouseRoleDto1.setKameHouseUser(new KameHouseUserDto());
     kameHouseRoleDto1.setName("goku");
+    kameHouseRoleDto1.buildEntity();
+
     KameHouseRoleDto kameHouseRoleDto2 = new KameHouseRoleDto();
     kameHouseRoleDto2.setId(2L);
     kameHouseRoleDto2.setKameHouseUser(new KameHouseUserDto());
@@ -91,6 +93,8 @@ public class CommonsCoreModelTest {
     kameHouseUserDto1.setId(1L);
     kameHouseUserDto1.setEnabled(true);
     kameHouseUserDto1.setLastLogin(new Date());
+    kameHouseUserDto1.buildEntity();
+
     KameHouseUserDto kameHouseUserDto2 = new KameHouseUserDto();
 
     validateModelObjects(kameHouseUserDto1, kameHouseUserDto2);
@@ -112,6 +116,8 @@ public class CommonsCoreModelTest {
     kameHouseRole1.setName("ROLE_KAMISAMA");
     kameHouseRole1.setKameHouseUser(new KameHouseUser());
     kameHouseRole1.setId(1L);
+    kameHouseRole1.buildDto();
+
     KameHouseRole kameHouseRole2 = new KameHouseRole();
 
     validateModelObjects(kameHouseRole1, kameHouseRole2);
@@ -137,6 +143,8 @@ public class CommonsCoreModelTest {
     kameHouseUser1.setLastLogin(new Date());
     kameHouseUser1.addAuthority(new KameHouseRole());
     kameHouseUser1.removeAuthority(new KameHouseRole());
+    kameHouseUser1.buildDto();
+
     KameHouseUser kameHouseUser2 = new KameHouseUser();
     kameHouseUser2.setLastLogin(null);
     kameHouseUser2.setAuthorities(null);

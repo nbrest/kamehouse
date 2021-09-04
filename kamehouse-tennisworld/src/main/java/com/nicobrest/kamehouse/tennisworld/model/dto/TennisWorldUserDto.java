@@ -2,8 +2,11 @@ package com.nicobrest.kamehouse.tennisworld.model.dto;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -11,7 +14,7 @@ import java.util.Objects;
  *
  * @author nbrest
  */
-public class TennisWorldUserDto implements Identifiable, Serializable {
+public class TennisWorldUserDto implements KameHouseDto<TennisWorldUser>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -19,6 +22,17 @@ public class TennisWorldUserDto implements Identifiable, Serializable {
   private String email;
   @Masked
   private String password;
+
+  @Override
+  public TennisWorldUser buildEntity() {
+    TennisWorldUser entity = new TennisWorldUser();
+    entity.setId(getId());
+    entity.setEmail(getEmail());
+    if (getPassword() != null) {
+      entity.setPassword(getPassword().getBytes(StandardCharsets.UTF_8));
+    }
+    return entity;
+  }
 
   @Override
   public Long getId() {

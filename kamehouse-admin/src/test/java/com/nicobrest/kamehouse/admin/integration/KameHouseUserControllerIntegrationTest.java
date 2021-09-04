@@ -45,16 +45,16 @@ public class KameHouseUserControllerIntegrationTest
   }
 
   @Override
-  public KameHouseUser buildEntity(KameHouseUser entity) {
+  public KameHouseUserDto buildDto(KameHouseUserDto dto) {
     String randomUsername = RandomStringUtils.randomAlphabetic(12);
-    entity.setUsername(randomUsername);
-    entity.setEmail(randomUsername + "@dbz.com");
-    return entity;
+    dto.setUsername(randomUsername);
+    dto.setEmail(randomUsername + "@dbz.com");
+    return dto;
   }
 
   @Override
-  public void updateEntity(KameHouseUser entity) {
-    entity.setFirstName(RandomStringUtils.randomAlphabetic(12));
+  public void updateDto(KameHouseUserDto dto) {
+    dto.setFirstName(RandomStringUtils.randomAlphabetic(12));
   }
 
   /**
@@ -64,7 +64,7 @@ public class KameHouseUserControllerIntegrationTest
   @Order(5)
   public void loadUserByUsernameTest() throws Exception {
     logger.info("Running loadUserByUsernameTest");
-    String username = getEntity().getUsername();
+    String username = getDto().getUsername();
     HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "username/" + username);
 
     HttpResponse response = getHttpClient().execute(get);
@@ -82,7 +82,7 @@ public class KameHouseUserControllerIntegrationTest
   @Order(5)
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByUsernameNotFoundExceptionTest");
-    String invalidUsername = "invalid-" + getEntity().getUsername();
+    String invalidUsername = "invalid-" + getDto().getUsername();
     HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "username/" + invalidUsername);
 
     HttpResponse response = getHttpClient().execute(get);

@@ -1,9 +1,12 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +23,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tennisworld_user")
-public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Serializable {
+public class TennisWorldUser implements KameHouseEntity<TennisWorldUserDto>,
+    PasswordEntity<byte[]>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -36,6 +40,17 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
   @Column(name = "password", unique = false, nullable = false)
   @Lob
   private byte[] password;
+
+  @Override
+  public TennisWorldUserDto buildDto() {
+    TennisWorldUserDto dto = new TennisWorldUserDto();
+    dto.setId(getId());
+    dto.setEmail(getEmail());
+    if (getPassword() != null) {
+      dto.setPassword(new String(getPassword(), StandardCharsets.UTF_8));
+    }
+    return dto;
+  }
 
   @Override
   public Long getId() {
@@ -55,7 +70,9 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
     this.email = email;
   }
 
-  /** Get the password, return empty byte[] if null. */
+  /**
+   * Get the password, return empty byte[] if null.
+   */
   public byte[] getPassword() {
     if (password != null) {
       return password.clone();
@@ -64,7 +81,9 @@ public class TennisWorldUser implements IdentifiablePasswordEntity<byte[]>, Seri
     }
   }
 
-  /** Set the password. */
+  /**
+   * Set the password.
+   */
   public void setPassword(byte[] password) {
     if (password != null) {
       this.password = password.clone();

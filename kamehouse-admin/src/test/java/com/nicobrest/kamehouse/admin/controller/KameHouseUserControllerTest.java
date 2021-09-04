@@ -39,12 +39,15 @@ public class KameHouseUserControllerTest
       KameHouseUserTestUtils.API_V1_ADMIN_KAMEHOUSE_USERS;
   private KameHouseUser kameHouseUser;
 
-  @InjectMocks private KameHouseUserController kameHouseUserController;
+  @InjectMocks
+  private KameHouseUserController kameHouseUserController;
 
   @Mock(name = "kameHouseUserService")
   private KameHouseUserService kameHouseUserServiceMock;
 
-  /** Resets mock objects. */
+  /**
+   * Resets mock objects.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils = new KameHouseUserTestUtils();
@@ -57,61 +60,81 @@ public class KameHouseUserControllerTest
     mockMvc = MockMvcBuilders.standaloneSetup(kameHouseUserController).build();
   }
 
-  /** Creates a user. */
+  /**
+   * Creates a user.
+   */
   @Test
   public void createTest() throws Exception {
     createTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock);
   }
 
-  /** Creates an user conflict exception. */
+  /**
+   * Creates an user conflict exception.
+   */
   @Test
   public void createConflictExceptionTest() throws Exception {
     createConflictExceptionTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock);
   }
 
-  /** Gets a specific user from the repository. */
+  /**
+   * Gets a specific user from the repository.
+   */
   @Test
   public void readTest() throws Exception {
     readTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock, KameHouseUser.class);
   }
 
-  /** Gets all KameHouseUsers. */
+  /**
+   * Gets all KameHouseUsers.
+   */
   @Test
   public void readAllTest() throws Exception {
     readAllTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock, KameHouseUser.class);
   }
 
-  /** Updates an user. */
+  /**
+   * Updates an user.
+   */
   @Test
   public void updateTest() throws Exception {
     updateTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock);
   }
 
-  /** Updates an user with invalid path id. Exception expected. */
+  /**
+   * Updates an user with invalid path id. Exception expected.
+   */
   @Test
   public void updateInvalidPathId() throws Exception {
     updateInvalidPathId(API_V1_ADMIN_KAMEHOUSE_USERS);
   }
 
-  /** Updates an user not found. */
+  /**
+   * Updates an user not found.
+   */
   @Test
   public void updateNotFoundExceptionTest() throws Exception {
     updateNotFoundExceptionTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock);
   }
 
-  /** Deletes an user. */
+  /**
+   * Deletes an user.
+   */
   @Test
   public void deleteTest() throws Exception {
     deleteTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock, KameHouseUser.class);
   }
 
-  /** Deletes an user not found. */
+  /**
+   * Deletes an user not found.
+   */
   @Test
   public void deleteNotFoundExceptionTest() throws Exception {
     deleteNotFoundExceptionTest(API_V1_ADMIN_KAMEHOUSE_USERS, kameHouseUserServiceMock);
   }
 
-  /** Gets an kamehouse user. */
+  /**
+   * Gets an kamehouse user.
+   */
   @Test
   public void loadUserByUsernameTest() throws Exception {
     when(kameHouseUserServiceMock.loadUserByUsername(kameHouseUser.getUsername()))
@@ -125,7 +148,9 @@ public class KameHouseUserControllerTest
     testUtils.assertEqualsAllAttributes(kameHouseUser, responseBody);
   }
 
-  /** Tests get user not found exception. */
+  /**
+   * Tests get user not found exception.
+   */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     assertThrows(

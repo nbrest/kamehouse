@@ -3,7 +3,8 @@ package com.nicobrest.kamehouse.tennisworld.model;
 import static javax.persistence.TemporalType.DATE;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.IdentifiablePasswordEntity;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
@@ -31,7 +32,7 @@ import org.hibernate.annotations.CreationTimestamp;
  */
 @Entity
 @Table(name = "booking_request")
-public class BookingRequest implements IdentifiablePasswordEntity<String>, Serializable {
+public class BookingRequest implements PasswordEntity<String>, Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
