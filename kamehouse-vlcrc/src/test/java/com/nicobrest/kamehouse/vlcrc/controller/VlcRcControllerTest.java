@@ -6,7 +6,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudControllerTest;
+import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
@@ -23,30 +26,18 @@ import com.nicobrest.kamehouse.vlcrc.testutils.VlcRcStatusTestUtils;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
  * Test class for the VlcRcController.
  *
  * @author nbrest
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-@WebAppConfiguration
 public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, VlcPlayerDto> {
-
-  private static final String API_V1_VLCPLAYERS = VlcPlayerTestUtils.API_V1_VLCPLAYERS;
-  private VlcPlayer vlcPlayer;
 
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
@@ -55,7 +46,8 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<VlcRcFileListItem> vlcRcFileList;
 
-  @InjectMocks private VlcRcController vlcRcController;
+  @InjectMocks
+  private VlcRcController vlcRcController;
 
   @Mock(name = "vlcRcService")
   private VlcRcService vlcRcServiceMock;
@@ -63,78 +55,76 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @Mock(name = "vlcPlayerService")
   private VlcPlayerService vlcPlayerServiceMock;
 
+  @Override
+  public void initBeforeTest() {
+    Mockito.reset(vlcRcServiceMock);
+  }
+
+  @Override
+  public String getCrudUrl() {
+    return VlcPlayerTestUtils.API_V1_VLCPLAYERS;
+  }
+
+  @Override
+  public Class<VlcPlayer> getEntityClass() {
+    return VlcPlayer.class;
+  }
+
+  @Override
+  public CrudService<VlcPlayer, VlcPlayerDto> getCrudService() {
+    return vlcPlayerServiceMock;
+  }
+
+  @Override
+  public TestUtils<VlcPlayer, VlcPlayerDto> getTestUtils() {
+    return new VlcPlayerTestUtils();
+  }
+
+  @Override
+  public AbstractController getController() {
+    return vlcRcController;
+  }
+
   /**
    * Tests setup.
    */
   @BeforeEach
   public void beforeTest() {
-    testUtils = new VlcPlayerTestUtils();
-    testUtils.initTestData();
-    testUtils.setIds();
-    vlcPlayer = testUtils.getSingleTestData();
-
+    super.beforeTest();
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();
     vlcRcPlaylist = vlcRcPlaylistTestUtils.getSingleTestData();
     vlcRcFileListTestUtils.initTestData();
     vlcRcFileList = vlcRcFileListTestUtils.getSingleTestData();
-
-    MockitoAnnotations.openMocks(this);
-    Mockito.reset(vlcRcServiceMock);
-    Mockito.reset(vlcPlayerServiceMock);
-    mockMvc = MockMvcBuilders.standaloneSetup(vlcRcController).build();
   }
 
-  /** Tests creating a VLC Player. */
-  @Test
-  public void createTest() throws Exception {
-    createTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock);
-  }
-
-  /** Tests reading a single vlc player. */
-  @Test
-  public void readTest() throws Exception {
-    readTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
-  }
-
-  /** Tests getting all VLC Players. */
-  @Test
-  public void readAllTest() throws Exception {
-    readAllTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
-  }
-
-  /** Tests updating a VLC Player in the system. */
-  @Test
-  public void updateTest() throws Exception {
-    updateTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock);
-  }
-
-  /** Tests deleting a VLC Player from the system. */
-  @Test
-  public void deleteTest() throws Exception {
-    deleteTest(API_V1_VLCPLAYERS, vlcPlayerServiceMock, VlcPlayer.class);
-  }
-
-  /** Tests getting a specific VLC Player. */
+  /**
+   * Tests getting a specific VLC Player.
+   */
   @Test
   public void getByHostnameTest() throws Exception {
+    VlcPlayer vlcPlayer = testUtils.getSingleTestData();
     when(vlcPlayerServiceMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 
     MockHttpServletResponse response =
-        doGet(API_V1_VLCPLAYERS + "hostname/" + vlcPlayer.getHostname());
+        doGet(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "hostname/" + vlcPlayer.getHostname());
     VlcPlayer responseBody = getResponseBody(response, VlcPlayer.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributes(vlcPlayer, responseBody);
   }
 
-  /** Tests getting the status information of the VLC Player passed through the URL. */
+  /**
+   * Tests getting the status information of the VLC Player passed through the URL.
+   */
   @Test
   public void getVlcRcStatusTest() throws Exception {
+    Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatus);
 
-    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/status");
+    MockHttpServletResponse response = doGet(
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/status");
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -142,27 +132,34 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
   }
 
-  /** Tests getting 404 not found when the server can't reach the specified vlc player. */
+  /**
+   * Tests getting 404 not found when the server can't reach the specified vlc player.
+   */
   @Test
   public void getVlcRcStatusNotFoundTest() throws Exception {
+    Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(null);
 
-    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/status");
+    MockHttpServletResponse response = doGet(
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/status");
 
     verifyResponseStatus(response, HttpStatus.NOT_FOUND);
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
   }
 
-  /** Tests Executing a command in the selected VLC Player. */
+  /**
+   * Tests Executing a command in the selected VLC Player.
+   */
   @Test
   public void execCommandTest() throws Exception {
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
     vlcRcCommand.setName("fullscreen");
+    Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.execute(any(), anyString())).thenReturn(vlcRcStatus);
     byte[] requestPayload = JsonUtils.toJsonByteArray(vlcRcCommand);
 
     MockHttpServletResponse response =
-        doPost(API_V1_VLCPLAYERS + "niko-nba/commands", requestPayload);
+        doPost(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/commands", requestPayload);
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
@@ -170,24 +167,32 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
     verify(vlcRcServiceMock, times(1)).execute(any(), anyString());
   }
 
-  /** Tests getting the playlist from the VLC Player. */
+  /**
+   * Tests getting the playlist from the VLC Player.
+   */
   @Test
   public void getPlaylistTest() throws Exception {
+    Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
 
-    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/playlist");
+    MockHttpServletResponse response = doGet(
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/playlist");
     List<VlcRcPlaylistItem> responseBody = getResponseBodyList(response, VlcRcPlaylistItem.class);
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody);
     verify(vlcRcServiceMock, times(1)).getPlaylist(anyString());
   }
 
-  /** Tests browsing files in the VLC Player. */
+  /**
+   * Tests browsing files in the VLC Player.
+   */
   @Test
   public void browseTest() throws Exception {
+    Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
 
-    MockHttpServletResponse response = doGet(API_V1_VLCPLAYERS + "niko-nba/browse");
+    MockHttpServletResponse response = doGet(
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/browse");
     List<VlcRcFileListItem> responseBody = getResponseBodyList(response, VlcRcFileListItem.class);
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody);

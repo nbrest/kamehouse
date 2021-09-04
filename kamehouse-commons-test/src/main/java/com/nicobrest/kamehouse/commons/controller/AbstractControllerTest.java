@@ -26,7 +26,6 @@ import org.springframework.test.web.servlet.MockMvc;
 public abstract class AbstractControllerTest<E, D> {
 
   protected MockMvc mockMvc;
-
   protected TestUtils<E, D> testUtils;
 
   /**
