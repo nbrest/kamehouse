@@ -1,5 +1,8 @@
 package com.nicobrest.kamehouse.commons.integration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
@@ -12,6 +15,7 @@ import java.util.List;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -101,6 +105,30 @@ public class AbstractControllerIntegrationTest {
     List<T> responseBody = mapper.readValue(responseBodyString,
         mapper.getTypeFactory().constructCollectionType(List.class, clazz));
     return responseBody;
+  }
+
+  /**
+   * Verify the response status is Created and it contains a response body.
+   */
+  protected void verifySuccessfulCreatedResponse(HttpResponse response) throws IOException {
+    verifyResponse(response, HttpStatus.SC_CREATED);
+  }
+
+  /**
+   * Verify the response status is OK and it contains a response body.
+   */
+  protected void verifySuccessfulOkResponse(HttpResponse response) throws IOException {
+    verifyResponse(response, HttpStatus.SC_OK);
+  }
+
+  /**
+   * Verify the response status the specified and it contains a response body.
+   */
+  private void verifyResponse(HttpResponse response, int status) throws IOException {
+    assertEquals(status, response.getStatusLine().getStatusCode());
+    Object responseBody = getResponseBody(response, Object.class);
+    assertNotNull(responseBody);
+    logger.info("Response body {}", responseBody);
   }
 
   /**

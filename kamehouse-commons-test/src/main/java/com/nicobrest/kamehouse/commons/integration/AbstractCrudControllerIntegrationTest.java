@@ -143,10 +143,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
 
     HttpResponse response = getHttpClient().execute(get);
 
-    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-    E responseBody = getResponseBody(response, entityClass);
-    assertNotNull(responseBody);
-    logger.info("Response body {}", responseBody);
+    verifySuccessfulOkResponse(response);
   }
 
   /**

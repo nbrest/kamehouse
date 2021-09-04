@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractCrudControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
@@ -69,10 +68,7 @@ public class KameHouseUserControllerIntegrationTest
 
     HttpResponse response = getHttpClient().execute(get);
 
-    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-    KameHouseUser responseBody = getResponseBody(response, KameHouseUser.class);
-    assertNotNull(responseBody);
-    logger.info("Response body {}", responseBody);
+    verifySuccessfulOkResponse(response);
   }
 
   /**
