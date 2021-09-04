@@ -57,7 +57,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
   /**
    * Get crud suffix for the url.
    */
-  public abstract String getCrudSuffix();
+  public abstract String getCrudUrlSuffix();
 
   /**
    * Crud entity class.
@@ -242,6 +242,6 @@ public abstract class AbstractCrudControllerIntegrationTest<E, D>
    * Crud url to execute operations.
    */
   protected String getCrudUrl() {
-    return getBaseUrl() + getWebapp() + getCrudSuffix();
+    return getBaseUrl() + getWebapp() + getCrudUrlSuffix();
   }
 }

@@ -30,7 +30,7 @@ public class KameHouseUserControllerIntegrationTest
   }
 
   @Override
-  public String getCrudSuffix() {
+  public String getCrudUrlSuffix() {
     return KameHouseUserTestUtils.API_V1_ADMIN_KAMEHOUSE_USERS;
   }
 
