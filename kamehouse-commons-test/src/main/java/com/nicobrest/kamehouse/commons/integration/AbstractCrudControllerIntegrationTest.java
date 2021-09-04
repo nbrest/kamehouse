@@ -143,7 +143,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
 
     HttpResponse response = getHttpClient().execute(get);
 
-    verifySuccessfulOkResponse(response);
+    verifySuccessfulResponse(response);
   }
 
   /**

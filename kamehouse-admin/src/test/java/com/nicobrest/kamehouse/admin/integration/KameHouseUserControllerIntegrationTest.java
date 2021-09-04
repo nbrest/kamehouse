@@ -68,7 +68,7 @@ public class KameHouseUserControllerIntegrationTest
 
     HttpResponse response = getHttpClient().execute(get);
 
-    verifySuccessfulOkResponse(response);
+    verifySuccessfulResponse(response);
   }
 
   /**

@@ -108,24 +108,10 @@ public class AbstractControllerIntegrationTest {
   }
 
   /**
-   * Verify the response status is Created and it contains a response body.
-   */
-  protected void verifySuccessfulCreatedResponse(HttpResponse response) throws IOException {
-    verifyResponse(response, HttpStatus.SC_CREATED);
-  }
-
-  /**
    * Verify the response status is OK and it contains a response body.
    */
-  protected void verifySuccessfulOkResponse(HttpResponse response) throws IOException {
-    verifyResponse(response, HttpStatus.SC_OK);
-  }
-
-  /**
-   * Verify the response status the specified and it contains a response body.
-   */
-  private void verifyResponse(HttpResponse response, int status) throws IOException {
-    assertEquals(status, response.getStatusLine().getStatusCode());
+  protected void verifySuccessfulResponse(HttpResponse response) throws IOException {
+    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     Object responseBody = getResponseBody(response, Object.class);
     assertNotNull(responseBody);
     logger.info("Response body {}", responseBody);

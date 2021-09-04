@@ -23,7 +23,7 @@ public class SessionStatusControllerIntegrationTest extends AbstractControllerIn
 
     HttpResponse response = getHttpClient().execute(get);
 
-    verifySuccessfulOkResponse(response);
+    verifySuccessfulResponse(response);
   }
 }
 
