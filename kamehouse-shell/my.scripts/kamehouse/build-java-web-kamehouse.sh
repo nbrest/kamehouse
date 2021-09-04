@@ -21,6 +21,7 @@ KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 MAVEN_COMMAND=
 MAVEN_PROFILE="prod"
 RESUME=false
+STOP_ON_ERROR=false
 
 mainProcess() {
   buildProject
@@ -38,7 +39,10 @@ buildProject() {
   fi
 
   if ${INTEGRATION_TESTS}; then
-    MAVEN_COMMAND="mvn compile failsafe:integration-test"
+    MAVEN_COMMAND="mvn test-compile failsafe:integration-test"
+    if ${STOP_ON_ERROR}; then
+      MAVEN_COMMAND="${MAVEN_COMMAND} failsafe:verify"
+    fi
   fi
 
   if [ -n "${MODULE}" ]; then
@@ -53,6 +57,7 @@ buildProject() {
     log.info "Building all modules"
   fi
 
+  log.info "Executing command: '${MAVEN_COMMAND}'"
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building kamehouse"
 }
@@ -69,7 +74,7 @@ deployKameHouseCmd() {
 }
 
 parseArguments() {
-  while getopts ":fhim:p:r" OPT; do
+  while getopts ":fhim:p:rs" OPT; do
     case $OPT in
     ("f")
       FAST_BUILD=true
@@ -100,12 +105,14 @@ parseArguments() {
     ("r")
       RESUME=true
       ;;
+    ("s")
+      STOP_ON_ERROR=true
+      ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
-  
 }
 
 printHelp() {
@@ -119,6 +126,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
   echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} stop on errors when running integration tests"
 }
 
 main "$@"
