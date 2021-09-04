@@ -55,7 +55,7 @@ public class DragonBallUserControllerIntegrationTest
   @Override
   public void updateDto(DragonBallUserDto dto) {
     String username = RandomStringUtils.randomAlphabetic(12);
-    dto.setUsername(RandomStringUtils.randomAlphabetic(12));
+    dto.setUsername(username);
     dto.setEmail(username + "@dbz.com");
   }
 

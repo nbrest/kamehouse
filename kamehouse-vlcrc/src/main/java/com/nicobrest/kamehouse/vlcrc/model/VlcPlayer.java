@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.utils.VlcRcStatusBuilder;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,15 +40,22 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @Table(name = "vlc_player")
-public class VlcPlayer implements Identifiable, Serializable {
+public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
 
-  @JsonIgnore private static final long serialVersionUID = 1L;
-  @JsonIgnore private static final Logger LOGGER = LoggerFactory.getLogger(VlcPlayer.class);
-  @JsonIgnore private static final String PROTOCOL = "http://";
-  @JsonIgnore private static final String STATUS_URL = "/requests/status.json";
-  @JsonIgnore private static final String PLAYLIST_URL = "/requests/playlist.json";
-  @JsonIgnore private static final String BROWSE_URL = "/requests/browse.json";
-  @JsonIgnore private static final String FILE_PROTOCOL = "file://";
+  @JsonIgnore
+  private static final long serialVersionUID = 1L;
+  @JsonIgnore
+  private static final Logger LOGGER = LoggerFactory.getLogger(VlcPlayer.class);
+  @JsonIgnore
+  private static final String PROTOCOL = "http://";
+  @JsonIgnore
+  private static final String STATUS_URL = "/requests/status.json";
+  @JsonIgnore
+  private static final String PLAYLIST_URL = "/requests/playlist.json";
+  @JsonIgnore
+  private static final String BROWSE_URL = "/requests/browse.json";
+  @JsonIgnore
+  private static final String FILE_PROTOCOL = "file://";
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
@@ -66,6 +74,17 @@ public class VlcPlayer implements Identifiable, Serializable {
   @Masked
   @Column(name = "password")
   private String password;
+
+  @Override
+  public VlcPlayerDto buildDto() {
+    VlcPlayerDto dto = new VlcPlayerDto();
+    dto.setId(getId());
+    dto.setHostname(getHostname());
+    dto.setPort(getPort());
+    dto.setUsername(getUsername());
+    dto.setPassword(getPassword());
+    return dto;
+  }
 
   public VlcPlayer() {
     super();
@@ -111,7 +130,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     return password;
   }
 
-  /** Executes a command in the VLC Player and return it's status. */
+  /**
+   * Executes a command in the VLC Player and return it's status.
+   */
   public VlcRcStatus execute(VlcRcCommand command) {
     String commandUrl = buildCommandUrl(command);
     if (commandUrl != null) {
@@ -124,7 +145,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /** Gets the status information of the VLC Player. */
+  /**
+   * Gets the status information of the VLC Player.
+   */
   @JsonIgnore
   public VlcRcStatus getVlcRcStatus() {
     StringBuilder statusUrl = new StringBuilder();
@@ -140,7 +163,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     return vlcRcStatus;
   }
 
-  /** Gets the current playlist. */
+  /**
+   * Gets the current playlist.
+   */
   @JsonIgnore
   public List<VlcRcPlaylistItem> getPlaylist() {
     StringBuilder playlistUrl = new StringBuilder();
@@ -155,7 +180,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     return playlist;
   }
 
-  /** Browses through the server running vlc. */
+  /**
+   * Browses through the server running vlc.
+   */
   public List<VlcRcFileListItem> browse(String uri) {
     StringBuilder browseUrl = new StringBuilder();
     browseUrl.append(PROTOCOL);
@@ -174,7 +201,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     return filelist;
   }
 
-  /** Builds the URL to execute the command in the VLC Player through its web API. */
+  /**
+   * Builds the URL to execute the command in the VLC Player through its web API.
+   */
   private String buildCommandUrl(VlcRcCommand command) {
     String encodedCommand = HttpClientUtils.urlEncode(command.getName());
     if (encodedCommand == null) {
@@ -234,7 +263,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /** Converts the playlist returned by the VLC Player into an internal playlist format. */
+  /**
+   * Converts the playlist returned by the VLC Player into an internal playlist format.
+   */
   private List<VlcRcPlaylistItem> buildVlcRcPlaylist(String vlcRcPlaylistResponse) {
     List<VlcRcPlaylistItem> vlcRcPlaylist = new ArrayList<>();
     if (vlcRcPlaylistResponse == null) {
@@ -261,7 +292,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /** Iterates through the JsonNode array and generate the VlcRcPlaylist. */
+  /**
+   * Iterates through the JsonNode array and generate the VlcRcPlaylist.
+   */
   private List<VlcRcPlaylistItem> getVlcRcPlaylistFromJsonNode(JsonNode playlistArrayNode) {
     List<VlcRcPlaylistItem> vlcRcPlaylist = new ArrayList<>();
     for (JsonNode jsonNode : playlistArrayNode) {
@@ -285,7 +318,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     return decodedUri;
   }
 
-  /** Converts the file list returned by the VLC Player into an internal file list format. */
+  /**
+   * Converts the file list returned by the VLC Player into an internal file list format.
+   */
   private List<VlcRcFileListItem> buildVlcRcFilelist(String vlcRcFileListResponse) {
     List<VlcRcFileListItem> vlcRcFilelist = new ArrayList<>();
     if (vlcRcFileListResponse == null) {
@@ -320,7 +355,9 @@ public class VlcPlayer implements Identifiable, Serializable {
     }
   }
 
-  /** Log vlcRcStatus response. */
+  /**
+   * Log vlcRcStatus response.
+   */
   private void logVlcRcStatus(VlcRcStatus vlcRcStatus) {
     if (vlcRcStatus != null
         && vlcRcStatus.getInformation() != null

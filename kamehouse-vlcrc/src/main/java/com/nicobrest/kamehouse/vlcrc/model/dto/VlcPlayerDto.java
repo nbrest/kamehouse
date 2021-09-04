@@ -2,8 +2,9 @@ package com.nicobrest.kamehouse.vlcrc.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -13,9 +14,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class VlcPlayerDto implements Identifiable, Serializable {
+public class VlcPlayerDto implements KameHouseDto<VlcPlayer>, Serializable {
 
-  @JsonIgnore private static final long serialVersionUID = 1L;
+  @JsonIgnore
+  private static final long serialVersionUID = 1L;
 
   private Long id;
   private String hostname;
@@ -23,6 +25,17 @@ public class VlcPlayerDto implements Identifiable, Serializable {
   private String username;
   @Masked
   private String password;
+
+  @Override
+  public VlcPlayer buildEntity() {
+    VlcPlayer entity = new VlcPlayer();
+    entity.setId(getId());
+    entity.setHostname(getHostname());
+    entity.setPort(getPort());
+    entity.setUsername(getUsername());
+    entity.setPassword(getPassword());
+    return entity;
+  }
 
   public void setId(Long id) {
     this.id = id;
