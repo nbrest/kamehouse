@@ -67,13 +67,6 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   public abstract AbstractController getController();
 
   /**
-   * Override this method to execute custom init tasks before each test when required.
-   */
-  public void initBeforeTest() {
-
-  }
-
-  /**
    * Resets mock objects.
    */
   @BeforeEach
@@ -84,7 +77,6 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
 
     MockitoAnnotations.openMocks(this);
     Mockito.reset(getCrudService());
-    initBeforeTest();
     mockMvc = MockMvcBuilders.standaloneSetup(getController()).build();
   }
 

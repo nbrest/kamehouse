@@ -56,11 +56,6 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   private VlcPlayerService vlcPlayerServiceMock;
 
   @Override
-  public void initBeforeTest() {
-    Mockito.reset(vlcRcServiceMock);
-  }
-
-  @Override
   public String getCrudUrl() {
     return VlcPlayerTestUtils.API_V1_VLCPLAYERS;
   }
@@ -91,6 +86,7 @@ public class VlcRcControllerTest extends AbstractCrudControllerTest<VlcPlayer, V
   @BeforeEach
   public void beforeTest() {
     super.beforeTest();
+    Mockito.reset(vlcRcServiceMock);
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();
