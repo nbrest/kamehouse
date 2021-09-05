@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
-import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import java.util.Calendar;
@@ -15,28 +14,32 @@ import org.springframework.stereotype.Repository;
  * @author nbrest
  */
 @Repository
-public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
-    implements CrudDao<BookingScheduleConfig> {
+public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingScheduleConfig> {
 
   public static final Date DEFAULT_BOOKING_DATE = DateUtils.getDate(1984, Calendar.OCTOBER, 15);
   public static final String DEFAULT_BOOKING_DATE_STR = "1984-10-15";
 
   @Override
+  public Class<BookingScheduleConfig> getEntityClass() {
+    return BookingScheduleConfig.class;
+  }
+
+  @Override
   public Long create(BookingScheduleConfig entity) {
     setDefaultBookingDate(entity);
-    return create(BookingScheduleConfig.class, entity);
+    return super.create(entity);
   }
 
   @Override
   public BookingScheduleConfig read(Long id) {
-    BookingScheduleConfig entity = read(BookingScheduleConfig.class, id);
+    BookingScheduleConfig entity = super.read(id);
     unsetDefaultBookingDate(entity);
     return entity;
   }
 
   @Override
   public List<BookingScheduleConfig> readAll() {
-    List<BookingScheduleConfig> entities = readAll(BookingScheduleConfig.class);
+    List<BookingScheduleConfig> entities = super.readAll();
     unsetDefaultBookingDate(entities);
     return entities;
   }
@@ -44,12 +47,12 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
   @Override
   public void update(BookingScheduleConfig entity) {
     setDefaultBookingDate(entity);
-    update(BookingScheduleConfig.class, entity);
+    super.update(entity);
   }
 
   @Override
   public BookingScheduleConfig delete(Long id) {
-    BookingScheduleConfig entity = delete(BookingScheduleConfig.class, id);
+    BookingScheduleConfig entity = super.delete(id);
     unsetDefaultBookingDate(entity);
     return entity;
   }
@@ -69,7 +72,9 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
     persistedObject.setDuration(updatedObject.getDuration());
   }
 
-  /** BookingDate needs to be set for the @UniqueConstraint defined in BookingScheduleConfig. */
+  /**
+   * BookingDate needs to be set for the @UniqueConstraint defined in BookingScheduleConfig.
+   */
   private void setDefaultBookingDate(BookingScheduleConfig entity) {
     if (entity.getBookingDate() == null) {
       logger.trace("Setting default booking date for entity {}", entity);
@@ -93,7 +98,9 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa
     }
   }
 
-  /** Unset the booking date for all entities. */
+  /**
+   * Unset the booking date for all entities.
+   */
   private void unsetDefaultBookingDate(List<BookingScheduleConfig> entities) {
     if (entities == null || entities.isEmpty()) {
       return;

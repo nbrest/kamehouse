@@ -24,7 +24,7 @@ public abstract class AbstractCrudDaoJpaTest
   public static final Long INVALID_ID = 987987L;
 
   /**
-   * Get crud DAO.
+   * Get the entity class.
    */
   public abstract Class<E> getEntityClass();
 

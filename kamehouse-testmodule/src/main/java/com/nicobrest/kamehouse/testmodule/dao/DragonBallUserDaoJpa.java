@@ -13,7 +13,8 @@ import org.springframework.stereotype.Repository;
  * @author nbrest
  */
 @Repository
-public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBallUserDao {
+public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
+    implements DragonBallUserDao {
 
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
   private static final String GET_DRAGONBALLUSER_RESPONSE = "Get DragonBallUser: {} response {}";
@@ -23,54 +24,70 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBa
   private static final String DRAGONBALL_USER_BY_EMAIL_CACHE = "dragonBallUserByEmail";
 
   @Override
+  public Class<DragonBallUser> getEntityClass() {
+    return DragonBallUser.class;
+  }
+
+  @Override
   @CacheEvict(
       value = {
-        DRAGONBALL_USERS_CACHE,
-        DRAGONBALL_USER_CACHE,
-        DRAGONBALL_USER_BY_USERNAME_CACHE,
-        DRAGONBALL_USER_BY_EMAIL_CACHE
+          DRAGONBALL_USERS_CACHE,
+          DRAGONBALL_USER_CACHE,
+          DRAGONBALL_USER_BY_USERNAME_CACHE,
+          DRAGONBALL_USER_BY_EMAIL_CACHE
       },
       allEntries = true)
   public Long create(DragonBallUser entity) {
-    return create(DragonBallUser.class, entity);
+    return super.create(entity);
   }
 
   @Override
   @Cacheable(value = DRAGONBALL_USER_CACHE)
   public DragonBallUser read(Long id) {
-    return read(DragonBallUser.class, id);
+    return super.read(id);
   }
 
   @Override
   @Cacheable(value = DRAGONBALL_USERS_CACHE)
   public List<DragonBallUser> readAll() {
-    return readAll(DragonBallUser.class);
+    return super.readAll();
   }
 
   @Override
   @CacheEvict(
       value = {
-        DRAGONBALL_USERS_CACHE,
-        DRAGONBALL_USER_CACHE,
-        DRAGONBALL_USER_BY_USERNAME_CACHE,
-        DRAGONBALL_USER_BY_EMAIL_CACHE
+          DRAGONBALL_USERS_CACHE,
+          DRAGONBALL_USER_CACHE,
+          DRAGONBALL_USER_BY_USERNAME_CACHE,
+          DRAGONBALL_USER_BY_EMAIL_CACHE
       },
       allEntries = true)
   public void update(DragonBallUser entity) {
-    update(DragonBallUser.class, entity);
+    super.update(entity);
   }
 
   @Override
   @CacheEvict(
       value = {
-        DRAGONBALL_USERS_CACHE,
-        DRAGONBALL_USER_CACHE,
-        DRAGONBALL_USER_BY_USERNAME_CACHE,
-        DRAGONBALL_USER_BY_EMAIL_CACHE
+          DRAGONBALL_USERS_CACHE,
+          DRAGONBALL_USER_CACHE,
+          DRAGONBALL_USER_BY_USERNAME_CACHE,
+          DRAGONBALL_USER_BY_EMAIL_CACHE
       },
       allEntries = true)
   public DragonBallUser delete(Long id) {
-    return delete(DragonBallUser.class, id);
+    return super.delete(id);
+  }
+
+  @Override
+  protected <T> void updateEntityValues(T persistedEntity, T entity) {
+    DragonBallUser persistedDragonBallUser = (DragonBallUser) persistedEntity;
+    DragonBallUser dragonBallUser = (DragonBallUser) entity;
+    persistedDragonBallUser.setAge(dragonBallUser.getAge());
+    persistedDragonBallUser.setEmail(dragonBallUser.getEmail());
+    persistedDragonBallUser.setPowerLevel(dragonBallUser.getPowerLevel());
+    persistedDragonBallUser.setStamina(dragonBallUser.getStamina());
+    persistedDragonBallUser.setUsername(dragonBallUser.getUsername());
   }
 
   @Override
@@ -89,16 +106,5 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa implements DragonBa
     DragonBallUser dragonBallUser = findByEmail(DragonBallUser.class, email);
     logger.trace(GET_DRAGONBALLUSER_RESPONSE, email, dragonBallUser);
     return dragonBallUser;
-  }
-
-  @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    DragonBallUser persistedDragonBallUser = (DragonBallUser) persistedEntity;
-    DragonBallUser dragonBallUser = (DragonBallUser) entity;
-    persistedDragonBallUser.setAge(dragonBallUser.getAge());
-    persistedDragonBallUser.setEmail(dragonBallUser.getEmail());
-    persistedDragonBallUser.setPowerLevel(dragonBallUser.getPowerLevel());
-    persistedDragonBallUser.setStamina(dragonBallUser.getStamina());
-    persistedDragonBallUser.setUsername(dragonBallUser.getUsername());
   }
 }

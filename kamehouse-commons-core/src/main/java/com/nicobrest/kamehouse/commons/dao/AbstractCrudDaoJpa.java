@@ -7,47 +7,52 @@ import java.util.List;
  *
  * @author nbrest
  */
-public abstract class AbstractCrudDaoJpa extends AbstractDaoJpa {
+public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa implements CrudDao<E> {
 
-  /** Creates an entity of the specified type in the repository. */
-  public <T> Long create(Class<T> clazz, T entity) {
-    logger.trace("Create {} {}", clazz.getSimpleName(), entity);
+  /**
+   * Get the entity class.
+   */
+  public abstract Class<E> getEntityClass();
+
+  @Override
+  public Long create(E entity) {
+    logger.trace("Create {} {}", getEntityClass().getSimpleName(), entity);
     persistEntityInRepository(entity);
     Identifiable identifiableEntity = (Identifiable) entity;
     Long createdId = identifiableEntity.getId();
-    logger.trace("Create {} {} response {}", clazz.getSimpleName(), entity, createdId);
+    logger.trace("Create {} {} response {}", getEntityClass().getSimpleName(), entity, createdId);
     return createdId;
   }
 
-  /** Reads an entity of the specified type from the repository. */
-  public <T> T read(Class<T> clazz, Long id) {
-    logger.trace("Read {} {}", clazz.getSimpleName(), id);
-    T entity = findById(clazz, id);
-    logger.trace("Read {} {} response {}", clazz.getSimpleName(), id, entity);
+  @Override
+  public E read(Long id) {
+    logger.trace("Read {} {}", getEntityClass().getSimpleName(), id);
+    E entity = findById(getEntityClass(), id);
+    logger.trace("Read {} {} response {}", getEntityClass().getSimpleName(), id, entity);
     return entity;
   }
 
-  /** Reads all entities of the specified type from the repository. */
-  public <T> List<T> readAll(Class<T> clazz) {
-    logger.trace("ReadAll {}", clazz.getSimpleName());
-    List<T> returnedEntities = findAll(clazz);
-    logger.trace("ReadAll {} response {}", clazz.getSimpleName(), returnedEntities);
+  @Override
+  public List<E> readAll() {
+    logger.trace("ReadAll {}", getEntityClass().getSimpleName());
+    List<E> returnedEntities = findAll(getEntityClass());
+    logger.trace("ReadAll {} response {}", getEntityClass().getSimpleName(), returnedEntities);
     return returnedEntities;
   }
 
-  /** Updates an entity of the specified type in the repository. */
-  public <T> void update(Class<T> clazz, T entity) {
+  @Override
+  public void update(E entity) {
     logger.trace("Update {}", entity);
     Identifiable identifiableEntity = (Identifiable) entity;
-    updateEntityInRepository(clazz, entity, identifiableEntity.getId());
+    updateEntityInRepository(getEntityClass(), entity, identifiableEntity.getId());
     logger.trace("Update {} completed successfully", entity);
   }
 
-  /** Deletes an entity of the specified type from the repository. */
-  public <T> T delete(Class<T> clazz, Long id) {
-    logger.trace("Delete {} {}", clazz.getSimpleName(), id);
-    T deletedEntity = deleteEntityFromRepository(clazz, id);
-    logger.trace("Delete {} {} response {}", clazz.getSimpleName(), id, deletedEntity);
+  @Override
+  public E delete(Long id) {
+    logger.trace("Delete {} {}", getEntityClass().getSimpleName(), id);
+    E deletedEntity = deleteEntityFromRepository(getEntityClass(), id);
+    logger.trace("Delete {} {} response {}", getEntityClass().getSimpleName(), id, deletedEntity);
     return deletedEntity;
   }
 }

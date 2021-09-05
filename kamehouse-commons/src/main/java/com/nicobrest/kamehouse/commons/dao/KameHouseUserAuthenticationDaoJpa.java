@@ -9,8 +9,18 @@ import org.springframework.stereotype.Repository;
  * @author nbrest
  */
 @Repository
-public class KameHouseUserAuthenticationDaoJpa extends AbstractCrudDaoJpa
+public class KameHouseUserAuthenticationDaoJpa extends AbstractCrudDaoJpa<KameHouseUser>
     implements KameHouseUserAuthenticationDao {
+
+  @Override
+  public Class<KameHouseUser> getEntityClass() {
+    return KameHouseUser.class;
+  }
+
+  @Override
+  protected <T> void updateEntityValues(T persistedEntity, T entity) {
+    throw new UnsupportedOperationException("This method should not be called in this class");
+  }
 
   @Override
   public KameHouseUser loadUserByUsername(String username) {
@@ -18,10 +28,5 @@ public class KameHouseUserAuthenticationDaoJpa extends AbstractCrudDaoJpa
     KameHouseUser kameHouseUser = findByUsername(KameHouseUser.class, username);
     logger.trace("loadUserByUsername {} response {}", username, kameHouseUser);
     return kameHouseUser;
-  }
-
-  @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    throw new UnsupportedOperationException("This method should not be called in this class");
   }
 }

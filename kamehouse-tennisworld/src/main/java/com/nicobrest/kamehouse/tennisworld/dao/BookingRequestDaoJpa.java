@@ -3,7 +3,6 @@ package com.nicobrest.kamehouse.tennisworld.dao;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
-import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,34 +11,11 @@ import org.springframework.stereotype.Repository;
  * @author nbrest
  */
 @Repository
-public class BookingRequestDaoJpa extends AbstractCrudDaoJpa implements CrudDao<BookingRequest> {
+public class BookingRequestDaoJpa extends AbstractCrudDaoJpa<BookingRequest> {
 
   @Override
-  public Long create(BookingRequest entity) {
-    return create(BookingRequest.class, entity);
-  }
-
-  @Override
-  public BookingRequest read(Long id) {
-    BookingRequest entity = read(BookingRequest.class, id);
-    return entity;
-  }
-
-  @Override
-  public List<BookingRequest> readAll() {
-    List<BookingRequest> entities = readAll(BookingRequest.class);
-    return entities;
-  }
-
-  @Override
-  public void update(BookingRequest entity) {
-    update(BookingRequest.class, entity);
-  }
-
-  @Override
-  public BookingRequest delete(Long id) {
-    BookingRequest entity = delete(BookingRequest.class, id);
-    return entity;
+  public Class<BookingRequest> getEntityClass() {
+    return BookingRequest.class;
   }
 
   @Override

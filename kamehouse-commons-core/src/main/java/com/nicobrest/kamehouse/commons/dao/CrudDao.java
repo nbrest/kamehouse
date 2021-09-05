@@ -7,20 +7,20 @@ import java.util.List;
  *
  * @author nbrest
  */
-public interface CrudDao<T> {
+public interface CrudDao<E> {
 
   /** Creates an entity in the repository. Returns the ID of the newly created entity. */
-  public Long create(T entity);
+  public Long create(E entity);
 
   /** Reads an entity from the repository by its id. */
-  public T read(Long id);
+  public E read(Long id);
 
-  /** Reads all the entities from the repository of type T. */
-  public List<T> readAll();
+  /** Reads all the entities from the repository of type E. */
+  public List<E> readAll();
 
   /** Updates an entity on the repository. */
-  public void update(T entity);
+  public void update(E entity);
 
   /** Deletes an entity from the repository. */
-  public T delete(Long id);
+  public E delete(Long id);
 }
