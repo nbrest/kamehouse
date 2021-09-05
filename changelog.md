@@ -7,6 +7,7 @@
 * Added fallback synchronization of vlc player through http calls when the websockets are disconnected
 * Added a @Masked annotation to mask hidden fields on toString() calls
 * Added integration tests to replace my current postman tests
+* Refactored unit tests for cruds in controller, service and dao layers, moving most functionality to the abstract classes
 
 #### v6.05
 

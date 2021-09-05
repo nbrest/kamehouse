@@ -8,26 +8,24 @@ import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Unit tests for the KameHouseUserAuthenticationDaoJpa class.
  *
  * @author nbrest
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class KameHouseUserAuthenticationDaoJpaTest
-    extends AbstractCrudDaoJpaTest<KameHouseUser, KameHouseUserDto> {
+    extends AbstractDaoJpaTest<KameHouseUser, KameHouseUserDto> {
 
   private KameHouseUser kameHouseUser;
 
-  @Autowired private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDaoJpa;
+  @Autowired
+  private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDaoJpa;
 
-  /** Clear data from the repository before each test. */
+  /**
+   * Clear data from the repository before each test.
+   */
   @BeforeEach
   public void setUp() {
     testUtils = new KameHouseUserTestUtils();
@@ -39,7 +37,9 @@ public class KameHouseUserAuthenticationDaoJpaTest
     clearTable("KAMEHOUSE_USER");
   }
 
-  /** Test for getting a single KameHouseUser in the repository by username. */
+  /**
+   * Test for getting a single KameHouseUser in the repository by username.
+   */
   @Test
   public void loadUserByUsernameTest() {
     mergeEntityInRepository(kameHouseUser);
@@ -51,7 +51,9 @@ public class KameHouseUserAuthenticationDaoJpaTest
     testUtils.assertEqualsAllAttributes(kameHouseUser, returnedUser);
   }
 
-  /** Test for getting a single KameHouseUser in the repository Exception flows. */
+  /**
+   * Test for getting a single KameHouseUser in the repository Exception flows.
+   */
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
     assertThrows(

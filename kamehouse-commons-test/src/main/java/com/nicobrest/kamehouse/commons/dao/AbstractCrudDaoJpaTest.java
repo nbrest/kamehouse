@@ -4,53 +4,128 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import java.util.List;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Abstract class to group common test functionality for CRUD Jpa DAOs.
  *
  * @author nbrest
  */
-public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T, D> {
+public abstract class AbstractCrudDaoJpaTest
+    <E extends KameHouseEntity<D>, D extends KameHouseDto<E>> extends AbstractDaoJpaTest<E, D> {
 
   public static final Long INVALID_ID = 987987L;
 
   /**
+   * Get crud DAO.
+   */
+  public abstract Class<E> getEntityClass();
+
+  /**
+   * Get crud DAO.
+   */
+  public abstract CrudDao<E> getCrudDao();
+
+  /**
+   * Get test utils.
+   */
+  public abstract TestUtils<E, D> getTestUtils();
+
+  /**
+   * Get crud DAO.
+   */
+  public abstract String[] getTablesToClear();
+
+  /**
+   * Update the entity properties to execute the update test.
+   */
+  public abstract void updateEntity(E entity);
+
+  /**
+   * Update the entity properties to generate an error executing the update.
+   */
+  public abstract void updateEntityServerError(E entity);
+
+  /**
+   * Override in concrete classes when custom init before tests is required.
+   */
+  public void initBeforeTest() {
+
+  }
+
+  /**
+   * Check if the entity has unique constraints. By default true, it can be overridden to false in
+   * the concrete subclasses.
+   */
+  public boolean hasUniqueConstraints() {
+    return true;
+  }
+
+  /**
+   * Clears data from the repository before each test.
+   */
+  @BeforeEach
+  public void beforeTest() {
+    testUtils = getTestUtils();
+    testUtils.initTestData();
+    testUtils.removeIds();
+
+    for (String table : getTablesToClear()) {
+      clearTable(table);
+    }
+    initBeforeTest();
+  }
+
+  /**
    * Creates entity test.
    */
-  protected void createTest(CrudDao<T> dao, Class<T> clazz) {
-    T entity = testUtils.getSingleTestData();
-    Long createdId = dao.create(entity);
+  @Test
+  public void createTest() {
+    E entity = testUtils.getSingleTestData();
 
-    Identifiable identifiableEntity = (Identifiable) entity;
-    identifiableEntity.setId(createdId);
-    T createdEntity = findById(clazz, createdId);
+    Long createdId = getCrudDao().create(entity);
+
+    entity.setId(createdId);
+    E createdEntity = findById(getEntityClass(), createdId);
     testUtils.assertEqualsAllAttributes(entity, createdEntity);
   }
 
   /**
    * Creates entity ConflictException test.
    */
-  public void createConflictExceptionTest(CrudDao<T> dao) {
+  @Test
+  public void createConflictExceptionTest() {
+    if (!hasUniqueConstraints()) {
+      logger.info("Skipping createConflictExceptionTest");
+      return;
+    }
     assertThrows(
         KameHouseConflictException.class,
         () -> {
-          dao.create(testUtils.getSingleTestData());
+          getCrudDao().create(testUtils.getSingleTestData());
+
           testUtils.initTestData();
 
-          dao.create(testUtils.getSingleTestData());
+          getCrudDao().create(testUtils.getSingleTestData());
         });
   }
 
   /**
    * Reads entity test.
    */
-  public void readTest(CrudDao<T> dao) {
-    T entity = testUtils.getSingleTestData();
+  @Test
+  public void readTest() {
+    E entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
-    Identifiable identifiableEntity = (Identifiable) entity;
 
-    T returnedEntity = dao.read(identifiableEntity.getId());
+    E returnedEntity = getCrudDao().read(entity.getId());
 
     testUtils.assertEqualsAllAttributes(entity, returnedEntity);
   }
@@ -58,13 +133,14 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   /**
    * Reads all entities test.
    */
-  public void readAllTest(CrudDao<T> dao) {
-    List<T> entitiesList = testUtils.getTestDataList();
-    for (T entity : entitiesList) {
+  @Test
+  public void readAllTest() {
+    List<E> entitiesList = testUtils.getTestDataList();
+    for (E entity : entitiesList) {
       persistEntityInRepository(entity);
     }
 
-    List<T> returnedList = dao.readAll();
+    List<E> returnedList = getCrudDao().readAll();
 
     testUtils.assertEqualsAllAttributesList(entitiesList, returnedList);
   }
@@ -72,43 +148,58 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   /**
    * Updates entity test.
    */
-  public void updateTest(CrudDao<T> dao, Class<T> clazz, T updatedEntity) {
-    T entity = testUtils.getSingleTestData();
+  @Test
+  public void updateTest() {
+    E entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
-    Identifiable identifiableEntity = (Identifiable) entity;
-    Identifiable identifiableUpdatedEntity = (Identifiable) updatedEntity;
-    identifiableUpdatedEntity.setId(identifiableEntity.getId());
+    updateEntity(entity);
 
-    dao.update(updatedEntity);
+    getCrudDao().update(entity);
 
-    T returnedEntity = findById(clazz, identifiableUpdatedEntity.getId());
-    testUtils.assertEqualsAllAttributes(updatedEntity, returnedEntity);
+    E returnedEntity = findById(getEntityClass(), entity.getId());
+    testUtils.assertEqualsAllAttributes(entity, returnedEntity);
   }
 
   /**
    * Updates entity NotFoundException test.
    */
-  public void updateNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
+  @Test
+  public void updateNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
-          T entity = testUtils.getSingleTestData();
-          Identifiable identifiableEntity = (Identifiable) entity;
-          identifiableEntity.setId(INVALID_ID);
+          E entity = testUtils.getSingleTestData();
+          entity.setId(INVALID_ID);
 
-          dao.update(entity);
+          getCrudDao().update(entity);
+        });
+  }
+
+  /**
+   * Tests updating an existing user in the repository Exception flows.
+   */
+  @Test
+  public void updateServerErrorExceptionTest() {
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          E entity = testUtils.getSingleTestData();
+          persistEntityInRepository(entity);
+          updateEntityServerError(entity);
+
+          getCrudDao().update(entity);
         });
   }
 
   /**
    * Deletes entity test.
    */
-  public void deleteTest(CrudDao<T> dao) {
-    T entity = testUtils.getSingleTestData();
+  @Test
+  public void deleteTest() {
+    E entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
-    Identifiable identifiableEntity = (Identifiable) entity;
 
-    T deletedEntity = dao.delete(identifiableEntity.getId());
+    E deletedEntity = getCrudDao().delete(entity.getId());
 
     testUtils.assertEqualsAllAttributes(entity, deletedEntity);
   }
@@ -116,11 +207,19 @@ public abstract class AbstractCrudDaoJpaTest<T, D> extends AbstractDaoJpaTest<T,
   /**
    * Deletes entity NotFoundException test.
    */
-  public void deleteNotFoundExceptionTest(CrudDao<T> dao, Class<T> clazz) {
+  @Test
+  public void deleteNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
-          dao.delete(INVALID_ID);
+          getCrudDao().delete(INVALID_ID);
         });
+  }
+
+  /**
+   * Returns a string that's too long and with invalid characters to fail the persistence.
+   */
+  protected String getInvalidString() {
+    return RandomStringUtils.random(10000);
   }
 }

@@ -3,99 +3,65 @@ package com.nicobrest.kamehouse.vlcrc.dao;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpaTest;
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
-import org.junit.jupiter.api.BeforeEach;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Unit tests for the VlcPlayerDaoJpa class.
  *
  * @author nbrest
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPlayerDto> {
 
-  private VlcPlayer vlcPlayer;
+  @Autowired
+  private VlcPlayerDao vlcPlayerDaoJpa;
 
-  @Autowired private VlcPlayerDao vlcPlayerDaoJpa;
-
-  /** Clears data from the repository before each test. */
-  @BeforeEach
-  public void setUp() {
-    testUtils = new VlcPlayerTestUtils();
-    testUtils.initTestData();
-    testUtils.removeIds();
-    vlcPlayer = testUtils.getSingleTestData();
-
-    clearTable("VLC_PLAYER");
+  @Override
+  public Class<VlcPlayer> getEntityClass() {
+    return VlcPlayer.class;
   }
 
-  /** Tests creating a VlcPlayer in the repository. */
-  @Test
-  public void createTest() {
-    createTest(vlcPlayerDaoJpa, VlcPlayer.class);
+  @Override
+  public CrudDao<VlcPlayer> getCrudDao() {
+    return vlcPlayerDaoJpa;
   }
 
-  /** Tests creating a VlcPlayer in the repository Exception flows. */
-  @Test
-  public void createConflictExceptionTest() {
-    createConflictExceptionTest(vlcPlayerDaoJpa);
+  @Override
+  public TestUtils<VlcPlayer, VlcPlayerDto> getTestUtils() {
+    return new VlcPlayerTestUtils();
   }
 
-  /** Tests getting a single entity from the repository by id. */
-  @Test
-  public void readTest() {
-    readTest(vlcPlayerDaoJpa);
+  @Override
+  public String[] getTablesToClear() {
+    return new String[]{"VLC_PLAYER"};
   }
 
-  /** Tests getting all the VlcPlayers in the repository. */
-  @Test
-  public void readAllTest() {
-    readAllTest(vlcPlayerDaoJpa);
+  @Override
+  public void updateEntity(VlcPlayer entity) {
+    String username = RandomStringUtils.randomAlphabetic(12);
+    entity.setUsername(username);
+    entity.setHostname(username);
   }
 
-  /** Tests updating an existing user in the repository. */
-  @Test
-  public void updateTest() {
-    VlcPlayer updatedEntity = new VlcPlayer();
-    updatedEntity.setPassword(vlcPlayer.getPassword());
-    updatedEntity.setId(vlcPlayer.getId());
-    updatedEntity.setPort(vlcPlayer.getPort());
-    updatedEntity.setUsername(vlcPlayer.getUsername());
-    updatedEntity.setHostname("kamehameha-updated-hostname");
-
-    updateTest(vlcPlayerDaoJpa, VlcPlayer.class, updatedEntity);
+  @Override
+  public void updateEntityServerError(VlcPlayer entity) {
+    entity.setUsername(getInvalidString());
+    entity.setHostname(getInvalidString());
   }
 
-  /** Tests updating an existing entity in the repository Exception flows. */
-  @Test
-  public void updateNotFoundExceptionTest() {
-    updateNotFoundExceptionTest(vlcPlayerDaoJpa, VlcPlayer.class);
-  }
-
-  /** Tests deleting an existing entity from the repository. */
-  @Test
-  public void deleteTest() {
-    deleteTest(vlcPlayerDaoJpa);
-  }
-
-  /** Tests deleting an existing entity from the repository Exception flows. */
-  @Test
-  public void deleteNotFoundExceptionTest() {
-    deleteNotFoundExceptionTest(vlcPlayerDaoJpa, VlcPlayer.class);
-  }
-
-  /** Tests getting a single VlcPlayer in the repository by hostname. */
+  /**
+   * Tests getting a single VlcPlayer in the repository by hostname.
+   */
   @Test
   public void getByHostnameTest() {
+    VlcPlayer vlcPlayer = testUtils.getSingleTestData();
     persistEntityInRepository(vlcPlayer);
 
     VlcPlayer returnedEntity = vlcPlayerDaoJpa.getByHostname(vlcPlayer.getHostname());
@@ -103,7 +69,9 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
     testUtils.assertEqualsAllAttributes(vlcPlayer, returnedEntity);
   }
 
-  /** Tests getting a single VlcPlayer in the repository Exception flows. */
+  /**
+   * Tests getting a single VlcPlayer in the repository Exception flows.
+   */
   @Test
   public void getByHostnameNotFoundExceptionTest() {
     assertThrows(

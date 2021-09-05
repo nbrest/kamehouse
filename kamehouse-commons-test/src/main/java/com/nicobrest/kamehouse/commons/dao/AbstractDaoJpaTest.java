@@ -1,9 +1,14 @@
 package com.nicobrest.kamehouse.commons.dao;
 
+import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Abstract class to group common functionality to execute DaoJpa tests. Extends AbstractDaoJpa so I
@@ -11,15 +16,18 @@ import javax.persistence.Query;
  *
  * @author nbrest
  */
-public abstract class AbstractDaoJpaTest<T, D> extends AbstractDaoJpa {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+public abstract class AbstractDaoJpaTest<E extends KameHouseEntity<D>, D extends KameHouseDto<E>>
+    extends AbstractDaoJpa {
 
-  protected TestUtils<T, D> testUtils;
+  protected TestUtils<E, D> testUtils;
 
   /**
    * Set testUtils.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public void setTestUtils(TestUtils<T, D> testUtils) {
+  public void setTestUtils(TestUtils<E, D> testUtils) {
     this.testUtils = testUtils;
   }
 
