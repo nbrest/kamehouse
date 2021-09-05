@@ -5,16 +5,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.dao.KameHouseUserDao;
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
+import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
-import org.junit.jupiter.api.BeforeEach;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 /**
  * Unit tests for the KameHouseUserService class.
@@ -24,56 +24,33 @@ import org.mockito.MockitoAnnotations;
 public class KameHouseUserServiceTest
     extends AbstractCrudServiceTest<KameHouseUser, KameHouseUserDto> {
 
-  private KameHouseUser kameHouseUser;
+  @InjectMocks
+  private KameHouseUserService kameHouseUserService;
 
-  @InjectMocks private KameHouseUserService kameHouseUserService;
+  @Mock
+  private KameHouseUserDao kameHouseUserDaoMock;
 
-  @Mock private KameHouseUserDao kameHouseUserDaoMock;
-
-  /** Resets mock objects and initializes test repository. */
-  @BeforeEach
-  public void beforeTest() {
-    testUtils = new KameHouseUserTestUtils();
-    testUtils.initTestData();
-    kameHouseUser = testUtils.getSingleTestData();
-
-    MockitoAnnotations.openMocks(this);
-    Mockito.reset(kameHouseUserDaoMock);
+  @Override
+  public CrudService<KameHouseUser, KameHouseUserDto> getCrudService() {
+    return kameHouseUserService;
   }
 
-  /** Tests calling the service to create an KameHouseUser in the repository. */
-  @Test
-  public void createTest() {
-    createTest(kameHouseUserService, kameHouseUserDaoMock);
+  @Override
+  public CrudDao<KameHouseUser> getCrudDao() {
+    return kameHouseUserDaoMock;
   }
 
-  /** Tests calling the service to get a single KameHouseUser. */
-  @Test
-  public void readTest() {
-    readTest(kameHouseUserService, kameHouseUserDaoMock);
+  @Override
+  public TestUtils<KameHouseUser, KameHouseUserDto> getTestUtils() {
+    return new KameHouseUserTestUtils();
   }
 
-  /** Tests getting all users of the application. */
-  @Test
-  public void readAllTest() {
-    readAllTest(kameHouseUserService, kameHouseUserDaoMock);
-  }
-
-  /** Tests calling the service to update an existing KameHouseUser in the repository. */
-  @Test
-  public void updateTest() {
-    updateTest(kameHouseUserService, kameHouseUserDaoMock);
-  }
-
-  /** Tests calling the service to delete an existing user in the repository. */
-  @Test
-  public void deleteTest() {
-    deleteTest(kameHouseUserService, kameHouseUserDaoMock);
-  }
-
-  /** Tests calling the service to get a single KameHouseUser in the repository by username. */
+  /**
+   * Tests calling the service to get a single KameHouseUser in the repository by username.
+   */
   @Test
   public void loadUserByUsernameTest() {
+    KameHouseUser kameHouseUser = testUtils.getSingleTestData();
     when(kameHouseUserDaoMock.loadUserByUsername(kameHouseUser.getUsername()))
         .thenReturn(kameHouseUser);
 

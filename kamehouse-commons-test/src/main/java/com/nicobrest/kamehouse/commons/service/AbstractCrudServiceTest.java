@@ -7,10 +7,14 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 /**
  * Abstract class to group test functionality for all CRUD services.
@@ -22,79 +26,111 @@ public abstract class AbstractCrudServiceTest<E, D> {
   protected TestUtils<E, D> testUtils;
 
   /**
-   * Set testUtils.
+   * Get crud service.
    */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public void setTestUtils(TestUtils<E, D> testUtils) {
-    this.testUtils = testUtils;
+  public abstract CrudService<E, D> getCrudService();
+
+  /**
+   * Get crud DAO.
+   */
+  public abstract CrudDao<E> getCrudDao();
+
+  /**
+   * Get test utils.
+   */
+  public abstract TestUtils<E, D> getTestUtils();
+
+  /**
+   * Override in concrete classes when custom init before tests is required.
+   */
+  public void initBeforeTest() {
+
+  }
+
+  /**
+   * Resets mock objects and initializes test repository.
+   */
+  @BeforeEach
+  public void beforeTest() {
+    testUtils = getTestUtils();
+    testUtils.initTestData();
+
+    MockitoAnnotations.openMocks(this);
+    initBeforeTest();
+    Mockito.reset(getCrudDao());
   }
 
   /**
    * Creates entity test.
    */
-  protected void createTest(CrudService<E, D> service, CrudDao<E> dao) {
+  @Test
+  public void createTest() {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
     Identifiable identifiableEntity = (Identifiable) entity;
-    Mockito.doReturn(identifiableEntity.getId()).when(dao).create(entity);
+    Mockito.doReturn(identifiableEntity.getId()).when(getCrudDao()).create(entity);
 
-    Long returnedId = service.create(dto);
+    Long returnedId = getCrudService().create(dto);
 
     assertEquals(identifiableEntity.getId(), returnedId);
-    verify(dao, times(1)).create(entity);
+    verify(getCrudDao(), times(1)).create(entity);
   }
 
   /**
    * Reads entity test.
    */
-  protected void readTest(CrudService<E, D> service, CrudDao<E> dao) {
+  @Test
+  public void readTest() {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
-    when(dao.read(identifiableEntity.getId())).thenReturn(entity);
+    when(getCrudDao().read(identifiableEntity.getId())).thenReturn(entity);
 
-    E returnedEntity = service.read(identifiableEntity.getId());
+    E returnedEntity = getCrudService().read(identifiableEntity.getId());
 
     testUtils.assertEqualsAllAttributes(entity, returnedEntity);
-    verify(dao, times(1)).read(identifiableEntity.getId());
+    verify(getCrudDao(), times(1)).read(identifiableEntity.getId());
   }
 
   /**
    * Reads all entities test.
    */
-  public void readAllTest(CrudService<E, D> service, CrudDao<E> dao) {
+  @Test
+  public void readAllTest() {
     List<E> entityList = testUtils.getTestDataList();
-    when(dao.readAll()).thenReturn(entityList);
+    when(getCrudDao().readAll()).thenReturn(entityList);
 
-    List<E> returnedList = service.readAll();
+    List<E> returnedList = getCrudService().readAll();
 
     testUtils.assertEqualsAllAttributesList(entityList, returnedList);
-    verify(dao, times(1)).readAll();
+    verify(getCrudDao(), times(1)).readAll();
   }
 
   /**
    * Updates entity test.
    */
-  public void updateTest(CrudService<E, D> service, CrudDao<E> dao) {
+  @Test
+  public void updateTest() {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
-    Mockito.doNothing().when(dao).update(entity);
+    Mockito.doNothing().when(getCrudDao()).update(entity);
 
-    service.update(dto);
+    getCrudService().update(dto);
 
-    verify(dao, times(1)).update(entity);
+    verify(getCrudDao(), times(1)).update(entity);
   }
 
   /**
    * Deletes entity test.
    */
-  public void deleteTest(CrudService<E, D> service, CrudDao<E> dao) {
+  @Test
+  public void deleteTest() {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
-    when(dao.delete(identifiableEntity.getId())).thenReturn(entity);
+    when(getCrudDao().delete(identifiableEntity.getId())).thenReturn(entity);
 
-    E deletedEntity = service.delete(identifiableEntity.getId());
+    E deletedEntity = getCrudService().delete(identifiableEntity.getId());
 
     testUtils.assertEqualsAllAttributes(entity, deletedEntity);
-    verify(dao, times(1)).delete(identifiableEntity.getId());
+    verify(getCrudDao(), times(1)).delete(identifiableEntity.getId());
   }
 }

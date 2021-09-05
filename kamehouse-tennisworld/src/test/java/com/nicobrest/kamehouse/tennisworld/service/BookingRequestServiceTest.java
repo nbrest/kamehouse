@@ -2,15 +2,13 @@ package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
+import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 /**
  * Unit tests for the BookingRequestService class.
@@ -26,57 +24,18 @@ public class BookingRequestServiceTest extends
   @Mock(name = "bookingRequestDao")
   private CrudDao<BookingRequest> bookingRequestDaoMock;
 
-  /**
-   * Resets mock objects and initializes test repository.
-   */
-  @BeforeEach
-  public void beforeTest() {
-    testUtils = new BookingRequestTestUtils();
-    testUtils.initTestData();
-    testUtils.setIds();
-
-    // Reset mock objects before each test
-    MockitoAnnotations.openMocks(this);
-    Mockito.reset(bookingRequestDaoMock);
+  @Override
+  public CrudService<BookingRequest, BookingRequestDto> getCrudService() {
+    return bookingRequestService;
   }
 
-  /**
-   * Tests calling the service to create a BookingRequest in the repository.
-   */
-  @Test
-  public void createTest() {
-    createTest(bookingRequestService, bookingRequestDaoMock);
+  @Override
+  public CrudDao<BookingRequest> getCrudDao() {
+    return bookingRequestDaoMock;
   }
 
-  /**
-   * Tests calling the service to get a single BookingRequest in the repository by id.
-   */
-  @Test
-  public void readTest() {
-    readTest(bookingRequestService, bookingRequestDaoMock);
-  }
-
-  /**
-   * Tests calling the service to get all the BookingRequests in the repository.
-   */
-  @Test
-  public void readAllTest() {
-    readAllTest(bookingRequestService, bookingRequestDaoMock);
-  }
-
-  /**
-   * Tests calling the service to update an existing BookingRequest in the repository.
-   */
-  @Test
-  public void updateTest() {
-    updateTest(bookingRequestService, bookingRequestDaoMock);
-  }
-
-  /**
-   * Tests calling the service to delete an existing user in the repository.
-   */
-  @Test
-  public void deleteEntityTest() {
-    deleteTest(bookingRequestService, bookingRequestDaoMock);
+  @Override
+  public TestUtils<BookingRequest, BookingRequestDto> getTestUtils() {
+    return new BookingRequestTestUtils();
   }
 }

@@ -4,17 +4,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
+import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 /**
  * Unit tests for the DragonBallUserService class.
@@ -24,59 +24,33 @@ import org.mockito.MockitoAnnotations;
 public class DragonBallUserServiceTest
     extends AbstractCrudServiceTest<DragonBallUser, DragonBallUserDto> {
 
-  private DragonBallUser dragonBallUser;
-
-  @InjectMocks private DragonBallUserService dragonBallUserService;
+  @InjectMocks
+  private DragonBallUserService dragonBallUserService;
 
   @Mock(name = "dragonBallUserDao")
   private DragonBallUserDao dragonBallUserDaoMock;
 
-  /** Resets mock objects and initializes test repository. */
-  @BeforeEach
-  public void beforeTest() {
-    testUtils = new DragonBallUserTestUtils();
-    testUtils.initTestData();
-    testUtils.setIds();
-    dragonBallUser = testUtils.getSingleTestData();
-
-    // Reset mock objects before each test
-    MockitoAnnotations.openMocks(this);
-    Mockito.reset(dragonBallUserDaoMock);
+  @Override
+  public CrudService<DragonBallUser, DragonBallUserDto> getCrudService() {
+    return dragonBallUserService;
   }
 
-  /** Tests calling the service to create a DragonBallUser in the repository. */
-  @Test
-  public void createTest() {
-    createTest(dragonBallUserService, dragonBallUserDaoMock);
+  @Override
+  public CrudDao<DragonBallUser> getCrudDao() {
+    return dragonBallUserDaoMock;
   }
 
-  /** Tests calling the service to get a single DragonBallUser in the repository by id. */
-  @Test
-  public void readTest() {
-    readTest(dragonBallUserService, dragonBallUserDaoMock);
+  @Override
+  public TestUtils<DragonBallUser, DragonBallUserDto> getTestUtils() {
+    return new DragonBallUserTestUtils();
   }
 
-  /** Tests calling the service to get all the DragonBallUsers in the repository. */
-  @Test
-  public void readAllTest() {
-    readAllTest(dragonBallUserService, dragonBallUserDaoMock);
-  }
-
-  /** Tests calling the service to update an existing DragonBallUser in the repository. */
-  @Test
-  public void updateTest() {
-    updateTest(dragonBallUserService, dragonBallUserDaoMock);
-  }
-
-  /** Tests calling the service to delete an existing user in the repository. */
-  @Test
-  public void deleteTest() {
-    deleteTest(dragonBallUserService, dragonBallUserDaoMock);
-  }
-
-  /** Tests calling the service to get a single DragonBallUser in the repository by username. */
+  /**
+   * Tests calling the service to get a single DragonBallUser in the repository by username.
+   */
   @Test
   public void getByUsernameTest() {
+    DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     when(dragonBallUserDaoMock.getByUsername(dragonBallUser.getUsername()))
         .thenReturn(dragonBallUser);
 
@@ -86,9 +60,12 @@ public class DragonBallUserServiceTest
     verify(dragonBallUserDaoMock, times(1)).getByUsername(dragonBallUser.getUsername());
   }
 
-  /** Tests calling the service to get a single DragonBallUser in the repository by its email. */
+  /**
+   * Tests calling the service to get a single DragonBallUser in the repository by its email.
+   */
   @Test
   public void getByEmailTest() {
+    DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     when(dragonBallUserDaoMock.getByEmail(dragonBallUser.getEmail())).thenReturn(dragonBallUser);
 
     DragonBallUser returnedUser = dragonBallUserService.getByEmail(dragonBallUser.getEmail());

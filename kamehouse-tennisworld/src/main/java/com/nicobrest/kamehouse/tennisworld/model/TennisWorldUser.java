@@ -99,7 +99,8 @@ public class TennisWorldUser implements KameHouseEntity<TennisWorldUserDto>,
       return false;
     }
     TennisWorldUser that = (TennisWorldUser) other;
-    return id.equals(that.id) && email.equals(that.email);
+    return Objects.equals(id, that.id)
+        && Objects.equals(email, that.email);
   }
 
   @Override

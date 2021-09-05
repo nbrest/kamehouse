@@ -4,17 +4,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudServiceTest;
+import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 /**
  * Unit tests for the VlcPlayerService class.
@@ -23,58 +23,33 @@ import org.mockito.MockitoAnnotations;
  */
 public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, VlcPlayerDto> {
 
-  private VlcPlayer vlcPlayer;
-
-  @InjectMocks private VlcPlayerService vlcPlayerService;
+  @InjectMocks
+  private VlcPlayerService vlcPlayerService;
 
   @Mock(name = "vlcPlayerDao")
   private VlcPlayerDao vlcPlayerDaoMock;
 
-  /** Resets mock objects and initializes test repository. */
-  @BeforeEach
-  public void beforeTest() {
-    testUtils = new VlcPlayerTestUtils();
-    testUtils.initTestData();
-    testUtils.setIds();
-    vlcPlayer = testUtils.getSingleTestData();
-
-    MockitoAnnotations.openMocks(this);
-    Mockito.reset(vlcPlayerDaoMock);
+  @Override
+  public CrudService<VlcPlayer, VlcPlayerDto> getCrudService() {
+    return vlcPlayerService;
   }
 
-  /** Tests calling the service to create a VlcPlayer in the repository. */
-  @Test
-  public void createTest() {
-    createTest(vlcPlayerService, vlcPlayerDaoMock);
+  @Override
+  public CrudDao<VlcPlayer> getCrudDao() {
+    return vlcPlayerDaoMock;
   }
 
-  /** Reads an entity test. */
-  @Test
-  public void readTest() {
-    readTest(vlcPlayerService, vlcPlayerDaoMock);
+  @Override
+  public TestUtils<VlcPlayer, VlcPlayerDto> getTestUtils() {
+    return new VlcPlayerTestUtils();
   }
 
-  /** Tests calling the service to get all the VlcPlayers in the repository. */
-  @Test
-  public void readAllTest() {
-    readAllTest(vlcPlayerService, vlcPlayerDaoMock);
-  }
-
-  /** Tests calling the service to update an existing VlcPlayer in the repository. */
-  @Test
-  public void updateTest() {
-    updateTest(vlcPlayerService, vlcPlayerDaoMock);
-  }
-
-  /** Tests calling the service to delete an existing entity in the repository. */
-  @Test
-  public void deleteTest() {
-    deleteTest(vlcPlayerService, vlcPlayerDaoMock);
-  }
-
-  /** Tests calling the service to get a single VlcPlayer in the repository by hostname. */
+  /**
+   * Tests calling the service to get a single VlcPlayer in the repository by hostname.
+   */
   @Test
   public void getByHostnameTest() {
+    VlcPlayer vlcPlayer = testUtils.getSingleTestData();
     when(vlcPlayerDaoMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 
     VlcPlayer returnedEntity = vlcPlayerService.getByHostname(vlcPlayer.getHostname());
