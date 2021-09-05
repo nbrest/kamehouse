@@ -41,13 +41,20 @@ public class AbstractControllerIntegrationTest {
 
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  private static String protocol = "http://";
-  private static String hostname = "localhost";
-  private static String port = "9980";
+  private String protocol;
+  private String hostname;
+  private String port;
 
   private HttpClient httpClient;
 
+  /**
+   * Init integration tests class.
+   */
   public AbstractControllerIntegrationTest() {
+    protocol = PropertiesUtils.getProperty("integration.tests.protocol", "http://");
+    hostname = PropertiesUtils.getProperty("integration.tests.hostname", "localhost");
+    port = PropertiesUtils.getProperty("integration.tests.port", "9980");
+    logger.info("Base url for integration tests: " + getBaseUrl());
     setHttpClient();
   }
 
@@ -69,7 +76,7 @@ public class AbstractControllerIntegrationTest {
   /**
    * Get the base url for all requests.
    */
-  protected static String getBaseUrl() {
+  protected String getBaseUrl() {
     return protocol + hostname + ":" + port;
   }
 
@@ -134,7 +141,7 @@ public class AbstractControllerIntegrationTest {
   /**
    * Execute a login to the specified server.
    */
-  public void login() throws IOException {
+  private void login() throws IOException {
     httpClient.execute(getLoginRequest());
   }
 

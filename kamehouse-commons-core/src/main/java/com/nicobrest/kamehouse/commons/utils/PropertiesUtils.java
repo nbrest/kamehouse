@@ -37,22 +37,30 @@ public class PropertiesUtils {
     throw new IllegalStateException("Utility class");
   }
 
-  /** Sets the IS_WINDOWS_HOST variable. */
+  /**
+   * Sets the IS_WINDOWS_HOST variable.
+   */
   private static boolean setIsWindowsHost() {
     return System.getProperty("os.name").toLowerCase(Locale.getDefault()).startsWith("windows");
   }
 
-  /** Returns true if the application is running on a windows host, false otherwise. */
+  /**
+   * Returns true if the application is running on a windows host, false otherwise.
+   */
   public static boolean isWindowsHost() {
     return IS_WINDOWS_HOST;
   }
 
-  /** Returns the home of the user running the application server. */
+  /**
+   * Returns the home of the user running the application server.
+   */
   public static String getUserHome() {
     return System.getProperty("user.home");
   }
 
-  /** Returns the hostname of the server. */
+  /**
+   * Returns the hostname of the server.
+   */
   public static String getHostname() {
     if (isWindowsHost()) {
       return System.getenv("COMPUTERNAME").toLowerCase(Locale.getDefault());
@@ -78,18 +86,36 @@ public class PropertiesUtils {
     return properties.getProperty("module.name", "MODULE_NAME_NOT_SET");
   }
 
-  /** Gets the specified property from the commons/kamehouse application properties. */
+  /**
+   * Gets the specified property from the commons/kamehouse application properties.
+   */
   public static String getProperty(String propertyName) {
     return properties.getProperty(propertyName);
   }
 
-  /** Loads all properties files. */
+  /**
+   * Gets the specified property from the commons/kamehouse application properties.
+   */
+  public static String getProperty(String propertyName, String defaultValue) {
+    String value = properties.getProperty(propertyName);
+    if (value == null || value.startsWith("${filter.")) {
+      return defaultValue;
+    }
+    return value;
+  }
+
+
+  /**
+   * Loads all properties files.
+   */
   private static void loadAllPropertiesFiles() {
     loadPropertiesFile("commons.properties");
     loadPropertiesFile("kamehouse.properties");
   }
 
-  /** Loads the specified properties file. */
+  /**
+   * Loads the specified properties file.
+   */
   private static void loadPropertiesFile(String filename) {
     try {
       Resource propertiesResource = new ClassPathResource("/" + filename);
@@ -100,7 +126,9 @@ public class PropertiesUtils {
     }
   }
 
-  /** Loads the build version and date. */
+  /**
+   * Loads the build version and date.
+   */
   private static void loadBuildVersionAndDate() {
     try {
       InputStream pomPropertiesInputStream =

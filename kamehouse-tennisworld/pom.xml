@@ -80,6 +80,7 @@
       </activation>
       <build>
         <filters>
+          <filter>${filters.dir}/prod/kamehouse.properties</filter>
           <filter>${filters.dir}/prod/hibernate.properties</filter>
           <filter>${filters.dir}/prod/jdbc.properties</filter>
         </filters>
@@ -90,6 +91,7 @@
       <id>qa</id>
       <build>
         <filters>
+          <filter>${filters.dir}/qa/kamehouse.properties</filter>
           <filter>${filters.dir}/qa/hibernate.properties</filter>
           <filter>${filters.dir}/qa/jdbc.properties</filter>
         </filters>
@@ -100,6 +102,7 @@
       <id>dev</id>
       <build>
         <filters>
+          <filter>${filters.dir}/dev/kamehouse.properties</filter>
           <filter>${filters.dir}/dev/hibernate.properties</filter>
           <filter>${filters.dir}/dev/jdbc.properties</filter>
         </filters>
