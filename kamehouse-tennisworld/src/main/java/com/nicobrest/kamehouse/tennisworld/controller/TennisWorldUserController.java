@@ -1,9 +1,11 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
+import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import com.nicobrest.kamehouse.tennisworld.service.TennisWorldUserService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,42 +27,60 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/api/v1/tennis-world")
-public class TennisWorldUserController extends AbstractCrudController {
+public class TennisWorldUserController extends
+    AbstractCrudController<TennisWorldUser, TennisWorldUserDto> {
 
-  @Autowired private TennisWorldUserService tennisWorldUserService;
+  @Autowired
+  private TennisWorldUserService tennisWorldUserService;
 
-  /** Creates a new entity in the repository. */
+  @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public CrudService<TennisWorldUser, TennisWorldUserDto> getCrudService() {
+    return tennisWorldUserService;
+  }
+
+  /**
+   * Creates a new entity in the repository.
+   */
   @PostMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody TennisWorldUserDto dto) {
-    return create(tennisWorldUserService, dto);
+    return super.create(dto);
   }
 
-  /** Returns a specific entity from the repository based on the id. */
+  /**
+   * Returns a specific entity from the repository based on the id.
+   */
   @GetMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<TennisWorldUser> read(@PathVariable Long id) {
-    return generatePasswordLessResponseEntity(read(tennisWorldUserService, id));
+    return generatePasswordLessResponseEntity(super.read(id));
   }
 
-  /** Returns all entities. */
+  /**
+   * Returns all entities.
+   */
   @GetMapping(path = "/users")
   @ResponseBody
   public ResponseEntity<List<TennisWorldUser>> readAll() {
-    return generatePasswordLessResponseEntity(readAll(tennisWorldUserService));
+    return generatePasswordLessResponseEntity(super.readAll());
   }
 
-  /** Updates an entity in the repository. */
+  /**
+   * Updates an entity in the repository.
+   */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TennisWorldUserDto dto) {
-    return update(tennisWorldUserService, id, dto);
+    return super.update(id, dto);
   }
 
-  /** Deletes an entity from the repository. */
+  /**
+   * Deletes an entity from the repository.
+   */
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
   public ResponseEntity<TennisWorldUser> delete(@PathVariable Long id) {
-    return generatePasswordLessResponseEntity(delete(tennisWorldUserService, id));
+    return generatePasswordLessResponseEntity(super.delete(id));
   }
 }

@@ -1,9 +1,11 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
+import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingResponseService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,42 +26,60 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/api/v1/tennis-world")
-public class BookingResponseController extends AbstractCrudController {
+public class BookingResponseController extends
+    AbstractCrudController<BookingResponse, BookingResponseDto> {
 
-  @Autowired private BookingResponseService bookingResponseService;
+  @Autowired
+  private BookingResponseService bookingResponseService;
 
-  /** Creates a new entity in the repository. */
+  @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public CrudService<BookingResponse, BookingResponseDto> getCrudService() {
+    return bookingResponseService;
+  }
+
+  /**
+   * Creates a new entity in the repository.
+   */
   @PostMapping(path = "/booking-responses")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody BookingResponseDto dto) {
-    return create(bookingResponseService, dto);
+    return super.create(dto);
   }
 
-  /** Returns a specific entity from the repository based on the id. */
+  /**
+   * Returns a specific entity from the repository based on the id.
+   */
   @GetMapping(path = "/booking-responses/{id}")
   @ResponseBody
   public ResponseEntity<BookingResponse> read(@PathVariable Long id) {
-    return read(bookingResponseService, id);
+    return super.read(id);
   }
 
-  /** Returns all entities. */
+  /**
+   * Returns all entities.
+   */
   @GetMapping(path = "/booking-responses")
   @ResponseBody
   public ResponseEntity<List<BookingResponse>> readAll() {
-    return readAll(bookingResponseService);
+    return super.readAll();
   }
 
-  /** Updates an entity in the repository. */
+  /**
+   * Updates an entity in the repository.
+   */
   @PutMapping(path = "/booking-responses/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody BookingResponseDto dto) {
-    return update(bookingResponseService, id, dto);
+    return super.update(id, dto);
   }
 
-  /** Deletes an entity from the repository. */
+  /**
+   * Deletes an entity from the repository.
+   */
   @DeleteMapping(path = "/booking-responses/{id}")
   @ResponseBody
   public ResponseEntity<BookingResponse> delete(@PathVariable Long id) {
-    return delete(bookingResponseService, id);
+    return super.delete(id);
   }
 }

@@ -78,7 +78,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * Maven 
 * Jenkins for CI
 * Trello for organizing tasks
-* Postman for automated API tests
+* Postman for API tests
 * Sonarcube, Codacy, Codefactor, Codecov for quality checks
 
 *********************

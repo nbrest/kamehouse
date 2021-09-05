@@ -27,7 +27,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 
 /**
- * Unit tests for the AbstractCrudController and AbstractController through a TestEntity controller.
+ * Unit tests for the AbstractCrudController and AbstractController through a TestEntity
+ * controller.
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
@@ -39,7 +40,8 @@ public class AbstractCrudControllerUnitTest {
   private TestEntity testEntity;
   private TestEntityDto testEntityDto;
 
-  @Autowired private TestEntityCrudController testEntityCrudController;
+  @Autowired
+  private TestEntityCrudController testEntityCrudController;
 
   /**
    * Tests setup.
@@ -58,7 +60,9 @@ public class AbstractCrudControllerUnitTest {
     mockMvc = MockMvcBuilders.standaloneSetup(testEntityCrudController).build();
   }
 
-  /** create entity test. */
+  /**
+   * create entity test.
+   */
   @Test
   public void createTest() throws Exception {
     byte[] requestPayload = JsonUtils.toJsonByteArray(testEntityDto);
@@ -67,7 +71,9 @@ public class AbstractCrudControllerUnitTest {
     verifyResponseStatus(response, HttpStatus.CREATED);
   }
 
-  /** read entity test. */
+  /**
+   * read entity test.
+   */
   @Test
   public void readTest() throws Exception {
     MockHttpServletResponse response = doGet(API_TEST_ENTITY + "/1");
@@ -75,7 +81,9 @@ public class AbstractCrudControllerUnitTest {
     verifyResponseStatus(response, HttpStatus.OK);
   }
 
-  /** read all entities test. */
+  /**
+   * read all entities test.
+   */
   @Test
   public void readAllTest() throws Exception {
     MockHttpServletResponse response = doGet(API_TEST_ENTITY);
@@ -83,7 +91,9 @@ public class AbstractCrudControllerUnitTest {
     verifyResponseStatus(response, HttpStatus.OK);
   }
 
-  /** update entity test. */
+  /**
+   * update entity test.
+   */
   @Test
   public void updateTest() throws Exception {
     byte[] requestPayload = JsonUtils.toJsonByteArray(testEntityDto);
@@ -92,7 +102,9 @@ public class AbstractCrudControllerUnitTest {
     verifyResponseStatus(response, HttpStatus.OK);
   }
 
-  /** update entity error test. */
+  /**
+   * update entity error test.
+   */
   @Test
   public void updatePathIdNotValidTest() throws Exception {
     assertThrows(
@@ -104,7 +116,9 @@ public class AbstractCrudControllerUnitTest {
         "KameHouseBadRequestException");
   }
 
-  /** delete entity test. */
+  /**
+   * delete entity test.
+   */
   @Test
   public void deleteTest() throws Exception {
     MockHttpServletResponse response = doDelete(API_TEST_ENTITY + "/1");
@@ -112,12 +126,16 @@ public class AbstractCrudControllerUnitTest {
     verifyResponseStatus(response, HttpStatus.OK);
   }
 
-  /** Executes a get request for the specified url on the mock server. */
+  /**
+   * Executes a get request for the specified url on the mock server.
+   */
   protected MockHttpServletResponse doGet(String url) throws Exception {
     return mockMvc.perform(get(url)).andDo(print()).andReturn().getResponse();
   }
 
-  /** Executes a post request for the specified url and payload on the mock server. */
+  /**
+   * Executes a post request for the specified url and payload on the mock server.
+   */
   protected MockHttpServletResponse doPost(String url, byte[] requestPayload) throws Exception {
     return mockMvc
         .perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
@@ -126,7 +144,9 @@ public class AbstractCrudControllerUnitTest {
         .getResponse();
   }
 
-  /** Executes a put request for the specified url and payload on the mock server. */
+  /**
+   * Executes a put request for the specified url and payload on the mock server.
+   */
   protected MockHttpServletResponse doPut(String url, byte[] requestPayload) throws Exception {
     return mockMvc
         .perform(put(url).contentType(MediaType.APPLICATION_JSON).content(requestPayload))
@@ -135,12 +155,16 @@ public class AbstractCrudControllerUnitTest {
         .getResponse();
   }
 
-  /** Executes a delete request for the specified url on the mock server. */
+  /**
+   * Executes a delete request for the specified url on the mock server.
+   */
   protected MockHttpServletResponse doDelete(String url) throws Exception {
     return mockMvc.perform(delete(url)).andDo(print()).andReturn().getResponse();
   }
 
-  /** Verifies that the response's status code matches the expected one. */
+  /**
+   * Verifies that the response's status code matches the expected one.
+   */
   protected static void verifyResponseStatus(
       MockHttpServletResponse response, HttpStatus expectedStatus) {
     assertEquals(expectedStatus.value(), response.getStatus());

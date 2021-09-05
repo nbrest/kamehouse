@@ -1,9 +1,11 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
+import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingRequestService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,42 +26,60 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/api/v1/tennis-world")
-public class BookingRequestController extends AbstractCrudController {
+public class BookingRequestController extends
+    AbstractCrudController<BookingRequest, BookingRequestDto> {
 
-  @Autowired private BookingRequestService bookingRequestService;
+  @Autowired
+  private BookingRequestService bookingRequestService;
 
-  /** Creates a new entity in the repository. */
+  @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public CrudService<BookingRequest, BookingRequestDto> getCrudService() {
+    return bookingRequestService;
+  }
+
+  /**
+   * Creates a new entity in the repository.
+   */
   @PostMapping(path = "/booking-requests")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody BookingRequestDto dto) {
-    return create(bookingRequestService, dto);
+    return super.create(dto);
   }
 
-  /** Returns a specific entity from the repository based on the id. */
+  /**
+   * Returns a specific entity from the repository based on the id.
+   */
   @GetMapping(path = "/booking-requests/{id}")
   @ResponseBody
   public ResponseEntity<BookingRequest> read(@PathVariable Long id) {
-    return generatePasswordLessResponseEntity(read(bookingRequestService, id));
+    return generatePasswordLessResponseEntity(super.read(id));
   }
 
-  /** Returns all entities. */
+  /**
+   * Returns all entities.
+   */
   @GetMapping(path = "/booking-requests")
   @ResponseBody
   public ResponseEntity<List<BookingRequest>> readAll() {
-    return generatePasswordLessResponseEntity(readAll(bookingRequestService));
+    return generatePasswordLessResponseEntity(super.readAll());
   }
 
-  /** Updates an entity in the repository. */
+  /**
+   * Updates an entity in the repository.
+   */
   @PutMapping(path = "/booking-requests/{id}")
   @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody BookingRequestDto dto) {
-    return update(bookingRequestService, id, dto);
+    return super.update(id, dto);
   }
 
-  /** Deletes an entity from the repository. */
+  /**
+   * Deletes an entity from the repository.
+   */
   @DeleteMapping(path = "/booking-requests/{id}")
   @ResponseBody
   public ResponseEntity<BookingRequest> delete(@PathVariable Long id) {
-    return generatePasswordLessResponseEntity(delete(bookingRequestService, id));
+    return generatePasswordLessResponseEntity(super.delete(id));
   }
 }

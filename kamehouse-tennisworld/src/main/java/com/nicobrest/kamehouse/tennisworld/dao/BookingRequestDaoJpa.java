@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
-import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import org.springframework.stereotype.Repository;
 

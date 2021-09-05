@@ -5,10 +5,12 @@ import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import java.util.Collections;
 import java.util.List;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-/** Test service to test AbstractCrudService. */
-@Component
+/**
+ * Test service to test AbstractCrudService.
+ */
+@Service
 public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestEntityDto> {
 
   private CrudDao<TestEntity> crudDao = new CrudDaoMock();
@@ -23,7 +25,9 @@ public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestE
     // Nothing to do
   }
 
-  /** TestEntity CrudDao mock. */
+  /**
+   * TestEntity CrudDao mock.
+   */
   public static class CrudDaoMock implements CrudDao<TestEntity> {
 
     @Override

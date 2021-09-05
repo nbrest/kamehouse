@@ -24,28 +24,38 @@ public abstract class AbstractController {
   private static final String RESPONSE_ENTITY = "Response {}";
   private static final String ENTITY_NOT_FOUND = "Empty response. Entity not found.";
 
-  /** Generates a standard response entity for get requests. */
+  /**
+   * Generates a standard response entity for get requests.
+   */
   protected static <T> ResponseEntity<T> generateGetResponseEntity(T entity, boolean logResponse) {
     return generateStandardResponseEntity(entity, logResponse);
   }
 
-  /** Generates a standard response entity for get requests. */
+  /**
+   * Generates a standard response entity for get requests.
+   */
   protected static <T> ResponseEntity<T> generateGetResponseEntity(T entity) {
     return generateStandardResponseEntity(entity);
   }
 
-  /** Generates a standard response entity for delete requests. */
+  /**
+   * Generates a standard response entity for delete requests.
+   */
   protected static <T> ResponseEntity<T> generateDeleteResponseEntity(T entity) {
     return generateStandardResponseEntity(entity);
   }
 
-  /** Generates a standard EMPTY response entity for put requests. */
+  /**
+   * Generates a standard EMPTY response entity for put requests.
+   */
   protected static ResponseEntity<Void> generatePutResponseEntity() {
     STATIC_LOGGER.trace("PUT operation executed successfully");
     return EMPTY_SUCCESS_RESPONSE;
   }
 
-  /** Generates a standard response entity for put requests that expect a response body. */
+  /**
+   * Generates a standard response entity for put requests that expect a response body.
+   */
   protected static <T> ResponseEntity<T> generatePutResponseEntity(T entity) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
@@ -58,7 +68,9 @@ public abstract class AbstractController {
     return responseEntity;
   }
 
-  /** Generates a standard response entity for post requests. */
+  /**
+   * Generates a standard response entity for post requests.
+   */
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity, boolean logResponse) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
@@ -75,12 +87,16 @@ public abstract class AbstractController {
     return responseEntity;
   }
 
-  /** Generates a standard response entity for post requests logging the response. */
+  /**
+   * Generates a standard response entity for post requests logging the response.
+   */
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity) {
     return generatePostResponseEntity(entity, true);
   }
 
-  /** Removes the password from the entity of the response body. */
+  /**
+   * Removes the password from the entity of the response body.
+   */
   protected static <T> ResponseEntity<T> generatePasswordLessResponseEntity(
       ResponseEntity<T> responseEntity) {
     T responseBody = responseEntity.getBody();
@@ -133,7 +149,9 @@ public abstract class AbstractController {
     return responseEntity;
   }
 
-  /** Generate a standard response entity logging the response. */
+  /**
+   * Generate a standard response entity logging the response.
+   */
   private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity) {
     return generateStandardResponseEntity(entity, true);
   }

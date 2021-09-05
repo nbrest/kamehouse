@@ -1,10 +1,12 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
+import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingScheduleConfigService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +27,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping(value = "/api/v1/tennis-world")
-public class BookingScheduleConfigController extends AbstractCrudController {
+public class BookingScheduleConfigController extends
+    AbstractCrudController<BookingScheduleConfig, BookingScheduleConfigDto> {
 
   @Autowired
   private BookingScheduleConfigService bookingScheduleConfigService;
+
+  @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public CrudService<BookingScheduleConfig, BookingScheduleConfigDto> getCrudService() {
+    return bookingScheduleConfigService;
+  }
 
   /**
    * Creates a new entity in the repository.
@@ -36,7 +45,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   @PostMapping(path = "/booking-schedule-configs")
   @ResponseBody
   public ResponseEntity<Long> create(@RequestBody BookingScheduleConfigDto dto) {
-    return create(bookingScheduleConfigService, dto);
+    return super.create(dto);
   }
 
   /**
@@ -45,7 +54,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   @GetMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<BookingScheduleConfig> read(@PathVariable Long id) {
-    return generatePasswordLessResponse(read(bookingScheduleConfigService, id));
+    return generatePasswordLessResponse(super.read(id));
   }
 
   /**
@@ -54,7 +63,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   @GetMapping(path = "/booking-schedule-configs")
   @ResponseBody
   public ResponseEntity<List<BookingScheduleConfig>> readAll() {
-    return generatePasswordLessResponseList(readAll(bookingScheduleConfigService));
+    return generatePasswordLessResponseList(super.readAll());
   }
 
   /**
@@ -64,7 +73,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   @ResponseBody
   public ResponseEntity<Void> update(
       @PathVariable Long id, @RequestBody BookingScheduleConfigDto dto) {
-    return update(bookingScheduleConfigService, id, dto);
+    return super.update(id, dto);
   }
 
   /**
@@ -73,7 +82,7 @@ public class BookingScheduleConfigController extends AbstractCrudController {
   @DeleteMapping(path = "/booking-schedule-configs/{id}")
   @ResponseBody
   public ResponseEntity<BookingScheduleConfig> delete(@PathVariable Long id) {
-    return generatePasswordLessResponse(delete(bookingScheduleConfigService, id));
+    return generatePasswordLessResponse(super.delete(id));
   }
 
   /**
