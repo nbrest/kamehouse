@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractCrudControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
@@ -71,10 +70,7 @@ public class VlcPlayerControllerIntegrationTest
 
     HttpResponse response = getHttpClient().execute(get);
 
-    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-    VlcPlayer responseBody = getResponseBody(response, VlcPlayer.class);
-    assertNotNull(responseBody);
-    logger.info("Response body {}", responseBody);
+    verifySuccessfulResponse(response);
   }
 
   /**
