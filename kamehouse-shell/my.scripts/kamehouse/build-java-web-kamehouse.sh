@@ -21,7 +21,7 @@ KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 MAVEN_COMMAND=
 MAVEN_PROFILE="prod"
 RESUME=false
-STOP_ON_ERROR=false
+CONTINUE_ON_ERRORS=false
 
 mainProcess() {
   buildProject
@@ -39,9 +39,10 @@ buildProject() {
   fi
 
   if ${INTEGRATION_TESTS}; then
-    MAVEN_COMMAND="mvn test-compile failsafe:integration-test"
-    if ${STOP_ON_ERROR}; then
-      MAVEN_COMMAND="${MAVEN_COMMAND} failsafe:verify"
+    if ${CONTINUE_ON_ERRORS}; then
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test"
+    else
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test failsafe:verify"
     fi
   fi
 
@@ -74,8 +75,11 @@ deployKameHouseCmd() {
 }
 
 parseArguments() {
-  while getopts ":fhim:p:rs" OPT; do
+  while getopts ":cfhim:p:r" OPT; do
     case $OPT in
+    ("c")
+      CONTINUE_ON_ERRORS=true
+      ;;    
     ("f")
       FAST_BUILD=true
       ;;
@@ -105,9 +109,6 @@ parseArguments() {
     ("r")
       RESUME=true
       ;;
-    ("s")
-      STOP_ON_ERROR=true
-      ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -120,13 +121,13 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-c${COL_NORMAL} continue even with errors when running integration tests"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast build. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i${COL_NORMAL} run integration tests only" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
   echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} stop on errors when running integration tests"
 }
 
 main "$@"

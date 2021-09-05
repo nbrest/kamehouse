@@ -134,7 +134,7 @@ public class AbstractControllerIntegrationTest {
   /**
    * Execute a login to the specified server.
    */
-  private void login() throws IOException {
+  public void login() throws IOException {
     httpClient.execute(getLoginRequest());
   }
 

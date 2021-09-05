@@ -75,11 +75,20 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   public abstract void updateDto(D dto);
 
-  /**
-   * Get the dto of the entity.
-   */
   public D getDto() {
     return dto;
+  }
+
+  public void setDto(D dto) {
+    this.dto = dto;
+  }
+
+  public Long getCreatedId() {
+    return createdId;
+  }
+
+  public void setCreatedId(Long createdId) {
+    this.createdId = createdId;
   }
 
   /**
