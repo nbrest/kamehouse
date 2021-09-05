@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public abstract class AbstractDaoJpaTest<E extends KameHouseEntity<D>, D extends KameHouseDto<E>>
-    extends AbstractDaoJpa {
+    extends AbstractDaoJpa<E> {
 
   protected TestUtils<E, D> testUtils;
 
@@ -84,7 +84,7 @@ public abstract class AbstractDaoJpaTest<E extends KameHouseEntity<D>, D extends
   }
 
   @Override
-  protected <E> void updateEntityValues(E persistedEntity, E entity) {
+  protected void updateEntityValues(E persistedEntity, E entity) {
     // Method required by AbstractDaoJpa overriden here as it's not needed in child test classes.
   }
 }

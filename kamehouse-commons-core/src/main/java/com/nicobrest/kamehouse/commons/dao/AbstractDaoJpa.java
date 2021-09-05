@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author nbrest
  */
-public abstract class AbstractDaoJpa {
+public abstract class AbstractDaoJpa<E> {
 
   private static final String NO_RESULT_EXCEPTION =
       "NoResultException: Entity not found in the repository. Message: ";
@@ -43,9 +43,9 @@ public abstract class AbstractDaoJpa {
   /**
    * Finds all objects of the specified class from the repository.
    */
-  protected <T> List<T> findAll(Class<T> clazz) {
+  protected List<E> findAll(Class<E> clazz) {
     EntityManager em = getEntityManager();
-    List<T> entitiesList = null;
+    List<E> entitiesList = null;
     try {
       logger.trace("findAll {}", clazz.getSimpleName());
       em.getTransaction().begin();
@@ -63,9 +63,9 @@ public abstract class AbstractDaoJpa {
   /**
    * Finds the specified entity from the repository by id.
    */
-  protected <T, V> T findById(Class<T> clazz, V id) {
+  protected <I> E findById(Class<E> clazz, I id) {
     EntityManager em = getEntityManager();
-    T entity = null;
+    E entity = null;
     try {
       logger.trace("findById {}", id);
       em.getTransaction().begin();
@@ -96,23 +96,23 @@ public abstract class AbstractDaoJpa {
   /**
    * Finds the specified entity from the repository by username.
    */
-  protected <T, Z> T findByUsername(Class<T> clazz, Z username) {
+  protected <V> E findByUsername(Class<E> clazz, V username) {
     return findByAttribute(clazz, "username", username);
   }
 
   /**
    * Finds the specified entity from the repository by email.
    */
-  protected <T, Z> T findByEmail(Class<T> clazz, Z email) {
+  protected <V> E findByEmail(Class<E> clazz, V email) {
     return findByAttribute(clazz, "email", email);
   }
 
   /**
    * Finds the specified entity from the repository by the specified attribute.
    */
-  protected <T, V, Z> T findByAttribute(Class<T> clazz, V attributeName, Z attributeValue) {
+  protected <K, V> E findByAttribute(Class<E> clazz, K attributeName, V attributeValue) {
     EntityManager em = getEntityManager();
-    T entity = null;
+    E entity = null;
     try {
       logger.trace("findByAttribute {} {}", attributeName, attributeValue);
       em.getTransaction().begin();
@@ -126,7 +126,7 @@ public abstract class AbstractDaoJpa {
                   + "=:"
                   + parameterName);
       query.setParameter(parameterName, attributeValue);
-      entity = (T) query.getSingleResult();
+      entity = (E) query.getSingleResult();
       em.getTransaction().commit();
       logger.debug("findByAttribute {} {} response {}", attributeName, attributeValue, entity);
     } catch (PersistenceException pe) {
@@ -140,26 +140,26 @@ public abstract class AbstractDaoJpa {
   /**
    * Persists the specified entity in the repository.
    */
-  protected <T> void persistEntityInRepository(T entity) {
-    addEntityToRepository(entity, new PersistFunction<T>());
+  protected void persistEntityInRepository(E entity) {
+    addEntityToRepository(entity, new PersistFunction<>());
   }
 
   /**
    * Merges the specified entity in the repository.
    */
-  protected <T> T mergeEntityInRepository(T entity) {
-    return addEntityToRepository(entity, new MergeFunction<T>());
+  protected E mergeEntityInRepository(E entity) {
+    return addEntityToRepository(entity, new MergeFunction<>());
   }
 
   /**
    * Updates the specified entity in the repository.
    */
-  protected <T> void updateEntityInRepository(Class<T> clazz, T entity, Long entityId) {
+  protected void updateEntityInRepository(Class<E> clazz, E entity, Long entityId) {
     EntityManager em = getEntityManager();
     try {
       logger.trace("updateEntityInRepository {}", entity);
       em.getTransaction().begin();
-      T persistedEntity = em.find(clazz, entityId);
+      E persistedEntity = em.find(clazz, entityId);
       if (persistedEntity != null) {
         updateEntityValues(persistedEntity, entity);
         em.merge(persistedEntity);
@@ -183,14 +183,14 @@ public abstract class AbstractDaoJpa {
   /**
    * Updates the values of the persistedEntity with the object received as a second parameter.
    */
-  protected abstract <T> void updateEntityValues(T persistedEntity, T entity);
+  protected abstract void updateEntityValues(E persistedEntity, E entity);
 
   /**
    * Deletes the entity of the specified class from the repository.
    */
-  protected <T> T deleteEntityFromRepository(Class<T> clazz, Long entityId) {
+  protected E deleteEntityFromRepository(Class<E> clazz, Long entityId) {
     EntityManager em = getEntityManager();
-    T entityToRemove = null;
+    E entityToRemove = null;
     try {
       logger.trace("deleteEntityFromRepository {}", entityId);
       em.getTransaction().begin();
@@ -218,8 +218,8 @@ public abstract class AbstractDaoJpa {
   /**
    * Adds the specified entity in the repository.
    */
-  private <T> T addEntityToRepository(T entity, BiFunction<EntityManager, T, T> addFunction) {
-    T addedEntity = null;
+  private E addEntityToRepository(E entity, BiFunction<EntityManager, E, E> addFunction) {
+    E addedEntity = null;
     EntityManager em = getEntityManager();
     try {
       logger.trace("addEntityToRepository {}", entity);

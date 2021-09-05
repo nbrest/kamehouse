@@ -80,14 +80,12 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    DragonBallUser persistedDragonBallUser = (DragonBallUser) persistedEntity;
-    DragonBallUser dragonBallUser = (DragonBallUser) entity;
-    persistedDragonBallUser.setAge(dragonBallUser.getAge());
-    persistedDragonBallUser.setEmail(dragonBallUser.getEmail());
-    persistedDragonBallUser.setPowerLevel(dragonBallUser.getPowerLevel());
-    persistedDragonBallUser.setStamina(dragonBallUser.getStamina());
-    persistedDragonBallUser.setUsername(dragonBallUser.getUsername());
+  protected void updateEntityValues(DragonBallUser persistedEntity, DragonBallUser entity) {
+    persistedEntity.setAge(entity.getAge());
+    persistedEntity.setEmail(entity.getEmail());
+    persistedEntity.setPowerLevel(entity.getPowerLevel());
+    persistedEntity.setStamina(entity.getStamina());
+    persistedEntity.setUsername(entity.getUsername());
   }
 
   @Override

@@ -15,9 +15,7 @@ public class TestEntityCrudDaoJpa extends AbstractCrudDaoJpa<TestEntity> {
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    TestEntity persistedTestEntity = (TestEntity) persistedEntity;
-    TestEntity entityTestEntity = (TestEntity) entity;
-    persistedTestEntity.setName(entityTestEntity.getName());
+  protected void updateEntityValues(TestEntity persistedEntity, TestEntity entity) {
+    persistedEntity.setName(entity.getName());
   }
 }

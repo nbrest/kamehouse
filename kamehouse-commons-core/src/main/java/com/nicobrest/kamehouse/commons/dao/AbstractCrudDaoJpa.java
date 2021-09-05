@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa implements CrudDao<E> {
+public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements CrudDao<E> {
 
   /**
    * Get the entity class.

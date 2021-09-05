@@ -18,7 +18,7 @@ public class KameHouseUserAuthenticationDaoJpa extends AbstractCrudDaoJpa<KameHo
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
+  protected void updateEntityValues(KameHouseUser persistedEntity, KameHouseUser entity) {
     throw new UnsupportedOperationException("This method should not be called in this class");
   }
 

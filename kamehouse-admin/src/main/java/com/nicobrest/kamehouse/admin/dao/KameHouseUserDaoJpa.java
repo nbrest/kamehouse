@@ -22,21 +22,19 @@ public class KameHouseUserDaoJpa extends AbstractCrudDaoJpa<KameHouseUser>
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    KameHouseUser persistedKameHouseUser = (KameHouseUser) persistedEntity;
-    KameHouseUser updatedKameHouseUser = (KameHouseUser) entity;
-    persistedKameHouseUser.setAccountNonExpired(updatedKameHouseUser.isAccountNonExpired());
-    persistedKameHouseUser.setAccountNonLocked(updatedKameHouseUser.isAccountNonLocked());
-    persistedKameHouseUser.setCredentialsNonExpired(updatedKameHouseUser.isCredentialsNonExpired());
-    persistedKameHouseUser.setEmail(updatedKameHouseUser.getEmail());
-    persistedKameHouseUser.setEnabled(updatedKameHouseUser.isEnabled());
-    persistedKameHouseUser.setFirstName(updatedKameHouseUser.getFirstName());
-    persistedKameHouseUser.setLastLogin(updatedKameHouseUser.getLastLogin());
-    persistedKameHouseUser.setLastName(updatedKameHouseUser.getLastName());
-    persistedKameHouseUser.setPassword(updatedKameHouseUser.getPassword());
-    persistedKameHouseUser.setUsername(updatedKameHouseUser.getUsername());
-    Set<KameHouseRole> persistedKameHouseRoles = persistedKameHouseUser.getAuthorities();
-    Set<KameHouseRole> updatedKameHouseRoles = updatedKameHouseUser.getAuthorities();
+  protected void updateEntityValues(KameHouseUser persistedEntity, KameHouseUser entity) {
+    persistedEntity.setAccountNonExpired(entity.isAccountNonExpired());
+    persistedEntity.setAccountNonLocked(entity.isAccountNonLocked());
+    persistedEntity.setCredentialsNonExpired(entity.isCredentialsNonExpired());
+    persistedEntity.setEmail(entity.getEmail());
+    persistedEntity.setEnabled(entity.isEnabled());
+    persistedEntity.setFirstName(entity.getFirstName());
+    persistedEntity.setLastLogin(entity.getLastLogin());
+    persistedEntity.setLastName(entity.getLastName());
+    persistedEntity.setPassword(entity.getPassword());
+    persistedEntity.setUsername(entity.getUsername());
+    Set<KameHouseRole> persistedKameHouseRoles = persistedEntity.getAuthorities();
+    Set<KameHouseRole> updatedKameHouseRoles = entity.getAuthorities();
     Iterator<KameHouseRole> persistedApplicationRolesIterator = persistedKameHouseRoles.iterator();
     while (persistedApplicationRolesIterator.hasNext()) {
       KameHouseRole persistedRole = persistedApplicationRolesIterator.next();

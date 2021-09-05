@@ -18,11 +18,9 @@ public class BookingResponseDaoJpa extends AbstractCrudDaoJpa<BookingResponse> {
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    BookingResponse persistedObject = (BookingResponse) persistedEntity;
-    BookingResponse updatedObject = (BookingResponse) entity;
-    persistedObject.setStatus(updatedObject.getStatus());
-    persistedObject.setMessage(updatedObject.getMessage());
-    persistedObject.setRequest(updatedObject.getRequest());
+  protected void updateEntityValues(BookingResponse persistedEntity, BookingResponse entity) {
+    persistedEntity.setStatus(entity.getStatus());
+    persistedEntity.setMessage(entity.getMessage());
+    persistedEntity.setRequest(entity.getRequest());
   }
 }

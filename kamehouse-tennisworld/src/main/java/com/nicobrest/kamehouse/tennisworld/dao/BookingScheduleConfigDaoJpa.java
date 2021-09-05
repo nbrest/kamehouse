@@ -58,18 +58,17 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    BookingScheduleConfig persistedObject = (BookingScheduleConfig) persistedEntity;
-    BookingScheduleConfig updatedObject = (BookingScheduleConfig) entity;
-    persistedObject.setTennisWorldUser(updatedObject.getTennisWorldUser());
-    persistedObject.setSessionType(updatedObject.getSessionType());
-    persistedObject.setSite(updatedObject.getSite());
-    persistedObject.setDay(updatedObject.getDay());
-    persistedObject.setTime(updatedObject.getTime());
-    persistedObject.setBookingDate(updatedObject.getBookingDate());
-    persistedObject.setBookAheadDays(updatedObject.getBookAheadDays());
-    persistedObject.setEnabled(updatedObject.getEnabled());
-    persistedObject.setDuration(updatedObject.getDuration());
+  protected void updateEntityValues(BookingScheduleConfig persistedEntity,
+      BookingScheduleConfig entity) {
+    persistedEntity.setTennisWorldUser(entity.getTennisWorldUser());
+    persistedEntity.setSessionType(entity.getSessionType());
+    persistedEntity.setSite(entity.getSite());
+    persistedEntity.setDay(entity.getDay());
+    persistedEntity.setTime(entity.getTime());
+    persistedEntity.setBookingDate(entity.getBookingDate());
+    persistedEntity.setBookAheadDays(entity.getBookAheadDays());
+    persistedEntity.setEnabled(entity.getEnabled());
+    persistedEntity.setDuration(entity.getDuration());
   }
 
   /**

@@ -19,11 +19,9 @@ public class TennisWorldUserDaoJpa extends AbstractCrudDaoJpa<TennisWorldUser>
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    TennisWorldUser persistedObject = (TennisWorldUser) persistedEntity;
-    TennisWorldUser updatedObject = (TennisWorldUser) entity;
-    persistedObject.setEmail(updatedObject.getEmail());
-    persistedObject.setPassword(updatedObject.getPassword());
+  protected void updateEntityValues(TennisWorldUser persistedEntity, TennisWorldUser entity) {
+    persistedEntity.setEmail(entity.getEmail());
+    persistedEntity.setPassword(entity.getPassword());
   }
 
   @Override

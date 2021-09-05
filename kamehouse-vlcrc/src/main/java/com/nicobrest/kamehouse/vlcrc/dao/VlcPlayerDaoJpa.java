@@ -46,13 +46,11 @@ public class VlcPlayerDaoJpa extends AbstractCrudDaoJpa<VlcPlayer> implements Vl
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    VlcPlayer persistedVlcPlayer = (VlcPlayer) persistedEntity;
-    VlcPlayer vlcPlayer = (VlcPlayer) entity;
-    persistedVlcPlayer.setHostname(vlcPlayer.getHostname());
-    persistedVlcPlayer.setPort(vlcPlayer.getPort());
-    persistedVlcPlayer.setUsername(vlcPlayer.getUsername());
-    persistedVlcPlayer.setPassword(vlcPlayer.getPassword());
+  protected void updateEntityValues(VlcPlayer persistedEntity, VlcPlayer entity) {
+    persistedEntity.setHostname(entity.getHostname());
+    persistedEntity.setPort(entity.getPort());
+    persistedEntity.setUsername(entity.getUsername());
+    persistedEntity.setPassword(entity.getPassword());
   }
 
   @Override

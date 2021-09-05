@@ -18,17 +18,15 @@ public class BookingRequestDaoJpa extends AbstractCrudDaoJpa<BookingRequest> {
   }
 
   @Override
-  protected <T> void updateEntityValues(T persistedEntity, T entity) {
-    BookingRequest persistedObject = (BookingRequest) persistedEntity;
-    BookingRequest updatedObject = (BookingRequest) entity;
-    persistedObject.setCardDetails(updatedObject.getCardDetails());
-    persistedObject.setDate(updatedObject.getDate());
-    persistedObject.setDryRun(updatedObject.isDryRun());
-    persistedObject.setDuration(updatedObject.getDuration());
-    persistedObject.setPassword(updatedObject.getPassword());
-    persistedObject.setSessionType(updatedObject.getSessionType());
-    persistedObject.setSite(updatedObject.getSite());
-    persistedObject.setTime(updatedObject.getTime());
-    persistedObject.setUsername(updatedObject.getUsername());
+  protected void updateEntityValues(BookingRequest persistedEntity, BookingRequest entity) {
+    persistedEntity.setCardDetails(entity.getCardDetails());
+    persistedEntity.setDate(entity.getDate());
+    persistedEntity.setDryRun(entity.isDryRun());
+    persistedEntity.setDuration(entity.getDuration());
+    persistedEntity.setPassword(entity.getPassword());
+    persistedEntity.setSessionType(entity.getSessionType());
+    persistedEntity.setSite(entity.getSite());
+    persistedEntity.setTime(entity.getTime());
+    persistedEntity.setUsername(entity.getUsername());
   }
 }
