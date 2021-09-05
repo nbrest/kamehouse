@@ -9,47 +9,18 @@ import org.springframework.stereotype.Component;
 
 /** Test service to test AbstractCrudService. */
 @Component
-public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestEntityDto>
-    implements CrudService<TestEntity, TestEntityDto> {
+public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestEntityDto> {
 
   private CrudDao<TestEntity> crudDao = new CrudDaoMock();
 
   @Override
-  protected TestEntity getModel(TestEntityDto dto) {
-    TestEntity testEntity = new TestEntity();
-    testEntity.setId(dto.getId());
-    testEntity.setName(dto.getName());
-    return testEntity;
+  public CrudDao<TestEntity> getCrudDao() {
+    return crudDao;
   }
 
   @Override
   protected void validate(TestEntity entity) {
     // Nothing to do
-  }
-
-  @Override
-  public Long create(TestEntityDto dto) {
-    return super.create(crudDao, dto);
-  }
-
-  @Override
-  public TestEntity read(Long id) {
-    return super.read(crudDao, id);
-  }
-
-  @Override
-  public List<TestEntity> readAll() {
-    return super.readAll(crudDao);
-  }
-
-  @Override
-  public void update(TestEntityDto dto) {
-    super.update(crudDao, dto);
-  }
-
-  @Override
-  public TestEntity delete(Long id) {
-    return super.delete(crudDao, id);
   }
 
   /** TestEntity CrudDao mock. */

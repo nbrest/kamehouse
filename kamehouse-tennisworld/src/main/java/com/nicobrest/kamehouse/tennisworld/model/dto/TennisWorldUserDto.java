@@ -1,12 +1,15 @@
 package com.nicobrest.kamehouse.tennisworld.model.dto;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import org.apache.commons.codec.Charsets;
 
 /**
  * TennisWorldUser DTO.
@@ -27,8 +30,12 @@ public class TennisWorldUserDto implements KameHouseDto<TennisWorldUser>, Serial
     TennisWorldUser entity = new TennisWorldUser();
     entity.setId(getId());
     entity.setEmail(getEmail());
-    if (getPassword() != null) {
-      entity.setPassword(getPassword().getBytes(StandardCharsets.UTF_8));
+    if (password != null) {
+      byte[] encryptedPassword = EncryptionUtils.encrypt(getPassword().getBytes(Charsets.UTF_8),
+          EncryptionUtils.getKameHouseCertificate());
+      entity.setPassword(encryptedPassword);
+    } else {
+      throw new KameHouseInvalidDataException("Received empty password for TennisWorldUser");
     }
     return entity;
   }

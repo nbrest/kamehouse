@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
@@ -43,14 +44,18 @@ public class KameHouseUserDto implements KameHouseDto<KameHouseUser>, Serializab
     KameHouseUser entity = new KameHouseUser();
     entity.setId(getId());
     entity.setUsername(getUsername());
-    entity.setPassword(getPassword());
+    entity.setPassword(PasswordUtils.generateHashedPassword(getPassword()));
     entity.setEmail(getEmail());
     entity.setFirstName(getFirstName());
     entity.setLastName(getLastName());
     entity.setLastLogin(getLastLogin());
     if (authorities != null) {
       Set<KameHouseRole> authoritiesEntity = authorities.stream()
-          .map(dto -> dto.buildEntity())
+          .map(dto -> {
+            KameHouseRole role = dto.buildEntity();
+            role.setKameHouseUser(entity);
+            return role;
+          })
           .collect(Collectors.toSet());
       entity.setAuthorities(authoritiesEntity);
     }
@@ -59,6 +64,33 @@ public class KameHouseUserDto implements KameHouseDto<KameHouseUser>, Serializab
     entity.setCredentialsNonExpired(isCredentialsNonExpired());
     entity.setEnabled(isEnabled());
     return entity;
+    /*
+    *     KameHouseUser kameHouseUser = new KameHouseUser();
+    kameHouseUser.setAccountNonExpired(kameHouseUserDto.isAccountNonExpired());
+    kameHouseUser.setAccountNonLocked(kameHouseUserDto.isAccountNonLocked());
+    Set<KameHouseRole> kameHouseRoles = new HashSet<>();
+    Set<KameHouseRoleDto> kameHouseRoleDtos = kameHouseUserDto.getAuthorities();
+    if (kameHouseRoleDtos != null) {
+      for (KameHouseRoleDto kameHouseRoleDto : kameHouseRoleDtos) {
+        KameHouseRole kameHouseRole = new KameHouseRole();
+        kameHouseRole.setId(kameHouseRoleDto.getId());
+        kameHouseRole.setName(kameHouseRoleDto.getName());
+        kameHouseRole.setKameHouseUser(kameHouseUser);
+        kameHouseRoles.add(kameHouseRole);
+      }
+    }
+    kameHouseUser.setAuthorities(kameHouseRoles);
+    kameHouseUser.setCredentialsNonExpired(kameHouseUserDto.isCredentialsNonExpired());
+    kameHouseUser.setEmail(kameHouseUserDto.getEmail());
+    kameHouseUser.setEnabled(kameHouseUserDto.isEnabled());
+    kameHouseUser.setFirstName(kameHouseUserDto.getFirstName());
+    kameHouseUser.setId(kameHouseUserDto.getId());
+    kameHouseUser.setLastLogin(kameHouseUserDto.getLastLogin());
+    kameHouseUser.setLastName(kameHouseUserDto.getLastName());
+    kameHouseUser.setPassword(kameHouseUserDto.getPassword());
+    kameHouseUser.setUsername(kameHouseUserDto.getUsername());
+    return kameHouseUser;
+    * */
   }
 
   public Long getId() {

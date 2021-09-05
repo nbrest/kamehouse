@@ -1,11 +1,10 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
-import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,67 +15,29 @@ import org.springframework.stereotype.Service;
  * @author nbrest
  */
 @Service
-public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDto>
-    implements CrudService<VlcPlayer, VlcPlayerDto> {
+public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDto> {
 
   @Autowired
   @Qualifier("vlcPlayerDaoJpa")
   private VlcPlayerDao vlcPlayerDao;
 
-  public VlcPlayerDao getVlcPlayerDao() {
+  @Override
+  public CrudDao<VlcPlayer> getCrudDao() {
     return vlcPlayerDao;
-  }
-
-  public void setVlcPlayerDao(VlcPlayerDao vlcPlayerDao) {
-    this.vlcPlayerDao = vlcPlayerDao;
-  }
-
-  @Override
-  public Long create(VlcPlayerDto dto) {
-    return create(vlcPlayerDao, dto);
-  }
-
-  @Override
-  public VlcPlayer read(Long id) {
-    return read(vlcPlayerDao, id);
-  }
-
-  @Override
-  public List<VlcPlayer> readAll() {
-    return readAll(vlcPlayerDao);
-  }
-
-  @Override
-  public void update(VlcPlayerDto dto) {
-    update(vlcPlayerDao, dto);
-  }
-
-  @Override
-  public VlcPlayer delete(Long id) {
-    return delete(vlcPlayerDao, id);
-  }
-
-  /** Gets a VLC Player by hostname. */
-  public VlcPlayer getByHostname(String hostname) {
-    logger.trace("getByHostname {}", hostname);
-    VlcPlayer vlcPlayer = vlcPlayerDao.getByHostname(hostname);
-    logger.trace("getByHostname {} response {}", hostname, vlcPlayer);
-    return vlcPlayer;
-  }
-
-  @Override
-  protected VlcPlayer getModel(VlcPlayerDto vlcPlayerDto) {
-    VlcPlayer vlcPlayer = new VlcPlayer();
-    vlcPlayer.setHostname(vlcPlayerDto.getHostname());
-    vlcPlayer.setId(vlcPlayerDto.getId());
-    vlcPlayer.setPassword(vlcPlayerDto.getPassword());
-    vlcPlayer.setPort(vlcPlayerDto.getPort());
-    vlcPlayer.setUsername(vlcPlayerDto.getUsername());
-    return vlcPlayer;
   }
 
   @Override
   protected void validate(VlcPlayer entity) {
     // No validations added yet to VlcPlayer.
+  }
+
+  /**
+   * Gets a VLC Player by hostname.
+   */
+  public VlcPlayer getByHostname(String hostname) {
+    logger.trace("getByHostname {}", hostname);
+    VlcPlayer vlcPlayer = vlcPlayerDao.getByHostname(hostname);
+    logger.trace("getByHostname {} response {}", hostname, vlcPlayer);
+    return vlcPlayer;
   }
 }

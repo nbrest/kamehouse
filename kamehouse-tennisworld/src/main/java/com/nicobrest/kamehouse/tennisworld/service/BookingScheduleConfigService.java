@@ -4,15 +4,13 @@ import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
-import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
-import java.util.List;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -24,8 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BookingScheduleConfigService
-    extends AbstractCrudService<BookingScheduleConfig, BookingScheduleConfigDto>
-    implements CrudService<BookingScheduleConfig, BookingScheduleConfigDto> {
+    extends AbstractCrudService<BookingScheduleConfig, BookingScheduleConfigDto> {
 
   private static final Pattern TIME_PATTERN = Pattern.compile("[0-9]{2}:[0-9]{2}");
   private static final Pattern DURATION_PATTERN = Pattern.compile("[0-9]{1,3}");
@@ -34,47 +31,13 @@ public class BookingScheduleConfigService
   @Qualifier("bookingScheduleConfigDaoJpa")
   private CrudDao<BookingScheduleConfig> bookingScheduleConfigDao;
 
-  @Autowired private TennisWorldUserService tennisWorldUserService;
+  @Autowired
+  private TennisWorldUserService tennisWorldUserService;
 
   @Override
-  public Long create(BookingScheduleConfigDto dto) {
-    return create(bookingScheduleConfigDao, dto);
-  }
-
-  @Override
-  public BookingScheduleConfig read(Long id) {
-    return read(bookingScheduleConfigDao, id);
-  }
-
-  @Override
-  public List<BookingScheduleConfig> readAll() {
-    return readAll(bookingScheduleConfigDao);
-  }
-
-  @Override
-  public void update(BookingScheduleConfigDto dto) {
-    update(bookingScheduleConfigDao, dto);
-  }
-
-  @Override
-  public BookingScheduleConfig delete(Long id) {
-    return delete(bookingScheduleConfigDao, id);
-  }
-
-  @Override
-  protected BookingScheduleConfig getModel(BookingScheduleConfigDto dto) {
-    BookingScheduleConfig entity = new BookingScheduleConfig();
-    entity.setId(dto.getId());
-    entity.setTennisWorldUser(getTennisWorldUser(dto));
-    entity.setSessionType(dto.getSessionType());
-    entity.setSite(dto.getSite());
-    entity.setDay(dto.getDay());
-    entity.setTime(dto.getTime());
-    entity.setBookingDate(dto.getBookingDate());
-    entity.setBookAheadDays(dto.getBookAheadDays());
-    entity.setEnabled(BooleanUtils.toBoolean(dto.getEnabled()));
-    entity.setDuration(dto.getDuration());
-    return entity;
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public CrudDao<BookingScheduleConfig> getCrudDao() {
+    return bookingScheduleConfigDao;
   }
 
   @Override
@@ -98,15 +61,30 @@ public class BookingScheduleConfigService
     }
   }
 
-  /** Get the TennisWorldUser from the email on the booking schedule config request. */
-  private TennisWorldUser getTennisWorldUser(BookingScheduleConfigDto dto) {
+  @Override
+  public Long create(BookingScheduleConfigDto dto) {
+    setTennisWorldUser(dto);
+    return super.create(dto);
+  }
+
+  @Override
+  public void update(BookingScheduleConfigDto dto) {
+    setTennisWorldUser(dto);
+    super.update(dto);
+  }
+
+  /**
+   * Set the TennisWorldUser from the email on the booking schedule config request.
+   */
+  private void setTennisWorldUser(BookingScheduleConfigDto dto) {
     TennisWorldUser requestUser = dto.getTennisWorldUser();
     if (requestUser == null || StringUtils.isEmpty(requestUser.getEmail())) {
       throw new KameHouseInvalidDataException("tennisWorld.email is empty");
     }
     String email = requestUser.getEmail();
     try {
-      return tennisWorldUserService.getByEmail(email);
+      TennisWorldUser tennisWorldUser = tennisWorldUserService.getByEmail(email);
+      dto.setTennisWorldUser(tennisWorldUser);
     } catch (KameHouseNotFoundException e) {
       throw new KameHouseInvalidDataException("User not found for email: " + email);
     }

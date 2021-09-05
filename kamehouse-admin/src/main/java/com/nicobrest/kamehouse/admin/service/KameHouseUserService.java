@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.service;
 
 import com.nicobrest.kamehouse.admin.dao.KameHouseUserDao;
+import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
@@ -29,7 +30,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class KameHouseUserService extends AbstractCrudService<KameHouseUser, KameHouseUserDto>
-    implements CrudService<KameHouseUser, KameHouseUserDto>, UserDetailsService {
+    implements UserDetailsService {
 
   @Autowired
   @Qualifier("kameHouseUserDaoJpa")
@@ -40,30 +41,21 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
   private KameHouseUser anonymousUser;
 
   @Override
-  public Long create(KameHouseUserDto dto) {
-    dto.setPassword(PasswordUtils.generateHashedPassword(dto.getPassword()));
-    return create(kameHouseUserDao, dto);
+  public CrudDao<KameHouseUser> getCrudDao() {
+    return kameHouseUserDao;
   }
 
   @Override
-  public KameHouseUser read(Long id) {
-    return read(kameHouseUserDao, id);
-  }
-
-  @Override
-  public List<KameHouseUser> readAll() {
-    return readAll(kameHouseUserDao);
-  }
-
-  @Override
-  public void update(KameHouseUserDto dto) {
-    dto.setPassword(PasswordUtils.generateHashedPassword(dto.getPassword()));
-    update(kameHouseUserDao, dto);
-  }
-
-  @Override
-  public KameHouseUser delete(Long id) {
-    return delete(kameHouseUserDao, id);
+  protected void validate(KameHouseUser kameHouseUser) {
+    KameHouseUserValidator.validateFirstNameFormat(kameHouseUser.getFirstName());
+    KameHouseUserValidator.validateLastNameFormat(kameHouseUser.getLastName());
+    UserValidator.validateUsernameFormat(kameHouseUser.getUsername());
+    UserValidator.validateEmailFormat(kameHouseUser.getEmail());
+    InputValidator.validateStringLength(kameHouseUser.getFirstName());
+    InputValidator.validateStringLength(kameHouseUser.getLastName());
+    InputValidator.validateStringLength(kameHouseUser.getUsername());
+    InputValidator.validateStringLength(kameHouseUser.getEmail());
+    InputValidator.validateStringLength(kameHouseUser.getPassword());
   }
 
   @Override
@@ -81,47 +73,5 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
     } catch (KameHouseNotFoundException e) {
       throw new UsernameNotFoundException(e.getMessage(), e);
     }
-  }
-
-  @Override
-  protected KameHouseUser getModel(KameHouseUserDto kameHouseUserDto) {
-    KameHouseUser kameHouseUser = new KameHouseUser();
-    kameHouseUser.setAccountNonExpired(kameHouseUserDto.isAccountNonExpired());
-    kameHouseUser.setAccountNonLocked(kameHouseUserDto.isAccountNonLocked());
-    Set<KameHouseRole> kameHouseRoles = new HashSet<>();
-    Set<KameHouseRoleDto> kameHouseRoleDtos = kameHouseUserDto.getAuthorities();
-    if (kameHouseRoleDtos != null) {
-      for (KameHouseRoleDto kameHouseRoleDto : kameHouseRoleDtos) {
-        KameHouseRole kameHouseRole = new KameHouseRole();
-        kameHouseRole.setId(kameHouseRoleDto.getId());
-        kameHouseRole.setName(kameHouseRoleDto.getName());
-        kameHouseRole.setKameHouseUser(kameHouseUser);
-        kameHouseRoles.add(kameHouseRole);
-      }
-    }
-    kameHouseUser.setAuthorities(kameHouseRoles);
-    kameHouseUser.setCredentialsNonExpired(kameHouseUserDto.isCredentialsNonExpired());
-    kameHouseUser.setEmail(kameHouseUserDto.getEmail());
-    kameHouseUser.setEnabled(kameHouseUserDto.isEnabled());
-    kameHouseUser.setFirstName(kameHouseUserDto.getFirstName());
-    kameHouseUser.setId(kameHouseUserDto.getId());
-    kameHouseUser.setLastLogin(kameHouseUserDto.getLastLogin());
-    kameHouseUser.setLastName(kameHouseUserDto.getLastName());
-    kameHouseUser.setPassword(kameHouseUserDto.getPassword());
-    kameHouseUser.setUsername(kameHouseUserDto.getUsername());
-    return kameHouseUser;
-  }
-
-  @Override
-  protected void validate(KameHouseUser kameHouseUser) {
-    KameHouseUserValidator.validateFirstNameFormat(kameHouseUser.getFirstName());
-    KameHouseUserValidator.validateLastNameFormat(kameHouseUser.getLastName());
-    UserValidator.validateUsernameFormat(kameHouseUser.getUsername());
-    UserValidator.validateEmailFormat(kameHouseUser.getEmail());
-    InputValidator.validateStringLength(kameHouseUser.getFirstName());
-    InputValidator.validateStringLength(kameHouseUser.getLastName());
-    InputValidator.validateStringLength(kameHouseUser.getUsername());
-    InputValidator.validateStringLength(kameHouseUser.getEmail());
-    InputValidator.validateStringLength(kameHouseUser.getPassword());
   }
 }

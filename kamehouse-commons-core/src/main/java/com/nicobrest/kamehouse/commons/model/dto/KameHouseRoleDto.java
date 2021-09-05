@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.nicobrest.kamehouse.commons.model.KameHouseRole;
+import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
@@ -27,7 +28,9 @@ public class KameHouseRoleDto implements KameHouseDto<KameHouseRole>, Serializab
     entity.setId(getId());
     entity.setName(getName());
     if (getKameHouseUser() != null) {
-      entity.setKameHouseUser(getKameHouseUser().buildEntity());
+      KameHouseUser kameHouseUser = new KameHouseUser();
+      kameHouseUser.setId(getKameHouseUser().getId());
+      entity.setKameHouseUser(kameHouseUser);
     }
     return entity;
   }

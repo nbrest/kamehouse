@@ -12,52 +12,65 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-/** Unit tests for the AbstractCrudService through a TestEntity service. */
+/**
+ * Unit tests for the AbstractCrudService through a TestEntity service.
+ */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class AbstractCrudServiceUnitTest {
 
-  @Autowired private TestEntityCrudService testEntityCrudService;
+  @Autowired
+  private TestEntityCrudService testEntityCrudService;
   private CrudDao<TestEntity> crudDao = new TestEntityCrudService.CrudDaoMock();
 
-  /** read entity test. */
+  /**
+   * read entity test.
+   */
   @Test
   public void readTest() {
-    TestEntity testEntity = testEntityCrudService.read(crudDao, 1L);
+    TestEntity testEntity = testEntityCrudService.read(1L);
     assertNotNull(testEntity);
   }
 
-  /** read all entities test. */
+  /**
+   * read all entities test.
+   */
   @Test
   public void readAllTest() {
-    List<TestEntity> testEntities = testEntityCrudService.readAll(crudDao);
+    List<TestEntity> testEntities = testEntityCrudService.readAll();
     assertNotNull(testEntities);
   }
 
-  /** create entity test. */
+  /**
+   * create entity test.
+   */
   @Test
   public void createTest() {
     TestEntityDto testEntityDto = new TestEntityDto();
     testEntityDto.setName("goku");
 
-    Long id = testEntityCrudService.create(crudDao, testEntityDto);
+    Long id = testEntityCrudService.create(testEntityDto);
     assertNotNull(id);
   }
 
-  /** update entity test. */
+  /**
+   * update entity test.
+   */
   @Test
   public void updateTest() {
     TestEntityDto testEntityDto = new TestEntityDto();
     testEntityDto.setName("goku");
 
-    testEntityCrudService.update(crudDao, testEntityDto);
+    testEntityCrudService.update(testEntityDto);
     // No exception thrown
   }
 
-  /** delete entity test. */
+  /**
+   * delete entity test.
+   */
   @Test
   public void deleteTest() {
-    TestEntity testEntity = testEntityCrudService.delete(crudDao, 1L);
+    TestEntity testEntity = testEntityCrudService.delete(1L);
     assertNotNull(testEntity);
   }
 }

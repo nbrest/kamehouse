@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.persistence.Column;
@@ -50,7 +51,9 @@ public class KameHouseRole implements KameHouseEntity<KameHouseRoleDto>, Granted
     dto.setId(getId());
     dto.setName(getName());
     if (getKameHouseUser() != null) {
-      dto.setKameHouseUser(getKameHouseUser().buildDto());
+      KameHouseUserDto kameHouseUser = new KameHouseUserDto();
+      kameHouseUser.setId(getKameHouseUser().getId());
+      dto.setKameHouseUser(kameHouseUser);
     }
     return dto;
   }

@@ -97,7 +97,11 @@ public class KameHouseUser implements PasswordEntity<String>, KameHouseEntity<Ka
     dto.setLastLogin(getLastLogin());
     if (authorities != null) {
       Set<KameHouseRoleDto> authoritiesDto = authorities.stream()
-          .map(entity -> entity.buildDto())
+          .map(entity -> {
+            KameHouseRoleDto roleDto = entity.buildDto();
+            roleDto.setKameHouseUser(dto);
+            return roleDto;
+          })
           .collect(Collectors.toSet());
       dto.setAuthorities(authoritiesDto);
     }
