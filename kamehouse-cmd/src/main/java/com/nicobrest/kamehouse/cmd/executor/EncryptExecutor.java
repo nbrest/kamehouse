@@ -21,7 +21,9 @@ public class EncryptExecutor {
 
   private final Logger logger = LoggerFactory.getLogger(EncryptExecutor.class);
 
-  /** Execute the operation. */
+  /**
+   * Execute the operation.
+   */
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String inputFileName = cmdArgumentHandler.getArgument("if");
     String outputFileName = cmdArgumentHandler.getArgument("of");
