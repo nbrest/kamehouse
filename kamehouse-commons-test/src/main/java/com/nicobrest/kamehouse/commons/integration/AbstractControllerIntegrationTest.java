@@ -108,6 +108,14 @@ public abstract class AbstractControllerIntegrationTest {
   }
 
   /**
+   * Execute a PUT request.
+   */
+  protected <T> HttpResponse put(String url) throws IOException {
+    HttpPut put = new HttpPut(url);
+    return getHttpClient().execute(put);
+  }
+
+  /**
    * Execute a DELETE request.
    */
   protected HttpResponse delete(String url) throws IOException {
