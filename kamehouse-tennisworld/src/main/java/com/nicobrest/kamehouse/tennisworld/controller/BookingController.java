@@ -23,9 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingController extends AbstractController {
 
-  @Autowired private BookingService bookingService;
+  @Autowired
+  private BookingService bookingService;
 
-  /** Process a tennis world booking request. */
+  /**
+   * Process a tennis world booking request.
+   */
   @PostMapping(path = "/bookings")
   @ResponseBody
   public ResponseEntity<BookingResponse> bookings(
@@ -44,7 +47,9 @@ public class BookingController extends AbstractController {
     }
   }
 
-  /** Trigger an execution to process all the scheduled bookings configured in the database. */
+  /**
+   * Trigger an execution to process all the scheduled bookings configured in the database.
+   */
   @PostMapping(path = "/scheduled-bookings")
   @ResponseBody
   public ResponseEntity<List<BookingResponse>> scheduledBookings() {

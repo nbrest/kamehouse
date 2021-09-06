@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcProcessController extends AbstractSystemCommandController {
 
-  /** Starts a vlc player in the local server. */
+  /**
+   * Starts a vlc player in the local server.
+   */
   @PostMapping(path = "/vlc-process")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> startVlcPlayer(
@@ -32,14 +34,18 @@ public class VlcProcessController extends AbstractSystemCommandController {
     return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(file));
   }
 
-  /** Stops vlc player in the local server. */
+  /**
+   * Stops vlc player in the local server.
+   */
   @DeleteMapping(path = "/vlc-process")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> stopVlcPlayer() {
     return execKameHouseSystemCommand(new VlcStopKameHouseSystemCommand());
   }
 
-  /** Gets the status of vlc player in the local server. */
+  /**
+   * Gets the status of vlc player in the local server.
+   */
   @GetMapping(path = "/vlc-process")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> statusVlcPlayer() {
