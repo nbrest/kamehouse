@@ -59,7 +59,6 @@ public class KameHouseCmdIntegrationTest {
     logger.info("Finished executing {} successfully", command);
   }
 
-
   @Test
   @Order(2)
   public void decryptTest() throws IOException, InterruptedException {

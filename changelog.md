@@ -2,7 +2,7 @@
 
 #### v6.07
 
-*
+* Fixed broken integration tests on linux
 
 #### v6.06
 
