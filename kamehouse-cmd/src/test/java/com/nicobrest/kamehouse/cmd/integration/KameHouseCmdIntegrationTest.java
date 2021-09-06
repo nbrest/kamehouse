@@ -62,7 +62,7 @@ public class KameHouseCmdIntegrationTest {
   @Order(2)
   public void decryptTest() throws IOException, InterruptedException {
     if (!ENCRYPTED_FILE.exists()) {
-      fail("Input encrypted file doesn't exist");
+      fail("Input encrypted file doesn't exist. Run encryptTest() first");
     }
     if (DECRYPTED_FILE.exists()) {
       DECRYPTED_FILE.delete();
