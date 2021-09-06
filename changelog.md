@@ -6,9 +6,11 @@
 * Fixed websockets for kame.com and going through vm-ubuntu.com
 * Added fallback synchronization of vlc player through http calls when the websockets are disconnected
 * Added a @Masked annotation to mask hidden fields on toString() calls
-* Added integration tests to replace my current postman tests
+* Added integration tests to all controllers replace my current postman tests
+* Added integration tests to kamehouse-cmd 
 * Refactored unit tests for cruds in controller, service and dao layers, moving most functionality to the abstract classes
 * Refactored crud controllers, services and daos moving more functionality to the abstract classes
+* Moved vlc player crud to a separate controller
 
 #### v6.05
 
