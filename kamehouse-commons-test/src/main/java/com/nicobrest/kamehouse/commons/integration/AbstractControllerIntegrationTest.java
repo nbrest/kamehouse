@@ -91,6 +91,14 @@ public abstract class AbstractControllerIntegrationTest {
   }
 
   /**
+   * Execute a POST request.
+   */
+  protected <T> HttpResponse post(String url) throws IOException {
+    HttpPost post = new HttpPost(url);
+    return getHttpClient().execute(post);
+  }
+
+  /**
    * Execute a PUT request.
    */
   protected <T> HttpResponse put(String url, T requestBody) throws IOException {
