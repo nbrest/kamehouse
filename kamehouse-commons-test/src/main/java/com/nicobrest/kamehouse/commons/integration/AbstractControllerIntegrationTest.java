@@ -152,8 +152,13 @@ public abstract class AbstractControllerIntegrationTest {
     ObjectMapper mapper = new ObjectMapper();
     String responseBodyString = new String(response.getEntity().getContent().readAllBytes(),
         Charsets.UTF_8);
-    T responseBody = mapper.readValue(responseBodyString,
-        mapper.getTypeFactory().constructType(clazz));
+    T responseBody;
+    if (clazz == String.class) {
+      responseBody = (T) responseBodyString;
+    } else {
+      responseBody = mapper.readValue(responseBodyString,
+          mapper.getTypeFactory().constructType(clazz));
+    }
     return responseBody;
   }
 
