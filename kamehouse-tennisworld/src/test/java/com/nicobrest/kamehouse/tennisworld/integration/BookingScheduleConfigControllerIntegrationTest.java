@@ -16,7 +16,7 @@ public class BookingScheduleConfigControllerIntegrationTest
 
   @Override
   public String getWebapp() {
-    return "/kame-house-tennisworld";
+    return "kame-house-tennisworld";
   }
 
   @Override

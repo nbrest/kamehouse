@@ -4,14 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractCrudControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,7 @@ public class VlcPlayerControllerIntegrationTest
 
   @Override
   public String getWebapp() {
-    return "/kame-house-vlcrc";
+    return "kame-house-vlcrc";
   }
 
   @Override
@@ -66,11 +64,10 @@ public class VlcPlayerControllerIntegrationTest
   public void loadUserByHostnameTest() throws Exception {
     logger.info("Running loadUserByHostnameTest");
     String hostname = getDto().getHostname();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "hostname/" + hostname);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "hostname/" + hostname);
 
-    verifySuccessfulResponse(response);
+    verifySuccessfulResponse(response, VlcPlayer.class);
   }
 
   /**
@@ -81,9 +78,8 @@ public class VlcPlayerControllerIntegrationTest
   public void loadUserByHostnameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByHostnameNotFoundExceptionTest");
     String invalidHostname = "invalid-" + getDto().getHostname();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "hostname/" + invalidHostname);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "hostname/" + invalidHostname);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByHostnameNotFoundExceptionTest completed successfully");

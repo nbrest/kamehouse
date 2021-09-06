@@ -7,11 +7,9 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,7 @@ public class KameHouseUserControllerIntegrationTest
 
   @Override
   public String getWebapp() {
-    return "/kame-house-admin";
+    return "kame-house-admin";
   }
 
   @Override
@@ -64,11 +62,10 @@ public class KameHouseUserControllerIntegrationTest
   public void loadUserByUsernameTest() throws Exception {
     logger.info("Running loadUserByUsernameTest");
     String username = getDto().getUsername();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "username/" + username);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "username/" + username);
 
-    verifySuccessfulResponse(response);
+    verifySuccessfulResponse(response, KameHouseUser.class);
   }
 
   /**
@@ -79,9 +76,8 @@ public class KameHouseUserControllerIntegrationTest
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByUsernameNotFoundExceptionTest");
     String invalidUsername = "invalid-" + getDto().getUsername();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "username/" + invalidUsername);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "username/" + invalidUsername);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByUsernameNotFoundExceptionTest completed successfully");

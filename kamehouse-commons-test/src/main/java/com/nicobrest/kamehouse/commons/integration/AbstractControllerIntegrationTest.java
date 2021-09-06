@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
@@ -19,7 +20,10 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
@@ -32,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author nbrest
  */
-public class AbstractControllerIntegrationTest {
+public abstract class AbstractControllerIntegrationTest {
 
   private static final String LOGIN_CREDENTIALS_FILE =
       "/home-synced/.kamehouse/integration-test-cred.enc";
@@ -48,13 +52,18 @@ public class AbstractControllerIntegrationTest {
   private HttpClient httpClient;
 
   /**
+   * Get the webapp to connect to on the integration tests. Ej. "kame-house-admin".
+   */
+  public abstract String getWebapp();
+
+  /**
    * Init integration tests class.
    */
   public AbstractControllerIntegrationTest() {
     protocol = PropertiesUtils.getProperty("integration.tests.protocol", "http://");
     hostname = PropertiesUtils.getProperty("integration.tests.hostname", "localhost");
     port = PropertiesUtils.getProperty("integration.tests.port", "9980");
-    logger.info("Base url for integration tests: " + getBaseUrl());
+    logger.info("Base url for integration tests: " + getWebappUrl());
     setHttpClient();
   }
 
@@ -64,6 +73,40 @@ public class AbstractControllerIntegrationTest {
   @BeforeEach
   public void beforeTest() throws IOException {
     login();
+  }
+
+  /**
+   * Execute a GET request.
+   */
+  protected HttpResponse get(String url) throws IOException {
+    HttpGet get = HttpClientUtils.httpGet(url);
+    return getHttpClient().execute(get);
+  }
+
+  /**
+   * Execute a POST request.
+   */
+  protected <T> HttpResponse post(String url, T requestBody) throws IOException {
+    HttpPost post = new HttpPost(url);
+    post.setEntity(getRequestBody(requestBody));
+    return getHttpClient().execute(post);
+  }
+
+  /**
+   * Execute a PUT request.
+   */
+  protected <T> HttpResponse put(String url, T requestBody) throws IOException {
+    HttpPut put = new HttpPut(url);
+    put.setEntity(getRequestBody(requestBody));
+    return getHttpClient().execute(put);
+  }
+
+  /**
+   * Execute a DELETE request.
+   */
+  protected HttpResponse delete(String url) throws IOException {
+    HttpDelete delete = new HttpDelete(url);
+    return getHttpClient().execute(delete);
   }
 
   /**
@@ -78,6 +121,13 @@ public class AbstractControllerIntegrationTest {
    */
   protected String getBaseUrl() {
     return protocol + hostname + ":" + port;
+  }
+
+  /**
+   * Get the url for the specified webapp.
+   */
+  protected String getWebappUrl() {
+    return getBaseUrl() + "/" + getWebapp();
   }
 
   /**
@@ -114,14 +164,42 @@ public class AbstractControllerIntegrationTest {
     return responseBody;
   }
 
+
+  /**
+   * Verify the response status is Created and it contains a response body.
+   */
+  protected <T> T verifySuccessfulCreatedResponse(HttpResponse response, Class<T> clazz)
+      throws IOException {
+    assertEquals(HttpStatus.SC_CREATED, response.getStatusLine().getStatusCode());
+    T responseBody = getResponseBody(response, clazz);
+    assertNotNull(responseBody);
+    logger.info("Response body {}", responseBody);
+    return responseBody;
+  }
+
   /**
    * Verify the response status is OK and it contains a response body.
    */
-  protected void verifySuccessfulResponse(HttpResponse response) throws IOException {
+  protected <T> T verifySuccessfulResponse(HttpResponse response, Class<T> clazz)
+      throws IOException {
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-    Object responseBody = getResponseBody(response, Object.class);
+    T responseBody = getResponseBody(response, clazz);
     assertNotNull(responseBody);
     logger.info("Response body {}", responseBody);
+    return responseBody;
+  }
+
+  /**
+   * Verify the response status is OK and it contains a response body.
+   */
+  protected <T> List<T> verifySuccessfulResponseList(HttpResponse response, Class<T> clazz)
+      throws IOException {
+    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+    List<T> responseBody = getResponseBodyList(response, clazz);
+    assertNotNull(responseBody);
+    assertTrue(responseBody.size() > 0);
+    logger.info("Response body {}", responseBody);
+    return responseBody;
   }
 
   /**

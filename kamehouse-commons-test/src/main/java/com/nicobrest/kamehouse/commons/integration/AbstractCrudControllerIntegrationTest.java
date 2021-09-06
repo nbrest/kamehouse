@@ -1,20 +1,12 @@
 package com.nicobrest.kamehouse.commons.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
-import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -49,11 +41,6 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    * Get test utils.
    */
   public abstract TestUtils<E, D> getTestUtils();
-
-  /**
-   * Webapp to connect to.
-   */
-  public abstract String getWebapp();
 
   /**
    * Get crud suffix for the url.
@@ -100,6 +87,13 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   }
 
   /**
+   * Crud url to execute operations.
+   */
+  protected String getCrudUrl() {
+    return getWebappUrl() + getCrudUrlSuffix();
+  }
+
+  /**
    * Creates an entity.
    */
   @Test
@@ -107,16 +101,11 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   public void createTest() throws Exception {
     logger.info("Running createTest");
     dto = buildDto(testUtils.getTestDataDto());
-    HttpPost httpPost = new HttpPost(getCrudUrl());
-    httpPost.setEntity(getRequestBody(dto));
     logger.info("Creating entity {}", dto);
 
-    HttpResponse response = getHttpClient().execute(httpPost);
+    HttpResponse response = post(getCrudUrl(), dto);
 
-    assertEquals(HttpStatus.SC_CREATED, response.getStatusLine().getStatusCode());
-    Long responseBody = getResponseBody(response, Long.class);
-    assertNotNull(responseBody);
-    createdId = responseBody;
+    createdId = verifySuccessfulCreatedResponse(response, Long.class);
     logger.info("Created id {}", createdId);
   }
 
@@ -131,11 +120,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
       return;
     }
     logger.info("Running createConflictExceptionTest createdId {}", createdId);
-    HttpPost httpPost = new HttpPost(getCrudUrl());
-    httpPost.setEntity(getRequestBody(dto));
     logger.info("Creating entity {}", dto);
 
-    HttpResponse response = getHttpClient().execute(httpPost);
+    HttpResponse response = post(getCrudUrl(), dto);
 
     assertEquals(HttpStatus.SC_CONFLICT, response.getStatusLine().getStatusCode());
     logger.info("createConflictExceptionTest completed successfully");
@@ -148,11 +135,10 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   @Order(3)
   public void readTest() throws Exception {
     logger.info("Running readTest with id {}", createdId);
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + createdId);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + createdId);
 
-    verifySuccessfulResponse(response);
+    verifySuccessfulResponse(response, getEntityClass());
   }
 
   /**
@@ -162,15 +148,10 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   @Order(4)
   public void readAllTest() throws Exception {
     logger.info("Running readAllTest");
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl());
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl());
 
-    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-    List<E> responseBody = getResponseBodyList(response, entityClass);
-    assertNotNull(responseBody);
-    assertTrue(responseBody.size() > 0);
-    logger.info("Response body {}", responseBody);
+    verifySuccessfulResponseList(response, getEntityClass());
   }
 
   /**
@@ -182,11 +163,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
     logger.info("Running updateTest with id {}", createdId);
     updateDto(dto);
     dto.setId(createdId);
-    HttpPut httpPut = new HttpPut(getCrudUrl() + createdId);
-    httpPut.setEntity(getRequestBody(dto));
     logger.info("Updating entity {}", dto);
 
-    HttpResponse response = getHttpClient().execute(httpPut);
+    HttpResponse response = put(getCrudUrl() + createdId, dto);
 
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     logger.info("updateTest completed successfully");
@@ -199,11 +178,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   @Order(6)
   public void updateInvalidPathId() throws Exception {
     logger.info("Running updateInvalidPathId with id {}", createdId + createdId);
-    HttpPut httpPut = new HttpPut(getCrudUrl() + createdId + createdId);
-    httpPut.setEntity(getRequestBody(dto));
     logger.info("Updating entity {}", dto);
 
-    HttpResponse response = getHttpClient().execute(httpPut);
+    HttpResponse response = put(getCrudUrl() + createdId + createdId, dto);
 
     assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusLine().getStatusCode());
     logger.info("updateInvalidPathId completed successfully");
@@ -218,11 +195,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
     Long invalidId = createdId * 2;
     logger.info("Running updateNotFoundExceptionTest with id {}", invalidId);
     dto.setId(invalidId);
-    HttpPut httpPut = new HttpPut(getCrudUrl() + invalidId);
-    httpPut.setEntity(getRequestBody(dto));
     logger.info("Updating entity {}", dto);
 
-    HttpResponse response = getHttpClient().execute(httpPut);
+    HttpResponse response = put(getCrudUrl() + invalidId, dto);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("updateNotFoundExceptionTest completed successfully");
@@ -235,9 +210,8 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   @Order(8)
   public void deleteTest() throws Exception {
     logger.info("Running deleteTest with id {}", createdId);
-    HttpDelete httpDelete = new HttpDelete(getCrudUrl() + createdId);
 
-    HttpResponse response = getHttpClient().execute(httpDelete);
+    HttpResponse response = delete(getCrudUrl() + createdId);
 
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     logger.info("deleteTest completed successfully");
@@ -250,18 +224,10 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   @Order(9)
   public void deleteNotFoundExceptionTest() throws Exception {
     logger.info("Running deleteNotFoundExceptionTest with id {}", createdId);
-    HttpDelete httpDelete = new HttpDelete(getCrudUrl() + createdId);
 
-    HttpResponse response = getHttpClient().execute(httpDelete);
+    HttpResponse response = delete(getCrudUrl() + createdId);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("deleteNotFoundExceptionTest completed successfully");
-  }
-
-  /**
-   * Crud url to execute operations.
-   */
-  protected String getCrudUrl() {
-    return getBaseUrl() + getWebapp() + getCrudUrlSuffix();
   }
 }

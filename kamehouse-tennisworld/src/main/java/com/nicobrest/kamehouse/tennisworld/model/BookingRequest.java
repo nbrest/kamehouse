@@ -3,7 +3,6 @@ package com.nicobrest.kamehouse.tennisworld.model;
 import static javax.persistence.TemporalType.DATE;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;

@@ -4,14 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractCrudControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,7 @@ public class DragonBallUserControllerIntegrationTest
 
   @Override
   public String getWebapp() {
-    return "/kame-house-testmodule";
+    return "kame-house-testmodule";
   }
 
   @Override
@@ -66,11 +64,10 @@ public class DragonBallUserControllerIntegrationTest
   public void loadUserByUsernameTest() throws Exception {
     logger.info("Running loadUserByUsernameTest");
     String username = getDto().getUsername();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "username/" + username);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "username/" + username);
 
-    verifySuccessfulResponse(response);
+    verifySuccessfulResponse(response, DragonBallUser.class);
   }
 
   /**
@@ -81,9 +78,8 @@ public class DragonBallUserControllerIntegrationTest
   public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByUsernameNotFoundExceptionTest");
     String invalidUsername = "invalid-" + getDto().getUsername();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "username/" + invalidUsername);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "username/" + invalidUsername);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByUsernameNotFoundExceptionTest completed successfully");
@@ -97,11 +93,10 @@ public class DragonBallUserControllerIntegrationTest
   public void loadUserByEmailTest() throws Exception {
     logger.info("Running loadUserByEmailTest");
     String email = getDto().getEmail();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "emails?email=" + email);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "emails?email=" + email);
 
-    verifySuccessfulResponse(response);
+    verifySuccessfulResponse(response, DragonBallUser.class);
   }
 
   /**
@@ -112,9 +107,8 @@ public class DragonBallUserControllerIntegrationTest
   public void loadUserByEmailNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByEmailNotFoundExceptionTest");
     String invalidEmail = "invalid-" + getDto().getEmail();
-    HttpGet get = HttpClientUtils.httpGet(getCrudUrl() + "emails?email=" + invalidEmail);
 
-    HttpResponse response = getHttpClient().execute(get);
+    HttpResponse response = get(getCrudUrl() + "emails?email=" + invalidEmail);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByEmailNotFoundExceptionTest completed successfully");
