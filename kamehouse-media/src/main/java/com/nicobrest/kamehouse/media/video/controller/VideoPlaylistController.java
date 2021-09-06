@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/media/video")
 public class VideoPlaylistController extends AbstractController {
 
-  @Autowired private VideoPlaylistService videoPlaylistService;
+  @Autowired
+  private VideoPlaylistService videoPlaylistService;
 
-  /** Gets all video playlists. */
+  /**
+   * Gets all video playlists.
+   */
   @GetMapping(path = "/playlists")
   @ResponseBody
   public ResponseEntity<List<Playlist>> getAll() {
@@ -31,7 +34,9 @@ public class VideoPlaylistController extends AbstractController {
     return generateGetResponseEntity(videoPlaylists);
   }
 
-  /** Gets a video playlist specified as a url parameter. */
+  /**
+   * Gets a video playlist specified as a url parameter.
+   */
   @GetMapping(path = "/playlist")
   @ResponseBody
   public ResponseEntity<Playlist> getPlaylist(
