@@ -23,9 +23,12 @@ public class VlcRcWebSocketController {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired private VlcRcService vlcRcService;
+  @Autowired
+  private VlcRcService vlcRcService;
 
-  /** Processes the websocket input request for vlc player status. */
+  /**
+   * Processes the websocket input request for vlc player status.
+   */
   @MessageMapping("/vlc-player/status-in")
   @SendTo("/topic/vlc-player/status-out")
   public VlcRcStatus getVlcRcStatus() {
@@ -44,7 +47,9 @@ public class VlcRcWebSocketController {
     return vlcRcStatus;
   }
 
-  /** Processes the websocket input request for vlc player playlist. */
+  /**
+   * Processes the websocket input request for vlc player playlist.
+   */
   @MessageMapping("/vlc-player/playlist-in")
   @SendTo("/topic/vlc-player/playlist-out")
   public List<VlcRcPlaylistItem> getPlaylist() {

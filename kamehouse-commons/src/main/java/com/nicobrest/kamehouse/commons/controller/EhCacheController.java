@@ -23,9 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/commons/ehcache")
 public class EhCacheController extends AbstractController {
 
-  @Autowired private EhCacheService ehCacheService;
+  @Autowired
+  private EhCacheService ehCacheService;
 
-  /** Returns the status of all the ehcaches or the cache specified as a parameter. */
+  /**
+   * Returns the status of all the ehcaches or the cache specified as a parameter.
+   */
   @GetMapping
   @ResponseBody
   public ResponseEntity<List<ApplicationCache>> read(
@@ -43,7 +46,9 @@ public class EhCacheController extends AbstractController {
     return generateGetResponseEntity(cacheList, false);
   }
 
-  /** Clears all the ehcaches or the cache specified as a parameter. */
+  /**
+   * Clears all the ehcaches or the cache specified as a parameter.
+   */
   @DeleteMapping
   public ResponseEntity<Void> clear(
       @RequestParam(value = "name", required = false) String cacheName) {
