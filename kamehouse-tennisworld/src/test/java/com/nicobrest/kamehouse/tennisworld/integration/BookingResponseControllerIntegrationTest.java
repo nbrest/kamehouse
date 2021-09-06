@@ -69,7 +69,6 @@ public class BookingResponseControllerIntegrationTest
   @Order(1)
   @Override
   public void createTest() throws Exception {
-    bookingRequestControllerIntegrationTest.beforeTest();
     bookingRequestControllerIntegrationTest.createTest();
     super.createTest();
   }
@@ -82,7 +81,6 @@ public class BookingResponseControllerIntegrationTest
   @Override
   public void deleteTest() throws Exception {
     super.deleteTest();
-    bookingRequestControllerIntegrationTest.beforeTest();
     bookingRequestControllerIntegrationTest.deleteTest();
   }
 }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
@@ -27,7 +28,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
-import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,14 +65,12 @@ public abstract class AbstractControllerIntegrationTest {
     port = PropertiesUtils.getProperty("integration.tests.port", "9980");
     logger.info("Base url for integration tests: " + getWebappUrl());
     setHttpClient();
-  }
-
-  /**
-   * Init tests.
-   */
-  @BeforeEach
-  public void beforeTest() throws IOException {
-    login();
+    try {
+      login();
+    } catch (IOException e) {
+      logger.info("Error logging in to {}", getLoginUrl());
+      throw new KameHouseException("Error logging in to " + getLoginUrl());
+    }
   }
 
   /**
@@ -220,6 +218,7 @@ public abstract class AbstractControllerIntegrationTest {
    * Execute a login to the specified server.
    */
   private void login() throws IOException {
+    logger.info("Logging in to {}", getLoginUrl());
     httpClient.execute(getLoginRequest());
   }
 
