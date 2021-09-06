@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
  */
 public class SystemStateControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
-  private static final String SYSTEM_STATE_API = "/api/v1/admin/system-state";
+  private static final String API_URL = "/api/v1/admin/system-state";
 
   @Override
   public String getWebapp() {
@@ -23,7 +23,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   public void uptimeTest() throws Exception {
     logger.info("Running uptimeTest");
 
-    HttpResponse response = get(getWebappUrl() + SYSTEM_STATE_API + "/uptime");
+    HttpResponse response = get(getWebappUrl() + API_URL + "/uptime");
 
     verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }
@@ -32,7 +32,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   public void freeTest() throws Exception {
     logger.info("Running freeTest");
 
-    HttpResponse response = get(getWebappUrl() + SYSTEM_STATE_API + "/free");
+    HttpResponse response = get(getWebappUrl() + API_URL + "/free");
 
     verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }
@@ -41,7 +41,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   public void dfTest() throws Exception {
     logger.info("Running dfTest");
 
-    HttpResponse response = get(getWebappUrl() + SYSTEM_STATE_API + "/df");
+    HttpResponse response = get(getWebappUrl() + API_URL + "/df");
 
     verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }
@@ -50,7 +50,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   public void httpdStatusTest() throws Exception {
     logger.info("Running httpdStatusTest");
 
-    HttpResponse response = get(getWebappUrl() + SYSTEM_STATE_API + "/httpd");
+    HttpResponse response = get(getWebappUrl() + API_URL + "/httpd");
 
     verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }
@@ -59,7 +59,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   public void httpdRestartTest() throws Exception {
     logger.info("Running httpdRestartTest");
 
-    HttpResponse response = post(getWebappUrl() + SYSTEM_STATE_API + "/httpd");
+    HttpResponse response = post(getWebappUrl() + API_URL + "/httpd");
 
     verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
  */
 public class SessionStatusControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
-  private static final String STATUS_API = "/api/v1/ui/session/status";
+  private static final String API_URL = "/api/v1/ui/session/status";
 
   @Override
   public String getWebapp() {
@@ -23,7 +23,7 @@ public class SessionStatusControllerIntegrationTest extends AbstractControllerIn
   public void sessionStatusTest() throws Exception {
     logger.info("Running sessionStatusTest");
 
-    HttpResponse response = get(getWebappUrl() + STATUS_API);
+    HttpResponse response = get(getWebappUrl() + API_URL);
 
     verifySuccessfulResponse(response, SessionStatus.class);
   }
