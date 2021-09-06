@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/commons/module")
 public class ModuleStatusController extends AbstractController {
 
-  /** Gets the status of the current module. */
+  /**
+   * Gets the status of the current module.
+   */
   @GetMapping(path = "/status")
   @ResponseBody
   public ResponseEntity<Map<String, String>> getModuleStatus() {
