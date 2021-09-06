@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.07
+
+*
+
 #### v6.06
 
 * Updated jquery to it's latest version
