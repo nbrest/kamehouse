@@ -33,7 +33,7 @@ public class TennisWorldUser implements KameHouseEntity<TennisWorldUserDto>,
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "email", unique = true, nullable = false)
+  @Column(length = 50, name = "email", unique = true, nullable = false)
   private String email;
 
   @Masked

@@ -9,6 +9,8 @@ import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -103,7 +105,9 @@ public class KameHouseCmdIntegrationTest {
     if (PropertiesUtils.isWindowsHost()) {
       command = List.of("cmd.exe", "/c", GIT_BASH, "-c", KAMEHOUSE_CMD_WIN + getEncryptOperation());
     } else {
-      command = List.of("kamehouse-cmd.sh" + getEncryptOperation());
+      command = new ArrayList<>();
+      command.add("kamehouse-cmd.sh");
+      command.addAll(Arrays.asList(getEncryptOperation().split(" ")));
     }
     return command;
   }
@@ -116,7 +120,9 @@ public class KameHouseCmdIntegrationTest {
     if (PropertiesUtils.isWindowsHost()) {
       command = List.of("cmd.exe", "/c", GIT_BASH, "-c", KAMEHOUSE_CMD_WIN + getDecryptOperation());
     } else {
-      command = List.of("kamehouse-cmd.sh" + getDecryptOperation());
+      command = new ArrayList<>();
+      command.add("kamehouse-cmd.sh");
+      command.addAll(Arrays.asList(getDecryptOperation().split(" ")));
     }
     return command;
   }

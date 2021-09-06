@@ -7,7 +7,9 @@ import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
 
 /**
- * Integration tests for the BookingScheduleConfigController class.
+ * Integration tests for the BookingScheduleConfigController class. These integration tests require
+ * a TennisWorldUser with email 'goku@dbz.com' to exist in the local database. If it doesn't exist,
+ * the tests will fail.
  *
  * @author nbrest
  */
