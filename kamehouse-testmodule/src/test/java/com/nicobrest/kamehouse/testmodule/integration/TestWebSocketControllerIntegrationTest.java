@@ -18,7 +18,7 @@ public class TestWebSocketControllerIntegrationTest extends AbstractWebSocketInt
 
   @Override
   public String getWebSocketUrl() {
-    return getWebappUrl() + "/api/ws/test-module/websocket/";
+    return "/api/ws/test-module/websocket/";
   }
 
   @Override

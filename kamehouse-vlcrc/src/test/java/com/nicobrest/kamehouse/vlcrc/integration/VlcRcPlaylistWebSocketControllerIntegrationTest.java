@@ -2,33 +2,34 @@ package com.nicobrest.kamehouse.vlcrc.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractWebSocketIntegrationTest;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
+import java.util.List;
 
 /**
- * Integration tests for the VlcRcStatusWebSocketController class.
+ * Integration tests for the VlcRcPlaylistWebSocketController class.
  *
  * @author nbrest
  */
-public class VlcRcStatusWebSocketControllerIntegrationTest extends
+public class VlcRcPlaylistWebSocketControllerIntegrationTest extends
     AbstractWebSocketIntegrationTest {
 
   @Override
   public Class<?> getResponseClass() {
-    return VlcRcStatus.class;
+    return List.class;
   }
 
   @Override
   public String getWebSocketUrl() {
-    return "/api/ws/vlc-player/status/";
+    return "/api/ws/vlc-player/playlist/";
   }
 
   @Override
   public String getTopicUrl() {
-    return "/topic/vlc-player/status-out";
+    return "/topic/vlc-player/playlist-out";
   }
 
   @Override
   public String getPollUrl() {
-    return "/app/vlc-player/status-in";
+    return "/app/vlc-player/playlist-in";
   }
 
   @Override

@@ -26,9 +26,10 @@ import org.springframework.web.socket.sockjs.client.Transport;
  */
 public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrationTest {
 
-  protected int messageCount = 0;
+  private int timeoutMs = 10000;
+  private int expectedMessageCount = 5;
+  private int messageCount = 0;
   private StompSession stompSession;
-  private int sleepMs = 3000;
 
   /**
    * Get the class of the response of the websocket.
@@ -67,24 +68,41 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
     }
   }
 
-  public void setSleepMs(int sleepMs) {
-    this.sleepMs = sleepMs;
+  public void setExpectedMessageCount(int expectedMessageCount) {
+    this.expectedMessageCount = expectedMessageCount;
+  }
+
+  public void setTimeoutMs(int timeoutMs) {
+    this.timeoutMs = timeoutMs;
   }
 
   /**
    * Send a message to the websocket.
    */
   public void send() {
+    logger.info("Sending message to websocket");
     stompSession.send(getPollUrl(), getRequestPayload());
   }
 
   /**
    * Sleep the test to give time for the websockets to respond.
    */
-  protected void sleep() {
+  public void waitForMessages() {
     try {
-      logger.info("Sleeping for {} ms", sleepMs);
-      Thread.sleep(sleepMs);
+      logger.info("Waiting for messages to be received from the websocket");
+      int sleepMs = timeoutMs;
+      while (sleepMs > 0) {
+        if (messageCount >= expectedMessageCount) {
+          break;
+        }
+        sleepMs = sleepMs - 1000;
+        Thread.sleep(1000);
+      }
+      if (sleepMs <= 0) {
+        logger.warn("Timed out before receiving all messages");
+      } else {
+        logger.info("Received all expected messages from the websocket");
+      }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
@@ -96,12 +114,11 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
   @Test
   public void defaultWebSocketTest() {
     logger.info("Running defaultWebSocketTest");
-
-    send();
-    send();
-
-    sleep();
-    assertEquals(2, messageCount);
+    for (int i = 0; i < expectedMessageCount; i++) {
+      send();
+    }
+    waitForMessages();
+    assertEquals(expectedMessageCount, messageCount);
     logger.info("Finished defaultWebSocketTest successfully");
   }
 
@@ -111,7 +128,8 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
   private StompSession getStompSession() throws ExecutionException, InterruptedException {
     WebSocketStompClient stompClient = getStompClient();
     StompSessionHandler sessionHandler = getStompSessionHandler();
-    Future<StompSession> stompSessionFuture = stompClient.connect(getWebSocketUrl(),
+    Future<StompSession> stompSessionFuture = stompClient.connect(
+        getWebappUrl() + getWebSocketUrl(),
         sessionHandler);
     StompSession stompSession = stompSessionFuture.get();
     if (getTopicUrl() != null) {

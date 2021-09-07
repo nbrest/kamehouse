@@ -58,7 +58,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a GET request.
    */
-  protected HttpResponse get(String url) throws IOException {
+  public HttpResponse get(String url) throws IOException {
     HttpGet get = HttpClientUtils.httpGet(url);
     return getHttpClient().execute(get);
   }
@@ -66,7 +66,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a POST request.
    */
-  protected <T> HttpResponse post(String url, T requestBody) throws IOException {
+  public <T> HttpResponse post(String url, T requestBody) throws IOException {
     HttpPost post = new HttpPost(url);
     post.setEntity(getRequestBody(requestBody));
     return getHttpClient().execute(post);
@@ -75,7 +75,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a POST request.
    */
-  protected <T> HttpResponse post(String url) throws IOException {
+  public <T> HttpResponse post(String url) throws IOException {
     HttpPost post = new HttpPost(url);
     return getHttpClient().execute(post);
   }
@@ -83,7 +83,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a PUT request.
    */
-  protected <T> HttpResponse put(String url, T requestBody) throws IOException {
+  public <T> HttpResponse put(String url, T requestBody) throws IOException {
     HttpPut put = new HttpPut(url);
     put.setEntity(getRequestBody(requestBody));
     return getHttpClient().execute(put);
@@ -92,7 +92,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a PUT request.
    */
-  protected <T> HttpResponse put(String url) throws IOException {
+  public <T> HttpResponse put(String url) throws IOException {
     HttpPut put = new HttpPut(url);
     return getHttpClient().execute(put);
   }
@@ -100,7 +100,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a DELETE request.
    */
-  protected HttpResponse delete(String url) throws IOException {
+  public HttpResponse delete(String url) throws IOException {
     HttpDelete delete = new HttpDelete(url);
     return getHttpClient().execute(delete);
   }
@@ -108,14 +108,14 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Get the http client to execute requests.
    */
-  protected HttpClient getHttpClient() {
+  public HttpClient getHttpClient() {
     return httpClient;
   }
 
   /**
    * Get the request body from the entity.
    */
-  protected <T> HttpEntity getRequestBody(T object) throws IOException {
+  public <T> HttpEntity getRequestBody(T object) throws IOException {
     byte[] requestBody = JsonUtils.toJsonByteArray(object);
     return new ByteArrayEntity(requestBody, ContentType.APPLICATION_JSON);
   }
@@ -123,7 +123,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Gets the response body of the request as an object of the specified class.
    */
-  protected static <T> T getResponseBody(HttpResponse response, Class<T> clazz)
+  public static <T> T getResponseBody(HttpResponse response, Class<T> clazz)
       throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     String responseBodyString = new String(response.getEntity().getContent().readAllBytes(),
@@ -141,7 +141,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Gets the response body of the request as a list of objects of the specified class.
    */
-  protected static <T> List<T> getResponseBodyList(HttpResponse response, Class<T> clazz)
+  public static <T> List<T> getResponseBodyList(HttpResponse response, Class<T> clazz)
       throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     String responseBodyString = new String(response.getEntity().getContent().readAllBytes(),
@@ -155,7 +155,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Verify the response status is Created and it contains a response body.
    */
-  protected <T> T verifySuccessfulCreatedResponse(HttpResponse response, Class<T> clazz)
+  public <T> T verifySuccessfulCreatedResponse(HttpResponse response, Class<T> clazz)
       throws IOException {
     assertEquals(HttpStatus.SC_CREATED, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
@@ -167,7 +167,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Verify the response status is OK and it contains a response body.
    */
-  protected <T> T verifySuccessfulResponse(HttpResponse response, Class<T> clazz)
+  public <T> T verifySuccessfulResponse(HttpResponse response, Class<T> clazz)
       throws IOException {
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
@@ -179,7 +179,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Verify the response status is OK and it contains a response body.
    */
-  protected <T> List<T> verifySuccessfulResponseList(HttpResponse response, Class<T> clazz)
+  public <T> List<T> verifySuccessfulResponseList(HttpResponse response, Class<T> clazz)
       throws IOException {
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     List<T> responseBody = getResponseBodyList(response, clazz);

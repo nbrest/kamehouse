@@ -35,21 +35,21 @@ public abstract class AbstractIntegrationTest {
   /**
    * Set the protocol.
    */
-  protected void setProtocol(String protocol) {
+  public void setProtocol(String protocol) {
     this.protocol = protocol;
   }
 
   /**
    * Get the base url for all requests.
    */
-  protected String getBaseUrl() {
+  public String getBaseUrl() {
     return protocol + hostname + ":" + port;
   }
 
   /**
    * Get the url for the specified webapp.
    */
-  protected String getWebappUrl() {
+  public String getWebappUrl() {
     return getBaseUrl() + "/" + getWebapp();
   }
 }
