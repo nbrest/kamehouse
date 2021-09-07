@@ -24,7 +24,6 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
 
   protected TestUtils<E, D> testUtils;
 
-  private Class<E> entityClass;
   private D dto;
   private long createdId = -1;
 
@@ -32,7 +31,6 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    * Init abstract class.
    */
   public AbstractCrudControllerIntegrationTest() {
-    entityClass = getEntityClass();
     testUtils = getTestUtils();
     testUtils.initTestData();
   }

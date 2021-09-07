@@ -16,9 +16,12 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class TestWebSocketController {
 
-  @Autowired private TestWebSocketService testWebSocketService;
+  @Autowired
+  private TestWebSocketService testWebSocketService;
 
-  /** Processes the websocket input request. */
+  /**
+   * Processes the websocket input request.
+   */
   @MessageMapping("/test-module/websocket-in")
   @SendTo("/topic/test-module/websocket-out")
   public TestWebSocketResponseMessage testWebSocketProcess(
