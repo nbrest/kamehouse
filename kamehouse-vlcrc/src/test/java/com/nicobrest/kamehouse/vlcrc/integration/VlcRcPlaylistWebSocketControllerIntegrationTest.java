@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractWebSocketIntegrationTest;
-import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import java.util.List;
 
 /**
