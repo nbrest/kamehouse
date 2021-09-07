@@ -3,6 +3,7 @@
 #### v6.07
 
 * Fixed broken integration tests on linux
+* Added integration tests to websockets
 
 #### v6.06
 
@@ -14,7 +15,6 @@
 * Added integration tests to kamehouse-cmd 
 * Refactored unit tests for cruds in controller, service and dao layers, moving most functionality to the abstract classes
 * Refactored crud controllers, services and daos moving more functionality to the abstract classes
-* Added integration tests to websockets
 * Moved vlc player crud to a separate controller
 
 #### v6.05

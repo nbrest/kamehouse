@@ -41,4 +41,3 @@ public class VlcRcStatusWebSocketControllerIntegrationTest extends
     return "kame-house-vlcrc";
   }
 }
-
