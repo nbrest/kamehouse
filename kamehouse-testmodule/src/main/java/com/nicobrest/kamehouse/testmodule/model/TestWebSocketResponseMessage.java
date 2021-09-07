@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.util.Date;
 
 /**
@@ -26,5 +27,10 @@ public class TestWebSocketResponseMessage {
 
   public void setDate(Date date) {
     this.date = (date != null ? (Date) date.clone() : null);
+  }
+
+  @Override
+  public String toString() {
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }

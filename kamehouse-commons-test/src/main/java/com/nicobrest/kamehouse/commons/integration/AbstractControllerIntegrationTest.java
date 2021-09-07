@@ -28,42 +28,24 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class to group common integration tests functionality.
  *
  * @author nbrest
  */
-public abstract class AbstractControllerIntegrationTest {
+public abstract class AbstractControllerIntegrationTest extends AbstractIntegrationTest {
 
   private static final String LOGIN_CREDENTIALS_FILE =
       "/home-synced/.kamehouse/integration-test-cred.enc";
-
   private static final String LOGIN_URL = "/kame-house/login";
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-  private String protocol;
-  private String hostname;
-  private String port;
-
   private HttpClient httpClient;
-
-  /**
-   * Get the webapp to connect to on the integration tests. Ej. "kame-house-admin".
-   */
-  public abstract String getWebapp();
 
   /**
    * Init integration tests class.
    */
   public AbstractControllerIntegrationTest() {
-    protocol = PropertiesUtils.getProperty("integration.tests.protocol", "http://");
-    hostname = PropertiesUtils.getProperty("integration.tests.hostname", "localhost");
-    port = PropertiesUtils.getProperty("integration.tests.port", "9980");
-    logger.info("Base url for integration tests: " + getWebappUrl());
     setHttpClient();
     try {
       login();
@@ -128,20 +110,6 @@ public abstract class AbstractControllerIntegrationTest {
    */
   protected HttpClient getHttpClient() {
     return httpClient;
-  }
-
-  /**
-   * Get the base url for all requests.
-   */
-  protected String getBaseUrl() {
-    return protocol + hostname + ":" + port;
-  }
-
-  /**
-   * Get the url for the specified webapp.
-   */
-  protected String getWebappUrl() {
-    return getBaseUrl() + "/" + getWebapp();
   }
 
   /**

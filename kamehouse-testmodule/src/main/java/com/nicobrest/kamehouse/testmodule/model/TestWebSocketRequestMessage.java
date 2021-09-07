@@ -1,5 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
+import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+
 /**
  * Test WebSocket request message.
  *
@@ -24,5 +26,10 @@ public class TestWebSocketRequestMessage {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  @Override
+  public String toString() {
+    return JsonUtils.toJsonString(this, super.toString());
   }
 }
