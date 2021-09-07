@@ -40,9 +40,9 @@ buildProject() {
 
   if ${INTEGRATION_TESTS}; then
     if ${CONTINUE_ON_ERRORS}; then
-      MAVEN_COMMAND="mvn test-compile failsafe:integration-test"
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test -P ${MAVEN_PROFILE}"
     else
-      MAVEN_COMMAND="mvn test-compile failsafe:integration-test failsafe:verify"
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test failsafe:verify -P ${MAVEN_PROFILE}"
     fi
   fi
 
@@ -98,8 +98,9 @@ parseArguments() {
       
       if [ "${PROFILE_ARG}" != "prod" ] \
           && [ "${PROFILE_ARG}" != "qa" ] \
-          && [ "${PROFILE_ARG}" != "dev" ]; then
-        log.error "Option -p profile needs to be prod, qa or dev"
+          && [ "${PROFILE_ARG}" != "dev" ] \
+          && [ "${PROFILE_ARG}" != "ci" ]; then
+        log.error "Option -p profile needs to be prod, qa, dev or ci"
         printHelp
         exitProcess 1
       fi
@@ -126,7 +127,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i${COL_NORMAL} run integration tests only" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
-  echo -e "     ${COL_BLUE}-p (prod|qa|dev)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
+  echo -e "     ${COL_BLUE}-p (prod|qa|dev|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
   echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
 }
 

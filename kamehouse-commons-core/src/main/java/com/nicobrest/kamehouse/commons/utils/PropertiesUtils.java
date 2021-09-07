@@ -26,7 +26,7 @@ public class PropertiesUtils {
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
   private static final Properties properties = new Properties();
   private static final String COMMONS_POM_PROPERTIES =
-      "/META-INF/maven/" + "com.nicobrest/kamehouse-commons-core/pom.properties";
+      "/META-INF/maven/com.nicobrest/kamehouse-commons-core/pom.properties";
 
   static {
     loadAllPropertiesFiles();
