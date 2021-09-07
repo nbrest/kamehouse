@@ -93,7 +93,6 @@ It's currently running on a Raspberry Pi, so might not be up all the time
  dependencies are not installed though and it's not configured to execute shutdown or lock
   commands. So you can test the UI (remember I'm a backend developer :p) and some of the
    functionality in the VLC player and test module with some limitations. For example, AWS EC2
-
     Ubuntu's kernel isn't compiled with audio modules (not even dummy), so audio will always
      revert to 0%, even if you update it with the buttons or slider.~~
 
