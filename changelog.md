@@ -4,6 +4,7 @@
 
 * Fixed broken integration tests on linux
 * Added integration tests to websockets
+* Added ci maven profile for continuous integration and setup jenkins build to run all integration tests as well as unit tests
 
 #### v6.06
 
