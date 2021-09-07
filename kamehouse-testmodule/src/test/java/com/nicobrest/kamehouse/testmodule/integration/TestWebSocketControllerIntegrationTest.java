@@ -11,11 +11,9 @@ import com.nicobrest.kamehouse.testmodule.model.TestWebSocketResponseMessage;
  */
 public class TestWebSocketControllerIntegrationTest extends AbstractWebSocketIntegrationTest {
 
-  private Class<?> clazz = TestWebSocketResponseMessage.class;
-
   @Override
   public Class<?> getResponseClass() {
-    return clazz;
+    return TestWebSocketResponseMessage.class;
   }
 
   @Override
