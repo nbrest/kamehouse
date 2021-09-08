@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.08
+
+* Added sample vue.js app
+
 #### v6.07
 
 * Fixed broken integration tests on linux
