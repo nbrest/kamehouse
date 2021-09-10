@@ -36,15 +36,15 @@
   </repositories>
 
   <properties>
+    <filters.dir>${basedir}/../src/main/filters</filters.dir>
     <java.target.version>11</java.target.version>
+    <kamehouse.version>6.07.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
     <maven.compiler.source>${java.target.version}</maven.compiler.source>
     <maven.compiler.target>${java.target.version}</maven.compiler.target>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <kamehouse.version>6.07.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
-    <filters.dir>${basedir}/../src/main/filters</filters.dir>
-
+    <sonar.organization>nbrest</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    
     <!-- Updated : 2021/09 | Dependency version date: 2020/04 -->
     <assembly.plugin.version>3.3.0</assembly.plugin.version>
 
