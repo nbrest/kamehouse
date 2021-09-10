@@ -1,8 +1,6 @@
 ## Dev branch status:
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=com.nicobrest%3Ajava-web-kame-house&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.nicobrest%3Ajava-web-kame-house&branch=dev)
-[![CodeFactor](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/badge/dev)](https://www.codefactor.io/repository/github/nbrest/java.web.kamehouse/overview/dev)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d9e85a73da34684b042a6c85bd35607)](https://www.codacy.com/manual/nbrest/java.web.kamehouse?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nbrest/java.web.kamehouse&amp;utm_campaign=Badge_Grade)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nbrest_java.web.kamehouse&metric=alert_status)](https://sonarcloud.io/dashboard?id=nbrest_java.web.kamehouse)
 [![codecov](https://codecov.io/gh/nbrest/java.web.kamehouse/branch/dev/graph/badge.svg)](https://codecov.io/gh/nbrest/java.web.kamehouse)
 [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev)](https://github.com/nbrest/java.web.kamehouse/tree/dev)
  
