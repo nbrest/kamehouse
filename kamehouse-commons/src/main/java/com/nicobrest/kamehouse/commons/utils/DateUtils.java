@@ -12,6 +12,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to manipulate dates.
@@ -29,19 +31,25 @@ public class DateUtils {
     throw new IllegalStateException("Utility class");
   }
 
-  /** Add the specified amount of seconds to the date. */
+  /**
+   * Add the specified amount of seconds to the date.
+   */
   public static Date addSeconds(Date date, int seconds) {
     return org.apache.commons.lang3.time.DateUtils.addSeconds(date, seconds);
   }
 
-  /** Generate a cron expression from a Date. */
+  /**
+   * Generate a cron expression from a Date.
+   */
   public static String toCronExpression(Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
     return toCronExpression(calendar);
   }
 
-  /** Generate a cron expression from a Calendar. */
+  /**
+   * Generate a cron expression from a Calendar.
+   */
   public static String toCronExpression(Calendar calendar) {
     int seconds = calendar.get(Calendar.SECOND);
     int minutes = calendar.get(Calendar.MINUTE);
@@ -55,13 +63,13 @@ public class DateUtils {
   /**
    * Generate a CRON expression is a string comprising 6 or 7 fields separated by white space.
    *
-   * @param seconds mandatory = yes. allowed values = {@code 0-59 * / , -}
-   * @param minutes mandatory = yes. allowed values = {@code 0-59 * / , -}
-   * @param hours mandatory = yes. allowed values = {@code 0-23 * / , -}
+   * @param seconds    mandatory = yes. allowed values = {@code 0-59 * / , -}
+   * @param minutes    mandatory = yes. allowed values = {@code 0-59 * / , -}
+   * @param hours      mandatory = yes. allowed values = {@code 0-23 * / , -}
    * @param dayOfMonth mandatory = yes. allowed values = {@code 1-31 * / , - ? L W}
-   * @param month mandatory = yes. allowed values = {@code 1-12 or JAN-DEC * / , -}
-   * @param dayOfWeek mandatory = yes. allowed values = {@code 0-6 or SUN-SAT * / , - ? L #}
-   * @param year mandatory = no. allowed values = {@code 1970–2099 * / , -}
+   * @param month      mandatory = yes. allowed values = {@code 1-12 or JAN-DEC * / , -}
+   * @param dayOfWeek  mandatory = yes. allowed values = {@code 0-6 or SUN-SAT * / , - ? L #}
+   * @param year       mandatory = no. allowed values = {@code 1970–2099 * / , -}
    * @return a CRON Formatted String.
    */
   public static String toCronExpression(
@@ -71,19 +79,25 @@ public class DateUtils {
         seconds, minutes, hours, dayOfMonth, month, dayOfWeek, year);
   }
 
-  /** Get the current date with hours set to 00:00. */
+  /**
+   * Get the current date with hours set to 00:00.
+   */
   public static Date getCurrentDate() {
     return new Date();
   }
 
-  /** Get a Date in the future with the specified days from today. */
+  /**
+   * Get a Date in the future with the specified days from today.
+   */
   public static Date getDateFromToday(Integer daysFromToday) {
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.DAY_OF_MONTH, daysFromToday);
     return calendar.getTime();
   }
 
-  /** Get the date for two weeks from the specified date. Used for scheduled cardio bookings. */
+  /**
+   * Get the date for two weeks from the specified date. Used for scheduled cardio bookings.
+   */
   public static Date getTwoWeeksFrom(Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
@@ -110,12 +124,16 @@ public class DateUtils {
     return calendar.getTime();
   }
 
-  /** Get the current date in the specified format pattern. Ej yyyy-MM-dd. */
+  /**
+   * Get the current date in the specified format pattern. Ej yyyy-MM-dd.
+   */
   public static String getFormattedDate(String pattern) {
     return getFormattedDate(pattern, new Date());
   }
 
-  /** Get the specified date in the specified format pattern. Ej yyyy-MM-dd. */
+  /**
+   * Get the specified date in the specified format pattern. Ej yyyy-MM-dd.
+   */
   public static String getFormattedDate(String pattern, Date date) {
     if (date == null) {
       return null;
@@ -178,7 +196,9 @@ public class DateUtils {
     return Math.abs(daysBetween);
   }
 
-  /** Returns true if afterDate is equal or after to beforeDate (ignoring timestamps). */
+  /**
+   * Returns true if afterDate is equal or after to beforeDate (ignoring timestamps).
+   */
   public static boolean isOnOrAfter(Date beforeDate, Date afterDate) {
     if (beforeDate == null || afterDate == null) {
       throw new KameHouseInvalidDataException("beforeDate and afterDate can't be null");
@@ -188,7 +208,9 @@ public class DateUtils {
     return daysBetween >= 0;
   }
 
-  /** Convert a Date to LocalDateTime. */
+  /**
+   * Convert a Date to LocalDateTime.
+   */
   public static LocalDateTime getLocalDateTime(Date date) {
     return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
   }
@@ -230,7 +252,9 @@ public class DateUtils {
     }
   }
 
-  /** Return the day of the week as {@link Day} for the specified date. */
+  /**
+   * Return the day of the week as {@link Day} for the specified date.
+   */
   public static Day getDay(Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
@@ -264,7 +288,9 @@ public class DateUtils {
     throw new IllegalArgumentException("Invalid dayOfWeek int parameter passed. Expected 1 to 7");
   }
 
-  /** Day of the week enum. */
+  /**
+   * Day of the week enum.
+   */
   public enum Day {
     SUNDAY("Sunday", 1),
     MONDAY("Monday", 2),
