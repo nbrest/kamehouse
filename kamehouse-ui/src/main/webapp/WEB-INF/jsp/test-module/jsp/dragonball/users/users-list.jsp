@@ -36,6 +36,7 @@
     %>
     <table class="table-kh">
       <caption class="hidden-kh">DragonBall Users</caption>
+      <thead class="hidden-kh"><tr><th>Header</th></tr></thead>
       <tbody id="dragonball-users-tbody">
       <!--
         <c:forEach items="${dragonBallUsers}" var="dragonBallUser">
