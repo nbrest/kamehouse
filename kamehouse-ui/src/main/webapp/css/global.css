@@ -55,7 +55,6 @@
 }
 
 .bg-none-kh {
-  background-color: transparent !important;
   background: none !important;
 }
 
@@ -338,7 +337,6 @@ body {
   padding: 15px;
   background: #060606;
   color: #c0c0c0;
-  padding: 15px;
 }
 
 .form-kh label {
@@ -487,7 +485,6 @@ html.wait, html.wait * {
   border: 1px solid #333333;
   display: block;
   width: 100%;
-  outline: none;
 }
 
 .landing-p-link:hover {
@@ -1006,7 +1003,6 @@ hr {
   font-weight: bold;
   width: 100%;
   display: table;
-  width: 100%;
 }
 
 @media (max-width : 900px) {
