@@ -1,6 +1,6 @@
 ## Dev branch status:
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nbrest_java.web.kamehouse&metric=alert_status)](https://sonarcloud.io/dashboard?id=nbrest_java.web.kamehouse)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=nbrest_java.web.kamehouse&metric=alert_status)](https://sonarcloud.io/dashboard?id=nbrest_java.web.kamehouse&branch=dev)
 [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/nbrest/java.web.kamehouse/dev)](https://github.com/nbrest/java.web.kamehouse/tree/dev)
  
 
