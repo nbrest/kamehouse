@@ -107,8 +107,8 @@ function VlcPlayer(hostname) {
     cookiesUtils.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId);
     // Update tab links
     const vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
-    for (const vlcPlayerTabLink of vlcPlayerTabLinks) {
-      domUtils.classListRemove(vlcPlayerTabLink, "active");
+    for (const vlcPlayerTabLinkElement of vlcPlayerTabLinks) {
+      domUtils.classListRemove(vlcPlayerTabLinkElement, "active");
     }
     const vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
     domUtils.classListAdd(vlcPlayerTabLink, "active");

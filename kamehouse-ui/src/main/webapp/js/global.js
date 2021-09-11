@@ -374,7 +374,8 @@ function CookiesUtils() {
     const name = cookieName + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
     const cookiesArray = decodedCookie.split(';');
-    for (let cookie of cookiesArray) {
+    for (const cookieElement of cookiesArray) {
+      let cookie = cookieElement;
       while (cookie.charAt(0) == ' ') {
         cookie = cookie.substring(1);
       }
@@ -845,7 +846,7 @@ function DomUtils() {
    */
   async function loadHtmlSnippet(htmlSnippetPath) {
     const htmlSnippetResponse = await fetch(htmlSnippetPath);
-    return await htmlSnippetResponse.text();
+    return htmlSnippetResponse.text();
   }
 
   /** Get a js script from the server. */
@@ -1022,7 +1023,7 @@ function TableUtils() {
       regex = new RegExp(filterString);
     } catch (error) {
       logger.error("Error creating regex from filter string " + filterString);
-      regex = new RegExp("");
+      regex = /""/;
     }
     tableRows.filter(function () {
       const tr = this;
@@ -1091,7 +1092,7 @@ function TableUtils() {
       regex = new RegExp(filterString);
     } catch (error) {
       logger.error("Error creating regex from filter string " + filterString);
-      regex = new RegExp("");
+      regex = /""/;
     }
     tableRows.filter(function () {
       const tr = this;
