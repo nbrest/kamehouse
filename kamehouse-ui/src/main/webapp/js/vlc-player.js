@@ -23,7 +23,7 @@ function mainVlcPlayer() {
   moduleUtils.waitForModules(["kameHouseDebugger"], () => {
     kameHouseDebugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
   });
-};
+}
 
 /**
  * Load the main vlc player object.

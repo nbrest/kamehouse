@@ -113,8 +113,8 @@ function DragonBallUserServiceJsp() {
     const $dragonBallUsersTbody = $('#dragonball-users-tbody');
     domUtils.empty($dragonBallUsersTbody);
     domUtils.append($dragonBallUsersTbody, await getDragonBallUserTableHeader());
-    for (let i = 0; i < dragonBallUsersList.length; i++) {
-      domUtils.append($dragonBallUsersTbody, getDragonBallUserTableRow(dragonBallUsersList[i]));
+    for (const dragonballUser of dragonBallUsersList) {
+      domUtils.append($dragonBallUsersTbody, getDragonBallUserTableRow(dragonballUser));
     }
   }
 

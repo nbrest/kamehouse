@@ -30,7 +30,6 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Fetch all DragonBallUsers.
    */
   function fetchAllDragonBallUsers() {
-    //console.log("fetchAllDragonBallUsers");
     dragonBallUserService.fetchAllDragonBallUsers()
       .then(
         (data) => self.users = data,
@@ -64,7 +63,6 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
         () => fetchAllDragonBallUsers(),
         (errResponse) => {
           console.error('Error while updating DragonBallUser');
-          //console.log(JSON.stringify(errResponse));
           redirectToErrorPage(errResponse.status);
         }
     );
@@ -89,11 +87,9 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    */
   function submit() {
     if (self.user.id === null) {
-      //console.log('Saving New DragonBallUser', self.user);
       createDragonBallUser(self.user);
     } else {
       updateDragonBallUser(self.user, self.user.id);
-      //console.log('DragonBallUser updated with id ', self.user.id);
     }
     reset();
   }
@@ -103,9 +99,9 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    */
   function edit(id) {
     console.log('id to be edited', id);
-    for (let i = 0; i < self.users.length; i++) {
-      if (self.users[i].id === id) {
-        self.user = angular.copy(self.users[i]);
+    for (const user of self.users) {
+      if (user.id === id) {
+        self.user = angular.copy(user);
         break;
       }
     }
@@ -115,7 +111,6 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Set the user to remove based on the id.
    */
   function remove(id) {
-    //console.log('id to be deleted', id);
     if (self.user.id === id) { //clean form if the user to be deleted is shown there.
       reset();
     }

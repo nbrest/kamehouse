@@ -48,16 +48,16 @@ function KameHouseWebappTabsManager() {
 
     // Update tab links
     const kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
-    for (let i = 0; i < kamehouseTabLinks.length; i++) {
-      domUtils.classListRemove(kamehouseTabLinks[i], "active");
+    for (const kamehouseTabLink of kamehouseTabLinks) {
+      domUtils.classListRemove(kamehouseTabLink, "active");
     }
     const selectedTabLink = document.getElementById(selectedTabDivId + '-link');
     domUtils.classListAdd(selectedTabLink, "active");
 
     // Update tab content visibility
     const kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");
-    for (let i = 0; i < kamehouseTabContent.length; i++) {
-      domUtils.setDisplay(kamehouseTabContent[i], "none");
+    for (const kamehouseTabContentElement of kamehouseTabContent) {
+      domUtils.setDisplay(kamehouseTabContentElement, "none");
     }
     const selectedTabDiv = document.getElementById(selectedTabDivId);
     domUtils.setDisplay(selectedTabDiv, "block");

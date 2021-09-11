@@ -114,7 +114,6 @@ function WebSocketKameHouse() {
       }
     } else {
       logger.error("stompClient is not set. Can't disconnect.");
-      return;
     }
   }
 

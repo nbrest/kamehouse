@@ -107,16 +107,16 @@ function VlcPlayer(hostname) {
     cookiesUtils.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId);
     // Update tab links
     const vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
-    for (let i = 0; i < vlcPlayerTabLinks.length; i++) {
-      domUtils.classListRemove(vlcPlayerTabLinks[i], "active");
+    for (const vlcPlayerTabLink of vlcPlayerTabLinks) {
+      domUtils.classListRemove(vlcPlayerTabLink, "active");
     }
     const vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
     domUtils.classListAdd(vlcPlayerTabLink, "active");
 
     // Update tab content visibility
     const vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
-    for (let i = 0; i < vlcPlayerTabContent.length; i++) {
-      domUtils.setDisplay(vlcPlayerTabContent[i], "none");
+    for (const vlcPlayerTabContentElement of vlcPlayerTabContent) {
+      domUtils.setDisplay(vlcPlayerTabContentElement, "none");
     }
     const vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
     domUtils.setDisplay(vlcPlayerTabDiv, "block");
@@ -218,7 +218,6 @@ function VlcPlayer(hostname) {
    * through this method.
    */
   function setVlcRcStatus(vlcRcStatusParam) {
-    //logger.trace("vlcRcStatus " + JSON.stringify(vlcRcStatusParam));
     if (!isEmpty(vlcRcStatusParam)) {
       vlcRcStatus = vlcRcStatusParam;
     } else {
@@ -391,7 +390,6 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update vlc player view for main view objects. */
   function updateView() {
-    //logger.info("updateView");
     if (!isEmpty(vlcPlayer.getVlcRcStatus())) {
       updateMediaTitle();
       updateTimeSlider();
@@ -438,7 +436,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     if (isEmpty(subtitleDelay)) {
       subtitleDelay = "0";
     }
-    domUtils.setHtml($("#subtitle-delay-value"), new String(subtitleDelay));
+    domUtils.setHtml($("#subtitle-delay-value"), String(subtitleDelay));
   }
 
   /** Reset subtitle delay. */
@@ -472,7 +470,6 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update the displayed current time. */
   function updateCurrentTimeView(value) {
-    //logger.trace("Current time: " + value);
     const currentTime = document.getElementById("current-time");
     domUtils.setInnerHtml(currentTime, timeUtils.convertSecondsToHsMsSs(value));
     domUtils.setVal($("#time-slider"), value);
@@ -480,7 +477,6 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update the displayed total time. */
   function updateTotalTimeView(value) {
-    //logger.trace("Total time: " + value);
     domUtils.setHtml($("#total-time"), timeUtils.convertSecondsToHsMsSs(value));
     domUtils.setAttr($("#time-slider"),'max', value);
   }
@@ -505,7 +501,6 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update volume percentage to display with the specified value. */
   function updateVolumeView(value) {
-    //logger.trace("Current volume value: " + value);
     domUtils.setVal($("#volume-slider"), value);
     const volumePercentaje = Math.floor(value * 200 / 512);
     const currentVolume = document.getElementById("current-volume");
@@ -666,7 +661,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     let failedCount = 0;
     while (isRunningSyncVlcRcStatusLoop) {
       logger.trace("Poll vlcRcStatus loop");
-      //logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
+      logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
       if (vlcRcStatusWebSocket.isConnected()) {
         // poll VlcRcStatus from the websocket.
         vlcRcStatusWebSocket.poll();
@@ -682,7 +677,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         }
       } else {
         vlcRcStatusPullWaitTimeMs = 3000;
-        //logger.trace("WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
+        logger.trace("WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
         vlcPlayer.resetView();
       }
       await sleep(vlcRcStatusPullWaitTimeMs);
@@ -833,10 +828,10 @@ function VlcPlayerPlaylist(vlcPlayer) {
     } else {
       tbodyFilenames = getPlaylistTbody();
       tbodyAbsolutePaths = getPlaylistTbody();
-      for (let i = 0; i < currentPlaylist.length; i++) {
-        const absolutePath = currentPlaylist[i].filename;
+      for (const currentPlaylistElement of currentPlaylist) {
+        const absolutePath = currentPlaylistElement.filename;
         const filename = fileUtils.getShortFilename(absolutePath);
-        const playlistElementId = currentPlaylist[i].id;
+        const playlistElementId = currentPlaylistElement.id;
         domUtils.append(tbodyFilenames, getPlaylistTr(filename, playlistElementId));
         domUtils.append(tbodyAbsolutePaths, getPlaylistTr(absolutePath, playlistElementId));
       }
@@ -847,32 +842,32 @@ function VlcPlayerPlaylist(vlcPlayer) {
   }
 
   /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */
-  function isPlaylistUpdated(currentPlaylist, updatedPlaylist) {
+  function isPlaylistUpdated(currentPls, updatedPls) {
     const MAX_COMPARISONS = 30;
     // For empty playlists, return true, so it updates the UI
-    if (isEmpty(currentPlaylist) || isEmpty(updatedPlaylist)) {
+    if (isEmpty(currentPls) || isEmpty(updatedPls)) {
       return true;
     }
     // If the sizes don't match, it's updated
-    if (currentPlaylist.length != updatedPlaylist.length) {
+    if (currentPls.length != updatedPls.length) {
       return true;
     }
     // If the sizes match, compare playlists elements in the specified increment. 
     // Don't check all filenames to avoid doing too many comparisons in very large playlists
     let step = 0;
-    if (currentPlaylist.length <= MAX_COMPARISONS) {
+    if (currentPls.length <= MAX_COMPARISONS) {
       step = 1;
     } else {
-      if ((currentPlaylist.length > MAX_COMPARISONS) &&
-        (currentPlaylist.length <= MAX_COMPARISONS * 2)) {
+      if ((currentPls.length > MAX_COMPARISONS) &&
+        (currentPls.length <= MAX_COMPARISONS * 2)) {
         step = 2;
       }
     }
     if (step == 0) {
-      step = Math.round(currentPlaylist.length / MAX_COMPARISONS);
+      step = Math.round(currentPls.length / MAX_COMPARISONS);
     }
-    for (let i = 0; i < currentPlaylist.length; i = i + step) {
-      if (currentPlaylist[i].filename != updatedPlaylist[i].filename) {
+    for (let i = 0; i < currentPls.length; i = i + step) {
+      if (currentPls[i].filename != updatedPls[i].filename) {
         return true;
       }
     }
@@ -893,7 +888,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** Highlight currently playing item in the playlist. */
   function highlightCurrentPlayingItem() {
     const currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
-    //logger.trace("currentPlId: " + currentPlId);
     const currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
     domUtils.removeClass($('#playlist-table-body tr td button'), "active");
     domUtils.addClass($("#" + currentPlIdAsRowId).children().children(), "active");

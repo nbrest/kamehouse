@@ -90,7 +90,6 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
   function generateConfig() {
     const config = {};
     config.headers = {};
-    //console.log("config" + JSON.stringify(config));
     return config;
   }
 }]);

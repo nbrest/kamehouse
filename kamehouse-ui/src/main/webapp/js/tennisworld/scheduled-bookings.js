@@ -3,7 +3,7 @@ var scheduledBookingService;
 function mainBook() {
   bannerUtils.setRandomPrinceOfTennisBanner();
   scheduledBookingService = new ScheduledBookingService();
-};
+}
 
 function ScheduledBookingService() {
 

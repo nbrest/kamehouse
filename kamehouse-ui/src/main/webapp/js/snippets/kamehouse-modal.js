@@ -122,7 +122,6 @@ function LoadingWheelModal() {
 function ModalUtils(modalId) {
 
   this.importSnippet = importSnippet;
-  this.setCloseOnClickOutsideModal = setCloseOnClickOutsideModal;
   this.open = open;
   this.openAutoCloseable = openAutoCloseable;
   this.close = close;
@@ -140,16 +139,6 @@ function ModalUtils(modalId) {
     domUtils.setOnClick(modalDivCloseBtn, () => close());
   }
 
-  /** When the user clicks anywhere outside of the modal, close it */
-  function setCloseOnClickOutsideModal() {
-    const modalDiv = document.getElementById(modalId);
-    domUtils.setOnClick(window, (event) => {
-      if (event.target == modalDiv) {
-        close();
-      }
-    });
-  }
-
   /** Open modal */
   function open(message) {
     if (!isEmpty(message)) {
@@ -157,7 +146,6 @@ function ModalUtils(modalId) {
     }
     const modal = document.getElementById(modalId);
     domUtils.setDisplay(modal, "block");
-    //setCloseOnClickOutsideModal();
   }
 
   /** Open auto closeable modal */
