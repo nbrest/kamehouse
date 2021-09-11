@@ -144,8 +144,8 @@ function PlaylistBrowser(vlcPlayer) {
     } else {
       tbodyFilenames = getPlaylistBrowserTbody();
       tbodyAbsolutePaths = getPlaylistBrowserTbody();
-      for (i = 0; i < currentPlaylist.files.length; i++) {
-        const absolutePath = currentPlaylist.files[i];
+      for (const file of currentPlaylist.files) {
+        const absolutePath = file;
         const filename = fileUtils.getShortFilename(absolutePath);
         domUtils.append(tbodyFilenames, getPlaylistBrowserTr(filename, absolutePath));
         domUtils.append(tbodyAbsolutePaths, getPlaylistBrowserTr(absolutePath, absolutePath));

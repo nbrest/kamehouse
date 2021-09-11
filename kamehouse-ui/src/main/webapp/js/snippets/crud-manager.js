@@ -310,8 +310,8 @@ function CrudManager() {
    */
   function updateEditFormFieldValues(entity, currentNodeColumns, parentNodeChain) {
     parentNodeChain = initParentNodeChain(parentNodeChain);
-    for (let i = 0; i < currentNodeColumns.length; i++) {
-      const column = currentNodeColumns[i];
+    for (const currentNodeColumn of currentNodeColumns) {
+      const column = currentNodeColumn;
       const type = column.type;
       const name = column.name;
       if (isObjectField(type)) {
@@ -329,9 +329,9 @@ function CrudManager() {
         domUtils.setVal(inputField, null);
         const array = entity[name];
         const arraySourceNode = document.getElementById(inputFieldId); 
-        for (let i = 0; i < array.length; i++) {
+        for (const arrayElement of array) {
           const newNode = domUtils.cloneNode(arraySourceNode, false);
-          domUtils.setValue(newNode, JSON.stringify(array[i], null, 4));
+          domUtils.setValue(newNode, JSON.stringify(arrayElement, null, 4));
           domUtils.setId(newNode, arraySourceNode.id + "-" + i);
           domUtils.classListAdd(newNode, "m-5-t-d-kh");
           domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
@@ -339,7 +339,7 @@ function CrudManager() {
         domUtils.removeChild(arraySourceNode.parentNode, arraySourceNode);
       }
       if (isBooleanField(type)) {
-        if (entity[name] == true || entity[name] == "true") {
+        if (entity[name]) {
           domUtils.setAttr(inputField, "checked", "true"); 
         }
       }
@@ -365,8 +365,8 @@ function CrudManager() {
     const crudTbody = $('#' + tbodyId);
     domUtils.empty(crudTbody);
     domUtils.append(crudTbody, getCrudTableHeader());
-    for (let i = 0; i < entities.length; i++) {
-      domUtils.append(crudTbody, getEntityTr(entities[i]));
+    for (const entity of entities) {
+      domUtils.append(crudTbody, getEntityTr(entity));
     }
     filterRows();
     reloadForm(addInputFieldsId);
@@ -417,8 +417,7 @@ function CrudManager() {
    */
   function createEntityRow(tr, entity, currentNodeColumns, parentNodeChain) {
     parentNodeChain= initParentNodeChain(parentNodeChain);
-    for (let i = 0; i < currentNodeColumns.length; i++) {
-      const column = currentNodeColumns[i];
+    for (const column of currentNodeColumns) {
       const type = column.type;
       const name = column.name;
       if (isObjectField(type)) {
@@ -444,7 +443,7 @@ function CrudManager() {
       }
       if (isBooleanField(type)) {
         let val;
-        if (entity[name] == "true" || entity[name] == true || entity[name] == "TRUE") {
+        if (entity[name]) {
           val = "true";
         } else {
           val = "false";
@@ -454,7 +453,7 @@ function CrudManager() {
       }
       domUtils.append(tr, domUtils.getTd({}, entity[name]));
     }
-  };
+  }
 
   /**
    * Returns a date field formatted.
@@ -591,8 +590,7 @@ function CrudManager() {
    */
   function setHeaderColumns(tr, currentNodeColumns, parentNodeChain, columnIndex) {
     parentNodeChain= initParentNodeChain(parentNodeChain);
-    for (let i = 0; i < currentNodeColumns.length; i++) {
-      const column = currentNodeColumns[i];
+    for (const column of currentNodeColumns) {
       const type = column.type;
       const name = column.name;
       if (isObjectField(type)) {
@@ -634,8 +632,7 @@ function CrudManager() {
    */
    function getFormFields(div, formFieldsId, currentNodeColumns, parentNodeChain) {
     parentNodeChain= initParentNodeChain(parentNodeChain);
-    for (let i = 0; i < currentNodeColumns.length; i++) {
-      const column = currentNodeColumns[i];
+    for (const column of currentNodeColumns) {
       const type = column.type;
       if (isObjectField(type)) {
         getFormFields(div, formFieldsId, column.columns, parentNodeChain + column.name);
@@ -889,8 +886,7 @@ function CrudManager() {
 
   function setEntityProperties(entity, formFieldsId, currentNodeColumns, parentNodeChain) {
     parentNodeChain = initParentNodeChain(parentNodeChain);
-    for (let i = 0; i < currentNodeColumns.length; i++) {
-      const column = currentNodeColumns[i];
+    for (const column of currentNodeColumns) {
       const type = column.type;
       const name = column.name;
       if (isObjectField(type)) {
@@ -921,12 +917,12 @@ function CrudManager() {
         const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
         const arrayType = column.arrayType;
         const arrayVal = [];
-        for (let i = 0; i < array.length; i++) {
-          if (!isEmpty(array[i].value) && array[i].value != "") {
+        for (const arrayElement of array) {
+          if (!isEmpty(arrayElement.value) && arrayElement.value != "") {
             if (isObjectField(arrayType)) {
-              arrayVal.push(JSON.parse(array[i].value));
+              arrayVal.push(JSON.parse(arrayElement.value));
             } else {
-              arrayVal.push(array[i].value);
+              arrayVal.push(arrayElement.value);
             }
           }
         }
@@ -960,19 +956,19 @@ function CrudManager() {
     tableUtils.filterTableRows("", 'crud-manager-tbody', null);
 
     const filters = document.getElementsByClassName("crud-manager-filter");
-    for (let i = 0; i < filters.length; i++) {
-      const filterString = filters[i].value;
-      logger.trace("Applying filter " + filters[i].id + " with string " + filterString);
+    for (const filter of filters) {
+      const filterString = filter.value;
+      logger.trace("Applying filter " + filter.id + " with string " + filterString);
       tableUtils.filterTableRows(filterString, 'crud-manager-tbody', null, true);
     }
 
     const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
-    for (let i = 0; i < columnFilters.length; i++) {
-      const filterString = columnFilters[i].value;
-      const columnNumber = columnFilters[i].dataset.columnNumber;
-      logger.trace("Applying filter " + columnFilters[i].id + " with string " + filterString);
+    for (const columnFilter of columnFilters) {
+      const filterString = columnFilter.value;
+      const columnNumber = columnFilter.dataset.columnNumber;
+      logger.trace("Applying filter " + columnFilter.id + " with string " + filterString);
       tableUtils.filterTableRowsByColumn(filterString, 'crud-manager-tbody', columnNumber, null, true);
-    } 
+    }
     
     const numRows = document.getElementById('num-rows').value;
     tableUtils.limitRows('crud-manager-table', numRows, true);
@@ -995,14 +991,14 @@ function CrudManager() {
     domUtils.setValue(document.getElementById('num-rows'), "");
     
     const filters = document.getElementsByClassName("crud-manager-filter");
-    for (let i = 0; i < filters.length; i++) {
-      filters[i].selectedIndex = -1;
+    for (const filter of filters) {
+      filter.selectedIndex = -1;
     }
 
     const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
-    for (let i = 0; i < columnFilters.length; i++) {
-      columnFilters[i].selectedIndex = -1;
-    } 
+    for (const columnFilter of columnFilters) {
+      columnFilter.selectedIndex = -1;
+    }
     
     readAll();
   }
