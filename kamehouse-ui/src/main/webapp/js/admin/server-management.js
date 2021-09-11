@@ -17,7 +17,7 @@ function mainServerManagement() {
     serverManager.getShutdownStatus(false);
     serverManager.getHttpdStatus(false);
   });
-};
+}
 
 function importServerManagementCss() {
   domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');

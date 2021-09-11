@@ -203,8 +203,8 @@ function EhCacheManager() {
    * Toggle cache view for all caches (expand/collapse).
    */
   function toggleAllCacheView(webapp) {
-    for (let i = 0; i < ehcacheToggleTableRowIds[webapp].length; i++) {
-      toggleCacheView(ehcacheToggleTableRowIds[webapp][i]);
+    for (const className of ehcacheToggleTableRowIds[webapp]) {
+      toggleCacheView(className);
     }
   }
 }
