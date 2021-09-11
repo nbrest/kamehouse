@@ -174,7 +174,6 @@ function ModalUtils(modalId) {
 
   /** Auto close modal after the specified miliseconds */
   async function autoClose(autoCloseMs) {
-    logger.trace(arguments.callee.name);
     if (isEmpty(autoCloseMs)) {
       logger.trace("autoCloseMs not set. Closing after default value of " + DEFAULT_AUTO_CLOSE_SEC + " ms");
       autoCloseMs = DEFAULT_AUTO_CLOSE_SEC;

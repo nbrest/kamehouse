@@ -58,7 +58,6 @@ function VlcPlayer(hostname) {
 
   /** Init VlcPlayer */
   function init() {
-    logger.debug(arguments.callee.name);
     loadStateFromCookies();
     playlist.init();
     loadStateFromApi();
@@ -256,7 +255,6 @@ function VlcPlayer(hostname) {
 
   /** Calls each internal module that has view logic to reset it's view. */
   function resetView() {
-    logger.debug(arguments.callee.name);
     setVlcRcStatus({});
     mainViewUpdater.resetView();
     playlist.resetView();
@@ -321,7 +319,6 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
 
   /** Create a vlcrc command with the parameters and execute the request to the server. */
   function execVlcRcCommand(name, val) {
-    logger.debug(arguments.callee.name);
     let requestBody;
     if (isEmpty(val)) {
       requestBody = {
@@ -338,7 +335,6 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
 
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
   function playFile(fileName) {
-    logger.debug(arguments.callee.name);
     logger.debug("File to play: " + fileName);
     const requestParam = "file=" + fileName;
     loadingWheelModal.open();
@@ -347,7 +343,6 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
 
   /** Close vlc player. */
   function close() {
-    logger.debug(arguments.callee.name);
     vlcPlayer.getRestClient().delete(vlcPlayerProcessControlUrl, null);
   }
 }
@@ -410,7 +405,6 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Reset vlc player view for main view objects. */
   function resetView() {
-    //logger.trace(arguments.callee.name);
     resetMediaTitle();
     resetTimeSlider();
     resetVolumeSlider();
@@ -590,7 +584,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   let isRunningSyncVlcPlayerHttpLoop = false;
 
   function setWebSockets() {
-    logger.trace(arguments.callee.name);
     const vlcRcStatusWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/status';
     const vlcRcStatusWebSocketPollUrl = "/app/vlc-player/status-in";
     const vlcRcStatusWebSocketTopicUrl = '/topic/vlc-player/status-out';
@@ -616,7 +609,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   /** Connects the websocket to the backend. */
   function connectVlcRcStatus() {
-    logger.debug(arguments.callee.name);
     vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
         vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
@@ -628,7 +620,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   /** Reconnects the VlcRcStatus websocket to the backend. */
   function reconnectVlcRcStatus() {
-    logger.debug(arguments.callee.name);
     vlcRcStatusWebSocket.disconnect();
     connectVlcRcStatus();
   }
@@ -639,7 +630,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    */
   /** Connects the playlist websocket to the backend. */
   function connectPlaylist() {
-    logger.debug(arguments.callee.name);
     playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
         vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
@@ -651,7 +641,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   /** Reconnects the playlist websocket to the backend. */
   function reconnectPlaylist() {
-    logger.debug(arguments.callee.name);
     playlistWebSocket.disconnect();
     connectPlaylist();
   }
@@ -807,7 +796,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Init Playlist. */
   function init() {
-    logger.debug(arguments.callee.name);
     domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
   }
 
@@ -913,7 +901,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Toggle expand or collapse filenames in the playlist */
   function toggleExpandPlaylistFilenames() {
-    logger.debug(arguments.callee.name);
     const filenamesFirstFile = $(tbodyFilenames).children().first().text();
     const currentFirstFile = $('#playlist-table-body tr:first').text();
     const $playlistTable = $('#playlist-table');
@@ -950,7 +937,6 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Scroll to the current playing element in the playlist. */
   function scrollToCurrentlyPlaying() {
-    //logger.debug(arguments.callee.name);
     const currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
     const $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
     if (!isEmpty($currentPlayingRow.length) && $currentPlayingRow.length != 0) {
@@ -1031,7 +1017,6 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute GET on the specified url and display the output in the debug table. */
   function get(url, updateCursor, successCallback, errorCallback) {
-    logger.debug(arguments.callee.name);
     if (updateCursor) {
       cursorUtils.setCursorWait();
     }
@@ -1057,7 +1042,6 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a POST request to the specified url with the specified request body. */
   function httpPost(url, requestBody) {
-    logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.post(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
@@ -1067,7 +1051,6 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a POST request to the specified url with the specified request url parameters. */
   function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback) {
-    logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
@@ -1092,7 +1075,6 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a DELETE request to the specified url with the specified request body. */
   function httpDelete(url, requestBody) {
-    logger.debug(arguments.callee.name);
     cursorUtils.setCursorWait();
     debuggerHttpClient.delete(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),

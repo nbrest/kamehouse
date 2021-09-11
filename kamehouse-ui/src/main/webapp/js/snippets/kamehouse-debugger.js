@@ -118,7 +118,6 @@ function KameHouseDebugger() {
    * Display debugger http client response data.
    */
   function displayResponseData(responseBody, responseCode) {
-    logger.trace(arguments.callee.name);
     const responseTimestamp = timeUtils.getTimestamp();
     domUtils.setHtml($("#debugger-http-client-res-code-val"), responseCode);
     domUtils.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
@@ -130,7 +129,6 @@ function KameHouseDebugger() {
    * Display debugger http client request data.
    */
   function displayRequestData(url, requestType, requestBody) {
-    logger.trace(arguments.callee.name);
     emptyDebuggerHttpClientDiv();
     domUtils.setInnerHtml(document.getElementById("debugger-http-client"), debuggerHttpClientDivTemplate);
     const requestTimestamp = timeUtils.getTimestamp();
@@ -182,7 +180,6 @@ function DebuggerHttpClient() {
    * data is any extra data I want to pass to the success and error functions
    */
   function get(url, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "GET", null);
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, "GET", null);
     httpClient.get(url, null,
@@ -196,7 +193,6 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    */
   function getUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "GET", null);
     const dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, "GET", null);
@@ -212,7 +208,6 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    */
   function put(url, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "PUT", requestBody);
     const requestHeaders = httpClient.getApplicationJsonHeaders();
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, "PUT", requestBody);
@@ -227,7 +222,6 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    */
   function putUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "PUT", null);
     const requestHeaders = httpClient.getUrlEncodedHeaders();
@@ -243,7 +237,6 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    */
   function post(url, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "POST", requestBody);
     const requestHeaders = httpClient.getApplicationJsonHeaders();
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, "POST", requestBody);
@@ -258,7 +251,6 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    */
   function postUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "POST", null);
     const requestHeaders = httpClient.getUrlEncodedHeaders();
@@ -274,7 +266,6 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    */
   function httpDelete(url, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     kameHouseDebugger.displayRequestData(url, "DELETE", requestBody);
     const requestHeaders = httpClient.getApplicationJsonHeaders();
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, "DELETE", null);
@@ -289,7 +280,6 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    */
   function deleteUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     const urlEncoded = encodeURI(url + "?" + requestParam);
     kameHouseDebugger.displayRequestData(urlEncoded, "POST", null);
     const requestHeaders = httpClient.getUrlEncodedHeaders();

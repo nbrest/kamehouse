@@ -28,7 +28,6 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Init Playlist Browser. */
   function init() {
-    logger.debug(arguments.callee.name);
     domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
   }
 
@@ -51,7 +50,6 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Returns the selected playlist from the dropdowns. */
   function getSelectedPlaylist() {
-    logger.debug(arguments.callee.name);
     const playlistSelected = document.getElementById("playlist-dropdown").value;
     logger.debug("Playlist selected: " + playlistSelected);
     return playlistSelected;
@@ -59,7 +57,6 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Populate playlist categories dropdown. */
   function populateVideoPlaylistCategories() {
-    logger.debug(arguments.callee.name);
     
     resetPlaylistDropdown();
     resetPlaylistCategoryDropdown();
@@ -102,7 +99,6 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Populate video playlists dropdown when a playlist category is selected. */
   function populateVideoPlaylists() {
-    logger.debug(arguments.callee.name);
     const playlistCategoriesList = document.getElementById('playlist-category-dropdown');
     const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
     logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
@@ -133,7 +129,6 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Play selected file in the specified VlcPlayer. */
   function playSelectedPlaylist() {
-    logger.debug(arguments.callee.name);
     const playlist = getSelectedPlaylist();
     vlcPlayer.playFile(playlist);
     vlcPlayer.openTab('tab-playlist');
@@ -142,7 +137,6 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Populate the playlist table for browsing. */
   function populatePlaylistBrowserTable() {
-    logger.trace(arguments.callee.name);
     const $playlistTableBody = $('#playlist-browser-table-body');
     domUtils.empty($playlistTableBody);
     if (isEmpty(currentPlaylist)) {
@@ -171,7 +165,6 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Toggle expand or collapse filenames in the playlist */
   function toggleExpandPlaylistFilenames() {
-    logger.debug(arguments.callee.name);
     let isExpandedFilename = null;
     const filenamesFirstFile = $(tbodyFilenames).children().first().text();
     const currentFirstFile = $('#playlist-browser-table-body tr:first').text();

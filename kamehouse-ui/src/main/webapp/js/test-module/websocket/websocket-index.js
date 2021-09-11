@@ -30,7 +30,6 @@ function mainWebSocket() {
  * Update the view based on the websocket being connected or disconnected.
  */
 function setConnected(isConnected) {
-  logger.trace(arguments.callee.name);
   if (isConnected) {
     domUtils.addClass($("#connect"), "hidden-kh");
     domUtils.removeClass($("#connected"), "hidden-kh");
@@ -55,7 +54,6 @@ function setConnected(isConnected) {
  * Connect the websocket.
  */
 function connectWebSocket() {
-  logger.trace(arguments.callee.name);
   websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body)));
   setConnected(true);
   logger.debug("Connected WebSocket");
@@ -65,7 +63,6 @@ function connectWebSocket() {
  * Disconnect the websocket.
  */
 function disconnectWebSocket() {
-  logger.trace(arguments.callee.name);
   websocket.disconnect();
   setConnected(false);
   logger.debug("Disconnected WebSocket");
@@ -75,7 +72,6 @@ function disconnectWebSocket() {
  * Send a message through the websocket.
  */
 function sendWebSocketRequest() {
-  logger.trace(arguments.callee.name);
   const pollBody = JSON.stringify({
     'firstName': $("#firstName").val(),
     'lastName': $("#lastName").val()
@@ -87,7 +83,6 @@ function sendWebSocketRequest() {
  * Update the view after getting a response from the websocket.
  */
 function showTestWebSocketResponse(testWebSocketResponseBody) {
-  logger.trace(arguments.callee.name);
   logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
   const date = timeUtils.getDateFromEpoch(testWebSocketResponseBody.date);
   domUtils.append($("#websocket-responses"), getWebsocketResponseTr(date, testWebSocketResponseBody.message));

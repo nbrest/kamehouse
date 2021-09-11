@@ -219,10 +219,10 @@ function CollapsibleDivUtils() {
    */
   function refreshCollapsibleDiv() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
-    for (let i = 0; i < collapsibleElements.length; i++) {
-      collapsibleElements[i].click();
-      collapsibleElements[i].click();
-    } 
+    for (const collapsibleElement of collapsibleElements) {
+      collapsibleElement.click();
+      collapsibleElement.click();
+    }
   }
 
   /**
@@ -230,9 +230,9 @@ function CollapsibleDivUtils() {
    */
   function setCollapsibleContent() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
-    for (let i = 0; i < collapsibleElements.length; i++) {
-      collapsibleElements[i].removeEventListener("click", collapsibleContentListener);
-      collapsibleElements[i].addEventListener("click", collapsibleContentListener);
+    for (const collapsibleElement of collapsibleElements) {
+      collapsibleElement.removeEventListener("click", collapsibleContentListener);
+      collapsibleElement.addEventListener("click", collapsibleContentListener);
     }
   }
 
@@ -374,8 +374,7 @@ function CookiesUtils() {
     const name = cookieName + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
     const cookiesArray = decodedCookie.split(';');
-    for(let i = 0; i < cookiesArray.length; i++) {
-      let cookie = cookiesArray[i];
+    for (let cookie of cookiesArray) {
       while (cookie.charAt(0) == ' ') {
         cookie = cookie.substring(1);
       }
@@ -846,8 +845,7 @@ function DomUtils() {
    */
   async function loadHtmlSnippet(htmlSnippetPath) {
     const htmlSnippetResponse = await fetch(htmlSnippetPath);
-    const htmlSnippet = await htmlSnippetResponse.text();
-    return htmlSnippet;
+    return await htmlSnippetResponse.text();
   }
 
   /** Get a js script from the server. */
@@ -963,16 +961,16 @@ function ModuleUtils() {
     
     // Update tab links
     const tabLinks = document.getElementsByClassName("tab-kh-link");
-    for (let i = 0; i < tabLinks.length; i++) {
-      domUtils.classListRemove(tabLinks[i], "active");
+    for (const tabLink of tabLinks) {
+      domUtils.classListRemove(tabLink, "active");
     }
     const selectedTabLink = document.getElementById(selectedTabDivId + '-link');
     domUtils.classListAdd(selectedTabLink, "active");
 
     // Update tab content visibility
     const kamehouseTabContent = document.getElementsByClassName("tab-content-kh");
-    for (let i = 0; i < kamehouseTabContent.length; i++) {
-      domUtils.setDisplay(kamehouseTabContent[i], "none");
+    for (const kamehouseTabContentItem of kamehouseTabContent) {
+      domUtils.setDisplay(kamehouseTabContentItem, "none");
     }
     const selectedTabDiv = document.getElementById(selectedTabDivId);
     domUtils.setDisplay(selectedTabDiv, "block");
@@ -1021,10 +1019,10 @@ function TableUtils() {
       } else {
         filterString = addAsterisksBetweenAllCharsToRegex(filterString);
       }
-      regex = RegExp(filterString);
+      regex = new RegExp(filterString);
     } catch (error) {
       logger.error("Error creating regex from filter string " + filterString);
-      regex = RegExp("");
+      regex = new RegExp("");
     }
     tableRows.filter(function () {
       const tr = this;
@@ -1090,10 +1088,10 @@ function TableUtils() {
       } else {
         filterString = addAsterisksBetweenAllCharsToRegex(filterString);
       }
-      regex = RegExp(filterString);
+      regex = new RegExp(filterString);
     } catch (error) {
       logger.error("Error creating regex from filter string " + filterString);
-      regex = RegExp("");
+      regex = new RegExp("");
     }
     tableRows.filter(function () {
       const tr = this;
@@ -1498,7 +1496,6 @@ function TimeUtils() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function get(url, requestHeaders, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback, data)
   }
 
@@ -1506,7 +1503,6 @@ function TimeUtils() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function put(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
@@ -1514,7 +1510,6 @@ function TimeUtils() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function post(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
@@ -1522,7 +1517,6 @@ function TimeUtils() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function deleteHttp(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    logger.trace(arguments.callee.name);
     httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
@@ -1530,14 +1524,14 @@ function TimeUtils() {
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
-  function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, data) {
+  function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
     if (isEmpty(requestBody)) {
       $.ajax({
         type: httpMethod,
         url: url,
         headers: requestHeaders,
-        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, data),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data, url)
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, customData),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, customData, url)
       });
     } else {
       $.ajax({
@@ -1545,14 +1539,14 @@ function TimeUtils() {
         url: url,
         data: JSON.stringify(requestBody),
         headers: requestHeaders,
-        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, data),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, data, url)
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, customData),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, customData, url)
       });
     }
   }
 
   /** Process a successful response from the api call */
-  function processSuccess(data, status, xhr, successCallback, data) {
+  function processSuccess(data, status, xhr, successCallback, customData) {
     /**
      * data: response body
      * status: success/error
@@ -1567,7 +1561,7 @@ function TimeUtils() {
     const responseBody = data;
     const responseCode = xhr.status;
     const responseDescription = xhr.statusText;
-    successCallback(responseBody, responseCode, responseDescription, data);
+    successCallback(responseBody, responseCode, responseDescription, customData);
   }
 
   /** Process an error response from the api call */

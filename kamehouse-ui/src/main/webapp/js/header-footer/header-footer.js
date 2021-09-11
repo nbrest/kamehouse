@@ -12,7 +12,6 @@ var footer;
  * Render header and footer.
  */
 function renderHeaderAndFooter() {
-  logger.trace(arguments.callee.name);
   logger.info("Started initializing header and footer");
   header = new Header();
   header.renderHeader();
