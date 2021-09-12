@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class KameHouseCmdExecutor {
 
   private final Logger logger = LoggerFactory.getLogger(KameHouseCmdExecutor.class);
+  private static final String TRACE = "TRACE";
 
   @Autowired
   private LogLevelManagerService logLevelManagerService;
@@ -48,9 +49,9 @@ public class KameHouseCmdExecutor {
 
   private void checkVerboseMode(CmdArgumentHandler cmdArgumentHandler) {
     if (cmdArgumentHandler.hasArgument("v")) {
-      logLevelManagerService.setLogLevel("TRACE", "com.nicobrest.kamehouse");
-      logLevelManagerService.setLogLevel("TRACE", "com.nicobrest.kamehouse.cmd");
-      logLevelManagerService.setLogLevel("TRACE", "com.nicobrest.kamehouse.commons");
+      logLevelManagerService.setLogLevel(TRACE, "com.nicobrest.kamehouse");
+      logLevelManagerService.setLogLevel(TRACE, "com.nicobrest.kamehouse.cmd");
+      logLevelManagerService.setLogLevel(TRACE, "com.nicobrest.kamehouse.commons");
       logger.trace("verbose mode enabled");
     }
   }

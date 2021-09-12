@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
@@ -19,13 +20,17 @@ import java.util.Date;
 import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 
-/** Tests the model objects in kamehouse commons core module. */
+/**
+ * Tests the model objects in kamehouse commons core module.
+ */
 public class CommonsCoreModelTest {
 
   private static String message = "goku";
   private static Exception cause = new NullPointerException();
 
-  /** Test kamehouse core models. */
+  /**
+   * Test kamehouse core models.
+   */
   @Test
   public void baseModelClassesTest() {
     validateKameHouseGenericResponse();
@@ -36,7 +41,9 @@ public class CommonsCoreModelTest {
     validateKameHouseSystemCommand();
   }
 
-  /** Test kamehouse exceptions. */
+  /**
+   * Test kamehouse exceptions.
+   */
   @Test
   public void exceptionClassesTest() {
     validateKameHouseBadRequestException();
@@ -49,7 +56,9 @@ public class CommonsCoreModelTest {
     validateKameHouseServerErrorException();
   }
 
-  /** Test KameHouseGenericResponse. */
+  /**
+   * Test KameHouseGenericResponse.
+   */
   private void validateKameHouseGenericResponse() {
     KameHouseGenericResponse kameHouseGenericResponse1 = new KameHouseGenericResponse();
     kameHouseGenericResponse1.setMessage("goku");
@@ -60,7 +69,9 @@ public class CommonsCoreModelTest {
     assertNotNull(kameHouseGenericResponse1.getMessage());
   }
 
-  /** Test KameHouseRoleDto. */
+  /**
+   * Test KameHouseRoleDto.
+   */
   private void validateKameHouseRoleDto() {
     KameHouseRoleDto kameHouseRoleDto1 = new KameHouseRoleDto();
     kameHouseRoleDto1.setId(1L);
@@ -79,7 +90,9 @@ public class CommonsCoreModelTest {
     assertNotNull(kameHouseRoleDto1.getKameHouseUser());
   }
 
-  /** Test KameHouseUserDto. */
+  /**
+   * Test KameHouseUserDto.
+   */
   private void validateKameHouseUserDto() {
     KameHouseUserDto kameHouseUserDto1 = new KameHouseUserDto();
     kameHouseUserDto1.setPassword("goku");
@@ -99,18 +112,20 @@ public class CommonsCoreModelTest {
 
     validateModelObjects(kameHouseUserDto1, kameHouseUserDto2);
     assertNotNull(kameHouseUserDto1.getPassword());
-    assertNotNull(kameHouseUserDto1.isAccountNonExpired());
-    assertNotNull(kameHouseUserDto1.isAccountNonLocked());
+    assertTrue(kameHouseUserDto1.isAccountNonExpired());
+    assertTrue(kameHouseUserDto1.isAccountNonLocked());
     assertNotNull(kameHouseUserDto1.getAuthorities());
-    assertNotNull(kameHouseUserDto1.isCredentialsNonExpired());
+    assertTrue(kameHouseUserDto1.isCredentialsNonExpired());
     assertNotNull(kameHouseUserDto1.getEmail());
     assertNotNull(kameHouseUserDto1.getFirstName());
     assertNotNull(kameHouseUserDto1.getLastName());
-    assertNotNull(kameHouseUserDto1.isEnabled());
+    assertTrue(kameHouseUserDto1.isEnabled());
     assertNotNull(kameHouseUserDto1.getLastLogin());
   }
 
-  /** Test KameHouseRole. */
+  /**
+   * Test KameHouseRole.
+   */
   private void validateKameHouseRole() {
     KameHouseRole kameHouseRole1 = new KameHouseRole();
     kameHouseRole1.setName("ROLE_KAMISAMA");
@@ -127,7 +142,9 @@ public class CommonsCoreModelTest {
     assertNotNull(kameHouseRole1.getAuthority());
   }
 
-  /** Test KameHouseUser. */
+  /**
+   * Test KameHouseUser.
+   */
   private void validateKameHouseUser() {
     KameHouseUser kameHouseUser1 = new KameHouseUser();
     kameHouseUser1.setPassword("goku");
@@ -150,21 +167,25 @@ public class CommonsCoreModelTest {
     kameHouseUser2.setAuthorities(null);
 
     validateModelObjects(kameHouseUser1, kameHouseUser2);
-    assertNotNull(kameHouseUser1.isAccountNonExpired());
-    assertNotNull(kameHouseUser1.isAccountNonLocked());
-    assertNotNull(kameHouseUser1.isCredentialsNonExpired());
-    assertNotNull(kameHouseUser1.isEnabled());
+    assertTrue(kameHouseUser1.isAccountNonExpired());
+    assertTrue(kameHouseUser1.isAccountNonLocked());
+    assertTrue(kameHouseUser1.isCredentialsNonExpired());
+    assertTrue(kameHouseUser1.isEnabled());
     assertNotNull(kameHouseUser1.getLastLogin());
   }
 
-  /** Compare model objects. */
+  /**
+   * Compare model objects.
+   */
   private void validateModelObjects(Object object1, Object object2) {
     assertNotEquals(object1, object2);
     assertNotEquals(object1.hashCode(), object2.hashCode());
     assertNotNull(object1.toString());
   }
 
-  /** Test KameHouseBadRequestException. */
+  /**
+   * Test KameHouseBadRequestException.
+   */
   private void validateKameHouseBadRequestException() {
     KameHouseBadRequestException kameHouseBadRequestException =
         new KameHouseBadRequestException(message);
@@ -174,7 +195,9 @@ public class CommonsCoreModelTest {
     validateException(kameHouseBadRequestException2, message, cause);
   }
 
-  /** Test KameHouseConflictException. */
+  /**
+   * Test KameHouseConflictException.
+   */
   private void validateKameHouseConflictException() {
     KameHouseConflictException kameHouseConflictException = new KameHouseConflictException(message);
     validateException(kameHouseConflictException, message, null);
@@ -183,7 +206,9 @@ public class CommonsCoreModelTest {
     validateException(kameHouseConflictException2, message, cause);
   }
 
-  /** Test KameHouseException. */
+  /**
+   * Test KameHouseException.
+   */
   private void validateKameHouseException() {
     KameHouseException kameHouseException = new KameHouseException(message);
     validateException(kameHouseException, message, null);
@@ -193,14 +218,18 @@ public class CommonsCoreModelTest {
     validateException(kameHouseException3, "java.lang.NullPointerException", cause);
   }
 
-  /** Test KameHouseForbiddenException. */
+  /**
+   * Test KameHouseForbiddenException.
+   */
   private void validateKameHouseForbiddenException() {
     KameHouseForbiddenException kameHouseForbiddenException =
         new KameHouseForbiddenException(message);
     validateException(kameHouseForbiddenException, message, null);
   }
 
-  /** Test KameHouseInvalidCommandException. */
+  /**
+   * Test KameHouseInvalidCommandException.
+   */
   private void validateKameHouseInvalidCommandException() {
     KameHouseInvalidCommandException kameHouseInvalidCommandException =
         new KameHouseInvalidCommandException(message);
@@ -210,14 +239,18 @@ public class CommonsCoreModelTest {
     validateException(kameHouseInvalidCommandException2, message, cause);
   }
 
-  /** Test KameHouseInvalidDataException. */
+  /**
+   * Test KameHouseInvalidDataException.
+   */
   private void validateKameHouseInvalidDataException() {
     KameHouseInvalidDataException kameHouseInvalidDataException =
         new KameHouseInvalidDataException(message);
     validateException(kameHouseInvalidDataException, message, null);
   }
 
-  /** Test KameHouseNotFoundException. */
+  /**
+   * Test KameHouseNotFoundException.
+   */
   private void validateKameHouseNotFoundException() {
     KameHouseNotFoundException kameHouseNotFoundException = new KameHouseNotFoundException(message);
     validateException(kameHouseNotFoundException, message, null);
@@ -226,7 +259,9 @@ public class CommonsCoreModelTest {
     validateException(kameHouseNotFoundException2, message, cause);
   }
 
-  /** Test KameHouseServerErrorException. */
+  /**
+   * Test KameHouseServerErrorException.
+   */
   private void validateKameHouseServerErrorException() {
     KameHouseServerErrorException kameHouseServerErrorException =
         new KameHouseServerErrorException(message);
@@ -236,14 +271,19 @@ public class CommonsCoreModelTest {
     validateException(kameHouseServerErrorException2, message, cause);
   }
 
-  /** Test KameHouseGenericResponse. */
+  /**
+   * Test KameHouseGenericResponse.
+   */
   private void validateKameHouseSystemCommand() {
-    KameHouseSystemCommand kameHouseSystemCommand = new KameHouseSystemCommand() {};
+    KameHouseSystemCommand kameHouseSystemCommand = new KameHouseSystemCommand() {
+    };
 
     assertNotNull(kameHouseSystemCommand.toString());
   }
 
-  /** Validate exception contents. */
+  /**
+   * Validate exception contents.
+   */
   private void validateException(Exception exception, String message, Exception cause) {
     assertEquals(message, exception.getMessage());
     assertEquals(cause, exception.getCause());

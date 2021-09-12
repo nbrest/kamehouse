@@ -12,8 +12,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to manipulate dates.
@@ -228,7 +226,7 @@ public class DateUtils {
    * inFormat:'HH:mm' and outFormat:'hh:mm a'
    */
   public static String convertTime(
-      String input, String inFormat, String outFormat, Boolean lowerCaseOut) {
+      String input, String inFormat, String outFormat, boolean lowerCaseOut) {
     if (input == null) {
       return null;
     }

@@ -30,6 +30,13 @@ public @interface Masked {
     private static final String KAMEHOUSE_PACKAGE = "com.nicobrest.kamehouse";
 
     /**
+     * Utils class.
+     */
+    private MaskedUtils() {
+
+    }
+
+    /**
      * Get all the masked fields for an object annotated with @Masked annotation.
      */
     public static String[] getMaskedFields(Object object) {
@@ -80,8 +87,8 @@ public @interface Masked {
             Object fieldValue = field.get(object);
             populateMaskedFieldsList(fieldValue, maskedFields, parentNode + field.getName());
           } catch (IllegalAccessException e) {
-            LOGGER.trace(
-                "Error accessing object field to get masked fields. Field: " + field.getName());
+            LOGGER.trace("Error accessing object field to get masked fields. Field: {},",
+                field.getName());
           }
         }
       }

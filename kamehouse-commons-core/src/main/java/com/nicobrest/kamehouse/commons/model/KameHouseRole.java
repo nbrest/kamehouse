@@ -51,9 +51,9 @@ public class KameHouseRole implements KameHouseEntity<KameHouseRoleDto>, Granted
     dto.setId(getId());
     dto.setName(getName());
     if (getKameHouseUser() != null) {
-      KameHouseUserDto kameHouseUser = new KameHouseUserDto();
-      kameHouseUser.setId(getKameHouseUser().getId());
-      dto.setKameHouseUser(kameHouseUser);
+      KameHouseUserDto kameHouseUserDto = new KameHouseUserDto();
+      kameHouseUserDto.setId(getKameHouseUser().getId());
+      dto.setKameHouseUser(kameHouseUserDto);
     }
     return dto;
   }

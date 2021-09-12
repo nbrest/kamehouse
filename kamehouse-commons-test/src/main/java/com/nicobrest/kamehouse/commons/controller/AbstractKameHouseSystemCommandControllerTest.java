@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.controller;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,13 +28,16 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
 
   protected List<SystemCommand.Output> systemCommandOutputList;
 
-  @Mock protected SystemCommandService systemCommandService;
+  @Mock
+  protected SystemCommandService systemCommandService;
 
-  public AbstractKameHouseSystemCommandControllerTest() {
+  protected AbstractKameHouseSystemCommandControllerTest() {
     kameHouseSystemCommandControllerTestSetup();
   }
 
-  /** Setup test data and mocks for KameHouseSystemCommand controller tests. */
+  /**
+   * Setup test data and mocks for KameHouseSystemCommand controller tests.
+   */
   protected void kameHouseSystemCommandControllerTestSetup() {
     testUtils = new SystemCommandOutputTestUtils();
     testUtils.initTestData();
@@ -41,11 +45,13 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
 
     MockitoAnnotations.openMocks(this);
     Mockito.reset(systemCommandService);
-    when(systemCommandService.execute(Mockito.any(KameHouseSystemCommand.class)))
+    when(systemCommandService.execute(any(KameHouseSystemCommand.class)))
         .thenReturn(systemCommandOutputList);
   }
 
-  /** Tests executing an KameHouseSystemCommand through a get request. */
+  /**
+   * Tests executing an KameHouseSystemCommand through a get request.
+   */
   protected void execGetKameHouseSystemCommandTest(
       String url, Class<? extends KameHouseSystemCommand> clazz) throws Exception {
     MockHttpServletResponse response = doGet(url);
@@ -54,10 +60,12 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);
-    verify(systemCommandService, times(1)).execute(Mockito.any(clazz));
+    verify(systemCommandService, times(1)).execute(any(clazz));
   }
 
-  /** Tests executing an KameHouseSystemCommand through a post request without request body. */
+  /**
+   * Tests executing an KameHouseSystemCommand through a post request without request body.
+   */
   protected void execPostKameHouseSystemCommandTest(
       String url, Class<? extends KameHouseSystemCommand> clazz) throws Exception {
     MockHttpServletResponse response = doPost(url);
@@ -66,13 +74,13 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);
-    verify(systemCommandService, times(1)).execute(Mockito.any(clazz));
+    verify(systemCommandService, times(1)).execute(any(clazz));
   }
 
   /**
    * Tests executing an invalid KameHouseSystemCommand through a post request without request body.
    */
-  protected void execPostInvalidKameHouseSystemCommandTest(String url) throws Exception {
+  protected void execPostInvalidKameHouseSystemCommandTest(String url) {
     assertThrows(
         NestedServletException.class,
         () -> {
@@ -80,7 +88,9 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
         });
   }
 
-  /** Tests executing an KameHouseSystemCommand through a delete request. */
+  /**
+   * Tests executing an KameHouseSystemCommand through a delete request.
+   */
   protected void execDeleteKameHouseSystemCommandTest(
       String url, Class<? extends KameHouseSystemCommand> clazz) throws Exception {
     MockHttpServletResponse response = doDelete(url);
@@ -89,10 +99,12 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
 
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);
-    verify(systemCommandService, times(1)).execute(Mockito.any(clazz));
+    verify(systemCommandService, times(1)).execute(any(clazz));
   }
 
-  /** Tests executing an KameHouseSystemCommand through a delete request with a Server Error. */
+  /**
+   * Tests executing an KameHouseSystemCommand through a delete request with a Server Error.
+   */
   protected void execDeleteServerErrorKameHouseSystemCommandTest(
       String url, Class<? extends KameHouseSystemCommand> clazz) throws Exception {
     systemCommandOutputList.get(0).setExitCode(1);
@@ -103,6 +115,6 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
 
     verifyResponseStatus(response, HttpStatus.INTERNAL_SERVER_ERROR);
     testUtils.assertEqualsAllAttributesList(systemCommandOutputList, responseBody);
-    verify(systemCommandService, times(1)).execute(Mockito.any(clazz));
+    verify(systemCommandService, times(1)).execute(any(clazz));
   }
 }

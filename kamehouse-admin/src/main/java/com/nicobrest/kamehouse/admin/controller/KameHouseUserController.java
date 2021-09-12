@@ -43,6 +43,7 @@ public class KameHouseUserController extends
    */
   @PostMapping(path = "/users")
   @ResponseBody
+  @Override
   public ResponseEntity<Long> create(@RequestBody KameHouseUserDto dto) {
     return super.create(dto);
   }
@@ -52,6 +53,7 @@ public class KameHouseUserController extends
    */
   @GetMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<KameHouseUser> read(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.read(id));
   }
@@ -61,6 +63,7 @@ public class KameHouseUserController extends
    */
   @GetMapping(path = "/users")
   @ResponseBody
+  @Override
   public ResponseEntity<List<KameHouseUser>> readAll() {
     return generatePasswordLessResponseEntity(super.readAll());
   }
@@ -70,6 +73,7 @@ public class KameHouseUserController extends
    */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody KameHouseUserDto dto) {
     return super.update(id, dto);
   }
@@ -79,6 +83,7 @@ public class KameHouseUserController extends
    */
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<KameHouseUser> delete(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.delete(id));
   }

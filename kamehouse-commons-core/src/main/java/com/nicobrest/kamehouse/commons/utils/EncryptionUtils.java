@@ -52,20 +52,20 @@ public class EncryptionUtils {
   private static final String ERROR_GETTING_CERTIFICATE = "Error getting the certificate";
   private static final String ERROR_GETTING_PRIVATE_KEY = "Error getting the private key";
 
-  private static PrivateKey KAMEHOUSE_PRIVATE_KEY;
-  private static X509Certificate KAMEHOUSE_CERTIFICATE;
+  private static PrivateKey kamehousePrivateKey;
+  private static X509Certificate kamehouseCertificate;
 
   static {
     try {
-      KAMEHOUSE_PRIVATE_KEY = getKameHousePrivateKey();
+      kamehousePrivateKey = getKameHousePrivateKey();
     } catch (KameHouseInvalidDataException e) {
-      KAMEHOUSE_PRIVATE_KEY = null;
+      kamehousePrivateKey = null;
     }
 
     try {
-      KAMEHOUSE_CERTIFICATE = getKameHouseCertificate();
+      kamehouseCertificate = getKameHouseCertificate();
     } catch (KameHouseInvalidDataException e) {
-      KAMEHOUSE_CERTIFICATE = null;
+      kamehouseCertificate = null;
     }
   }
 
@@ -148,13 +148,13 @@ public class EncryptionUtils {
    */
   @SuppressFBWarnings(value = "MS_EXPOSE_REP")
   public static synchronized X509Certificate getKameHouseCertificate() {
-    if (KAMEHOUSE_CERTIFICATE != null) {
-      return KAMEHOUSE_CERTIFICATE;
+    if (kamehouseCertificate != null) {
+      return kamehouseCertificate;
     }
-    String certPath =
-        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("kamehouse.crt");
-    KAMEHOUSE_CERTIFICATE = getCertificate(certPath);
-    return KAMEHOUSE_CERTIFICATE;
+    String certPath = PropertiesUtils.getUserHome() + File.separator
+        + PropertiesUtils.getProperty("kamehouse.crt");
+    kamehouseCertificate = getCertificate(certPath);
+    return kamehouseCertificate;
   }
 
   /**
@@ -176,13 +176,13 @@ public class EncryptionUtils {
    * Get the private key used to decrypt kamehouse content.
    */
   public static synchronized PrivateKey getKameHousePrivateKey() {
-    if (KAMEHOUSE_PRIVATE_KEY != null) {
-      return KAMEHOUSE_PRIVATE_KEY;
+    if (kamehousePrivateKey != null) {
+      return kamehousePrivateKey;
     }
-    String keyStorePath =
-        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("kamehouse.pkcs12");
-    KAMEHOUSE_PRIVATE_KEY = getPrivateKey(keyStorePath, PKCS12, null, "1", null);
-    return KAMEHOUSE_PRIVATE_KEY;
+    String keyStorePath = PropertiesUtils.getUserHome() + File.separator
+            + PropertiesUtils.getProperty("kamehouse.pkcs12");
+    kamehousePrivateKey = getPrivateKey(keyStorePath, PKCS12, null, "1", null);
+    return kamehousePrivateKey;
   }
 
   /**

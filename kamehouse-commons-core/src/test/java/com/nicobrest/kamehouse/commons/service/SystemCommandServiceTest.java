@@ -131,7 +131,7 @@ public class SystemCommandServiceTest {
    * Executes process throwing an IOException test.
    */
   @Test
-  public void execIoExceptionTest() throws Exception {
+  public void execIoExceptionTest() throws IOException {
     when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
 
     List<String> errorStream =

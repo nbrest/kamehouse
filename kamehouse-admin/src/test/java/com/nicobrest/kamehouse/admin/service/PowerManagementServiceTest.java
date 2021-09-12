@@ -29,21 +29,24 @@ import org.quartz.TriggerKey;
  */
 public class PowerManagementServiceTest {
 
-  @InjectMocks private PowerManagementService powerManagementService;
+  @InjectMocks
+  private PowerManagementService powerManagementService;
 
   @Mock(name = "scheduler")
   private Scheduler scheduler;
 
   @BeforeEach
   public void before() {
+    powerManagementService = new PowerManagementService();
     MockitoAnnotations.openMocks(this);
   }
 
-  /** WOL server successful test. */
+  /**
+   * WOL server successful test.
+   */
   @Test
   public void wakeOnLanServerTest() {
     try {
-      powerManagementService = new PowerManagementService();
       powerManagementService.wakeOnLan("media.server");
     } catch (KameHouseBadRequestException e) {
       // If an exception is thrown, I expect it to be for UnknownHostException
@@ -51,64 +54,66 @@ public class PowerManagementServiceTest {
     }
   }
 
-  /** WOL invalid server test. */
+  /**
+   * WOL invalid server test.
+   */
   @Test
   public void wakeOnLanInvalidServerTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
-          powerManagementService = new PowerManagementService();
-
           powerManagementService.wakeOnLan("INVALID_SERVER");
         });
   }
 
-  /** WOL invalid mac address test. */
+  /**
+   * WOL invalid mac address test.
+   */
   @Test
   public void wakeOnLanInvalidMacAddressLengthTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
-          powerManagementService = new PowerManagementService();
-
           powerManagementService.wakeOnLan("AA:BB:CC:DD:EE", "10.10.9.9");
         });
   }
 
-  /** WOL invalid mac address test. */
+  /**
+   * WOL invalid mac address test.
+   */
   @Test
   public void wakeOnLanInvalidMacAddressNumberFormatTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
-          powerManagementService = new PowerManagementService();
-
           powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:ZZ", "10.10.9.9");
         });
   }
 
-  /** WOL invalid broadcast address test. */
+  /**
+   * WOL invalid broadcast address test.
+   */
   @Test
   public void wakeOnLanInvalidBroadcastTest() {
     assertThrows(
         KameHouseException.class,
         () -> {
-          powerManagementService = new PowerManagementService();
-
           powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:FF", "10.10.9.9.999");
         });
   }
 
-  /** WOL mac and broadcast successful test. */
+  /**
+   * WOL mac and broadcast successful test.
+   */
   @Test
   public void wakeOnLanMacAndBroadcastTest() throws KameHouseBadRequestException {
-    powerManagementService = new PowerManagementService();
-
     powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:FF", "10.10.9.9");
     // no exception thrown expected
   }
 
-  /** Shutdown server successful test. */
+  /**
+   * Shutdown server successful test.
+   */
   @Test
   public void scheduleShutdownSuccessTest() {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
@@ -117,7 +122,9 @@ public class PowerManagementServiceTest {
     // no exception thrown expected
   }
 
-  /** Shutdown server exception test. */
+  /**
+   * Shutdown server exception test.
+   */
   @Test
   public void scheduleShutdownExceptionTest() {
     assertThrows(
@@ -130,7 +137,9 @@ public class PowerManagementServiceTest {
         });
   }
 
-  /** Shutdown server reschedule test. */
+  /**
+   * Shutdown server reschedule test.
+   */
   @Test
   public void scheduleShutdownRescheduleTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
@@ -140,7 +149,9 @@ public class PowerManagementServiceTest {
     // no exception thrown expected
   }
 
-  /** Shutdown server scheduler exception test. */
+  /**
+   * Shutdown server scheduler exception test.
+   */
   @Test
   public void scheduleShutdownSchedulerExceptionTest() throws SchedulerException {
     assertThrows(
@@ -155,7 +166,9 @@ public class PowerManagementServiceTest {
         });
   }
 
-  /** Shutdown server trigger won't fire test. */
+  /**
+   * Shutdown server trigger won't fire test.
+   */
   @Test
   public void scheduleShutdownTriggerWontFireTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
@@ -165,7 +178,9 @@ public class PowerManagementServiceTest {
     powerManagementService.scheduleShutdown(5400);
   }
 
-  /** Get shutdown server status successful test. */
+  /**
+   * Get shutdown server status successful test.
+   */
   @Test
   public void getShutdownStatusSuccessTest() {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
@@ -174,7 +189,9 @@ public class PowerManagementServiceTest {
     assertEquals("Shutdown not scheduled", status);
   }
 
-  /** Get Shutdown server status successful scheduled test. */
+  /**
+   * Get Shutdown server status successful scheduled test.
+   */
   @Test
   public void getShutdownStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
@@ -186,7 +203,9 @@ public class PowerManagementServiceTest {
     assertTrue(status.startsWith("Shutdown scheduled at"));
   }
 
-  /** Get Shutdown server status exception test. */
+  /**
+   * Get Shutdown server status exception test.
+   */
   @Test
   public void getShutdownStatusExceptionTest() {
     assertThrows(
@@ -201,7 +220,9 @@ public class PowerManagementServiceTest {
         });
   }
 
-  /** Cancel shutdown server successful test. */
+  /**
+   * Cancel shutdown server successful test.
+   */
   @Test
   public void cancelScheduledShutdownSuccessTest() {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
@@ -210,7 +231,9 @@ public class PowerManagementServiceTest {
     assertEquals("Shutdown was not scheduled, so no need to cancel", status);
   }
 
-  /** Cancel shutdown server successful cancelled test. */
+  /**
+   * Cancel shutdown server successful cancelled test.
+   */
   @Test
   public void cancelScheduledShutdownSuccessCancelledTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
@@ -220,7 +243,9 @@ public class PowerManagementServiceTest {
     assertEquals("Shutdown cancelled", status);
   }
 
-  /** Cancel shutdown server exception test. */
+  /**
+   * Cancel shutdown server exception test.
+   */
   @Test
   public void cancelScheduledShutdownExceptionTest() throws SchedulerException {
     assertThrows(
@@ -235,7 +260,9 @@ public class PowerManagementServiceTest {
         });
   }
 
-  /** Suspend server successful test. */
+  /**
+   * Suspend server successful test.
+   */
   @Test
   public void suspendShutdownSuccessTest() {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
@@ -244,7 +271,9 @@ public class PowerManagementServiceTest {
     // no exception thrown expected
   }
 
-  /** Suspend server exception test. */
+  /**
+   * Suspend server exception test.
+   */
   @Test
   public void scheduleSuspendExceptionTest() {
     assertThrows(
@@ -256,7 +285,9 @@ public class PowerManagementServiceTest {
         });
   }
 
-  /** Suspend server reschedule test. */
+  /**
+   * Suspend server reschedule test.
+   */
   @Test
   public void scheduleSuspendRescheduleTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
@@ -266,7 +297,9 @@ public class PowerManagementServiceTest {
     // no exception thrown expected
   }
 
-  /** Suspend server scheduler exception test. */
+  /**
+   * Suspend server scheduler exception test.
+   */
   @Test
   public void scheduleSuspendSchedulerExceptionTest() throws SchedulerException {
     assertThrows(
@@ -280,7 +313,9 @@ public class PowerManagementServiceTest {
         });
   }
 
-  /** Suspend server trigger won't fire test. */
+  /**
+   * Suspend server trigger won't fire test.
+   */
   @Test
   public void scheduleSuspendTriggerWontFireTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
@@ -290,7 +325,9 @@ public class PowerManagementServiceTest {
     powerManagementService.scheduleSuspend(5400);
   }
 
-  /** Get Suspend server status successful not scheduled test. */
+  /**
+   * Get Suspend server status successful not scheduled test.
+   */
   @Test
   public void getSuspendStatusSuccessNotScheduledTest() {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
@@ -299,7 +336,9 @@ public class PowerManagementServiceTest {
     assertEquals("Suspend not scheduled", status);
   }
 
-  /** Get Suspend server status successful scheduled test. */
+  /**
+   * Get Suspend server status successful scheduled test.
+   */
   @Test
   public void getSuspendStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
@@ -311,7 +350,9 @@ public class PowerManagementServiceTest {
     assertTrue(status.startsWith("Suspend scheduled at"));
   }
 
-  /** Get Suspend server status exception test. */
+  /**
+   * Get Suspend server status exception test.
+   */
   @Test
   public void getSuspendStatusExceptionTest() throws SchedulerException {
     assertThrows(
@@ -325,7 +366,9 @@ public class PowerManagementServiceTest {
         });
   }
 
-  /** Cancel Suspend server successful not scheduled test. */
+  /**
+   * Cancel Suspend server successful not scheduled test.
+   */
   @Test
   public void cancelScheduledSuspendSuccessNotScheduledTest() {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
@@ -334,7 +377,9 @@ public class PowerManagementServiceTest {
     assertEquals("Suspend was not scheduled, so no need to cancel", status);
   }
 
-  /** Cancel Suspend server successful cancelled test. */
+  /**
+   * Cancel Suspend server successful cancelled test.
+   */
   @Test
   public void cancelScheduledSuspendSuccessCancelledTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
@@ -344,7 +389,9 @@ public class PowerManagementServiceTest {
     assertEquals("Suspend cancelled", status);
   }
 
-  /** Cancel Suspend server exception test. */
+  /**
+   * Cancel Suspend server exception test.
+   */
   @Test
   public void cancelScheduledSuspendExceptionTest() throws SchedulerException {
     assertThrows(

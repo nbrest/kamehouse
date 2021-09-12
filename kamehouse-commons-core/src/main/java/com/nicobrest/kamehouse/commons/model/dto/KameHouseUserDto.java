@@ -64,33 +64,6 @@ public class KameHouseUserDto implements KameHouseDto<KameHouseUser>, Serializab
     entity.setCredentialsNonExpired(isCredentialsNonExpired());
     entity.setEnabled(isEnabled());
     return entity;
-    /*
-    *     KameHouseUser kameHouseUser = new KameHouseUser();
-    kameHouseUser.setAccountNonExpired(kameHouseUserDto.isAccountNonExpired());
-    kameHouseUser.setAccountNonLocked(kameHouseUserDto.isAccountNonLocked());
-    Set<KameHouseRole> kameHouseRoles = new HashSet<>();
-    Set<KameHouseRoleDto> kameHouseRoleDtos = kameHouseUserDto.getAuthorities();
-    if (kameHouseRoleDtos != null) {
-      for (KameHouseRoleDto kameHouseRoleDto : kameHouseRoleDtos) {
-        KameHouseRole kameHouseRole = new KameHouseRole();
-        kameHouseRole.setId(kameHouseRoleDto.getId());
-        kameHouseRole.setName(kameHouseRoleDto.getName());
-        kameHouseRole.setKameHouseUser(kameHouseUser);
-        kameHouseRoles.add(kameHouseRole);
-      }
-    }
-    kameHouseUser.setAuthorities(kameHouseRoles);
-    kameHouseUser.setCredentialsNonExpired(kameHouseUserDto.isCredentialsNonExpired());
-    kameHouseUser.setEmail(kameHouseUserDto.getEmail());
-    kameHouseUser.setEnabled(kameHouseUserDto.isEnabled());
-    kameHouseUser.setFirstName(kameHouseUserDto.getFirstName());
-    kameHouseUser.setId(kameHouseUserDto.getId());
-    kameHouseUser.setLastLogin(kameHouseUserDto.getLastLogin());
-    kameHouseUser.setLastName(kameHouseUserDto.getLastName());
-    kameHouseUser.setPassword(kameHouseUserDto.getPassword());
-    kameHouseUser.setUsername(kameHouseUserDto.getUsername());
-    return kameHouseUser;
-    * */
   }
 
   public Long getId() {

@@ -15,6 +15,13 @@ public class KameHouseCmd {
 
   private static ApplicationContext context;
 
+  /**
+   * Class only with static methods. No need for instances.
+   */
+  private KameHouseCmd() {
+
+  }
+
   /** Start kamehouse cmd. */
   public static void execute(CmdArgumentHandler cmdArgumentHandler) {
     loadContext();

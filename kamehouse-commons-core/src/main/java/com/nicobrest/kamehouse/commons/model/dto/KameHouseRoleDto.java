@@ -28,9 +28,9 @@ public class KameHouseRoleDto implements KameHouseDto<KameHouseRole>, Serializab
     entity.setId(getId());
     entity.setName(getName());
     if (getKameHouseUser() != null) {
-      KameHouseUser kameHouseUser = new KameHouseUser();
-      kameHouseUser.setId(getKameHouseUser().getId());
-      entity.setKameHouseUser(kameHouseUser);
+      KameHouseUser kameHouseUserRef = new KameHouseUser();
+      kameHouseUserRef.setId(getKameHouseUser().getId());
+      entity.setKameHouseUser(kameHouseUserRef);
     }
     return entity;
   }

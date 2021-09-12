@@ -103,7 +103,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Creates entity ConflictException test.
    */
   @Test
-  public void createConflictExceptionTest() throws Exception {
+  public void createConflictExceptionTest() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
         NestedServletException.class,
@@ -170,7 +170,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Updates entity invalid path id test.
    */
   @Test
-  public void updateInvalidPathId() throws Exception {
+  public void updateInvalidPathId() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
         NestedServletException.class,
@@ -185,7 +185,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Updates entity not found test.
    */
   @Test
-  public void updateNotFoundExceptionTest() throws Exception {
+  public void updateNotFoundExceptionTest() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
         NestedServletException.class,
@@ -218,7 +218,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Deletes entity not found test.
    */
   @Test
-  public void deleteNotFoundExceptionTest() throws Exception {
+  public void deleteNotFoundExceptionTest() {
     assertThrows(
         NestedServletException.class,
         () -> {

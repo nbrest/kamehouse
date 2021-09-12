@@ -108,7 +108,7 @@ public class PowerManagementService {
   private static byte[] getMacAddressBytes(String macAddress) {
     try {
       byte[] macAddressBytes = new byte[6];
-      String[] hex = macAddress.split("(\\:|\\-)");
+      String[] hex = macAddress.split("[:-]");
       if (hex.length != 6) {
         throw new KameHouseBadRequestException("Invalid MAC address " + macAddress);
       }

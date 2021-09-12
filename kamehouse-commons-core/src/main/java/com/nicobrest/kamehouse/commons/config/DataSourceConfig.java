@@ -16,10 +16,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
  * JDBC DataSource bean configuration for all modules.
  */
 @Configuration
-@PropertySources({
-    @PropertySource("classpath:hibernate.properties"),
-    @PropertySource("classpath:jdbc.properties")
-})
+@PropertySource("classpath:hibernate.properties")
+@PropertySource("classpath:jdbc.properties")
 public class DataSourceConfig {
 
   @Autowired

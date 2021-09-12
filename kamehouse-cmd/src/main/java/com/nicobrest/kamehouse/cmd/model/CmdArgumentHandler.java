@@ -42,7 +42,7 @@ public class CmdArgumentHandler {
     ROOT_OPTIONS.add(new Option("h", "help", false, "Show help"));
     ROOT_OPTIONS.add(
         new Option("o", "operation", true, "Operation to execute: " + VALID_OPERATIONS));
-    ROOT_OPTIONS.stream().forEach(option -> ROOT_OPTIONS_GROUP.addOption(option));
+    ROOT_OPTIONS.stream().forEach(ROOT_OPTIONS_GROUP::addOption);
     ROOT_OPTIONS_GROUP.setRequired(true);
     ALL_OPTIONS.addOptionGroup(ROOT_OPTIONS_GROUP);
 
@@ -77,7 +77,7 @@ public class CmdArgumentHandler {
           parseEncryptOperation();
           break;
         default:
-          logger.error("Unhandled operation " + operation);
+          logger.error("Unhandled operation {},", operation);
           help();
           break;
       }

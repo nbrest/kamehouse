@@ -71,11 +71,9 @@ public class JsonUtils {
       for (String maskedField : maskedFields) {
         String[] maskFieldPath = maskedField.split("\\.");
         int maskedFieldPathDepth = maskFieldPath.length;
-        if (maskedFieldPathDepth == 1) {
-          if (objectNode.has(maskedField)) {
-            objectNode.remove(maskedField);
-            objectNode.put(maskedField, FIELD_MASK);
-          }
+        if (maskedFieldPathDepth == 1 && objectNode.has(maskedField)) {
+          objectNode.remove(maskedField);
+          objectNode.put(maskedField, FIELD_MASK);
         }
         if (maskedFieldPathDepth > 1) {
           JsonNode childNode = objectNode;
