@@ -53,7 +53,7 @@ public class SchedulerConfig {
     factory.setJobFactory(springBeanJobFactory());
     Properties properties = quartzProperties();
     if (properties != null) {
-      factory.setQuartzProperties(quartzProperties());
+      factory.setQuartzProperties(properties);
     }
     return factory;
   }
