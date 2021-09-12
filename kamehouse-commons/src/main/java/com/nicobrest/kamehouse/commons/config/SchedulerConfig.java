@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.commons.config;
 
 import java.io.IOException;
 import java.util.Properties;
-import javax.annotation.Nonnull;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.spi.TriggerFiredBundle;
