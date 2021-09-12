@@ -3,6 +3,8 @@ package com.nicobrest.kamehouse.commons.integration;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Integration tests for the LogLevelManagerController class.
@@ -36,67 +38,26 @@ public class LogLevelManagerControllerIntegrationTest extends AbstractController
     verifySuccessfulResponseList(response, String.class);
   }
 
-  @Test
-  public void logLevelDebugTest() throws Exception {
-    logger.info("Running logLevelDebugTest");
+  @ParameterizedTest
+  @ValueSource(strings = {"/debug", "?level=TRACE", "/trace"})
+  public void logLevelTest(String suffix) throws Exception {
+    logger.info("Running logLevelTest with parameter {}", suffix);
 
-    HttpResponse response = put(getWebappUrl() + API_URL + "/debug");
-
-    verifySuccessfulResponseList(response, String.class);
-  }
-
-  @Test
-  public void logLevelSetTest() throws Exception {
-    logger.info("Running logLevelSetTest");
-
-    HttpResponse response = put(getWebappUrl() + API_URL + "?level=TRACE");
+    HttpResponse response = put(getWebappUrl() + API_URL + suffix);
 
     verifySuccessfulResponseList(response, String.class);
   }
 
-  @Test
-  public void logLevelTraceTest() throws Exception {
-    logger.info("Running logLevelTraceTest");
-
-    HttpResponse response = put(getWebappUrl() + API_URL + "/trace");
-
-    verifySuccessfulResponseList(response, String.class);
-  }
-
-  @Test
-  public void requestLoggerPayloadTest() throws Exception {
-    logger.info("Running requestLoggerPayloadTest");
-    String url = getWebappUrl() + API_URL + "/request-logger/payload?logPayload=true";
-
-    HttpResponse response = put(url);
-
-    verifySuccessfulResponse(response, KameHouseGenericResponse.class);
-  }
-
-  @Test
-  public void requestLoggerHeadersTest() throws Exception {
-    logger.info("Running requestLoggerHeadersTest");
-    String url = getWebappUrl() + API_URL + "/request-logger/headers?logHeaders=true";
-
-    HttpResponse response = put(url);
-
-    verifySuccessfulResponse(response, KameHouseGenericResponse.class);
-  }
-
-  @Test
-  public void requestLoggerClientInfoTest() throws Exception {
-    logger.info("Running requestLoggerClientInfoTest");
-    String url = getWebappUrl() + API_URL + "/request-logger/client-info?logClientInfo=true";
-
-    HttpResponse response = put(url);
-
-    verifySuccessfulResponse(response, KameHouseGenericResponse.class);
-  }
-
-  @Test
-  public void requestLoggerQueryStringTest() throws Exception {
-    logger.info("Running requestLoggerQueryStringTest");
-    String url = getWebappUrl() + API_URL + "/request-logger/query-string?logQueryString=true";
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "payload?logPayload=true",
+      "headers?logHeaders=true",
+      "client-info?logClientInfo=true",
+      "query-string?logQueryString=true"
+  })
+  public void requestLoggerTest(String suffix) throws Exception {
+    logger.info("Running requestLoggerTest with parameter {}", suffix);
+    String url = getWebappUrl() + API_URL + "/request-logger/" + suffix;
 
     HttpResponse response = put(url);
 

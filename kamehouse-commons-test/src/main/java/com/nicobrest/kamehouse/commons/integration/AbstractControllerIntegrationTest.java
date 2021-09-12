@@ -39,13 +39,14 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   private static final String LOGIN_CREDENTIALS_FILE =
       "/home-synced/.kamehouse/integration-test-cred.enc";
   private static final String LOGIN_URL = "/kame-house/login";
+  private static final String RESPONSE_BODY = "Response body {}";
 
   private HttpClient httpClient;
 
   /**
    * Init integration tests class.
    */
-  public AbstractControllerIntegrationTest() {
+  protected AbstractControllerIntegrationTest() {
     setHttpClient();
     try {
       login();
@@ -75,7 +76,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a POST request.
    */
-  public <T> HttpResponse post(String url) throws IOException {
+  public HttpResponse post(String url) throws IOException {
     HttpPost post = new HttpPost(url);
     return getHttpClient().execute(post);
   }
@@ -92,7 +93,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Execute a PUT request.
    */
-  public <T> HttpResponse put(String url) throws IOException {
+  public HttpResponse put(String url) throws IOException {
     HttpPut put = new HttpPut(url);
     return getHttpClient().execute(put);
   }
@@ -160,7 +161,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     assertEquals(HttpStatus.SC_CREATED, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
     assertNotNull(responseBody);
-    logger.info("Response body {}", responseBody);
+    logger.info(RESPONSE_BODY, responseBody);
     return responseBody;
   }
 
@@ -172,7 +173,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
     assertNotNull(responseBody);
-    logger.info("Response body {}", responseBody);
+    logger.info(RESPONSE_BODY, responseBody);
     return responseBody;
   }
 
@@ -184,8 +185,8 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     List<T> responseBody = getResponseBodyList(response, clazz);
     assertNotNull(responseBody);
-    assertTrue(responseBody.size() > 0);
-    logger.info("Response body {}", responseBody);
+    assertTrue(!responseBody.isEmpty());
+    logger.info(RESPONSE_BODY, responseBody);
     return responseBody;
   }
 

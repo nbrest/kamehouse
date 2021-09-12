@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.config;
 
 import java.io.IOException;
 import java.util.Properties;
+import javax.annotation.Nonnull;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.spi.TriggerFiredBundle;
@@ -30,9 +31,12 @@ public class SchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired private ApplicationContext applicationContext;
+  @Autowired
+  private ApplicationContext applicationContext;
 
-  /** Workaround to add autowiring support to SpringBeanJobFactory. */
+  /**
+   * Workaround to add autowiring support to SpringBeanJobFactory.
+   */
   @Bean
   public SpringBeanJobFactory springBeanJobFactory() {
     logger.info("Configuring Job factory");
@@ -41,16 +45,23 @@ public class SchedulerConfig {
     return jobFactory;
   }
 
-  /** schedulerFactoryBean bean. */
+  /**
+   * schedulerFactoryBean bean.
+   */
   @Bean
   public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
     SchedulerFactoryBean factory = new SchedulerFactoryBean();
     factory.setJobFactory(springBeanJobFactory());
-    factory.setQuartzProperties(quartzProperties());
+    Properties properties = quartzProperties();
+    if (properties != null) {
+      factory.setQuartzProperties(quartzProperties());
+    }
     return factory;
   }
 
-  /** Get quartz propeties file. */
+  /**
+   * Get quartz propeties file.
+   */
   private static Properties quartzProperties() throws IOException {
     PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
     propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
@@ -58,7 +69,9 @@ public class SchedulerConfig {
     return propertiesFactoryBean.getObject();
   }
 
-  /** Scheduler bean. */
+  /**
+   * Scheduler bean.
+   */
   @Bean
   public Scheduler scheduler(SchedulerFactoryBean schedulerFactoryBean) throws SchedulerException {
     logger.info("Setting up the Scheduler");
@@ -83,6 +96,7 @@ public class SchedulerConfig {
       beanFactory = null;
     }
 
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
       beanFactory = applicationContext.getAutowireCapableBeanFactory();
     }

@@ -16,6 +16,8 @@ import org.springframework.web.servlet.DispatcherServlet;
  */
 public class KameHouseWebAppInitializer implements WebApplicationInitializer {
 
+  private static final String DISPATCHER = "dispatcher";
+
   @Override
   public void onStartup(ServletContext servletContext) {
 
@@ -26,7 +28,7 @@ public class KameHouseWebAppInitializer implements WebApplicationInitializer {
 
     // Set dispatcher servlet
     ServletRegistration.Dynamic dispatcher =
-        servletContext.addServlet("dispatcher", new DispatcherServlet());
+        servletContext.addServlet(DISPATCHER, new DispatcherServlet());
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping("/");
     dispatcher.setAsyncSupported(true);
@@ -38,12 +40,12 @@ public class KameHouseWebAppInitializer implements WebApplicationInitializer {
 
     FilterRegistration.Dynamic customRequestLoggingFilterReg = servletContext
         .addFilter("customRequestLoggingFilter", customRequestLoggingFilter);
-    customRequestLoggingFilterReg.addMappingForServletNames(null, true, "dispatcher");
+    customRequestLoggingFilterReg.addMappingForServletNames(null, true, DISPATCHER);
     customRequestLoggingFilterReg.setAsyncSupported(true);
 
     FilterRegistration.Dynamic springSecurityFilterChain = servletContext
         .addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);
-    springSecurityFilterChain.addMappingForServletNames(null, true, "dispatcher");
+    springSecurityFilterChain.addMappingForServletNames(null, true, DISPATCHER);
     springSecurityFilterChain.setAsyncSupported(true);
   }
 }

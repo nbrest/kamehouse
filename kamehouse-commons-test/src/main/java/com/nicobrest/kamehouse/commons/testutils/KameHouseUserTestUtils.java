@@ -23,6 +23,9 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
   public static final String API_V1_ADMIN_KAMEHOUSE_USERS = "/api/v1/admin/kamehouse/users/";
   public static final Long INVALID_ID = 987987L;
   public static final String INVALID_USERNAME = "yukimura";
+  public static final String TEST_EMAIL = "goku@dbz.com";
+  public static final String GOKU = "goku";
+  public static final String SON = "son";
 
   @Override
   public void initTestData() {
@@ -49,7 +52,7 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
   public KameHouseUser getBadUsernameKameHouseUser() {
     KameHouseUser badUsernameKameHouseUser = new KameHouseUser();
     badUsernameKameHouseUser.setId(1000L);
-    badUsernameKameHouseUser.setEmail("goku@dbz.com");
+    badUsernameKameHouseUser.setEmail(TEST_EMAIL);
     badUsernameKameHouseUser.setUsername(null);
     badUsernameKameHouseUser.setPassword("gokupass");
     return badUsernameKameHouseUser;
@@ -59,7 +62,7 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
   public KameHouseUser getBadPasswordKameHouseUser() {
     KameHouseUser badPasswordKameHouseUser = new KameHouseUser();
     badPasswordKameHouseUser.setId(1000L);
-    badPasswordKameHouseUser.setEmail("goku@dbz.com");
+    badPasswordKameHouseUser.setEmail(TEST_EMAIL);
     badPasswordKameHouseUser.setUsername("gokuuser");
     badPasswordKameHouseUser.setPassword(null);
     return badPasswordKameHouseUser;
@@ -68,11 +71,11 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
   private void initSingleTestData() {
     singleTestData = new KameHouseUser();
     singleTestData.setId(null);
-    singleTestData.setEmail("goku@dbz.com");
-    singleTestData.setUsername("goku");
-    singleTestData.setPassword("goku");
-    singleTestData.setFirstName("Goku");
-    singleTestData.setLastName("Son");
+    singleTestData.setEmail(TEST_EMAIL);
+    singleTestData.setUsername(GOKU);
+    singleTestData.setPassword(GOKU);
+    singleTestData.setFirstName(GOKU);
+    singleTestData.setLastName(SON);
     KameHouseRole kameHouseRole = new KameHouseRole();
     kameHouseRole.setId(null);
     kameHouseRole.setName("ROLE_KAMISAMA");
@@ -85,11 +88,11 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
   private void initTestDataDto() {
     testDataDto = new KameHouseUserDto();
     testDataDto.setId(null);
-    testDataDto.setEmail("goku@dbz.com");
-    testDataDto.setUsername("goku");
-    testDataDto.setPassword("goku");
-    testDataDto.setFirstName("Goku");
-    testDataDto.setLastName("Son");
+    testDataDto.setEmail(TEST_EMAIL);
+    testDataDto.setUsername(GOKU);
+    testDataDto.setPassword(GOKU);
+    testDataDto.setFirstName(GOKU);
+    testDataDto.setLastName(SON);
     testDataDto.setAccountNonExpired(true);
     testDataDto.setAccountNonLocked(true);
     testDataDto.setCredentialsNonExpired(true);
@@ -110,7 +113,7 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
     kameHouseUser2.setEmail("gohan@dbz.com");
     kameHouseUser2.setUsername("gohan");
     kameHouseUser2.setPassword("gohan");
-    Set<KameHouseRole> roles2 = new HashSet<KameHouseRole>();
+    Set<KameHouseRole> roles2 = new HashSet<>();
     KameHouseRole userRole2 = new KameHouseRole();
     userRole2.setName("ROLE_SAIYAJIN");
     userRole2.setKameHouseUser(kameHouseUser2);
@@ -122,7 +125,7 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
     kameHouseUser3.setEmail("goten@dbz.com");
     kameHouseUser3.setUsername("goten");
     kameHouseUser3.setPassword("goten");
-    Set<KameHouseRole> roles3 = new HashSet<KameHouseRole>();
+    Set<KameHouseRole> roles3 = new HashSet<>();
     KameHouseRole userRole3 = new KameHouseRole();
     userRole3.setName("ROLE_SAIYAJIN");
     userRole3.setKameHouseUser(kameHouseUser3);

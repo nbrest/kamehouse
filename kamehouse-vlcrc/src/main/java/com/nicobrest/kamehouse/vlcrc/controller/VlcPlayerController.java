@@ -42,6 +42,7 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    */
   @PostMapping(path = "/players")
   @ResponseBody
+  @Override
   public ResponseEntity<Long> create(@RequestBody VlcPlayerDto dto) {
     return super.create(dto);
   }
@@ -51,6 +52,7 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    */
   @GetMapping(path = "/players/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<VlcPlayer> read(@PathVariable Long id) {
     return super.read(id);
   }
@@ -60,6 +62,7 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    */
   @GetMapping(path = "/players")
   @ResponseBody
+  @Override
   public ResponseEntity<List<VlcPlayer>> readAll() {
     return super.readAll();
   }
@@ -68,6 +71,7 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    * Updates the VLC Player passed as a URL parameter.
    */
   @PutMapping(path = "/players/{id}")
+  @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody VlcPlayerDto dto) {
     return super.update(id, dto);
   }
@@ -77,6 +81,7 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    */
   @DeleteMapping(path = "/players/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<VlcPlayer> delete(@PathVariable Long id) {
     return super.delete(id);
   }

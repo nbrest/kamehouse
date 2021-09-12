@@ -43,6 +43,7 @@ public class BookingRequestController extends
    */
   @PostMapping(path = "/booking-requests")
   @ResponseBody
+  @Override
   public ResponseEntity<Long> create(@RequestBody BookingRequestDto dto) {
     return super.create(dto);
   }
@@ -52,6 +53,7 @@ public class BookingRequestController extends
    */
   @GetMapping(path = "/booking-requests/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<BookingRequest> read(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.read(id));
   }
@@ -61,6 +63,7 @@ public class BookingRequestController extends
    */
   @GetMapping(path = "/booking-requests")
   @ResponseBody
+  @Override
   public ResponseEntity<List<BookingRequest>> readAll() {
     return generatePasswordLessResponseEntity(super.readAll());
   }
@@ -70,6 +73,7 @@ public class BookingRequestController extends
    */
   @PutMapping(path = "/booking-requests/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody BookingRequestDto dto) {
     return super.update(id, dto);
   }
@@ -79,6 +83,7 @@ public class BookingRequestController extends
    */
   @DeleteMapping(path = "/booking-requests/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<BookingRequest> delete(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.delete(id));
   }

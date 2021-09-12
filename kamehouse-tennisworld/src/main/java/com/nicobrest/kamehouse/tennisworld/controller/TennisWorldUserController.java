@@ -44,6 +44,7 @@ public class TennisWorldUserController extends
    */
   @PostMapping(path = "/users")
   @ResponseBody
+  @Override
   public ResponseEntity<Long> create(@RequestBody TennisWorldUserDto dto) {
     return super.create(dto);
   }
@@ -53,6 +54,7 @@ public class TennisWorldUserController extends
    */
   @GetMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<TennisWorldUser> read(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.read(id));
   }
@@ -62,6 +64,7 @@ public class TennisWorldUserController extends
    */
   @GetMapping(path = "/users")
   @ResponseBody
+  @Override
   public ResponseEntity<List<TennisWorldUser>> readAll() {
     return generatePasswordLessResponseEntity(super.readAll());
   }
@@ -71,6 +74,7 @@ public class TennisWorldUserController extends
    */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TennisWorldUserDto dto) {
     return super.update(id, dto);
   }
@@ -80,6 +84,7 @@ public class TennisWorldUserController extends
    */
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<TennisWorldUser> delete(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.delete(id));
   }

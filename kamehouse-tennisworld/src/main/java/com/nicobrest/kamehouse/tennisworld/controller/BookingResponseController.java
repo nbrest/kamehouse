@@ -43,6 +43,7 @@ public class BookingResponseController extends
    */
   @PostMapping(path = "/booking-responses")
   @ResponseBody
+  @Override
   public ResponseEntity<Long> create(@RequestBody BookingResponseDto dto) {
     return super.create(dto);
   }
@@ -52,6 +53,7 @@ public class BookingResponseController extends
    */
   @GetMapping(path = "/booking-responses/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<BookingResponse> read(@PathVariable Long id) {
     return super.read(id);
   }
@@ -61,6 +63,7 @@ public class BookingResponseController extends
    */
   @GetMapping(path = "/booking-responses")
   @ResponseBody
+  @Override
   public ResponseEntity<List<BookingResponse>> readAll() {
     return super.readAll();
   }
@@ -70,6 +73,7 @@ public class BookingResponseController extends
    */
   @PutMapping(path = "/booking-responses/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody BookingResponseDto dto) {
     return super.update(id, dto);
   }
@@ -79,6 +83,7 @@ public class BookingResponseController extends
    */
   @DeleteMapping(path = "/booking-responses/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<BookingResponse> delete(@PathVariable Long id) {
     return super.delete(id);
   }

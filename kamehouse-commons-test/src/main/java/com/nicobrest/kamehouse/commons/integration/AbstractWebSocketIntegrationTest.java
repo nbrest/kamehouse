@@ -59,12 +59,14 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
   /**
    * Init integration tests.
    */
-  public AbstractWebSocketIntegrationTest() {
+  protected AbstractWebSocketIntegrationTest() {
     setProtocol("ws://");
     try {
       stompSession = getStompSession();
-    } catch (ExecutionException | InterruptedException e) {
+    } catch (ExecutionException e) {
       logger.error("Error getting the stomp session");
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
     }
   }
 
@@ -131,11 +133,11 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
     Future<StompSession> stompSessionFuture = stompClient.connect(
         getWebappUrl() + getWebSocketUrl(),
         sessionHandler);
-    StompSession stompSession = stompSessionFuture.get();
+    StompSession stompSessionInstance = stompSessionFuture.get();
     if (getTopicUrl() != null) {
-      stompSession.subscribe(getTopicUrl(), sessionHandler);
+      stompSessionInstance.subscribe(getTopicUrl(), sessionHandler);
     }
-    return stompSession;
+    return stompSessionInstance;
   }
 
   /**
@@ -157,7 +159,7 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
     StompSessionHandler sessionHandler = new StompSessionHandlerAdapter() {
       @Override
       public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        logger.info("New session established : " + session.getSessionId());
+        logger.info("New session established : {}", session.getSessionId());
       }
 
       @Override

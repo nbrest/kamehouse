@@ -90,7 +90,7 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
     singleTestData.setStatus("completed");
     singleTestData.setStandardOutput(
         Arrays.asList("INFO: No tasks are running which match the specified criteria."));
-    singleTestData.setStandardError(new ArrayList<String>());
+    singleTestData.setStandardError(new ArrayList<>());
   }
 
   private void initTestDataList() {

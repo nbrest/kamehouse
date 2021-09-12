@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -68,7 +69,7 @@ public class BookingResponseControllerIntegrationTest
   @Test
   @Order(1)
   @Override
-  public void createTest() throws Exception {
+  public void createTest() throws IOException {
     bookingRequestControllerIntegrationTest.createTest();
     super.createTest();
   }
@@ -79,7 +80,7 @@ public class BookingResponseControllerIntegrationTest
   @Test
   @Order(8)
   @Override
-  public void deleteTest() throws Exception {
+  public void deleteTest() throws IOException {
     super.deleteTest();
     bookingRequestControllerIntegrationTest.deleteTest();
   }

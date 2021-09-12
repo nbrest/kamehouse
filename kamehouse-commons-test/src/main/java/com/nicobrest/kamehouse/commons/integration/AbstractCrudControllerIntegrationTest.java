@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseEntity<D>,
     D extends KameHouseDto<E>> extends AbstractControllerIntegrationTest {
 
+  private static final String UPDATE_ENTITY = "Updating entity {}";
+
   protected TestUtils<E, D> testUtils;
 
   private D dto;
@@ -30,7 +33,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   /**
    * Init abstract class.
    */
-  public AbstractCrudControllerIntegrationTest() {
+  protected AbstractCrudControllerIntegrationTest() {
     testUtils = getTestUtils();
     testUtils.initTestData();
   }
@@ -96,7 +99,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(1)
-  public void createTest() throws Exception {
+  public void createTest() throws IOException {
     logger.info("Running createTest");
     dto = buildDto(testUtils.getTestDataDto());
     logger.info("Creating entity {}", dto);
@@ -112,7 +115,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(2)
-  public void createConflictExceptionTest() throws Exception {
+  public void createConflictExceptionTest() throws IOException {
     if (!hasUniqueConstraints()) {
       logger.info("Skipping createConflictExceptionTest");
       return;
@@ -131,7 +134,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(3)
-  public void readTest() throws Exception {
+  public void readTest() throws IOException {
     logger.info("Running readTest with id {}", createdId);
 
     HttpResponse response = get(getCrudUrl() + createdId);
@@ -144,7 +147,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(4)
-  public void readAllTest() throws Exception {
+  public void readAllTest() throws IOException {
     logger.info("Running readAllTest");
 
     HttpResponse response = get(getCrudUrl());
@@ -157,11 +160,11 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(5)
-  public void updateTest() throws Exception {
+  public void updateTest() throws IOException {
     logger.info("Running updateTest with id {}", createdId);
     updateDto(dto);
     dto.setId(createdId);
-    logger.info("Updating entity {}", dto);
+    logger.info(UPDATE_ENTITY, dto);
 
     HttpResponse response = put(getCrudUrl() + createdId, dto);
 
@@ -174,9 +177,9 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(6)
-  public void updateInvalidPathId() throws Exception {
+  public void updateInvalidPathId() throws IOException {
     logger.info("Running updateInvalidPathId with id {}", createdId + createdId);
-    logger.info("Updating entity {}", dto);
+    logger.info(UPDATE_ENTITY, dto);
 
     HttpResponse response = put(getCrudUrl() + createdId + createdId, dto);
 
@@ -189,11 +192,11 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(7)
-  public void updateNotFoundExceptionTest() throws Exception {
+  public void updateNotFoundExceptionTest() throws IOException {
     Long invalidId = createdId * 2;
     logger.info("Running updateNotFoundExceptionTest with id {}", invalidId);
     dto.setId(invalidId);
-    logger.info("Updating entity {}", dto);
+    logger.info(UPDATE_ENTITY, dto);
 
     HttpResponse response = put(getCrudUrl() + invalidId, dto);
 
@@ -206,7 +209,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(8)
-  public void deleteTest() throws Exception {
+  public void deleteTest() throws IOException {
     logger.info("Running deleteTest with id {}", createdId);
 
     HttpResponse response = delete(getCrudUrl() + createdId);
@@ -220,7 +223,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(9)
-  public void deleteNotFoundExceptionTest() throws Exception {
+  public void deleteNotFoundExceptionTest() throws IOException {
     logger.info("Running deleteNotFoundExceptionTest with id {}", createdId);
 
     HttpResponse response = delete(getCrudUrl() + createdId);

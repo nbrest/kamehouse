@@ -46,6 +46,7 @@ public class DragonBallController extends
    */
   @PostMapping(path = "/users")
   @ResponseBody
+  @Override
   public ResponseEntity<Long> create(@RequestBody DragonBallUserDto dto) {
     return super.create(dto);
   }
@@ -55,6 +56,7 @@ public class DragonBallController extends
    */
   @GetMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<DragonBallUser> read(@PathVariable Long id) {
     return super.read(id);
   }
@@ -83,6 +85,7 @@ public class DragonBallController extends
    */
   @PutMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
     return super.update(id, dto);
   }
@@ -92,6 +95,7 @@ public class DragonBallController extends
    */
   @DeleteMapping(path = "/users/{id}")
   @ResponseBody
+  @Override
   public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
     return super.delete(id);
   }

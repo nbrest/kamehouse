@@ -7,9 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
-import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

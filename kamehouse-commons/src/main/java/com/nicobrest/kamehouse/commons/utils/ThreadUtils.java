@@ -25,7 +25,7 @@ public class ThreadUtils {
    * Set the current thread name.
    */
   public static void setCurrentThreadName(String threadName) {
-    LOGGER.debug("Renaming current thread to " + threadName);
+    LOGGER.debug("Renaming current thread to {}", threadName);
     Thread.currentThread().setName(threadName);
   }
 }
