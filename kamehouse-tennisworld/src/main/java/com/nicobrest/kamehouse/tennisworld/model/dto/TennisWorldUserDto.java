@@ -7,7 +7,6 @@ import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import org.apache.commons.codec.Charsets;
 
