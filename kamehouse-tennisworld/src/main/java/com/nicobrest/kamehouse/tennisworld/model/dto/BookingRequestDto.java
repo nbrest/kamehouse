@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.model.dto;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
