@@ -1011,20 +1011,8 @@ function TableUtils() {
       maxRows = rows.length;
     }
 
-    filterString = filterString.toLowerCase();
+    const regex = getRegex(filterString);
     const tableRows = $("#" + tableBodyId + " tr");
-    let regex;
-    try {
-      if (isQuotedString(filterString)) {
-        filterString = removeQuotes(filterString);
-      } else {
-        filterString = addAsterisksBetweenAllCharsToRegex(filterString);
-      }
-      regex = new RegExp(filterString);
-    } catch (error) {
-      logger.error("Error creating regex from filter string " + filterString);
-      regex = /""/;
-    }
     tableRows.filter(function () {
       const tr = this;
       const classList = tr.classList.value;
@@ -1043,27 +1031,6 @@ function TableUtils() {
     });
   }
 
-  /**
-   * Check for double quotes at the beginning and end of the string.
-   */
-  function isQuotedString(string) {
-    return string.startsWith("\"") && string.endsWith("\"");
-  }
-
-  /**
-   * Remove the double quotes from the string.
-   */
-  function removeQuotes(string) {
-    return string.substring(1, string.length-1);
-  }
-
-  /**
-   * Adds .* between each character to expand the matching criteria of the regex.
-   */
-  function addAsterisksBetweenAllCharsToRegex(string) {
-    return string.split('').join('.*').replace(/\s/g, '');
-  }
-
   /** 
    * Filter table rows by a specific column based on the specified filter string. Shouldn't filter the header row. 
    * Toggles a maximum of maxRows.
@@ -1079,21 +1046,8 @@ function TableUtils() {
     if (isEmpty(maxRows) || maxRows == "" || maxRows == "all") {
       maxRows = rows.length;
     }
-
-    filterString = filterString.toLowerCase();
+    const regex = getRegex(filterString);
     const tableRows = $("#" + tableBodyId + " tr");
-    let regex;
-    try {
-      if (isQuotedString(filterString)) {
-        filterString = removeQuotes(filterString);
-      } else {
-        filterString = addAsterisksBetweenAllCharsToRegex(filterString);
-      }
-      regex = new RegExp(filterString);
-    } catch (error) {
-      logger.error("Error creating regex from filter string " + filterString);
-      regex = /""/;
-    }
     tableRows.filter(function () {
       const tr = this;
       const classList = tr.classList.value;
@@ -1111,6 +1065,45 @@ function TableUtils() {
         }
       }
     });
+  }
+
+  /**
+   * Get the regex to filter the rows.
+   */
+  function getRegex(filterString) {
+    filterString = filterString.toLowerCase();
+    try {
+      if (isQuotedString(filterString)) {
+        filterString = removeQuotes(filterString);
+      } else {
+        filterString = addAsterisksBetweenAllCharsToRegex(filterString);
+      }
+      return new RegExp(filterString);
+    } catch (error) {
+      logger.error("Error creating regex from filter string " + filterString);
+      return /""/;
+    }
+  }
+
+  /**
+   * Check for double quotes at the beginning and end of the string.
+   */
+   function isQuotedString(string) {
+    return string.startsWith("\"") && string.endsWith("\"");
+  }
+
+  /**
+   * Remove the double quotes from the string.
+   */
+  function removeQuotes(string) {
+    return string.substring(1, string.length-1);
+  }
+
+  /**
+   * Adds .* between each character to expand the matching criteria of the regex.
+   */
+  function addAsterisksBetweenAllCharsToRegex(string) {
+    return string.split('').join('.*').replace(/\s/g, '');
   }
 
   /**
