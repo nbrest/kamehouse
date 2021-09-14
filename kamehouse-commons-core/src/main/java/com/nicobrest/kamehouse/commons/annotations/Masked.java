@@ -51,47 +51,85 @@ public @interface Masked {
      */
     private static void populateMaskedFieldsList(Object object, List<String> maskedFields,
         String parentNode) {
-      if (parentNode != null) {
-        parentNode = parentNode + ".";
-      } else {
-        parentNode = "";
-      }
-      if (object == null || object.getClass() == null) {
+      parentNode = initParentNode(parentNode);
+      if (!hasFields(object)) {
         return;
       }
-      Class<?> clazz = object.getClass();
-      Field[] fields = clazz.getDeclaredFields();
-      if (fields == null || fields.length == 0) {
-        return;
-      }
-      for (Field field : clazz.getDeclaredFields()) {
+      Field[] fields = object.getClass().getDeclaredFields();
+      for (Field field : fields) {
         if (field.isAnnotationPresent(Masked.class)) {
           maskedFields.add(parentNode + field.getName());
         }
-        if (field.isEnumConstant()) {
+        if (shouldSkip(field)) {
           continue;
         }
-        Class<?> fieldClass = field.getType();
-        if (fieldClass == null || fieldClass.getPackage() == null) {
-          continue;
-        }
-        String packageName = fieldClass.getPackage().getName();
-        if (!packageName.startsWith(KAMEHOUSE_PACKAGE)) {
-          // Only iterate recursively over fields that are KameHouse defined objects.
-          continue;
-        }
-        Field[] subfields = fieldClass.getDeclaredFields();
-        if (subfields != null && subfields.length > 0) {
+        if (hasSubFields(field)) {
           try {
             field.setAccessible(true);
             Object fieldValue = field.get(object);
             populateMaskedFieldsList(fieldValue, maskedFields, parentNode + field.getName());
           } catch (IllegalAccessException e) {
-            LOGGER.trace("Error accessing object field to get masked fields. Field: {},",
+            LOGGER.trace("Error accessing object field to get masked fields. Field: {}",
                 field.getName());
           }
         }
       }
+    }
+
+    /**
+     * Init the parent node.
+     */
+    private static String initParentNode(String parentNode) {
+      if (parentNode != null) {
+        return parentNode + ".";
+      } else {
+        return "";
+      }
+    }
+
+    /**
+     * Check if the object has fields.
+     */
+    private static boolean hasFields(Object object) {
+      if (object == null || object.getClass() == null) {
+        return false;
+      }
+      Class<?> clazz = object.getClass();
+      Field[] fields = clazz.getDeclaredFields();
+      if (fields == null || fields.length <= 0) {
+        return false;
+      }
+      return true;
+    }
+
+    /**
+     * Check if the field has subfields.
+     */
+    private static boolean hasSubFields(Field field) {
+      Field[] subfields = field.getType().getDeclaredFields();
+      if (subfields != null && subfields.length > 0) {
+        return true;
+      }
+      return false;
+    }
+
+    /**
+     * Check if it should skip the field from processing.
+     */
+    private static boolean shouldSkip(Field field) {
+      if (field.isEnumConstant()) {
+        return true;
+      }
+      Class<?> fieldClass = field.getType();
+      if (fieldClass == null || fieldClass.getPackage() == null) {
+        return true;
+      }
+      String packageName = fieldClass.getPackage().getName();
+      if (!packageName.startsWith(KAMEHOUSE_PACKAGE)) {
+        // Only iterate recursively over fields that are KameHouse defined objects.
+        return true;
+      }
+      return false;
     }
   }
 }
