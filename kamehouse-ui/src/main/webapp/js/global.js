@@ -1144,9 +1144,7 @@ function TableUtils() {
     let nextRow = null;
     let sortDirection = "asc";
 
-    if (initialSortDirection != "asc" && initialSortDirection != "desc") {
-      initialSortDirection = null;
-    }
+    initialSortDirection = initSortDirection(initialSortDirection);
 
     while (sorting) {
       sorting = false;
@@ -1155,7 +1153,7 @@ function TableUtils() {
         swapRows = false;
         currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
         nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];        
-        if (shouldSwap(currentRow, nextRow, sortDirection, compareFunction)) {
+        if (shouldSwapRows(currentRow, nextRow, sortDirection, compareFunction)) {
           swapRows = true;
           break;
         }
@@ -1166,7 +1164,7 @@ function TableUtils() {
         sorting = true;
         swapCount++;
       } else {
-        if (swapCount == 0 && sortDirection == "asc" && initialSortDirection != "asc") {
+        if (shouldSwapDirection(swapCount, sortDirection, initialSortDirection)) {
           // if no sorting was done, swap sort direction, and sort reversely.
           sortDirection = "desc";
           sorting = true;
@@ -1182,9 +1180,26 @@ function TableUtils() {
   }
 
   /**
+   * Check if it should swap the sorting direction.
+   */
+  function shouldSwapDirection(swapCount, sortDirection, initialSortDirection) {
+    return swapCount == 0 && sortDirection == "asc" && initialSortDirection != "asc";
+  }
+
+  /**
+   * Set initial direction.
+   */
+  function initSortDirection(initialSortDirection) {
+    if (initialSortDirection != "asc" && initialSortDirection != "desc") {
+      return null;
+    }
+    return initialSortDirection;
+  }
+
+  /**
    * Returns true if the current and next rows need to be swapped.
    */
-  function shouldSwap(currentRow, nextRow, sortDirection, compareFunction) {
+  function shouldSwapRows(currentRow, nextRow, sortDirection, compareFunction) {
     return compareFunction(currentRow, nextRow, sortDirection);
   }
 
