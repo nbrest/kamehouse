@@ -41,10 +41,8 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
       InputValidator.throwInputValidationError("Invalid time");
     }
 
-    if (entity.getDuration() != null) {
-      if (!DURATION_PATTERN.matcher(entity.getDuration()).matches()) {
-        InputValidator.throwInputValidationError("Invalid duration");
-      }
+    if (entity.getDuration() != null && !DURATION_PATTERN.matcher(entity.getDuration()).matches()) {
+      InputValidator.throwInputValidationError("Invalid duration");
     }
   }
 }

@@ -4,6 +4,8 @@ import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegration
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Integration tests for the SystemStateController class.
@@ -19,38 +21,12 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
     return "kame-house-admin";
   }
 
-  @Test
-  public void uptimeTest() throws Exception {
-    logger.info("Running uptimeTest");
+  @ParameterizedTest
+  @ValueSource(strings = {"uptime", "free", "df", "httpd"})
+  public void systemStateTest(String suffix) throws Exception {
+    logger.info("Running systemStateTest with parameter {}", suffix);
 
-    HttpResponse response = get(getWebappUrl() + API_URL + "/uptime");
-
-    verifySuccessfulResponseList(response, SystemCommand.Output.class);
-  }
-
-  @Test
-  public void freeTest() throws Exception {
-    logger.info("Running freeTest");
-
-    HttpResponse response = get(getWebappUrl() + API_URL + "/free");
-
-    verifySuccessfulResponseList(response, SystemCommand.Output.class);
-  }
-
-  @Test
-  public void dfTest() throws Exception {
-    logger.info("Running dfTest");
-
-    HttpResponse response = get(getWebappUrl() + API_URL + "/df");
-
-    verifySuccessfulResponseList(response, SystemCommand.Output.class);
-  }
-
-  @Test
-  public void httpdStatusTest() throws Exception {
-    logger.info("Running httpdStatusTest");
-
-    HttpResponse response = get(getWebappUrl() + API_URL + "/httpd");
+    HttpResponse response = get(getWebappUrl() + API_URL + "/" + suffix);
 
     verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }

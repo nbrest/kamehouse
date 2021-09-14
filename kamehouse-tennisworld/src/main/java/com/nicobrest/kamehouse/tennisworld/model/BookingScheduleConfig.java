@@ -102,7 +102,7 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
   private Integer bookAheadDays;
 
   @Column(name = "enabled", unique = false, nullable = false)
-  private Boolean enabled;
+  private boolean enabled;
 
   /**
    * Duration in minutes. Format: MMM (optional depending on sessionType)
@@ -208,11 +208,11 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
     this.bookAheadDays = bookAheadDays;
   }
 
-  public Boolean getEnabled() {
+  public boolean getEnabled() {
     return enabled;
   }
 
-  public void setEnabled(Boolean enabled) {
+  public void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }
 

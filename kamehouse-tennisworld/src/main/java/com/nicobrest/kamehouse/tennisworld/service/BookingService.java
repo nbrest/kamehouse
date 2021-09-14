@@ -89,7 +89,7 @@ public class BookingService {
   public static final String SUCCESSFUL_BOOKING = "Completed the booking request successfully";
   public static final String SUCCESSFUL_BOOKING_DRY_RUN =
       "Completed the booking request DRY-RUN" + " successfully";
-  public static final String BOOKING_FINISHED = "Booking to tennis world finished: ";
+  public static final String BOOKING_FINISHED = "Booking to tennis world finished: {}";
 
   private static int sleepMs = 500;
 
@@ -411,7 +411,7 @@ public class BookingService {
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasError(Jsoup.parse(html))) {
       throw new KameHouseServerErrorException("Error getting the confirm booking page");
@@ -436,7 +436,7 @@ public class BookingService {
     logRequestHeaders(confirmBookingHttpPost);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, confirmBookingHttpPost);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document postBookingResponsePage = Jsoup.parse(html);
     if (hasError(postBookingResponsePage)) {
@@ -462,7 +462,7 @@ public class BookingService {
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document confirmFinalBookingPage = Jsoup.parse(html);
     if (hasError(confirmFinalBookingPage)) {
@@ -573,7 +573,7 @@ public class BookingService {
         HttpClientUtils.execRequest(httpClient, initialLoginPostRequest);
     logHttpResponseCode(initialLoginPostResponse);
     String initialLoginHtml =
-        IOUtils.toString(HttpClientUtils.getInputStream(initialLoginPostResponse));
+        IOUtils.toString(HttpClientUtils.getInputStream(initialLoginPostResponse), Charsets.UTF_8);
     logger.debug(initialLoginHtml);
     if (hasLoginError(initialLoginHtml)
         || HttpClientUtils.getStatusCode(initialLoginPostResponse) != HttpStatus.FOUND.value()) {
@@ -589,8 +589,8 @@ public class BookingService {
     HttpResponse completeLoginAllSitesGetResponse =
         HttpClientUtils.execRequest(httpClient, completeLoginAllSitesGetRequest);
     logHttpResponseCode(completeLoginAllSitesGetResponse);
-    String completeLoginAllSitesResponseHtml =
-        IOUtils.toString(HttpClientUtils.getInputStream(completeLoginAllSitesGetResponse));
+    String completeLoginAllSitesResponseHtml = IOUtils.toString(HttpClientUtils.getInputStream(
+        completeLoginAllSitesGetResponse), Charsets.UTF_8);
     logger.debug(completeLoginAllSitesResponseHtml);
     Document completeLoginAllSitesResponsePage = Jsoup.parse(completeLoginAllSitesResponseHtml);
     Elements tennisWorldSiteLinks =
@@ -621,8 +621,8 @@ public class BookingService {
     HttpResponse completeLoginSelectedSiteResponse =
         HttpClientUtils.execRequest(httpClient, completeLoginSelectedSiteGetRequest);
     logHttpResponseCode(completeLoginSelectedSiteResponse);
-    String completeLoginSelectedSiteResponseHtml =
-        IOUtils.toString(HttpClientUtils.getInputStream(completeLoginSelectedSiteResponse));
+    String completeLoginSelectedSiteResponseHtml = IOUtils.toString(HttpClientUtils.getInputStream(
+        completeLoginSelectedSiteResponse), Charsets.UTF_8);
     logger.debug(completeLoginSelectedSiteResponseHtml);
     Document completeLoginSelectedSiteResponsePage =
         Jsoup.parse(completeLoginSelectedSiteResponseHtml);
@@ -661,7 +661,7 @@ public class BookingService {
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document sessionTypePage = Jsoup.parse(html);
     if (hasError(sessionTypePage)) {
@@ -700,7 +700,7 @@ public class BookingService {
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document sessionDatePage = Jsoup.parse(html);
     if (hasError(sessionDatePage)) {
@@ -741,7 +741,7 @@ public class BookingService {
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document sessionPage = Jsoup.parse(html);
     if (hasError(sessionPage)) {
@@ -798,7 +798,7 @@ public class BookingService {
     HttpResponse httpResponse =
         HttpClientUtils.execRequest(httpClient, loadSessionAjaxRequestHttpPost);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasJsonErrorResponse(html) || hasError(Jsoup.parse(html))) {
       throw new KameHouseServerErrorException("Error posting book overlay ajax");
@@ -817,7 +817,7 @@ public class BookingService {
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasError(Jsoup.parse(html))) {
       throw new KameHouseServerErrorException("Error getting the confirm booking page");
@@ -842,7 +842,7 @@ public class BookingService {
     logRequestHeaders(confirmBookingHttpPost);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, confirmBookingHttpPost);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document postBookingResponsePage = Jsoup.parse(html);
     if (hasError(postBookingResponsePage)) {
@@ -879,7 +879,7 @@ public class BookingService {
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
     logHttpResponseCode(httpResponse);
-    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse));
+    String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document confirmFinalBookingPage = Jsoup.parse(html);
     if (hasError(confirmFinalBookingPage)) {
@@ -898,9 +898,9 @@ public class BookingService {
     request.setCardDetails(null);
     bookingResponse.setRequest(request);
     if (bookingResponse.getStatus() != Status.SUCCESS) {
-      logger.error(BOOKING_FINISHED + bookingResponse);
+      logger.error(BOOKING_FINISHED, bookingResponse);
     } else {
-      logger.info(BOOKING_FINISHED + bookingResponse);
+      logger.info(BOOKING_FINISHED, bookingResponse);
     }
     Long responseId = bookingResponseService.create(bookingResponse.buildDto());
     bookingResponse.setId(responseId);
@@ -957,7 +957,7 @@ public class BookingService {
     }
     List<String> errors = getErrorStackMessages(page);
     if (!errors.isEmpty()) {
-      logger.error("The following errors were detected in the current step:" + errors.toString());
+      logger.error("The following errors were detected in the current step: {}", errors);
     }
     return !errors.isEmpty();
   }
