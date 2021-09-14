@@ -424,35 +424,48 @@ function CrudManager() {
         createEntityRow(tr, entity[name], column.columns, parentNodeChain + name);
         continue;
       }
-
-      if (isPasswordField(type) || isHiddenField(type)) {
-        domUtils.append(tr, getMaskedFieldTd());
-        continue;
-      }
-      if (isDateField(type)) {
-        domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(entity[name])));
-        continue;
-      }
-      if (isTimestampField(type)) {
-        domUtils.append(tr, domUtils.getTd({}, getFormattedTimestampFieldValue(entity[name])));
-        continue;
-      }
-      if (isArrayField(type)) {
-        domUtils.append(tr, domUtils.getTd({}, JSON.stringify(entity[name])));
-        continue;
-      }
-      if (isBooleanField(type)) {
-        let val;
-        if (entity[name]) {
-          val = "true";
-        } else {
-          val = "false";
-        }
-        domUtils.append(tr, domUtils.getTd({}, val));
-        continue;
-      }
-      domUtils.append(tr, domUtils.getTd({}, entity[name]));
+      setColumnValue(tr, type, entity[name]);
     }
+  }
+
+  /**
+   * Set the column value formatted depending on it's type.
+   */
+  function setColumnValue(tr, type, value) {
+    if (isMaskedField(type)) {
+      domUtils.append(tr, getMaskedFieldTd());
+      return;
+    }
+    if (isDateField(type)) {
+      domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(value)));
+      return;
+    }
+    if (isTimestampField(type)) {
+      domUtils.append(tr, domUtils.getTd({}, getFormattedTimestampFieldValue(value)));
+      return;
+    }
+    if (isArrayField(type)) {
+      domUtils.append(tr, domUtils.getTd({}, JSON.stringify(value)));
+      return;
+    }
+    if (isBooleanField(type)) {
+      let booleanValue;
+      if (value) {
+        booleanValue = "true";
+      } else {
+        booleanValue = "false";
+      }
+      domUtils.append(tr, domUtils.getTd({}, booleanValue));
+      return;
+    }
+    domUtils.append(tr, domUtils.getTd({}, value));
+  }
+
+  /**
+   * Check if it's a masked field.
+   */
+  function isMaskedField(type) {
+    return isPasswordField(type) || isHiddenField(type);
   }
 
   /**
