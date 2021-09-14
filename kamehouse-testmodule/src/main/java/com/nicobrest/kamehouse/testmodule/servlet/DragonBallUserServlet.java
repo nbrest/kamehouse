@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.testmodule.servlet;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
@@ -64,8 +65,7 @@ public class DragonBallUserServlet extends HttpServlet {
    * Get all the dragonball users. Or get a single dragonball user if the username parameter is set.
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) {
     try {
       String username = request.getParameter("username");
       if (!StringUtils.isEmpty(username)) {
@@ -76,48 +76,45 @@ public class DragonBallUserServlet extends HttpServlet {
         setResponseBody(response, JsonUtils.toJsonString(dragonBallUsers));
       }
     } catch (IOException e) {
-      throw new ServletException(e);
+      throw new KameHouseServerErrorException(e.getMessage(), e);
     }
   }
 
   /** Create a new dragonball user. */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) {
     try {
       DragonBallUserDto dragonBallUserDto = getDtoFromRequest(request);
       Long createdId = getDragonBallUserService().create(dragonBallUserDto);
       setResponseBody(response, JsonUtils.toJsonString(createdId));
     } catch (NumberFormatException | IOException e) {
       logger.error("Error occurred processing request.", e);
-      throw new ServletException(e);
+      throw new KameHouseServerErrorException(e.getMessage(), e);
     }
   }
 
   /** Update a dragonball user. */
   @Override
-  public void doPut(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException {
+  public void doPut(HttpServletRequest request, HttpServletResponse response) {
     DragonBallUserDto dragonBallUserDto = getDtoFromRequest(request);
     getDragonBallUserService().update(dragonBallUserDto);
   }
 
   /** Delete a dragonball user. */
   @Override
-  public void doDelete(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException {
+  public void doDelete(HttpServletRequest request, HttpServletResponse response) {
     try {
       Long userId = Long.parseLong(getUrlDecodedParam(request, "id"));
       DragonBallUser deletedUser = getDragonBallUserService().delete(userId);
       setResponseBody(response, JsonUtils.toJsonString(deletedUser));
     } catch (NumberFormatException | IOException e) {
       logger.error("Error parsing id paramter", e);
-      throw new ServletException(e);
+      throw new KameHouseServerErrorException(e.getMessage(), e);
     }
   }
 
   /** Gets the DTO object from the request parameters. */
-  private DragonBallUserDto getDtoFromRequest(HttpServletRequest request) throws ServletException {
+  private DragonBallUserDto getDtoFromRequest(HttpServletRequest request) {
     try {
       DragonBallUserDto dragonBallUserDto = new DragonBallUserDto();
       if (request.getParameter("id") != null) {
@@ -131,7 +128,7 @@ public class DragonBallUserServlet extends HttpServlet {
       return dragonBallUserDto;
     } catch (NumberFormatException | UnsupportedEncodingException e) {
       logger.error("Error parsing DragonBallUserDto", e);
-      throw new ServletException(e);
+      throw new KameHouseServerErrorException(e.getMessage(), e);
     }
   }
 
