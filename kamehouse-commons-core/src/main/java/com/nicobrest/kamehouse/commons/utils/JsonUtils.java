@@ -69,29 +69,7 @@ public class JsonUtils {
       }
       ObjectNode objectNode = (ObjectNode) jsonNode;
       for (String maskedField : maskedFields) {
-        String[] maskFieldPath = maskedField.split("\\.");
-        int maskedFieldPathDepth = maskFieldPath.length;
-        if (maskedFieldPathDepth == 1 && objectNode.has(maskedField)) {
-          objectNode.remove(maskedField);
-          objectNode.put(maskedField, FIELD_MASK);
-        }
-        if (maskedFieldPathDepth > 1) {
-          JsonNode childNode = objectNode;
-          for (int i = 0; i < maskedFieldPathDepth - 1; i++) {
-            if (childNode != null && childNode.has(maskFieldPath[i])) {
-              childNode = childNode.get(maskFieldPath[i]);
-            } else {
-              childNode = null;
-              break;
-            }
-          }
-          String finalMaskedField = maskFieldPath[maskedFieldPathDepth - 1];
-          if (childNode != null && childNode.has(finalMaskedField)) {
-            ObjectNode childObjectNode = (ObjectNode) childNode;
-            childObjectNode.remove(finalMaskedField);
-            childObjectNode.put(finalMaskedField, FIELD_MASK);
-          }
-        }
+        maskField(objectNode, maskedField);
       }
       /*
         If I ever need output with pretty print, create a new method
@@ -181,5 +159,34 @@ public class JsonUtils {
    */
   public static boolean isJsonNodeArrayEmpty(JsonNode jsonNodeArray) {
     return !(jsonNodeArray != null && jsonNodeArray.isArray() && jsonNodeArray.size() > 0);
+  }
+
+  /**
+   * Mask the specified field.
+   */
+  private static void maskField(ObjectNode objectNode, String maskedField) {
+    String[] maskFieldPath = maskedField.split("\\.");
+    int maskedFieldPathDepth = maskFieldPath.length;
+    if (maskedFieldPathDepth == 1 && objectNode.has(maskedField)) {
+      objectNode.remove(maskedField);
+      objectNode.put(maskedField, FIELD_MASK);
+    }
+    if (maskedFieldPathDepth > 1) {
+      JsonNode childNode = objectNode;
+      for (int i = 0; i < maskedFieldPathDepth - 1; i++) {
+        if (childNode != null && childNode.has(maskFieldPath[i])) {
+          childNode = childNode.get(maskFieldPath[i]);
+        } else {
+          childNode = null;
+          break;
+        }
+      }
+      String finalMaskedField = maskFieldPath[maskedFieldPathDepth - 1];
+      if (childNode != null && childNode.has(finalMaskedField)) {
+        ObjectNode childObjectNode = (ObjectNode) childNode;
+        childObjectNode.remove(finalMaskedField);
+        childObjectNode.put(finalMaskedField, FIELD_MASK);
+      }
+    }
   }
 }
