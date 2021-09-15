@@ -1257,7 +1257,7 @@ function TableUtils() {
       if (skipHiddenRows && isHiddenRow(rows[i])) {
         continue;
       }
-      if (shownRows < maxRows) {
+      if (shownRows <= maxRows) {
         domUtils.setDisplay(rows[i], "table-row");
         shownRows++;
       } else {
