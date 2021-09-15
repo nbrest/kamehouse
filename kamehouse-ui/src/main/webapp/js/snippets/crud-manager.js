@@ -936,20 +936,28 @@ function CrudManager() {
       entity[name] = null;
     }
     if (isArrayField(type)) {
-      const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
-      const arrayType = column.arrayType;
-      const arrayVal = [];
-      for (const arrayElement of array) {
-        if (!isEmpty(arrayElement.value) && arrayElement.value != "") {
-          if (isObjectField(arrayType)) {
-            arrayVal.push(JSON.parse(arrayElement.value));
-          } else {
-            arrayVal.push(arrayElement.value);
-          }
+      entity[name] = getArrayFieldValue(column, formFieldsId);
+    }
+  }
+
+  /**
+   * Get the value from an array field.
+   */
+  function getArrayFieldValue(column, formFieldsId) {
+    const name = column.name;
+    const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
+    const arrayType = column.arrayType;
+    const arrayVal = [];
+    for (const arrayElement of array) {
+      if (!isEmpty(arrayElement.value) && arrayElement.value != "") {
+        if (isObjectField(arrayType)) {
+          arrayVal.push(JSON.parse(arrayElement.value));
+        } else {
+          arrayVal.push(arrayElement.value);
         }
       }
-      entity[name] = arrayVal;
     }
+    return arrayVal;
   }
 
   /**
