@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.09
+
+* Added a sample vue.js app in test module
+
 #### v6.08
 
 * Added integration to sonarcloud straight from git
