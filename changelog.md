@@ -2,7 +2,8 @@
 
 #### v6.08
 
-* Added sample vue.js app
+* Added integration to sonarcloud straight from git
+* Fixed issues reported by sonarcloud
 
 #### v6.07
 

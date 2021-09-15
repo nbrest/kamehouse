@@ -897,6 +897,9 @@ function CrudManager() {
     return entity;
   }
 
+  /**
+   * Set the properties to the entity from the form.
+   */
   function setEntityProperties(entity, formFieldsId, currentNodeColumns, parentNodeChain) {
     parentNodeChain = initParentNodeChain(parentNodeChain);
     for (const column of currentNodeColumns) {
@@ -935,6 +938,7 @@ function CrudManager() {
     if (isEmpty(val) || val == "") {
       entity[name] = null;
     }
+
     if (isArrayField(type)) {
       entity[name] = getArrayFieldValue(column, formFieldsId);
     }
