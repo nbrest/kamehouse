@@ -1139,7 +1139,7 @@ function TableUtils() {
     let sorting = true;
     let swapRows = false;
     let swapCount = 0;
-    let currentRowIndex = 2;
+    let currentRowIndex;
     let currentRow = null;
     let nextRow = null;
     let sortDirection = "asc";
