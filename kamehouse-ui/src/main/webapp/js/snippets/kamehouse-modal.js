@@ -7,11 +7,6 @@
  * If the same message is used in several places, add it as a constant to the modal 
  * and create a specific open method, as I did for siteUnderConstruction.
  * 
- * TODO: BUG: With openAutoCloseable(), if while I'm on the countdown, I manually close the modal, 
- * and trigger another request that reopens the same modal, the behavior is not correct. The
- * original loop to close the modal is still running and will trigger it to close and show
- * multiple autoclose divs. This shouldn't be a problem though.
- * 
  * Dependencies: logger.
  * 
  * @author nbrest

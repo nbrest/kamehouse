@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public class JsonUtils {
 
   public static final String DEFAULT_VALUE =
-      "{\"message\": \"Unable to convert object to json " + "string.\"}";
+      "{\"message\": \"Error: Unable to convert object to json string.\"}";
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
   private static final String FIELD_MASK = "****";
   private static final ObjectMapper MAPPER = new ObjectMapper();

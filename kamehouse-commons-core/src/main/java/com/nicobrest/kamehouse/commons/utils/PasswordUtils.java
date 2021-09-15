@@ -45,7 +45,6 @@ public class PasswordUtils {
    * layer to avoid returning passwords in the APIs.
    */
   public static <P> void unsetPassword(PasswordEntity<P> entity) {
-    // TODO check if there's a better generic way to do this than checking with instanceof
     if (entity != null) {
       if (entity.getPassword() instanceof byte[]) {
         entity.setPassword((P) new byte[0]);

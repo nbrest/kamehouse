@@ -824,7 +824,7 @@ function DomUtils() {
   function setAttributes(element, attr) {
     if (!isEmpty(attr)) {
       for (const [key, value] of Object.entries(attr)) {
-        element.attr(`${key}`, `${value}`);
+        element.attr(key, value);
       }
     }
   }

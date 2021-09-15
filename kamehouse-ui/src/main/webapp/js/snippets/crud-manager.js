@@ -909,38 +909,46 @@ function CrudManager() {
         setEntityProperties(entity[name], formFieldsId, column.columns, parentNodeChain + name);
         continue;
       }
+      setEntityPropertyValue(entity, formFieldsId, parentNodeChain, column);
+    }
+  }
 
-      const inputFieldId = formFieldsId + "-" + parentNodeChain + name;
-      const inputField = document.getElementById(inputFieldId);
-      let val = null;
-      if (inputField) {
-        val = inputField.value;
-      }
-       
-      if (isBooleanField(type)) {
-        val = inputField.checked;
-      }
+  /**
+   * Set the value of the property on the entity for the current column.
+   */
+  function setEntityPropertyValue(entity, formFieldsId, parentNodeChain, column) {
+    const type = column.type;
+    const name = column.name;
+    const inputFieldId = formFieldsId + "-" + parentNodeChain + name;
+    const inputField = document.getElementById(inputFieldId);
+    let val = null;
+    if (inputField) {
+      val = inputField.value;
+    }
+     
+    if (isBooleanField(type)) {
+      val = inputField.checked;
+    }
 
-      entity[name] = val;
+    entity[name] = val;
 
-      if (isEmpty(val) || val == "") {
-        entity[name] = null;
-      }
-      if (isArrayField(type)) {
-        const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
-        const arrayType = column.arrayType;
-        const arrayVal = [];
-        for (const arrayElement of array) {
-          if (!isEmpty(arrayElement.value) && arrayElement.value != "") {
-            if (isObjectField(arrayType)) {
-              arrayVal.push(JSON.parse(arrayElement.value));
-            } else {
-              arrayVal.push(arrayElement.value);
-            }
+    if (isEmpty(val) || val == "") {
+      entity[name] = null;
+    }
+    if (isArrayField(type)) {
+      const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
+      const arrayType = column.arrayType;
+      const arrayVal = [];
+      for (const arrayElement of array) {
+        if (!isEmpty(arrayElement.value) && arrayElement.value != "") {
+          if (isObjectField(arrayType)) {
+            arrayVal.push(JSON.parse(arrayElement.value));
+          } else {
+            arrayVal.push(arrayElement.value);
           }
         }
-        entity[name] = arrayVal;
       }
+      entity[name] = arrayVal;
     }
   }
 

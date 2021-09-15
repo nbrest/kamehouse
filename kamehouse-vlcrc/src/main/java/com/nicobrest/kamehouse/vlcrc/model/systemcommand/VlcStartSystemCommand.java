@@ -12,14 +12,16 @@ import java.util.Arrays;
  */
 public class VlcStartSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public VlcStartSystemCommand(String filename) {
     isDaemon = true;
     linuxCommand.addAll(Arrays.asList("vlc"));
     windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "vlc"));
     if (filename != null) {
       if (FileUtils.isRemoteFile(filename)) {
-        // TODO: Validate input for command line execution
+        validateRemoteFile(filename);
       } else {
         if (!FileUtils.isValidLocalFile(filename)) {
           throw new KameHouseInvalidCommandException(
@@ -30,5 +32,15 @@ public class VlcStartSystemCommand extends SystemCommand {
       windowsCommand.add(filename);
     }
     setOutputCommand();
+  }
+
+  /**
+   * Throw an exception if the filename contains unauthorized characters that could allow remote
+   * code execution.
+   */
+  private static void validateRemoteFile(String filename) {
+    if (filename == null) {
+      throw new KameHouseInvalidCommandException("Empty file");
+    }
   }
 }

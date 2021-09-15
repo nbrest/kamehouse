@@ -100,7 +100,6 @@ public abstract class AbstractController {
   protected static <T> ResponseEntity<T> generatePasswordLessResponseEntity(
       ResponseEntity<T> responseEntity) {
     T responseBody = responseEntity.getBody();
-    // TODO check if there's a better generic way to do this than checking with instanceof
     if (responseBody instanceof PasswordEntity) {
       PasswordUtils.unsetPassword((PasswordEntity) responseBody);
     }
