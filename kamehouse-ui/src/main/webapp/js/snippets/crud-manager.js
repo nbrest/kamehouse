@@ -328,13 +328,15 @@ function CrudManager() {
       if (isArrayField(type)) {
         domUtils.setVal(inputField, null);
         const array = entity[name];
-        const arraySourceNode = document.getElementById(inputFieldId); 
+        const arraySourceNode = document.getElementById(inputFieldId);
+        let i = 0;
         for (const arrayElement of array) {
           const newNode = domUtils.cloneNode(arraySourceNode, false);
           domUtils.setValue(newNode, JSON.stringify(arrayElement, null, 4));
           domUtils.setId(newNode, arraySourceNode.id + "-" + i);
           domUtils.classListAdd(newNode, "m-5-t-d-kh");
           domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+          i++;
         }
         domUtils.removeChild(arraySourceNode.parentNode, arraySourceNode);
       }

@@ -1132,14 +1132,14 @@ function TableUtils() {
 
     const table = document.getElementById(tableId);
     const rows = table.rows;
-    const MAX_SORTING_CYCLES = 50000;
+    const MAX_SORTING_CYCLES = 100000;
     const compareFunction = getComparatorFunction(dataType);
 
     let numSortingCycles = 0;
     let sorting = true;
     let swapRows = false;
     let swapCount = 0;
-    let currentRowIndex = 0;
+    let currentRowIndex = 2;
     let currentRow = null;
     let nextRow = null;
     let sortDirection = "asc";
@@ -1149,7 +1149,7 @@ function TableUtils() {
     while (sorting) {
       sorting = false;
 
-      for (currentRowIndex = 1; currentRowIndex < (rows.length - 1); currentRowIndex++) {
+      for (currentRowIndex = 2; currentRowIndex < (rows.length - 1); currentRowIndex++) {
         swapRows = false;
         currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
         nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];        
