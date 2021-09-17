@@ -104,7 +104,11 @@ setGlobalVariables() {
   DEPLOYMENT_DIR="${TOMCAT_DIR}/webapps"
   if ${IS_LINUX_HOST}; then
     TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.out"
-    COPY_COMMAND="sudo cp"
+    if [ "${HOME}" == "/root" ]; then
+      COPY_COMMAND="cp"
+    else
+      COPY_COMMAND="sudo cp"
+    fi
   else
     local LOG_DATE=`date +%Y-%m-%d`
     TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.${LOG_DATE}.log"
