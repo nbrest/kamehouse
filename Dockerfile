@@ -56,6 +56,9 @@ RUN echo "" >> /root/.bashrc
 RUN echo "source /root/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc
 RUN echo "alias sudo=\"\"" >> /root/.bashrc
 
+# Kamehouse faked dirs:
+RUN mkdir -p /root/git/texts/video_playlists/http-niko-server/media-drive
+
 # Open ports
 EXPOSE 22 80 443 3306 8080 9090
 

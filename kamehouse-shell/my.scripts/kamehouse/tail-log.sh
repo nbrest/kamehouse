@@ -193,8 +193,12 @@ addFileToLogFiles() {
 tailLog() {
   log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_DEFAULT_LOG} in ${COL_PURPLE}${ENVIRONMENT}${COL_DEFAULT_LOG}"
   if ${IS_LINUX_HOST}; then
-    # aws requires sudo for tail, and sudo works in my local linux environments too
-    sudo tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}
+    if [ "${HOME}" == "/root" ]; then
+      tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}
+    else
+      # aws requires sudo for tail, and sudo works in my local linux environments too (but not on docker)
+      sudo tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}
+    fi
   else
     tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}
   fi
