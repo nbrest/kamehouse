@@ -29,7 +29,7 @@ RUN apt-get install -y php libapache2-mod-php
 RUN apt-get install -y mariadb-server
 
 # Install vlc
-#RUN apt-get install -y vlc
+RUN apt-get install -y vlc
 
 # Install zip
 RUN apt-get install -y zip

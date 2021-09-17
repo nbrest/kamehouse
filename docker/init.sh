@@ -86,12 +86,12 @@ initKameHouseDb() {
 }
 
 startHttpd() {
-  echo "Starting apache2"
+  echo "Starting apache httpd"
   service apache2 start
 }
 
 startTomcat() {
-  echo "Starting tomcat9"
+  echo "Starting tomcat"
   cd /root/programs/apache-tomcat 
   mkdir -p /usr/share/tomcat9/logs
   cp -r /usr/share/tomcat9/etc /usr/share/tomcat9/conf
