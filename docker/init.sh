@@ -18,6 +18,7 @@ cloneKameHouse() {
   echo "Cloning kamehouse"
   mkdir -p /root/git
   cd /root/git
+  rm -rf /root/git/java.web.kamehouse 
   git clone https://github.com/nbrest/java.web.kamehouse.git 
   cd /root/git/java.web.kamehouse 
   git checkout dev
@@ -26,9 +27,13 @@ cloneKameHouse() {
 setupBashDirectories() {
   echo "Setup bash directories"
 
+  # .cred
+  mkdir -p /root/my.scripts/.cred/
+  touch /root/my.scripts/.cred/.cred
+
   # /root/logs
   mkdir -p /root/logs
-  
+
   # /root/my.scripts
   cp -r /root/git/java.web.kamehouse/kamehouse-shell/my.scripts /root/
   chmod a+x -R /root/my.scripts
