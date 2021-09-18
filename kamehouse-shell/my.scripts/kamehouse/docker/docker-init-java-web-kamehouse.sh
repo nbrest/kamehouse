@@ -84,7 +84,8 @@ setupDirectories() {
   cp /root/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/
 
   # Kamehouse faked dirs:
-  mkdir -p /root/git/texts/video_playlists/http-niko-server/media-drive
+  mkdir -p /root/git/texts/video_playlists/http-niko-server/media-drive/anime
+  echo "goku.mp4" > /root/git/texts/video_playlists/http-niko-server/media-drive/anime/dbz.m3u
 }
 
 setupEnv() {
