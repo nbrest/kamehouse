@@ -1,5 +1,5 @@
-# BUILD: docker/build.sh
-# START: docker/start.sh
+# BUILD: docker/build.sh : build's the docker image and container from this file
+# START: docker/start.sh : starts the container built from this script
 
 FROM ubuntu:20.04
 LABEL maintainer="brest.nico@gmail.com"
@@ -7,44 +7,40 @@ LABEL maintainer="brest.nico@gmail.com"
 # Disable interactions when building the image
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get -y update && apt-get -y upgrade 
 
-# Install git
+# Install dependencies
 RUN apt-get install -y git
-
-# Install java
 RUN apt-get install -y openjdk-11-jdk
-
-# Install maven
 RUN apt-get install -y maven
-
-# Install tomcat9
-# RUN apt-get install -y tomcat9 tomcat9-admin tomcat9-docs tomcat9-user tomcat9-common
-
-# Install apache2
 RUN apt-get install -y apache2
 RUN apt-get install -y php libapache2-mod-php
-
-# Install mysql
 RUN apt-get install -y mariadb-server
-
-# Install vlc
 RUN apt-get install -y vlc
-
-# Install zip
 RUN apt-get install -y zip
-
 RUN apt-get install -y vim
 RUN apt-get install -y openssh-server
 
-# Open root ssh password login
+# Install tomcat
+RUN mkdir -p /root/programs
+RUN cd /root/programs ; wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz
+RUN tar -xf /root/programs/apache-tomcat-9.0.53.tar.gz -C /root/programs/
+RUN mv /root/programs/apache-tomcat-9.0.53 /root/programs/apache-tomcat
+COPY docker/tomcat/server.xml /root/programs/apache-tomcat/conf/
+COPY docker/tomcat/tomcat-users.xml /root/programs/apache-tomcat/conf/
+
+# Open root ssh login
 COPY docker/ssh/sshd_config /etc/ssh/sshd_config
 RUN echo 'root:change-me' | chpasswd
+
+# Setup .bashrc
+RUN echo "" >> /root/.bashrc
+RUN echo "source /root/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc
 
 # Open ports
 EXPOSE 22 80 443 3306 8080 9090
 
-# Copy files
+# Copy docker folder
 COPY docker /root/docker
 
 CMD ["/root/docker/init.sh"]

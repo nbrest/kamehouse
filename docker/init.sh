@@ -6,13 +6,12 @@ main() {
   echo "Docker startup script"
   cloneKameHouse
   setupBashDirectories
-  setupEnvironment
   startMysql
   initKameHouseDb
   startHttpd
   startTomcat
   deployKamehouse
-  keepAlive
+  keepContainerAlive
 }
 
 cloneKameHouse() {
@@ -45,14 +44,8 @@ setupBashDirectories() {
   mkdir -p /root/programs/kamehouse-cmd/bin
   mkdir -p /root/programs/kamehouse-cmd/lib
 
-  ln -s /usr/share/tomcat9 /root/programs/apache-tomcat
   ln -s /var/log/apache2 /root/programs/apache-httpd/logs
   ln -s /root /home/nbrest
-
-  # bashrc:
-  echo "" >> /root/.bashrc
-  echo "source /root/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc
-  echo "alias sudo=\"\"" >> /root/.bashrc
 
   # Kamehouse ui static content:
   mkdir -p /var/www/html/kame-house
@@ -62,14 +55,10 @@ setupBashDirectories() {
   # Kamehouse groot static content:
   mkdir -p /var/www/html/kame-house-groot
   cp -r /root/git/java.web.kamehouse/kamehouse-groot/public/kame-house-groot/* /var/www/html/kame-house-groot
+  cp /root/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/
 
   # Kamehouse faked dirs:
   mkdir -p /root/git/texts/video_playlists/http-niko-server/media-drive
-}
-
-setupEnvironment() {
-  echo "Setting path"
-  PATH=${PATH}:${HOME}/my.scripts
 }
 
 startMysql() {
@@ -94,9 +83,7 @@ startHttpd() {
 startTomcat() {
   echo "Starting tomcat"
   cd /root/programs/apache-tomcat 
-  mkdir -p /usr/share/tomcat9/logs
-  cp -r /usr/share/tomcat9/etc /usr/share/tomcat9/conf
-  /usr/share/tomcat9/bin/startup.sh
+  bin/startup.sh
 }
 
 deployKamehouse() {
@@ -104,7 +91,7 @@ deployKamehouse() {
   /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f
 }
 
-keepAlive() {
+keepContainerAlive() {
   echo "" > /root/.startup.lock
   tail -f /root/.startup.lock
   read
