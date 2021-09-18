@@ -29,7 +29,7 @@ RUN mv /root/programs/apache-tomcat-9.0.53 /root/programs/apache-tomcat
 COPY docker/tomcat/server.xml /root/programs/apache-tomcat/conf/
 COPY docker/tomcat/tomcat-users.xml /root/programs/apache-tomcat/conf/
 
-# Open root ssh login
+# Open root ssh login (for dev only!)
 COPY docker/ssh/sshd_config /etc/ssh/sshd_config
 RUN echo 'root:change-me' | chpasswd
 
@@ -40,7 +40,7 @@ RUN echo "source /root/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc
 # Open ports
 EXPOSE 22 80 443 3306 8080 9090
 
-# Copy docker folder
+# Copy docker setup folder
 COPY docker /root/docker
 
 CMD ["/root/docker/init.sh"]
