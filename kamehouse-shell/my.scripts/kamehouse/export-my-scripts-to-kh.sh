@@ -30,6 +30,7 @@ setGlobalVariables() {
   PROJECT_DIR=${WORKSPACE}/java.web.kamehouse
   TOMCAT_WEBAPPS_DIR=${WORKSPACE}/apache-tomcat-${TOMCAT_VERSION}/webapps
   EXPORT_DIR=${PROJECT_DIR}/kamehouse-shell
+  DOCKER_DIR=${PROJECT_DIR}/docker/scripts
 }
 
 exportMyScripts() {
@@ -78,6 +79,9 @@ exportMyScripts() {
   cp -r -v ${HOME}/my.scripts/win/video-playlists win/
   cp -r -v ${HOME}/my.scripts/win/virtualbox win/
   cp -r -v ${HOME}/my.scripts/win/*.sh win/
+
+  log.info "Copying docker scripts"
+  cp -v ${HOME}/my.scripts/kamehouse/docker/* ${DOCKER_DIR}/
 }
 
 parseArguments() {

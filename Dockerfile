@@ -62,4 +62,4 @@ EXPOSE 22 80 443 3306 8080 9090
 # Copy docker setup folder
 COPY docker /root/docker
 
-CMD ["/root/docker/init.sh"]
+CMD ["/root/docker/scripts/docker-init-java-web-kamehouse.sh"]
