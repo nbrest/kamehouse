@@ -82,7 +82,8 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 # Docker demo:
 
-As described in [Docker Setup](docker-setup.md), you can have a local demo of kamehouse running to test most of the functionality by executing 2 docker commands for pulling and running
+As described in [Docker Setup](docker-setup.md), you can have a local demo of kamehouse running to test most of the functionality by executing 2 docker commands for pulling and running.
+
 It's much simpler than going through the complex process of doing all the manual steps to have an installation in your local described [here](installation.md)
 
 # Live demo:
