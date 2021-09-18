@@ -196,7 +196,9 @@ deployKameHouseGroot() {
 deployKameHouseShell() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}" 
-    git-pull-my-scripts.sh
+    if [ "${MAVEN_PROFILE}" != "docker" ]; then
+      git-pull-my-scripts.sh
+    fi
   fi
 }
 
