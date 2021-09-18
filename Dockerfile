@@ -20,6 +20,9 @@ RUN apt-get install -y vlc
 RUN apt-get install -y zip
 RUN apt-get install -y vim
 RUN apt-get install -y openssh-server
+RUN apt-get install -y sudo
+RUN apt-get install -y net-tools
+RUN apt-get install -y curl
 
 # Install tomcat
 RUN mkdir -p /root/programs
@@ -28,6 +31,15 @@ RUN tar -xf /root/programs/apache-tomcat-9.0.53.tar.gz -C /root/programs/
 RUN mv /root/programs/apache-tomcat-9.0.53 /root/programs/apache-tomcat
 COPY docker/tomcat/server.xml /root/programs/apache-tomcat/conf/
 COPY docker/tomcat/tomcat-users.xml /root/programs/apache-tomcat/conf/
+
+# Setup apache httpd
+COPY docker/apache2/conf /etc/apache2/conf
+COPY docker/apache2/sites-available /etc/apache2/sites-available
+RUN a2ensite default-ssl
+RUN a2enmod proxy
+RUN a2enmod proxy_http
+RUN a2enmod ssl
+RUN a2enmod rewrite
 
 # Open root ssh login (for dev only!)
 COPY docker/ssh/sshd_config /etc/ssh/sshd_config

@@ -6,6 +6,7 @@ main() {
   echo "Docker startup script"
   cloneKameHouse
   setupBashDirectories
+  restartSshService
   startMysql
   initKameHouseDb
   startHttpd
@@ -59,6 +60,11 @@ setupBashDirectories() {
 
   # Kamehouse faked dirs:
   mkdir -p /root/git/texts/video_playlists/http-niko-server/media-drive
+}
+
+restartSshService() {
+  echo "Restarting ssh service"
+  service ssh restart
 }
 
 startMysql() {
