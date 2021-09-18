@@ -7,6 +7,8 @@
 | P | -P:prod | Uses mysql db. **Default**  |
 |   | -P:qa | Uses oracle db |
 |   | -P:dev | Uses hsql in memory db |
+|   | -P:docker | For docker images |
+|   | -P:ci | For jenkins |
 
 ## View code coverage reports in my local:
 
