@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker start java.web.kamehouse
+docker start kamehouse-docker

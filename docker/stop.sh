@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker stop java.web.kamehouse
+docker stop kamehouse-docker

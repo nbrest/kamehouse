@@ -2,7 +2,10 @@
 
 #### v6.09
 
-* Added a sample vue.js app in test module
+* Added docker to the project
+* Added a Dockerfile to the root of the project and scripts to create a self contained image to run kamehouse and kamehouse groot in a container
+* Added scripts to build kamehouse image and container
+* Added scripts to start and stop the container
 
 #### v6.08
 
