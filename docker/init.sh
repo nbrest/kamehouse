@@ -28,9 +28,13 @@ cloneKameHouse() {
 setupBashDirectories() {
   echo "Setup bash directories"
 
-  # /root/home-synced/host
+  # /root/home-synced
   mkdir -p /root/home-synced
   echo "docker" > /root/home-synced/host
+  mkdir -p /root/home-synced/.kamehouse/keys/
+  cp /root/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /root/home-synced/.kamehouse/keys/kamehouse.pkcs12 
+  cp /root/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /root/home-synced/.kamehouse/keys/kamehouse.crt 
+  cp /root/docker/keys/integration-test-cred.enc /root/home-synced/.kamehouse/
 
   # /root/logs
   mkdir -p /root/logs
@@ -40,7 +44,7 @@ setupBashDirectories() {
   chmod a+x -R /root/my.scripts
   # /root/my.scripts/.cred/.cred
   mkdir -p /root/my.scripts/.cred/
-  cp /root/docker/.cred /root/my.scripts/.cred/.cred
+  cp /root/docker/keys/.cred /root/my.scripts/.cred/.cred
 
   # /root/programs
   mkdir -p /root/programs/
