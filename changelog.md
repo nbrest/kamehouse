@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.10
+
+* Added a sample vue.js app
+
 #### v6.09
 
 * Added docker to the project
