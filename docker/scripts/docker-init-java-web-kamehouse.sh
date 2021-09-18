@@ -18,6 +18,7 @@ main() {
   cloneKameHouse
   setupDirectories
   setupEnv
+  setupMockedBins
   restartSshService
   startMysql
   initKameHouseDb
@@ -47,6 +48,11 @@ setupDirectories() {
   cp /root/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /root/home-synced/.kamehouse/keys/kamehouse.pkcs12 
   cp /root/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /root/home-synced/.kamehouse/keys/kamehouse.crt 
   cp /root/docker/keys/integration-test-cred.enc /root/home-synced/.kamehouse/
+
+  # /root/.kamehouse/
+  mkdir -p /root/.kamehouse
+  cp /root/docker/keys/integration-test-cred.enc /root/.kamehouse/.vnc.server.pwd.enc
+  cp /root/docker/keys/integration-test-cred.enc /root/.kamehouse/.unlock.screen.pwd.enc 
 
   # /root/logs
   mkdir -p /root/logs
@@ -86,6 +92,13 @@ setupEnv() {
   source /root/.bashrc
 }
 
+setupMockedBins() {
+  logStep "Setup mocked bins"
+  chmod a+x /root/docker/bin/*
+  cp /root/docker/mocked-bin/vncdo /usr/local/bin/vncdo
+  cp /root/docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
+}
+
 restartSshService() {
   logStep "Restart ssh service"
   service ssh restart
@@ -118,7 +131,7 @@ startTomcat() {
 }
 
 deployKamehouse() {
-  logStep "Deploy kamehouse"
+  logStep "Deploy KameHouse"
   /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker
 }
 
