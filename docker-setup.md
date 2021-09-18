@@ -45,6 +45,22 @@ In the container console, you can run the following scripts:
 
 *********************
 
+## Stopping the container
+
+Check the running containers with the command: 
+
+```
+docker container list
+```
+
+Stop the kamehouse container with 
+
+```
+docker stop container-id-hash
+```
+
+*********************
+
 ## Build the image manually
 
 If for any reason you can't pull the image from docker hub, you can build it manually. At the root of the project there's a Dockerfile that can be used to build the image to run kamehouse in a container
