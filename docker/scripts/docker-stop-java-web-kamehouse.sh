@@ -1,3 +1,9 @@
 #!/bin/bash
 
-docker stop kamehouse-docker
+CONTAINER=$1
+
+if [ -n "${CONTAINER}" ]; then 
+  docker stop ${CONTAINER}
+else
+  docker stop kamehouse-docker
+fi
