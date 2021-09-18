@@ -654,6 +654,17 @@
         </filters>
       </build>
     </profile>
+
+    <profile>
+      <id>docker</id>
+      <build>
+        <filters>
+          <filter>${filters.dir}/docker/kamehouse.properties</filter>
+          <filter>${filters.dir}/docker/hibernate.properties</filter>
+          <filter>${filters.dir}/docker/jdbc.properties</filter>
+        </filters>
+      </build>
+    </profile>
   </profiles>
 
 </project>

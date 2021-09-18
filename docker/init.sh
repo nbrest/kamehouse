@@ -5,7 +5,7 @@ source /root/.bashrc
 main() {
   echo "Docker startup script"
   cloneKameHouse
-  setupBashDirectories
+  setupDirectories
   restartSshService
   startMysql
   initKameHouseDb
@@ -25,8 +25,8 @@ cloneKameHouse() {
   git checkout dev
 }
 
-setupBashDirectories() {
-  echo "Setup bash directories"
+setupDirectories() {
+  echo "Setup directories"
 
   # /root/home-synced
   mkdir -p /root/home-synced
