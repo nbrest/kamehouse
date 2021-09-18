@@ -1,11 +1,14 @@
 #!/bin/bash
 # Init script to execute every time a docker instance starts
-source /root/.bashrc
 
 main() {
-  echo "Docker startup script"
+  echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"
+  echo -e "${COL_CYAN} KameHouse docker init script${COL_NORMAL}"
+  echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"  
+
   cloneKameHouse
   setupDirectories
+  setupEnv
   restartSshService
   startMysql
   initKameHouseDb
@@ -16,7 +19,7 @@ main() {
 }
 
 cloneKameHouse() {
-  echo "Cloning kamehouse"
+  logStep "Clone latest KameHouse dev branch"
   mkdir -p /root/git
   cd /root/git
   rm -rf /root/git/java.web.kamehouse 
@@ -26,7 +29,7 @@ cloneKameHouse() {
 }
 
 setupDirectories() {
-  echo "Setup directories"
+  logStep "Setup directories"
 
   # /root/home-synced
   mkdir -p /root/home-synced
@@ -69,17 +72,23 @@ setupDirectories() {
   mkdir -p /root/git/texts/video_playlists/http-niko-server/media-drive
 }
 
+setupEnv() {
+  logStep "Setup env"
+  source /root/.bashrc
+}
+
 restartSshService() {
-  echo "Restarting ssh service"
+  logStep "Restart ssh service"
   service ssh restart
 }
 
 startMysql() {
-  echo "Starting mysql"
+  logStep "Start mysql"
   service mysql start
 }
 
 initKameHouseDb() {
+  logStep "Init KameHouse database"
   echo "Importing setup-kamehouse.sql"
   mysql < /root/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql
   echo "Importing spring-session.sql"
@@ -89,25 +98,36 @@ initKameHouseDb() {
 }
 
 startHttpd() {
-  echo "Starting apache httpd"
+  logStep "Start apache httpd"
   service apache2 start
 }
 
 startTomcat() {
-  echo "Starting tomcat"
+  logStep "Start tomcat"
   cd /root/programs/apache-tomcat 
   bin/startup.sh
 }
 
 deployKamehouse() {
-  echo "Deploying kamehouse"
+  logStep "Deploy kamehouse"
   /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker
 }
 
 keepContainerAlive() {
+  echo -e "${COL_RED}*********************************************************${COL_NORMAL}"
+  echo -e "${COL_RED} KameHouse docker init script finished.${COL_NORMAL}"
+  echo -e "${COL_RED} Keep this terminal open while the container is running.${COL_NORMAL}"
+  echo -e "${COL_RED}*********************************************************${COL_NORMAL}"
+
   echo "" > /root/.startup.lock
   tail -f /root/.startup.lock
   read
+}
+
+logStep() {
+  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
+  local LOG_MESSAGE=$1
+  echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_GREEN}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
 main "$@"
