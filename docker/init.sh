@@ -1,5 +1,6 @@
 #!/bin/bash
 # Init script to execute every time a docker instance starts
+source /root/.bashrc
 
 main() {
   echo "Docker startup script"
@@ -100,7 +101,6 @@ startTomcat() {
 
 deployKamehouse() {
   echo "Deploying kamehouse"
-  source /root/.bashrc
   /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f
 }
 

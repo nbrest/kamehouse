@@ -19,7 +19,7 @@ RUN apt-get install -y openjdk-11-jdk
 RUN apt-get install -y maven
 
 # Install tomcat9
-RUN apt-get install -y tomcat9 tomcat9-admin tomcat9-docs tomcat9-user tomcat9-common
+# RUN apt-get install -y tomcat9 tomcat9-admin tomcat9-docs tomcat9-user tomcat9-common
 
 # Install apache2
 RUN apt-get install -y apache2
@@ -33,6 +33,13 @@ RUN apt-get install -y vlc
 
 # Install zip
 RUN apt-get install -y zip
+
+RUN apt-get install -y vim
+RUN apt-get install -y openssh-server
+
+# Open root ssh password login
+COPY docker/ssh/sshd_config /etc/ssh/sshd_config
+RUN echo 'root:change-me' | chpasswd
 
 # Open ports
 EXPOSE 22 80 443 3306 8080 9090

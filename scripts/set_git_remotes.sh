@@ -40,13 +40,6 @@ git remote add bitbucket-https https://nbrest@bitbucket.org/nbrest/${REPOSITORY_
 git remote remove github-https
 git remote add github-https https://nbrest@github.com/nbrest/${REPOSITORY_NAME}.git
 
-### Remove legacy remotes:
-git remote remove bitbucket
-git remote remove bitbucketssh
-
-git remote remove github
-git remote remove githubssh
-
 ### list all the remotes
 git remote -v 
 
