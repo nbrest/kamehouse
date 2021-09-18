@@ -28,16 +28,19 @@ cloneKameHouse() {
 setupBashDirectories() {
   echo "Setup bash directories"
 
-  # .cred
-  mkdir -p /root/my.scripts/.cred/
-  touch /root/my.scripts/.cred/.cred
-
+  # /root/home-synced/host
+  mkdir -p /root/home-synced
+  echo "docker" > /root/home-synced/host
+  
   # /root/logs
   mkdir -p /root/logs
 
   # /root/my.scripts
   cp -r /root/git/java.web.kamehouse/kamehouse-shell/my.scripts /root/
   chmod a+x -R /root/my.scripts
+  # /root/my.scripts/.cred/.cred
+  mkdir -p /root/my.scripts/.cred/
+  touch /root/my.scripts/.cred/.cred
 
   # /root/programs
   mkdir -p /root/programs/
