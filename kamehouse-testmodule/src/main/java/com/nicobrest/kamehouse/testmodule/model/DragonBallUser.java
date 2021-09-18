@@ -29,10 +29,10 @@ public class DragonBallUser implements KameHouseEntity<DragonBallUserDto>, Seria
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "username", unique = true, nullable = false)
+  @Column(length = 100, name = "username", unique = true, nullable = false)
   private String username;
 
-  @Column(name = "email", unique = true, nullable = false)
+  @Column(length = 100, name = "email", unique = true, nullable = false)
   private String email;
 
   @Column(name = "age")
