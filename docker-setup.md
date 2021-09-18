@@ -6,7 +6,9 @@ The docker image loads kamehouse through tomcat and apache httpd and most of the
 
 *********************
 
-## Pull the image from docker hub
+## Pull the image from docker hub (optional)
+
+You can skip this step and directly run the image. If it doesn't find it locally, it will download it automatically from docker hub
 
 Execute the script `docker/scripts/docker-pull-java-web-kamehouse.sh`
 
