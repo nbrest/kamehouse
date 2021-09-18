@@ -3,18 +3,24 @@ package com.nicobrest.kamehouse.tennisworld.integration;
 import com.nicobrest.kamehouse.commons.integration.AbstractCrudControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
+import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
+import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
+import java.io.IOException;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 
 /**
- * Integration tests for the BookingScheduleConfigController class. These integration tests require
- * a TennisWorldUser with email 'goku@dbz.com' to exist in the local database. If it doesn't exist,
- * the tests will fail.
+ * Integration tests for the BookingScheduleConfigController class.
  *
  * @author nbrest
  */
 public class BookingScheduleConfigControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<BookingScheduleConfig, BookingScheduleConfigDto> {
+
+  TennisWorldUserControllerIntegrationTest tennisWorldUserControllerIntegrationTest =
+      new TennisWorldUserControllerIntegrationTest();
 
   @Override
   public String getWebapp() {
@@ -38,11 +44,37 @@ public class BookingScheduleConfigControllerIntegrationTest
 
   @Override
   public BookingScheduleConfigDto buildDto(BookingScheduleConfigDto dto) {
+    TennisWorldUserDto tennisWorldUserDto = tennisWorldUserControllerIntegrationTest.getDto();
+    String email = tennisWorldUserDto.getEmail();
+    TennisWorldUser tennisWorldUser = dto.getTennisWorldUser();
+    tennisWorldUser.setEmail(email);
     return dto;
   }
 
   @Override
   public void updateDto(BookingScheduleConfigDto dto) {
     dto.setDuration("987");
+  }
+
+  /**
+   * Creates an entity.
+   */
+  @Test
+  @Order(1)
+  @Override
+  public void createTest() throws IOException {
+    tennisWorldUserControllerIntegrationTest.createTest();
+    super.createTest();
+  }
+
+  /**
+   * Deletes an entity.
+   */
+  @Test
+  @Order(8)
+  @Override
+  public void deleteTest() throws IOException {
+    super.deleteTest();
+    tennisWorldUserControllerIntegrationTest.deleteTest();
   }
 }
