@@ -1,0 +1,9 @@
+### Root/my.scripts API basic auth
+GROOT_API_BASIC_AUTH=YWRtaW46YWRtaW4=
+
+### Kamehouse admin API basic auth
+KH_ADMIN_API_BASIC_AUTH=YWRtaW46YWRtaW4=
+
+### Tomcat text API
+TOMCAT_TEXT_USER=tomcathost
+TOMCAT_TEXT_PASS=tomcathost

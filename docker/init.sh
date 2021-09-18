@@ -31,7 +31,7 @@ setupBashDirectories() {
   # /root/home-synced/host
   mkdir -p /root/home-synced
   echo "docker" > /root/home-synced/host
-  
+
   # /root/logs
   mkdir -p /root/logs
 
@@ -40,7 +40,7 @@ setupBashDirectories() {
   chmod a+x -R /root/my.scripts
   # /root/my.scripts/.cred/.cred
   mkdir -p /root/my.scripts/.cred/
-  touch /root/my.scripts/.cred/.cred
+  cp /root/docker/.cred /root/my.scripts/.cred/.cred
 
   # /root/programs
   mkdir -p /root/programs/
