@@ -46,6 +46,7 @@ RUN a2enmod rewrite
 RUN a2enmod proxy_wstunnel
 
 # Open root ssh login (for dev only!)
+COPY docker/etc/sudoers /etc/sudoers
 COPY docker/ssh/sshd_config /etc/ssh/sshd_config
 RUN echo 'root:change-me' | chpasswd
 
