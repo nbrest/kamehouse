@@ -37,6 +37,7 @@ COPY docker/apache2/conf /etc/apache2/conf
 COPY docker/apache2/sites-available /etc/apache2/sites-available
 COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
+COPY docker/apache2/.htpasswd /var/www/html/
 RUN a2ensite default-ssl
 RUN a2enmod headers
 RUN a2enmod proxy
