@@ -35,7 +35,10 @@ COPY docker/tomcat/tomcat-users.xml /root/programs/apache-tomcat/conf/
 # Setup apache httpd
 COPY docker/apache2/conf /etc/apache2/conf
 COPY docker/apache2/sites-available /etc/apache2/sites-available
+COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
+COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 RUN a2ensite default-ssl
+RUN a2enmod headers
 RUN a2enmod proxy
 RUN a2enmod proxy_http
 RUN a2enmod ssl
