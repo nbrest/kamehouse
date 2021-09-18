@@ -101,7 +101,7 @@ startTomcat() {
 
 deployKamehouse() {
   echo "Deploying kamehouse"
-  /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f
+  /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker
 }
 
 keepContainerAlive() {

@@ -99,6 +99,7 @@ parseArguments() {
       if [ "${PROFILE_ARG}" != "prod" ] \
           && [ "${PROFILE_ARG}" != "qa" ] \
           && [ "${PROFILE_ARG}" != "dev" ] \
+          && [ "${PROFILE_ARG}" != "docker" ] \
           && [ "${PROFILE_ARG}" != "ci" ]; then
         log.error "Option -p profile needs to be prod, qa, dev or ci"
         printHelp
@@ -127,7 +128,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i${COL_NORMAL} run integration tests only" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
-  echo -e "     ${COL_BLUE}-p (prod|qa|dev|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
+  echo -e "     ${COL_BLUE}-p (prod|qa|dev|docker|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
   echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
 }
 
