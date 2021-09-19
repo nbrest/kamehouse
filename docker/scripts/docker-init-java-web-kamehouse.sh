@@ -31,7 +31,7 @@ main() {
 }
 
 cloneKameHouse() {
-  logStep "Clone latest ${KAMEHOUSE} dev branch"
+  logStep "Clone latest KameHouse dev branch"
   mkdir -p /root/git
   cd /root/git
   rm -rf /root/git/java.web.kamehouse 
@@ -113,7 +113,7 @@ startMysql() {
 }
 
 initKameHouseDb() {
-  logStep "Init ${KAMEHOUSE} database"
+  logStep "Init KameHouse database"
   echo "Importing setup-kamehouse.sql"
   mysql < /root/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql
   echo "Importing spring-session.sql"
@@ -134,15 +134,15 @@ startTomcat() {
 }
 
 deployKamehouse() {
-  logStep "Deploy ${KAMEHOUSE}"
+  logStep "Deploy KameHouse"
   /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker
-  logStep "Finished building ${KAMEHOUSE}"
+  logStep "Finished building KameHouse"
 }
 
 keepContainerAlive() {
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
   echo ""
-  echo -e "${COL_BLUE}   ${KAMEHOUSE} ${COL_NORMAL}docker init script ${COL_RED}finished.${COL_NORMAL}"
+  echo -e "   ${KAMEHOUSE} ${COL_NORMAL}docker init script ${COL_RED}finished.${COL_NORMAL}"
   echo ""
   echo -e "${COL_BLUE} - ${COL_NORMAL}Open another terminal and execute ${COL_PURPLE}'tail-log.sh -f tomcat'${COL_NORMAL} to check the logs"
   echo -e "${COL_NORMAL} until the deployment finishes"
