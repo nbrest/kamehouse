@@ -142,7 +142,7 @@ deployKamehouse() {
 keepContainerAlive() {
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
   echo ""
-  echo -e "   ${KAMEHOUSE} ${COL_NORMAL}docker init script ${COL_RED}finished.${COL_NORMAL}"
+  echo -e "   ${KAMEHOUSE} ${COL_NORMAL}docker init script ${COL_RED}finished${COL_NORMAL}"
   echo ""
   echo -e "${COL_BLUE} - ${COL_NORMAL}Open another terminal and execute ${COL_PURPLE}'tail-log.sh -f tomcat'${COL_NORMAL} to check the logs"
   echo -e "${COL_NORMAL} until the deployment finishes"
@@ -151,7 +151,7 @@ keepContainerAlive() {
   echo -e " for details on how to login to kamehouse and execute its functionality" 
   echo ""
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
-  echo -e "${COL_RED}   Keep this terminal open while the container is running.${COL_NORMAL}"
+  echo -e "${COL_RED}         Keep this terminal open while the container is running${COL_NORMAL}"
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
 
   echo "" > /root/.startup.lock
