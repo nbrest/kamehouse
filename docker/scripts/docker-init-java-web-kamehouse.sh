@@ -9,10 +9,12 @@ COL_NORMAL="\033[0;39m"
 COL_PURPLE="\033[1;35m"
 COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
+COL_MESSAGE=${COL_GREEN}
+KAMEHOUSE=${COL_NORMAL}Kame${COL_RED}House${COL_MESSAGE}
 
 main() {
   echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"
-  echo -e "${COL_CYAN} KameHouse docker init script${COL_NORMAL}"
+  echo -e "${COL_CYAN} ${KAMEHOUSE}${COL_CYAN} docker init script${COL_NORMAL}"
   echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"  
 
   cloneKameHouse
@@ -29,7 +31,7 @@ main() {
 }
 
 cloneKameHouse() {
-  logStep "Clone latest KameHouse dev branch"
+  logStep "Clone latest ${KAMEHOUSE} dev branch"
   mkdir -p /root/git
   cd /root/git
   rm -rf /root/git/java.web.kamehouse 
@@ -111,7 +113,7 @@ startMysql() {
 }
 
 initKameHouseDb() {
-  logStep "Init KameHouse database"
+  logStep "Init ${KAMEHOUSE} database"
   echo "Importing setup-kamehouse.sql"
   mysql < /root/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql
   echo "Importing spring-session.sql"
@@ -132,15 +134,25 @@ startTomcat() {
 }
 
 deployKamehouse() {
-  logStep "Deploy KameHouse"
+  logStep "Deploy ${KAMEHOUSE}"
   /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker
+  logStep "Finished building ${KAMEHOUSE}"
 }
 
 keepContainerAlive() {
-  echo -e "${COL_RED}*********************************************************${COL_NORMAL}"
-  echo -e "${COL_RED} KameHouse docker init script finished.${COL_NORMAL}"
-  echo -e "${COL_RED} Keep this terminal open while the container is running.${COL_NORMAL}"
-  echo -e "${COL_RED}*********************************************************${COL_NORMAL}"
+  echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
+  echo ""
+  echo -e "${COL_BLUE}   ${KAMEHOUSE} ${COL_NORMAL}docker init script ${COL_RED}finished.${COL_NORMAL}"
+  echo ""
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Open another terminal and execute ${COL_PURPLE}'tail-log.sh -f tomcat'${COL_NORMAL} to check the logs"
+  echo -e "${COL_NORMAL} until the deployment finishes"
+  echo ""
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Check ${COL_BLUE}https://github.com/nbrest/java.web.kamehouse/blob/dev/docker-setup.md${COL_NORMAL}"
+  echo -e " for details on how to login to kamehouse and execute its functionality" 
+  echo ""
+  echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
+  echo -e "${COL_RED}   Keep this terminal open while the container is running.${COL_NORMAL}"
+  echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
 
   echo "" > /root/.startup.lock
   tail -f /root/.startup.lock
@@ -150,7 +162,7 @@ keepContainerAlive() {
 logStep() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
-  echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_GREEN}${LOG_MESSAGE}${COL_NORMAL}"
+  echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
 main "$@"
