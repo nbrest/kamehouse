@@ -158,7 +158,7 @@ public class KameHouseCmdIntegrationTest {
   }
 
   /**
-   * Get decrypt operation.
+   * Get jvncsender operation.
    */
   private String getJvncSenderOperation() {
     String hostname = PropertiesUtils.getHostname();
