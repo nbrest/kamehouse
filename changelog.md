@@ -2,7 +2,8 @@
 
 #### v6.10
 
-* Added a sample vue.js app
+* Forked [jvncsender](https://github.com/nbrest/jvncsender) and added it to the local maven repo of kamehouse
+* Added [jvncsender](https://github.com/nbrest/jvncsender) to kamehouse-cmd and replaced most calls to vncdo with kamehouse-cmd. For mouse clicks, vncdo tool is still needed
 
 #### v6.09
 

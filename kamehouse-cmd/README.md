@@ -3,6 +3,10 @@
 * kamehouse-cmd is a command line tool written in java to do admin tasks executable through the
  command line rather than being triggered from a web app.
 
+* Uses [jvncsender](https://github.com/nbrest/jvncsender) to send text to a vnc server replacing the external vncdo tool. For sending mouse clicks, vncdo is still needed
+
+* For a list of all operations to execute with kamehouse cmd, run `kamehouse-cmd.sh -h`
+
 | folder | description |
 | ---- | --------|
 | bin | Contains the script file to execute the application |
