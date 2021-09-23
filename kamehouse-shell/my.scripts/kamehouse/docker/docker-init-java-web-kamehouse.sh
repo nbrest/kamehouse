@@ -124,6 +124,7 @@ initKameHouseDb() {
 
 startHttpd() {
   logStep "Start apache httpd"
+  rm /var/run/apache2/apache2.pid
   service apache2 start
 }
 

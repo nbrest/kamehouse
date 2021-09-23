@@ -15,6 +15,7 @@ if [ "$?" != "0" ]; then
 fi
 source ${HOME}/my.scripts/.cred/.cred
 
+DEFAULT_DEV_ENVIRONMENT=intellij
 # dev environment: eclipse or intellij
 DEV_ENVIRONMENT=
 PROJECT_DIR=
@@ -100,8 +101,8 @@ parseArguments() {
   done
   
   if [ -z "${DEV_ENVIRONMENT}" ]; then
-    log.error "Option -i is not set. Re-run the script with that option set"
-    exitProcess 1
+    log.warn "Option -i is not set. Using default value ${DEFAULT_DEV_ENVIRONMENT}"
+    DEV_ENVIRONMENT=${DEFAULT_DEV_ENVIRONMENT}
   fi
 }
 
@@ -111,7 +112,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's path to export scripts to" 
+  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's path to export scripts to.Default intellij" 
 }
 
 main "$@"
