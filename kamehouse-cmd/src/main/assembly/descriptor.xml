@@ -21,7 +21,7 @@
       <outputDirectory>bin</outputDirectory>
       <filtered>true</filtered>
       <includes>
-        <include>kamehouse-cmd*.bat</include>
+        <include>kamehouse-cmd*.bt</include>
         <include>kamehouse-cmd*.sh</include>
       </includes>
     </fileSet>

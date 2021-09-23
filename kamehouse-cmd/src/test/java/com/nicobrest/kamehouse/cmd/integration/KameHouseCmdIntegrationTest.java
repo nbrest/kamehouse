@@ -32,9 +32,8 @@ import org.slf4j.LoggerFactory;
 public class KameHouseCmdIntegrationTest {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
-  private static final String GIT_BASH = "C:/Users/nbrest/my.scripts/win/bat/git-bash.bat";
-  private static final String KAMEHOUSE_CMD_WIN =
-      "C:/Users/nbrest/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
+  private static final String KAMEHOUSE_CMD_WIN = PropertiesUtils.getUserHome()
+      + "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
   private static final String IN_FILE_PATH = PropertiesUtils.getUserHome()
       + "/kamehouse-cmd-integration-tests-in-file.txt";
   private static final File DECRYPTED_FILE = new File(IN_FILE_PATH);
@@ -132,7 +131,7 @@ public class KameHouseCmdIntegrationTest {
   private List<String> getCommand(String operationCommand) {
     List<String> command;
     if (PropertiesUtils.isWindowsHost()) {
-      command = List.of("cmd.exe", "/c", GIT_BASH, "-c", KAMEHOUSE_CMD_WIN + operationCommand);
+      command = List.of("cmd.exe", "/c", KAMEHOUSE_CMD_WIN + operationCommand);
     } else {
       command = new ArrayList<>();
       command.add("kamehouse-cmd.sh");
