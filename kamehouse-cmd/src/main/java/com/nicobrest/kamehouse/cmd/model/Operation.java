@@ -7,5 +7,6 @@ package com.nicobrest.kamehouse.cmd.model;
  */
 public enum Operation {
   DECRYPT,
-  ENCRYPT
+  ENCRYPT,
+  JVNCSENDER
 }

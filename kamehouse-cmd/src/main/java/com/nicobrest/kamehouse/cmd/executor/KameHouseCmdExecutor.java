@@ -27,6 +27,9 @@ public class KameHouseCmdExecutor {
   @Autowired
   private EncryptExecutor encryptExecutor;
 
+  @Autowired
+  private JvncSenderExecutor jvncSenderExecutor;
+
   /**
    * Delegate the execution of the command to the correct executor.
    */
@@ -39,6 +42,9 @@ public class KameHouseCmdExecutor {
         break;
       case ENCRYPT:
         encryptExecutor.execute(cmdArgumentHandler);
+        break;
+      case JVNCSENDER:
+        jvncSenderExecutor.execute(cmdArgumentHandler);
         break;
       default:
         logger.error("Unhandled operation");

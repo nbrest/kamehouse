@@ -45,10 +45,12 @@ public class MainAppTest {
     fileUtilsMockedStatic.close();
   }
 
-  /** Tests running kamehouse-cmd with operation decrypt. */
+  /**
+   * Tests running kamehouse-cmd with operation decrypt.
+   */
   @Test
   public void decryptSuccessfulTest() throws IOException {
-    String[] args = new String[] {"-o", "decrypt", "-if", "in.enc", "-of", "out.dec"};
+    String[] args = new String[]{"-o", "decrypt", "-if", "in.enc", "-of", "out.dec"};
     MainApp.main(args);
     // no exceptions thrown
 
@@ -57,14 +59,27 @@ public class MainAppTest {
     // no exceptions thrown
   }
 
-  /** Tests running kamehouse-cmd with operation encrypt. */
+  /**
+   * Tests running kamehouse-cmd with operation encrypt.
+   */
   @Test
   public void encryptSuccessfulTest() throws IOException {
-    String[] args = new String[] {"-o", "encrypt", "-if", "in.txt", "-of", "out.enc", "-v"};
+    String[] args = new String[]{"-o", "encrypt", "-if", "in.txt", "-of", "out.enc", "-v"};
     MainApp.main(args);
     // no exceptions thrown
 
     when(FileUtils.readFileToByteArray(any())).thenCallRealMethod();
+    MainApp.main(args);
+    // no exceptions thrown
+  }
+
+  /**
+   * Tests running kamehouse-cmd with operation jvncsender.
+   */
+  @Test
+  public void jVncSenderUnknownHostTest() {
+    String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
+        "-password", "", "-text", "<ESC>"};
     MainApp.main(args);
     // no exceptions thrown
   }

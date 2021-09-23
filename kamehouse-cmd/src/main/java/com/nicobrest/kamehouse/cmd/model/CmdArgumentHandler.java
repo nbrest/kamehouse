@@ -34,6 +34,8 @@ public class CmdArgumentHandler {
       Arrays.asList(Operation.values()).toString().toLowerCase(Locale.getDefault());
   private static final List<String> DECRYPT_OPTIONS = Arrays.asList("-if", "-of");
   private static final List<String> ENCRYPT_OPTIONS = Arrays.asList("-if", "-of");
+  private static final List<String> JVNCSENDER_OPTIONS =
+      Arrays.asList("-host", "-password", "-port", "-text");
 
   private CommandLine commandLine;
   private Operation operation;
@@ -49,13 +51,19 @@ public class CmdArgumentHandler {
     ALL_OPTIONS.addOption(new Option("v", "verbose", false, "Verbose mode"));
     ALL_OPTIONS.addOption(new Option("if", "input-file", true, "Input file"));
     ALL_OPTIONS.addOption(new Option("of", "output-file", true, "Output file"));
+    ALL_OPTIONS.addOption(new Option("host", "host", true, "Host"));
+    ALL_OPTIONS.addOption(new Option("password", "password", true, "Password"));
+    ALL_OPTIONS.addOption(new Option("port", "port", true, "Port"));
+    ALL_OPTIONS.addOption(new Option("text", "text", true, "Text"));
   }
 
   public CmdArgumentHandler(String[] args) {
     parse(args);
   }
 
-  /** Parse all command line arguments. */
+  /**
+   * Parse all command line arguments.
+   */
   private void parse(String[] args) {
 
     try {
@@ -76,6 +84,9 @@ public class CmdArgumentHandler {
         case ENCRYPT:
           parseEncryptOperation();
           break;
+        case JVNCSENDER:
+          parseJvncSenderOperation();
+          break;
         default:
           logger.error("Unhandled operation {},", operation);
           help();
@@ -87,29 +98,39 @@ public class CmdArgumentHandler {
     }
   }
 
-  /** Prints help information on the console and exits the program. */
+  /**
+   * Prints help information on the console and exits the program.
+   */
   public void help() {
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp(KameHouseCmd.class.getSimpleName(), ALL_OPTIONS);
     ProcessUtils.exitProcess(1);
   }
 
-  /** Returns the operation to execute. */
+  /**
+   * Returns the operation to execute.
+   */
   public Operation getOperation() {
     return operation;
   }
 
-  /** Returns the value of a command line parameter that requires an argument value. */
+  /**
+   * Returns the value of a command line parameter that requires an argument value.
+   */
   public String getArgument(String arg) {
     return commandLine.getOptionValue(arg);
   }
 
-  /** Checks if the specified command line argument was passed when executing the application. */
+  /**
+   * Checks if the specified command line argument was passed when executing the application.
+   */
   public boolean hasArgument(String arg) {
     return commandLine.hasOption(arg);
   }
 
-  /** Set the operation from the command line parameters. */
+  /**
+   * Set the operation from the command line parameters.
+   */
   private void setOperation(CommandLine commandLine) {
     String operationArgument = commandLine.getOptionValue("o").toUpperCase(Locale.getDefault());
     try {
@@ -120,7 +141,9 @@ public class CmdArgumentHandler {
     }
   }
 
-  /** Parse the arguments for the decrypt operation. */
+  /**
+   * Parse the arguments for the decrypt operation.
+   */
   private void parseDecryptOperation() {
     DECRYPT_OPTIONS.stream()
         .forEach(
@@ -132,9 +155,25 @@ public class CmdArgumentHandler {
             });
   }
 
-  /** Parse the arguments for the encrypt operation. */
+  /**
+   * Parse the arguments for the encrypt operation.
+   */
   private void parseEncryptOperation() {
     ENCRYPT_OPTIONS.stream()
+        .forEach(
+            option -> {
+              if (!hasArgument(option)) {
+                logger.error("Argument {} is missing", option);
+                help();
+              }
+            });
+  }
+
+  /**
+   * Parse the arguments for the jvncsender operation.
+   */
+  private void parseJvncSenderOperation() {
+    JVNCSENDER_OPTIONS.stream()
         .forEach(
             option -> {
               if (!hasArgument(option)) {

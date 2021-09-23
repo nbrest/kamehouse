@@ -135,6 +135,9 @@
     <!-- Updated : 2021/09 | Dependency version date: 2021/02 -->
     <junit.jupiter.version>5.8.0-M1</junit.jupiter.version>
 
+    <!-- Updated : 2021/09 | Dependency version date: 2021/09 -->
+    <jvncsender.version>1.00</jvncsender.version>
+
     <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
     <logback.version>1.2.5</logback.version>
 
@@ -172,6 +175,12 @@
 
   <dependencies>
 
+    <dependency>
+      <groupId>be.jedi</groupId>
+      <artifactId>jvncsender</artifactId>
+      <version>${jvncsender.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>findbugs</artifactId>

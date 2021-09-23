@@ -30,10 +30,12 @@ public class CmdArgumentHandlerTest {
     processUtilsMockedStatic.close();
   }
 
-  /** Tests parsing the arguments successfully for operation encrypt. */
+  /**
+   * Tests parsing the arguments successfully for operation encrypt.
+   */
   @Test
   public void encryptSuccessfulTest() {
-    String[] args = new String[] {"-o", "encrypt", "-if", "in.txt", "-of", "out.enc"};
+    String[] args = new String[]{"-o", "encrypt", "-if", "in.txt", "-of", "out.enc"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertEquals(Operation.ENCRYPT, cmdArgumentHandler.getOperation());
@@ -41,10 +43,12 @@ public class CmdArgumentHandlerTest {
     assertEquals("out.enc", cmdArgumentHandler.getArgument("of"));
   }
 
-  /** Tests error parsing the arguments for operation encrypt. */
+  /**
+   * Tests error parsing the arguments for operation encrypt.
+   */
   @Test
   public void encryptErrorTest() {
-    String[] args = new String[] {"-o", "encrypt", "-if", "in.txt"};
+    String[] args = new String[]{"-o", "encrypt", "-if", "in.txt"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertEquals(Operation.ENCRYPT, cmdArgumentHandler.getOperation());
@@ -52,10 +56,12 @@ public class CmdArgumentHandlerTest {
     assertNull(cmdArgumentHandler.getArgument("of"));
   }
 
-  /** Tests parsing the arguments for help. */
+  /**
+   * Tests parsing the arguments for help.
+   */
   @Test
   public void helpTest() {
-    String[] args = new String[] {"-h"};
+    String[] args = new String[]{"-h"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertNull(cmdArgumentHandler.getOperation());
@@ -63,10 +69,12 @@ public class CmdArgumentHandlerTest {
     assertNull(cmdArgumentHandler.getArgument("of"));
   }
 
-  /** Tests an invalid operation. */
+  /**
+   * Tests an invalid operation.
+   */
   @Test
   public void invalidOperationTest() {
-    String[] args = new String[] {"-o", "dinner-out"};
+    String[] args = new String[]{"-o", "dinner-out"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertNull(cmdArgumentHandler.getOperation());

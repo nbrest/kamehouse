@@ -77,6 +77,15 @@ public class KameHouseCmdIntegrationTest {
     logger.info("Finished executing {} successfully", command);
   }
 
+  @Test
+  @Order(3)
+  public void jVncSenderTest() throws IOException, InterruptedException {
+    List<String> command = getJvncSenderCommand();
+    execute(command);
+
+    logger.info("Finished executing {} successfully", command);
+  }
+
   /**
    * Execute the specified command line process.
    */
@@ -100,24 +109,30 @@ public class KameHouseCmdIntegrationTest {
    * Get the encrypt command.
    */
   private List<String> getEncryptCommand() {
-    List<String> command;
-    if (PropertiesUtils.isWindowsHost()) {
-      command = List.of("cmd.exe", "/c", GIT_BASH, "-c", KAMEHOUSE_CMD_WIN + getEncryptOperation());
-    } else {
-      command = new ArrayList<>();
-      command.add("kamehouse-cmd.sh");
-      command.addAll(Arrays.asList(getEncryptOperation().split(" ")));
-    }
-    return command;
+    return getCommand(getEncryptOperation());
   }
 
   /**
    * Get the decrypt command.
    */
   private List<String> getDecryptCommand() {
+    return getCommand(getDecryptOperation());
+  }
+
+  /**
+   * Get the jvncsender command.
+   */
+  private List<String> getJvncSenderCommand() {
+    return getCommand(getJvncSenderOperation());
+  }
+
+  /**
+   * Get the command as a list of strings.
+   */
+  private List<String> getCommand(String operationCommand) {
     List<String> command;
     if (PropertiesUtils.isWindowsHost()) {
-      command = List.of("cmd.exe", "/c", GIT_BASH, "-c", KAMEHOUSE_CMD_WIN + getDecryptOperation());
+      command = List.of("cmd.exe", "/c", GIT_BASH, "-c", KAMEHOUSE_CMD_WIN + operationCommand);
     } else {
       command = new ArrayList<>();
       command.add("kamehouse-cmd.sh");
@@ -140,6 +155,14 @@ public class KameHouseCmdIntegrationTest {
   private String getDecryptOperation() {
     return " -o decrypt -if " + getAbsoluteFilePath(ENCRYPTED_FILE)
         + " -of " + getAbsoluteFilePath(DECRYPTED_FILE);
+  }
+
+  /**
+   * Get decrypt operation.
+   */
+  private String getJvncSenderOperation() {
+    String hostname = PropertiesUtils.getHostname();
+    return " -o jvncsender -host '" + hostname + "' -port 5900 -password 'd' -text 'A'";
   }
 
   /**
