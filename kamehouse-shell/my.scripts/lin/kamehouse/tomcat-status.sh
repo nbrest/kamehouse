@@ -22,7 +22,7 @@ mainProcess() {
   log.info "Searching for tomcat process"
   USERNAME=`${HOME}/my.scripts/kamehouse/get-username.sh`  
   sudo su - ${USERNAME} -c "netstat -nltp | grep ${TOMCAT_PORT} | grep java"
-  TOMCAT_PID=`sudo su - ${USERNAME} -c "netstat -nltp | grep ${TOMCAT_PORT} | grep java | awk '{print $7}' | cut -d '/' -f 1"`
+  TOMCAT_PID=`sudo su - ${USERNAME} -c "netstat -nltp | grep ${TOMCAT_PORT} | grep java" | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z ${TOMCAT_PID} ]; then
     log.info "Tomcat is not running"
   else
