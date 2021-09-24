@@ -20,7 +20,7 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
    * Sets a kamehouse-cmd system command.
    */
   public void setKameHouseCmdCommands() {
-    linuxCommand.addAll(List.of("/bin/bash", "-c", KAMEHOUSE_CMD_LINUX));
+    linuxCommand.add(KAMEHOUSE_CMD_LINUX);
     linuxCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
     windowsCommand.addAll(List.of("cmd.exe", "/c",
         KAMEHOUSE_CMD_WIN + getKameHouseCmdArguments()));
