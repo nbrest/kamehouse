@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.cmd.executor;
 
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,24 +36,32 @@ public class KameHouseCmdExecutor {
    */
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     checkVerboseMode(cmdArgumentHandler);
+    Executor operationExecutor = getOperationExecutor(cmdArgumentHandler);
     logger.debug("Started executing command");
-    switch (cmdArgumentHandler.getOperation()) {
-      case DECRYPT:
-        decryptExecutor.execute(cmdArgumentHandler);
-        break;
-      case ENCRYPT:
-        encryptExecutor.execute(cmdArgumentHandler);
-        break;
-      case JVNCSENDER:
-        jvncSenderExecutor.execute(cmdArgumentHandler);
-        break;
-      default:
-        logger.error("Unhandled operation");
-        break;
-    }
+    operationExecutor.execute(cmdArgumentHandler);
     logger.debug("Finished executing command");
   }
 
+  /**
+   * Get the executor for the specified operation.
+   */
+  private Executor getOperationExecutor(CmdArgumentHandler cmdArgumentHandler) {
+    switch (cmdArgumentHandler.getOperation()) {
+      case DECRYPT:
+        return decryptExecutor;
+      case ENCRYPT:
+        return encryptExecutor;
+      case JVNCSENDER:
+        return jvncSenderExecutor;
+      default:
+        logger.error("Unhandled operation");
+        throw new KameHouseInvalidDataException("Invalid operation");
+    }
+  }
+
+  /**
+   * Check if verbose mode is enabled and set logging to trace.
+   */
   private void checkVerboseMode(CmdArgumentHandler cmdArgumentHandler) {
     if (cmdArgumentHandler.hasArgument("v")) {
       logLevelManagerService.setLogLevel(TRACE, "com.nicobrest.kamehouse");

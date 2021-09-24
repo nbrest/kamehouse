@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @author nbrest
  */
 @Component
-public class EncryptExecutor {
+public class EncryptExecutor implements Executor {
 
   private final Logger logger = LoggerFactory.getLogger(EncryptExecutor.class);
 

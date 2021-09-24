@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @author nbrest
  */
 @Component
-public class JvncSenderExecutor {
+public class JvncSenderExecutor implements Executor {
 
   private final Logger logger = LoggerFactory.getLogger(JvncSenderExecutor.class);
 

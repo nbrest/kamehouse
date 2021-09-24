@@ -17,11 +17,13 @@ import org.springframework.stereotype.Component;
  * @author nbrest
  */
 @Component
-public class DecryptExecutor {
+public class DecryptExecutor implements Executor {
 
   private final Logger logger = LoggerFactory.getLogger(DecryptExecutor.class);
 
-  /** Execute the operation. */
+  /**
+   * Execute the operation.
+   */
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String inputFileName = cmdArgumentHandler.getArgument("if");
     String outputFileName = cmdArgumentHandler.getArgument("of");

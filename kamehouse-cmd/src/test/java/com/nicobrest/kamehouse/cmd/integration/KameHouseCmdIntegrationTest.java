@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.cmd.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -13,12 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +21,6 @@ import org.slf4j.LoggerFactory;
  *
  * @author nbrest
  */
-@TestMethodOrder(OrderAnnotation.class)
-@TestInstance(Lifecycle.PER_CLASS)
 public class KameHouseCmdIntegrationTest {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -42,8 +34,8 @@ public class KameHouseCmdIntegrationTest {
   private static final File ENCRYPTED_FILE = new File(OUT_FILE_PATH);
 
   @Test
-  @Order(1)
-  public void encryptTest() throws IOException, InterruptedException {
+  public void encryptAndDecryptTest() throws IOException, InterruptedException {
+    // encrypt file
     if (!DECRYPTED_FILE.exists()) {
       DECRYPTED_FILE.createNewFile();
     }
@@ -56,18 +48,9 @@ public class KameHouseCmdIntegrationTest {
 
     assertTrue(ENCRYPTED_FILE.exists(), "Couldn't create encrypted file");
     logger.info("Finished executing {} successfully", command);
-  }
 
-  @Test
-  @Order(2)
-  public void decryptTest() throws IOException, InterruptedException {
-    if (!ENCRYPTED_FILE.exists()) {
-      fail("Input encrypted file doesn't exist. Run encryptTest() first");
-    }
-    if (DECRYPTED_FILE.exists()) {
-      DECRYPTED_FILE.delete();
-    }
-    List<String> command = getDecryptCommand();
+    // decrypt file
+    command = getDecryptCommand();
 
     execute(command);
 
@@ -77,7 +60,6 @@ public class KameHouseCmdIntegrationTest {
   }
 
   @Test
-  @Order(3)
   public void jVncSenderTest() throws IOException, InterruptedException {
     List<String> command = getJvncSenderCommand();
     execute(command);
