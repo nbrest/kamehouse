@@ -117,7 +117,7 @@ public class KameHouseCmdIntegrationTest {
     } else {
       command = new ArrayList<>();
       command.add("kamehouse-cmd.sh");
-      command.addAll(Arrays.asList(getDecryptOperation().split(" ")));
+      command.addAll(Arrays.asList(operationCommand.split(" ")));
     }
     return command;
   }
