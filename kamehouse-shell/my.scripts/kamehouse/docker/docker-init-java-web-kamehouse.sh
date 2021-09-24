@@ -43,6 +43,10 @@ cloneKameHouse() {
 setupDirectories() {
   logStep "Setup directories"
 
+  # /home/nbrest/.config/vlc
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/.config/vlc/"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/docker/vlc/* /home/nbrest/.config/vlc/"
+  
   # /home/nbrest/home-synced
   sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/home-synced/.kamehouse/keys/"
   sudo su - ${USERNAME} -c "cp /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12"
