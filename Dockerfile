@@ -129,6 +129,6 @@ EXPOSE 22 80 443 3306 8080 9090
 
 # Initial deployment of kamehouse (this should download most of the dependencies at build and speed up startup)
 RUN sudo su - nbrest -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
-RUN sudo su - nbrest -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"
+RUN sudo su - nbrest -c "/home/nbrest/docker/scripts/docker-my-scripts-update.sh"
 
 CMD ["/home/nbrest/docker/scripts/docker-init-java-web-kamehouse.sh"]
