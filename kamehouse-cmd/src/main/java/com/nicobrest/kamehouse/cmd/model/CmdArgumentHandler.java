@@ -145,35 +145,28 @@ public class CmdArgumentHandler {
    * Parse the arguments for the decrypt operation.
    */
   private void parseDecryptOperation() {
-    DECRYPT_OPTIONS.stream()
-        .forEach(
-            option -> {
-              if (!hasArgument(option)) {
-                logger.error("Argument {} is missing", option);
-                help();
-              }
-            });
+    parseOperation(DECRYPT_OPTIONS);
   }
 
   /**
    * Parse the arguments for the encrypt operation.
    */
   private void parseEncryptOperation() {
-    ENCRYPT_OPTIONS.stream()
-        .forEach(
-            option -> {
-              if (!hasArgument(option)) {
-                logger.error("Argument {} is missing", option);
-                help();
-              }
-            });
+    parseOperation(ENCRYPT_OPTIONS);
   }
 
   /**
    * Parse the arguments for the jvncsender operation.
    */
   private void parseJvncSenderOperation() {
-    JVNCSENDER_OPTIONS.stream()
+    parseOperation(JVNCSENDER_OPTIONS);
+  }
+
+  /**
+   * Parse operation options.
+   */
+  private void parseOperation(List<String> operationOptions) {
+    operationOptions.stream()
         .forEach(
             option -> {
               if (!hasArgument(option)) {
