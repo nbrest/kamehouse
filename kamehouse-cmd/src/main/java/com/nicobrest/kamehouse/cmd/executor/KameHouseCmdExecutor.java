@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.cmd.executor;
 
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
 import org.slf4j.Logger;
@@ -38,7 +39,11 @@ public class KameHouseCmdExecutor {
     checkVerboseMode(cmdArgumentHandler);
     Executor operationExecutor = getOperationExecutor(cmdArgumentHandler);
     logger.debug("Started executing command");
-    operationExecutor.execute(cmdArgumentHandler);
+    try {
+      operationExecutor.execute(cmdArgumentHandler);
+    } catch (KameHouseException e) {
+      logger.error("Error executing operation", e);
+    }
     logger.debug("Finished executing command");
   }
 

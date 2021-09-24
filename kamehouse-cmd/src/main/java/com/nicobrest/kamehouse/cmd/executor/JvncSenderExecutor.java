@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.cmd.executor;
 
 import be.jedi.jvncsender.VncSender;
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import java.io.File;
@@ -31,7 +32,12 @@ public class JvncSenderExecutor implements Executor {
     String password = cmdArgumentHandler.getArgument("password");
     String text = cmdArgumentHandler.getArgument("text");
     logger.info("Sending text to vnc server {}:{}", host, port);
-    VncSender vncSender = new VncSender(host, port, password);
-    vncSender.sendText(text);
+    try {
+      VncSender vncSender = new VncSender(host, port, password);
+      vncSender.sendText(text);
+    } catch (Exception e) {
+      throw new KameHouseException(e);
+    }
+
   }
 }
