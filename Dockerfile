@@ -67,9 +67,6 @@ RUN rm -rf /home/nbrest/git/java.web.kamehouse
 RUN cd /home/nbrest/git ; git clone https://github.com/nbrest/java.web.kamehouse.git
 RUN cd /home/nbrest/git/java.web.kamehouse ; git checkout dev
 
-# Start mysql for initial dump
-RUN service mysql start
-
 # Copy docker setup folder
 COPY docker /home/nbrest/docker
 
@@ -122,9 +119,9 @@ RUN cp /home/nbrest/docker/mocked-bin/vncdo /usr/local/bin/vncdo
 RUN cp /home/nbrest/docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
 
 # Intial dump of mysql data
-RUN mysql < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql
-RUN mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql
-RUN mysql kameHouse < /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql
+RUN service mysql start ; sleep 5 ; mysql < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql
+RUN service mysql start ; sleep 5 ; mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql
+RUN service mysql start ; sleep 5 ; mysql kameHouse < /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql
 
 # Open ports
 EXPOSE 22 80 443 3306 8080 9090

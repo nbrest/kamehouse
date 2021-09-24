@@ -17,9 +17,8 @@ main() {
   echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"
   echo -e "${COL_CYAN} ${KAMEHOUSE}${COL_CYAN} docker init script${COL_NORMAL}"
   echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"  
-
-  pullKameHouse
   loadEnv
+  pullKameHouse
   startTomcat
   restartSshService
   startMysql
@@ -28,14 +27,35 @@ main() {
   keepContainerAlive
 }
 
-pullKameHouse() {
-  logStep "Pull latest KameHouse dev branch"
-  sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git pull origin dev"
-}
-
 loadEnv() {
   logStep "Load env"
   source /root/.bashrc
+
+  if [ -z "${PULL_KAMEHOUSE}" ]; then
+    # by default pull. can set the environment PULL_KAMEHOUSE=false when creating the container
+    logStep "Setting default PULL_KAMEHOUSE=true"
+    export PULL_KAMEHOUSE=true
+  fi 
+
+  if [ -z "${DEPLOY_KAMEHOUSE}" ]; then
+    # by default deploy. can set the environment DEPLOY_KAMEHOUSE=false when creating the container
+    logStep "Setting default DEPLOY_KAMEHOUSE=true"
+    export DEPLOY_KAMEHOUSE=true
+  fi 
+}
+
+pullKameHouse() {
+  if ${PULL_KAMEHOUSE}; then
+    logStep "Pull latest KameHouse dev branch"
+    sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git pull origin dev"
+  fi
+}
+
+startTomcat() {
+  logStep "Start tomcat"
+  sudo su - ${USERNAME} -c "cd /home/nbrest/programs/apache-tomcat ; \
+  USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
+  DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 bin/startup.sh"
 }
 
 restartSshService() {
@@ -54,17 +74,12 @@ startHttpd() {
   service apache2 start
 }
 
-startTomcat() {
-  logStep "Start tomcat"
-  sudo su - ${USERNAME} -c "cd /home/nbrest/programs/apache-tomcat ; \
-  USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
-  DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 bin/startup.sh"
-}
-
 deployKamehouse() {
-  logStep "Deploy KameHouse"
-  sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
-  logStep "Finished building KameHouse"
+  if ${DEPLOY_KAMEHOUSE}; then
+    logStep "Deploy KameHouse"
+    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
+    logStep "Finished building KameHouse"
+  fi
 }
 
 keepContainerAlive() {
