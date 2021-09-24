@@ -42,8 +42,10 @@ public class DecryptExecutor implements Executor {
       if (outputFile != null) {
         FileUtils.writeByteArrayToFile(outputFile, decryptedOutput);
       } else {
-        logger.info("Decrypting to {}", STDOUT);
-        System.out.println(new String(decryptedOutput, StandardCharsets.UTF_8));
+        if (decryptedOutput != null) {
+          logger.info("Decrypting to {}", STDOUT);
+          System.out.println(new String(decryptedOutput, StandardCharsets.UTF_8));
+        }
       }
       if (decryptedOutput != null && logger.isTraceEnabled()) {
         logger.trace("Decrypted content:");
