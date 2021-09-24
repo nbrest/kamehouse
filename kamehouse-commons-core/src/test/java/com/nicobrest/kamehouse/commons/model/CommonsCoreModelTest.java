@@ -16,6 +16,8 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseCmdSystemCommand;
 import java.util.Date;
 import java.util.HashSet;
 import org.junit.jupiter.api.Test;
@@ -277,8 +279,18 @@ public class CommonsCoreModelTest {
   private void validateKameHouseSystemCommand() {
     KameHouseSystemCommand kameHouseSystemCommand = new KameHouseSystemCommand() {
     };
-
     assertNotNull(kameHouseSystemCommand.toString());
+
+    KameHouseCmdSystemCommand kameHouseCmdSystemCommand = new KameHouseCmdSystemCommand() {
+      @Override
+      protected String getKameHouseCmdArguments() {
+        return "-o encrypt";
+      }
+    };
+    assertNotNull(kameHouseCmdSystemCommand.toString());
+
+    JvncSenderSystemCommand jvncSenderSystemCommand = new JvncSenderSystemCommand("");
+    assertNotNull(jvncSenderSystemCommand.toString());
   }
 
   /**
