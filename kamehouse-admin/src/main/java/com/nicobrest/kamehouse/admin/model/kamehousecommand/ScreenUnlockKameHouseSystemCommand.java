@@ -3,8 +3,7 @@ package com.nicobrest.kamehouse.admin.model.kamehousecommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.ScreenLockSystemCommand;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -17,16 +16,19 @@ import com.nicobrest.kamehouse.commons.utils.StringUtils;
  */
 public class ScreenUnlockKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
+  /**
+   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
+   */
   public ScreenUnlockKameHouseSystemCommand() {
-    String decodedPassword = getUnlockScreenPassword();
+    String unlockScreenPassword = getUnlockScreenPassword();
     systemCommands.add(new ScreenLockSystemCommand());
-    systemCommands.add(new VncDoKeyPressSystemCommand("esc"));
-    systemCommands.add(new VncDoTypeSystemCommand(decodedPassword));
-    systemCommands.add(new VncDoKeyPressSystemCommand("enter"));
+    systemCommands.add(new JvncSenderSystemCommand("<ESC>"));
+    systemCommands.add(new JvncSenderSystemCommand(unlockScreenPassword + "<RETURN>"));
   }
 
-  /** Gets the unlock screen password. */
+  /**
+   * Gets the unlock screen password.
+   */
   private static String getUnlockScreenPassword() {
     String unlockScreenPwdFile =
         PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("unlock.screen.pwd.file");
