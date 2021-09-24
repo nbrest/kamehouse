@@ -33,7 +33,7 @@ public class DecryptExecutor implements Executor {
       logger.info("Decrypting contents of {} into {}", inputFileName, outputFileName);
       File inputFile = new File(inputFileName);
       File outputFile = null;
-      if (STDOUT.equalsIgnoreCase(outputFileName)) {
+      if (!STDOUT.equalsIgnoreCase(outputFileName)) {
         outputFile = new File(outputFileName);
       }
       byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
