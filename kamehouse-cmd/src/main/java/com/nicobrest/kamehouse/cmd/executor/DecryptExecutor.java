@@ -21,6 +21,8 @@ public class DecryptExecutor implements Executor {
 
   private final Logger logger = LoggerFactory.getLogger(DecryptExecutor.class);
 
+  private static final String STDOUT = "stdout";
+
   /**
    * Execute the operation.
    */
@@ -30,11 +32,19 @@ public class DecryptExecutor implements Executor {
     try {
       logger.info("Decrypting contents of {} into {}", inputFileName, outputFileName);
       File inputFile = new File(inputFileName);
-      File outputFile = new File(outputFileName);
+      File outputFile = null;
+      if (STDOUT.equalsIgnoreCase(outputFileName)) {
+        outputFile = new File(outputFileName);
+      }
       byte[] inputBytes = FileUtils.readFileToByteArray(inputFile);
       PrivateKey key = EncryptionUtils.getKameHousePrivateKey();
       byte[] decryptedOutput = EncryptionUtils.decrypt(inputBytes, key);
-      FileUtils.writeByteArrayToFile(outputFile, decryptedOutput);
+      if (outputFile != null) {
+        FileUtils.writeByteArrayToFile(outputFile, decryptedOutput);
+      } else {
+        logger.info("Decrypting to {}", STDOUT);
+        System.out.println(new String(decryptedOutput, StandardCharsets.UTF_8));
+      }
       if (decryptedOutput != null && logger.isTraceEnabled()) {
         logger.trace("Decrypted content:");
         System.out.println(new String(decryptedOutput, StandardCharsets.UTF_8));
