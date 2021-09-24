@@ -32,6 +32,9 @@ public class KameHouseCmdIntegrationTest {
       + "/kamehouse-cmd-integration-tests-out-file.enc";
   private static final File ENCRYPTED_FILE = new File(OUT_FILE_PATH);
 
+  /**
+   * Execute encrypt and decrypt operations.
+   */
   @Test
   public void encryptAndDecryptTest() throws IOException, InterruptedException {
     // encrypt file
@@ -58,6 +61,9 @@ public class KameHouseCmdIntegrationTest {
     logger.info("Finished executing {} successfully", command);
   }
 
+  /**
+   * Execute jvncsender operation.
+   */
   @Test
   public void jVncSenderTest() throws IOException, InterruptedException {
     List<String> command = getJvncSenderCommand();
