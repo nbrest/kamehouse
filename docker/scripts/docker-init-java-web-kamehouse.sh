@@ -82,6 +82,7 @@ deployKamehouse() {
   if ${DEPLOY_KAMEHOUSE}; then
     logStep "Deploy KameHouse"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
+    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"
     logStep "Finished building KameHouse"
   fi
 }
