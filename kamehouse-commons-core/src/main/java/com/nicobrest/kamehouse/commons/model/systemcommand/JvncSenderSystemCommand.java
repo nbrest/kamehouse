@@ -22,7 +22,7 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
   }
 
   @Override
-  protected String getKameHouseCmdCommandArguments() {
+  protected String getKameHouseCmdArguments() {
     String host = PropertiesUtils.getHostname();
     String password = getVncServerPassword();
     return "-o jvncsender -host \"" + host + "\" -port 5900 -password \"" + password + "\" -text \""

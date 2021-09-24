@@ -21,9 +21,9 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
    */
   public void setKameHouseCmdCommands() {
     linuxCommand.addAll(List.of("/bin/bash", "-c", KAMEHOUSE_CMD_LINUX));
-    linuxCommand.addAll(Arrays.asList(getKameHouseCmdCommandArguments().split(" ")));
+    linuxCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
     windowsCommand.addAll(List.of("cmd.exe", "/c",
-        KAMEHOUSE_CMD_WIN + getKameHouseCmdCommandArguments()));
+        KAMEHOUSE_CMD_WIN + getKameHouseCmdArguments()));
     setOutputCommand();
   }
 
@@ -31,5 +31,5 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
    * Get the arguments to pass to kamehouse-cmd including the operation to execute.
    * For example "-o encrypt -if in.txt -of out.enc".
    */
-  protected abstract String getKameHouseCmdCommandArguments();
+  protected abstract String getKameHouseCmdArguments();
 }
