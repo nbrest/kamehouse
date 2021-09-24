@@ -16,7 +16,8 @@ mainProcess() {
   if ${IS_LINUX_HOST}; then
     USERNAME=`${HOME}/my.scripts/kamehouse/get-username.sh`  
     log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME}"
-    sudo -u ${USERNAME} ${TOMCAT_DIR}/bin/startup.sh
+    USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3`
+    sudo su - ${USERNAME} -c "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
   else
     log.info "Starting tomcat ${TOMCAT_DIR}"
     cd ${TOMCAT_DIR}
