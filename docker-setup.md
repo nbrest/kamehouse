@@ -35,13 +35,13 @@ After that, once the init script finishes deploying kamehouse to tomcat in the c
 
 You can also access kamehouse groot at [https://localhost:6443/kame-house-groot/](https://localhost:6443/kame-house-groot/) or [http://localhost:6080/kame-house-groot/](http://localhost:6080/kame-house-groot/) and login with admin:admin to groot
 
-You can also access the container through ssh at `ssh -p 6022 root@localhost` with the default password `change-me`
+You can also access the container through ssh at `ssh -p 6022 nbrest@localhost` with the default password `nbrest`
 
 In the container console, you can run the following scripts:
 
 - `tail-log.sh -f [kamehouse|tomcat|apache]` : tail the logs of the application
-- `build-java-web-kamehouse.sh` : Execute it on `/root/git/java.web.kamehouse` to build the project and run all the unit tests
-- `build-java-web-kamehouse.sh -i -p docker` : Execute it on `/root/git/java.web.kamehouse` to run all the integration tests
+- `build-java-web-kamehouse.sh` : Execute it on `/home/nbrest/git/java.web.kamehouse` to build the project and run all the unit tests
+- `build-java-web-kamehouse.sh -i -p docker` : Execute it on `/home/nbrest/git/java.web.kamehouse` to run all the integration tests
 - `deploy-java-web-kamehouse.sh -f -p docker` : Pull the latest changes from git dev branch and deploy them (Executed automatically during container startup)
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 
