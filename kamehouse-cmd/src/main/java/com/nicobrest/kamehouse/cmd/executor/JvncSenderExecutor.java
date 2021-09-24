@@ -38,6 +38,5 @@ public class JvncSenderExecutor implements Executor {
     } catch (Exception e) {
       throw new KameHouseException(e);
     }
-
   }
 }

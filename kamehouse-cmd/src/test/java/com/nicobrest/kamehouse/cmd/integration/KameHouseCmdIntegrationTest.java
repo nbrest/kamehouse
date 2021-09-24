@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.cmd.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
@@ -62,7 +61,7 @@ public class KameHouseCmdIntegrationTest {
   @Test
   public void jVncSenderTest() throws IOException, InterruptedException {
     List<String> command = getJvncSenderCommand();
-    execute(command);
+    execute(command, List.of(0, 255));
 
     logger.info("Finished executing {} successfully", command);
   }
@@ -70,7 +69,15 @@ public class KameHouseCmdIntegrationTest {
   /**
    * Execute the specified command line process.
    */
-  private void execute(List<String> command) throws InterruptedException, IOException {
+  private void execute(List<String> command) throws IOException, InterruptedException {
+    execute(command, List.of(0));
+  }
+
+  /**
+   * Execute the specified command line process with the expected ouputs.
+   */
+  private void execute(List<String> command, List<Integer> expectedOutputs)
+      throws InterruptedException, IOException {
     logger.info("Executing {}", command);
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(command);
@@ -83,7 +90,7 @@ public class KameHouseCmdIntegrationTest {
     String error = IOUtils.toString(ProcessUtils.getErrorStream(process), StandardCharsets.UTF_8);
     logger.info("Output: {}", output);
     logger.info("Error: {}", error);
-    assertEquals(0, exitValue);
+    assertTrue(expectedOutputs.contains(exitValue));
   }
 
   /**
