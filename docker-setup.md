@@ -28,6 +28,8 @@ docker run --rm -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/java.web.k
 
 With the parameter `--rm` the container will be removed automatically after it exits. Without it, it will remain in your system.
 
+Passing `--env PULL_KAMEHOUSE=false --env DEPLOY_KAMEHOUSE=false` to docker run skips pulling and deploying the latest version of kamehouse during the container startup. By default it does both. If skipped, the container will start with the version of kamehouse that was used when the image was built.
+
 After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:6443/kame-house/](https://localhost:6443/kame-house/) or [http://localhost:6080/kame-house/](http://localhost:6080/kame-house/) and you can login with the following user:password to test different functionality
 - admin:admin
 - user:user
@@ -43,6 +45,7 @@ In the container console, you can run the following scripts:
 - `build-java-web-kamehouse.sh` : Execute it on `/home/nbrest/git/java.web.kamehouse` to build the project and run all the unit tests
 - `build-java-web-kamehouse.sh -i -p docker` : Execute it on `/home/nbrest/git/java.web.kamehouse` to run all the integration tests
 - `deploy-java-web-kamehouse.sh -f -p docker` : Pull the latest changes from git dev branch and deploy them (Executed automatically during container startup)
+- `docker-my-scripts-update.sh` : Updates the scripts in `/home/nbrest/my.scripts` with the version currently pulled from `/home/nbrest/git/java.web.kamehouse`
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 
 *********************
