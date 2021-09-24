@@ -22,9 +22,6 @@ main() {
     if [ "${HOST}" == "aws" ]; then
       USERNAME="ubuntu"
     fi
-    if [ "${HOST}" == "docker" ]; then
-      USERNAME="root"
-    fi    
   fi
 
   echo "${USERNAME}"

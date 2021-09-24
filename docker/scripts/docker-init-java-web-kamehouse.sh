@@ -11,6 +11,7 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 KAMEHOUSE=${COL_NORMAL}Kame${COL_RED}House${COL_MESSAGE}
+USERNAME=nbrest
 
 main() {
   echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"
@@ -32,62 +33,59 @@ main() {
 
 cloneKameHouse() {
   logStep "Clone latest KameHouse dev branch"
-  mkdir -p /root/git
-  cd /root/git
-  rm -rf /root/git/java.web.kamehouse 
-  git clone https://github.com/nbrest/java.web.kamehouse.git 
-  cd /root/git/java.web.kamehouse 
-  git checkout dev
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/git"
+  sudo su - ${USERNAME} -c "chmod a+xwr /home/nbrest/git"
+  sudo su - ${USERNAME} -c "rm -rf /home/nbrest/git/java.web.kamehouse"
+  sudo su - ${USERNAME} -c "cd /home/nbrest/git ; git clone https://github.com/nbrest/java.web.kamehouse.git"
+  sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git checkout dev"
 }
 
 setupDirectories() {
   logStep "Setup directories"
 
-  # /root/home-synced
-  mkdir -p /root/home-synced
-  echo "docker" > /root/home-synced/host
-  mkdir -p /root/home-synced/.kamehouse/keys/
-  cp /root/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /root/home-synced/.kamehouse/keys/kamehouse.pkcs12 
-  cp /root/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /root/home-synced/.kamehouse/keys/kamehouse.crt 
-  cp /root/docker/keys/integration-test-cred.enc /root/home-synced/.kamehouse/
+  # /home/nbrest/home-synced
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/home-synced/.kamehouse/keys/"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/nbrest/home-synced/.kamehouse/keys/kamehouse.crt"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/docker/keys/integration-test-cred.enc /home/nbrest/home-synced/.kamehouse/"
 
-  # /root/.kamehouse/
-  mkdir -p /root/.kamehouse
-  cp /root/docker/keys/integration-test-cred.enc /root/.kamehouse/.vnc.server.pwd.enc
-  cp /root/docker/keys/integration-test-cred.enc /root/.kamehouse/.unlock.screen.pwd.enc 
+  # /home/nbrest/.kamehouse/
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/.kamehouse"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.vnc.server.pwd.enc"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.unlock.screen.pwd.enc"
 
-  # /root/logs
+  # /home/nbrest/logs
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/logs"
   mkdir -p /root/logs
 
-  # /root/my.scripts
-  cp -r /root/git/java.web.kamehouse/kamehouse-shell/my.scripts /root/
-  chmod a+x -R /root/my.scripts
-  # /root/my.scripts/.cred/.cred
-  mkdir -p /root/my.scripts/.cred/
-  cp /root/docker/keys/.cred /root/my.scripts/.cred/.cred
+  # /home/nbrest/my.scripts
+  sudo su - ${USERNAME} -c "cp -r /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts /home/nbrest/"
+  sudo su - ${USERNAME} -c "chmod a+x -R /home/nbrest/my.scripts"
+  ln -s /home/nbrest/my.scripts /root/my.scripts
 
-  # /root/programs
-  mkdir -p /root/programs/
-  mkdir -p /root/programs/apache-httpd
-  mkdir -p /root/programs/kamehouse-cmd/bin
-  mkdir -p /root/programs/kamehouse-cmd/lib
+  # /home/nbrest/my.scripts/.cred/.cred
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/my.scripts/.cred/"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/docker/keys/.cred /home/nbrest/my.scripts/.cred/.cred"
 
-  ln -s /var/log/apache2 /root/programs/apache-httpd/logs
-  ln -s /root /home/nbrest
+  # /home/nbrest/programs
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/programs/"
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/programs/apache-httpd"
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/programs/kamehouse-cmd/bin"
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/programs/kamehouse-cmd/lib"
+
+  sudo su - ${USERNAME} -c "ln -s /var/log/apache2 /home/nbrest/programs/apache-httpd/logs"
 
   # Kamehouse ui static content:
-  mkdir -p /var/www/html/kame-house
-  cp -r /root/git/java.web.kamehouse/kamehouse-ui/src/main/webapp/* /var/www/html/kame-house
-  rm -r /var/www/html/kame-house/WEB-INF
+  ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-ui/src/main/webapp /var/www/html/kame-house
 
   # Kamehouse groot static content:
-  mkdir -p /var/www/html/kame-house-groot
-  cp -r /root/git/java.web.kamehouse/kamehouse-groot/public/kame-house-groot/* /var/www/html/kame-house-groot
-  cp /root/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/
+  ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/kame-house-groot /var/www/html/kame-house-groot
+  rm /var/www/html/index.html
+  ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
 
   # Kamehouse faked dirs:
-  mkdir -p /root/git/texts/video_playlists/http-niko-server/media-drive/anime
-  echo "goku.mp4" > /root/git/texts/video_playlists/http-niko-server/media-drive/anime/dbz.m3u
+  sudo su - ${USERNAME} -c "mkdir -p /home/nbrest/git/texts/video_playlists/http-niko-server/media-drive/anime"
+  sudo su - ${USERNAME} -c "cp /home/nbrest/docker/media/playlist/dbz.m3u /home/nbrest/git/texts/video_playlists/http-niko-server/media-drive/anime/dbz.m3u"
 }
 
 setupEnv() {
@@ -97,9 +95,9 @@ setupEnv() {
 
 setupMockedBins() {
   logStep "Setup mocked bins"
-  chmod a+x /root/docker/bin/*
-  cp /root/docker/mocked-bin/vncdo /usr/local/bin/vncdo
-  cp /root/docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
+  sudo su - ${USERNAME} -c "chmod a+x /home/nbrest/docker/mocked-bin/*"
+  cp /home/nbrest/docker/mocked-bin/vncdo /usr/local/bin/vncdo
+  cp /home/nbrest/docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
 }
 
 restartSshService() {
@@ -115,11 +113,11 @@ startMysql() {
 initKameHouseDb() {
   logStep "Init KameHouse database"
   echo "Importing setup-kamehouse.sql"
-  mysql < /root/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql
+  mysql < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql
   echo "Importing spring-session.sql"
-  mysql kameHouse < /root/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql
+  mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql
   echo "Importing dump-kamehouse.sql"
-  mysql kameHouse < /root/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql
+  mysql kameHouse < /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql
 }
 
 startHttpd() {
@@ -130,13 +128,14 @@ startHttpd() {
 
 startTomcat() {
   logStep "Start tomcat"
-  cd /root/programs/apache-tomcat 
-  bin/startup.sh
+  sudo su - ${USERNAME} -c "cd /home/nbrest/programs/apache-tomcat ; \
+  USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
+  DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 bin/startup.sh"
 }
 
 deployKamehouse() {
   logStep "Deploy KameHouse"
-  /root/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker
+  sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
   logStep "Finished building KameHouse"
 }
 

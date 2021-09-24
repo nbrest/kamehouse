@@ -27,6 +27,8 @@ root	ALL=(ALL:ALL) ALL
 
 # See sudoers(5) for more information on "#include" directives:
 
+nbrest ALL=(ALL) NOPASSWD: ALL
+
 www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/common/sudoers/www-data/exec-script.sh
 www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/lin/csv-my-scripts.sh
 www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/kamehouse/get-username.sh
