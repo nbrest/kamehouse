@@ -35,12 +35,16 @@ loadEnv() {
     # by default pull. can set the environment PULL_KAMEHOUSE=false when creating the container
     logStep "Setting default PULL_KAMEHOUSE=true"
     export PULL_KAMEHOUSE=true
+  else
+    logStep "PULL_KAMEHOUSE set to ${PULL_KAMEHOUSE}"
   fi 
 
   if [ -z "${DEPLOY_KAMEHOUSE}" ]; then
     # by default deploy. can set the environment DEPLOY_KAMEHOUSE=false when creating the container
     logStep "Setting default DEPLOY_KAMEHOUSE=true"
     export DEPLOY_KAMEHOUSE=true
+  else
+    logStep "DEPLOY_KAMEHOUSE set to ${DEPLOY_KAMEHOUSE}"  
   fi 
 }
 
