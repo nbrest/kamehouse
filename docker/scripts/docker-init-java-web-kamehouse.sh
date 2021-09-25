@@ -14,9 +14,9 @@ KAMEHOUSE=${COL_NORMAL}Kame${COL_RED}House${COL_MESSAGE}
 USERNAME=nbrest
 
 main() {
-  echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"
-  echo -e "${COL_CYAN} ${KAMEHOUSE}${COL_CYAN} docker init script${COL_NORMAL}"
-  echo -e "${COL_CYAN}*********************************************************${COL_NORMAL}"  
+  echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
+  echo -e "${COL_CYAN}    ${KAMEHOUSE}${COL_CYAN} docker init script${COL_NORMAL}"
+  echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
   loadEnv
   pullKameHouse
   startTomcat
@@ -28,7 +28,7 @@ main() {
 }
 
 loadEnv() {
-  logStep "Load env"
+  logStep "Loading env"
   source /root/.bashrc
 
   if [ -z "${PULL_KAMEHOUSE}" ]; then
@@ -50,37 +50,37 @@ loadEnv() {
 
 pullKameHouse() {
   if ${PULL_KAMEHOUSE}; then
-    logStep "Pull latest KameHouse dev branch"
+    logStep "Pulling latest KameHouse dev branch"
     sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git pull origin dev"
   fi
 }
 
 startTomcat() {
-  logStep "Start tomcat"
+  logStep "Starting tomcat"
   sudo su - ${USERNAME} -c "cd /home/nbrest/programs/apache-tomcat ; \
   USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
   DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 bin/startup.sh"
 }
 
 restartSshService() {
-  logStep "Restart ssh service"
+  logStep "Restarting ssh service"
   service ssh restart
 }
 
 startMysql() {
-  logStep "Start mysql"
+  logStep "Starting mysql"
   service mysql start
 }
 
 startHttpd() {
-  logStep "Start apache httpd"
+  logStep "Starting apache httpd"
   rm /var/run/apache2/apache2.pid 2>/dev/null
   service apache2 start
 }
 
 deployKamehouse() {
   if ${DEPLOY_KAMEHOUSE}; then
-    logStep "Deploy KameHouse"
+    logStep "Deploying KameHouse"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"
     logStep "Finished building KameHouse"
