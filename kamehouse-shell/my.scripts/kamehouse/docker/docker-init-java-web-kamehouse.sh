@@ -74,7 +74,7 @@ startMysql() {
 
 startHttpd() {
   logStep "Start apache httpd"
-  rm /var/run/apache2/apache2.pid
+  rm /var/run/apache2/apache2.pid 2>/dev/null
   service apache2 start
 }
 
