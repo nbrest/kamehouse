@@ -6,6 +6,7 @@
 * Added [jvncsender](https://github.com/nbrest/jvncsender) to kamehouse-cmd and replaced most calls to vncdo with kamehouse-cmd. For mouse clicks, vncdo tool is still needed
 * Updated the demo docker image generation to include the build of kamehouse, init the database and directories setup while building the image instead of in the container startup script
 * Added parameters to skip pulling the latest version of kamehouse and skip deployment during container init script
+* Allowed access to tomcat manager outside docker
 
 #### v6.09
 
