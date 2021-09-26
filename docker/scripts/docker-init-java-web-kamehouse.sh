@@ -19,11 +19,11 @@ main() {
   echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
   loadEnv
   pullKameHouse
+  deployKamehouse
   startTomcat
   restartSshService
   startMysql
   startHttpd
-  deployKamehouse
   keepContainerAlive
 }
 
@@ -38,20 +38,21 @@ loadEnv() {
   else
     logStep "PULL_KAMEHOUSE set to ${PULL_KAMEHOUSE}"
   fi 
-
-  if [ -z "${DEPLOY_KAMEHOUSE}" ]; then
-    # by default deploy. can set the environment DEPLOY_KAMEHOUSE=false when creating the container
-    logStep "Setting default DEPLOY_KAMEHOUSE=true"
-    export DEPLOY_KAMEHOUSE=true
-  else
-    logStep "DEPLOY_KAMEHOUSE set to ${DEPLOY_KAMEHOUSE}"  
-  fi 
 }
 
 pullKameHouse() {
   if ${PULL_KAMEHOUSE}; then
     logStep "Pulling latest KameHouse dev branch"
     sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git pull origin dev"
+  fi
+}
+
+deployKamehouse() {
+  if ${PULL_KAMEHOUSE}; then
+    logStep "Deploying latest version of KameHouse"
+    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
+    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"
+    logStep "Finished building latest version of KameHouse"
   fi
 }
 
@@ -76,15 +77,6 @@ startHttpd() {
   logStep "Starting apache httpd"
   rm /var/run/apache2/apache2.pid 2>/dev/null
   service apache2 start
-}
-
-deployKamehouse() {
-  if ${DEPLOY_KAMEHOUSE}; then
-    logStep "Deploying KameHouse"
-    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
-    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"
-    logStep "Finished building KameHouse"
-  fi
 }
 
 keepContainerAlive() {

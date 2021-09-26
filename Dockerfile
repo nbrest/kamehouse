@@ -139,6 +139,5 @@ EXPOSE 22 80 443 3306 8080 9090
 
 # Setup default env for container init script
 ENV PULL_KAMEHOUSE=true
-ENV DEPLOY_KAMEHOUSE=true
 
 CMD ["/home/nbrest/docker/scripts/docker-init-java-web-kamehouse.sh"]
