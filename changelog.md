@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v6.11
+
+* Reduced docker image size by removing kamehouse versions from ${HOME}/.m2 during build
+
 #### v6.10
 
 * Forked [jvncsender](https://github.com/nbrest/jvncsender) and added it to the local maven repo of kamehouse

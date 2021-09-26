@@ -46,7 +46,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-p${COL_NORMAL} pull kamehouse on startup DISABLED (it's enabled by default)"
+  echo -e "     ${COL_BLUE}-p${COL_NORMAL} pull kamehouse on startup ${COL_RED}DISABLED${COL_NORMAL} (it's enabled by default)"
 }
 
 main "$@"

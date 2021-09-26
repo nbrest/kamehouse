@@ -70,7 +70,8 @@ RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git ; \
 # Build kamehouse to download all the maven dependencies (then clean the target directories)
 RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
   mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true ; \
-  mvn clean"
+  mvn clean ; \
+  rm -rf /home/nbrest/.m2/repository/com/nicobrest"
 
 ################## Setup directories ################################
 # /home/nbrest/.config/vlc
@@ -132,6 +133,7 @@ RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
   /home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker ; \
   cd /home/nbrest/git/java.web.kamehouse ; \
   mvn clean ; \
+  rm -rf /home/nbrest/.m2/repository/com/nicobrest ; \
   /home/nbrest/docker/scripts/docker-my-scripts-update.sh"
 
 # Expose ports
