@@ -4,7 +4,7 @@
 
 * Forked [jvncsender](https://github.com/nbrest/jvncsender) and added it to the local maven repo of kamehouse
 * Added [jvncsender](https://github.com/nbrest/jvncsender) to kamehouse-cmd and replaced most calls to vncdo with kamehouse-cmd. For mouse clicks, vncdo tool is still needed
-* Updated the demo docker image generation to include the build of kamehouse and init the database while building the image instead of in the container startup script
+* Updated the demo docker image generation to include the build of kamehouse, init the database and directories setup while building the image instead of in the container startup script
 * Added parameters to skip pulling the latest version of kamehouse and skip deployment during container init script
 
 #### v6.09
