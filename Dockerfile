@@ -7,24 +7,27 @@ LABEL maintainer="brest.nico@gmail.com"
 # Disable interactions when building the image
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -y && apt-get -y upgrade 
-
 # Install dependencies
-RUN apt-get install -y apache2
-RUN apt-get install -y curl
-RUN apt-get install -y git
-RUN apt-get install -y openjdk-11-jdk
-RUN apt-get install -y mariadb-server
-RUN apt-get install -y maven
-RUN apt-get install -y net-tools
-RUN apt-get install -y openssh-server
-RUN apt-get install -y php libapache2-mod-php
-RUN apt-get install -y screen
-RUN apt-get install -y sudo
-RUN apt-get install -y tightvncserver
-RUN apt-get install -y vim
-RUN apt-get install -y vlc
-RUN apt-get install -y zip
+RUN apt-get update -y && apt-get -y upgrade ; \
+  apt-get install -y apache2 ; \
+  apt-get install -y curl ; \
+  apt-get install -y git ; \
+  apt-get install -y iputils-ping ; \
+  apt-get install -y openjdk-11-jdk ; \
+  apt-get install -y mariadb-server ; \
+  apt-get install -y maven ; \
+  apt-get install -y net-tools ; \
+  apt-get install -y openssh-server ; \
+  apt-get install -y php libapache2-mod-php ; \
+  apt-get install -y screen ; \
+  apt-get install -y sudo ; \
+  apt-get install -y tightvncserver ; \
+  apt-get install -y vim ; \
+  apt-get install -y vlc ; \
+  apt-get install -y zip ; \
+  apt-get autopurge -y ; \
+  apt-get autoclean -y ; \
+  apt-get clean -y
 
 # Setup apache httpd
 COPY docker/apache2/conf /etc/apache2/conf
@@ -32,9 +35,9 @@ COPY docker/apache2/sites-available /etc/apache2/sites-available
 COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/.htpasswd /var/www/html/
-RUN ln -s /var/www/html/ /var/www/kh.webserver
-RUN a2ensite default-ssl
-RUN a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
+RUN ln -s /var/www/html/ /var/www/kh.webserver ; \
+  a2ensite default-ssl ; \
+  a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
 
 # Setup users
 COPY docker/etc/sudoers /etc/sudoers
@@ -42,13 +45,13 @@ RUN adduser --gecos "" --disabled-password nbrest ; \
   echo 'nbrest:nbrest' | chpasswd
 
 # Setup .bashrc
-RUN echo "source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc
-RUN sudo su - nbrest -c "echo \"source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc"
+RUN echo "source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc ; \
+  sudo su - nbrest -c "echo \"source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc"
 
 # Install tomcat
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs ; \
   cd /home/nbrest/programs ; \
-  wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz ; \
+  wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz ; \
   tar -xf /home/nbrest/programs/apache-tomcat-9.0.53.tar.gz -C /home/nbrest/programs/ ; \
   mv /home/nbrest/programs/apache-tomcat-9.0.53 /home/nbrest/programs/apache-tomcat ; \
   rm /home/nbrest/programs/apache-tomcat-9.0.53.tar.gz"
@@ -87,8 +90,8 @@ RUN sudo su - nbrest -c "mkdir -p /home/nbrest/.kamehouse"
 COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.vnc.server.pwd.enc
 COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.unlock.screen.pwd.enc
 # /home/nbrest/logs
-RUN sudo su - nbrest -c "mkdir -p /home/nbrest/logs"
-RUN mkdir -p /root/logs
+RUN sudo su - nbrest -c "mkdir -p /home/nbrest/logs" ; \
+  mkdir -p /root/logs
 # /home/nbrest/my.scripts
 RUN sudo su - nbrest -c "cp -r /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts /home/nbrest/ ; \
   chmod a+x -R /home/nbrest/my.scripts"
@@ -98,13 +101,12 @@ COPY --chown=nbrest:users docker/keys/.cred /home/nbrest/my.scripts/.cred/.cred
 # /home/nbrest/programs
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs/apache-httpd ; \
   mkdir -p /home/nbrest/programs/kamehouse-cmd/bin ; \
-  mkdir -p /home/nbrest/programs/kamehouse-cmd/lib"
-RUN ln -s /var/log/apache2 /home/nbrest/programs/apache-httpd/logs
-# Kamehouse ui static content:
-RUN ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-ui/src/main/webapp /var/www/html/kame-house
-# Kamehouse groot static content:
-RUN ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/kame-house-groot /var/www/html/kame-house-groot
-RUN rm /var/www/html/index.html ; \
+  mkdir -p /home/nbrest/programs/kamehouse-cmd/lib" ; \
+  ln -s /var/log/apache2 /home/nbrest/programs/apache-httpd/logs
+# Kamehouse ui and groot static content:
+RUN ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-ui/src/main/webapp /var/www/html/kame-house ; \
+  ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/kame-house-groot /var/www/html/kame-house-groot ; \
+  rm /var/www/html/index.html ; \
   ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
 # Kamehouse faked dirs:
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/texts/video_playlists/http-niko-server/media-drive/anime"
