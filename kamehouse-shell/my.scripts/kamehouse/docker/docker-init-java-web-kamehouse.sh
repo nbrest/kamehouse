@@ -38,6 +38,8 @@ loadEnv() {
   else
     logStep "PULL_KAMEHOUSE set to ${PULL_KAMEHOUSE}"
   fi 
+  logStep "PERSISTENT_CONTAINER set to ${PERSISTENT_CONTAINER}"
+  logStep "KAMEHOUSE_HOST_IP set to ${KAMEHOUSE_HOST_IP}"
 
   local CONTAINER_ENV=/home/nbrest/.container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}

@@ -27,6 +27,7 @@ mainProcess() {
   log.info "Copy home home-synced folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
+  ssh -p ${DOCKER_PORT_SSH} localhost -C 'chmod 0600 /home/nbrest/.ssh/id_rsa'
 }
 
 main "$@"

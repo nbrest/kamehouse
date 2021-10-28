@@ -21,7 +21,6 @@ KAMEHOUSE_SUBNET=""
 
 mainProcess() {
   log.info "Running image nbrest/java.web.kamehouse:latest"
-  log.warn "This temporary container will be removed when it exits"
   log.info "Environment"
   log.info "PULL_KAMEHOUSE=${PULL_KAMEHOUSE}"
   log.info "PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER}"
@@ -43,6 +42,7 @@ mainProcess() {
       -v home-ssh:/home/nbrest/.ssh \
       nbrest/java.web.kamehouse:latest
   else
+    log.warn "This temporary container will be removed when it exits"
     docker run --rm \
       --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
       --env PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER} \
