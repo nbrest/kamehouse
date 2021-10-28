@@ -42,6 +42,7 @@ loadEnv() {
   local CONTAINER_ENV=/home/nbrest/.container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
   echo "PULL_KAMEHOUSE=${PULL_KAMEHOUSE}" >> ${CONTAINER_ENV}
+  echo "PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER}" >> ${CONTAINER_ENV}
   echo "KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP}" >> ${CONTAINER_ENV}
   chown nbrest:nbrest ${CONTAINER_ENV}
 }

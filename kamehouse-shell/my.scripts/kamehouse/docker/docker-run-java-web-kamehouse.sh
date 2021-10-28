@@ -16,18 +16,23 @@ fi
 
 PULL_KAMEHOUSE=true
 PERSISTENT_CONTAINER=false
+KAMEHOUSE_HOST_IP=""
+KAMEHOUSE_SUBNET=""
 
 mainProcess() {
   log.info "Running image nbrest/java.web.kamehouse:latest"
   log.warn "This temporary container will be removed when it exits"
-  log.info "Running with PULL_KAMEHOUSE=${PULL_KAMEHOUSE}"
+  log.info "Environment"
+  log.info "PULL_KAMEHOUSE=${PULL_KAMEHOUSE}"
+  log.info "PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER}"
+  KAMEHOUSE_HOST_IP=`getKameHouseDockerHostIp ${KAMEHOUSE_SUBNET}`
+  log.info "KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP}"
 
-  # Don't add `--network host`. its useless for me. instead pass the host ip as env variable
-  
   if ${PERSISTENT_CONTAINER}; then
     docker run --rm \
       --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
-      --env KAMEHOUSE_HOST_IP=192.168.0.100 \
+      --env PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER} \
+      --env KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP} \
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
@@ -40,7 +45,8 @@ mainProcess() {
   else
     docker run --rm \
       --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
-      --env KAMEHOUSE_HOST_IP=192.168.0.100 \
+      --env PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER} \
+      --env KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP} \
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
@@ -50,7 +56,7 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":fhp" OPT; do
+  while getopts ":fhps:" OPT; do
     case $OPT in
     ("f")
       PULL_KAMEHOUSE=false      
@@ -60,6 +66,9 @@ parseArguments() {
       ;;
     ("p")
       PERSISTENT_CONTAINER=true
+      ;;
+    ("s")
+      KAMEHOUSE_SUBNET=$OPTARG      
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -77,6 +86,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. skip pull and rebuild kamehouse on startup"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} persistent container. uses volumes to persist data"
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} subnet to determine host ip. Default: ${KAMEHOUSE_DEFAULT_SUBNET}"
 }
 
 main "$@"

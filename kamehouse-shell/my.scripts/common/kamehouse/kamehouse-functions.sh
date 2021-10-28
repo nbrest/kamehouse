@@ -17,6 +17,8 @@ DOCKER_PORT_HTTP=6080
 DOCKER_PORT_HTTPS=6443
 DOCKER_PORT_TOMCAT=6090
 
+KAMEHOUSE_DEFAULT_SUBNET=192.168.0
+
 # Common kamehouse functions
 parseEnvironment() {
   local ENV_ARG=$1
@@ -122,4 +124,18 @@ executeOperationInTomcatManager() {
     curl "${URL_OPERATION}" 2>/dev/null
     sleep 2
   done
+}
+
+# Get the ip address of the host running kamehouse in a docker container
+getKameHouseDockerHostIp() {
+  local KAMEHOUSE_SUBNET=$1
+  if [ -z "${KAMEHOUSE_SUBNET}" ]; then
+    KAMEHOUSE_SUBNET=${KAMEHOUSE_DEFAULT_SUBNET}
+  fi
+
+  if ${IS_LINUX_HOST}; then
+    echo `ifconfig | grep "${KAMEHOUSE_SUBNET}" | grep "inet" | awk '{print $2}'`
+  else
+    echo `ipconfig | grep "${KAMEHOUSE_SUBNET}" | grep "IPv4" | awk '{print $14}'`
+  fi
 }
