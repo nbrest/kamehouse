@@ -44,9 +44,11 @@ COPY docker/etc/sudoers /etc/sudoers
 RUN adduser --gecos "" --disabled-password nbrest ; \
   echo 'nbrest:nbrest' | chpasswd
 
-# Setup .bashrc
+# Setup nbrest home
 RUN echo "source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc ; \
-  sudo su - nbrest -c "echo \"source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc"
+  sudo su - nbrest -c "echo \"source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc ; \
+    echo \"source /home/nbrest/.container-env\" >> /home/nbrest/.bashrc ; \
+    mkdir -p /home/nbrest/.ssh"
 
 # Install tomcat
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs ; \
@@ -124,7 +126,10 @@ RUN service mysql start ; \
   sleep 5 ; \
   mysql < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql ; \
   mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql ; \
-  mysql kameHouse < /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql
+  mysql kameHouse < /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql ; \
+  cd /var/lib ; \
+  tar -cvpzf /home/nbrest/mysql-initial-data.tar.gz mysql/ ; \
+  chown nbrest:users /home/nbrest/mysql-initial-data.tar.gz
 
 # Copy docker setup folder
 COPY --chown=nbrest:users docker /home/nbrest/docker

@@ -17,6 +17,11 @@ mainProcess() {
   log.info "Docker images"
   echo ""
   docker images
+
+  echo ""
+  log.info "Docker images"
+  echo ""
+  docker volume ls
 }
 
 main "$@"

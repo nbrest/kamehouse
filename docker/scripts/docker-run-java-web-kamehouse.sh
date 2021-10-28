@@ -15,22 +15,51 @@ if [ "$?" != "0" ]; then
 fi
 
 PULL_KAMEHOUSE=true
+PERSISTENT_CONTAINER=false
 
 mainProcess() {
   log.info "Running image nbrest/java.web.kamehouse:latest"
   log.warn "This temporary container will be removed when it exits"
   log.info "Running with PULL_KAMEHOUSE=${PULL_KAMEHOUSE}"
-  docker run --rm --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/java.web.kamehouse:latest
+
+  # Don't add `--network host`. its useless for me. instead pass the host ip as env variable
+  
+  if ${PERSISTENT_CONTAINER}; then
+    docker run --rm \
+      --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
+      --env KAMEHOUSE_HOST_IP=192.168.0.100 \
+      -p ${DOCKER_PORT_SSH}:22 \
+      -p ${DOCKER_PORT_HTTP}:80 \
+      -p ${DOCKER_PORT_HTTPS}:443 \
+      -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
+      -v mysql-data:/var/lib/mysql \
+      -v home-kamehouse:/home/nbrest/.kamehouse \
+      -v home-home-synced:/home/nbrest/home-synced \
+      -v home-ssh:/home/nbrest/.ssh \
+      nbrest/java.web.kamehouse:latest
+  else
+    docker run --rm \
+      --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
+      --env KAMEHOUSE_HOST_IP=192.168.0.100 \
+      -p ${DOCKER_PORT_SSH}:22 \
+      -p ${DOCKER_PORT_HTTP}:80 \
+      -p ${DOCKER_PORT_HTTPS}:443 \
+      -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
+      nbrest/java.web.kamehouse:latest
+  fi
 }
 
 parseArguments() {
-  while getopts ":hp" OPT; do
+  while getopts ":fhp" OPT; do
     case $OPT in
+    ("f")
+      PULL_KAMEHOUSE=false      
+      ;;
     ("h")
       parseHelp
       ;;
     ("p")
-      PULL_KAMEHOUSE=false      
+      PERSISTENT_CONTAINER=true
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -45,8 +74,9 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. skip pull and rebuild kamehouse on startup"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-p${COL_NORMAL} pull kamehouse on startup ${COL_RED}DISABLED${COL_NORMAL} (it's enabled by default)"
+  echo -e "     ${COL_BLUE}-p${COL_NORMAL} persistent container. uses volumes to persist data"
 }
 
 main "$@"
