@@ -15,8 +15,7 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  log.info "Setting up persistent data in the volumes from the host file system"
-  log.info "Run this script on the container's host ONCE to reset all the data in the volumes"
+  log.info "Setting up data in the container from the host file system/db"
 
   log.info "Setup .ssh folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* localhost:/home/nbrest/.ssh
