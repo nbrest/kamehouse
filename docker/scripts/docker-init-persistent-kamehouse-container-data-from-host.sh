@@ -15,7 +15,8 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  log.info "Setting up persistent data in the volumes. Run this script on the container's host"
+  log.info "Setting up persistent data in the volumes from the host file system"
+  log.info "Run this script on the container's host ONCE to reset all the data in the volumes"
 
   log.info "Setup .ssh folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* localhost:/home/nbrest/.ssh
@@ -25,8 +26,8 @@ mainProcess() {
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/my.scripts/.cred/.cred localhost:/home/nbrest/my.scripts/.cred/
   
   log.info "Setup .kamehouse folder"
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.unlock.screen.pwd.enc localhost:/home/nbrest/.kamehouse
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.vnc.server.pwd.enc localhost:/home/nbrest/.kamehouse
+  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/.unlock.screen.pwd.enc localhost:/home/nbrest/.kamehouse
+  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/.vnc.server.pwd.enc localhost:/home/nbrest/.kamehouse
 
   log.info "Setup home-synced folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
