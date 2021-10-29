@@ -15,19 +15,27 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  log.info "Setting up persistent data in the volumes"
+  log.info "Setting up persistent data in the volumes. Run this script on the container's host"
 
-  log.info "Copy home .ssh folder"
+  log.info "Setup .ssh folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* localhost:/home/nbrest/.ssh
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'chmod 0600 /home/nbrest/.ssh/id_rsa'
 
-  log.info "Copy home .kamehouse folder"
+  log.info "Setup my.scripts folder"
+  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/my.scripts/.cred/.cred localhost:/home/nbrest/my.scripts/.cred/
+  
+  log.info "Setup .kamehouse folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.unlock.screen.pwd.enc localhost:/home/nbrest/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.vnc.server.pwd.enc localhost:/home/nbrest/.kamehouse
 
-  log.info "Copy home home-synced folder"
+  log.info "Setup home-synced folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
-  ssh -p ${DOCKER_PORT_SSH} localhost -C 'chmod 0600 /home/nbrest/.ssh/id_rsa'
+  scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
+
+  log.info "Re-init mysql kamehouse db from dump"
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
 }
 
 main "$@"
