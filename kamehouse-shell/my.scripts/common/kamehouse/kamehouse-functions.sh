@@ -17,7 +17,8 @@ DOCKER_PORT_HTTP=6080
 DOCKER_PORT_HTTPS=6443
 DOCKER_PORT_TOMCAT=6090
 
-KAMEHOUSE_DEFAULT_SUBNET=192.168.0
+# This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
+KAMEHOUSE_DEFAULT_DOCKER_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
 
 # Common kamehouse functions
 parseEnvironment() {
@@ -128,14 +129,14 @@ executeOperationInTomcatManager() {
 
 # Get the ip address of the host running kamehouse in a docker container
 getKameHouseDockerHostIp() {
-  local KAMEHOUSE_SUBNET=$1
-  if [ -z "${KAMEHOUSE_SUBNET}" ]; then
-    KAMEHOUSE_SUBNET=${KAMEHOUSE_DEFAULT_SUBNET}
+  local KAMEHOUSE_DOCKER_SUBNET=$1
+  if [ -z "${KAMEHOUSE_DOCKER_SUBNET}" ]; then
+    KAMEHOUSE_DOCKER_SUBNET=${KAMEHOUSE_DEFAULT_DOCKER_SUBNET}
   fi
 
   if ${IS_LINUX_HOST}; then
-    echo `ifconfig | grep "${KAMEHOUSE_SUBNET}" | grep "inet" | awk '{print $2}'`
+    echo `ifconfig docker0 | grep -e "${KAMEHOUSE_DOCKER_SUBNET}" | grep "inet" | awk '{print $2}'`
   else
-    echo `ipconfig | grep "${KAMEHOUSE_SUBNET}" | grep "IPv4" | awk '{print $14}'`
+    echo `ipconfig | grep -e "${KAMEHOUSE_DOCKER_SUBNET}" | grep "IPv4" | awk '{print $14}'`
   fi
 }

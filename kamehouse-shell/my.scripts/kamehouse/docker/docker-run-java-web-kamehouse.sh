@@ -17,16 +17,16 @@ fi
 PULL_KAMEHOUSE=true
 PERSISTENT_CONTAINER=false
 KAMEHOUSE_HOST_IP=""
-KAMEHOUSE_SUBNET=""
+KAMEHOUSE_DOCKER_SUBNET=""
 
 mainProcess() {
   log.info "Running image nbrest/java.web.kamehouse:latest"
   log.info "Environment"
   log.info "PULL_KAMEHOUSE=${PULL_KAMEHOUSE}"
   log.info "PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER}"
-  KAMEHOUSE_HOST_IP=`getKameHouseDockerHostIp ${KAMEHOUSE_SUBNET}`
+  KAMEHOUSE_HOST_IP=`getKameHouseDockerHostIp ${KAMEHOUSE_DOCKER_SUBNET}`
   log.info "KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP}"
-
+  
   if ${PERSISTENT_CONTAINER}; then
     docker run --rm \
       --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
@@ -68,7 +68,7 @@ parseArguments() {
       PERSISTENT_CONTAINER=true
       ;;
     ("s")
-      KAMEHOUSE_SUBNET=$OPTARG      
+      KAMEHOUSE_DOCKER_SUBNET=$OPTARG      
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -86,7 +86,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. skip pull and rebuild kamehouse on startup"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} persistent container. uses volumes to persist data"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} subnet to determine host ip. Default: ${KAMEHOUSE_DEFAULT_SUBNET}"
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${KAMEHOUSE_DEFAULT_DOCKER_SUBNET}"
 }
 
 main "$@"
