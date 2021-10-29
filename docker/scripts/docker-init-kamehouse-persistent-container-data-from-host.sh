@@ -40,7 +40,10 @@ mainProcess() {
 
   log.info "Re-init mysql kamehouse db from dump"
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql -v < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
+
 
   log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'source .container-env ; ssh-keyscan $KAMEHOUSE_HOST_IP >> ~/.ssh/known_hosts ; ssh $KAMEHOUSE_HOST_IP -C echo ssh connected successfully'
