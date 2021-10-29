@@ -14,8 +14,8 @@ mainProcess() {
   log.info "Adding user nikolqs to mysql db"
   log.info "This script needs to be executed as root"
 
-  mysql -v -v -v -e "DROP USER IF EXISTS nikolqs; CREATE USER nikolqs@'%' identified by '${MYSQL_PASS_NIKOLQS}';GRANT ALL PRIVILEGES ON *.* TO 'nikolqs'@'%';"
-  mysql -v -v -v -e "CREATE USER nikolqs@'%' identified by '${MYSQL_PASS_NIKOLQS}'"
+  mysql -v -v -v -e "DROP USER IF EXISTS nikolqs;"
+  mysql -v -v -v -e "CREATE USER nikolqs@'%' identified by '${MYSQL_PASS_NIKOLQS}';"
   mysql -v -v -v -e "GRANT ALL PRIVILEGES ON *.* TO 'nikolqs'@'%';"
 }
 
