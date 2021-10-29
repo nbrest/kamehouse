@@ -34,7 +34,6 @@ COPY docker/apache2/conf /etc/apache2/conf
 COPY docker/apache2/sites-available /etc/apache2/sites-available
 COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
-COPY docker/apache2/.htpasswd /var/www/html/
 RUN ln -s /var/www/html/ /var/www/kh.webserver ; \
   a2ensite default-ssl ; \
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
@@ -82,34 +81,44 @@ RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
 # /home/nbrest/.config/vlc
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/.config/vlc/"
 COPY --chown=nbrest:users docker/vlc/* /home/nbrest/.config/vlc/
+
 # /home/nbrest/home-synced
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/home-synced/.kamehouse/keys ; \
+  mkdir -p /home/nbrest/home-synced/httpd ; \
   cp /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12 ; \
   cp /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/nbrest/home-synced/.kamehouse/keys/kamehouse.crt"
 COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/home-synced/.kamehouse/
+COPY --chown=nbrest:users docker/apache2/.htpasswd /home/nbrest/home-synced/httpd
+RUN ln -s /home/nbrest/home-synced/httpd/.htpasswd /var/www/html/.htpasswd
+
 # /home/nbrest/.kamehouse/
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/.kamehouse"
 COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.vnc.server.pwd.enc
 COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.unlock.screen.pwd.enc
+
 # /home/nbrest/logs
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/logs" ; \
   mkdir -p /root/logs
+
 # /home/nbrest/my.scripts
 RUN sudo su - nbrest -c "cp -r /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts /home/nbrest/ ; \
-  chmod a+x -R /home/nbrest/my.scripts"
-RUN ln -s /home/nbrest/my.scripts /root/my.scripts
-RUN sudo su - nbrest -c "mkdir -p /home/nbrest/my.scripts/.cred/"
+  mkdir -p /home/nbrest/my.scripts/.cred/ ; \
+  chmod a+x -R /home/nbrest/my.scripts" ; \
+  ln -s /home/nbrest/my.scripts /root/my.scripts
 COPY --chown=nbrest:users docker/keys/.cred /home/nbrest/my.scripts/.cred/.cred
+
 # /home/nbrest/programs
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs/apache-httpd ; \
   mkdir -p /home/nbrest/programs/kamehouse-cmd/bin ; \
   mkdir -p /home/nbrest/programs/kamehouse-cmd/lib" ; \
   ln -s /var/log/apache2 /home/nbrest/programs/apache-httpd/logs
+
 # Kamehouse ui and groot static content:
 RUN ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-ui/src/main/webapp /var/www/html/kame-house ; \
   ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/kame-house-groot /var/www/html/kame-house-groot ; \
   rm /var/www/html/index.html ; \
   ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
+
 # Kamehouse faked dirs:
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/texts/video_playlists/http-niko-server/media-drive/anime"
 COPY --chown=nbrest:users docker/media/playlist/dbz.m3u /home/nbrest/git/texts/video_playlists/http-niko-server/media-drive/anime/dbz.m3u
