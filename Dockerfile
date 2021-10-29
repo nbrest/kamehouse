@@ -63,7 +63,7 @@ COPY --chown=nbrest:users docker/tomcat/host-manager.xml /home/nbrest/programs/a
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
 # Clone KameHouse dev branch
-RUN sudo su - nbrest -c "echo 'Update number to avoid cache 1' ; mkdir -p /home/nbrest/git ; \
+RUN sudo su - nbrest -c "echo 'Update number to avoid cache 2' ; mkdir -p /home/nbrest/git ; \
   chmod a+xwr /home/nbrest/git ; \
   rm -rf /home/nbrest/git/java.web.kamehouse ; \
   cd /home/nbrest/git ; \

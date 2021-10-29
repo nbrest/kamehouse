@@ -18,13 +18,13 @@ mainProcess() {
   if [ -f "${MYSQL_DUMP_FILE}" ]; then
     log.info "Restoring kamehouse database from ${MYSQL_DUMP_FILE}"
     if ${IS_LINUX_HOST}; then
-      cp ${MYSQL_DUMP_FILE} ${MYSQL_DUMP_FILE_TEMP}
+      #cp ${MYSQL_DUMP_FILE} ${MYSQL_DUMP_FILE_TEMP}
       # Fix when using windows dumps on linux mysql servers (case sensitive issues)
-      sed -i "s#spring_session_attributes#SPRING_SESSION_ATTRIBUTES#g" ${MYSQL_DUMP_FILE_TEMP}
-      sed -i "s#spring_session#SPRING_SESSION#g" ${MYSQL_DUMP_FILE_TEMP}
-      mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_DUMP_FILE_TEMP}
+      #sed -i "s#spring_session_attributes#SPRING_SESSION_ATTRIBUTES#g" ${MYSQL_DUMP_FILE_TEMP}
+      #sed -i "s#spring_session#SPRING_SESSION#g" ${MYSQL_DUMP_FILE_TEMP}
+      mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_DUMP_FILE}
       checkCommandStatus "$?"
-      rm -f ${MYSQL_DUMP_FILE_TEMP}
+      #rm -f ${MYSQL_DUMP_FILE_TEMP}
     else
       mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_DUMP_FILE}
       checkCommandStatus "$?"
