@@ -34,9 +34,17 @@ mainProcess() {
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
   scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
 
+  log.info "Setup httpd"
+  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd localhost:/home/nbrest/home-synced/httpd
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo cp -v /home/nbrest/home-synced/httpd/.htpasswd /var/www/kh.webserver'
+
   log.info "Re-init mysql kamehouse db from dump"
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
+
+  log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'source .container-env ; ssh-keyscan $KAMEHOUSE_HOST_IP >> ~/.ssh/known_hosts ; ssh $KAMEHOUSE_HOST_IP -C echo ssh connected successfully'
+  log.warn "If the last command didn't display 'ssh connected successfully' then login to the container and ssh from the container to the host to add the host key to known hosts file"
 }
 
 main "$@"
