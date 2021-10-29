@@ -131,6 +131,9 @@ RUN service mysql start ; \
   tar -cvpzf /home/nbrest/mysql-initial-data.tar.gz mysql/ ; \
   chown nbrest:users /home/nbrest/mysql-initial-data.tar.gz
 
+# Swap between 1 and 2 in the next command to trigger executing all the following layers instead of getting them from cache
+RUN echo "`date` 2"
+
 # Copy docker setup folder
 COPY --chown=nbrest:users docker /home/nbrest/docker
 
