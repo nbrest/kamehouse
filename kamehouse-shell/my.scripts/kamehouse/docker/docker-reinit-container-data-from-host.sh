@@ -14,6 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+USE_DOCKER_MYSQL_DUMP=false
 REQUEST_CONFIRMATION_RX=^yes\|y$
 
 mainProcess() {
@@ -65,7 +66,13 @@ reinitHomeSynced() {
   log.info "Setup home-synced folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
-  scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
+  if ${USE_DOCKER_MYSQL_DUMP}; then
+    log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
+    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql localhost:/home/nbrest/home-synced/
+  else
+    log.info "Exporting mysql data from ${HOME}/home-synced/mysql to the container"
+    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
+  fi
 }
 
 reinitHttpd() {
@@ -79,6 +86,32 @@ reinitMysql() {
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql -v < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
+}
+
+
+parseArguments() {
+  while getopts ":dh" OPT; do
+    case $OPT in
+    ("d")
+      USE_DOCKER_MYSQL_DUMP=true
+      ;;
+    ("h")
+      parseHelp
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"
+  echo -e "     ${COL_BLUE}-d${COL_NORMAL} use docker mysql dump backed up in the host, instead of the host's native mysql dump"
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
 }
 
 main "$@"

@@ -71,6 +71,7 @@ exportMysqlData() {
 	log.info "Exporting mysql data from mysql server"
   ${HOME}/my.scripts/kamehouse/mysql-csv-kamehouse.sh
   ${HOME}/my.scripts/kamehouse/mysql-dump-kamehouse.sh
+  ${HOME}/my.scripts/kamehouse/mysql-dump-kamehouse-docker.sh
 }
 
 backupApacheHttpd() {
