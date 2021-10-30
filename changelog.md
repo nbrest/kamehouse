@@ -2,7 +2,14 @@
 
 #### v6.11
 
-* Reduced docker image size by removing kamehouse versions from ${HOME}/.m2 during build
+* Refactored docker file to reduce considerably the size of the kamehouse docker image
+* Added support for persistance of data in volumes to the container
+* Added docker scripts to backup mysql docker data to the host
+* Added docker scripts to re-init docker container data from the host's filesystem and db
+* Fixed ssh between host and container to enable kamehouse to run in the container interacting with the host
+* Allowed external access to mysqldb from outside the container
+* Updated docker run script to add options to execute the container with or without persistance
+* Set timezone in the container
 
 #### v6.10
 
