@@ -160,6 +160,10 @@ RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
 # Expose ports
 EXPOSE 22 80 443 3306 8080 9090
 
+# Set timezone
+ENV TZ=Australia/Sydney
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Setup default env for container init script
 ENV PULL_KAMEHOUSE=true
 
