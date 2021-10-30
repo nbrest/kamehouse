@@ -142,7 +142,7 @@ RUN service mysql start ; \
   chown nbrest:users /home/nbrest/mysql-initial-data.tar.gz
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
-RUN echo "echo 'Update number to avoid cache 1'"
+RUN echo "echo 'Update number to avoid cache 2'"
 
 # Copy docker setup folder
 COPY --chown=nbrest:users docker /home/nbrest/docker

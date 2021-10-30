@@ -14,39 +14,71 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-mainProcess() {
-  log.info "Setting up data in the container from the host file system/db"
+REQUEST_CONFIRMATION_RX=^yes\|y$
 
+mainProcess() {
+  log.info "Re-init data in the container from the host file system/db"
+
+  requestConfirmation
+  reinitSsh
+  reinitMyScripts
+  reinitKameHouseFolder
+  reinitHomeSynced
+  reinitHttpd
+  reinitMysql
+}
+
+requestConfirmation() {
+  log.warn "${COL_YELLOW}This process will reset the data in the container including the kamehouse database"
+  log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}): "
+  read SHOULD_PROCEED
+  SHOULD_PROCEED=`echo "${SHOULD_PROCEED}" | tr '[:upper:]' '[:lower:]'`
+  if [[ "${SHOULD_PROCEED}" =~ ${REQUEST_CONFIRMATION_RX} ]]; then
+    log.info "Proceeding"
+  else
+    log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
+    exitProcess 2
+  fi
+}
+
+reinitSsh() {
   log.info "Setup .ssh folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* localhost:/home/nbrest/.ssh
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'chmod 0600 /home/nbrest/.ssh/id_rsa'
+  log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
+  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'source .container-env ; ssh-keyscan $KAMEHOUSE_HOST_IP >> ~/.ssh/known_hosts ; ssh $KAMEHOUSE_HOST_IP -C echo ssh connected successfully'
+  log.warn "If the last command didn't display 'ssh connected successfully' then login to the container and ssh from the container to the host to add the host key to known hosts file"
+}
 
+reinitMyScripts() {
   log.info "Setup my.scripts folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/my.scripts/.cred/.cred localhost:/home/nbrest/my.scripts/.cred/
-  
+}
+
+reinitKameHouseFolder() {
   log.info "Setup .kamehouse folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/.unlock.screen.pwd.enc localhost:/home/nbrest/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/.vnc.server.pwd.enc localhost:/home/nbrest/.kamehouse
+}
 
+reinitHomeSynced() {
   log.info "Setup home-synced folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
   scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
+}
 
+reinitHttpd() {
   log.info "Setup httpd"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd localhost:/home/nbrest/home-synced/httpd
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo cp -v /home/nbrest/home-synced/httpd/.htpasswd /var/www/kh.webserver'
+}
 
+reinitMysql() {
   log.info "Re-init mysql kamehouse db from dump"
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql -v < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
-
-
-  log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'source .container-env ; ssh-keyscan $KAMEHOUSE_HOST_IP >> ~/.ssh/known_hosts ; ssh $KAMEHOUSE_HOST_IP -C echo ssh connected successfully'
-  log.warn "If the last command didn't display 'ssh connected successfully' then login to the container and ssh from the container to the host to add the host key to known hosts file"
 }
 
 main "$@"
