@@ -16,6 +16,7 @@ DOCKER_PORT_SSH=6022
 DOCKER_PORT_HTTP=6080
 DOCKER_PORT_HTTPS=6443
 DOCKER_PORT_TOMCAT=6090
+DOCKER_PORT_MYSQL=6306
 
 # This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
 KAMEHOUSE_DEFAULT_DOCKER_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"

@@ -36,6 +36,7 @@ mainProcess() {
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
       -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
+      -p ${DOCKER_PORT_MYSQL}:3306 \
       -v mysql-data:/var/lib/mysql \
       -v home-kamehouse:/home/nbrest/.kamehouse \
       -v home-home-synced:/home/nbrest/home-synced \
@@ -51,6 +52,7 @@ mainProcess() {
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
       -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
+      -p ${DOCKER_PORT_MYSQL}:3306 \
       nbrest/java.web.kamehouse:latest
   fi
 }

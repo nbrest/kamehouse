@@ -131,8 +131,9 @@ COPY docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-comm
 RUN chmod a+x /usr/local/bin/vncdo ; \
   chmod a+x /usr/bin/gnome-screensaver-command
 
-# Intial dump of mysql data
-RUN service mysql start ; \
+# Open mysqldb to external connections and intial dump of mysql data
+RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
+  service mysql start ; \
   sleep 5 ; \
   mysql < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql ; \
   mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql ; \
