@@ -3,7 +3,7 @@
 #### v6.11
 
 * Refactored docker file to reduce considerably the size of the kamehouse docker image
-* Added support for persistance of data in volumes to the container
+* Added support for persistance of data in volumes to the docker container setup
 * Added docker scripts to backup mysql docker data to the host
 * Added docker scripts to re-init docker container data from the host's filesystem and db
 * Fixed ssh between host and container to enable kamehouse to run in the container interacting with the host
