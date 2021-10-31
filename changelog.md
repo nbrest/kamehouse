@@ -1,5 +1,10 @@
 # ChangeLog:
 
+#### v6.12
+
+* Added support for remote debugging of tomcat in the container
+* Updated tomcat dev deployment script to support deploying to docker container
+
 #### v6.11
 
 * Refactored docker file to reduce considerably the size of the kamehouse docker image
