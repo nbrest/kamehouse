@@ -48,7 +48,7 @@ loadEnv() {
   logStep "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
   echo ""
 
-  local CONTAINER_ENV=/home/nbrest/.kamehouse-docker-container-env
+  local CONTAINER_ENV=/home/nbrest/.kamehouse/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
   echo "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}" >> ${CONTAINER_ENV}
   echo "PERSISTENT_DATA=${PERSISTENT_DATA}" >> ${CONTAINER_ENV}

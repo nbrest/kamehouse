@@ -8,7 +8,7 @@ if [ "$?" != "0" ]; then
 fi
 
 # Global variables
-LOG_PROCESS_TO_FILE=true
+LOG_PROCESS_TO_FILE=false
 HTPASSWD_CMD=${HOME}/programs/apache-httpd/bin/htpasswd.exe
 HTPASSWD_FILE=${HOME}/programs/apache-httpd/www/kh.webserver/.htpasswd
 
