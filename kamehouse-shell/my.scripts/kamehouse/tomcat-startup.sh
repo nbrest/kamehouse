@@ -8,21 +8,57 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
+DEBUG_MODE=false
 
 mainProcess() {
   export HOME=`${HOME}/my.scripts/kamehouse/get-userhome.sh`
   TOMCAT_DIR=`${HOME}/my.scripts/kamehouse/get-tomcat-dir.sh`
+  TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
   cd ${TOMCAT_DIR}
   if ${IS_LINUX_HOST}; then
     USERNAME=`${HOME}/my.scripts/kamehouse/get-username.sh`  
-    log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME}"
-    USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3`
-    sudo su - ${USERNAME} -c "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
+    if ${DEBUG_MODE}; then
+      log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME} in debug mode"
+      sudo su - ${USERNAME} -c "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
+    else
+      log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME}"
+      USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3`
+      sudo su - ${USERNAME} -c "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
+    fi
   else
-    log.info "Starting tomcat ${TOMCAT_DIR}"
-    cd ${TOMCAT_DIR}
-    powershell.exe -c "Start-Process ./bin/startup.bat" &
+    if ${DEBUG_MODE}; then
+      log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"
+      powershell.exe -c "Start-Process ./bin/catalina.bat -ArgumentList \"jpda start\"" &
+    else
+      log.info "Starting tomcat ${TOMCAT_DIR}"  
+      powershell.exe -c "Start-Process ./bin/startup.bat" &
+    fi
   fi
+}
+
+parseArguments() {
+  while getopts ":dh" OPT; do
+    case $OPT in
+    ("d")
+      DEBUG_MODE=true
+      ;;
+    ("h")
+      parseHelp
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done 
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
 }
 
 main "$@"

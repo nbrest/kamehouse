@@ -41,6 +41,7 @@ loadEnv() {
   echo ""
   logStep "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
   logStep "PERSISTENT_DATA=${PERSISTENT_DATA}"
+  logStep "DEBUG_MODE=${DEBUG_MODE}"
   logStep "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
   logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   logStep "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
@@ -77,10 +78,19 @@ deployKamehouse() {
 }
 
 startTomcat() {
-  logStep "Starting tomcat"
-  sudo su - ${USERNAME} -c "cd /home/nbrest/programs/apache-tomcat ; \
-  USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
-  DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 bin/startup.sh"
+  if ${DEBUG_MODE}; then
+    logStep "Starting tomcat in debug mode"
+    sudo su - ${USERNAME} -c "export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
+    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
+    export DISPLAY=:0.0 \
+    /home/nbrest/my.scripts/kamehouse/tomcat-startup.sh -d"
+  else
+    logStep "Starting tomcat"
+    sudo su - ${USERNAME} -c "export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
+    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
+    export DISPLAY=:0.0 \
+    /home/nbrest/my.scripts/kamehouse/tomcat-startup.sh"
+  fi
 }
 
 restartSshService() {

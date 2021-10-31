@@ -159,7 +159,7 @@ RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
   /home/nbrest/docker/scripts/docker-my-scripts-update.sh"
 
 # Expose ports
-EXPOSE 22 80 443 3306 8080 9090
+EXPOSE 22 80 443 3306 8000 8080 9090
 
 # Set timezone
 ENV TZ=Australia/Sydney

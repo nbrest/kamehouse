@@ -88,7 +88,6 @@ reinitMysql() {
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
 }
 
-
 parseArguments() {
   while getopts ":dh" OPT; do
     case $OPT in

@@ -14,6 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+DEBUG_MODE=false
 FAST_DOCKER_INIT=false
 PERSISTENT_DATA=false
 DOCKER_CONTROL_HOST=false
@@ -38,6 +39,7 @@ setEnvironment() {
   echo ""
   log.info "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
   log.info "PERSISTENT_DATA=${PERSISTENT_DATA}"
+  log.info "DEBUG_MODE=${DEBUG_MODE}"
   log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
   log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
@@ -55,6 +57,7 @@ runDockerImage() {
     docker run --rm \
       --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
       --env PERSISTENT_DATA=${PERSISTENT_DATA} \
+      --env DEBUG_MODE=${DEBUG_MODE} \
       --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
       --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
       --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
@@ -62,6 +65,7 @@ runDockerImage() {
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
+      -p ${DOCKER_PORT_TOMCAT_DEBUG}:${TOMCAT_DEBUG_PORT} \
       -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
       -p ${DOCKER_PORT_MYSQL}:3306 \
       -v mysql-data:/var/lib/mysql \
@@ -74,6 +78,7 @@ runDockerImage() {
     docker run --rm \
       --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
       --env PERSISTENT_DATA=${PERSISTENT_DATA} \
+      --env DEBUG_MODE=${DEBUG_MODE} \
       --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
       --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
       --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
@@ -81,6 +86,7 @@ runDockerImage() {
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
+      -p ${DOCKER_PORT_TOMCAT_DEBUG}:${TOMCAT_DEBUG_PORT} \
       -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
       -p ${DOCKER_PORT_MYSQL}:3306 \
       nbrest/java.web.kamehouse:latest
@@ -88,10 +94,13 @@ runDockerImage() {
 }
 
 parseArguments() {
-  while getopts ":cfhps:" OPT; do
+  while getopts ":cdfhps:" OPT; do
     case $OPT in
     ("c")
       DOCKER_CONTROL_HOST=true      
+      ;;
+    ("d")
+      DEBUG_MODE=true      
       ;;
     ("f")
       FAST_DOCKER_INIT=true      
@@ -119,6 +128,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-c${COL_NORMAL} control host through ssh. by default it runs standalone"
+  echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. skip pull and rebuild kamehouse on startup"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} persistent container. uses volumes to persist data"
