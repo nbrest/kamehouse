@@ -14,24 +14,48 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PULL_KAMEHOUSE=true
-PERSISTENT_CONTAINER=false
-KAMEHOUSE_HOST_IP=""
-KAMEHOUSE_DOCKER_SUBNET=""
+FAST_DOCKER_INIT=false
+PERSISTENT_DATA=false
+DOCKER_CONTROL_HOST=false
+DOCKER_HOST_IP=""
+DOCKER_HOST_SUBNET=""
 
 mainProcess() {
-  log.info "Running image nbrest/java.web.kamehouse:latest"
-  log.info "Environment"
-  log.info "PULL_KAMEHOUSE=${PULL_KAMEHOUSE}"
-  log.info "PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER}"
-  KAMEHOUSE_HOST_IP=`getKameHouseDockerHostIp ${KAMEHOUSE_DOCKER_SUBNET}`
-  log.info "KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP}"
+  setEnvironment
+  runDockerImage  
+}
+
+setEnvironment() {
+  if ${IS_LINUX_HOST}; then
+    DOCKER_HOST_OS="linux"
+  else
+    DOCKER_HOST_OS="windows"
+  fi
+  DOCKER_HOST_USERNAME=`whoami`
   
-  if ${PERSISTENT_CONTAINER}; then
+  log.info "Environment"
+  log.info "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
+  log.info "PERSISTENT_DATA=${PERSISTENT_DATA}"
+  log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
+  DOCKER_HOST_IP=`getKameHouseDockerHostIp ${DOCKER_HOST_SUBNET}`
+  log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
+  log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
+  log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  log.info "DOCKER_HOST_SUBNET=${DOCKER_HOST_SUBNET}"
+}
+
+runDockerImage() {
+  log.info "Running image nbrest/java.web.kamehouse:latest"
+  log.warn "This temporary container will be removed when it exits"
+
+  if ${PERSISTENT_DATA}; then
     docker run --rm \
-      --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
-      --env PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER} \
-      --env KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP} \
+      --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
+      --env PERSISTENT_DATA=${PERSISTENT_DATA} \
+      --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
+      --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
+      --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
+      --env DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME} \
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
@@ -43,11 +67,13 @@ mainProcess() {
       -v home-ssh:/home/nbrest/.ssh \
       nbrest/java.web.kamehouse:latest
   else
-    log.warn "This temporary container will be removed when it exits"
     docker run --rm \
-      --env PULL_KAMEHOUSE=${PULL_KAMEHOUSE} \
-      --env PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER} \
-      --env KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP} \
+      --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
+      --env PERSISTENT_DATA=${PERSISTENT_DATA} \
+      --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
+      --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
+      --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
+      --env DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME} \
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \
@@ -60,17 +86,20 @@ mainProcess() {
 parseArguments() {
   while getopts ":fhps:" OPT; do
     case $OPT in
+    ("c")
+      DOCKER_CONTROL_HOST=true      
+      ;;
     ("f")
-      PULL_KAMEHOUSE=false      
+      FAST_DOCKER_INIT=true      
       ;;
     ("h")
       parseHelp
       ;;
     ("p")
-      PERSISTENT_CONTAINER=true
+      PERSISTENT_DATA=true
       ;;
     ("s")
-      KAMEHOUSE_DOCKER_SUBNET=$OPTARG      
+      DOCKER_HOST_SUBNET=$OPTARG      
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -85,10 +114,11 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-c${COL_NORMAL} control host through ssh. by default it runs standalone"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. skip pull and rebuild kamehouse on startup"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} persistent container. uses volumes to persist data"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${KAMEHOUSE_DEFAULT_DOCKER_SUBNET}"
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
 }
 
 main "$@"

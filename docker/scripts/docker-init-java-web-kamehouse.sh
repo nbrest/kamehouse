@@ -31,33 +31,36 @@ loadEnv() {
   logStep "Loading env"
   source /root/.bashrc
 
-  if [ -z "${PULL_KAMEHOUSE}" ]; then
-    # by default pull. can set the environment PULL_KAMEHOUSE=false when creating the container
-    logStep "Setting default PULL_KAMEHOUSE=true"
-    export PULL_KAMEHOUSE=true
+  if [ -z "${FAST_DOCKER_INIT}" ]; then
+    # by default don't do fast init. can set the environment FAST_DOCKER_INIT=true when running the container
+    logStep "Setting default FAST_DOCKER_INIT=false"
+    export FAST_DOCKER_INIT=false
   else
-    logStep "PULL_KAMEHOUSE set to ${PULL_KAMEHOUSE}"
+    logStep "FAST_DOCKER_INIT set to ${FAST_DOCKER_INIT}"
   fi 
-  logStep "PERSISTENT_CONTAINER set to ${PERSISTENT_CONTAINER}"
-  logStep "KAMEHOUSE_HOST_IP set to ${KAMEHOUSE_HOST_IP}"
+  logStep "PERSISTENT_DATA set to ${PERSISTENT_DATA}"
+  logStep "DOCKER_HOST_IP set to ${DOCKER_HOST_IP}"
 
   local CONTAINER_ENV=/home/nbrest/.container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
-  echo "PULL_KAMEHOUSE=${PULL_KAMEHOUSE}" >> ${CONTAINER_ENV}
-  echo "PERSISTENT_CONTAINER=${PERSISTENT_CONTAINER}" >> ${CONTAINER_ENV}
-  echo "KAMEHOUSE_HOST_IP=${KAMEHOUSE_HOST_IP}" >> ${CONTAINER_ENV}
+  echo "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}" >> ${CONTAINER_ENV}
+  echo "PERSISTENT_DATA=${PERSISTENT_DATA}" >> ${CONTAINER_ENV}
+  echo "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}" >> ${CONTAINER_ENV}
+  echo "DOCKER_HOST_IP=${DOCKER_HOST_IP}" >> ${CONTAINER_ENV}
+  echo "DOCKER_HOST_OS=${DOCKER_HOST_OS}" >> ${CONTAINER_ENV}
+  echo "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}" >> ${CONTAINER_ENV}
   chown nbrest:nbrest ${CONTAINER_ENV}
 }
 
 pullKameHouse() {
-  if ${PULL_KAMEHOUSE}; then
+  if [ "${FAST_DOCKER_INIT}" == "false" ]; then
     logStep "Pulling latest KameHouse dev branch"
     sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git pull origin dev"
   fi
 }
 
 deployKamehouse() {
-  if ${PULL_KAMEHOUSE}; then
+  if [ "${FAST_DOCKER_INIT}" == "false" ]; then
     logStep "Deploying latest version of KameHouse"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"

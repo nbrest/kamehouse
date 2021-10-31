@@ -28,7 +28,7 @@ docker run --rm -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/java.web.k
 
 With the parameter `--rm` the container will be removed automatically after it exits. Without it, it will remain in your system.
 
-Passing `--env PULL_KAMEHOUSE=false` to `docker run` skips pulling and deploying the latest version of kamehouse during the container startup. By default it does both. If skipped, the container will start with the version of kamehouse that was used when the image was built. You can always update to the latest version once the container is started with the deployment script mentioned below.
+Passing `--env FAST_DOCKER_INIT=true` to `docker run` skips pulling and deploying the latest version of kamehouse during the container startup. By default it does both. If skipped, the container will start with the version of kamehouse that was used when the image was built. You can always update to the latest version once the container is started with the deployment script mentioned below.
 
 After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:6443/kame-house/](https://localhost:6443/kame-house/) or [http://localhost:6080/kame-house/](http://localhost:6080/kame-house/) and you can login with the following user:password to test different functionality
 - admin:admin
