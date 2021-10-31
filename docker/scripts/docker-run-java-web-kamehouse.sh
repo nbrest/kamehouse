@@ -32,16 +32,15 @@ setEnvironment() {
     DOCKER_HOST_OS="windows"
   fi
   DOCKER_HOST_USERNAME=`whoami`
+  DOCKER_HOST_IP=`getKameHouseDockerHostIp ${DOCKER_HOST_SUBNET}`
   
-  log.info "Environment"
+  log.info "Environment passed to the container"
   log.info "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
   log.info "PERSISTENT_DATA=${PERSISTENT_DATA}"
   log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
-  DOCKER_HOST_IP=`getKameHouseDockerHostIp ${DOCKER_HOST_SUBNET}`
   log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
   log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
-  log.info "DOCKER_HOST_SUBNET=${DOCKER_HOST_SUBNET}"
 }
 
 runDockerImage() {
@@ -50,6 +49,7 @@ runDockerImage() {
 
   if ${PERSISTENT_DATA}; then
     log.info "Container data will be persisted in volumes"
+    echo ""
     docker run --rm \
       --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
       --env PERSISTENT_DATA=${PERSISTENT_DATA} \
@@ -68,6 +68,7 @@ runDockerImage() {
       -v home-ssh:/home/nbrest/.ssh \
       nbrest/java.web.kamehouse:latest
   else
+    echo ""
     docker run --rm \
       --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
       --env PERSISTENT_DATA=${PERSISTENT_DATA} \

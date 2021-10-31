@@ -11,7 +11,7 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 KAMEHOUSE=${COL_NORMAL}Kame${COL_RED}House${COL_MESSAGE}
-USERNAME=nbrest
+USERNAME=`whoami`
 
 main() {
   echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
@@ -28,7 +28,7 @@ main() {
 }
 
 loadEnv() {
-  logStep "Loading env"
+  logStep "Loading container environment"
   source /root/.bashrc
 
   if [ -z "${FAST_DOCKER_INIT}" ]; then
@@ -43,6 +43,7 @@ loadEnv() {
   logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   logStep "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
   logStep "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  echo ""
 
   local CONTAINER_ENV=/home/nbrest/.container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
