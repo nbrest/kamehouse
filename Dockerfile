@@ -56,7 +56,8 @@ RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs ; \
   wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz ; \
   tar -xf /home/nbrest/programs/apache-tomcat-9.0.53.tar.gz -C /home/nbrest/programs/ ; \
   mv /home/nbrest/programs/apache-tomcat-9.0.53 /home/nbrest/programs/apache-tomcat ; \
-  rm /home/nbrest/programs/apache-tomcat-9.0.53.tar.gz"
+  rm /home/nbrest/programs/apache-tomcat-9.0.53.tar.gz ; \
+  sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/nbrest/programs/apache-tomcat/bin/catalina.sh"
 COPY --chown=nbrest:users docker/tomcat/server.xml /home/nbrest/programs/apache-tomcat/conf/
 COPY --chown=nbrest:users docker/tomcat/tomcat-users.xml /home/nbrest/programs/apache-tomcat/conf/
 COPY --chown=nbrest:users docker/tomcat/manager.xml /home/nbrest/programs/apache-tomcat/conf/Catalina/localhost/
