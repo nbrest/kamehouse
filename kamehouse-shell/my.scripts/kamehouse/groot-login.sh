@@ -12,7 +12,7 @@ LOG_PROCESS_TO_FILE=true
 HTPASSWD_CMD=${HOME}/programs/apache-httpd/bin/htpasswd.exe
 HTPASSWD_FILE=${HOME}/programs/apache-httpd/www/kh.webserver/.htpasswd
 
-mainProcess() {
+main() {
   local USERNAME=$1
   local PASSWORD=$2
   
