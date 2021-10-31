@@ -37,7 +37,8 @@ loadEnv() {
     export FAST_DOCKER_INIT=false
   fi
 
-  logStep "FAST_DOCKER_INIT set to ${FAST_DOCKER_INIT}"
+  echo ""
+  logStep "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
   logStep "PERSISTENT_DATA=${PERSISTENT_DATA}"
   logStep "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
   logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
