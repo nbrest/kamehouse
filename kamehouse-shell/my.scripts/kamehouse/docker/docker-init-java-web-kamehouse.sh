@@ -82,7 +82,7 @@ startTomcat() {
     logStep "Starting tomcat in debug mode"
     sudo su - ${USERNAME} -c "export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
-    export DISPLAY=:0.0 \
+    export DISPLAY=:0.0 ; \
     /home/nbrest/my.scripts/kamehouse/tomcat-startup.sh -d"
   else
     logStep "Starting tomcat"
