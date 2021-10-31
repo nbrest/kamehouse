@@ -88,7 +88,7 @@ runDockerImage() {
 }
 
 parseArguments() {
-  while getopts ":fhps:" OPT; do
+  while getopts ":cfhps:" OPT; do
     case $OPT in
     ("c")
       DOCKER_CONTROL_HOST=true      
