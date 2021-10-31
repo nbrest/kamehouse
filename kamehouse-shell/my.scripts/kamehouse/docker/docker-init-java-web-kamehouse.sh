@@ -11,7 +11,7 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 KAMEHOUSE=${COL_NORMAL}Kame${COL_RED}House${COL_MESSAGE}
-USERNAME=`whoami`
+USERNAME=nbrest
 
 main() {
   echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
@@ -30,11 +30,12 @@ main() {
 loadEnv() {
   logStep "Loading container environment"
   source /root/.bashrc
-
+  IS_DOCKER_CONTAINER=true
+  
   if [ -z "${FAST_DOCKER_INIT}" ]; then
     # by default don't do fast init. can set the environment FAST_DOCKER_INIT=true when running the container
     logStep "Setting default FAST_DOCKER_INIT=false"
-    export FAST_DOCKER_INIT=false
+    FAST_DOCKER_INIT=false
   fi
 
   echo ""
@@ -44,9 +45,10 @@ loadEnv() {
   logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   logStep "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
   logStep "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  logStep "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
   echo ""
 
-  local CONTAINER_ENV=/home/nbrest/.container-env
+  local CONTAINER_ENV=/home/nbrest/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
   echo "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}" >> ${CONTAINER_ENV}
   echo "PERSISTENT_DATA=${PERSISTENT_DATA}" >> ${CONTAINER_ENV}
@@ -54,6 +56,7 @@ loadEnv() {
   echo "DOCKER_HOST_IP=${DOCKER_HOST_IP}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_OS=${DOCKER_HOST_OS}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}" >> ${CONTAINER_ENV}
+  echo "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}" >> ${CONTAINER_ENV}
   chown nbrest:nbrest ${CONTAINER_ENV}
 }
 
@@ -111,9 +114,9 @@ keepContainerAlive() {
   echo -e "${COL_RED}         Keep this terminal open while the container is running${COL_NORMAL}"
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
 
-  echo "" > /root/.startup.lock
-  tail -f /root/.startup.lock
-  read
+  echo "" > /root/.docker-init-script.lock
+  tail -f /root/.docker-init-script.lock
+  read 
 }
 
 logStep() {
