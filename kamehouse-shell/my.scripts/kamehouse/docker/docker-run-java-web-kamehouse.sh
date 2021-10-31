@@ -46,9 +46,10 @@ setEnvironment() {
 
 runDockerImage() {
   log.info "Running image nbrest/java.web.kamehouse:latest"
-  log.warn "This temporary container will be removed when it exits"
+  log.info "This temporary container will be removed when it exits"
 
   if ${PERSISTENT_DATA}; then
+    log.info "Container data will be persisted in volumes"
     docker run --rm \
       --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
       --env PERSISTENT_DATA=${PERSISTENT_DATA} \

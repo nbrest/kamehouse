@@ -35,11 +35,14 @@ loadEnv() {
     # by default don't do fast init. can set the environment FAST_DOCKER_INIT=true when running the container
     logStep "Setting default FAST_DOCKER_INIT=false"
     export FAST_DOCKER_INIT=false
-  else
-    logStep "FAST_DOCKER_INIT set to ${FAST_DOCKER_INIT}"
-  fi 
-  logStep "PERSISTENT_DATA set to ${PERSISTENT_DATA}"
-  logStep "DOCKER_HOST_IP set to ${DOCKER_HOST_IP}"
+  fi
+
+  logStep "FAST_DOCKER_INIT set to ${FAST_DOCKER_INIT}"
+  logStep "PERSISTENT_DATA=${PERSISTENT_DATA}"
+  logStep "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
+  logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
+  logStep "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
+  logStep "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
 
   local CONTAINER_ENV=/home/nbrest/.container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
