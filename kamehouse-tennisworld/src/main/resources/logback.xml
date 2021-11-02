@@ -70,6 +70,19 @@
     <appender-ref ref="consoleAppender" />
   </logger>
 
+  <!-- apache packages -->
+  <logger name="org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier" additivity="false">
+    <level value="ERROR" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="org.apache.sshd.client.session.ClientConnectionService" additivity="false">
+    <level value="ERROR" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
   <!-- spring packages -->
   <logger name="org.springframework" additivity="false">
     <level value="INFO" />

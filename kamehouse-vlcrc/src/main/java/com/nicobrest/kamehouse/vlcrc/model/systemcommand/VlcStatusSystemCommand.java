@@ -12,6 +12,7 @@ public class VlcStatusSystemCommand extends SystemCommand {
 
   /** Sets the command line for each operation system required for this SystemCommand. */
   public VlcStatusSystemCommand() {
+    executeOnDockerHost = true;
     linuxCommand.addAll(
         Arrays.asList("/bin/bash", "-c", "ps aux | grep -e \"vlc\\|COMMAND\" | grep -v grep"));
     windowsCommand.addAll(Arrays.asList("tasklist", "/FI", "IMAGENAME eq vlc.exe"));

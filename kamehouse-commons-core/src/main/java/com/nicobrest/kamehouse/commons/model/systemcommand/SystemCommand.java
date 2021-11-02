@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public abstract class SystemCommand {
 
+  protected boolean executeOnDockerHost = false;
   protected boolean isDaemon = false;
   @Masked
   protected List<String> linuxCommand = new ArrayList<>();
@@ -24,6 +26,10 @@ public abstract class SystemCommand {
   protected List<String> windowsCommand = new ArrayList<>();
   protected int sleepTime = 0;
   protected Output output = new Output();
+
+  public boolean executeOnDockerHost() {
+    return executeOnDockerHost;
+  }
 
   public boolean isDaemon() {
     return isDaemon;
@@ -44,11 +50,25 @@ public abstract class SystemCommand {
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<String> getCommand() {
-    if (PropertiesUtils.isWindowsHost()) {
+    if (PropertiesUtils.isWindowsHost()
+        || (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)
+        && DockerUtils.isWindowsDockerHost())) {
       return windowsCommand;
     } else {
       return linuxCommand;
     }
+  }
+
+  /**
+   * Get the command as a string to execute over ssh.
+   */
+  public String getCommandForSsh() {
+    List<String> commandList = getCommand();
+    StringBuilder sb = new StringBuilder();
+    for (String command : commandList) {
+      sb.append(command).append(" ");
+    }
+    return sb.toString();
   }
 
   /**

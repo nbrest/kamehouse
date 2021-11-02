@@ -75,6 +75,9 @@
     <!-- Updated : 2016/02 | Dependency version date: 2021/06 -->
     <dependency.plugin.version>3.2.0</dependency.plugin.version>
 
+    <!-- Updated : 2021/11 | Dependency version date: 2018/05 -->
+    <eddsa.version>0.3.0</eddsa.version>
+
     <!-- Updated : 2021/09 | Dependency version date: 2021/04 -->
     <ehcache.version>2.10.9.2</ehcache.version>
 
@@ -123,9 +126,6 @@
     <!-- Updated : 2021/09 | Dependency version date: 2014/08 -->
     <javax.websocket.version>1.1</javax.websocket.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <jcloverslf4j.version>1.7.32</jcloverslf4j.version>
-
     <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
     <jsoup.version>1.14.2</jsoup.version>
 
@@ -165,6 +165,12 @@
     <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
     <spring.security.version>5.5.2</spring.security.version>
 
+    <!-- Updated : 2021/11 | Dependency version date: 2021/05 -->
+    <sshd.plugin.version>2.7.0</sshd.plugin.version>
+
+    <!-- Updated : 2021/11 | Dependency version date: 2021/07 -->
+    <slf4j.version>1.7.32</slf4j.version>
+
     <!-- Updated : 2021/09 | Dependency version date: 2019/05 -->
     <surefire.plugin.version>2.22.2</surefire.plugin.version>
 
@@ -192,6 +198,12 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcpkix-jdk15on</artifactId>
       <version>${bouncy.castle.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.i2p.crypto</groupId>
+      <artifactId>eddsa</artifactId>
+      <version>${eddsa.version}</version>
     </dependency>
 
     <!-- JSoup - html parser -->
@@ -277,6 +289,12 @@
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>${httpclient.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-core</artifactId>
+      <version>${sshd.plugin.version}</version>
     </dependency>
 
     <!-- Hibernate/JPA dependencies -->
@@ -436,8 +454,14 @@
 
     <dependency>
       <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>${jcloverslf4j.version}</version>
+      <version>${slf4j.version}</version>
     </dependency>
 
     <!-- Cache dependencies -->

@@ -104,6 +104,12 @@ public class PropertiesUtils {
     return value;
   }
 
+  /**
+   * Get the boolean value of a property. Returns false if the property is not set.
+   */
+  public static boolean getBooleanProperty(String propertyName) {
+    return Boolean.valueOf(getProperty(propertyName, "false"));
+  }
 
   /**
    * Loads all properties files.
@@ -111,6 +117,7 @@ public class PropertiesUtils {
   private static void loadAllPropertiesFiles() {
     loadPropertiesFile("commons.properties");
     loadPropertiesFile("kamehouse.properties");
+    loadDockerContainerProperties();
   }
 
   /**
@@ -124,6 +131,13 @@ public class PropertiesUtils {
     } catch (IOException e) {
       LOGGER.error("Error loading " + filename + " files.", e);
     }
+  }
+
+  /**
+   * Loads properties from the docker container (if it's running in a container).
+   */
+  private static void loadDockerContainerProperties() {
+    properties.putAll(DockerUtils.getDockerContainerProperties());
   }
 
   /**

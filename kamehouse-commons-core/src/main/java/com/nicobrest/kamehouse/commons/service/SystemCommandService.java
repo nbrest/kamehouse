@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.service;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,19 +27,45 @@ import org.springframework.stereotype.Service;
 public class SystemCommandService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
+  // TODO move these statuses to an Enum
   private static final String COMPLETED = "completed";
   private static final String FAILED = "failed";
   private static final String RUNNING = "running";
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Error occurred while executing the process.";
 
-  /** Executes an KameHouseSystemCommand. Translates it to system commands and executes them. */
+  /**
+   * Executes an KameHouseSystemCommand. Translates it to system commands and executes them.
+   */
   public List<SystemCommand.Output> execute(KameHouseSystemCommand kameHouseSystemCommand) {
     return execute(kameHouseSystemCommand.getSystemCommands());
   }
 
-  /** Executes the specified SystemCommand. */
+  /**
+   * Executes the specified SystemCommand.
+   */
   public SystemCommand.Output execute(SystemCommand systemCommand) {
+    if (DockerUtils.shouldExecuteOnDockerHost(systemCommand)) {
+      DockerUtils.executeOnDockerHost(systemCommand);
+    } else {
+      executeLocalProcess(systemCommand);
+    }
+    return systemCommand.getOutput();
+  }
+
+  /**
+   * Executes the specified list of system commands.
+   */
+  public List<SystemCommand.Output> execute(List<SystemCommand> systemCommands) {
+    List<SystemCommand.Output> systemCommandOutputs = new ArrayList<>();
+    for (SystemCommand systemCommand : systemCommands) {
+      SystemCommand.Output systemCommandOutput = execute(systemCommand);
+      systemCommandOutputs.add(systemCommandOutput);
+    }
+    return systemCommandOutputs;
+  }
+
+  private void executeLocalProcess(SystemCommand systemCommand) {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
@@ -88,20 +115,11 @@ public class SystemCommandService {
       logger.warn("Interrupted exception", e);
       Thread.currentThread().interrupt();
     }
-    return commandOutput;
   }
 
-  /** Executes the specified list of system commands. */
-  public List<SystemCommand.Output> execute(List<SystemCommand> systemCommands) {
-    List<SystemCommand.Output> systemCommandOutputs = new ArrayList<>();
-    for (SystemCommand systemCommand : systemCommands) {
-      SystemCommand.Output systemCommandOutput = execute(systemCommand);
-      systemCommandOutputs.add(systemCommandOutput);
-    }
-    return systemCommandOutputs;
-  }
-
-  /** Gets input and error streams from process and add them to the system command output. */
+  /**
+   * Gets input and error streams from process and add them to the system command output.
+   */
   private void getStreamsFromProcess(Process process, SystemCommand.Output commandOutput)
       throws IOException {
     try (InputStream processInputStream = ProcessUtils.getInputStream(process);
@@ -119,7 +137,9 @@ public class SystemCommandService {
     }
   }
 
-  /** Reads the stream from a buffered reader and store it in a List of Strings. */
+  /**
+   * Reads the stream from a buffered reader and store it in a List of Strings.
+   */
   private List<String> readStreamIntoList(BufferedReader bufferedReader) throws IOException {
     List<String> streamAsList = new ArrayList<>();
     String streamLine;
