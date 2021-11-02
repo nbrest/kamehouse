@@ -64,17 +64,6 @@ parseEnvironment() {
   esac
 }
 
-parseInvalidArgument() {
-  log.error "Invalid option: -$1"
-  printHelp
-  exitProcess 1
-}
-
-parseHelp() {
-  printHelp
-  exitProcess 0
-}
-
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER
 executeSshCommand() {
   log.info "Executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"

@@ -17,6 +17,7 @@ source ${HOME}/my.scripts/.cred/.cred
 
 # dev environment: eclipse or intellij
 DEV_ENVIRONMENT=
+DEPLOY_TO_DOCKER=false
 PROJECT_DIR=
 TOMCAT_WEBAPPS_DIR=
 TOMCAT_PORT=9980
@@ -67,6 +68,10 @@ undeployFromTomcat() {
     WEBAPP=""
   fi
 
+  if ${DEPLOY_TO_DOCKER}; then
+    TOMCAT_PORT=${DOCKER_PORT_TOMCAT}
+  fi
+
   local KAMEHOUSE_WEBAPPS=`curl http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/list 2>/dev/null | grep "/kame-house" | grep "${WEBAPP}" | awk -F':' '{print $1}'`
   
   if [ "${MODULE_SHORT}" == "ui" ]; then
@@ -91,15 +96,23 @@ deployToTomcat() {
     local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
       log.info "Deploying ${KAMEHOUSE_MODULE} in ${DEV_ENVIRONMENT}"
-      cp -v ${KAMEHOUSE_MODULE_WAR} ${TOMCAT_WEBAPPS_DIR}
-      checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${TOMCAT_WEBAPPS_DIR}"
+      if ${DEPLOY_TO_DOCKER}; then
+        # Might need to add a ssh with command "sudo rm -f /home/nbrest/programs/apache-tomcat/webapps/${KAMEHOUSE_MODULE_WAR}" if deployment fails with write permissions (no issue so far)
+        scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/nbrest/programs/apache-tomcat/webapps
+      else
+        cp -v ${KAMEHOUSE_MODULE_WAR} ${TOMCAT_WEBAPPS_DIR}
+        checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${TOMCAT_WEBAPPS_DIR}"
+      fi
     fi
   done
 }
 
 parseArguments() {
-  while getopts ":hi:m:" OPT; do
+  while getopts ":dhi:m:" OPT; do
     case $OPT in
+    ("d")
+      DEPLOY_TO_DOCKER=true
+      ;;
     ("h")
       parseHelp
       ;;
@@ -127,6 +140,7 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-d${COL_NORMAL} deploy to docker"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's tomcat to deploy to" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"

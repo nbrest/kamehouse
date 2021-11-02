@@ -42,6 +42,19 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
 }
 
+# Display the invalid argument error and exit printing help message
+parseInvalidArgument() {
+  log.error "Invalid option: -$1"
+  printHelp
+  exitProcess 1
+}
+
+# Print the help and exit
+parseHelp() {
+  printHelp
+  exitProcess 0
+}
+
 # Default main process that needs to be overriden with custom script logic.
 mainProcess() {
   log.info "Override mainProcess() with the script logic."

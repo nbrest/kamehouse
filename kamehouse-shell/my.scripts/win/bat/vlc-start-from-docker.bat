@@ -18,10 +18,10 @@ if "%VLC_EXEC%" == "" (
   exit 1
 ) 
 
-schtasks /delete /TN vlc-scheduled-run
-schtasks /create /SC ONCE /TN vlc-scheduled-run /TR "%VLC_EXEC% !FILE_TO_PLAY!" /ST 23:59
-schtasks /run /TN vlc-scheduled-run
-schtasks /delete /TN vlc-scheduled-run /F
+schtasks /delete /TN vlc-start-from-docker-run
+schtasks /create /SC ONCE /TN vlc-start-from-docker-run /TR "%VLC_EXEC% !FILE_TO_PLAY!" /ST 23:59
+schtasks /run /TN vlc-start-from-docker-run
+schtasks /delete /TN vlc-start-from-docker-run /F
 
 
 
