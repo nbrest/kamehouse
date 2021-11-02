@@ -21,6 +21,7 @@ KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 MAVEN_COMMAND=
 MAVEN_PROFILE="prod"
 RESUME=false
+SKIP_TESTS=false
 CONTINUE_ON_ERRORS=false
 
 mainProcess() {
@@ -32,6 +33,11 @@ mainProcess() {
 buildProject() {
   log.info "Building ${COL_PURPLE}kamehouse${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
+
+  if ${SKIP_TESTS}; then
+    log.info "Executing build skipping tests"
+    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true"
+  fi
 
   if ${FAST_BUILD}; then
     log.info "Executing fast build. Skipping checkstyle, findbugs and tests"
@@ -76,7 +82,7 @@ deployKameHouseCmd() {
 }
 
 parseArguments() {
-  while getopts ":cfhim:p:r" OPT; do
+  while getopts ":cfhim:p:rs" OPT; do
     case $OPT in
     ("c")
       CONTINUE_ON_ERRORS=true
@@ -112,6 +118,9 @@ parseArguments() {
     ("r")
       RESUME=true
       ;;
+    ("s")
+      SKIP_TESTS=true
+      ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -131,6 +140,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev|docker|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
   echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} skip tests. Use it to find any checkstyle/findbugs issues on all modules regardless of test coverage"
 }
 
 main "$@"

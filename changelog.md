@@ -2,6 +2,7 @@
 
 #### v6.12
 
+* Added functionality to execute commands in the host running the docker container through ssh (allowing both to execute the commands inside the container or on the host)
 * Added support for remote debugging of tomcat in the container
 * Updated tomcat dev deployment script to support deploying to docker container
 
