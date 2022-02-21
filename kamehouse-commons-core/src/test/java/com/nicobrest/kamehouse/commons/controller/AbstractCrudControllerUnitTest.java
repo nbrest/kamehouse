@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
@@ -18,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -106,7 +108,7 @@ public class AbstractCrudControllerUnitTest {
    * update entity error test.
    */
   @Test
-  public void updatePathIdNotValidTest() throws Exception {
+  public void updatePathIdNotValidTest() {
     assertThrows(
         NestedServletException.class,
         () -> {
@@ -124,6 +126,89 @@ public class AbstractCrudControllerUnitTest {
     MockHttpServletResponse response = doDelete(API_TEST_ENTITY + "/1");
 
     verifyResponseStatus(response, HttpStatus.OK);
+  }
+
+  /**
+   * generateGetResponseEntity successful test.
+   */
+  @Test
+  public void generateGetResponseEntityTest() {
+    ResponseEntity<TestEntity> responseEntity =
+        TestEntityCrudController.generateGetResponseEntity(testEntity, true);
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(testEntity, responseEntity.getBody());
+  }
+
+  /**
+   * generateGetResponseEntity not found test.
+   */
+  @Test
+  public void generateGetResponseEntityNotFoundTest() {
+    ResponseEntity<TestEntity> responseEntity =
+        TestEntityCrudController.generateGetResponseEntity(null, true);
+
+    assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+  }
+
+  /**
+   * generatePutResponseEntity success test.
+   */
+  @Test
+  public void generatePutResponseEntityTest() {
+    ResponseEntity<Void> responseEntity = TestEntityCrudController.generatePutResponseEntity();
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+  }
+
+  /**
+   * generatePostResponseEntity success test.
+   */
+  @Test
+  public void generatePostResponseEntityTest() {
+    ResponseEntity responseEntity = TestEntityCrudController.generatePostResponseEntity(
+        testEntity, true);
+
+    assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+    assertEquals(testEntity, responseEntity.getBody());
+  }
+
+  /**
+   * generatePasswordLessResponseEntity success test.
+   */
+  @Test
+  public void generatePasswordLessResponseEntityWrapperTest() {
+    ResponseEntity initialResponseEntity = TestEntityCrudController.generatePostResponseEntity(
+        testEntity, true);
+    ResponseEntity responseEntity =
+        TestEntityCrudController.generatePasswordLessResponseEntityWrapper(initialResponseEntity);
+
+    assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+    assertEquals(testEntity, responseEntity.getBody());
+  }
+
+  /**
+   * validatePathAndRequestBodyIds null path id test.
+   */
+  @Test
+  public void validatePathAndRequestBodyIdsNullPathIdTest() {
+    assertThrows(
+        KameHouseBadRequestException.class,
+        () -> {
+          TestEntityCrudController.validatePathAndRequestBodyIds(null, null);
+        });
+  }
+
+  /**
+   * validatePathAndRequestBodyIds mismatching ids test.
+   */
+  @Test
+  public void validatePathAndRequestBodyIdsMismatchOfIdsTest() {
+    assertThrows(
+        KameHouseBadRequestException.class,
+        () -> {
+          TestEntityCrudController.validatePathAndRequestBodyIds(1L, 2L);
+        });
   }
 
   /**

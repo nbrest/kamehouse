@@ -6,7 +6,9 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.io.Serializable;
 import java.util.Objects;
 
-/** Test User Entity to test password utils. */
+/**
+ * Test User Entity to test password utils.
+ */
 public class TestUserEntity implements PasswordEntity<String>, Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;

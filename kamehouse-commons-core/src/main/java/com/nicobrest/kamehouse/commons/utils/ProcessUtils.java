@@ -26,8 +26,9 @@ public class ProcessUtils {
   /**
    * Waits for the specified process to finish.
    */
-  public static void waitFor(Process process) throws InterruptedException {
+  public static int waitFor(Process process) throws InterruptedException {
     process.waitFor();
+    return 0;
   }
 
   /**

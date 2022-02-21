@@ -145,7 +145,7 @@ RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.
   chown nbrest:users /home/nbrest/mysql-initial-data.tar.gz
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
-RUN echo "echo 'Update number to avoid cache 6'"
+RUN echo "echo 'Update number to avoid cache 7'"
 
 # Copy docker setup folder
 COPY --chown=nbrest:users docker /home/nbrest/docker

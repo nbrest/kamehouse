@@ -28,10 +28,10 @@ public class DockerUtils {
   /**
    * Execute the system command on the host running the docker container.
    */
-  public static void executeOnDockerHost(SystemCommand systemCommand) {
+  public static SystemCommand.Output executeOnDockerHost(SystemCommand systemCommand) {
     String host = getDockerHostIp();
     String username = getDockerHostUsername();
-    SshClientUtils.execute(host, username, systemCommand);
+    return SshClientUtils.execute(host, username, systemCommand);
   }
 
   /**
@@ -39,8 +39,7 @@ public class DockerUtils {
    * container.
    */
   public static boolean shouldExecuteOnDockerHost(SystemCommand systemCommand) {
-    return isDockerContainer() && isDockerControlHostEnabled()
-        && systemCommand.executeOnDockerHost();
+    return shouldExecuteOnDockerHost(systemCommand.executeOnDockerHost());
   }
 
   /**
@@ -95,8 +94,7 @@ public class DockerUtils {
   public static Properties getDockerContainerProperties() {
     Properties dockerProperties = new Properties();
     try {
-      String userHome = PropertiesUtils.getUserHome();
-      String path = userHome + File.separator + DOCKER_CONTAINER_ENV;
+      String path = PropertiesUtils.getUserHome() + File.separator + DOCKER_CONTAINER_ENV;
       File dockerContainerEnvFile = new File(path);
       if (!dockerContainerEnvFile.exists()) {
         LOGGER.debug("Docker container env file doesn't exists. Running outside a container");

@@ -3,15 +3,24 @@ package com.nicobrest.kamehouse.commons.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
+import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,9 +35,23 @@ public class AbstractCrudDaoJpaUnitTest {
   @Autowired
   private TestEntityCrudDaoJpa testEntityCrudDaoJpa;
 
+  @Autowired
+  private EntityManagerFactory entityManagerFactory;
+
+  @Mock
+  private EntityManagerFactory entityManagerFactoryMock;
+
+  @Mock
+  private EntityManager entityManagerMock;
+
+  private Exception persistenceException = new PersistenceException("Test Exception");
+  private Exception illegalArgumentException = new IllegalArgumentException("Test Exception");
+
   @BeforeEach
   public void setup() {
     setupTestData();
+    MockitoAnnotations.openMocks(this);
+    Mockito.reset(entityManagerFactoryMock, entityManagerMock);
   }
 
   /**
@@ -148,9 +171,146 @@ public class AbstractCrudDaoJpaUnitTest {
   }
 
   /**
+   * findAll PersistenceException test.
+   */
+  @Test
+  public void findAllPersistenceExceptionTest() {
+    setupEntityManagerMock();
+    persistenceException.initCause(
+        new org.hibernate.exception.ConstraintViolationException("", new SQLException(), ""));
+    when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
+
+    assertThrows(
+        KameHouseConflictException.class,
+        () -> {
+          testEntityCrudDaoJpa.findAll(TestEntity.class);
+        });
+  }
+
+  /**
+   * findById PersistenceException test.
+   */
+  @Test
+  public void findByIdPersistenceExceptionTest() {
+    setupEntityManagerMock();
+    when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
+
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          testEntityCrudDaoJpa.findById(TestEntity.class, 1L);
+        });
+  }
+
+  /**
+   * findById IllegalArgumentException test.
+   */
+  @Test
+  public void findByIdIllegalArgumentExceptionTest() {
+    setupEntityManagerMock();
+    when(entityManagerMock.getTransaction()).thenThrow(illegalArgumentException);
+
+    assertThrows(
+        KameHouseBadRequestException.class,
+        () -> {
+          testEntityCrudDaoJpa.findById(TestEntity.class, 1L);
+        });
+  }
+
+  /**
+   * findByUsername IllegalArgumentException test. TestEntity doesn't have a username attribute.
+   */
+  @Test
+  public void findByUsernameIllegalArgumentExceptionTest() {
+    assertThrows(
+        KameHouseBadRequestException.class,
+        () -> {
+          testEntityCrudDaoJpa.findByUsername(TestEntity.class, "goku");
+        });
+  }
+
+  /**
+   * findByEmail IllegalArgumentException test. TestEntity doesn't have an email attribute.
+   */
+  @Test
+  public void findByEmailIllegalArgumentExceptionTest() {
+    assertThrows(
+        KameHouseBadRequestException.class,
+        () -> {
+          testEntityCrudDaoJpa.findByEmail(TestEntity.class, "goku@dbz.com");
+        });
+  }
+
+  /**
+   * findByAttribute PersistenceException test.
+   */
+  @Test
+  public void findByAttributePersistenceExceptionTest() {
+    setupEntityManagerMock();
+    when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
+
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          testEntityCrudDaoJpa.findByAttribute(TestEntity.class, "", "");
+        });
+  }
+
+  /**
+   * mergeEntityInRepository test.
+   */
+  @Test
+  public void mergeEntityInRepositoryTest() {
+    TestEntity entity = testEntityCrudDaoJpa.mergeEntityInRepository(
+        testEntityCrudDaoJpa.findAll(TestEntity.class).get(0));
+
+    assertEquals(999999L, entity.getId());
+    assertEquals("goku", entity.getName());
+  }
+
+  /**
+   * updateEntityInRepository PersistenceException test.
+   */
+  @Test
+  public void updateEntityInRepositoryPersistenceExceptionTest() {
+    setupEntityManagerMock();
+    when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
+
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          testEntityCrudDaoJpa.updateEntityInRepository(TestEntity.class, new TestEntity(), 1L);
+        });
+  }
+
+  /**
+   * updateEntityInRepository IllegalArgumentException test.
+   */
+  @Test
+  public void updateEntityInRepositoryIllegalArgumentExceptionTest() {
+    setupEntityManagerMock();
+    when(entityManagerMock.getTransaction()).thenThrow(illegalArgumentException);
+
+    assertThrows(
+        KameHouseBadRequestException.class,
+        () -> {
+          testEntityCrudDaoJpa.updateEntityInRepository(TestEntity.class, new TestEntity(), 1L);
+        });
+  }
+
+  /**
+   * TODO: private methods tests: test them through other public/protected methods
+   *  - addEntityToRepository handlePersistentException
+   *  - handlePersistentException NoResultException and KameHouseServerErrorException
+   *  - handleIllegalArgumentException
+   *  after adding the previous tests, check the coverage and see if these are covered already
+   */
+
+  /**
    * Setup test data in the hsql db.
    */
   private void setupTestData() {
+    testEntityCrudDaoJpa.setEntityManagerFactory(entityManagerFactory);
     String clearTableSql = "DELETE FROM TEST_ENTITY";
     String insertEntitySql = "INSERT INTO TEST_ENTITY (id, name) VALUES (999999, 'goku')";
     EntityManager em = testEntityCrudDaoJpa.getEntityManager();
@@ -159,5 +319,13 @@ public class AbstractCrudDaoJpaUnitTest {
     em.createNativeQuery(insertEntitySql).executeUpdate();
     em.getTransaction().commit();
     em.close();
+  }
+
+  /**
+   * Setup the entity manager mock for the tests.
+   */
+  private void setupEntityManagerMock() {
+    testEntityCrudDaoJpa.setEntityManagerFactory(entityManagerFactoryMock);
+    when(entityManagerFactoryMock.createEntityManager()).thenReturn(entityManagerMock);
   }
 }

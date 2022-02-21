@@ -1,13 +1,16 @@
 package com.nicobrest.kamehouse.commons.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.model.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.TestKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemCommand;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.io.ByteArrayInputStream;
@@ -40,14 +43,17 @@ public class SystemCommandServiceTest {
 
   private MockedStatic<PropertiesUtils> propertiesUtils;
   private MockedStatic<ProcessUtils> processUtils;
+  private MockedStatic<DockerUtils> dockerUtils;
 
   /**
    * Tests setup.
    */
   @BeforeEach
   public void before() throws IOException {
+    testUtils.initTestData();
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     processUtils = Mockito.mockStatic(ProcessUtils.class);
+    dockerUtils = Mockito.mockStatic(DockerUtils.class);
     systemCommandService = Mockito.spy(new SystemCommandService());
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
   }
@@ -57,6 +63,7 @@ public class SystemCommandServiceTest {
    */
   @AfterEach
   public void close() {
+    dockerUtils.close();
     propertiesUtils.close();
     processUtils.close();
   }
@@ -103,7 +110,7 @@ public class SystemCommandServiceTest {
   public void execVncDoFailedTest() throws Exception {
     List<String> errorStream = Arrays.asList("no errors");
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), errorStream.get(0));
-    when(ProcessUtils.getExitValue(Mockito.any())).thenReturn(1);
+    when(ProcessUtils.getExitValue(any())).thenReturn(1);
     List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("esc"));
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
@@ -132,7 +139,7 @@ public class SystemCommandServiceTest {
    */
   @Test
   public void execIoExceptionTest() throws IOException {
-    when(ProcessUtils.getInputStream(Mockito.any())).thenThrow(IOException.class);
+    when(ProcessUtils.getInputStream(any())).thenThrow(IOException.class);
 
     List<String> errorStream =
         Arrays.asList("An error occurred executing the command. Message: " + "null");
@@ -146,6 +153,63 @@ public class SystemCommandServiceTest {
   }
 
   /**
+   * Execute command on docker host success test.
+   */
+  @Test
+  public void executeOnDockerHostSuccessTest() {
+    when(DockerUtils.shouldExecuteOnDockerHost(any())).thenReturn(true);
+    when(DockerUtils.executeOnDockerHost(any())).thenReturn(testUtils.getSingleTestData());
+    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
+
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
+
+    assertEquals(testUtils.getSingleTestData(), returnedList.get(0));
+    assertEquals(testUtils.getSingleTestData(), returnedList.get(1));
+    assertEquals(testUtils.getSingleTestData(), returnedList.get(2));
+  }
+
+  /**
+   * Execute successful test with sleep set in one of the commands.
+   */
+  @Test
+  public void executeWithSleepTimeTest() throws IOException {
+    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
+    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
+    kameHouseSystemCommand.getSystemCommands().get(0).setSleepTime(1);
+
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
+
+    testUtils.assertCommandExecutedMatch(kameHouseSystemCommand, returnedList);
+    testUtils.assertSystemCommandOutputFields(
+        0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST, returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(
+        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(1));
+    testUtils.assertSystemCommandOutputFields(
+        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(2));
+  }
+
+  /**
+   * InterruptedException while executing the commands test.
+   */
+  @Test
+  public void executeInterruptedExceptionTest() throws IOException, InterruptedException {
+    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
+    when(ProcessUtils.waitFor(any())).thenThrow(new InterruptedException("Test Exception"));
+    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
+    kameHouseSystemCommand.getSystemCommands().get(0).setSleepTime(1);
+
+    List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
+
+    testUtils.assertCommandExecutedMatch(kameHouseSystemCommand, returnedList);
+    testUtils.assertSystemCommandOutputFields(
+        -1, -1, null, null, null, returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(
+        -1, -1, null, null, null, returnedList.get(1));
+    testUtils.assertSystemCommandOutputFields(
+        -1, -1, null, null, null, returnedList.get(2));
+  }
+
+  /**
    * Setup mock input and error streams.
    */
   private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent)
@@ -154,36 +218,7 @@ public class SystemCommandServiceTest {
         inputStreamContent.getBytes(Charsets.UTF_8));
     InputStream processErrorStream = new ByteArrayInputStream(
         errorStreamContent.getBytes(Charsets.UTF_8));
-    when(ProcessUtils.getInputStream(Mockito.any())).thenReturn(processInputStream);
-    when(ProcessUtils.getErrorStream(Mockito.any())).thenReturn(processErrorStream);
-  }
-
-  /**
-   * Test KameHouseSystemCommand to test the SystemCommandService.
-   */
-  public static class TestKameHouseSystemCommand extends KameHouseSystemCommand {
-
-    /**
-     * Test KameHouseSystemCommand to test the SystemCommandService.
-     */
-    public TestKameHouseSystemCommand() {
-      systemCommands.add(new VncDoMouseClickSystemCommand("1", "400", "400"));
-      systemCommands.add(new VncDoKeyPressSystemCommand("1"));
-      systemCommands.add(new VncDoTypeSystemCommand("22"));
-    }
-  }
-
-  /**
-   * Test Daemon command to test the SystemCommandService.
-   */
-  public static class TestDaemonCommand extends VncDoKeyPressSystemCommand {
-
-    /**
-     * Test Daemon command.
-     */
-    public TestDaemonCommand(String key) {
-      super(key);
-      isDaemon = true;
-    }
+    when(ProcessUtils.getInputStream(any())).thenReturn(processInputStream);
+    when(ProcessUtils.getErrorStream(any())).thenReturn(processErrorStream);
   }
 }

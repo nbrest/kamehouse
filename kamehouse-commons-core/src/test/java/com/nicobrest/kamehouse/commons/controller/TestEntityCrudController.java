@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.service.TestEntityCrudService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -76,5 +77,50 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
   @ResponseBody
   public ResponseEntity<TestEntity> delete(@PathVariable Long id) {
     return super.delete(id);
+  }
+
+  /**
+   * Expose generateGetResponseEntity in abstract class for unit testing.
+   */
+  public static ResponseEntity<TestEntity> generateGetResponseEntity(TestEntity entity,
+      boolean logResponse) {
+    return AbstractController.generateGetResponseEntity(entity,logResponse);
+  }
+
+  /**
+   * Expose generatePutResponseEntity in abstract class for unit testing.
+   */
+  public static ResponseEntity<Void> generatePutResponseEntity() {
+    return AbstractController.generatePutResponseEntity();
+  }
+
+  /**
+   * Expose generatePutResponseEntity in abstract class for unit testing.
+   */
+  public static ResponseEntity<TestEntity> generatePutResponseEntity(TestEntity entity) {
+    return AbstractController.generatePutResponseEntity(entity);
+  }
+
+  /**
+   * Expose generatePostResponseEntity in abstract class for unit testing.
+   */
+  public static ResponseEntity<TestEntity> generatePostResponseEntity(TestEntity entity,
+      boolean logResponse) {
+    return AbstractController.generatePostResponseEntity(entity, logResponse);
+  }
+
+  /**
+   * Expose generatePasswordLessResponseEntity in abstract class for unit testing.
+   */
+  public static ResponseEntity<TestEntity> generatePasswordLessResponseEntityWrapper(
+      ResponseEntity<TestEntity> responseEntity) {
+    return AbstractController.generatePasswordLessResponseEntity(responseEntity);
+  }
+
+  /**
+   * Expose validatePathAndRequestBodyIds in abstract class for unit testing.
+   */
+  public static void validatePathAndRequestBodyIds(Long pathId, Long requestBodyId) {
+    AbstractController.validatePathAndRequestBodyIds(pathId, requestBodyId);
   }
 }

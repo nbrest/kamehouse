@@ -86,6 +86,13 @@ public abstract class SystemCommand {
     return sleepTime;
   }
 
+  /**
+   * Get sleep time (in seconds) to sleep AFTER the command executes.
+   */
+  public void setSleepTime(int sleepTime) {
+    this.sleepTime = sleepTime;
+  }
+
   @Override
   public String toString() {
     return JsonUtils.toJsonString(this, super.toString());

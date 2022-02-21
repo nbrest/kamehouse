@@ -50,7 +50,9 @@ public class SshClientUtils {
   /**
    * Execute the system command over ssh on the docker host.
    */
-  public static void execute(String host, String username, SystemCommand systemCommand) {
+  public static SystemCommand.Output execute(String host, String username,
+      SystemCommand systemCommand) {
+    SystemCommand.Output commandOutput = systemCommand.getOutput();
     String command = systemCommand.getCommandForSsh();
     SshClient client = SshClient.setUpDefaultClient();
     client.start();
@@ -73,20 +75,21 @@ public class SshClientUtils {
       channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), SSH_CONNECTION_TIMEOUT_MS);
       String standardOutput = responseStream.toString(Charsets.UTF_8);
       String standardError = errorStream.toString(Charsets.UTF_8);
-      systemCommand.getOutput().setStandardOutput(Arrays.asList(standardOutput));
-      systemCommand.getOutput().setStandardError(Arrays.asList(standardError));
+      commandOutput.setStandardOutput(Arrays.asList(standardOutput));
+      commandOutput.setStandardError(Arrays.asList(standardError));
       LOGGER.trace("Ssh command {} standardOutput: {}", command, standardOutput);
       LOGGER.trace("Ssh command {} standardError: {}", command, standardError);
-      systemCommand.getOutput().setStatus("completed");
+      commandOutput.setStatus("completed");
     } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
       LOGGER.error("Error executing ssh command", e);
-      systemCommand.getOutput().setStatus("failed");
+      commandOutput.setStatus("failed");
     } finally {
       if (channel != null) {
         channel.close(false);
       }
       client.stop();
     }
+    return commandOutput;
   }
 
   /**

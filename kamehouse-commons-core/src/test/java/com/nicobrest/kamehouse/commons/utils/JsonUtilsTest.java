@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -95,7 +96,6 @@ public class JsonUtilsTest {
     assertEquals(expectedOutput, output);
   }
 
-
   /**
    * Tests toJsonString with masked annotated fields with nested fields and lists.
    */
@@ -177,6 +177,27 @@ public class JsonUtilsTest {
         + "  \"doubleField\":\"****\""
         + "}";
     expectedOutput = expectedOutput.replace(" ", "");
+    assertEquals(expectedOutput, output);
+  }
+
+  /**
+   * Tests toJsonString without any masked fields.
+   */
+  @Test
+  public void toJsonStringWithoutMaskedFieldsTest() {
+    String output = JsonUtils.toJsonString(jsonNodeWithSubNode, null, true);
+    String expectedOutput = "{"
+        + "  \"textField\":\"goku\","
+        + "  \"intField\":128,"
+        + "  \"doubleField\":255.0,"
+        + "  \"booleanField\":true,"
+        + "  \"user\":{"
+        + "    \"password\":\"madamadadane\","
+        + "    \"username\":\"goku@dbz.com\""
+        + "  }"
+        + "}";
+    expectedOutput = expectedOutput.replace(" ", "")
+        .replace("madamadadane", "mada mada dane");
     assertEquals(expectedOutput, output);
   }
 

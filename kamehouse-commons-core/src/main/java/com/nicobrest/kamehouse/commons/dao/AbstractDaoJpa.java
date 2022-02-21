@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.function.BiFunction;
 import javax.persistence.EntityManager;
@@ -38,6 +39,11 @@ public abstract class AbstractDaoJpa<E> {
 
   public EntityManager getEntityManager() {
     return entityManagerFactory.createEntityManager();
+  }
+
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+    this.entityManagerFactory = entityManagerFactory;
   }
 
   /**
@@ -131,6 +137,8 @@ public abstract class AbstractDaoJpa<E> {
       logger.debug("findByAttribute {} {} response {}", attributeName, attributeValue, entity);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
+    } catch (IllegalArgumentException e) {
+      handleIllegalArgumentException(e);
     } finally {
       em.close();
     }
@@ -256,6 +264,7 @@ public abstract class AbstractDaoJpa<E> {
     public T apply(EntityManager em, T entity) {
       return em.merge(entity);
     }
+
   }
 
   /**

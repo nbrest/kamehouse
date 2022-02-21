@@ -46,11 +46,10 @@ public class SystemCommandService {
    */
   public SystemCommand.Output execute(SystemCommand systemCommand) {
     if (DockerUtils.shouldExecuteOnDockerHost(systemCommand)) {
-      DockerUtils.executeOnDockerHost(systemCommand);
+      return DockerUtils.executeOnDockerHost(systemCommand);
     } else {
-      executeLocalProcess(systemCommand);
+      return executeLocalProcess(systemCommand);
     }
-    return systemCommand.getOutput();
   }
 
   /**
@@ -65,7 +64,7 @@ public class SystemCommandService {
     return systemCommandOutputs;
   }
 
-  private void executeLocalProcess(SystemCommand systemCommand) {
+  private SystemCommand.Output executeLocalProcess(SystemCommand systemCommand) {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(systemCommand.getCommand());
@@ -115,6 +114,7 @@ public class SystemCommandService {
       logger.warn("Interrupted exception", e);
       Thread.currentThread().interrupt();
     }
+    return commandOutput;
   }
 
   /**

@@ -19,7 +19,7 @@ public abstract class AbstractController {
   protected static final ResponseEntity<Void> EMPTY_SUCCESS_RESPONSE =
       new ResponseEntity<>(HttpStatus.OK);
   protected static final Logger STATIC_LOGGER = LoggerFactory.getLogger(AbstractController.class);
-  // I define the non static logger here to avoid having to define it in every controller
+  // I define the non-static logger here to avoid having to define it in every controller
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   private static final String RESPONSE_ENTITY = "Response {}";
   private static final String ENTITY_NOT_FOUND = "Empty response. Entity not found.";
