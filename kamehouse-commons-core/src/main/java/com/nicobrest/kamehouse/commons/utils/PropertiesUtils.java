@@ -63,7 +63,11 @@ public class PropertiesUtils {
    */
   public static String getHostname() {
     if (isWindowsHost()) {
-      return System.getenv("COMPUTERNAME").toLowerCase(Locale.getDefault());
+      String computerName = System.getenv("COMPUTERNAME");
+      if (computerName != null) {
+        return computerName.toLowerCase(Locale.getDefault());
+      }
+      return "INVALID_HOSTNAME";
     } else {
       try (BufferedReader reader =
           new BufferedReader(

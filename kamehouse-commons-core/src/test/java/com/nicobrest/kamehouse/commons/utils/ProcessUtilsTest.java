@@ -25,7 +25,7 @@ public class ProcessUtilsTest {
     if (PropertiesUtils.isWindowsHost()) {
       command = Arrays.asList("cmd.exe", "/c", "start", "exit");
     } else {
-      command = Arrays.asList("/bin/bash -c exit");
+      command = Arrays.asList("/bin/bash", "-c", "exit");
     }
 
     ProcessBuilder processBuilder = new ProcessBuilder();
