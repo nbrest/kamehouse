@@ -231,11 +231,7 @@ public class DateUtils {
       return null;
     }
     try {
-      if (PropertiesUtils.isWindowsHost()) {
-        input = input.toUpperCase(Locale.getDefault());
-      } else {
-        input = input.toLowerCase(Locale.getDefault());
-      }
+      input = input.toUpperCase(Locale.getDefault());
       String result =
           LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat))
               .format(DateTimeFormatter.ofPattern(outFormat));
