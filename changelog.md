@@ -1,6 +1,6 @@
 # ChangeLog:
 
-#### v6.12
+#### v7.00
 
 * Added functionality to execute commands in the host running the docker container through ssh (allowing both to execute the commands inside the container or on the host)
 * Added support for remote debugging of tomcat in the container
