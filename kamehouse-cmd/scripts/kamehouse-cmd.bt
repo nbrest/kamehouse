@@ -5,3 +5,4 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`DIR /W /B %HOMEDRIVE%%HOMEPATH%\programs\kam
 )
 
 java -jar %HOMEDRIVE%%HOMEPATH%\programs\kamehouse-cmd\lib\%KAMEHOUSE_CMD_JAR% %*
+exit

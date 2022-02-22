@@ -17,7 +17,8 @@ import org.junit.jupiter.api.Test;
 public class ProcessUtilsTest {
 
   /**
-   * Execute process through the process utils test.
+   * Execute process through the process utils test. I can modify the command in this test to test
+   * other commands I expect to execute through the ProcessUtils.
    */
   @Test
   public void executeProcessTest() throws IOException, InterruptedException {

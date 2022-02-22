@@ -189,27 +189,6 @@ public class SystemCommandServiceTest {
   }
 
   /**
-   * InterruptedException while executing the commands test.
-   */
-  @Test
-  public void executeInterruptedExceptionTest() throws IOException, InterruptedException {
-    setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
-    when(ProcessUtils.waitFor(any())).thenThrow(new InterruptedException("Test Exception"));
-    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
-    kameHouseSystemCommand.getSystemCommands().get(0).setSleepTime(1);
-
-    List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
-
-    testUtils.assertCommandExecutedMatch(kameHouseSystemCommand, returnedList);
-    testUtils.assertSystemCommandOutputFields(
-        -1, -1, null, null, null, returnedList.get(0));
-    testUtils.assertSystemCommandOutputFields(
-        -1, -1, null, null, null, returnedList.get(1));
-    testUtils.assertSystemCommandOutputFields(
-        -1, -1, null, null, null, returnedList.get(2));
-  }
-
-  /**
    * Setup mock input and error streams.
    */
   private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent)

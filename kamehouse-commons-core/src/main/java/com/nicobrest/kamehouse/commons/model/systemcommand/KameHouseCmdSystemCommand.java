@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class KameHouseCmdSystemCommand extends SystemCommand {
 
   private static final String KAMEHOUSE_CMD_WIN = PropertiesUtils.getUserHome()
-      + "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat ";
+      + "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
   private static final String KAMEHOUSE_CMD_LINUX = PropertiesUtils.getUserHome()
       + "/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
 
@@ -22,8 +22,8 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
   public void setKameHouseCmdCommands() {
     linuxCommand.add(KAMEHOUSE_CMD_LINUX);
     linuxCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
-    windowsCommand.addAll(List.of("cmd.exe", "/c",
-        KAMEHOUSE_CMD_WIN + getKameHouseCmdArguments()));
+    windowsCommand.addAll(List.of("cmd.exe", "/c", "start", KAMEHOUSE_CMD_WIN));
+    windowsCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
     setOutputCommand();
   }
 
