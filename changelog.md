@@ -2,9 +2,12 @@
 
 #### v7.00
 
-* Added functionality to execute commands in the host running the docker container through ssh (allowing both to execute the commands inside the container or on the host)
+* Added core functionality to execute commands in the host running the docker container through ssh (allowing both to execute the commands inside the container or on the host)
 * Added support for remote debugging of tomcat in the container
 * Updated tomcat dev deployment script to support deploying to docker container
+* Initially added functionality to start and stop vlc player outside the container through ssh
+* Added functionality to run the container executing commands in the host to docker run script
+* Updated docker startup script to pass environment variables to the container to configure startup mode (self contained, interacting with the host and other options)
 
 #### v6.11
 
