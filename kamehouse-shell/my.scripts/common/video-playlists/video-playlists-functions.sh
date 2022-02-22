@@ -30,11 +30,11 @@ validateVariables() {
 removeDestPlaylists() {
   log.info "removeDestPlaylists"
   rm -r ${PATH_PLS_DEST}/*
-  checkCommandStatus "$?"
 }
 
 copySourcePlaylists() {
   log.info "copySourcePlaylists"
+  mkdir -p ${PATH_PLS_DEST}
   cp -r ${PATH_PLS_SOURCE}/* ${PATH_PLS_DEST}/
   checkCommandStatus "$?" 
 }

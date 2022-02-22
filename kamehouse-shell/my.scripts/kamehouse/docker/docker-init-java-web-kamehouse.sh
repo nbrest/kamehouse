@@ -1,4 +1,5 @@
 #!/bin/bash
+# This script runs inside the docker container, not on the host
 # Init script to execute every time a docker instance starts
 
 COL_BLUE="\033[1;34m"

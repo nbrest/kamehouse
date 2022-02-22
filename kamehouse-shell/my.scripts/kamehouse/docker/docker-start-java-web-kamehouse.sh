@@ -8,7 +8,10 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  docker start kamehouse-docker
+  log.warn "DEPRECATED: Use docker-run script."
+  exitProcess 1
+  
+  #docker start kamehouse-docker
 }
 
 main "$@"

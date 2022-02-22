@@ -19,6 +19,7 @@ REQUEST_CONFIRMATION_RX=^yes\|y$
 
 mainProcess() {
   log.info "Re-init data in the container from the host file system/db"
+  log.info "This script should be executed from the host's command line, not inside the docker container"
 
   requestConfirmation
   reinitSsh

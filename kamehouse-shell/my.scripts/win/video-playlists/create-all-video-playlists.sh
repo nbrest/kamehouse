@@ -42,6 +42,9 @@ mainProcess() {
   # create-all-video-playlists-http-niko-server.sh takes about 9mins (2020-10-23)
   ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-http-niko-server.sh
   checkCommandStatus "$?" 
+
+  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-http-niko-server-ip.sh
+  checkCommandStatus "$?" 
   
   # Deprecated playlists
 

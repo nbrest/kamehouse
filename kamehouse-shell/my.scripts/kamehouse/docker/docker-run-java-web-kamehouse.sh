@@ -127,7 +127,7 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-c${COL_NORMAL} control host through ssh. by default it runs standalone"
+  echo -e "     ${COL_BLUE}-c${COL_NORMAL} control host through ssh. by default it runs standalone executing all commands within the container"
   echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. skip pull and rebuild kamehouse on startup"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
