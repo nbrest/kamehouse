@@ -60,4 +60,16 @@ openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12
 ```
 Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`
 
-To create an encrypted file with the content kamehouse needs encrypted, use the unit test `EncryptionUtilsTest.createEncryptedKameHouseFileTest()`. Planning to move that functionality to a command line tool
+To create an encrypted file with the content kamehouse needs encrypted, use kamehouse-cmd with the operation encrypt.
+
+## Create rsa private/public key pair readable kamehouse to connect to the host through ssh from docker
+
+### Steps to create the key files:
+```
+openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in private.pem -out public_key.pem
+mv private.pem id_rsa.pkcs8
+mv public_key.pem id_rsa.pub.pkcs8
+```
+
+Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by the properties `ssh.private.key` and `ssh.public.key` (usually `${HOME}/.ssh/`) both in the host and in the docker container (they can be exported to the container with the docker re-init container data script)
