@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v7.01
+
+* Added support for more commands to execute on the host of the container through ssh
+
 #### v7.00
 
 * Added core functionality to execute commands in the host running the docker container through ssh (allowing both to execute the commands inside the container or on the host)
