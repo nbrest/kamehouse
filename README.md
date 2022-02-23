@@ -94,13 +94,6 @@ This application is hosted in https://www.nicobrest.com/kame-house/ so you can c
 
 It's currently running on a Raspberry Pi, so might not be up all the time
 
-~~It's hosted in an Amazon AWS Free Tier EC2 Ubuntu 18 running with mysql. Most of the external
- dependencies are not installed though and it's not configured to execute shutdown or lock
-  commands. So you can test the UI (remember I'm a backend developer :p) and some of the
-   functionality in the VLC player and test module with some limitations. For example, AWS EC2
-    Ubuntu's kernel isn't compiled with audio modules (not even dummy), so audio will always
-     revert to 0%, even if you update it with the buttons or slider.~~
-
 # Target Devices:
 
 The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel 2 using chrome dev tools). It's neither tested nor supported in other mobile devices. It was also tested mainly on Chrome and Firefox on desktop. It most certainly needs several more breakpoints and fixes for other devices and browsers.
