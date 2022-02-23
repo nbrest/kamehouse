@@ -11,8 +11,11 @@ import java.util.Arrays;
  */
 public class ShutdownSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public ShutdownSystemCommand(int shutdownDelaySeconds) {
+    executeOnDockerHost = true;
     if (shutdownDelaySeconds < 0) {
       throw new KameHouseInvalidCommandException(
           "Invalid time for shutdown command " + shutdownDelaySeconds);
@@ -21,18 +24,12 @@ public class ShutdownSystemCommand extends SystemCommand {
     if (shutdownDelaySeconds >= 60) {
       shutdownDelayMinutes = shutdownDelaySeconds / 60;
     }
-    linuxCommand.addAll(
-        Arrays.asList(
-            "/bin/bash", "-c", "sudo /sbin/shutdown -P ", String.valueOf(shutdownDelayMinutes)));
-    windowsCommand.addAll(
-        Arrays.asList(
-            "cmd.exe",
-            "/c",
-            "start",
-            "shutdown",
-            "/s",
-            "/t ",
-            String.valueOf(shutdownDelaySeconds)));
+    addBashPrefix();
+    linuxCommand.addAll(Arrays.asList(
+        "sudo /sbin/shutdown -P ", String.valueOf(shutdownDelayMinutes)));
+    addWindowsCmdStartPrefix();
+    windowsCommand.addAll(Arrays.asList(
+        "shutdown", "/s", "/t ", String.valueOf(shutdownDelaySeconds)));
     setOutputCommand();
   }
 }

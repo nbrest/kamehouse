@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -110,7 +111,7 @@ public class SshClientUtilsTest {
     assertEquals(-1, output.getExitCode());
     assertEquals(-1, output.getPid());
     assertEquals(Arrays.asList(""), output.getStandardOutput());
-    assertEquals(Arrays.asList(""), output.getStandardError());
+    assertNull(output.getStandardError());
   }
 
   /**

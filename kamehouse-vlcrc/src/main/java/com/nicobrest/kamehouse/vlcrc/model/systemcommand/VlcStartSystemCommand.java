@@ -4,7 +4,6 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandExceptio
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
-import java.util.Arrays;
 
 /**
  * System command to start a vlc player with an optional file (or playlist) to play.
@@ -19,12 +18,13 @@ public class VlcStartSystemCommand extends SystemCommand {
   public VlcStartSystemCommand(String filename) {
     isDaemon = true;
     executeOnDockerHost = true;
-    linuxCommand.addAll(Arrays.asList("vlc"));
+    linuxCommand.add("vlc");
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
       // vlc-start-from-docker.bat from kamehouse-shell needs to be in the PATH in the host
-      windowsCommand.addAll(Arrays.asList("vlc-start-from-docker"));
+      windowsCommand.add("vlc-start-from-docker");
     } else {
-      windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "vlc"));
+      addWindowsCmdStartPrefix();
+      windowsCommand.add("vlc");
     }
     if (filename != null) {
       if (FileUtils.isRemoteFile(filename)) {

@@ -10,12 +10,15 @@ import java.util.Arrays;
  */
 public class SuspendSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public SuspendSystemCommand() {
-    linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "sudo /bin/systemctl suspend -i"));
-    windowsCommand.addAll(
-        Arrays.asList(
-            "cmd.exe", "/c", "start", "rundll32.exe", "powrprof.dll,SetSuspendState", "0,1,0"));
+    executeOnDockerHost = true;
+    addBashPrefix();
+    linuxCommand.add("sudo /bin/systemctl suspend -i");
+    addWindowsCmdStartPrefix();
+    windowsCommand.addAll(Arrays.asList("rundll32.exe", "powrprof.dll,SetSuspendState", "0,1,0"));
     setOutputCommand();
   }
 }

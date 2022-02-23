@@ -74,11 +74,14 @@ public class SshClientUtils {
       sshChannelWriter.flush();
       channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), SSH_CONNECTION_TIMEOUT_MS);
       String standardOutput = responseStream.toString(Charsets.UTF_8);
-      String standardError = errorStream.toString(Charsets.UTF_8);
       commandOutput.setStandardOutput(Arrays.asList(standardOutput));
-      commandOutput.setStandardError(Arrays.asList(standardError));
       LOGGER.trace("Ssh command {} standardOutput: {}", command, standardOutput);
-      LOGGER.trace("Ssh command {} standardError: {}", command, standardError);
+
+      String standardError = errorStream.toString(Charsets.UTF_8);
+      if (!StringUtils.isEmpty(standardError)) {
+        commandOutput.setStandardError(Arrays.asList(standardError));
+        LOGGER.trace("Ssh command {} standardError: {}", command, standardError);
+      }
       commandOutput.setStatus("completed");
     } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
       LOGGER.error("Error executing ssh command", e);

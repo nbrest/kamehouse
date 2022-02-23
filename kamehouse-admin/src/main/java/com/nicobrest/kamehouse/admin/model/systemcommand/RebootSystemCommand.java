@@ -10,11 +10,15 @@ import java.util.Arrays;
  */
 public class RebootSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public RebootSystemCommand() {
-    linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "sudo reboot"));
-    windowsCommand.addAll(
-        Arrays.asList("cmd.exe", "/c", "start", "shutdown", "/r", "/f", "/t", "0"));
+    executeOnDockerHost = true;
+    addBashPrefix();
+    linuxCommand.add("sudo reboot");
+    addWindowsCmdStartPrefix();
+    windowsCommand.addAll(Arrays.asList("shutdown", "/r", "/f", "/t", "0"));
     setOutputCommand();
   }
 }

@@ -10,10 +10,15 @@ import java.util.Arrays;
  */
 public class ShutdownCancelSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public ShutdownCancelSystemCommand() {
-    linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "sudo /sbin/shutdown -c"));
-    windowsCommand.addAll(Arrays.asList("cmd.exe", "/c", "start", "shutdown", "/a"));
+    executeOnDockerHost = true;
+    addBashPrefix();
+    linuxCommand.add("sudo /sbin/shutdown -c");
+    addWindowsCmdStartPrefix();
+    windowsCommand.addAll(Arrays.asList("shutdown", "/a"));
     setOutputCommand();
   }
 }

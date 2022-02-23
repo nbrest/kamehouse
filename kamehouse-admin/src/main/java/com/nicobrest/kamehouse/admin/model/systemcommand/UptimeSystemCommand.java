@@ -10,11 +10,15 @@ import java.util.Arrays;
  */
 public class UptimeSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public UptimeSystemCommand() {
-    linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", "uptime"));
-    windowsCommand.addAll(
-        Arrays.asList("powershell.exe", "-c", "systeminfo | Select-String " + "-Pattern Time"));
+    executeOnDockerHost = true;
+    addBashPrefix();
+    linuxCommand.add("uptime");
+    addPowerShellPrefix();
+    windowsCommand.add("\"systeminfo | Select-String -Pattern Time\"");
     setOutputCommand();
   }
 }

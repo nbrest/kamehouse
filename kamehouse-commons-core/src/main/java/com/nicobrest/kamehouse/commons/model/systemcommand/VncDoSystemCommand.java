@@ -19,8 +19,10 @@ public abstract class VncDoSystemCommand extends SystemCommand {
    * Sets a VncDo system command that is specified by an action and a parameter.
    */
   protected void setVncDoSystemCommand(String action, String parameter) {
+    executeOnDockerHost = true;
     String hostname = PropertiesUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
+    addBashPrefix();
     String vncDoCommandLinux =
         "/usr/local/bin/vncdo --server "
             + hostname
@@ -30,7 +32,7 @@ public abstract class VncDoSystemCommand extends SystemCommand {
             + action
             + " "
             + parameter;
-    linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", vncDoCommandLinux));
+    linuxCommand.add(vncDoCommandLinux);
     windowsCommand.addAll(
         Arrays.asList(
             "cmd.exe",

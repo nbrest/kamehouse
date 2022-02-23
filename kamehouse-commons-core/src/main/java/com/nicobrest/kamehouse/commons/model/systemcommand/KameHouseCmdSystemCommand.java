@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Base class for VncDo system commands.
@@ -22,14 +21,15 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
   public void setKameHouseCmdCommands() {
     linuxCommand.add(KAMEHOUSE_CMD_LINUX);
     linuxCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
-    windowsCommand.addAll(List.of("cmd.exe", "/c", "start", KAMEHOUSE_CMD_WIN));
+    addWindowsCmdStartPrefix();
+    windowsCommand.add(KAMEHOUSE_CMD_WIN);
     windowsCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
     setOutputCommand();
   }
 
   /**
-   * Get the arguments to pass to kamehouse-cmd including the operation to execute.
-   * For example "-o encrypt -if in.txt -of out.enc".
+   * Get the arguments to pass to kamehouse-cmd including the operation to execute. For example "-o
+   * encrypt -if in.txt -of out.enc".
    */
   protected abstract String getKameHouseCmdArguments();
 }

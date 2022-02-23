@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -17,6 +18,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author nbrest
  */
 public abstract class SystemCommand {
+
+  private static final List<String> BASH_START = Arrays.asList("/bin/bash", "-c");
+  private static final List<String> POWERSHELL_START = Arrays.asList("powershell.exe", "-c");
+  private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
 
   protected boolean executeOnDockerHost = false;
   protected boolean isDaemon = false;
@@ -69,6 +74,30 @@ public abstract class SystemCommand {
       sb.append(command).append(" ");
     }
     return sb.toString();
+  }
+
+  /**
+   * Add cmd.exe start command prefix when not executing the windows command on docker host from
+   * docker.
+   */
+  protected void addWindowsCmdStartPrefix() {
+    if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
+      windowsCommand.addAll(WINDOWS_CMD_START);
+    }
+  }
+
+  /**
+   * Add powershell.exe command prefix to windows commands.
+   */
+  protected void addPowerShellPrefix() {
+    windowsCommand.addAll(POWERSHELL_START);
+  }
+
+  /**
+   * Add bash -c prefix to linux commands.
+   */
+  protected void addBashPrefix() {
+    linuxCommand.addAll(BASH_START);
   }
 
   /**

@@ -10,23 +10,16 @@ import java.util.Arrays;
  */
 public class HttpdStopSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public HttpdStopSystemCommand() {
     sleepTime = 7;
-
-    linuxCommand.addAll(
-        Arrays.asList("/bin/bash", "-c", "sudo service apache2 stop ; echo Stopping apache httpd"));
-    windowsCommand.addAll(
-        Arrays.asList(
-            "cmd.exe",
-            "/c",
-            "start",
-            "taskkill",
-            "/im",
-            "httpd.exe",
-            "&",
-            "echo",
-            "Stopping apache httpd"));
+    addBashPrefix();
+    linuxCommand.add("sudo service apache2 stop ; echo Stopping apache httpd");
+    addWindowsCmdStartPrefix();
+    windowsCommand.addAll(Arrays.asList(
+        "taskkill", "/im", "httpd.exe", "&", "echo", "Stopping apache httpd"));
     setOutputCommand();
   }
 }

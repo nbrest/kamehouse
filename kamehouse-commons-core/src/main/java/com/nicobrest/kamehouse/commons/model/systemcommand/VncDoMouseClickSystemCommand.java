@@ -14,8 +14,10 @@ public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {
   /** Sets the command line for each operation system required for this SystemCommand. */
   public VncDoMouseClickSystemCommand(
       String numberOfClicks, String horizontalPosition, String verticalPosition) {
+    executeOnDockerHost = true;
     String hostname = PropertiesUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
+    addBashPrefix();
     String vncDoCommandLinux =
         "/usr/local/bin/vncdo --server "
             + hostname
@@ -27,7 +29,7 @@ public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {
             + verticalPosition
             + " click "
             + numberOfClicks;
-    linuxCommand.addAll(Arrays.asList("/bin/bash", "-c", vncDoCommandLinux));
+    linuxCommand.add(vncDoCommandLinux);
     windowsCommand.addAll(
         Arrays.asList(
             "cmd.exe",
