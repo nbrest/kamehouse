@@ -124,14 +124,13 @@ public class KameHouseCmdIntegrationTest {
    * Get the command as a list of strings.
    */
   private List<String> getCommand(String operationCommand) {
-    List<String> command;
+    List<String> command = new ArrayList<>();;
     if (PropertiesUtils.isWindowsHost()) {
-      command = List.of("cmd.exe", "/c", KAMEHOUSE_CMD_WIN + operationCommand);
+      command.addAll(List.of("cmd.exe", "/c", "start", KAMEHOUSE_CMD_WIN));
     } else {
-      command = new ArrayList<>();
       command.add("kamehouse-cmd.sh");
-      command.addAll(Arrays.asList(operationCommand.split(" ")));
     }
+    command.addAll(Arrays.asList(operationCommand.split(" ")));
     return command;
   }
 
