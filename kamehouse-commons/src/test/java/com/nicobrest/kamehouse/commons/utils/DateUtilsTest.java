@@ -171,10 +171,10 @@ public class DateUtilsTest {
       "08:15pm,20:15," + DateUtils.HH_MMAM_PM + "," + DateUtils.HH_MM_24HS + ",false"
   })
   public void convertTimeTest(String input, String expected, String inFormat, String outFormat,
-      String lowerCaseOut) {
+      String lowerCaseOutStr) {
     try {
-      assertEquals(expected,
-          DateUtils.convertTime(input, inFormat, outFormat, Boolean.valueOf(lowerCaseOut)));
+      boolean lowerCaseOut = Boolean.valueOf(lowerCaseOutStr);
+      assertEquals(expected, DateUtils.convertTime(input, inFormat, outFormat, lowerCaseOut));
     } catch (KameHouseInvalidDataException e) {
       logger.error("Error executing convertTimeTest", e);
       if (PropertiesUtils.isWindowsHost()

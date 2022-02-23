@@ -231,10 +231,14 @@ public class DateUtils {
       return null;
     }
     try {
-      input = input.toUpperCase(Locale.getDefault());
-      String result =
-          LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat))
-              .format(DateTimeFormatter.ofPattern(outFormat));
+      if (PropertiesUtils.isWindowsHost()) {
+        input = input.toUpperCase(Locale.getDefault());
+      } else {
+        input = input.toLowerCase(Locale.getDefault());
+      }
+      LocalTime localTime = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
+      DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(outFormat);
+      String result = localTime.format(dateTimeFormatter);
       if (lowerCaseOut) {
         result = result.toLowerCase(Locale.getDefault());
       } else {
