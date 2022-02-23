@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -158,32 +160,21 @@ public class DateUtilsTest {
   /**
    * Test convertTime.
    */
-  @Test
-  public void convertTimeTest() {
+  @ParameterizedTest
+  @CsvSource({
+      "20:15,08:15 PM," + DateUtils.HH_MM_24HS + "," + DateUtils.HH_MM_AM_PM + ",false",
+      "08:15,08:15 AM," + DateUtils.HH_MM_24HS + "," + DateUtils.HH_MM_AM_PM + ",false",
+      "08:15 PM,20:15," + DateUtils.HH_MM_AM_PM + "," + DateUtils.HH_MM_24HS + ",false",
+      "08:15 AM,08:15," + DateUtils.HH_MM_AM_PM + "," + DateUtils.HH_MM_24HS + ",false",
+      "20:15,08:15 pm," + DateUtils.HH_MM_24HS + "," + DateUtils.HH_MM_AM_PM + ",true",
+      "20:15,08:15pm," + DateUtils.HH_MM_24HS + "," + DateUtils.HH_MMAM_PM + ",true",
+      "08:15pm,20:15," + DateUtils.HH_MMAM_PM + "," + DateUtils.HH_MM_24HS + ",false"
+  })
+  public void convertTimeTest(String input, String expected, String inFormat, String outFormat,
+      String lowerCaseOut) {
     try {
-      assertEquals(
-          "08:15 PM", DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS, DateUtils.HH_MM_AM_PM));
-
-      assertEquals(
-          "08:15 AM", DateUtils.convertTime("08:15", DateUtils.HH_MM_24HS, DateUtils.HH_MM_AM_PM));
-
-      assertEquals(
-          "20:15", DateUtils.convertTime("08:15 PM", DateUtils.HH_MM_AM_PM, DateUtils.HH_MM_24HS));
-
-      assertEquals(
-          "08:15", DateUtils.convertTime("08:15 AM", DateUtils.HH_MM_AM_PM, DateUtils.HH_MM_24HS));
-
-      assertEquals(
-          "08:15 pm",
-          DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS, DateUtils.HH_MM_AM_PM, true));
-
-      assertEquals(
-          "08:15pm",
-          DateUtils.convertTime("20:15", DateUtils.HH_MM_24HS, DateUtils.HH_MMAM_PM, true));
-
-      assertEquals(
-          "20:15",
-          DateUtils.convertTime("08:15pm", DateUtils.HH_MMAM_PM, DateUtils.HH_MM_24HS, false));
+      assertEquals(expected,
+          DateUtils.convertTime(input, inFormat, outFormat, Boolean.valueOf(lowerCaseOut)));
     } catch (KameHouseInvalidDataException e) {
       logger.error("Error executing convertTimeTest", e);
       if (PropertiesUtils.isWindowsHost()
