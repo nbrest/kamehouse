@@ -97,7 +97,7 @@ parseArguments() {
       ;;
     "q")
       FOLLOW=""
-      ;;  
+      ;;
     \?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -179,6 +179,12 @@ setGlobalVariables() {
 
   SSH_SERVER=${ENVIRONMENT}
   SSH_COMMAND="${SCRIPT_NAME} -e local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
+  if [ "${ENVIRONMENT}" == "docker" ]; then
+    SSH_SERVER=localhost
+    SSH_PORT=${DOCKER_PORT_SSH}
+    SSH_COMMAND="source \$HOME/my.scripts/lin/bashrc/bashrc.sh ; "${SSH_COMMAND}
+    IS_REMOTE_LINUX_HOST=true
+  fi
 }
 
 addFileToLogFiles() {
@@ -216,7 +222,7 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-e (local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to tail logs from. Default is ${DEFAULT_ENV}"
+  echo -e "     ${COL_BLUE}-e (docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to tail logs from. Default is ${DEFAULT_ENV}"
   echo -e "     ${COL_BLUE}-f (apache|eclipse|intellij|kamehouse|tomcat)${COL_NORMAL} log file to tail [${COL_RED}required${COL_NORMAL}]"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-l (trace|debug|info|warn|error)${COL_NORMAL} log level to display. Default is ${DEFAULT_LOG_LEVEL}"

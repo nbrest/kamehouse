@@ -4,6 +4,7 @@ DEFAULT_SSH_USER=nbrest
 SSH_USER=${DEFAULT_SSH_USER}
 SSH_COMMAND=""
 SSH_SERVER=""
+SSH_PORT=22
 AWS_SSH_SERVER="ec2-13-211-209-87.ap-southeast-2.compute.amazonaws.com"
 AWS_SSH_USER=ubuntu
 
@@ -29,6 +30,7 @@ parseEnvironment() {
   ENV_ARG=$(echo "${ENV_ARG}" | tr '[:upper:]' '[:lower:]')
 
   if [ "${ENV_ARG}" != "aws" ] &&
+    [ "${ENV_ARG}" != "docker" ] &&
     [ "${ENV_ARG}" != "local" ] &&
     [ "${ENV_ARG}" != "niko-nba" ] &&
     [ "${ENV_ARG}" != "niko-server" ] &&
@@ -68,10 +70,10 @@ parseEnvironment() {
 executeSshCommand() {
   log.info "Executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
   if ${IS_REMOTE_LINUX_HOST}; then
-    ssh -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"
+    ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"
   else
     # This command depends on having git-bash.bat from my.scripts repo in my PATH in the SSH_SERVER
-    ssh -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} "git-bash -c \"\"${SSH_COMMAND}\"\""
+    ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} "git-bash -c \"\"${SSH_COMMAND}\"\""
   fi
   checkCommandStatus "$?" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
   log.info "Finished executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
