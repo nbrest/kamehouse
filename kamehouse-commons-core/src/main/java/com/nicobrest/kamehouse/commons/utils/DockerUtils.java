@@ -110,6 +110,18 @@ public class DockerUtils {
   }
 
   /**
+   * If running outside a docker container return the hostname.
+   * For docker containers return the IP of the host, if control host is enabled.
+   */
+  public static String getHostname() {
+    String host = PropertiesUtils.getHostname();
+    if (DockerUtils.isDockerContainer() && DockerUtils.isDockerControlHostEnabled()) {
+      host = DockerUtils.getDockerHostIp();
+    }
+    return host;
+  }
+
+  /**
    * Get the OS of the docker host.
    */
   private static String getDockerHostOs() {

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
@@ -20,7 +21,7 @@ public abstract class VncDoSystemCommand extends SystemCommand {
    */
   protected void setVncDoSystemCommand(String action, String parameter) {
     executeOnDockerHost = true;
-    String hostname = PropertiesUtils.getHostname();
+    String hostname = DockerUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
     addBashPrefix();
     String vncDoCommandLinux =

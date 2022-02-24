@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
@@ -23,7 +24,7 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
 
   @Override
   protected String getKameHouseCmdArguments() {
-    String host = PropertiesUtils.getHostname();
+    String host = DockerUtils.getHostname();
     String password = getVncServerPassword();
     return "-o jvncsender -host \"" + host + "\" -port 5900 -password \"" + password + "\" -text \""
         + text + "\"";
