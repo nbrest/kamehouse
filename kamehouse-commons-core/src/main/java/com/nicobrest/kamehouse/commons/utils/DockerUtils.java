@@ -47,8 +47,14 @@ public class DockerUtils {
    * container.
    */
   public static boolean shouldExecuteOnDockerHost(boolean isSystemCommandSetToExecuteOnHost) {
-    return isDockerContainer() && isDockerControlHostEnabled()
-        && isSystemCommandSetToExecuteOnHost;
+    return shouldControlDockerHost() && isSystemCommandSetToExecuteOnHost;
+  }
+
+  /**
+   * Checks if it should control the docker host.
+   */
+  public static boolean shouldControlDockerHost() {
+    return isDockerContainer() && isDockerControlHostEnabled();
   }
 
   /**
@@ -110,15 +116,14 @@ public class DockerUtils {
   }
 
   /**
-   * If running outside a docker container return the hostname.
-   * For docker containers return the IP of the host, if control host is enabled.
+   * If running outside a docker container return the hostname. For docker containers return the IP
+   * of the host, if control host is enabled.
    */
   public static String getHostname() {
-    String host = PropertiesUtils.getHostname();
-    if (DockerUtils.isDockerContainer() && DockerUtils.isDockerControlHostEnabled()) {
-      host = DockerUtils.getDockerHostIp();
+    if (shouldControlDockerHost()) {
+      return getDockerHostIp();
     }
-    return host;
+    return PropertiesUtils.getHostname();
   }
 
   /**

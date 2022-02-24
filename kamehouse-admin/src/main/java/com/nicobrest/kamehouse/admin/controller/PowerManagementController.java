@@ -26,9 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/admin/power-management")
 public class PowerManagementController extends AbstractSystemCommandController {
 
-  @Autowired PowerManagementService powerManagementService;
+  @Autowired
+  PowerManagementService powerManagementService;
 
-  /** Shutdowns the local server with the specified delay in seconds. */
+  /**
+   * Shutdowns the local server with the specified delay in seconds.
+   */
   @PostMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> setShutdown(
@@ -39,7 +42,9 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generatePostResponseEntity(response);
   }
 
-  /** Gets the status of a shutdown command. */
+  /**
+   * Gets the status of a shutdown command.
+   */
   @GetMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
@@ -49,7 +54,9 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generateGetResponseEntity(response);
   }
 
-  /** Cancels a shutdown command. */
+  /**
+   * Cancels a shutdown command.
+   */
   @DeleteMapping(path = "/shutdown")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {
@@ -73,7 +80,9 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generatePostResponseEntity(response);
   }
 
-  /** Gets the status of a scheduled suspend. */
+  /**
+   * Gets the status of a scheduled suspend.
+   */
   @GetMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> getSuspend() {
@@ -83,7 +92,9 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generateGetResponseEntity(response);
   }
 
-  /** Cancel a scheduled suspend. */
+  /**
+   * Cancel a scheduled suspend.
+   */
   @DeleteMapping(path = "/suspend")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelSuspend() {
@@ -93,14 +104,18 @@ public class PowerManagementController extends AbstractSystemCommandController {
     return generateGetResponseEntity(response);
   }
 
-  /** Reboot the server. */
+  /**
+   * Reboot the server.
+   */
   @PostMapping(path = "/reboot")
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> reboot() {
     return execKameHouseSystemCommand(new RebootKameHouseSystemCommand());
   }
 
-  /** Wake on lan the specified server or mac address. */
+  /**
+   * Wake on lan the specified server or mac address.
+   */
   @PostMapping(path = "/wol")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> wakeOnLan(

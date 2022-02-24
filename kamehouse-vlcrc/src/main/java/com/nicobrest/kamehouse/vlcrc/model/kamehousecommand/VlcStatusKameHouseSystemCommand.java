@@ -10,7 +10,9 @@ import com.nicobrest.kamehouse.vlcrc.model.systemcommand.VlcStatusSystemCommand;
  */
 public class VlcStatusKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
+  /**
+   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
+   */
   public VlcStatusKameHouseSystemCommand() {
     systemCommands.add(new VlcStatusSystemCommand());
   }

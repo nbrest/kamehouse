@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
@@ -56,6 +57,8 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   private static final String BROWSE_URL = "/requests/browse.json";
   @JsonIgnore
   private static final String FILE_PROTOCOL = "file://";
+  @JsonIgnore
+  private static final String LOCALHOST = "localhost";
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
@@ -79,7 +82,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   public VlcPlayerDto buildDto() {
     VlcPlayerDto dto = new VlcPlayerDto();
     dto.setId(getId());
-    dto.setHostname(getHostname());
+    dto.setHostname(geVlcServerHostname());
     dto.setPort(getPort());
     dto.setUsername(getUsername());
     dto.setPassword(getPassword());
@@ -152,7 +155,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   public VlcRcStatus getVlcRcStatus() {
     StringBuilder statusUrl = new StringBuilder();
     statusUrl.append(PROTOCOL);
-    statusUrl.append(hostname);
+    statusUrl.append(geVlcServerHostname());
     statusUrl.append(":");
     statusUrl.append(port);
     statusUrl.append(STATUS_URL);
@@ -170,7 +173,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   public List<VlcRcPlaylistItem> getPlaylist() {
     StringBuilder playlistUrl = new StringBuilder();
     playlistUrl.append(PROTOCOL);
-    playlistUrl.append(hostname);
+    playlistUrl.append(geVlcServerHostname());
     playlistUrl.append(":");
     playlistUrl.append(port);
     playlistUrl.append(PLAYLIST_URL);
@@ -186,7 +189,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   public List<VlcRcFileListItem> browse(String uri) {
     StringBuilder browseUrl = new StringBuilder();
     browseUrl.append(PROTOCOL);
-    browseUrl.append(hostname);
+    browseUrl.append(geVlcServerHostname());
     browseUrl.append(":");
     browseUrl.append(port);
     browseUrl.append(BROWSE_URL);
@@ -197,8 +200,19 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
     }
     String vlcServerResponse = execRequestToVlcServer(browseUrl.toString());
     List<VlcRcFileListItem> filelist = buildVlcRcFilelist(vlcServerResponse);
-    LOGGER.trace("browse {} in {} filelist size {}", uri, hostname, filelist.size());
+    LOGGER.trace("browse {} in {} filelist size {}", uri, geVlcServerHostname(), filelist.size());
     return filelist;
+  }
+
+  /**
+   * Returns the hostname of the server running the vlc player taking into consideration whether
+   * it's running on a docker container and should control the host or not.
+   */
+  private String geVlcServerHostname() {
+    if (LOCALHOST.equals(hostname) && DockerUtils.shouldControlDockerHost()) {
+      return DockerUtils.getDockerHostIp();
+    }
+    return hostname;
   }
 
   /**
@@ -211,7 +225,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
     }
     StringBuilder commandUrl = new StringBuilder();
     commandUrl.append(PROTOCOL);
-    commandUrl.append(hostname);
+    commandUrl.append(geVlcServerHostname());
     commandUrl.append(":");
     commandUrl.append(port);
     commandUrl.append(STATUS_URL);

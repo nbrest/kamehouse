@@ -10,7 +10,9 @@ import java.util.Arrays;
  */
 public class VlcStatusSystemCommand extends SystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public VlcStatusSystemCommand() {
     executeOnDockerHost = true;
     addBashPrefix();

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 public class PowerManagementService {
 
   public static final String TRIGGER_WONT_FIRE =
-      "Based on configured schedule, the given " + "trigger will never fire";
+      "Based on configured schedule, the given trigger will never fire";
   private static final Logger logger = LoggerFactory.getLogger(PowerManagementService.class);
   private static final int WOL_PORT = 9;
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
