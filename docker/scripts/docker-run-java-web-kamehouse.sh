@@ -19,6 +19,7 @@ FAST_DOCKER_INIT=false
 PERSISTENT_DATA=false
 DOCKER_CONTROL_HOST=false
 DOCKER_HOST_IP=""
+DOCKER_HOST_HOSTNAME=""
 DOCKER_HOST_SUBNET=""
 
 mainProcess() {
@@ -34,7 +35,8 @@ setEnvironment() {
   fi
   DOCKER_HOST_USERNAME=`whoami`
   DOCKER_HOST_IP=`getKameHouseDockerHostIp ${DOCKER_HOST_SUBNET}`
-  
+  DOCKER_HOST_HOSTNAME=`hostname`
+
   log.info "Environment passed to the container"
   echo ""
   log.info "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
@@ -42,6 +44,7 @@ setEnvironment() {
   log.info "DEBUG_MODE=${DEBUG_MODE}"
   log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
   log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
+  log.info "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
   log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
   log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
   echo ""
@@ -60,6 +63,7 @@ runDockerImage() {
       --env DEBUG_MODE=${DEBUG_MODE} \
       --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
       --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
+      --env DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME} \
       --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
       --env DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME} \
       -p ${DOCKER_PORT_SSH}:22 \
@@ -81,6 +85,7 @@ runDockerImage() {
       --env DEBUG_MODE=${DEBUG_MODE} \
       --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
       --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
+      --env DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME} \
       --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
       --env DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME} \
       -p ${DOCKER_PORT_SSH}:22 \
@@ -119,7 +124,6 @@ parseArguments() {
       ;;
     esac
   done
-  
 }
 
 printHelp() {

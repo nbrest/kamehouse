@@ -19,7 +19,7 @@ if "%VLC_EXEC%" == "" (
 ) 
 
 schtasks /delete /TN vlc-start-from-docker-run
-schtasks /create /SC ONCE /TN vlc-start-from-docker-run /TR "%VLC_EXEC% !FILE_TO_PLAY!" /ST 23:59
+schtasks /create /SC ONCE /TN vlc-start-from-docker-run /TR "%VLC_EXEC% '!FILE_TO_PLAY!'" /ST 23:59
 schtasks /run /TN vlc-start-from-docker-run
 schtasks /delete /TN vlc-start-from-docker-run /F
 

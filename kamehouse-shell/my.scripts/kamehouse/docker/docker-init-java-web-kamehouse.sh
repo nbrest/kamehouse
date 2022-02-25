@@ -25,6 +25,7 @@ main() {
   restartSshService
   startMysql
   startHttpd
+  printEnv
   keepContainerAlive
 }
 
@@ -39,16 +40,7 @@ loadEnv() {
     FAST_DOCKER_INIT=false
   fi
 
-  echo ""
-  logStep "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
-  logStep "PERSISTENT_DATA=${PERSISTENT_DATA}"
-  logStep "DEBUG_MODE=${DEBUG_MODE}"
-  logStep "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
-  logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
-  logStep "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
-  logStep "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
-  logStep "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
-  echo ""
+  printEnv
 
   local CONTAINER_ENV=/home/nbrest/.kamehouse/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
@@ -56,10 +48,26 @@ loadEnv() {
   echo "PERSISTENT_DATA=${PERSISTENT_DATA}" >> ${CONTAINER_ENV}
   echo "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_IP=${DOCKER_HOST_IP}" >> ${CONTAINER_ENV}
+  echo "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_OS=${DOCKER_HOST_OS}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}" >> ${CONTAINER_ENV}
   echo "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}" >> ${CONTAINER_ENV}
   chown nbrest:nbrest ${CONTAINER_ENV}
+}
+
+printEnv() {
+  logStep "Container environment:"
+  echo ""
+  logStep "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
+  logStep "PERSISTENT_DATA=${PERSISTENT_DATA}"
+  logStep "DEBUG_MODE=${DEBUG_MODE}"
+  logStep "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
+  logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
+  logStep "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
+  logStep "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
+  logStep "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  logStep "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
+  echo ""
 }
 
 pullKameHouse() {
