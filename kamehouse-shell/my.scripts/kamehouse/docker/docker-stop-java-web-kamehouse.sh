@@ -10,11 +10,19 @@ fi
 mainProcess() {
   CONTAINER=$1
 
+  if [ -z "${CONTAINER}" ]; then 
+    log.info "Container not passed as argument, attempting to find a running kamehouse container"
+    CONTAINER=`docker container list | grep java.web.kamehouse |  cut -d ' ' -f1`
+  fi
+
   if [ -n "${CONTAINER}" ]; then 
+    log.info "Stopping container ${CONTAINER}"
     docker stop ${CONTAINER}
   else
-    docker stop kamehouse-docker
+    log.warn "No kamehouse container running detected"
   fi
+
+  docker-status-java-web-kamehouse.sh
 }
 
 main "$@"
