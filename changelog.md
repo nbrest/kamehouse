@@ -2,7 +2,7 @@
 
 #### v7.01
 
-* Added support for more commands to execute on the host of the container through ssh
+* Added support for all the remaining commands to execute on the host of the container through ssh
 * Refactored system command generation
 * Fixed commands executed through kamehouse-cmd process hanging on windows (unlock screen for example)
 * Added parameterized tests
