@@ -83,4 +83,16 @@ public class FileUtils {
   public static void writeByteArrayToFile(File file, byte[] bytes) throws IOException {
     org.apache.commons.io.FileUtils.writeByteArrayToFile(file, bytes);
   }
+
+  /**
+   * Get OS dependant path separator considering if it's running on docker and needs to control the
+   * host.
+   */
+  public static String getHostPathSeparator() {
+    if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
+      return "\\";
+    } else {
+      return "/";
+    }
+  }
 }

@@ -27,7 +27,8 @@ public class VlcStartSystemCommand extends SystemCommand {
       windowsCommand.add("vlc");
     }
     if (filename != null) {
-      if (FileUtils.isRemoteFile(filename)) {
+      if (FileUtils.isRemoteFile(filename) || DockerUtils.shouldExecuteOnDockerHost(
+          executeOnDockerHost)) {
         validateRemoteFile(filename);
       } else {
         if (!FileUtils.isValidLocalFile(filename)) {

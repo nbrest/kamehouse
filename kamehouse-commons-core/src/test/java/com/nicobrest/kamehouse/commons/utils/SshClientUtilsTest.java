@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import org.apache.sshd.client.SshClient;
+import org.apache.sshd.client.channel.ChannelExec;
+import org.apache.sshd.client.channel.ChannelShell;
 import org.apache.sshd.client.channel.ClientChannel;
 import org.apache.sshd.client.future.AuthFuture;
 import org.apache.sshd.client.future.ConnectFuture;
@@ -53,7 +55,10 @@ public class SshClientUtilsTest {
   private AuthFuture authFutureMock;
 
   @Mock
-  private ClientChannel channelMock;
+  private ChannelShell channelShellMock;
+
+  @Mock
+  private ChannelExec channelExecMock;
 
   @Mock
   private OpenFuture openFutureMock;
@@ -70,16 +75,19 @@ public class SshClientUtilsTest {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     sshClient = Mockito.mockStatic(SshClient.class);
     MockitoAnnotations.openMocks(this);
-    Mockito.reset(sshClientMock, clientSessionMock, connectFutureMock, authFutureMock, channelMock,
-        openFutureMock, outputStreamMock);
+    Mockito.reset(sshClientMock, clientSessionMock, connectFutureMock, authFutureMock,
+        openFutureMock, outputStreamMock, channelShellMock, channelExecMock);
     when(SshClient.setUpDefaultClient()).thenReturn(sshClientMock);
     when(sshClientMock.connect(any(), any(), anyInt())).thenReturn(connectFutureMock);
     when(connectFutureMock.verify(anyLong(), any())).thenReturn(connectFutureMock);
     when(connectFutureMock.getSession()).thenReturn(clientSessionMock);
     when(clientSessionMock.auth()).thenReturn(authFutureMock);
-    when(clientSessionMock.createChannel(any(), any())).thenReturn(channelMock);
-    when(channelMock.open()).thenReturn(openFutureMock);
-    when(channelMock.getInvertedIn()).thenReturn(outputStreamMock);
+    when(clientSessionMock.createShellChannel(any(), any())).thenReturn(channelShellMock);
+    when(clientSessionMock.createExecChannel(any())).thenReturn(channelExecMock);
+    when(channelShellMock.open()).thenReturn(openFutureMock);
+    when(channelShellMock.getInvertedIn()).thenReturn(outputStreamMock);
+    when(channelExecMock.open()).thenReturn(openFutureMock);
+    when(channelExecMock.getInvertedIn()).thenReturn(outputStreamMock);
 
     when(PropertiesUtils.getUserHome()).thenReturn("."); // Use git project root as home
     when(PropertiesUtils.getProperty("ssh.public.key")).thenReturn(SAMPLE_PUBLIC);
@@ -119,7 +127,7 @@ public class SshClientUtilsTest {
    */
   @Test
   public void executeIOExceptionTest() throws IOException {
-    when(channelMock.open()).thenThrow(new IOException("Test Exception"));
+    when(channelExecMock.open()).thenThrow(new IOException("Test Exception"));
 
     Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
         new TestDaemonCommand("1"));

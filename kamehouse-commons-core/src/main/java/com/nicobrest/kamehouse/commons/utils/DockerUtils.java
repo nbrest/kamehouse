@@ -20,6 +20,8 @@ public class DockerUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DockerUtils.class);
   private static final String DOCKER_CONTAINER_ENV = ".kamehouse/.kamehouse-docker-container-env";
+  private static final String WINDOWS_HOME_PREFIX = "C:\\Users\\";
+  private static final String LINUX_HOME_PREFIX = "/home/";
 
   private DockerUtils() {
     throw new IllegalStateException("Utility class");
@@ -67,6 +69,14 @@ public class DockerUtils {
   }
 
   /**
+   * Checks if it's a windows host or a docker host windows host when controlling the host is
+   * enabled.
+   */
+  public static boolean isWindowsHostOrWindowsDockerHost() {
+    return PropertiesUtils.isWindowsHost() || (shouldControlDockerHost() && isWindowsDockerHost());
+  }
+
+  /**
    * True if kamehouse is running on a docker container.
    */
   public static boolean isDockerContainer() {
@@ -88,10 +98,29 @@ public class DockerUtils {
   }
 
   /**
+   * Get the docker host's hostname.
+   */
+  public static String getDockerHostHostname() {
+    return PropertiesUtils.getProperty("DOCKER_HOST_HOSTNAME");
+  }
+
+  /**
    * Get the username on the host running the container.
    */
   public static String getDockerHostUsername() {
     return PropertiesUtils.getProperty("DOCKER_HOST_USERNAME");
+  }
+
+  /**
+   * Get the user's home on the host running the container.
+   */
+  public static String getDockerHostUserHome() {
+    String username = getDockerHostUsername();
+    if (isWindowsDockerHost()) {
+      return WINDOWS_HOME_PREFIX + username;
+    } else {
+      return LINUX_HOME_PREFIX + username;
+    }
   }
 
   /**
@@ -124,6 +153,17 @@ public class DockerUtils {
       return getDockerHostIp();
     }
     return PropertiesUtils.getHostname();
+  }
+
+  /**
+   * Get the user home either from the container or from the host depending if it's set to control
+   * the host or not.
+   */
+  public static String getUserHome() {
+    if (DockerUtils.shouldControlDockerHost()) {
+      return DockerUtils.getDockerHostUserHome();
+    }
+    return PropertiesUtils.getUserHome();
   }
 
   /**

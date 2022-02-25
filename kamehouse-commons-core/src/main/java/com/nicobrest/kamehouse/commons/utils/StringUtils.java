@@ -28,4 +28,39 @@ public class StringUtils {
   public static boolean isEmpty(String value) {
     return org.apache.commons.lang3.StringUtils.isEmpty(value);
   }
+
+  /**
+   * Wrapper for apache commmons StringUtils so I don't need to import both in the same file.
+   */
+  public static String substringAfter(String source, String pattern) {
+    return org.apache.commons.lang3.StringUtils.substringAfter(source, pattern);
+  }
+
+  /**
+   * Wrapper for apache commmons StringUtils so I don't need to import both in the same file.
+   */
+  public static String substringAfterLast(String source, String pattern) {
+    return org.apache.commons.lang3.StringUtils.substringAfterLast(source, pattern);
+  }
+
+  /**
+   * Wrapper for apache commmons StringUtils so I don't need to import both in the same file.
+   */
+  public static String substringBeforeLast(String source, String pattern) {
+    return org.apache.commons.lang3.StringUtils.substringBeforeLast(source, pattern);
+  }
+
+  /**
+   * Wrapper for apache commmons StringUtils so I don't need to import both in the same file.
+   */
+  public static String substring(String source, int start, int end) {
+    return org.apache.commons.lang3.StringUtils.substring(source, start, end);
+  }
+
+  /**
+   * Wrapper for apache commmons StringUtils so I don't need to import both in the same file.
+   */
+  public static int lastIndexOf(CharSequence source, CharSequence seq) {
+    return org.apache.commons.lang3.StringUtils.lastIndexOf(source, seq);
+  }
 }

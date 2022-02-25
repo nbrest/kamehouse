@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,6 +85,28 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     for (Playlist playlist : testDataList) {
       playlist.setFiles(null);
     }
+  }
+
+  public void setLinuxPaths() {
+    for (Playlist playlist : testDataList) {
+      playlist.setPath(setLinuxPath(playlist.getPath()));
+      playlist.setCategory(setLinuxPath(playlist.getCategory()));
+    }
+  }
+
+  public void setWindowsPaths() {
+    for (Playlist playlist : testDataList) {
+      playlist.setPath(setWindowsPath(playlist.getPath()));
+      playlist.setCategory(setWindowsPath(playlist.getCategory()));
+    }
+  }
+
+  private String setLinuxPath(String input) {
+    return input.replace("\\", "/");
+  }
+
+  private String setWindowsPath(String input) {
+    return input.replace("/", "\\");
   }
 
   private void initSingleTestData() {

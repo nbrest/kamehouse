@@ -22,7 +22,7 @@ import org.apache.sshd.client.channel.ClientChannel;
 import org.apache.sshd.client.channel.ClientChannelEvent;
 import org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSession;
-import org.apache.sshd.common.channel.Channel;
+import org.apache.sshd.common.channel.PtyChannelConfiguration;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
@@ -42,16 +42,27 @@ public class SshClientUtils {
   private static final int SSH_SERVER_PORT = 22;
   private static final long SSH_CONNECTION_TIMEOUT_MS = 30000; // in ms
   private static final String RSA = "RSA";
+  private static final int PTY_COLUMNS = 999;
+  private static final String WINDOWS_EXIT = " & exit \r\n";
+  private static final String LINUX_EXIT = " ; exit \n";
 
   private SshClientUtils() {
     throw new IllegalStateException("Utility class");
   }
 
   /**
-   * Execute the system command over ssh on the docker host.
+   * Execute the system command over ssh on the docker host setting up the channel as exec.
    */
   public static SystemCommand.Output execute(String host, String username,
       SystemCommand systemCommand) {
+    return execute(host, username, systemCommand, false, false);
+  }
+
+  /**
+   * Execute the system command over ssh on the docker host.
+   */
+  private static SystemCommand.Output execute(String host, String username,
+      SystemCommand systemCommand, boolean useShellChannel, boolean isWindowsShell) {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
     String command = systemCommand.getCommandForSsh();
     SshClient client = SshClient.setUpDefaultClient();
@@ -65,12 +76,12 @@ public class SshClientUtils {
         ByteArrayOutputStream errorStream = new ByteArrayOutputStream()) {
       session.addPublicKeyIdentity(getKeyPair());
       session.auth().verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS);
-      channel = session.createChannel(Channel.CHANNEL_EXEC, command);
+      channel = getChannel(session, useShellChannel, command);
       channel.setOut(responseStream);
       channel.setErr(errorStream);
       channel.open().verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS);
       OutputStream sshChannelWriter = channel.getInvertedIn();
-      sshChannelWriter.write(command.getBytes(Charsets.UTF_8));
+      sshChannelWriter.write(getCommandBytes(command, useShellChannel, isWindowsShell));
       sshChannelWriter.flush();
       channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), SSH_CONNECTION_TIMEOUT_MS);
       String standardOutput = responseStream.toString(Charsets.UTF_8);
@@ -93,6 +104,44 @@ public class SshClientUtils {
       client.stop();
     }
     return commandOutput;
+  }
+
+  /**
+   * Execute the system command over ssh on the docker host setting up the channel as a shell.
+   */
+  public static SystemCommand.Output executeShell(String host, String username,
+      SystemCommand systemCommand, boolean isWindowsShell) {
+    return execute(host, username, systemCommand, true, isWindowsShell);
+  }
+  
+  /**
+   * Get the channel to execute the commands over it.
+   */
+  private static ClientChannel getChannel(ClientSession session, boolean useShellChannel,
+      String command)
+      throws IOException {
+    if (useShellChannel) {
+      PtyChannelConfiguration ptyChannelConfiguration = new PtyChannelConfiguration();
+      ptyChannelConfiguration.setPtyColumns(PTY_COLUMNS);
+      return session.createShellChannel(ptyChannelConfiguration, null);
+    } else {
+      return session.createExecChannel(command);
+    }
+  }
+
+  /**
+   * Get the bytes to send to the ssh server as a command.
+   */
+  private static byte[] getCommandBytes(String command, boolean useShellChannel,
+      boolean isWindowsShell) {
+    if (useShellChannel) {
+      if (isWindowsShell) {
+        command = command + WINDOWS_EXIT;
+      } else {
+        command = command + LINUX_EXIT;
+      }
+    }
+    return command.getBytes(Charsets.UTF_8);
   }
 
   /**

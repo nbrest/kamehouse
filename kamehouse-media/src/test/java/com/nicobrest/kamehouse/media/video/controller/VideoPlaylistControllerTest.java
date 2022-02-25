@@ -43,9 +43,11 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
       VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLIST;
   private List<Playlist> videoPlaylistsList;
 
-  @InjectMocks private VideoPlaylistController videoPlaylistController;
+  @InjectMocks
+  private VideoPlaylistController videoPlaylistController;
 
-  @Mock private VideoPlaylistService videoPlaylistService;
+  @Mock
+  private VideoPlaylistService videoPlaylistService;
 
   /**
    * Tests setup.
@@ -61,7 +63,9 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     mockMvc = MockMvcBuilders.standaloneSetup(videoPlaylistController).build();
   }
 
-  /** Tests getting all video playlists. */
+  /**
+   * Tests getting all video playlists.
+   */
   @Test
   public void getAllTest() throws Exception {
     when(videoPlaylistService.getAll()).thenReturn(videoPlaylistsList);
@@ -76,7 +80,9 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
     verifyNoMoreInteractions(videoPlaylistService);
   }
 
-  /** Tests getting a specific video playlist. */
+  /**
+   * Tests getting a specific video playlist.
+   */
   @Test
   public void getPlaylist() throws Exception {
     Playlist expectedPlaylist = testUtils.getSingleTestData();

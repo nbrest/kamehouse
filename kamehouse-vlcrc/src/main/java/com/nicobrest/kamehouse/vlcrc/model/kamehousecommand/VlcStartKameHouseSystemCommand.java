@@ -11,7 +11,9 @@ import com.nicobrest.kamehouse.vlcrc.model.systemcommand.VlcStopSystemCommand;
  */
 public class VlcStartKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
+  /**
+   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
+   */
   public VlcStartKameHouseSystemCommand(String fileToPlay) {
     systemCommands.add(new VlcStopSystemCommand(2));
     systemCommands.add(new VlcStartSystemCommand(fileToPlay));
