@@ -18,11 +18,12 @@ public class VlcStartSystemCommand extends SystemCommand {
   public VlcStartSystemCommand(String filename) {
     isDaemon = true;
     executeOnDockerHost = true;
-    linuxCommand.add("vlc");
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
+      linuxCommand.add("DISPLAY=:0.0 vlc");
       // vlc-start-from-docker.bat from kamehouse-shell needs to be in the PATH in the host
       windowsCommand.add("vlc-start-from-docker");
     } else {
+      linuxCommand.add("vlc");
       addWindowsCmdStartPrefix();
       windowsCommand.add("vlc");
     }
