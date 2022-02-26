@@ -21,6 +21,7 @@ DOCKER_CONTROL_HOST=false
 DOCKER_HOST_IP=""
 DOCKER_HOST_HOSTNAME=""
 DOCKER_HOST_SUBNET=""
+DOCKER_IMAGE_HOSTNAME=""
 
 mainProcess() {
   setEnvironment
@@ -37,6 +38,12 @@ setEnvironment() {
   DOCKER_HOST_IP=`getKameHouseDockerHostIp ${DOCKER_HOST_SUBNET}`
   DOCKER_HOST_HOSTNAME=`hostname`
 
+  if [ -n "${DOCKER_HOST_HOSTNAME}" ]; then
+    DOCKER_IMAGE_HOSTNAME=${DOCKER_HOST_HOSTNAME}"-docker"
+  fi
+}
+
+printEnv() {
   log.info "Environment passed to the container"
   echo ""
   log.info "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
@@ -54,10 +61,8 @@ runDockerImage() {
   log.info "Running image nbrest/java.web.kamehouse:latest"
   log.info "This temporary container will be removed when it exits"
 
-  if ${PERSISTENT_DATA}; then
-    log.info "Container data will be persisted in volumes"
-    echo ""
-    docker run --rm \
+  DOCKER_COMMAND="docker run --rm \
+      -h ${DOCKER_IMAGE_HOSTNAME} \
       --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
       --env PERSISTENT_DATA=${PERSISTENT_DATA} \
       --env DEBUG_MODE=${DEBUG_MODE} \
@@ -73,29 +78,23 @@ runDockerImage() {
       -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
       -p ${DOCKER_PORT_MYSQL}:3306 \
       -v mysql-data:/var/lib/mysql \
+      "
+
+  if ${PERSISTENT_DATA}; then
+    log.info "Container data will be persisted in volumes"
+      DOCKER_COMMAND=${DOCKER_COMMAND}"\
       -v home-kamehouse:/home/nbrest/.kamehouse \
       -v home-home-synced:/home/nbrest/home-synced \
       -v home-ssh:/home/nbrest/.ssh \
-      nbrest/java.web.kamehouse:latest
-  else
-    echo ""
-    docker run --rm \
-      --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
-      --env PERSISTENT_DATA=${PERSISTENT_DATA} \
-      --env DEBUG_MODE=${DEBUG_MODE} \
-      --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
-      --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
-      --env DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME} \
-      --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
-      --env DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME} \
-      -p ${DOCKER_PORT_SSH}:22 \
-      -p ${DOCKER_PORT_HTTP}:80 \
-      -p ${DOCKER_PORT_HTTPS}:443 \
-      -p ${DOCKER_PORT_TOMCAT_DEBUG}:${TOMCAT_DEBUG_PORT} \
-      -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
-      -p ${DOCKER_PORT_MYSQL}:3306 \
-      nbrest/java.web.kamehouse:latest
+      "
   fi
+  
+  DOCKER_COMMAND=${DOCKER_COMMAND}"\
+    nbrest/java.web.kamehouse:latest
+  "
+  
+  echo ""
+  ${DOCKER_COMMAND}
 }
 
 parseArguments() {
