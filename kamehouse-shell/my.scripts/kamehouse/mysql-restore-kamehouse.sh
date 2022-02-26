@@ -29,6 +29,7 @@ mainProcess() {
       mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_DUMP_FILE}
       checkCommandStatus "$?"
     fi
+    log.info "mysql restore command completed successfully"
   else
     log.error "${MYSQL_DUMP_FILE} doesn't exist."
     exitProcess 1

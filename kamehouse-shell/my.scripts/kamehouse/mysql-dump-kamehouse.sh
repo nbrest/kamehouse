@@ -53,6 +53,7 @@ executeBackup() {
   checkCommandStatus "$?"
   mv -v -f ${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp ${PATH_DUMP_FILE}/${DUMP_FILENAME}
   checkCommandStatus "$?"
+  log.info "Mysql dump commands executed successfully"
 }
 
 listGeneratedFiles() {

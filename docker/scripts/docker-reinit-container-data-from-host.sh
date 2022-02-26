@@ -14,6 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+MYSQL_REINIT_SKIP=false
 USE_DOCKER_MYSQL_DUMP=false
 REQUEST_CONFIRMATION_RX=^yes\|y$
 
@@ -67,12 +68,16 @@ reinitHomeSynced() {
   log.info "Setup home-synced folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
-  if ${USE_DOCKER_MYSQL_DUMP}; then
-    log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
-    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql localhost:/home/nbrest/home-synced/
+  if ${MYSQL_REINIT_SKIP}; then
+    log.info "Skipping updating mysql dump data in home-synced"
   else
-    log.info "Exporting mysql data from ${HOME}/home-synced/mysql to the container"
-    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
+    if ${USE_DOCKER_MYSQL_DUMP}; then
+      log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
+      scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql localhost:/home/nbrest/home-synced/
+    else
+      log.info "Exporting mysql data from ${HOME}/home-synced/mysql to the container"
+      scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
+    fi
   fi
 }
 
@@ -82,18 +87,25 @@ reinitHttpd() {
 }
 
 reinitMysql() {
-  log.info "Re-init mysql kamehouse db from dump"
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql -v < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
+  if ${MYSQL_REINIT_SKIP}; then
+    log.info "Skipping mysql data reinit"
+  else
+    log.info "Re-init mysql kamehouse db from dump"
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql -v < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
+  fi
 }
 
 parseArguments() {
-  while getopts ":dh" OPT; do
+  while getopts ":dmh" OPT; do
     case $OPT in
     ("d")
       USE_DOCKER_MYSQL_DUMP=true
+      ;;
+    ("m")
+      MYSQL_REINIT_SKIP=true
       ;;
     ("h")
       parseHelp
@@ -111,6 +123,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"
   echo -e "     ${COL_BLUE}-d${COL_NORMAL} use docker mysql dump backed up in the host, instead of the host's native mysql dump"
+  echo -e "     ${COL_BLUE}-m${COL_NORMAL} skip reinit of mysql data"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
 }
 
