@@ -366,9 +366,11 @@ public class VideoPlaylistService {
       sshShellOutputArray = sshShellOutput.split("\n");
     }
     List<String> playlistContent = Arrays.stream(sshShellOutputArray)
+        .filter(file -> !StringUtils.isEmpty(file))
+        .filter(file -> !StringUtils.isEmpty(file.trim()))
         .filter(file -> !file.startsWith("#"))
         .filter(file -> !file.contains("conhost.exe"))
-        .filter(file -> !StringUtils.isEmpty(file))
+        .filter(file -> !file.trim().endsWith("logout"))
         .map(file -> removeCharactersPastFileExtension(file))
         .collect(Collectors.toList());
     logger.trace(playlistContent.toString());
