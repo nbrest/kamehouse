@@ -14,8 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-MYSQL_REINIT_SKIP=false
-USE_DOCKER_MYSQL_DUMP=false
+MYSQL_DATA_SOURCE="none"
 REQUEST_CONFIRMATION_RX=^yes\|y$
 
 mainProcess() {
@@ -32,7 +31,7 @@ mainProcess() {
 }
 
 requestConfirmation() {
-  log.warn "${COL_YELLOW}This process will reset the data in the container including the kamehouse database"
+  log.warn "${COL_YELLOW}This process will reset the data in the container including the kamehouse database if -d option was set"
   log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}): "
   read SHOULD_PROCEED
   SHOULD_PROCEED=`echo "${SHOULD_PROCEED}" | tr '[:upper:]' '[:lower:]'`
@@ -68,17 +67,25 @@ reinitHomeSynced() {
   log.info "Setup home-synced folder"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
-  if ${MYSQL_REINIT_SKIP}; then
-    log.info "Skipping updating mysql dump data in home-synced"
-  else
-    if ${USE_DOCKER_MYSQL_DUMP}; then
-      log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
-      scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql localhost:/home/nbrest/home-synced/
-    else
-      log.info "Exporting mysql data from ${HOME}/home-synced/mysql to the container"
-      scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
-    fi
-  fi
+  
+  case ${MYSQL_DATA_SOURCE} in
+  "none")
+    log.info "Skipping setup of home-synced/mysql"
+    ;;
+  "docker-init")
+    log.info "Resetting mysql dump data from initial docker container data"
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'mkdir -p /home/nbrest/home-synced/mysql/dump/old ; cp -v -f /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql /home/nbrest/home-synced/mysql/dump'
+    ;;
+  "docker-backup")
+    log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
+    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql localhost:/home/nbrest/home-synced/
+    ;;
+  "host-backup")
+    log.info "Exporting mysql data from ${HOME}/home-synced/mysql to the container"
+    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql localhost:/home/nbrest/home-synced/
+    ;;
+  *) ;;
+  esac
 }
 
 reinitHttpd() {
@@ -87,22 +94,26 @@ reinitHttpd() {
 }
 
 reinitMysql() {
-  if ${MYSQL_REINIT_SKIP}; then
+  case ${MYSQL_DATA_SOURCE} in
+  "none")
     log.info "Skipping mysql data reinit"
-  else
+    ;;
+  "docker-init"|"docker-backup"|"host-backup")
     log.info "Re-init mysql kamehouse db from dump"
     ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
     ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql -v < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
     ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
-    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh'
-  fi
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh' 
+    ;;
+  *) ;;
+  esac
 }
 
 parseArguments() {
-  while getopts ":dmh" OPT; do
+  while getopts ":d:mh" OPT; do
     case $OPT in
     ("d")
-      USE_DOCKER_MYSQL_DUMP=true
+      MYSQL_DATA_SOURCE=$OPTARG
       ;;
     ("m")
       MYSQL_REINIT_SKIP=true
@@ -115,6 +126,21 @@ parseArguments() {
       ;;
     esac
   done
+
+  if [ "${MYSQL_DATA_SOURCE}" != "none" ] &&
+    [ "${MYSQL_DATA_SOURCE}" != "docker-init" ] &&
+    [ "${MYSQL_DATA_SOURCE}" != "docker-backup" ] &&
+    [ "${MYSQL_DATA_SOURCE}" != "host-backup" ]; then
+    log.error "Option -d [data source] has an invalid value of ${MYSQL_DATA_SOURCE}"
+    printHelp
+    exitProcess 1
+  fi
+
+  if [ "${MYSQL_DATA_SOURCE}" == "none" ]; then
+    log.info "Skipping database data update"
+  else 
+    log.info "Database data will be updated from source: ${COL_PURPLE}${MYSQL_DATA_SOURCE}"
+  fi
 }
 
 printHelp() {
@@ -122,8 +148,7 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-d${COL_NORMAL} use docker mysql dump backed up in the host, instead of the host's native mysql dump"
-  echo -e "     ${COL_BLUE}-m${COL_NORMAL} skip reinit of mysql data"
+  echo -e "     ${COL_BLUE}-d (none|docker-init|docker-backup|host-backup)${COL_NORMAL} data source to reset mysql data"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
 }
 
