@@ -1,3 +1,6 @@
+### Database credentials:
+MYSQL_PASS_NIKOLQS=mysql-pwd
+
 ### Root/my.scripts API basic auth
 GROOT_API_BASIC_AUTH=YWRtaW46YWRtaW4=
 
