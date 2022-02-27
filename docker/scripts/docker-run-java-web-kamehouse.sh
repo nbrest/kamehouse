@@ -81,12 +81,14 @@ runDockerImage() {
       "
 
   if ${PERSISTENT_DATA}; then
-    log.info "Container data will be persisted in volumes"
+    log.info "Container data will be persisted in volumes (home-kamehouse, home-home-synced, home-ssh)"
       DOCKER_COMMAND=${DOCKER_COMMAND}"\
       -v home-kamehouse:/home/nbrest/.kamehouse \
       -v home-home-synced:/home/nbrest/home-synced \
       -v home-ssh:/home/nbrest/.ssh \
       "
+  else 
+    log.info "Container data will NOT be persisted in volumes"
   fi
   
   DOCKER_COMMAND=${DOCKER_COMMAND}"\

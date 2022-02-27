@@ -40,6 +40,8 @@ exportMyScripts() {
   log.info "Deleting existing scripts from workspace"
   rm -r -v -f ${EXPORT_DIR}/my.scripts
   mkdir -p ${EXPORT_DIR}/my.scripts
+  rm -r -v -f ${DOCKER_DIR}
+  mkdir -p ${DOCKER_DIR}
 
   log.info "Copying root scripts"
   cd ${EXPORT_DIR}/my.scripts

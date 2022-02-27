@@ -60,8 +60,8 @@ reinitMyScripts() {
 
 reinitKameHouseFolder() {
   log.info "Setup .kamehouse folder"
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/.unlock.screen.pwd.enc localhost:/home/nbrest/.kamehouse
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/.vnc.server.pwd.enc localhost:/home/nbrest/.kamehouse
+  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.unlock.screen.pwd.enc localhost:/home/nbrest/.kamehouse
+  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.vnc.server.pwd.enc localhost:/home/nbrest/.kamehouse
 }
 
 reinitHomeSynced() {
