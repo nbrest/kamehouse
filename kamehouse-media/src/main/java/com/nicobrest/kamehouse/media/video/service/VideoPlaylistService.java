@@ -143,7 +143,7 @@ public class VideoPlaylistService {
           command = command.replace("/", "\\");
           return command;
         }
-        return "find " + basePlaylistPath + " | grep -e  \"m3u\"";
+        return "find " + basePlaylistPath + " | grep -e  \"m3u\" | sort";
       }
     };
     Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),
@@ -351,7 +351,7 @@ public class VideoPlaylistService {
           command = command.replace("/", "\\");
           return command;
         }
-        return "cat " + playlistFilename;
+        return "cat " + playlistFilename + " | sort";
       }
     };
     Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),

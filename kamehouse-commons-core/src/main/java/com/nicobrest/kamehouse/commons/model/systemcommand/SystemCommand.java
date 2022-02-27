@@ -97,7 +97,9 @@ public abstract class SystemCommand {
    * Add bash -c prefix to linux commands.
    */
   protected void addBashPrefix() {
-    linuxCommand.addAll(BASH_START);
+    if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
+      linuxCommand.addAll(BASH_START);
+    }
   }
 
   /**
