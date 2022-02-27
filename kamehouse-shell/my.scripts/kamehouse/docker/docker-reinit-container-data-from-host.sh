@@ -14,13 +14,14 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-MYSQL_DATA_SOURCE="none"
+DATA_SOURCE="none"
 REQUEST_CONFIRMATION_RX=^yes\|y$
 
 mainProcess() {
   log.info "Re-init data in the container from the host file system/db"
   log.info "This script should be executed from the host's command line, not inside the docker container"
-
+  log.info "When run with '-d docker-init' it resets all the data to the initial container state"
+  
   requestConfirmation
   reinitSsh
   reinitMyScripts
@@ -49,26 +50,39 @@ reinitSsh() {
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'chmod 0600 /home/nbrest/.ssh/id_rsa'
   log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
   ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'source .kamehouse/.kamehouse-docker-container-env ; ssh-keyscan $DOCKER_HOST_IP >> ~/.ssh/known_hosts ; ssh $DOCKER_HOST_IP -C echo ssh keys configured successfully'
-  log.warn "If the last command didn't display 'ssh keys configured successfully' then login to the container and ssh from the container to the host to add the host key to known hosts file"
+  log.warn "If the last command didn't display 'ssh keys configured successfully' then login to the container and ssh from the container to the host using DOCKER_HOST_IP to add the host key to known hosts file"
 }
 
 reinitMyScripts() {
   log.info "Setup my.scripts folder"
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/my.scripts/.cred/.cred localhost:/home/nbrest/my.scripts/.cred/
+  if [ "${DATA_SOURCE}" == "docker-init" ]; then
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/docker/keys/.cred /home/nbrest/my.scripts/.cred/'
+  else
+    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/my.scripts/.cred/.cred localhost:/home/nbrest/my.scripts/.cred/
+  fi
 }
 
 reinitKameHouseFolder() {
   log.info "Setup .kamehouse folder"
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.unlock.screen.pwd.enc localhost:/home/nbrest/.kamehouse
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.vnc.server.pwd.enc localhost:/home/nbrest/.kamehouse
+  if [ "${DATA_SOURCE}" == "docker-init" ]; then
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/docker/keys/.*.pwd.enc /home/nbrest/.kamehouse'
+  else
+    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.*.pwd.enc localhost:/home/nbrest/.kamehouse
+  fi
 }
 
 reinitHomeSynced() {
   log.info "Setup home-synced folder"
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
+  if [ "${DATA_SOURCE}" == "docker-init" ]; then
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/docker/keys/integration-test-cred.enc /home/nbrest/home-synced/.kamehouse'
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12'
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/nbrest/home-synced/.kamehouse/keys/kamehouse.crt'
+  else
+    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc localhost:/home/nbrest/home-synced/.kamehouse
+    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* localhost:/home/nbrest/home-synced/.kamehouse/keys
+  fi
   
-  case ${MYSQL_DATA_SOURCE} in
+  case ${DATA_SOURCE} in
   "none")
     log.info "Skipping setup of home-synced/mysql"
     ;;
@@ -90,11 +104,15 @@ reinitHomeSynced() {
 
 reinitHttpd() {
   log.info "Setup httpd"
-  scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd localhost:/home/nbrest/home-synced/httpd
+  if [ "${DATA_SOURCE}" == "docker-init" ]; then
+    ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'cp -v -f /var/www/html/.htpasswd /home/nbrest/home-synced/httpd/'
+  else
+    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd localhost:/home/nbrest/home-synced/httpd
+  fi
 }
 
 reinitMysql() {
-  case ${MYSQL_DATA_SOURCE} in
+  case ${DATA_SOURCE} in
   "none")
     log.info "Skipping mysql data reinit"
     ;;
@@ -113,7 +131,7 @@ parseArguments() {
   while getopts ":d:mh" OPT; do
     case $OPT in
     ("d")
-      MYSQL_DATA_SOURCE=$OPTARG
+      DATA_SOURCE=$OPTARG
       ;;
     ("m")
       MYSQL_REINIT_SKIP=true
@@ -127,19 +145,19 @@ parseArguments() {
     esac
   done
 
-  if [ "${MYSQL_DATA_SOURCE}" != "none" ] &&
-    [ "${MYSQL_DATA_SOURCE}" != "docker-init" ] &&
-    [ "${MYSQL_DATA_SOURCE}" != "docker-backup" ] &&
-    [ "${MYSQL_DATA_SOURCE}" != "host-backup" ]; then
-    log.error "Option -d [data source] has an invalid value of ${MYSQL_DATA_SOURCE}"
+  if [ "${DATA_SOURCE}" != "none" ] &&
+    [ "${DATA_SOURCE}" != "docker-init" ] &&
+    [ "${DATA_SOURCE}" != "docker-backup" ] &&
+    [ "${DATA_SOURCE}" != "host-backup" ]; then
+    log.error "Option -d [data source] has an invalid value of ${DATA_SOURCE}"
     printHelp
     exitProcess 1
   fi
 
-  if [ "${MYSQL_DATA_SOURCE}" == "none" ]; then
+  if [ "${DATA_SOURCE}" == "none" ]; then
     log.info "Skipping database data update"
   else 
-    log.info "Database data will be updated from source: ${COL_PURPLE}${MYSQL_DATA_SOURCE}"
+    log.info "Database data will be updated from source: ${COL_PURPLE}${DATA_SOURCE}"
   fi
 }
 
@@ -148,7 +166,7 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-d (none|docker-init|docker-backup|host-backup)${COL_NORMAL} data source to reset mysql data"
+  echo -e "     ${COL_BLUE}-d (none|docker-init|docker-backup|host-backup)${COL_NORMAL} data source to reset all data"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
 }
 

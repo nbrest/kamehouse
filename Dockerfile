@@ -96,8 +96,8 @@ RUN ln -s /home/nbrest/home-synced/httpd/.htpasswd /var/www/html/.htpasswd
 
 # /home/nbrest/.kamehouse/
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/.kamehouse"
-COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.vnc.server.pwd.enc
-COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/.kamehouse/.unlock.screen.pwd.enc
+COPY --chown=nbrest:users docker/keys/.vnc.server.pwd.enc /home/nbrest/.kamehouse/
+COPY --chown=nbrest:users docker/keys/.unlock.screen.pwd.enc /home/nbrest/.kamehouse/
 
 # /home/nbrest/logs
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/logs" ; \
