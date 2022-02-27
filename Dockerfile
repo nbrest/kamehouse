@@ -114,6 +114,7 @@ COPY --chown=nbrest:users docker/keys/.cred /home/nbrest/my.scripts/.cred/.cred
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs/apache-httpd ; \
   mkdir -p /home/nbrest/programs/kamehouse-cmd/bin ; \
   mkdir -p /home/nbrest/programs/kamehouse-cmd/lib" ; \
+  chmod a+rx /var/log/apache2 ; \
   ln -s /var/log/apache2 /home/nbrest/programs/apache-httpd/logs
 
 # Kamehouse ui and groot static content:
