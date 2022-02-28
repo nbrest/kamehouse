@@ -31,7 +31,7 @@ removeUntaggedImages() {
   local DOCKER_IMAGES=`docker image list | grep "<none>" | awk '{print $3}'`
   echo -e "${DOCKER_IMAGES}" | while read DOCKER_IMAGE; do
     if [ -n "${DOCKER_IMAGE}" ] && [ "${DOCKER_IMAGE}" != "" ]; then
-      log.info "Removing image ${DOCKER_IMAGE}"
+      log.info "Removing image ${COL_PURPLE}${DOCKER_IMAGE}"
       docker image rm ${DOCKER_IMAGE}
     fi
   done

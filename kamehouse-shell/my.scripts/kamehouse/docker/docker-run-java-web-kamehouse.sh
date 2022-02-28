@@ -17,11 +17,14 @@ fi
 DEBUG_MODE=false
 FAST_DOCKER_INIT=false
 PERSISTENT_DATA=false
+DOCKER_COMMAND="docker run --rm"
 DOCKER_CONTROL_HOST=false
+DOCKER_ENVIRONMENT="ubuntu"
 DOCKER_HOST_IP=""
 DOCKER_HOST_HOSTNAME=""
 DOCKER_HOST_SUBNET=""
 DOCKER_IMAGE_HOSTNAME=""
+DOCKER_IMAGE_TAG="latest"
 
 mainProcess() {
   setEnvironment
@@ -58,10 +61,10 @@ printEnv() {
 }
 
 runDockerImage() {
-  log.info "Running image nbrest/java.web.kamehouse:latest"
+  log.info "Running image nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}"
   log.info "This temporary container will be removed when it exits"
 
-  DOCKER_COMMAND="docker run --rm \
+  DOCKER_COMMAND=${DOCKER_COMMAND}"\
       -h ${DOCKER_IMAGE_HOSTNAME} \
       --env FAST_DOCKER_INIT=${FAST_DOCKER_INIT} \
       --env PERSISTENT_DATA=${PERSISTENT_DATA} \
@@ -92,7 +95,7 @@ runDockerImage() {
   fi
   
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    nbrest/java.web.kamehouse:latest
+    nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}
   "
   
   echo ""
@@ -100,13 +103,16 @@ runDockerImage() {
 }
 
 parseArguments() {
-  while getopts ":cdfhps:" OPT; do
+  while getopts ":cde:fhps:" OPT; do
     case $OPT in
     ("c")
       DOCKER_CONTROL_HOST=true      
       ;;
     ("d")
       DEBUG_MODE=true      
+      ;;
+    ("e")
+      DOCKER_ENVIRONMENT=$OPTARG
       ;;
     ("f")
       FAST_DOCKER_INIT=true      
@@ -125,6 +131,18 @@ parseArguments() {
       ;;
     esac
   done
+
+  if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
+    [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
+    log.error "Option -e [environment] has an invalid value of ${DOCKER_ENVIRONMENT}"
+    printHelp
+    exitProcess 1
+  fi
+
+  if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
+    DOCKER_COMMAND="docker run --privileged --rm"
+    DOCKER_IMAGE_TAG="latest-pi"
+  fi
 }
 
 printHelp() {
@@ -134,6 +152,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-c${COL_NORMAL} control host through ssh. by default it runs standalone executing all commands within the container"
   echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
+  echo -e "     ${COL_BLUE}-e (ubuntu|pi)${COL_NORMAL} default value is ubuntu"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. skip pull and rebuild kamehouse on startup"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} persistent container. uses volumes to persist data"

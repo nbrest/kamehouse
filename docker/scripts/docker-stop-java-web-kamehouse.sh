@@ -16,7 +16,7 @@ mainProcess() {
   fi
 
   if [ -n "${CONTAINER}" ]; then 
-    log.info "Stopping container ${CONTAINER}"
+    log.info "Stopping container ${COL_PURPLE}${CONTAINER}"
     docker stop ${CONTAINER}
   else
     log.warn "No kamehouse container running detected"

@@ -1,7 +1,8 @@
 # BUILD: docker/scripts/docker-build-java-web-kamehouse.sh : build's the docker image from this file
 # RUN: docker/scripts/docker-run-java-web-kamehouse.sh : runs a temporary container from an image built from this file
 
-FROM ubuntu:20.04
+ARG DOCKER_IMAGE_BASE
+FROM ${DOCKER_IMAGE_BASE}
 LABEL maintainer="brest.nico@gmail.com"
 
 # Disable interactions when building the image
@@ -53,7 +54,7 @@ RUN echo "source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc 
 # Install tomcat
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs ; \
   cd /home/nbrest/programs ; \
-  wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz ; \
+  wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz ; \
   tar -xf /home/nbrest/programs/apache-tomcat-9.0.53.tar.gz -C /home/nbrest/programs/ ; \
   mv /home/nbrest/programs/apache-tomcat-9.0.53 /home/nbrest/programs/apache-tomcat ; \
   rm /home/nbrest/programs/apache-tomcat-9.0.53.tar.gz ; \

@@ -20,7 +20,7 @@ main() {
   echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
   loadEnv
   pullKameHouse
-  deployKamehouse
+  deployKameHouse
   startTomcat
   restartSshService
   startMysql
@@ -77,7 +77,7 @@ pullKameHouse() {
   fi
 }
 
-deployKamehouse() {
+deployKameHouse() {
   if [ "${FAST_DOCKER_INIT}" == "false" ]; then
     logStep "Deploying latest version of KameHouse"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
