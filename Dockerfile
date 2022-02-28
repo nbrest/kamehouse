@@ -46,7 +46,7 @@ RUN adduser --gecos "" --disabled-password nbrest ; \
 
 # Setup nbrest home
 RUN echo "source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc ; \
-  echo \"source /home/nbrest/.kamehouse/.kamehouse-docker-container-env\" >> /root/.bashrc ; \
+  echo "source /home/nbrest/.kamehouse/.kamehouse-docker-container-env" >> /root/.bashrc ; \
   sudo su - nbrest -c "echo \"source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc ; \
     echo \"source /home/nbrest/.kamehouse/.kamehouse-docker-container-env\" >> /home/nbrest/.bashrc ; \
     mkdir -p /home/nbrest/.ssh"
