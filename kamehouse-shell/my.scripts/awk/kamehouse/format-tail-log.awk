@@ -566,7 +566,7 @@ function printApacheSslRequestLog(datetime_loc_, ip_loc_, tlsVersion_loc_, tlsKe
 }
 
 # Print apache ssl_request.log
-function printApacheOtherVhostsAccessLog(ip_loc_, separator_loc_, datetime_loc_, httpMethod_loc_, url_loc_, httpVersion_loc_, bytes_loc_,url2_loc_, message_loc_, httpMethodFormatted_loc_, httpMethodColor_loc_) {
+function printApacheOtherVhostsAccessLog(ip_loc_, separator_loc_, datetime_loc_, httpMethod_loc_, url_loc_, httpVersion_loc_, httpStatus_loc_, bytes_loc_,url2_loc_, message_loc_, httpMethodFormatted_loc_, httpMethodColor_loc_) {
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "URL" "User-Agent info"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "-"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
@@ -578,7 +578,8 @@ function printApacheOtherVhostsAccessLog(ip_loc_, separator_loc_, datetime_loc_,
   httpMethod_loc_ = $7 # "HTTP_METHOD
   url_loc_ = $8 # URL
   httpVersion_loc_ = $9 # HTTP/VERSION"
-  bytes_loc_ = $10" "$11 # BYTES" 
+  httpStatus_loc_ = $10 # HTTP STATUS
+  bytes_loc_ = $11 # BYTES 
   url2_loc_ = $12 # URL
   message_loc_ = buildMessage(13);   
 
@@ -591,7 +592,8 @@ function printApacheOtherVhostsAccessLog(ip_loc_, separator_loc_, datetime_loc_,
   addColumnToPrintLine(httpMethod_loc_, httpMethodColor_loc_); 
   addColumnToPrintLine(url_loc_, COL_YELLOW);
   addColumnToPrintLine(httpVersion_loc_, httpMethodColor_loc_);  
-  addColumnToPrintLine(bytes_loc_, COL_RED);
+  addColumnToPrintLine(httpStatus_loc_, COL_RED);
+  addColumnToPrintLine(bytes_loc_, COL_PURPLE);
   addColumnToPrintLine(url2_loc_, COL_YELLOW);
   addColumnToPrintLine(message_loc_, COL_NORMAL); 
 
