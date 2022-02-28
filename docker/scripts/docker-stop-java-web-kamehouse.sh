@@ -12,7 +12,7 @@ mainProcess() {
 
   if [ -z "${CONTAINER}" ]; then 
     log.info "Container not passed as argument, attempting to find a running kamehouse container"
-    CONTAINER=`docker container list | grep java.web.kamehouse |  cut -d ' ' -f1`
+    CONTAINER=`docker container list | grep -e "java.web.kamehouse\\|\\/home\\/nbrest\\/docker" |  cut -d ' ' -f1`
   fi
 
   if [ -n "${CONTAINER}" ]; then 
