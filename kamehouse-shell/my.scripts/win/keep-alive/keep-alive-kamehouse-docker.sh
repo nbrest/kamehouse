@@ -14,11 +14,11 @@ SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/docker/docker-run-java-web-kamehouse.sh"
 
 mainProcess() {
-  PID=`sudo netstat -nltp | grep ${PORT} | awk '{print $7}' | cut -d '/' -f 1`
-  if [ -z ${PID} ]; then
+  PID=`netstat -ano | grep "LISTENING" | grep "${PORT}" | tail -n 1`
+  if [[ -z ${PID} ]]; then
     log.info "${SERVICE} not running. Starting it now"
     ${SERVICE_STARTUP} "$@" &
-  else
+  else 
     log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
 }

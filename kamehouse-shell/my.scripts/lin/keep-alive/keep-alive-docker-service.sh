@@ -9,18 +9,18 @@ fi
 
 # Global variables
 LOG_PROCESS_TO_FILE=true
-PORT=9090
-SERVICE="tomcat"
-SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/tomcat-startup.sh"
+#PORT=9091
+SERVICE="docker"
+SERVICE_STARTUP="sudo service docker start"
 
 mainProcess() {
-  PID=`netstat -ano | grep "LISTENING" | grep "${PORT}" | tail -n 1`
-  if [[ -z ${PID} ]]; then
-    log.info "${SERVICE} not running. Starting it now"
+  #PID=`sudo netstat -nltp | grep ${PORT} | awk '{print $7}' | cut -d '/' -f 1`
+  #if [ -z ${PID} ]; then
+    #log.info "${SERVICE} is not running. Starting it now"
     ${SERVICE_STARTUP} &
-  else 
-    log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
-  fi
+  #else
+  #  log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
+  #fi
 }
 
 main "$@"

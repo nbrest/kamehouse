@@ -43,6 +43,8 @@ BEGIN {
   HH_MM_SS_XXX_RX="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}"; # 16:45:59.325
   TZONE_RX="\\+[0-9]{4}";
   YYYY_MM_DD_RX="[0-9]{4}-[0-9]{2}-[0-9]{2}"; # 2020-10-15
+  DD_RX="[0-9]{2}";
+  MM_RX="[0-9]{2}";
   YEAR_RX="[0-9]{4}";
   Ddd_RX="[A-Z][a-z]{2}";
   Mmm_RX="[A-Z][a-z]{2}";
@@ -50,6 +52,7 @@ BEGIN {
   IPV4_RX="[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}"; # 192.168.0.2
   IPV6_RX="[0-9a-zA-Z:]+"; # 0:0:0:0:0:0:0:1
   IPV4_OR_V6_RX="("IPV4_RX"|"IPV6_RX")";
+  HOSTNAME_IP_PORT_RX="[A-Za-z\\.\\-:0-9]+" # This matches hostname, hostname:port, ip, ip:port
   # HTTP Version
   HTTP_METHOD_RX="[A-Z]{3,9}";
   HTTP_VERSION_RX="HTTP\\/[0-9]\\.[0-9]";
@@ -86,6 +89,7 @@ function matchPatterns() {
   matchApacheAccessLog();
   matchApacheErrorLog();
   matchApacheSslRequestLog();
+  matchApacheOtherVhostsAccessLog();
   # Kamehouse
   matchKamehouseLog();
   # Tomcat
@@ -139,6 +143,19 @@ function matchApacheSslRequestLog(sslRequestLog_rx_loc_) {
   sslRequestLog_rx_loc_ = "^\\[[0-9]{2}\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] "IPV4_OR_V6_RX" .* .* \""HTTP_METHOD_RX" .*"HTTP_VERSION_RX"\".*";
   if ($0 ~ sslRequestLog_rx_loc_){ 
     printApacheSslRequestLog();
+  }  
+}
+
+# Apache Httpd (linux): other_vhosts_access.log
+function matchApacheOtherVhostsAccessLog(otherVhostsAccess_rx_loc_) {
+  # kame.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:32 +1100] "GET / HTTP/1.1" 200 5692 "-" "-"
+  # kame.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:35 +1100] "GET / HTTP/1.1" 200 5714 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "URL" "User-Agent info"'
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "-"'
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
+  otherVhostsAccess_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" - - \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \""HTTP_METHOD_RX" .*"HTTP_VERSION_RX"\".*";
+  if ($0 ~ otherVhostsAccess_rx_loc_){ 
+    printApacheOtherVhostsAccessLog();
   }  
 }
 
@@ -544,6 +561,41 @@ function printApacheSslRequestLog(datetime_loc_, ip_loc_, tlsVersion_loc_, tlsKe
   addColumnToPrintLineNoOFS(bytes_loc_, COL_RED);
   addColumnToPrintLine(message_loc_, COL_NORMAL); 
 
+  print PRINT_LINE
+  next
+}
+
+# Print apache ssl_request.log
+function printApacheOtherVhostsAccessLog(ip_loc_, separator_loc_, datetime_loc_, httpMethod_loc_, url_loc_, httpVersion_loc_, bytes_loc_,url2_loc_, message_loc_, httpMethodFormatted_loc_, httpMethodColor_loc_) {
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "URL" "User-Agent info"'
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "-"'
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
+  PRINT_LINE = "";
+ 
+  ip_loc_ = $1" "$2; # IP IP
+  separator_loc_ = $3" "$4; # - - 
+  datetime_loc_ = $5" "$6 # [DD/Mmm/YYYY:HH:MM:SS +TZZZ]
+  httpMethod_loc_ = $7 # "HTTP_METHOD
+  url_loc_ = $8 # URL
+  httpVersion_loc_ = $9 # HTTP/VERSION"
+  bytes_loc_ = $10" "$11 # BYTES" 
+  url2_loc_ = $12 # URL
+  message_loc_ = buildMessage(13);   
+
+  httpMethodFormatted_loc_ = substr(httpMethod_loc_, 2);
+  httpMethodColor_loc_ = getHttpMethodColor(httpMethodFormatted_loc_);
+
+  addColumnToPrintLine(ip_loc_, COL_BLUE);
+  addColumnToPrintLine(separator_loc_, COL_PURPLE);
+  addColumnToPrintLine(datetime_loc_, COL_CYAN); 
+  addColumnToPrintLine(httpMethod_loc_, httpMethodColor_loc_); 
+  addColumnToPrintLine(url_loc_, COL_YELLOW);
+  addColumnToPrintLine(httpVersion_loc_, httpMethodColor_loc_);  
+  addColumnToPrintLine(bytes_loc_, COL_RED);
+  addColumnToPrintLine(url2_loc_, COL_YELLOW);
+  addColumnToPrintLine(message_loc_, COL_NORMAL); 
+
+  #print "MATCHED: " $0
   print PRINT_LINE
   next
 }
