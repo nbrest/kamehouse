@@ -147,14 +147,20 @@ function matchApacheSslRequestLog(sslRequestLog_rx_loc_) {
 }
 
 # Apache Httpd (linux): other_vhosts_access.log
-function matchApacheOtherVhostsAccessLog(otherVhostsAccess_rx_loc_) {
+function matchApacheOtherVhostsAccessLog(otherVhostsAccess1_rx_loc_, otherVhostsAccess2_rx_loc_) {
   # kame.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:32 +1100] "GET / HTTP/1.1" 200 5692 "-" "-"
   # kame.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:35 +1100] "GET / HTTP/1.1" 200 5714 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "URL" "User-Agent info"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "-"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
-  otherVhostsAccess_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" - - \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \""HTTP_METHOD_RX" .*"HTTP_VERSION_RX"\".*";
-  if ($0 ~ otherVhostsAccess_rx_loc_){ 
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "-|\\n" 999 999 "-" "-"'
+  otherVhostsAccess1_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" - - \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \""HTTP_METHOD_RX" .*"HTTP_VERSION_RX"\".*";
+  if ($0 ~ otherVhostsAccess1_rx_loc_){ 
+    printApacheOtherVhostsAccessLog();
+  }  
+
+  otherVhostsAccess2_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" - - \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \"-|\\\\n|\\\\x[A-Za-z0-9]{1,5}\" [0-9]{1,5} [0-9]{1,9} \"-|\\\\n\" \"-|\\\\n\".*";
+  if ($0 ~ otherVhostsAccess2_rx_loc_){ 
     printApacheOtherVhostsAccessLog();
   }  
 }
@@ -566,13 +572,15 @@ function printApacheSslRequestLog(datetime_loc_, ip_loc_, tlsVersion_loc_, tlsKe
 }
 
 # Print apache ssl_request.log
-function printApacheOtherVhostsAccessLog(ip_loc_, separator_loc_, datetime_loc_, httpMethod_loc_, url_loc_, httpVersion_loc_, httpStatus_loc_, bytes_loc_,url2_loc_, message_loc_, httpMethodFormatted_loc_, httpMethodColor_loc_) {
+function printApacheOtherVhostsAccessLog(ip1_loc_, ip2_loc_, separator_loc_, datetime_loc_, httpMethod_loc_, url_loc_, httpVersion_loc_, httpStatus_loc_, bytes_loc_,url2_loc_, message_loc_, httpMethodFormatted_loc_, httpMethodColor_loc_) {
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "URL" "User-Agent info"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "-"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "-|\\n" 999 999 "-" "-"'
   PRINT_LINE = "";
  
-  ip_loc_ = $1" "$2; # IP IP
+  ip1_loc_ = $1; # IP
+  ip2_loc_ = $2; # IP
   separator_loc_ = $3" "$4; # - - 
   datetime_loc_ = $5" "$6 # [DD/Mmm/YYYY:HH:MM:SS +TZZZ]
   httpMethod_loc_ = $7 # "HTTP_METHOD
@@ -586,7 +594,8 @@ function printApacheOtherVhostsAccessLog(ip_loc_, separator_loc_, datetime_loc_,
   httpMethodFormatted_loc_ = substr(httpMethod_loc_, 2);
   httpMethodColor_loc_ = getHttpMethodColor(httpMethodFormatted_loc_);
 
-  addColumnToPrintLine(ip_loc_, COL_BLUE);
+  addColumnToPrintLine(ip1_loc_, COL_PURPLE);
+  addColumnToPrintLine(ip2_loc_, COL_BLUE);
   addColumnToPrintLine(separator_loc_, COL_PURPLE);
   addColumnToPrintLine(datetime_loc_, COL_CYAN); 
   addColumnToPrintLine(httpMethod_loc_, httpMethodColor_loc_); 

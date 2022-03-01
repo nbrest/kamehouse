@@ -34,8 +34,10 @@ mainProcess() {
 setEnvironment() {
   if ${IS_LINUX_HOST}; then
     DOCKER_HOST_OS="linux"
+    IS_LINUX_DOCKER_HOST=true
   else
     DOCKER_HOST_OS="windows"
+    IS_LINUX_DOCKER_HOST=false
   fi
   DOCKER_HOST_USERNAME=`whoami`
   DOCKER_HOST_IP=`getKameHouseDockerHostIp ${DOCKER_HOST_SUBNET}`
@@ -57,6 +59,7 @@ printEnv() {
   log.info "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
   log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
   log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  log.info "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
   echo ""
 }
 
@@ -74,6 +77,7 @@ runDockerImage() {
       --env DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME} \
       --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
       --env DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME} \
+      --env IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST} \
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
       -p ${DOCKER_PORT_HTTPS}:443 \

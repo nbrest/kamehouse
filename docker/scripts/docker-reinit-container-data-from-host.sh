@@ -50,7 +50,7 @@ reinitSsh() {
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* ${DOCKER_USERNAME}@localhost:/home/nbrest/.ssh
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'chmod 0600 /home/nbrest/.ssh/id_rsa'
   log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'source .kamehouse/.kamehouse-docker-container-env ; ssh-keyscan $DOCKER_HOST_IP >> ~/.ssh/known_hosts ; ssh $DOCKER_HOST_IP -C echo ssh keys configured successfully'
+  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'source .kamehouse/.kamehouse-docker-container-env ; ssh-keyscan $DOCKER_HOST_IP >> ~/.ssh/known_hosts ; ssh $DOCKER_HOST_USERNAME@$DOCKER_HOST_IP -C echo ssh keys configured successfully'
   log.warn "If the last command didn't display 'ssh keys configured successfully' then login to the container and ssh from the container to the host using DOCKER_HOST_IP to add the host key to known hosts file"
 }
 

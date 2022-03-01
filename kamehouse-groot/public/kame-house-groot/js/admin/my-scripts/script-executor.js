@@ -25,25 +25,27 @@ function ScriptExecutor() {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
-    execute(scriptName, args);
+    const executeOnDockerHost = urlParams.get('executeOnDockerHost');
+    execute(scriptName, args, executeOnDockerHost);
   }
 
   /** Execute the specified script*/
-  function execute(scriptName, args, callback, skipUpdateView) {
+  function execute(scriptName, args, executeOnDockerHost, callback, skipUpdateView) {
     if (!isEmpty(scriptName)) {
       const params = new URLSearchParams({
         script: scriptName,
-        args: args
+        args: args,
+        executeOnDockerHost: executeOnDockerHost
       });
       const getUrl = EXEC_SCRIPT_API + "?" + params;
-      logger.info("Executing script : " + scriptName + " with args : " + args);
+      logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost);
       if (!skipUpdateView) {
         updateScriptExecutionStartDate();
         domUtils.addClass($('#script-output-header'), "hidden-kh");
         domUtils.addClass($('#btn-execute-script'), "hidden-kh");
         domUtils.addClass($('#btn-download-script-output'), "hidden-kh");
         domUtils.addClass($('#script-output'), "hidden-kh");
-        setScriptExecutingScriptOutput(scriptName, args);
+        setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
         setBannerScriptStatus("in progress...");
       } else {
         logger.trace("Skipping view update");
@@ -61,14 +63,16 @@ function ScriptExecutor() {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
+    const executeOnDockerHost = urlParams.get('executeOnDockerHost');
     domUtils.setHtml($("#st-script-name"), scriptName);
     domUtils.setHtml($("#st-script-args"), args);
+    domUtils.setHtml($("#st-script-exec-docker-host"), executeOnDockerHost);
   }
 
   /** Set the script ouput to show that the script is currently executing */
-  function setScriptExecutingScriptOutput(scriptName, args) {
+  function setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost) {
     domUtils.removeClass($('#script-output-executing-wrapper'), "hidden-kh");
-    domUtils.setHtml($("#script-output-executing"), getScriptExecutingMessage(scriptName, args));
+    domUtils.setHtml($("#script-output-executing"), getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
     collapsibleDivUtils.refreshCollapsibleDiv();
   }
 
@@ -227,7 +231,7 @@ function ScriptExecutor() {
     return domUtils.getTrTd(htmlContent);
   }
 
-  function getScriptExecutingMessage(scriptName, args) {
+  function getScriptExecutingMessage(scriptName, args, executeOnDockerHost) {
     const executingMessageSpan = domUtils.getSpan({}, "Executing script : ");
     const scriptNameSpan = domUtils.getSpan({
       class: "bold-kh"
@@ -244,6 +248,9 @@ function ScriptExecutor() {
     } else {
       domUtils.append(executingMessageSpan, " without args");
     }
+    domUtils.append(executingMessageSpan, domUtils.getBr());
+    domUtils.append(executingMessageSpan, domUtils.getBr());
+    domUtils.append(executingMessageSpan, "executeOnDockerHost: " + executeOnDockerHost);
     return executingMessageSpan;
   }
 }

@@ -12,10 +12,20 @@
 <?php
   function main() {
     init();
-    
+
+    $dockerContainerEnv = getDockerContainerEnv();
+    $isLinuxDockerHost = getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
+    $isDockerContainer = getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_DOCKER_CONTAINER");
+    $dockerControlHost = getDockerContainerEnvBooleanProperty($dockerContainerEnv, "DOCKER_CONTROL_HOST");
+
     $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
-  
-    $sessionStatus = [ 'server' => gethostname(), 'username' => $user , 'isLinuxHost' => isLinuxHost() ];
+    $sessionStatus = [ 'server' => gethostname(),
+     'username' => $user,
+     'isLinuxHost' => isLinuxHost(),
+     'isLinuxDockerHost' => $isLinuxDockerHost,
+     'isDockerContainer' => $isDockerContainer,
+     'dockerControlHost' => $dockerControlHost,
+    ];
   
     setJsonResponseBody($sessionStatus);
   }

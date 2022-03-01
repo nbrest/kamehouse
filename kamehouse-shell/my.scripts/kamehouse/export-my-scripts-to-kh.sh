@@ -85,6 +85,9 @@ exportMyScripts() {
 
   log.info "Copying docker scripts"
   cp -v ${HOME}/my.scripts/kamehouse/docker/* ${DOCKER_DIR}/
+
+  log.info "Remove scripts that shouldn't be copied over"
+  rm -v -f ${EXPORT_DIR}/my.scripts/test-script.sh
 }
 
 parseArguments() {

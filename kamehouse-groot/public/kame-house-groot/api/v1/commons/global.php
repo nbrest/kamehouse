@@ -153,4 +153,49 @@ function hasForbiddenCharSequenceForShell($param, $invalidCharSequence) {
     return false;
   }
 }
+
+/**
+ * Returns true if the specified string is either 'true or 'TRUE';
+ */
+function getBoolean($string) {
+  return ($string === 'true' || $string === 'TRUE');
+}
+
+/**
+ * Get an array with the docker container environment properties if running inside docker, or an empty array otherwise.
+ */
+function getDockerContainerEnv() {
+  $dockerContainerEnv = null;
+  if (isLinuxHost()) {
+    $dockerContainerEnv = trim(shell_exec("cat /home/nbrest/.kamehouse/.kamehouse-docker-container-env"));
+    $dockerContainerEnv = explode("\n", $dockerContainerEnv);
+    if(!startsWith($dockerContainerEnv[0], "#")) {
+      array_splice($dockerContainerEnv, 0, 1);
+    }
+  }
+  if ($dockerContainerEnv === null) {
+    $dockerContainerEnv = [];
+  }  
+  return $dockerContainerEnv;
+}
+
+/**
+ * Get a property from the docker container environment.
+ */
+function getDockerContainerEnvProperty($dockerContainerEnv, $propertyName) {
+  foreach ($dockerContainerEnv as $property) {
+    $property = explode("=", $property);
+    if ($property[0] === $propertyName) {
+      return $property[1];
+    }
+  }
+  return "";
+}
+
+/**
+ * Get the boolean value of a property from the docker container environment.
+ */
+function getDockerContainerEnvBooleanProperty($dockerContainerEnv, $propertyName) {
+  return getBoolean(getDockerContainerEnvProperty($dockerContainerEnv, $propertyName));
+}
 ?>
