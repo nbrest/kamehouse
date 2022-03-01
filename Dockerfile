@@ -147,12 +147,13 @@ RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.
   chown nbrest:users /home/nbrest/mysql-initial-data.tar.gz
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
-RUN echo "echo 'Update number to avoid cache 8'"
+RUN echo "echo 'Update number to avoid cache 10'"
 
 # Copy docker setup folder
 COPY --chown=nbrest:users docker /home/nbrest/docker
 
 # Deploy latest version of kamehouse (should have most of the dependencies already downloaded)
+# Also updates the my.scripts directory with the latest version of the scripts
 RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
   git pull origin dev ; \
   /home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker ; \
