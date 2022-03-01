@@ -14,6 +14,7 @@ if [ "$?" != "0" ]; then
 fi
 
 GIT_PROJECT_DIR=${HOME}/git/java.web.kamehouse
+GIT_REMOTE=origin
 
 mainProcess() {
   log.info "Git pull ${COL_PURPLE}${GIT_BRANCH} ${GIT_PROJECT_DIR}"
