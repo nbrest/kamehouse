@@ -107,19 +107,19 @@ deployKameHouse() {
 }
 
 startTomcat() {
+  local START_TOMCAT_CMD="export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
+    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
+    export DISPLAY=:0.0 ; \
+    cd /home/nbrest/programs/apache-tomcat ; \
+    /home/nbrest/my.scripts/kamehouse/tomcat-startup.sh"
+
   if ${DEBUG_MODE}; then
     logStep "Starting tomcat in debug mode"
-    sudo su - ${USERNAME} -c "export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
-    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
-    export DISPLAY=:0.0 ; \
-    /home/nbrest/my.scripts/kamehouse/tomcat-startup.sh -d"
+    START_TOMCAT_CMD=${START_TOMCAT_CMD}" -d"
   else
     logStep "Starting tomcat"
-    sudo su - ${USERNAME} -c "export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
-    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
-    export DISPLAY=:0.0 ; \
-    /home/nbrest/my.scripts/kamehouse/tomcat-startup.sh"
   fi
+  sudo su - ${USERNAME} -c "${START_TOMCAT_CMD}"
 }
 
 restartSshService() {
