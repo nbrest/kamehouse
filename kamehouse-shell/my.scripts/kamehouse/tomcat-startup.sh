@@ -19,11 +19,11 @@ mainProcess() {
     USERNAME=`${HOME}/my.scripts/kamehouse/get-username.sh`  
     if ${DEBUG_MODE}; then
       log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME} in debug mode"
-      sudo su - ${USERNAME} -c "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
+      sudo su - ${USERNAME} -c "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
     else
       log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME}"
       USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3`
-      sudo su - ${USERNAME} -c "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
+      sudo su - ${USERNAME} -c "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
     fi
   else
     if ${DEBUG_MODE}; then
