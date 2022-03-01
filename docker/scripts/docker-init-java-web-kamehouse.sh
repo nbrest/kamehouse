@@ -33,13 +33,12 @@ loadEnv() {
   logStep "Loading container environment"
   source /root/.bashrc
   IS_DOCKER_CONTAINER=true
-  
   if [ -z "${FAST_DOCKER_INIT}" ]; then
     # by default don't do fast init. can set the environment FAST_DOCKER_INIT=true when running the container
     logStep "Setting default FAST_DOCKER_INIT=false"
     FAST_DOCKER_INIT=false
   fi
-
+  findHostIpAddress
   printEnv
 
   local CONTAINER_ENV=/home/nbrest/.kamehouse/.kamehouse-docker-container-env
@@ -70,6 +69,25 @@ printEnv() {
   logStep "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
   logStep "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
   echo ""
+}
+
+findHostIpAddress() {
+  if [ -z "${DOCKER_HOST_IP}" ]; then
+    logStep "Host IP not set by docker run script. Attempting to find it now"
+    local IP=`ifconfig | grep inet | grep -v 127.0.0.1 | awk '{print $2}'`
+    local IP_SPLIT=(${IP//./ })
+    local IP_LAST=`echo ${IP_SPLIT[3]}`
+    local IP_LAST_HOST=`echo "$(($IP_LAST-1))"`
+    local IP_HOST=`echo "${IP_SPLIT[0]}.${IP_SPLIT[1]}.${IP_SPLIT[2]}.${IP_LAST_HOST}"`
+    ping -c 1 $IP_HOST >/dev/null
+    local RESULT=`echo $?`
+    if [ "$RESULT" == "0" ]; then
+       logStep "Host IP assigned successfully to ${IP_HOST}"
+       DOCKER_HOST_IP=${IP_HOST}
+    else
+      logStep "ERROR!! Unable to set host IP address"
+    fi
+  fi
 }
 
 pullKameHouse() {
