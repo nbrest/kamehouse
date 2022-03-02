@@ -23,6 +23,8 @@ DOCKER_PORT_TOMCAT=6090
 DOCKER_PORT_MYSQL=6306
 IS_LINUX_DOCKER_HOST=""
 
+CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
+
 # This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
 DOCKER_HOST_DEFAULT_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
 
@@ -134,5 +136,14 @@ getKameHouseDockerHostIp() {
     echo `ifconfig docker0 | grep -e "${DOCKER_HOST_SUBNET}" | grep "inet" | awk '{print $2}'`
   else
     echo `ipconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "IPv4" | awk '{print $14}'`
+  fi
+}
+
+# Loads the environment variables set when running in a docker container
+# Look at the docker-init script to see what variables are set in the container env
+loadDockerContainerEnv() {
+  if [ -f "${CONTAINER_ENV_FILE}" ]; then
+    #log.debug "Running inside a docker container"
+    source ${CONTAINER_ENV_FILE}
   fi
 }

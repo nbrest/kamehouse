@@ -101,6 +101,8 @@ parseArguments() {
 }
 
 setGlobalVariables() {
+  loadDockerContainerEnv
+  
   TOMCAT_DIR="${HOME}/programs/apache-tomcat"
   DEPLOYMENT_DIR="${TOMCAT_DIR}/webapps"
   if ${IS_LINUX_HOST}; then
@@ -197,7 +199,10 @@ deployKameHouseGroot() {
 deployKameHouseShell() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}" 
-    if [ "${MAVEN_PROFILE}" != "docker" ]; then
+    if ${IS_DOCKER_CONTAINER}; then
+      log.info "Inside a docker container, rebuilding my.scripts directory"
+      docker-my-scripts-update.sh
+    else
       git-pull-my-scripts.sh
     fi
   fi

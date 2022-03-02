@@ -22,15 +22,17 @@ function TailLogManager() {
   function tailLogFromUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
-    tailLog(scriptName, 150, null);
+    const executeOnDockerHost = urlParams.get('executeOnDockerHost');
+    tailLog(scriptName, 150, executeOnDockerHost, null);
   }
 
   /** Tails the log based on the script parameter and the number of lines to display */
-  function tailLog(scriptName, numberOfLines, callback) {
+  function tailLog(scriptName, numberOfLines, executeOnDockerHost, callback) {
     if (isValidScript(scriptName)) {
       logger.trace("Executing script : " + scriptName);
       const params = new URLSearchParams({
-        script: scriptName
+        script: scriptName,
+        executeOnDockerHost: executeOnDockerHost
       });
       const getUrl = EXEC_SCRIPT_API + "?" + params;
       httpClient.get(getUrl, null,

@@ -152,14 +152,14 @@ function matchApacheOtherVhostsAccessLog(otherVhostsAccess1_rx_loc_, otherVhosts
   # kame.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:35 +1100] "GET / HTTP/1.1" 200 5714 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "URL" "User-Agent info"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "-"'
-  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
+  # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - USER [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "-|\\n" 999 999 "-" "-"'
-  otherVhostsAccess1_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" - - \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \""HTTP_METHOD_RX" .*"HTTP_VERSION_RX"\".*";
+  otherVhostsAccess1_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" [A-Za-z0-9\\-\\.]{1,20} [A-Za-z0-9\\-\\.]{1,20} \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \""HTTP_METHOD_RX" .*"HTTP_VERSION_RX"\".*";
   if ($0 ~ otherVhostsAccess1_rx_loc_){ 
     printApacheOtherVhostsAccessLog();
   }  
 
-  otherVhostsAccess2_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" - - \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \"-|\\\\n|\\\\x[A-Za-z0-9]{1,5}\" [0-9]{1,5} [0-9]{1,9} \"-|\\\\n\" \"-|\\\\n\".*";
+  otherVhostsAccess2_rx_loc_ = HOSTNAME_IP_PORT_RX" "HOSTNAME_IP_PORT_RX" [A-Za-z0-9\\-\\.]{1,20} [A-Za-z0-9\\-\\.]{1,20} \\["DD_RX"\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] \"-|\\\\n|\\\\x[A-Za-z0-9]{1,5}\" [0-9]{1,5} [0-9]{1,9} \"-|\\\\n\" \"-|\\\\n\".*";
   if ($0 ~ otherVhostsAccess2_rx_loc_){ 
     printApacheOtherVhostsAccessLog();
   }  
@@ -603,7 +603,7 @@ function printApacheOtherVhostsAccessLog(ip1_loc_, ip2_loc_, separator_loc_, dat
   addColumnToPrintLine(httpVersion_loc_, httpMethodColor_loc_);  
   addColumnToPrintLine(httpStatus_loc_, COL_RED);
   addColumnToPrintLine(bytes_loc_, COL_PURPLE);
-  addColumnToPrintLine(url2_loc_, COL_YELLOW);
+  addColumnToPrintLine(url2_loc_, COL_BLUE);
   addColumnToPrintLine(message_loc_, COL_NORMAL); 
 
   #print "MATCHED: " $0

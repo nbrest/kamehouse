@@ -5,7 +5,8 @@
 * Added support for all the remaining commands to execute on the host of the container through ssh
 * Refactored system command generation
 * Fixed commands executed through kamehouse-cmd process hanging on windows (unlock screen for example)
-* Added parameterized tests
+* Added support to control the host from kamehouse groot as well
+* Added parameterized tests on DateUtils
 * Fixed unit tests
 
 #### v7.00

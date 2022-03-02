@@ -27,6 +27,7 @@ function ServerManager() {
   this.setCommandNotRunning = setCommandNotRunning;
   this.completeCommandCallback = completeCommandCallback;
   this.isCommandRunning = isCommandRunning;
+  this.isRunningInDockerContainer = isRunningInDockerContainer;
   this.openExecutingCommandModal = openExecutingCommandModal;
   this.getHostOs = getHostOs;
   this.getExecutionOs = getExecutionOs;
@@ -96,6 +97,9 @@ function ServerManager() {
     }
   }
 
+  /**
+   * Get the os to execute the command on, considering if it's running inside a docker container.
+   */
   function getExecutionOs() {
     if (isDockerContainer && dockerControlHost) {
       if (isLinuxDockerHost) {
@@ -105,6 +109,13 @@ function ServerManager() {
       }
     }
     return getHostOs();
+  }
+
+  /**
+   * Returns true if it's running inside a docker container.
+   */
+  function isRunningInDockerContainer() {
+    return isDockerContainer;
   }
 
   /** Handle Session Status */
@@ -205,7 +216,7 @@ function GitManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    scriptExecutor.execute('kamehouse/git-pull-all-all-servers.sh', "", true, serverManager.completeCommandCallback);
+    scriptExecutor.execute('kamehouse/git-pull-all-all-servers.sh', "", false, serverManager.completeCommandCallback);
   }
 }
 
@@ -427,7 +438,11 @@ function DeploymentManager() {
     }
 
     if (module == "shell") {
-      script = hostOs + '/git/git-pull-my-scripts.sh';
+      if (serverManager.isRunningInDockerContainer()) {
+        script = '/kamehouse/docker/docker-my-scripts-update.sh';
+      } else {
+        script = hostOs + '/git/git-pull-my-scripts.sh';
+      }
       args = "";
     }
 
@@ -566,11 +581,20 @@ function TailLogManagerWrapper() {
       logger.trace(" tailLog loop running");
       let tailLogScript = document.getElementById("tail-log-dropdown").value;
       let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
-      tailLogManager.tailLog(tailLogScript, numberOfLines, collapsibleDivUtils.refreshCollapsibleDiv);
+      let executeOnDockerHost = getExecuteOnDockerHost(tailLogScript);
+      tailLogManager.tailLog(tailLogScript, numberOfLines, executeOnDockerHost, collapsibleDivUtils.refreshCollapsibleDiv);
   
       await sleep(5000);
     }
     logger.info("Finished tailLog loop");
+  }
+
+  /**
+   * Get the value of execute on docker host for the specified script.
+   */
+  function getExecuteOnDockerHost(tailLogScript) {
+    return tailLogScript == "common/logs/cat-create-all-video-playlists-log.sh" || 
+      tailLogScript == "common/logs/cat-git-pull-all-log.sh";
   }
 
   function createStartImg() {

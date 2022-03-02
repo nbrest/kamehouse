@@ -19,7 +19,6 @@ SCRIPT=""
 SCRIPT_ARGS=""
 BASE_PATH="${HOME}/my.scripts/"
 REMOTE_BASE_PATH="\$HOME/my.scripts/"
-CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 EXECUTE_ON_DOCKER_HOST=false
 IS_EXECUTABLE_ON_DOCKER_HOST=false
 
@@ -39,10 +38,7 @@ mainProcess() {
 }
 
 setupEnv() {
-  if [ -f "${CONTAINER_ENV_FILE}" ]; then
-    #log.debug "Running inside a docker container"
-    source ${CONTAINER_ENV_FILE}
-  fi
+  loadDockerContainerEnv
 
   if ${DOCKER_CONTROL_HOST} && ${IS_EXECUTABLE_ON_DOCKER_HOST}; then
     EXECUTE_ON_DOCKER_HOST=true

@@ -47,6 +47,11 @@ requestConfirmation() {
 reinitSsh() {
   log.info "Setup .ssh folder"
   ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "[localhost]:${DOCKER_PORT_SSH}"
+  if [ ! -f "${HOME}/.ssh/id_rsa.pkcs8" ] || [ ! -f "${HOME}/.ssh/id_rsa.pub.pkcs8" ]; then
+    log.info "Couldn't find rsa keys pkcs8 format. Attempting to generate them"
+    convert-rsa-keys-to-pkcs8.sh
+  fi
+
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* ${DOCKER_USERNAME}@localhost:/home/nbrest/.ssh
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'chmod 0600 /home/nbrest/.ssh/id_rsa'
   log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
