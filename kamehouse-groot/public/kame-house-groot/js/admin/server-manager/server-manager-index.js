@@ -439,7 +439,7 @@ function DeploymentManager() {
 
     if (module == "shell") {
       if (serverManager.isRunningInDockerContainer()) {
-        script = '/kamehouse/docker/docker-my-scripts-update.sh';
+        script = 'kamehouse/docker/docker-my-scripts-update.sh';
       } else {
         script = hostOs + '/git/git-pull-my-scripts.sh';
       }
