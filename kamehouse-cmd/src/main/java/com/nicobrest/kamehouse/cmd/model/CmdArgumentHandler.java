@@ -36,6 +36,7 @@ public class CmdArgumentHandler {
   private static final List<String> ENCRYPT_OPTIONS = Arrays.asList("-if", "-of");
   private static final List<String> JVNCSENDER_OPTIONS =
       Arrays.asList("-host", "-password", "-port", "-text");
+  private static final List<String> WOL_OPTIONS = Arrays.asList("-mac", "-broadcast");
 
   private CommandLine commandLine;
   private Operation operation;
@@ -55,6 +56,8 @@ public class CmdArgumentHandler {
     ALL_OPTIONS.addOption(new Option("password", "password", true, "Password"));
     ALL_OPTIONS.addOption(new Option("port", "port", true, "Port"));
     ALL_OPTIONS.addOption(new Option("text", "text", true, "Text"));
+    ALL_OPTIONS.addOption(new Option("mac", "mac", true, "Mac Address"));
+    ALL_OPTIONS.addOption(new Option("broadcast", "broadcast", true, "Broadcast Address"));
   }
 
   public CmdArgumentHandler(String[] args) {
@@ -86,6 +89,9 @@ public class CmdArgumentHandler {
           break;
         case JVNCSENDER:
           parseJvncSenderOperation();
+          break;
+        case WOL:
+          parseWolOperation();
           break;
         default:
           logger.error("Unhandled operation {},", operation);
@@ -160,6 +166,13 @@ public class CmdArgumentHandler {
    */
   private void parseJvncSenderOperation() {
     parseOperation(JVNCSENDER_OPTIONS);
+  }
+
+  /**
+   * Parse the arguments for the wol operation.
+   */
+  private void parseWolOperation() {
+    parseOperation(WOL_OPTIONS);
   }
 
   /**

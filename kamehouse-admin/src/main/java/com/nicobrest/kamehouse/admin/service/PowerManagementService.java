@@ -1,14 +1,12 @@
 package com.nicobrest.kamehouse.admin.service;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
-import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
+import com.nicobrest.kamehouse.commons.utils.NetworkUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -31,9 +29,12 @@ public class PowerManagementService {
   public static final String TRIGGER_WONT_FIRE =
       "Based on configured schedule, the given trigger will never fire";
   private static final Logger logger = LoggerFactory.getLogger(PowerManagementService.class);
-  private static final int WOL_PORT = 9;
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
   private static final String SUSPEND_TRIGGER = "suspendTrigger";
+  private static final String KAMEHOUSE_CMD_WIN = PropertiesUtils.getUserHome()
+      + "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
+  private static final String KAMEHOUSE_CMD_LIN = PropertiesUtils.getUserHome()
+      + "/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
 
   @Autowired
   private Scheduler scheduler;
@@ -79,45 +80,21 @@ public class PowerManagementService {
    * the specified broadcast address.
    */
   public void wakeOnLan(String macAddress, String broadcastAddress) {
-    try {
-      byte[] macAddressBytes = getMacAddressBytes(macAddress);
-      byte[] wolPacketBytes = new byte[6 + 16 * macAddressBytes.length];
-      for (int i = 0; i < 6; i++) {
-        wolPacketBytes[i] = (byte) 0xff;
-      }
-      for (int i = 6; i < wolPacketBytes.length; i += macAddressBytes.length) {
-        System.arraycopy(macAddressBytes, 0, wolPacketBytes, i, macAddressBytes.length);
-      }
-
-      InetAddress broadcastInetAddress = InetAddress.getByName(broadcastAddress);
-      DatagramPacket wolPacket =
-          new DatagramPacket(wolPacketBytes, wolPacketBytes.length, broadcastInetAddress, WOL_PORT);
-      DatagramSocket datagramSocket = new DatagramSocket();
-      datagramSocket.send(wolPacket);
-      datagramSocket.close();
-      logger.debug("WOL packet sent to {} on broadcast {}", macAddress, broadcastAddress);
-    } catch (IOException e) {
-      logger.error("Error sending WOL packet to {}", macAddress, e);
-      throw new KameHouseException(e);
-    }
-  }
-
-  /**
-   * Get the mac address as a byte array.
-   */
-  private static byte[] getMacAddressBytes(String macAddress) {
-    try {
-      byte[] macAddressBytes = new byte[6];
-      String[] hex = macAddress.split("[:-]");
-      if (hex.length != 6) {
-        throw new KameHouseBadRequestException("Invalid MAC address " + macAddress);
-      }
-      for (int i = 0; i < 6; i++) {
-        macAddressBytes[i] = (byte) Integer.parseInt(hex[i], 16);
-      }
-      return macAddressBytes;
-    } catch (NumberFormatException e) {
-      throw new KameHouseBadRequestException("Invalid MAC address " + macAddress);
+    NetworkUtils.wakeOnLan(macAddress, broadcastAddress);
+    if (DockerUtils.isDockerContainer()) {
+      SystemCommand wolCommand = new SystemCommand() {
+        @Override
+        public String getCommandForSsh() {
+          String sshCommand;
+          if (DockerUtils.isWindowsDockerHost()) {
+            sshCommand = KAMEHOUSE_CMD_WIN;
+          } else {
+            sshCommand = KAMEHOUSE_CMD_LIN;
+          }
+          return sshCommand + " -o wol -mac " + macAddress + " -broadcast " + broadcastAddress;
+        }
+      };
+      DockerUtils.executeOnDockerHost(wolCommand);
     }
   }
 

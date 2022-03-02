@@ -83,4 +83,15 @@ public class MainAppTest {
     MainApp.main(args);
     // no exceptions thrown
   }
+
+  /**
+   * Tests running kamehouse-cmd with operation wol.
+   */
+  @Test
+  public void wolTest() {
+    String[] args = new String[]{"-o", "wol", "-mac", "AA:BB:CC:DD:EE:FF", "-broadcast",
+        "192.168.29.255"};
+    MainApp.main(args);
+    // no exceptions thrown
+  }
 }

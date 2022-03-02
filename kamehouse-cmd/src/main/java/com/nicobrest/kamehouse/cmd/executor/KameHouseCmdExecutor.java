@@ -32,6 +32,9 @@ public class KameHouseCmdExecutor {
   @Autowired
   private JvncSenderExecutor jvncSenderExecutor;
 
+  @Autowired
+  private WolExecutor wolExecutor;
+
   /**
    * Delegate the execution of the command to the correct executor.
    */
@@ -58,6 +61,8 @@ public class KameHouseCmdExecutor {
         return encryptExecutor;
       case JVNCSENDER:
         return jvncSenderExecutor;
+      case WOL:
+        return wolExecutor;
       default:
         logger.error("Unhandled operation");
         throw new KameHouseInvalidDataException("Invalid operation");

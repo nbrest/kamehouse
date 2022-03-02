@@ -57,6 +57,50 @@ public class CmdArgumentHandlerTest {
   }
 
   /**
+   * Tests parsing the arguments successfully for operation decrypt.
+   */
+  @Test
+  public void decryptSuccessfulTest() {
+    String[] args = new String[]{"-o", "decrypt", "-if", "in.enc", "-of", "out.txt"};
+    CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
+    assertNotNull(cmdArgumentHandler);
+    assertEquals(Operation.DECRYPT, cmdArgumentHandler.getOperation());
+    assertEquals("in.enc", cmdArgumentHandler.getArgument("if"));
+    assertEquals("out.txt", cmdArgumentHandler.getArgument("of"));
+  }
+
+
+  /**
+   * Tests parsing the arguments successfully for operation jvncsender.
+   */
+  @Test
+  public void jvncSenderSuccessfulTest() {
+    String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
+        "gokupass", "-port", "5900", "-text", "madamadadane"};
+    CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
+    assertNotNull(cmdArgumentHandler);
+    assertEquals(Operation.JVNCSENDER, cmdArgumentHandler.getOperation());
+    assertEquals("goku-server", cmdArgumentHandler.getArgument("host"));
+    assertEquals("gokupass", cmdArgumentHandler.getArgument("password"));
+    assertEquals("5900", cmdArgumentHandler.getArgument("port"));
+    assertEquals("madamadadane", cmdArgumentHandler.getArgument("text"));
+  }
+
+  /**
+   * Tests parsing the arguments successfully for operation wol.
+   */
+  @Test
+  public void wolSuccessfulTest() {
+    String[] args = new String[]{"-o", "wol", "-mac", "aa:bb:cc:dd:ee", "-broadcast",
+        "192.168.29.255"};
+    CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
+    assertNotNull(cmdArgumentHandler);
+    assertEquals(Operation.WOL, cmdArgumentHandler.getOperation());
+    assertEquals("aa:bb:cc:dd:ee", cmdArgumentHandler.getArgument("mac"));
+    assertEquals("192.168.29.255", cmdArgumentHandler.getArgument("broadcast"));
+  }
+
+  /**
    * Tests parsing the arguments for help.
    */
   @Test
