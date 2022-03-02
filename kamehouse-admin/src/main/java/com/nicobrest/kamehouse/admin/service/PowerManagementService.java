@@ -31,9 +31,9 @@ public class PowerManagementService {
   private static final Logger logger = LoggerFactory.getLogger(PowerManagementService.class);
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
   private static final String SUSPEND_TRIGGER = "suspendTrigger";
-  private static final String KAMEHOUSE_CMD_WIN = PropertiesUtils.getUserHome()
+  private static final String KAMEHOUSE_CMD_WIN = DockerUtils.getDockerHostUserHome()
       + "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
-  private static final String KAMEHOUSE_CMD_LIN = PropertiesUtils.getUserHome()
+  private static final String KAMEHOUSE_CMD_LIN = DockerUtils.getDockerHostUserHome()
       + "/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
 
   @Autowired
