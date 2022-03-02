@@ -16,12 +16,17 @@ mainProcess() {
 }
 
 gitPullAllAllServers() {
-  gitPullAll "niko-server" "win" &
-  gitPullAll "niko-server-vm-ubuntu" "lin" &
-  gitPullAll "pi" "lin" &
-  gitPullAll "niko-nba" "win" &
-  gitPullAll "niko-w" "win" &
-  gitPullAll "niko-w-vm-ubuntu" "lin" &
+  gitPullAll "niko-server" "80" "win" &
+  gitPullAll "niko-server" "6080" "lin" &
+  gitPullAll "niko-server-vm-ubuntu" "80" "lin" &
+  gitPullAll "niko-server-vm-ubuntu" "6080" "lin" &
+  gitPullAll "pi" "80" "lin" &
+  gitPullAll "pi" "6080" "lin" &
+  gitPullAll "niko-nba" "80" "win" &
+  gitPullAll "niko-w" "80" "win" &
+  gitPullAll "niko-w" "6080" "lin" &
+  gitPullAll "niko-w-vm-ubuntu" "80" "lin" &
+  gitPullAll "niko-w-vm-ubuntu" "6080" "lin" &
 
   log.info "Waiting for git pull all to finish in all servers. ${COL_YELLOW}This process can take several minutes"
   wait
@@ -30,16 +35,20 @@ gitPullAllAllServers() {
 
 gitPullAll() {
   local SERVER=$1
-  local HOST_OS=$2
-  log.info "Started gitPullAll ${COL_PURPLE}${SERVER}"
-  executeScriptInServer ${SERVER} "${HOST_OS}/git/git-pull-all.sh"
-  log.info "${COL_RED}Finished gitPullAll ${COL_CYAN}${SERVER}"
+  local PORT=$2
+  local HOST_OS=$3
+  log.info "Started gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
+  executeScriptInServer ${SERVER} ${PORT} "${HOST_OS}/git/git-pull-all.sh"
+  log.info "${COL_RED}Finished gitPullAll ${COL_CYAN}${SERVER}:${PORT}:${HOST_OS}"
 }
 
 executeScriptInServer() {
   local SERVER=$1
-  local SCRIPT=$2
-  RESPONSE=`curl --max-time 1800 -k --location --request GET "http://${SERVER}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?script=${SCRIPT}" --header "Authorization: Basic ${GROOT_API_BASIC_AUTH}" 2>/dev/null`
+  local PORT=$2
+  local SCRIPT=$3
+  local URL="http://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?script=${SCRIPT}"
+  log.debug "Executing request: ${COL_BLUE}${URL}"
+  RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${GROOT_API_BASIC_AUTH}" 2>/dev/null`
   #echo "${RESPONSE}"
 }
 

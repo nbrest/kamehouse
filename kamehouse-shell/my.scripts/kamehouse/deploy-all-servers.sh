@@ -18,12 +18,17 @@ mainProcess() {
 }
 
 deployInAllServers() {
-  deployInServer "niko-server" "win" &
-  deployInServer "niko-server-vm-ubuntu" "lin" &
-  deployInServer "pi" "lin" &
-  deployInServer "niko-nba" "win" &
-  deployInServer "niko-w" "win" &
-  deployInServer "niko-w-vm-ubuntu" "lin" &
+  deployInServer "niko-server" "80" "win" &
+  deployInServer "niko-server" "6080" "lin" &
+  deployInServer "niko-server-vm-ubuntu" "80" "lin" &
+  deployInServer "niko-server-vm-ubuntu" "6080" "lin" &
+  deployInServer "pi" "80" "lin" &
+  deployInServer "pi" "6080" "lin" &
+  deployInServer "niko-nba" "80" "win" &
+  deployInServer "niko-w" "80" "win" &
+  deployInServer "niko-w" "6080" "lin" &
+  deployInServer "niko-w-vm-ubuntu" "80" "lin" &
+  deployInServer "niko-w-vm-ubuntu" "6080" "lin" &
 
   log.info "Waiting for deployment to finish in all servers. ${COL_YELLOW}This process can take several minutes"
   wait
@@ -32,37 +37,41 @@ deployInAllServers() {
 
 deployInServer() {
   local SERVER=$1
-  local HOST_OS=$2
-  log.info "Started deployInServer ${COL_PURPLE}${SERVER}"
-  gitPullAll ${SERVER} ${HOST_OS} &
-  deployKamehouse ${SERVER} &
+  local PORT=$2
+  local HOST_OS=$3
+  log.info "Started deployInServer ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
+  gitPullAll ${SERVER} ${PORT} ${HOST_OS} &
+  deployKamehouse ${SERVER} ${PORT} &
   wait
-  log.info "${COL_RED}Finished deployInServer ${COL_CYAN}${SERVER}"
+  log.info "${COL_RED}Finished deployInServer ${COL_CYAN}${SERVER}:${PORT}:${HOST_OS}"
 }
 
 gitPullAll() {
   local SERVER=$1
-  local HOST_OS=$2
-  log.info "Started gitPullAll ${COL_PURPLE}${SERVER}"
-  executeScriptInServer ${SERVER} "${HOST_OS}/git/git-pull-all.sh"
-  log.info "Finished gitPullAll ${COL_PURPLE}${SERVER}"
+  local PORT=$2
+  local HOST_OS=$3
+  log.info "Started gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
+  executeScriptInServer ${SERVER} ${PORT} "${HOST_OS}/git/git-pull-all.sh"
+  log.info "Finished gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
 }
 
 deployKamehouse() {
   local SERVER=$1
+  local PORT=$2
   local SCRIPT_ARGS="-f"
   if [ -n "${MODULE_SHORT}" ]; then
     SCRIPT_ARGS="${SCRIPT_ARGS} -m ${MODULE_SHORT}"
   fi
-  log.info "Started deployKamehouse ${COL_PURPLE}${SERVER}"
-  executeScriptInServer ${SERVER} "kamehouse/deploy-java-web-kamehouse.sh" "${SCRIPT_ARGS}"
-  log.info "Finished deployKamehouse ${COL_PURPLE}${SERVER}"
+  log.info "Started deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
+  executeScriptInServer ${SERVER} ${PORT} "kamehouse/deploy-java-web-kamehouse.sh" "${SCRIPT_ARGS}"
+  log.info "Finished deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
 }
 
 executeScriptInServer() {
   local SERVER=$1
-  local SCRIPT=$2
-  local SCRIPT_ARGS="$3"
+  local PORT=$2
+  local SCRIPT=$3
+  local SCRIPT_ARGS="$4"
   local URL=
   local URL_ENCODED_PARAMS=
   
@@ -71,9 +80,8 @@ executeScriptInServer() {
   else
     URL_ENCODED_PARAMS="script=${SCRIPT}"
   fi
-  URL="http://${SERVER}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?${URL_ENCODED_PARAMS}"
-
-  log.debug "Executing request: ${URL}"
+  URL="http://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?${URL_ENCODED_PARAMS}"
+  log.debug "Executing request: ${COL_BLUE}${URL}"
   RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${GROOT_API_BASIC_AUTH}" 2>/dev/null`
   #echo "${RESPONSE}"
 }
