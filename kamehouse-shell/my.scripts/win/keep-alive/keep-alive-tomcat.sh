@@ -11,7 +11,7 @@ fi
 LOG_PROCESS_TO_FILE=true
 PORT=9090
 SERVICE="tomcat"
-SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/tomcat-startup.sh"
+SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/tomcat-restart.sh"
 
 mainProcess() {
   PID=`netstat -ano | grep "LISTENING" | grep "${PORT}" | tail -n 1`

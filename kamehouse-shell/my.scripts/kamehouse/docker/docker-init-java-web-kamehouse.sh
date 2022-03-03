@@ -33,18 +33,18 @@ loadEnv() {
   logStep "Loading container environment"
   source /root/.bashrc
   IS_DOCKER_CONTAINER=true
-  if [ -z "${FAST_DOCKER_INIT}" ]; then
-    # by default don't do fast init. can set the environment FAST_DOCKER_INIT=true when running the container
-    logStep "Setting default FAST_DOCKER_INIT=false"
-    FAST_DOCKER_INIT=false
+  if [ -z "${BUILD_ON_STARTUP}" ]; then
+    # by default do fast init. can set the environment BUILD_ON_STARTUP=false when running the container
+    logStep "Setting default BUILD_ON_STARTUP=false"
+    BUILD_ON_STARTUP=false
   fi
   findHostIpAddress
   printEnv
 
   local CONTAINER_ENV=/home/nbrest/.kamehouse/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
-  echo "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}" >> ${CONTAINER_ENV}
-  echo "PERSISTENT_DATA=${PERSISTENT_DATA}" >> ${CONTAINER_ENV}
+  echo "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}" >> ${CONTAINER_ENV}
+  echo "USE_VOLUMES=${USE_VOLUMES}" >> ${CONTAINER_ENV}
   echo "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_IP=${DOCKER_HOST_IP}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}" >> ${CONTAINER_ENV}
@@ -58,8 +58,8 @@ loadEnv() {
 printEnv() {
   logStep "Container environment:"
   echo ""
-  logStep "FAST_DOCKER_INIT=${FAST_DOCKER_INIT}"
-  logStep "PERSISTENT_DATA=${PERSISTENT_DATA}"
+  logStep "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}"
+  logStep "USE_VOLUMES=${USE_VOLUMES}"
   logStep "DEBUG_MODE=${DEBUG_MODE}"
   logStep "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
   logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
@@ -91,14 +91,14 @@ findHostIpAddress() {
 }
 
 pullKameHouse() {
-  if [ "${FAST_DOCKER_INIT}" == "false" ]; then
+  if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     logStep "Pulling latest KameHouse dev branch"
     sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git pull origin dev"
   fi
 }
 
 deployKameHouse() {
-  if [ "${FAST_DOCKER_INIT}" == "false" ]; then
+  if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     logStep "Deploying latest version of KameHouse"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"

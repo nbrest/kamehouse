@@ -85,16 +85,16 @@ main();
 function matchPatterns() {
   # Tail header
   matchTailFileHeader();
-  # Apache
-  matchApacheAccessLog();
-  matchApacheErrorLog();
-  matchApacheSslRequestLog();
-  matchApacheOtherVhostsAccessLog();
   # Kamehouse
   matchKamehouseLog();
   # Tomcat
   matchCatalinaOut();
   matchTomcatLocalhostAccessLog();
+  # Apache
+  matchApacheAccessLog();
+  matchApacheErrorLog();
+  matchApacheSslRequestLog();
+  matchApacheOtherVhostsAccessLog();
   # Default
   printDefault();
 }
