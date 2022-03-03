@@ -187,7 +187,7 @@ buildProfile() {
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=false
     USE_VOLUMES=false
-    EXPORT_NATIVE_HTTPD=true
+    EXPORT_NATIVE_HTTPD=false
   fi
 
   if [ "${PROFILE}" == "dev" ]; then
