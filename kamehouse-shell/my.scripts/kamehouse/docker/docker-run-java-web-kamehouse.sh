@@ -141,7 +141,7 @@ runDockerImage() {
 }
 
 parseArguments() {
-  while getopts ":bcdho:p:s:v:" OPT; do
+  while getopts ":bcdho:p:s:v" OPT; do
     case $OPT in
     ("b")
       BUILD_ON_STARTUP_PARAM=true
