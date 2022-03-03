@@ -4,6 +4,7 @@
 LOG_PROCESS_TO_FILE=true
 GIT_BRANCH="dev"
 PROJECT_DIR="${HOME}/git/java.web.kamehouse.private"
+DOCKER_PORT_SSH=7022
 
 mainProcess() {
   # Set in DEST_HOME mainProcess because HOSTNAME is overriden for aws
@@ -71,7 +72,7 @@ exportMysqlData() {
 	log.info "Exporting mysql data from mysql server"
   ${HOME}/my.scripts/kamehouse/mysql-csv-kamehouse.sh
   ${HOME}/my.scripts/kamehouse/mysql-dump-kamehouse.sh
-  ${HOME}/my.scripts/kamehouse/mysql-dump-kamehouse-docker.sh
+  ${HOME}/my.scripts/kamehouse/mysql-dump-kamehouse-docker.sh -p prod
 }
 
 backupApacheHttpd() {
@@ -109,7 +110,7 @@ copyTomcatFolders() {
 }
 
 backupHomeFiles() {
-  log.info "Backing up home dir files"
+  log.info "Backing up home dir files"  
   mkdir -p ${DEST_HOME}
   checkCommandStatus "$?" "An error occurred creating directories"
   cp -vrf ${HOME}/.bashrc ${DEST_HOME}/.bashrc
@@ -120,6 +121,8 @@ backupHomeFiles() {
 
 backupHomeFolders() {
   log.info "Backing up ${USER} home dir folders"
+  pullDockerHomeFolders
+
   if ${IS_LINUX_HOST}; then
     sudo cp -vrf ${HOME}/home-synced ${DEST_HOME}/
   else
@@ -133,6 +136,13 @@ backupHomeFolders() {
     cp -vrf ${HOME}/.kamehouse ${DEST_HOME}/
   fi
   checkCommandStatus "$?" "An error occurred during file copy"
+}
+
+pullDockerHomeFolders() {
+  log.info "Pulling folders to sync from docker prod container, if it's running"
+  scp -r -P ${DOCKER_PORT_SSH} localhost:/home/nbrest/home-synced ${HOME}/home-synced/docker/ 
+  scp -r -P ${DOCKER_PORT_SSH} localhost:/home/nbrest/.kamehouse ${HOME}/home-synced/docker/ 
+  rm -f ${HOME}/home-synced/docker/.kamehouse/.kamehouse-docker-container-env
 }
 
 backupWorkspaceEclipse() {
