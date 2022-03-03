@@ -29,6 +29,7 @@ FILE_ARG=""
 FOLLOW="-F"
 LOG_LEVEL_ARG=""
 NUM_LINES_ARG="0"
+PROFILE="dev"
 
 # Global variables set during the process
 LOG_FILES=""
@@ -46,7 +47,7 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":e:f:l:hn:q" OPT; do
+  while getopts ":e:f:l:hn:p:q" OPT; do
     case $OPT in
     "e")
       parseEnvironment "$OPTARG"
@@ -95,6 +96,9 @@ parseArguments() {
         exitProcess 1
       fi
       ;;
+    ("p")
+      PROFILE=$OPTARG
+      ;;
     "q")
       FOLLOW=""
       ;;
@@ -118,6 +122,27 @@ parseArguments() {
   if [ -z "${ENVIRONMENT}" ]; then
     log.warn "Environment not set. Using default ${COL_PURPLE}${DEFAULT_ENV}"
     ENVIRONMENT=${DEFAULT_ENV}
+  fi
+
+  if [ "${PROFILE}" != "ci" ] &&
+    [ "${PROFILE}" != "dev" ] &&
+    [ "${PROFILE}" != "prod" ] &&
+    [ "${PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_BASE_OS}"
+    printHelp
+    exitProcess 1
+  fi
+  
+  if [ "${PROFILE}" == "ci" ]; then
+    DOCKER_PORT_SSH=17022
+  fi
+
+  if [ "${PROFILE}" == "prod" ]; then
+    DOCKER_PORT_SSH=7022
+  fi
+
+  if [ "${PROFILE}" == "prod-80-443" ]; then
+    DOCKER_PORT_SSH=7022
   fi
 }
 
@@ -227,6 +252,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-l (trace|debug|info|warn|error)${COL_NORMAL} log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   echo -e "     ${COL_BLUE}-n (lines)${COL_NORMAL} number of lines to log. Default is ${DEFAULT_NUM_LINES}"
+  echo -e "     ${COL_BLUE}-p (ci|dev|prod|prod-80-443)${COL_NORMAL} default docker profile is dev"
   echo -e "     ${COL_BLUE}-q${COL_NORMAL} quit after tailing once. Don't follow log"
 }
 
