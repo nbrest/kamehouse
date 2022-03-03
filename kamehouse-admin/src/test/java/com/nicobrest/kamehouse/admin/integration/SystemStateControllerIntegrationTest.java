@@ -35,11 +35,11 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   @Test
   @Disabled
   public void httpdRestartTest() throws Exception {
-    logger.info("Running httpdRestartTest");
+    logger.info("Disabled: Running httpdRestartTest");
 
-    HttpResponse response = post(getWebappUrl() + API_URL + "/httpd");
+    //HttpResponse response = post(getWebappUrl() + API_URL + "/httpd");
 
-    verifySuccessfulResponseList(response, SystemCommand.Output.class);
+    //verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }
 }
 
