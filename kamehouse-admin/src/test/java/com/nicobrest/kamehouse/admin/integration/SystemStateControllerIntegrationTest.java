@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.admin.integration;
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.apache.http.HttpResponse;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -32,6 +33,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   }
 
   @Test
+  @Disabled
   public void httpdRestartTest() throws Exception {
     logger.info("Running httpdRestartTest");
 
