@@ -201,7 +201,7 @@ deployKameHouseShell() {
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}" 
     if ${IS_DOCKER_CONTAINER}; then
       log.info "Inside a docker container, rebuilding my.scripts directory"
-      docker-my-scripts-update.sh
+      /home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh
     else
       git-pull-my-scripts.sh
     fi
