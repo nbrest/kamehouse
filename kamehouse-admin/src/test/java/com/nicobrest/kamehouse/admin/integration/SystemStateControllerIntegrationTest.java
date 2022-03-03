@@ -33,9 +33,9 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
   }
 
   @Test
-  @Disabled
-  public void httpdRestartTest() throws Exception {
-    logger.info("Disabled: Running httpdRestartTest");
+  @Disabled("It breaks the connection when triggering the integration tests on docker through http")
+  public void httpdRestartTest() {
+    logger.info("Disabled:httpdRestartTest");
 
     //HttpResponse response = post(getWebappUrl() + API_URL + "/httpd");
 
