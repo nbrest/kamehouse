@@ -45,7 +45,7 @@ parseArguments() {
   fi
   
   if [ "${PROFILE}" == "ci" ]; then
-    DOCKER_PORT_SSH=17022
+    DOCKER_PORT_SSH=15022
   fi
 
   if [ "${PROFILE}" == "prod" ]; then
