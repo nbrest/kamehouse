@@ -20,6 +20,7 @@ public abstract class VncDoSystemCommand extends SystemCommand {
    * Sets a VncDo system command that is specified by an action and a parameter.
    */
   protected void setVncDoSystemCommand(String action, String parameter) {
+    logCommand = false;
     executeOnDockerHost = true;
     String hostname = DockerUtils.getHostname();
     String vncServerPassword = getVncServerPassword();

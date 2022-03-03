@@ -65,6 +65,11 @@ public class SshClientUtils {
       SystemCommand systemCommand, boolean useShellChannel, boolean isWindowsShell) {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
     String command = systemCommand.getCommandForSsh();
+    if (systemCommand.logCommand()) {
+      LOGGER.trace("Ssh command {}", command);
+    } else {
+      LOGGER.trace("Ssh command {} hidden from logs", systemCommand.getClass().getSimpleName());
+    }
     SshClient client = SshClient.setUpDefaultClient();
     client.start();
     client.setServerKeyVerifier(AcceptAllServerKeyVerifier.INSTANCE);
@@ -86,12 +91,12 @@ public class SshClientUtils {
       channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), SSH_CONNECTION_TIMEOUT_MS);
       String standardOutput = responseStream.toString(Charsets.UTF_8);
       commandOutput.setStandardOutput(Arrays.asList(standardOutput));
-      LOGGER.trace("Ssh command {} standardOutput: {}", command, standardOutput);
+      LOGGER.trace("standardOutput: {}", standardOutput);
 
       String standardError = errorStream.toString(Charsets.UTF_8);
       if (!StringUtils.isEmpty(standardError)) {
         commandOutput.setStandardError(Arrays.asList(standardError));
-        LOGGER.trace("Ssh command {} standardError: {}", command, standardError);
+        LOGGER.trace("standardError: {}", standardError);
       }
       commandOutput.setStatus("completed");
     } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {

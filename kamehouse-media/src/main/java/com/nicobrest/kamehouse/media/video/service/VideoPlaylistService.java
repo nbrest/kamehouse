@@ -149,8 +149,12 @@ public class VideoPlaylistService {
     Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),
         DockerUtils.getDockerHostUsername(),
         listPlaylistsCommand, DockerUtils.isWindowsDockerHost());
-    List<String> playlistFilePaths = getPlaylistFilePaths(output.getStandardOutput().get(0));
     List<Playlist> playlists = new ArrayList<>();
+    String sshShellOutput = output.getStandardOutput().get(0);
+    if (StringUtils.isEmpty(sshShellOutput)) {
+      return playlists;
+    }
+    List<String> playlistFilePaths = getPlaylistFilePaths(sshShellOutput);
     for (String playlistFilePath : playlistFilePaths) {
       Playlist playlist = getPlaylist(playlistFilePath, fetchContent);
       if (playlist != null) {

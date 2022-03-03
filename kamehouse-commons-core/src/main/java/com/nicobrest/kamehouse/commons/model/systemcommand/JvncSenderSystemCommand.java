@@ -17,7 +17,11 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
 
   private String text;
 
+  /**
+   * Setup jvncsender system command.
+   */
   public JvncSenderSystemCommand(String text) {
+    logCommand = false;
     this.text = text;
     setKameHouseCmdCommands();
   }

@@ -29,7 +29,22 @@ public abstract class KameHouseSystemCommand {
   }
 
   @Override
-  public String toString() {
-    return JsonUtils.toJsonString(this, super.toString());
+  public final String toString() {
+    StringBuilder sb = new StringBuilder("{systemCommands: [");
+    for (SystemCommand systemCommand : systemCommands) {
+      sb.append("'");
+      if (systemCommand.logCommand()) {
+        sb.append(systemCommand.getCommand());
+      } else {
+        sb.append(systemCommand.getClass().getSimpleName());
+        sb.append(" hidden from logs");
+      }
+      sb.append("',");
+    }
+    if (',' == sb.charAt(sb.length() - 1)) {
+      sb.deleteCharAt(sb.length() - 1);
+    }
+    sb.append("]}");
+    return sb.toString();
   }
 }

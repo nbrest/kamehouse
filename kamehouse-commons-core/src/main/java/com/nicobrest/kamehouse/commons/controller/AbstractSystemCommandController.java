@@ -16,9 +16,12 @@ import org.springframework.http.ResponseEntity;
  */
 public class AbstractSystemCommandController extends AbstractController {
 
-  @Autowired private SystemCommandService systemCommandService;
+  @Autowired
+  private SystemCommandService systemCommandService;
 
-  /** Executes the specified admin command and returns the sytem command ouputs list. */
+  /**
+   * Executes the specified admin command and returns the sytem command ouputs list.
+   */
   public ResponseEntity<List<Output>> execKameHouseSystemCommand(
       KameHouseSystemCommand kameHouseSystemCommand) {
     logger.trace("Executing admin command {}", kameHouseSystemCommand);
@@ -26,7 +29,9 @@ public class AbstractSystemCommandController extends AbstractController {
     return generateSystemCommandOutputsResponseEntity(commandOutputs);
   }
 
-  /** Generates a response entity for a list of SystemCommandOutputs. */
+  /**
+   * Generates a response entity for a list of SystemCommandOutputs.
+   */
   public static ResponseEntity<List<Output>> generateSystemCommandOutputsResponseEntity(
       List<Output> commandOutputs) {
     HttpStatus httpStatus = HttpStatus.OK;

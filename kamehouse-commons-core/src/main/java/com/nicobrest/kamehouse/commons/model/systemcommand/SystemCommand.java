@@ -23,6 +23,7 @@ public abstract class SystemCommand {
   private static final List<String> POWERSHELL_START = Arrays.asList("powershell.exe", "-c");
   private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
 
+  protected boolean logCommand = true;
   protected boolean executeOnDockerHost = false;
   protected boolean isDaemon = false;
   @Masked
@@ -31,6 +32,10 @@ public abstract class SystemCommand {
   protected List<String> windowsCommand = new ArrayList<>();
   protected int sleepTime = 0;
   protected Output output = new Output();
+
+  public boolean logCommand() {
+    return logCommand;
+  }
 
   public boolean executeOnDockerHost() {
     return executeOnDockerHost;

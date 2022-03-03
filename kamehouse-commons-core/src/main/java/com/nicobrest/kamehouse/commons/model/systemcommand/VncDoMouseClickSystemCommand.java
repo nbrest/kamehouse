@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.util.Arrays;
 
 /**
@@ -12,9 +11,12 @@ import java.util.Arrays;
  */
 public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /**
+   * Sets the command line for each operation system required for this SystemCommand.
+   */
   public VncDoMouseClickSystemCommand(
       String numberOfClicks, String horizontalPosition, String verticalPosition) {
+    logCommand = false;
     executeOnDockerHost = true;
     String hostname = DockerUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
