@@ -16,6 +16,8 @@ fi
 
 DATA_SOURCE="none"
 REQUEST_CONFIRMATION_RX=^yes\|y$
+PROFILE="dev"
+REINIT_SSH_KEYS_ONLY=false
 
 mainProcess() {
   log.info "Re-init data in the container from the host file system/db"
@@ -23,12 +25,16 @@ mainProcess() {
   log.info "When run with '-d docker-init' it resets all the data to the initial container state"
   
   requestConfirmation
-  reinitSsh
-  reinitMyScripts
-  reinitKameHouseFolder
-  reinitHomeSynced
-  reinitHttpd
-  reinitMysql
+  if ${REINIT_SSH_KEYS_ONLY}; then
+    reinitSsh
+  else
+    reinitSsh
+    reinitMyScripts
+    reinitKameHouseFolder
+    reinitHomeSynced
+    reinitHttpd
+    reinitMysql
+  fi
 }
 
 requestConfirmation() {
@@ -134,7 +140,7 @@ reinitMysql() {
 }
 
 parseArguments() {
-  while getopts ":d:mh" OPT; do
+  while getopts ":d:mhp:s" OPT; do
     case $OPT in
     ("d")
       DATA_SOURCE=$OPTARG
@@ -144,6 +150,13 @@ parseArguments() {
       ;;
     ("h")
       parseHelp
+      ;;
+    ("p")
+      PROFILE=$OPTARG
+      ;;
+    ("s")
+      log.info "${COL_RED}Only ssh keys will be reinited"
+      REINIT_SSH_KEYS_ONLY=true
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -165,6 +178,27 @@ parseArguments() {
   else 
     log.info "Database data will be updated from source: ${COL_PURPLE}${DATA_SOURCE}"
   fi
+
+  if [ "${PROFILE}" != "ci" ] &&
+    [ "${PROFILE}" != "dev" ] &&
+    [ "${PROFILE}" != "prod" ] &&
+    [ "${PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_BASE_OS}"
+    printHelp
+    exitProcess 1
+  fi
+
+  if [ "${PROFILE}" == "ci" ]; then
+    DOCKER_PORT_SSH=17022
+  fi
+
+  if [ "${PROFILE}" == "prod" ]; then
+    DOCKER_PORT_SSH=7022
+  fi
+
+  if [ "${PROFILE}" == "prod-80-443" ]; then
+    DOCKER_PORT_SSH=7022
+  fi
 }
 
 printHelp() {
@@ -174,6 +208,8 @@ printHelp() {
   echo -e "  Options:"
   echo -e "     ${COL_BLUE}-d (none|docker-init|docker-backup|host-backup)${COL_NORMAL} data source to reset all data"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-p (ci|dev|prod|prod-80-443)${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} reinit ssh keys only" 
 }
 
 main "$@"
