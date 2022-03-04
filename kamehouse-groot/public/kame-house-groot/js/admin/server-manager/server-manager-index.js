@@ -509,7 +509,21 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    scriptExecutor.execute('kamehouse/tomcat-startup.sh', "", false, refreshServerView);
+
+    const stringArgs = getTomcatStartupParams();
+    scriptExecutor.execute('kamehouse/tomcat-startup.sh', stringArgs, false, refreshServerView);
+  }
+
+  /**
+   * Get the parameters for tomcat startup script.
+   */
+  function getTomcatStartupParams() {
+    const tomcatDebugModeCheckbox = document.getElementById("tomcat-debug-mode");
+    if (tomcatDebugModeCheckbox.checked) {
+      return "-d";
+    } else {
+      return "";
+    }
   }
 
   /**

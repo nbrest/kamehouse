@@ -26,6 +26,18 @@
   }
 }
 
+.tomcat-debug-mode-span {
+  padding: 10px;
+  color: #5e5e5e;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.tomcat-debug-mode {
+  margin: 10px;
+  margin-top: 17px;
+}
+
 .tomcat-description {
   margin: 30px;
   width: 90%;

@@ -268,6 +268,7 @@
         src="/kame-house/img/mplayer/play-green.png" alt="Start Tomcat" title="Start Tomcat"/>
       <img class="img-btn-kh" onclick="deploymentManager.stopTomcat()" 
         src="/kame-house/img/mplayer/stop.png" alt="Stop Tomcat" title="Stop Tomcat"/>
+      <span class="tomcat-debug-mode-span">Debug Mode: <input id="tomcat-debug-mode" class="tomcat-debug-mode" type="checkbox" name="tomcat-debug-mode"></span>
       <br><br>
 
     </div> <!-- tab-deployment -->
