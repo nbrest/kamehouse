@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Run this script inside the docker container to execute integration tests
+
 # Import common functions
 source ${HOME}/my.scripts/common/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -19,7 +21,6 @@ SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
 ERROR="ERROR EXECUTING INTEGRATION TESTS"
 
 main() {
-  # Run this script inside the docker container to execute integration tests
   cd ${PROJECT_DIR}
   /home/nbrest/my.scripts/kamehouse/build-java-web-kamehouse.sh -p ci -i > /home/nbrest/logs/build-java-web-kamehouse.log
   if [ "$?" == "0" ]; then
