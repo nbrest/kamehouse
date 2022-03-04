@@ -11,6 +11,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import org.apache.commons.lang3.BooleanUtils;
 
 /**
  * BookingScheduleConfig DTO.
@@ -43,7 +44,7 @@ public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleCon
     entity.setTime(getTime());
     entity.setBookingDate(getBookingDate());
     entity.setBookAheadDays(getBookAheadDays());
-    entity.setEnabled(getEnabled());
+    entity.setEnabled(BooleanUtils.isTrue(getEnabled()));
     entity.setDuration(getDuration());
     return entity;
   }
