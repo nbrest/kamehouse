@@ -20,22 +20,26 @@ DOCKER_PORT_HTTP=7080
 SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/docker/docker-run-java-web-kamehouse.sh"
 PROFILE="prod"
+DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
   PID=`sudo netstat -nltp | grep ${DOCKER_PORT_HTTP} | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z ${PID} ]; then
     log.info "${SERVICE} not running. Starting it now"
-    ${SERVICE_STARTUP} -p ${PROFILE} &
+    ${SERVICE_STARTUP} -p ${PROFILE} -o ${DOCKER_ENVIRONMENT} &
   else
     log.info "${SERVICE} with profile ${PROFILE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
 }
 
 parseArguments() {
-  while getopts ":hp:" OPT; do
+  while getopts ":ho:p:" OPT; do
     case $OPT in
     ("h")
       parseHelp
+      ;;
+    ("o")
+      DOCKER_ENVIRONMENT=$OPTARG
       ;;
     ("p")
       PROFILE=$OPTARG
@@ -45,6 +49,13 @@ parseArguments() {
       ;;
     esac
   done
+
+  if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
+    [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
+    log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
+    printHelp
+    exitProcess 1
+  fi
 
   if [ "${PROFILE}" != "ci" ] &&
     [ "${PROFILE}" != "dev" ] &&
@@ -78,6 +89,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default value is ubuntu"
   echo -e "     ${COL_BLUE}-p (ci|dev|prod|prod-80-443)${COL_NORMAL} default profile is dev"
 }
 
