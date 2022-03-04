@@ -16,17 +16,21 @@ mainProcess() {
 }
 
 gitPullAllAllServers() {
+  # niko-server
   gitPullAll "niko-server" "80" "win" &
-  gitPullAll "niko-server" "6080" "lin" &
+  gitPullAll "niko-server" "7080" "lin" &
+  # niko-server-vm-ubuntu
   gitPullAll "niko-server-vm-ubuntu" "80" "lin" &
-  gitPullAll "niko-server-vm-ubuntu" "6080" "lin" &
+  gitPullAll "niko-server-vm-ubuntu" "7080" "lin" &
+  # pi
   gitPullAll "pi" "80" "lin" &
-  gitPullAll "pi" "6080" "lin" &
+  gitPullAll "pi" "7080" "lin" &
+  # niko-nba
   gitPullAll "niko-nba" "80" "win" &
+  # niko-w
   gitPullAll "niko-w" "80" "win" &
-  gitPullAll "niko-w" "6080" "lin" &
+  # niko-w-vm-ubuntu
   gitPullAll "niko-w-vm-ubuntu" "80" "lin" &
-  gitPullAll "niko-w-vm-ubuntu" "6080" "lin" &
 
   log.info "Waiting for git pull all to finish in all servers. ${COL_YELLOW}This process can take several minutes"
   wait

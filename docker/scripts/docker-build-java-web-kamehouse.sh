@@ -24,13 +24,13 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":e:h" OPT; do
+  while getopts ":ho:" OPT; do
     case $OPT in
-    ("e")
-      DOCKER_ENVIRONMENT=$OPTARG
-      ;;
     ("h")
       parseHelp
+      ;;
+    ("o")
+      DOCKER_ENVIRONMENT=$OPTARG
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -40,7 +40,7 @@ parseArguments() {
 
   if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
     [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
-    log.error "Option -e [environment] has an invalid value of ${DOCKER_ENVIRONMENT}"
+    log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
     printHelp
     exitProcess 1
   fi
@@ -56,8 +56,8 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-e (ubuntu|pi)${COL_NORMAL} default value is ubuntu"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default value is ubuntu"
 }
 
 main "$@"

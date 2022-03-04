@@ -18,17 +18,21 @@ mainProcess() {
 }
 
 deployInAllServers() {
+  # niko-server
   deployInServer "niko-server" "80" "win" &
-  deployInServer "niko-server" "6080" "lin" &
+  deployInServer "niko-server" "7080" "lin" &
+  # niko-server-vm-ubuntu
   deployInServer "niko-server-vm-ubuntu" "80" "lin" &
-  deployInServer "niko-server-vm-ubuntu" "6080" "lin" &
+  deployInServer "niko-server-vm-ubuntu" "7080" "lin" &
+  # pi
   deployInServer "pi" "80" "lin" &
-  deployInServer "pi" "6080" "lin" &
+  deployInServer "pi" "7080" "lin" &
+  # niko-nba
   deployInServer "niko-nba" "80" "win" &
+  # niko-w
   deployInServer "niko-w" "80" "win" &
-  deployInServer "niko-w" "6080" "lin" &
+  # niko-w-vm-ubuntu
   deployInServer "niko-w-vm-ubuntu" "80" "lin" &
-  deployInServer "niko-w-vm-ubuntu" "6080" "lin" &
 
   log.info "Waiting for deployment to finish in all servers. ${COL_YELLOW}This process can take several minutes"
   wait
