@@ -7,20 +7,78 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+# Import kamehouse functions
+source ${HOME}/my.scripts/common/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
+  exit 1
+fi
+
 # Global variables
 LOG_PROCESS_TO_FILE=false
-PORT=6080
+DOCKER_PORT_HTTP=7080
 SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/docker/docker-run-java-web-kamehouse.sh"
+PROFILE="prod"
 
 mainProcess() {
-  PID=`sudo netstat -nltp | grep ${PORT} | awk '{print $7}' | cut -d '/' -f 1`
+  PID=`sudo netstat -nltp | grep ${DOCKER_PORT_HTTP} | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z ${PID} ]; then
     log.info "${SERVICE} not running. Starting it now"
-    ${SERVICE_STARTUP} "$@" &
+    ${SERVICE_STARTUP} -p ${PROFILE} &
   else
-    log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
+    log.info "${SERVICE} with profile ${PROFILE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
+}
+
+parseArguments() {
+  while getopts ":hp:" OPT; do
+    case $OPT in
+    ("h")
+      parseHelp
+      ;;
+    ("p")
+      PROFILE=$OPTARG
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+
+  if [ "${PROFILE}" != "ci" ] &&
+    [ "${PROFILE}" != "dev" ] &&
+    [ "${PROFILE}" != "prod" ] &&
+    [ "${PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_BASE_OS}"
+    printHelp
+    exitProcess 1
+  fi
+  
+  if [ "${PROFILE}" == "ci" ]; then
+    DOCKER_PORT_HTTP=15080
+  fi
+
+  if [ "${PROFILE}" == "dev" ]; then
+    DOCKER_PORT_HTTP=6080
+  fi
+
+  if [ "${PROFILE}" == "prod" ]; then
+    DOCKER_PORT_HTTP=7080
+  fi
+
+  if [ "${PROFILE}" == "prod-80-443" ]; then
+    DOCKER_PORT_HTTP=7080
+  fi
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  echo -e "     ${COL_BLUE}-p (ci|dev|prod|prod-80-443)${COL_NORMAL} default profile is dev"
 }
 
 main "$@"

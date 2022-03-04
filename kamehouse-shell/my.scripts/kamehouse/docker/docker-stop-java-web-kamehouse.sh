@@ -32,7 +32,7 @@ mainProcess() {
     log.warn "No kamehouse container running detected for profile ${COL_PURPLE}${PROFILE}"
   fi
 
-  docker-status-java-web-kamehouse.sh
+  ${HOME}/my.scripts/kamehouse/docker/docker-status-java-web-kamehouse.sh
 }
 
 
