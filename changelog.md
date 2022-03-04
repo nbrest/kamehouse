@@ -6,8 +6,21 @@
 * Refactored system command generation
 * Fixed commands executed through kamehouse-cmd process hanging on windows (unlock screen for example)
 * Added support to control the host from kamehouse groot as well
+* Added different profiles to docker scripts for ci, dev, prod
+* Moved jenkins to run integration tests in a ci docker container instead of a native tomcat and added retries to the run
+* Added option to start tomcat in debug mode from groot
+* Fixed bug that didn't allow to disable booking schedule configs from the ui
+* Fixed excessive logging in kamehouse-cmd startup
+* Added keep alive scripts for docker containers
+* Added docker folders to server backup script
+* Fixed restart tomcat when port 9005 remains locked after tomcat exits
+* Removed logging of some passwords
+* Added script to export rsa keys to pkcs8 to connect through ssh from kamehouse apps
+* Fixed coloring and formatting of some log entries
 * Added parameterized tests on DateUtils
+* Refactored a lot the docker scripts to allow more parameters to modify the default behaviour
 * Fixed unit tests
+* Fixed other bugs
 
 #### v7.00
 
