@@ -216,9 +216,20 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
    * Get login credentials.
    */
   private List<NameValuePair> getLoginCredentials() {
-    String loginCredentialsFile = PropertiesUtils.getUserHome() + LOGIN_CREDENTIALS_FILE;
-    String loginCredentials = EncryptionUtils.decryptKameHouseFileToString(loginCredentialsFile);
-    String[] loginCredentialsArray = loginCredentials.split(":");
+    String loginCredentials = null;
+    try {
+      String loginCredentialsFile = PropertiesUtils.getUserHome() + LOGIN_CREDENTIALS_FILE;
+      loginCredentials = EncryptionUtils.decryptKameHouseFileToString(loginCredentialsFile);
+    } catch (KameHouseException e) {
+      logger.error("Error decrypting credentials file, trying default values", e);
+    }
+    String[] loginCredentialsArray;
+    if (loginCredentials != null) {
+      loginCredentialsArray = loginCredentials.split(":");
+    } else {
+      logger.debug("Login credentials not found from file, setting default values for ci");
+      loginCredentialsArray = new String[]{ "admin", "admin" };
+    }
     List<NameValuePair> loginBody = new ArrayList<>();
     loginBody.add(new BasicNameValuePair("username", loginCredentialsArray[0]));
     loginBody.add(new BasicNameValuePair("password", loginCredentialsArray[1]));
