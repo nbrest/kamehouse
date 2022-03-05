@@ -22,6 +22,8 @@ This application (forever under construction) contains the following modules:
 
 [Media](kamehouse-media/README.md)
 
+[Mobile](kamehouse-mobile/README.md)
+
 [Shell](kamehouse-shell/README.md)
 
 [TennisWorld](kamehouse-tennisworld/README.md)
@@ -36,6 +38,8 @@ The modules **commons**, **commons-core** and **commons-test** are jar libraries
 
 **Cmd** is a command line tool written in java for tasks that are better to execute through the command
  line rather than through a webapp.
+
+**Mobile** is a module to build native apps for android and ios that connect to my kamehouse servers and load the content from there using apache cordova.
 
 **GRoot** is a webapp built with js and php to do admin stuff I usually do through the command line.
 

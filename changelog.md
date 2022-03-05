@@ -2,6 +2,7 @@
 
 #### v7.02
 
+* Added kamehouse-mobile module to build native apps for android and ios using apache cordova
 * Added script to archive tenniswold booking requests and responses
 * Replaced the stop and start tomcat buttons with a restart one in groot
 
