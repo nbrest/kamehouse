@@ -236,8 +236,7 @@ function DeploymentManager() {
   this.deployModuleAllServers = deployModuleAllServers;
   this.deployAllModules = deployAllModules;
   this.deployAllModulesAllServers = deployAllModulesAllServers;
-  this.startTomcat = startTomcat;
-  this.stopTomcat = stopTomcat;
+  this.restartTomcat = restartTomcat;
 
   const statusBallBlueImg = createStatusBallBlueImg();
   const statusBallRedImg = createStatusBallRedImg();
@@ -501,42 +500,29 @@ function DeploymentManager() {
   }
 
   /**
-   * Start tomcat.
+   * Restart tomcat.
    */
-  function startTomcat() {
+  function restartTomcat() {
     if (serverManager.isCommandRunning()) {
       return;
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
 
-    const stringArgs = getTomcatStartupParams();
-    scriptExecutor.execute('kamehouse/tomcat-startup.sh', stringArgs, false, refreshServerView);
+    const stringArgs = getRestartTomcatParams();
+    scriptExecutor.execute('kamehouse/tomcat-restart.sh', stringArgs, false, refreshServerView);
   }
 
   /**
-   * Get the parameters for tomcat startup script.
+   * Get the parameters for tomcat restart script.
    */
-  function getTomcatStartupParams() {
+  function getRestartTomcatParams() {
     const tomcatDebugModeCheckbox = document.getElementById("tomcat-debug-mode");
     if (tomcatDebugModeCheckbox.checked) {
       return "-d";
     } else {
       return "";
     }
-  }
-
-  /**
-   * Stop tomcat.
-   */
-  function stopTomcat() {
-    if (serverManager.isCommandRunning()) {
-      return;
-    }
-    serverManager.setCommandRunning();
-    serverManager.openExecutingCommandModal();
-    const hostOs = serverManager.getHostOs();
-    scriptExecutor.execute(hostOs + '/kamehouse/tomcat-stop.sh', "", false, refreshServerView);
   }
 
   function createStatusBallRedImg() {

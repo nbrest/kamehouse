@@ -264,10 +264,8 @@
       
       <pre class="console-output tomcat-process-console-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
       <span class="bold-kh">Tomcat Process: </span>
-      <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.startTomcat()" 
-        src="/kame-house/img/mplayer/play-green.png" alt="Start Tomcat" title="Start Tomcat"/>
-      <img class="img-btn-kh" onclick="deploymentManager.stopTomcat()" 
-        src="/kame-house/img/mplayer/stop.png" alt="Stop Tomcat" title="Stop Tomcat"/>
+      <img class="img-btn-kh m-7-d-r-kh" onclick="deploymentManager.restartTomcat()" 
+        src="/kame-house/img/mplayer/resume.png" alt="Restart Tomcat" title="Restart Tomcat"/>
       <span class="tomcat-debug-mode-span">Debug Mode: <input id="tomcat-debug-mode" class="tomcat-debug-mode" type="checkbox" name="tomcat-debug-mode"></span>
       <br><br>
 
