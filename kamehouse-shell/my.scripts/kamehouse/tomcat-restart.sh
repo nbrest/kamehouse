@@ -11,9 +11,9 @@ LOG_PROCESS_TO_FILE=true
 DEBUG_MODE=""
 
 mainProcess() {
-  tomcat-stop.sh
+  ${HOME}/my.scripts/kamehouse/tomcat-stop.sh
   killRemainingTomcatProcess
-  tomcat-startup.sh "${DEBUG_MODE}"
+  ${HOME}/my.scripts/kamehouse/tomcat-startup.sh "${DEBUG_MODE}"
 }
 
 killRemainingTomcatProcess() {

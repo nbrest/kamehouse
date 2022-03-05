@@ -1,5 +1,10 @@
 # ChangeLog:
 
+#### v7.02
+
+* Added script to archive tenniswold booking requests and responses
+* Replaced the stop and start tomcat buttons with a restart one in groot
+
 #### v7.01
 
 * Added support for all the remaining commands to execute on the host of the container through ssh

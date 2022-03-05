@@ -16,9 +16,9 @@ fi
 
 mainProcess() {
   docker-build-java-web-kamehouse.sh
-  docker-build-java-web-kamehouse.sh -e pi
+  docker-build-java-web-kamehouse.sh -o pi
   docker-push-java-web-kamehouse.sh
-  docker-push-java-web-kamehouse.sh -e pi
+  docker-push-java-web-kamehouse.sh -o pi
 }
 
 parseArguments() {
