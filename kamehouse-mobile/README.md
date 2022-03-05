@@ -1,4 +1,4 @@
-# Media Media:
+# Mobile:
 
 This module handles the following functionality:
 
