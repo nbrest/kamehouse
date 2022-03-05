@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="cordova.js"></script>
+</head>
+<body>
+  <p>Loading KameHouse ...</p>
+<script> 
+  document.addEventListener("deviceready", onDeviceReady, false);
+
+  function onDeviceReady() {
+   var url = 'http://niko-server/kame-house/vlc-player';
+   var target = '_self';
+   var options = "location = no"
+   var ref = cordova.InAppBrowser.open(url, target, options);
+   window.open = cordova.InAppBrowser.open;
+ }
+ </script> 
+ </body>
+</html>
