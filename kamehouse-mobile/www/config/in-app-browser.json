@@ -1,0 +1,11 @@
+{
+  "urls": [
+    { "name": "mediaServer", "url": "http://192.168.0.109/kame-house/vlc-player" },
+    { "name": "twBookingServer", "url": "https://kame.nicobrest.com/kame-house/tennisworld/booking-response.html" },
+    { "name": "vmUbuntuServer", "url": "https://vm-ubuntu.nicobrest.com/kame-house/" },
+    { "name": "dockerDemoServer", "url": "https://docker-demo.nicobrest.com/kame-house/" },
+    { "name": "jenkins", "url": "https://jenkins.nicobrest.com/" }
+  ],
+  "target": "_self",
+  "options": "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=no,footer=yes,footercolor=#000000"
+}

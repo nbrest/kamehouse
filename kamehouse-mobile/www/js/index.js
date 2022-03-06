@@ -7,13 +7,16 @@
  function mainIndexMobile() {
   logger.info("Started initializing mobile app index");
   bannerUtils.setRandomAllBanner();
-  setDeviceStartup();
+  moduleUtils.waitForModules(["cordovaManager"], () => {
+    setDeviceStartup();
+  });
 } 
 
 /**
  * Set listeners for index page.
  */
 function setDeviceStartup() {
+  logger.info("Setting device startup");
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
     window.open = cordova.InAppBrowser.open;

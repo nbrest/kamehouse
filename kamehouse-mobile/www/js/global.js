@@ -8,59 +8,48 @@ const cordovaManager = new CordovaManager();
 
 function mainGlobalMobile() {
   logger.info("Started initializing mobile global");
-  cordovaManager.setCordovaMock();
+  cordovaManager.init();
 } 
 
 function CordovaManager() {
 
-  this.setCordovaMock = setCordovaMock;
+  this.init = init;
   this.openBrowser = openBrowser;
 
-  const mediaServerUrl = 'http://192.168.0.109/kame-house/vlc-player';
-  const twBookingServerUrl = 'https://kame.nicobrest.com/kame-house/tennisworld/booking-response.html';
-  const vmUbuntuServerUrl = 'https://vm-ubuntu.nicobrest.com/kame-house/';
-  const dockerDemoServerUrl = 'https://docker-demo.nicobrest.com/kame-house/';
-  const jenkinsUrl = 'https://jenkins.nicobrest.com/';
-  const target = '_self';
-  const options = "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=no,footer=yes,footercolor=#000000";
+  let inAppBrowserConfig = null;
+
+  async function init() {
+    setCordovaMock();
+    await loadConfig();
+    moduleUtils.setModuleLoaded("cordovaManager");
+  }
+
+  async function loadConfig() {
+    inAppBrowserConfig = JSON.parse(await fetchUtils.loadJsonConfig('/config/in-app-browser.json'));
+    logger.trace("inAppBrowserConfig" + JSON.stringify(inAppBrowserConfig));
+  }
 
   /**
    * Open inAppBrowser with
    */
   function openBrowser(urlLookup) {
-    switch (urlLookup) {
-      case "mediaServer":
-        openInAppBrowser(mediaServerUrl);
-        break;
-      case "twBookingServer":
-        openInAppBrowser(twBookingServerUrl);
-        break;
-      case "vmUbuntuServer":
-        openInAppBrowser(vmUbuntuServerUrl);
-        break;
-      case "dockerDemoServer":
-        openInAppBrowser(dockerDemoServerUrl);
-        break;
-      case "jenkins":
-        openInAppBrowser(jenkinsUrl);
-        break;
-      default:
-        logger.error("Invalid urlLookup name passed to openBrowser: " + urlLookup);
-        break;
-    }
+    const urlEntry = inAppBrowserConfig.urls.find(urlEntity => urlEntity.name === urlLookup);
+    openInAppBrowser(urlEntry.url);
   }
 
   /**
    * Open the InAppBrowser with the specified url.
    */
   function openInAppBrowser(url) {
+    const target = inAppBrowserConfig.target;
+    const options = inAppBrowserConfig.options;
     cordova.InAppBrowser.open(url, target, options);
   }
 
   /**
    * Mock cordova when it's not set.
    */
-   function setCordovaMock() {
+  function setCordovaMock() {
     const urlParams = new URLSearchParams(window.location.search);
     const mockCordova = urlParams.get('mockCordova');
     if (mockCordova) {

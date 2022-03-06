@@ -849,6 +849,7 @@ function DomUtils() {
  function FetchUtils() {
 
   this.loadHtmlSnippet = loadHtmlSnippet;
+  this.loadJsonConfig = loadJsonConfig;
   this.getScript = getScript;
 
   /**
@@ -860,6 +861,17 @@ function DomUtils() {
   async function loadHtmlSnippet(htmlSnippetPath) {
     const htmlSnippetResponse = await fetch(htmlSnippetPath);
     return htmlSnippetResponse.text();
+  }
+
+  /**
+   * Load a json config object.
+   * 
+   * Declare the caller function as async
+   * and call this with await fetchUtils.loadJsonConfig(...);
+   */
+   async function loadJsonConfig(jsonConfigPath) {
+    const jsonConfigResponse = await fetch(jsonConfigPath);
+    return jsonConfigResponse.text();
   }
 
   /** Get a js script from the server. */
