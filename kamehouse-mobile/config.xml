@@ -13,11 +13,11 @@
       <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
         <application android:usesCleartextTraffic="true" />
       </edit-config>
-      <icon src="www/img/dbz/kamesenin-logo.png" density="ldpi" />
-      <icon src="www/img/dbz/kamesenin-logo.png" density="mdpi" />
-      <icon src="www/img/dbz/kamesenin-logo.png" density="hdpi" />
-      <icon src="www/img/dbz/kamesenin-logo.png" density="xhdpi" />
-      <icon src="www/img/dbz/kamesenin-logo.png" density="xxhdpi" />
-      <icon src="www/img/dbz/kamesenin-logo.png" density="xxxhdpi" />
+      <icon src="www/kame-house/img/dbz/kamesenin-logo.png" density="ldpi" />
+      <icon src="www/kame-house/img/dbz/kamesenin-logo.png" density="mdpi" />
+      <icon src="www/kame-house/img/dbz/kamesenin-logo.png" density="hdpi" />
+      <icon src="www/kame-house/img/dbz/kamesenin-logo.png" density="xhdpi" />
+      <icon src="www/kame-house/img/dbz/kamesenin-logo.png" density="xxhdpi" />
+      <icon src="www/kame-house/img/dbz/kamesenin-logo.png" density="xxxhdpi" />
     </platform>
 </widget>

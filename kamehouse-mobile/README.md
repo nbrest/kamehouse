@@ -57,6 +57,10 @@ cordova plugin add cordova-plugin-inappbrowser
 
 - The apk generated is in `kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk`
 
+- Sometimes I need to refresh the build, for example if I delete some files in www/ and want them removed from the apk:
+
+`cordova clean ; cordova build android`
+
 # Install Instructions
 
 - Upload `app-debug.apk` to your android phone and install with the package installer
