@@ -269,11 +269,24 @@ function CoreUtils() {
   /** Set the global variable and set the external reference to global to be used without coreUtils. prefix */
   global.session = {};
 
-  /** Load header and footer. */
+  /** 
+   * Load header and footer. 
+   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/js/global.js"></script>`
+   */
   function loadHeaderAndFooter() {
-    fetchUtils.getScript("/kame-house/js/header-footer/header-footer.js", () => renderHeaderAndFooter());
+    const globalJs = document.getElementById('global-js');
+    if (!isEmpty(globalJs)) {
+      const skipLoadingHeaderAndFooter = globalJs.getAttribute("data-skip-loading-header-footer");
+      if (!isEmpty(skipLoadingHeaderAndFooter) && skipLoadingHeaderAndFooter == "true") {
+        logger.info("Skipping loading default kamehouse header and footer"); 
+      } else {
+        fetchUtils.getScript("/kame-house/js/header-footer/header-footer.js", () => renderHeaderAndFooter()); 
+      }
+    } else {
+      fetchUtils.getScript("/kame-house/js/header-footer/header-footer.js", () => renderHeaderAndFooter());
+    }
   }
-
+  
   /** 
    * @deprecated(use isEmpty())
    * 

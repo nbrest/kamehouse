@@ -1,0 +1,38 @@
+.kamesenin-logo-img {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  margin-top: 80px;
+  text-align: center; 
+  display: block;
+}
+
+#header-top-wrapper {
+  margin-bottom: 41px;
+}
+
+.mobile-btn-kh {
+  padding: 10px 20px 10px 20px;
+  margin: auto;
+  text-align: center;
+  line-height:1.5;
+  color: #6b6b6b;
+  font-weight: bold;
+  background-color: #1a1a1a;
+  background-image: none;
+  border: 1px solid #383838;
+  outline: none;
+  display: block;
+  width: 70%;
+}
+
+.mobile-btn-kh:hover {
+  color: #969696;
+  background: #4d0000;
+}
+
+@media (max-width : 900px) {
+  .mobile-btn-kh {
+    width:80%;
+  }
+}
