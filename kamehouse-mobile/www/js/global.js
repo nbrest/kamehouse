@@ -9,6 +9,8 @@
 
    const mediaServerUrl = 'http://192.168.0.109/kame-house/vlc-player';
    const twBookingServerUrl = 'https://kame.nicobrest.com/kame-house/tennisworld/booking-response.html';
+   const vmUbuntuServerUrl = 'https://vm-ubuntu.nicobrest.com/kame-house/';
+   const dockerDemoServerUrl = 'https://docker-demo.nicobrest.com/kame-house/';
    const jenkinsUrl = 'https://jenkins.nicobrest.com/';
    const target = '_self';
    const options = "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=no,footer=yes,footercolor=#000000";
@@ -28,6 +30,16 @@
    document.getElementById("tw-bookings-button").addEventListener("click", openTwBookingServer);
    function openTwBookingServer() {
     var ref = cordova.InAppBrowser.open(twBookingServerUrl, target, options);
+   }
+
+   document.getElementById("vm-ubuntu-button").addEventListener("click", openVmUbuntuServer);
+   function openVmUbuntuServer() {
+    var ref = cordova.InAppBrowser.open(vmUbuntuServerUrl, target, options);
+   }
+
+   document.getElementById("docker-demo-button").addEventListener("click", openDockerDemoServer);
+   function openDockerDemoServer() {
+    var ref = cordova.InAppBrowser.open(dockerDemoServerUrl, target, options);
    }
    
    document.getElementById("jenkins-button").addEventListener("click", openJenkins);
