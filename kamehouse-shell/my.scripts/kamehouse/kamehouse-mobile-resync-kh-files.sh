@@ -51,6 +51,7 @@ exportMyScripts() {
   log.info "Copying /img files"
   cd ${EXPORT_DIR}
   cp -r -v ${SOURCE_FILES_DIR}/img/ .
+  rm -r v ${EXPORT_DIR}/img/banners
 
   log.info "Copying /js files"
   cd ${EXPORT_DIR}
