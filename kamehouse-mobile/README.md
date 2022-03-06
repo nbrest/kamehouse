@@ -83,6 +83,8 @@ cordova plugin add cordova-plugin-inappbrowser
 
 `cordova emulate android`
 
+- This is usually too slow for me, so it's better to test in a local browser
+
 - *__Note__: The emulator didn't pickup `http://niko-server`, I had to update the code to use the server IP address `http://192.168.0.109` for the emulator to connect to the backend and pull kamehouse*
 
 # Development of app running natively on android
