@@ -4,23 +4,37 @@
   <script src="cordova.js"></script>
 </head>
 <body>
-  <p>Loading KameHouse ...</p>
-  <button id="media-server-button">Media Server</button>
+  <p>KameHouse</p>
+  <button id="media-server-button">Media Server</button> <br><br>
+  <button id="tw-booking-server-button">TW Booking Server</button><br><br>
+  <button id="jenkins-button">Jenkins</button>
 <script> 
-  var url = 'http://192.168.0.109/kame-house/vlc-player';
-  var target = '_self';
-  var options = "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=yes,footer=yes,footercolor=#000000";
+  const mediaServerUrl = 'http://192.168.0.109/kame-house/vlc-player';
+  const twBookingServerUrl = 'https://kame.nicobrest.com/kame-house/tennisworld/booking-response.html';
+  const jenkinsUrl = 'https://jenkins.nicobrest.com/';
+  const target = '_self';
+  const options = "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=yes,footer=yes,footercolor=#000000";
 
   document.addEventListener("deviceready", onDeviceReady, false);
 
   function onDeviceReady() {
-     var ref = cordova.InAppBrowser.open(url, target, options);
+     var ref = cordova.InAppBrowser.open(mediaServerUrl, target, options);
      window.open = cordova.InAppBrowser.open;
    }
 
   document.getElementById("media-server-button").addEventListener("click", openMediaServer);
   function openMediaServer() {
-   var ref = cordova.InAppBrowser.open(url, target, options);
+   var ref = cordova.InAppBrowser.open(mediaServerUrl, target, options);
+  }
+
+  document.getElementById("tw-booking-server-button").addEventListener("click", openTwBookingServer);
+  function openTwBookingServer() {
+   var ref = cordova.InAppBrowser.open(twBookingServerUrl, target, options);
+  }
+
+  document.getElementById("jenkins-button").addEventListener("click", openJenkins);
+  function openJenkins() {
+   var ref = cordova.InAppBrowser.open(jenkinsUrl, target, options);
   }
 
   const urlParams = new URLSearchParams(window.location.search);
