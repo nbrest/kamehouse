@@ -72,6 +72,7 @@ cordova plugin add cordova-plugin-inappbrowser
 
 - Then a local browser windows should open in chrome
 - Currently the default url is: [http://localhost:8000/index.html](http://localhost:8000/index.html)
+- Open chrome dev tools and set the visible width to 360px. That's as similar view as I get to my phone
 
 ## Run in an emulated android device
 
@@ -83,3 +84,10 @@ cordova plugin add cordova-plugin-inappbrowser
 `cordova emulate android`
 
 - *__Note__: The emulator didn't pickup `http://niko-server`, I had to update the code to use the server IP address `http://192.168.0.109` for the emulator to connect to the backend and pull kamehouse*
+
+# Development of app running natively on android
+
+- Setup local apache httpd to serve the local cordova app on [http://localhost:9987/index.html](http://localhost:9987/index.html) reading the files from `kamehouse-mobile\www`
+- It won't find the cordova.js dependencies so I can't open the inAppBrowser links, but is still useful to develop and style the app running locally on the phone without having to restart the cordova browser on every change
+- Load the page with mockCordova=true parameter to mock cordova calls [http://localhost:9987/?mockCordova=true](http://localhost:9987/?mockCordova=true)
+- For changes that interact with cordova api, it's better to test it directly on the cordova server [http://localhost:8000/index.html](http://localhost:8000/index.html)

@@ -10,10 +10,10 @@
   var url = 'http://192.168.0.109/kame-house/vlc-player';
   var target = '_self';
   var options = "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=yes,footer=yes,footercolor=#000000";
+
   document.addEventListener("deviceready", onDeviceReady, false);
 
   function onDeviceReady() {
-     console.log("onDeviceReady");
      var ref = cordova.InAppBrowser.open(url, target, options);
      window.open = cordova.InAppBrowser.open;
    }
@@ -21,6 +21,24 @@
   document.getElementById("media-server-button").addEventListener("click", openMediaServer);
   function openMediaServer() {
    var ref = cordova.InAppBrowser.open(url, target, options);
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const mockCordova = urlParams.get('mockCordova');
+  if (mockCordova) {
+    console.log("Mocking cordova object");
+    cordova = new CordovaMock();
+  }
+  function CordovaMock() {
+    this.InAppBrowser = new InAppBrowserMock();
+    
+    function InAppBrowserMock() {
+      this.open = open;
+
+      function open(url, target, options) {
+        alert("cordova.InAppBrowser.open() call with:\n\nurl:\n" + url + "\n\ntarget:\n" + target + "\n\noptions:\n" + options);
+      }
+    }
   }
  </script> 
  </body>
