@@ -9,12 +9,12 @@
   document.addEventListener("deviceready", onDeviceReady, false);
 
   function onDeviceReady() {
-   var url = 'http://niko-server/kame-house/vlc-player';
-   var target = '_self';
-   var options = "location = no"
-   var ref = cordova.InAppBrowser.open(url, target, options);
-   window.open = cordova.InAppBrowser.open;
- }
+     var url = 'http://192.168.0.109/kame-house/vlc-player';
+     var target = '_self'
+     var options = "location=yes,hideurlbar=yes"
+     var ref = cordova.InAppBrowser.open(url, target, options);
+     window.open = cordova.InAppBrowser.open;
+   }
  </script> 
  </body>
 </html>
