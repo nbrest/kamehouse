@@ -49,6 +49,8 @@ cordova plugin add cordova-plugin-inappbrowser
 
 # Build Instructions
 
+- Run the script `kamehouse-mobile-resync-kh-files.sh` from kamehouse-shell to copy the reused files from kamehouse-ui to kamehouse-mobile (or manually copy those files)
+
 - Build the android native app
 
 `cordova build android`
