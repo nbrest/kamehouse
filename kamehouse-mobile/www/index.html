@@ -5,16 +5,23 @@
 </head>
 <body>
   <p>Loading KameHouse ...</p>
+  <button id="media-server-button">Media Server</button>
 <script> 
+  var url = 'http://192.168.0.109/kame-house/vlc-player';
+  var target = '_self';
+  var options = "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=yes,footer=yes,footercolor=#000000";
   document.addEventListener("deviceready", onDeviceReady, false);
 
   function onDeviceReady() {
-     var url = 'http://192.168.0.109/kame-house/vlc-player';
-     var target = '_self'
-     var options = "location=yes,hideurlbar=yes"
+     console.log("onDeviceReady");
      var ref = cordova.InAppBrowser.open(url, target, options);
      window.open = cordova.InAppBrowser.open;
    }
+
+  document.getElementById("media-server-button").addEventListener("click", openMediaServer);
+  function openMediaServer() {
+   var ref = cordova.InAppBrowser.open(url, target, options);
+  }
  </script> 
  </body>
 </html>
