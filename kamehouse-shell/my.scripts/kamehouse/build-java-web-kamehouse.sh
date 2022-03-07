@@ -23,6 +23,7 @@ MAVEN_PROFILE="prod"
 RESUME=false
 SKIP_TESTS=false
 CONTINUE_ON_ERRORS=false
+BUILD_ALL_EXTRA_MODULES=false
 
 mainProcess() {
   buildProject
@@ -67,6 +68,13 @@ buildProject() {
   log.info "Executing command: '${MAVEN_COMMAND}'"
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building kamehouse"
+
+  if [[ "${BUILD_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
+    log.info "Building kamehouse-mobile app"
+    cd kamehouse-mobile
+    cordova build android
+    checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
+  fi
 }
 
 deployKameHouseCmd() {
@@ -82,8 +90,11 @@ deployKameHouseCmd() {
 }
 
 parseArguments() {
-  while getopts ":cfhim:p:rs" OPT; do
+  while getopts ":acfhim:p:rs" OPT; do
     case $OPT in
+    ("a")
+      BUILD_ALL_EXTRA_MODULES=true
+      ;;  
     ("c")
       CONTINUE_ON_ERRORS=true
       ;;    
@@ -133,11 +144,12 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-a${COL_NORMAL} build all modules, including mobile app (by default it builds all without the mobile app)"
   echo -e "     ${COL_BLUE}-c${COL_NORMAL} continue even with errors when running integration tests"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast build. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i${COL_NORMAL} run integration tests only" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev|docker|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
   echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
   echo -e "     ${COL_BLUE}-s${COL_NORMAL} skip tests. Use it to find any checkstyle/findbugs issues on all modules regardless of test coverage"

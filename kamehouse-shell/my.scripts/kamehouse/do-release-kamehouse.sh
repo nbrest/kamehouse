@@ -31,6 +31,7 @@ mainProcess() {
   gitMergeMasterToReleaseBranch
   checkUncommitedChangesInPomXml
   updateReleaseVersionInPomXml
+  updateKameHouseMobileAppVersion
   gitCommitPomUpdate 
   gitCheckoutMaster
   gitMergeReleaseBranchToMaster
@@ -128,6 +129,14 @@ updateReleaseVersionInPomXml() {
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
     sed -i "s+${PREVIOUS_VERSION_IN_POM}+${RELEASE_VERSION_IN_POM}+g" ${KAMEHOUSE_MODULE}/pom.xml      
   done
+}
+
+updateKameHouseMobileAppVersion() {
+  log.info "Updating kamehouse-mobile app version"
+  local PREVIOUS_APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${PREVIOUS_RELEASE_VERSION}.1"
+  local RELEASE_APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1"
+
+  sed -i "s+${PREVIOUS_APP_VERSION}+${RELEASE_APP_VERSION}+g" kamehouse-mobile/config.xml      
 }
 
 gitCommitPomUpdate() {

@@ -1,3 +1,32 @@
+.android-app-link {
+  color: #969696;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.android-app-link.active {
+  background-color: #500000;
+  color: #cccccc;
+  text-decoration: none;
+}
+
+.android-app-link:hover {
+  background-color: #222222;
+  color: #dbdbdb;
+  border: 1px solid #4b4b4b;
+  text-decoration: none;
+}
+
+.android-app-link:visited { 
+  text-decoration: none; 
+}
+
+.android-app-link-text {
+  padding-left: 10px;
+}
+
 footer {
 	padding: 20px;
 	margin-top: 20px;

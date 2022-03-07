@@ -20,6 +20,7 @@ DEFAULT_DEV_ENVIRONMENT=intellij
 DEV_ENVIRONMENT=
 PROJECT_DIR=
 EXPORT_DIR=
+PROFILE="dev"
 
 mainProcess() {
   setGlobalVariables
@@ -29,6 +30,9 @@ mainProcess() {
 setGlobalVariables() {
   WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
   PROJECT_DIR=${WORKSPACE}/java.web.kamehouse
+  if [ "${PROFILE}" == "prod" ]; then
+    PROJECT_DIR=${HOME}/git/java.web.kamehouse
+  fi
   SOURCE_FILES_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
   EXPORT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
 }
@@ -36,7 +40,9 @@ setGlobalVariables() {
 exportMyScripts() {
   cd ${EXPORT_DIR}
 
-  log.info "Deleting existing files from target dir"
+  log.info "Using SOURCE_FILES_DIR = ${SOURCE_FILES_DIR}"
+  log.info "Using EXPORT_DIR = ${EXPORT_DIR}"
+  log.info "Deleting existing files from target dir ${EXPORT_DIR}"
   rm -r -v -f ${EXPORT_DIR}
   mkdir -p ${EXPORT_DIR}
 
@@ -62,13 +68,26 @@ exportMyScripts() {
 }
 
 parseArguments() {
-  while getopts ":hi:" OPT; do
+  while getopts ":hi:p:" OPT; do
     case $OPT in
     ("h")
       parseHelp
       ;;
     ("i")
       DEV_ENVIRONMENT=$OPTARG
+      ;;
+    ("p")
+      local PROFILE_ARG=$OPTARG 
+      PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
+      
+      if [ "${PROFILE_ARG}" != "prod" ] \
+          && [ "${PROFILE_ARG}" != "dev" ]; then
+        log.error "Option -p profile has an invalid value of ${PROFILE_ARG}"
+        printHelp
+        exitProcess 1
+      fi
+            
+      PROFILE=${PROFILE_ARG}
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -89,6 +108,8 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's path to export scripts to.Default intellij" 
+  echo -e "     ${COL_BLUE}-p (prod|dev)${COL_NORMAL} environment to deploy. default is dev. use prod when calling from the deployment script"
+
 }
 
 main "$@"

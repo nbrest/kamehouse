@@ -20,13 +20,13 @@ mainProcess() {
 deployInAllServers() {
   # niko-server
   deployInServer "niko-server" "80" "win" &
-  deployInServer "niko-server" "7080" "lin" &
+  #deployInServer "niko-server" "7080" "lin" &
   # niko-server-vm-ubuntu
   deployInServer "niko-server-vm-ubuntu" "80" "lin" &
   deployInServer "niko-server-vm-ubuntu" "7080" "lin" &
   # pi
   deployInServer "pi" "80" "lin" &
-  deployInServer "pi" "7080" "lin" &
+  #deployInServer "pi" "7080" "lin" &
   # niko-nba
   deployInServer "niko-nba" "80" "win" &
   # niko-w
@@ -127,7 +127,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
 }
 
 main "$@"

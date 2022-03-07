@@ -20,12 +20,17 @@ DEFAULT_ENV=local
 LOG_PROCESS_TO_FILE=true
 PROJECT_DIR="${HOME}/git/${PROJECT}"
 KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
+KAMEHOUSE_ANDROID_APP="${PROJECT_DIR}/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
+KAMEHOUSE_MOBILE_APP_SERVER="pi"
+KAMEHOUSE_MOBILE_APP_USER="pi"
+KAMEHOUSE_MOBILE_APP_PATH="/var/www/kh.webserver/kame-house-mobile"
 
 # Variables set by command line arguments
 MAVEN_PROFILE="prod"
 FAST_DEPLOYMENT=false
 MODULE=
 MODULE_SHORT=
+DEPLOY_ALL_EXTRA_MODULES=false
 
 # Global variables set during the process
 COPY_COMMAND=""
@@ -49,6 +54,7 @@ mainProcess() {
     deployKameHouseCmd
     deployKameHouseGroot
     deployKameHouseShell
+    deployKameHouseMobile
   else
     # Execute remote deployment
     executeSshCommand       
@@ -56,8 +62,11 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":e:fhm:p:" OPT; do
+  while getopts ":ae:fhm:p:" OPT; do
     case $OPT in
+    ("a")
+      DEPLOY_ALL_EXTRA_MODULES=true
+      ;;
     ("e")
       parseEnvironment "$OPTARG"
       ;;
@@ -156,6 +165,17 @@ buildProject() {
   
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
+
+  if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
+    log.info "Building kamehouse-mobile android app"
+    cd kamehouse-mobile
+    ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh -p prod
+    cordova platform add android
+    cordova clean
+    cordova build android
+    checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
+    cd ..
+  fi
 }
 
 deployToTomcat() {
@@ -208,15 +228,27 @@ deployKameHouseShell() {
   fi
 }
 
+deployKameHouseMobile() {
+  if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"
+    if [ -f "${KAMEHOUSE_ANDROID_APP}" ]; then
+      scp -v ${KAMEHOUSE_ANDROID_APP} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
+    else
+      log.error "${KAMEHOUSE_ANDROID_APP} not found. Was the build successful?"
+    fi
+  fi
+}
+
 printHelp() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-a${COL_NORMAL} deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
   echo -e "     ${COL_BLUE}-e (aws|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast deployment. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
+  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev|docker|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
 }
 
