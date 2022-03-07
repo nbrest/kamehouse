@@ -6,6 +6,14 @@
   font-size: 14px;
 }
 
+.android-app-link:link {
+  color: #969696;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 14px;
+}
+
 .android-app-link.active {
   background-color: #500000;
   color: #cccccc;
