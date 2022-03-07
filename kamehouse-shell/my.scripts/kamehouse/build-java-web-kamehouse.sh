@@ -70,8 +70,10 @@ buildProject() {
   checkCommandStatus "$?" "An error occurred building kamehouse"
 
   if [[ "${BUILD_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    log.info "Building kamehouse-mobile app"
+    log.info "Building kamehouse-mobile android app"
     cd kamehouse-mobile
+    ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh
+    #cordova clean
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
   fi
