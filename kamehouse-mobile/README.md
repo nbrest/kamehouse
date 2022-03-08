@@ -6,6 +6,8 @@ This module handles the following functionality:
 
 * The app uses the inAppBrowser plugin to load kamehouse-ui and kamehouse-groot from the server and render it's mobile view 
 
+* A link to download the app can be found [here](https://kame.nicobrest.com/kame-house/mobile)
+
 # Android build requirements on a windows host (2022-03-06):
 
 - Install node
@@ -42,7 +44,7 @@ cd kamehouse-media
 cordova plugin add cordova-plugin-inappbrowser
 ```
 
-# Import project in Android Studio (optional)
+# Import project in Android Studio (not really necessary)
 
 - Select kamehouse-mobile as the root of the project
 - Set the SDK in the project properties 
@@ -60,6 +62,8 @@ cordova plugin add cordova-plugin-inappbrowser
 - Sometimes I need to refresh the build, for example if I delete some files in www/ and want them removed from the apk:
 
 `cordova clean ; cordova build android`
+
+- Or use the `build-java-web-kamehouse.sh` script with parameter `-m mobile`
 
 # Install Instructions
 
