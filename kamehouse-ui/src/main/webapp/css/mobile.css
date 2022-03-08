@@ -1,0 +1,134 @@
+.android-app-qrcode {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#android-app-qrcode canvas {
+  border: 5px solid #FFFFFF;
+  text-align: center;
+  margin: auto;
+}
+
+@media ( max-width : 900px) {
+  .android-app-qrcode {
+    margin-top: 40px;
+  }
+}
+
+.disclaimer {
+  padding: 20px;
+  font-weight: bold;
+  color: #969696;
+}
+
+.kamehouse-mobile-screenshot {
+  border: 10px solid #000000;
+  border-radius: 10px;
+  margin: 30px;
+  width: 300px;
+  height: 500px;
+}
+
+#kamehouse-mobile-sample-section {
+  float: left;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+@media ( max-width : 900px) {
+  #kamehouse-mobile-sample-section {
+    float: none;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 0px;
+  }
+}
+
+#kamehouse-mobile-links-section {
+  float: right;
+  text-align: center;
+  width: 50%;
+  margin-top: 20px;
+  min-height: 500px;
+}
+
+@media ( max-width : 900px) {
+	#kamehouse-mobile-links-section {
+    float: none;
+    text-align: center;
+    width: 100%;
+    min-height: 420px;
+    margin-top: 0px;
+  }
+}
+
+.mobile-app-icon {
+  height: 35px;
+  width: 35px;
+}
+
+.mobile-app-link {
+  display: block; 
+  margin: auto;
+  margin-top: 50px;
+  text-align: center;
+  width: 330px;
+  padding: 18px;
+  font-size: 22px;
+}
+
+.mobile-app-link:link {
+  background-color: #000000;
+  border: 1px solid #4b4b4b;
+  color: #969696;
+  text-decoration: none;
+}
+
+@media ( max-width : 900px) {
+	.mobile-app-link:link {
+    margin-top: 0px;
+  }
+}
+
+.mobile-app-link.active {
+  background-color: #500000;
+  color: #cccccc;
+  text-decoration: none;
+}
+
+.mobile-app-link:hover {
+  background-color: #500000;
+  color: #dbdbdb;
+  border: 1px solid #4b4b4b;
+  text-decoration: none;
+}
+
+.mobile-app-link:visited { 
+  text-decoration: none; 
+}
+
+.mobile-app-link-text {
+  padding-left: 20px;
+}
+
+.sha256-link {
+  color: #d2d2d2;
+  text-decoration: none;
+}
+
+.sha256-link:visited { 
+  color: #d2d2d2;
+  text-decoration: none; 
+}
+
+.sha256-link:hover {
+  color: #9e0202;
+  text-decoration: none;
+}
