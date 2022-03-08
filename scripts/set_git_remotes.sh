@@ -8,7 +8,7 @@ REPOSITORY_NAME="java.web.kamehouse"
 
 ### Create the remote named all with fetch from the bitbucket repo
 git remote remove all
-git remote add all git@bitbucket.org:nbrest/${REPOSITORY_NAME}.git
+git remote add all git@github.com:nbrest/${REPOSITORY_NAME}.git
 
 ### Add the bitbucket repo to the remote all push
 git remote set-url --add --push all git@bitbucket.org:nbrest/${REPOSITORY_NAME}.git
@@ -39,6 +39,12 @@ git remote add bitbucket-https https://nbrest@bitbucket.org/nbrest/${REPOSITORY_
 ### Create a remote named github to be able to push only to github
 git remote remove github-https
 git remote add github-https https://nbrest@github.com/nbrest/${REPOSITORY_NAME}.git
+
+##########
+# Origin #
+##########
+git remote remove origin
+git remote add origin https://github.com/nbrest/${REPOSITORY_NAME}.git
 
 ### list all the remotes
 git remote -v 
