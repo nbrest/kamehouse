@@ -51,6 +51,13 @@
   }
 }
 
+.disclaimer {
+  font-weight: bold;
+  padding: 20px;
+  color: #969696;
+  text-align: center;
+}
+
 .form-book {
   margin: auto;
   width: 50%;

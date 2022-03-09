@@ -24,13 +24,35 @@
   <div class="main-body">
     <div class="default-layout">
       <div id="kamehouse-mobile-sample-section">
-        <img src="/kame-house/img/android/kamehouse-mobile-screenshot.jpg" class="kamehouse-mobile-screenshot" alt="KameHouse Mobile Screenshot" />
+        <table class="kamehouse-slideshow-table">
+          <tbody>
+            <tr>
+              <td class="kamehouse-slideshow-table-prev-td">
+                <a class="kamehouse-slideshow-prev" onclick="kameHouseSlideShowManager.prevSlide()">&#10094;</a>
+              </td>
+              <td class="kamehouse-slideshow-table-slides-td">
+                <img src="/kame-house/img/android/kamehouse-mobile-screenshot-1.jpg" class="kamehouse-slideshow-slide" alt="KameHouse Mobile Screenshot">
+                <img src="/kame-house/img/android/kamehouse-mobile-screenshot-2.jpg" class="kamehouse-slideshow-slide" alt="KameHouse Mobile Screenshot">
+                <img src="/kame-house/img/android/kamehouse-mobile-screenshot-3.jpg" class="kamehouse-slideshow-slide" alt="KameHouse Mobile Screenshot">
+              </td>
+              <td class="kamehouse-slideshow-table-next-td">
+                <a class="kamehouse-slideshow-next" onclick="kameHouseSlideShowManager.nextSlide()">&#10095;</a>   
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <span class="kamehouse-slideshow-dot" onclick="kameHouseSlideShowManager.setDotSlide(1)"></span>
+        <span class="kamehouse-slideshow-dot" onclick="kameHouseSlideShowManager.setDotSlide(2)"></span>
+        <span class="kamehouse-slideshow-dot" onclick="kameHouseSlideShowManager.setDotSlide(3)"></span>
       </div>
       <div id="kamehouse-mobile-links-section">
-        <a class="mobile-app-link" href="https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk"><img class="mobile-app-icon"
-          src="/kame-house/img/android/android-gray.png" alt="android icon"><span class="mobile-app-link-text">Download for Android</span></a>
+        <a class="mobile-app-link" href="https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk"><span class="mobile-app-link-text">Download for Android</span><img class="mobile-app-icon"
+          src="/kame-house/img/android/android-green.svg" alt="android icon"></a>
         <div id="android-app-qrcode" class="android-app-qrcode"></div>
-        <p class="disclaimer">Disclaimer: This app is provided without any warranties. Install in your phone at your own risk. I suggest you compare the SHA-256 of the downloaded apk file with the one found <a class="sha256-link" href="https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk.sha256.txt">here</a></p>
+        <div class="disclaimer-warning">
+          <p class="disclaimer">Disclaimer: This app is provided without any warranties. Install in your phone at your own risk</p>
+          <p>I suggest you compare the SHA-256 of the downloaded apk file with the one found <a class="mobile-href-link" href="https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk.sha256.txt">here</a>. Instructions on how to build the app yourself can also be found on <a class="mobile-href-link" href="https://github.com/nbrest/java.web.kamehouse/tree/master/kamehouse-mobile">github</a></p>
+        </div>
       </div>
     </div>
   </div>
