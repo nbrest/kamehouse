@@ -169,9 +169,13 @@ buildProject() {
   if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Building kamehouse-mobile android app"
     cd kamehouse-mobile
-    ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh -p prod
-    cordova platform add android
     cordova clean
+    cordova platform remove android
+    cordova platform add android
+    # Reset unnecessary git changes after platform remove/add
+    git checkout HEAD -- package.json
+    git checkout HEAD -- package-lock.json
+    ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh -p prod
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
     cd ..

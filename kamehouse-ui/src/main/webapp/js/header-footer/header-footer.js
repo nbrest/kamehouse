@@ -130,8 +130,8 @@ function Header() {
         "/kame-house/about" : "nav-about",
         "/kame-house/admin" : "nav-admin",
         "/kame-house/contact-us" : "nav-contact-us",
+        "/kame-house/downloads" : "nav-downloads",
         "/kame-house-groot" : "nav-groot",
-        "/kame-house/mobile" : "nav-mobile",
         "/kame-house/tennisworld" : "nav-tennisworld",
         "/kame-house/test-module" : "nav-test-module",
         "/kame-house/vlc-player" : "nav-vlc-player"

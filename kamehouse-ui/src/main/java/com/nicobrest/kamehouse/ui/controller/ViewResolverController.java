@@ -39,7 +39,7 @@ public class ViewResolverController extends AbstractController {
         "/admin",
         "/admin/**",
         "/contact-us",
-        "/mobile",
+        "/downloads",
         "/login",
         "/tennisworld",
         "/tennisworld/**",

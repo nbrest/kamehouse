@@ -24,6 +24,7 @@ RESUME=false
 SKIP_TESTS=false
 CONTINUE_ON_ERRORS=false
 BUILD_ALL_EXTRA_MODULES=false
+DELETE_ALL_MOBILE_OUTPUTS=false
 
 mainProcess() {
   buildProject
@@ -72,8 +73,12 @@ buildProject() {
   if [[ "${BUILD_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Building kamehouse-mobile android app"
     cd kamehouse-mobile
+    if ${DELETE_ALL_MOBILE_OUTPUTS}; then
+      cordova clean
+      cordova platform remove android
+      cordova platform add android
+    fi
     ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh
-    #cordova clean
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
   fi
@@ -92,13 +97,16 @@ deployKameHouseCmd() {
 }
 
 parseArguments() {
-  while getopts ":acfhim:p:rs" OPT; do
+  while getopts ":acdfhim:p:rs" OPT; do
     case $OPT in
     ("a")
       BUILD_ALL_EXTRA_MODULES=true
       ;;  
     ("c")
       CONTINUE_ON_ERRORS=true
+      ;;    
+    ("d")
+      DELETE_ALL_MOBILE_OUTPUTS=true
       ;;    
     ("f")
       FAST_BUILD=true
@@ -148,6 +156,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-a${COL_NORMAL} build all modules, including mobile app (by default it builds all without the mobile app)"
   echo -e "     ${COL_BLUE}-c${COL_NORMAL} continue even with errors when running integration tests"
+  echo -e "     ${COL_BLUE}-d${COL_NORMAL} delete all output folders on kamehouse-mobile to do a full rebuild. This option is only considered when used with -a or -m mobile"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast build. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-i${COL_NORMAL} run integration tests only" 

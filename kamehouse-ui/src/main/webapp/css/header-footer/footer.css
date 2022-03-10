@@ -1,3 +1,19 @@
+a.android-app-link {
+  color: #969696;
+}
+a.android-app-link:link {
+  color: #969696;
+}
+a.android-app-link:visited {
+  color: #969696;
+}
+a.android-app-link:hover {
+  color: #dbdbdb;
+}
+a.android-app-link:active {
+  color: #cccccc;
+}
+
 .android-app-link {
   color: #969696;
   text-align: center;

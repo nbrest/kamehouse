@@ -4,6 +4,7 @@
  var kameHouseSlideShowManager;
 
 function mainMobileLinks() {
+  bannerUtils.setRandomAllBanner();
   generateAndroidQrCode();
   kameHouseSlideShowManager = new KameHouseSlideShowManager();
   kameHouseSlideShowManager.setDotSlide(1);
@@ -11,8 +12,8 @@ function mainMobileLinks() {
 
 function generateAndroidQrCode() {
   $(".android-app-qrcode").qrcode({
-    text:'https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk',
-    ecLevel:'L',
+    text: 'https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk',
+    ecLevel: 'L',
     size: 256
   });
 }
