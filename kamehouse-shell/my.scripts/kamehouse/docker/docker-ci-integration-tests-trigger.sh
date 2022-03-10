@@ -21,30 +21,53 @@ SCRIPT="kamehouse/docker/docker-integration-tests-run.sh"
 DOCKER_PORT_HTTP=15080
 DOCKER_CI_CREDENTIALS="YWRtaW46YWRtaW4="
 RETRIES=3
+NUM_MAIN_PROCESS_RETRIES=""
 NUM_TOMCAT_STARTUP_RETRIES=""
 NUM_LOGIN_RETRIES=""
 NUM_INTEGRATION_TESTS_RETRIES=""
 CONTAINER_STARTUP_SUCCESSFUL=false
 INTEGRATION_TESTS_SUCCESSFUL=false
+MAIN_PROCESS_SUCCESSFUL=false
 
 mainProcess() {
   log.info "Running kamehouse integration tests on a ci docker container"
-  startCiDockerContainerLoop
-  if ${CONTAINER_STARTUP_SUCCESSFUL}; then
-    executeIntegrationTestsLoop
-    stopCiDockerContainer
-    if ${INTEGRATION_TESTS_SUCCESSFUL}; then
-      log.info "Integration tests executed successfully!"
-      exit 0
-    else
-      log.error "Error executing integration tests"
-      exit 1
-    fi
+  mainProcessLoop
+  if ${MAIN_PROCESS_SUCCESSFUL}; then
+    log.info "Main process completed successfully"
+    exit 0
   else
-    stopCiDockerContainer
-    log.error "Container startup failed. Can't execute integration tests"
+    log.error "Main process completed with errors"
     exit 1
   fi
+}
+
+mainProcessLoop() {
+  log.info "Starting ci docker container"
+  NUM_MAIN_PROCESS_RETRIES=$((RETRIES))
+  while [ ${NUM_MAIN_PROCESS_RETRIES} -gt 0 ]; do
+    log.info "Retries left to do the main process: ${COL_RED}${NUM_MAIN_PROCESS_RETRIES}"
+    startCiDockerContainerLoop
+    if ${CONTAINER_STARTUP_SUCCESSFUL}; then
+      executeIntegrationTestsLoop
+      stopCiDockerContainer
+      if ${INTEGRATION_TESTS_SUCCESSFUL}; then
+        log.info "Integration tests executed successfully!"
+        MAIN_PROCESS_SUCCESSFUL=true
+        NUM_MAIN_PROCESS_RETRIES=0
+      else
+        log.error "Error executing integration tests"
+        MAIN_PROCESS_SUCCESSFUL=false
+      fi
+    else
+      stopCiDockerContainer
+      log.error "Container startup failed. Can't execute integration tests"
+      MAIN_PROCESS_SUCCESSFUL=false
+    fi
+    : $((NUM_MAIN_PROCESS_RETRIES--))
+    if [ ${NUM_MAIN_PROCESS_RETRIES} -gt 0 ]; then 
+      sleep 15
+    fi
+  done
 }
 
 startCiDockerContainerLoop() {
