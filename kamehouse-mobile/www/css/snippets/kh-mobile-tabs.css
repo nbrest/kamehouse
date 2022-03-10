@@ -1,0 +1,33 @@
+/* kamehouse mobile tabs */
+.kh-mobile-tab-content {
+  display: none;
+  padding: 0px;
+  border-top: none;
+}
+
+.kh-mobile-tabs {
+  overflow: hidden;
+}
+
+.kh-mobile-tabs button {
+  background: #000000;
+  color: #c0c0c0;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  padding: 8px 10px;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.kh-mobile-tabs button:hover {
+  background-color: #b50000;
+  color: black;
+}
+
+.kh-mobile-tabs button.active {
+  background-color: #9d0000;
+  color: #000000;
+}

@@ -23,7 +23,7 @@ deployInAllServers() {
   #deployInServer "niko-server" "7080" "lin" &
   # niko-server-vm-ubuntu
   deployInServer "niko-server-vm-ubuntu" "80" "lin" &
-  deployInServer "niko-server-vm-ubuntu" "7080" "lin" &
+  #deployInServer "niko-server-vm-ubuntu" "7080" "lin" &
   # pi
   deployInServer "pi" "80" "lin" &
   #deployInServer "pi" "7080" "lin" &

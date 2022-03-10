@@ -21,7 +21,7 @@ gitPullAllAllServers() {
   #gitPullAll "niko-server" "7080" "lin" &
   # niko-server-vm-ubuntu
   gitPullAll "niko-server-vm-ubuntu" "80" "lin" &
-  gitPullAll "niko-server-vm-ubuntu" "7080" "lin" &
+  #gitPullAll "niko-server-vm-ubuntu" "7080" "lin" &
   # pi
   gitPullAll "pi" "80" "lin" &
   #gitPullAll "pi" "7080" "lin" &

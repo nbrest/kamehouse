@@ -15,82 +15,75 @@
 <script src="/kame-house/js/global.js" id="global-js" data-skip-loading-header-footer="true"></script>
 <script src="/js/global.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/snippets/kh-mobile-tabs.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
-<link rel="stylesheet" href="/kame-house/css/header-footer/header.css" />
-<link rel="stylesheet" href="/kame-house/css/header-footer/footer.css" />
 <link rel="stylesheet" href="/kame-house/css/home-index.css" />
 <link rel="stylesheet" href="/css/global.css" />
 </head>
 <body>
-  <header>
-    <div class="default-layout"> 
-      <div id="header-top-wrapper">
-      <div id="header-top">
-      <div id="branding">
-        <h1>
-          <span class="highlight">Kame</span>House
-        </h1>
-      </div>
-      <div id="login-status">
-        <img src="/kame-house/img/dbz/kamesenin-logo.png" alt="Kame Senin Logo" class="header-mobile-btn"/>
-      </div> 
-      </div>
-      </div>
-    </div>
-    <div id="header-border-bottom"></div>
-  </header>
   <div class="main-body">
-    <div class="banner-wrapper">
-    <div id="banner" class="fade-in-out-60s banner-fuego-12-casas">
-      <div class="default-layout banner-text">
-        <h1>カメハウス</h1>
-        <p>KameHouse Mobile</p>
-      </div>
-    </div>
-    </div>
     <div class="default-layout">
-    <br>
-    <div id="boxes">
-      <div class="box">
-        <a><img src="/kame-house/img/dbz/kamesenin-logo.png" alt="Kame Senin Logo" onclick="cordovaManager.openBrowser('mediaServer')"/></a>
-        <h3 class="bold-kh">VLC</h3>
-        <p class="bold-kh">Play all my media files on VLC Player</p>
+      <div class="banner-wrapper">
+      <div id="banner" class="fade-in-out-15s banner-fuego-12-casas">
+        <div class="default-layout banner-text">
+          <h1 id="banner-header">カメハウス</h1>
+          <p id="banner-p">KameHouse Mobile</p>
+        </div>
       </div>
-      <div class="box">
-        <a><img src="/kame-house/img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo" onclick="cordovaManager.openBrowser('twBookingServer')"/></a>
-        <h3 class="bold-kh">TennisWorld</h3>
-        <p class="bold-kh">Manage session bookings to tennis world</p>
       </div>
-      <div class="box">
-        <a><img src="/kame-house/img/dbz/goku-go-logo.png" alt="Goku Go Logo" onclick="cordovaManager.openBrowser('wolServer')"/></a>
-        <h3 class="bold-kh">WoL</h3>
-        <p class="bold-kh">Wake up KameHouse media server</p>
-      </div> 
-    </div>
-    </div>
-    <div id="newsletter" class="border-gray-dark-kh"></div>
-    </div>
-    <br>
-    <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('jenkinsServer')">Jenkins</button>
-    <br>
-    <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('vmUbuntuServer')">VM Ubuntu</button>
-    <br>
-    <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('dockerDemoServer')">Docker Demo</button>
-    <br>
-    <div class="default-layout txt-c-d-kh txt-c-m-kh">
-      <span id="debug-mode-button-wrapper"></span>
-    </div>
-    <span id="debug-mode-wrapper"></span>
-  </div>
-  <footer>
-    <p>にこらす　ぶれすと with help from 中田　果</p>
-    <p><img class="footer-img" src="/kame-house/img/dc/batman-gray.png"
-        alt="kamehouse icon"> <span id="footer-server-name">KameHouse Mobile</span>
-      <em>eternally</em> under construction <img class="footer-img"
-        src="/kame-house/img/dc/batman-gray.png" alt="kamehouse icon"></p>
-    <p>ドラゴンボール</p>
-  </footer>
+      
+      <div id="tab-home" class="kh-mobile-tab-content">
+
+        <br>
+        <div id="boxes">
+          <div class="box">
+            <a><img src="/kame-house/img/dbz/kamesenin-logo.png" alt="Kame Senin Logo" onclick="cordovaManager.openBrowser('mediaServer')"/></a>
+            <h3 class="bold-kh">VLC</h3>
+            <p class="bold-kh">Play all my media files on VLC Player</p>
+          </div>
+          <div class="box">
+            <a><img src="/kame-house/img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo" onclick="cordovaManager.openBrowser('twBookingServer')"/></a>
+            <h3 class="bold-kh">TennisWorld</h3>
+            <p class="bold-kh">Manage session bookings to tennis world</p>
+          </div>
+          <div class="box">
+            <a><img src="/kame-house/img/dbz/goku-go-logo.png" alt="Goku Go Logo" onclick="cordovaManager.openBrowser('wolServer')"/></a>
+            <h3 class="bold-kh">WoL</h3>
+            <p class="bold-kh">Wake up KameHouse media server</p>
+          </div> 
+        </div>
+
+      </div> <!-- tab-home -->
+      
+      <div id="tab-config" class="kh-mobile-tab-content">
+        
+        <br><br>
+
+      </div> <!-- tab-config -->
+
+      <div id="tab-services" class="kh-mobile-tab-content">
+
+        <br>
+        <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('jenkinsServer')">Jenkins</button>
+        <br>
+        <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('vmUbuntuServer')">VM Ubuntu</button>
+        <br>
+        <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('dockerDemoServer')">Docker Demo</button>
+        <br>
+
+      </div> <!-- tab-services -->
+
+      <!-- The following is common to all tabs -->
+
+      <div id="newsletter" class="border-gray-dark-kh"></div>
+      <div class="default-layout txt-c-d-kh txt-c-m-kh">
+        <span id="debug-mode-button-wrapper"></span>
+      </div>
+      <span id="debug-mode-wrapper"></span>
+
+    </div> <!-- default-layout -->
+  </div> <!-- main-body -->
   <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
   <script src="/kame-house/js/snippets/newsletter.js"></script>

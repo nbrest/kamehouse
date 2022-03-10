@@ -5,12 +5,28 @@
  * @author nbrest
  */
 const cordovaManager = new CordovaManager();
+const coreMobileUtils = new CoreMobileUtils();
 
 function mainGlobalMobile() {
   logger.info("Started initializing mobile global");
+  coreMobileUtils.loadHeaderAndFooter();
   cordovaManager.init();
 } 
 
+/**
+ * Main generic functionality specific to the mobile app.
+ */
+function CoreMobileUtils() {
+  this.loadHeaderAndFooter = loadHeaderAndFooter;
+
+  function loadHeaderAndFooter() {
+    fetchUtils.getScript("/js/header-footer/header-footer.js", () => renderHeaderAndFooter());
+  }
+}
+
+/**
+ * Entity to interact with cordova's api.
+ */
 function CordovaManager() {
 
   this.init = init;
@@ -19,13 +35,14 @@ function CordovaManager() {
   let inAppBrowserConfig = null;
 
   async function init() {
+    logger.info("Initializing cordova manager");
     setCordovaMock();
     await loadConfig();
     moduleUtils.setModuleLoaded("cordovaManager");
   }
 
   async function loadConfig() {
-    inAppBrowserConfig = JSON.parse(await fetchUtils.loadJsonConfig('/config/in-app-browser.json'));
+    inAppBrowserConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/in-app-browser.json'));
     logger.trace("inAppBrowserConfig" + JSON.stringify(inAppBrowserConfig));
   }
 
@@ -47,7 +64,7 @@ function CordovaManager() {
   }
 
   /**
-   * Mock cordova when it's not set.
+   * Mock cordova when cordova is not available. For example when testing in a laptop's browser through apache httpd.
    */
   function setCordovaMock() {
     const urlParams = new URLSearchParams(window.location.search);
