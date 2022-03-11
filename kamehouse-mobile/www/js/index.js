@@ -20,7 +20,7 @@ function setDeviceStartup() {
   logger.info("Setting device startup");
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
-    window.open = cordova.InAppBrowser.open;
+    cordovaManager.overrideWindowOpen();
     cordovaManager.openBrowser('mediaServer');
   }
 }

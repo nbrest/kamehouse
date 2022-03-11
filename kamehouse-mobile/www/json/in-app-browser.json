@@ -8,5 +8,5 @@
     { "name": "wolServer", "url": "https://kame.nicobrest.com/kame-house/admin/server-management.html" }
   ],
   "target": "_self",
-  "options": "location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=no,footer=yes,footercolor=#000000"
+  "options": "hidden=yes,location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=no,footer=yes,footercolor=#000000"
 }

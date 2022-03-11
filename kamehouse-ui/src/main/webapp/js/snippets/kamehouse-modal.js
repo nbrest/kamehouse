@@ -46,6 +46,9 @@ function BasicKamehouseModal() {
   this.close = modalUtils.close;
   this.setHtml = modalUtils.setHtml;
   this.appendHtml = modalUtils.appendHtml;
+  this.isErrorMessage = modalUtils.isErrorMessage;
+  this.setErrorMessage = modalUtils.setErrorMessage;
+  this.reset = modalUtils.reset;
 
   const SITE_UNDER_CONSTRUCTION = "The site is still under construction and this functionality has not been implemented yet.";
 
@@ -98,6 +101,9 @@ function LoadingWheelModal() {
   this.close = modalUtils.close;
   this.setHtml = modalUtils.setHtml;
   this.appendHtml = modalUtils.appendHtml;
+  this.isErrorMessage = modalUtils.isErrorMessage;
+  this.setErrorMessage = modalUtils.setErrorMessage;
+  this.reset = modalUtils.reset;
 
   /**
    * Open modal.
@@ -123,6 +129,11 @@ function ModalUtils(modalId) {
   this.autoClose = autoClose;
   this.setHtml = setHtml;
   this.appendHtml = appendHtml;
+  this.isErrorMessage = isErrorMessage;
+  this.setErrorMessage = setErrorMessage;
+  this.reset = reset;
+
+  let isErrorMessageValue = false;
 
   const DEFAULT_AUTO_CLOSE_SEC = 7000;
 
@@ -178,6 +189,19 @@ function ModalUtils(modalId) {
 
   /** Append the message to the modal */
   function appendHtml(message) { domUtils.append($("#" + modalId + "-text"), message); }
+
+  function isErrorMessage() {
+    return isErrorMessageValue;
+  } 
+
+  function setErrorMessage(val) {
+    isErrorMessageValue = val;
+  }
+
+  function reset() {
+    setHtml("");
+    setErrorMessage(false);
+  }
 }
 
 $(document).ready(main);
