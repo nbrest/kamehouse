@@ -10,8 +10,8 @@ const mobileConfigManager = new MobileConfigManager();
 
 function mainGlobalMobile() {
   logger.info("Started initializing mobile global");
-  coreMobileUtils.loadHeaderAndFooter();
   moduleUtils.waitForModules([ "debuggerHttpClient"], () => {
+    coreMobileUtils.loadHeaderAndFooter();
     mobileConfigManager.init();
     cordovaManager.init();
   });

@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="/kame-house/css/global.css" />
 <link rel="stylesheet" href="/kame-house/css/home-index.css" />
 <link rel="stylesheet" href="/css/global.css" />
+<link rel="stylesheet" href="/css/snippets/kh-mobile-tabs.css">
 </head>
 <body>
   <div class="main-body">
@@ -33,48 +34,9 @@
       </div>
       </div>
       
-      <div id="tab-home" class="kh-mobile-tab-content">
-
-        <br>
-        <div id="boxes">
-          <div class="box">
-            <a><img src="/kame-house/img/dbz/kamesenin-logo.png" alt="Kame Senin Logo" onclick="cordovaManager.openBrowser('vlc')"/></a>
-            <h3 class="bold-kh">VLC</h3>
-            <p class="bold-kh">Play all my media files on VLC Player</p>
-          </div>
-          <div class="box">
-            <a><img src="/kame-house/img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo" onclick="cordovaManager.openBrowser('twBooking')"/></a>
-            <h3 class="bold-kh">TennisWorld</h3>
-            <p class="bold-kh">Manage session bookings to tennis world</p>
-          </div>
-          <div class="box">
-            <a><img src="/kame-house/img/dbz/goku-go-logo.png" alt="Goku Go Logo" onclick="cordovaManager.openBrowser('wol')"/></a>
-            <h3 class="bold-kh">WoL</h3>
-            <p class="bold-kh">Wake up KameHouse media server</p>
-          </div> 
-        </div>
-
-      </div> <!-- tab-home -->
-      
-      <div id="tab-config" class="kh-mobile-tab-content">
-        
-        <br>
-        <button class="mobile-btn-kh" onclick="mobileConfigManager.reGenerateMobileConfigFile()">Save</button>
-        <br>
-
-      </div> <!-- tab-config -->
-
-      <div id="tab-services" class="kh-mobile-tab-content">
-
-        <br>
-        <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('jenkins')">Jenkins</button>
-        <br>
-        <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('vmUbuntu')">VM Ubuntu</button>
-        <br>
-        <button class="mobile-btn-kh" onclick="cordovaManager.openBrowser('dockerDemo')">Docker Demo</button>
-        <br>
-
-      </div> <!-- tab-services -->
+      <div id="tab-home" class="kh-mobile-tab-content"></div>
+      <div id="tab-config" class="kh-mobile-tab-content"></div>
+      <div id="tab-services" class="kh-mobile-tab-content"></div>
 
       <!-- The following is common to all tabs -->
       <div class="default-layout txt-c-d-kh txt-c-m-kh">

@@ -1,11 +1,10 @@
 /**
  * Kamehouse mobile tabs functions.
  */
-var kameHouseMobileTabsManager;
+const kameHouseMobileTabsManager = new KameHouseMobileTabsManager();
 
 function main() {
-  kameHouseMobileTabsManager = new KameHouseMobileTabsManager();
-  kameHouseMobileTabsManager.importTabs();
+  kameHouseMobileTabsManager.init();
 }
 
 /**
@@ -13,8 +12,19 @@ function main() {
  */
 function KameHouseMobileTabsManager() {
 
+  this.init = init;
   this.openTab = openTab;
-  this.importTabs = importTabs;
+
+  /**
+   * Init module.
+   */
+  function init() {
+    domUtils.load($("#tab-home"), "/html-snippets/tab-home.html", () => {
+      moduleUtils.setModuleLoaded("kameHouseMobileTabsManager");
+    });
+    domUtils.load($("#tab-config"), "/html-snippets/tab-config.html");
+    domUtils.load($("#tab-services"), "/html-snippets/tab-services.html");
+  }
 
   /**
    * Open the tab specified by its id.
@@ -67,14 +77,6 @@ function KameHouseMobileTabsManager() {
 
     const bannerParagraph = document.getElementById("banner-p");
     domUtils.setInnerHtml(bannerParagraph, bannerParagraphVal);
-  }
-
-  /**
-   * Import tabs.
-   */
-  function importTabs() {
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/css/snippets/kh-mobile-tabs.css">');
-    moduleUtils.setModuleLoaded("kameHouseMobileTabsManager");
   }
 }
 
