@@ -150,6 +150,7 @@ function MobileConfigManager() {
   const mobileConfigFileType = window.PERSISTENT;
   const mobileConfigFileSize = 5*1024*1024; //50 mb
 
+  let isCurrentlyPersistingConfig = false;
   let inAppBrowserDefaultConfig = null;
   let serversDefaultConfig = null;
 
@@ -341,6 +342,11 @@ function MobileConfigManager() {
    * Re generate kamehouse-mobile config file.
    */
   function reGenerateMobileConfigFile() {
+    if (isCurrentlyPersistingConfig) {
+      logger.info("A regenerate file is already in progress, skipping this call");
+      return;
+    }
+    isCurrentlyPersistingConfig = true;
     logger.info("Regenerating file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successDeleteFileCallback, errorDeleteFileCallback);
@@ -386,16 +392,19 @@ function MobileConfigManager() {
             logger.info("File content to write: " + fileContent);
             const blob = new Blob([fileContent]);
             fileWriter.write(blob);
+            isCurrentlyPersistingConfig = false;
           }, errorCreateFileCallback);
         }, errorCreateFileCallback);
       }
 
       function errorWriteFileCallback(error) {
         logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        isCurrentlyPersistingConfig = false;
       }
 
     } catch (error) {
       logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      isCurrentlyPersistingConfig = false;
     }
   }
 
@@ -407,6 +416,8 @@ function MobileConfigManager() {
     const vlcServer = getServers().find(server => server.name === "vlc");
     const vlcServerInput = document.getElementById("vlc-server-input"); 
     vlcServer.url = vlcServerInput.value;
+
+    reGenerateMobileConfigFile();
   }
 
   /**
