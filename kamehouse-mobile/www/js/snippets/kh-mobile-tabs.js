@@ -43,6 +43,13 @@ function KameHouseMobileTabsManager() {
     const selectedTabLink = document.getElementById(selectedTabDivId + '-link');
     domUtils.classListAdd(selectedTabLink, "active");
 
+    const kamehouseTabLinkImages = document.getElementsByClassName("kh-mobile-tab-link-img");
+    for (const kamehouseTabLinkImage of kamehouseTabLinkImages) {
+      domUtils.classListRemove(kamehouseTabLinkImage, "kh-mobile-tab-img-active");
+    }
+    const selectedTabLinkImage = document.getElementById(selectedTabDivId + '-link-img');
+    domUtils.classListAdd(selectedTabLinkImage, "kh-mobile-tab-img-active");
+
     // Update tab content visibility
     const kamehouseTabContent = document.getElementsByClassName("kh-mobile-tab-content");
     for (const kamehouseTabContentElement of kamehouseTabContent) {

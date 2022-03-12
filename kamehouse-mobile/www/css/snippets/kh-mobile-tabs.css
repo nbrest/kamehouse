@@ -35,4 +35,9 @@
 .kh-mobile-tab-img {
   width: 30px;
   height: 30px;
+  
+}
+
+.kh-mobile-tab-img-active {
+  filter: brightness(0.1);
 }
