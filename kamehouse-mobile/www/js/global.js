@@ -66,32 +66,32 @@ function CordovaManager() {
    * Open inAppBrowser with
    */
   function openBrowser(urlLookup) {
-    const urlEntry = mobileConfigManager.getServers().find(urlEntity => urlEntity.name === urlLookup);
-    openInAppBrowser(urlEntry);
+    const serverEntity = mobileConfigManager.getServers().find(server => server.name === urlLookup);
+    openInAppBrowser(serverEntity);
   }
 
   /**
    * Open the InAppBrowser with the specified url.
    */
-  function openInAppBrowser(urlEntry) {
-    logger.info("Start loading url " + urlEntry.url);
+  function openInAppBrowser(serverEntity) {
+    logger.info("Start loading url " + serverEntity.url);
     const target = mobileConfigManager.getInAppBrowserConfig().target;
     const options = mobileConfigManager.getInAppBrowserConfig().options;
-    const inAppBrowserInstance = cordova.InAppBrowser.open(urlEntry.url, target, options);
-    basicKamehouseModal.setHtml(getOpenBrowserMessage(urlEntry));
+    const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
+    basicKamehouseModal.setHtml(getOpenBrowserMessage(serverEntity));
     basicKamehouseModal.setErrorMessage(false);
     basicKamehouseModal.open();
-    setInAppBrowserEventListeners(inAppBrowserInstance, urlEntry);
+    setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity);
   }
 
   /**
    * Get the open browser message for the modal.
    */
-  function getOpenBrowserMessage(urlEntry) {
-    const openBrowserMessage = domUtils.getSpan({}, "Opening " + urlEntry.name);
+  function getOpenBrowserMessage(serverEntity) {
+    const openBrowserMessage = domUtils.getSpan({}, "Opening " + serverEntity.name);
     domUtils.append(openBrowserMessage, domUtils.getBr());
     domUtils.append(openBrowserMessage, domUtils.getBr());
-    domUtils.append(openBrowserMessage, urlEntry.url);
+    domUtils.append(openBrowserMessage, serverEntity.url);
     domUtils.append(openBrowserMessage, domUtils.getBr());
     domUtils.append(openBrowserMessage, domUtils.getBr());
     domUtils.append(openBrowserMessage, "Please Wait ...");
@@ -101,15 +101,15 @@ function CordovaManager() {
   /**
    * Set listeners for the events handled by the InAppBrowser.
    */
-  function setInAppBrowserEventListeners(inAppBrowserInstance, urlEntry) {
+  function setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity) {
 
     inAppBrowserInstance.addEventListener('loadstop', (params) => {
-      logger.info("Executing event loadstop for url: '" + urlEntry.url + "'. with params " + JSON.stringify(params));
+      logger.info("Executing event loadstop for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
       inAppBrowserInstance.show();
     });
 
     inAppBrowserInstance.addEventListener('loaderror', (params) => {
-      const errorMessage = "Error loading url '" + urlEntry.url + "'. with params " + JSON.stringify(params);
+      const errorMessage = "Error loading url '" + serverEntity.url + "'. with params " + JSON.stringify(params);
       logger.error("Executing event loaderror. " + errorMessage);
       basicKamehouseModal.setHtml(errorMessage);
       basicKamehouseModal.setErrorMessage(true);
@@ -118,11 +118,11 @@ function CordovaManager() {
     });
 
     inAppBrowserInstance.addEventListener('loadstart', (params) => {
-      logger.info("Executing event loadstart for url: '" + urlEntry.url + "'. with params " + JSON.stringify(params));
+      logger.info("Executing event loadstart for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
     });
 
     inAppBrowserInstance.addEventListener('exit', (params) => {
-      logger.info("Executing event exit for url: '" + urlEntry.url + "'. with params " + JSON.stringify(params));
+      logger.info("Executing event exit for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
       if (!basicKamehouseModal.isErrorMessage()) {
         basicKamehouseModal.close(); 
         basicKamehouseModal.reset();
@@ -130,7 +130,7 @@ function CordovaManager() {
     });
 
     inAppBrowserInstance.addEventListener('message', (params) => {
-      logger.info("Executing event message for url: '" + urlEntry.url + "'. with params " + JSON.stringify(params));
+      logger.info("Executing event message for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
     });
   } 
 }
@@ -144,6 +144,7 @@ function MobileConfigManager() {
   this.getServers = getServers;
   this.getInAppBrowserConfig = getInAppBrowserConfig;
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
+  this.updateMobileConfigFromView = updateMobileConfigFromView;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;
@@ -339,7 +340,7 @@ function MobileConfigManager() {
   /**
    * Re generate kamehouse-mobile config file.
    */
-   function reGenerateMobileConfigFile() {
+  function reGenerateMobileConfigFile() {
     logger.info("Regenerating file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successDeleteFileCallback, errorDeleteFileCallback);
@@ -396,6 +397,16 @@ function MobileConfigManager() {
     } catch (error) {
       logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
+  }
+
+  /**
+   * Update the mobile config from the view in the config tab.
+   */
+  function updateMobileConfigFromView() {
+    logger.info("Updating mobile config from view");
+    const vlcServer = getServers().find(server => server.name === "vlc");
+    const vlcServerInput = document.getElementById("vlc-server-input"); 
+    vlcServer.url = vlcServerInput.value;
   }
 
   /**

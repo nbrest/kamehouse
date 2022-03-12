@@ -22,8 +22,12 @@ function KameHouseMobileTabsManager() {
     domUtils.load($("#tab-home"), "/html-snippets/tab-home.html", () => {
       moduleUtils.setModuleLoaded("kameHouseMobileTabsManager");
     });
-    domUtils.load($("#tab-config"), "/html-snippets/tab-config.html");
     domUtils.load($("#tab-services"), "/html-snippets/tab-services.html");
+    moduleUtils.waitForModules(["mobileConfigManager"], () => {
+      domUtils.load($("#tab-config"), "/html-snippets/tab-config.html", () => {
+        initConfigTab();
+      });
+    });
   }
 
   /**
@@ -77,6 +81,16 @@ function KameHouseMobileTabsManager() {
 
     const bannerParagraph = document.getElementById("banner-p");
     domUtils.setInnerHtml(bannerParagraph, bannerParagraphVal);
+  }
+
+  /**
+   * Init config tab values.
+   */
+  function initConfigTab() {
+    logger.info("Initializing config tab");
+    const vlcServer = mobileConfigManager.getServers().find(server => server.name === "vlc");
+    const vlcServerInput = document.getElementById("vlc-server-input");
+    domUtils.setValue(vlcServerInput, vlcServer.url);
   }
 }
 
