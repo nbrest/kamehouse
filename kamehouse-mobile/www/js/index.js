@@ -7,7 +7,7 @@
  function mainIndexMobile() {
   logger.info("Started initializing mobile app index");
   bannerUtils.setRandomAllBanner();
-  moduleUtils.waitForModules(["cordovaManager", "debuggerHttpClient", "kameHouseMobileTabsManager"], () => {
+  moduleUtils.waitForModules(["mobileConfigManager", "cordovaManager", "debuggerHttpClient", "kameHouseMobileTabsManager"], () => {
     kameHouseMobileTabsManager.openTab('tab-home');
     setDeviceStartup();
   });
