@@ -169,6 +169,7 @@ function MobileConfigManager() {
     global.mobile = {};
     global.mobile.config = {};
     global.mobile.config.inAppBrowser = {};
+    global.mobile.config.servers = {};
   }
 
   function getMobileConfig() {
