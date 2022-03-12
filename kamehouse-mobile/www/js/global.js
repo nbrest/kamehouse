@@ -91,9 +91,6 @@ function CordovaManager() {
     const openBrowserMessage = domUtils.getSpan({}, "Opening " + serverEntity.name);
     domUtils.append(openBrowserMessage, domUtils.getBr());
     domUtils.append(openBrowserMessage, domUtils.getBr());
-    domUtils.append(openBrowserMessage, serverEntity.url);
-    domUtils.append(openBrowserMessage, domUtils.getBr());
-    domUtils.append(openBrowserMessage, domUtils.getBr());
     domUtils.append(openBrowserMessage, "Please Wait ...");
     return openBrowserMessage;
   }
