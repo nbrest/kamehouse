@@ -145,6 +145,7 @@ function MobileConfigManager() {
   this.getInAppBrowserConfig = getInAppBrowserConfig;
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
   this.updateMobileConfigFromView = updateMobileConfigFromView;
+  this.setVlcPlayerFromDropdown = setVlcPlayerFromDropdown;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;
@@ -418,6 +419,19 @@ function MobileConfigManager() {
     vlcServer.url = vlcServerInput.value;
 
     reGenerateMobileConfigFile();
+  }
+
+  /**
+   * Set the vlc player in the config from the dropdown menu in the config page.
+   */
+  function setVlcPlayerFromDropdown() {
+    logger.info("Setting vlc player from dropdown");
+    const vlcServerInput = document.getElementById("vlc-server-input"); 
+    const vlcServerDropdown = document.getElementById("vlc-server-dropdown");
+    if (!isEmpty(vlcServerDropdown.value) && vlcServerDropdown.value != "") {
+      domUtils.setValue(vlcServerInput, vlcServerDropdown.value);
+      updateMobileConfigFromView();
+    }
   }
 
   /**

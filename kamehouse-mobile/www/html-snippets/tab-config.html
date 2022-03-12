@@ -1,5 +1,19 @@
 <div class="p-15-d-kh">
-  <label>Vlc Server</label>
-  <input id="vlc-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
-  <br>
+  <form class="form-kh">
+    <label>Vlc Server</label>
+    <br>
+    <select id="vlc-server-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.setVlcPlayerFromDropdown()">
+      <option value="">Select Vlc Player</option>
+      <option value="http://192.168.0.109/kame-house/vlc-player">niko-server</option>
+      <option value="http://192.168.0.107/kame-house/vlc-player">niko-server-vm-ubuntu</option>
+      <option value="http://192.168.0.100/kame-house/vlc-player">niko-w</option>
+      <option value="http://192.168.0.101/kame-house/vlc-player">niko-w-vm-ubuntu</option>
+      <option value="http://192.168.43.171/kame-house/vlc-player">niko-w-hotspot</option>
+      <option value="http://192.168.0.99/kame-house/vlc-player">niko-nba</option>
+      <option value="http://192.168.0.129/kame-house/vlc-player">pi</option>
+    </select>
+    <br>
+    <input id="vlc-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <br>
+  </form>
 </div>
