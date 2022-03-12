@@ -66,7 +66,7 @@ function CordovaManager() {
    * Open inAppBrowser with
    */
   function openBrowser(urlLookup) {
-    const urlEntry = mobileConfigManager.getInAppBrowserConfig().urls.find(urlEntity => urlEntity.name === urlLookup);
+    const urlEntry = mobileConfigManager.getServers().find(urlEntity => urlEntity.name === urlLookup);
     openInAppBrowser(urlEntry);
   }
 
@@ -141,6 +141,7 @@ function CordovaManager() {
 function MobileConfigManager() {
   
   this.init = init;
+  this.getServers = getServers;
   this.getInAppBrowserConfig = getInAppBrowserConfig;
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
 
@@ -149,11 +150,13 @@ function MobileConfigManager() {
   const mobileConfigFileSize = 5*1024*1024; //50 mb
 
   let inAppBrowserDefaultConfig = null;
+  let serversDefaultConfig = null;
 
   async function init() {
     logger.info("Initializing mobile config manager");
     initGlobalMobileConfig();
     await loadInAppBrowserDefaultConfig();
+    await loadServersDefaultConfig();
     readMobileConfigFile();
   }
 
@@ -184,10 +187,31 @@ function MobileConfigManager() {
     global.mobile.config.inAppBrowser = val;
   }
 
+  function getServers() {
+    return global.mobile.config.servers;
+  }
+
+  function setServers(val) {
+    global.mobile.config.servers = val;
+  }
+
   async function loadInAppBrowserDefaultConfig() {
     inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/in-app-browser.json'));
     logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
     setInAppBrowserConfig(inAppBrowserDefaultConfig);
+  }
+
+  async function loadServersDefaultConfig() {
+    serversDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/servers.json'));
+    logger.info("servers default config: " + JSON.stringify(serversDefaultConfig));
+    setServers(serversDefaultConfig);
+  }
+
+  /**
+   * Returns true if the config has all the required properties.
+   */
+  function isValidMobileConfigFile(mobileConfig) {
+    return mobileConfig != null && mobileConfig.inAppBrowser != null && mobileConfig.servers != null;
   }
 
   /**
@@ -261,7 +285,7 @@ function MobileConfigManager() {
                 mobileConfig = null;
                 logger.error("Error parsing file content as json. Error " + JSON.stringify(e));
               }
-              if (mobileConfig != null && mobileConfig.inAppBrowser != null) {
+              if (isValidMobileConfigFile(mobileConfig)) {
                 logger.info("Setting mobile config from file");
                 setMobileConfig(mobileConfig);
               } else {

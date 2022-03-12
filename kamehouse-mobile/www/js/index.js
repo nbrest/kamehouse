@@ -19,14 +19,14 @@
 function setDeviceStartup() {
   logger.info("Setting up deviceready");
   document.addEventListener("deviceready", onDeviceReady, false);
-  
-  /**
-   * Open media server on startup.
-   */
-  function onDeviceReady() {
-    cordovaManager.overrideWindowOpen();
-    cordovaManager.openBrowser('mediaServer');
-  }
+}
+
+/**
+ * Open media server on startup.
+ */
+function onDeviceReady() {
+  cordovaManager.overrideWindowOpen();
+  cordovaManager.openBrowser('vlc');
 }
 
 /** Call main. */

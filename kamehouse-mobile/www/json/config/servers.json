@@ -1,0 +1,8 @@
+[
+  { "name": "dockerDemo", "url": "https://docker-demo.nicobrest.com/kame-house/" },
+  { "name": "jenkins", "url": "https://jenkins.nicobrest.com/" },
+  { "name": "twBooking", "url": "https://kame.nicobrest.com/kame-house/tennisworld/booking-response.html" },
+  { "name": "vlc", "url": "http://192.168.0.109/kame-house/vlc-player" },
+  { "name": "vmUbuntu", "url": "https://vm-ubuntu.nicobrest.com/kame-house/" },
+  { "name": "wol", "url": "https://kame.nicobrest.com/kame-house/admin/server-management.html" }
+]
