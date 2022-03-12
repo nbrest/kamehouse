@@ -11,6 +11,9 @@
     kameHouseMobileTabsManager.openTab('tab-home');
     setDeviceStartup();
   });
+  moduleUtils.waitForModules(["kameHouseDebugger"], () => {
+    kameHouseDebugger.renderCustomDebugger("/html-snippets/debug-mode-custom.html");
+  });
 } 
 
 /**
