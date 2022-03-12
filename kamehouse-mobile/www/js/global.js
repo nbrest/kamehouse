@@ -141,8 +141,8 @@ function CordovaManager() {
 function MobileConfigManager() {
   
   this.init = init;
-  this.getMobileConfig = getMobileConfig;
   this.getInAppBrowserConfig = getInAppBrowserConfig;
+  this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;
@@ -154,20 +154,18 @@ function MobileConfigManager() {
     logger.info("Initializing mobile config manager");
     initGlobalMobileConfig();
     await loadInAppBrowserDefaultConfig();
+    readMobileConfigFile();
+  }
+
+  function setMobileConfigManagerModuleLoaded() {
+    logger.info("Finished mobileConfigManager module initialization");
     moduleUtils.setModuleLoaded("mobileConfigManager");
-    //testFileManagement();
   }
 
   function initGlobalMobileConfig() {
     global.mobile = {};
     global.mobile.config = {};
     global.mobile.config.inAppBrowser = {};
-  }
-
-  async function loadInAppBrowserDefaultConfig() {
-    inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/in-app-browser.json'));
-    logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
-    setInAppBrowserConfig(inAppBrowserDefaultConfig);
   }
 
   function getMobileConfig() {
@@ -186,11 +184,17 @@ function MobileConfigManager() {
     global.mobile.config.inAppBrowser = val;
   }
 
+  async function loadInAppBrowserDefaultConfig() {
+    inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/in-app-browser.json'));
+    logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
+    setInAppBrowserConfig(inAppBrowserDefaultConfig);
+  }
+
   /**
    * Create kamehouse-mobile config file in the device's storage.
    */
   function createMobileConfigFile() {
-    logger.info("createMobileConfigFile");
+    logger.info("Creating file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
 
@@ -212,7 +216,7 @@ function MobileConfigManager() {
    * Write kamehouse-mobile config file to the filesystem.
    */
   function writeMobileConfigFile() {
-    logger.info("writeMobileConfigFile");
+    logger.info("Writing to file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
 
@@ -239,7 +243,7 @@ function MobileConfigManager() {
    * Read kamehouse-mobile config file.
    */
    function readMobileConfigFile() {
-    logger.info("readMobileConfigFile");
+    logger.info("Reading file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
 
@@ -250,13 +254,21 @@ function MobileConfigManager() {
             reader.onloadend = function(e) {
               const fileContent = this.result;
               logger.info("file content read: " + fileContent);
-              const mobileConfig = JSON.parse(fileContent);
+              let mobileConfig = null;
+              try {
+                mobileConfig = JSON.parse(fileContent);
+              } catch(e) {
+                mobileConfig = null;
+                logger.error("Error parsing file content as json. Error " + JSON.stringify(e));
+              }
               if (mobileConfig != null && mobileConfig.inAppBrowser != null) {
                 logger.info("Setting mobile config from file");
                 setMobileConfig(mobileConfig);
               } else {
-                logger.warn("Mobile config file read from file is invalid. Ignoring it");
+                logger.warn("Mobile config file read from file is invalid. Re generating it");
+                reGenerateMobileConfigFile();
               }
+              setMobileConfigManagerModuleLoaded();
             };
             reader.readAsText(file);
           }, errorCallback);
@@ -265,9 +277,13 @@ function MobileConfigManager() {
     
       function errorCallback(error) {
         logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        setMobileConfigManagerModuleLoaded();
+        createMobileConfigFile();
       }
     } catch (error) {
       logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      setMobileConfigManagerModuleLoaded();
+      createMobileConfigFile();
     }
   }	
   
@@ -275,7 +291,7 @@ function MobileConfigManager() {
    * Delete kamehouse-mobile config file.
    */
    function deleteMobileConfigFile() {
-    logger.info("deleteMobileConfigFile");
+    logger.info("Deleting file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
   
@@ -292,6 +308,68 @@ function MobileConfigManager() {
       }
     } catch (error) {
       logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+    }
+  }
+
+  /**
+   * Re generate kamehouse-mobile config file.
+   */
+   function reGenerateMobileConfigFile() {
+    logger.info("Regenerating file " + mobileConfigFile);
+    try {
+      window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successDeleteFileCallback, errorDeleteFileCallback);
+  
+      function successDeleteFileCallback(fs) {
+        fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
+          fileEntry.remove(() => {
+            logger.info("File " + fileEntry.name + " deleted successfully");
+            createFile();
+          }, errorDeleteFileCallback);
+        }, errorDeleteFileCallback);
+      }
+    
+      function errorDeleteFileCallback(error) {
+        logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        createFile();
+      }
+
+      function createFile() {
+        window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCreateFileCallback, errorCreateFileCallback);
+      }
+
+      function successCreateFileCallback(fs) {
+        fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
+          logger.info("File " + fileEntry.name + " created successfully");
+          writeFile();
+        }, errorCreateFileCallback);
+      }
+
+      function errorCreateFileCallback(error) {
+        logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        writeFile();
+      }
+
+      function writeFile() {
+        window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successWriteFileCallback, errorWriteFileCallback);
+      }
+
+      function successWriteFileCallback(fs) {
+        fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
+          fileEntry.createWriter((fileWriter) => {
+            const fileContent = JSON.stringify(getMobileConfig());
+            logger.info("File content to write: " + fileContent);
+            const blob = new Blob([fileContent]);
+            fileWriter.write(blob);
+          }, errorCreateFileCallback);
+        }, errorCreateFileCallback);
+      }
+
+      function errorWriteFileCallback(error) {
+        logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      }
+
+    } catch (error) {
+      logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
   }
 
