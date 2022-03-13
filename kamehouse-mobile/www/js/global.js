@@ -428,7 +428,16 @@ function MobileConfigManager() {
       inAppBrowserConfig.target = inAppBrowserTargetDropdown.value;
       logger.info("inAppBrowserConfig.target: " + inAppBrowserConfig.target);
     }
-    
+
+    // Set InAppBrowser options clearcache
+    const inAppBrowserClearCacheCheckbox = document.getElementById("iab-clearcache-checkbox");
+    if (inAppBrowserClearCacheCheckbox.checked) {
+      inAppBrowserConfig.options = inAppBrowserConfig.options.replace("clearcache=no", "clearcache=yes");
+    } else {
+      inAppBrowserConfig.options = inAppBrowserConfig.options.replace("clearcache=yes", "clearcache=no");
+    }
+    logger.info("inAppBrowserConfig.options: " + inAppBrowserConfig.options);
+
     reGenerateMobileConfigFile();
   }
 

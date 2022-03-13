@@ -99,13 +99,25 @@ function KameHouseMobileTabsManager() {
     const vlcServerInput = document.getElementById("vlc-server-input");
     domUtils.setValue(vlcServerInput, vlcServer.url);
 
-    const inAppBrowserTarget = mobileConfigManager.getInAppBrowserConfig().target;
+    const inAppBrowserConfig = mobileConfigManager.getInAppBrowserConfig()
+    const inAppBrowserTarget = inAppBrowserConfig.target;
     const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
     for (let i = 0; i < inAppBrowserTargetDropdown.options.length; ++i) {
       if (inAppBrowserTargetDropdown.options[i].value === inAppBrowserTarget) {
         inAppBrowserTargetDropdown.options[i].selected = true;
       }
     }
+
+    const inAppBrowserOptionsArray = inAppBrowserConfig.options.split(",");
+    const inAppBrowserClearCacheCheckbox = document.getElementById("iab-clearcache-checkbox");
+    inAppBrowserOptionsArray.forEach((inAppBrowserOption) => {
+      if (inAppBrowserOption == "clearcache=no") {
+        inAppBrowserClearCacheCheckbox.checked = false;
+      }
+      if (inAppBrowserOption == "clearcache=yes") {
+        inAppBrowserClearCacheCheckbox.checked = true;
+      }
+    });
   }
 }
 
