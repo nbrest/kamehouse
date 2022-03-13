@@ -3,8 +3,14 @@
 #### v7.02
 
 * Added kamehouse-mobile module to build native apps for android and ios using apache cordova
+* Added native android app built with cordova in js, html and css
+* Added downloads page with a link and qr code to download the apk to install on android phones
 * Added script to archive tenniswold booking requests and responses
 * Replaced the stop and start tomcat buttons with a restart one in groot
+* Added instructions to build the apk for android on the readme.md of kamehouse-mobile
+* Added kamehouse-mobile to build and deploy scripts
+* Updated set git remotes script
+* Updated layout of the footer
 
 #### v7.01
 
