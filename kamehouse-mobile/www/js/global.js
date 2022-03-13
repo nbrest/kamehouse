@@ -78,10 +78,12 @@ function CordovaManager() {
     const target = mobileConfigManager.getInAppBrowserConfig().target;
     const options = mobileConfigManager.getInAppBrowserConfig().options;
     const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
-    basicKamehouseModal.setHtml(getOpenBrowserMessage(serverEntity));
-    basicKamehouseModal.setErrorMessage(false);
-    basicKamehouseModal.open();
-    setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity);
+    if (target != "_system") {
+      basicKamehouseModal.setHtml(getOpenBrowserMessage(serverEntity));
+      basicKamehouseModal.setErrorMessage(false);
+      basicKamehouseModal.open();
+      setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity);
+    }
   }
 
   /**
@@ -96,7 +98,7 @@ function CordovaManager() {
   }
 
   /**
-   * Set listeners for the events handled by the InAppBrowser.
+   * Set listeners for the events handled by the InAppBrowser when the target isn't _system.
    */
   function setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity) {
 

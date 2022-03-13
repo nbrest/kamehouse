@@ -1,4 +1,4 @@
 {
-  "target": "_self",
+  "target": "_system",
   "options": "hidden=yes,location=no,hideurlbar=yes,hidenavigationbuttons=yes,toolbarcolor=#000000,closebuttoncolor=#d90000,zoom=no,clearcache=no,footer=yes,footercolor=#000000"
 }
