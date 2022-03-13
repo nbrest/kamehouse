@@ -79,7 +79,7 @@ function CordovaManager() {
     const options = mobileConfigManager.getInAppBrowserConfig().options;
     const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
     if (target == "_system") {
-      basicKamehouseModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 7000);
+      basicKamehouseModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 4000);
     } else {
       basicKamehouseModal.setHtml(getOpenBrowserMessage(serverEntity));
       basicKamehouseModal.setErrorMessage(false);
@@ -417,14 +417,19 @@ function MobileConfigManager() {
    */
   function updateMobileConfigFromView() {
     logger.info("Updating mobile config from view");
+    const inAppBrowserConfig = getInAppBrowserConfig();
+
     // Set servers
     updateServer("jenkins");
     updateServer("tw-booking");
     updateServer("vlc");
     updateServer("wol");
 
+    // Set InAppBrowser open on startup
+    const inAppBrowserOpenOnStartupCheckbox = document.getElementById("iab-open-on-startup-checkbox");
+    inAppBrowserConfig.openOnStartup = inAppBrowserOpenOnStartupCheckbox.checked;
+
     // Set InAppBrowser target
-    const inAppBrowserConfig = getInAppBrowserConfig();
     const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
     if (!isEmpty(inAppBrowserTargetDropdown.value) && inAppBrowserTargetDropdown.value != "") {
       inAppBrowserConfig.target = inAppBrowserTargetDropdown.value;
@@ -441,6 +446,7 @@ function MobileConfigManager() {
     logger.info("servers: " + JSON.stringify(getServers()));
     logger.info("inAppBrowser.options: " + inAppBrowserConfig.options);
     logger.info("inAppBrowser.target: " + inAppBrowserConfig.target);
+    logger.info("inAppBrowser.openOnStartup: " + inAppBrowserConfig.openOnStartup);
     reGenerateMobileConfigFile();
   }
 
@@ -472,6 +478,8 @@ function MobileConfigManager() {
    */
   function refreshConfigTabView() {
     logger.info("Refreshing config tab view values");
+    const inAppBrowserConfig = getInAppBrowserConfig();
+
     // servers
     setServerInput("jenkins");
     setServerInput("tw-booking");
@@ -487,8 +495,17 @@ function MobileConfigManager() {
       }
     }
 
+    // InAppBrowser open on startup
+    const openOnStartup = inAppBrowserConfig.openOnStartup;
+    const inAppBrowserOpenOnStartupCheckbox = document.getElementById("iab-open-on-startup-checkbox");
+    if (openOnStartup) {
+      inAppBrowserOpenOnStartupCheckbox.checked = true;
+    } else {
+      inAppBrowserOpenOnStartupCheckbox.checked = false;
+    }
+
     // InAppBrowser target
-    const inAppBrowserConfig = getInAppBrowserConfig();
+    
     const inAppBrowserTarget = inAppBrowserConfig.target;
     const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
     for (let i = 0; i < inAppBrowserTargetDropdown.options.length; ++i) {

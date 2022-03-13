@@ -29,7 +29,10 @@ function setDeviceStartup() {
  */
 function onDeviceReady() {
   cordovaManager.overrideWindowOpen();
-  cordovaManager.openBrowser('vlc');
+  const openOnStartup = mobileConfigManager.getInAppBrowserConfig().openOnStartup;
+  if (openOnStartup) {
+    cordovaManager.openBrowser('vlc');
+  }
 }
 
 /** Call main. */

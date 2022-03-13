@@ -15,7 +15,13 @@
     <br>
     <input id="vlc-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
     <br><br>
-    <label>InAppBrowser Target</label>
+    <label>InAppBrowser</label>
+    <br><br>
+    <label>Open On Startup</label>
+    <input id="iab-open-on-startup-checkbox" class="m-15-d-kh" type="checkbox" onchange="mobileConfigManager.updateMobileConfigFromView()">  
+    <br>  
+    <br>
+    <label>Target</label>
     <br>
     <select id="iab-target-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.updateMobileConfigFromView()">
       <option value="">Select Target</option>
@@ -24,9 +30,8 @@
       <option value="_system">system</option>
     </select>
     <br>
-    <label>InAppBrowser Options: Clear Cache</label>
-    <br>
-    <input id="iab-clearcache-checkbox" type="checkbox" onchange="mobileConfigManager.updateMobileConfigFromView()">
+    <label>Clear Cache</label>
+    <input id="iab-clearcache-checkbox" class="m-15-d-kh" type="checkbox" onchange="mobileConfigManager.updateMobileConfigFromView()">
     <br><br><br>
     <label>TennisWorld Booking</label>
     <br>
