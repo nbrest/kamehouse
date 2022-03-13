@@ -15,7 +15,7 @@ MYSQL_ARCHIVE_FILE=${HOME}/my.scripts/kamehouse/sql/mysql/archive-tennisworld-bo
 
 mainProcess() {
   log.info "Archiving old tennis world bookings"
-  mysql -v -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_ARCHIVE_FILE}
+  mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_ARCHIVE_FILE}
   checkCommandStatus "$?"
 }
 
