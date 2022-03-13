@@ -414,19 +414,18 @@ function MobileConfigManager() {
    * Update the mobile config from the view in the config tab.
    */
   function updateMobileConfigFromView() {
-    // Set vlc
     logger.info("Updating mobile config from view");
-    const vlcServer = getServers().find(server => server.name === "vlc");
-    const vlcServerInput = document.getElementById("vlc-server-input"); 
-    vlcServer.url = vlcServerInput.value;
-    logger.info("vlcServer: " + JSON.stringify(vlcServer));
+    // Set servers
+    updateServer("jenkins");
+    updateServer("tw-booking");
+    updateServer("vlc");
+    updateServer("wol");
 
     // Set InAppBrowser target
     const inAppBrowserConfig = getInAppBrowserConfig();
     const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
     if (!isEmpty(inAppBrowserTargetDropdown.value) && inAppBrowserTargetDropdown.value != "") {
       inAppBrowserConfig.target = inAppBrowserTargetDropdown.value;
-      logger.info("inAppBrowserConfig.target: " + inAppBrowserConfig.target);
     }
 
     // Set InAppBrowser options clearcache
@@ -436,9 +435,21 @@ function MobileConfigManager() {
     } else {
       inAppBrowserConfig.options = inAppBrowserConfig.options.replace("clearcache=yes", "clearcache=no");
     }
-    logger.info("inAppBrowserConfig.options: " + inAppBrowserConfig.options);
 
+    logger.info("servers: " + JSON.stringify(getServers()));
+    logger.info("inAppBrowser.options: " + inAppBrowserConfig.options);
+    logger.info("inAppBrowser.target: " + inAppBrowserConfig.target);
     reGenerateMobileConfigFile();
+  }
+
+  /**
+   * Update the server url in the config from the input.
+   */
+  function updateServer(serverName) {
+    const servers = getServers();
+    const server = servers.find(server => server.name === serverName);
+    const serverInput = document.getElementById(serverName + "-server-input"); 
+    server.url = serverInput.value;
   }
 
   /**

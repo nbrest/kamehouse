@@ -95,10 +95,13 @@ function KameHouseMobileTabsManager() {
    */
   function initConfigTab() {
     logger.info("Initializing config tab");
-    const vlcServer = mobileConfigManager.getServers().find(server => server.name === "vlc");
-    const vlcServerInput = document.getElementById("vlc-server-input");
-    domUtils.setValue(vlcServerInput, vlcServer.url);
+    // servers
+    setServerInput("jenkins");
+    setServerInput("tw-booking");
+    setServerInput("vlc");
+    setServerInput("wol");
 
+    // InAppBrowser target
     const inAppBrowserConfig = mobileConfigManager.getInAppBrowserConfig()
     const inAppBrowserTarget = inAppBrowserConfig.target;
     const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
@@ -108,6 +111,7 @@ function KameHouseMobileTabsManager() {
       }
     }
 
+    // InAppBrowser options
     const inAppBrowserOptionsArray = inAppBrowserConfig.options.split(",");
     const inAppBrowserClearCacheCheckbox = document.getElementById("iab-clearcache-checkbox");
     inAppBrowserOptionsArray.forEach((inAppBrowserOption) => {
@@ -118,6 +122,16 @@ function KameHouseMobileTabsManager() {
         inAppBrowserClearCacheCheckbox.checked = true;
       }
     });
+  }
+
+  /**
+   * Set the server input field value in the view from the config.
+   */
+  function setServerInput(serverName) {
+    const servers = mobileConfigManager.getServers();
+    const server = servers.find(server => server.name === serverName);
+    const serverInput = document.getElementById(serverName + "-server-input");
+    domUtils.setValue(serverInput, server.url);
   }
 }
 
