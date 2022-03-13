@@ -26,13 +26,26 @@ function Footer() {
   function renderFooter() { 
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
     domUtils.append($("body"), getFooterContainerDiv());
-    domUtils.load($("#footerContainer"), "/html-snippets/footer.html");
+    domUtils.load($("#footerContainer"), "/html-snippets/footer.html", () => {
+      setAppVersion();
+    });
   }
 
   function getFooterContainerDiv() {
     return domUtils.getDiv({
       id: "footerContainer"
     });
+  }
+
+  async function setAppVersion() {
+    const pom = await fetchUtils.loadHtmlSnippet('/pom.xml');
+    const versionPrefix = "<version>";
+    const versionSuffix = "-KAMEHOUSE-SNAPSHOT";
+    const tempVersion = pom.slice(pom.indexOf(versionPrefix) + versionPrefix.length);
+    const appVersion = tempVersion.slice(0, tempVersion.indexOf(versionSuffix));
+    logger.info("app version: " + appVersion);
+    const footerBuildVersion = document.getElementById("footer-build-version");
+    domUtils.setInnerHtml(footerBuildVersion, appVersion);
   }
 }
 

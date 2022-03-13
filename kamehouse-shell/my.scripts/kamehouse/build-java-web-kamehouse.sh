@@ -79,6 +79,7 @@ buildProject() {
       cordova platform add android
     fi
     ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh
+    cp -v -f pom.xml www/
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
   fi
