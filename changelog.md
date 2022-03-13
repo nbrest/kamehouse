@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v7.03
+
+* Added more retries for tennisworld scheduled bookings
+
 #### v7.02
 
 * Added kamehouse-mobile module to build native apps for android and ios using apache cordova
