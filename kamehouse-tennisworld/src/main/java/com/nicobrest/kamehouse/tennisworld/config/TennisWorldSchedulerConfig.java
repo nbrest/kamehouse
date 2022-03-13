@@ -38,6 +38,7 @@ public class TennisWorldSchedulerConfig {
     try {
       JobDetail scheduledBookingJobDetail = scheduledBookingJobDetail();
       scheduler.addJob(scheduledBookingJobDetail, true);
+      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 0));
       scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 2));
       scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 10));
       scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 0));
