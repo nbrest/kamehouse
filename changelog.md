@@ -3,6 +3,7 @@
 #### v7.03
 
 * Added more retries for tennisworld scheduled bookings
+* Added build version to the footer of kamehouse-mobile
 
 #### v7.02
 
