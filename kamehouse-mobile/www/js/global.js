@@ -147,6 +147,8 @@ function MobileConfigManager() {
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
   this.updateMobileConfigFromView = updateMobileConfigFromView;
   this.setVlcPlayerFromDropdown = setVlcPlayerFromDropdown;
+  this.refreshConfigTabView = refreshConfigTabView;
+  this.resetDefaults = resetDefaults;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;
@@ -203,13 +205,13 @@ function MobileConfigManager() {
   async function loadInAppBrowserDefaultConfig() {
     inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/in-app-browser.json'));
     logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
-    setInAppBrowserConfig(inAppBrowserDefaultConfig);
+    setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
   }
 
   async function loadServersDefaultConfig() {
     serversDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/servers.json'));
     logger.info("servers default config: " + JSON.stringify(serversDefaultConfig));
-    setServers(serversDefaultConfig);
+    setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
   }
 
   /**
@@ -463,6 +465,62 @@ function MobileConfigManager() {
       domUtils.setValue(vlcServerInput, vlcServerDropdown.value);
       updateMobileConfigFromView();
     }
+  }
+
+  /**
+   * Refresh config tab view values.
+   */
+  function refreshConfigTabView() {
+    logger.info("Refreshing config tab view values");
+    // servers
+    setServerInput("jenkins");
+    setServerInput("tw-booking");
+    setServerInput("vlc");
+    setServerInput("wol");
+
+    // InAppBrowser target
+    const inAppBrowserConfig = getInAppBrowserConfig();
+    const inAppBrowserTarget = inAppBrowserConfig.target;
+    const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
+    for (let i = 0; i < inAppBrowserTargetDropdown.options.length; ++i) {
+      if (inAppBrowserTargetDropdown.options[i].value === inAppBrowserTarget) {
+        inAppBrowserTargetDropdown.options[i].selected = true;
+      }
+    }
+
+    // InAppBrowser options
+    const inAppBrowserOptionsArray = inAppBrowserConfig.options.split(",");
+    const inAppBrowserClearCacheCheckbox = document.getElementById("iab-clearcache-checkbox");
+    inAppBrowserOptionsArray.forEach((inAppBrowserOption) => {
+      if (inAppBrowserOption == "clearcache=no") {
+        inAppBrowserClearCacheCheckbox.checked = false;
+      }
+      if (inAppBrowserOption == "clearcache=yes") {
+        inAppBrowserClearCacheCheckbox.checked = true;
+      }
+    });
+  }
+
+  /**
+   * Set the server input field value in the view from the config.
+   */
+  function setServerInput(serverName) {
+    const servers = getServers();
+    const server = servers.find(server => server.name === serverName);
+    const serverInput = document.getElementById(serverName + "-server-input");
+    domUtils.setValue(serverInput, server.url);
+  }
+
+  /**
+   * Reset config to default values.
+   */
+  function resetDefaults() {
+    logger.info("Resetting config to default values");
+    setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
+    setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
+    refreshConfigTabView();
+    reGenerateMobileConfigFile();
+    basicKamehouseModal.openAutoCloseable("Config reset to default values", 2000);
   }
 
   /**

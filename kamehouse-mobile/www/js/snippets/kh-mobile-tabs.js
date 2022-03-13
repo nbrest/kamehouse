@@ -25,7 +25,7 @@ function KameHouseMobileTabsManager() {
     domUtils.load($("#tab-services"), "/html-snippets/tab-services.html");
     moduleUtils.waitForModules(["mobileConfigManager"], () => {
       domUtils.load($("#tab-config"), "/html-snippets/tab-config.html", () => {
-        initConfigTab();
+        mobileConfigManager.refreshConfigTabView();
       });
     });
   }
@@ -88,50 +88,6 @@ function KameHouseMobileTabsManager() {
 
     const bannerParagraph = document.getElementById("banner-p");
     domUtils.setInnerHtml(bannerParagraph, bannerParagraphVal);
-  }
-
-  /**
-   * Init config tab values.
-   */
-  function initConfigTab() {
-    logger.info("Initializing config tab");
-    // servers
-    setServerInput("jenkins");
-    setServerInput("tw-booking");
-    setServerInput("vlc");
-    setServerInput("wol");
-
-    // InAppBrowser target
-    const inAppBrowserConfig = mobileConfigManager.getInAppBrowserConfig()
-    const inAppBrowserTarget = inAppBrowserConfig.target;
-    const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
-    for (let i = 0; i < inAppBrowserTargetDropdown.options.length; ++i) {
-      if (inAppBrowserTargetDropdown.options[i].value === inAppBrowserTarget) {
-        inAppBrowserTargetDropdown.options[i].selected = true;
-      }
-    }
-
-    // InAppBrowser options
-    const inAppBrowserOptionsArray = inAppBrowserConfig.options.split(",");
-    const inAppBrowserClearCacheCheckbox = document.getElementById("iab-clearcache-checkbox");
-    inAppBrowserOptionsArray.forEach((inAppBrowserOption) => {
-      if (inAppBrowserOption == "clearcache=no") {
-        inAppBrowserClearCacheCheckbox.checked = false;
-      }
-      if (inAppBrowserOption == "clearcache=yes") {
-        inAppBrowserClearCacheCheckbox.checked = true;
-      }
-    });
-  }
-
-  /**
-   * Set the server input field value in the view from the config.
-   */
-  function setServerInput(serverName) {
-    const servers = mobileConfigManager.getServers();
-    const server = servers.find(server => server.name === serverName);
-    const serverInput = document.getElementById(serverName + "-server-input");
-    domUtils.setValue(serverInput, server.url);
   }
 }
 
