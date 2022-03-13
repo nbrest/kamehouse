@@ -478,6 +478,15 @@ function MobileConfigManager() {
     setServerInput("vlc");
     setServerInput("wol");
 
+    // VLC Player dropdown
+    const vlcPlayerInputValue = document.getElementById("vlc-server-input").value;
+    const vlcPlayerDropdown = document.getElementById("vlc-server-dropdown");
+    for (let i = 0; i < vlcPlayerDropdown.options.length; ++i) {
+      if (vlcPlayerDropdown.options[i].value === vlcPlayerInputValue) {
+        vlcPlayerDropdown.options[i].selected = true;
+      }
+    }
+
     // InAppBrowser target
     const inAppBrowserConfig = getInAppBrowserConfig();
     const inAppBrowserTarget = inAppBrowserConfig.target;
