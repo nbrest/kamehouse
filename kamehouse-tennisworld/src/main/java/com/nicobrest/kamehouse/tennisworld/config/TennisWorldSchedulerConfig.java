@@ -40,6 +40,9 @@ public class TennisWorldSchedulerConfig {
       scheduler.addJob(scheduledBookingJobDetail, true);
       scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 2));
       scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 10));
+      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 0));
+      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 2));
+      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 10));
       scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 30));
     } catch (SchedulerException e) {
       logger.error("Error adding tennisworld jobs to the scheduler", e);
