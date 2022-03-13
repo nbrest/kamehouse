@@ -78,7 +78,9 @@ function CordovaManager() {
     const target = mobileConfigManager.getInAppBrowserConfig().target;
     const options = mobileConfigManager.getInAppBrowserConfig().options;
     const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
-    if (target != "_system") {
+    if (target == "_system") {
+      basicKamehouseModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 7000);
+    } else {
       basicKamehouseModal.setHtml(getOpenBrowserMessage(serverEntity));
       basicKamehouseModal.setErrorMessage(false);
       basicKamehouseModal.open();
