@@ -10,6 +10,7 @@
 * Added instructions to build the apk for android on the readme.md of kamehouse-mobile
 * Added kamehouse-mobile to build and deploy scripts
 * Updated set git remotes script
+* Updated do release script to include updating version in mobile app
 * Updated layout of the footer
 
 #### v7.01

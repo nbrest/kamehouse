@@ -32,7 +32,7 @@ mainProcess() {
   checkUncommitedChangesInPomXml
   updateReleaseVersionInPomXml
   updateKameHouseMobileAppVersion
-  gitCommitPomUpdate 
+  gitCommitReleaseVersionUpdate 
   gitCheckoutMaster
   gitMergeReleaseBranchToMaster
   pushMasterBranch
@@ -136,13 +136,16 @@ updateKameHouseMobileAppVersion() {
   local PREVIOUS_APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${PREVIOUS_RELEASE_VERSION}.1"
   local RELEASE_APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1"
 
-  sed -i "s+${PREVIOUS_APP_VERSION}+${RELEASE_APP_VERSION}+g" kamehouse-mobile/config.xml      
+  sed -i "s+${PREVIOUS_APP_VERSION}+${RELEASE_APP_VERSION}+g" kamehouse-mobile/config.xml
 }
 
-gitCommitPomUpdate() {
-  log.info "Commiting changes to pom.xml in the root and modules"
+gitCommitReleaseVersionUpdate() {
+  log.info "Commiting changes to release version in the root and modules"
   
   git add pom.xml
+  checkCommandStatus "$?"
+
+  git add kamehouse-mobile/config.xml
   checkCommandStatus "$?"
 
   local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
@@ -151,7 +154,7 @@ gitCommitPomUpdate() {
     checkCommandStatus "$?"
   done
 
-  git commit -m "Updated pom.xml for release v${RELEASE_VERSION}"
+  git commit -m "Updated release v${RELEASE_VERSION} in project"
   #checkCommandStatus "$?"
 }
 
