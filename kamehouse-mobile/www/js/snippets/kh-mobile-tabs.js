@@ -98,6 +98,14 @@ function KameHouseMobileTabsManager() {
     const vlcServer = mobileConfigManager.getServers().find(server => server.name === "vlc");
     const vlcServerInput = document.getElementById("vlc-server-input");
     domUtils.setValue(vlcServerInput, vlcServer.url);
+
+    const inAppBrowserTarget = mobileConfigManager.getInAppBrowserConfig().target;
+    const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
+    for (let i = 0; i < inAppBrowserTargetDropdown.options.length; ++i) {
+      if (inAppBrowserTargetDropdown.options[i].value === inAppBrowserTarget) {
+        inAppBrowserTargetDropdown.options[i].selected = true;
+      }
+    }
   }
 }
 

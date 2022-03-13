@@ -414,11 +414,21 @@ function MobileConfigManager() {
    * Update the mobile config from the view in the config tab.
    */
   function updateMobileConfigFromView() {
+    // Set vlc
     logger.info("Updating mobile config from view");
     const vlcServer = getServers().find(server => server.name === "vlc");
     const vlcServerInput = document.getElementById("vlc-server-input"); 
     vlcServer.url = vlcServerInput.value;
+    logger.info("vlcServer: " + JSON.stringify(vlcServer));
 
+    // Set InAppBrowser target
+    const inAppBrowserConfig = getInAppBrowserConfig();
+    const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
+    if (!isEmpty(inAppBrowserTargetDropdown.value) && inAppBrowserTargetDropdown.value != "") {
+      inAppBrowserConfig.target = inAppBrowserTargetDropdown.value;
+      logger.info("inAppBrowserConfig.target: " + inAppBrowserConfig.target);
+    }
+    
     reGenerateMobileConfigFile();
   }
 
