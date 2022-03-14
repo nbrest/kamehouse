@@ -4,6 +4,7 @@
 
 * Added more retries for tennisworld scheduled bookings
 * Added build version to the footer of kamehouse-mobile
+* Fixed sorting of data in the UI in crud manager
 
 #### v7.02
 
