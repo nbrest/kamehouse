@@ -80,6 +80,7 @@ buildProject() {
     fi
     ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh
     cp -v -f pom.xml www/
+    git rev-parse --short HEAD > www/git-commit-hash.txt
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
   fi
