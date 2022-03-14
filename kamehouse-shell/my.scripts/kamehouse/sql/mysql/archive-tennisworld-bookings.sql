@@ -22,16 +22,17 @@ SELECT '-------------------------------' as '';
 CREATE TABLE IF NOT EXISTS booking_response_archive LIKE booking_response;
 
 INSERT INTO booking_response_archive
-SELECT * FROM booking_response where booking_request_id in (SELECT id FROM booking_request WHERE date < NOW() - INTERVAL 15 DAY);
-DELETE FROM booking_response where booking_request_id in (SELECT id FROM booking_request WHERE date < NOW() - INTERVAL 15 DAY);
+SELECT * FROM booking_response where booking_request_id in (SELECT id FROM booking_request WHERE date < NOW() - INTERVAL 5 DAY);
+
+DELETE FROM booking_response where booking_request_id in (SELECT id FROM booking_request WHERE date < NOW() - INTERVAL 5 DAY);
 
 -- Archive tennisworld booking requests
 CREATE TABLE IF NOT EXISTS booking_request_archive LIKE booking_request;
 
 INSERT INTO booking_request_archive
-SELECT * FROM booking_request WHERE date < NOW() - INTERVAL 15 DAY;
+SELECT * FROM booking_request WHERE date < NOW() - INTERVAL 5 DAY;
 
-DELETE FROM booking_request WHERE date < NOW() - INTERVAL 15 DAY;
+DELETE FROM booking_request WHERE date < NOW() - INTERVAL 5 DAY;
 
 -- Show final state
 SELECT '----------- Final state -----------' as '';
