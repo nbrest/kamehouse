@@ -6,6 +6,7 @@
 logs/**
 **/tmp/**
 data/**
+kamehouse-commons-core/src/main/resources/git-commit-hash.txt
 
 # Patch files
 *.diff

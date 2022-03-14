@@ -87,7 +87,7 @@
           <td>module</td>
           <td class="tomcat-modules-table-path">path</td>
           <td>status</td>
-          <td>build version</td>
+          <td class="tomcat-modules-table-build-version">build version</td>
           <td class="tomcat-modules-table-build-date">build date</td>
           <td class="tomcat-modules-table-controls">controls</td>
           <td class="tomcat-modules-table-deployment">deployment</td>

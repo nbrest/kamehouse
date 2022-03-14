@@ -34,6 +34,9 @@ mainProcess() {
 
 buildProject() {
   log.info "Building ${COL_PURPLE}kamehouse${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
+  
+  exportGitCommitHash
+
   MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
 
   if ${SKIP_TESTS}; then

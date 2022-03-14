@@ -31,6 +31,7 @@ public class PropertiesUtils {
   static {
     loadAllPropertiesFiles();
     loadBuildVersionAndDate();
+    loadGitCommitHash();
   }
 
   private PropertiesUtils() {
@@ -167,13 +168,39 @@ public class PropertiesUtils {
           properties.put("kamehouse.build.date", pomPropertiesLine.substring(1));
         }
         if (pomPropertiesLine.startsWith("version=")) {
-          properties.put(
-              "kamehouse.build.version",
+          properties.put("kamehouse.build.version",
               pomPropertiesLine.replace("version=", "").replace("-KAMEHOUSE-SNAPSHOT", ""));
         }
       }
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse build version and date into properties", e);
+    }
+  }
+
+  /**
+   * Loads the git commit hash into the properties, if it's available.
+   */
+  private static void loadGitCommitHash() {
+    try {
+      String buildVersion = getProperty("kamehouse.build.version");
+      if (StringUtils.isEmpty(buildVersion)) {
+        LOGGER.warn("Build version not available, so skipping getting git hash");
+        return;
+      }
+      Resource gitCommitHashResource = new ClassPathResource("/git-commit-hash.txt");
+      InputStream gitCommitHashInputStream = gitCommitHashResource.getInputStream();
+      String gitCommitHash = null;
+      if (gitCommitHashInputStream != null) {
+        gitCommitHash = IOUtils.toString(gitCommitHashInputStream, StandardCharsets.UTF_8.name());
+      }
+      if (gitCommitHash == null) {
+        LOGGER.error("Error loading kamehouse git commit hash into properties");
+        return;
+      }
+      String updatedBuildVersion = buildVersion + "-" + gitCommitHash.trim();
+      properties.put("kamehouse.build.version", updatedBuildVersion);
+    } catch (IOException e) {
+      LOGGER.error("Error loading kamehouse git commit hash into properties", e);
     }
   }
 }

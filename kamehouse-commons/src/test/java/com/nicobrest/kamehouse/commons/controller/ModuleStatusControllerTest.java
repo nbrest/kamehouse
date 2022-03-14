@@ -33,7 +33,7 @@ public class ModuleStatusControllerTest extends AbstractControllerTest<Object, O
   private static final String MODULE_STATUS_API = "/api/v1/commons/module/status";
   private static final String BUILD_VERSION_PROP = "kamehouse.build.version";
   private static final String BUILD_DATE_PROP = "kamehouse.build.date";
-  private static final String BUILD_VERSION_MOCK = "2.00.1";
+  private static final String BUILD_VERSION_MOCK = "2.00.1-a1b2c3d4";
   private static final String BUILD_DATE_MOCK = "Sat Jun 26 11:05:18 AEST 2021";
 
   private MockedStatic<PropertiesUtils> propertiesUtils;

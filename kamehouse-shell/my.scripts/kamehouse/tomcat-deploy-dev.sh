@@ -48,8 +48,11 @@ setGlobalVariables() {
 
 buildProject() {
   log.info "Building kamehouse (skipping tests, checkstyle and findbugs) in ${DEV_ENVIRONMENT}"
-  MAVEN_COMMAND="mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
   
+  exportGitCommitHash
+  
+  MAVEN_COMMAND="mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+
   if [ -n "${MODULE}" ]; then
     log.info "Building module ${COL_PURPLE}${MODULE}"
     MAVEN_COMMAND="${MAVEN_COMMAND} -pl :${MODULE} -am"

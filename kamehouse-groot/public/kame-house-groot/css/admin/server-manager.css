@@ -56,6 +56,10 @@
   min-width: 210px;
 }
 
+.tomcat-modules-table-build-version {
+  min-width: 165px;
+}
+
 .tomcat-modules-table-build-date {
   min-width: 270px;
 }

@@ -149,6 +149,9 @@ pullLatestVersionFromGit() {
 
 buildProject() {
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
+  
+  exportGitCommitHash
+  
   MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
   
   if ${FAST_DEPLOYMENT}; then

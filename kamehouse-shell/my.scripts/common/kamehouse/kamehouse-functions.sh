@@ -148,3 +148,9 @@ loadDockerContainerEnv() {
     source ${CONTAINER_ENV_FILE}
   fi
 }
+
+# Assumes it's running on the root of the git kamehouse project
+exportGitCommitHash() {
+  log.info "Exporting git commit hash to project"
+  git rev-parse --short HEAD > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+}
