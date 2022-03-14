@@ -46,6 +46,7 @@ const sleep = coreUtils.sleep;
 function mainGlobal() {
   coreUtils.loadHeaderAndFooter();
   cursorUtils.loadSpinningWheelMobile();
+  logger.init();
   logger.info("Initialized global functions");
   //testUtils.testLogLevel();
   //testUtils.testSleep();
@@ -888,7 +889,7 @@ function DomUtils() {
       logger.info("jqxhr.readyState: " + jqxhr.readyState);
       logger.info("jqxhr.status: " + jqxhr.status);
       logger.info("jqxhr.statusText: " + jqxhr.statusText);
-      //logger.info("jqxhr.responseText: " + jqxhr.responseText);
+      logger.trace("jqxhr.responseText: " + jqxhr.responseText);
       logger.info("settings: " + settings);
       logger.info("exception:");
       console.error(exception);
@@ -946,10 +947,10 @@ function ModuleUtils() {
    * to be loaded before the main code is executed.
    */
   async function waitForModules(moduleNames, initFunction) {
-    //logger.debug("init: " + initFunction.name + ". Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+    logger.trace("init: " + initFunction.name + ". Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
     let areAllModulesLoaded = false;
     while (!areAllModulesLoaded) {
-      //logger.debug("init: " + initFunction.name + ". Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+      logger.trace("init: " + initFunction.name + ". Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
       let isAnyModuleStillLoading = false;
       moduleNames.forEach((moduleName) => {
         if (!modules[moduleName]) {
@@ -962,9 +963,9 @@ function ModuleUtils() {
       // SLEEP IS IN MS!!
       await sleep(15);
     }
-    //logger.debug("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+    logger.trace("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
     if (isFunction(initFunction)) {
-      //logger.debug("Executing " + initFunction.name);
+      logger.trace("Executing " + initFunction.name);
       initFunction();
     }
   }
@@ -1374,6 +1375,7 @@ function TimeUtils() {
  */
  function Logger() {
 
+  this.init = init;
   this.setLogLevel = setLogLevel;
   this.getLogLevel = getLogLevel;
   this.error = error;
@@ -1395,6 +1397,44 @@ function TimeUtils() {
    * Default log level: INFO (2)
    */
   let logLevelNumber = 2;
+
+  /**
+   * Override the default log level from url parameters.
+   */
+  function init() {
+    logger.info("Initializing logger");
+    const urlParams = new URLSearchParams(window.location.search);
+    const logLevel = urlParams.get('logLevel');
+    if (!isEmpty(logLevel)) {
+      const logLevelNumberParam = getLogLevelNumber(logLevel);
+      logger.info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
+      setLogLevel(logLevelNumberParam);
+    }
+  }
+
+  /**
+   * Get the log level number mapped to the specified log level string.
+   */
+  function getLogLevelNumber(logLevel) {
+    const logLevelUpperCase = logLevel.toUpperCase();
+    if (logLevelUpperCase == "ERROR") {
+      return 0;
+    }
+    if (logLevelUpperCase == "WARN") {
+      return 1;
+    }
+    if (logLevelUpperCase == "INFO") {
+      return 2;
+    }
+    if (logLevelUpperCase == "DEBUG") {
+      return 3;
+    }
+    if (logLevelUpperCase == "TRACE") {
+      return 4;
+    }
+    // default INFO
+    return 2;
+  }
 
   /**
    * Set the log level for the console in numeric value, based on the mapping shown above.
