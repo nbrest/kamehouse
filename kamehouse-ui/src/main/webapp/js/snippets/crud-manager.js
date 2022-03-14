@@ -601,18 +601,21 @@ function CrudManager() {
   }
 
   /**
-   * Set the table header columns.
+   * Set the table header columns. Returns the 
    */
   function setHeaderColumns(tr, currentNodeColumns, parentNodeChain, columnIndex) {
     parentNodeChain= initParentNodeChain(parentNodeChain);
+    let addedObjectColumnIndexes = 0;
     for (const column of currentNodeColumns) {
       const type = column.type;
       const name = column.name;
       if (isObjectField(type)) {
-        setHeaderColumns(tr, column.columns, parentNodeChain + name, columnIndex);
+        let newColumnIndexes = 0;
+        newColumnIndexes = setHeaderColumns(tr, column.columns, parentNodeChain + name, columnIndex);
+        addedObjectColumnIndexes = addedObjectColumnIndexes + newColumnIndexes;
         continue;
       }
-      const currentColumnIndex = columnIndex;
+      let currentColumnIndex = columnIndex + addedObjectColumnIndexes;
       const td = domUtils.getTd({
         id: tbodyId + "-col-" + currentColumnIndex,
         class: "clickable",
@@ -620,6 +623,7 @@ function CrudManager() {
         title: "Sort by " + parentNodeChain + name
       }, parentNodeChain + name);
       const sortType = getSortType(column);
+      logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType);
       domUtils.setClick(td, null,
         () => {
           tableUtils.sortTable("crud-manager-table", currentColumnIndex, sortType);
@@ -629,6 +633,8 @@ function CrudManager() {
       domUtils.append(tr, td);
       columnIndex++;
     }
+    const lastAddedColumnIndex = columnIndex - 1;
+    return lastAddedColumnIndex;
   }
 
   /**
