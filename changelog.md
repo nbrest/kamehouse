@@ -7,6 +7,7 @@
 * Fixed sorting of data in the UI in crud manager
 * Added url parameter to override default js console log level for debugging
 * Added git commit hash to build version
+* Updated layout and styles of kamehouse-mobile
 
 #### v7.02
 
