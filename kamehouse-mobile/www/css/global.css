@@ -1,3 +1,7 @@
+.config-header {
+  text-align: center;
+}
+
 .header-mobile-btn {
   opacity: 30%;
   width: 40px;
@@ -13,6 +17,15 @@
     margin-top: 2px;
     transform: scale(1);
   }
+}
+
+#iab-header {
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+#iab-target-dropdown {
+  margin-bottom: 10px;
 }
 
 .mobile-btn-kh {
