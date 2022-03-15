@@ -38,7 +38,6 @@ DEPLOYMENT_DIR=""
 TOMCAT_DIR=""
 TOMCAT_LOG=""
 MAVEN_COMMAND=""
-GIT_COMMIT_HASH=""
 
 mainProcess() {
   setGlobalVariables
@@ -181,7 +180,6 @@ buildProject() {
     git checkout HEAD -- package-lock.json
     ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh -p prod
     cp -v -f pom.xml www/
-    GIT_COMMIT_HASH=`git rev-parse --short HEAD`
     echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
@@ -215,6 +213,7 @@ deployKameHouseCmd() {
     rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
     unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
     mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
+    echo "${GIT_COMMIT_HASH}" > ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/git-commit-hash.txt
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
   fi
@@ -244,7 +243,7 @@ deployKameHouseMobile() {
     log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"
     if [ -f "${KAMEHOUSE_ANDROID_APP}" ]; then
       scp -v ${KAMEHOUSE_ANDROID_APP} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
-      ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "cd ${KAMEHOUSE_MOBILE_APP_PATH} ; echo 'sha256sum:' > kamehouse.apk.sha256.txt ; sha256sum kamehouse.apk >> kamehouse.apk.sha256.txt ; ls -ln | cut -d ' ' -f 5- >> kamehouse.apk.sha256.txt ; echo "" >> kamehouse.apk.sha256.txt ; echo 'git commit hash: '${GIT_COMMIT_HASH} >> kamehouse.apk.sha256.txt"
+      ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "cd ${KAMEHOUSE_MOBILE_APP_PATH} ; echo -n 'sha256sum: ' > kamehouse.apk.sha256.txt ; sha256sum kamehouse.apk >> kamehouse.apk.sha256.txt ; ls -ln | cut -d ' ' -f 5- >> kamehouse.apk.sha256.txt ; echo "" >> kamehouse.apk.sha256.txt ; echo 'git commit hash: '${GIT_COMMIT_HASH} >> kamehouse.apk.sha256.txt"
     else
       log.error "${KAMEHOUSE_ANDROID_APP} not found. Was the build successful?"
     fi

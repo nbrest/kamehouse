@@ -66,8 +66,35 @@ function CordovaManager() {
    * Open inAppBrowser with
    */
   function openBrowser(urlLookup) {
-    const serverEntity = mobileConfigManager.getServers().find(server => server.name === urlLookup);
+    const serverEntity = getServerUrl(urlLookup);
     openInAppBrowser(serverEntity);
+  }
+
+  /**
+   * Get complete url from lookup.
+   */
+  function getServerUrl(urlLookup) {
+    const server = mobileConfigManager.getServers().find(server => server.name === urlLookup);
+    const serverEntity = {};
+    serverEntity.name = server.name;
+    serverEntity.url = server.url;
+    if (urlLookup == "docker-demo") {
+      serverEntity.url = serverEntity.url + "/kame-house/";
+    }
+    if (urlLookup == "tw-booking") {
+      serverEntity.url = serverEntity.url + "/kame-house/tennisworld/booking-response.html";
+    }
+    if (urlLookup == "vlc") {
+      serverEntity.url = serverEntity.url + "/kame-house/vlc-player";
+    }
+    if (urlLookup == "vm-ubuntu") {
+      serverEntity.url = serverEntity.url + "/kame-house/";
+    }
+    if (urlLookup == "wol") {
+      serverEntity.url = serverEntity.url + "/kame-house/admin/server-management.html";
+    }
+    logger.trace("Server entity: " + JSON.stringify(serverEntity));
+    return serverEntity;
   }
 
   /**

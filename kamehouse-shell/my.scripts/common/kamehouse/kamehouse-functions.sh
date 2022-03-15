@@ -7,6 +7,7 @@ SSH_SERVER=""
 SSH_PORT=22
 AWS_SSH_SERVER="ec2-13-211-209-87.ap-southeast-2.compute.amazonaws.com"
 AWS_SSH_USER=ubuntu
+GIT_COMMIT_HASH=
 
 TOMCAT_PORT=9090
 TOMCAT_DEBUG_PORT=8000
@@ -152,5 +153,6 @@ loadDockerContainerEnv() {
 # Assumes it's running on the root of the git kamehouse project
 exportGitCommitHash() {
   log.info "Exporting git commit hash to project"
-  git rev-parse --short HEAD > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+  GIT_COMMIT_HASH=`git rev-parse --short HEAD`
+  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
 }

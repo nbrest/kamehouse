@@ -83,7 +83,7 @@ buildProject() {
     fi
     ${HOME}/my.scripts/kamehouse/kamehouse-mobile-resync-kh-files.sh
     cp -v -f pom.xml www/
-    git rev-parse --short HEAD > www/git-commit-hash.txt
+    echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
   fi
@@ -96,6 +96,7 @@ deployKameHouseCmd() {
     rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
     unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
     mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
+    echo "${GIT_COMMIT_HASH}" > ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/git-commit-hash.txt
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
   fi
