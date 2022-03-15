@@ -70,6 +70,12 @@
   float: left;
 }
 
+.services-link-desc {
+  text-align: left;
+  float: left;
+  font-size: 14px;
+}
+
 .services-table {
   border: none;
   background: none;
