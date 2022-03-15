@@ -1,5 +1,7 @@
 .config-header {
   text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .header-mobile-btn {
@@ -20,8 +22,8 @@
 }
 
 #iab-header {
-  margin-top: 25px;
-  margin-bottom: 15px;
+  margin-top: 35px;
+  margin-bottom: 25px;
 }
 
 #iab-target-dropdown {
