@@ -21,6 +21,22 @@
   }
 }
 
+.home-link-img {
+  width: 140px;
+  height: 140px;
+  cursor: pointer;
+}
+
+#home-tab-app-links {
+  text-align: center;
+  padding-top: 30px;
+}
+
+.home-tab-app-link {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
 #iab-header {
   margin-top: 35px;
   margin-bottom: 25px;
@@ -79,7 +95,7 @@
 .services-table {
   border: none;
   background: none;
-  width: 70%;
+  width: 80%;
   margin: auto;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -91,4 +107,70 @@
 
 .services-table tr td {
   border: none;
+}
+
+#debug-mode-button-wrapper {
+  opacity: 0.3;
+}
+
+
+/** animation: contract and expand in 10 seconds */
+.contract-10 {
+  animation: contract-10 10s infinite linear;
+}
+
+@keyframes contract-10 {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* animation: rotate 10 degrees forward and back over 10 seconds infinitely */
+.rotate-10-10 {
+  animation: rotation-10 10s infinite linear;
+}
+
+@keyframes rotation-10 {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  25% {
+    transform: rotate(10deg);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* animation: fade out and back in in 10 seconds */
+.fade-10 {
+  animation: fade-10 10s infinite linear;
+}
+
+@keyframes fade-10 {
+  0% {
+    opacity: 1;
+  }
+  
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
