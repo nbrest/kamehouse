@@ -60,6 +60,7 @@ parseArguments() {
 
   if [ "${PROFILE}" != "ci" ] &&
     [ "${PROFILE}" != "dev" ] &&
+    [ "${PROFILE}" != "demo" ] &&
     [ "${PROFILE}" != "prod" ] &&
     [ "${PROFILE}" != "prod-80-443" ]; then
     log.error "Option -p [profile] has an invalid value of ${DOCKER_BASE_OS}"
@@ -69,6 +70,10 @@ parseArguments() {
   
   if [ "${PROFILE}" == "ci" ]; then
     DOCKER_PORT_SSH=15022
+  fi
+
+  if [ "${PROFILE}" == "demo" ]; then
+    DOCKER_PORT_SSH=12022
   fi
 
   if [ "${PROFILE}" == "prod" ]; then
@@ -86,7 +91,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-p (ci|dev|prod|prod-80-443)${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-80-443)${COL_NORMAL} default profile is dev"
 }
 
 main "$@"

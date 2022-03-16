@@ -52,6 +52,9 @@ setEnvironment() {
 
   if [ -n "${DOCKER_HOST_HOSTNAME}" ]; then
     DOCKER_IMAGE_HOSTNAME=${DOCKER_HOST_HOSTNAME}"-docker"
+    if [ -n "${PROFILE}" ]; then
+      DOCKER_IMAGE_HOSTNAME=${DOCKER_IMAGE_HOSTNAME}"-"${PROFILE}
+    fi
   fi
 }
 
@@ -192,6 +195,7 @@ parseArguments() {
 buildProfile() {
   if [ "${PROFILE}" != "ci" ] &&
     [ "${PROFILE}" != "dev" ] &&
+    [ "${PROFILE}" != "demo" ] &&
     [ "${PROFILE}" != "prod" ] &&
     [ "${PROFILE}" != "prod-80-443" ]; then
     log.error "Option -p [profile] has an invalid value of ${DOCKER_BASE_OS}"
@@ -206,6 +210,20 @@ buildProfile() {
     DOCKER_PORT_TOMCAT_DEBUG=15000
     DOCKER_PORT_TOMCAT=15090
     DOCKER_PORT_MYSQL=15306
+    BUILD_ON_STARTUP=true
+    DEBUG_MODE=false
+    DOCKER_CONTROL_HOST=false
+    USE_VOLUMES=false
+    EXPORT_NATIVE_HTTPD=false
+  fi
+
+  if [ "${PROFILE}" == "demo" ]; then
+    DOCKER_PORT_SSH=12022
+    DOCKER_PORT_HTTP=12080
+    DOCKER_PORT_HTTPS=12443
+    DOCKER_PORT_TOMCAT_DEBUG=12000
+    DOCKER_PORT_TOMCAT=12090
+    DOCKER_PORT_MYSQL=12306
     BUILD_ON_STARTUP=true
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=false
@@ -279,7 +297,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default base os is ubuntu"
-  echo -e "     ${COL_BLUE}-p (ci|dev|prod|prod-80-443)${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-80-443)${COL_NORMAL} default profile is dev"
   echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   echo -e "     ${COL_BLUE}-v${COL_NORMAL} use volumes to persist data"
 }
