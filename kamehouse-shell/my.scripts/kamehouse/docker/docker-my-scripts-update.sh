@@ -9,10 +9,12 @@ fi
 
 mainProcess() {
   log.info "Updating my.scripts from java.web.kamehouse git repository"
+  mkdir -p ${HOME}/temp
+  cp /home/nbrest/my.scripts/.cred/.cred ${HOME}/temp
   rm -r -f /home/nbrest/my.scripts
   cp -r -f /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts /home/nbrest/
   mkdir -p /home/nbrest/my.scripts/.cred/
-  cp /home/nbrest/docker/keys/.cred /home/nbrest/my.scripts/.cred/.cred
+  cp ${HOME}/temp/.cred /home/nbrest/my.scripts/.cred/.cred
   chmod a+x -R /home/nbrest/my.scripts
 }
 

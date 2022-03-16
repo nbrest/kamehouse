@@ -20,6 +20,8 @@ DOCKER_ENVIRONMENT="ubuntu"
 mainProcess() {
   log.info "Pulling docker image nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}"
   docker pull nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}
+
+  ${HOME}/my.scripts/kamehouse/docker/docker-cleanup-java-web-kamehouse.sh
 }
 
 parseArguments() {
