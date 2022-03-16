@@ -8,6 +8,7 @@
 * Added url parameter to override default js console log level for debugging
 * Added git commit hash to build version
 * Updated layout and styles of kamehouse-mobile
+* Added demo profile to docker scripts
 
 #### v7.02
 
