@@ -9,7 +9,8 @@ fi
 
 mainProcess() {
   log.info "Updating my.scripts from java.web.kamehouse git repository"
-  cp -r /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts /home/nbrest/
+  rm -r -f /home/nbrest/my.scripts
+  cp -r -f /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts /home/nbrest/
   chmod a+x -R /home/nbrest/my.scripts
 }
 
