@@ -9,6 +9,7 @@
 * Added git commit hash to build version
 * Updated layout and styles of kamehouse-mobile
 * Added demo profile to docker scripts
+* Fixed dateUtils tests that failed on some linux servers
 
 #### v7.02
 
