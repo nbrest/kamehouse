@@ -12,6 +12,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to manipulate dates.
@@ -19,6 +21,8 @@ import java.util.Locale;
  * @author nbrest
  */
 public class DateUtils {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DateUtils.class);
 
   public static final String YYYY_MM_DD = "yyyy-MM-dd";
   public static final String HH_MM_24HS = "HH:mm";
@@ -246,6 +250,7 @@ public class DateUtils {
       }
       return result;
     } catch (DateTimeParseException e) {
+      LOGGER.error("Error parsing time", e);
       throw new KameHouseInvalidDataException("Unable to parse input time " + input);
     }
   }
