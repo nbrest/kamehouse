@@ -176,7 +176,9 @@ public class DateUtilsTest {
       boolean lowerCaseOut = Boolean.valueOf(lowerCaseOutStr);
       assertEquals(expected, DateUtils.convertTime(input, inFormat, outFormat, lowerCaseOut));
     } catch (KameHouseInvalidDataException e) {
-      logger.error("Error executing convertTimeTest", e);
+      logger.error(
+          "Error executing convertTimeTest for input {}, expected {}, inFormat {}, outFormat {}, lowerCaseOutStr {}",
+          input, expected, inFormat, outFormat, lowerCaseOutStr, e);
       if (PropertiesUtils.isWindowsHost()
           || PropertiesUtils.getHostname().endsWith("-vm-ubuntu")
           || PropertiesUtils.getHostname().equals("pi")) {
