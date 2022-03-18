@@ -250,8 +250,9 @@ public class DateUtils {
       }
       return result;
     } catch (DateTimeParseException e) {
-      LOGGER.error("Error parsing time for input {}, inFormat {}, outFormat {} and lowerCaseOut {},"
-          , input, inFormat, outFormat, lowerCaseOut, e);
+      LOGGER.error(
+          "Error parsing time for input {}, inFormat {}, outFormat {} and lowerCaseOut {},", input,
+          inFormat, outFormat, lowerCaseOut, e);
       throw new KameHouseInvalidDataException("Unable to parse input time " + input);
     }
   }
