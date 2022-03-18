@@ -179,13 +179,7 @@ public class DateUtilsTest {
       logger.error(
           "Error executing convertTimeTest for input {}, expected {}, inFormat {}, outFormat {}, lowerCaseOutStr {}",
           input, expected, inFormat, outFormat, lowerCaseOutStr, e);
-      if (PropertiesUtils.isWindowsHost()
-          || PropertiesUtils.getHostname().endsWith("-vm-ubuntu")
-          || PropertiesUtils.getHostname().equals("pi")) {
-        // This test is passing in all my servers but fails in github ci server,
-        // so fail the test only when it also fails in my servers
-        fail("Error executing convertTimeTest");
-      }
+      fail("Error executing convertTimeTest");
     }
   }
 
