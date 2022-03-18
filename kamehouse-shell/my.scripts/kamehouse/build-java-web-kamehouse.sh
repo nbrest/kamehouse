@@ -14,6 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+LOG_PROCESS_TO_FILE=true
 FAST_BUILD=false
 INTEGRATION_TESTS=false
 MODULE=
