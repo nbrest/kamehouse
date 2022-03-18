@@ -235,12 +235,14 @@ public class DateUtils {
       return null;
     }
     try {
-      if (PropertiesUtils.isWindowsHost()) {
-        input = input.toUpperCase(Locale.getDefault());
-      } else {
+      input = input.toUpperCase(Locale.getDefault());
+      LocalTime localTime;
+      try {
+        localTime = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
+      } catch (DateTimeParseException e) {
         input = input.toLowerCase(Locale.getDefault());
+        localTime = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
       }
-      LocalTime localTime = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(outFormat);
       String result = localTime.format(dateTimeFormatter);
       if (lowerCaseOut) {
