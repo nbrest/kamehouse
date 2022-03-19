@@ -167,10 +167,15 @@
 
 /* animation: fade out and back in in 10 seconds */
 .fade-10 {
-  animation: fade-10 10s infinite linear;
+  animation: fade 10s infinite linear;
 }
 
-@keyframes fade-10 {
+/* animation: fade out and back in in 5 seconds */
+.fade-5 {
+  animation: fade 5s infinite linear;
+}
+
+@keyframes fade {
   0% {
     opacity: 1;
   }
