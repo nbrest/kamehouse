@@ -106,7 +106,7 @@ function CordovaManager() {
     const options = mobileConfigManager.getInAppBrowserConfig().options;
     const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
     if (target == "_system") {
-      basicKamehouseModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 4000);
+      basicKamehouseModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 2000);
     } else {
       basicKamehouseModal.setHtml(getOpenBrowserMessage(serverEntity));
       basicKamehouseModal.setErrorMessage(false);
@@ -175,6 +175,7 @@ function MobileConfigManager() {
   this.updateMobileConfigFromView = updateMobileConfigFromView;
   this.setVlcPlayerFromDropdown = setVlcPlayerFromDropdown;
   this.refreshConfigTabView = refreshConfigTabView;
+  this.confirmResetDefaults = confirmResetDefaults;
   this.resetDefaults = resetDefaults;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
@@ -565,6 +566,38 @@ function MobileConfigManager() {
   }
 
   /**
+   * Open confirm reset config modal.
+   */
+  function confirmResetDefaults() {
+    basicKamehouseModal.setHtml(getResetConfigModalMessage());
+    basicKamehouseModal.open();
+  }
+  
+  /**
+   * Get the message to reset the config.
+   */
+  function getResetConfigModalMessage() {
+    const resetConfigModalMessage = domUtils.getSpan({}, "Are you sure you want to reset the configuration? ");
+    domUtils.append(resetConfigModalMessage, domUtils.getBr());
+    domUtils.append(resetConfigModalMessage, domUtils.getBr());
+    domUtils.append(resetConfigModalMessage, getConfirmResetConfigButton());
+    return resetConfigModalMessage;
+  }
+
+  /**
+   * Get the button to confirm resetting the config.
+   */
+  function getConfirmResetConfigButton() {
+    return domUtils.getButton({
+      attr: {
+        class: "mobile-btn-kh reset-cfg-btn-kh",
+      },
+      html: "Yes",
+      click: resetDefaults
+    });
+  }
+
+  /**
    * Reset config to default values.
    */
   function resetDefaults() {
@@ -573,6 +606,7 @@ function MobileConfigManager() {
     setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
     refreshConfigTabView();
     reGenerateMobileConfigFile();
+    basicKamehouseModal.close();
     basicKamehouseModal.openAutoCloseable("Config reset to default values", 2000);
   }
 
