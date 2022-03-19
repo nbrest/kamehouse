@@ -1,6 +1,5 @@
 .config-header {
   text-align: center;
-  margin-top: 25px;
   margin-bottom: 35px;
 }
 
@@ -46,11 +45,6 @@
 .home-tab-app-link {
   padding-top: 30px;
   padding-bottom: 30px;
-}
-
-#iab-header {
-  margin-top: 50px;
-  margin-bottom: 35px;
 }
 
 #iab-target-dropdown {
