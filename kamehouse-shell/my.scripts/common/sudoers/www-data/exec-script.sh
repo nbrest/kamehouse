@@ -40,7 +40,8 @@ mainProcess() {
 setupEnv() {
   loadDockerContainerEnv
 
-  if ${DOCKER_CONTROL_HOST} && ${IS_EXECUTABLE_ON_DOCKER_HOST}; then
+  if [ "${DOCKER_CONTROL_HOST}" == "true" ] && [ "${IS_EXECUTABLE_ON_DOCKER_HOST}" == "true" ]; then
+    log.info "Executing script on docker host"
     EXECUTE_ON_DOCKER_HOST=true
   fi
   #printEnv
