@@ -70,7 +70,7 @@ cordova plugin add cordova-plugin-inappbrowser
 - Upload `app-debug.apk` to your android phone and install with the package installer
 - It's not signed or verified by playstore so it will show warnings when trying to install it
 - By default it's not allowed to install, so you need to enable installing unverified apps
-- Easiest way I found to upload frequently during development is to download a free webdav server on playstore and upload the apk with winscp
+- Easiest way I found to upload frequently during development is to download a free webdav server or sftp server on playstore and upload the apk with winscp. The script `upload-apk-to-android.sh` automates this step using SSH/SFTP Server - Terminal from googleplay (from Banana Studio) 
 
 # Run in an emulator
 
@@ -82,7 +82,7 @@ cordova plugin add cordova-plugin-inappbrowser
 
 - Then a local browser windows should open in chrome
 - Currently the default url is: [http://localhost:8000/index.html](http://localhost:8000/index.html)
-- Open chrome dev tools and set the visible width to 360px. That's as similar view as I get to my phone
+- Open chrome dev tools and set the visible width to 391px. That's as similar view as I get to my phone
 
 ## Run in an emulated android device
 
@@ -101,5 +101,5 @@ cordova plugin add cordova-plugin-inappbrowser
 
 - Setup local apache httpd to serve the local cordova app on [http://localhost:9987/index.html](http://localhost:9987/index.html) reading the files from `kamehouse-mobile\www`
 - It won't find the cordova.js dependencies so I can't open the inAppBrowser links, but is still useful to develop and style the app running locally on the phone without having to restart the cordova browser on every change
-- Load the page with mockCordova=true parameter to mock cordova calls [http://localhost:9987/?mockCordova=true](http://localhost:9987/?mockCordova=true)
+- Load the page with mockCordova=true parameter to mock cordova calls [http://localhost:9987/?mockCordova=true&logLevel=trace](http://localhost:9987/?mockCordova=true&logLevel=trace)
 - For changes that interact with cordova api, it's better to test it directly on the cordova server [http://localhost:8000/index.html](http://localhost:8000/index.html)

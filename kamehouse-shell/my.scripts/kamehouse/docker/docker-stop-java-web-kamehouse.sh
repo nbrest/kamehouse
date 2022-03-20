@@ -35,7 +35,6 @@ mainProcess() {
   ${HOME}/my.scripts/kamehouse/docker/docker-status-java-web-kamehouse.sh
 }
 
-
 parseArguments() {
   while getopts ":c:hp:" OPT; do
     case $OPT in

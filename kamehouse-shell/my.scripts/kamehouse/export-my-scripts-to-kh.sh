@@ -69,6 +69,7 @@ exportMyScripts() {
 
   log.info "Copying win scripts"
   mkdir -p ${EXPORT_DIR}/my.scripts/win
+  cp -r -v ${HOME}/my.scripts/win/audio-playlists win/
   cp -r -v ${HOME}/my.scripts/win/backup win/
   cp -r -v ${HOME}/my.scripts/win/bashrc win/
   cp -r -v ${HOME}/my.scripts/win/bat win/
