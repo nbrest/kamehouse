@@ -20,7 +20,10 @@ mainProcess() {
   ${HOME}/my.scripts/win/audio-playlists/create-all-audio-playlists-linux.sh
   checkCommandStatus "$?" 
   
-  ${HOME}/my.scripts/win/audio-playlists/create-all-audio-playlists-android.sh
+  ${HOME}/my.scripts/win/audio-playlists/create-all-audio-playlists-android-internal.sh
+  checkCommandStatus "$?"
+
+  ${HOME}/my.scripts/win/audio-playlists/create-all-audio-playlists-android-external.sh
   checkCommandStatus "$?"
 
   log.info "Waiting for all background processes to finish in create-all-audio-playlists.sh"

@@ -9,7 +9,7 @@ fi
 
 ANDROID_IP="192.168.0.92"
 ANDROID_PORT=2222
-ANDROID_PLAYLISTS_PATH=${HOME}/git/texts/audio_playlists/android
+ANDROID_PLAYLISTS_PATH=${HOME}/git/texts/audio_playlists/android-external
 SD_CARD_PLAYLISTS_PATH=/0000-0000/Playlists
 SFTP_USER=android
 

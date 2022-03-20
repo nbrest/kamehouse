@@ -12,8 +12,8 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_SD_CARD_MUSIC="/storage/0000-0000/Music"
-PATH_PLS_DEST=${HOME}/git/texts/audio_playlists/android
+PATH_SD_CARD_MUSIC="/storage/emulated/0/Music"
+PATH_PLS_DEST=${HOME}/git/texts/audio_playlists/android-internal
 PATH_BASE_DEST="${PATH_SD_CARD_MUSIC}/mp3"
 PATH_BASE_N2_DEST="${PATH_SD_CARD_MUSIC}/truecrypt/mp3"
 
