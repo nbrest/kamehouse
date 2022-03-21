@@ -10,8 +10,24 @@ fi
 LOG_PROCESS_TO_FILE=true
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kh.webserver/kame-house-mobile"
 KAMEHOUSE_APK_HTML=kamehouse-apk.html
-GIT_COMMIT_HASH="a1b2c3d4"
-STYLE="style=\"background: #060606;color: #c0c0c0;font-size: 20px;margin: 50px;\""
+GIT_COMMIT_HASH=""
+HEAD='
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="description" content="kame-house application">
+<meta name="keywords" content="kame-house nicobrest nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse APK</title>
+
+<link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
+<script src="/kame-house/lib/js/jquery.js"></script>
+<script src="/kame-house/js/global.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
+'
+PRE_STYLE='style="color: #c0c0c0;font-size: 17px;margin: 30px;"'
 
 mainProcess() {
   log.info "Re generating apk html file"
@@ -19,10 +35,12 @@ mainProcess() {
 
   cd ${KAMEHOUSE_MOBILE_APP_PATH}
 
-  echo "<html><head></head><body ${STYLE}>" > ${KAMEHOUSE_APK_HTML}
-
-  echo "<h2>KameHouse Mobile APK:</h2>" >> ${KAMEHOUSE_APK_HTML}
-  echo "<pre>" >> ${KAMEHOUSE_APK_HTML}
+  echo "<html><head>${HEAD}</head><body>" > ${KAMEHOUSE_APK_HTML}
+  
+  echo '<div class="default-layout main-body"><br><br>' >> ${KAMEHOUSE_APK_HTML}
+  
+  echo "<h2>KameHouse Mobile APK</h2>" >> ${KAMEHOUSE_APK_HTML}
+  echo "<pre ${PRE_STYLE}>" >> ${KAMEHOUSE_APK_HTML}
   echo -n 'sha256sum: ' >> ${KAMEHOUSE_APK_HTML}
   sha256sum kamehouse.apk >> ${KAMEHOUSE_APK_HTML}
 
@@ -31,6 +49,8 @@ mainProcess() {
   echo "" >> ${KAMEHOUSE_APK_HTML}
   echo 'git commit hash: '${GIT_COMMIT_HASH} >> ${KAMEHOUSE_APK_HTML}
   echo "</pre>" >> ${KAMEHOUSE_APK_HTML}
+
+  echo '</div>' >> ${KAMEHOUSE_APK_HTML}
 
   echo "</body></html>" >> ${KAMEHOUSE_APK_HTML}
 }
