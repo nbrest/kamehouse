@@ -82,7 +82,7 @@ function CordovaManager() {
       serverEntity.url = serverEntity.url + "/kame-house/";
     }
     if (urlLookup == "tw-booking") {
-      serverEntity.url = serverEntity.url + "/kame-house/tennisworld/booking-response.html";
+      serverEntity.url = serverEntity.url + "/kame-house/tennisworld/booking-response";
     }
     if (urlLookup == "vlc") {
       serverEntity.url = serverEntity.url + "/kame-house/vlc-player";
@@ -91,7 +91,7 @@ function CordovaManager() {
       serverEntity.url = serverEntity.url + "/kame-house/";
     }
     if (urlLookup == "wol") {
-      serverEntity.url = serverEntity.url + "/kame-house/admin/server-management.html";
+      serverEntity.url = serverEntity.url + "/kame-house/admin/wake-on-lan";
     }
     logger.trace("Server entity: " + JSON.stringify(serverEntity));
     return serverEntity;

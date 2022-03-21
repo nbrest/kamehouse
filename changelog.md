@@ -11,6 +11,9 @@
 * Added demo profile to docker scripts
 * Added confirmation modal to reset config button
 * Fixed dateUtils tests that failed on some linux servers
+* Created wake on lan page to link to it from mobile app instead of linking to server-management
+* Added option to hide debug mode button but still make it clickable
+* Fixed link buttons in tennisworld
 
 #### v7.02
 

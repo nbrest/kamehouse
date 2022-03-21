@@ -14,6 +14,11 @@
   }
 }
 
+/* Add this class to debug-mode-button-wrapper span to hide the debug mode button but still allow it to be clickable */
+.debug-mode-btn-hidden {
+  opacity: 0;
+}
+
 #debug-mode-console-log-entries {
   text-align: left;
   background-color: #000000;

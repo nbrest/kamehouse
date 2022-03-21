@@ -119,11 +119,6 @@
   border: none;
 }
 
-#debug-mode-button-wrapper {
-  opacity: 0.3;
-}
-
-
 /** animation: contract and expand in 10 seconds */
 .contract-10 {
   animation: contract-10 10s infinite linear;
