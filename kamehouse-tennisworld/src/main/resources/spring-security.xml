@@ -10,7 +10,10 @@
     <!-- The order of intercept-urls matters. Order them from more specific to more
       general within the same url. Ej: /api/v1/admin/kamehouse/** before /api/v1/admin/** -->
 
+    <intercept-url pattern="/api/v1/tennis-world/**" access="hasRole('ROLE_SAIYAJIN')" method="GET" />
     <intercept-url pattern="/api/v1/tennis-world/**" access="hasRole('ROLE_SAIYAJIN')" method="POST" />
+    <intercept-url pattern="/api/v1/tennis-world/**" access="hasRole('ROLE_SAIYAJIN')" method="PUT" />
+    <intercept-url pattern="/api/v1/tennis-world/**" access="hasRole('ROLE_SAIYAJIN')" method="DELETE" />
 
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
