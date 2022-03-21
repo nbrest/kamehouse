@@ -50,7 +50,7 @@
   padding-bottom: 8px;
   border: 1px;
   border-color: #1f1f1f;
-  border-style: solid none solid none;
+  border-style: none none solid none;
 }
 
 #iab-target-dropdown {
