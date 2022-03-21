@@ -19,6 +19,10 @@
   opacity: 0;
 }
 
+.debug-mode-btn-hidden:hover {
+  opacity: 1;
+}
+
 #debug-mode-console-log-entries {
   text-align: left;
   background-color: #000000;
