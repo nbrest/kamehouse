@@ -243,7 +243,7 @@ deployKameHouseMobile() {
     log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"
     if [ -f "${KAMEHOUSE_ANDROID_APP}" ]; then
       scp -v ${KAMEHOUSE_ANDROID_APP} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
-      ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "cd ${KAMEHOUSE_MOBILE_APP_PATH} ; echo -n 'sha256sum: ' > kamehouse.apk.sha256.txt ; sha256sum kamehouse.apk >> kamehouse.apk.sha256.txt ; ls -ln | cut -d ' ' -f 5- >> kamehouse.apk.sha256.txt ; echo "" >> kamehouse.apk.sha256.txt ; echo 'git commit hash: '${GIT_COMMIT_HASH} >> kamehouse.apk.sha256.txt"
+      ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "\${HOME}/my.scripts/kamehouse/kh-mobile-regenerate-apk-html.sh ${GIT_COMMIT_HASH}"
     else
       log.error "${KAMEHOUSE_ANDROID_APP} not found. Was the build successful?"
     fi
