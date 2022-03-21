@@ -27,7 +27,7 @@ HEAD='
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
 '
-PRE_STYLE='style="color: #c0c0c0;font-size: 17px;margin: 30px;"'
+PRE_STYLE='style="color: #c0c0c0;font-size: 17px;margin: 30px; border:3px solid #2a2a2a; padding: 20px; background: #000000"'
 
 mainProcess() {
   log.info "Re generating apk html file"
@@ -44,7 +44,7 @@ mainProcess() {
   echo -n 'sha256sum: ' >> ${KAMEHOUSE_APK_HTML}
   sha256sum kamehouse.apk >> ${KAMEHOUSE_APK_HTML}
 
-  ls -ln | cut -d ' ' -f 5- >> ${KAMEHOUSE_APK_HTML}
+  ls -ln | grep -v ".html" | cut -d ' ' -f 5- >> ${KAMEHOUSE_APK_HTML}
 
   echo "" >> ${KAMEHOUSE_APK_HTML}
   echo 'git commit hash: '${GIT_COMMIT_HASH} >> ${KAMEHOUSE_APK_HTML}
