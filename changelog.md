@@ -14,6 +14,7 @@
 * Created wake on lan page to link to it from mobile app instead of linking to server-management
 * Added option to hide debug mode button but still make it clickable
 * Fixed link buttons in tennisworld
+* Updated security config of tennisworld api
 
 #### v7.02
 
