@@ -161,6 +161,20 @@
   }
 }
 
+.rotate-10 {
+  animation: rotation-full 10s infinite linear;
+}
+
+@keyframes rotation-full {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
 /* animation: fade out and back in in 10 seconds */
 .fade-10 {
   animation: fade 10s infinite linear;
@@ -178,6 +192,24 @@
   
   50% {
     opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-06-5 {
+  animation: fade-06 5s infinite linear;
+}
+
+@keyframes fade-06 {
+  0% {
+    opacity: 1;
+  }
+  
+  50% {
+    opacity: 0.6;
   }
 
   100% {
