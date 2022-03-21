@@ -48,9 +48,9 @@
   margin-top: 30px;
   margin-bottom: 47px;
   padding-bottom: 8px;
-  margin-left: 35px;
-  margin-right: 35px;
-  border: 3px solid #1d0000;
+  border: 1px;
+  border-color: #1f1f1f;
+  border-style: solid none solid none;
 }
 
 #iab-target-dropdown {
