@@ -39,7 +39,7 @@ mainProcess() {
   
   echo '<div class="default-layout main-body"><br><br>' >> ${KAMEHOUSE_APK_HTML}
   
-  echo "<h2>KameHouse Mobile APK</h2>" >> ${KAMEHOUSE_APK_HTML}
+  echo "<h2>Mobile APK Status</h2><br>" >> ${KAMEHOUSE_APK_HTML}
   echo "<pre ${PRE_STYLE}>" >> ${KAMEHOUSE_APK_HTML}
   echo -n 'sha256sum: ' >> ${KAMEHOUSE_APK_HTML}
   sha256sum kamehouse.apk >> ${KAMEHOUSE_APK_HTML}
