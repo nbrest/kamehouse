@@ -15,8 +15,8 @@ fi
 PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/linux
 PATH_PLS_DEST=${HOME}/git/texts/video_playlists/http-niko-server
 
-PATH_BASE_SOURCE="\/media\/media-drive"
-PATH_BASE_DEST="http:\/\/niko-server\/kame-house-streaming\/media-server\/media-drive"
+PATH_BASE_SOURCE="/media/media-drive"
+PATH_BASE_DEST="http://niko-server/kame-house-streaming/media-server/media-drive"
 
 mainProcess() {
   validateVariables
@@ -57,18 +57,18 @@ urlencodeDestPlaylist() {
 }
   
 urlencode() {
-    # urlencode <string>
-    old_lc_collate=$LC_COLLATE
-    LC_COLLATE=C
-    local length="${#1}"
-    for (( i = 0; i < length; i++ )); do
-        local c="${1:$i:1}"
-        case $c in
-            [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
-            *) printf '%%%02X' "'$c" ;;
-        esac
-    done
-    LC_COLLATE=$old_lc_collate
+  # urlencode <string>
+  old_lc_collate=$LC_COLLATE
+  LC_COLLATE=C
+  local length="${#1}"
+  for (( i = 0; i < length; i++ )); do
+      local c="${1:$i:1}"
+      case $c in
+          [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
+          *) printf '%%%02X' "'$c" ;;
+      esac
+  done
+  LC_COLLATE=$old_lc_collate
 }
 
 main "$@"

@@ -31,12 +31,6 @@ mainProcess() {
   ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-windows.sh
   checkCommandStatus "$?" 
   
-  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-lan-share-niko-server.sh
-  checkCommandStatus "$?" 
-  
-  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-samba-niko-server.sh
-  checkCommandStatus "$?" 
-
   clearMediaServerEhCache
 
   # create-all-video-playlists-http-niko-server.sh takes about 9mins (2020-10-23)
@@ -45,15 +39,10 @@ mainProcess() {
 
   ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-http-niko-server-ip.sh
   checkCommandStatus "$?" 
-  
-  # Deprecated playlists
 
-  #${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-samba-niko-nba.sh
-  #checkCommandStatus "$?" 
-
-  #${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-samba-niko-w.sh
-  #checkCommandStatus "$?" 
-
+  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-https-kame-server.sh
+  checkCommandStatus "$?" 
+    
   log.info "Waiting for all background processes to finish in create-all-video-playlists.sh"
   jobs -l
   wait

@@ -5,7 +5,10 @@ ANDROID_PORT=2222
 SFTP_USER=android
 ANDROID_PHONE_NAME="android-1"
 
-mainProcess() {
+mainProcess() {    
+  log.warn "DEPRECATED. Instead of using this script, use MGit app on my phone and git pull the playlists repo from my phone"
+  exit 1
+
   log.warn "Start SSH/SFTP Server - Terminal on the android phone before proceeding"
   log.warn "The server should be configured as specified in export-sync-audio-playlists.md"
   log.info "Uploading playlists to android phone. pass: android"

@@ -13,9 +13,9 @@ if [ "$?" != "0" ]; then
 fi
 
 PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/http-niko-server
-PATH_PLS_DEST=${HOME}/git/texts/video_playlists/http-niko-server-ip
+PATH_PLS_DEST=${HOME}/git/texts/video_playlists/https-kame-server
 
 PATH_BASE_SOURCE="http://niko-server/kame-house-streaming/media-server/media-drive"
-PATH_BASE_DEST="http://192.168.0.129/kame-house-streaming/media-server/media-drive"
+PATH_BASE_DEST="https://kame.nicobrest.com/kame-house-streaming/media-server/media-drive"
 
 main "$@"

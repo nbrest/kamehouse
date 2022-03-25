@@ -15,15 +15,15 @@ fi
 PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/linux/
 PATH_PLS_DEST=${HOME}/git/texts/video_playlists/windows/
 
-PATH_BASE_SOURCE="\/media\/media-drive"
+PATH_BASE_SOURCE="/media/media-drive"
 PATH_BASE_DEST="N:"
 
 replaceDestPath() {
   local FILE=$1
   log.info "Updating file ${COL_PURPLE}${FILE}"
-  sed -i "s/${PATH_BASE_SOURCE}/${PATH_BASE_DEST}/" ${FILE}
+  sed -i "s#${PATH_BASE_SOURCE}#${PATH_BASE_DEST}#Ig" ${FILE}
   checkCommandStatus "$?"
-  sed -i "s/\//\\\/g" ${FILE}
+  sed -i "s#/#\\\#Ig" ${FILE}
   checkCommandStatus "$?"
 }
 

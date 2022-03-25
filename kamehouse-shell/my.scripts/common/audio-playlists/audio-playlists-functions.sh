@@ -62,9 +62,10 @@ replaceDestPaths() {
 replaceDestPath() {
   local FILE=$1
   log.info "Updating file ${COL_PURPLE}${FILE}"
+  # Ig: I to ignore case, needed here
   sed -i "s#${PATH_BASE_SOURCE}#${PATH_BASE_DEST}#Ig" "${FILE}"
   sed -i "s#${PATH_BASE_N2_SOURCE}#${PATH_BASE_N2_DEST}#Ig" "${FILE}"
-  sed -i "s#\\\#\/#g" "${FILE}"
+  sed -i "s#\\\#/#Ig" "${FILE}"
   checkCommandStatus "$?"
 
   local FILE_CONTENT=`cat ${FILE}`

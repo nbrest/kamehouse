@@ -15,7 +15,7 @@ fi
 PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/windows-bash/
 PATH_PLS_DEST=${HOME}/git/texts/video_playlists/linux/
 
-PATH_BASE_SOURCE="\/n"
-PATH_BASE_DEST="\/media\/media-drive"
+PATH_BASE_SOURCE="/n"
+PATH_BASE_DEST="/media/media-drive"
 
 main "$@"
