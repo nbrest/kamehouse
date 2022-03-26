@@ -154,7 +154,7 @@ gitCommitReleaseVersionUpdate() {
     checkCommandStatus "$?"
   done
 
-  git commit -m "Updated release v${RELEASE_VERSION} in project"
+  git commit -m "Updated project files to release v${RELEASE_VERSION}"
   #checkCommandStatus "$?"
 }
 

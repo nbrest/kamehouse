@@ -34,11 +34,8 @@ public class VideoPlaylistService {
 
   public static final String PROP_MEDIA_SERVER_NAME = "media.server.name";
   public static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
-  public static final String PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE =
-      "playlists.path.remote.lan.share";
   public static final String PROP_PLAYLISTS_PATH_REMOTE_HTTP = "playlists.path.remote.http";
   public static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
-  private static final String REMOTE_SERVER = "[REMOTE_SERVER]";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
   private static final String VIDEO_PLAYLISTS_CACHE = "videoPlaylists";
@@ -228,12 +225,7 @@ public class VideoPlaylistService {
         playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_LINUX);
       }
     } else {
-      if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
-        playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE);
-      } else {
-        playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE_HTTP);
-      }
-      playlistsPath = playlistsPath.replace(REMOTE_SERVER, mediaServer);
+      playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE_HTTP);
     }
     String videoPlaylistsHome = userHome + playlistsPath;
     if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {

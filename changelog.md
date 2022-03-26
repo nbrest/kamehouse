@@ -16,6 +16,10 @@
 * Fixed link buttons in tennisworld
 * Updated security config of tennisworld api
 * Updated audio track cycle icon
+* Moved remote playlists paths to use generic media-server-ip name instead of actual media server's hostname
+* Moved away from lan-share playlists to use the same http- for all playlists on all os
+* Added proxy to media server from docker
+* Added robots.txt to apache httpd on docker
 
 #### v7.02
 

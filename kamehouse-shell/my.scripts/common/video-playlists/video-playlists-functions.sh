@@ -1,6 +1,9 @@
 # Common video-playlists variables
 LOG_PROCESS_TO_FILE=true
 
+MEDIA_SERVER="niko-server"
+MEDIA_SERVER_IP="192.168.0.109"
+
 PATH_BASE_SOURCE=""
 PATH_BASE_DEST=""
 

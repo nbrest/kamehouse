@@ -30,7 +30,7 @@ import org.mockito.Mockito;
 public class VideoPlaylistServiceTest {
 
   private static VideoPlaylistService videoPlaylistService;
-  private VideoPlaylistTestUtils videoPlaylistTestUtils = new VideoPlaylistTestUtils();
+  private final VideoPlaylistTestUtils videoPlaylistTestUtils = new VideoPlaylistTestUtils();
   private Playlist expectedPlaylist;
 
   private MockedStatic<DockerUtils> dockerUtils;
@@ -59,8 +59,6 @@ public class VideoPlaylistServiceTest {
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_WINDOWS))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_LAN_SHARE))
-        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_LAN_SHARE_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_HTTP))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_MEDIA_SERVER_NAME))
@@ -104,19 +102,8 @@ public class VideoPlaylistServiceTest {
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
-    if (PropertiesUtils.isWindowsHost()) {
-      assertTrue(
-          returnedPlaylists
-              .get(0)
-              .getPath()
-              .contains("lan-share-" + VideoPlaylistTestUtils.MEDIA_SERVER));
-    } else {
-      assertTrue(
-          returnedPlaylists
-              .get(0)
-              .getPath()
-              .contains("http-" + VideoPlaylistTestUtils.MEDIA_SERVER));
-    }
+    assertTrue(
+        returnedPlaylists.get(0).getPath().contains("http-media-server-ip"));
   }
 
   /**

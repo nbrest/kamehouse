@@ -12,10 +12,10 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/http-niko-server
-PATH_PLS_DEST=${HOME}/git/texts/video_playlists/http-niko-server-ip
+PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/http-media-server
+PATH_PLS_DEST=${HOME}/git/texts/video_playlists/http-media-server-ip
 
-PATH_BASE_SOURCE="http://niko-server/kame-house-streaming/media-server/media-drive"
-PATH_BASE_DEST="http://192.168.0.129/kame-house-streaming/media-server/media-drive"
+PATH_BASE_SOURCE="http://${MEDIA_SERVER}/kame-house-streaming/media-server/media-drive"
+PATH_BASE_DEST="http://${MEDIA_SERVER_IP}/kame-house-streaming/media-server/media-drive"
 
 main "$@"

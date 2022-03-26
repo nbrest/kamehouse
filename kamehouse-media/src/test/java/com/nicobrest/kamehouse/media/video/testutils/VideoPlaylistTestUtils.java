@@ -9,7 +9,6 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,19 +35,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
           + "playlists"
           + File.separator
           + "localhost";
-  public static final String TEST_PLAYLISTS_REMOTE_LAN_SHARE_DIR =
-      "src"
-          + File.separator
-          + "test"
-          + File.separator
-          + "resources"
-          + File.separator
-          + "media.video"
-          + File.separator
-          + "playlists"
-          + File.separator
-          + "lan-share-"
-          + MEDIA_SERVER;
+
   public static final String TEST_PLAYLISTS_REMOTE_HTTP_DIR =
       "src"
           + File.separator
@@ -60,8 +47,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
           + File.separator
           + "playlists"
           + File.separator
-          + "http-"
-          + MEDIA_SERVER;
+          + "http-media-server-ip";
 
   @Override
   public void initTestData() {

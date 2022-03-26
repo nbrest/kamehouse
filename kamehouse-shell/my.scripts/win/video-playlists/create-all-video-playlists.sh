@@ -6,13 +6,17 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
   exit 1
 fi
+source ${HOME}/my.scripts/common/video-playlists/video-playlists-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing video-playlists-functions.sh\033[0;39m"
+  exit 1
+fi
 source ${HOME}/my.scripts/.cred/.cred
 
 LOG_PROCESS_TO_FILE=true
 PROJECT_DIR="${HOME}/git/texts/video_playlists"
 GIT_REMOTE=all
 GIT_BRANCH=dev
-MEDIA_SERVER="niko-server"
 
 mainProcess() {
   checkMediaServer
@@ -33,16 +37,19 @@ mainProcess() {
   
   clearMediaServerEhCache
 
-  # create-all-video-playlists-http-niko-server.sh takes about 9mins (2020-10-23)
-  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-http-niko-server.sh
+  # create-all-video-playlists-http-media-server.sh takes about 9mins (2020-10-23)
+  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-http-media-server.sh
   checkCommandStatus "$?" 
 
-  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-http-niko-server-ip.sh
+  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-http-media-server-ip.sh
   checkCommandStatus "$?" 
 
   ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-https-kame-server.sh
   checkCommandStatus "$?" 
     
+  ${HOME}/my.scripts/win/video-playlists/create-all-video-playlists-https-vm-ubuntu-server.sh
+  checkCommandStatus "$?" 
+
   log.info "Waiting for all background processes to finish in create-all-video-playlists.sh"
   jobs -l
   wait
@@ -79,7 +86,7 @@ clearMediaServerEhCache() {
   curl --location --request DELETE 'localhost:9090/kame-house-media/api/v1/commons/ehcache' \
     --header "Content-Type: application/json" \
     --header "Authorization: Basic ${KH_ADMIN_API_BASIC_AUTH}"
-  
+    
 }
 
 main "$@"
