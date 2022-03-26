@@ -13,7 +13,6 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
-REPOSITORY_NAME="my.scripts"
-IS_GITHUB_REPOSITORY=false
+REPOSITORY_NAME="java.web.kamehouse"
 
 main "$@"
