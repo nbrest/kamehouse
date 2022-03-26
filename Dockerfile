@@ -126,14 +126,17 @@ RUN ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-ui/src/main/webapp /var/
   ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
 
 # Kamehouse faked dirs:
-RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/texts/video_playlists/http-niko-server/media-drive/anime"
-COPY --chown=nbrest:users docker/media/playlist/dbz.m3u /home/nbrest/git/texts/video_playlists/http-niko-server/media-drive/anime/dbz.m3u
+RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/texts/video_playlists/http-media-server-ip/media-drive/anime"
+COPY --chown=nbrest:users docker/media/playlist/dbz.m3u /home/nbrest/git/texts/video_playlists/http-media-server-ip/media-drive/anime/dbz.m3u
 #####################################################################
 
 # Setup mocked bins
+RUN mv /usr/bin/vlc /usr/bin/vlc-bin
+COPY docker/mocked-bin/vlc /usr/bin/vlc
 COPY docker/mocked-bin/vncdo /usr/local/bin/vncdo
 COPY docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
-RUN chmod a+x /usr/local/bin/vncdo ; \
+RUN chmod a+x /usr/bin/vlc ; \
+  chmod a+x /usr/local/bin/vncdo ; \
   chmod a+x /usr/bin/gnome-screensaver-command
 
 # Open mysqldb to external connections and intial dump of mysql data

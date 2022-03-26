@@ -60,6 +60,7 @@ resettingBackupDir() {
     if ${IS_LINUX_HOST}; then
       # Try as root
       sudo rm -rvf ${PROJECT_DIR}/${HOSTNAME}
+      sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc
     else
       # Try once again. Usually worked on windows
       rm -rvf ${PROJECT_DIR}/${HOSTNAME}
@@ -210,7 +211,6 @@ backupEtc() {
   # /etc/mysql and /etc/apache2 already backedup
 
   log.info "Backing up etc"
-  sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc
   mkdir -p ${PROJECT_DIR}/${HOSTNAME}/etc
   checkCommandStatus "$?" "An error occurred creating directories"
 
