@@ -3,6 +3,7 @@
 # Global variables
 LOG_PROCESS_TO_FILE=true
 GIT_BRANCH="dev"
+GIT_REMOTE="all"
 PROJECT_DIR="${HOME}/git/java.web.kamehouse.private"
 DOCKER_PORT_SSH=7022
 
@@ -40,7 +41,7 @@ customBackupTask() {
 }
 
 pullChangesFromGit() {
-  gitCdCheckoutAndPull "${PROJECT_DIR}" "origin" ${GIT_BRANCH}
+  gitCdCheckoutAndPull "${PROJECT_DIR}" ${GIT_REMOTE} ${GIT_BRANCH}
 }
 
 resettingBackupDir() {
@@ -209,6 +210,7 @@ backupEtc() {
   # /etc/mysql and /etc/apache2 already backedup
 
   log.info "Backing up etc"
+  sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc
   mkdir -p ${PROJECT_DIR}/${HOSTNAME}/etc
   checkCommandStatus "$?" "An error occurred creating directories"
 
@@ -222,16 +224,19 @@ backupEtc() {
   checkCommandStatus "$?" "An error occurred during file copy"
 
   if test -d "/etc/default"; then
+    sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc/default
     sudo cp -vrf /etc/default ${PROJECT_DIR}/${HOSTNAME}/etc/default
 	  checkCommandStatus "$?" "An error occurred during file copy"
   fi
 
   if test -d "/etc/letsencrypt"; then
+    sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc/letsencrypt
     sudo cp -vrf /etc/letsencrypt ${PROJECT_DIR}/${HOSTNAME}/etc/letsencrypt
 	  checkCommandStatus "$?" "An error occurred during file copy"
   fi
 
   if test -d "/etc/php"; then
+    sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc/php
     sudo cp -vrf /etc/php ${PROJECT_DIR}/${HOSTNAME}/etc/php
 	  checkCommandStatus "$?" "An error occurred during file copy"
   fi
@@ -240,10 +245,10 @@ backupEtc() {
 changeBackupPermissions() {
   log.info "Changing ownership of folders in git"
   sudo chown -v -R ${USER}:${USER} ${PROJECT_DIR}/${HOSTNAME}	
-  checkCommandStatus "$?" "An error occurred executing chown"
+  #checkCommandStatus "$?" "An error occurred executing chown"
 }
 
 pushChangesToGit() {
   log.info "Completed synching ${HOSTNAME}" > ${DEST_HOME}/sync.log
-  gitCdCommitAllChangesAndPush "${PROJECT_DIR}" "origin" ${GIT_BRANCH} "Backed up ${HOSTNAME} server config"
+  gitCdCommitAllChangesAndPush "${PROJECT_DIR}" ${GIT_REMOTE} ${GIT_BRANCH} "Backed up ${HOSTNAME} server config"
 }

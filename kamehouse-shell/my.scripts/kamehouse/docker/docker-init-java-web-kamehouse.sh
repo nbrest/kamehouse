@@ -149,6 +149,8 @@ restartSshService() {
 startMysql() {
   logStep "Starting mysql"
   service mysql start
+  /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh > /home/nbrest/logs/add-mysql-user-nikolqs.log
+  chown nbrest:users /home/nbrest/logs/add-mysql-user-nikolqs.log
 }
 
 startHttpd() {

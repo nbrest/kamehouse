@@ -12,7 +12,7 @@ LOG_PROCESS_TO_FILE=false
 
 mainProcess() {
   log.info "Adding user nikolqs to mysql db"
-  log.info "This script needs to be executed as root"
+  log.info "This script needs to be executed as root and root must have \${HOME}/my.scripts symlink"
 
   mysql -v -v -v -e "DROP USER IF EXISTS nikolqs;"
 
