@@ -20,6 +20,7 @@
 * Moved away from lan-share playlists to use the same http- for all playlists on all os
 * Added proxy to media server from docker
 * Added robots.txt to apache httpd on docker
+* Fixed demo vlc playing inside docker container removing the video
 
 #### v7.02
 
