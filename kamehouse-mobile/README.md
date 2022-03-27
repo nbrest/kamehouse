@@ -6,14 +6,18 @@ This module handles the following functionality:
 
 * The app uses the inAppBrowser plugin to load kamehouse-ui and kamehouse-groot from the server and render it's mobile view 
 
-* A link to download the app can be found [here](https://kame.nicobrest.com/kame-house/mobile)
+* The file plugin is used to persist the app configuration
+
+* A link to download the app can be found [here](https://kame.nicobrest.com/kame-house/downloads)
 
 # Android build requirements on a windows host (2022-03-06):
 
 - Install node
 - Install cordova
 
-`npm install -g cordova`
+```sh
+npm install -g cordova
+```
 
 - Install Android Studio
 
@@ -38,10 +42,9 @@ This module handles the following functionality:
 - this shouldn't be necessary as they should be part of the project already
 
 ```sh
-cd kamehouse-media
-
-# Add inappbrowser plugin
+cd kamehouse-mobile
 cordova plugin add cordova-plugin-inappbrowser
+cordova plugin add cordova-plugin-file
 ```
 
 # Import project in Android Studio (not really necessary)
@@ -53,17 +56,30 @@ cordova plugin add cordova-plugin-inappbrowser
 
 - Run the script `kamehouse-mobile-resync-kh-files.sh` from kamehouse-shell to copy the reused files from kamehouse-ui to kamehouse-mobile (or manually copy the folders from kamehouse-ui webapps dir to `kamehouse-media/www/kame-house/`)
 
+- Copy/generate the required files on www that are not synced to the git repo but needed at build time
+```sh
+cd kamehouse-mobile
+cp -v -f pom.xml www/
+echo "a1b2c3d4" > www/git-commit-hash.txt
+date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
+```
+
 - Build the android native app
 
-`cordova build android`
+```sh
+cordova build android
+```
 
 - The apk generated is in `kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk`
 
 - Sometimes I need to refresh the build, for example if I delete some files in www/ and want them removed from the apk:
 
-`cordova clean ; cordova build android`
+```sh
+cordova clean
+cordova build android
+```
 
-- Or use the `build-java-web-kamehouse.sh` script with parameter `-m mobile`
+- Or use the `build-java-web-kamehouse.sh` script with parameter `-m mobile` from the root of kamehouse parent project to do all these steps automatically
 
 # Install Instructions
 
@@ -78,7 +94,9 @@ cordova plugin add cordova-plugin-inappbrowser
 
 - Test in a local browser
 
-`cordova run browser`
+```sh
+cordova run browser
+```
 
 - Then a local browser windows should open in chrome
 - Currently the default url is: [http://localhost:8000/index.html](http://localhost:8000/index.html)
@@ -91,7 +109,9 @@ cordova plugin add cordova-plugin-inappbrowser
 - Start the virtual device on Android Studio
 - Execute the command from the project root to deploy to the virtual device
 
-`cordova emulate android`
+```sh
+cordova emulate android
+```
 
 - This is usually too slow for me, so it's better to test in a local browser
 
