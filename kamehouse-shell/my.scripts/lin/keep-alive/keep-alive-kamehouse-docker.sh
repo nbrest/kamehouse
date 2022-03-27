@@ -18,7 +18,7 @@ fi
 LOG_PROCESS_TO_FILE=false
 DOCKER_PORT_HTTP=7080
 SERVICE="kamehouse-docker"
-SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/docker/docker-run-java-web-kamehouse.sh"
+SERVICE_STARTUP="${HOME}/my.scripts/kamehouse/docker/docker-run-kamehouse.sh"
 PROFILE="prod"
 DOCKER_ENVIRONMENT="ubuntu"
 

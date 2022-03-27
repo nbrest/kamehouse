@@ -1,5 +1,5 @@
 # Common kamehouse variables
-PROJECT="java.web.kamehouse"
+PROJECT="kamehouse"
 DEFAULT_SSH_USER=nbrest
 SSH_USER=${DEFAULT_SSH_USER}
 SSH_COMMAND=""

@@ -55,7 +55,7 @@ cordova plugin add cordova-plugin-file
 
 # Build Instructions
 
-- Use the `build-java-web-kamehouse.sh` script with parameter `-m mobile` from the root of kamehouse parent project to do all these following steps automatically
+- Use the `build-kamehouse.sh` script with parameter `-m mobile` from the root of kamehouse parent project to do all these following steps automatically
 
 ## To build manually:
 

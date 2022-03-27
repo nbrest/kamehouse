@@ -20,15 +20,15 @@ mainProcess() {
   loadDockerContainerEnv
 
   if ${IS_DOCKER_CONTAINER}; then
-    ${HOME}/my.scripts/win/git/git-pull-prod-java-web-kamehouse.sh
+    ${HOME}/my.scripts/win/git/git-pull-prod-kamehouse.sh
   else
     ${HOME}/my.scripts/win/git/git-pull-hacking.sh
-    ${HOME}/my.scripts/win/git/git-pull-java-web-kamehouse.sh
+    ${HOME}/my.scripts/win/git/git-pull-kamehouse.sh
     ${HOME}/my.scripts/win/git/git-pull-kh-webserver.sh
     ${HOME}/my.scripts/win/git/git-pull-learn-java.sh
     ${HOME}/my.scripts/win/git/git-pull-my-scripts.sh
     ${HOME}/my.scripts/win/git/git-pull-programming.sh
-    ${HOME}/my.scripts/win/git/git-pull-prod-java-web-kamehouse.sh
+    ${HOME}/my.scripts/win/git/git-pull-prod-kamehouse.sh
     ${HOME}/my.scripts/win/git/git-pull-texts.sh
   fi
 }

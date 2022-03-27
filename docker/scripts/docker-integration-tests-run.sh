@@ -16,17 +16,17 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PROJECT_DIR=/home/nbrest/git/java.web.kamehouse
+PROJECT_DIR=/home/nbrest/git/kamehouse
 SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
 ERROR="ERROR EXECUTING INTEGRATION TESTS"
 
 main() {
   cd ${PROJECT_DIR}
-  /home/nbrest/my.scripts/kamehouse/build-java-web-kamehouse.sh -p ci -i > /home/nbrest/logs/build-java-web-kamehouse.log
+  /home/nbrest/my.scripts/kamehouse/build-kamehouse.sh -p ci -i > /home/nbrest/logs/build-kamehouse.log
   if [ "$?" == "0" ]; then
     echo "${SUCCESS}"
   else
-    tail -n 50 /home/nbrest/logs/build-java-web-kamehouse.log
+    tail -n 50 /home/nbrest/logs/build-kamehouse.log
     echo "${ERROR}"
   fi
 }

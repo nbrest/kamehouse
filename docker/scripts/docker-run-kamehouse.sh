@@ -84,7 +84,7 @@ printEnv() {
 }
 
 runDockerImage() {
-  log.info "Running image nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}"
+  log.info "Running image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
   log.info "This temporary container will be removed when it exits"
 
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
@@ -136,7 +136,7 @@ runDockerImage() {
   fi
   
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}
+    nbrest/kamehouse:${DOCKER_IMAGE_TAG}
   "
   
   echo ""

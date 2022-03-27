@@ -18,5 +18,5 @@ alias sd='screen -d'
 alias s='screen'
 
 # overrides from common
-#alias cd.java.web.kamehouse='cd ${HOME}/workspace-eclipse/java.web.kamehouse'
+#alias cd.kamehouse='cd ${HOME}/workspace-eclipse/kamehouse'
 

@@ -315,7 +315,7 @@
           <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-dropdown">
             <option value="common/logs/cat-create-all-video-playlists-log.sh">create-all-video-playlists</option>
             <option value="common/logs/cat-deploy-all-servers-log.sh">deploy-all-servers</option>
-            <option value="common/logs/cat-deploy-java-web-kamehouse-log.sh" selected>deploy-java-web-kamehouse</option>
+            <option value="common/logs/cat-deploy-kamehouse-log.sh" selected>deploy-kamehouse</option>
             <option value="common/logs/cat-git-pull-all-log.sh">git-pull-all</option>
             <option value="common/logs/cat-git-pull-all-all-servers-log.sh">git-pull-all-all-servers</option>
             <option value="common/logs/cat-httpd-log.sh">httpd</option>

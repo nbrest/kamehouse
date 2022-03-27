@@ -14,13 +14,14 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-DOCKER_IMAGE_BASE="ubuntu:20.04"
 DOCKER_IMAGE_TAG="latest"
 DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
-  log.info "Building docker image nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}"
-  docker build --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} -t nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG} .
+  log.info "Pulling docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
+  docker pull nbrest/kamehouse:${DOCKER_IMAGE_TAG}
+
+  ${HOME}/my.scripts/kamehouse/docker/docker-cleanup-kamehouse.sh
 }
 
 parseArguments() {
@@ -46,7 +47,6 @@ parseArguments() {
   fi
 
   if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
-    DOCKER_IMAGE_BASE="arm32v7/ubuntu:20.04"
     DOCKER_IMAGE_TAG="latest-pi"
   fi
 }

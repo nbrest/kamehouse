@@ -14,39 +14,24 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-DOCKER_IMAGE_TAG="latest"
-DOCKER_ENVIRONMENT="ubuntu"
-
 mainProcess() {
-  log.info "Pushing docker image nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}"
-  docker push nbrest/java.web.kamehouse:${DOCKER_IMAGE_TAG}
+  docker-build-kamehouse.sh
+  docker-build-kamehouse.sh -o pi
+  docker-push-kamehouse.sh
+  docker-push-kamehouse.sh -o pi
 }
 
 parseArguments() {
-  while getopts ":ho:" OPT; do
+  while getopts ":h" OPT; do
     case $OPT in
     ("h")
       parseHelp
-      ;;
-    ("o")
-      DOCKER_ENVIRONMENT=$OPTARG
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
-
-  if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
-    [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
-    log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
-    printHelp
-    exitProcess 1
-  fi
-
-  if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
-    DOCKER_IMAGE_TAG="latest-pi"
-  fi
 }
 
 printHelp() {
@@ -55,7 +40,6 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default value is ubuntu"
 }
 
 main "$@"

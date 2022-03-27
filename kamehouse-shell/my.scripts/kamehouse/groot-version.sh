@@ -9,7 +9,7 @@ fi
 
 # Global variables
 LOG_PROCESS_TO_FILE=false
-PROJECT_DIR=${HOME}/git/java.web.kamehouse
+PROJECT_DIR=${HOME}/git/kamehouse
 
 main() {
   displayLatestGitCommit

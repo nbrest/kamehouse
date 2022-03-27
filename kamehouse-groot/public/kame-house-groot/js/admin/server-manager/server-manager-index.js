@@ -246,7 +246,7 @@ function DeploymentManager() {
    * Get status from all tomcat modules.
    */
   function getTomcatModulesStatus() {
-    scriptExecutor.execute('kamehouse/status-java-web-kamehouse.sh', "", false, displayTomcatModulesStatus, true);
+    scriptExecutor.execute('kamehouse/status-kamehouse.sh', "", false, displayTomcatModulesStatus, true);
   }
 
   /**
@@ -402,7 +402,7 @@ function DeploymentManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     const args = "-m " + module;
-    scriptExecutor.execute('kamehouse/start-java-web-kamehouse.sh', args, false, refreshServerView);
+    scriptExecutor.execute('kamehouse/start-kamehouse.sh', args, false, refreshServerView);
   }
 
   /**
@@ -415,7 +415,7 @@ function DeploymentManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     const args = "-m " + module;
-    scriptExecutor.execute('kamehouse/stop-java-web-kamehouse.sh', args, false, refreshServerView);
+    scriptExecutor.execute('kamehouse/stop-kamehouse.sh', args, false, refreshServerView);
   }
 
   /**
@@ -428,11 +428,11 @@ function DeploymentManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     const hostOs = serverManager.getHostOs();
-    let script = 'kamehouse/deploy-java-web-kamehouse.sh';
+    let script = 'kamehouse/deploy-kamehouse.sh';
     let args = "-f -m " + module;
 
     if (module == "groot") {
-      script = hostOs + '/git/git-pull-prod-java-web-kamehouse.sh';
+      script = hostOs + '/git/git-pull-prod-kamehouse.sh';
       args = "";
     }
 
@@ -471,7 +471,7 @@ function DeploymentManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     const args = "-m " + module;
-    scriptExecutor.execute('kamehouse/undeploy-java-web-kamehouse.sh', args, false, refreshServerView);
+    scriptExecutor.execute('kamehouse/undeploy-kamehouse.sh', args, false, refreshServerView);
   }
 
   /**
@@ -484,7 +484,7 @@ function DeploymentManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     const args = "-f";
-    scriptExecutor.execute('kamehouse/deploy-java-web-kamehouse.sh', args, false, refreshServerView);
+    scriptExecutor.execute('kamehouse/deploy-kamehouse.sh', args, false, refreshServerView);
   }
 
   /**

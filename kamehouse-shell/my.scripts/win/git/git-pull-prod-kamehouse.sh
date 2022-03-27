@@ -13,7 +13,7 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
-GIT_PROJECT_DIR=${HOME}/git/java.web.kamehouse
+GIT_PROJECT_DIR=${HOME}/git/kamehouse
 GIT_REMOTE=origin
 
 mainProcess() {

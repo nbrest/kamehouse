@@ -73,7 +73,7 @@ deployKamehouse() {
     SCRIPT_ARGS="${SCRIPT_ARGS} -m ${MODULE_SHORT}"
   fi
   log.info "Started deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
-  executeScriptInServer ${SERVER} ${PORT} ${IS_DOCKER_DEMO} "kamehouse/deploy-java-web-kamehouse.sh" "${SCRIPT_ARGS}"
+  executeScriptInServer ${SERVER} ${PORT} ${IS_DOCKER_DEMO} "kamehouse/deploy-kamehouse.sh" "${SCRIPT_ARGS}"
   log.info "Finished deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
 }
 

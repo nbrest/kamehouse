@@ -22,7 +22,7 @@ KAMEHOUSE_RELEASE_VERSION=""
 main() {
   loadDockerContainerEnv
   if ${IS_DOCKER_CONTAINER}; then
-    PROJECT_DIR=${HOME}/git/java.web.kamehouse
+    PROJECT_DIR=${HOME}/git/kamehouse
   fi
   displayLatestGitCommit
 }

@@ -13,6 +13,6 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
-GIT_PROJECT_DIR=${HOME}/workspace-eclipse/java.web.kamehouse
+GIT_PROJECT_DIR=${HOME}/workspace-intellij/kamehouse
 
 main "$@"

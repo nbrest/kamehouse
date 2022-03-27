@@ -28,7 +28,7 @@ public class VlcStopSystemCommand extends SystemCommand {
             + "| grep -v VlcProcessController "
             + "| grep -v surefire "
             + "| grep -v failsafe\\:integration-test "
-            + "| grep -v build-java-web-kamehouse\\.sh "
+            + "| grep -v build-kamehouse\\.sh "
             + "| awk '{print $2}'` ; "
             + "[ ! -z \"$KILL_VLC_PID\" ] && kill -9 ${KILL_VLC_PID}  "
             + "|| echo \"vlc not running\"";

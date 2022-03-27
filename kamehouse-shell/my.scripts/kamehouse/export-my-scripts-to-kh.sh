@@ -28,7 +28,7 @@ mainProcess() {
 
 setGlobalVariables() {
   WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
-  PROJECT_DIR=${WORKSPACE}/java.web.kamehouse
+  PROJECT_DIR=${WORKSPACE}/kamehouse
   TOMCAT_WEBAPPS_DIR=${WORKSPACE}/apache-tomcat-${TOMCAT_VERSION}/webapps
   EXPORT_DIR=${PROJECT_DIR}/kamehouse-shell
   DOCKER_DIR=${PROJECT_DIR}/docker/scripts

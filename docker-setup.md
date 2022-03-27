@@ -1,6 +1,6 @@
 # Docker:
 
-The project is hosted on [docker hub](https://hub.docker.com/repository/docker/nbrest/java.web.kamehouse).
+The project is hosted on [docker hub](https://hub.docker.com/repository/docker/nbrest/kamehouse).
 
 The docker image loads kamehouse through tomcat and apache httpd and most of the functionality works out of the box.
 
@@ -10,20 +10,20 @@ The docker image loads kamehouse through tomcat and apache httpd and most of the
 
 You can skip this step and directly run the image. If it doesn't find it locally, it will download it automatically from docker hub. If you do have the image locally already, this will pull the latest changes to the image from docker hub
 
-Execute the script `docker/scripts/docker-pull-java-web-kamehouse.sh`
+Execute the script `docker/scripts/docker-pull-kamehouse.sh`
 
 ```
-docker pull nbrest/java.web.kamehouse:latest
+docker pull nbrest/kamehouse:latest
 ```
 
 *********************
 
 ## Run the image
 
-Execute the script `docker/scripts/docker-run-java-web-kamehouse.sh`
+Execute the script `docker/scripts/docker-run-kamehouse.sh`
 
 ```
-docker run --rm -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/java.web.kamehouse:latest
+docker run --rm -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/kamehouse:latest
 ```
 
 With the parameter `--rm` the container will be removed automatically after it exits. Without it, it will remain in your system.
@@ -42,10 +42,10 @@ You can also access the container through ssh at `ssh -p 6022 nbrest@localhost` 
 In the container console, you can run the following scripts:
 
 - `tail-log.sh -f [kamehouse|tomcat|apache]` : tail the logs of the application
-- `build-java-web-kamehouse.sh` : Execute it on `/home/nbrest/git/java.web.kamehouse` to build the project and run all the unit tests
-- `build-java-web-kamehouse.sh -i -p docker` : Execute it on `/home/nbrest/git/java.web.kamehouse` to run all the integration tests
-- `deploy-java-web-kamehouse.sh -f -p docker` : Pull the latest changes from git dev branch and deploy them (Executed automatically during container startup)
-- `docker-my-scripts-update.sh` : Updates the scripts in `/home/nbrest/my.scripts` with the version currently pulled from `/home/nbrest/git/java.web.kamehouse`
+- `build-kamehouse.sh` : Execute it on `/home/nbrest/git/kamehouse` to build the project and run all the unit tests
+- `build-kamehouse.sh -i -p docker` : Execute it on `/home/nbrest/git/kamehouse` to run all the integration tests
+- `deploy-kamehouse.sh -f -p docker` : Pull the latest changes from git dev branch and deploy them (Executed automatically during container startup)
+- `docker-my-scripts-update.sh` : Updates the scripts in `/home/nbrest/my.scripts` with the version currently pulled from `/home/nbrest/git/kamehouse`
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 
 *********************
@@ -70,10 +70,10 @@ docker stop container-id-hash
 
 If for any reason you can't pull the image from docker hub, you can build it manually. At the root of the project there's a Dockerfile that can be used to build the image to run kamehouse in a container
 
-At the root of the project execute the script `docker/scripts/docker-build-java-web-kamehouse.sh`
+At the root of the project execute the script `docker/scripts/docker-build-kamehouse.sh`
 
 ```
-docker build -t nbrest/java.web.kamehouse:latest .
+docker build -t nbrest/kamehouse:latest .
 ```
 
 You can then run the image as mentioned above either with temporary or permanent container.

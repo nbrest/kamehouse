@@ -69,15 +69,15 @@ COPY --chown=nbrest:users docker/tomcat/host-manager.xml /home/nbrest/programs/a
 # Clone KameHouse dev branch
 RUN sudo su - nbrest -c "echo 'Update number to avoid cache 3' ; mkdir -p /home/nbrest/git ; \
   chmod a+xwr /home/nbrest/git ; \
-  rm -rf /home/nbrest/git/java.web.kamehouse ; \
+  rm -rf /home/nbrest/git/kamehouse ; \
   cd /home/nbrest/git ; \
-  git clone https://github.com/nbrest/java.web.kamehouse.git ; \
-  cd /home/nbrest/git/java.web.kamehouse ; \
+  git clone https://github.com/nbrest/kamehouse.git ; \
+  cd /home/nbrest/git/kamehouse ; \
   git checkout dev ; \
   git branch -D master"
 
 # Build kamehouse to download all the maven dependencies (then clean the target directories)
-RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
+RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true ; \
   mvn clean ; \
   rm -rf /home/nbrest/.m2/repository/com/nicobrest"
@@ -90,8 +90,8 @@ COPY --chown=nbrest:users docker/vlc/* /home/nbrest/.config/vlc/
 # /home/nbrest/home-synced
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/home-synced/.kamehouse/keys ; \
   mkdir -p /home/nbrest/home-synced/httpd ; \
-  cp /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12 ; \
-  cp /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/nbrest/home-synced/.kamehouse/keys/kamehouse.crt"
+  cp /home/nbrest/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12 ; \
+  cp /home/nbrest/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/nbrest/home-synced/.kamehouse/keys/kamehouse.crt"
 COPY --chown=nbrest:users docker/keys/integration-test-cred.enc /home/nbrest/home-synced/.kamehouse/
 COPY --chown=nbrest:users docker/apache2/.htpasswd /home/nbrest/home-synced/httpd
 RUN ln -s /home/nbrest/home-synced/httpd/.htpasswd /var/www/html/.htpasswd
@@ -106,7 +106,7 @@ RUN sudo su - nbrest -c "mkdir -p /home/nbrest/logs" ; \
   mkdir -p /root/logs
 
 # /home/nbrest/my.scripts
-RUN sudo su - nbrest -c "cp -r /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts /home/nbrest/ ; \
+RUN sudo su - nbrest -c "cp -r /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts /home/nbrest/ ; \
   mkdir -p /home/nbrest/my.scripts/.cred/ ; \
   chmod a+x -R /home/nbrest/my.scripts" ; \
   ln -s /home/nbrest/my.scripts /root/my.scripts
@@ -120,10 +120,10 @@ RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs/apache-httpd ; \
   ln -s /var/log/apache2 /home/nbrest/programs/apache-httpd/logs
 
 # Kamehouse ui and groot static content:
-RUN ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-ui/src/main/webapp /var/www/html/kame-house ; \
-  ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/kame-house-groot /var/www/html/kame-house-groot ; \
+RUN ln -s /home/nbrest/git/kamehouse/kamehouse-ui/src/main/webapp /var/www/html/kame-house ; \
+  ln -s /home/nbrest/git/kamehouse/kamehouse-groot/public/kame-house-groot /var/www/html/kame-house-groot ; \
   rm /var/www/html/index.html ; \
-  ln -s /home/nbrest/git/java.web.kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
+  ln -s /home/nbrest/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
 
 # Kamehouse faked dirs:
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/texts/video_playlists/http-media-server-ip/media-drive/anime"
@@ -143,9 +143,9 @@ RUN chmod a+x /usr/bin/vlc ; \
 RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mysql start ; \
   sleep 5 ; \
-  mysql < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql ; \
-  mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql ; \
-  mysql kameHouse < /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql ; \
+  mysql < /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql ; \
+  mysql kameHouse < /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql ; \
+  mysql kameHouse < /home/nbrest/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
   cd /var/lib ; \
   tar -cvpzf /home/nbrest/mysql-initial-data.tar.gz mysql/ ; \
   chown nbrest:users /home/nbrest/mysql-initial-data.tar.gz
@@ -158,10 +158,10 @@ COPY --chown=nbrest:users docker /home/nbrest/docker
 
 # Deploy latest version of kamehouse (should have most of the dependencies already downloaded)
 # Also updates the my.scripts directory with the latest version of the scripts
-RUN sudo su - nbrest -c "cd /home/nbrest/git/java.web.kamehouse ; \
+RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   git pull origin dev ; \
   /home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker ; \
-  cd /home/nbrest/git/java.web.kamehouse ; \
+  cd /home/nbrest/git/kamehouse ; \
   mvn clean ; \
   rm -rf /home/nbrest/.m2/repository/com/nicobrest ; \
   /home/nbrest/docker/scripts/docker-my-scripts-update.sh"

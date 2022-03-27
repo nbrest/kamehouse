@@ -22,7 +22,7 @@ mainProcess() {
 
   if [ -z "${CONTAINER}" ]; then 
     log.info "Container not passed as argument, attempting to find a running kamehouse container of profile ${COL_PURPLE}${PROFILE}"
-    CONTAINER=`docker container list | grep -e "java.web.kamehouse\\|\\/home\\/nbrest\\/docker" | grep "${DOCKER_PORT_SSH}" |  cut -d ' ' -f1`
+    CONTAINER=`docker container list | grep -e "kamehouse\\|\\/home\\/nbrest\\/docker" | grep "${DOCKER_PORT_SSH}" |  cut -d ' ' -f1`
   fi
 
   if [ -n "${CONTAINER}" ]; then 
@@ -32,7 +32,7 @@ mainProcess() {
     log.warn "No kamehouse container running detected for profile ${COL_PURPLE}${PROFILE}"
   fi
 
-  ${HOME}/my.scripts/kamehouse/docker/docker-status-java-web-kamehouse.sh
+  ${HOME}/my.scripts/kamehouse/docker/docker-status-kamehouse.sh
 }
 
 parseArguments() {

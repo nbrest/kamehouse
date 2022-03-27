@@ -29,9 +29,9 @@ mainProcess() {
 
 setGlobalVariables() {
   WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
-  PROJECT_DIR=${WORKSPACE}/java.web.kamehouse
+  PROJECT_DIR=${WORKSPACE}/kamehouse
   if [ "${PROFILE}" == "prod" ]; then
-    PROJECT_DIR=${HOME}/git/java.web.kamehouse
+    PROJECT_DIR=${HOME}/git/kamehouse
   fi
   SOURCE_FILES_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
   EXPORT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house

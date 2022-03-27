@@ -88,12 +88,12 @@ startCiDockerContainerLoop() {
 
 stopCiDockerContainer() {
   log.info "Stopping ci docker container"
-  ${HOME}/my.scripts/kamehouse/docker/docker-stop-java-web-kamehouse.sh -p ci > /dev/null
+  ${HOME}/my.scripts/kamehouse/docker/docker-stop-kamehouse.sh -p ci > /dev/null
 }
 
 startCiDockerContainer() {
   log.info "Starting ci docker container"
-  ${HOME}/my.scripts/kamehouse/docker/docker-run-java-web-kamehouse.sh -p ci > /dev/null &
+  ${HOME}/my.scripts/kamehouse/docker/docker-run-kamehouse.sh -p ci > /dev/null &
 }
 
 waitForTomcatStartup() {

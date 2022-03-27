@@ -13,6 +13,6 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
-REPOSITORY_NAME="java.web.kamehouse"
+REPOSITORY_NAME="kamehouse"
 
 main "$@"

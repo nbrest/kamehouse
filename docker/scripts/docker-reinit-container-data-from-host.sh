@@ -68,7 +68,7 @@ reinitSsh() {
 reinitMyScripts() {
   log.info "Setup my.scripts folder"
   if [ "${DATA_SOURCE}" == "docker-init" ]; then
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/docker/keys/.cred /home/nbrest/my.scripts/.cred/'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/kamehouse/docker/keys/.cred /home/nbrest/my.scripts/.cred/'
   else
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/my.scripts/.cred/.cred ${DOCKER_USERNAME}@localhost:/home/nbrest/my.scripts/.cred/
   fi
@@ -77,7 +77,7 @@ reinitMyScripts() {
 reinitKameHouseFolder() {
   log.info "Setup .kamehouse folder"
   if [ "${DATA_SOURCE}" == "docker-init" ]; then
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/docker/keys/.*.pwd.enc /home/nbrest/.kamehouse'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/kamehouse/docker/keys/.*.pwd.enc /home/nbrest/.kamehouse'
   else
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.*.pwd.enc ${DOCKER_USERNAME}@localhost:/home/nbrest/.kamehouse
   fi
@@ -86,9 +86,9 @@ reinitKameHouseFolder() {
 reinitHomeSynced() {
   log.info "Setup home-synced folder"
   if [ "${DATA_SOURCE}" == "docker-init" ]; then
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/docker/keys/integration-test-cred.enc /home/nbrest/home-synced/.kamehouse'
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12'
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/java.web.kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/nbrest/home-synced/.kamehouse/keys/kamehouse.crt'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/kamehouse/docker/keys/integration-test-cred.enc /home/nbrest/home-synced/.kamehouse'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/nbrest/home-synced/.kamehouse/keys/kamehouse.pkcs12'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'cp -v -f /home/nbrest/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/nbrest/home-synced/.kamehouse/keys/kamehouse.crt'
   else
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc ${DOCKER_USERNAME}@localhost:/home/nbrest/home-synced/.kamehouse
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* ${DOCKER_USERNAME}@localhost:/home/nbrest/home-synced/.kamehouse/keys
@@ -100,7 +100,7 @@ reinitHomeSynced() {
     ;;
   "docker-init")
     log.info "Resetting mysql dump data from initial docker container data"
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'mkdir -p /home/nbrest/home-synced/mysql/dump/old ; cp -v -f /home/nbrest/git/java.web.kamehouse/docker/mysql/dump-kamehouse.sql /home/nbrest/home-synced/mysql/dump'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'mkdir -p /home/nbrest/home-synced/mysql/dump/old ; cp -v -f /home/nbrest/git/kamehouse/docker/mysql/dump-kamehouse.sql /home/nbrest/home-synced/mysql/dump'
     ;;
   "docker-backup")
     log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
@@ -131,8 +131,8 @@ reinitMysql() {
   "docker-init"|"docker-backup"|"host-backup")
     log.info "Re-init mysql kamehouse db from dump"
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'sudo /home/nbrest/my.scripts/common/mysql/add-mysql-user-nikolqs.sh'
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'sudo mysql -v < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/java.web.kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'sudo mysql -v < /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql'
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'sudo mysql kameHouse < /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql'
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C '/home/nbrest/my.scripts/kamehouse/mysql-restore-kamehouse.sh' 
     ;;
   *) ;;

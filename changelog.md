@@ -2,6 +2,7 @@
 
 #### v7.03
 
+* Renamed project from java.web.kamehouse to kamehouse
 * Added more retries for tennisworld scheduled bookings
 * Added build version to the footer of kamehouse mobile
 * Fixed sorting of data in the UI in crud manager

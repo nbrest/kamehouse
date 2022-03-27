@@ -9,7 +9,7 @@ fi
 
 ANDROID_IP="192.168.0.92"
 ANDROID_PORT=2222
-ANDROID_APK=${HOME}/workspace-intellij/java.web.kamehouse/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+ANDROID_APK=${HOME}/workspace-intellij/kamehouse/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk
 SD_CARD_APK_PATH=/0/Download
 SFTP_USER=android
 

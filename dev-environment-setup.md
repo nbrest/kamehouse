@@ -1,12 +1,12 @@
 # Eclipse:
 
-* Checkout code to *${HOME}/workspace-eclipse/java.web.kame.house*
+* Checkout code to *${HOME}/workspace-eclipse/kamehouse*
 * Follow instructions in *eclipse/eclipse-configurations.md* (in programming private repo)
 * Follow instructions in *eclipse/workspace-tomcat-setup.md* (in programming private repo)
 
 # IntelliJ:
 
-* Checkout code to *${HOME}/workspace-intellij/java.web.kame.house*
+* Checkout code to *${HOME}/workspace-intellij/kamehouse*
 * Follow instructions in *intellij/workspace-tomcat-setup.md* (in programming private repo)
 
 # VS Code:
@@ -15,8 +15,8 @@
 * To debug the frontend in vscode, use the chrome debugger launch configurations in .vscode/lauch.json
 * There's 2 debugger launch configurations there, one for /kame-house-groot app and the other for /kame-house to debug the frontend in vscode and the backend in intellij: Run > Start Debugging or open the debugger tab to select which debugger to launch
 * Create a symlink in kamehouse-ui/src/main: `mklink /D "kame-house" "webapp"` so that the vscode debugger picks up the files for /kame-house
-* When setting the breakpoints to debug /kame-house, open the js files by browsing through java.web.kamehouse/kamehouse-ui/src/main/kame-house (through the symlink). Not by browsing through java.web.kamehouse/kamehouse-ui/src/main/webapp or they won't be bound
-* When setting the breakpoints to debug /kame-house-groot, open the js files by browsing through java.web.kamehouse/kamehouse-groot/public/kame-house-groot
+* When setting the breakpoints to debug /kame-house, open the js files by browsing through kamehouse/kamehouse-ui/src/main/kame-house (through the symlink). Not by browsing through kamehouse/kamehouse-ui/src/main/webapp or they won't be bound
+* When setting the breakpoints to debug /kame-house-groot, open the js files by browsing through kamehouse/kamehouse-groot/public/kame-house-groot
 
 # Apache Httpd:
 

@@ -4,7 +4,7 @@
 LOG_PROCESS_TO_FILE=true
 GIT_BRANCH="dev"
 GIT_REMOTE="all"
-PROJECT_DIR="${HOME}/git/java.web.kamehouse.private"
+PROJECT_DIR="${HOME}/git/kamehouse.private"
 DOCKER_PORT_SSH=7022
 
 mainProcess() {

@@ -13,7 +13,7 @@ LOG_PROCESS_TO_FILE=false
 mainProcess() {
   cd ${HOME}/logs
 
-  cat deploy-java-web-kamehouse.log
+  cat deploy-kamehouse.log
 }
 
 main "$@"

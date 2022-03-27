@@ -112,14 +112,14 @@ findHostIpAddress() {
 pullKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     logStep "Pulling latest KameHouse dev branch"
-    sudo su - ${USERNAME} -c "cd /home/nbrest/git/java.web.kamehouse ; git pull origin dev"
+    sudo su - ${USERNAME} -c "cd /home/nbrest/git/kamehouse ; git pull origin dev"
   fi
 }
 
 deployKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     logStep "Deploying latest version of KameHouse"
-    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker"
+    sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/deploy-kamehouse.sh -f -p docker"
     sudo su - ${USERNAME} -c "/home/nbrest/my.scripts/kamehouse/docker/docker-my-scripts-update.sh"
     logStep "Finished building latest version of KameHouse"
   fi
@@ -167,7 +167,7 @@ keepContainerAlive() {
   echo -e "${COL_BLUE} - ${COL_NORMAL}Open another terminal and execute ${COL_PURPLE}'tail-log.sh -f tomcat'${COL_NORMAL} to check the logs"
   echo -e "${COL_NORMAL} until the deployment finishes"
   echo ""
-  echo -e "${COL_BLUE} - ${COL_NORMAL}Check ${COL_BLUE}https://github.com/nbrest/java.web.kamehouse/blob/dev/docker-setup.md${COL_NORMAL}"
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Check ${COL_BLUE}https://github.com/nbrest/kamehouse/blob/dev/docker-setup.md${COL_NORMAL}"
   echo -e " for details on how to login to kamehouse and execute its functionality" 
   echo ""
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
