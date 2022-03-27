@@ -29,6 +29,7 @@ function Footer() {
     domUtils.load($("#footerContainer"), "/html-snippets/footer.html", () => {
       setAppVersion();
       setGitCommitHash();
+      setBuildDate();
     });
   }
 
@@ -54,6 +55,13 @@ function Footer() {
     logger.info("git hash: " + gitHash);
     const gitHashDiv = document.getElementById("footer-git-hash");
     domUtils.setInnerHtml(gitHashDiv, gitHash);
+  }
+
+  async function setBuildDate() {
+    const buildDate = await fetchUtils.loadHtmlSnippet('/build-date.txt');
+    logger.info("build date: " + buildDate);
+    const buildDateDiv = document.getElementById("footer-build-date");
+    domUtils.setInnerHtml(buildDateDiv, buildDate);
   }
 }
 
