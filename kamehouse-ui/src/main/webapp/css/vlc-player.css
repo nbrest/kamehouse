@@ -12,7 +12,7 @@
 }
 
 #audio-controls {
-  margin-top: 40px;
+  margin-top: 50px;
   margin-bottom: 25px;
 }
 
@@ -157,7 +157,7 @@
 }
 
 #media-flow-buttons {
-  margin-top: 40px;
+  margin-top: 50px;
   margin-bottom: 30px;
 }
 
@@ -191,8 +191,8 @@
 }
 
 #media-screen-ctrl-buttons {
-  margin-top: 40px;
-  margin-bottom: 30px;
+  margin-top: 55px;
+  margin-bottom: 55px;
   width: 80%;
 }
 
