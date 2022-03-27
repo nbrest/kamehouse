@@ -26,9 +26,8 @@ parseArguments() {
 }
 
 displayKameHouseCmdVersion() {
-  KAMEHOUSE_CMD_JAR=`ls -l ${HOME}/programs/kamehouse-cmd/lib/kamehouse-cmd* | head -n 1`
-  BUILD_DATE=`echo ${KAMEHOUSE_CMD_JAR} | awk '{print $6 " " $7 " " $8}'`
-  BUILD_VERSION=`echo ${KAMEHOUSE_CMD_JAR} | awk '{print $9}'`
+  KAMEHOUSE_CMD_JAR_LS=`ls -l ${HOME}/programs/kamehouse-cmd/lib/kamehouse-cmd* | head -n 1`
+  BUILD_VERSION=`echo ${KAMEHOUSE_CMD_JAR_LS} | awk '{print $9}'`
   BUILD_VERSION=${BUILD_VERSION##*/}
   BUILD_VERSION=`echo ${BUILD_VERSION} | cut -d'-' -f 3`
   GIT_COMMIT_HASH=`cat ${HOME}/programs/kamehouse-cmd/lib/git-commit-hash.txt 2>/dev/null`
@@ -36,6 +35,9 @@ displayKameHouseCmdVersion() {
     BUILD_VERSION=${BUILD_VERSION}"-"${GIT_COMMIT_HASH}
   fi
   echo "buildVersion=${BUILD_VERSION}"
+  KAMEHOUSE_CMD_JAR_FILE=`ls ${HOME}/programs/kamehouse-cmd/lib/kamehouse-cmd* | head -n 1`
+  BUILD_DATE=`stat ${KAMEHOUSE_CMD_JAR_FILE} | grep "Modify"` 
+  BUILD_DATE=${BUILD_DATE:8:19}
   echo "buildDate=${BUILD_DATE}"
 }
 

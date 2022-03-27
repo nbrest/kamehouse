@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -12,6 +13,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -257,6 +260,41 @@ public class DateUtils {
           inFormat, outFormat, lowerCaseOut, e);
       throw new KameHouseInvalidDataException("Unable to parse input time " + input);
     }
+  }
+
+  /**
+   * Convert the build date of the modules to YYYY-MM-DD HH:MM:SS format. Sample input date format
+   * 'Sat Mar 26 19:47:48 AEDT 2022'.
+   */
+  public static String getFormattedBuildDate(String inputDate) {
+    String buildDateRegex =
+        "^[A-Za-z]{3} [A-Za-z]{3} [0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} .{3,5} [0-9]{4}";
+    Pattern buildDatePattern = Pattern.compile(buildDateRegex);
+    Matcher matcher = buildDatePattern.matcher(inputDate);
+    if (!matcher.matches()) {
+      LOGGER.warn("Unexpected build date pattern found with input: {}", inputDate);
+      return inputDate;
+    }
+    String month = null;
+    try {
+      Date date = new SimpleDateFormat("MMM", Locale.getDefault()).parse(inputDate.substring(4, 7));
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(date);
+      int monthInt = cal.get(Calendar.MONTH) + 1;
+      if (monthInt < 10) {
+        month = "0" + monthInt;
+      } else {
+        month = String.valueOf(monthInt);
+      }
+    } catch (ParseException e) {
+      LOGGER.error("Error parsing month from input: {}", inputDate);
+      return inputDate;
+    }
+    String day = inputDate.substring(8, 10);
+    String year = inputDate.substring(inputDate.length() - 4);
+    String time = inputDate.substring(11, 19);
+    String buildDate = year + "-" + month + "-" + day + " " + time;
+    return buildDate;
   }
 
   /**

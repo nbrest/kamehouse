@@ -18,10 +18,19 @@ main() {
 displayLatestGitCommit() {
   cd ${PROJECT_DIR}
 
-  BUILD_DATE=`git log | head -n 3 | grep Date | cut -c 9-`
+  KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
+  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
+
   BUILD_VERSION=`git log | head -n 3 | grep commit | cut -c 8-`
-  BUILD_VERSION=${BUILD_VERSION:0:10}".."${BUILD_VERSION:(-10)} 
+  BUILD_VERSION=${BUILD_VERSION:0:8}
+  if [ -n "${KAMEHOUSE_RELEASE_VERSION}" ]; then
+    BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
+  fi
   echo "buildVersion=${BUILD_VERSION}"
+
+  BUILD_DATE=`git log | head -n 3 | grep Date | cut -c 9-`
+  BUILD_DATE=${BUILD_DATE:0:25}
+  BUILD_DATE=`date -d"$BUILD_DATE" +%Y-%m-%d' '%H:%M:%S`
   echo "buildDate=${BUILD_DATE}"
 }
 

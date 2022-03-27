@@ -222,4 +222,32 @@ public class DateUtilsTest {
   public void getDayTest() {
     assertNotNull(DateUtils.getDay(new Date()));
   }
+
+  /**
+   * Test getFormattedBuildDate.
+   */
+  @Test
+  public void getFormattedBuildDateTest() {
+    String input = "Sat Mar 26 19:47:48 AEDT 2022";
+    String expectedOutput = "2022-03-26 19:47:48";
+    assertEquals(expectedOutput, DateUtils.getFormattedBuildDate(input));
+  }
+
+  /**
+   * Test getFormattedBuildDate unmatched regex.
+   */
+  @Test
+  public void getFormattedBuildDateUnmatchedRegexTest() {
+    String input = "Sat Mar 26 19:47:48 AEDTAA 2022";
+    assertEquals(input, DateUtils.getFormattedBuildDate(input));
+  }
+
+  /**
+   * Test getFormattedBuildDate invalid month.
+   */
+  @Test
+  public void getFormattedBuildDateInvalidMonthTest() {
+    String input = "Sat Xxx 26 19:47:48 AEDT 2022";
+    assertEquals(input, DateUtils.getFormattedBuildDate(input));
+  }
 }

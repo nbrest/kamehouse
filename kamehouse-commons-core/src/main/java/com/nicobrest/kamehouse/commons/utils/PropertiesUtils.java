@@ -165,7 +165,8 @@ public class PropertiesUtils {
           continue;
         }
         if (pomPropertiesLine.startsWith("#")) {
-          properties.put("kamehouse.build.date", pomPropertiesLine.substring(1));
+          String buildDate = DateUtils.getFormattedBuildDate(pomPropertiesLine.substring(1));
+          properties.put("kamehouse.build.date", buildDate);
         }
         if (pomPropertiesLine.startsWith("version=")) {
           properties.put("kamehouse.build.version",
