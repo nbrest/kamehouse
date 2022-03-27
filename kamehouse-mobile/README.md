@@ -55,7 +55,11 @@ cordova plugin add cordova-plugin-file
 
 # Build Instructions
 
-- Run the script `kamehouse-mobile-resync-kh-files.sh` from kamehouse-shell to copy the reused files from kamehouse-ui to kamehouse-mobile (or manually copy the folders from kamehouse-ui webapps dir to `kamehouse-media/www/kame-house/`)
+- Use the `build-java-web-kamehouse.sh` script with parameter `-m mobile` from the root of kamehouse parent project to do all these following steps automatically
+
+## To build manually:
+
+- Run the script `kamehouse-mobile-resync-kh-files.sh` of kamehouse-shell to copy the reused files from kamehouse-ui to kamehouse-mobile (or manually copy the folders from kamehouse-ui webapps dir to `kamehouse-media/www/kame-house/`)
 
 - Copy/generate the required files on www that are not synced to the git repo but needed at build time
 ```sh
@@ -79,8 +83,6 @@ cordova build android
 cordova clean
 cordova build android
 ```
-
-- Or use the `build-java-web-kamehouse.sh` script with parameter `-m mobile` from the root of kamehouse parent project to do all these steps automatically
 
 # Install Instructions
 
