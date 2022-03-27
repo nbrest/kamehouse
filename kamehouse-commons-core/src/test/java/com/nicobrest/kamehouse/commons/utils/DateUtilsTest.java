@@ -227,10 +227,22 @@ public class DateUtilsTest {
   /**
    * Test getFormattedBuildDate.
    */
-  @Test
-  public void getFormattedBuildDateTest() {
-    String input = "Sat Mar 26 19:47:48 AEDT 2022";
-    String expectedOutput = "2022-03-26 19:47:48";
+  @ParameterizedTest
+  @CsvSource({
+      "Sat Jan 26 19:47:48 AEDT 2022,2022-01-26 19:47:48",
+      "Sat Feb 26 19:47:48 AEDT 2022,2022-02-26 19:47:48",
+      "Sat Mar 26 19:47:48 AEDT 2022,2022-03-26 19:47:48",
+      "Sat Apr 26 19:47:48 AEDT 2022,2022-04-26 19:47:48",
+      "Sat May 26 19:47:48 AEDT 2022,2022-05-26 19:47:48",
+      "Sat Jun 26 19:47:48 AEDT 2022,2022-06-26 19:47:48",
+      "Sat Jul 26 19:47:48 AEDT 2022,2022-07-26 19:47:48",
+      "Sat Aug 26 19:47:48 AEDT 2022,2022-08-26 19:47:48",
+      "Sat Sep 26 19:47:48 AEDT 2022,2022-09-26 19:47:48",
+      "Sat Oct 26 19:47:48 AEDT 2022,2022-10-26 19:47:48",
+      "Sat Nov 26 19:47:48 AEDT 2022,2022-11-26 19:47:48",
+      "Sat Dec 26 19:47:48 AEDT 2022,2022-12-26 19:47:48"
+  })
+  public void getFormattedBuildDateTest(String input, String expectedOutput) {
     assertEquals(expectedOutput, DateUtils.getFormattedBuildDate(input));
   }
 
