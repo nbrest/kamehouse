@@ -21,6 +21,7 @@
 * Added proxy to media server from docker
 * Added robots.txt to apache httpd on docker
 * Fixed demo vlc playing inside docker container removing the video
+* Updated build version format on footer and added it to kamehouse-mobile
 
 #### v7.02
 
