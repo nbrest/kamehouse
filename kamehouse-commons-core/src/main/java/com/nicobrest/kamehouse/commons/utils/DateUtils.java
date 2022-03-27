@@ -287,7 +287,7 @@ public class DateUtils {
         month = String.valueOf(monthInt);
       }
     } catch (ParseException e) {
-      LOGGER.error("Error parsing month from input: {}", inputDate);
+      LOGGER.error("Error parsing month from input: {}", inputDate, e);
       return inputDate;
     }
     String day = inputDate.substring(8, 10);
