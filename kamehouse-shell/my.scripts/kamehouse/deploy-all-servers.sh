@@ -60,7 +60,7 @@ gitPullAll() {
   local HOST_OS=$3
   local IS_DOCKER_DEMO=$4
   log.info "Started gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
-  executeScriptInServer ${SERVER} ${PORT} "${HOST_OS}/git/git-pull-all.sh" ${IS_DOCKER_DEMO}
+  executeScriptInServer ${SERVER} ${PORT} ${IS_DOCKER_DEMO} "${HOST_OS}/git/git-pull-all.sh" 
   log.info "Finished gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
 }
 
@@ -101,7 +101,7 @@ executeScriptInServer() {
 
   URL="http://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/my-scripts/exec-script.php?${URL_ENCODED_PARAMS}"
   log.debug "Executing request: ${COL_BLUE}${URL}"
-  RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${GROOT_API_BASIC_AUTH}" 2>/dev/null`
+  RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
   #echo "${RESPONSE}"
 }
 
