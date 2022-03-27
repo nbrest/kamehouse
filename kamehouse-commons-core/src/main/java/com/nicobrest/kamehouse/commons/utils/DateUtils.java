@@ -267,6 +267,10 @@ public class DateUtils {
    * 'Sat Mar 26 19:47:48 AEDT 2022'.
    */
   public static String getFormattedBuildDate(String inputDate) {
+    if (StringUtils.isEmpty(inputDate)) {
+      LOGGER.error("Unexpected empty input date");
+      return inputDate;
+    }
     String buildDateRegex =
         "^[A-Za-z]{3} [A-Za-z]{3} [0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} .{3,5} [0-9]{4}";
     Pattern buildDatePattern = Pattern.compile(buildDateRegex);
@@ -275,25 +279,18 @@ public class DateUtils {
       LOGGER.warn("Unexpected build date pattern found with input: {}", inputDate);
       return inputDate;
     }
-    String month = null;
+    Month month = null;
     try {
-      Date date = new SimpleDateFormat("MMM", Locale.getDefault()).parse(inputDate.substring(4, 7));
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(date);
-      int monthInt = cal.get(Calendar.MONTH) + 1;
-      if (monthInt < 10) {
-        month = "0" + monthInt;
-      } else {
-        month = String.valueOf(monthInt);
-      }
-    } catch (ParseException e) {
+      String monthField = inputDate.substring(4, 7).toUpperCase(Locale.getDefault());
+      month = Month.valueOf(monthField);
+    } catch (IllegalArgumentException e) {
       LOGGER.error("Error parsing month from input: {}", inputDate, e);
       return inputDate;
     }
     String day = inputDate.substring(8, 10);
     String year = inputDate.substring(inputDate.length() - 4);
     String time = inputDate.substring(11, 19);
-    String buildDate = year + "-" + month + "-" + day + " " + time;
+    String buildDate = year + "-" + month.getNumber() + "-" + day + " " + time;
     return buildDate;
   }
 
@@ -358,6 +355,35 @@ public class DateUtils {
     }
 
     public int getNumber() {
+      return number;
+    }
+  }
+
+  /**
+   * Month translated from MMM to it's numeric 2 digit value.
+   */
+  public enum Month {
+    JAN("01"),
+    FEB("02"),
+    MAR("03"),
+    APR("04"),
+    MAY("05"),
+    JUN("06"),
+    JUL("07"),
+    AUG("08"),
+    SEP("09"),
+    OCT("10"),
+    NOV("11"),
+    DEC("12")
+    ;
+
+    private String number;
+
+    Month(String value) {
+      this.number = value;
+    }
+
+    public String getNumber() {
       return number;
     }
   }

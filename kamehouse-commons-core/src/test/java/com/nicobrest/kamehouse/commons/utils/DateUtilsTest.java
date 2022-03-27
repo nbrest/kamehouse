@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -249,5 +250,13 @@ public class DateUtilsTest {
   public void getFormattedBuildDateInvalidMonthTest() {
     String input = "Sat Xxx 26 19:47:48 AEDT 2022";
     assertEquals(input, DateUtils.getFormattedBuildDate(input));
+  }
+
+  /**
+   * Test getFormattedBuildDate null input.
+   */
+  @Test
+  public void getFormattedBuildDateNullInputTest() {
+    assertNull(DateUtils.getFormattedBuildDate(null));
   }
 }
