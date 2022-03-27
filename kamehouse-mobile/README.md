@@ -38,7 +38,7 @@ npm install -g cordova
     - `%ANDROID_SDK_ROOT%\platform-tools`
     - `%ANDROID_SDK_ROOT%\cmdline-tools\latest\bin`
 
-# Add required plugins 
+# Add required plugins (optional)
 - this shouldn't be necessary as they should be part of the project already
 
 ```sh
@@ -47,8 +47,9 @@ cordova plugin add cordova-plugin-inappbrowser
 cordova plugin add cordova-plugin-file
 ```
 
-# Import project in Android Studio (not really necessary)
+# Import project in Android Studio (optional)
 
+- I prefer using vscode to edit the html, css, js files of kamehouse-mobile
 - Select kamehouse-mobile as the root of the project
 - Set the SDK in the project properties 
 
