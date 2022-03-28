@@ -23,6 +23,7 @@
 * Added robots.txt to apache httpd on docker
 * Fixed demo vlc playing inside docker container removing the video
 * Updated build version format on footer and added it to kamehouse-mobile
+* Moved audio and video playlists to separate repos
 
 #### v7.02
 
