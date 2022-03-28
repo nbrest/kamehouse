@@ -1,5 +1,5 @@
-# BUILD: docker/scripts/docker-build-java-web-kamehouse.sh : build's the docker image from this file
-# RUN: docker/scripts/docker-run-java-web-kamehouse.sh : runs a temporary container from an image built from this file
+# BUILD: docker/scripts/docker-build-kamehouse.sh : build's the docker image from this file
+# RUN: docker/scripts/docker-run-kamehouse.sh : runs a temporary container from an image built from this file
 
 ARG DOCKER_IMAGE_BASE
 FROM ${DOCKER_IMAGE_BASE}
@@ -160,7 +160,7 @@ COPY --chown=nbrest:users docker /home/nbrest/docker
 # Also updates the my.scripts directory with the latest version of the scripts
 RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   git pull origin dev ; \
-  /home/nbrest/my.scripts/kamehouse/deploy-java-web-kamehouse.sh -f -p docker ; \
+  /home/nbrest/my.scripts/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   cd /home/nbrest/git/kamehouse ; \
   mvn clean ; \
   rm -rf /home/nbrest/.m2/repository/com/nicobrest ; \
@@ -176,4 +176,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Setup default env for container init script
 ENV FAST_DOCKER_INIT=false
 
-CMD ["/home/nbrest/docker/scripts/docker-init-java-web-kamehouse.sh"]
+CMD ["/home/nbrest/docker/scripts/docker-init-kamehouse.sh"]
