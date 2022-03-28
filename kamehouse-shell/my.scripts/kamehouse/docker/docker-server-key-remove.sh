@@ -14,12 +14,13 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PROFILE="dev"
-
 mainProcess() {
-  log.info "Executing ssh into docker container with profile ${COL_PURPLE}${PROFILE}"
-  log.info "If I get an error that the server key changed, execute the script ${COL_PURPLE}docker-server-key-remove.sh -p ${PROFILE}"
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost
+  removeServerKey
+}
+
+removeServerKey() {
+  log.info "Removing server key from known hosts"
+  ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "[localhost]:${DOCKER_PORT_SSH}"
 }
 
 parseArguments() {
@@ -46,7 +47,7 @@ parseArguments() {
     printHelp
     exitProcess 1
   fi
-  
+
   if [ "${PROFILE}" == "ci" ]; then
     DOCKER_PORT_SSH=15022
   fi
@@ -68,8 +69,8 @@ printHelp() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  echo -e "  Options:"
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-80-443)${COL_NORMAL} default profile is dev"
 }
 

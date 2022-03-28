@@ -17,6 +17,8 @@ fi
 PROFILE="dev"
 
 mainProcess() {
+  log.info "Executing ssh into docker container with profile ${COL_PURPLE}${PROFILE}"
+  log.info "If I get an error that the server key changed, execute the script ${COL_PURPLE}docker-server-key-remove.sh -p ${PROFILE}"
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost
 }
 
