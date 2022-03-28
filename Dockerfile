@@ -126,8 +126,8 @@ RUN ln -s /home/nbrest/git/kamehouse/kamehouse-ui/src/main/webapp /var/www/html/
   ln -s /home/nbrest/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
 
 # Kamehouse faked dirs:
-RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/texts/video_playlists/http-media-server-ip/media-drive/anime"
-COPY --chown=nbrest:users docker/media/playlist/dbz.m3u /home/nbrest/git/texts/video_playlists/http-media-server-ip/media-drive/anime/dbz.m3u
+RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/anime"
+COPY --chown=nbrest:users docker/media/playlist/dbz.m3u /home/nbrest/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/anime/dbz.m3u
 #####################################################################
 
 # Setup mocked bins

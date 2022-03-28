@@ -6,8 +6,11 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
   exit 1
 fi
-
-LOG_PROCESS_TO_FILE=true
+source ${HOME}/my.scripts/common/video-playlists/video-playlists-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing video-playlists-functions.sh\033[0;39m"
+  exit 1
+fi
 
 mainProcess() {
   DefineVariables
@@ -49,7 +52,7 @@ DefineVariables() {
   #########################
   ### Root Playlists Paths
   #########################
-  PATH_VLC_PLS_ROOT=${HOME}/git/texts/video_playlists/windows-bash/media-drive
+  PATH_VLC_PLS_ROOT=${PROJECT_DIR}/windows-bash/media-drive
   
   PATH_ANIME_PLS=${PATH_VLC_PLS_ROOT}/anime
   PATH_CARTOON_PLS=${PATH_VLC_PLS_ROOT}/cartoons

@@ -24,6 +24,8 @@ mainProcess() {
   else
     ${HOME}/my.scripts/lin/git/git-pull-hacking.sh
     ${HOME}/my.scripts/lin/git/git-pull-kamehouse.sh
+    ${HOME}/my.scripts/lin/git/git-pull-kamehouse-audio-playlists.sh
+    ${HOME}/my.scripts/lin/git/git-pull-kamehouse-video-playlists.sh
     ${HOME}/my.scripts/lin/git/git-pull-kh-webserver.sh
     ${HOME}/my.scripts/lin/git/git-pull-learn-java.sh
     ${HOME}/my.scripts/lin/git/git-pull-my-scripts.sh

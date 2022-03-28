@@ -12,8 +12,8 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/linux/
-PATH_PLS_DEST=${HOME}/git/texts/video_playlists/windows/
+PATH_PLS_SOURCE=${PROJECT_DIR}/linux/
+PATH_PLS_DEST=${PROJECT_DIR}/windows/
 
 PATH_BASE_SOURCE="/media/media-drive"
 PATH_BASE_DEST="N:"

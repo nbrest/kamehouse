@@ -13,8 +13,6 @@ if [ "$?" != "0" ]; then
 fi
 source ${HOME}/my.scripts/.cred/.cred
 
-LOG_PROCESS_TO_FILE=true
-PROJECT_DIR="${HOME}/git/texts/video_playlists"
 GIT_REMOTE=all
 GIT_BRANCH=dev
 

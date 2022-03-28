@@ -12,8 +12,8 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_PLS_SOURCE=${HOME}/git/texts/video_playlists/http-media-server
-PATH_PLS_DEST=${HOME}/git/texts/video_playlists/https-kame-server
+PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server
+PATH_PLS_DEST=${PROJECT_DIR}/https-kame-server
 
 PATH_BASE_SOURCE="http://${MEDIA_SERVER}/kame-house-streaming/media-server/media-drive"
 PATH_BASE_DEST="https://kame.nicobrest.com/kame-house-streaming/media-server/media-drive"

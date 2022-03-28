@@ -12,7 +12,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_PLS_DEST=${HOME}/git/texts/audio_playlists/linux
+PATH_PLS_DEST=${PROJECT_DIR}/linux
 PATH_BASE_DEST="/d.niko/niko9enzo/mp3"
 PATH_BASE_N2_DEST="/d.niko/truecrypt/n2/mp3"
 

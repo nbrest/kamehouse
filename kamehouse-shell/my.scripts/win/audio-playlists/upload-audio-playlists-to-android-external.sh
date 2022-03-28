@@ -12,7 +12,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-ANDROID_PLAYLISTS_PATH=${HOME}/git/texts/audio_playlists/android-external
+ANDROID_PLAYLISTS_PATH=${HOME}/git/kamehouse-audio-playlists/playlists/android-external
 SD_CARD_PLAYLISTS_PATH=/0000-0000/Playlists
 
 main "$@"

@@ -1,7 +1,7 @@
 # Common audio-playlists variables
 LOG_PROCESS_TO_FILE=true
 
-PROJECT_DIR="${HOME}/git/texts/audio_playlists"
+PROJECT_DIR="${HOME}/git/kamehouse-audio-playlists/playlists"
 GIT_REMOTE=all
 GIT_BRANCH=dev
 AUDIO_SERVER="niko-w"
@@ -12,7 +12,7 @@ PATH_BASE_DEST=""
 PATH_BASE_N2_SOURCE="Z:\\\mp3"
 PATH_BASE_N2_DEST=""
 
-PATH_PLS_SOURCE=${HOME}/git/texts/audio_playlists/windows
+PATH_PLS_SOURCE=${PROJECT_DIR}/windows
 PATH_PLS_DEST=""
 
 # Common audio-playlists functions

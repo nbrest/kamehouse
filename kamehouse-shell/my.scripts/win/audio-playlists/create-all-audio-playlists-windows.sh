@@ -6,10 +6,12 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
   exit 1
 fi
-source ${HOME}/my.scripts/.cred/.cred
+source ${HOME}/my.scripts/common/audio-playlists/audio-playlists-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing audio-playlists-functions.sh\033[0;39m"
+  exit 1
+fi
 
-LOG_PROCESS_TO_FILE=true
-PROJECT_DIR="${HOME}/git/texts/audio_playlists"
 ITUNES_EXPORT_JAR="/d/niko9enzo/programs/Itunes/iTunesExportScala/itunesexport.jar"
 
 main() {

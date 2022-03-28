@@ -1,5 +1,6 @@
 # Common video-playlists variables
 LOG_PROCESS_TO_FILE=true
+PROJECT_DIR="${HOME}/git/kamehouse-video-playlists/playlists"
 
 MEDIA_SERVER="niko-server"
 MEDIA_SERVER_IP="192.168.0.109"
