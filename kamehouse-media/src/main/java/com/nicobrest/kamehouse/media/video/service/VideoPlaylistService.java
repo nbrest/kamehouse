@@ -369,7 +369,7 @@ public class VideoPlaylistService {
         .filter(file -> !file.trim().endsWith("logout"))
         .map(file -> removeCharactersPastFileExtension(file))
         .collect(Collectors.toList());
-    logger.trace(playlistContent.toString());
+    logger.trace("Playlist content: " + playlistContent);
     return playlistContent;
   }
 
