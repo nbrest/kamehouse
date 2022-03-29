@@ -125,9 +125,6 @@ RUN ln -s /home/nbrest/git/kamehouse/kamehouse-ui/src/main/webapp /var/www/html/
   rm /var/www/html/index.html ; \
   ln -s /home/nbrest/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
 
-# Kamehouse faked dirs:
-RUN sudo su - nbrest -c "mkdir -p /home/nbrest/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/anime"
-COPY --chown=nbrest:users docker/media/playlist/dbz.m3u /home/nbrest/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/anime/dbz.m3u
 #####################################################################
 
 # Setup mocked bins
@@ -158,13 +155,15 @@ COPY --chown=nbrest:users docker /home/nbrest/docker
 
 # Deploy latest version of kamehouse (should have most of the dependencies already downloaded)
 # Also updates the my.scripts directory with the latest version of the scripts
+# And recreate sample video playlists directories
 RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   git pull origin dev ; \
   /home/nbrest/my.scripts/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   cd /home/nbrest/git/kamehouse ; \
   mvn clean ; \
   rm -rf /home/nbrest/.m2/repository/com/nicobrest ; \
-  /home/nbrest/docker/scripts/docker-my-scripts-update.sh"
+  /home/nbrest/docker/scripts/docker-my-scripts-update.sh ;  \
+  /home/nbrest/my.scripts/kamehouse/create-sample-video-playlists.sh"
 
 # Expose ports
 EXPOSE 22 80 443 3306 8000 8080 9090
