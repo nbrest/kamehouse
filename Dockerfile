@@ -1,5 +1,5 @@
-# BUILD: docker/scripts/docker-build-kamehouse.sh : build's the docker image from this file
-# RUN: docker/scripts/docker-run-kamehouse.sh : runs a temporary container from an image built from this file
+# BUILD: docker-build-kamehouse.sh : build's the docker image from this file
+# RUN: docker-run-kamehouse.sh : runs a temporary container from an image built from this file
 
 ARG DOCKER_IMAGE_BASE
 FROM ${DOCKER_IMAGE_BASE}
@@ -106,9 +106,7 @@ RUN sudo su - nbrest -c "mkdir -p /home/nbrest/logs" ; \
   mkdir -p /root/logs
 
 # /home/nbrest/my.scripts
-RUN sudo su - nbrest -c "cp -r /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts /home/nbrest/ ; \
-  mkdir -p /home/nbrest/my.scripts/.cred/ ; \
-  chmod a+x -R /home/nbrest/my.scripts" ; \
+RUN sudo su - nbrest -c "mkdir -p /home/nbrest/my.scripts/.cred/" ; \
   ln -s /home/nbrest/my.scripts /root/my.scripts
 COPY --chown=nbrest:users docker/keys/.cred /home/nbrest/my.scripts/.cred/.cred
 
@@ -158,11 +156,11 @@ COPY --chown=nbrest:users docker /home/nbrest/docker
 # And recreate sample video playlists directories
 RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   git pull origin dev ; \
+  /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/docker/docker-my-scripts-update.sh ; \
   /home/nbrest/my.scripts/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   cd /home/nbrest/git/kamehouse ; \
   mvn clean ; \
   rm -rf /home/nbrest/.m2/repository/com/nicobrest ; \
-  /home/nbrest/docker/scripts/docker-my-scripts-update.sh ;  \
   /home/nbrest/my.scripts/kamehouse/create-sample-video-playlists.sh"
 
 # Expose ports
@@ -175,4 +173,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Setup default env for container init script
 ENV FAST_DOCKER_INIT=false
 
-CMD ["/home/nbrest/docker/scripts/docker-init-kamehouse.sh"]
+CMD ["/home/nbrest/my.scripts/kamehouse/docker/docker-init-kamehouse.sh"]

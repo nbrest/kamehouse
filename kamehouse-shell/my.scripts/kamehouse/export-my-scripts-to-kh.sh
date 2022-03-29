@@ -31,7 +31,6 @@ setGlobalVariables() {
   PROJECT_DIR=${WORKSPACE}/kamehouse
   TOMCAT_WEBAPPS_DIR=${WORKSPACE}/apache-tomcat-${TOMCAT_VERSION}/webapps
   EXPORT_DIR=${PROJECT_DIR}/kamehouse-shell
-  DOCKER_DIR=${PROJECT_DIR}/docker/scripts
 }
 
 exportMyScripts() {
@@ -40,9 +39,7 @@ exportMyScripts() {
   log.info "Deleting existing scripts from workspace"
   rm -r -v -f ${EXPORT_DIR}/my.scripts
   mkdir -p ${EXPORT_DIR}/my.scripts
-  rm -r -v -f ${DOCKER_DIR}
-  mkdir -p ${DOCKER_DIR}
-
+  
   log.info "Copying root scripts"
   cd ${EXPORT_DIR}/my.scripts
   cp -r -v ${HOME}/my.scripts/awk .
@@ -83,9 +80,6 @@ exportMyScripts() {
   cp -r -v ${HOME}/my.scripts/win/video-playlists win/
   cp -r -v ${HOME}/my.scripts/win/virtualbox win/
   cp -r -v ${HOME}/my.scripts/win/*.sh win/
-
-  log.info "Copying docker scripts"
-  cp -v ${HOME}/my.scripts/kamehouse/docker/* ${DOCKER_DIR}/
 
   log.info "Remove scripts that shouldn't be copied over"
   rm -v -f ${EXPORT_DIR}/my.scripts/test-script.sh
