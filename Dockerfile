@@ -156,7 +156,8 @@ COPY --chown=nbrest:users docker /home/nbrest/docker
 # And recreate sample video playlists directories
 RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   git pull origin dev ; \
-  /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/docker/docker-my-scripts-update.sh ; \
+  chmod a+x /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/kamehouse-shell-install.sh ; \
+  /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/kamehouse-shell-install.sh ; \
   /home/nbrest/my.scripts/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   cd /home/nbrest/git/kamehouse ; \
   mvn clean ; \
