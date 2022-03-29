@@ -10,7 +10,7 @@ The docker image loads kamehouse through tomcat and apache httpd and most of the
 
 You can skip this step and directly run the image. If it doesn't find it locally, it will download it automatically from docker hub. If you do have the image locally already, this will pull the latest changes to the image from docker hub
 
-Execute the script `docker/scripts/docker-pull-kamehouse.sh`
+Execute the script `kamehouse-shell/my.scripts/kamehouse/docker/docker-pull-kamehouse.sh`
 
 ```
 docker pull nbrest/kamehouse:latest
@@ -20,7 +20,7 @@ docker pull nbrest/kamehouse:latest
 
 ## Run the image
 
-Execute the script `docker/scripts/docker-run-kamehouse.sh`
+Execute the script `kamehouse-shell/my.scripts/kamehouse/docker/docker-run-kamehouse.sh`
 
 ```
 docker run --rm -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/kamehouse:latest
@@ -70,7 +70,7 @@ docker stop container-id-hash
 
 If for any reason you can't pull the image from docker hub, you can build it manually. At the root of the project there's a Dockerfile that can be used to build the image to run kamehouse in a container
 
-At the root of the project execute the script `docker/scripts/docker-build-kamehouse.sh`
+At the root of the project execute the script `kamehouse-shell/my.scripts/kamehouse/docker/docker-build-kamehouse.sh`
 
 ```
 docker build -t nbrest/kamehouse:latest .
