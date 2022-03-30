@@ -46,10 +46,9 @@ RUN adduser --gecos "" --disabled-password nbrest ; \
   echo 'nbrest:nbrest' | chpasswd
 
 # Setup nbrest home
-RUN echo "source /home/nbrest/programs/kamehouse-shell/bin/lin/bashrc/bashrc.sh" >> /root/.bashrc ; \
+RUN echo "source /home/nbrest/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> /root/.bashrc ; \
   echo "source /home/nbrest/.kamehouse/.kamehouse-docker-container-env" >> /root/.bashrc ; \
-  sudo su - nbrest -c "echo \"source /home/nbrest/programs/kamehouse-shell/bin/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc ; \
-    echo \"source /home/nbrest/.kamehouse/.kamehouse-docker-container-env\" >> /home/nbrest/.bashrc ; \
+  sudo su - nbrest -c "echo \"source /home/nbrest/.kamehouse/.kamehouse-docker-container-env\" >> /home/nbrest/.bashrc ; \
     mkdir -p /home/nbrest/.ssh"
 
 # Install tomcat
