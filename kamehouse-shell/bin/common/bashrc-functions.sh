@@ -36,6 +36,9 @@ setIsLinuxHost() {
 addToPath() {
   local BASE_PATH=$1
   local PATHS_TO_SKIP_REGEX=$2
+  if [ ! -d "${BASE_PATH}" ]; then
+    return
+  fi
   # List all directories
   local PATH_TO_ADD=$(find ${BASE_PATH} -name '.*' -prune -o -type d)
   # Filter aws
