@@ -19,7 +19,8 @@ public class VlcStopSystemCommand extends SystemCommand {
     executeOnDockerHost = true;
     //TODO move this script to kamehouse-shell and call it
     //Get kamehouse-shell scripts home from properties
-    // add a property in PropertiesUtils KAMEHOUSE_SHELL_BASE_PATH = ${HOME}/programs/kamehouse-shell/bin
+    // add a property in PropertiesUtils
+    // KAMEHOUSE_SHELL_BASE_PATH = ${HOME}/programs/kamehouse-shell/bin
     // then this would be KAMEHOUSE_SHELL_BASE_PATH + "/lin/xxx/vlc-stop.sh"
     addBashPrefix();
     String killVlcScript =
