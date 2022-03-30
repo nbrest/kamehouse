@@ -144,7 +144,7 @@ runDockerImage() {
 }
 
 parseArguments() {
-  while getopts ":bcdho:p:s:v" OPT; do
+  while getopts ":bcdfho:p:s:v" OPT; do
     case $OPT in
     ("b")
       BUILD_ON_STARTUP_PARAM=true
@@ -154,6 +154,9 @@ parseArguments() {
       ;;
     ("d")
       DEBUG_MODE_PARAM=true      
+      ;;
+    ("f")
+      BUILD_ON_STARTUP_PARAM=false
       ;;
     ("h")
       parseHelp
@@ -295,6 +298,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-b${COL_NORMAL} build and deploy kamehouse on startup"
   echo -e "     ${COL_BLUE}-c${COL_NORMAL} control host through ssh. by default it runs standalone executing all commands within the container"
   echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
+  echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. don't build and deploy"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default base os is ubuntu"
   echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-80-443)${COL_NORMAL} default profile is dev"
