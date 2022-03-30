@@ -29,8 +29,8 @@ root	ALL=(ALL:ALL) ALL
 
 nbrest ALL=(ALL) NOPASSWD: ALL
 
-www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/common/sudoers/www-data/exec-script.sh
-www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/lin/csv-my-scripts.sh
-www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/kamehouse/get-username.sh
+www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
+www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh
+www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh
 
 #includedir /etc/sudoers.d

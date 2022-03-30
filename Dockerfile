@@ -46,9 +46,9 @@ RUN adduser --gecos "" --disabled-password nbrest ; \
   echo 'nbrest:nbrest' | chpasswd
 
 # Setup nbrest home
-RUN echo "source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh" >> /root/.bashrc ; \
+RUN echo "source /home/nbrest/programs/kamehouse-shell/bin/lin/bashrc/bashrc.sh" >> /root/.bashrc ; \
   echo "source /home/nbrest/.kamehouse/.kamehouse-docker-container-env" >> /root/.bashrc ; \
-  sudo su - nbrest -c "echo \"source /home/nbrest/my.scripts/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc ; \
+  sudo su - nbrest -c "echo \"source /home/nbrest/programs/kamehouse-shell/bin/lin/bashrc/bashrc.sh\" >> /home/nbrest/.bashrc ; \
     echo \"source /home/nbrest/.kamehouse/.kamehouse-docker-container-env\" >> /home/nbrest/.bashrc ; \
     mkdir -p /home/nbrest/.ssh"
 
@@ -105,10 +105,11 @@ COPY --chown=nbrest:users docker/keys/.unlock.screen.pwd.enc /home/nbrest/.kameh
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/logs" ; \
   mkdir -p /root/logs
 
-# /home/nbrest/my.scripts
-RUN sudo su - nbrest -c "mkdir -p /home/nbrest/my.scripts/.cred/" ; \
-  ln -s /home/nbrest/my.scripts /root/my.scripts
-COPY --chown=nbrest:users docker/keys/.cred /home/nbrest/my.scripts/.cred/.cred
+# /home/nbrest/programs/kamehouse-shell/bin
+RUN sudo su - nbrest -c "mkdir -p /home/nbrest/.kamehouse/.shell/" ; \ 
+  ln -s /home/nbrest/programs /root/programs ; \
+  ln -s /home/nbrest/.kamehouse /root/.kamehouse
+COPY --chown=nbrest:users docker/keys/.cred /home/nbrest/.kamehouse/.shell/.cred
 
 # /home/nbrest/programs
 RUN sudo su - nbrest -c "mkdir -p /home/nbrest/programs/apache-httpd ; \
@@ -138,8 +139,8 @@ RUN chmod a+x /usr/bin/vlc ; \
 RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mysql start ; \
   sleep 5 ; \
-  mysql < /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/setup-kamehouse.sql ; \
-  mysql kameHouse < /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/sql/mysql/spring-session.sql ; \
+  mysql < /home/nbrest/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
+  mysql kameHouse < /home/nbrest/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
   mysql kameHouse < /home/nbrest/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
   cd /var/lib ; \
   tar -cvpzf /home/nbrest/mysql-initial-data.tar.gz mysql/ ; \
@@ -152,17 +153,17 @@ RUN echo "echo 'Update number to avoid cache 20'"
 COPY --chown=nbrest:users docker /home/nbrest/docker
 
 # Deploy latest version of kamehouse (should have most of the dependencies already downloaded)
-# Also updates the my.scripts directory with the latest version of the scripts
+# Also updates the kamehouse-shell directory with the latest version of the scripts
 # And recreate sample video playlists directories
 RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   git pull origin dev ; \
-  chmod a+x /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/kamehouse-shell-install.sh ; \
-  /home/nbrest/git/kamehouse/kamehouse-shell/my.scripts/kamehouse/kamehouse-shell-install.sh ; \
-  /home/nbrest/my.scripts/kamehouse/deploy-kamehouse.sh -f -p docker ; \
+  chmod a+x /home/nbrest/git/kamehouse/kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh ; \
+  /home/nbrest/git/kamehouse/kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh ; \
+  /home/nbrest/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   cd /home/nbrest/git/kamehouse ; \
   mvn clean ; \
   rm -rf /home/nbrest/.m2/repository/com/nicobrest ; \
-  /home/nbrest/my.scripts/kamehouse/create-sample-video-playlists.sh"
+  /home/nbrest/programs/kamehouse-shell/bin/kamehouse/create-sample-video-playlists.sh"
 
 # Expose ports
 EXPOSE 22 80 443 3306 8000 8080 9090
@@ -174,4 +175,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Setup default env for container init script
 ENV FAST_DOCKER_INIT=false
 
-CMD ["/home/nbrest/my.scripts/kamehouse/docker/docker-init-kamehouse.sh"]
+CMD ["/home/nbrest/programs/kamehouse-shell/bin/kamehouse/docker/docker-init-kamehouse.sh"]

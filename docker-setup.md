@@ -10,7 +10,7 @@ The docker image loads kamehouse through tomcat and apache httpd and most of the
 
 You can skip this step and directly run the image. If it doesn't find it locally, it will download it automatically from docker hub. If you do have the image locally already, this will pull the latest changes to the image from docker hub
 
-Execute the script `kamehouse-shell/my.scripts/kamehouse/docker/docker-pull-kamehouse.sh`
+Execute the script `kamehouse-shell/bin/kamehouse/docker/docker-pull-kamehouse.sh`
 
 ```
 docker pull nbrest/kamehouse:latest
@@ -20,7 +20,7 @@ docker pull nbrest/kamehouse:latest
 
 ## Run the image
 
-Execute the script `kamehouse-shell/my.scripts/kamehouse/docker/docker-run-kamehouse.sh`
+Execute the script `kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh`
 
 ```
 docker run --rm -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/kamehouse:latest
@@ -45,7 +45,7 @@ In the container console, you can run the following scripts:
 - `build-kamehouse.sh` : Execute it on `/home/nbrest/git/kamehouse` to build the project and run all the unit tests
 - `build-kamehouse.sh -i -p docker` : Execute it on `/home/nbrest/git/kamehouse` to run all the integration tests
 - `deploy-kamehouse.sh -f -p docker` : Pull the latest changes from git dev branch and deploy them (Executed automatically during container startup)
-- `docker-my-scripts-update.sh` : Updates the scripts in `/home/nbrest/my.scripts` with the version currently pulled from `/home/nbrest/git/kamehouse`
+- `kamehouse-shell-install.sh` : Updates the scripts in `/home/nbrest/programs/kamehouse-shell` with the version currently pulled from `/home/nbrest/git/kamehouse`
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 
 *********************
@@ -70,7 +70,7 @@ docker stop container-id-hash
 
 If for any reason you can't pull the image from docker hub, you can build it manually. At the root of the project there's a Dockerfile that can be used to build the image to run kamehouse in a container
 
-At the root of the project execute the script `kamehouse-shell/my.scripts/kamehouse/docker/docker-build-kamehouse.sh`
+At the root of the project execute the script `kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh`
 
 ```
 docker build -t nbrest/kamehouse:latest .
