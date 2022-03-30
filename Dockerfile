@@ -158,7 +158,6 @@ COPY --chown=nbrest:users docker /home/nbrest/docker
 RUN sudo su - nbrest -c "cd /home/nbrest/git/kamehouse ; \
   git pull origin dev ; \
   chmod a+x /home/nbrest/git/kamehouse/kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh ; \
-  /home/nbrest/git/kamehouse/kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh ; \
   /home/nbrest/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   cd /home/nbrest/git/kamehouse ; \
   mvn clean ; \
