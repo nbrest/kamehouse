@@ -11,8 +11,8 @@
   <fileSets>
     <!-- script files -->
     <fileSet>
-      <directory>${project.basedir}/my.scripts</directory>
-      <outputDirectory>my.scripts</outputDirectory>
+      <directory>${project.basedir}/bin</directory>
+      <outputDirectory>bin</outputDirectory>
     </fileSet>
   </fileSets>
 </assembly>
