@@ -1,52 +1,52 @@
 
-/** all-my-scripts-table-controls begin */
-.all-my-scripts-table-controls-table {
+/** all-kamehouse-shell-table-controls begin */
+.all-kamehouse-shell-table-controls-table {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
   display: table;
 }
-/** all-my-scripts-table-controls end */
+/** all-kamehouse-shell-table-controls end */
 
-/** all-my-scripts-table-wrapper begin*/
+/** all-kamehouse-shell-table-wrapper begin*/
 /** Set scrollbar style FIREFOX */
-#all-my-scripts-table-wrapper {
+#all-kamehouse-shell-table-wrapper {
   scrollbar-color: #ea0000 #060606 !important;
   scrollbar-width: thin !important;
 }
 
 /** Set scrollbar style CHROME */
-#all-my-scripts-wrapper::-webkit-scrollbar {
+#all-kamehouse-shell-wrapper::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
 @media(max-width: 900px) {
-  #all-my-scripts-table-wrapper::-webkit-scrollbar {
+  #all-kamehouse-shell-table-wrapper::-webkit-scrollbar {
     width: 4px;
     height: 4px;
   }
 }
 
-#all-my-scripts-table-wrapper::-webkit-scrollbar-track {
+#all-kamehouse-shell-table-wrapper::-webkit-scrollbar-track {
   background: #060606;
 }
 
-#all-my-scripts-table-wrapper::-webkit-scrollbar-thumb {
+#all-kamehouse-shell-table-wrapper::-webkit-scrollbar-thumb {
   background: #ea0000;
 }
 
-#all-my-scripts-table-wrapper::-webkit-scrollbar-corner {
+#all-kamehouse-shell-table-wrapper::-webkit-scrollbar-corner {
   background: #060606;
 }
-/** all-my-scripts-table-wrapper end*/
+/** all-kamehouse-shell-table-wrapper end*/
 
 #banner-script-status {
   font-size: 20px;
 }
 
-/** my-scripts controls table button begin */
-.btn-my-scripts-controls {
+/** kamehouse-shell controls table button begin */
+.btn-kamehouse-shell-controls {
   margin-left: 15px;
   margin-right: 15px;
   margin-top: 0;
@@ -54,28 +54,28 @@
 }
 
 @media (max-width : 900px) {
-  .btn-my-scripts-controls {
+  .btn-kamehouse-shell-controls {
     margin-left: 15px;
     margin-right: 15px;
     margin-top: 0;
     margin-bottom: 0;
   }
 }
-/** my-scripts controls table button end */
+/** kamehouse-shell controls table button end */
 
-/** my-scripts-table begin */
-.my-scripts-table {
+/** kamehouse-shell-table begin */
+.kamehouse-shell-table {
   color: #868686;
   width: 100%;
 }
 
 @media (max-width: 900px) {
-  .my-scripts-table {
+  .kamehouse-shell-table {
     display: block;
   }
 }
 
-.my-scripts-wrapper {
+.kamehouse-shell-wrapper {
   padding: 10px;
   background: #060606;
   max-height: 500px;
@@ -83,15 +83,15 @@
 }
 
 @media (max-width: 900px) {
-  .my-scripts-wrapper {
+  .kamehouse-shell-wrapper {
     max-height: 380px;
     overflow: scroll;
   }
 }
-/** my-scripts-table end */
+/** kamehouse-shell-table end */
 
-/** my-scripts table btn begin*/
-.my-scripts-table-btn {
+/** kamehouse-shell table btn begin*/
+.kamehouse-shell-table-btn {
   font-weight: 400;
   padding: .5rem .75rem;
   font-size: 1rem;
@@ -107,9 +107,9 @@
   text-decoration: none;
 }
 
-.my-scripts-table-btn:hover {
+.kamehouse-shell-table-btn:hover {
   background-color: #ea0000;
   color: #c0c0c0;
   font-size: bold;
 }
-/** my-scripts table btn end*/
+/** kamehouse-shell table btn end*/

@@ -16,7 +16,7 @@ function TailLogManager() {
   this.setScriptName = setScriptName;
   this.handleSessionStatus = handleSessionStatus;
 
-  const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/my-scripts/exec-script.php';
+  const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php';
 
   /** Tails the log based on the script parameter */
   function tailLogFromUrlParams() {

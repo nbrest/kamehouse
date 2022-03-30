@@ -89,8 +89,8 @@ function GrootHeader() {
           domUtils.addClass($(navItem), "active");
         }
       }
-      if (pageUrl.startsWith("/kame-house-groot/admin/my-scripts")) {
-        if ($(navItem).attr("id") == "nav-my-scripts") {
+      if (pageUrl.startsWith("/kame-house-groot/admin/kamehouse-shell")) {
+        if ($(navItem).attr("id") == "nav-kamehouse-shell") {
           domUtils.addClass($(navItem), "active");
         }
       }

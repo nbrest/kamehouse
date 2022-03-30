@@ -17,7 +17,7 @@ function ScriptExecutor() {
   this.handleSessionStatus = handleSessionStatus;
   this.downloadBashScriptOutput = downloadBashScriptOutput;
 
-  const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/my-scripts/exec-script.php';
+  const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php';
   let bashScriptOutput = "Script output not set yet.";
 
   /** Execute the specified script in the url parameters*/

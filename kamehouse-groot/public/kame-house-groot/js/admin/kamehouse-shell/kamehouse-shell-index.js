@@ -1,40 +1,40 @@
-var myScriptsManager;
+var kameHouseShellManager;
 
-function mainMyScripts() {
+function mainKameHouseShell() {
   bannerUtils.setRandomDragonBallBanner();
   moduleUtils.waitForModules(["grootHeader"], () => {
-    myScriptsManager = new MyScriptsManager();
-    myScriptsManager.handleSessionStatus();
-    myScriptsManager.getMyScripts(myScriptsManager.populateMyScriptsTable, () => { logger.error("Error getting my.scripts csv"); });
+    kameHouseShellManager = new KameHouseShellManager();
+    kameHouseShellManager.handleSessionStatus();
+    kameHouseShellManager.getKameHouseShell(kameHouseShellManager.populateKameHouseShellTable, () => { logger.error("Error getting scripts csv"); });
   });
 }
 
 /**
- * Manager to load and execute my.scripts.
+ * Manager to load and execute scripts.
  */
-function MyScriptsManager() {
+function KameHouseShellManager() {
 
-  this.populateMyScriptsTable = populateMyScriptsTable;
+  this.populateKameHouseShellTable = populateKameHouseShellTable;
   this.executeScript = executeScript;
-  this.filterMyScriptsRows = filterMyScriptsRows;
+  this.filterKameHouseShellRows = filterKameHouseShellRows;
   this.handleSessionStatus = handleSessionStatus;
-  this.getMyScripts = getMyScripts;
+  this.getKameHouseShell = getKameHouseShell;
 
-  const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/my-scripts/exec-script.php";
+  const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script.php";
 
-  /** Populates all my-scripts table */
-  function populateMyScriptsTable(myScriptsArray) {
-    const $allMyScriptsTableBody = $('#all-my-scripts-table-body');
-    const tbody = getAllMyScriptsTbody();
-    for (let i = 0; i < myScriptsArray.length; i++) {
-      const scriptName = myScriptsArray[i];
-      domUtils.append(tbody, getAllMyScriptsTr(scriptName));
+  /** Populates all kamehouse-shell table */
+  function populateKameHouseShellTable(kameHouseShellArray) {
+    const $allKameHouseShellTableBody = $('#all-kamehouse-shell-table-body');
+    const tbody = getAllKameHouseShellTbody();
+    for (let i = 0; i < kameHouseShellArray.length; i++) {
+      const scriptName = kameHouseShellArray[i];
+      domUtils.append(tbody, getAllKameHouseShellTr(scriptName));
     }
-    domUtils.replaceWith($allMyScriptsTableBody, tbody);
+    domUtils.replaceWith($allKameHouseShellTableBody, tbody);
   }
   
   /** Execute the clicked script from the table */
-  function clickEventOnAllMyScriptsRow(event) {
+  function clickEventOnAllKameHouseShellRow(event) {
     const scriptName = event.data.scriptName;
     executeScript(scriptName, null);
   }
@@ -50,9 +50,9 @@ function MyScriptsManager() {
     }
   }
   
-  /** Filters rows for all my-scripts table */
-  function filterMyScriptsRows(filterString) {
-    tableUtils.filterTableRows(filterString, 'all-my-scripts-table-body');
+  /** Filters rows for all kamehouse-shell table */
+  function filterKameHouseShellRows(filterString) {
+    tableUtils.filterTableRows(filterString, 'all-kamehouse-shell-table-body');
   }
   
   /** Handle Session Status */
@@ -68,37 +68,37 @@ function MyScriptsManager() {
   }
 
   /** Get session status from the backend */
-  function getMyScripts(successCallback, errorCallback) {
-    const MY_SCRIPTS_API = '/kame-house-groot/api/v1/admin/my-scripts/my-scripts.php';
+  function getKameHouseShell(successCallback, errorCallback) {
+    const MY_SCRIPTS_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php';
     httpClient.get(MY_SCRIPTS_API, null,
       (responseBody, responseCode, responseDescription) => successCallback(responseBody, responseCode, responseDescription),
       (responseBody, responseCode, responseDescription) => errorCallback(responseBody, responseCode, responseDescription));
   }
   
-  function getAllMyScriptsTbody() {
+  function getAllKameHouseShellTbody() {
     return domUtils.getTbody({
-      id: "all-my-scripts-table-body"
+      id: "all-kamehouse-shell-table-body"
     }, null);
   }
   
-  function getAllMyScriptsTr(scriptName) {
+  function getAllKameHouseShellTr(scriptName) {
     return domUtils.getTrTd(getTrBtn(scriptName));
   }
   
   function getTrBtn(scriptName) {
     return domUtils.getButton({
       attr: {
-        class: "my-scripts-table-btn",
+        class: "kamehouse-shell-table-btn",
       },
       html: scriptName,
       clickData: {
         scriptName: scriptName
       },
-      click: clickEventOnAllMyScriptsRow
+      click: clickEventOnAllKameHouseShellRow
     });
   }
 }
 
 window.onload = () => {
-  mainMyScripts();
+  mainKameHouseShell();
 }

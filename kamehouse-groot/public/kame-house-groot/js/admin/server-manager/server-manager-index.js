@@ -427,23 +427,8 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    const hostOs = serverManager.getHostOs();
-    let script = 'kamehouse/deploy-kamehouse.sh';
-    let args = "-f -m " + module;
-
-    if (module == "groot") {
-      script = hostOs + '/git/git-pull-prod-kamehouse.sh';
-      args = "";
-    }
-
-    if (module == "shell") {
-      if (serverManager.isRunningInDockerContainer()) {
-        script = 'kamehouse/docker/docker-my-scripts-update.sh';
-      } else {
-        script = hostOs + '/git/git-pull-my-scripts.sh';
-      }
-      args = "";
-    }
+    const script = 'kamehouse/deploy-kamehouse.sh';
+    const args = "-f -m " + module;
 
     scriptExecutor.execute(script, args, false, refreshServerView);
   }

@@ -71,11 +71,12 @@ function isAuthorizedUser($username, $password) {
   if (isLinuxHost()) {
     /**
      * This requires to give permission to www-data to execute. Check API exec-script.php for more details.
+     * TODO remove nbrest from these paths and try to get the username from the env
      */
-    $shellUsername = trim(shell_exec("sudo /home/nbrest/my.scripts/kamehouse/get-username.sh"));
-    $shellCommandOutput = shell_exec("sudo -u " . $shellUsername . " /home/nbrest/my.scripts/common/sudoers/www-data/exec-script.sh -s 'kamehouse/groot-login.sh' -a '" . $scriptArgs . "'");
+    $shellUsername = trim(shell_exec("sudo /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+    $shellCommandOutput = shell_exec("sudo -u " . $shellUsername . " /home/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/groot-login.sh' -a '" . $scriptArgs . "'");
   } else {
-    $shellCommandOutput = shell_exec("C:/Users/nbrest/my.scripts/win/bat/git-bash.bat -c \"C:/Users/nbrest/my.scripts/common/sudoers/www-data/exec-script.sh -s 'kamehouse/groot-login.sh' -a '" . $scriptArgs . "'\"");
+    $shellCommandOutput = shell_exec("C:/Users/nbrest/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"C:/Users/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/groot-login.sh' -a '" . $scriptArgs . "'\"");
   }
   $shellCommandOutput = explode("\n", $shellCommandOutput);
 

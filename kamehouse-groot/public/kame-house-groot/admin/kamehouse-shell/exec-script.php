@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/kame-house/css/global.css" />
   <link rel="stylesheet" href="/kame-house-groot/css/global.css" />
-  <link rel="stylesheet" href="/kame-house-groot/css/admin/my-scripts.css" />
+  <link rel="stylesheet" href="/kame-house-groot/css/admin/kamehouse-shell.css" />
 </head>
 
 <body>
@@ -36,7 +36,7 @@
   </div>
   <div class="default-layout">
     <br>
-    <p class="p-15-m-kh">Executes the specified script from my-scripts in my
+    <p class="p-15-m-kh">Executes the specified script from kamehouse-shell in my
       kame-house server and displays the console output</p>
     <br>
     <table id="script-table"
@@ -93,8 +93,8 @@
       alt="Back To Top" title="Back To Top" />
 
   </div>
-  <script src="/kame-house-groot/js/admin/my-scripts/script-executor.js"></script>
-  <script src="/kame-house-groot/js/admin/my-scripts/exec-script.js"></script>
+  <script src="/kame-house-groot/js/admin/kamehouse-shell/script-executor.js"></script>
+  <script src="/kame-house-groot/js/admin/kamehouse-shell/exec-script.js"></script>
   <script src="/kame-house/js/snippets/sticky-back-to-top.js"></script>
 </body>
 

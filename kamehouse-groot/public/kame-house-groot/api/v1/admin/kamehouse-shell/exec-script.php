@@ -1,9 +1,9 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/admin/my-scripts/exec-script.php (GET)
+ * Endpoint: /kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php (GET)
  * 
  * Url parameters: 
- *  - script: Script to execute with relative path to my.scripts repo
+ *  - script: Script to execute with relative path to ${HOME}/programs/kamehouse-shell/bin
  *  - args: Arguments to pass to the script
  * 
  * @author nbrest
@@ -69,15 +69,16 @@
     if (isLinuxHost()) {
       /**
        * This requires to give permission to www-data to execute a couple of scripts. Update sudoers:
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/common/sudoers/www-data/exec-script.sh
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/lin/csv-my-scripts.sh
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/kamehouse/get-username.sh
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/my.scripts/lin/transmission/csv-torrents.sh
+       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
+       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh
+       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh
+       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/lin/transmission/csv-torrents.sh
+       * TODO remove nbrest from these paths and try to get the username from the env
        */
-      $username = trim(shell_exec("sudo /home/nbrest/my.scripts/kamehouse/get-username.sh"));
-      $shellCommand = "sudo -u " . $username . " /home/nbrest/my.scripts/common/sudoers/www-data/exec-script.sh";
+      $username = trim(shell_exec("sudo /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+      $shellCommand = "sudo -u " . $username . " /home/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
     } else {
-      $shellCommand = "C:/Users/nbrest/my.scripts/win/bat/git-bash.bat -c \"C:/Users/nbrest/my.scripts/common/sudoers/www-data/exec-script.sh";
+      $shellCommand = "C:/Users/nbrest/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"C:/Users/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
     }
     if ($executeOnDockerHost) {
       $shellCommand = $shellCommand . " -x";
