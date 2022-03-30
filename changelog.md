@@ -3,6 +3,7 @@
 #### v7.03
 
 * Renamed project from java.web.kamehouse to kamehouse
+* Moved away from my private my.scripts repo and made kamehouse-shell installable and the main source of my scripts
 * Added more retries for tennisworld scheduled bookings
 * Added build version to the footer of kamehouse mobile
 * Fixed sorting of data in the UI in crud manager
