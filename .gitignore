@@ -16,7 +16,7 @@ kamehouse-commons-core/src/main/resources/git-commit-hash.txt
 # Directories 
 # ##################
 **/build/
-**/bin/
+/bin/
 **/target/
 
 # ##################
@@ -58,7 +58,6 @@ Desktop.ini
 *.pydevproject
 .project
 .metadata
-bin/**
 tmp/**
 tmp/**/*
 *.tmp
