@@ -120,7 +120,6 @@ deployKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     logStep "Deploying latest version of KameHouse"
     sudo su - ${USERNAME} -c "/home/nbrest/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker"
-    sudo su - ${USERNAME} -c "/home/nbrest/programs/kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh"
     logStep "Finished building latest version of KameHouse"
   fi
 }
