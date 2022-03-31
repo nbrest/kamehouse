@@ -6,13 +6,13 @@ GIT_REMOTE="all"
 mainProcess() {
   log.info "Git pull ${COL_PURPLE}${GIT_BRANCH} ${GIT_PROJECT_DIR}"
 
-  cd ${GIT_PROJECT_DIR}
-  checkCommandStatus "$?"
-
-  if [ ! -d ".git" ]; then
+  if [ ! -d "${GIT_PROJECT_DIR}/.git" ]; then
     log.error "This directory ${GIT_PROJECT_DIR} doesn't contain a git repository. Skipping git pull..."
     exit 1
   fi
+
+  cd ${GIT_PROJECT_DIR}
+  checkCommandStatus "$?"
 
   git checkout ${GIT_BRANCH}
   checkCommandStatus "$?"
