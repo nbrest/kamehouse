@@ -201,7 +201,7 @@ buildProfile() {
     [ "${PROFILE}" != "demo" ] &&
     [ "${PROFILE}" != "prod" ] &&
     [ "${PROFILE}" != "prod-80-443" ]; then
-    log.error "Option -p [profile] has an invalid value of ${DOCKER_BASE_OS}"
+    log.error "Option -p [profile] has an invalid value of ${PROFILE}"
     printHelp
     exitProcess 1
   fi
