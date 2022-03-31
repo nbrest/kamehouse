@@ -17,10 +17,9 @@ mainProcess() {
   fi
   mkdir -p ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/
   cp -vr ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/
-  if [ ! -d "${HOME}/docker" ]; then
-    log.info "Creating ${HOME}/docker directory to load videos from there"
-    cp -r ${HOME}/git/kamehouse/docker ${HOME}/docker
-  fi
+  rm -r ${HOME}/docker/media/video
+  mkdir -p ${HOME}/docker/media/video
+  cp -r ${HOME}/git/kamehouse/docker/media/video ${HOME}/docker/media/
 }
 
 main "$@"
