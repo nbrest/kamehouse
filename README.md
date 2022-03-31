@@ -129,6 +129,4 @@ The application will load even without these installed, however some functionali
 
 [Troubleshoot Issues](troubleshoot-issues.md)
 
-[Logging Strategy](logging-strategy.md)
-
 [ChangeLog](changelog.md)
