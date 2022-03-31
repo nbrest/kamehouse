@@ -28,9 +28,9 @@ BUILD_ALL_EXTRA_MODULES=false
 DELETE_ALL_MOBILE_OUTPUTS=false
 
 mainProcess() {
+  deployKameHouseShell
   buildProject
   deployKameHouseCmd
-  deployKameHouseShell
   cleanLogsInGitRepoFolder
 }
 

@@ -46,6 +46,7 @@ mainProcess() {
     cd ${PROJECT_DIR}
     checkCommandStatus "$?" "Invalid project directory" 
     pullLatestVersionFromGit
+    deployKameHouseShell
     buildProject
     cleanLogsInGitRepoFolder
     executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
@@ -53,7 +54,6 @@ mainProcess() {
     deployToTomcat
     deployKameHouseCmd
     deployKameHouseGroot
-    deployKameHouseShell
     deployKameHouseMobile
   else
     # Execute remote deployment
