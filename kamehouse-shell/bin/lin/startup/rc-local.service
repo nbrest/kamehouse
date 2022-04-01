@@ -2,7 +2,7 @@
 After=network.service
 
 [Service]
-ExecStart=/home/nbrest/programs/kamehouse-shell/bin/lin/startup/rc-local.sh
+ExecStart=/root/programs/kamehouse-shell/bin/lin/startup/rc-local.sh
 
 [Install]
 WantedBy=default.target

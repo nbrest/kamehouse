@@ -27,7 +27,9 @@ main() {
   checkSourcePath
   installKameHouseShell
   fixPermissions
+  createSymLink
   installCred
+  updateUsername
   updateBashRc
   logStep "Done!"
 }
@@ -55,6 +57,12 @@ fixPermissions() {
   chmod a+x -R ${KAMEHOUSE_SHELL_PATH}
 }
 
+createSymLink() {
+  local USERNAME=`whoami`
+  logStep "Creating symlink on root home. Ignore the error on windows, give sudo permissions to current user on linux if it fails on linux"
+  sudo ln -s /home/${USERNAME}/programs /root/programs
+}
+
 installCred() {
   logStep "Installing credentials file"
   if [ ! -f "${HOME}/.kamehouse/.shell/.cred" ]; then
@@ -62,6 +70,13 @@ installCred() {
     mkdir -p ${HOME}/.kamehouse/.shell/
     cp docker/keys/.cred ${HOME}/.kamehouse/.shell/.cred
   fi
+}
+
+updateUsername() {
+  local USERNAME=`whoami`
+  logStep "Updating username in ${COL_PURPLE}get-username.sh${COL_MESSAGE} and ${COL_PURPLE}get-userhome.sh${COL_MESSAGE} to ${COL_PURPLE}${USERNAME}"
+  sed -i "s#USERNAME=\"nbrest\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-username.sh"
+  sed -i "s#USERHOME_LIN=\"/home/nbrest\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
 }
 
 updateBashRc() {

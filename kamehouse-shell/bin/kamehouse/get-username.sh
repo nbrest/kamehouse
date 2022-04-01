@@ -9,14 +9,9 @@ fi
 
 USERNAME="nbrest"
 HOST=""
-HOST_FILE="${HOME}/home-synced/host"
+HOST_FILE="${HOME}/.kamehouse/host"
 
 main() {
-  HOSTNAME=`hostname`
-  if [ "${HOSTNAME}" == "pi" ]; then
-    USERNAME="pi"
-  fi
-
   if [ -f "${HOST_FILE}" ]; then
     HOST=`cat ${HOST_FILE}`
     if [ "${HOST}" == "aws" ]; then

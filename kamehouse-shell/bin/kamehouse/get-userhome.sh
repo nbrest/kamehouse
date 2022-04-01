@@ -10,15 +10,10 @@ fi
 USERHOME_WIN="${HOME}"
 USERHOME_LIN="/home/nbrest"
 HOST=""
-HOST_FILE="${HOME}/home-synced/host"
+HOST_FILE="${HOME}/.kamehouse/host"
 
 main() {
   if ${IS_LINUX_HOST}; then
-    HOSTNAME=`hostname`
-    if [ "${HOSTNAME}" == "pi" ]; then
-      USERHOME_LIN="/home/pi"
-    fi
-
     if [ -f "${HOST_FILE}" ]; then
       HOST=`cat ${HOST_FILE}`
       if [ "${HOST}" == "aws" ]; then
