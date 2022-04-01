@@ -14,6 +14,16 @@
   margin-right: 20px;
 }
 
+.header-title {
+  margin-left: 15px !important;
+}
+
+@media (max-width : 900px) {
+  .header-title {
+    margin-left: 0px !important;
+  }
+}
+
 .header-mobile-btn {
   opacity: 30%;
   width: 40px;
