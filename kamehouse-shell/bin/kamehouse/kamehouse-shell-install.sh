@@ -77,6 +77,7 @@ updateUsername() {
   logStep "Updating username in ${COL_PURPLE}get-username.sh${COL_MESSAGE} and ${COL_PURPLE}get-userhome.sh${COL_MESSAGE} to ${COL_PURPLE}${USERNAME}"
   sed -i "s#USERNAME=\"nbrest\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-username.sh"
   sed -i "s#USERHOME_LIN=\"/home/nbrest\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
+  sed -i "s#KAMEHOUSE_USER=\"nbrest\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
 }
 
 updateBashRc() {

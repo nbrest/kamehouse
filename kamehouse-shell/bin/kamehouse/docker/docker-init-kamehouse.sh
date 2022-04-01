@@ -62,7 +62,7 @@ loadEnv() {
   echo "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}" >> ${CONTAINER_ENV}
   echo "PROFILE=${PROFILE}" >> ${CONTAINER_ENV}
   echo "USE_VOLUMES=${USE_VOLUMES}" >> ${CONTAINER_ENV}
-  chown nbrest:nbrest ${CONTAINER_ENV}
+  chown ${USERNAME}:${USERNAME} ${CONTAINER_ENV}
 }
 
 printEnv() {

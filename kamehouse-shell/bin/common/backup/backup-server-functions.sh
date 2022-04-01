@@ -142,8 +142,8 @@ backupHomeFolders() {
 
 pullDockerHomeFolders() {
   log.info "Pulling folders to sync from docker prod container, if it's running"
-  scp -r -P ${DOCKER_PORT_SSH} localhost:/home/nbrest/home-synced ${HOME}/home-synced/docker/ 
-  scp -r -P ${DOCKER_PORT_SSH} localhost:/home/nbrest/.kamehouse ${HOME}/home-synced/docker/ 
+  scp -r -P ${DOCKER_PORT_SSH} localhost:/home/${DOCKER_USERNAME}/home-synced ${HOME}/home-synced/docker/ 
+  scp -r -P ${DOCKER_PORT_SSH} localhost:/home/${DOCKER_USERNAME}/.kamehouse ${HOME}/home-synced/docker/ 
   rm -f ${HOME}/home-synced/docker/.kamehouse/.kamehouse-docker-container-env
 }
 
