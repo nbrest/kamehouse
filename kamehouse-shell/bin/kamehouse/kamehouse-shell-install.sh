@@ -60,7 +60,7 @@ fixPermissions() {
 createSymLink() {
   local USERNAME=`whoami`
   logStep "Creating symlink on root home. Ignore the error on windows, give sudo permissions to current user on linux if it fails on linux"
-  sudo ln -s /home/${USERNAME}/programs /root/programs
+  sudo ln -s /home/${USERNAME}/programs /root/
 }
 
 installCred() {
