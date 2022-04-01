@@ -19,3 +19,11 @@ Also copy `public/index.html` to the root of the web server directory to redirec
 Building the project with `build-kamehouse.sh -m groot` creates a zip file with everything in `kamehouse-groot/target/kamehouse-groot-bundle.zip`. 
 This zip can be extracted to the directory where the files are served in an apache httpd server.
 It also includes the root `/index.html` to redirect to `/kame-house`
+
+# Linux
+
+- Symlink programs folder from user home to root home for `exec-script.php`
+```sh
+# As root:
+ln -s /home/[USERNAME]/programs /root/programs
+```
