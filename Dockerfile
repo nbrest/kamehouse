@@ -40,10 +40,11 @@ RUN ln -s /var/www/html/ /var/www/kh.webserver ; \
   a2ensite default-ssl ; \
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
 
-# Setup users
-ARG KAMEHOUSE_USERNAME=nbrest
+# Setup users 
+# IMPORTANT: if I update the user here also update it in docker/etc/sudoers
+ARG KAMEHOUSE_USERNAME=goku
 ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}
-ARG KAMEHOUSE_PASSWORD=nbrest
+ARG KAMEHOUSE_PASSWORD=gohan
 ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
 COPY docker/etc/sudoers /etc/sudoers

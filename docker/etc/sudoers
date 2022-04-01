@@ -27,10 +27,10 @@ root	ALL=(ALL:ALL) ALL
 
 # See sudoers(5) for more information on "#include" directives:
 
-nbrest ALL=(ALL) NOPASSWD: ALL
+goku ALL=(ALL) NOPASSWD: ALL
 
-www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
-www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh
-www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh
+www-data ALL=(ALL) NOPASSWD: /home/goku/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
+www-data ALL=(ALL) NOPASSWD: /home/goku/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh
+www-data ALL=(ALL) NOPASSWD: /home/goku/programs/kamehouse-shell/bin/kamehouse/get-username.sh
 
 #includedir /etc/sudoers.d
