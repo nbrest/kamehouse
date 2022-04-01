@@ -129,6 +129,9 @@ setGlobalVariables() {
 
   SSH_SERVER=${ENVIRONMENT}
   SSH_COMMAND="${SCRIPT_NAME} -e local -p ${MAVEN_PROFILE}"
+  if [ -n "${MODULE_SHORT}" ]; then
+    SSH_COMMAND=${SSH_COMMAND}" -m "${MODULE_SHORT}
+  fi 
 
   if [ "${ENVIRONMENT}" == "aws" ]; then
     SSH_SERVER=${AWS_SSH_SERVER}

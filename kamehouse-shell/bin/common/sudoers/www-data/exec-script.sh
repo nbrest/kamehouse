@@ -30,7 +30,7 @@ mainProcess() {
     if ${IS_LINUX_DOCKER_HOST}; then
       ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
     else
-      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "git-bash -c \"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\""
+      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\""
     fi
   else
     ${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}  

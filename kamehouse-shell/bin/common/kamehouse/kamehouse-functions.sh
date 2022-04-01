@@ -1,4 +1,5 @@
 # Common kamehouse variables
+GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
 PROJECT="kamehouse"
 DEFAULT_SSH_USER=nbrest
 SSH_USER=${DEFAULT_SSH_USER}
@@ -78,8 +79,7 @@ executeSshCommand() {
   if ${IS_REMOTE_LINUX_HOST}; then
     ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"
   else
-    # This command depends on having git-bash.bat from kamehouse-shell in my PATH in the SSH_SERVER
-    ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} "git-bash -c \"\"${SSH_COMMAND}\"\""
+    ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} "${GIT_BASH} -c \"${SSH_COMMAND}\""
   fi
   checkCommandStatus "$?" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
   log.info "Finished executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
