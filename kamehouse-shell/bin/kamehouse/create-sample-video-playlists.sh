@@ -38,7 +38,7 @@ updatePlaylistEntriesHome() {
   log.info "Updating home path in playlist entries"
   cd ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/
   local USERNAME=`whoami`
-  find . -regex ".*m3u" -type f -exec sed -i "s#/home/nbrest#/home/${USERNAME}#g" {} \;
+  find . -regex ".*m3u" -type f -exec sed -i "s#/home/USERNAME#/home/${USERNAME}#g" {} \;
 }
 
 main "$@"
