@@ -79,6 +79,7 @@ updateUsername() {
   sed -i "s#USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-username.sh"
   sed -i "s#USERHOME_LIN=\"/home/${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
   sed -i "s#KAMEHOUSE_USER=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
+  sed -i "s#KAMEHOUSE_USER=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.sh"
 }
 
 updateBashRc() {
