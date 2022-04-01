@@ -2,7 +2,7 @@
 After=network.service
 
 [Service]
-ExecStart=/home/pi/programs/kamehouse-shell/bin/pi/startup/rc-local.sh
+ExecStart=/root/programs/kamehouse-shell/bin/pi/startup/rc-local.sh
 
 [Install]
 WantedBy=default.target
