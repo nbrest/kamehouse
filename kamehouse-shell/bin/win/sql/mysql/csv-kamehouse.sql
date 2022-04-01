@@ -1,14 +1,58 @@
 use kamehouse;
 
-SELECT * FROM BOOKING_REQUEST INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\booking_request.tmpcsv' FIELDS TERMINATED BY ',';
-SELECT * FROM BOOKING_RESPONSE INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\booking_response.tmpcsv' FIELDS TERMINATED BY ',';
-SELECT * FROM BOOKING_SCHEDULE_CONFIG INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\booking_schedule_config.tmpcsv' FIELDS TERMINATED BY ',';
+SET @tableName := 'booking_request';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
-SELECT * FROM DRAGONBALL_USER INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\dragonball_user.tmpcsv' FIELDS TERMINATED BY ',';
+SET @tableName := 'booking_response';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
-SELECT * FROM HIBERNATE_SEQUENCE INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\hibernate_sequence.tmpcsv' FIELDS TERMINATED BY ',';
 
-SELECT * FROM KAMEHOUSE_ROLE INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\kamehouse_role.tmpcsv' FIELDS TERMINATED BY ',';
-SELECT * FROM KAMEHOUSE_USER INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\kamehouse_user.tmpcsv' FIELDS TERMINATED BY ','; 
+SET @tableName := 'booking_schedule_config';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
-SELECT * FROM VLC_PLAYER INTO OUTFILE 'C:\\Users\\nbrest\\home-synced\\mysql\\csv\\vlc_player.tmpcsv' FIELDS TERMINATED BY ','; 
+SET @tableName := 'dragonball_user';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @tableName := 'hibernate_sequence';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @tableName := 'kamehouse_role';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @tableName := 'kamehouse_user';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @tableName := 'vlc_player';
+SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
+SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 
+PREPARE stmt FROM @SQL;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;

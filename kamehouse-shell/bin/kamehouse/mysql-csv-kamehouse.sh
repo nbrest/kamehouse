@@ -17,6 +17,7 @@ source ${HOME}/.kamehouse/.shell/.cred
 LOG_PROCESS_TO_FILE=true
 PATH_CSV=${HOME}/home-synced/mysql/csv
 NUMBER_OF_BACKUPS=3
+OUT_FILE_BASE=""
 
 mainProcess() {
   setupInitialDirectories
@@ -38,11 +39,13 @@ setupInitialDirectories() {
 executeExport() {
   log.info "Exporting kamehouse database to csv"
   if ${IS_LINUX_HOST}; then
+    OUT_FILE_BASE="/tmp/"
     PATH_SQL=${HOME}/programs/kamehouse-shell/bin/lin/sql/mysql
   else
+    OUT_FILE_BASE="C:/Users/"${USER}"/home-synced/mysql/csv/"
     PATH_SQL=${HOME}/programs/kamehouse-shell/bin/win/sql/mysql
   fi
-  mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} < ${PATH_SQL}/csv-kamehouse.sql
+  mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} -e"set @outFileBase = '${OUT_FILE_BASE}'; `cat ${PATH_SQL}/csv-kamehouse.sql`"
   checkCommandStatus "$?"
   if ${IS_LINUX_HOST}; then
     log.info "Moving generated csv files from /tmp to ${PATH_CSV}"
