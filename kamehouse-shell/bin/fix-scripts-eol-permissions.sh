@@ -16,16 +16,16 @@ main() {
 }
 
 fixPermissions() {
-  logStep "Fixing permissions"
+  log.info "Fixing permissions"
   chmod a+x -R .
 }
 
 fixEol() {
-  logStep "Fixing end of line"
+  log.info "Fixing end of line"
   find . -regex ".*sh" -type f -exec vim {} -c "set ff=unix" -c ":wq" \;
 }
 
-logStep() {
+log.info() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
   echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"

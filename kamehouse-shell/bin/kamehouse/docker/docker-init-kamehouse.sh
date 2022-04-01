@@ -11,8 +11,9 @@ COL_PURPLE="\033[1;35m"
 COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
+
 KAMEHOUSE=${COL_NORMAL}Kame${COL_RED}House${COL_MESSAGE}
-USERNAME=nbrest
+DOCKER_CONTAINER_USERNAME=`ls /home`
 
 main() {
   echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
@@ -30,18 +31,18 @@ main() {
 }
 
 loadEnv() {
-  logStep "Loading container environment"
+  log.info "Loading container environment"
   source /root/.bashrc
   IS_DOCKER_CONTAINER=true
   if [ -z "${BUILD_ON_STARTUP}" ]; then
     # by default do fast init. can set the environment BUILD_ON_STARTUP=false when running the container
-    logStep "Setting default BUILD_ON_STARTUP=false"
+    log.info "Setting default BUILD_ON_STARTUP=false"
     BUILD_ON_STARTUP=false
   fi
   findHostIpAddress
   printEnv
 
-  local CONTAINER_ENV=/home/${USERNAME}/.kamehouse/.kamehouse-docker-container-env
+  local CONTAINER_ENV=/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
   echo "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}" >> ${CONTAINER_ENV}
   echo "DEBUG_MODE=${DEBUG_MODE}" >> ${CONTAINER_ENV}
@@ -62,37 +63,37 @@ loadEnv() {
   echo "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}" >> ${CONTAINER_ENV}
   echo "PROFILE=${PROFILE}" >> ${CONTAINER_ENV}
   echo "USE_VOLUMES=${USE_VOLUMES}" >> ${CONTAINER_ENV}
-  chown ${USERNAME}:${USERNAME} ${CONTAINER_ENV}
+  chown ${DOCKER_CONTAINER_USERNAME}:${DOCKER_CONTAINER_USERNAME} ${CONTAINER_ENV}
 }
 
 printEnv() {
-  logStep "Container environment:"
+  log.info "Container environment:"
   echo ""
-  logStep "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}"
-  logStep "DEBUG_MODE=${DEBUG_MODE}"
-  logStep "DOCKER_BASE_OS=${DOCKER_BASE_OS}"
-  logStep "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
-  logStep "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
-  logStep "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
-  logStep "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
-  logStep "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
-  logStep "DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP}"
-  logStep "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}"
-  logStep "DOCKER_PORT_MYSQL=${DOCKER_PORT_MYSQL}"
-  logStep "DOCKER_PORT_SSH=${DOCKER_PORT_SSH}"
-  logStep "DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG}"
-  logStep "DOCKER_PORT_TOMCAT=${DOCKER_PORT_TOMCAT}"
-  logStep "EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD}"
-  logStep "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
-  logStep "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
-  logStep "PROFILE=${PROFILE}"
-  logStep "USE_VOLUMES=${USE_VOLUMES}"
+  log.info "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}"
+  log.info "DEBUG_MODE=${DEBUG_MODE}"
+  log.info "DOCKER_BASE_OS=${DOCKER_BASE_OS}"
+  log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
+  log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
+  log.info "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
+  log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
+  log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  log.info "DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP}"
+  log.info "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}"
+  log.info "DOCKER_PORT_MYSQL=${DOCKER_PORT_MYSQL}"
+  log.info "DOCKER_PORT_SSH=${DOCKER_PORT_SSH}"
+  log.info "DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG}"
+  log.info "DOCKER_PORT_TOMCAT=${DOCKER_PORT_TOMCAT}"
+  log.info "EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD}"
+  log.info "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
+  log.info "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
+  log.info "PROFILE=${PROFILE}"
+  log.info "USE_VOLUMES=${USE_VOLUMES}"
   echo ""
 }
 
 findHostIpAddress() {
   if [ -z "${DOCKER_HOST_IP}" ]; then
-    logStep "Host IP not set by docker run script. Attempting to find it now"
+    log.info "Host IP not set by docker run script. Attempting to find it now"
     local IP=`ifconfig | grep inet | grep -v 127.0.0.1 | awk '{print $2}'`
     local IP_SPLIT=(${IP//./ })
     local IP_LAST=`echo ${IP_SPLIT[3]}`
@@ -101,59 +102,59 @@ findHostIpAddress() {
     ping -c 1 $IP_HOST >/dev/null
     local RESULT=`echo $?`
     if [ "$RESULT" == "0" ]; then
-       logStep "Host IP assigned successfully to ${IP_HOST}"
+       log.info "Host IP assigned successfully to ${IP_HOST}"
        DOCKER_HOST_IP=${IP_HOST}
     else
-      logStep "ERROR!! Unable to set host IP address"
+      log.info "ERROR!! Unable to set host IP address"
     fi
   fi
 }
 
 pullKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
-    logStep "Pulling latest KameHouse dev branch"
-    sudo su - ${USERNAME} -c "cd /home/${USERNAME}/git/kamehouse ; git pull origin dev"
+    log.info "Pulling latest KameHouse dev branch"
+    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git pull origin dev"
   fi
 }
 
 deployKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
-    logStep "Deploying latest version of KameHouse"
-    sudo su - ${USERNAME} -c "/home/${USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker"
-    logStep "Finished building latest version of KameHouse"
+    log.info "Deploying latest version of KameHouse"
+    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker"
+    log.info "Finished building latest version of KameHouse"
   fi
 }
 
 startTomcat() {
-  local START_TOMCAT_CMD="export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
+  local START_TOMCAT_CMD="export USER_UID=`sudo cat /etc/passwd | grep ${DOCKER_CONTAINER_USERNAME} | cut -d ':' -f3` ; \
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
     export DISPLAY=:0.0 ; \
-    cd /home/${USERNAME}/programs/apache-tomcat ; \
-    /home/${USERNAME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh"
+    cd /home/${DOCKER_CONTAINER_USERNAME}/programs/apache-tomcat ; \
+    /home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh"
 
   if ${DEBUG_MODE}; then
-    logStep "Starting tomcat in debug mode"
+    log.info "Starting tomcat in debug mode"
     START_TOMCAT_CMD=${START_TOMCAT_CMD}" -d"
   else
-    logStep "Starting tomcat"
+    log.info "Starting tomcat"
   fi
-  sudo su - ${USERNAME} -c "${START_TOMCAT_CMD}"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "${START_TOMCAT_CMD}"
 }
 
 restartSshService() {
-  logStep "Restarting ssh service"
+  log.info "Restarting ssh service"
   service ssh restart
 }
 
 startMysql() {
-  logStep "Starting mysql"
+  log.info "Starting mysql"
   service mysql start
-  /home/${USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh > /home/${USERNAME}/logs/add-mysql-user-nikolqs.log
-  chown ${USERNAME}:users /home/${USERNAME}/logs/add-mysql-user-nikolqs.log
+  /home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh > /home/${DOCKER_CONTAINER_USERNAME}/logs/add-mysql-user-nikolqs.log
+  chown ${DOCKER_CONTAINER_USERNAME}:users /home/${DOCKER_CONTAINER_USERNAME}/logs/add-mysql-user-nikolqs.log
 }
 
 startHttpd() {
-  logStep "Starting apache httpd"
+  log.info "Starting apache httpd"
   rm /var/run/apache2/apache2.pid 2>/dev/null
   service apache2 start
 }
@@ -178,7 +179,7 @@ keepContainerAlive() {
   read 
 }
 
-logStep() {
+log.info() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
   echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"

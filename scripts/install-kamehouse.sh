@@ -16,14 +16,14 @@ COL_MESSAGE=${COL_GREEN}
 
 main() {
   parseArguments "$@"
-  logStep "Installing ${COL_PURPLE}kamehouse"
+  log.info "Installing ${COL_PURPLE}kamehouse"
   checkPath
   installKameHouseShell
 }
 
 checkPath() {
   if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
-    logError "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
+    log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
     exit 1
   fi
 }
@@ -33,13 +33,13 @@ installKameHouseShell() {
   ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
 }
 
-logStep() {
+log.info() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
   echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-logError() {
+log.error() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
@@ -53,7 +53,7 @@ parseArguments() {
       exit 0
       ;;
     (\?)
-      logError "Invalid argument $OPTARG"
+      log.error "Invalid argument $OPTARG"
       exit 1
       ;;
     esac

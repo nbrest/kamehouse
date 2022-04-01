@@ -19,55 +19,54 @@ KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell
 TEMP_PATH=${HOME}/temp
 
 KAMEHOUSE_SHELL_SOURCE="."
-# CREATE dummy ./kamehouse/.shell/.cred if it doesn't exist from a template
 
 main() {
   parseArguments "$@"
-  logStep "Installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SHELL_PATH}"
+  log.info "Installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SHELL_PATH}"
   logScriptParameters
   checkSourcePath
   installKameHouseShell
   fixPermissions
-  createSymLink
+  createRootSymLink
   installCred
   updateUsername
   updateBashRc
-  logStep "Done!"
+  log.info "Done installing ${COL_PURPLE}kamehouse-shell!"
 }
 
 logScriptParameters() {
-  logStep "KAMEHOUSE_SHELL_SOURCE: ${KAMEHOUSE_SHELL_SOURCE}"
+  log.info "KAMEHOUSE_SHELL_SOURCE: ${KAMEHOUSE_SHELL_SOURCE}"
 }
 
 checkSourcePath() {
   if [ ! -d "${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin" ] || [ ! -d "${KAMEHOUSE_SHELL_SOURCE}/.git" ]; then
-    logError "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
+    log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
     exit 1
   fi
 }
 
 installKameHouseShell() {
-  logStep "Rebuilding shell scripts directory"
+  log.info "Rebuilding shell scripts directory"
   rm -r -f ${KAMEHOUSE_SHELL_PATH}
   mkdir -p ${KAMEHOUSE_SHELL_PATH}
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
 }
 
 fixPermissions() {
-  logStep "Fixing permissions"
+  log.info "Fixing permissions"
   chmod a+x -R ${KAMEHOUSE_SHELL_PATH}
 }
 
-createSymLink() {
+createRootSymLink() {
   local USERNAME=`whoami`
-  logStep "Creating symlink on root home. Ignore the error on windows, give sudo permissions to current user on linux if it fails on linux"
+  log.info "Creating symlink on root home. Ignore the error on windows, give sudo permissions to current user on linux if it fails on linux"
   sudo ln -s /home/${USERNAME}/programs /root/
 }
 
 installCred() {
-  logStep "Installing credentials file"
+  log.info "Installing credentials file"
   if [ ! -f "${HOME}/.kamehouse/.shell/.cred" ]; then
-    logStep "${COL_PURPLE}${HOME}/.kamehouse/.shell/.cred${COL_MESSAGE} not found. Creating it from template"
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/.shell/.cred${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/.shell/
     cp docker/keys/.cred ${HOME}/.kamehouse/.shell/.cred
   fi
@@ -75,38 +74,38 @@ installCred() {
 
 updateUsername() {
   local USERNAME=`whoami`
-  logStep "Updating username in kamehouse-shell scripts to ${COL_PURPLE}${USERNAME}"
+  log.info "Updating username in kamehouse-shell scripts to ${COL_PURPLE}${USERNAME}"
   sed -i "s#USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-username.sh"
   sed -i "s#USERHOME_LIN=\"/home/${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
-  sed -i "s#KAMEHOUSE_USER=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
-  sed -i "s#KAMEHOUSE_USER=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.sh"
+  sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
+  sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.sh"
 }
 
 updateBashRc() {
-  logStep "Updating ${COL_PURPLE}${HOME}/.bashrc"
+  log.info "Updating ${COL_PURPLE}${HOME}/.bashrc"
   if [ ! -f "${HOME}/.bashrc" ]; then
-    logStep "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} not found. Creating one"
+    log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} not found. Creating one"
     echo "" > ${HOME}/.bashrc
     echo "source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> ${HOME}/.bashrc
   else 
     cat ${HOME}/.bashrc | grep "/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" > /dev/null
     if [ "$?" != "0" ]; then
-      logStep "Adding bashrc/bashrc.sh to ${COL_PURPLE}${HOME}/.bashrc"
+      log.info "Adding bashrc/bashrc.sh to ${COL_PURPLE}${HOME}/.bashrc"
       echo "" >> ${HOME}/.bashrc
       echo "source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> ${HOME}/.bashrc
     else 
-      logStep "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} already sources ${COL_PURPLE}${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh${COL_MESSAGE}. No need to update"
+      log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} already sources ${COL_PURPLE}${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh${COL_MESSAGE}. No need to update"
     fi
   fi
 }
 
-logStep() {
+log.info() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
   echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-logError() {
+log.error() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
@@ -123,7 +122,7 @@ parseArguments() {
       KAMEHOUSE_SHELL_SOURCE=${HOME}/git/kamehouse
       ;;
     (\?)
-      logError "Invalid argument $OPTARG"
+      log.error "Invalid argument $OPTARG"
       exit 1
       ;;
     esac
