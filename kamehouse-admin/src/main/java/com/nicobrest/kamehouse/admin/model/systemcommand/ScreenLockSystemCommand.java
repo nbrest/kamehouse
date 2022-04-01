@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
+import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.util.Arrays;
 
 /**
@@ -19,8 +20,9 @@ public class ScreenLockSystemCommand extends SystemCommand {
     addBashPrefix();
     linuxCommand.add("DISPLAY=:0.0 gnome-screensaver-command -l");
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
-      // lock-screen-from-docker.bat from kamehouse-shell needs to be in the PATH in the host
-      windowsCommand.add("lock-screen-from-docker");
+      String lockScreenFromDocker = PropertiesUtils.getUserHome()
+          + "\\programs\\kamehouse-shell\\bin\\win\\bat\\lock-screen-from-docker.bat";
+      windowsCommand.add(lockScreenFromDocker);
     } else {
       addWindowsCmdStartPrefix();
       windowsCommand.addAll(Arrays.asList("rundll32.exe", "user32.dll,LockWorkStation"));
