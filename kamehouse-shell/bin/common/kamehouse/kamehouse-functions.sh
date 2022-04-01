@@ -1,5 +1,5 @@
 # Common kamehouse variables
-DEFAULT_KAMEHOUSE_USERNAME=nbrest
+DEFAULT_KAMEHOUSE_USERNAME=""
 GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
 PROJECT="kamehouse"
 DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}

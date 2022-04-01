@@ -3,7 +3,7 @@
 # Execute from the root of the kamehouse git project:
 # chmod a+x ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
 # ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
-DEFAULT_KAMEHOUSE_USERNAME=nbrest
+DEFAULT_KAMEHOUSE_USERNAME=""
 
 COL_BLUE="\033[1;34m"
 COL_BOLD="\033[1m"
@@ -25,6 +25,7 @@ main() {
   log.info "Installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SHELL_PATH}"
   logScriptParameters
   checkSourcePath
+  getDefaultKameHouseUsername
   installKameHouseShell
   fixPermissions
   createRootSymLink
@@ -43,6 +44,14 @@ checkSourcePath() {
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
     exit 1
   fi
+}
+
+getDefaultKameHouseUsername() {
+  DEFAULT_KAMEHOUSE_USERNAME=`cat Dockerfile | grep "ARG KAMEHOUSE_USERNAME=" | awk -F'=' '{print $2}'`
+  if [ -z "${DEFAULT_KAMEHOUSE_USERNAME}" ]; then
+    log.error "Could not set default kamehouse username from Dockerfile"
+    exit 1
+  fi 
 }
 
 installKameHouseShell() {
@@ -79,6 +88,7 @@ updateUsername() {
   sed -i "s#USERHOME_LIN=\"/home/${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
   sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
   sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.sh"
+  sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.sh"
 }
 
 updateBashRc() {
