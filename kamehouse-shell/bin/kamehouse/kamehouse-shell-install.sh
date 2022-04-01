@@ -3,6 +3,7 @@
 # Execute from the root of the kamehouse git project:
 # chmod a+x ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
 # ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+DEFAULT_KAMEHOUSE_USERNAME=nbrest
 
 COL_BLUE="\033[1;34m"
 COL_BOLD="\033[1m"
@@ -75,9 +76,9 @@ installCred() {
 updateUsername() {
   local USERNAME=`whoami`
   logStep "Updating username in kamehouse-shell scripts to ${COL_PURPLE}${USERNAME}"
-  sed -i "s#USERNAME=\"nbrest\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-username.sh"
-  sed -i "s#USERHOME_LIN=\"/home/nbrest\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
-  sed -i "s#KAMEHOUSE_USER=\"nbrest\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
+  sed -i "s#USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-username.sh"
+  sed -i "s#USERHOME_LIN=\"/home/${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
+  sed -i "s#KAMEHOUSE_USER=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
 }
 
 updateBashRc() {
