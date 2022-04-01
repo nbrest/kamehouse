@@ -79,8 +79,9 @@ backupMysqlConfig() {
 backupStartupScripts() {
   log.info "Backing up startup scripts"
   # Doesn't work if I double quote the path
-  local STARTUP_SCRIPTS_PATH=/c/Users/nbrest/AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/Startup
-  local STARTUP_SCRIPTS_DEST="/c/Users/nbrest/AppData/Roaming/Microsoft/Windows/Start_Menu/Programs/Startup"
+  local USERNAME=`whoami`
+  local STARTUP_SCRIPTS_PATH=/c/Users/${USERNAME}/AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/Startup
+  local STARTUP_SCRIPTS_DEST="/c/Users/${USERNAME}/AppData/Roaming/Microsoft/Windows/Start_Menu/Programs/Startup"
   local DEST_PATH=${PROJECT_DIR}/${HOSTNAME}${STARTUP_SCRIPTS_DEST}
   mkdir -p ${DEST_PATH}
   checkCommandStatus "$?" "An error occurred creating directories"

@@ -100,8 +100,8 @@ deployToTomcat() {
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
       log.info "Deploying ${KAMEHOUSE_MODULE} in ${DEV_ENVIRONMENT}"
       if ${DEPLOY_TO_DOCKER}; then
-        # Might need to add a ssh with command "sudo rm -f /home/nbrest/programs/apache-tomcat/webapps/${KAMEHOUSE_MODULE_WAR}" if deployment fails with write permissions (no issue so far)
-        scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/nbrest/programs/apache-tomcat/webapps
+        # Might need to add a ssh with command "sudo rm -f /home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps/${KAMEHOUSE_MODULE_WAR}" if deployment fails with write permissions (no issue so far)
+        scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps
       else
         cp -v ${KAMEHOUSE_MODULE_WAR} ${TOMCAT_WEBAPPS_DIR}
         checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${TOMCAT_WEBAPPS_DIR}"

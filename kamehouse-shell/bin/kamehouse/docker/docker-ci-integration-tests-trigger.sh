@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Config in ci to run as: sudo -u nbrest /home/nbrest/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-integration-tests-trigger.sh
+# Config in ci to run as: sudo -u ${DOCKER_USERNAME} /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-integration-tests-trigger.sh
 
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh

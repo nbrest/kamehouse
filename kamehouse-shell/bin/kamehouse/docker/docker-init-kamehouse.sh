@@ -41,7 +41,7 @@ loadEnv() {
   findHostIpAddress
   printEnv
 
-  local CONTAINER_ENV=/home/nbrest/.kamehouse/.kamehouse-docker-container-env
+  local CONTAINER_ENV=/home/${USERNAME}/.kamehouse/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
   echo "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}" >> ${CONTAINER_ENV}
   echo "DEBUG_MODE=${DEBUG_MODE}" >> ${CONTAINER_ENV}
@@ -112,14 +112,14 @@ findHostIpAddress() {
 pullKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     logStep "Pulling latest KameHouse dev branch"
-    sudo su - ${USERNAME} -c "cd /home/nbrest/git/kamehouse ; git pull origin dev"
+    sudo su - ${USERNAME} -c "cd /home/${USERNAME}/git/kamehouse ; git pull origin dev"
   fi
 }
 
 deployKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     logStep "Deploying latest version of KameHouse"
-    sudo su - ${USERNAME} -c "/home/nbrest/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker"
+    sudo su - ${USERNAME} -c "/home/${USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker"
     logStep "Finished building latest version of KameHouse"
   fi
 }
@@ -128,8 +128,8 @@ startTomcat() {
   local START_TOMCAT_CMD="export USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3` ; \
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
     export DISPLAY=:0.0 ; \
-    cd /home/nbrest/programs/apache-tomcat ; \
-    /home/nbrest/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh"
+    cd /home/${USERNAME}/programs/apache-tomcat ; \
+    /home/${USERNAME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh"
 
   if ${DEBUG_MODE}; then
     logStep "Starting tomcat in debug mode"
@@ -148,8 +148,8 @@ restartSshService() {
 startMysql() {
   logStep "Starting mysql"
   service mysql start
-  /home/nbrest/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh > /home/nbrest/logs/add-mysql-user-nikolqs.log
-  chown nbrest:users /home/nbrest/logs/add-mysql-user-nikolqs.log
+  /home/${USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh > /home/${USERNAME}/logs/add-mysql-user-nikolqs.log
+  chown ${USERNAME}:users /home/${USERNAME}/logs/add-mysql-user-nikolqs.log
 }
 
 startHttpd() {

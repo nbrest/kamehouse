@@ -23,7 +23,7 @@ mainProcess() {
 }
 
 checkIfContainerIsRunning() {
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C 'ls' > /dev/null
+  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'ls' > /dev/null
   if [ "$?" != "0" ]; then
     log.error "Can't connect to container. Exiting process"
     exit 1
@@ -32,15 +32,15 @@ checkIfContainerIsRunning() {
 
 exportMysqlDataOnDocker() {
 	log.info "Exporting mysql data from mysql server on docker container"
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/programs/kamehouse-shell/binkamehouse/mysql-csv-kamehouse.sh'
-  ssh -p ${DOCKER_PORT_SSH} nbrest@localhost -C '/home/nbrest/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse.sh'
+  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/binkamehouse/mysql-csv-kamehouse.sh"
+  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse.sh"
 }
 
 copyDataFromContainerToHost() {
 	log.info "Exporting data from container to host"
   mkdir -p ${HOME}/home-synced/docker/mysql
   rm -rf ${HOME}/home-synced/docker/mysql
-  scp -C -r -P ${DOCKER_PORT_SSH} localhost:/home/nbrest/home-synced/mysql ${HOME}/home-synced/docker/mysql
+  scp -C -r -P ${DOCKER_PORT_SSH} localhost:/home/${DOCKER_USERNAME}/home-synced/mysql ${HOME}/home-synced/docker/mysql
 }
 
 parseArguments() {
