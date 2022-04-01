@@ -10,16 +10,32 @@ fi
 LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
-  log.info "Create sample video playlists"
+  log.info "Creating sample video playlists"
   if [ -d "${HOME}/git/kamehouse-video-playlists/.git" ]; then
     log.warn "${HOME}/git/kamehouse-video-playlists is a git repository. No need to create sample playlists. Exiting..."
     exit 1
   fi
+  createPlaylists
+  updateMediaFiles
+  updatePlaylistEntriesHome
+}
+
+createPlaylists() {
+  rm -r ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/
   mkdir -p ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/
   cp -vr ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/
+}
+
+updateMediaFiles() {
   rm -r ${HOME}/docker/media/video
   mkdir -p ${HOME}/docker/media/video
   cp -r ${HOME}/git/kamehouse/docker/media/video ${HOME}/docker/media/
+}
+
+updatePlaylistEntriesHome() {
+  cd ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server-ip/media-drive/
+  local USERNAME=`whoami`
+  find . -regex ".*m3u" -type f -exec sed -i "s#/home/nbrest#/home/${USERNAME}#g" {} \;
 }
 
 main "$@"
