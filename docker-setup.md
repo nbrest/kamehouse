@@ -20,32 +20,30 @@ docker pull nbrest/kamehouse:latest
 
 ## Run the image
 
-Execute the script `kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh`
+Execute the script `kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo`
 
-```
-docker run --rm -p 6022:22 -p 6080:80 -p 6443:443 -p 6090:9090 nbrest/kamehouse:latest
-```
+- Execute with `-h` to see all the profiles and options
 
 With the parameter `--rm` the container will be removed automatically after it exits. Without it, it will remain in your system.
 
 Passing `--env FAST_DOCKER_INIT=true` to `docker run` skips pulling and deploying the latest version of kamehouse during the container startup. By default it does both. If skipped, the container will start with the version of kamehouse that was used when the image was built. You can always update to the latest version once the container is started with the deployment script mentioned below.
 
-After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:6443/kame-house/](https://localhost:6443/kame-house/) or [http://localhost:6080/kame-house/](http://localhost:6080/kame-house/) and you can login with the following user:password to test different functionality
+After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:12443/kame-house/](https://localhost:12443/kame-house/) or [http://localhost:12080/kame-house/](http://localhost:12080/kame-house/) and you can login with the following user:password to test different functionality
 - admin:admin
 - user:user
 - guest:guest
 
-You can also access kamehouse groot at [https://localhost:6443/kame-house-groot/](https://localhost:6443/kame-house-groot/) or [http://localhost:6080/kame-house-groot/](http://localhost:6080/kame-house-groot/) and login with admin:admin to groot
+You can also access kamehouse groot at [https://localhost:12443/kame-house-groot/](https://localhost:12443/kame-house-groot/) or [http://localhost:12080/kame-house-groot/](http://localhost:12080/kame-house-groot/) and login with admin:admin to groot
 
-You can also access the container through ssh at `ssh -p 6022 nbrest@localhost` with the default password `nbrest`
+You can also access the container through ssh at `ssh -p 12022 goku@localhost` with the default password `gohan`
 
 In the container console, you can run the following scripts:
 
 - `tail-log.sh -f [kamehouse|tomcat|apache]` : tail the logs of the application
-- `build-kamehouse.sh` : Execute it on `/home/nbrest/git/kamehouse` to build the project and run all the unit tests
-- `build-kamehouse.sh -i -p docker` : Execute it on `/home/nbrest/git/kamehouse` to run all the integration tests
+- `build-kamehouse.sh` : Execute it on `/home/goku/git/kamehouse` to build the project and run all the unit tests
+- `build-kamehouse.sh -i -p docker` : Execute it on `/home/goku/git/kamehouse` to run all the integration tests
 - `deploy-kamehouse.sh -f -p docker` : Pull the latest changes from git dev branch and deploy them (Executed automatically during container startup)
-- `kamehouse-shell-install.sh` : Updates the scripts in `/home/nbrest/programs/kamehouse-shell` with the version currently pulled from `/home/nbrest/git/kamehouse`
+- `kamehouse-shell-install.sh` : Updates the scripts in `/home/goku/programs/kamehouse-shell` with the version currently pulled from `/home/goku/git/kamehouse`
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 
 *********************
