@@ -12,6 +12,7 @@ This module handles the following functionality:
 
 # Android build requirements on a windows host (2022-03-06):
 
+- Install gradle
 - Install node
 - Install cordova
 
