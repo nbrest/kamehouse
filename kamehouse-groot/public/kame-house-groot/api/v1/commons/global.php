@@ -167,7 +167,8 @@ function getBoolean($string) {
 function getDockerContainerEnv() {
   $dockerContainerEnv = null;
   if (isLinuxHost()) {
-    $dockerContainerEnv = trim(shell_exec("cat /home/nbrest/.kamehouse/.kamehouse-docker-container-env"));
+    $username = trim(shell_exec("sudo /root/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+    $dockerContainerEnv = trim(shell_exec("cat /home/" . $username . "/.kamehouse/.kamehouse-docker-container-env"));
     $dockerContainerEnv = explode("\n", $dockerContainerEnv);
     if(!startsWith($dockerContainerEnv[0], "#")) {
       array_splice($dockerContainerEnv, 0, 1);

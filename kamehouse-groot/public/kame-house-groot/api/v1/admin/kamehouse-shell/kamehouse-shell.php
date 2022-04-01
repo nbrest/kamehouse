@@ -16,12 +16,11 @@
 
     $kameHouseShellCSV = "";
     
-    //TODO remove nbrest from these paths and try to get the username from the env
     if (isLinuxHost()) {
-      $username = trim(shell_exec("sudo /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
-      $kameHouseShellCSV = trim(shell_exec("sudo -u " . $username . " /home/nbrest/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh"));
+      $username = trim(shell_exec("sudo /root/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+      $kameHouseShellCSV = trim(shell_exec("sudo -u " . $username . " /home/" . $username . "/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh"));
     } else {
-      $kameHouseShellCSV = trim(shell_exec("C:/Users/nbrest/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"C:/Users/nbrest/programs/kamehouse-shell/bin/win/csv-kamehouse-shell.sh\""));
+      $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/win/csv-kamehouse-shell.sh\""));
     }
   
     if (empty($kameHouseShellCSV)) {

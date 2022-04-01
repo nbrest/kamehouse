@@ -69,16 +69,14 @@
     if (isLinuxHost()) {
       /**
        * This requires to give permission to www-data to execute a couple of scripts. Update sudoers:
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh
-       * www-data ALL=(ALL) NOPASSWD: /home/nbrest/programs/kamehouse-shell/bin/lin/transmission/csv-torrents.sh
-       * TODO remove nbrest from these paths and try to get the username from the env
+       * www-data ALL=(ALL) NOPASSWD: /home/[USERNAME]/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
+       * www-data ALL=(ALL) NOPASSWD: /home/[USERNAME]/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh
+       * www-data ALL=(ALL) NOPASSWD: /home/[USERNAME]/programs/kamehouse-shell/bin/kamehouse/get-username.sh
        */
-      $username = trim(shell_exec("sudo /home/nbrest/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
-      $shellCommand = "sudo -u " . $username . " /home/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
+      $username = trim(shell_exec("sudo /root/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+      $shellCommand = "sudo -u " . $username . " /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
     } else {
-      $shellCommand = "C:/Users/nbrest/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"C:/Users/nbrest/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
     }
     if ($executeOnDockerHost) {
       $shellCommand = $shellCommand . " -x";
