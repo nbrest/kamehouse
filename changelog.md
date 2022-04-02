@@ -27,6 +27,7 @@
 * Moved audio and video playlists to separate repos
 * Updated docker image users
 * Removed hardcoded paths with user nbrest on all modules
+* Fixed banners on widths between full desktop and mobile
 
 #### v7.02
 
