@@ -20,6 +20,20 @@ Building the project with `build-kamehouse.sh -m groot` creates a zip file with 
 This zip can be extracted to the directory where the files are served in an apache httpd server.
 It also includes the root `/index.html` to redirect to `/kame-house`
 
+# Edit users:
+
+- KameHouse GRoot runs in apache httpd. The users are authenticated using a .htpassword file as the source located at the root of the webserver
+
+- To add users:
+```sh
+htpasswd -b ${PATH_TO_HTPASSWD_FILE}/.htpasswd user pass
+```
+
+- To remove users:
+```sh
+htpasswd -D ${PATH_TO_HTPASSWD_FILE}/.htpasswd user
+```
+
 # Linux
 
 - Symlink programs folder from user home to root home for `exec-script.php`
