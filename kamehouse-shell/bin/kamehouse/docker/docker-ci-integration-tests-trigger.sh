@@ -15,11 +15,12 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
   exit 1
 fi
+source ${HOME}/.kamehouse/.shell/.cred
 
 INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
 SCRIPT="kamehouse/docker/docker-integration-tests-run.sh"
 DOCKER_PORT_HTTP=15080
-DOCKER_CI_CREDENTIALS="YWRtaW46YWRtaW4="
+DOCKER_CI_CREDENTIALS="${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"
 RETRIES=3
 NUM_MAIN_PROCESS_RETRIES=""
 NUM_TOMCAT_STARTUP_RETRIES=""
