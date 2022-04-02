@@ -14,7 +14,7 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
-KAMEHOUSE_MOBILE_APP_PATH="/var/www/kh.webserver/kame-house-mobile"
+KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 KAMEHOUSE_APK_HTML=kamehouse-apk.html
 GIT_COMMIT_HASH=""
 HEAD='

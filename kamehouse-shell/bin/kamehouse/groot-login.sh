@@ -10,7 +10,7 @@ fi
 # Global variables
 LOG_PROCESS_TO_FILE=false
 HTPASSWD_CMD=${HOME}/programs/apache-httpd/bin/htpasswd.exe
-HTPASSWD_FILE=${HOME}/programs/apache-httpd/www/kh.webserver/.htpasswd
+HTPASSWD_FILE=${HOME}/programs/apache-httpd/www/kamehouse-webserver/.htpasswd
 
 main() {
   local USERNAME=$1
@@ -18,7 +18,7 @@ main() {
   
   if ${IS_LINUX_HOST}; then
     HTPASSWD_CMD=htpasswd
-    HTPASSWD_FILE=/var/www/kh.webserver/.htpasswd
+    HTPASSWD_FILE=/var/www/kamehouse-webserver/.htpasswd
   fi
 
   ${HTPASSWD_CMD} -vb ${HTPASSWD_FILE} ${USERNAME} ${PASSWORD}

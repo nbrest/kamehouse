@@ -5,7 +5,7 @@ alias cd.learn.java='cd ${HOME}/workspace-eclipse/learn.java'
 alias cd.programming='cd ${HOME}/git/programming'
 alias cd.torrents='cd ${HOME}/torrents/transmission/downloads'
 alias cd.var.log='cd /var/log'
-alias cd.www='cd /var/www/kh.webserver'
+alias cd.www='cd /var/www/kamehouse-webserver'
 
 alias reboot='sudo reboot'
 alias poweroff='sudo poweroff' 

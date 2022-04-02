@@ -13,6 +13,6 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
-GIT_PROJECT_DIR=/var/www/kh.webserver
+GIT_PROJECT_DIR=/var/www/kamehouse-webserver
 
 main "$@"

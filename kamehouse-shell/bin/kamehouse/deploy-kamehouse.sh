@@ -23,7 +23,7 @@ KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 KAMEHOUSE_ANDROID_APP="${PROJECT_DIR}/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_MOBILE_APP_SERVER="pi"
 KAMEHOUSE_MOBILE_APP_USER="pi"
-KAMEHOUSE_MOBILE_APP_PATH="/var/www/kh.webserver/kame-house-mobile"
+KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 
 # Variables set by command line arguments
 MAVEN_PROFILE="prod"

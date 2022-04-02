@@ -36,7 +36,7 @@ COPY docker/apache2/sites-available /etc/apache2/sites-available
 COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
-RUN ln -s /var/www/html/ /var/www/kh.webserver ; \
+RUN ln -s /var/www/html/ /var/www/kamehouse-webserver ; \
   a2ensite default-ssl ; \
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
 
