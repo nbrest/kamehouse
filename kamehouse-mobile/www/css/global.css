@@ -62,7 +62,7 @@
   border: 1px;
   border-color: #1d0000;
   border-style: none none solid none;
-  width: 30%;
+  width: 33%;
   display: inline-block;
 }
 
@@ -72,6 +72,12 @@
     text-align: center;
     width: 100%;
   }	
+}
+
+.home-tab-app-link-text {
+  font-weight: bold;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #iab-target-dropdown {
