@@ -40,7 +40,7 @@ copyDataFromContainerToHost() {
 	log.info "Exporting data from container to host"
   mkdir -p ${HOME}/home-synced/docker/mysql
   rm -rf ${HOME}/home-synced/docker/mysql
-  scp -C -r -P ${DOCKER_PORT_SSH} localhost:/home/${DOCKER_USERNAME}/home-synced/mysql ${HOME}/home-synced/docker/mysql
+  scp -C -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/mysql ${HOME}/home-synced/docker/mysql
 }
 
 parseArguments() {
