@@ -9,9 +9,14 @@
 
 @media (max-width : 900px) {
   .banner-beni3 {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-beni3 {
+    background-position-x: -90px;
   }
 }
 
@@ -23,9 +28,14 @@
 
 @media (max-width : 900px) {
   .banner-benji-steve {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji-steve {
+    background-position-x: -90px;
   }
 }
 
@@ -37,9 +47,14 @@
 
 @media (max-width : 900px) {
   .banner-benji {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji {
+    background-position-x: -90px;
   }
 }
 
@@ -51,9 +66,14 @@
 
 @media (max-width : 900px) {
   .banner-benji2 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji2 {
+    background-position-x: -40px;
   }
 }
 
@@ -65,9 +85,14 @@
 
 @media (max-width : 900px) {
   .banner-benji3 {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji3 {
+    background-position-x: -90px;
   }
 }
 
@@ -79,9 +104,14 @@
 
 @media (max-width : 900px) {
   .banner-benji4 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji4 {
+    background-position-x: -40px;
   }
 }
 
@@ -93,9 +123,14 @@
 
 @media (max-width : 900px) {
   .banner-niupi {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-niupi {
+    background-position-x: -130px;
   }
 }
 
@@ -107,9 +142,14 @@
 
 @media (max-width : 900px) {
   .banner-niupi2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-niupi2 {
+    background-position-x: -130px;
   }
 }
 
@@ -121,9 +161,14 @@
 
 @media (max-width : 900px) {
   .banner-oliver-benji {
-    background-position-x: 0;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver-benji {
+    background-position-x: 0;
   }
 }
 
@@ -135,9 +180,14 @@
 
 @media (max-width : 900px) {
   .banner-oliver-benji2 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver-benji2 {
+    background-position-x: -40px;
   }
 }
 
@@ -149,9 +199,14 @@
 
 @media (max-width : 900px) {
   .banner-oliver-steve {
-    background-position-x: -30px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver-steve {
+    background-position-x: -30px;
   }
 }
 
@@ -163,9 +218,14 @@
 
 @media (max-width : 900px) {
   .banner-oliver {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver {
+    background-position-x: -40px;
   }
 }
 
@@ -177,9 +237,14 @@
 
 @media (max-width : 900px) {
   .banner-oliver2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver2 {
+    background-position-x: -130px;
   }
 }
 
@@ -194,9 +259,14 @@
 
 @media (max-width : 900px) {
   .banner-batman-animated {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-batman-animated {
+    background-position-x: -130px;
   }
 }
 
@@ -208,9 +278,14 @@
 
 @media (max-width : 900px) {
   .banner-batman {
-    background-position-x: -190px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-batman {
+    background-position-x: -190px;
   }
 }
 
@@ -222,9 +297,14 @@
 
 @media (max-width : 900px) {
   .banner-joker {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-joker {
+    background-position-x: -130px;
   }
 }
 
@@ -236,9 +316,14 @@
 
 @media (max-width : 900px) {
   .banner-joker2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-joker2 {
+    background-position-x: -130px;
   }
 }
 
@@ -250,9 +335,14 @@
 
 @media (max-width : 900px) {
   .banner-superman-logo {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-superman-logo {
+    background-position-x: -130px;
   }
 }
 
@@ -264,9 +354,14 @@
 
 @media (max-width : 900px) {
   .banner-superman-space {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-superman-space {
+    background-position-x: -130px;
   }
 }
 
@@ -278,9 +373,14 @@
 
 @media (max-width : 900px) {
   .banner-superman {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-superman {
+    background-position-x: -130px;
   }
 }
 
@@ -292,9 +392,14 @@
 
 @media (max-width : 900px) {
   .banner-superman2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-superman2 {
+    background-position-x: -130px;
   }
 }
 
@@ -306,9 +411,14 @@
 
 @media (max-width : 900px) {
   .banner-superman3 {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-superman3 {
+    background-position-x: -90px;
   }
 }
 
@@ -323,9 +433,14 @@
 
 @media (max-width : 900px) {
   .banner-gogeta {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-gogeta {
+    background-position-x: -130px;
   }
 }
 
@@ -337,9 +452,14 @@
 
 @media (max-width : 900px) {
   .banner-gohan-shen-long {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-shen-long {
+    background-position-x: -130px;
   }
 }
 
@@ -351,9 +471,14 @@
 
 @media (max-width : 900px) {
   .banner-gohan-ssj2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2 {
+    background-position-x: -130px;
   }
 }
 
@@ -365,9 +490,14 @@
 
 @media (max-width : 900px) {
   .banner-gohan-ssj2-2 {
-    background-position-x: -290px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2-2 {
+    background-position-x: -290px;
   }
 }
 
@@ -379,9 +509,14 @@
 
 @media (max-width : 900px) {
   .banner-gohan-ssj2-3 {
-    background-position-x: -210px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2-3 {
+    background-position-x: -210px;
   }
 }
 
@@ -393,9 +528,14 @@
 
 @media (max-width : 900px) {
   .banner-gohan-ssj2-4 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2-4 {
+    background-position-x: -130px;
   }
 }
 
@@ -407,9 +547,14 @@
 
 @media (max-width : 900px) {
   .banner-goku-ssj1 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-goku-ssj1 {
+    background-position-x: -130px;
   }
 }
 
@@ -421,9 +566,14 @@
 
 @media (max-width : 900px) {
   .banner-goku-ssj4-earth {
-    background-position-x: -100px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-goku-ssj4-earth {
+    background-position-x: -100px;
   }
 }
 
@@ -435,9 +585,14 @@
 
 @media (max-width : 900px) {
   .banner-trunks-mountains {
-    background-position-x: -240px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-trunks-mountains {
+    background-position-x: -240px;
   }
 }
 
@@ -452,9 +607,14 @@
 
 @media (max-width : 900px) {
   .banner-jon-snow2 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-jon-snow2 {
+    background-position-x: -40px;
   }
 }
 
@@ -466,9 +626,14 @@
 
 @media (max-width : 900px) {
   .banner-winter-is-coming {
-    background-position-x: -100px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-winter-is-coming {
+    background-position-x: -100px;
   }
 }
 
@@ -483,9 +648,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-assemble {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-assemble {
+    background-position-x: -130px;
   }
 }
 
@@ -497,9 +667,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap {
-    background-position-x: -200px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap {
+    background-position-x: -200px;
   }
 }
 
@@ -511,9 +686,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap-mjolnir {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap-mjolnir {
+    background-position-x: -130px;
   }
 }
 
@@ -525,9 +705,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap-mjolnir2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap-mjolnir2 {
+    background-position-x: -130px;
   }
 }
 
@@ -539,9 +724,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap-mjolnir3 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap-mjolnir3 {
+    background-position-x: -130px;
   }
 }
 
@@ -553,9 +743,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap-mjolnir4 {
-    background-position-x: -200px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap-mjolnir4 {
+    background-position-x: -200px;
   }
 }
 
@@ -567,9 +762,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap-mjolnir5 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap-mjolnir5 {
+    background-position-x: -130px;
   }
 }
 
@@ -581,9 +781,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap-mjolnir6 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap-mjolnir6 {
+    background-position-x: -40px;
   }
 }
 
@@ -595,9 +800,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-cap-uniform {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-cap-uniform {
+    background-position-x: -130px;
   }
 }
 
@@ -609,9 +819,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-endgame {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-endgame {
+    background-position-x: -130px;
   }
 }
 
@@ -623,9 +838,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-infinity {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-infinity {
+    background-position-x: -130px;
   }
 }
 
@@ -637,9 +857,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-ironman {
-    background-position-x: 0;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-ironman {
+    background-position-x: 0;
   }
 }
 
@@ -651,9 +876,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-portals {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-portals {
+    background-position-x: -130px;
   }
 }
 
@@ -665,9 +895,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers-trinity {
-    background-position-x: -100px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers-trinity {
+    background-position-x: -100px;
   }
 }
 
@@ -679,9 +914,14 @@
 
 @media (max-width : 900px) {
   .banner-avengers {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-avengers {
+    background-position-x: -130px;
   }
 }
 
@@ -693,9 +933,14 @@
 
 @media (max-width : 900px) {
   .banner-spiderman {
-    background-position-x: 0;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-spiderman {
+    background-position-x: 0;
   }
 }
 
@@ -710,9 +955,14 @@
 
 @media (max-width : 900px) {
   .banner-matrix {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-matrix {
+    background-position-x: -130px;
   }
 }
 
@@ -727,9 +977,14 @@
 
 @media (max-width : 900px) {
   .banner-fuji {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-fuji {
+    background-position-x: -130px;
   }
 }
 
@@ -741,9 +996,14 @@
 
 @media (max-width : 900px) {
   .banner-pot-pijamas {
-    background-position-x: 0;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-pot-pijamas {
+    background-position-x: 0;
   }
 }
 
@@ -755,9 +1015,14 @@
 
 @media (max-width : 900px) {
   .banner-rikkaidai {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-rikkaidai {
+    background-position-x: -40px;
   }
 }
 
@@ -769,9 +1034,14 @@
 
 @media (max-width : 900px) {
   .banner-ryoma-chibi {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-ryoma-chibi {
+    background-position-x: -40px;
   }
 }
 
@@ -783,9 +1053,14 @@
 
 @media (max-width : 900px) {
   .banner-ryoma-chibi2 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-ryoma-chibi2 {
+    background-position-x: -40px;
   }
 }
 
@@ -797,9 +1072,14 @@
 
 @media (max-width : 900px) {
   .banner-ryoma-drive {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-ryoma-drive {
+    background-position-x: -40px;
   }
 }
 
@@ -811,9 +1091,14 @@
 
 @media (max-width : 900px) {
   .banner-ryoma-ss {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-ryoma-ss {
+    background-position-x: -40px;
   }
 }
 
@@ -825,9 +1110,14 @@
 
 @media (max-width : 900px) {
   .banner-seigaku {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-seigaku {
+    background-position-x: -40px;
   }
 }
 
@@ -839,9 +1129,14 @@
 
 @media (max-width : 900px) {
   .banner-tezuka {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-tezuka {
+    background-position-x: -90px;
   }
 }
 
@@ -853,9 +1148,14 @@
 
 @media (max-width : 900px) {
   .banner-yukimura {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-yukimura {
+    background-position-x: -40px;
   }
 }
 
@@ -867,9 +1167,14 @@
 
 @media (max-width : 900px) {
   .banner-yukimura2 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-yukimura2 {
+    background-position-x: -40px;
   }
 }
 
@@ -881,9 +1186,14 @@
 
 @media (max-width : 900px) {
   .banner-yukimura-sanada {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-yukimura-sanada {
+    background-position-x: -40px;
   }
 }
 
@@ -898,9 +1208,14 @@
 
 @media (max-width : 900px) {
   .banner-ancient-era-warriors {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-ancient-era-warriors {
+    background-position-x: -40px;
   }
 }
 
@@ -912,9 +1227,14 @@
 
 @media (max-width : 900px) {
   .banner-aries-knights {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-aries-knights {
+    background-position-x: -40px;
   }
 }
 
@@ -926,9 +1246,14 @@
 
 @media (max-width : 900px) {
   .banner-athena {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-athena {
+    background-position-x: -40px;
   }
 }
 
@@ -940,9 +1265,14 @@
 
 @media (max-width : 900px) {
   .banner-athena-saints {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-athena-saints {
+    background-position-x: -40px;
   }
 }
 
@@ -954,9 +1284,14 @@
 
 @media (max-width : 900px) {
   .banner-camus {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-camus {
+    background-position-x: -40px;
   }
 }
 
@@ -968,9 +1303,14 @@
 
 @media (max-width : 900px) {
   .banner-dohko {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-dohko {
+    background-position-x: -40px;
   }
 }
 
@@ -982,9 +1322,14 @@
 
 @media (max-width : 900px) {
   .banner-fuego-12-casas {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-fuego-12-casas {
+    background-position-x: -130px;
   }
 }
 
@@ -996,9 +1341,14 @@
 
 @media (max-width : 900px) {
   .banner-hades {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-hades {
+    background-position-x: -40px;
   }
 }
 
@@ -1010,9 +1360,14 @@
 
 @media (max-width : 900px) {
   .banner-hyoga {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-hyoga {
+    background-position-x: -40px;
   }
 }
 
@@ -1024,9 +1379,14 @@
 
 @media (max-width : 900px) {
   .banner-ikki {
-    background-position-x: -210px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-ikki {
+    background-position-x: -210px;
   }
 }
 
@@ -1038,9 +1398,14 @@
 
 @media (max-width : 900px) {
   .banner-ikki2 {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-ikki2 {
+    background-position-x: -90px;
   }
 }
 
@@ -1052,9 +1417,14 @@
 
 @media (max-width : 900px) {
   .banner-pegasus-ryu-sei-ken {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-pegasus-ryu-sei-ken {
+    background-position-x: -130px;
   }
 }
 
@@ -1066,9 +1436,14 @@
 
 @media (max-width : 900px) {
   .banner-sanctuary {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-sanctuary {
+    background-position-x: -130px;
   }
 }
 
@@ -1080,9 +1455,14 @@
 
 @media (max-width : 900px) {
   .banner-seiya {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-seiya {
+    background-position-x: -40px;
   }
 }
 
@@ -1094,9 +1474,14 @@
 
 @media (max-width : 900px) {
   .banner-shaka {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-shaka {
+    background-position-x: -40px;
   }
 }
 
@@ -1108,9 +1493,14 @@
 
 @media (max-width : 900px) {
   .banner-shion {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-shion {
+    background-position-x: -40px;
   }
 }
 
@@ -1122,9 +1512,14 @@
 
 @media (max-width : 900px) {
   .banner-shiryu {
-    background-position-x: -60px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-shiryu {
+    background-position-x: -60px;
   }
 }
 
@@ -1136,9 +1531,14 @@
 
 @media (max-width : 900px) {
   .banner-shun {
-    background-position-x: 0;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-shun {
+    background-position-x: 0;
   }
 }
 
@@ -1153,9 +1553,14 @@
 
 @media (max-width : 900px) {
   .banner-anakin {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-anakin {
+    background-position-x: -90px;
   }
 }
 
@@ -1167,9 +1572,14 @@
 
 @media (max-width : 900px) {
   .banner-anakin2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-anakin2 {
+    background-position-x: -130px;
   }
 }
 
@@ -1181,9 +1591,14 @@
 
 @media (max-width : 900px) {
   .banner-anakin3 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-anakin3 {
+    background-position-x: -130px;
   }
 }
 
@@ -1195,9 +1610,14 @@
 
 @media (max-width : 900px) {
   .banner-anakin4 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-anakin4 {
+    background-position-x: -130px;
   }
 }
 
@@ -1209,9 +1629,14 @@
 
 @media (max-width : 900px) {
   .banner-anakin5 {
-    background-position-x: -220px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-anakin5 {
+    background-position-x: -220px;
   }
 }
 
@@ -1223,9 +1648,14 @@
 
 @media (max-width : 900px) {
   .banner-luke-vader {
-    background-position-x: -90px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-luke-vader {
+    background-position-x: -90px;
   }
 }
 
@@ -1237,9 +1667,14 @@
 
 @media (max-width : 900px) {
   .banner-luke-vader2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-luke-vader2 {
+    background-position-x: -130px;
   }
 }
 
@@ -1251,9 +1686,14 @@
 
 @media (max-width : 900px) {
   .banner-luke-vader3 {
-    background-position-x: -170px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-luke-vader3 {
+    background-position-x: -170px;
   }
 }
 
@@ -1265,9 +1705,14 @@
 
 @media (max-width : 900px) {
   .banner-star-wars-ep3 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-star-wars-ep3 {
+    background-position-x: -130px;
   }
 }
 
@@ -1279,9 +1724,14 @@
 
 @media (max-width : 900px) {
   .banner-star-wars-poster {
-    background-position-x: -220px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-star-wars-poster {
+    background-position-x: -220px;
   }
 }
 
@@ -1293,9 +1743,14 @@
 
 @media (max-width : 900px) {
   .banner-star-wars-trilogy {
-    background-position-x: 0;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-star-wars-trilogy {
+    background-position-x: 0;
   }
 }
 
@@ -1307,9 +1762,14 @@
 
 @media (max-width : 900px) {
   .banner-vader {
-    background-position-x: 0;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-vader {
+    background-position-x: 0;
   }
 }
 
@@ -1321,9 +1781,14 @@
 
 @media (max-width : 900px) {
   .banner-vader2 {
-    background-position-x: -40px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-vader2 {
+    background-position-x: -40px;
   }
 }
 
@@ -1335,9 +1800,14 @@
 
 @media (max-width : 900px) {
   .banner-yoda {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-yoda {
+    background-position-x: -130px;
   }
 }
 
@@ -1349,9 +1819,14 @@
 
 @media (max-width : 900px) {
   .banner-yoda2 {
-    background-position-x: -130px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-yoda2 {
+    background-position-x: -130px;
   }
 }
 
@@ -1371,6 +1846,12 @@
   }
 }
 
+@media (max-width : 499px) {
+  .banner-australian-open {
+    background-position-x: 0;
+  }
+}
+
 .banner-roland-garros {
   background: url(/kame-house/img/banners/tennis/banner-roland-garros.jpg) 0 0;
   background-size: cover !important;
@@ -1384,6 +1865,12 @@
   }
 }
 
+@media (max-width : 499px) {
+  .banner-roland-garros {
+    background-position-x: 0;
+  }
+}
+
 .banner-wimbledon {
   background: url(/kame-house/img/banners/tennis/banner-wimbledon.jpg) 0 0;
   background-size: cover !important;
@@ -1394,5 +1881,11 @@
   .banner-wimbledon {
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-wimbledon {
+    background-position-x: 0;
   }
 }
