@@ -250,5 +250,5 @@ changeBackupPermissions() {
 
 pushChangesToGit() {
   log.info "Completed synching ${HOSTNAME}" > ${DEST_HOME}/sync.log
-  gitCdCommitAllChangesAndPush "${PROJECT_DIR}" ${GIT_REMOTE} ${GIT_BRANCH} "Backed up ${HOSTNAME} server config"
+  gitCdCommitAllChangesAndPush "${PROJECT_DIR}/${HOSTNAME}" ${GIT_REMOTE} ${GIT_BRANCH} "Backed up ${HOSTNAME} server config"
 }
