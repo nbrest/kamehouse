@@ -48,6 +48,7 @@
 }
 
 #home-tab-app-links {
+  margin: auto;
   text-align: center;
   padding-top: 10px;
 }
@@ -61,6 +62,16 @@
   border: 1px;
   border-color: #1d0000;
   border-style: none none solid none;
+  width: 30%;
+  display: inline-block;
+}
+
+@media (max-width : 900px) {
+  .home-tab-app-link {
+    float: none;
+    text-align: center;
+    width: 100%;
+  }	
 }
 
 #iab-target-dropdown {
