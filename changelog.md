@@ -25,6 +25,8 @@
 * Fixed demo vlc playing inside docker container removing the video
 * Updated build version format on footer and added it to kamehouse-mobile
 * Moved audio and video playlists to separate repos
+* Updated docker image users
+* Removed hardcoded paths with user nbrest on all modules
 
 #### v7.02
 
