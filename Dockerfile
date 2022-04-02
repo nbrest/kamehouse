@@ -72,7 +72,7 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/host-manager.xml /home/${
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
 # Clone KameHouse dev branch
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo 'Update number to avoid cache 3' ; mkdir -p /home/${KAMEHOUSE_USERNAME}/git ; \
+RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo 'Update number to avoid cache 4' ; mkdir -p /home/${KAMEHOUSE_USERNAME}/git ; \
   chmod a+xwr /home/${KAMEHOUSE_USERNAME}/git ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
   cd /home/${KAMEHOUSE_USERNAME}/git ; \
