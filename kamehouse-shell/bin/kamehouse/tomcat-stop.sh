@@ -11,9 +11,9 @@ LOG_PROCESS_TO_FILE=false
 
 main() {
   if ${IS_LINUX_HOST}; then
-    ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh
+    ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh "$@"
   else
-    ${HOME}/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh
+    ${HOME}/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh "$@"
   fi
 }
 
