@@ -16,6 +16,7 @@ mainProcess() {
   exportMysqlData
   backupApacheHttpd
   backupTomcat
+  backupTomcatDev
   backupMysqlConfig
   backupHomeFiles
   backupHomeFolders
@@ -92,6 +93,13 @@ backupTomcat() {
   copyTomcatFolders "${SOURCE_TOMCAT}" "${DEST_TOMCAT}"
 }
 
+backupTomcatDev() {
+  log.info "Backing up apache-tomcat-dev"
+  local SOURCE_TOMCAT=${HOME}/programs/apache-tomcat-dev
+  local DEST_TOMCAT=${PROJECT_DIR}/${HOSTNAME}${HOME}/programs/apache-tomcat-dev
+  copyTomcatFolders "${SOURCE_TOMCAT}" "${DEST_TOMCAT}"
+}
+
 copyTomcatFolders() {
   local SOURCE_TOMCAT=$1
   local DEST_TOMCAT=$2
@@ -148,30 +156,28 @@ pullDockerHomeFolders() {
 }
 
 backupWorkspaceEclipse() {
-  log.info "Backing up workspace-eclipse config folders"
-  local SOURCE_WORKSPACE_ECLIPSE=${HOME}/workspace-eclipse
-  local DEST_WORKSPACE_ECLIPSE=${DEST_HOME}/workspace-eclipse
-  local SOURCE_TOMCAT=${SOURCE_WORKSPACE_ECLIPSE}/apache-tomcat
-  local DEST_TOMCAT=${DEST_WORKSPACE_ECLIPSE}/apache-tomcat
-  copyTomcatFolders "${SOURCE_TOMCAT}" "${DEST_TOMCAT}"
-  copyWorkspaceApacheFolders "${SOURCE_WORKSPACE_ECLIPSE}" "${DEST_WORKSPACE_ECLIPSE}"
+  log.info "Backing up eclipse config folders"
+  local SOURCE_HTTPD_ECLIPSE=${HOME}/programs/apache-httpd/www/www-eclipse
+  if ${IS_LINUX_HOST}; then
+    SOURCE_HTTPD_ECLIPSE=/var/www/www-eclipse
+  fi
+  local DEST_HTTPD_ECLIPSE=${DEST_HOME}/www-eclipse
+  copyApacheDevFolders "${SOURCE_HTTPD_ECLIPSE}" "${DEST_HTTPD_ECLIPSE}"
 }
 
 backupWorkspaceIntellij() {
-  log.info "Backing up workspace-intellij config folders"
-  local SOURCE_WORKSPACE_INTELLIJ=${HOME}/workspace-intellij
-  local DEST_WORKSPACE_INTELLIJ=${DEST_HOME}/workspace-intellij
-  local SOURCE_TOMCAT=${SOURCE_WORKSPACE_INTELLIJ}/apache-tomcat
-  local DEST_TOMCAT=${DEST_WORKSPACE_INTELLIJ}/apache-tomcat
-  copyTomcatFolders "${SOURCE_TOMCAT}" "${DEST_TOMCAT}"
-  copyWorkspaceApacheFolders "${SOURCE_WORKSPACE_INTELLIJ}" "${DEST_WORKSPACE_INTELLIJ}"
+  log.info "Backing up intellij config folders"
+  local SOURCE_HTTPD_INTELLIJ=${HOME}/programs/apache-httpd/www/www-intellij
+  if ${IS_LINUX_HOST}; then
+    SOURCE_HTTPD_INTELLIJ=/var/www/www-intellij
+  fi
+  local DEST_HTTPD_INTELLIJ=${DEST_HOME}/www-intellij
+  copyApacheDevFolders "${SOURCE_HTTPD_INTELLIJ}" "${DEST_HTTPD_INTELLIJ}"
 }
 
-copyWorkspaceApacheFolders() {
-  local SOURCE_WORKSPACE=$1
-  local DEST_WORKSPACE=$2
-  local SOURCE_WWW=${SOURCE_WORKSPACE}/apache-httpd/www
-  local DEST_WWW=${DEST_WORKSPACE}/apache-httpd/www
+copyApacheDevFolders() {
+  local SOURCE_WWW=$1
+  local DEST_WWW=$2
 
   if [ -d "${SOURCE_WWW}" ]; then
     mkdir -p ${DEST_WWW}

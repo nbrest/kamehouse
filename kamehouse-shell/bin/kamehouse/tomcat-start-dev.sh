@@ -10,7 +10,7 @@ fi
 # dev environment: eclipse or intellij
 DEV_ENVIRONMENT=
 LOG_PROCESS_TO_FILE=false
-TOMCAT_DIR=${HOME}/workspace-intellij/apache-tomcat
+TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 
 mainProcess() {
@@ -33,7 +33,7 @@ mainProcess() {
 }
 
 setGlobalVariables() {
-  TOMCAT_DIR=${HOME}/workspace-${DEV_ENVIRONMENT}/apache-tomcat
+  TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
   if ${IS_LINUX_HOST}; then
     source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh

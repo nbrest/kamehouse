@@ -40,7 +40,7 @@ mainProcess() {
 setGlobalVariables() {
   WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
   PROJECT_DIR=${WORKSPACE}/kamehouse
-  TOMCAT_WEBAPPS_DIR=${WORKSPACE}/apache-tomcat/webapps
+  TOMCAT_WEBAPPS_DIR=${HOME}/programs/apache-tomcat-dev/webapps
   if ${IS_LINUX_HOST}; then
     source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh
   fi

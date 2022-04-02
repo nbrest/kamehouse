@@ -20,8 +20,9 @@ DEFAULT_ENV="local"
 DEFAULT_LOG_LEVEL="trace"
 DEFAULT_NUM_LINES="5"
 
-INTELLIJ_LOG_DIR="workspace-intellij/apache-tomcat/logs"
-ECLIPSE_LOG_DIR="workspace-eclipse/apache-tomcat/logs"
+TOMCAT_DEV_LOG_DIR="programs/apache-tomcat-dev/logs"
+INTELLIJ_LOG_DIR="${TOMCAT_DEV_LOG_DIR}"
+ECLIPSE_LOG_DIR="${TOMCAT_DEV_LOG_DIR}"
 TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
 
 # Variables set by command line arguments
@@ -183,8 +184,14 @@ setGlobalVariables() {
     addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.${LOG_DATE}.log"
     ;;
   "eclipse")
+    if ${IS_LINUX_HOST}; then
+      addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost.${LOG_DATE}.log"
+    else
+      addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost.${LOG_DATE}.txt"
+    fi
     addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
     addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.out"
+    addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.${LOG_DATE}.log"
     ;;
   "kamehouse")
     if ${IS_LINUX_HOST}; then
