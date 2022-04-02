@@ -2,10 +2,10 @@
 MYSQL_PASS_NIKOLQS=mysql-pwd
 
 ### GRoot/Shell API basic auth
-GROOT_API_BASIC_AUTH=YWRtaW46YWRtaW4=
+GROOT_API_BASIC_AUTH=c2VpeWE6aWtraQ==
 
 ### Kamehouse admin API basic auth
-KH_ADMIN_API_BASIC_AUTH=YWRtaW46YWRtaW4=
+KH_ADMIN_API_BASIC_AUTH=c2VpeWE6aWtraQ==
 
 ### Tomcat text API
 TOMCAT_TEXT_USER=tomcathost
