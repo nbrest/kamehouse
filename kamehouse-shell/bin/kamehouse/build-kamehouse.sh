@@ -106,10 +106,15 @@ deployKameHouseCmd() {
 }
 
 deployKameHouseShell() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-shell" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
     chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
     ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+    
+    if [ "${MODULE}" == "kamehouse-shell" ]; then
+      logFinish
+      exitSuccessfully
+    fi
   fi
 }
 

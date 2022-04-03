@@ -236,6 +236,11 @@ deployKameHouseShell() {
     cd ${PROJECT_DIR}
     chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
     ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh -p
+  
+    if [ "${MODULE_SHORT}" == "shell" ]; then
+      logFinish
+      exitSuccessfully
+    fi
   fi
 }
 
