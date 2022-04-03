@@ -112,7 +112,7 @@ executeWithRetry() {
       let RETRY_COUNT=RETRY_COUNT+1
       log.warn "Operation ${OPERATION} failed. Retrying again in ${WAIT_TIME} seconds." 
       if [ -z "${RECOVERY_OPERATION}" ]; then
-        log.trace "No recovery operation set"
+        log.warn "No recovery operation set"
       else
         log.info "Executing recovery operation ${RECOVERY_OPERATION} before retrying ${OPERATION}"
         ${RECOVERY_OPERATION}

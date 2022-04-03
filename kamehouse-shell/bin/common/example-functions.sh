@@ -19,7 +19,7 @@ exampleFunctions() {
 }
 
 exampleIf() {
-  log.trace "${COL_RED}exampleIf"
+  log.info "${COL_RED}exampleIf"
   if ${IS_LINUX_HOST}; then
     log.info "In linux host"
   else
@@ -50,7 +50,7 @@ exampleIf() {
 }
 
 exampleRegex() {
-  log.trace "${COL_RED}exampleRegex"
+  log.info "${COL_RED}exampleRegex"
   local RELEASE_VERSION="v1.03"
   local RELEASE_VERSION_RX=^v[0-9]\.[0-9]{2}$
   if [[ "${RELEASE_VERSION}" =~ ${RELEASE_VERSION_RX} ]]; then
@@ -68,7 +68,7 @@ exampleRegex() {
 }
 
 exampleRequestConfirmation() {
-  log.trace "${COL_RED}exampleRequestConfirmation"
+  log.info "${COL_RED}exampleRequestConfirmation"
   local REQUEST_CONFIRMATION_RX=^yes|y$
   log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}): "
   read SHOULD_PROCEED
@@ -82,16 +82,16 @@ exampleRequestConfirmation() {
 }
 
 exampleLog() {
-  log.trace "${COL_RED}exampleLog"
-  log.debug "${COL_RED}Use ROOT_PREFIX var to prefix all absolute paths, so they work in any bash implementation"
+  log.info "${COL_RED}exampleLog"
+  log.info "${COL_RED}Use ROOT_PREFIX var to prefix all absolute paths, so they work in any bash implementation"
   log.info "Current value for ROOT_PREFIX: ${ROOT_PREFIX}"
   log.warn "Pegasus ryu sei ken!"
-  log.trace "Mada mada dane"
+  log.info "Mada mada dane"
   #log.error "Shimatta!"
 }
 
 exampleArrays() {
-  log.trace "${COL_RED}exampleArrays"
+  log.info "${COL_RED}exampleArrays"
   log.info "String arrays example"
   declare -a stringArray=("goku.log" "gohan.log" "goten.log" "vegeta.log")
   for CURRENT_STRING in ${stringArray[@]}; do
@@ -118,7 +118,7 @@ exampleArrays() {
 }
 
 exampleCountdown() {
-  log.trace "${COL_RED}exampleCountdown"
+  log.info "${COL_RED}exampleCountdown"
   NUMBER_OF_SECONDS=5
   secs=$((NUMBER_OF_SECONDS))
   log.info "Countdown total: ${COL_PURPLE}${NUMBER_OF_SECONDS}${COL_DEFAULT_LOG} seconds" 
@@ -131,7 +131,7 @@ exampleCountdown() {
 }
 
 exampleWhileStringCheck() {
-  log.trace "${COL_RED}exampleWhileStringCheck"
+  log.info "${COL_RED}exampleWhileStringCheck"
   local LOOP_CHECK="CONTINUE"
   local let ITERATIONS=5
   local let iter=$((ITERATIONS))
@@ -146,7 +146,7 @@ exampleWhileStringCheck() {
 }
 
 exampleIteratePids() {
-  log.trace "${COL_RED}exampleIteratePids"
+  log.info "${COL_RED}exampleIteratePids"
   local PIDS=`ps | grep -v PID | grep -v pid | awk '{print $1}'`
   echo -e "${PIDS}" | while read PID; do
     log.info "PID from PIDS list: ${PID}"
@@ -154,7 +154,7 @@ exampleIteratePids() {
 }
 
 exampleIterateFiles() {
-  log.trace "${COL_RED}exampleIterateFiles"
+  log.info "${COL_RED}exampleIterateFiles"
   local FILES=`ls -1`
   echo -e "${FILES}" | while read FILE; do
     log.info "FILE from FILES list: ${FILE}"
@@ -167,7 +167,7 @@ exampleIterateFiles() {
 }
 
 exampleBackgroundForegroundCalls() {
-  log.trace "${COL_RED}exampleBackgroundForegroundCalls"
+  log.info "${COL_RED}exampleBackgroundForegroundCalls"
   # Enable fg job control: set -m
   set -m 
   exampleBackgroundFunction "Job-1" "6" &

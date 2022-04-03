@@ -107,7 +107,7 @@ executeOperationInTomcatManager() {
   fi
 
   local URL_LIST="http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/list"
-  #log.trace "curl url: ${URL_LIST}"
+  log.trace "curl url: ${URL_LIST}"
   local KAMEHOUSE_WEBAPPS=`curl "${URL_LIST}" 2>/dev/null | grep "/kame-house" | grep "${WEBAPP}" | awk -F':' '{print $1}'`
   
   if [ "${KAMEHOUSE_MODULE}" == "ui" ]; then
@@ -122,7 +122,7 @@ executeOperationInTomcatManager() {
   echo -e "${KAMEHOUSE_WEBAPPS}" | while read KAMEHOUSE_WEBAPP; do
     log.info "Executing ${OPERATION} ${KAMEHOUSE_WEBAPP} in localhost:${TOMCAT_PORT}"
     local URL_OPERATION="http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/${OPERATION}?path=${KAMEHOUSE_WEBAPP}"
-    #log.trace "curl url: ${URL_OPERATION}"
+    log.trace "curl url: ${URL_OPERATION}"
     curl "${URL_OPERATION}" 2>/dev/null
     sleep 2
   done
@@ -146,7 +146,7 @@ getKameHouseDockerHostIp() {
 # Look at the docker-init script to see what variables are set in the container env
 loadDockerContainerEnv() {
   if [ -f "${CONTAINER_ENV_FILE}" ]; then
-    #log.debug "Running inside a docker container"
+    log.debug "Running inside a docker container"
     source ${CONTAINER_ENV_FILE}
   fi
 }

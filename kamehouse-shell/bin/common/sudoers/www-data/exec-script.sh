@@ -44,7 +44,7 @@ setupEnv() {
     log.info "Executing script on docker host"
     EXECUTE_ON_DOCKER_HOST=true
   fi
-  #printEnv
+  printEnv
 }
 
 printEnv() {

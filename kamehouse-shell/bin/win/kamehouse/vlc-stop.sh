@@ -20,7 +20,7 @@ mainProcess() {
   else
     VLC_PORT=${VLC_PORT_PARAM}
   fi
-  #log.debug "VLC_PORT ${VLC_PORT}"
+  log.debug "VLC_PORT ${VLC_PORT}"
 
   log.info "Searching for vlc process with an http server"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1

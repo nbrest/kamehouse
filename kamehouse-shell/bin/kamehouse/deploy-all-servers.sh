@@ -100,7 +100,7 @@ executeScriptInServer() {
   fi
 
   URL="http://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php?${URL_ENCODED_PARAMS}"
-  log.debug "Executing request: ${COL_BLUE}${URL}"
+  log.info "Executing request: ${COL_BLUE}${URL}"
   RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
   #echo "${RESPONSE}"
 }
