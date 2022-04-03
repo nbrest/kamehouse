@@ -95,14 +95,14 @@ exampleArrays() {
   log.info "String arrays example"
   declare -a stringArray=("goku.log" "gohan.log" "goten.log" "vegeta.log")
   for CURRENT_STRING in ${stringArray[@]}; do
-    log.debug "CURRENT_STRING: ${CURRENT_STRING}"
+    log.info "CURRENT_STRING: ${CURRENT_STRING}"
   done
 
   log.info "Number arrays example"
   numberArray=(4 99 12582 15127421)
   for INDEX in ${!numberArray[@]}; do
     # Can also loop through the array using the index
-    log.debug "INDEX: ${INDEX}, VALUE: ${numberArray[$INDEX]}"
+    log.info "INDEX: ${INDEX}, VALUE: ${numberArray[$INDEX]}"
   done
 
   log.info "Command arrays example"
@@ -112,7 +112,7 @@ exampleArrays() {
     ps
   )
   for INDEX in ${!cmdArray[@]}; do
-    log.debug "INDEX: ${INDEX}, VALUE: ${cmdArray[$INDEX]}"
+    log.info "INDEX: ${INDEX}, VALUE: ${cmdArray[$INDEX]}"
     ${cmdArray[$INDEX]} -l
   done
 }
