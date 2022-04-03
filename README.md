@@ -115,6 +115,10 @@ This web application interacts with other applications that need to be installed
 
 The application will load even without these installed, however some functionality will not work without them.
 
+# Stream videos to chromecast:
+
+- In VLC player > Playback > Renderer > Select chromcast device to stream to
+
 *********************
 
 ## Other Sections:
