@@ -33,6 +33,7 @@ createPlaylist() {
   find ${BASE_PATH} | grep --ignore-case -e ${MEDIA_TYPES_REGEX} | sort | while read FILE; do
     local FILE_RELATIVE_TO_BASE=${FILE#${BASE_PATH}}
     local FILE_FULL_PATH="${PREFIX_PATH}${FILE_RELATIVE_TO_BASE}"
+    FILE_FULL_PATH=$(urlencode "${FILE_FULL_PATH}")
     log.trace "FILE_FULL_PATH: ${FILE_FULL_PATH}"
     echo "#EXTINF:0,${FILE_RELATIVE_TO_BASE}-${FILE_RELATIVE_TO_BASE}" >> ${PLAYLIST_FULL_PATH}
     echo "${FILE_FULL_PATH}" >> ${PLAYLIST_FULL_PATH}
@@ -42,6 +43,21 @@ createPlaylist() {
   if ${USE_WINDOWS_PATHS}; then
     setWindowsPaths
   fi
+}
+
+urlencode() {
+  # urlencode <string>
+  old_lc_collate=$LC_COLLATE
+  LC_COLLATE=C
+  local length="${#1}"
+  for (( i = 0; i < length; i++ )); do
+      local c="${1:$i:1}"
+      case $c in
+          [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
+          *) printf '%%%02X' "'$c" ;;
+      esac
+  done
+  LC_COLLATE=$old_lc_collate
 }
 
 setWindowsPaths() {
