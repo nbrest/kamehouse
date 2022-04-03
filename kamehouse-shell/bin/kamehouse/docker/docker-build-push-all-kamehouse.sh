@@ -16,8 +16,8 @@ fi
 
 mainProcess() {
   docker-build-kamehouse.sh
-  docker-build-kamehouse.sh -o pi
   docker-push-kamehouse.sh
+  docker-build-kamehouse.sh -o pi
   docker-push-kamehouse.sh -o pi
 }
 
