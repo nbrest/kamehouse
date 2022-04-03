@@ -4,7 +4,7 @@
 # Log functions to log events to the console with a more robust framework than just echoing.
 
 # Default log level is INFO. Log everything included in this level and under.
-# Modify this by setting LOG_LEVEL=DEBUG scrit-name.sh while running the script
+# Modify this by running scripts with LOG prefix. Example `LOG=DEBUG scrit-name.sh` when executing script
 # 0: ERROR
 # 1: WARN
 # 2: INFO
@@ -132,8 +132,8 @@ getLogLevelNumber() {
 
 # Set global log level from environment
 setGlobalLogLevelFromEnv() {
-  if [ -n "${LOG_LEVEL}" ]; then
-    LOG_LEVEL_NUMBER=`getLogLevelNumber ${LOG_LEVEL}`
+  if [ -n "${LOG}" ]; then
+    LOG_LEVEL_NUMBER=`getLogLevelNumber ${LOG}`
   fi
 }
 setGlobalLogLevelFromEnv
