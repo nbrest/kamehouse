@@ -15,10 +15,12 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-push-kamehouse.sh
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -o pi
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-push-kamehouse.sh -o pi
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-pull-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p prod
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p demo
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p dev
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p ci
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-cleanup-kamehouse.sh
 }
 
 parseArguments() {
