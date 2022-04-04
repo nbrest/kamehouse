@@ -66,7 +66,7 @@ setWindowsPaths() {
 }
 
 parseArguments() {
-  while getopts ":ab:hn:p:w" OPT; do
+  while getopts ":b:hn:p:w" OPT; do
     case $OPT in
     ("b")
       BASE_PATH=$OPTARG
