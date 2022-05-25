@@ -158,7 +158,7 @@
     <spotbugs.version>4.3.0</spotbugs.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <spring.version>5.3.9</spring.version>
+    <spring.version>5.3.20</spring.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
     <spring.session.version>2.5.2</spring.session.version>
