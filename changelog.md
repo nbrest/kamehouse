@@ -1,5 +1,10 @@
 # ChangeLog:
 
+#### v7.04
+
+* Updated kh mobile icons
+* Added more suspend time options in the server admin page
+
 #### v7.03
 
 * Renamed project from java.web.kamehouse to kamehouse
