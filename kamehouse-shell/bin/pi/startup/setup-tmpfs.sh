@@ -13,7 +13,7 @@ mkdir -p /var/log/lightdm
 mkdir -p /var/log/mysql
 mkdir -p /var/log/private
 mkdir -p /var/log/samba
-chmod a+w -R /var/log
+chmod -R a+w /var/log
 
 # create /home directories in tmpfs
 mkdir -p /tmp/home/root

@@ -63,7 +63,7 @@ installKameHouseShell() {
 
 fixPermissions() {
   log.info "Fixing permissions"
-  chmod a+x -R ${KAMEHOUSE_SHELL_PATH}
+  chmod -R a+x ${KAMEHOUSE_SHELL_PATH}
 }
 
 createRootSymLink() {

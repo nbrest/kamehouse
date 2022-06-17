@@ -17,7 +17,7 @@ main() {
 
 fixPermissions() {
   log.info "Fixing permissions"
-  chmod a+x -R .
+  chmod -R a+x .
 }
 
 fixEol() {
