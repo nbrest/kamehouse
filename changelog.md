@@ -4,6 +4,8 @@
 
 * Updated kh mobile icons
 * Added more suspend time options in the server admin page
+* Removed deprecated scripts
+* Added script to install kamehouse-shell scripts standalone
 
 #### v7.03
 
