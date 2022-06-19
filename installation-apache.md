@@ -7,8 +7,6 @@
 
 - The folder `local-setup/apache` in the root of this repo contains sample apache configuration files needed to setup kamehouse locally for both windows and linux with the vhosts setup for both production and eclipse and intellij environments
 
-- Replace nbrest with your own username in all the following commands
-
 ## Prod environment:
 
 *********************
@@ -19,29 +17,21 @@
 - Install php to `${HOME}/programs/php`
 - Update the configuration files with the ones in `local-setup/apache` 
   - Replace all the files in `${HOME}/programs/apache-httpd/conf` with the ones from `local-setup/apache/win/conf` 
-  - Make sure `httpd.conf` points correctly to the php installation
+  - Edit `httpd.conf` and check that it points correctly to the php installation. Replace `nbrest` with your username
   ```sh
   LoadModule php7_module "C:/Users/nbrest/programs/php/php7apache2_4.dll"
   PHPiniDir "C:/Users/nbrest/programs/php"
   ```
-  - All the apache modules that need to be loaded should be uncommented in the sample `httpd.conf` already
+  - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
 
 #### Create symlinks
 
-- Create a symlink in a windows cmd console with admin permissions to serve static files from my ${HOME}/git/kamehouse repo:
-```sh
-mkdir "C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver"
-
-rmdir "C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\kame-house"
-mklink /D "C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\kame-house" "C:\Users\nbrest\git\kamehouse\kamehouse-ui\src\main\webapp"
-
-rmdir "C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\kame-house-groot"
-mklink /D "C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\kame-house-groot" "C:\Users\nbrest\git\kamehouse\kamehouse-groot\public\kame-house-groot"
-```
+- Create a symlink in a windows cmd console to serve static files from my ${HOME}/git/kamehouse repo:
+  - Execute the bat script [setup-apache-httpd-dirs.bat](scripts/setup-apache-httpd-dirs.bat)
 
 - Create link for streaming media-drive files through http (only on media-server)
 ```sh
-mklink /D "C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\kame-house-streaming\media-server\media-drive" "N:\"
+mklink /D "%USERPROFILE%\programs\apache-httpd\www\kamehouse-webserver\kame-house-streaming\media-server\media-drive" "N:\"
 ```
 - Then on the other servers in httpd config proxy /kame-house-streaming/media-server to media-server
 
@@ -70,24 +60,16 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
 - Install apache httpd from the package manager
 - Install php from the package manager
 - Update the configuration files with the ones in `local-setup/apache` 
-  - Copy folder `local-setup/apache/lin/conf` to `/var/apache2/conf`
-  - Copy folder `local-setup/apache/lin/sites-available` to `/var/apache2/sites-available`
-  - Load all the modules that are in `local-setup/apache/lin/mods-required` with a2enmod command
+  ```sh
+  sudo cp -v -f -r local-setup/apache/lin/conf to /var/apache2/conf
+  sudo cp -v -f -r local-setup/apache/lin/sites-available to /var/apache2/sites-available
+  ```
+  - Load all the modules that are in `local-setup/apache/lin/mods-required` with `a2enmod` command. Exaple `a2enmod proxy_http`
 
 #### Create symlinks
 
-- Create a symlink from /var/www/kamehouse-webserver/kame-house to ${HOME}/git/kamehouse/kamehouse-ui/src/main/webapp
-```sh
-sudo mkdir -p /var/www/kamehouse-webserver
-
-sudo chown nbrest:users -R /var/www/kamehouse-webserver
-cd /var/www/kamehouse-webserver
-rm kame-house
-ln -s ${HOME}/git/kamehouse/kamehouse-ui/src/main/webapp kame-house
-
-rm kame-house-groot
-ln -s ${HOME}/git/kamehouse/kamehouse-groot/public/kame-house-groot kame-house-groot
-```
+- Create a symlink from `/var/www/kamehouse-webserver/kame-house` to `${HOME}/git/kamehouse/kamehouse-ui/src/main/webapp`
+  - Execute the script [setup-apache-httpd-dirs.sh](scripts/setup-apache-httpd-dirs.sh)
 
 #### Install .httpasswd file
 
