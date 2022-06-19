@@ -2,6 +2,9 @@
 
 #### v7.05
 
+* Updated installation and dev environment setup docs
+* Added more setup scripts to automate the setup process
+
 #### v7.04
 
 * Updated kh mobile icons
