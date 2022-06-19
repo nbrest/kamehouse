@@ -93,6 +93,12 @@ In the container console, you can run the following scripts:
 
 - Check the status of the docker containers, images and volumes in the system with the command `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh`
 
+```sh
+docker container list
+docker images
+docker volume ls
+```
+
 *********************
 
 ## Stopping the container
@@ -101,7 +107,7 @@ Use the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-sto
 
 Or check the running containers with the command: 
 
-```
+```sh
 docker container list
 ```
 
