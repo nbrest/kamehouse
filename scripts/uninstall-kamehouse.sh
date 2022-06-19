@@ -24,10 +24,7 @@ main() {
   deleteKameHouseShell
   deleteKameHouseCmd
   deleteKameHouseGit
-
-  if ${PURGE_CONFIG}; then
-    purgeConfigFiles
-  fi
+  purgeConfigFiles
 
   log.info "This script doesn't remove the database contents. To do that, login to mysql and execute 'DROP SCHEMA IF EXISTS kameHouse;'"
   log.info "Finished uninstalling ${COL_PURPLE}kamehouse"
@@ -59,10 +56,14 @@ deleteKameHouseGit() {
 }
 
 purgeConfigFiles() {
-  log.info "Deleting all config files"
-  rm -r -f -v ${HOME}/.kamehouse/.shell
-  rm -r -f -v ${HOME}/home-synced/.kamehouse/keys
-  rm -f -v ${HOME}/home-synced/.kamehouse/integration-test-cred.enc
+  if ${PURGE_CONFIG}; then
+    log.info "Deleting all config files"
+    rm -r -f -v ${HOME}/.kamehouse/.shell
+    rm -r -f -v ${HOME}/home-synced/.kamehouse/keys
+    rm -f -v ${HOME}/home-synced/.kamehouse/integration-test-cred.enc
+  else
+    log.info "Running without -p so skipping purging config files"
+  fi
 }
 
 log.info() {
