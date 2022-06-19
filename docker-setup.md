@@ -93,7 +93,7 @@ If for any reason you can't pull the image from docker hub, you can build it man
 At the root of the project execute the script `./kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh`
 
 ```
-docker build -t nbrest/kamehouse:latest .
+docker build --build-arg DOCKER_IMAGE_BASE=ubuntu:20.04 -t nbrest/kamehouse:latest .
 ```
 
 You can then run the image as mentioned above either with temporary or permanent container.
