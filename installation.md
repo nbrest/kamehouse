@@ -12,9 +12,9 @@
 
 * Install mysql server version 8
   - Execute the sql scripts:
-    - `kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql`
-    - `kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql`
-    - `docker/mysql/dump-kamehouse.sql` (optional to setup initial users mentioned in [docker-setup.md](docker-setup.md))
+    - [setup-kamehouse.sql](kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql)
+    - [spring-session.sql](kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql)
+    - [dump-kamehouse.sql](docker/mysql/dump-kamehouse.sql) (optional to setup initial users mentioned in [docker-setup.md](docker-setup.md))
 
 * Install tomcat following [installation-tomcat.md](installation-tomcat.md)
 
@@ -30,6 +30,14 @@
 * All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh`
 
 **WARNING**
-The script `install-kamehouse.sh` will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path
+The script [install-kamehouse.sh](scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](scripts/uninstall-kamehouse.sh) script
 
 * Follow the [Execution](execution.md) guide to run kamehouse
+
+## Uninstall
+
+- Download and run the [uninstall-kamehouse.sh](scripts/uninstall-kamehouse.sh) to uninstall kamehouse from your system
+```sh
+chmod a+x uninstall-kamehouse.sh ; ./uninstall-kamehouse.sh
+```
+- Run with -p to remove all configuration files as well
