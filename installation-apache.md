@@ -18,7 +18,13 @@
 - Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/) and install it to `${HOME}/programs/apache-httpd`
 - Install php to `${HOME}/programs/php`
 - Update the configuration files with the ones in `local-setup/apache` 
-- Make sure `httpd.conf` points correctly to the php installation
+  - Replace all the files in `${HOME}/programs/apache-httpd/conf` with the ones from `local-setup/apache/win/conf` 
+  - Make sure `httpd.conf` points correctly to the php installation
+  ```sh
+  LoadModule php7_module "C:/Users/nbrest/programs/php/php7apache2_4.dll"
+  PHPiniDir "C:/Users/nbrest/programs/php"
+  ```
+  - All the apache modules that need to be loaded should be uncommented in the sample `httpd.conf` already
 
 #### Create symlinks
 
@@ -63,7 +69,10 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
 
 - Install apache httpd from the package manager
 - Install php from the package manager
-- Update the configuration files with the ones in `local-setup/apache`
+- Update the configuration files with the ones in `local-setup/apache` 
+  - Copy folder `local-setup/apache/lin/conf` to `/var/apache2/conf`
+  - Copy folder `local-setup/apache/lin/sites-available` to `/var/apache2/sites-available`
+  - Load all the modules that are in `local-setup/apache/lin/mods-required` with a2enmod command
 
 #### Create symlinks
 
