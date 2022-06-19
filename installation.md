@@ -11,6 +11,22 @@
 * Install git (and git bash on windows)
 
 * Install mysql server version 8
+
+  - Update server configuration:
+    - Windows:
+      - Check if they are not already set in my.ini
+      ```
+      lower_case_table_names=1
+      secure-file-priv=""
+      ```
+    - linux:
+      - The config files are in /etc/mysql
+      - The file to update depends on the mysql version you are using. It could be mysqld.conf, 50-server.conf
+      ```
+      default-time-zone='+10:00'
+      secure-file-priv=""
+      ```
+      
   - Execute the sql scripts:
     - [setup-kamehouse.sql](kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql)
     - [spring-session.sql](kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql)
