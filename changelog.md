@@ -1,5 +1,7 @@
 # ChangeLog:
 
+#### v7.05
+
 #### v7.04
 
 * Updated kh mobile icons
