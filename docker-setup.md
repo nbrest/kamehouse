@@ -39,9 +39,32 @@ vegeta:trunks (guest)
 
 ## Run the image
 
-Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo`
+Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo` or run manually with the command:
+```sh
+docker run --rm -h kamehouse-docker-demo \
+  --env BUILD_ON_STARTUP=true \
+  --env DEBUG_MODE=false \
+  --env DOCKER_CONTROL_HOST=false \
+  --env DOCKER_PORT_HTTP=12080 \
+  --env DOCKER_PORT_HTTPS=12443 \
+  --env DOCKER_PORT_TOMCAT_DEBUG=12000 \
+  --env DOCKER_PORT_TOMCAT=12090 \
+  --env DOCKER_PORT_MYSQL=12306 \
+  --env DOCKER_PORT_SSH=12022 \
+  --env IS_DOCKER_CONTAINER=false \
+  --env EXPORT_NATIVE_HTTPD=false \
+  --env PROFILE=demo \
+  --env USE_VOLUMES=false \
+  -p 12022:22 \
+  -p 12080:80 \
+  -p 12443:443 \
+  -p 12000:8000 \
+  -p 12090:9090 \
+  -p 12306:3306 \
+  nbrest/kamehouse:latest
+```
 
-- Execute with `-h` to see all the profiles and options
+- Execute the script with `-h` to see all the profiles and options
 
 With the parameter `--rm` the container will be removed automatically after it exits. Without it, it will remain in your system.
 
