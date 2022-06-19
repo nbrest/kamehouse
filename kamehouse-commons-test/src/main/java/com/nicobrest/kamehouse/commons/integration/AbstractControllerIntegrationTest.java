@@ -228,7 +228,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       loginCredentialsArray = loginCredentials.split(":");
     } else {
       logger.debug("Login credentials not found from file, setting default values for ci");
-      loginCredentialsArray = new String[]{ "admin", "admin" };
+      loginCredentialsArray = new String[]{ "seiya", "ikki" };
     }
     List<NameValuePair> loginBody = new ArrayList<>();
     loginBody.add(new BasicNameValuePair("username", loginCredentialsArray[0]));
