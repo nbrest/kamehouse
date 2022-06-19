@@ -62,6 +62,10 @@ In the container console, you can run the following scripts:
 - `kamehouse-shell-install.sh` : Updates the scripts in `/home/goku/programs/kamehouse-shell` with the version currently pulled from `/home/goku/git/kamehouse`
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 
+## Check the status
+
+- Check the status of the docker containers, images and volumes in the system with the command `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh`
+
 *********************
 
 ## Stopping the container
