@@ -9,7 +9,7 @@
 # Tomcat Dev:
 
 * Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat-dev*
-* Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port
+* Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port and manager users
 
 # Apache Httpd:
 
