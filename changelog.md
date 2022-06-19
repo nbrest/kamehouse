@@ -8,6 +8,7 @@
 * Added script to install kamehouse-shell scripts standalone
 * Updated the installation and environment setup guides and other MDs
 * Added install script to automate most of kamehouse installation process
+* Added uninstall script to uninstall kamehouse and purge the config files
 
 #### v7.03
 
