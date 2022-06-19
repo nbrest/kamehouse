@@ -176,7 +176,4 @@ EXPOSE 22 80 443 3306 8000 8080 9090
 ENV TZ=Australia/Sydney
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Setup default env for container init script
-ENV FAST_DOCKER_INIT=false
-
 CMD "/home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-init-kamehouse.sh"

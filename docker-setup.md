@@ -68,7 +68,7 @@ docker run --rm -h kamehouse-docker-demo \
 
 With the parameter `--rm` the container will be removed automatically after it exits. Without it, it will remain in your system.
 
-Passing `--env FAST_DOCKER_INIT=true` to `docker run` skips pulling and deploying the latest version of kamehouse during the container startup. By default it does both. If skipped, the container will start with the version of kamehouse that was used when the image was built. You can always update to the latest version once the container is started with the deployment script mentioned below.
+Passing `--env BUILD_ON_STARTUP=true` to `docker run` pulls and deploys the latest version of kamehouse during the container startup. By default it doesn't do either. If skipped, the container will start with the version of kamehouse that was used when the image was built. You can always update to the latest version once the container is started with the deployment script mentioned below.
 
 After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:12443/kame-house/](https://localhost:12443/kame-house/) or [http://localhost:12080/kame-house/](http://localhost:12080/kame-house/) and you can login with the users mentioned above
 
