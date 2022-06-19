@@ -6,7 +6,7 @@ The docker image loads kamehouse through tomcat and apache httpd and most of the
 
 ## Install kamehouse scripts to control docker more easily (optional)
 
-- download and run the script [install-kamehouse.sh](scripts/install-kamehouse.sh) from this git repo, then execute with -s parameter to install only kamehouse-shell standalone
+- Download the script [install-kamehouse.sh](scripts/install-kamehouse.sh) from this git repo, then execute with -s parameter to install only kamehouse-shell standalone
 ```sh
 chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -s
 ```
