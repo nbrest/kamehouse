@@ -27,9 +27,10 @@
 #### Create symlinks
 
 - Create a symlink in a windows cmd console to serve static files from my ${HOME}/git/kamehouse repo:
-  - Execute the bat script [setup-apache-httpd-dirs.bat](scripts/setup-apache-httpd-dirs.bat)
+  - Execute the script [setup-apache-httpd-dirs.bat](scripts/setup-apache-httpd-dirs.bat)
 
-- Create link for streaming media-drive files through http (only on media-server)
+#### For media server only:
+- Create link for streaming media-drive files through http
 ```sh
 mklink /D "%USERPROFILE%\programs\apache-httpd\www\kamehouse-webserver\kame-house-streaming\media-server\media-drive" "N:\"
 ```
@@ -64,7 +65,7 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
   sudo cp -v -f -r local-setup/apache/lin/conf to /var/apache2/conf
   sudo cp -v -f -r local-setup/apache/lin/sites-available to /var/apache2/sites-available
   ```
-  - Load all the modules that are in `local-setup/apache/lin/mods-required` with `a2enmod` command. Exaple `a2enmod proxy_http`
+  - Load all the modules that are in `local-setup/apache/lin/mods-required` with `a2enmod` command. Example `a2enmod proxy_http`
 
 #### Create symlinks
 
