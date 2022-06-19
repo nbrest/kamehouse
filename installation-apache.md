@@ -17,12 +17,16 @@
 - Install php to `${HOME}/programs/php`
 - Update the configuration files with the ones in `local-setup/apache` 
   - Replace all the files in `${HOME}/programs/apache-httpd/conf` with the ones from `local-setup/apache/win/conf` 
+  - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
   - Edit `httpd.conf` and check that it points correctly to the php installation. Replace `nbrest` with your username
   ```sh
   LoadModule php7_module "C:/Users/nbrest/programs/php/php7apache2_4.dll"
   PHPiniDir "C:/Users/nbrest/programs/php"
   ```
-  - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
+  - Update `${HOME}/programs/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in SRVROOT
+  - Update `${HOME}/programs/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
+  - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
+  - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
 #### Create symlinks
 
@@ -66,6 +70,8 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
   sudo cp -v -f -r local-setup/apache/lin/sites-available to /var/apache2/sites-available
   ```
   - Load all the modules that are in `local-setup/apache/lin/mods-required` with `a2enmod` command. Example `a2enmod proxy_http`
+  - Update `/var/apache2/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
+  - Update `/var/apache2/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
 #### Create symlinks
 
