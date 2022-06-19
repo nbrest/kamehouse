@@ -73,3 +73,8 @@ mv public_key.pem id_rsa.pub.pkcs8
 ```
 
 Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by the properties `ssh.private.key` and `ssh.public.key` (usually `${HOME}/.ssh/`) both in the host and in the docker container (they can be exported to the container with the docker re-init container data script)
+
+## Apache httpd error on startup:
+
+- If I get a VRUNTIME140.dll missing error when trying to load httpd.exe, I need to install Some microsoft Visual C++ runtime. Google it. For PHP 7.4+ I need version 2019 of the runtime. version 2015 still throws some errors
+- In services, configure the Apache httpd service to run as user nbrest. By default it runs as SYSTEM, and as system it doesn't run kamehouse-shell scripts correctly (when running with php)

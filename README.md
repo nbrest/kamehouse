@@ -84,19 +84,19 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 *********************
 
-# Docker demo:
-
-As described in [Docker Setup](docker-setup.md), you can have a local demo of kamehouse running to test most of the functionality by executing one docker command
-
-It's much simpler than going through the complex process of doing all the manual steps to have an installation in your local described [here](installation.md)
-
-I have a sample docker container running at https://docker-demo.nicobrest.com/kame-house/ (not always online)
-
 # Live demo:
 
 This application is hosted in https://www.nicobrest.com/kame-house/ so you can check it out and play around with it and report any issues :) 
 
 It's currently running on a Raspberry Pi, so might not be up all the time
+
+# Docker demo:
+
+As described in [Docker Setup](docker-setup.md), you can have a local demo of kamehouse running to test most of the functionality by executing one docker command
+
+It's much simpler than going through the complex process of doing all the manual steps to have an installation in your local described in [Installation](installation.md)
+
+I have a sample docker container running at https://docker-demo.nicobrest.com/kame-house/ (not always online)
 
 # Target Devices:
 
@@ -123,13 +123,13 @@ The application will load even without these installed, however some functionali
 
 ## Other Sections:
 
-[Dev Environment Setup](dev-environment-setup.md)
+[Installation](installation.md)
 
-[Compilation](compilation.md)
+[Execution](execution.md)
 
 [Docker Setup](docker-setup.md)
 
-[Installation](installation.md)
+[Dev Environment Setup](dev-environment-setup.md)
 
 [Troubleshoot Issues](troubleshoot-issues.md)
 

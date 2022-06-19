@@ -1,31 +1,35 @@
 # Installation:
 
-* Deploy each module that compiles to war as a standard war into the webapps directory of your
- tomcat installation
+* The recommended and easiest way is to install is through docker as explained in [docker-setup.md](docker-setup.md)
 
-## Tomcat:
+## To install natively without docker:
 
-* **Run tomcat through a startup script, not as a system service**. Some commands like vlc start and stop won't work otherwise
+* Install java jdk 11
 
-### Windows:
+* Install maven (minimum version 3)
 
-* If I currently have it running as a service, uninstall the service. 
-* Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat*
-* Add a shortcut to the `$HOME/programs/apache-tomcat/bin/startup.bat` script in the *windows startup folder* (Currently in **windows 10** it's *$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*) so tomcat runs when I logon
-* Edit the **windows** shortcut and in the field *Start in* change from *$HOME/programs/apache-tomcat/bin* to *$HOME/programs/apache-tomcat* otherwise it will create the application logs in *$HOME/programs/apache-tomcat/bin/logs* instead of *$HOME/programs/apache-tomcat/logs*
-* To make the command prompt start minimized, update **catalina.bat** and in the line where it says `set _EXECJAVA=start "%TITLE%" %_RUNJAVA%` add `/min` after the start: `set _EXECJAVA=start /min "%TITLE%" %_RUNJAVA%`
+* Install git (and git bash on windows)
 
-### Linux:
-* If I have any tomcat installed as a service, run `sudo apt-get remove tomcatX`, `sudo apt-get purge tomcatX`. Remove everything related to tomcat. 
-* Download the zip or tar.gz from the tomcat website
-* Unpack it in *$HOME/programs/apache-tomcat* and start it with `$HOME/programs/apache-tomcat/bin/startup.sh` 
-* Tomcat should start with my current user
-* To run on startup, with my current user, create a script where I cd to *$HOME/programs/apache-tomcat* (TOMCAT_HOME) and then run `./bin/startup.sh` in that script (`kamehouse/tomcat-startup.sh` in kamehouse-shell). I need to do it this way because I need to be on *$HOME/programs/apache-tomcat* when I run `startup.sh`. If I run the script from *$HOME/programs/apache-tomcat/bin*, it will create the application logs in *$HOME/programs/apache-tomcat/bin/logs* instead of *$HOME/programs/apache-tomcat/logs*. 
-* Update the script `$HOME/programs/apache-tomcat/bin/startup.sh` and as the second line add `export DISPLAY=:0` otherwise *vlc start* will fail because *DISPLAY* env variable won't be set at reboot time when tomcat is being started. I don't need to set it if I run `$HOME/programs/apache-tomcat/bin/startup.sh` from my desktop but if I schedule it at boot, `$HOME/programs/apache-tomcat/bin/startup.sh` needs to be updated with that export.
-* To run on startup in **ubuntu 20**: Use startup scripts. Check `rc-local.sh`, `rc-local.service`, `rc-local-deploy.sh` in lin/startup in kamehouse-shell to automate tomcat startup
-* {*DEPRECATED*} - ~~This doesn't work in **ubuntu 20**. To run on startup edit my cron jobs with `crontab -e` and add the following entry: `@reboot /bin/bash /PATH-TO-MY-SCRIPT/tomcat-startup.sh`~~
+* Install mysql server version 8
+  - Execute the sql scripts:
+    - `kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql`
+    - `kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql`
+    - `docker/mysql/dump-kamehouse.sql` (optional to setup initial users mentioned in [docker-setup.md](docker-setup.md))
 
-## Apache Httpd:
+* Install tomcat following [installation-tomcat.md](installation-tomcat.md)
 
-* Same as in [Dev Environment Setup](dev-environment-setup.md)
-* The config I have in my private repo for httpd has the setup to listen to ports for development and for prod
+* Install apache following [installation-apache.md](installation-apache.md)
+
+* Once the above setup is complete, download and run the script [install-kamehouse.sh](scripts/install-kamehouse.sh) from this git repo, which will pull kamehouse from git into `${HOME}/git/kamehouse` and run the deployment script that will build and deploy all kamehouse modules
+  - Once downloaded, run the script on bash with the command `chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh`
+
+* Then start both tomcat and apache to access kamehouse at http://localhost/kame-house or https://localhost/kame-house
+
+* From a new bash terminal access KameHouse CMD module through `kamehouse-cmd.sh` and all other kamehouse-shell scripts
+
+* All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh`
+
+**WARNING**
+The script `install-kamehouse.sh` will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path
+
+* Follow the [Execution](execution.md) guide to run kamehouse

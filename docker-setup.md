@@ -4,13 +4,21 @@ The project is hosted on [docker hub](https://hub.docker.com/repository/docker/n
 
 The docker image loads kamehouse through tomcat and apache httpd and most of the functionality works out of the box.
 
+## Install kamehouse scripts to control docker more easily (optional)
+
+- Clone kamehouse git repo, then execute:
+```
+chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install-standalone.sh
+./kamehouse-shell/bin/kamehouse/kamehouse-shell-install-standalone.sh
+```
+
 *********************
 
 ## Pull the image from docker hub (optional)
 
 You can skip this step and directly run the image. If it doesn't find it locally, it will download it automatically from docker hub. If you do have the image locally already, this will pull the latest changes to the image from docker hub
 
-Execute the script `kamehouse-shell/bin/kamehouse/docker/docker-pull-kamehouse.sh`
+Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-pull-kamehouse.sh`
 
 ```
 docker pull nbrest/kamehouse:latest
@@ -20,7 +28,7 @@ docker pull nbrest/kamehouse:latest
 
 ## Run the image
 
-Execute the script `kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo`
+Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo`
 
 - Execute with `-h` to see all the profiles and options
 
@@ -50,7 +58,9 @@ In the container console, you can run the following scripts:
 
 ## Stopping the container
 
-Check the running containers with the command: 
+Use the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p demo`
+
+Or check the running containers with the command: 
 
 ```
 docker container list
@@ -68,7 +78,7 @@ docker stop container-id-hash
 
 If for any reason you can't pull the image from docker hub, you can build it manually. At the root of the project there's a Dockerfile that can be used to build the image to run kamehouse in a container
 
-At the root of the project execute the script `kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh`
+At the root of the project execute the script `./kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh`
 
 ```
 docker build -t nbrest/kamehouse:latest .
