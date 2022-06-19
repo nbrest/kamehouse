@@ -25,6 +25,18 @@ docker pull nbrest/kamehouse:latest
 
 *********************
 
+## Initial sample test users
+
+- Login with the following `user:password` to test different functionality
+
+```
+seiya:ikki (admin)
+ryoma:fuji (user)
+vegeta:trunks (guest)
+```
+
+*********************
+
 ## Run the image
 
 Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo`
@@ -35,10 +47,7 @@ With the parameter `--rm` the container will be removed automatically after it e
 
 Passing `--env FAST_DOCKER_INIT=true` to `docker run` skips pulling and deploying the latest version of kamehouse during the container startup. By default it does both. If skipped, the container will start with the version of kamehouse that was used when the image was built. You can always update to the latest version once the container is started with the deployment script mentioned below.
 
-After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:12443/kame-house/](https://localhost:12443/kame-house/) or [http://localhost:12080/kame-house/](http://localhost:12080/kame-house/) and you can login with the following user:password to test different functionality
-- seiya:ikki (admin)
-- ryoma:fuji (user)
-- vegeta:trunks (guest)
+After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:12443/kame-house/](https://localhost:12443/kame-house/) or [http://localhost:12080/kame-house/](http://localhost:12080/kame-house/) and you can login with the users mentioned above
 
 You can also access kamehouse groot at [https://localhost:12443/kame-house-groot/](https://localhost:12443/kame-house-groot/) or [http://localhost:12080/kame-house-groot/](http://localhost:12080/kame-house-groot/) and login with seiya:ikki to groot
 
