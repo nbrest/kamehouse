@@ -1,7 +1,8 @@
 # Troubleshoot issues:
 
-## Deploy to my local tomcat using my deploy script is successful but kame-house doesn't run even if it shows as running in the tomcat manager
+## Kame-house doesn't run even if it shows as running in the tomcat manager:
 
+* This happened rarely after a succesful deployment to my local tomcat using my deploy script
 * Go to the tomcat manager and *undeploy kame-house*, or stop tomcat and delete the war and kame-house folder from the /webapps directory. 
 * Then start tomcat and run the deploy script again
 
@@ -45,7 +46,9 @@
 ### It happened also in my server niko-nba
 - Here I had to stop tomcat and restart it and it started working again
 
-## Create a certificate, private key and keystore to encrypt and decrypt files required by kamehouse:
+## Create a certificate, private key and keystore:
+
+- to encrypt and decrypt files required by kamehouse
 
 ### Steps to create private key, certificate and keystore in a linux server:
 ```
@@ -62,7 +65,9 @@ Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by
 
 To create an encrypted file with the content kamehouse needs encrypted, use kamehouse-cmd with the operation encrypt.
 
-## Create rsa private/public key pair readable kamehouse to connect to the host through ssh from docker
+## Create rsa private/public key pair:
+
+- readable by kamehouse to connect to the host through ssh from docker
 
 ### Steps to create the key files:
 ```
@@ -78,3 +83,32 @@ Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by 
 
 - If I get a VRUNTIME140.dll missing error when trying to load httpd.exe, I need to install Some microsoft Visual C++ runtime. Google it. For PHP 7.4+ I need version 2019 of the runtime. version 2015 still throws some errors
 - In services, configure the Apache httpd service to run as user nbrest. By default it runs as SYSTEM, and as system it doesn't run kamehouse-shell scripts correctly (when running with php)
+
+## Add more subdomains to certbot SSL certificate:
+
+```sh
+certbot -d www.nicobrest.com,kame.nicobrest.com,docker-demo.nicobrest.com --expand
+```
+
+- After the update remove `Include /etc/letsencrypt/options-ssl-apache.conf` `SSLCertificateFile` and `SSLCertificateKeyFile` from `/etc/apache2/conf/kamehouse/vhost/kamehouse-https-vhosts.conf` and `/etc/apache2/conf/kamehouse/vhost/kamehouse-https-subdomains-vhosts.conf`
+- Then add them back to `https-config.conf`
+
+## Enable CORS on media server:
+
+- to be able to test it's connectivity from js in kamehouse-mobile:
+- Add the following line to conf/kamehouse/http.conf: `Header add Access-Control-Allow-Origin *`
+- Restart httpd
+- Don't do this if the server is exposed to internet
+- It's not strictly necessary. If the connectivity test fails with CORS error, it will try to load the media server page in the inappbrowser anyway, and that should still work. In a way, receiving a CORS error is a successful connectivity test
+
+## Commands on docker host don't work:
+
+- When running on docker, commands executed on the host are done through ssh
+- Make sure the ssh host key of the docker host is accepted in the container. To do it, ssh to the container and from the container ssh to the host once. The first time it will always ask to accept the key. If the ssh commands from kamehouse or groot don't work, this might be the issue
+
+## Remove known host keys when the server keys changed:
+
+```sh
+ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "pi"
+ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.0.129"
+```
