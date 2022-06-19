@@ -39,6 +39,7 @@ gitCloneKameHouse() {
 
   cd kamehouse
   git checkout dev
+  git pull origin dev
 }
 
 checkPath() {
