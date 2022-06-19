@@ -4,6 +4,8 @@
 - Currently using tomcat 8.5 or 9
 - **Run tomcat through a startup script, not as a system service**. Some commands like vlc start and stop won't work otherwise
 
+*********************
+
 ### Windows:
 
 * If I currently have tomcat running as a service, uninstall the service. 
@@ -12,6 +14,8 @@
 * Add a shortcut to the `$HOME/programs/apache-tomcat/bin/startup.bat` script in the *windows startup folder* (Currently in **windows 10/11** it's *$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*) so tomcat runs when I logon
 * Edit the **windows** shortcut and in the field *Start in* change from *$HOME/programs/apache-tomcat/bin* to *$HOME/programs/apache-tomcat* otherwise it will create the application logs in *$HOME/programs/apache-tomcat/bin/logs* instead of *$HOME/programs/apache-tomcat/logs*
 * To make the command prompt start minimized, update **catalina.bat** and in the line where it says `set _EXECJAVA=start "%TITLE%" %_RUNJAVA%` add `/min` after the start: `set _EXECJAVA=start /min "%TITLE%" %_RUNJAVA%`
+
+*********************
 
 ### Linux:
 

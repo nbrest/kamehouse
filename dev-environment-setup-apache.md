@@ -2,7 +2,11 @@
 
 - Replace nbrest with your own username in all the following commands
 
+*********************
+
 ## eclipse:
+
+*********************
 
 ### Windows:
 
@@ -18,6 +22,8 @@ mklink /D "C:\Users\nbrest\programs\apache-httpd\www\www-eclipse\kame-house" "C:
 rmdir "C:\Users\nbrest\programs\apache-httpd\www\www-eclipse\kame-house-groot"
 mklink /D "C:\Users\nbrest\programs\apache-httpd\www\www-eclipse\kame-house-groot" "C:\Users\nbrest\workspace-eclipse\kamehouse\kamehouse-groot\public\kame-house-groot"
 ```
+
+*********************
 
 ### Linux:
 
@@ -43,6 +49,8 @@ ln -s ${HOME}/workspace-eclipse/kamehouse/kamehouse-groot/public/kame-house-groo
 
 ## intellij:
 
+*********************
+
 ### Windows:
 
 #### Create symlinks
@@ -57,6 +65,8 @@ mklink /D "C:\Users\nbrest\programs\apache-httpd\www\www-intellij\kame-house" "C
 rmdir "C:\Users\nbrest\programs\apache-httpd\www\www-intellij\kame-house-groot"
 mklink /D "C:\Users\nbrest\programs\apache-httpd\www\www-intellij\kame-house-groot" "C:\Users\nbrest\workspace-intellij\kamehouse\kamehouse-groot\public\kame-house-groot"
 ```
+
+*********************
 
 ### Linux:
 
