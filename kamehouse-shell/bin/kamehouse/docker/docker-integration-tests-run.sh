@@ -23,10 +23,11 @@ ERROR="ERROR EXECUTING INTEGRATION TESTS"
 main() {
   cd ${PROJECT_DIR}
   /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -p ci -i > /home/${DOCKER_USERNAME}/logs/build-kamehouse.log
-  if [ "$?" == "0" ]; then
+  RESULT=$?
+  tail -n 50 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log
+  if [ "${RESULT}" == "0" ]; then
     echo "${SUCCESS}"
   else
-    tail -n 50 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log
     echo "${ERROR}"
   fi
 }
