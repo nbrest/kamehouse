@@ -18,7 +18,6 @@ LOG_PROCESS_TO_FILE=true
 FAST_BUILD=false
 INTEGRATION_TESTS=false
 MODULE=
-KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 MAVEN_COMMAND=
 MAVEN_PROFILE="prod"
 RESUME=false
@@ -28,9 +27,7 @@ BUILD_ALL_EXTRA_MODULES=false
 DELETE_ALL_MOBILE_OUTPUTS=false
 
 mainProcess() {
-  deployKameHouseShell
   buildProject
-  deployKameHouseCmd
   cleanLogsInGitRepoFolder
 }
 
@@ -89,32 +86,6 @@ buildProject() {
     date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
-  fi
-}
-
-deployKameHouseCmd() {
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-cmd" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}"
-    mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
-    rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
-    unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
-    mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-    echo "${GIT_COMMIT_HASH}" > ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/git-commit-hash.txt
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
-  fi
-}
-
-deployKameHouseShell() {
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-shell" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-    chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
-    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
-    
-    if [ "${MODULE}" == "kamehouse-shell" ]; then
-      logFinish
-      exitSuccessfully
-    fi
   fi
 }
 
