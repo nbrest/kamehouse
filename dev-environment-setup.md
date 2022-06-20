@@ -15,14 +15,14 @@
 
 - Start a docker container in dev mode with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p dev` to debug a tomcat server running inside the container
 
-- Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -p dev` to sync the ssh keys of the host to the container and reinit container data using default password `gohan`
+- Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -p dev -i (intelli|eclipse)` to sync the ssh keys of the host to the container and reinit container data using default password `gohan`
 
-- Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password
-  - Deploy latest version of dev branch using `deploy-kamehouse.sh -f`
-  - Test kamehouse-shell and kamehouse-cmd inside the container
+- Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password to deploy your changes and tail the application logs
+  - Deploy your changes using `deploy-kamehouse.sh -f`
   - Tail tomcat and apache httpd logs using the `tail-log.sh` script
+  - Test kamehouse-shell and kamehouse-cmd inside the container
 
-- **TODO**: Add a way to sync source files from the host workspace to the container's `${HOME}/git/kamehouse` dir to deploy working copy changes. Currently I can debug the latest commit on dev branch
+- Docker with dev profile will run with the directory `${HOME}/git/kamehouse` inside the container binded to the directory `${HOME}/workspace-(intellij|eclipse)/kamehouse` on the host. So all changes done in the host will be deployed on the container with the deployment script
 
 # Apache Httpd:
 

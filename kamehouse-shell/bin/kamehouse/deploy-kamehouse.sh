@@ -107,14 +107,18 @@ setGlobalVariables() {
 }
 
 pullLatestVersionFromGit() {
-  log.info "Pulling latest version of dev branch of ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} from repository"     
-  git checkout dev
-  checkCommandStatus "$?" "An error occurred checking out dev branch"
-  
-  git reset --hard
+  if [ "${IS_DOCKER_CONTAINER}" == "true" ] && [ "${DOCKER_PROFILE}" == "dev" ]; then
+    log.info "Running on a dev docker container. Skipping reset git branch"
+  else
+    log.info "Pulling latest version of dev branch of ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} from repository"     
+    git checkout dev
+    checkCommandStatus "$?" "An error occurred checking out dev branch"
+    
+    git reset --hard
 
-  git pull origin dev
-  checkCommandStatus "$?" "An error occurred pulling origin dev"
+    git pull origin dev
+    checkCommandStatus "$?" "An error occurred pulling origin dev"
+  fi
 }
 
 buildProject() {

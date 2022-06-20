@@ -28,9 +28,10 @@ DOCKER_HOST_SUBNET=""
 DOCKER_IMAGE_HOSTNAME=""
 DOCKER_IMAGE_TAG="latest"
 EXPORT_NATIVE_HTTPD=false
-PROFILE="dev"
+DOCKER_PROFILE="dev"
 USE_VOLUMES=false
 USE_VOLUMES_PARAM=""
+DEV_ENVIRONMENT=intellij
 
 mainProcess() {
   setEnvironment
@@ -52,8 +53,8 @@ setEnvironment() {
 
   if [ -n "${DOCKER_HOST_HOSTNAME}" ]; then
     DOCKER_IMAGE_HOSTNAME=${DOCKER_HOST_HOSTNAME}"-docker"
-    if [ -n "${PROFILE}" ]; then
-      DOCKER_IMAGE_HOSTNAME=${DOCKER_IMAGE_HOSTNAME}"-"${PROFILE}
+    if [ -n "${DOCKER_PROFILE}" ]; then
+      DOCKER_IMAGE_HOSTNAME=${DOCKER_IMAGE_HOSTNAME}"-"${DOCKER_PROFILE}
     fi
   fi
 }
@@ -78,7 +79,7 @@ printEnv() {
   log.info "EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD}"
   log.info "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
   log.info "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
-  log.info "PROFILE=${PROFILE}"
+  log.info "DOCKER_PROFILE=${DOCKER_PROFILE}"
   log.info "USE_VOLUMES=${USE_VOLUMES}"
   echo ""
 }
@@ -106,7 +107,7 @@ runDockerImage() {
       --env IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER} \
       --env IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST} \
       --env EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD} \
-      --env PROFILE=${PROFILE} \
+      --env DOCKER_PROFILE=${DOCKER_PROFILE} \
       --env USE_VOLUMES=${USE_VOLUMES} \
       -p ${DOCKER_PORT_SSH}:22 \
       -p ${DOCKER_PORT_HTTP}:80 \
@@ -134,6 +135,14 @@ runDockerImage() {
   else 
     log.info "Container data will NOT be persisted in volumes"
   fi
+
+  if [ "${DOCKER_PROFILE}" == "dev" ]; then
+    local DOCKER_HOST_USERHOME=`getUserHome`
+    log.info "Mounting ${DOCKER_HOST_USERHOME}/workspace-${DEV_ENVIRONMENT}/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
+    DOCKER_COMMAND=${DOCKER_COMMAND}"\
+    -v ${DOCKER_HOST_USERHOME}/workspace-${DEV_ENVIRONMENT}/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
+    "
+  fi
   
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
     nbrest/kamehouse:${DOCKER_IMAGE_TAG}
@@ -143,70 +152,26 @@ runDockerImage() {
   ${DOCKER_COMMAND}
 }
 
-parseArguments() {
-  while getopts ":bcdfho:p:s:v" OPT; do
-    case $OPT in
-    ("b")
-      BUILD_ON_STARTUP_PARAM=true
-      ;;
-    ("c")
-      DOCKER_CONTROL_HOST_PARAM=true      
-      ;;
-    ("d")
-      DEBUG_MODE_PARAM=true      
-      ;;
-    ("f")
-      BUILD_ON_STARTUP_PARAM=false
-      ;;
-    ("h")
-      parseHelp
-      ;;
-    ("o")
-      DOCKER_BASE_OS=$OPTARG
-      ;;
-    ("p")
-      PROFILE=$OPTARG
-      ;;
-    ("s")
-      DOCKER_HOST_SUBNET=$OPTARG      
-      ;;
-    ("v")
-      USE_VOLUMES_PARAM=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
-
-  if [ "${DOCKER_BASE_OS}" != "ubuntu" ] &&
-    [ "${DOCKER_BASE_OS}" != "pi" ]; then
-    log.error "Option -o [os] has an invalid value of ${DOCKER_BASE_OS}"
-    printHelp
-    exitProcess 1
+getUserHome() {
+  if ${IS_LINUX_HOST}; then
+    echo ${HOME}
+  else
+    echo "//c/Users/${USER}"
   fi
-  
-  if [ "${DOCKER_BASE_OS}" == "pi" ]; then
-    DOCKER_COMMAND="docker run --privileged --rm"
-    DOCKER_IMAGE_TAG="latest-pi"
-  fi
-
-  buildProfile
-  overrideDefaultValues
 }
 
 buildProfile() {
-  if [ "${PROFILE}" != "ci" ] &&
-    [ "${PROFILE}" != "dev" ] &&
-    [ "${PROFILE}" != "demo" ] &&
-    [ "${PROFILE}" != "prod" ] &&
-    [ "${PROFILE}" != "prod-80-443" ]; then
-    log.error "Option -p [profile] has an invalid value of ${PROFILE}"
+  if [ "${DOCKER_PROFILE}" != "ci" ] &&
+    [ "${DOCKER_PROFILE}" != "dev" ] &&
+    [ "${DOCKER_PROFILE}" != "demo" ] &&
+    [ "${DOCKER_PROFILE}" != "prod" ] &&
+    [ "${DOCKER_PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
     exitProcess 1
   fi
 
-  if [ "${PROFILE}" == "ci" ]; then
+  if [ "${DOCKER_PROFILE}" == "ci" ]; then
     DOCKER_PORT_SSH=15022
     DOCKER_PORT_HTTP=15080
     DOCKER_PORT_HTTPS=15443
@@ -220,7 +185,7 @@ buildProfile() {
     EXPORT_NATIVE_HTTPD=false
   fi
 
-  if [ "${PROFILE}" == "demo" ]; then
+  if [ "${DOCKER_PROFILE}" == "demo" ]; then
     DOCKER_PORT_SSH=12022
     DOCKER_PORT_HTTP=12080
     DOCKER_PORT_HTTPS=12443
@@ -234,7 +199,7 @@ buildProfile() {
     EXPORT_NATIVE_HTTPD=false
   fi
 
-  if [ "${PROFILE}" == "dev" ]; then
+  if [ "${DOCKER_PROFILE}" == "dev" ]; then
     # Use default ports in the 6000 range
     BUILD_ON_STARTUP=false
     DEBUG_MODE=true
@@ -243,7 +208,7 @@ buildProfile() {
     EXPORT_NATIVE_HTTPD=false
   fi
 
-  if [ "${PROFILE}" == "prod" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod" ]; then
     DOCKER_PORT_SSH=7022
     DOCKER_PORT_HTTP=7080
     DOCKER_PORT_HTTPS=7443
@@ -257,7 +222,7 @@ buildProfile() {
     EXPORT_NATIVE_HTTPD=false
   fi
 
-  if [ "${PROFILE}" == "prod-80-443" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod-80-443" ]; then
     DOCKER_PORT_SSH=7022
     DOCKER_PORT_HTTP=7080
     DOCKER_PORT_HTTPS=7443
@@ -290,6 +255,61 @@ overrideDefaultValues() {
   fi
 }
 
+parseArguments() {
+  while getopts ":bcdfhi:o:p:s:v" OPT; do
+    case $OPT in
+    ("b")
+      BUILD_ON_STARTUP_PARAM=true
+      ;;
+    ("c")
+      DOCKER_CONTROL_HOST_PARAM=true      
+      ;;
+    ("d")
+      DEBUG_MODE_PARAM=true      
+      ;;
+    ("f")
+      BUILD_ON_STARTUP_PARAM=false
+      ;;
+    ("h")
+      parseHelp
+      ;;
+    ("i")
+      DEV_ENVIRONMENT=$OPTARG
+      ;;
+    ("o")
+      DOCKER_BASE_OS=$OPTARG
+      ;;
+    ("p")
+      DOCKER_PROFILE=$OPTARG
+      ;;
+    ("s")
+      DOCKER_HOST_SUBNET=$OPTARG      
+      ;;
+    ("v")
+      USE_VOLUMES_PARAM=true
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+
+  if [ "${DOCKER_BASE_OS}" != "ubuntu" ] &&
+    [ "${DOCKER_BASE_OS}" != "pi" ]; then
+    log.error "Option -o [os] has an invalid value of ${DOCKER_BASE_OS}"
+    printHelp
+    exitProcess 1
+  fi
+  
+  if [ "${DOCKER_BASE_OS}" == "pi" ]; then
+    DOCKER_COMMAND="docker run --privileged --rm"
+    DOCKER_IMAGE_TAG="latest-pi"
+  fi
+
+  buildProfile
+  overrideDefaultValues
+}
+
 printHelp() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
@@ -300,6 +320,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. don't build and deploy"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} ide workspace to use for a dev docker container. Default is intellij"
   echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default base os is ubuntu"
   echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-80-443)${COL_NORMAL} default profile is dev"
   echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
