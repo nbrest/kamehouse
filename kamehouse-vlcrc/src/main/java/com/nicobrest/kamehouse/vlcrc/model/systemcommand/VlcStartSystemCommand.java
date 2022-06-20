@@ -21,7 +21,7 @@ public class VlcStartSystemCommand extends SystemCommand {
     executeOnDockerHost = true;
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
       linuxCommand.add("DISPLAY=:0.0 vlc");
-      String vlcStartFromDocker = PropertiesUtils.getUserHome()
+      String vlcStartFromDocker = DockerUtils.getUserHome()
           + "\\programs\\kamehouse-shell\\bin\\win\\bat\\vlc-start-from-docker.bat";
       windowsCommand.add(vlcStartFromDocker);
     } else {
