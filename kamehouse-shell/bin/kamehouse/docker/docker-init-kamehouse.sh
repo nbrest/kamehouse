@@ -23,6 +23,7 @@ main() {
   restartSshService
   startHttpd
   startMysql
+  configGitDevDir
   pullKameHouse
   deployKameHouse
   startTomcat
@@ -113,7 +114,7 @@ findHostIpAddress() {
 configGitDevDir() {
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
     log.info "Configuring git dev directory"
-    git config --global --add safe.directory /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse
+    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git config --global --add safe.directory /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse"
   fi
 }
 
