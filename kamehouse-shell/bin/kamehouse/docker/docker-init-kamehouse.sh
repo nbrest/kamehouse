@@ -20,12 +20,12 @@ main() {
   echo -e "${COL_CYAN}    ${KAMEHOUSE}${COL_CYAN} docker init script${COL_NORMAL}"
   echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
   loadEnv
+  restartSshService
+  startHttpd
+  startMysql
   pullKameHouse
   deployKameHouse
   startTomcat
-  restartSshService
-  startMysql
-  startHttpd
   printEnv
   keepContainerAlive
 }
