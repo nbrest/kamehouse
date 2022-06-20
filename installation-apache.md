@@ -68,8 +68,9 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
   ```sh
   sudo cp -v -f -r local-setup/apache/lin/conf to /var/apache2/conf
   sudo cp -v -f -r local-setup/apache/lin/sites-available to /var/apache2/sites-available
+  sudo a2ensite default-ssl
+  sudo a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
   ```
-  - Load all the modules that are in `local-setup/apache/lin/mods-required` with `a2enmod` command. Example `a2enmod proxy_http`
   - Update `/var/apache2/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
   - Update `/var/apache2/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
