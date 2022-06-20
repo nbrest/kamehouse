@@ -4,6 +4,9 @@
 
 * Updated installation and dev environment setup docs
 * Added more setup scripts to automate the setup process
+* Fixed build, deployment and integration tests scripts
+* Updated docker init script to load services before build
+* Fixed bugs
 
 #### v7.04
 
