@@ -54,7 +54,7 @@ reinitSsh() {
   ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "[localhost]:${DOCKER_PORT_SSH}"
   if [ ! -f "${HOME}/.ssh/id_rsa.pkcs8" ] || [ ! -f "${HOME}/.ssh/id_rsa.pub.pkcs8" ]; then
     log.info "Couldn't find rsa keys pkcs8 format. Attempting to generate them"
-    convert-rsa-keys-to-pkcs8.sh
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/convert-rsa-keys-to-pkcs8.sh
   fi
 
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.ssh
