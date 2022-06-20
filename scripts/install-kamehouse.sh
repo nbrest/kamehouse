@@ -21,6 +21,10 @@ main() {
   gitCloneKameHouse
   checkPath
   installKameHouseShellStandalone
+  if ${KAMEHOUSE_SHELL_ONLY}; then
+    log.info "Finished installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} standalone. Running with -s so skipping the rest"
+    exit 0
+  fi
   buildKameHouseConfigDir
   deployKameHouse
   log.info "Finished installing ${COL_PURPLE}kamehouse"
@@ -50,13 +54,8 @@ checkPath() {
 }
 
 installKameHouseShellStandalone() {
-  chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install-standalone.sh
-  ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install-standalone.sh
-
-  if ${KAMEHOUSE_SHELL_ONLY}; then
-    log.info "Finished installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} standalone. Running with -s so skipping the rest"
-    exit 0
-  fi
+  chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+  ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh -s
 }
 
 buildKameHouseConfigDir() {

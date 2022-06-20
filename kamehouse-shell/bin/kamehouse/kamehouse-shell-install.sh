@@ -3,6 +3,7 @@
 # Execute from the root of the kamehouse git project:
 # chmod a+x ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
 # ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+
 DEFAULT_KAMEHOUSE_USERNAME=""
 
 COL_BLUE="\033[1;34m"
@@ -19,6 +20,7 @@ KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell
 TEMP_PATH=${HOME}/temp
 
 KAMEHOUSE_SHELL_SOURCE="."
+INSTALL_STANDALONE=false
 
 main() {
   parseArguments "$@"
@@ -27,11 +29,13 @@ main() {
   checkSourcePath
   getDefaultKameHouseUsername
   installKameHouseShell
-  fixPermissions
-  createRootSymLink
-  installCred
   updateUsername
-  updateBashRc
+  fixPermissions
+  if ! ${INSTALL_STANDALONE}; then
+    createRootSymLink
+    installCred
+    updateBashRc
+  fi
   log.info "Done installing ${COL_PURPLE}kamehouse-shell!"
 }
 
@@ -68,8 +72,9 @@ fixPermissions() {
 
 createRootSymLink() {
   local USERNAME=`whoami`
-  log.info "Creating symlink on root home. Ignore the error on windows, give sudo permissions to current user on linux if it fails on linux"
+  log.info "Creating symlink on root home" 
   sudo ln -s /home/${USERNAME}/programs /root/
+  log.info "Ignore ${COL_PURPLE}sudo${COL_MESSAGE} error on windows, give ${COL_PURPLE}sudo${COL_MESSAGE} permissions to current user on linux if it fails on linux"
 }
 
 installCred() {
@@ -122,7 +127,7 @@ log.error() {
 }
 
 parseArguments() {
-  while getopts ":hp" OPT; do
+  while getopts ":hps" OPT; do
     case $OPT in
     ("h")
       printHelp
@@ -130,6 +135,9 @@ parseArguments() {
       ;;
     ("p")
       KAMEHOUSE_SHELL_SOURCE=${HOME}/git/kamehouse
+      ;;
+    ("s")
+      INSTALL_STANDALONE=true
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
@@ -146,6 +154,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} use kamehouse git prod directory instead of current dir"
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} install kamehouse shell standalone"
 }
 
 main "$@"
