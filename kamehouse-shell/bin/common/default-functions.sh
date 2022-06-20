@@ -73,8 +73,12 @@ mainWrapper() {
 # main function to call from each script
 main() {
   if ${LOG_PROCESS_TO_FILE}; then
+    # default: set +o pipefail
+    # set -o pipefail : if mainWrapper exits with != 0, echo $? will show the error code. With the default
+    # behavior the pipe | swallows the error code and echo $? shows 0 from the tee command
+    set -o pipefail
     mainWrapper "$@" | tee ${PROCESS_LOG_FILE}
   else
     mainWrapper "$@"
-  fi  
+  fi
 }
