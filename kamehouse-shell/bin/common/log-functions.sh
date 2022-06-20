@@ -133,6 +133,10 @@ getLogLevelNumber() {
 
 # Set global log level from environment
 setGlobalLogLevelFromEnv() {
+  if [ -n "${log}" ]; then
+    LOG_LEVEL_NUMBER=`getLogLevelNumber ${log}`
+  fi
+
   if [ -n "${LOG}" ]; then
     LOG_LEVEL_NUMBER=`getLogLevelNumber ${LOG}`
   fi
