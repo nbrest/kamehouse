@@ -20,6 +20,11 @@
 
 - Instead of setting up a local dev tomcat and apache httpd on the host, you can run a dev docker container and deploy all your changes from your eclipse or intellij working copy to the docker container and do remote debugging as well on the container
 
+- Install kamehouse-shell on the host to control the dev docker container, at least standalone. On the root of your working copy:
+```sh
+./scripts/install-kamehouse.sh -s
+```
+
 - Start a docker container in dev mode with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p dev -i (intelli|eclipse)`. The default value for -i is instellij
 
 - Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -s -p dev` to sync the ssh keys of the host to the container using default password `gohan`
@@ -31,11 +36,15 @@
 
 - Docker with dev profile will run with the directory `${HOME}/git/kamehouse` inside the container binded to the directory `${HOME}/workspace-(intellij|eclipse)/kamehouse` on the host. So all changes done in the host will be deployed on the container with the deployment script
 
-- To remote debug tomcat running in the dev container from your ide, follow the eclipse and intellij guides to setup remote debugging
+- To remote debug tomcat running in the dev container from your ide, follow the above eclipse and intellij guides to setup remote debugging
 
 - Changes made to the ui in kamehouse-ui and kamehouse-groot should be rendered automatically as well. Some changes like in /kame-house/admin pages served from tomcat need a kamehouse-ui redeployment with `deploy-kamehouse.sh -f -m ui` from the container's console
 
 - Stop the dev docker container with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p dev`
+
+- By default docker dev runs standalone without controlling the host. So it won't control vlc running on the host or all the other commands that would normally be executed on the host. To enable kamehouse running in the container to control the host, add -c to the `docker-run-kamehouse.sh` script
+
+- By default the dev container doesn't persist database or configuration files or ssh keys. To persist those in volumes between container restarts, run `docker-run-kamehouse.sh` also with -v
 
 # VS Code:
 
