@@ -31,6 +31,7 @@ FAST_DEPLOYMENT=false
 MODULE=
 MODULE_SHORT=
 DEPLOY_ALL_EXTRA_MODULES=false
+USE_CURRENT_DIR=false
 
 # Global variables set during the process
 COPY_COMMAND=""
@@ -43,9 +44,16 @@ mainProcess() {
   setGlobalVariables
     
   if [ "${ENVIRONMENT}" == "local" ]; then
-    cd ${PROJECT_DIR}
-    checkCommandStatus "$?" "Invalid project directory" 
-    pullLatestVersionFromGit
+
+    if ${USE_CURRENT_DIR}; then
+      log.info "Using current directory for deployment"
+      PROJECT_DIR="."
+    else  
+      cd ${PROJECT_DIR}
+      checkCommandStatus "$?" "Invalid project directory" 
+      pullLatestVersionFromGit
+    fi
+    checkCurrentDir
     deployKameHouseShell
     buildProject
     cleanLogsInGitRepoFolder
@@ -61,51 +69,10 @@ mainProcess() {
   fi
 }
 
-parseArguments() {
-  while getopts ":ae:fhm:p:" OPT; do
-    case $OPT in
-    ("a")
-      DEPLOY_ALL_EXTRA_MODULES=true
-      ;;
-    ("e")
-      parseEnvironment "$OPTARG"
-      ;;
-    ("f")
-      FAST_DEPLOYMENT=true
-      ;;
-    ("h")
-      parseHelp
-      ;;
-    ("m")
-      MODULE="kamehouse-$OPTARG"
-      MODULE_SHORT="$OPTARG"
-      ;;
-    ("p")
-      local PROFILE_ARG=$OPTARG 
-      PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
-      
-      if [ "${PROFILE_ARG}" != "prod" ] \
-          && [ "${PROFILE_ARG}" != "qa" ] \
-          && [ "${PROFILE_ARG}" != "dev" ] \
-          && [ "${PROFILE_ARG}" != "docker" ] \
-          && [ "${PROFILE_ARG}" != "ci" ]; then
-        log.error "Option -p profile needs to be prod, qa, dev or ci"
-        printHelp
-        exitProcess 1
-      fi
-            
-      MAVEN_PROFILE=${PROFILE_ARG}
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
-  
-  if [ -z "${ENVIRONMENT}" ]
-  then
-    log.warn "Option -e environment is not set. Using default environment ${COL_PURPLE}${DEFAULT_ENV}"
-    ENVIRONMENT=${DEFAULT_ENV}
+checkCurrentDir() {
+  if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
+    log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
+    exitProcess 1
   fi
 }
 
@@ -235,7 +202,7 @@ deployKameHouseShell() {
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
     cd ${PROJECT_DIR}
     chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
-    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh -p
+    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
   
     if [ "${MODULE_SHORT}" == "shell" ]; then
       logFinish
@@ -256,12 +223,64 @@ deployKameHouseMobile() {
   fi
 }
 
+parseArguments() {
+  while getopts ":ace:fhm:p:" OPT; do
+    case $OPT in
+    ("a")
+      DEPLOY_ALL_EXTRA_MODULES=true
+      ;;
+    ("c")
+      USE_CURRENT_DIR=true
+      ;;
+    ("e")
+      parseEnvironment "$OPTARG"
+      ;;
+    ("f")
+      FAST_DEPLOYMENT=true
+      ;;
+    ("h")
+      parseHelp
+      ;;
+    ("m")
+      MODULE="kamehouse-$OPTARG"
+      MODULE_SHORT="$OPTARG"
+      ;;
+    ("p")
+      local PROFILE_ARG=$OPTARG 
+      PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
+      
+      if [ "${PROFILE_ARG}" != "prod" ] \
+          && [ "${PROFILE_ARG}" != "qa" ] \
+          && [ "${PROFILE_ARG}" != "dev" ] \
+          && [ "${PROFILE_ARG}" != "docker" ] \
+          && [ "${PROFILE_ARG}" != "ci" ]; then
+        log.error "Option -p profile needs to be prod, qa, dev or ci"
+        printHelp
+        exitProcess 1
+      fi
+            
+      MAVEN_PROFILE=${PROFILE_ARG}
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+  
+  if [ -z "${ENVIRONMENT}" ]
+  then
+    log.warn "Option -e environment is not set. Using default environment ${COL_PURPLE}${DEFAULT_ENV}"
+    ENVIRONMENT=${DEFAULT_ENV}
+  fi
+}
+
 printHelp() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-a${COL_NORMAL} deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
+  echo -e "     ${COL_BLUE}-c${COL_NORMAL} deploy from current directory instead of default ${PROJECT_DIR}"
   echo -e "     ${COL_BLUE}-e (aws|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
   echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast deployment. Skip checkstyle, findbugs and tests" 
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
