@@ -11,23 +11,31 @@
 * Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat-dev*
 * Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port and manager users
 
-# Docker Dev:
-
-- Start a docker container in dev mode with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p dev` to debug a tomcat server running inside the container
-
-- Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -p dev -i (intelli|eclipse)` to sync the ssh keys of the host to the container and reinit container data using default password `gohan`
-
-- Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password to deploy your changes and tail the application logs
-  - Deploy your changes using `deploy-kamehouse.sh -f`
-  - Tail tomcat and apache httpd logs using the `tail-log.sh` script
-  - Test kamehouse-shell and kamehouse-cmd inside the container
-
-- Docker with dev profile will run with the directory `${HOME}/git/kamehouse` inside the container binded to the directory `${HOME}/workspace-(intellij|eclipse)/kamehouse` on the host. So all changes done in the host will be deployed on the container with the deployment script
-
 # Apache Httpd:
 
 - Follow [installation-apache.md](installation-apache.md) guide to install apache 
 - Follow [dev-environment-setup-apache.md](dev-environment-setup-apache.md) to configure apache for intellij or eclipse dev
+
+# Docker Dev environment:
+
+- Instead of setting up a local dev tomcat and apache httpd on the host, you can run a dev docker container and deploy all your changes from your eclipse or intellij working copy to the docker container and do remote debugging as well on the container
+
+- Start a docker container in dev mode with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p dev -i (intelli|eclipse)`. The default value for -i is instellij
+
+- Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -s -p dev` to sync the ssh keys of the host to the container using default password `gohan`
+
+- Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password. Inside the container's console:
+  - Deploy your changes using `deploy-kamehouse.sh -f`
+  - Tail tomcat and apache httpd logs using the `tail-log.sh` script
+  - Test kamehouse-shell and kamehouse-cmd inside the container (or deploy them on the host and test on the host too)
+
+- Docker with dev profile will run with the directory `${HOME}/git/kamehouse` inside the container binded to the directory `${HOME}/workspace-(intellij|eclipse)/kamehouse` on the host. So all changes done in the host will be deployed on the container with the deployment script
+
+- To remote debug tomcat running in the dev container from your ide, follow the eclipse and intellij guides to setup remote debugging
+
+- Changes made to the ui in kamehouse-ui and kamehouse-groot should be rendered automatically as well. Some changes like in /kame-house/admin pages served from tomcat need a kamehouse-ui redeployment with `deploy-kamehouse.sh -f -m ui` from the container's console
+
+- Stop the dev docker container with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p dev`
 
 # VS Code:
 
