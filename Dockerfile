@@ -1,4 +1,4 @@
-# BUILD: docker-build-kamehouse.sh : build's the docker image from this file
+# BUILD: docker-build-kamehouse.sh : builds the docker image from this file
 # RUN: docker-run-kamehouse.sh : runs a temporary container from an image built from this file
 
 ARG DOCKER_IMAGE_BASE
