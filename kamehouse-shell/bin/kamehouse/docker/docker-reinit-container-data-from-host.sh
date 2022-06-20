@@ -16,7 +16,7 @@ fi
 
 DATA_SOURCE="none"
 REQUEST_CONFIRMATION_RX=^yes\|y$
-PROFILE="dev"
+DOCKER_PROFILE="dev"
 REINIT_SSH_KEYS_ONLY=false
 
 mainProcess() {
@@ -144,7 +144,7 @@ parseArguments() {
       parseHelp
       ;;
     ("p")
-      PROFILE=$OPTARG
+      DOCKER_PROFILE=$OPTARG
       ;;
     ("s")
       log.info "${COL_RED}Only ssh keys will be reinited"
@@ -171,29 +171,29 @@ parseArguments() {
     log.info "Database data will be updated from source: ${COL_PURPLE}${DATA_SOURCE}"
   fi
 
-  if [ "${PROFILE}" != "ci" ] &&
-    [ "${PROFILE}" != "dev" ] &&
-    [ "${PROFILE}" != "demo" ] &&
-    [ "${PROFILE}" != "prod" ] &&
-    [ "${PROFILE}" != "prod-80-443" ]; then
-    log.error "Option -p [profile] has an invalid value of ${PROFILE}"
+  if [ "${DOCKER_PROFILE}" != "ci" ] &&
+    [ "${DOCKER_PROFILE}" != "dev" ] &&
+    [ "${DOCKER_PROFILE}" != "demo" ] &&
+    [ "${DOCKER_PROFILE}" != "prod" ] &&
+    [ "${DOCKER_PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
     exitProcess 1
   fi
 
-  if [ "${PROFILE}" == "ci" ]; then
+  if [ "${DOCKER_PROFILE}" == "ci" ]; then
     DOCKER_PORT_SSH=15022
   fi
 
-  if [ "${PROFILE}" == "demo" ]; then
+  if [ "${DOCKER_PROFILE}" == "demo" ]; then
     DOCKER_PORT_SSH=12022
   fi
 
-  if [ "${PROFILE}" == "prod" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod" ]; then
     DOCKER_PORT_SSH=7022
   fi
 
-  if [ "${PROFILE}" == "prod-80-443" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod-80-443" ]; then
     DOCKER_PORT_SSH=7022
   fi
 }

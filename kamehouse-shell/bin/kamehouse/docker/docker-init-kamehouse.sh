@@ -61,7 +61,7 @@ loadEnv() {
   echo "EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD}" >> ${CONTAINER_ENV}
   echo "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}" >> ${CONTAINER_ENV}
   echo "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}" >> ${CONTAINER_ENV}
-  echo "PROFILE=${PROFILE}" >> ${CONTAINER_ENV}
+  echo "DOCKER_PROFILE=${DOCKER_PROFILE}" >> ${CONTAINER_ENV}
   echo "USE_VOLUMES=${USE_VOLUMES}" >> ${CONTAINER_ENV}
   chown ${DOCKER_CONTAINER_USERNAME}:${DOCKER_CONTAINER_USERNAME} ${CONTAINER_ENV}
 }
@@ -86,7 +86,7 @@ printEnv() {
   log.info "EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD}"
   log.info "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
   log.info "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
-  log.info "PROFILE=${PROFILE}"
+  log.info "DOCKER_PROFILE=${DOCKER_PROFILE}"
   log.info "USE_VOLUMES=${USE_VOLUMES}"
   echo ""
 }
@@ -107,6 +107,13 @@ findHostIpAddress() {
     else
       log.info "ERROR!! Unable to set host IP address"
     fi
+  fi
+}
+
+configGitDevDir() {
+  if [ "${DOCKER_PROFILE}" == "dev" ]; then
+    log.info "Configuring git dev directory"
+    git config --global --add safe.directory /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse
   fi
 }
 

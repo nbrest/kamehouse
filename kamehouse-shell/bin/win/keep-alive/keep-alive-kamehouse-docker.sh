@@ -19,16 +19,16 @@ LOG_PROCESS_TO_FILE=false
 DOCKER_PORT_HTTP=7080
 SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"
-PROFILE="prod"
+DOCKER_PROFILE="prod"
 DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
   PID=`netstat -ano | grep "LISTENING" | grep "${DOCKER_PORT_HTTP}" | tail -n 1`
   if [ -z "${PID}" ]; then
     log.info "${SERVICE} not running. Starting it now"
-    ${SERVICE_STARTUP} -p ${PROFILE} -o ${DOCKER_ENVIRONMENT} &
+    ${SERVICE_STARTUP} -p ${DOCKER_PROFILE} -o ${DOCKER_ENVIRONMENT} &
   else
-    log.info "${SERVICE} with profile ${PROFILE} is currently running with pid ${COL_PURPLE}${PID}"
+    log.info "${SERVICE} with profile ${DOCKER_PROFILE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
 }
 
@@ -42,7 +42,7 @@ parseArguments() {
       DOCKER_ENVIRONMENT=$OPTARG
       ;;
     ("p")
-      PROFILE=$OPTARG
+      DOCKER_PROFILE=$OPTARG
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -57,33 +57,33 @@ parseArguments() {
     exitProcess 1
   fi
 
-  if [ "${PROFILE}" != "ci" ] &&
-    [ "${PROFILE}" != "dev" ] &&
-    [ "${PROFILE}" != "demo" ] &&
-    [ "${PROFILE}" != "prod" ] &&
-    [ "${PROFILE}" != "prod-80-443" ]; then
-    log.error "Option -p [profile] has an invalid value of ${PROFILE}"
+  if [ "${DOCKER_PROFILE}" != "ci" ] &&
+    [ "${DOCKER_PROFILE}" != "dev" ] &&
+    [ "${DOCKER_PROFILE}" != "demo" ] &&
+    [ "${DOCKER_PROFILE}" != "prod" ] &&
+    [ "${DOCKER_PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
     exitProcess 1
   fi
   
-  if [ "${PROFILE}" == "ci" ]; then
+  if [ "${DOCKER_PROFILE}" == "ci" ]; then
     DOCKER_PORT_HTTP=15080
   fi
 
-  if [ "${PROFILE}" == "demo" ]; then
+  if [ "${DOCKER_PROFILE}" == "demo" ]; then
     DOCKER_PORT_HTTP=12080
   fi
 
-  if [ "${PROFILE}" == "dev" ]; then
+  if [ "${DOCKER_PROFILE}" == "dev" ]; then
     DOCKER_PORT_HTTP=6080
   fi
 
-  if [ "${PROFILE}" == "prod" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod" ]; then
     DOCKER_PORT_HTTP=7080
   fi
 
-  if [ "${PROFILE}" == "prod-80-443" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod-80-443" ]; then
     DOCKER_PORT_HTTP=7080
   fi
 }

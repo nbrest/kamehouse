@@ -14,14 +14,14 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PROFILE="dev"
+DOCKER_PROFILE="dev"
 DOCKER_PORT_SSH=6022
 CONTAINER=""
 
 mainProcess() {
 
   if [ -z "${CONTAINER}" ]; then 
-    log.info "Container not passed as argument, attempting to find a running kamehouse container of profile ${COL_PURPLE}${PROFILE}"
+    log.info "Container not passed as argument, attempting to find a running kamehouse container of profile ${COL_PURPLE}${DOCKER_PROFILE}"
     CONTAINER=`docker container list | grep -e "kamehouse\|/bin/sh -c" | grep "${DOCKER_PORT_SSH}" |  cut -d ' ' -f1`
   fi
 
@@ -29,7 +29,7 @@ mainProcess() {
     log.info "Stopping container ${COL_PURPLE}${CONTAINER}"
     docker stop ${CONTAINER}
   else
-    log.warn "No kamehouse container running detected for profile ${COL_PURPLE}${PROFILE}"
+    log.warn "No kamehouse container running detected for profile ${COL_PURPLE}${DOCKER_PROFILE}"
   fi
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh
@@ -45,7 +45,7 @@ parseArguments() {
       parseHelp
       ;;
     ("p")
-      PROFILE=$OPTARG
+      DOCKER_PROFILE=$OPTARG
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -53,29 +53,29 @@ parseArguments() {
     esac
   done
 
-  if [ "${PROFILE}" != "ci" ] &&
-    [ "${PROFILE}" != "dev" ] &&
-    [ "${PROFILE}" != "demo" ] &&
-    [ "${PROFILE}" != "prod" ] &&
-    [ "${PROFILE}" != "prod-80-443" ]; then
-    log.error "Option -p [profile] has an invalid value of ${PROFILE}"
+  if [ "${DOCKER_PROFILE}" != "ci" ] &&
+    [ "${DOCKER_PROFILE}" != "dev" ] &&
+    [ "${DOCKER_PROFILE}" != "demo" ] &&
+    [ "${DOCKER_PROFILE}" != "prod" ] &&
+    [ "${DOCKER_PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
     exitProcess 1
   fi
   
-  if [ "${PROFILE}" == "ci" ]; then
+  if [ "${DOCKER_PROFILE}" == "ci" ]; then
     DOCKER_PORT_SSH=15022
   fi
 
-  if [ "${PROFILE}" == "demo" ]; then
+  if [ "${DOCKER_PROFILE}" == "demo" ]; then
     DOCKER_PORT_SSH=12022
   fi
 
-  if [ "${PROFILE}" == "prod" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod" ]; then
     DOCKER_PORT_SSH=7022
   fi
 
-  if [ "${PROFILE}" == "prod-80-443" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod-80-443" ]; then
     DOCKER_PORT_SSH=7022
   fi
 }

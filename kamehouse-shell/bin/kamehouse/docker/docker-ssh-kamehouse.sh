@@ -14,11 +14,11 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PROFILE="dev"
+DOCKER_PROFILE="dev"
 
 mainProcess() {
-  log.info "Executing ssh into docker container with profile ${COL_PURPLE}${PROFILE}"
-  log.warn "If I get an error that the server key changed, execute the script ${COL_PURPLE}docker-server-key-remove.sh -p ${PROFILE}"
+  log.info "Executing ssh into docker container with profile ${COL_PURPLE}${DOCKER_PROFILE}"
+  log.warn "If I get an error that the server key changed, execute the script ${COL_PURPLE}docker-server-key-remove.sh -p ${DOCKER_PROFILE}"
 
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost
 }
@@ -30,7 +30,7 @@ parseArguments() {
       parseHelp
       ;;
     ("p")
-      PROFILE=$OPTARG
+      DOCKER_PROFILE=$OPTARG
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -38,29 +38,29 @@ parseArguments() {
     esac
   done
 
-  if [ "${PROFILE}" != "ci" ] &&
-    [ "${PROFILE}" != "dev" ] &&
-    [ "${PROFILE}" != "demo" ] &&
-    [ "${PROFILE}" != "prod" ] &&
-    [ "${PROFILE}" != "prod-80-443" ]; then
-    log.error "Option -p [profile] has an invalid value of ${PROFILE}"
+  if [ "${DOCKER_PROFILE}" != "ci" ] &&
+    [ "${DOCKER_PROFILE}" != "dev" ] &&
+    [ "${DOCKER_PROFILE}" != "demo" ] &&
+    [ "${DOCKER_PROFILE}" != "prod" ] &&
+    [ "${DOCKER_PROFILE}" != "prod-80-443" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
     exitProcess 1
   fi
   
-  if [ "${PROFILE}" == "ci" ]; then
+  if [ "${DOCKER_PROFILE}" == "ci" ]; then
     DOCKER_PORT_SSH=15022
   fi
 
-  if [ "${PROFILE}" == "demo" ]; then
+  if [ "${DOCKER_PROFILE}" == "demo" ]; then
     DOCKER_PORT_SSH=12022
   fi
 
-  if [ "${PROFILE}" == "prod" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod" ]; then
     DOCKER_PORT_SSH=7022
   fi
 
-  if [ "${PROFILE}" == "prod-80-443" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod-80-443" ]; then
     DOCKER_PORT_SSH=7022
   fi
 }
