@@ -29,10 +29,29 @@
 
 ## Setup remote debugging in eclipse:
   - Run > Debug Configurations > Remote Java Application > New Configuration:
-  - name: debug-tomcat-kamehouse
+  - name: debug-tomcat
   - Connect tab:
     - project: kame-house-admin (or any kamehouse module really)
     - connection type: Standard (socket attach)
+    - connection properties:
+      - host: localhost
+      - port: 8000
+    - allow termination of remote VM: check
+  - Sources tab:
+    - Add > Add all kamehouse modules
+  - Common tab:
+    - display in favorites menu > debug: check
+
+## Setup remote debug docker:
+
+  - Run > Debug Configurations > Remote Java Application > New Configuration:
+  - name: debug-tomcat-docker
+  - Connect tab:
+    - project: kame-house-admin (or any kamehouse module really)
+    - connection type: Standard (socket attach)
+    - connection properties:
+      - host: localhost
+      - port: 6000
     - allow termination of remote VM: check
   - Sources tab:
     - Add > Add all kamehouse modules

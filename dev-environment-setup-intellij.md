@@ -95,7 +95,17 @@ tail-log.sh -f intellij
   - Transport to Socket 
   - Host to localhost
   - Port to 8000. (You can change the port for Tomcat, to something else, in the Tomcat server.xml file)
-  - Use module classpath: java-web-kame-house
+  - Use module classpath: no module
+
+## Setup remote debug docker:
+
+- Run -> Edit Configurations -> click "+" Remote.
+  - name: debug-tomcat-docker
+  - Debugger mode to Attach to remote JVM
+  - Transport to Socket 
+  - Host to localhost
+  - Port to 6000
+  - Use module classpath: no module
 
 ## Setup integration tests:
 
