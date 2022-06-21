@@ -1,0 +1,3 @@
+bcdedit
+
+Pause
