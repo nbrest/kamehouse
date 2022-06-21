@@ -134,3 +134,12 @@ docker build --build-arg DOCKER_IMAGE_BASE=ubuntu:20.04 -t nbrest/kamehouse:late
 ```
 
 You can then run the image as mentioned above either with temporary or permanent container.
+
+*********************
+
+## Other useful docker scripts
+
+- `docker-upgrade-containers.sh` pulls the latest version of kamehouse, stops the existing running containers and cleans up the old images
+- `docker-cleanup-kamehouse.sh` cleans up old untagged kamehouse images
+- `docker-server-key-remove.sh` removes an outdated key from the known hosts file so the ssh command doesn't fail next time
+- `docker-ci-integration-tests-trigger.sh` starts a ci docker container and runs all integration tests inside it

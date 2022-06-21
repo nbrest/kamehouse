@@ -1,6 +1,6 @@
 # KameHouse Execution:
 
-- These are the scripts used to control the execution of kamehouse. These can be used both when kamehouse is run natively or inside a docker container
+- These are the kamehouse-shell scripts used to control the execution of kamehouse. These can be used both when kamehouse is run natively or inside a docker container
 
 ## Apache Httpd:
 
@@ -16,10 +16,10 @@ httpd-status.sh
 Use the following kamehouse-shell scripts to control the execution of tomcat
 ```sh
 tomcat-startup.sh 
+tomcat-startup-dev.sh
 tomcat-stop.sh 
 tomcat-status.sh 
 tomcat-restart.sh 
-tomcat-startup-dev.sh
 ```
 
 ## CMD:
@@ -28,11 +28,12 @@ Use the kamehouse-shell script `kamehouse-cmd.sh` to run kamehouse CMD module
 
 ## Tail logs:
 
-- Use the `tail-log.sh` script to tail the kamehouse logs
+- Use the `tail-log.sh` script to tail the kamehouse, apache httpd and tomcat logs
 
 ## Deploy:
 
 - Use the `deploy-kamehouse.sh` script to deploy all kamehouse modules
+- Use the `deploy-kamehouse-dev-tomcat.sh` script to deploy webapp kamehouse modules to dev tomcat
 
 ## Build:
 

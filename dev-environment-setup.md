@@ -10,11 +10,18 @@
 
 * Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat-dev*
 * Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port and manager users
+* Start your local dev tomcat with `tomcat-startup-dev.sh`
+* Deploy your local working copy to dev tomcat with `deploy-kamehouse-dev-tomcat.sh`
+* Tail dev tomcat logs with `tail-log.sh -f (eclipse|intellij)`
+* Stop your dev tomcat with `tomcat-stop.sh -p [dev-tomcat-port]`
 
 # Apache Httpd:
 
 - Follow [installation-apache.md](installation-apache.md) guide to install apache 
 - Follow [dev-environment-setup-apache.md](dev-environment-setup-apache.md) to configure apache for intellij or eclipse dev
+- Start apache httpd with `httpd-startup.sh`
+- Tail apache httpd logs with `tail-log.sh -f apache`
+- Stop apache httdd with `httpd-stop.sh`
 
 # Docker Dev environment:
 
