@@ -7,6 +7,8 @@
 * Fixed build, deployment and integration tests scripts
 * Updated docker init script to load services before build
 * Setup a dev docker container to develop on the host and remote debug on the container
+* Added powershell scripts to switch hyper-v settings between docker and virtualbox
+* Refactored scripts to always parse parameters
 * Fixed bugs
 
 #### v7.04
