@@ -10,6 +10,7 @@
 * Added powershell scripts to switch hyper-v settings between docker and virtualbox
 * Refactored scripts to always parse parameters
 * Updated kamehouse-shell prompt
+* Fixed vlc start not working when controlling the host from docker on a windows host
 * Fixed bugs
 
 #### v7.04
