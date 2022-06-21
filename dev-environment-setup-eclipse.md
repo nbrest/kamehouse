@@ -112,11 +112,11 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh 9980'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh -p 9980'"
       - Linux
         - location: /bin/bash
         - working directory:
-        - arguments: -c '~/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh 9980'
+        - arguments: -c '~/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh -p 9980'
     - Common tab:
       - display in favorites menu > External tools: check
 

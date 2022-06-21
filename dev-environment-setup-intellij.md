@@ -56,12 +56,12 @@ Right click on toolbar > Customize
     - Windows:
       - Name: stop-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh 9980'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh -p 9980'"
       - Working directory: 
     - Linux:
       - Name: stop-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh 9980
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh -p 9980
       - Working directory: 
 
   ### `status-tomcat`

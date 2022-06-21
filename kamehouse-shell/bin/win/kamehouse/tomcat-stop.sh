@@ -12,13 +12,6 @@ DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=""
 
 mainProcess() {
-  TOMCAT_PORT_PARAM=$1
-  if [ -z "${TOMCAT_PORT_PARAM}" ]; then
-    TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
-  else
-    TOMCAT_PORT=${TOMCAT_PORT_PARAM}
-  fi
-
   log.info "Searching for tomcat process"
   netstat -ano | grep "LISTENING" | grep "${TOMCAT_PORT}" | tail -n 1 
   TOMCAT_PID=`netstat -ano | grep "LISTENING" | grep "${TOMCAT_PORT}" | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
@@ -28,6 +21,35 @@ mainProcess() {
     log.info "Killing process ${COL_PURPLE}${TOMCAT_PID}"
     cmd.exe "/c taskkill.exe /PID ${TOMCAT_PID} /F"
   fi
+}
+
+parseArguments() {
+  while getopts ":hp:" OPT; do
+    case $OPT in
+    ("h")
+      parseHelp
+      ;;
+    ("p")
+      TOMCAT_PORT=$OPTARG
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+
+  if [ -z "${TOMCAT_PORT}" ]; then
+    TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
+  fi
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-p ${COL_NORMAL} tomcat port. Default ${DEFAULT_TOMCAT_PORT}" 
 }
 
 main "$@"

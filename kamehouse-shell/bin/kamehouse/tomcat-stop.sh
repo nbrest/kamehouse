@@ -17,4 +17,13 @@ main() {
   fi
 }
 
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-p ${COL_NORMAL} tomcat port. Default ${DEFAULT_TOMCAT_PORT}" 
+}
+
 main "$@"
