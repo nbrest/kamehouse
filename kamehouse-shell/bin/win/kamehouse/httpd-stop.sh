@@ -13,13 +13,6 @@ HTTPD_PORT=""
 VLC_HTTP_PORT="8080"
 
 mainProcess() {
-  HTTPD_PORT_PARAM=$1
-  if [ -z "${HTTPD_PORT_PARAM}" ]; then
-    HTTPD_PORT=${DEFAULT_HTTPD_PORT}
-  else
-    HTTPD_PORT=${HTTPD_PORT_PARAM}
-  fi
-
   log.info "Searching for apache httpd process"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | grep -v ${VLC_HTTP_PORT} | tail -n 1
   HTTPD_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | grep -v ${VLC_HTTP_PORT} | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
@@ -29,6 +22,35 @@ mainProcess() {
     log.info "Killing process ${COL_PURPLE}${HTTPD_PID}"
     cmd.exe "/c taskkill.exe /PID ${HTTPD_PID} /F"
   fi
+}
+
+parseArguments() {
+  while getopts ":hp:" OPT; do
+    case $OPT in
+    ("h")
+      parseHelp
+      ;;
+    ("p")
+      HTTPD_PORT=$OPTARG
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+
+  if [ -z "${HTTPD_PORT}" ]; then
+    HTTPD_PORT=${DEFAULT_HTTPD_PORT}
+  fi
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-p${COL_NORMAL} httpd port. Default ${DEFAULT_HTTPD_PORT}" 
 }
 
 main "$@"
