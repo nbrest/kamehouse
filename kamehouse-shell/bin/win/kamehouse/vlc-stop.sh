@@ -14,14 +14,7 @@ DEFAULT_VLC_PORT="8080"
 VLC_PORT=""
 
 mainProcess() {
-  VLC_PORT_PARAM=$1
-  if [ -z ${VLC_PORT_PARAM} ]; then
-    VLC_PORT=${DEFAULT_VLC_PORT}
-  else
-    VLC_PORT=${VLC_PORT_PARAM}
-  fi
   log.debug "VLC_PORT ${VLC_PORT}"
-
   log.info "Searching for vlc process with an http server"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
   VLC_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
@@ -34,6 +27,35 @@ mainProcess() {
   fi
   log.info "Killing remaining vlc.exe process"
   cmd.exe "/c taskkill /im vlc.exe"
+}
+
+parseArguments() {
+  while getopts ":hp:" OPT; do
+    case $OPT in
+    ("h")
+      parseHelp
+      ;;
+    ("p")
+      VLC_PORT=$OPTARG
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+
+  if [ -z "${VLC_PORT}" ]; then
+    VLC_PORT=${DEFAULT_VLC_PORT}
+  fi
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-p${COL_NORMAL} vlc port. Default ${DEFAULT_VLC_PORT}" 
 }
 
 main "$@"
