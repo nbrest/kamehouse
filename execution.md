@@ -1,6 +1,6 @@
 # KameHouse Execution:
 
-- These are the kamehouse-shell scripts used to control the execution of kamehouse. These can be used both when kamehouse is run natively or inside a docker container
+- These are the kamehouse-shell scripts used to control the execution of kamehouse. These can be used both when kamehouse is run natively or inside a docker container. All the scripts are available on the directory `${HOME}/programs/kamehouse-shell/bin`
 
 ## Apache Httpd:
 

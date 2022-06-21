@@ -12,7 +12,7 @@ Install kamehouse-shell to use all the scripts mentioend below. Running with -s 
 ```sh
 ./scripts/install-kamehouse.sh -s
 ```
-If installed standalone, all the scripts are available on the directory `${HOME}/programs/kamehouse-shell/bin`
+All the scripts are available on the directory `${HOME}/programs/kamehouse-shell/bin`
 
 # Tomcat Dev:
 
