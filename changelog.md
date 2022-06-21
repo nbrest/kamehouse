@@ -9,6 +9,7 @@
 * Setup a dev docker container to develop on the host and remote debug on the container
 * Added powershell scripts to switch hyper-v settings between docker and virtualbox
 * Refactored scripts to always parse parameters
+* Updated kamehouse-shell prompt
 * Fixed bugs
 
 #### v7.04
