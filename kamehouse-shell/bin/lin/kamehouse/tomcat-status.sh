@@ -12,13 +12,6 @@ DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=""
 
 mainProcess() {
-  TOMCAT_PORT_PARAM=$1
-  if [ -z "${TOMCAT_PORT_PARAM}" ]; then
-    TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
-  else
-    TOMCAT_PORT=${TOMCAT_PORT_PARAM}
-  fi
-
   log.info "Searching for tomcat process"
   USERNAME=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-username.sh`  
   sudo su - ${USERNAME} -c "netstat -nltp | grep ${TOMCAT_PORT} | grep java"
@@ -28,6 +21,35 @@ mainProcess() {
   else
     log.info "Tomcat is currently running with pid ${COL_PURPLE}${TOMCAT_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${TOMCAT_PORT}"
   fi
+}
+
+parseArguments() {
+  while getopts ":hp:" OPT; do
+    case $OPT in
+    ("h")
+      parseHelp
+      ;;
+    ("p")
+      TOMCAT_PORT=$OPTARG
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+
+  if [ -z "${TOMCAT_PORT}" ]; then
+    TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
+  fi
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-p${COL_NORMAL} tomcat port. Default ${DEFAULT_TOMCAT_PORT}" 
 }
 
 main "$@"
