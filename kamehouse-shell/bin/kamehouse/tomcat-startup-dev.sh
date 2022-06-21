@@ -8,18 +8,12 @@ if [ "$?" != "0" ]; then
 fi
 
 # dev environment: eclipse or intellij
-DEV_ENVIRONMENT=
+DEV_ENVIRONMENT=intellij
 LOG_PROCESS_TO_FILE=false
 TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 
 mainProcess() {
-  DEV_ENVIRONMENT=$1
-  if [ -z "${DEV_ENVIRONMENT}" ]; then
-    log.error "Need to pass eclipse or intellij as parameter"
-    exit 1
-  fi
-
   setGlobalVariables
 
   echo "********************************************************************************************"
@@ -38,6 +32,31 @@ setGlobalVariables() {
   if ${IS_LINUX_HOST}; then
     source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh
   fi
+}
+
+parseArguments() {
+  while getopts ":hi:" OPT; do
+    case $OPT in
+    ("h")
+      parseHelp
+      ;;
+    ("i")
+      DEV_ENVIRONMENT=$OPTARG
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's tomcat to deploy to" 
 }
 
 main "$@"

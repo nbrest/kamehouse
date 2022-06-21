@@ -44,12 +44,12 @@ Right click on toolbar > Customize
     - Windows:
       - Name: start-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-start-dev.sh intellij'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i intellij'"
       - Working directory: 
     - Linux:
       - Name: start-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-start-dev.sh intellij
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i intellij
       - Working directory: 
       
   ### `stop-tomcat`

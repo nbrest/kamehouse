@@ -75,18 +75,18 @@
     - Common tab:
       - display in favorites menu > External tools: check       
 
-  ### `tomcat-start-dev.sh`
+  ### `tomcat-startup-dev.sh`
     - Run > External Tools > External Tools Configurations > Program > New Configuration:
-    - name: tomcat-start-dev.sh
+    - name: tomcat-startup-dev.sh
     - Main tab:
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-start-dev.sh eclipse'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i eclipse'"
       - Linux:
         - location: /bin/bash
         - working directory: 
-        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-start-dev.sh eclipse'
+        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i eclipse'
     - Common tab:
       - display in favorites menu > External tools: check
 
@@ -126,7 +126,7 @@
       - Common Tab > Display in favorites menu > run :check
 
 ## Start tomcat eclipse:
-- external tools > `tomcat-start-dev.sh`
+- external tools > `tomcat-startup-dev.sh`
 
 ## Deploy kamehouse in tomcat eclipse:
 - external tools > `tomcat-deploy-dev.sh`

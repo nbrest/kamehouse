@@ -19,7 +19,7 @@ tomcat-startup.sh
 tomcat-stop.sh 
 tomcat-status.sh 
 tomcat-restart.sh 
-tomcat-start-dev.sh
+tomcat-startup-dev.sh
 ```
 
 ## CMD:
