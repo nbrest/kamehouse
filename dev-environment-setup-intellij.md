@@ -32,12 +32,12 @@ Right click on toolbar > Customize
     - Windows:
       - Name: deploy-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-deploy-dev.sh -i intellij'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev-tomcat.sh -i intellij'"
       - Working directory: 
     - Linux:
       - Name: deploy-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-deploy-dev.sh -i intellij
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev-tomcat.sh -i intellij
       - Working directory: 
 
   ### `start-tomcat`
