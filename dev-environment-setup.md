@@ -6,6 +6,13 @@
 
 - Follow [dev-environment-setup-intellij.md](dev-environment-setup-intellij.md) 
 
+# KameHouse shell:
+
+Install kamehouse-shell to use all the scripts mentioend below. Running with -s will install kamehouse shell scripts standalone. Without parameters it installs all kamehouse modules and the full changes to the shell. From the root of your working copy:
+```sh
+./scripts/install-kamehouse.sh -s
+```
+
 # Tomcat Dev:
 
 * Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat-dev*
@@ -27,10 +34,7 @@
 
 - Instead of setting up a local dev tomcat and apache httpd on the host, you can run a dev docker container and deploy all your changes from your eclipse or intellij working copy to the docker container and do remote debugging as well on the container
 
-- Install kamehouse-shell on the host to control the dev docker container, at least standalone. On the root of your working copy:
-```sh
-./scripts/install-kamehouse.sh -s
-```
+- Install kamehouse-shell on the host to control the dev docker container as mentioned above
 
 - Start a docker container in dev mode with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p dev -i (intelli|eclipse)`. The default value for -i is instellij
 
