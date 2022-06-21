@@ -37,8 +37,6 @@ PRE_STYLE='style="color: #c0c0c0;font-size: 17px;margin: 30px; border:3px solid 
 
 mainProcess() {
   log.info "Re generating apk html file"
-  GIT_COMMIT_HASH=$1
-
   cd ${KAMEHOUSE_MOBILE_APP_PATH}
 
   echo "<html><head>${HEAD}</head><body>" > ${KAMEHOUSE_APK_HTML}
@@ -59,6 +57,36 @@ mainProcess() {
   echo '</div>' >> ${KAMEHOUSE_APK_HTML}
 
   echo "</body></html>" >> ${KAMEHOUSE_APK_HTML}
+}
+
+parseArguments() {
+  while getopts ":c:h" OPT; do
+    case $OPT in
+    ("c")
+      GIT_COMMIT_HASH=$OPTARG
+      ;;
+    ("h")
+      parseHelp
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+
+  if [ -z "${GIT_COMMIT_HASH}" ]; then
+    log.error "git commit hash not passed with argument -c"
+    exitProcess 1
+  fi
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+  echo -e "     ${COL_BLUE}-c hash${COL_NORMAL} git commit hash"
 }
 
 main "$@"
