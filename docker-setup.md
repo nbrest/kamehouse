@@ -1,4 +1,4 @@
-# Docker:
+# Docker Setup:
 
 The project is hosted on [docker hub](https://hub.docker.com/repository/docker/nbrest/kamehouse).
 
