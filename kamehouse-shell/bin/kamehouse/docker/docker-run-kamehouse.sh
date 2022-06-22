@@ -165,7 +165,7 @@ buildProfile() {
     [ "${DOCKER_PROFILE}" != "dev" ] &&
     [ "${DOCKER_PROFILE}" != "demo" ] &&
     [ "${DOCKER_PROFILE}" != "prod" ] &&
-    [ "${DOCKER_PROFILE}" != "prox-ext" ]; then
+    [ "${DOCKER_PROFILE}" != "prod-ext" ]; then
     log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
     exitProcess 1
@@ -222,7 +222,7 @@ buildProfile() {
     EXPORT_NATIVE_HTTPD=false
   fi
 
-  if [ "${DOCKER_PROFILE}" == "prox-ext" ]; then
+  if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
     DOCKER_PORT_SSH=7022
     DOCKER_PORT_HTTP=7080
     DOCKER_PORT_HTTPS=7443
@@ -322,7 +322,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} ide workspace to use for a dev docker container. Default is intellij"
   echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default base os is ubuntu"
-  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prox-ext)${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-ext)${COL_NORMAL} default profile is dev"
   echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   echo -e "     ${COL_BLUE}-v${COL_NORMAL} use volumes to persist data"
 }

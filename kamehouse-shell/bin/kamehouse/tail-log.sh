@@ -129,7 +129,7 @@ parseArguments() {
     [ "${PROFILE}" != "dev" ] &&
     [ "${PROFILE}" != "demo" ] &&
     [ "${PROFILE}" != "prod" ] &&
-    [ "${PROFILE}" != "prox-ext" ]; then
+    [ "${PROFILE}" != "prod-ext" ]; then
     log.error "Option -p [profile] has an invalid value of ${PROFILE}"
     printHelp
     exitProcess 1
@@ -147,7 +147,7 @@ parseArguments() {
     DOCKER_PORT_SSH=7022
   fi
 
-  if [ "${PROFILE}" == "prox-ext" ]; then
+  if [ "${PROFILE}" == "prod-ext" ]; then
     DOCKER_PORT_SSH=7022
   fi
 }
@@ -264,7 +264,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-l (trace|debug|info|warn|error)${COL_NORMAL} log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   echo -e "     ${COL_BLUE}-n (lines)${COL_NORMAL} number of lines to log. Default is ${DEFAULT_NUM_LINES}"
-  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prox-ext)${COL_NORMAL} default docker profile is dev"
+  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-ext)${COL_NORMAL} default docker profile is dev"
   echo -e "     ${COL_BLUE}-q${COL_NORMAL} quit after tailing once. Don't follow log"
 }
 
