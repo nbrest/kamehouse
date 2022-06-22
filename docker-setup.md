@@ -4,12 +4,13 @@ The project is hosted on [docker hub](https://hub.docker.com/repository/docker/n
 
 The docker image loads kamehouse through tomcat and apache httpd and most of the functionality works out of the box.
 
-## Install kamehouse scripts to control docker (optional)
+## Install kamehouse shell scripts to control docker (optional)
 
-- Download the script [install-kamehouse.sh](scripts/install-kamehouse.sh) from this git repo, then execute with -s parameter to install only kamehouse-shell standalone
+- Download the script [install-kamehouse.sh](scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to install only kamehouse-shell scripts, without affecting the shell
 ```sh
-chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -s
+chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -o
 ```
+- Running the script with -s will install the full kamehouse-shell
 
 *********************
 

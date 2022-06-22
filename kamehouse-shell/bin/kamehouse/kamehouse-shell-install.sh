@@ -20,7 +20,7 @@ KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell
 TEMP_PATH=${HOME}/temp
 
 KAMEHOUSE_SHELL_SOURCE=`pwd`
-INSTALL_STANDALONE=false
+INSTALL_SCRIPTS_ONLY=false
 
 main() {
   parseArguments "$@"
@@ -32,12 +32,12 @@ main() {
   updateUsername
   fixPermissions
   generateKameHouseShellPathFile
-  if ! ${INSTALL_STANDALONE}; then
+  if ! ${INSTALL_SCRIPTS_ONLY}; then
     createRootSymLink
     installCred
     updateBashRc
   else
-    log.info "Installing kamehouse-shell standalone so skipping the rest of the steps"
+    log.info "Installing kamehouse-shell scripts only, so skipping the rest of the steps"
   fi
   log.info "Done installing ${COL_PURPLE}kamehouse-shell!"
 }
@@ -178,17 +178,17 @@ log.error() {
 }
 
 parseArguments() {
-  while getopts ":hps" OPT; do
+  while getopts ":hop" OPT; do
     case $OPT in
     ("h")
       printHelp
       exit 0
       ;;
+    ("o")
+      INSTALL_SCRIPTS_ONLY=true
+      ;;
     ("p")
       KAMEHOUSE_SHELL_SOURCE=${HOME}/git/kamehouse
-      ;;
-    ("s")
-      INSTALL_STANDALONE=true
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
@@ -204,8 +204,8 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  echo -e "     ${COL_BLUE}-o${COL_NORMAL} only install kamehouse shell scripts. Don't modify the shell"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} use kamehouse git prod directory instead of current dir"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} install kamehouse shell standalone"
 }
 
 main "$@"

@@ -14,13 +14,14 @@ COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 
 KAMEHOUSE_SHELL_ONLY=false
+KAMEHOUSE_SHELL_SCRIPTS_ONLY=false
 
 main() {
   parseArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse"
   gitCloneKameHouse
   checkPath
-  installKameHouseShellStandalone
+  installKameHouseShell
   if ${KAMEHOUSE_SHELL_ONLY}; then
     log.info "Finished installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} standalone. Running with -s so skipping the rest"
     exit 0
@@ -53,9 +54,13 @@ checkPath() {
   fi
 }
 
-installKameHouseShellStandalone() {
+installKameHouseShell() {
   chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
-  ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh -s
+  if ${KAMEHOUSE_SHELL_SCRIPTS_ONLY}; then
+    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh -o
+  else
+    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+  fi  
 }
 
 buildKameHouseConfigDir() {
@@ -124,11 +129,15 @@ log.error() {
 }
 
 parseArguments() {
-  while getopts ":hs" OPT; do
+  while getopts ":hos" OPT; do
     case $OPT in
     ("h")
       printHelp
       exit 0
+      ;;
+    ("o")
+      KAMEHOUSE_SHELL_ONLY=true
+      KAMEHOUSE_SHELL_SCRIPTS_ONLY=true
       ;;
     ("s")
       KAMEHOUSE_SHELL_ONLY=true
@@ -147,7 +156,8 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} install only kamehouse-shell scripts standalone"
+  echo -e "     ${COL_BLUE}-o${COL_NORMAL} only install kamehouse-shell scripts. Don't modify the shell"
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} install kamehouse-shell, incluiding the changes to the shell"
 }
 
 main "$@"

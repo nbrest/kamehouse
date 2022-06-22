@@ -12,10 +12,13 @@
 
 # KameHouse shell:
 
-Install kamehouse-shell to use all the scripts mentioend below. Running with -s will install kamehouse shell scripts standalone. Without parameters it installs all kamehouse modules and the full changes to the shell. From the root of your working copy:
+Install kamehouse-shell to use all the scripts mentioend below. From the root of your working copy:
 ```sh
-./scripts/install-kamehouse.sh -s
+./scripts/install-kamehouse.sh -o
 ```
+Running with -o will install kamehouse shell scripts only. 
+Running with -s will install kamehouse shell completely but not the other modules. 
+Running Without parameters it installs all kamehouse modules and the full changes to the shell.
 All the scripts are available on the directory `${HOME}/programs/kamehouse-shell/bin`
 
 # Tomcat Dev:
