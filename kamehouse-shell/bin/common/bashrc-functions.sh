@@ -29,44 +29,6 @@ setIsLinuxHost() {
   fi
 }
 
-# Add the specified path and subpaths to the PATH variable
-###########################################################################
-# IMPORTANT: If I block a path here, also block it to csv-kamehouse-shell.sh
-###########################################################################
-addToPath() {
-  local BASE_PATH=$1
-  local PATHS_TO_SKIP_REGEX=$2
-  if [ ! -d "${BASE_PATH}" ]; then
-    return
-  fi
-  # List all directories
-  local PATH_TO_ADD=$(find ${BASE_PATH} -name '.*' -prune -o -type d)
-  # Filter aws
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v '/aws')
-  # Filter bashrc
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v /aws/bashrc) 
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v /lin/bashrc) 
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v /win/bashrc) 
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v /common/bashrc) 
-  # Filter deprecated
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v /deprecated)
-  # Filter sudoers
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v /lin/sudoers)
-  # Filter path to skip parameter
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v -e "${PATHS_TO_SKIP_REGEX}") 
-  # Filter .. directory
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | grep -v '/\..*')
-  # Replace \n with :  
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | tr '\n' ':')
-  # Remove last :
-  PATH_TO_ADD=$(echo "$PATH_TO_ADD" | sed '$s/.$//')
-
-  if [[ ! ${PATH} =~ "${PATH_TO_ADD}" ]]; then
-    # "${PATH} doesn't contain ${PATH_TO_ADD}"
-    export PATH=${PATH}:${PATH_TO_ADD}
-  fi
-} 
-
 ################################################
 # Calls to functions that set common variables #
 ################################################
