@@ -14,19 +14,26 @@ COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 
 PURGE_CONFIG=false
+KAMEHOUSE_SHELL_ONLY=false
 
 main() {
   parseArguments "$@"
   log.info "Uninstalling ${COL_PURPLE}kamehouse"
 
   revertBashRc
-  deleteTomcatWebapps
   deleteKameHouseShell
-  deleteKameHouseCmd
-  deleteKameHouseGit
-  purgeConfigFiles
 
-  log.info "This script doesn't remove the database contents. To do that, login to mysql and execute 'DROP SCHEMA IF EXISTS kameHouse;'"
+  if ${KAMEHOUSE_SHELL_ONLY}; then
+    log.info "Uninstalling only kamehouse-shell. Skipping the rest of the steps"
+  else 
+    deleteTomcatWebapps
+    deleteKameHouseCmd
+    deleteKameHouseGit
+    purgeConfigFiles
+  
+    log.info "This script doesn't remove the database contents. To do that, login to mysql and execute 'DROP SCHEMA IF EXISTS kameHouse;'"
+  fi
+
   log.info "Finished uninstalling ${COL_PURPLE}kamehouse"
 }
 
@@ -79,7 +86,7 @@ log.error() {
 }
 
 parseArguments() {
-  while getopts ":hp" OPT; do
+  while getopts ":hps" OPT; do
     case $OPT in
     ("h")
       printHelp
@@ -87,6 +94,9 @@ parseArguments() {
       ;;
     ("p")
       PURGE_CONFIG=true
+      ;;
+    ("s")
+      KAMEHOUSE_SHELL_ONLY=true
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
@@ -103,6 +113,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} purge config files as well"
+  echo -e "     ${COL_BLUE}-s${COL_NORMAL} uninstall kamehouse-shell only"
 }
 
 main "$@"
