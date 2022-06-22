@@ -46,13 +46,13 @@ mainProcess() {
   if [ "${ENVIRONMENT}" == "local" ]; then
 
     if ${USE_CURRENT_DIR}; then
-      log.info "Using current directory for deployment"
-      PROJECT_DIR="."
+      PROJECT_DIR=`pwd`
     else  
       cd ${PROJECT_DIR}
       checkCommandStatus "$?" "Invalid project directory" 
       pullLatestVersionFromGit
     fi
+    log.info "Deploying from directory ${COL_PURPLE}${PROJECT_DIR}"
     checkCurrentDir
     deployKameHouseShell
     buildProject

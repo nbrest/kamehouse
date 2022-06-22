@@ -57,6 +57,7 @@ The script [install-kamehouse.sh](scripts/install-kamehouse.sh) will update your
 chmod a+x uninstall-kamehouse.sh ; ./uninstall-kamehouse.sh
 ```
 - Run with -p to remove all configuration files as well
+- Run with -s to uninstall only kamehouse-shell
 - This script doesn't remove the database contents. To do that, login to mysql and execute 
 ```sql
 DROP SCHEMA IF EXISTS kameHouse;
