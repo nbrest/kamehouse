@@ -62,7 +62,7 @@ parseArguments() {
     [ "${DOCKER_PROFILE}" != "dev" ] &&
     [ "${DOCKER_PROFILE}" != "demo" ] &&
     [ "${DOCKER_PROFILE}" != "prod" ] &&
-    [ "${DOCKER_PROFILE}" != "prod-80-443" ]; then
+    [ "${DOCKER_PROFILE}" != "prox-ext" ]; then
     log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
     exitProcess 1
@@ -80,7 +80,7 @@ parseArguments() {
     DOCKER_PORT_SSH=7022
   fi
 
-  if [ "${DOCKER_PROFILE}" == "prod-80-443" ]; then
+  if [ "${DOCKER_PROFILE}" == "prox-ext" ]; then
     DOCKER_PORT_SSH=7022
   fi
 }
@@ -91,7 +91,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-80-443)${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prox-ext)${COL_NORMAL} default profile is dev"
 }
 
 main "$@"
