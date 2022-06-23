@@ -34,10 +34,8 @@ mainProcess() {
   log.info "Running kamehouse integration tests on a ci docker container"
   mainProcessLoop
   if ${MAIN_PROCESS_SUCCESSFUL}; then
-    log.info "Main process completed successfully"
     exit 0
   else
-    log.error "Main process completed with errors"
     exit 1
   fi
 }
@@ -66,7 +64,7 @@ mainProcessLoop() {
     fi
     : $((NUM_MAIN_PROCESS_RETRIES--))
     if [ ${NUM_MAIN_PROCESS_RETRIES} -gt 0 ]; then 
-      sleep 15
+      sleep 25
     fi
   done
 }
@@ -82,7 +80,7 @@ startCiDockerContainerLoop() {
     loginCheckLoop
     : $((NUM_TOMCAT_STARTUP_RETRIES--))
     if [ ${NUM_TOMCAT_STARTUP_RETRIES} -gt 0 ]; then 
-      sleep 10
+      sleep 25
     fi
   done
 }
@@ -135,6 +133,8 @@ loginCheck() {
 }
 
 executeIntegrationTestsLoop() {
+  log.info "Waiting a few seconds for tomcat to startup completely"
+  sleep 45
   log.info "Executing integration tests in the ci docker container"
   NUM_INTEGRATION_TESTS_RETRIES=$((RETRIES))
   while [ ${NUM_INTEGRATION_TESTS_RETRIES} -gt 0 ]; do
@@ -142,7 +142,7 @@ executeIntegrationTestsLoop() {
     executeIntegrationTests
     : $((NUM_INTEGRATION_TESTS_RETRIES--))
     if [ ${NUM_INTEGRATION_TESTS_RETRIES} -gt 0 ]; then
-      sleep 20
+      sleep 45
     fi
   done
 }
