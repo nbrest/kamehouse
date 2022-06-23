@@ -64,7 +64,7 @@ mainProcessLoop() {
     fi
     : $((NUM_MAIN_PROCESS_RETRIES--))
     if [ ${NUM_MAIN_PROCESS_RETRIES} -gt 0 ]; then 
-      sleep 25
+      sleep 15
     fi
   done
 }
@@ -80,7 +80,7 @@ startCiDockerContainerLoop() {
     loginCheckLoop
     : $((NUM_TOMCAT_STARTUP_RETRIES--))
     if [ ${NUM_TOMCAT_STARTUP_RETRIES} -gt 0 ]; then 
-      sleep 25
+      sleep 10
     fi
   done
 }
@@ -133,8 +133,10 @@ loginCheck() {
 }
 
 executeIntegrationTestsLoop() {
-  log.info "Waiting a few seconds for tomcat to startup completely"
-  sleep 45
+  log.info "Running integration tests script in background to update hibernate_sequence value..."
+  log.debug "Doing this because the first run always fails in create kamehouse user because the"
+  log.debug "sequence has value 1 which is already used as id in the initial test data"
+  executeIntegrationTests > /dev/null
   log.info "Executing integration tests in the ci docker container"
   NUM_INTEGRATION_TESTS_RETRIES=$((RETRIES))
   while [ ${NUM_INTEGRATION_TESTS_RETRIES} -gt 0 ]; do
@@ -142,7 +144,7 @@ executeIntegrationTestsLoop() {
     executeIntegrationTests
     : $((NUM_INTEGRATION_TESTS_RETRIES--))
     if [ ${NUM_INTEGRATION_TESTS_RETRIES} -gt 0 ]; then
-      sleep 45
+      sleep 20
     fi
   done
 }
