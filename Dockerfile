@@ -152,7 +152,7 @@ RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.
   chown ${KAMEHOUSE_USERNAME}:users /home/${KAMEHOUSE_USERNAME}/mysql-initial-data.tar.gz
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
-RUN echo "echo 'Update number to avoid cache 42'"
+RUN echo "echo 'Update number to avoid cache 43'"
 
 # Copy docker setup folder
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
@@ -162,8 +162,8 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/dock
 # And recreate sample video playlists directories
 RUN sudo su - ${KAMEHOUSE_USERNAME} -c "cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
   git pull origin dev ; \
-  chmod a+x ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh ; \
-  ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh ; \
+  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \

@@ -55,11 +55,11 @@ checkPath() {
 }
 
 installKameHouseShell() {
-  chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+  chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
   if ${KAMEHOUSE_SHELL_SCRIPTS_ONLY}; then
-    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh -o
+    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -o
   else
-    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
   fi  
 }
 

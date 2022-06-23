@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Execute from the root of the kamehouse git project:
-# chmod a+x ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
-# ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+# chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+# ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
 
 DEFAULT_KAMEHOUSE_USERNAME=""
 
@@ -116,7 +116,7 @@ updateBashRc() {
 generateKameHouseShellPathFile() {
   log.info "Generating kamehouse-shell PATH file"
   local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf
-  local KAMEHOUSE_SHELL_PATH_FILE=${KAMEHOUSE_SHELL_CONF_PATH}/kamehouse-shell-path.conf
+  local KAMEHOUSE_SHELL_PATH_FILE=${KAMEHOUSE_SHELL_CONF_PATH}/path.conf
 
   mkdir -p ${KAMEHOUSE_SHELL_CONF_PATH}
 
@@ -200,7 +200,7 @@ parseArguments() {
 
 printHelp() {
   echo -e ""
-  echo -e "Usage: ${COL_PURPLE}kamehouse-shell-install.sh${COL_NORMAL} [options]"
+  echo -e "Usage: ${COL_PURPLE}install-kamehouse-shell.sh${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"

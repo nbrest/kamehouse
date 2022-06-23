@@ -38,3 +38,11 @@ Use the kamehouse-shell script `kamehouse-cmd.sh` to run kamehouse CMD module
 ## Build:
 
 - Use the `build-kamehouse.sh` script to build all kamehouse modules
+
+## Versions:
+
+Check the versions of the different kamehouse apps installed. These and also the versions of the webapps are available on the ui
+
+- `kamehouse-cmd-version.sh`
+- `kamehouse-groot-version.sh`
+- `kamehouse-shell-versions.sh`

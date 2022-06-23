@@ -14,13 +14,9 @@
 
 ### Installation:
 
-- Build from the working directory and install using the script `build-kamehouse.sh -m cmd
-`. This command builds
- kamehouse-cmd module and installs it to `${HOME}/programs/kamehouse-cmd`. Then to execute the
-  command line tool, run `${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh`
+- Build from the working directory and install using the script `build-kamehouse.sh -m cmd`. This command builds kamehouse-cmd module and installs it to `${HOME}/programs/kamehouse-cmd`. Then to execute the command line tool, run `${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh`
 
 - The script `deploy-kamehouse.sh -m cmd` builds the module from `${HOME}/git/kamehouse` and also installs it to `${HOME}/programs/kamehouse-cmd`
 
-- In either case the `kamehouse-cmd-bundle.zip` remains in the `kamehouse-cmd/target` directory and
- can be extracted to any path where you want to install the command line tool
+- In either case the `kamehouse-cmd-bundle.zip` remains in the `kamehouse-cmd/target` directory and can be extracted to any path where you want to install the command line tool
  

@@ -254,9 +254,9 @@ function DeploymentManager() {
    */
   function getNonTomcatModulesStatus() {
     logger.debug("Getting non tomcat modules status");
-    scriptExecutor.execute('kamehouse/kamehouse-cmd.sh', "-V", false, displayModuleCmdStatus, true);
-    scriptExecutor.execute('kamehouse/groot-version.sh', "", false, displayModuleGrootStatus, true);
-    scriptExecutor.execute('kamehouse/shell-version.sh', "", false, displayModuleShellStatus, true);
+    scriptExecutor.execute('kamehouse/kamehouse-cmd-version.sh', "", false, displayModuleCmdStatus, true);
+    scriptExecutor.execute('kamehouse/kamehouse-groot-version.sh', "", false, displayModuleGrootStatus, true);
+    scriptExecutor.execute('kamehouse/kamehouse-shell-version.sh', "", false, displayModuleShellStatus, true);
   }
 
   /**

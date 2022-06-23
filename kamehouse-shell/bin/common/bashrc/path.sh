@@ -1,4 +1,4 @@
-KAMEHOUSE_SHELL_PATH_FILE=${HOME}/programs/kamehouse-shell/conf/kamehouse-shell-path.conf
+KAMEHOUSE_SHELL_PATH_FILE=${HOME}/programs/kamehouse-shell/conf/path.conf
 if [ -f "${KAMEHOUSE_SHELL_PATH_FILE}" ]; then
   source ${KAMEHOUSE_SHELL_PATH_FILE}
   

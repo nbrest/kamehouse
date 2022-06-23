@@ -205,8 +205,8 @@ deployKameHouseShell() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
     cd ${PROJECT_DIR}
-    chmod a+x kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
-    ./kamehouse-shell/bin/kamehouse/kamehouse-shell-install.sh
+    chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
   
     if [ "${MODULE_SHORT}" == "shell" ]; then
       logFinish
