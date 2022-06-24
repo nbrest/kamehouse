@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v7.06
+
+* Updated setup guides
+
 #### v7.05
 
 * Updated installation and dev environment setup docs

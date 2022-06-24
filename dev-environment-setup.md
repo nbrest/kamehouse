@@ -12,7 +12,7 @@
 
 # KameHouse shell:
 
-Install kamehouse-shell to use all the scripts mentioend below. From the root of your working copy:
+Install kamehouse-shell to use all the scripts mentioned below. From the root of your working copy:
 ```sh
 ./scripts/install-kamehouse.sh -o
 ```
