@@ -36,8 +36,10 @@ mainProcess() {
   log.info "Running kamehouse integration tests on a ci docker container"
   mainProcessLoop
   if ${MAIN_PROCESS_SUCCESSFUL}; then
+    log.info "All done!"
     exit 0
   else
+    log.error "Finished with errors. Integration tests didn't complete successfully"
     exit 1
   fi
 }
