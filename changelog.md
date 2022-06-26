@@ -3,6 +3,7 @@
 #### v7.06
 
 * Updated setup guides
+* Moved setting up root paths and shell on linux from install kamehouse to a separate optional script
 
 #### v7.05
 
