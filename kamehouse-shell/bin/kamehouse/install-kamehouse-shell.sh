@@ -33,7 +33,6 @@ main() {
   fixPermissions
   generateKameHouseShellPathFile
   if ! ${INSTALL_SCRIPTS_ONLY}; then
-    createRootSymLink
     installCred
     updateBashRc
   else
@@ -67,13 +66,6 @@ installKameHouseShell() {
 fixPermissions() {
   log.info "Fixing permissions"
   chmod -R a+x ${KAMEHOUSE_SHELL_PATH}
-}
-
-createRootSymLink() {
-  local USERNAME=`whoami`
-  log.info "Creating symlink on root home" 
-  sudo ln -s /home/${USERNAME}/programs /root/
-  log.info "Ignore ${COL_PURPLE}sudo${COL_MESSAGE} error on windows, give ${COL_PURPLE}sudo${COL_MESSAGE} permissions to current user on linux if it fails on linux"
 }
 
 installCred() {
