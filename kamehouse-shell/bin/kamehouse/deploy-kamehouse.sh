@@ -34,7 +34,6 @@ DEPLOY_ALL_EXTRA_MODULES=false
 USE_CURRENT_DIR=false
 
 # Global variables set during the process
-COPY_COMMAND=""
 DEPLOYMENT_DIR=""
 TOMCAT_DIR=""
 TOMCAT_LOG=""
@@ -83,15 +82,9 @@ setGlobalVariables() {
   DEPLOYMENT_DIR="${TOMCAT_DIR}/webapps"
   if ${IS_LINUX_HOST}; then
     TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.out"
-    if [ "${HOME}" == "/root" ]; then
-      COPY_COMMAND="cp"
-    else
-      COPY_COMMAND="sudo cp"
-    fi
   else
     local LOG_DATE=`date +%Y-%m-%d`
     TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.${LOG_DATE}.log"
-    COPY_COMMAND="cp"
   fi
 
   SSH_SERVER=${ENVIRONMENT}
@@ -171,7 +164,7 @@ deployToTomcat() {
     local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
       log.info "Deploying ${KAMEHOUSE_MODULE} in ${DEPLOYMENT_DIR}"
-      ${COPY_COMMAND} -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
+      cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
       checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
     fi
   done
