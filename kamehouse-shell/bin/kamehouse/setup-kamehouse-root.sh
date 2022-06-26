@@ -17,7 +17,8 @@ COL_MESSAGE=${COL_GREEN}
 main() {
   parseArguments "$@"
   createRootSymLink
-  sudo updateRootBashRc
+  FUNC=$(declare -f updateRootBashRc)
+  sudo bash -c "$FUNC; updateRootBashRc"
 }
 
 createRootSymLink() {
@@ -29,19 +30,20 @@ createRootSymLink() {
 
 # Call this function with sudo to execute as root
 updateRootBashRc() {
-  log.info "Updating ${COL_PURPLE}/root/.bashrc"
+  INFO=" - [INFO] - "
+  echo -e "$(date +%Y-%m-%d' '%H:%M:%S)${INFO}Updating /root/.bashrc"
   if [ ! -f "/root/.bashrc" ]; then
-    log.info "${COL_PURPLE}/root/.bashrc${COL_MESSAGE} not found. Creating one"
+    echo -e "$(date +%Y-%m-%d' '%H:%M:%S)${INFO}/root/.bashrc not found. Creating one"
     echo "" > /root/.bashrc
     echo "source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> /root/.bashrc
-  else 
+  else
     cat /root/.bashrc | grep "/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" > /dev/null
     if [ "$?" != "0" ]; then
-      log.info "Adding bashrc/bashrc.sh to ${COL_PURPLE}/root/.bashrc"
+      echo -e "$(date +%Y-%m-%d' '%H:%M:%S)${INFO}Adding bashrc/bashrc.sh to /root/.bashrc"
       echo "" >> /root/.bashrc
       echo "source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> /root/.bashrc
-    else 
-      log.info "${COL_PURPLE}/root/.bashrc${COL_MESSAGE} already sources ${COL_PURPLE}\${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh${COL_MESSAGE}. No need to update"
+    else
+      echo -e "$(date +%Y-%m-%d' '%H:%M:%S)${INFO}/root/.bashrc already sources \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh. No need to update"
     fi
   fi
 }
