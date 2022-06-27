@@ -9,6 +9,7 @@ alias cd.programs="cd ${HOME}/programs"
 alias cd.texts='cd ${HOME}/git/texts'
 alias cd.tomcat="cd ${HOME}/programs/apache-tomcat"
 alias cd.shell="cd ${HOME}/programs/kamehouse-shell/bin"
+alias cd.webapps="cd ${HOME}/programs/apache-tomcat/webapps"
 
 alias ls='ls --color=auto'
 
