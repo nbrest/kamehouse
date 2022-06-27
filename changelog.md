@@ -8,6 +8,7 @@
 * Removed my.scripts private repo from kamehouse-shell install script
 * Moved setting up root paths and shell on linux from install kamehouse to a separate optional script
 * Added a lot of debugging logs to the kamehouse-shell scripts
+* Updated suspend times dropdown in admin view
 
 #### v7.05
 
