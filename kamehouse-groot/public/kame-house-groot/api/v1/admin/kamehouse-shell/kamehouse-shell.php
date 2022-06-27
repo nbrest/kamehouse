@@ -17,7 +17,7 @@
     $kameHouseShellCSV = "";
     
     if (isLinuxHost()) {
-      $kameHouseShellCSV = trim(shell_exec("/var/www/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh"));
+      $kameHouseShellCSV = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh"));
     } else {
       $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/win/csv-kamehouse-shell.sh\""));
     }

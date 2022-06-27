@@ -167,7 +167,7 @@ function getBoolean($string) {
 function getDockerContainerEnv() {
   $dockerContainerEnv = null;
   if (isLinuxHost()) {
-    $username = trim(shell_exec("/var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+    $username = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
     $dockerContainerEnv = trim(shell_exec("cat /home/" . $username . "/.kamehouse/.kamehouse-docker-container-env"));
     $dockerContainerEnv = explode("\n", $dockerContainerEnv);
     if(!startsWith($dockerContainerEnv[0], "#")) {
