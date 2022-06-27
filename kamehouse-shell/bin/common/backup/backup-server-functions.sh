@@ -8,6 +8,7 @@ PROJECT_DIR="${HOME}/git/kamehouse-server-config"
 DOCKER_PORT_SSH=7022
 
 mainProcess() {
+  log.warn "User running this script needs ${COL_RED}sudo chown,cp,crontab,rm${COL_DEFAULT_LOG} permissions"
   # Set in DEST_HOME mainProcess because HOSTNAME is overriden for aws
   DEST_HOME=${PROJECT_DIR}/${HOSTNAME}${HOME}
 

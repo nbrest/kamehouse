@@ -17,6 +17,7 @@ COL_MESSAGE=${COL_GREEN}
 main() {
   parseArguments "$@"
   log.info "Setting up root user for kamehouse"
+  log.warn "User running this script needs ${COL_RED}sudo bash,ln,mkdir${COL_DEFAULT_LOG} permissions"
   createLogsDir
   createRootSymLink
   FUNC=$(declare -f updateRootBashRc)

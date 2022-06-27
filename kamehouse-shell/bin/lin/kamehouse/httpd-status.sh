@@ -13,6 +13,7 @@ HTTPD_PORT=""
 
 mainProcess() {
   log.info "Searching for apache httpd process"
+  log.warn "User running this script needs ${COL_RED}sudo netstat${COL_DEFAULT_LOG} permissions"
   sudo netstat -nltp | grep ${HTTPD_PORT} | grep apache 
   HTTPD_PID=`sudo netstat -nltp | grep ${HTTPD_PORT} | grep apache | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z ${HTTPD_PID} ]; then

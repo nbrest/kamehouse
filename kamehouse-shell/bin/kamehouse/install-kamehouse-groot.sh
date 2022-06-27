@@ -17,6 +17,7 @@ COL_MESSAGE=${COL_GREEN}
 main() {
   parseArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}"
+  log.warn "User running this script needs ${COL_RED}sudo ln${COL_DEFAULT_LOG} permissions"
   createApacheHttpdUserSymLink
   log.info "Done installing ${COL_PURPLE}kamehouse-groot!"
 }

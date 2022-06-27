@@ -12,7 +12,7 @@ LOG_PROCESS_TO_FILE=false
 
 mainProcess() {
   log.info "Adding user nikolqs to mysql db"
-  log.warn "User running this script needs ${COL_RED}sudo mysql${COL_MESSAGE} permissions"
+  log.warn "User running this script needs ${COL_RED}sudo mysql${COL_DEFAULT_LOG} permissions"
 
   sudo mysql -v -v -v -e "DROP USER IF EXISTS nikolqs;"
 

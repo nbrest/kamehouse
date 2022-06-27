@@ -14,6 +14,7 @@ SERVICE="docker"
 SERVICE_STARTUP="sudo service docker start"
 
 mainProcess() {
+  log.warn "User running this script needs ${COL_RED}sudo service${COL_DEFAULT_LOG} permissions"
   ${SERVICE_STARTUP} &
 }
 

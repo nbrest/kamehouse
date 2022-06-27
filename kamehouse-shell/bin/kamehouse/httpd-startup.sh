@@ -11,6 +11,7 @@ LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
   log.info "Starting apache httpd server"
+  log.warn "User running this script needs ${COL_RED}sudo service${COL_DEFAULT_LOG} permissions"
   if ${IS_LINUX_HOST}; then
     sudo service apache2 start
   else

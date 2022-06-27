@@ -13,6 +13,7 @@ HTTPD_PORT=""
 
 mainProcess() {
   log.info "Stopping apache httpd server"
+  log.warn "User running this script needs ${COL_RED}sudo service${COL_DEFAULT_LOG} permissions"
   sudo service apache2 stop
 }
 
