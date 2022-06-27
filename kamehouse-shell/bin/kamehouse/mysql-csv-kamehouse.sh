@@ -31,8 +31,9 @@ mainProcess() {
 setupInitialDirectories() {
   log.info "Creating export directories if they don't exist"
   mkdir -v -p ${PATH_CSV}/old
-  mkdir -p ${TMP_EXPORT_DIR}
   if ${IS_LINUX_HOST}; then
+    mkdir -p ${TMP_EXPORT_DIR}
+    chmod a+rwx ${TMP_EXPORT_DIR}
     log.info "Cleaning up ${TMP_EXPORT_DIR} csv files"
     chown ${USER}:${USER} ${TMP_EXPORT_DIR}/*.tmpcsv
     rm -v -f ${TMP_EXPORT_DIR}/*.tmpcsv
