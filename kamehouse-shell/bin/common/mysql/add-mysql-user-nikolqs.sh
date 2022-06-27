@@ -8,7 +8,7 @@ if [ "$?" != "0" ]; then
 fi
 
 source ${HOME}/.kamehouse/.shell/.cred
-LOG_PROCESS_TO_FILE=false
+LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
   log.info "Adding user nikolqs to mysql db"

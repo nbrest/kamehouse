@@ -157,8 +157,7 @@ restartSshService() {
 startMysql() {
   log.info "Starting mysql"
   service mysql start
-  /home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh > /home/${DOCKER_CONTAINER_USERNAME}/logs/add-mysql-user-nikolqs.log
-  chown ${DOCKER_CONTAINER_USERNAME}:users /home/${DOCKER_CONTAINER_USERNAME}/logs/add-mysql-user-nikolqs.log
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh"
 }
 
 startHttpd() {
