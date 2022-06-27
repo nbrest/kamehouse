@@ -28,6 +28,7 @@ main() {
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SHELL_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
   getDefaultKameHouseUsername
+  createLogsDir
   installKameHouseShell
   updateUsername
   fixPermissions
@@ -54,6 +55,10 @@ getDefaultKameHouseUsername() {
     log.error "Could not set default kamehouse username from Dockerfile"
     exit 1
   fi 
+}
+
+createLogsDir() {
+  mkdir -p ${HOME}/logs
 }
 
 installKameHouseShell() {

@@ -17,10 +17,15 @@ COL_MESSAGE=${COL_GREEN}
 main() {
   parseArguments "$@"
   log.info "Setting up root user for kamehouse"
+  createLogsDir
   createRootSymLink
   FUNC=$(declare -f updateRootBashRc)
   sudo bash -c "$FUNC; updateRootBashRc"
   log.info "Finished setting up root user for kamehouse"
+}
+
+createLogsDir() {
+  sudo mkdir -p /root/logs
 }
 
 createRootSymLink() {
