@@ -1,4 +1,4 @@
-use kamehouse;
+use kameHouse;
 
 SET @tableName := 'booking_request';
 SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
