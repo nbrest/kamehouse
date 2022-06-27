@@ -28,11 +28,14 @@ mainProcess() {
 
   if ${EXECUTE_ON_DOCKER_HOST}; then
     if ${IS_LINUX_DOCKER_HOST}; then
+      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\""
       ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
     else
+      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\\\"\""
       ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\""
     fi
   else
+    log.debug "${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
     ${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}  
   fi
 }
