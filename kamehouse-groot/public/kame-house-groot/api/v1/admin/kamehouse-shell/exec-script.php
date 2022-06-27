@@ -74,8 +74,8 @@
        * where [USERNAME] is the username that installed kamehouse
        * Make sure the script `install-kamehouse-groot.sh` was executed as well to access get-username.sh from groot.
        */
-      $username = trim(shell_exec("\${HOME}/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
-      $shellCommand = "sudo -u " . $username . " \${HOME}/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
+      $username = trim(shell_exec("/var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+      $shellCommand = "sudo -u " . $username . "/var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
     } else {
       $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
     }
