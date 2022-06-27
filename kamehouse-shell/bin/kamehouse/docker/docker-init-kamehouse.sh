@@ -134,7 +134,7 @@ deployKameHouse() {
 }
 
 startTomcat() {
-  local START_TOMCAT_CMD="export USER_UID=`sudo cat /etc/passwd | grep ${DOCKER_CONTAINER_USERNAME} | cut -d ':' -f3` ; \
+  local START_TOMCAT_CMD="export USER_UID=`cat /etc/passwd | grep ${DOCKER_CONTAINER_USERNAME} | cut -d ':' -f3` ; \
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
     export DISPLAY=:0.0 ; \
     cd /home/${DOCKER_CONTAINER_USERNAME}/programs/apache-tomcat ; \

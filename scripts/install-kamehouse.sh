@@ -28,6 +28,7 @@ main() {
     exit 0
   fi
   buildKameHouseConfigDir
+  installKameHouseGroot
   deployKameHouse
   logInstallRootMessage
   log.info "Finished installing ${COL_PURPLE}kamehouse"
@@ -112,6 +113,10 @@ buildKameHouseConfigDir() {
   else
     log.info "home-synced/.kamehouse/keys/kamehouse.crt file already exists. skipping"
   fi  
+}
+
+installKameHouseGroot() {
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh
 }
 
 deployKameHouse() {

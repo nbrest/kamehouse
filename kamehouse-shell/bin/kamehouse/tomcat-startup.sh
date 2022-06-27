@@ -6,6 +6,12 @@ if [ "$?" != "0" ]; then
 	echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
 	exit 1
 fi
+# Import kamehouse functions
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
+  exit 1
+fi
 
 LOG_PROCESS_TO_FILE=true
 DEBUG_MODE=false
@@ -16,14 +22,13 @@ mainProcess() {
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
   cd ${TOMCAT_DIR}
   if ${IS_LINUX_HOST}; then
-    USERNAME=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-username.sh`  
     if ${DEBUG_MODE}; then
-      log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME} in debug mode"
-      sudo su - ${USERNAME} -c "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
+      log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"
+      cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}
     else
-      log.info "Starting tomcat ${TOMCAT_DIR} as user ${USERNAME}"
-      USER_UID=`sudo cat /etc/passwd | grep ${USERNAME} | cut -d ':' -f3`
-      sudo su - ${USERNAME} -c "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
+      log.info "Starting tomcat ${TOMCAT_DIR}"
+      USER_UID=`cat /etc/passwd | grep ${USER} | cut -d ':' -f3`
+      cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh
     fi
   else
     if ${DEBUG_MODE}; then

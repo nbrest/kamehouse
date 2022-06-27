@@ -164,6 +164,8 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "cd /home/${KAMEHOUSE_USERNAME}/git/kameh
   git pull origin dev ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
+  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh ; \
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \

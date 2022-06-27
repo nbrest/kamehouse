@@ -22,9 +22,8 @@ killRemainingTomcatProcess() {
   log.info "Searching for tomcat process"
   local TOMCAT_PORT=9005
   if ${IS_LINUX_HOST}; then
-    USERNAME=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-username.sh`  
-    sudo su - ${USERNAME} -c "netstat -nltp | grep ${TOMCAT_PORT} | grep java"
-    TOMCAT_PID=`sudo su - ${USERNAME} -c "netstat -nltp | grep ${TOMCAT_PORT} | grep java" | awk '{print $7}' | cut -d '/' -f 1`
+    netstat -nltp | grep ${TOMCAT_PORT} | grep java
+    TOMCAT_PID=`netstat -nltp | grep ${TOMCAT_PORT} | grep java | awk '{print $7}' | cut -d '/' -f 1`
     if [ -z ${TOMCAT_PID} ]; then
       log.info "Tomcat is not running on port ${TOMCAT_PORT}"
     else

@@ -14,13 +14,7 @@ SERVICE="docker"
 SERVICE_STARTUP="sudo service docker start"
 
 mainProcess() {
-  #PID=`sudo netstat -nltp | grep ${PORT} | awk '{print $7}' | cut -d '/' -f 1`
-  #if [ -z ${PID} ]; then
-    #log.info "${SERVICE} is not running. Starting it now"
-    ${SERVICE_STARTUP} &
-  #else
-  #  log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
-  #fi
+  ${SERVICE_STARTUP} &
 }
 
 main "$@"

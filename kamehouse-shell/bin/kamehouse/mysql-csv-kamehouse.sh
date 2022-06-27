@@ -18,6 +18,7 @@ LOG_PROCESS_TO_FILE=true
 PATH_CSV=${HOME}/home-synced/mysql/csv
 NUMBER_OF_BACKUPS=3
 OUT_FILE_BASE=""
+TMP_EXPORT_DIR=/tmp/kamehouse-csv-${USER}
 
 mainProcess() {
   setupInitialDirectories
@@ -29,17 +30,18 @@ mainProcess() {
 setupInitialDirectories() {
   log.info "Creating export directories if they don't exist"
   mkdir -v -p ${PATH_CSV}/old
+  mkdir -p ${TMP_EXPORT_DIR}
   if ${IS_LINUX_HOST}; then
-    log.info "Cleaning up /tmp csv files"
-    sudo chown ${USER}:${USER} /tmp/*.tmpcsv
-    rm -v -f /tmp/*.tmpcsv
+    log.info "Cleaning up ${TMP_EXPORT_DIR} csv files"
+    chown ${USER}:${USER} ${TMP_EXPORT_DIR}*.tmpcsv
+    rm -v -f ${TMP_EXPORT_DIR}*.tmpcsv
   fi
 }
 
 executeExport() {
   log.info "Exporting kamehouse database to csv"
   if ${IS_LINUX_HOST}; then
-    OUT_FILE_BASE="/tmp/"
+    OUT_FILE_BASE="${TMP_EXPORT_DIR}"
     PATH_SQL=${HOME}/programs/kamehouse-shell/bin/lin/sql/mysql
   else
     OUT_FILE_BASE="C:/Users/"${USER}"/home-synced/mysql/csv/"
@@ -48,10 +50,10 @@ executeExport() {
   mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} -e"set @outFileBase = '${OUT_FILE_BASE}'; `cat ${PATH_SQL}/csv-kamehouse.sql`"
   checkCommandStatus "$?"
   if ${IS_LINUX_HOST}; then
-    log.info "Moving generated csv files from /tmp to ${PATH_CSV}"
-    sudo chown ${USER}:${USER} /tmp/*.tmpcsv
+    log.info "Moving generated csv files from ${TMP_EXPORT_DIR} to ${PATH_CSV}"
+    chown ${USER}:${USER} ${TMP_EXPORT_DIR}*.tmpcsv
     checkCommandStatus "$?"
-    mv -v -f /tmp/*.tmpcsv ${PATH_CSV}
+    mv -v -f ${TMP_EXPORT_DIR}*.tmpcsv ${PATH_CSV}
     checkCommandStatus "$?"
   fi
   for TMPCSV_FILE in ${PATH_CSV}/*.tmpcsv; do
