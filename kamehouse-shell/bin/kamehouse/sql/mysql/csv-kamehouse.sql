@@ -14,7 +14,6 @@ PREPARE stmt FROM @SQL;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
-
 SET @tableName := 'booking_schedule_config';
 SET @outputFile := CONCAT(@outFileBase, @tableName, '.tmpcsv');
 SET @SQL = CONCAT("SELECT * FROM ", UPPER(@tableName), " INTO OUTFILE '", @outputFile, "' FIELDS TERMINATED BY ','"); 

@@ -16,6 +16,7 @@ source ${HOME}/.kamehouse/.shell/.cred
 # Global variables
 LOG_PROCESS_TO_FILE=true
 PATH_CSV=${HOME}/home-synced/mysql/csv
+PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql
 NUMBER_OF_BACKUPS=3
 OUT_FILE_BASE=""
 TMP_EXPORT_DIR=/tmp/kamehouse-csv-${USER}
@@ -42,10 +43,8 @@ executeExport() {
   log.info "Exporting kamehouse database to csv"
   if ${IS_LINUX_HOST}; then
     OUT_FILE_BASE="${TMP_EXPORT_DIR}"
-    PATH_SQL=${HOME}/programs/kamehouse-shell/bin/lin/sql/mysql
   else
     OUT_FILE_BASE="C:/Users/"${USER}"/home-synced/mysql/csv/"
-    PATH_SQL=${HOME}/programs/kamehouse-shell/bin/win/sql/mysql
   fi
   mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} -e"set @outFileBase = '${OUT_FILE_BASE}'; `cat ${PATH_SQL}/csv-kamehouse.sql`"
   checkCommandStatus "$?"
