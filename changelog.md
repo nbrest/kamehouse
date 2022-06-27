@@ -5,6 +5,7 @@
 * Updated setup guides
 * Removed dependency on root user in most of kamehouse-shell and groot functionality
 * Removed sudo from all scripts where it can be avoided
+* Removed my.scripts private repo from kamehouse-shell install script
 * Moved setting up root paths and shell on linux from install kamehouse to a separate optional script
 
 #### v7.05
