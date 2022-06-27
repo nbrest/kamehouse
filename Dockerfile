@@ -145,7 +145,7 @@ RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.
   chown ${KAMEHOUSE_USERNAME}:users /home/${KAMEHOUSE_USERNAME}/mysql-initial-data.tar.gz
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
-RUN echo "echo 'Update number to avoid cache 50'"
+RUN echo "echo 'Update number to avoid cache 51'"
 
 # Copy docker setup folder
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
