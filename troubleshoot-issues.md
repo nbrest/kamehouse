@@ -134,3 +134,7 @@ certbot -d www.nicobrest.com,kame.nicobrest.com,docker-demo.nicobrest.com --expa
 ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "pi"
 ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.0.129"
 ```
+
+## Can't tail apache httpd log on linux
+
+- Add user running kamehouse to adm group as described in [kamehouse-shell](kamehouse-shell/README.md)
