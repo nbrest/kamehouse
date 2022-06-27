@@ -34,7 +34,7 @@ setupInitialDirectories() {
   if ${IS_LINUX_HOST}; then
     log.info "Cleaning up ${TMP_EXPORT_DIR} csv files"
     chown ${USER}:${USER} ${TMP_EXPORT_DIR}/*.tmpcsv
-    rm -v -f ${TMP_EXPORT_DIR}*.tmpcsv
+    rm -v -f ${TMP_EXPORT_DIR}/*.tmpcsv
   fi
 }
 
