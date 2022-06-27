@@ -20,6 +20,7 @@ mainProcess() {
 
 removeServerKey() {
   log.info "Removing server key from known hosts"
+  log.debug "ssh-keygen -f \"${HOME}/.ssh/known_hosts\" -R \"[localhost]:${DOCKER_PORT_SSH}\""
   ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "[localhost]:${DOCKER_PORT_SSH}"
 }
 

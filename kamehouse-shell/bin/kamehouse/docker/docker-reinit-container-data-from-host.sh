@@ -57,20 +57,33 @@ reinitSsh() {
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/convert-rsa-keys-to-pkcs8.sh
   fi
 
+  log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.ssh"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.ssh
+
+  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"chmod 0600 /home/${DOCKER_USERNAME}/.ssh/id_rsa\""
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "chmod 0600 /home/${DOCKER_USERNAME}/.ssh/id_rsa"
+
   log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
+  
+  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'source .kamehouse/.kamehouse-docker-container-env ; ssh-keyscan $DOCKER_HOST_IP >> ~/.ssh/known_hosts ; ssh $DOCKER_HOST_USERNAME@$DOCKER_HOST_IP -C echo ssh keys configured successfully'"
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'source .kamehouse/.kamehouse-docker-container-env ; ssh-keyscan $DOCKER_HOST_IP >> ~/.ssh/known_hosts ; ssh $DOCKER_HOST_USERNAME@$DOCKER_HOST_IP -C echo ssh keys configured successfully'
+
   log.warn "If the last command didn't display 'ssh keys configured successfully' then login to the container and ssh from the container to the host using DOCKER_HOST_IP to add the host key to known hosts file"
 }
 
 reinitKameHouseFolder() {
   log.info "Setup .kamehouse folder"
   if [ "${DATA_SOURCE}" == "docker-init" ]; then
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.cred /home/${DOCKER_USERNAME}/.kamehouse/.shell/\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.cred /home/${DOCKER_USERNAME}/.kamehouse/.shell/"
+
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.*.pwd.enc /home/${DOCKER_USERNAME}/.kamehouse\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.*.pwd.enc /home/${DOCKER_USERNAME}/.kamehouse"
   else
+    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.shell/.cred ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/.shell/"
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.shell/.cred ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/.shell/
+
+    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.*.pwd.enc ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse"
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.*.pwd.enc ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse
   fi
 }
@@ -78,11 +91,19 @@ reinitKameHouseFolder() {
 reinitHomeSynced() {
   log.info "Setup home-synced folder"
   if [ "${DATA_SOURCE}" == "docker-init" ]; then
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/integration-test-cred.enc /home/${DOCKER_USERNAME}/home-synced/.kamehouse\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/integration-test-cred.enc /home/${DOCKER_USERNAME}/home-synced/.kamehouse"
+
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${DOCKER_USERNAME}/home-synced/.kamehouse/keys/kamehouse.pkcs12\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${DOCKER_USERNAME}/home-synced/.kamehouse/keys/kamehouse.pkcs12"
+
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${DOCKER_USERNAME}/home-synced/.kamehouse/keys/kamehouse.crt\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${DOCKER_USERNAME}/home-synced/.kamehouse/keys/kamehouse.crt"
   else
+    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/.kamehouse"
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/integration-test-cred.enc ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/.kamehouse
+
+    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/.kamehouse/keys"
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/.kamehouse/keys/* ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/.kamehouse/keys
   fi
   
@@ -92,14 +113,17 @@ reinitHomeSynced() {
     ;;
   "docker-init")
     log.info "Resetting mysql dump data from initial docker container data"
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/home-synced/mysql/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mysql/dump\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/home-synced/mysql/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mysql/dump"
     ;;
   "docker-backup")
     log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
+    log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
     scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
     ;;
   "host-backup")
     log.info "Exporting mysql data from ${HOME}/home-synced/mysql to the container"
+    log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
     scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
     ;;
   *) ;;
@@ -109,8 +133,10 @@ reinitHomeSynced() {
 reinitHttpd() {
   log.info "Setup httpd"
   if [ "${DATA_SOURCE}" == "docker-init" ]; then
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /var/www/html/.htpasswd /home/${DOCKER_USERNAME}/home-synced/httpd/\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /var/www/html/.htpasswd /home/${DOCKER_USERNAME}/home-synced/httpd/"
   else
+    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/httpd"
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/httpd
   fi
 }
@@ -122,9 +148,16 @@ reinitMysql() {
     ;;
   "docker-init"|"docker-backup"|"host-backup")
     log.info "Re-init mysql kamehouse db from dump"
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh"
+
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"sudo mysql -v < /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "sudo mysql -v < /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql"
+
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"sudo mysql kameHouse < /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "sudo mysql kameHouse < /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql"
+
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-restore-kamehouse.sh\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-restore-kamehouse.sh"
     ;;
   *) ;;

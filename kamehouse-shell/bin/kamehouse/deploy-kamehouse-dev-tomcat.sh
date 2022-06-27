@@ -100,6 +100,7 @@ deployToTomcat() {
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
       log.info "Deploying ${KAMEHOUSE_MODULE} in ${DEV_ENVIRONMENT}"
       if ${DEPLOY_TO_DOCKER}; then
+        log.debug "scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps"
         scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps
       else
         cp -v ${KAMEHOUSE_MODULE_WAR} ${TOMCAT_WEBAPPS_DIR}

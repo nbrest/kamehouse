@@ -81,6 +81,7 @@ pushChangesToGit() {
 
 clearMediaServerEhCache() {
   log.info "Clearing ${MEDIA_SERVER} cache"
+  log.debug "curl url: localhost:9090/kame-house-media/api/v1/commons/ehcache"
   curl --location --request DELETE 'localhost:9090/kame-house-media/api/v1/commons/ehcache' \
     --header "Content-Type: application/json" \
     --header "Authorization: Basic ${KH_ADMIN_API_BASIC_AUTH}"

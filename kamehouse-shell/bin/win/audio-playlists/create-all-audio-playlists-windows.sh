@@ -26,6 +26,7 @@ main() {
   log.warn "For the itunesexport program to pick up the library"
   log.warn "********************************************************************************"
 
+  log.debug "java -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN"
   java -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN
 
   log.info "Windows playlists"

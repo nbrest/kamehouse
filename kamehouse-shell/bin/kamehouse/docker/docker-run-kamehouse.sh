@@ -149,6 +149,7 @@ runDockerImage() {
   "
   
   echo ""
+  log.debug "${DOCKER_COMMAND}"
   ${DOCKER_COMMAND}
 }
 

@@ -19,6 +19,7 @@ DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
   log.info "Pushing docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
+  log.debug "docker push nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
   docker push nbrest/kamehouse:${DOCKER_IMAGE_TAG}
 }
 

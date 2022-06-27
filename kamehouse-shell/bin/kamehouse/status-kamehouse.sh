@@ -19,6 +19,7 @@ source ${HOME}/.kamehouse/.shell/.cred
 LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
+  log.debug "curl http://${TOMCAT_TEXT_USER}:****@localhost:${TOMCAT_PORT}/manager/text/list 2>/dev/null | sort"
   curl http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/list 2>/dev/null | sort
 }
 

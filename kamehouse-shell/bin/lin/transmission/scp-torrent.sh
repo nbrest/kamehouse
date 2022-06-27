@@ -20,6 +20,7 @@ mainProcess() {
     FILE_ARG=${FILE_ARG:1}
   fi
   log.info "Transfering ${FILE_ARG} to ${SCP_SERVER}"
+  log.debug "scp -r -C -v \"${SOURCE_PATH}${FILE_ARG}\" ${SCP_SERVER}:${DEST_PATH}"
   scp -r -C -v "${SOURCE_PATH}${FILE_ARG}" ${SCP_SERVER}:${DEST_PATH}
 }
 

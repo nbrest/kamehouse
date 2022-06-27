@@ -24,18 +24,22 @@ mainProcess() {
   if ${IS_LINUX_HOST}; then
     if ${DEBUG_MODE}; then
       log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"
+      log.debug "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
       cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}
     else
       log.info "Starting tomcat ${TOMCAT_DIR}"
       USER_UID=`cat /etc/passwd | grep ${USER} | cut -d ':' -f3`
+      log.debug "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
       cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh
     fi
   else
     if ${DEBUG_MODE}; then
       log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"
+      log.debug "powershell.exe -c \"Start-Process ./bin/catalina.bat -ArgumentList \\\"jpda start\\\"\" &"
       powershell.exe -c "Start-Process ./bin/catalina.bat -ArgumentList \"jpda start\"" &
     else
-      log.info "Starting tomcat ${TOMCAT_DIR}"  
+      log.info "Starting tomcat ${TOMCAT_DIR}"
+      log.debug "powershell.exe -c \"Start-Process ./bin/startup.bat\" &"
       powershell.exe -c "Start-Process ./bin/startup.bat" &
     fi
   fi

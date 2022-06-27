@@ -133,12 +133,14 @@ buildProject() {
     log.info "Building all modules"
   fi
   
+  log.debug "${MAVEN_COMMAND}"
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
 
   if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Building kamehouse-mobile android app"
     cd kamehouse-mobile
+    log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
     cordova clean
     cordova platform remove android
     cordova platform add android
@@ -149,6 +151,7 @@ buildProject() {
     cp -v -f pom.xml www/
     echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
     date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
+    log.debug "cordova build android"
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
     cd ..
@@ -212,7 +215,10 @@ deployKameHouseMobile() {
   if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"
     if [ -f "${KAMEHOUSE_ANDROID_APP}" ]; then
+      log.debug "scp -v ${KAMEHOUSE_ANDROID_APP} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
       scp -v ${KAMEHOUSE_ANDROID_APP} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
+
+      log.debug "ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C \"\\\${HOME}/programs/kamehouse-shell/bin/kamehouse/kh-mobile-regenerate-apk-html.sh -c ${GIT_COMMIT_HASH}\""
       ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "\${HOME}/programs/kamehouse-shell/bin/kamehouse/kh-mobile-regenerate-apk-html.sh -c ${GIT_COMMIT_HASH}"
     else
       log.error "${KAMEHOUSE_ANDROID_APP} not found. Was the build successful?"

@@ -23,6 +23,7 @@ mainProcess() {
   echo "********************************************************************************************"
   cd ${TOMCAT_DIR}
   # Start with jpda start to be able to remote debug on port 8000 (default port)
+  log.debug "${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
   ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG} 
 }
 

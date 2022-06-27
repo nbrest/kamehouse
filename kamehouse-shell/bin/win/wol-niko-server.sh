@@ -17,6 +17,7 @@ PORT=9
 
 mainProcess() {
   log.info "Sending WOL packet to niko-server"
+  log.debug "wolcmd ${NIKO_SERVER_MAC} ${BROADCAST_IP} ${SUBNET_MASK} ${PORT}"
   wolcmd ${NIKO_SERVER_MAC} ${BROADCAST_IP} ${SUBNET_MASK} ${PORT}
 }
 

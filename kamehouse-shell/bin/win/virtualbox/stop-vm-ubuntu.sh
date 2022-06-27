@@ -7,10 +7,6 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-# Global variables
-# LOG_PROCESS_TO_FILE=true
-GLOBAL_VAR="Use this script as a base for new scripts"
-
 mainProcess() {
   vboxmanage controlvm Ubuntu poweroff
 }

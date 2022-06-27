@@ -21,6 +21,7 @@ DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
   log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
+  log.debug "docker build --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} ."
   docker build --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
 }
 

@@ -76,6 +76,7 @@ buildProject() {
     log.info "Building kamehouse-mobile android app"
     cd kamehouse-mobile
     if ${DELETE_ALL_MOBILE_OUTPUTS}; then
+      log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
       cordova clean
       cordova platform remove android
       cordova platform add android
@@ -84,6 +85,7 @@ buildProject() {
     cp -v -f pom.xml www/
     echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
     date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
+    log.debug "cordova build android"
     cordova build android
     checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
   fi

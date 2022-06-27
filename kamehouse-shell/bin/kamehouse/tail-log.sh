@@ -235,6 +235,7 @@ addFileToLogFiles() {
 
 tailLog() {
   log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_DEFAULT_LOG} in ${COL_PURPLE}${ENVIRONMENT}${COL_DEFAULT_LOG}"
+  log.debug "tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}"
   tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}
   checkCommandStatus "$?" "An error occurred displaying ${LOG_FILES}"
 }
