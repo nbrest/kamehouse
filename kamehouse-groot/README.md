@@ -34,10 +34,8 @@ htpasswd -b ${PATH_TO_HTPASSWD_FILE}/.htpasswd user pass
 htpasswd -D ${PATH_TO_HTPASSWD_FILE}/.htpasswd user
 ```
 
-# Linux
+# Install:
 
-- Symlink programs folder from user home to root home for `exec-script.php`
-```sh
-# As root:
-ln -s /home/[USERNAME]/programs /root/programs
-```
+## Linux:
+
+- Run `install-kamehouse-groot.sh` to allow `www-data` user to execute `kamehouse-shell` scripts

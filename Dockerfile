@@ -49,12 +49,11 @@ ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
 COPY docker/etc/sudoers /etc/sudoers
 RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
-  echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd
+  echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd ; \
+  usermod -a -G adm ${KAMEHOUSE_USERNAME}
 
 # Setup ${KAMEHOUSE_USERNAME} home
-RUN echo "source /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> /root/.bashrc ; \
-  echo "source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env" >> /root/.bashrc ; \
-  sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
+RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
     mkdir -p /home/${KAMEHOUSE_USERNAME}/.ssh"
 
 # Install tomcat
@@ -111,9 +110,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/log
   mkdir -p /root/logs
 
 # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/" ; \ 
-  ln -s /home/${KAMEHOUSE_USERNAME}/programs /root/programs ; \
-  ln -s /home/${KAMEHOUSE_USERNAME}/.kamehouse /root/.kamehouse
+RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/"
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.cred /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/.cred
 
 # /home/${KAMEHOUSE_USERNAME}/programs
