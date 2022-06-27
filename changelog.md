@@ -7,6 +7,7 @@
 * Removed sudo from all scripts where it can be avoided
 * Removed my.scripts private repo from kamehouse-shell install script
 * Moved setting up root paths and shell on linux from install kamehouse to a separate optional script
+* Added a lot of debugging logs to the kamehouse-shell scripts
 
 #### v7.05
 
