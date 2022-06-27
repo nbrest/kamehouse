@@ -18,9 +18,9 @@ main() {
   parseArguments "$@"
   log.info "Setting up root user for kamehouse"
   log.info "Run this script as the user who installed and runs kamehouse"
-  log.info "User running this script needs ${COL_RED}sudo su${COL_DEFAULT_LOG} permissions"
+  log.info "User running this script needs ${COL_RED}sudo su${COL_MESSAGE} permissions"
   sudo su -c "cd ${HOME}/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh"
-  log.info "To ${COL_RED}uninstall${COL_DEFAULT_LOG} kamehouse-shell for root, run as root ${COL_PURPLE}cd ${HOME}/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
+  log.info "To ${COL_RED}uninstall${COL_MESSAGE} kamehouse-shell for root, run as root ${COL_PURPLE}cd ${HOME}/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
   log.info "Finished setting up root user for kamehouse"
 }
 
