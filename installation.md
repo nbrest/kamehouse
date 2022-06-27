@@ -45,7 +45,7 @@
 
 * All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh`
 
-* If using linux, **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/setup-kamehouse-root.sh` to setup root user to use kamehouse-shell as well
+* If using linux, **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user to have access to some kamehouse-shell scripts as well
 
 **WARNING**
 The script [install-kamehouse.sh](scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](scripts/uninstall-kamehouse.sh) script
@@ -64,3 +64,4 @@ chmod a+x uninstall-kamehouse.sh ; ./uninstall-kamehouse.sh
 ```sql
 DROP SCHEMA IF EXISTS kameHouse;
 ```
+* To uninstall kamehouse-shell for root, run [uninstall-kamehouse.sh](scripts/uninstall-kamehouse.sh) as root

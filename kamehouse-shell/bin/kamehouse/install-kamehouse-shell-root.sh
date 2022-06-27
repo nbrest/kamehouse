@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Execute from the root of the kamehouse git project:
-# chmod a+x ./kamehouse-shell/bin/kamehouse/setup-kamehouse-root.sh
-# ./kamehouse-shell/bin/kamehouse/setup-kamehouse-root.sh
+# chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh
+# ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh
 
 COL_BLUE="\033[1;34m"
 COL_BOLD="\033[1m"
@@ -17,8 +17,10 @@ COL_MESSAGE=${COL_GREEN}
 main() {
   parseArguments "$@"
   log.info "Setting up root user for kamehouse"
+  log.info "Run this script as the user who installed and runs kamehouse"
   log.warn "User running this script needs ${COL_RED}sudo su${COL_DEFAULT_LOG} permissions"
-  sudo su -c "cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh"
+  sudo su -c "cd ${HOME}/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh"
+  log.info "To ${COL_RED}uninstall${COL_DEFAULT_LOG} kamehouse-shell for root, run as root ${COL_PURPLE}cd ${HOME}/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
   log.info "Finished setting up root user for kamehouse"
 }
 
