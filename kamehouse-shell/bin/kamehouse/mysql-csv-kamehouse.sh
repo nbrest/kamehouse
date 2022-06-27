@@ -42,7 +42,7 @@ setupInitialDirectories() {
 executeExport() {
   log.info "Exporting kamehouse database to csv"
   if ${IS_LINUX_HOST}; then
-    OUT_FILE_BASE="${TMP_EXPORT_DIR}"
+    OUT_FILE_BASE="${TMP_EXPORT_DIR}/"
   else
     OUT_FILE_BASE="C:/Users/"${USER}"/home-synced/mysql/csv/"
   fi
@@ -51,9 +51,7 @@ executeExport() {
   if ${IS_LINUX_HOST}; then
     log.info "Moving generated csv files from ${TMP_EXPORT_DIR} to ${PATH_CSV}"
     chown ${USER}:${USER} ${TMP_EXPORT_DIR}/*.tmpcsv
-    checkCommandStatus "$?"
     mv -v -f ${TMP_EXPORT_DIR}/*.tmpcsv ${PATH_CSV}
-    checkCommandStatus "$?"
   fi
   for TMPCSV_FILE in ${PATH_CSV}/*.tmpcsv; do
     TMPCSV_FILENAME="$(basename -- ${TMPCSV_FILE})"
