@@ -57,7 +57,7 @@ parseArguments() {
 
 printHelp() {
   echo -e ""
-  echo -e "Usage: ${COL_PURPLE}install-kamehouse-shell.sh${COL_NORMAL} [options]"
+  echo -e "Usage: ${COL_PURPLE}install-kamehouse-shell-root.sh${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"

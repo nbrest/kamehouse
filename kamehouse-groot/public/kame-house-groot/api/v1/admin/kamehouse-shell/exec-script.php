@@ -72,7 +72,7 @@
        * Update sudoers:
        *  www-data ALL=(ALL) NOPASSWD: /home/[USERNAME]/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
        * where [USERNAME] is the username that installed kamehouse
-       * Make sure the script `install-kamehouse-groot.sh` was executed as well to access get-username.sh from groot.
+       * Make sure the script `install-kamehouse-groot.sh` was executed as well to access get-username.sh and exec-script.sh from groot.
        */
       $username = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
       $shellCommand = "sudo -u " . $username . " /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
