@@ -33,7 +33,7 @@ setupInitialDirectories() {
   mkdir -p ${TMP_EXPORT_DIR}
   if ${IS_LINUX_HOST}; then
     log.info "Cleaning up ${TMP_EXPORT_DIR} csv files"
-    chown ${USER}:${USER} ${TMP_EXPORT_DIR}*.tmpcsv
+    chown ${USER}:${USER} ${TMP_EXPORT_DIR}/*.tmpcsv
     rm -v -f ${TMP_EXPORT_DIR}*.tmpcsv
   fi
 }
@@ -51,9 +51,9 @@ executeExport() {
   checkCommandStatus "$?"
   if ${IS_LINUX_HOST}; then
     log.info "Moving generated csv files from ${TMP_EXPORT_DIR} to ${PATH_CSV}"
-    chown ${USER}:${USER} ${TMP_EXPORT_DIR}*.tmpcsv
+    chown ${USER}:${USER} ${TMP_EXPORT_DIR}/*.tmpcsv
     checkCommandStatus "$?"
-    mv -v -f ${TMP_EXPORT_DIR}*.tmpcsv ${PATH_CSV}
+    mv -v -f ${TMP_EXPORT_DIR}/*.tmpcsv ${PATH_CSV}
     checkCommandStatus "$?"
   fi
   for TMPCSV_FILE in ${PATH_CSV}/*.tmpcsv; do
