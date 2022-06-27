@@ -15,20 +15,12 @@ fi
 
 USERHOME_WIN="${HOME}"
 USERHOME_LIN="/home/${DEFAULT_KAMEHOUSE_USERNAME}"
-HOST=""
-HOST_FILE="${HOME}/.kamehouse/host"
 
 main() {
   # WIN_USER_HOME=`cmd.exe '/c echo %USERPROFILE%'`
   # WIN_USER_HOME=${WIN_USER_HOME::-1}
 
   if ${IS_LINUX_HOST}; then
-    if [ -f "${HOST_FILE}" ]; then
-      HOST=`cat ${HOST_FILE}`
-      if [ "${HOST}" == "aws" ]; then
-        USERHOME_LIN="/home/ubuntu"
-      fi
-    fi
     echo "${USERHOME_LIN}"
   else
     echo "${USERHOME_WIN}"

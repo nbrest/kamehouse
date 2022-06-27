@@ -14,17 +14,8 @@ if [ "$?" != "0" ]; then
 fi
 
 USERNAME="${DEFAULT_KAMEHOUSE_USERNAME}"
-HOST=""
-HOST_FILE="${HOME}/.kamehouse/host"
 
 main() {
-  if [ -f "${HOST_FILE}" ]; then
-    HOST=`cat ${HOST_FILE}`
-    if [ "${HOST}" == "aws" ]; then
-      USERNAME="ubuntu"
-    fi
-  fi
-
   echo "${USERNAME}"
   exitProcess 0
 }

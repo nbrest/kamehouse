@@ -10,17 +10,6 @@ fi
 TOMCAT_DIR="${HOME}/programs/apache-tomcat"
 
 main() {
-  if ${IS_LINUX_HOST}; then
-      if [ -d "/var/lib/tomcat7" ]; then
-        TOMCAT_DIR="/var/lib/tomcat7"
-      fi
-      if [ -d "/var/lib/tomcat8" ]; then
-        TOMCAT_DIR="/var/lib/tomcat8"
-      fi
-      if [ -d "/var/lib/tomcat9" ]; then
-        TOMCAT_DIR="/var/lib/tomcat9"
-      fi
-  fi  
   echo "${TOMCAT_DIR}"
   exitProcess 0
 }
