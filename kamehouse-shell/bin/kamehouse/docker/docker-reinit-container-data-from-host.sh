@@ -122,7 +122,7 @@ reinitMysql() {
     ;;
   "docker-init"|"docker-backup"|"host-backup")
     log.info "Re-init mysql kamehouse db from dump"
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "sudo /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh"
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh"
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "sudo mysql -v < /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql"
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "sudo mysql kameHouse < /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql"
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-restore-kamehouse.sh"
