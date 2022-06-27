@@ -18,6 +18,10 @@ main() {
   parseArguments "$@"
   log.info "Setting up root user for kamehouse"
   log.info "Run this script as the user who installed and runs kamehouse"
+  if (( $EUID == 0 )); then
+    log.error "Running this script as root. It needs to run as a normal user. Exiting..."
+    exit 1
+  fi
   log.info "User running this script needs ${COL_RED}sudo su${COL_MESSAGE} permissions"
   sudo su -c "cd ${HOME}/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh"
   log.info "To ${COL_RED}uninstall${COL_MESSAGE} kamehouse-shell for root, run as root ${COL_PURPLE}cd ${HOME}/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
