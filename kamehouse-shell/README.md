@@ -12,5 +12,5 @@ This module contains most of my shell scripts to automate some tasks setting up,
 
 - Add user running kamehouse to adm group to be able to tail apache2 logs
 ```sh
-usermod -a -G adm username
+sudo usermod -a -G adm username
 ```
