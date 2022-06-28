@@ -149,6 +149,7 @@ function ServerManager() {
    * Reboot the server.
    */
   function rebootServer() {
+    basicKamehouseModal.close();
     if (isCommandRunning()) {
       return;
     }
