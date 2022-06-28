@@ -4,7 +4,7 @@ import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.util.Arrays;
 
 /**
- * Base class for VncDo system commands.
+ * Base class for KameHouse CMD system commands.
  *
  * @author nbrest
  */

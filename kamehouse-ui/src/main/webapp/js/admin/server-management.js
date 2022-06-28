@@ -185,6 +185,7 @@ function ServerManager() {
    * Reboot the server.
    */
   function rebootServer() {
+    basicKamehouseModal.close();
     loadingWheelModal.open();
     debuggerHttpClient.post(ADMIN_API_URL + REBOOT_URL, null, processSuccess, processError);
   }
