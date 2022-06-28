@@ -21,22 +21,38 @@ BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"
 REMOTE_BASE_PATH="\${HOME}/programs/kamehouse-shell/bin/"
 EXECUTE_ON_DOCKER_HOST=false
 IS_EXECUTABLE_ON_DOCKER_HOST=false
+REQUIRES_SUDO=false
+# Add these scripts to sudoers file to execute without password prompt
+SUDO_SCRIPTS="
+  kamehouse/httpd-startup.sh
+  lin/kamehouse/httpd-status.sh
+  lin/kamehouse/httpd-stop.sh
+  lin/shutdown/reboot.sh
+"
 
 mainProcess() {
   log.info "Executing script ${BASE_PATH}${SCRIPT} with arguments ${SCRIPT_ARGS}"
   setupEnv
 
   if ${EXECUTE_ON_DOCKER_HOST}; then
+    local REMOTE_COMMAND="${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
+    if ${REQUIRES_SUDO}; then
+      REMOTE_COMMAND="sudo "${REMOTE_COMMAND}
+    fi
     if ${IS_LINUX_DOCKER_HOST}; then
-      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\""
-      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
+      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_COMMAND}\""
+      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_COMMAND}"
     else
-      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\\\"\""
-      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}\""
+      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_COMMAND}\\\"\""
+      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_COMMAND}\""
     fi
   else
-    log.debug "${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
-    ${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}  
+    local LOCAL_COMMAND="${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
+    if ${REQUIRES_SUDO}; then
+      LOCAL_COMMAND="sudo "${LOCAL_COMMAND}
+    fi
+    log.debug "${LOCAL_COMMAND}"
+    ${LOCAL_COMMAND}  
   fi
 }
 
@@ -47,7 +63,21 @@ setupEnv() {
     log.info "Executing script on docker host"
     EXECUTE_ON_DOCKER_HOST=true
   fi
+  setRequiresSudo
   printEnv
+}
+
+setRequiresSudo() {
+  if [ "${IS_LINUX_HOST}" == "true" ] || [[ "${EXECUTE_ON_DOCKER_HOST}" == "true" &&  "${IS_LINUX_DOCKER_HOST}" == "true" ]]; then
+    echo ${SUDO_SCRIPTS} | grep ${SCRIPT} > /dev/null
+    local RESULT=$?
+    if [ "${RESULT}" == "0" ]; then
+      log.debug "The script ${SCRIPT} requires sudo permissions"
+      REQUIRES_SUDO=true
+    else
+      log.debug "The script ${SCRIPT} doesn't require sudo permissions"
+    fi
+  fi 
 }
 
 printEnv() {
@@ -59,6 +89,7 @@ printEnv() {
   log.debug "IS_LINUX_DOCKER_HOST ${IS_LINUX_DOCKER_HOST}"
   log.debug "IS_EXECUTABLE_ON_DOCKER_HOST ${IS_EXECUTABLE_ON_DOCKER_HOST}"
   log.debug "EXECUTE_ON_DOCKER_HOST ${EXECUTE_ON_DOCKER_HOST}"
+  log.debug "REQUIRES_SUDO ${REQUIRES_SUDO}"
 }
 
 parseArguments() {

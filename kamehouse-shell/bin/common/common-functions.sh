@@ -38,6 +38,11 @@ LOG_PROCESS_TO_FILE=false
 # File to log the output of the process to.
 PROCESS_LOG_FILE=${HOME}/logs/${SCRIPT_NAME%.*}.log
 
+IS_ROOT_USER=false
+if (( $EUID == 0 )); then
+  IS_ROOT_USER=true
+fi
+
 ##########################################
 # Common functions used by other scripts #
 ##########################################

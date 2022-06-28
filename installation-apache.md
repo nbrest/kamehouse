@@ -66,11 +66,15 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
 - Install php from the package manager
 - Update the configuration files with the ones in `local-setup/apache` 
   ```sh
+  # config apache
   sudo cp -v -f -r local-setup/apache/lin/conf to /var/apache2/conf
   sudo cp -v -f -r local-setup/apache/lin/sites-available to /var/apache2/sites-available
   sudo a2ensite default-ssl
   sudo a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
+
+  # config kamehouse user groups
   sudo usermod -a -G adm [username-running-kamehouse]
+  sudo usermod -a -G sudo [username-running-kamehouse]
   ```
   - Update `/var/apache2/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
   - Update `/var/apache2/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username

@@ -38,4 +38,4 @@ htpasswd -D ${PATH_TO_HTPASSWD_FILE}/.htpasswd user
 
 ## Linux:
 
-- Run `install-kamehouse-groot.sh` to allow `www-data` user to execute `kamehouse-shell` scripts from groot
+- Run `install-kamehouse-groot.sh -u kamehouseUsername` as root to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. This script is executed in `install-kamehouse.sh`

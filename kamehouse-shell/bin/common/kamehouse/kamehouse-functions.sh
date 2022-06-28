@@ -10,6 +10,7 @@ SSH_PORT=22
 AWS_SSH_SERVER="ec2-13-211-209-87.ap-southeast-2.compute.amazonaws.com"
 AWS_SSH_USER=ubuntu
 GIT_COMMIT_HASH=
+SUDO_KAMEHOUSE_COMMAND=""
 
 TOMCAT_PORT=9090
 TOMCAT_DEBUG_PORT=8000
@@ -158,4 +159,14 @@ exportGitCommitHash() {
   log.info "Exporting git commit hash to project"
   GIT_COMMIT_HASH=`git rev-parse --short HEAD`
   echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+}
+
+# Set a kamehouse command to execute through exec-script.sh or sudo or as root
+setSudoKameHouseCommand() {
+  log.warn "This script needs to run as ${COL_RED}root${COL_DEFAULT_LOG} or with ${COL_RED}sudo${COL_DEFAULT_LOG} or with ${COL_RED}exec-script.sh${COL_DEFAULT_LOG}"  
+  SUDO_KAMEHOUSE_COMMAND=$1
+  if ! ${IS_ROOT_USER}; then
+    SUDO_KAMEHOUSE_COMMAND="sudo ${SUDO_KAMEHOUSE_COMMAND}"
+  fi
+  log.debug "${SUDO_KAMEHOUSE_COMMAND}"
 }

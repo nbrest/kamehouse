@@ -27,7 +27,10 @@ root	ALL=(ALL:ALL) ALL
 
 # See sudoers(5) for more information on "#include" directives:
 
-goku ALL=(ALL) NOPASSWD: ALL
+goku ALL=(ALL) NOPASSWD: /home/goku/programs/kamehouse-shell/bin/kamehouse/httpd-startup.sh
+goku ALL=(ALL) NOPASSWD: /home/goku/programs/kamehouse-shell/bin/lin/kamehouse/httpd-status.sh
+goku ALL=(ALL) NOPASSWD: /home/goku/programs/kamehouse-shell/bin/lin/kamehouse/httpd-stop.sh
+goku ALL=(ALL) NOPASSWD: /home/goku/programs/kamehouse-shell/bin/lin/shutdown/reboot.sh
 
 www-data ALL=(ALL) NOPASSWD: /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
 

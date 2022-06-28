@@ -9,6 +9,7 @@
 * Moved setting up root paths and shell on linux from install kamehouse to a separate optional script
 * Added a lot of debugging logs to the kamehouse-shell scripts
 * Updated suspend times dropdown in admin view
+* Removed most passwordless sudo permissions from kamehouse user
 
 #### v7.05
 

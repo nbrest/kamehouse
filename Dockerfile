@@ -50,7 +50,8 @@ ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 COPY docker/etc/sudoers /etc/sudoers
 RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd ; \
-  usermod -a -G adm ${KAMEHOUSE_USERNAME}
+  usermod -a -G adm ${KAMEHOUSE_USERNAME} ; \
+  usermod -a -G sudo ${KAMEHOUSE_USERNAME}
 
 # Setup ${KAMEHOUSE_USERNAME} home
 RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
@@ -133,22 +134,21 @@ RUN chmod a+x /usr/bin/vlc ; \
   chmod a+x /usr/local/bin/vncdo ; \
   chmod a+x /usr/bin/gnome-screensaver-command
 
+# Copy docker setup folder
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
+
 # Open mysqldb to external connections and intial dump of mysql data
 RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mysql start ; \
   sleep 5 ; \
+  source /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred ; \
   mysql < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
-  cd /var/lib ; \
-  tar -cvpzf /home/${KAMEHOUSE_USERNAME}/mysql-initial-data.tar.gz mysql/ ; \
-  chown ${KAMEHOUSE_USERNAME}:users /home/${KAMEHOUSE_USERNAME}/mysql-initial-data.tar.gz
+  mysql -e"set @nikoLqsPass = '${MYSQL_PASS_NIKOLQS}'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
 RUN echo "echo 'Update number to avoid cache 55'"
-
-# Copy docker setup folder
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
 
 # Deploy latest version of kamehouse (should have most of the dependencies already downloaded)
 # Also updates the kamehouse-shell directory with the latest version of the scripts
@@ -157,13 +157,11 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "cd /home/${KAMEHOUSE_USERNAME}/git/kameh
   git pull origin dev ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
-  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh ; \
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker ; \
   mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/create-sample-video-playlists.sh ; \
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh"
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/create-sample-video-playlists.sh" ; \
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME}
 
 # Expose ports
 EXPOSE 22 80 443 3306 8000 8080 9090

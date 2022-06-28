@@ -17,14 +17,24 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-source ${HOME}/.kamehouse/.shell/.cred
+# Global variables
 LOG_PROCESS_TO_FILE=true
 PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql
 
 mainProcess() {
-  log.info "Adding user nikolqs to mysql db"
+  log.info "Setting up kamehouse database"
+  log.info "Executing setup-kamehouse.sql"
   setSudoKameHouseCommand "mysql"
-  ${SUDO_KAMEHOUSE_COMMAND} -e"set @nikoLqsPass = '${MYSQL_PASS_NIKOLQS}'; `cat ${PATH_SQL}/add-mysql-user-nikolqs.sql`"
+  ${SUDO_KAMEHOUSE_COMMAND} -v < ${PATH_SQL}/setup-kamehouse.sql
+  checkCommandStatus "$?" "Error running setup-kamehouse.sql"
+
+  log.info "Executing spring-session.sql"
+  ${SUDO_KAMEHOUSE_COMMAND} kameHouse < ${PATH_SQL}/spring-session.sql 
+  checkCommandStatus "$?" "Error running spring-session.sql"
+  log.info "Finished setting up kamehouse database"
 }
 
 main "$@"
+
+
+
