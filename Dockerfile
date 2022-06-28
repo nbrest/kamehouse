@@ -72,7 +72,7 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/host-manager.xml /home/${
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
 # Clone KameHouse dev branch
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo 'Update number to avoid cache 4' ; mkdir -p /home/${KAMEHOUSE_USERNAME}/git ; \
+RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo 'Update number to avoid cache 5' ; mkdir -p /home/${KAMEHOUSE_USERNAME}/git ; \
   chmod a+xwr /home/${KAMEHOUSE_USERNAME}/git ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
   cd /home/${KAMEHOUSE_USERNAME}/git ; \
@@ -141,11 +141,10 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/dock
 RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mysql start ; \
   sleep 5 ; \
-  source /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred ; \
   mysql < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
-  mysql -e"set @nikoLqsPass = '${MYSQL_PASS_NIKOLQS}'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
+  mysql -e"set @nikoLqsPass = '`source /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred ; echo \${MYSQL_PASS_NIKOLQS}`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
 RUN echo "echo 'Update number to avoid cache 55'"
