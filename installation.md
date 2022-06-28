@@ -56,12 +56,13 @@ The script [install-kamehouse.sh](scripts/install-kamehouse.sh) will update your
 
 * Add the kamehouse user to the following groups:
 ```sh
+  # adm: to be able to tail apache httpd logs
   sudo usermod -a -G adm [username-running-kamehouse]
-   # Your user should already have sudo permissions to run install-kamehouse.sh, so this shouldn't be necessary
+  # sudo: to execute some manual commands like docker-reinit-container-data-from-host.sh. Not strictly necessary to run kamehouse apps. The entries in /etc/sudoers mentioned above are all that is needed
   sudo usermod -a -G sudo [username-running-kamehouse]
 ```
 
-* **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This is not really necessary
+* **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This doesn't really add any functionality. It's just to have a cooler prompt with root :)
 
 ## Uninstall:
 
