@@ -10,6 +10,7 @@
 * Added a lot of debugging logs to the kamehouse-shell scripts
 * Updated suspend times dropdown in admin view
 * Removed most passwordless sudo permissions from kamehouse user
+* Moved reboot, shutdown, suspend and httpd control commands to execute through kamehouse-shell on linux
 
 #### v7.05
 
