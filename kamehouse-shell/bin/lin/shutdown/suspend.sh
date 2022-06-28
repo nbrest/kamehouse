@@ -20,8 +20,8 @@ fi
 LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
-  setSudoKameHouseCommand "reboot"
-  ${SUDO_KAMEHOUSE_COMMAND}
+  setSudoKameHouseCommand "/bin/systemctl"
+  ${SUDO_KAMEHOUSE_COMMAND} suspend -i
 }
 
 main "$@"

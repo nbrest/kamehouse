@@ -1,24 +1,33 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * System command to cancel a scheduled shutdown of the server.
  *
  * @author nbrest
  */
-public class ShutdownCancelSystemCommand extends SystemCommand {
+public class ShutdownCancelSystemCommand extends KameHouseShellSystemCommand {
 
-  /**
-   * Sets the command line for each operation system required for this SystemCommand.
-   */
-  public ShutdownCancelSystemCommand() {
-    executeOnDockerHost = true;
-    addBashPrefix();
-    linuxCommand.add("sudo /sbin/shutdown -c");
-    addWindowsCmdStartPrefix();
-    windowsCommand.addAll(Arrays.asList("shutdown", "/a"));
-    setOutputCommand();
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
+  }
+
+  @Override
+  protected List<String> getWindowsCommand() {
+    return Arrays.asList("shutdown", "/a");
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/shutdown/shutdown-cancel.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }

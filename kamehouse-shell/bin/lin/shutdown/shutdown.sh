@@ -18,10 +18,36 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
+SHUTDOWN_DELAY_MIN="0"
 
 mainProcess() {
-  setSudoKameHouseCommand "reboot"
-  ${SUDO_KAMEHOUSE_COMMAND}
+  setSudoKameHouseCommand "/sbin/shutdown"
+  ${SUDO_KAMEHOUSE_COMMAND} -P ${SHUTDOWN_DELAY_MIN}
+}
+
+parseArguments() {
+  while getopts ":d:h" OPT; do
+    case $OPT in
+    ("d")
+      SHUTDOWN_DELAY_MIN=$OPTARG
+      ;;
+    ("h")
+      parseHelp
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+}
+
+printHelp() {
+  echo -e ""
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
+  echo -e ""
+  echo -e "  Options:"  
+  echo -e "     ${COL_BLUE}-d${COL_NORMAL} shutdown delay in minutes"
+  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
 }
 
 main "$@"

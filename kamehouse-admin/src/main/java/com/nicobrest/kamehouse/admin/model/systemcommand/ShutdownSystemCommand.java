@@ -1,21 +1,22 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * System command to shutdown the server.
  *
  * @author nbrest
  */
-public class ShutdownSystemCommand extends SystemCommand {
+public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
 
   /**
    * Sets the command line for each operation system required for this SystemCommand.
    */
   public ShutdownSystemCommand(int shutdownDelaySeconds) {
-    executeOnDockerHost = true;
+    super();
     if (shutdownDelaySeconds < 0) {
       throw new KameHouseInvalidCommandException(
           "Invalid time for shutdown command " + shutdownDelaySeconds);
@@ -24,12 +25,28 @@ public class ShutdownSystemCommand extends SystemCommand {
     if (shutdownDelaySeconds >= 60) {
       shutdownDelayMinutes = shutdownDelaySeconds / 60;
     }
-    addBashPrefix();
-    linuxCommand.addAll(Arrays.asList(
-        "sudo /sbin/shutdown -P ", String.valueOf(shutdownDelayMinutes)));
-    addWindowsCmdStartPrefix();
-    windowsCommand.addAll(Arrays.asList(
-        "shutdown", "/s", "/t ", String.valueOf(shutdownDelaySeconds)));
+    linuxCommand.addAll(Arrays.asList("-a", " -d " + shutdownDelayMinutes));
+    windowsCommand.add(String.valueOf(shutdownDelaySeconds));
     setOutputCommand();
+  }
+
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
+  }
+
+  @Override
+  protected List<String> getWindowsCommand() {
+    return Arrays.asList("shutdown", "/s", "/t ");
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/shutdown/shutdown.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }
