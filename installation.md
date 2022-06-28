@@ -52,7 +52,14 @@ The script [install-kamehouse.sh](scripts/install-kamehouse.sh) will update your
 
 ### Linux:
 
-* Update the `/etc/sudoers` file with the entries found in [sudoers](docker/etc/sudoers)
+* Update the `/etc/sudoers` file with the entries found in [sudoers](docker/etc/sudoers). Replace `goku` with your username running kamehouse
+
+* Add the kamehouse user to the following groups:
+```sh
+  sudo usermod -a -G adm [username-running-kamehouse]
+   # Your user should already have sudo permissions to run install-kamehouse.sh, so this shouldn't be necessary
+  sudo usermod -a -G sudo [username-running-kamehouse]
+```
 
 * **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This is not really necessary
 
