@@ -144,7 +144,7 @@ RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.
   mysql < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
-  mysql -e"set @nikoLqsPass = '`source /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred ; echo \${MYSQL_PASS_NIKOLQS}`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
+  mysql -e"set @nikoLqsPass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MYSQL_PASS_NIKOLQS | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
 
 # Increment number in the next command to trigger executing all the following layers instead of getting them from cache
 RUN echo "echo 'Update number to avoid cache 55'"

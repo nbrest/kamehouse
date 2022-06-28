@@ -45,14 +45,18 @@
 
 * All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh`
 
-* If using linux, **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This is not really necessary, it's more to have the updated prompt when doing `sudo su`
-
 **WARNING**
 The script [install-kamehouse.sh](scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](scripts/uninstall-kamehouse.sh) script
 
 * Follow the [Execution](execution.md) guide to run kamehouse
 
-## Uninstall
+### Linux:
+
+* Update the `/etc/sudoers` file with the entries found in [sudoers](docker/etc/sudoers)
+
+* **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This is not really necessary
+
+## Uninstall:
 
 - Download and run the [uninstall-kamehouse.sh](scripts/uninstall-kamehouse.sh) to uninstall kamehouse from your system
 ```sh
@@ -64,4 +68,7 @@ chmod a+x uninstall-kamehouse.sh ; ./uninstall-kamehouse.sh
 ```sql
 DROP SCHEMA IF EXISTS kameHouse;
 ```
+
+### Linux:
+
 * To uninstall kamehouse-shell for root, run [uninstall-kamehouse.sh](scripts/uninstall-kamehouse.sh) as root
