@@ -6,14 +6,15 @@ import java.util.List;
 /**
  * Base class for KameHouse Shell system commands that need to be executed from the exec-script.sh
  * on linux to handle sudo calls. For windows the command at the moment is a standard windows
- * command, not going through kamehouse-shell.
+ * command, not going through kamehouse-shell. By default linux kamehouse-shell commands here are
+ * executed with sudo. But it can be overriden to execute without it.
  *
  * @author nbrest
  */
 public abstract class KameHouseShellSystemCommand extends SystemCommand {
 
-  private static final String KAMEHOUSE_CMD_LINUX = PropertiesUtils.getUserHome()
-      + "/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
+  private static final String KAMEHOUSE_SHELL_BASE_LINUX = PropertiesUtils.getUserHome()
+      + "/programs/kamehouse-shell/bin/";
 
   /**
    * Build the kamehouse-shell system command.
@@ -22,16 +23,18 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
     executeOnDockerHost = executeOnDockerHost();
     sleepTime = getSleepTime();
     isDaemon = isDaemon();
-    linuxCommand.add(KAMEHOUSE_CMD_LINUX);
-    linuxCommand.add("-s");
-    linuxCommand.add(getLinuxKameHouseShellScript());
-    if (getLinuxKameHouseShellScriptArguments() != null) {
-      linuxCommand.add("-a");
-      linuxCommand.add(getLinuxKameHouseShellScriptArguments());
-    }
+    addBashPrefix();
+    linuxCommand.add(buildLinuxCommand());
     addWindowsCmdStartPrefix();
     windowsCommand.addAll(getWindowsCommand());
     setOutputCommand();
+  }
+
+  /**
+   * True if the command requires sudo permissions.
+   */
+  protected boolean isSudo() {
+    return true;
   }
 
   /**
@@ -48,4 +51,21 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
    * Get the arguments to pass to the kamehouse-shell script.
    */
   protected abstract String getLinuxKameHouseShellScriptArguments();
+
+  /**
+   * Returns the linux command to excute.
+   */
+  private String buildLinuxCommand() {
+    StringBuilder linuxCommand = new StringBuilder();
+    if (isSudo()) {
+      linuxCommand.append("sudo ");
+    }
+    linuxCommand.append(KAMEHOUSE_SHELL_BASE_LINUX);
+    linuxCommand.append(getLinuxKameHouseShellScript());
+    if (getLinuxKameHouseShellScriptArguments() != null) {
+      linuxCommand.append(" ");
+      linuxCommand.append(getLinuxKameHouseShellScriptArguments());
+    }
+    return linuxCommand.toString();
+  }
 }

@@ -21,11 +21,7 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
       throw new KameHouseInvalidCommandException(
           "Invalid time for shutdown command " + shutdownDelaySeconds);
     }
-    int shutdownDelayMinutes = 0;
-    if (shutdownDelaySeconds >= 60) {
-      shutdownDelayMinutes = shutdownDelaySeconds / 60;
-    }
-    linuxCommand.addAll(Arrays.asList("-a", " -d " + shutdownDelayMinutes));
+    buildLinuxCommand(shutdownDelaySeconds);
     windowsCommand.add(String.valueOf(shutdownDelaySeconds));
     setOutputCommand();
   }
@@ -48,5 +44,16 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
   @Override
   protected String getLinuxKameHouseShellScriptArguments() {
     return null;
+  }
+
+  private void buildLinuxCommand(int shutdownDelaySeconds) {
+    int shutdownDelayMinutes = 0;
+    if (shutdownDelaySeconds >= 60) {
+      shutdownDelayMinutes = shutdownDelaySeconds / 60;
+    }
+    String command = linuxCommand.get(linuxCommand.size() - 1);
+    command = command + " -d " + shutdownDelayMinutes;
+    linuxCommand.remove(linuxCommand.size() - 1);
+    linuxCommand.add(command);
   }
 }

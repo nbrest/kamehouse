@@ -48,7 +48,7 @@ public class ShutdownSystemCommandTest {
     assertEquals(0, command.getSleepTime());
     String outputCommand = command.getCommand().toString();
     assertNotNull(outputCommand);
-    assertTrue(outputCommand.contains("/programs/kamehouse-shell/bin/common/sudoers/www-data/"
-        + "exec-script.sh, -s, lin/shutdown/shutdown.sh, -a,  -d 0]"));
+    assertTrue(
+        outputCommand.contains("/programs/kamehouse-shell/bin/lin/shutdown/shutdown.sh -d 0]"));
   }
 }
