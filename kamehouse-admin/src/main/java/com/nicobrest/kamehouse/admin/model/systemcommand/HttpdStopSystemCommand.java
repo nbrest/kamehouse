@@ -1,25 +1,33 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * System command to stop the httpd server.
  *
  * @author nbrest
  */
-public class HttpdStopSystemCommand extends SystemCommand {
+public class HttpdStopSystemCommand extends KameHouseShellSystemCommand {
 
-  /**
-   * Sets the command line for each operation system required for this SystemCommand.
-   */
-  public HttpdStopSystemCommand() {
-    sleepTime = 7;
-    addBashPrefix();
-    linuxCommand.add("sudo service apache2 stop ; echo Stopping apache httpd");
-    addWindowsCmdStartPrefix();
-    windowsCommand.addAll(Arrays.asList(
-        "taskkill", "/im", "httpd.exe", "&", "echo", "Stopping apache httpd"));
-    setOutputCommand();
+  @Override
+  public int getSleepTime() {
+    return 7;
+  }
+
+  @Override
+  protected List<String> getWindowsCommand() {
+    return Arrays.asList("taskkill", "/im", "httpd.exe", "&", "echo", "Stopping apache httpd");
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/kamehouse/httpd-stop.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }

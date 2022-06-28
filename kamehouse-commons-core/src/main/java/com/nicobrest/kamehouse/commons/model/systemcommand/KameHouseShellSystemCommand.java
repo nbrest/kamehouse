@@ -15,8 +15,13 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
   private static final String KAMEHOUSE_CMD_LINUX = PropertiesUtils.getUserHome()
       + "/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
 
+  /**
+   * Build the kamehouse-shell system command.
+   */
   public KameHouseShellSystemCommand() {
     executeOnDockerHost = executeOnDockerHost();
+    sleepTime = getSleepTime();
+    isDaemon = isDaemon();
     linuxCommand.add(KAMEHOUSE_CMD_LINUX);
     linuxCommand.add("-s");
     linuxCommand.add(getLinuxKameHouseShellScript());

@@ -1,22 +1,28 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * System command to get the status of the httpd server.
  *
  * @author nbrest
  */
-public class HttpdStatusSystemCommand extends SystemCommand {
+public class HttpdStatusSystemCommand extends KameHouseShellSystemCommand {
 
-  /**
-   * Sets the command line for each operation system required for this SystemCommand.
-   */
-  public HttpdStatusSystemCommand() {
-    addBashPrefix();
-    linuxCommand.add("sudo netstat -nltp | grep 80 | grep apache");
-    windowsCommand.addAll(Arrays.asList("tasklist", "/FI", "IMAGENAME eq httpd.exe"));
-    setOutputCommand();
+  @Override
+  protected List<String> getWindowsCommand() {
+    return Arrays.asList("tasklist", "/FI", "IMAGENAME eq httpd.exe");
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/kamehouse/httpd-status.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }
