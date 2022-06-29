@@ -9,7 +9,6 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 
-# Global variables
 LOG_PROCESS_TO_FILE=true
 MYSQL_DUMP_FILE=${HOME}/home-synced/mysql/dump/dump-kamehouse.sql
 
