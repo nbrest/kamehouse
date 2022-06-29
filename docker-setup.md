@@ -136,6 +136,14 @@ docker build --build-arg DOCKER_IMAGE_BASE=ubuntu:20.04 -t nbrest/kamehouse:late
 
 You can then run the image as mentioned above either with temporary or permanent container.
 
+
+*********************
+
+## Sync ssh keys between host and container
+
+- When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host. Such as starting and stopping vlc player, shutdown, reboot, suspend and others. By default in most profiles, the container is setup to execute the commands within the container
+- Those commands are executed through ssh from the docker container to the host. For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container-data-from-host.sh -s` from the host with the `-s` argument to only resync the ssh keys
+
 *********************
 
 ## Other useful docker scripts
