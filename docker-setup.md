@@ -90,7 +90,7 @@ In the container console, you can run the following scripts:
 - `tail-log.sh -f [kamehouse|tomcat|apache]` : tail the logs of the application
 - `build-kamehouse.sh` : Execute it on `/home/goku/git/kamehouse` to build the project and run all the unit tests
 - `build-kamehouse.sh -i -p docker` : Execute it on `/home/goku/git/kamehouse` to run all the integration tests
-- `deploy-kamehouse.sh -f -p docker` : Pull the latest changes from git dev branch and deploy all the modules (Executed automatically during container startup)
+- `deploy-kamehouse.sh -p docker` : Pull the latest changes from git dev branch and deploy all the modules (Executed automatically during container startup)
 - `deploy-kamehouse.sh -m shell` : Installs the latest version of kamehouse-shell
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 

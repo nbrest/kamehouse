@@ -128,7 +128,7 @@ pullKameHouse() {
 deployKameHouse() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     log.info "Deploying latest version of KameHouse"
-    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f -p docker"
+    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker"
     log.info "Finished building latest version of KameHouse"
   fi
 }

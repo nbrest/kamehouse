@@ -123,7 +123,7 @@ installKameHouseGroot() {
 }
 
 deployKameHouse() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -f
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh
 }
 
 logInstallRootMessage() {

@@ -429,7 +429,7 @@ function DeploymentManager() {
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
     const script = 'kamehouse/deploy-kamehouse.sh';
-    const args = "-f -m " + module;
+    const args = "-m " + module;
 
     scriptExecutor.execute(script, args, false, refreshServerView);
   }
@@ -469,8 +469,7 @@ function DeploymentManager() {
     }
     serverManager.setCommandRunning();
     serverManager.openExecutingCommandModal();
-    const args = "-f";
-    scriptExecutor.execute('kamehouse/deploy-kamehouse.sh', args, false, refreshServerView);
+    scriptExecutor.execute('kamehouse/deploy-kamehouse.sh', "", false, refreshServerView);
   }
 
   /**

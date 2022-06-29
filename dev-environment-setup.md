@@ -49,7 +49,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 - Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -s -p dev` to sync the ssh keys of the host to the container using default password `gohan`
 
 - Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password. Inside the container's console:
-  - Deploy your changes using `deploy-kamehouse.sh -f`
+  - Deploy your changes using `deploy-kamehouse.sh`
   - Tail tomcat and apache httpd logs using the `tail-log.sh` script
   - Test kamehouse-shell and kamehouse-cmd inside the container (or deploy them on the host and test on the host too)
 
@@ -57,7 +57,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 - To remote debug tomcat running in the dev container from your ide, follow the above eclipse and intellij guides to setup remote debugging
 
-- Changes made to the ui in kamehouse-ui and kamehouse-groot should be rendered automatically as well. Some changes like in /kame-house/admin pages served from tomcat need a kamehouse-ui redeployment with `deploy-kamehouse.sh -f -m ui` from the container's console
+- Changes made to the ui in kamehouse-ui and kamehouse-groot should be rendered automatically as well. Some changes like in /kame-house/admin pages served from tomcat need a kamehouse-ui redeployment with `deploy-kamehouse.sh -m ui` from the container's console
 
 - Stop the dev docker container with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p dev`
 

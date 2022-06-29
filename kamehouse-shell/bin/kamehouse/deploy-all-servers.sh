@@ -68,7 +68,7 @@ deployKamehouse() {
   local SERVER=$1
   local PORT=$2
   local IS_DOCKER_DEMO=$3
-  local SCRIPT_ARGS="-f"
+  local SCRIPT_ARGS=""
   if [ -n "${MODULE_SHORT}" ]; then
     SCRIPT_ARGS="${SCRIPT_ARGS} -m ${MODULE_SHORT}"
   fi

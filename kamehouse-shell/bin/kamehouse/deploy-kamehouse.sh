@@ -27,7 +27,7 @@ KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 
 # Variables set by command line arguments
 MAVEN_PROFILE="prod"
-FAST_DEPLOYMENT=false
+EXTENDED_DEPLOYMENT=false
 MODULE=
 MODULE_SHORT=
 DEPLOY_ALL_EXTRA_MODULES=false
@@ -121,8 +121,9 @@ buildProject() {
   
   MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
   
-  if ${FAST_DEPLOYMENT}; then
-    log.info "Executing fast deployment. Skipping checkstyle, findbugs and tests"
+  if ${EXTENDED_DEPLOYMENT}; then
+    log.info "Executing extended deployment. Performing checkstyle, findbugs and unit tests"
+  else
     MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
   fi
 
@@ -133,7 +134,7 @@ buildProject() {
     log.info "Building all modules"
   fi
   
-  log.debug "${MAVEN_COMMAND}"
+  log.info "${MAVEN_COMMAND}"
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
 
@@ -227,7 +228,7 @@ deployKameHouseMobile() {
 }
 
 parseArguments() {
-  while getopts ":ace:fhm:p:" OPT; do
+  while getopts ":ace:hm:p:x" OPT; do
     case $OPT in
     ("a")
       DEPLOY_ALL_EXTRA_MODULES=true
@@ -237,9 +238,6 @@ parseArguments() {
       ;;
     ("e")
       parseEnvironment "$OPTARG"
-      ;;
-    ("f")
-      FAST_DEPLOYMENT=true
       ;;
     ("h")
       parseHelp
@@ -264,6 +262,9 @@ parseArguments() {
             
       MAVEN_PROFILE=${PROFILE_ARG}
       ;;
+    ("x")
+      EXTENDED_DEPLOYMENT=true
+      ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -285,7 +286,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-a${COL_NORMAL} deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
   echo -e "     ${COL_BLUE}-c${COL_NORMAL} deploy from current directory instead of default ${PROJECT_DIR}"
   echo -e "     ${COL_BLUE}-e (aws|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
-  echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast deployment. Skip checkstyle, findbugs and tests" 
+  echo -e "     ${COL_BLUE}-x${COL_NORMAL} extended deployment. Perform checkstyle, findbugs and unit tests"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
   echo -e "     ${COL_BLUE}-p (prod|qa|dev|docker|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
