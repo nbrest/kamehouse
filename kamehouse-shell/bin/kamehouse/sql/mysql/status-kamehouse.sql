@@ -40,7 +40,7 @@ select id, booking_request_id, status, message from booking_response_archive ord
 select count(*) as total from booking_response_archive;
 
 select 'Spring Sessions' as '';
-select count(*) as total from spring_session;
+select count(*) as total from SPRING_SESSION;
 
 select 'Hibernate Sequence' as '';
 select * from hibernate_sequence;
