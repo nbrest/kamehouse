@@ -25,15 +25,24 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
     isDaemon = isDaemon();
     addBashPrefix();
     linuxCommand.add(buildLinuxCommand());
-    addWindowsCmdStartPrefix();
+    if (addCmdWindowsStartPrefix()) {
+      addWindowsCmdStartPrefix();
+    }
     windowsCommand.addAll(getWindowsCommand());
     setOutputCommand();
   }
 
   /**
-   * True if the command requires sudo permissions.
+   * Override in subclasses to skip adding sudo prefix.
    */
   protected boolean isSudo() {
+    return true;
+  }
+
+  /**
+   * Override in subclasses to skip adding the cmd start prefix.
+   */
+  protected boolean addCmdWindowsStartPrefix() {
     return true;
   }
 

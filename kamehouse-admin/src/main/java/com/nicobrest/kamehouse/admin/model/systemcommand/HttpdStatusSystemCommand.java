@@ -12,6 +12,11 @@ import java.util.List;
 public class HttpdStatusSystemCommand extends KameHouseShellSystemCommand {
 
   @Override
+  protected boolean addCmdWindowsStartPrefix() {
+    return false;
+  }
+
+  @Override
   protected List<String> getWindowsCommand() {
     return Arrays.asList("tasklist", "/FI", "IMAGENAME eq httpd.exe");
   }
