@@ -144,3 +144,4 @@ You can then run the image as mentioned above either with temporary or permanent
 - `docker-cleanup-kamehouse.sh` cleans up old untagged kamehouse images
 - `docker-server-key-remove.sh` removes an outdated key from the known hosts file so the ssh command doesn't fail next time
 - `docker-ci-integration-tests-trigger.sh` starts a ci docker container and runs all integration tests inside it
+- `docker-reinit-container-data-from-host.sh` re initializes the container data from the host or from docker's initial setup. Also synchronizes ssh keys between host and container which is necessary to execute passwordless ssh commands on the host from the webapps in the container
