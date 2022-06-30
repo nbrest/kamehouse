@@ -25,6 +25,7 @@ main() {
   startMysql
   configGitDevDir
   pullKameHouse
+  copyGitRepoToRoot
   deployKameHouse
   startTomcat
   printEnv
@@ -123,6 +124,12 @@ pullKameHouse() {
     log.info "Pulling latest KameHouse dev branch"
     sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git pull origin dev"
   fi
+}
+
+copyGitRepoToRoot() {
+  log.info "Copying kamehouse git repo to /root/git/kamehouse"
+  mkdir -p /root/git
+  cp -rf /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse /root/git/
 }
 
 deployKameHouse() {
