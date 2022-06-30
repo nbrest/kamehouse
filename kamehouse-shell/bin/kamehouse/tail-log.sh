@@ -116,12 +116,12 @@ parseArguments() {
   fi
 
   if [ -z "${LOG_LEVEL_ARG}" ]; then
-    log.warn "Log level not set. Using default ${COL_PURPLE}${DEFAULT_LOG_LEVEL}"
+    log.info "Log level not set. Using default ${COL_PURPLE}${DEFAULT_LOG_LEVEL}"
     LOG_LEVEL_ARG=${DEFAULT_LOG_LEVEL}
   fi
 
   if [ -z "${ENVIRONMENT}" ]; then
-    log.warn "Environment not set. Using default ${COL_PURPLE}${DEFAULT_ENV}"
+    log.info "Environment not set. Using default ${COL_PURPLE}${DEFAULT_ENV}"
     ENVIRONMENT=${DEFAULT_ENV}
   fi
 
@@ -159,7 +159,7 @@ setGlobalVariables() {
     NUM_LINES=${NUM_LINES_ARG}
   else
     NUM_LINES=${DEFAULT_NUM_LINES}
-    log.warn "Number of lines to tail not set. Using default value of ${COL_PURPLE}${DEFAULT_NUM_LINES}${COL_DEFAULT_LOG}"
+    log.info "Number of lines to tail not set. Using default value of ${COL_PURPLE}${DEFAULT_NUM_LINES}${COL_DEFAULT_LOG}"
   fi
 
   local LOG_DATE=$(date +%Y-%m-%d)

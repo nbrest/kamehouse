@@ -16,7 +16,7 @@ ctrlC() {
 # Default implementation of the function to parse command line arguments
 # Override this function in the scripts that source this file
 parseArguments() {
-  #log.warn "Using default parseArguments() function. Override re defining this function in each script."
+  log.warn "Using default parseArguments() function. Override re defining this function in each script."
   while getopts ":h" OPT; do
     case $OPT in
     ("h")

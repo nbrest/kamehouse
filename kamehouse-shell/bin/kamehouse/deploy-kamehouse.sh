@@ -273,7 +273,7 @@ parseArguments() {
   
   if [ -z "${ENVIRONMENT}" ]
   then
-    log.warn "Option -e environment is not set. Using default environment ${COL_PURPLE}${DEFAULT_ENV}"
+    log.info "Option -e environment is not set. Using default environment ${COL_PURPLE}${DEFAULT_ENV}"
     ENVIRONMENT=${DEFAULT_ENV}
   fi
 }

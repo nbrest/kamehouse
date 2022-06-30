@@ -10,7 +10,7 @@ mainProcess() {
   exit 1
 
   log.warn "Start SSH/SFTP Server - Terminal on the android phone before proceeding"
-  log.warn "The server should be configured as specified in export-sync-audio-playlists.md"
+  log.warn "The server should be configured as specified in audio-playlists.md"
   log.info "Uploading playlists to android phone. pass: android"
   sftp -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${ANDROID_PLAYLISTS_PATH}/*.m3u ${SD_CARD_PLAYLISTS_PATH}/" 
 }

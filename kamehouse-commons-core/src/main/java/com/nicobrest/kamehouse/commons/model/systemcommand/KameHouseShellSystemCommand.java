@@ -6,8 +6,10 @@ import java.util.List;
 /**
  * Base class for KameHouse Shell system commands that need to be executed from the exec-script.sh
  * on linux to handle sudo calls. For windows the command at the moment is a standard windows
- * command, not going through kamehouse-shell. By default linux kamehouse-shell commands here are
- * executed with sudo. But it can be overriden to execute without it.
+ * command, not going through kamehouse-shell. <br/><br/> By default linux kamehouse-shell commands
+ * here are executed with sudo. But it can be overriden to execute without it. <br/><br/>  For
+ * Windows, it's usually makes more sense to execute the commands straight on the cmd.exe console
+ * rather than going through git bash to execute kamehouse-shell commands.
  *
  * @author nbrest
  */

@@ -83,11 +83,15 @@ exampleRequestConfirmation() {
 
 exampleLog() {
   log.info "${COL_RED}exampleLog"
+  log.info "Run script with \`LOG=DEBUG script-name.sh\` or \`log=debug script-name.sh\` to see al debug logs"
+  log.info "Run script with \`LOG=TRACE script-name.sh\` or \`log=trace script-name.sh\` to see al trace logs"
   log.info "${COL_RED}Use ROOT_PREFIX var to prefix all absolute paths, so they work in any bash implementation"
   log.info "Current value for ROOT_PREFIX: ${ROOT_PREFIX}"
-  log.warn "Pegasus ryu sei ken!"
-  log.info "Mada mada dane"
-  #log.error "Shimatta!"
+  log.trace "TRACE gohan"
+  log.debug "DEBUG goku"
+  log.info "INFO Mada mada dane"
+  log.warn "WARN Pegasus ryu sei ken!"
+  log.error "ERROR Shimatta!"
 }
 
 exampleArrays() {
