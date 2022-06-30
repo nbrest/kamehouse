@@ -160,7 +160,8 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "cd /home/${KAMEHOUSE_USERNAME}/git/kameh
   mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/create-sample-video-playlists.sh" ; \
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME}
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh -u ${KAMEHOUSE_USERNAME} 
 
 # Expose ports
 EXPOSE 22 80 443 3306 8000 8080 9090
