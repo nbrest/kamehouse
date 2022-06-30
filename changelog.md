@@ -12,6 +12,7 @@
 * Removed most passwordless sudo permissions from kamehouse user
 * Moved reboot, shutdown, suspend and httpd control commands to execute through kamehouse-shell on linux
 * Added script to get the status of the database to kamehouse-shell
+* Split docker volumes per profile on docker run script, so each profile uses separate volumes
 
 #### v7.05
 
