@@ -1,5 +1,9 @@
 # ChangeLog:
 
+#### v7.07
+
+* Added copying git repo to /root on docker init script to update kamehouse-shell for root more easily
+
 #### v7.06
 
 * Updated setup guides
