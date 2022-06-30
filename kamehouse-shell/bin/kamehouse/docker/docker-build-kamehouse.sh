@@ -14,7 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-LOG_PROCESS_TO_FILE=true
+LOG_PROCESS_TO_FILE=false
 
 # When I update the base image here also update docker-setup.md
 DOCKER_IMAGE_BASE="ubuntu:20.04"
