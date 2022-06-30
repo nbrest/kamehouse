@@ -125,12 +125,12 @@ runDockerImage() {
   fi
 
   if ${USE_VOLUMES}; then
-    log.info "Container data will be persisted in volumes (home-kamehouse, home-home-synced, home-ssh)"
+    log.info "Container data will be persisted in volumes: mysql-data-${DOCKER_PROFILE}, home-kamehouse-${DOCKER_PROFILE}, home-home-synced-${DOCKER_PROFILE}, home-ssh-${DOCKER_PROFILE}"
     DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    -v mysql-data:/var/lib/mysql \
-    -v home-kamehouse:/home/${DOCKER_USERNAME}/.kamehouse \
-    -v home-home-synced:/home/${DOCKER_USERNAME}/home-synced \
-    -v home-ssh:/home/${DOCKER_USERNAME}/.ssh \
+    -v mysql-data-${DOCKER_PROFILE}:/var/lib/mysql \
+    -v home-kamehouse-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/.kamehouse \
+    -v home-home-synced-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/home-synced \
+    -v home-ssh-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/.ssh \
     "
   else 
     log.info "Container data will NOT be persisted in volumes"
