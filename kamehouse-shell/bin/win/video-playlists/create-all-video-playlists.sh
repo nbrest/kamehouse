@@ -32,6 +32,9 @@ mainProcess() {
   
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-windows.sh
   checkCommandStatus "$?" 
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-sftp-media-server-ip.sh
+  checkCommandStatus "$?" 
   
   clearMediaServerEhCache
 
