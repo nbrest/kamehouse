@@ -321,6 +321,7 @@
             <option value="common/logs/cat-httpd-log.sh">httpd</option>
             <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
             <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
+            <option value="common/logs/cat-world-cup-bookings-log.sh">world-cup-bookings</option>
           </select>
           <img id="toggle-tail-log-img"
             class="img-btn-kh m-10-d-r-kh" 
