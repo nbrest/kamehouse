@@ -16,7 +16,7 @@ ctrlC() {
 # Default implementation of the function to parse command line arguments
 # Override this function in the scripts that source this file
 parseArguments() {
-  log.warn "Using default parseArguments() function. Override re defining this function in each script."
+  log.debug "Using default parseArguments() function. Override re defining this function in each script."
   while getopts ":h" OPT; do
     case $OPT in
     ("h")
@@ -34,7 +34,7 @@ parseArguments() {
 
 # Default print help message
 printHelp() {
-  log.warn "Using default printHelp() function. Override re defining this function in each script."
+  log.debug "Using default printHelp() function. Override re defining this function in each script."
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
