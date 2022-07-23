@@ -56,6 +56,9 @@ mainProcess() {
   wait
 
   pushChangesToGit
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/resync-subtitles.sh
+  checkCommandStatus "$?" 
 }
 
 deleteExistingM3uFiles() {
