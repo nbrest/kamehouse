@@ -1402,12 +1402,12 @@ function TimeUtils() {
    * Override the default log level from url parameters.
    */
   function init() {
-    logger.info("Initializing logger");
+    info("Initializing logger");
     const urlParams = new URLSearchParams(window.location.search);
     const logLevel = urlParams.get('logLevel');
     if (!isEmpty(logLevel)) {
       const logLevelNumberParam = getLogLevelNumber(logLevel);
-      logger.info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
+      info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
       setLogLevel(logLevelNumberParam);
     }
   }
@@ -1461,8 +1461,7 @@ function TimeUtils() {
       return;
     }
     const logLevelUpperCase = logLevel.toUpperCase();
-    let logEntry = "";
-    logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
+    const logEntry = timeUtils.getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
     if (logLevelUpperCase == "ERROR") {
       console.error(logEntry);
       logToDebugMode(logEntry);

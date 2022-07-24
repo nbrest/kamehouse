@@ -135,10 +135,12 @@ getLogLevelNumber() {
 setGlobalLogLevelFromEnv() {
   if [ -n "${log}" ]; then
     LOG_LEVEL_NUMBER=`getLogLevelNumber ${log}`
+    LOG=${log}
   fi
 
   if [ -n "${LOG}" ]; then
     LOG_LEVEL_NUMBER=`getLogLevelNumber ${LOG}`
+    log=${LOG}
   fi
 }
 setGlobalLogLevelFromEnv
