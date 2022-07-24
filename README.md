@@ -56,7 +56,7 @@ The main idea of this application is to keep improving and learning best practic
 
 The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **jacoco**, validate code with **spotbugs** and the style with **checkstyle**.
 
-### Java frameworks/libraries:
+## Java frameworks/libraries:
 
 * Apache Commons
 * Bouncy Castle
@@ -67,14 +67,18 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 * Quartz Scheduler
 * Spring (Core, Security, Session, Web)
 
-### Javascript frameworks/libraries:
+## Javascript frameworks/libraries:
 
 * Angular
 * jQuery
 * SockJs
 * Stomp
 
-### Software Configuration Management:
+## Node:
+
+- My custom nodejs modules are hosted [this](node/modules/) folder
+
+## Software Configuration Management:
 
 * Maven 
 * Jenkins for CI
