@@ -19,7 +19,7 @@ BASE_SOURCE_SUBS_DIR=/n/
 GIT_REMOTE=all
 GIT_BRANCH=dev
 
-SUB_TYPES_REGEX="\.srt$\|\.SRT$\.sub$\|\.SUB$\.idx$\|\.IDX$"
+SUB_TYPES_REGEX="\.srt$\|\.SRT$\|\.sub$\|\.SUB$\|\.idx$\|\.IDX$"
 
 mainProcess() {
   cd ${PROJECT_DIR}
