@@ -44,6 +44,9 @@ mainProcess() {
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-http-media-server-ip.sh
   checkCommandStatus "$?" 
+  
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-http-media-server-chromecast.sh
+  checkCommandStatus "$?" 
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-https-kame-server.sh
   checkCommandStatus "$?" 
