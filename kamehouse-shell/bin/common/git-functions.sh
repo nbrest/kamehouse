@@ -12,7 +12,7 @@ cdProjectDir() {
 
 gitCheckout() {
   local BRANCH=$1
-  log.info "Checking out git branch ${BRANCH}"
+  log.info "Checking out git branch ${COL_PURPLE}${BRANCH}"
   git checkout ${BRANCH}
   checkCommandStatus "$?" "An error occurred checking out ${BRANCH} branch"
 }
@@ -23,7 +23,7 @@ gitPull() {
   git checkout ${BRANCH}
   checkCommandStatus "$?" "An error occurred checking out ${BRANCH} branch"
 
-  log.info "Pulling from git branch ${BRANCH}"
+  log.info "Pulling from git branch ${COL_PURPLE}${BRANCH}"
   git pull ${REMOTE} ${BRANCH}
 }
 
@@ -46,7 +46,7 @@ gitCdCheckoutAndPull() {
 gitPush() {
   local REMOTE=$1
   local BRANCH=$2
-  log.info "Pushing changes to ${REMOTE} ${BRANCH}"
+  log.info "Pushing changes to ${COL_PURPLE}${REMOTE} ${BRANCH}"
   git push ${REMOTE} ${BRANCH}
 }
 
@@ -73,7 +73,7 @@ gitCommitAllChanges() {
   log.info "Displaying git status after adding changes"
   git status
   
-  log.info "Committing changes to git with message: ${MESSAGE}"
+  log.info "Committing changes to git with message: ${COL_PURPLE}${MESSAGE}"
   GIT_COMMIT_OUT=`git commit -m "${MESSAGE}"`
   GIT_COMMIT_RESULT=$?
   echo "${GIT_COMMIT_OUT}"
