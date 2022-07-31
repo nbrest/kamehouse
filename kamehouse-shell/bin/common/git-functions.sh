@@ -60,6 +60,9 @@ gitPushWithRetry() {
 # Add and commit all changes in the current branch
 gitCommitAllChanges() {
   local MESSAGE=$1
+  local GIT_COMMIT_OUT=""
+  local GIT_COMMIT_RESULT=""
+  local NO_CHANGES_TO_COMMIT="nothing to commit, working tree clean"
   log.info "Displaying git status before adding changes"
   git status
   
@@ -70,9 +73,15 @@ gitCommitAllChanges() {
   log.info "Displaying git status after adding changes"
   git status
   
-  log.info "Committing changes to git"
-  git commit -m "${MESSAGE}"
-  checkCommandStatus "$?" "An error occurred commiting changes"
+  log.info "Committing changes to git with message: ${MESSAGE}"
+  GIT_COMMIT_OUT=`git commit -m "${MESSAGE}"`
+  GIT_COMMIT_RESULT=$?
+  echo "${GIT_COMMIT_OUT}"
+  if [[ "${GIT_COMMIT_OUT}" =~ ${NO_CHANGES_TO_COMMIT} ]]; then
+    log.warn "No changes to commit on git"
+  else
+    checkCommandStatus "${GIT_COMMIT_RESULT}" "An error occurred commiting changes"
+  fi
 }
 
 # Add and commit all the changes and push them to the remote
