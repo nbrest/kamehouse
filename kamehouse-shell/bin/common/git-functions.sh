@@ -23,7 +23,7 @@ gitPull() {
   git checkout ${BRANCH}
   checkCommandStatus "$?" "An error occurred checking out ${BRANCH} branch"
 
-  log.info "Pulling from git branch ${COL_PURPLE}${BRANCH}"
+  log.info "Pulling from git ${COL_PURPLE}${REMOTE} ${BRANCH}"
   git pull ${REMOTE} ${BRANCH}
 }
 
