@@ -11,6 +11,7 @@ AWS_SSH_SERVER="ec2-13-211-209-87.ap-southeast-2.compute.amazonaws.com"
 AWS_SSH_USER=ubuntu
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
+ENVIRONMENTS_LIST="docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi"
 
 TOMCAT_PORT=9090
 TOMCAT_DEBUG_PORT=8000
@@ -27,6 +28,7 @@ DOCKER_PORT_TOMCAT_DEBUG=6000
 DOCKER_PORT_TOMCAT=6090
 DOCKER_PORT_MYSQL=6306
 IS_LINUX_DOCKER_HOST=""
+DOCKER_PROFILES_LIST="ci|dev|demo|prod|prod-ext"
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
@@ -45,7 +47,8 @@ parseEnvironment() {
     [ "${ENV_ARG}" != "niko-server" ] &&
     [ "${ENV_ARG}" != "niko-server-vm-ubuntu" ] &&
     [ "${ENV_ARG}" != "niko-w" ] &&
-    [ "${ENV_ARG}" != "niko-w-vm-ubuntu" ]; then
+    [ "${ENV_ARG}" != "niko-w-vm-ubuntu" ] &&
+    [ "${ENV_ARG}" != "pi" ]; then
     log.error "Option -e environment has an invalid value of ${ENV_ARG}"
     printHelp
     exitProcess 1
@@ -55,22 +58,36 @@ parseEnvironment() {
   case ${ENVIRONMENT} in
   "aws")
     IS_REMOTE_LINUX_HOST=true
+    SSH_USER=ubuntu
+    ;;
+  "docker")
+    IS_REMOTE_LINUX_HOST=true
+    SSH_USER=${DEFAULT_SSH_USER}
     ;;
   "local") ;;
   "niko-nba")
     IS_REMOTE_LINUX_HOST=false
+    SSH_USER=nbrest
     ;;
   "niko-server")
     IS_REMOTE_LINUX_HOST=false
+    SSH_USER=nbrest
     ;;
   "niko-server-vm-ubuntu")
     IS_REMOTE_LINUX_HOST=true
+    SSH_USER=nbrest
     ;;  
   "niko-w")
     IS_REMOTE_LINUX_HOST=false
+    SSH_USER=nbrest
     ;;
   "niko-w-vm-ubuntu")
     IS_REMOTE_LINUX_HOST=true
+    SSH_USER=nbrest
+    ;;
+  "pi")
+    IS_REMOTE_LINUX_HOST=true
+    SSH_USER=pi
     ;;
   esac
 }
@@ -79,6 +96,7 @@ parseEnvironment() {
 executeSshCommand() {
   log.info "Executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
   if ${IS_REMOTE_LINUX_HOST}; then
+    SSH_COMMAND="source \${HOME}/programs/kamehouse-shell/bin/lin/bashrc/bashrc.sh ; "${SSH_COMMAND}
     log.debug "ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
     ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"
   else

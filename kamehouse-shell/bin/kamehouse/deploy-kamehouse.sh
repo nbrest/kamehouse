@@ -285,7 +285,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-a${COL_NORMAL} deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
   echo -e "     ${COL_BLUE}-c${COL_NORMAL} deploy from current directory instead of default ${PROJECT_DIR}"
-  echo -e "     ${COL_BLUE}-e (aws|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
+  echo -e "     ${COL_BLUE}-e (${ENVIRONMENTS_LIST})${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
   echo -e "     ${COL_BLUE}-x${COL_NORMAL} extended deployment. Perform checkstyle, findbugs and unit tests"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
   echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"

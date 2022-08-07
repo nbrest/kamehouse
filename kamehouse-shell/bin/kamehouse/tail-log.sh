@@ -57,10 +57,12 @@ parseArguments() {
       FILE_ARG=$OPTARG
       # Turn argument to lowercase
       FILE_ARG=$(echo "${FILE_ARG}" | tr '[:upper:]' '[:lower:]')
+      local LOGS_REGEX=logs/.*
       if [ "${FILE_ARG}" != "apache" ] &&
         [ "${FILE_ARG}" != "eclipse" ] &&
         [ "${FILE_ARG}" != "intellij" ] &&
         [ "${FILE_ARG}" != "kamehouse" ] &&
+        [[ ! "${FILE_ARG}" =~ ${LOGS_REGEX} ]] &&
         [ "${FILE_ARG}" != "tomcat" ]; then
         log.error "Option -f has an invalid value of ${FILE_ARG}. See help with -h for valid values"
         printHelp
@@ -211,7 +213,11 @@ setGlobalVariables() {
     addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.out"
     addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.${LOG_DATE}.log"
     ;;
-  *) ;;
+  logs/*.log)
+    addFileToLogFiles "${HOME}/${FILE_ARG}"
+    ;;
+  *)
+    ;;
   esac
 
   SSH_SERVER=${ENVIRONMENT}
@@ -219,8 +225,6 @@ setGlobalVariables() {
   if [ "${ENVIRONMENT}" == "docker" ]; then
     SSH_SERVER=localhost
     SSH_PORT=${DOCKER_PORT_SSH}
-    SSH_COMMAND="source \${HOME}/programs/kamehouse-shell/bin/lin/bashrc/bashrc.sh ; "${SSH_COMMAND}
-    IS_REMOTE_LINUX_HOST=true
   fi
 }
 
@@ -251,12 +255,12 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-e (docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu)${COL_NORMAL} environment to tail logs from. Default is ${DEFAULT_ENV}"
-  echo -e "     ${COL_BLUE}-f (apache|eclipse|intellij|kamehouse|tomcat)${COL_NORMAL} log file to tail [${COL_RED}required${COL_NORMAL}]"
+  echo -e "     ${COL_BLUE}-e (${ENVIRONMENTS_LIST})${COL_NORMAL} environment to tail logs from. Default is ${DEFAULT_ENV}"
+  echo -e "     ${COL_BLUE}-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)${COL_NORMAL} log file to tail [${COL_RED}required${COL_NORMAL}]"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-l (trace|debug|info|warn|error)${COL_NORMAL} log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   echo -e "     ${COL_BLUE}-n (lines)${COL_NORMAL} number of lines to log. Default is ${DEFAULT_NUM_LINES}"
-  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-ext)${COL_NORMAL} default docker profile is dev"
+  echo -e "     ${COL_BLUE}-p (${DOCKER_PROFILES_LIST})${COL_NORMAL} default docker profile is dev"
   echo -e "     ${COL_BLUE}-q${COL_NORMAL} quit after tailing once. Don't follow log"
 }
 

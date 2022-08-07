@@ -323,7 +323,7 @@ printHelp() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} ide workspace to use for a dev docker container. Default is intellij"
   echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default base os is ubuntu"
-  echo -e "     ${COL_BLUE}-p (ci|dev|demo|prod|prod-ext)${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-p (${DOCKER_PROFILES_LIST})${COL_NORMAL} default profile is dev"
   echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   echo -e "     ${COL_BLUE}-v${COL_NORMAL} use volumes to persist data"
 }
