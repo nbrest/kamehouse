@@ -29,6 +29,16 @@ main() {
   log.debug "java -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN"
   java -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN
 
+  local PATH_PLS_SOURCE=${PROJECT_DIR}/windows
+  find ${PATH_PLS_SOURCE} -maxdepth 1 | grep --ignore-case -e "\.m3u$" | while read FILE; do
+    local PLAYLIST_RELATIVE_FILENAME=${FILE#${PATH_PLS_SOURCE}}
+    local PLAYLIST_SUBDIR=${PLAYLIST_RELATIVE_FILENAME::-4}
+    local PLAYLIST_FILE_NAME="$(basename "${PLAYLIST_RELATIVE_FILENAME}")"
+    log.info "Moving playlist ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
+    mkdir -p "${PATH_PLS_SOURCE}${PLAYLIST_SUBDIR}"
+    mv -f "${FILE}" "${PATH_PLS_SOURCE}${PLAYLIST_SUBDIR}/${PLAYLIST_FILE_NAME}"
+  done
+
   log.info "Windows playlists"
   ls -l ${PROJECT_DIR}/windows
   
