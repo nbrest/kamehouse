@@ -57,7 +57,7 @@ parseArguments() {
       FILE_ARG=$OPTARG
       # Turn argument to lowercase
       FILE_ARG=$(echo "${FILE_ARG}" | tr '[:upper:]' '[:lower:]')
-      local LOGS_REGEX=logs/.*
+      local LOGS_REGEX=^logs/.*\.log$
       if [ "${FILE_ARG}" != "apache" ] &&
         [ "${FILE_ARG}" != "eclipse" ] &&
         [ "${FILE_ARG}" != "intellij" ] &&
