@@ -13,7 +13,7 @@ if [ "$?" != "0" ]; then
 fi
 
 PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server
-PATH_PLS_DEST=http-media-server-chromecast
+PATH_PLS_DEST=http-media-server-vlc
 
 mainProcess() {
   cd ${PROJECT_DIR}
@@ -22,7 +22,7 @@ mainProcess() {
 }
 
 createDestPlaylists() {
-  log.info "Creating http-media-server-chromecast playlists"
+  log.info "Creating http-media-server-vlc playlists"
   find ${PATH_PLS_SOURCE} | grep --ignore-case -e "\.m3u$" | while read FILE; do
     local PLAYLIST_RELATIVE_FILENAME=${FILE#${PATH_PLS_SOURCE}}
     local PLAYLIST_SUBDIR=${PLAYLIST_RELATIVE_FILENAME::-4}
