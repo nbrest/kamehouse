@@ -12,7 +12,7 @@ SERVICE="novnc"
 
 mainProcess() {
   log.info "Call this script with nohup"
-  novnc --listen 3900 >> ${HOME}/logs/novnc.log 2>&1 &
+  novnc --listen 3900 > ${HOME}/logs/novnc.log 2>&1 &
 }
 
 main "$@"
