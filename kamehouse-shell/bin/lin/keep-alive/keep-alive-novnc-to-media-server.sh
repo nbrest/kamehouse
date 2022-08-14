@@ -13,7 +13,15 @@ SERVICE="novnc"
 mainProcess() {
   log.info "Call this script with nohup"
   cd ${HOME}/git/noVNC
-  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 --cert /etc/letsencrypt/live/www.nicobrest.com/fullchain.pem --key /etc/letsencrypt/live/www.nicobrest.com/privkey.pem > ${HOME}/logs/novnc.log 2>&1 &
+  copyCerts
+  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 --cert ${HOME}/git/noVNC/fullchain.pem --key ${HOME}/git/noVNC/privkey.pem > ${HOME}/logs/novnc.log 2>&1 &
+}
+
+copyCerts() {
+  sudo cp -L /etc/letsencrypt/live/www.nicobrest.com/fullchain.pem ${HOME}/git/noVNC/fullchain.pem
+  sudo chmod a+xr ${HOME}/git/noVNC/fullchain.pem
+  sudo cp -L /etc/letsencrypt/live/www.nicobrest.com/privkey.pem ${HOME}/git/noVNC/privkey.pem
+  sudo chmod a+xr ${HOME}/git/noVNC/privkey.pem
 }
 
 main "$@"
