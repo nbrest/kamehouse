@@ -13,7 +13,7 @@ SERVICE="novnc"
 mainProcess() {
   log.info "Call this script with nohup"
   cd ${HOME}/git/noVNC
-  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 > ${HOME}/logs/novnc.log 2>&1 &
+  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 --cert /etc/letsencrypt/live/www.nicobrest.com/fullchain.pem --key /etc/letsencrypt/live/www.nicobrest.com/privkey.pem > ${HOME}/logs/novnc.log 2>&1 &
 }
 
 main "$@"
