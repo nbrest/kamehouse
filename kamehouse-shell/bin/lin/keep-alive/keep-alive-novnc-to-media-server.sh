@@ -7,13 +7,13 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-LOG_PROCESS_TO_FILE=true
+LOG_PROCESS_TO_FILE=false
 SERVICE="novnc"
 
 mainProcess() {
   log.info "Call this script with nohup"
   cd ${HOME}/git/noVNC
-  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 &
+  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 >> ${HOME}/logs/novnc.log 2>&1 &
 }
 
 main "$@"
