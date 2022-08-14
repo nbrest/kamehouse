@@ -9,11 +9,11 @@ fi
 
 LOG_PROCESS_TO_FILE=true
 SERVICE="novnc"
-SERVICE_STARTUP=" ; "
 
 mainProcess() {
+  log.info "Call this script with nohup"
   cd ${HOME}/git/noVNC
-  nohup ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 &
+  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 &
 }
 
 main "$@"

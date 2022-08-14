@@ -9,9 +9,10 @@ fi
 
 LOG_PROCESS_TO_FILE=true
 SERVICE="novnc"
-SERVICE_STARTUP="nohup novnc --listen 3900 &"
+SERVICE_STARTUP="novnc --listen 3900 &"
 
 mainProcess() {
+  log.info "Call this script with nohup"
   ${SERVICE_STARTUP}
 }
 
