@@ -12,7 +12,8 @@ SERVICE="novnc"
 
 mainProcess() {
   log.info "Call this script with nohup"
-  novnc --listen 3900 > ${HOME}/logs/novnc.log 2>&1 &
+  cd ${HOME}/git/noVNC
+  ./utils/novnc_proxy --vnc localhost:5900 --listen 3900 > ${HOME}/logs/novnc.log 2>&1 &
 }
 
 main "$@"
