@@ -12,7 +12,7 @@ SERVICE="novnc"
 SERVICE_STARTUP="novnc --listen 3900"
 
 mainProcess() {
-  ${SERVICE_STARTUP} &
+  nohup ${SERVICE_STARTUP} &
 }
 
 main "$@"
