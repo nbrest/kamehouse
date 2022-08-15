@@ -10,7 +10,7 @@ fi
 LOG_PROCESS_TO_FILE=false
 PRIVATE_KEY=/etc/letsencrypt/live/www.nicobrest.com/privkey.pem
 CERT=/etc/letsencrypt/live/www.nicobrest.com/fullchain.pem
-NOVNC_KEYS_DIR=${HOME}/git/noVNC/
+NOVNC_KEYS_DIR=${HOME}/git/noVNC
 MEDIA_SERVER_IP=192.168.0.109
 
 mainProcess() {
