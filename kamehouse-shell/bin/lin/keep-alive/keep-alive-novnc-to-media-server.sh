@@ -15,9 +15,10 @@ MEDIA_SERVER_IP=192.168.0.109
 
 mainProcess() {
   log.info "Call this script with nohup"
-  copyCerts
+  #copyCerts
   cd ${HOME}/git/noVNC
-  ./utils/novnc_proxy --vnc ${MEDIA_SERVER_IP}:5900 --listen 3900 --cert ${NOVNC_KEYS_DIR}/fullchain.pem --key ${NOVNC_KEYS_DIR}/privkey.pem > ${HOME}/logs/novnc.log 2>&1 &
+  #./utils/novnc_proxy --vnc ${MEDIA_SERVER_IP}:5900 --listen 3900 --cert ${NOVNC_KEYS_DIR}/fullchain.pem --key ${NOVNC_KEYS_DIR}/privkey.pem > ${HOME}/logs/novnc.log 2>&1 &
+  ./utils/novnc_proxy --vnc ${MEDIA_SERVER_IP}:5900 --listen 3900 > ${HOME}/logs/novnc.log 2>&1 &
 }
 
 copyCerts() {
