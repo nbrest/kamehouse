@@ -12,7 +12,7 @@ SERVICE="wssh"
 
 mainProcess() {
   log.info "Call this script with nohup"
-  ${HOME}/.local/bin/wssh --port 3901 > ${HOME}/logs/wssh.log 2>&1 &
+  ${HOME}/.local/bin/wssh --port=3901 > ${HOME}/logs/wssh.log 2>&1 &
 }
 
 main "$@"
