@@ -12,7 +12,8 @@ SERVICE="wssh"
 
 mainProcess() {
   log.info "Call this script with nohup"
-  ${HOME}/.local/bin/wssh --port=3901 --origin='ssh.nicobrest.com,pi,192.168.0.129' --xsrf=false > ${HOME}/logs/wssh.log 2>&1 &
+  # --origin='ssh.nicobrest.com,pi,192.168.0.129' --xsrf=false
+  ${HOME}/.local/bin/wssh --port=3901 --origin='*' --debug --xsrf=false > ${HOME}/logs/wssh.log 2>&1 &
 }
 
 main "$@"
