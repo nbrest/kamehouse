@@ -8,20 +8,24 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
-SERVICE="novnc"
+PRIVATE_KEY=/etc/letsencrypt/live/www.nicobrest.com/privkey.pem
+CERT=/etc/letsencrypt/live/www.nicobrest.com/fullchain.pem
+NOVNC_KEYS_DIR=${HOME}/.novnc/keys
+MEDIA_SERVER_IP=192.168.0.109
 
 mainProcess() {
   log.info "Call this script with nohup"
-  cd ${HOME}/git/noVNC
   copyCerts
-  ./utils/novnc_proxy --vnc 192.168.0.109:5900 --listen 3900 --cert ${HOME}/git/noVNC/fullchain.pem --key ${HOME}/git/noVNC/privkey.pem > ${HOME}/logs/novnc.log 2>&1 &
+  cd ${HOME}/git/noVNC
+  ./utils/novnc_proxy --vnc ${MEDIA_SERVER_IP}:5900 --listen 3900 --cert ${NOVNC_KEYS_DIR}/fullchain.pem --key ${NOVNC_KEYS_DIR}/privkey.pem > ${HOME}/logs/novnc.log 2>&1 &
 }
 
 copyCerts() {
-  sudo cp -L /etc/letsencrypt/live/www.nicobrest.com/fullchain.pem ${HOME}/git/noVNC/fullchain.pem
-  sudo chmod a+xr ${HOME}/git/noVNC/fullchain.pem
-  sudo cp -L /etc/letsencrypt/live/www.nicobrest.com/privkey.pem ${HOME}/git/noVNC/privkey.pem
-  sudo chmod a+xr ${HOME}/git/noVNC/privkey.pem
+  mkdir -p ${NOVNC_KEYS_DIR}
+  sudo cp -L ${PRIVATE_KEY} ${NOVNC_KEYS_DIR}/fullchain.pem
+  sudo chmod a+xr ${NOVNC_KEYS_DIR}/fullchain.pem
+  sudo cp -L ${CERT} ${NOVNC_KEYS_DIR}/privkey.pem
+  sudo chmod a+xr ${NOVNC_KEYS_DIR}/privkey.pem
 }
 
 main "$@"
