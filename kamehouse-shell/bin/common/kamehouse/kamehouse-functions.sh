@@ -12,7 +12,9 @@ AWS_SSH_SERVER="ec2-13-211-209-87.ap-southeast-2.compute.amazonaws.com"
 AWS_SSH_USER=ubuntu
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
-ENVIRONMENTS_LIST="docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi"
+ENVIRONMENTS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
+MODULES_LIST="(admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
+MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
 
 TOMCAT_PORT=9090
 TOMCAT_DEBUG_PORT=8000
@@ -29,7 +31,7 @@ DOCKER_PORT_TOMCAT_DEBUG=6000
 DOCKER_PORT_TOMCAT=6090
 DOCKER_PORT_MYSQL=6306
 IS_LINUX_DOCKER_HOST=""
-DOCKER_PROFILES_LIST="ci|dev|demo|prod|prod-ext"
+DOCKER_PROFILES_LIST="(ci|dev|demo|prod|prod-ext)"
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 

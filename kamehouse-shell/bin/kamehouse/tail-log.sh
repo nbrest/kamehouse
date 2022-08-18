@@ -250,18 +250,13 @@ ctrlC() {
   exitSuccessfully
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-e (${ENVIRONMENTS_LIST})${COL_NORMAL} environment to tail logs from. Default is ${DEFAULT_ENV}"
-  echo -e "     ${COL_BLUE}-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)${COL_NORMAL} log file to tail [${COL_RED}required${COL_NORMAL}]"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-l (trace|debug|info|warn|error)${COL_NORMAL} log level to display. Default is ${DEFAULT_LOG_LEVEL}"
-  echo -e "     ${COL_BLUE}-n (lines)${COL_NORMAL} number of lines to log. Default is ${DEFAULT_NUM_LINES}"
-  echo -e "     ${COL_BLUE}-p (${DOCKER_PROFILES_LIST})${COL_NORMAL} default docker profile is dev"
-  echo -e "     ${COL_BLUE}-q${COL_NORMAL} quit after tailing once. Don't follow log"
+printHelpOptions() {
+  printHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to tail logs from. Default is ${DEFAULT_ENV}"
+  printHelpOption "-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
+  printHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
+  printHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
+  printHelpOption "-p ${DOCKER_PROFILES_LIST}" "default docker profile is dev"
+  printHelpOption "-q" "quit after tailing once. Don't follow log"
 }
 
 main "$@"

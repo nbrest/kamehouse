@@ -234,7 +234,7 @@ printHelp() {
   echo -e "  Options:"
   echo -e "     ${COL_BLUE}-d (none|docker-init|docker-backup|host-backup)${COL_NORMAL} data source to reset all data. Default is none"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-p (${DOCKER_PROFILES_LIST})${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-p ${DOCKER_PROFILES_LIST}${COL_NORMAL} default profile is dev"
   echo -e "     ${COL_BLUE}-s${COL_NORMAL} reinit ssh keys only" 
 }
 

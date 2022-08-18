@@ -34,12 +34,17 @@ parseArguments() {
 
 # Default print help message
 printHelp() {
-  log.debug "Using default printHelp() function. Override re defining this function in each script."
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  printHelpOption "-h" "display help"
+  printHelpOptions
+}
+
+# Override in each script with the options specific to the script
+printHelpOptions() {
+  log.trace "Using default printHelpOptions() function. Override re defining this function in each script."
 }
 
 # Display the invalid argument error and exit printing help message

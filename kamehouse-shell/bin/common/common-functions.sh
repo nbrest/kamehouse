@@ -47,6 +47,13 @@ fi
 # Common functions used by other scripts #
 ##########################################
 
+# Prints a script option in the help menu
+printHelpOption() {
+  local OPTION=$1
+  local DESCRIPTION=$2
+  echo -e "     ${COL_BLUE}${OPTION}${COL_NORMAL} ${DESCRIPTION}"
+}
+
 # Exit the process with the status code specified as an argument
 exitProcess() {
   local EXIT_STATUS=$1

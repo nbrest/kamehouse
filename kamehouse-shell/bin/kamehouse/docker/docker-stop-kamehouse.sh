@@ -88,7 +88,7 @@ printHelp() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-c (container id)${COL_NORMAL} id of the container to stop"
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-p (${DOCKER_PROFILES_LIST})${COL_NORMAL} default profile is dev"
+  echo -e "     ${COL_BLUE}-p ${DOCKER_PROFILES_LIST}${COL_NORMAL} default profile is dev"
 }
 
 main "$@"

@@ -278,18 +278,13 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-a${COL_NORMAL} deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
-  echo -e "     ${COL_BLUE}-c${COL_NORMAL} deploy from current directory instead of default ${PROJECT_DIR}"
-  echo -e "     ${COL_BLUE}-e (${ENVIRONMENTS_LIST})${COL_NORMAL} environment to build and deploy to. Default is local if not specified"
-  echo -e "     ${COL_BLUE}-x${COL_NORMAL} extended deployment. Perform checkstyle, findbugs and unit tests"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
-  echo -e "     ${COL_BLUE}-p (prod|qa|dev|docker|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
+printHelpOptions() {
+  printHelpOption "-a" "deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
+  printHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
+  printHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to build and deploy to. Default is local if not specified"
+  printHelpOption "-m ${MODULES_LIST}" "module to deploy"
+  printHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is prod if not specified"
+  printHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
 }
 
 main "$@"
