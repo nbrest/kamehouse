@@ -3,7 +3,10 @@
 echo "$(date) - Starting setup-tmpfs.sh"
 # create my custom logs dirs
 mkdir -p /var/log/apache-tomcat
+# as user pi run once: `ln -s /var/log/apache-tomcat /home/pi/programs/apache-tomcat/logs`
 mkdir -p /var/log/home-pi
+# as user pi run once: `ln -s /var/log/home-pi /home/pi/logs`
+
 # create default raspberry pi logs dirs
 mkdir -p /var/log/apache2
 mkdir -p /var/log/apt
