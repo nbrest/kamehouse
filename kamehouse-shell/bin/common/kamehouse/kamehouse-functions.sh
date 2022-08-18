@@ -1,4 +1,5 @@
 # Common kamehouse variables
+# DEFAULT_KAMEHOUSE_USERNAME gets set during install kamehouse-shell
 DEFAULT_KAMEHOUSE_USERNAME=""
 GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
 PROJECT="kamehouse"

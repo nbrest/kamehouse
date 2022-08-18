@@ -14,6 +14,7 @@ if [ "$?" != "0" ]; then
 fi
 
 USERHOME_WIN="${HOME}"
+# USERHOME_LIN gets set during install kamehouse-shell
 USERHOME_LIN="/home/${DEFAULT_KAMEHOUSE_USERNAME}"
 
 main() {

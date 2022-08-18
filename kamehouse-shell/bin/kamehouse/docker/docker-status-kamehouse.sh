@@ -19,7 +19,7 @@ mainProcess() {
   docker images
 
   echo ""
-  log.info "Docker images"
+  log.info "Docker volumes"
   echo ""
   docker volume ls
 }

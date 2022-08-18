@@ -13,6 +13,7 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 
+# KAMEHOUSE_USER gets set during install kamehouse-shell
 KAMEHOUSE_USER=""
 LOG_FILE=/home/${KAMEHOUSE_USER}/logs/rc-local.log
 

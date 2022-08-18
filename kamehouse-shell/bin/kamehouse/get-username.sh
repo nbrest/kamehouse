@@ -13,6 +13,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+# USERNAME gets set during install kamehouse-shell
 USERNAME="${DEFAULT_KAMEHOUSE_USERNAME}"
 
 main() {
