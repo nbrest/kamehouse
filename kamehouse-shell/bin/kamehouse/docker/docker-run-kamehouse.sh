@@ -168,16 +168,6 @@ getUserHome() {
 }
 
 buildProfile() {
-  if [ "${DOCKER_PROFILE}" != "ci" ] &&
-    [ "${DOCKER_PROFILE}" != "dev" ] &&
-    [ "${DOCKER_PROFILE}" != "demo" ] &&
-    [ "${DOCKER_PROFILE}" != "prod" ] &&
-    [ "${DOCKER_PROFILE}" != "prod-ext" ]; then
-    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
-    printHelp
-    exitProcess 1
-  fi
-
   if [ "${DOCKER_PROFILE}" == "ci" ]; then
     DOCKER_PORT_SSH=15022
     DOCKER_PORT_HTTP=15080
