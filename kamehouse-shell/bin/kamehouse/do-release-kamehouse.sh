@@ -208,11 +208,8 @@ reapplyStashedChangesInReleaseBranch() {
 }
 
 parseArguments() {
-  while getopts ":hv:" OPT; do
+  while getopts ":v:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("v")
       local RELEASE_VERSION_ARG=$OPTARG 
       if [[ "${RELEASE_VERSION_ARG}" =~ ${RELEASE_VERSION_RX} ]]; then
@@ -238,13 +235,8 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-v (9.99)${COL_NORMAL} Release version [${COL_RED}required${COL_NORMAL}]"
+printHelpOptions() {
+  addHelpOption "-v (9.99)" "Release version [${COL_RED}required${COL_NORMAL}]"
 }
 
 main "$@"

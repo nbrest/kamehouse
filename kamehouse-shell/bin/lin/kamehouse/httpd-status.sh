@@ -33,11 +33,8 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":hp:" OPT; do
+  while getopts ":p:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("p")
       HTTPD_PORT=$OPTARG
       ;;
@@ -52,13 +49,8 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-p${COL_NORMAL} httpd port. Default ${DEFAULT_HTTPD_PORT}" 
+printHelpOptions() {
+  addHelpOption "-p" "httpd port. Default ${DEFAULT_HTTPD_PORT}"
 }
 
 main "$@"

@@ -93,14 +93,10 @@ printEnv() {
 }
 
 parseArguments() {
-  while getopts ":a:hs:x" OPT; do
+  while getopts ":a:s:x" OPT; do
     case $OPT in
     ("a")
       SCRIPT_ARGS=$OPTARG
-      ;;
-    ("h")
-      printHelp
-      exitProcess 0
       ;;
     ("s")
       SCRIPT=$OPTARG
@@ -109,9 +105,7 @@ parseArguments() {
       IS_EXECUTABLE_ON_DOCKER_HOST=true
       ;;
     (\?)
-      log.error "Invalid option: -$OPTARG"
-      printHelp
-      exitProcess 1
+      parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
@@ -123,15 +117,10 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-a (args)${COL_NORMAL} script args"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-s (script)${COL_NORMAL} script to execute [${COL_RED}required${COL_NORMAL}]"
-  echo -e "     ${COL_BLUE}-x${COL_NORMAL} execute the specified script on the docker host, when control host is enabled"
+printHelpOptions() {
+  addHelpOption "-a (args)" "script args"
+  addHelpOption "-s (script)" "script to execute [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-x" "execute the specified script on the docker host, when control host is enabled"
 }
 
 main "$@"

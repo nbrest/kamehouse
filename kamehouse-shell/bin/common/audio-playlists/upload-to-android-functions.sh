@@ -16,11 +16,8 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":hi:n:p:" OPT; do
+  while getopts ":i:n:p:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("n")
       ANDROID_PHONE_NAME=$OPTARG
       ;;
@@ -48,13 +45,8 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-n [android-1|android-2]${COL_NORMAL} android phone to sync to. default is android-1"
-  echo -e "     ${COL_BLUE}-i [ip]${COL_NORMAL} android sftp server ip"
-  echo -e "     ${COL_BLUE}-p [port]${COL_NORMAL} android sftp server port"
+printHelpOptions() {
+  addHelpOption "-n [android-1|android-2]" "android phone to sync to. default is android-1"
+  addHelpOption "-i [ip]" "android sftp server ip"
+  addHelpOption "-p [port]" "android sftp server port"
 }

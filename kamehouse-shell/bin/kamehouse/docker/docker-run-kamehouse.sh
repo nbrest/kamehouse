@@ -28,7 +28,7 @@ DOCKER_HOST_SUBNET=""
 DOCKER_IMAGE_HOSTNAME=""
 DOCKER_IMAGE_TAG="latest"
 EXPORT_NATIVE_HTTPD=false
-DOCKER_PROFILE="dev"
+DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 USE_VOLUMES=false
 USE_VOLUMES_PARAM=""
 DEV_ENVIRONMENT=intellij
@@ -257,7 +257,7 @@ overrideDefaultValues() {
 }
 
 parseArguments() {
-  while getopts ":bcdfhi:o:p:s:v" OPT; do
+  while getopts ":bcdfi:o:p:s:v" OPT; do
     case $OPT in
     ("b")
       BUILD_ON_STARTUP_PARAM=true
@@ -270,9 +270,6 @@ parseArguments() {
       ;;
     ("f")
       BUILD_ON_STARTUP_PARAM=false
-      ;;
-    ("h")
-      parseHelp
       ;;
     ("i")
       DEV_ENVIRONMENT=$OPTARG
@@ -311,21 +308,16 @@ parseArguments() {
   overrideDefaultValues
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-b${COL_NORMAL} build and deploy kamehouse on startup"
-  echo -e "     ${COL_BLUE}-c${COL_NORMAL} control host through ssh. by default it runs standalone executing all commands within the container"
-  echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
-  echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast startup. don't build and deploy"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} ide workspace to use for a dev docker container. Default is intellij"
-  echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default base os is ubuntu"
-  echo -e "     ${COL_BLUE}-p ${DOCKER_PROFILES_LIST}${COL_NORMAL} default profile is dev"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
-  echo -e "     ${COL_BLUE}-v${COL_NORMAL} use volumes to persist data"
+printHelpOptions() {
+  addHelpOption "-b" "build and deploy kamehouse on startup"
+  addHelpOption "-c" "control host through ssh. by default it runs standalone executing all commands within the container"
+  addHelpOption "-d" "debug. start tomcat in debug mode"
+  addHelpOption "-f" "fast startup. don't build and deploy"
+  addHelpOption "-i ${IDE_LIST}" "ide workspace to use for a dev docker container. Default is intellij"
+  addHelpOption "-o ${DOCKER_OS_LIST}" "default base os is ${DEFAULT_DOCKER_OS}"
+  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
+  addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
+  addHelpOption "-v" "use volumes to persist data"
 }
 
 main "$@"

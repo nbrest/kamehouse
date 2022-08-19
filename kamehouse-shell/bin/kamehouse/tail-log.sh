@@ -30,7 +30,7 @@ FILE_ARG=""
 FOLLOW="-F"
 LOG_LEVEL_ARG=""
 NUM_LINES_ARG="0"
-PROFILE="dev"
+PROFILE="${DEFAULT_DOCKER_PROFILE}"
 
 # Global variables set during the process
 LOG_FILES=""
@@ -48,7 +48,7 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":e:f:l:hn:p:q" OPT; do
+  while getopts ":e:f:l:n:p:q" OPT; do
     case $OPT in
     "e")
       parseEnvironment "$OPTARG"
@@ -80,9 +80,6 @@ parseArguments() {
         printHelp
         exitProcess 1
       fi
-      ;;
-    "h")
-      parseHelp
       ;;
     "n")
       NUM_LINES_ARG=$OPTARG
@@ -251,12 +248,12 @@ ctrlC() {
 }
 
 printHelpOptions() {
-  printHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to tail logs from. Default is ${DEFAULT_ENV}"
-  printHelpOption "-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
-  printHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
-  printHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
-  printHelpOption "-p ${DOCKER_PROFILES_LIST}" "default docker profile is dev"
-  printHelpOption "-q" "quit after tailing once. Don't follow log"
+  addHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to tail logs from. Default is ${DEFAULT_ENV}"
+  addHelpOption "-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
+  addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
+  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default docker profile is ${DEFAULT_DOCKER_PROFILE}"
+  addHelpOption "-q" "quit after tailing once. Don't follow log"
 }
 
 main "$@"

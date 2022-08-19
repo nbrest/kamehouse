@@ -111,13 +111,10 @@ deployToTomcat() {
 }
 
 parseArguments() {
-  while getopts ":dhi:m:" OPT; do
+  while getopts ":di:m:" OPT; do
     case $OPT in
     ("d")
       DEPLOY_TO_DOCKER=true
-      ;;
-    ("h")
-      parseHelp
       ;;
     ("i")
       DEV_ENVIRONMENT=$OPTARG
@@ -138,15 +135,10 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-d${COL_NORMAL} deploy to docker"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's tomcat to deploy to" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to deploy"
+printHelpOptions() {
+  addHelpOption "-d" "deploy to docker"
+  addHelpOption "-i ${IDE_LIST}" "IDE's tomcat to deploy to"
+  addHelpOption "-m ${MODULES_LIST}" "module to deploy"
 }
 
 main "$@"

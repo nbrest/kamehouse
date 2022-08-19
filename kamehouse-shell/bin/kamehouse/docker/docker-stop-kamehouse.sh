@@ -14,7 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-DOCKER_PROFILE="dev"
+DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 DOCKER_PORT_SSH=6022
 CONTAINER=""
 
@@ -37,13 +37,10 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":c:hp:" OPT; do
+  while getopts ":c:p:" OPT; do
     case $OPT in
     ("c")
       CONTAINER=$OPTARG
-      ;;
-    ("h")
-      parseHelp
       ;;
     ("p")
       DOCKER_PROFILE=$OPTARG
@@ -81,14 +78,9 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-c (container id)${COL_NORMAL} id of the container to stop"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-p ${DOCKER_PROFILES_LIST}${COL_NORMAL} default profile is dev"
+printHelpOptions() {
+  addHelpOption "-c (container id)" "id of the container to stop"
+  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
 }
 
 main "$@"

@@ -47,8 +47,8 @@ fi
 # Common functions used by other scripts #
 ##########################################
 
-# Prints a script option in the help menu
-printHelpOption() {
+# Adds a script option to the help menu
+addHelpOption() {
   local OPTION=$1
   local DESCRIPTION=$2
   echo -e "     ${COL_BLUE}${OPTION}${COL_NORMAL} ${DESCRIPTION}"

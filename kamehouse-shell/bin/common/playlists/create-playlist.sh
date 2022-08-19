@@ -66,13 +66,10 @@ setWindowsPaths() {
 }
 
 parseArguments() {
-  while getopts ":b:hn:p:w" OPT; do
+  while getopts ":b:n:p:w" OPT; do
     case $OPT in
     ("b")
       BASE_PATH=$OPTARG
-      ;;
-    ("h")
-      parseHelp
       ;;
     ("n")
       PLAYLIST_FULL_PATH=$OPTARG
@@ -115,16 +112,14 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-b [basePath]${COL_NORMAL} base path to look for media files to add to the playlist[${COL_RED}required${COL_NORMAL}]"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-n [name]${COL_NORMAL} full path of the playlist file to create. If only the filename is specified it will be created on the current directory [${COL_RED}required${COL_NORMAL}]"
-  echo -e "     ${COL_BLUE}-p [prefixPath]${COL_NORMAL} prefix path to use on the playlist entries, followed by the paths after the basePath. If not specified, the file entries will have paths relative to the basePath, so the m3u file needs to be on the root of the basePath for the media player to load the files properly. Ej. -p \"D:/Downloads/videos\""
-  echo -e "     ${COL_BLUE}-w${COL_NORMAL} convert all paths to windows style '\\' instead of the default '/'"
+printHelpOptions() {
+  addHelpOption "-b [basePath]" "base path to look for media files to add to the playlist[${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-n [name]" "full path of the playlist file to create. If only the filename is specified it will be created on the current directory [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-p [prefixPath]" "prefix path to use on the playlist entries, followed by the paths after the basePath. If not specified, the file entries will have paths relative to the basePath, so the m3u file needs to be on the root of the basePath for the media player to load the files properly. Ej. -p \"D:/Downloads/videos\""
+  addHelpOption "-w" "convert all paths to windows style '\\' instead of the default '/'"
+}
+
+printHelpFooter() {
   echo -e ""
   echo -e "Sample Usage: ${SCRIPT_NAME} -b \"/d/Downloads/videos\" -n \"\${HOME}/downloadVideosWindowsPlaylist\" -p \"D:/Downloads/videos\" -w"
   echo -e ""

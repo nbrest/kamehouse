@@ -14,7 +14,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-DOCKER_PROFILE="dev"
+DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 
 mainProcess() {
   checkIfContainerIsRunning
@@ -49,11 +49,8 @@ copyDataFromContainerToHost() {
 }
 
 parseArguments() {
-  while getopts ":hp:" OPT; do
+  while getopts ":p:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("p")
       DOCKER_PROFILE=$OPTARG
       ;;
@@ -90,13 +87,8 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-p ${DOCKER_PROFILES_LIST}${COL_NORMAL} default profile is dev"
+printHelpOptions() {
+  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
 }
 
 main "$@"

@@ -13,20 +13,35 @@ ctrlC() {
   exitProcess 2
 }
 
-# Default implementation of the function to parse command line arguments
-# Override this function in the scripts that source this file
-parseArguments() {
-  log.debug "Using default parseArguments() function. Override re defining this function in each script."
+# Parse command line arguments
+parseCmdArguments() {
+  parseHelpArgument "$@"
+  parseArguments "$@"
+}
+
+# Parse help argument
+parseHelpArgument() {
   while getopts ":h" OPT; do
     case $OPT in
     ("h")
-      printHelp
-      exitProcess 0
+      parseHelp
+      ;;
+    esac
+  done
+  unset OPTIND
+}
+
+# Default implementation of the function to parse command line arguments
+# Override this function in the scripts that source this file
+parseArguments() {
+  log.trace "Using default parseArguments() function. Override re defining this function in each script."
+  while getopts ":s" OPT; do
+    case $OPT in
+    ("s")
+      log.info "-s sample argument passed to script"
       ;;
     (\?)
-      log.error "Invalid option: -$OPTARG"
-      printHelp
-      exitProcess 1
+      parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
@@ -38,13 +53,19 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  printHelpOption "-h" "display help"
+  addHelpOption "-h" "display help"
   printHelpOptions
+  printHelpFooter
 }
 
 # Override in each script with the options specific to the script
 printHelpOptions() {
   log.trace "Using default printHelpOptions() function. Override re defining this function in each script."
+}
+
+# Override in each script to print a footer after the help options
+printHelpFooter() {
+  log.trace "Using default printHelpFooter() function. Override re defining this function in each script when needed."
 }
 
 # Display the invalid argument error and exit printing help message
@@ -69,7 +90,7 @@ mainProcess() {
 # For example, in scripts that return true or false like is.linux.host.sh and shouldn't output anything else.
 mainWrapper() {
   logStart
-  parseArguments "$@"
+  parseCmdArguments "$@"
   mainProcess "$@"
   logFinish
   exitSuccessfully

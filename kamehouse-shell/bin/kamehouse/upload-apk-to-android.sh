@@ -22,11 +22,8 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":hi:p:" OPT; do
+  while getopts ":i:p:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("i")
       ANDROID_IP=$OPTARG
       ;;
@@ -40,14 +37,9 @@ parseArguments() {
   done
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-i [ip]${COL_NORMAL} android sftp server ip"
-  echo -e "     ${COL_BLUE}-p [port]${COL_NORMAL} android sftp server port"
+printHelpOptions() {
+  addHelpOption "-i [ip]" "android sftp server ip"
+  addHelpOption "-p [port]" "android sftp server port"
 }
 
 main "$@"

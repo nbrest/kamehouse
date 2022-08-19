@@ -23,25 +23,4 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-cleanup-kamehouse.sh
 }
 
-parseArguments() {
-  while getopts ":h" OPT; do
-    case $OPT in
-    ("h")
-      parseHelp
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
-}
-
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-}
-
 main "$@"

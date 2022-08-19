@@ -92,7 +92,7 @@ buildProject() {
 }
 
 parseArguments() {
-  while getopts ":acdfhim:p:rs" OPT; do
+  while getopts ":acdfim:p:rs" OPT; do
     case $OPT in
     ("a")
       BUILD_ALL_EXTRA_MODULES=true
@@ -105,9 +105,6 @@ parseArguments() {
       ;;    
     ("f")
       FAST_BUILD=true
-      ;;
-    ("h")
-      parseHelp
       ;;
     ("i")
       INTEGRATION_TESTS=true
@@ -144,21 +141,16 @@ parseArguments() {
   done
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-a${COL_NORMAL} build all modules, including mobile app (by default it builds all without the mobile app)"
-  echo -e "     ${COL_BLUE}-c${COL_NORMAL} continue even with errors when running integration tests"
-  echo -e "     ${COL_BLUE}-d${COL_NORMAL} delete all output folders on kamehouse-mobile to do a full rebuild. This option is only considered when used with -a or -m mobile"
-  echo -e "     ${COL_BLUE}-f${COL_NORMAL} fast build. Skip checkstyle, findbugs and tests" 
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-i${COL_NORMAL} run integration tests only" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
-  echo -e "     ${COL_BLUE}-p (prod|qa|dev|docker|ci)${COL_NORMAL} maven profile to build the project with. Default is prod if not specified"
-  echo -e "     ${COL_BLUE}-r${COL_NORMAL} resume. Continue where it failed in the last build" 
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} skip tests. Use it to find any checkstyle/findbugs issues on all modules regardless of test coverage"
+printHelpOptions() {
+  addHelpOption "-a" "build all modules, including mobile app (by default it builds all without the mobile app)"
+  addHelpOption "-c" "continue even with errors when running integration tests"
+  addHelpOption "-d" "delete all output folders on kamehouse-mobile to do a full rebuild. This option is only considered when used with -a or -m mobile"
+  addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
+  addHelpOption "-i" "run integration tests only"
+  addHelpOption "-m ${MODULES_LIST}" "module to build"
+  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is prod if not specified"
+  addHelpOption "-r" "resume. Continue where it failed in the last build"
+  addHelpOption "-s" "skip tests. Use it to find any checkstyle/findbugs issues on all modules regardless of test coverage"
 }
 
 main "$@"

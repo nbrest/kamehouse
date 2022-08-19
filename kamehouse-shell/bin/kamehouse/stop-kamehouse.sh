@@ -27,11 +27,8 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":hm:" OPT; do
+  while getopts ":m:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("m")
       MODULE_SHORT="$OPTARG"
       ;;
@@ -42,13 +39,8 @@ parseArguments() {
   done
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|media|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to ${OPERATION}"
+printHelpOptions() {
+  addHelpOption "-m ${TOMCAT_MODULES_LIST}" "module to ${OPERATION}"
 }
 
 main "$@"

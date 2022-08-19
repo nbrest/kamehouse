@@ -121,11 +121,8 @@ urlencode() {
 }
 
 parseArguments() {
-  while getopts ":hm:" OPT; do
+  while getopts ":m:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("m")
       MODULE_SHORT="$OPTARG"
       ;;
@@ -136,13 +133,8 @@ parseArguments() {
   done
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-m (admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)${COL_NORMAL} module to build"
+printHelpOptions() {
+  addHelpOption "-m ${MODULES_LIST}" "module to build"
 }
 
 main "$@"

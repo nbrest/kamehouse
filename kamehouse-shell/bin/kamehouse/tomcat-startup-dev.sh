@@ -36,11 +36,8 @@ setGlobalVariables() {
 }
 
 parseArguments() {
-  while getopts ":hi:" OPT; do
+  while getopts ":i:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("i")
       DEV_ENVIRONMENT=$OPTARG
       ;;
@@ -51,13 +48,8 @@ parseArguments() {
   done
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's tomcat to deploy to" 
+printHelpOptions() {
+  addHelpOption "-i ${IDE_LIST}" "IDE's tomcat to deploy to"
 }
 
 main "$@"

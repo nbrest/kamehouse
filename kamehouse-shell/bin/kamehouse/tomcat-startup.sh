@@ -46,13 +46,10 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":dh" OPT; do
+  while getopts ":d" OPT; do
     case $OPT in
     ("d")
       DEBUG_MODE=true
-      ;;
-    ("h")
-      parseHelp
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -61,13 +58,8 @@ parseArguments() {
   done 
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-d${COL_NORMAL} debug. start tomcat in debug mode"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+printHelpOptions() {
+  addHelpOption "-d" "debug. start tomcat in debug mode"
 }
 
 main "$@"

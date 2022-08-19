@@ -17,7 +17,7 @@ KAMEHOUSE_SHELL_ONLY=false
 KAMEHOUSE_SHELL_SCRIPTS_ONLY=false
 
 main() {
-  parseArguments "$@"
+  parseCmdLineArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse"
   gitCloneKameHouse
   checkPath
@@ -142,11 +142,11 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-parseArguments() {
+parseCmdLineArguments() {
   while getopts ":hos" OPT; do
     case $OPT in
     ("h")
-      printHelp
+      printHelpMenu
       exit 0
       ;;
     ("o")
@@ -164,7 +164,7 @@ parseArguments() {
   done
 }
 
-printHelp() {
+printHelpMenu() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}install-kamehouse.sh${COL_NORMAL} [options]"
   echo -e ""

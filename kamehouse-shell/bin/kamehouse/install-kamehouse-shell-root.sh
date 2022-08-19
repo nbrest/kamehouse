@@ -13,7 +13,7 @@ COL_MESSAGE=${COL_GREEN}
 KAMEHOUSE_USER=""
 
 main() {
-  parseArguments "$@"
+  parseCmdLineArguments "$@"
   log.info "Setting up root user for kamehouse"
   if (( $EUID != 0 )); then
     log.error "This script needs to run as root. Exiting..."
@@ -36,11 +36,11 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-parseArguments() {
+parseCmdLineArguments() {
   while getopts ":hu:" OPT; do
     case $OPT in
     ("h")
-      printHelp
+      printHelpMenu
       exit 0
       ;;
     ("u")
@@ -55,12 +55,12 @@ parseArguments() {
 
   if [ -z "${KAMEHOUSE_USER}" ]; then
     log.error "Option -u is required"
-    printHelp
+    printHelpMenu
     exit 1
   fi
 }
 
-printHelp() {
+printHelpMenu() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}install-kamehouse-shell-root.sh${COL_NORMAL} [options]"
   echo -e ""

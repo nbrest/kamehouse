@@ -25,11 +25,8 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":ho:" OPT; do
+  while getopts ":o:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("o")
       DOCKER_ENVIRONMENT=$OPTARG
       ;;
@@ -51,13 +48,8 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-o (ubuntu|pi)${COL_NORMAL} default value is ubuntu"
+printHelpOptions() {
+  addHelpOption "-o ${DOCKER_OS_LIST}" "default value is ${DEFAULT_DOCKER_OS}"
 }
 
 main "$@"

@@ -16,7 +16,7 @@ fi
 
 DATA_SOURCE="none"
 REQUEST_CONFIRMATION_RX=^yes\|y$
-DOCKER_PROFILE="dev"
+DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 REINIT_SSH_KEYS_ONLY=false
 
 mainProcess() {
@@ -161,16 +161,10 @@ reinitMysql() {
 }
 
 parseArguments() {
-  while getopts ":d:mhp:s" OPT; do
+  while getopts ":d:p:s" OPT; do
     case $OPT in
     ("d")
       DATA_SOURCE=$OPTARG
-      ;;
-    ("m")
-      MYSQL_REINIT_SKIP=true
-      ;;
-    ("h")
-      parseHelp
       ;;
     ("p")
       DOCKER_PROFILE=$OPTARG
@@ -227,15 +221,10 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-d (none|docker-init|docker-backup|host-backup)${COL_NORMAL} data source to reset all data. Default is none"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-p ${DOCKER_PROFILES_LIST}${COL_NORMAL} default profile is dev"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} reinit ssh keys only" 
+printHelpOptions() {
+  addHelpOption "-d (none|docker-init|docker-backup|host-backup)" "data source to reset all data. Default is none"
+  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
+  addHelpOption "-s" "reinit ssh keys only"
 }
 
 main "$@"

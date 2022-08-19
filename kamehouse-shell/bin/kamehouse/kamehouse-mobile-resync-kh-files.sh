@@ -68,11 +68,8 @@ exportWebapp() {
 }
 
 parseArguments() {
-  while getopts ":hi:p:" OPT; do
+  while getopts ":i:p:" OPT; do
     case $OPT in
-    ("h")
-      parseHelp
-      ;;
     ("i")
       DEV_ENVIRONMENT=$OPTARG
       ;;
@@ -101,15 +98,9 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-i (eclipse|intellij)${COL_NORMAL} IDE's path to export scripts to.Default intellij" 
-  echo -e "     ${COL_BLUE}-p (prod|dev)${COL_NORMAL} environment to deploy. default is dev. use prod when calling from the deployment script"
-
+printHelpOptions() {
+  addHelpOption "-i ${IDE_LIST}" "IDE's path to export scripts to.Default intellij"
+  addHelpOption "-p (prod|dev)" "environment to deploy. default is dev. use prod when calling from the deployment script"
 }
 
 main "$@"

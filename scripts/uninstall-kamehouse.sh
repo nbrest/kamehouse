@@ -17,7 +17,7 @@ PURGE_CONFIG=false
 KAMEHOUSE_SHELL_ONLY=false
 
 main() {
-  parseArguments "$@"
+  parseCmdLineArguments "$@"
   log.info "Uninstalling ${COL_PURPLE}kamehouse"
 
   revertBashRc
@@ -85,11 +85,11 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-parseArguments() {
+parseCmdLineArguments() {
   while getopts ":hps" OPT; do
     case $OPT in
     ("h")
-      printHelp
+      printHelpMenu
       exit 0
       ;;
     ("p")
@@ -106,7 +106,7 @@ parseArguments() {
   done
 }
 
-printHelp() {
+printHelpMenu() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}uninstall-kamehouse.sh${COL_NORMAL} [options]"
   echo -e ""

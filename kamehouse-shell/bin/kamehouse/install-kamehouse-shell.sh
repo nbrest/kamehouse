@@ -23,7 +23,7 @@ KAMEHOUSE_SHELL_SOURCE=`pwd`
 INSTALL_SCRIPTS_ONLY=false
 
 main() {
-  parseArguments "$@"
+  parseCmdLineArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SHELL_PATH}"
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SHELL_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
@@ -172,11 +172,11 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-parseArguments() {
+parseCmdLineArguments() {
   while getopts ":hop" OPT; do
     case $OPT in
     ("h")
-      printHelp
+      printHelpMenu
       exit 0
       ;;
     ("o")
@@ -193,7 +193,7 @@ parseArguments() {
   done
 }
 
-printHelp() {
+printHelpMenu() {
   echo -e ""
   echo -e "Usage: ${COL_PURPLE}install-kamehouse-shell.sh${COL_NORMAL} [options]"
   echo -e ""

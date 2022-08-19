@@ -25,19 +25,13 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":f:h" OPT; do
+  while getopts ":f:" OPT; do
     case $OPT in
     ("f")
       FILE_ARG=$OPTARG
       ;;
-    ("h")
-      printHelp
-      exitProcess 0
-      ;;
     (\?)
-      log.error "Invalid option: -$OPTARG"
-      printHelp
-      exitProcess 1
+      parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
@@ -49,13 +43,8 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-f (file)${COL_NORMAL} file or folder to transfer to ${SCP_SERVER} [${COL_RED}required${COL_NORMAL}]"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+printHelpOptions() {
+  addHelpOption "-f (file)" "file or folder to transfer to ${SCP_SERVER} [${COL_RED}required${COL_NORMAL}]"
 }
 
 main "$@"

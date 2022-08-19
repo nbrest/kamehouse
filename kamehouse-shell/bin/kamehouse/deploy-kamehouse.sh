@@ -228,7 +228,7 @@ deployKameHouseMobile() {
 }
 
 parseArguments() {
-  while getopts ":ace:hm:p:x" OPT; do
+  while getopts ":ace:m:p:x" OPT; do
     case $OPT in
     ("a")
       DEPLOY_ALL_EXTRA_MODULES=true
@@ -238,9 +238,6 @@ parseArguments() {
       ;;
     ("e")
       parseEnvironment "$OPTARG"
-      ;;
-    ("h")
-      parseHelp
       ;;
     ("m")
       MODULE="kamehouse-$OPTARG"
@@ -279,12 +276,12 @@ parseArguments() {
 }
 
 printHelpOptions() {
-  printHelpOption "-a" "deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
-  printHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
-  printHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to build and deploy to. Default is local if not specified"
-  printHelpOption "-m ${MODULES_LIST}" "module to deploy"
-  printHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is prod if not specified"
-  printHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
+  addHelpOption "-a" "deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
+  addHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
+  addHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to build and deploy to. Default is local if not specified"
+  addHelpOption "-m ${MODULES_LIST}" "module to deploy"
+  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is prod if not specified"
+  addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
 }
 
 main "$@"

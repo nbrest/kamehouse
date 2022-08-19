@@ -41,9 +41,9 @@ countdown() {
 }
 
 parseArguments() {
-  while getopts ":hrst:" OPT; do
+  while getopts ":irst:" OPT; do
     case $OPT in
-    "h")
+    "i")
       HIBERNATE=true
       RESTART=false
       SHUTDOWN=false
@@ -89,15 +89,11 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} hibernate"
-  echo -e "     ${COL_BLUE}-r${COL_NORMAL} restart"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} shutdown"
-  echo -e "     ${COL_BLUE}-t XXX${COL_NORMAL} number of MINUTES to delay shutdown [${COL_RED}required${COL_NORMAL}]"
+printHelpOptions() {
+  addHelpOption "-i" "hibernate"
+  addHelpOption "-r" "restart"
+  addHelpOption "-s" "shutdown"
+  addHelpOption "-t 999" "number of MINUTES to delay shutdown [${COL_RED}required${COL_NORMAL}]"
 }
 
 main "$@"

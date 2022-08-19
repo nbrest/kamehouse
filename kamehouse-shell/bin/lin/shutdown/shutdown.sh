@@ -26,13 +26,10 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":d:h" OPT; do
+  while getopts ":d:" OPT; do
     case $OPT in
     ("d")
       SHUTDOWN_DELAY_MIN=$OPTARG
-      ;;
-    ("h")
-      parseHelp
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -41,13 +38,8 @@ parseArguments() {
   done
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-d${COL_NORMAL} shutdown delay in minutes"
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
+printHelpOptions() {
+  addHelpOption "-d" "shutdown delay in minutes"
 }
 
 main "$@"

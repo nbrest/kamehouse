@@ -60,13 +60,10 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":c:h" OPT; do
+  while getopts ":c:" OPT; do
     case $OPT in
     ("c")
       GIT_COMMIT_HASH=$OPTARG
-      ;;
-    ("h")
-      parseHelp
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -80,13 +77,8 @@ parseArguments() {
   fi
 }
 
-printHelp() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help" 
-  echo -e "     ${COL_BLUE}-c hash${COL_NORMAL} git commit hash"
+printHelpOptions() {
+  addHelpOption "-c hash" "git commit hash"
 }
 
 main "$@"
