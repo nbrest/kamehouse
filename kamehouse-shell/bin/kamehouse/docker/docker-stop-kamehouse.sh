@@ -14,12 +14,17 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/docker-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
+  exit 1
+fi
+
 DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 DOCKER_PORT_SSH=6022
 CONTAINER=""
 
 mainProcess() {
-
   if [ -z "${CONTAINER}" ]; then 
     log.info "Container not passed as argument, attempting to find a running kamehouse container of profile ${COL_PURPLE}${DOCKER_PROFILE}"
     CONTAINER=`docker container list | grep -e "kamehouse\|/bin/sh -c" | grep "${DOCKER_PORT_SSH}" |  cut -d ' ' -f1`

@@ -13,6 +13,12 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/docker-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
+  exit 1
+fi
+
 DOCKER_IMAGE_TAG="latest"
 DOCKER_ENVIRONMENT="ubuntu"
 
@@ -25,33 +31,15 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":o:" OPT; do
-    case $OPT in
-    ("o")
-      DOCKER_ENVIRONMENT=$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
+  parseDockerOs "$@"
 }
 
 setEnvFromArguments() {
-  if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
-    [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
-    log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
-    printHelp
-    exitProcess 1
-  fi
-
-  if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
-    DOCKER_IMAGE_TAG="latest-pi"
-  fi  
+  setEnvForDockerOs
 }
 
 printHelpOptions() {
-  addHelpOption "-o ${DOCKER_OS_LIST}" "default value is ${DEFAULT_DOCKER_OS}"
+  printDockerOsOption
 }
 
 main "$@"
