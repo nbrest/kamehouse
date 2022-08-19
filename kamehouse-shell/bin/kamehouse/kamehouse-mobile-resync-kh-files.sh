@@ -15,9 +15,6 @@ if [ "$?" != "0" ]; then
 fi
 source ${HOME}/.kamehouse/.shell/.cred
 
-DEFAULT_DEV_ENVIRONMENT=intellij
-# dev environment: eclipse or intellij
-DEV_ENVIRONMENT=
 PROJECT_DIR=
 EXPORT_DIR=
 PROFILE="dev"
@@ -28,7 +25,7 @@ mainProcess() {
 }
 
 setGlobalVariables() {
-  WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
+  WORKSPACE=${HOME}/workspace-${IDE}
   PROJECT_DIR=${WORKSPACE}/kamehouse
   if [ "${PROFILE}" == "prod" ]; then
     PROJECT_DIR=${HOME}/git/kamehouse
@@ -68,11 +65,10 @@ exportWebapp() {
 }
 
 parseArguments() {
+  parseIde "$@"
+
   while getopts ":i:p:" OPT; do
     case $OPT in
-    ("i")
-      DEV_ENVIRONMENT=$OPTARG
-      ;;
     ("p")
       local PROFILE_ARG=$OPTARG 
       PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
@@ -94,14 +90,11 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${DEV_ENVIRONMENT}" ]; then
-    log.info "Option -i is not set. Using default value ${DEFAULT_DEV_ENVIRONMENT}"
-    DEV_ENVIRONMENT=${DEFAULT_DEV_ENVIRONMENT}
-  fi  
+  setEnvForIde
 }
 
 printHelpOptions() {
-  addHelpOption "-i ${IDE_LIST}" "IDE's path to export scripts to.Default intellij"
+  printIdeOption "ide's path to export scripts to. Default is ${DEFAULT_IDE}"
   addHelpOption "-p (prod|dev)" "environment to deploy. default is dev. use prod when calling from the deployment script"
 }
 

@@ -35,7 +35,6 @@ DOCKER_IMAGE_TAG="latest"
 EXPORT_NATIVE_HTTPD=false
 USE_VOLUMES=false
 USE_VOLUMES_PARAM=""
-DEV_ENVIRONMENT=intellij
 
 mainProcess() {
   setEnvironment
@@ -142,9 +141,9 @@ runDockerImage() {
 
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
     local DOCKER_HOST_USERHOME=`getUserHome`
-    log.info "Mounting ${DOCKER_HOST_USERHOME}/workspace-${DEV_ENVIRONMENT}/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
+    log.info "Mounting ${DOCKER_HOST_USERHOME}/workspace-${IDE}/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
     DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    -v ${DOCKER_HOST_USERHOME}/workspace-${DEV_ENVIRONMENT}/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
+    -v ${DOCKER_HOST_USERHOME}/workspace-${IDE}/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
     "
   fi
   
@@ -251,6 +250,7 @@ overrideDefaultValues() {
 }
 
 parseArguments() {
+  parseIde "$@"
   parseDockerOs "$@"
   parseDockerProfile "$@"
   
@@ -268,9 +268,6 @@ parseArguments() {
     ("f")
       BUILD_ON_STARTUP_PARAM=false
       ;;
-    ("i")
-      DEV_ENVIRONMENT=$OPTARG
-      ;;
     ("s")
       DOCKER_HOST_SUBNET=$OPTARG      
       ;;
@@ -285,6 +282,7 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
+  setEnvForIde
   setEnvForDockerOs
   setEnvForDockerProfile
   buildProfile
@@ -296,7 +294,7 @@ printHelpOptions() {
   addHelpOption "-c" "control host through ssh. by default it runs standalone executing all commands within the container"
   addHelpOption "-d" "debug. start tomcat in debug mode"
   addHelpOption "-f" "fast startup. don't build and deploy"
-  addHelpOption "-i ${IDE_LIST}" "ide workspace to use for a dev docker container. Default is intellij"
+  printIdeOption "ide workspace to use for a dev docker container. Default is ${DEFAULT_IDE}"
   printDockerOsOption
   printDockerProfileOption
   addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"

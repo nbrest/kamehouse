@@ -22,8 +22,6 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 
-# dev environment: eclipse or intellij
-DEV_ENVIRONMENT=
 DEPLOY_TO_DOCKER=false
 PROJECT_DIR=
 TOMCAT_WEBAPPS_DIR=
@@ -41,11 +39,11 @@ mainProcess() {
   deployToTomcat
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse${COL_DEFAULT_LOG} to ${COL_PURPLE}${TOMCAT_WEBAPPS_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_PURPLE}-  tail-log.sh -f ${DEV_ENVIRONMENT}  -${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Execute ${COL_PURPLE}-  tail-log.sh -f ${IDE}  -${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 setGlobalVariables() {
-  WORKSPACE=${HOME}/workspace-${DEV_ENVIRONMENT}
+  WORKSPACE=${HOME}/workspace-${IDE}
   PROJECT_DIR=${WORKSPACE}/kamehouse
   TOMCAT_WEBAPPS_DIR=${HOME}/programs/apache-tomcat-dev/webapps
   if ${IS_LINUX_HOST}; then
@@ -54,7 +52,7 @@ setGlobalVariables() {
 }
 
 buildProject() {
-  log.info "Building kamehouse (skipping tests, checkstyle and findbugs) in ${DEV_ENVIRONMENT}"
+  log.info "Building kamehouse (skipping tests, checkstyle and findbugs) in ${IDE}"
   
   exportGitCommitHash
   
@@ -105,7 +103,7 @@ deployToTomcat() {
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
     local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
-      log.info "Deploying ${KAMEHOUSE_MODULE} in ${DEV_ENVIRONMENT}"
+      log.info "Deploying ${KAMEHOUSE_MODULE} in ${IDE}"
       if ${DEPLOY_TO_DOCKER}; then
         log.debug "scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps"
         scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps
@@ -118,13 +116,12 @@ deployToTomcat() {
 }
 
 parseArguments() {
+  parseIde "$@"
+
   while getopts ":di:m:" OPT; do
     case $OPT in
     ("d")
       DEPLOY_TO_DOCKER=true
-      ;;
-    ("i")
-      DEV_ENVIRONMENT=$OPTARG
       ;;
     ("m")
       MODULE="kamehouse-$OPTARG"
@@ -138,15 +135,12 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${DEV_ENVIRONMENT}" ]; then
-    log.error "Option -i is not set. Re-run the script with that option set"
-    exitProcess 1
-  fi
+  setEnvForIde
 }
 
 printHelpOptions() {
   addHelpOption "-d" "deploy to docker"
-  addHelpOption "-i ${IDE_LIST}" "IDE's tomcat to deploy to"
+  printIdeOption "ide's tomcat to deploy to"
   addHelpOption "-m ${MODULES_LIST}" "module to deploy"
 }
 

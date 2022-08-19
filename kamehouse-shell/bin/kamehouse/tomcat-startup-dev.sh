@@ -7,8 +7,14 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
-# dev environment: eclipse or intellij
-DEV_ENVIRONMENT=intellij
+# Import kamehouse functions
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
+  exit 1
+fi
+
+# ide: eclipse or intellij
 LOG_PROCESS_TO_FILE=false
 TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
@@ -19,7 +25,7 @@ mainProcess() {
   echo "********************************************************************************************"
   echo " Redirecting logs to ${TOMCAT_LOG}"
   echo ""
-  echo "               Tail the logs using the command 'tail-log.sh -f ${DEV_ENVIRONMENT}'"
+  echo "               Tail the logs using the command 'tail-log.sh -f ${IDE}'"
   echo "********************************************************************************************"
   cd ${TOMCAT_DIR}
   # Start with jpda start to be able to remote debug on port 8000 (default port)
@@ -36,20 +42,15 @@ setGlobalVariables() {
 }
 
 parseArguments() {
-  while getopts ":i:" OPT; do
-    case $OPT in
-    ("i")
-      DEV_ENVIRONMENT=$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
+  parseIde "$@"
+}
+
+setEnvFromArguments() {
+  setEnvForIde
 }
 
 printHelpOptions() {
-  addHelpOption "-i ${IDE_LIST}" "IDE's tomcat to deploy to"
+  printIdeOption "ide's tomcat to deploy to"
 }
 
 main "$@"

@@ -11,6 +11,11 @@ SSH_PORT=22
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
 
+IDE_LIST="(eclipse|intellij)"
+IDE_OPTION="-i ${IDE_LIST}"
+DEFAULT_IDE="intellij"
+IDE="${DEFAULT_IDE}"
+
 KAMEHOUSE_SERVERS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
 DEFAULT_KAMEHOUSE_SERVER="local"
 KAMEHOUSE_SERVER="${DEFAULT_KAMEHOUSE_SERVER}"
@@ -123,6 +128,33 @@ setEnvForMavenProfile() {
 
 printMavenProfileOption() {
   addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is ${DEFAULT_MAVEN_PROFILE} if not specified"
+}
+
+parseIde() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -i)
+        IDE="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
+setEnvForIde() {
+  IDE=`echo "${IDE}" | tr '[:upper:]' '[:lower:]'`
+  
+  if [ "${IDE}" != "eclipse" ] \
+      && [ "${IDE}" != "intellij" ]; then
+    log.error "Option -i ide needs to be in ${IDE_LIST}"
+    printHelp
+    exitProcess 1
+  fi
+}
+
+printIdeOption() {
+  local DESCRIPTION=$1
+  addHelpOption "${IDE_OPTION}" "${DESCRIPTION}"
 }
 
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER
