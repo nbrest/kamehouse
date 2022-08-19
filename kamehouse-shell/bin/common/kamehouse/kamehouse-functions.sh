@@ -54,7 +54,7 @@ setEnvForKameHouseServer() {
     [ "${KAMEHOUSE_SERVER}" != "niko-w" ] &&
     [ "${KAMEHOUSE_SERVER}" != "niko-w-vm-ubuntu" ] &&
     [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
-    log.error "Option -e server has an invalid value of ${KAMEHOUSE_SERVER}"
+    log.error "Option -s server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp
     exitProcess 1
   fi
