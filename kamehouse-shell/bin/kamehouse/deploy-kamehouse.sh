@@ -41,7 +41,7 @@ MAVEN_COMMAND=""
 mainProcess() {
   setGlobalVariables
     
-  if [ "${ENVIRONMENT}" == "local" ]; then
+  if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
 
     if ${USE_CURRENT_DIR}; then
       PROJECT_DIR=`pwd`
@@ -86,13 +86,13 @@ setGlobalVariables() {
     TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.${LOG_DATE}.log"
   fi
 
-  SSH_SERVER=${ENVIRONMENT}
+  SSH_SERVER=${KAMEHOUSE_SERVER}
   SSH_COMMAND="${SCRIPT_NAME} -e local -p ${MAVEN_PROFILE}"
   if [ -n "${MODULE_SHORT}" ]; then
     SSH_COMMAND=${SSH_COMMAND}" -m "${MODULE_SHORT}
   fi 
 
-  if [ "${ENVIRONMENT}" == "aws" ]; then
+  if [ "${KAMEHOUSE_SERVER}" == "aws" ]; then
     SSH_SERVER=${AWS_SSH_SERVER}
     SSH_USER=${AWS_SSH_USER}
   fi
@@ -173,7 +173,7 @@ deployToTomcat() {
   done
 
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_PURPLE}-  tail-log.sh -e ${ENVIRONMENT} -f tomcat  -${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Execute ${COL_PURPLE}-  tail-log.sh -e ${KAMEHOUSE_SERVER} -f tomcat  -${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 deployKameHouseCmd() {
@@ -227,6 +227,7 @@ deployKameHouseMobile() {
 }
 
 parseArguments() {
+  parseKameHouseServer "$@"
   parseMavenProfile "$@"
 
   while getopts ":ace:m:p:x" OPT; do
@@ -236,9 +237,6 @@ parseArguments() {
       ;;
     ("c")
       USE_CURRENT_DIR=true
-      ;;
-    ("e")
-      parseEnvironment "$OPTARG"
       ;;
     ("m")
       MODULE="kamehouse-$OPTARG"
@@ -255,18 +253,14 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
+  setEnvForKameHouseServer
   setEnvForMavenProfile
-
-  if [ -z "${ENVIRONMENT}" ]; then
-    log.info "Option -e environment is not set. Using default environment ${COL_PURPLE}${DEFAULT_ENV}"
-    ENVIRONMENT=${DEFAULT_ENV}
-  fi  
 }
 
 printHelpOptions() {
   addHelpOption "-a" "deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
   addHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
-  addHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to build and deploy to. Default is local if not specified"
+  printKameHouseServerOption
   addHelpOption "-m ${MODULES_LIST}" "module to deploy"
   printMavenProfileOption
   addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"

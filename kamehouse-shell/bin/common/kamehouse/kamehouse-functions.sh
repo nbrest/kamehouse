@@ -8,13 +8,16 @@ SSH_USER=${DEFAULT_SSH_USER}
 SSH_COMMAND=""
 SSH_SERVER=""
 SSH_PORT=22
-AWS_SSH_SERVER="ec2-13-211-209-87.ap-southeast-2.compute.amazonaws.com"
-AWS_SSH_USER=ubuntu
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
-ENVIRONMENTS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
+
+KAMEHOUSE_SERVERS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
+DEFAULT_KAMEHOUSE_SERVER="local"
+KAMEHOUSE_SERVER="${DEFAULT_KAMEHOUSE_SERVER}"
+
 TOMCAT_MODULES_LIST="(admin|media|tennisworld|testmodule|ui|vlcrc)"
 MODULES_LIST="(admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
+
 MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
 DEFAULT_MAVEN_PROFILE="prod"
 MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
@@ -24,35 +27,39 @@ TOMCAT_DEBUG_PORT=8000
 
 IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
-ENVIRONMENT=""
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
 # Common kamehouse functions
-parseEnvironment() {
-  local ENV_ARG=$1
-  ENV_ARG=$(echo "${ENV_ARG}" | tr '[:upper:]' '[:lower:]')
 
-  if [ "${ENV_ARG}" != "aws" ] &&
-    [ "${ENV_ARG}" != "docker" ] &&
-    [ "${ENV_ARG}" != "local" ] &&
-    [ "${ENV_ARG}" != "niko-nba" ] &&
-    [ "${ENV_ARG}" != "niko-server" ] &&
-    [ "${ENV_ARG}" != "niko-server-vm-ubuntu" ] &&
-    [ "${ENV_ARG}" != "niko-w" ] &&
-    [ "${ENV_ARG}" != "niko-w-vm-ubuntu" ] &&
-    [ "${ENV_ARG}" != "pi" ]; then
-    log.error "Option -e environment has an invalid value of ${ENV_ARG}"
+parseKameHouseServer() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -e) # TODO move to -s
+        KAMEHOUSE_SERVER="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
+setEnvForKameHouseServer() {
+  KAMEHOUSE_SERVER=$(echo "${KAMEHOUSE_SERVER}" | tr '[:upper:]' '[:lower:]')
+
+  if [ "${KAMEHOUSE_SERVER}" != "docker" ] &&
+    [ "${KAMEHOUSE_SERVER}" != "local" ] &&
+    [ "${KAMEHOUSE_SERVER}" != "niko-nba" ] &&
+    [ "${KAMEHOUSE_SERVER}" != "niko-server" ] &&
+    [ "${KAMEHOUSE_SERVER}" != "niko-server-vm-ubuntu" ] &&
+    [ "${KAMEHOUSE_SERVER}" != "niko-w" ] &&
+    [ "${KAMEHOUSE_SERVER}" != "niko-w-vm-ubuntu" ] &&
+    [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
+    log.error "Option -e server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp
     exitProcess 1
   fi
 
-  ENVIRONMENT=${ENV_ARG}
-  case ${ENVIRONMENT} in
-  "aws")
-    IS_REMOTE_LINUX_HOST=true
-    SSH_USER=ubuntu
-    ;;
+  case ${KAMEHOUSE_SERVER} in
   "docker")
     IS_REMOTE_LINUX_HOST=true
     SSH_USER=${DEFAULT_SSH_USER}
@@ -83,6 +90,10 @@ parseEnvironment() {
     SSH_USER=pi
     ;;
   esac
+}
+
+printKameHouseServerOption() {
+  addHelpOption "-e ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
 }
 
 parseMavenProfile() {

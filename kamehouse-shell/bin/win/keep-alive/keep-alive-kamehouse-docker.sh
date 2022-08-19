@@ -27,7 +27,6 @@ SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"
 DEFAULT_DOCKER_PROFILE="prod"
 DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
-DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
   PID=`netstat -ano | grep "LISTENING" | grep "${DOCKER_PORT_HTTP}" | tail -n 1`

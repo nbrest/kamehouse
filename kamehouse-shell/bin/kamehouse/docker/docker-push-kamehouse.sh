@@ -21,7 +21,6 @@ if [ "$?" != "0" ]; then
 fi
 
 DOCKER_IMAGE_TAG="latest"
-DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
   log.info "Pushing docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"

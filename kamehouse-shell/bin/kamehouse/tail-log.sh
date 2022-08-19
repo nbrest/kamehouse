@@ -45,7 +45,7 @@ TAIL_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/format-tail-log.
 
 mainProcess() {
   setGlobalVariables
-  if [ "${ENVIRONMENT}" == "local" ]; then
+  if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
     tailLog
   else
     # Tail log remotely
@@ -119,9 +119,9 @@ setGlobalVariables() {
     ;;
   esac
 
-  SSH_SERVER=${ENVIRONMENT}
+  SSH_SERVER=${KAMEHOUSE_SERVER}
   SSH_COMMAND="${SCRIPT_NAME} -e local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
-  if [ "${ENVIRONMENT}" == "docker" ]; then
+  if [ "${KAMEHOUSE_SERVER}" == "docker" ]; then
     SSH_SERVER=localhost
     SSH_PORT=${DOCKER_PORT_SSH}
   fi
@@ -137,7 +137,7 @@ addFileToLogFiles() {
 }
 
 tailLog() {
-  log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_DEFAULT_LOG} in ${COL_PURPLE}${ENVIRONMENT}${COL_DEFAULT_LOG}"
+  log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_DEFAULT_LOG} in ${COL_PURPLE}${KAMEHOUSE_SERVER}${COL_DEFAULT_LOG}"
   log.debug "tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}"
   tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}
   checkCommandStatus "$?" "An error occurred displaying ${LOG_FILES}"
@@ -150,13 +150,11 @@ ctrlC() {
 }
 
 parseArguments() {
+  parseKameHouseServer "$@"
   parseDockerProfile "$@"
-
+  
   while getopts ":e:f:l:n:p:q" OPT; do
     case $OPT in
-    "e")
-      parseEnvironment "$OPTARG"
-      ;;
     "f")
       FILE_ARG=$OPTARG
       # Turn argument to lowercase
@@ -211,6 +209,9 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
+  setEnvForKameHouseServer
+  setEnvForDockerProfile
+
   if [ -z "${FILE_ARG}" ]; then
     log.error "Option -f file to tail is required"
     printHelp
@@ -221,17 +222,10 @@ setEnvFromArguments() {
     log.info "Log level not set. Using default ${COL_PURPLE}${DEFAULT_LOG_LEVEL}"
     LOG_LEVEL_ARG=${DEFAULT_LOG_LEVEL}
   fi
-
-  if [ -z "${ENVIRONMENT}" ]; then
-    log.info "Environment not set. Using default ${COL_PURPLE}${DEFAULT_ENV}"
-    ENVIRONMENT=${DEFAULT_ENV}
-  fi
-
-  setEnvForDockerProfile
 }
 
 printHelpOptions() {
-  addHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to tail logs from. Default is ${DEFAULT_ENV}"
+  printKameHouseServerOption
   addHelpOption "-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
