@@ -10,30 +10,35 @@ DOCKER_PROFILES_LIST="(ci|dev|demo|prod|prod-ext)"
 DEFAULT_DOCKER_PROFILE="dev"
 DOCKER_OS_LIST="(ubuntu|pi)"
 DEFAULT_DOCKER_OS="ubuntu"
+DOCKER_PROFILE=""
+DOCKER_ENVIRONMENT=""
+DOCKER_COMMAND=""
+DOCKER_IMAGE_BASE=""
+DOCKER_IMAGE_TAG=""
 
 # This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
 DOCKER_HOST_DEFAULT_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
 
 parseDockerOs() {
-  while getopts ":o:" OPT; do
-    case $OPT in
-    ("o")
-      DOCKER_ENVIRONMENT=$OPTARG
-      ;;
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -o)
+        DOCKER_ENVIRONMENT="${ARGS[i+1]}"
+        ;;
     esac
   done
-  unset OPTIND
 }
 
 parseDockerProfile() {
-  while getopts ":p:" OPT; do
-    case $OPT in
-    ("p")
-      DOCKER_PROFILE=$OPTARG
-      ;;
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -p)
+        DOCKER_PROFILE="${ARGS[i+1]}"
+        ;;
     esac
   done
-  unset OPTIND
 }
 
 setEnvForDockerOs() {

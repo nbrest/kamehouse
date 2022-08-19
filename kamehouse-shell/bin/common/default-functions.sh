@@ -21,20 +21,21 @@ parseCmdArguments() {
 
 # Parse help argument
 parseHelpArgument() {
-  while getopts ":h" OPT; do
-    case $OPT in
-    ("h")
-      parseHelp
-      ;;
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -h)
+        parseHelp
+        ;;
     esac
   done
-  unset OPTIND
 }
 
 # Default implementation of the function to parse command line arguments
 # Override this function in the scripts that source this file
 parseArguments() {
   log.trace "Using default parseArguments() function. Override re defining this function in each script when needed."
+  unset OPTIND
   while getopts ":s" OPT; do
     case $OPT in
     ("s")
@@ -45,6 +46,7 @@ parseArguments() {
       ;;
     esac
   done
+  unset OPTIND
 }
 
 # Default print help message
