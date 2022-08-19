@@ -27,7 +27,7 @@ DEBUG_MODE_PARAM=""
 DOCKER_COMMAND="docker run --rm"
 DOCKER_CONTROL_HOST=false
 DOCKER_CONTROL_HOST_PARAM=""
-DOCKER_BASE_OS="ubuntu"
+DOCKER_ENVIRONMENT="ubuntu"
 DOCKER_HOST_IP=""
 DOCKER_HOST_HOSTNAME=""
 DOCKER_HOST_SUBNET=""
@@ -70,7 +70,7 @@ printEnv() {
   echo ""
   log.info "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}"
   log.info "DEBUG_MODE=${DEBUG_MODE}"
-  log.info "DOCKER_BASE_OS=${DOCKER_BASE_OS}"
+  log.info "DOCKER_BASE_OS=${DOCKER_ENVIRONMENT}"
   log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
   log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   log.info "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
@@ -98,7 +98,7 @@ runDockerImage() {
       -h ${DOCKER_IMAGE_HOSTNAME} \
       --env BUILD_ON_STARTUP=${BUILD_ON_STARTUP} \
       --env DEBUG_MODE=${DEBUG_MODE} \
-      --env DOCKER_BASE_OS=${DOCKER_BASE_OS} \
+      --env DOCKER_BASE_OS=${DOCKER_ENVIRONMENT} \
       --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
       --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
       --env DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME} \
@@ -263,6 +263,7 @@ overrideDefaultValues() {
 }
 
 parseArguments() {
+  parseDockerOs "$@"
   parseDockerProfile "$@"
   
   while getopts ":bcdfi:o:p:s:v" OPT; do
@@ -282,9 +283,6 @@ parseArguments() {
     ("i")
       DEV_ENVIRONMENT=$OPTARG
       ;;
-    ("o")
-      DOCKER_BASE_OS=$OPTARG
-      ;;
     ("s")
       DOCKER_HOST_SUBNET=$OPTARG      
       ;;
@@ -299,18 +297,7 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ "${DOCKER_BASE_OS}" != "ubuntu" ] &&
-    [ "${DOCKER_BASE_OS}" != "pi" ]; then
-    log.error "Option -o [os] has an invalid value of ${DOCKER_BASE_OS}"
-    printHelp
-    exitProcess 1
-  fi
-  
-  if [ "${DOCKER_BASE_OS}" == "pi" ]; then
-    DOCKER_COMMAND="docker run --privileged --rm"
-    DOCKER_IMAGE_TAG="latest-pi"
-  fi
-
+  setEnvForDockerOs
   setEnvForDockerProfile
   buildProfile
   overrideDefaultValues  
@@ -322,7 +309,7 @@ printHelpOptions() {
   addHelpOption "-d" "debug. start tomcat in debug mode"
   addHelpOption "-f" "fast startup. don't build and deploy"
   addHelpOption "-i ${IDE_LIST}" "ide workspace to use for a dev docker container. Default is intellij"
-  addHelpOption "-o ${DOCKER_OS_LIST}" "default base os is ${DEFAULT_DOCKER_OS}"
+  printDockerOsOption
   printDockerProfileOption
   addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   addHelpOption "-v" "use volumes to persist data"

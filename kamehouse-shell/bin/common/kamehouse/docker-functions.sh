@@ -4,9 +4,6 @@ parseDockerOs() {
     ("o")
       DOCKER_ENVIRONMENT=$OPTARG
       ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
     esac
   done
   unset OPTIND
@@ -32,6 +29,7 @@ setEnvForDockerOs() {
   fi
 
   if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
+    DOCKER_COMMAND="docker run --privileged --rm"
     DOCKER_IMAGE_BASE="arm32v7/ubuntu:20.04"
     DOCKER_IMAGE_TAG="latest-pi"
   fi  
