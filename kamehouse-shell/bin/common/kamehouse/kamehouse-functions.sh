@@ -24,23 +24,7 @@ IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
 ENVIRONMENT=""
 
-DOCKER_USERNAME=${DEFAULT_KAMEHOUSE_USERNAME}
-DOCKER_PORT_SSH=6022
-DOCKER_PORT_HTTP=6080
-DOCKER_PORT_HTTPS=6443
-DOCKER_PORT_TOMCAT_DEBUG=6000
-DOCKER_PORT_TOMCAT=6090
-DOCKER_PORT_MYSQL=6306
-IS_LINUX_DOCKER_HOST=""
-DOCKER_PROFILES_LIST="(ci|dev|demo|prod|prod-ext)"
-DEFAULT_DOCKER_PROFILE="dev"
-DOCKER_OS_LIST="(ubuntu|pi)"
-DEFAULT_DOCKER_OS="ubuntu"
-
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
-
-# This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
-DOCKER_HOST_DEFAULT_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
 
 # Common kamehouse functions
 parseEnvironment() {

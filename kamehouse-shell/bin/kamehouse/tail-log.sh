@@ -14,6 +14,12 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/docker-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
+  exit 1
+fi
+
 # Initial config
 APACHE_LOG_DIR="programs/apache-httpd/logs"
 DEFAULT_ENV="local"
@@ -48,6 +54,8 @@ mainProcess() {
 }
 
 parseArguments() {
+  parseDockerProfile "$@"
+
   while getopts ":e:f:l:n:p:q" OPT; do
     case $OPT in
     "e")
@@ -96,9 +104,6 @@ parseArguments() {
         exitProcess 1
       fi
       ;;
-    ("p")
-      PROFILE=$OPTARG
-      ;;
     "q")
       FOLLOW=""
       ;;
@@ -126,31 +131,7 @@ setEnvFromArguments() {
     ENVIRONMENT=${DEFAULT_ENV}
   fi
 
-  if [ "${PROFILE}" != "ci" ] &&
-    [ "${PROFILE}" != "dev" ] &&
-    [ "${PROFILE}" != "demo" ] &&
-    [ "${PROFILE}" != "prod" ] &&
-    [ "${PROFILE}" != "prod-ext" ]; then
-    log.error "Option -p [profile] has an invalid value of ${PROFILE}"
-    printHelp
-    exitProcess 1
-  fi
-  
-  if [ "${PROFILE}" == "ci" ]; then
-    DOCKER_PORT_SSH=15022
-  fi
-
-  if [ "${PROFILE}" == "demo" ]; then
-    DOCKER_PORT_SSH=12022
-  fi
-
-  if [ "${PROFILE}" == "prod" ]; then
-    DOCKER_PORT_SSH=7022
-  fi
-
-  if [ "${PROFILE}" == "prod-ext" ]; then
-    DOCKER_PORT_SSH=7022
-  fi  
+  setEnvForDockerProfile
 }
 
 setGlobalVariables() {
@@ -254,7 +235,7 @@ printHelpOptions() {
   addHelpOption "-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
-  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default docker profile is ${DEFAULT_DOCKER_PROFILE}"
+  printDockerProfileOption
   addHelpOption "-q" "quit after tailing once. Don't follow log"
 }
 
