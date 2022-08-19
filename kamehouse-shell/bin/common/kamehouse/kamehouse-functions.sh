@@ -16,6 +16,8 @@ ENVIRONMENTS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko
 TOMCAT_MODULES_LIST="(admin|media|tennisworld|testmodule|ui|vlcrc)"
 MODULES_LIST="(admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
 MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
+DEFAULT_MAVEN_PROFILE="prod"
+MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
 
 TOMCAT_PORT=9090
 TOMCAT_DEBUG_PORT=8000
@@ -81,6 +83,35 @@ parseEnvironment() {
     SSH_USER=pi
     ;;
   esac
+}
+
+parseMavenProfile() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -p)
+        MAVEN_PROFILE="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
+setEnvForMavenProfile() {
+  MAVEN_PROFILE=`echo "${MAVEN_PROFILE}" | tr '[:upper:]' '[:lower:]'`
+  
+  if [ "${MAVEN_PROFILE}" != "prod" ] \
+      && [ "${MAVEN_PROFILE}" != "qa" ] \
+      && [ "${MAVEN_PROFILE}" != "dev" ] \
+      && [ "${MAVEN_PROFILE}" != "docker" ] \
+      && [ "${MAVEN_PROFILE}" != "ci" ]; then
+    log.error "Option -p profile needs to be in ${MAVEN_PROFILES_LIST}"
+    printHelp
+    exitProcess 1
+  fi
+}
+
+printMavenProfileOption() {
+  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is ${DEFAULT_MAVEN_PROFILE} if not specified"
 }
 
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER

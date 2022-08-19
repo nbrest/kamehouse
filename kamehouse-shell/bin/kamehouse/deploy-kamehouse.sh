@@ -26,7 +26,6 @@ KAMEHOUSE_MOBILE_APP_USER="pi"
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 
 # Variables set by command line arguments
-MAVEN_PROFILE="prod"
 EXTENDED_DEPLOYMENT=false
 MODULE=
 MODULE_SHORT=
@@ -228,6 +227,8 @@ deployKameHouseMobile() {
 }
 
 parseArguments() {
+  parseMavenProfile "$@"
+
   while getopts ":ace:m:p:x" OPT; do
     case $OPT in
     ("a")
@@ -243,22 +244,6 @@ parseArguments() {
       MODULE="kamehouse-$OPTARG"
       MODULE_SHORT="$OPTARG"
       ;;
-    ("p")
-      local PROFILE_ARG=$OPTARG 
-      PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
-      
-      if [ "${PROFILE_ARG}" != "prod" ] \
-          && [ "${PROFILE_ARG}" != "qa" ] \
-          && [ "${PROFILE_ARG}" != "dev" ] \
-          && [ "${PROFILE_ARG}" != "docker" ] \
-          && [ "${PROFILE_ARG}" != "ci" ]; then
-        log.error "Option -p profile needs to be prod, qa, dev or ci"
-        printHelp
-        exitProcess 1
-      fi
-
-      MAVEN_PROFILE=${PROFILE_ARG}
-      ;;
     ("x")
       EXTENDED_DEPLOYMENT=true
       ;;
@@ -270,6 +255,8 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
+  setEnvForMavenProfile
+
   if [ -z "${ENVIRONMENT}" ]; then
     log.info "Option -e environment is not set. Using default environment ${COL_PURPLE}${DEFAULT_ENV}"
     ENVIRONMENT=${DEFAULT_ENV}
@@ -281,7 +268,7 @@ printHelpOptions() {
   addHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
   addHelpOption "-e ${ENVIRONMENTS_LIST}" "environment to build and deploy to. Default is local if not specified"
   addHelpOption "-m ${MODULES_LIST}" "module to deploy"
-  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is prod if not specified"
+  printMavenProfileOption
   addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
 }
 

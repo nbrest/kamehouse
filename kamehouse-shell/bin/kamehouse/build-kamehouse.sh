@@ -19,7 +19,6 @@ FAST_BUILD=false
 INTEGRATION_TESTS=false
 MODULE=
 MAVEN_COMMAND=
-MAVEN_PROFILE="prod"
 RESUME=false
 SKIP_TESTS=false
 CONTINUE_ON_ERRORS=false
@@ -92,6 +91,8 @@ buildProject() {
 }
 
 parseArguments() {
+  parseMavenProfile "$@"
+
   while getopts ":acdfim:p:rs" OPT; do
     case $OPT in
     ("a")
@@ -112,22 +113,6 @@ parseArguments() {
     ("m")
       MODULE="kamehouse-$OPTARG"
       ;;
-    ("p")
-      local PROFILE_ARG=$OPTARG 
-      PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
-      
-      if [ "${PROFILE_ARG}" != "prod" ] \
-          && [ "${PROFILE_ARG}" != "qa" ] \
-          && [ "${PROFILE_ARG}" != "dev" ] \
-          && [ "${PROFILE_ARG}" != "docker" ] \
-          && [ "${PROFILE_ARG}" != "ci" ]; then
-        log.error "Option -p profile needs to be prod, qa, dev or ci"
-        printHelp
-        exitProcess 1
-      fi
-            
-      MAVEN_PROFILE=${PROFILE_ARG}
-      ;;
     ("r")
       RESUME=true
       ;;
@@ -141,6 +126,10 @@ parseArguments() {
   done
 }
 
+setEnvFromArguments() {
+  setEnvForMavenProfile
+}
+
 printHelpOptions() {
   addHelpOption "-a" "build all modules, including mobile app (by default it builds all without the mobile app)"
   addHelpOption "-c" "continue even with errors when running integration tests"
@@ -148,7 +137,7 @@ printHelpOptions() {
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
   addHelpOption "-i" "run integration tests only"
   addHelpOption "-m ${MODULES_LIST}" "module to build"
-  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is prod if not specified"
+  printMavenProfileOption
   addHelpOption "-r" "resume. Continue where it failed in the last build"
   addHelpOption "-s" "skip tests. Use it to find any checkstyle/findbugs issues on all modules regardless of test coverage"
 }
