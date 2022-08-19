@@ -173,7 +173,7 @@ deployToTomcat() {
   done
 
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_PURPLE}-  tail-log.sh -e ${KAMEHOUSE_SERVER} -f tomcat  -${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Execute ${COL_PURPLE}-  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat  -${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 deployKameHouseCmd() {
@@ -227,10 +227,10 @@ deployKameHouseMobile() {
 }
 
 parseArguments() {
-  parseKameHouseServer "$@"
   parseMavenProfile "$@"
+  parseKameHouseServer "$@"
 
-  while getopts ":ace:m:p:x" OPT; do
+  while getopts ":acm:p:s:x" OPT; do
     case $OPT in
     ("a")
       DEPLOY_ALL_EXTRA_MODULES=true
@@ -253,16 +253,16 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  setEnvForKameHouseServer
   setEnvForMavenProfile
+  setEnvForKameHouseServer
 }
 
 printHelpOptions() {
   addHelpOption "-a" "deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
   addHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
-  printKameHouseServerOption
   addHelpOption "-m ${MODULES_LIST}" "module to deploy"
   printMavenProfileOption
+  printKameHouseServerOption
   addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
 }
 

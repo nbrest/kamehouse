@@ -150,10 +150,10 @@ ctrlC() {
 }
 
 parseArguments() {
-  parseKameHouseServer "$@"
   parseDockerProfile "$@"
+  parseKameHouseServer "$@"
   
-  while getopts ":e:f:l:n:p:q" OPT; do
+  while getopts ":f:l:n:p:s:q" OPT; do
     case $OPT in
     "f")
       FILE_ARG=$OPTARG
@@ -209,8 +209,8 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  setEnvForKameHouseServer
   setEnvForDockerProfile
+  setEnvForKameHouseServer
 
   if [ -z "${FILE_ARG}" ]; then
     log.error "Option -f file to tail is required"
@@ -225,11 +225,11 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  printKameHouseServerOption
   addHelpOption "-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   printDockerProfileOption
+  printKameHouseServerOption
   addHelpOption "-q" "quit after tailing once. Don't follow log"
 }
 
