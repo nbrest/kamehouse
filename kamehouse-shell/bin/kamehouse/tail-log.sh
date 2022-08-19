@@ -36,7 +36,6 @@ FILE_ARG=""
 FOLLOW="-F"
 LOG_LEVEL_ARG=""
 NUM_LINES_ARG="0"
-PROFILE="${DEFAULT_DOCKER_PROFILE}"
 
 # Global variables set during the process
 LOG_FILES=""

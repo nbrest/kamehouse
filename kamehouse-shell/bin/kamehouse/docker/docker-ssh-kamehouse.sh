@@ -20,8 +20,6 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
-
 mainProcess() {
   log.info "Executing ssh into docker container with profile ${COL_PURPLE}${DOCKER_PROFILE}"
   log.warn "If I get an error that the server key changed, execute the script ${COL_RED}docker-server-key-remove.sh -p ${DOCKER_PROFILE}"

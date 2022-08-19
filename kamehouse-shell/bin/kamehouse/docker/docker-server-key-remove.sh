@@ -20,8 +20,6 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
-
 mainProcess() {
   removeServerKey
 }
