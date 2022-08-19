@@ -35,12 +35,14 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${FILE_ARG}" ]; then
     log.error "Option -f file to transfer is required"
     printHelp
     exitProcess 1
-  fi
+  fi  
 }
 
 printHelpOptions() {

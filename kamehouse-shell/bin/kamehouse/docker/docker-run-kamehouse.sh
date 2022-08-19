@@ -291,7 +291,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ "${DOCKER_BASE_OS}" != "ubuntu" ] &&
     [ "${DOCKER_BASE_OS}" != "pi" ]; then
     log.error "Option -o [os] has an invalid value of ${DOCKER_BASE_OS}"
@@ -305,7 +307,7 @@ parseArguments() {
   fi
 
   buildProfile
-  overrideDefaultValues
+  overrideDefaultValues  
 }
 
 printHelpOptions() {

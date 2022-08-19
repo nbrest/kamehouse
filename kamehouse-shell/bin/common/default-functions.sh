@@ -34,7 +34,7 @@ parseHelpArgument() {
 # Default implementation of the function to parse command line arguments
 # Override this function in the scripts that source this file
 parseArguments() {
-  log.trace "Using default parseArguments() function. Override re defining this function in each script."
+  log.trace "Using default parseArguments() function. Override re defining this function in each script when needed."
   while getopts ":s" OPT; do
     case $OPT in
     ("s")
@@ -60,7 +60,7 @@ printHelp() {
 
 # Override in each script with the options specific to the script
 printHelpOptions() {
-  log.trace "Using default printHelpOptions() function. Override re defining this function in each script."
+  log.trace "Using default printHelpOptions() function. Override re defining this function in each script when needed."
 }
 
 # Override in each script to print a footer after the help options
@@ -81,6 +81,11 @@ parseHelp() {
   exitProcess 0
 }
 
+# Set and validate the environment variables after parsing the command line arguments
+setEnvFromArguments() {
+  log.trace "Using default setEnvFromArguments() function. Override re defining this function in each script when needed."
+}
+
 # Default main process that needs to be overriden with custom script logic.
 mainProcess() {
   log.info "Override mainProcess() with the script logic."
@@ -91,6 +96,7 @@ mainProcess() {
 mainWrapper() {
   logStart
   parseCmdArguments "$@"
+  setEnvFromArguments
   mainProcess "$@"
   logFinish
   exitSuccessfully

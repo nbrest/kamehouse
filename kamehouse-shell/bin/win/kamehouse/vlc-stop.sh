@@ -40,10 +40,12 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${VLC_PORT}" ]; then
     VLC_PORT=${DEFAULT_VLC_PORT}
-  fi
+  fi  
 }
 
 printHelpOptions() {

@@ -178,7 +178,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ "${DATA_SOURCE}" != "none" ] &&
     [ "${DATA_SOURCE}" != "docker-init" ] &&
     [ "${DATA_SOURCE}" != "docker-backup" ] &&
@@ -218,7 +220,7 @@ parseArguments() {
 
   if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
     DOCKER_PORT_SSH=7022
-  fi
+  fi  
 }
 
 printHelpOptions() {

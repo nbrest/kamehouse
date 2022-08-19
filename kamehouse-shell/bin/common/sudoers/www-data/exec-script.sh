@@ -109,7 +109,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${SCRIPT}" ]; then
     log.error "Option -s script is required"
     printHelp

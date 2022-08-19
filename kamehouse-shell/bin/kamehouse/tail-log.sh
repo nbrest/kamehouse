@@ -107,7 +107,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${FILE_ARG}" ]; then
     log.error "Option -f file to tail is required"
     printHelp
@@ -148,7 +150,7 @@ parseArguments() {
 
   if [ "${PROFILE}" == "prod-ext" ]; then
     DOCKER_PORT_SSH=7022
-  fi
+  fi  
 }
 
 setGlobalVariables() {

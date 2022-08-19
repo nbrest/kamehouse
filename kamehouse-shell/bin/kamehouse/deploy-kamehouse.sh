@@ -256,7 +256,7 @@ parseArguments() {
         printHelp
         exitProcess 1
       fi
-            
+
       MAVEN_PROFILE=${PROFILE_ARG}
       ;;
     ("x")
@@ -267,12 +267,13 @@ parseArguments() {
       ;;
     esac
   done
-  
-  if [ -z "${ENVIRONMENT}" ]
-  then
+}
+
+setEnvFromArguments() {
+  if [ -z "${ENVIRONMENT}" ]; then
     log.info "Option -e environment is not set. Using default environment ${COL_PURPLE}${DEFAULT_ENV}"
     ENVIRONMENT=${DEFAULT_ENV}
-  fi
+  fi  
 }
 
 printHelpOptions() {

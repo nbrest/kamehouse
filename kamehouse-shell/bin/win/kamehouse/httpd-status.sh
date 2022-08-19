@@ -33,10 +33,12 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${HTTPD_PORT}" ]; then
     HTTPD_PORT=${DEFAULT_HTTPD_PORT}
-  fi
+  fi  
 }
 
 printHelpOptions() {

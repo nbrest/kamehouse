@@ -34,10 +34,12 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${TOMCAT_PORT}" ]; then
     TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
-  fi
+  fi  
 }
 
 printHelpOptions() {

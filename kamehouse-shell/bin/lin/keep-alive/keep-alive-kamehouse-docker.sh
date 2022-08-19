@@ -47,7 +47,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
     [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
     log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
@@ -83,7 +85,7 @@ parseArguments() {
 
   if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
     DOCKER_PORT_HTTP=7080
-  fi
+  fi  
 }
 
 printHelpOptions() {

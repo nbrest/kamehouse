@@ -81,12 +81,14 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${DELAY}" ]; then
     log.error "Option -t is not set and is required"
     printHelp
     exitProcess 1
-  fi
+  fi  
 }
 
 printHelpOptions() {

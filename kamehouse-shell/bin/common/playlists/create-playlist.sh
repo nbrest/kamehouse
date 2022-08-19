@@ -85,7 +85,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${BASE_PATH}" ]; then
     log.error "Option -b is required"
     parseHelp
@@ -109,7 +111,7 @@ parseArguments() {
   local PLAYLIST_FULL_PATH_END=${PLAYLIST_FULL_PATH: -4}
   if [ "${PLAYLIST_FULL_PATH_END}" != ".m3u" ]; then
     PLAYLIST_FULL_PATH=${PLAYLIST_FULL_PATH}".m3u"
-  fi
+  fi  
 }
 
 printHelpOptions() {

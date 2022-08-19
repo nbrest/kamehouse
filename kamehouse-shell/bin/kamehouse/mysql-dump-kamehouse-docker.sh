@@ -59,7 +59,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ "${DOCKER_PROFILE}" != "ci" ] &&
     [ "${DOCKER_PROFILE}" != "dev" ] &&
     [ "${DOCKER_PROFILE}" != "demo" ] &&
@@ -84,7 +86,7 @@ parseArguments() {
 
   if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
     DOCKER_PORT_SSH=7022
-  fi
+  fi  
 }
 
 printHelpOptions() {

@@ -128,7 +128,9 @@ parseArguments() {
       ;;
     esac
   done
-  
+}
+
+setEnvFromArguments() {
   if [ -z "${DEV_ENVIRONMENT}" ]; then
     log.error "Option -i is not set. Re-run the script with that option set"
     exitProcess 1

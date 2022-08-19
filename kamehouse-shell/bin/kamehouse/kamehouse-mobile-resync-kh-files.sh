@@ -91,11 +91,13 @@ parseArguments() {
       ;;
     esac
   done
-  
+}
+
+setEnvFromArguments() {
   if [ -z "${DEV_ENVIRONMENT}" ]; then
     log.info "Option -i is not set. Using default value ${DEFAULT_DEV_ENVIRONMENT}"
     DEV_ENVIRONMENT=${DEFAULT_DEV_ENVIRONMENT}
-  fi
+  fi  
 }
 
 printHelpOptions() {

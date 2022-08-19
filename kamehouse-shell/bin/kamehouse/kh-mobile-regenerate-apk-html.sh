@@ -70,11 +70,13 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ -z "${GIT_COMMIT_HASH}" ]; then
     log.error "git commit hash not passed with argument -c"
     exitProcess 1
-  fi
+  fi  
 }
 
 printHelpOptions() {

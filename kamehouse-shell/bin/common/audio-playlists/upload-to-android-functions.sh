@@ -32,7 +32,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ "${ANDROID_PHONE_NAME}" != "android-1" ] &&
     [ "${ANDROID_PHONE_NAME}" != "android-2" ]; then
     log.error "Option -n [phone name] has an invalid value of ${ANDROID_PHONE_NAME}"
@@ -42,7 +44,7 @@ parseArguments() {
   
   if [ "${ANDROID_PHONE_NAME}" == "android-2" ]; then
     ANDROID_IP=${ANDROID_2_IP}
-  fi
+  fi 
 }
 
 printHelpOptions() {

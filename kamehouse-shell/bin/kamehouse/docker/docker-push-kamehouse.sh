@@ -34,7 +34,9 @@ parseArguments() {
       ;;
     esac
   done
+}
 
+setEnvFromArguments() {
   if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
     [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
     log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
@@ -44,7 +46,7 @@ parseArguments() {
 
   if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
     DOCKER_IMAGE_TAG="latest-pi"
-  fi
+  fi  
 }
 
 printHelpOptions() {
