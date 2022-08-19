@@ -19,7 +19,8 @@ LOG_PROCESS_TO_FILE=false
 DOCKER_PORT_HTTP=7080
 SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"
-DOCKER_PROFILE="prod"
+DEFAULT_DOCKER_PROFILE="prod"
+DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 DOCKER_ENVIRONMENT="ubuntu"
 
 mainProcess() {
@@ -33,63 +34,18 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":o:p:" OPT; do
-    case $OPT in
-    ("o")
-      DOCKER_ENVIRONMENT=$OPTARG
-      ;;
-    ("p")
-      DOCKER_PROFILE=$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
+  parseDockerOs "$@"
+  parseDockerProfile "$@"
 }
 
 setEnvFromArguments() {
-  if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
-    [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
-    log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
-    printHelp
-    exitProcess 1
-  fi
-
-  if [ "${DOCKER_PROFILE}" != "ci" ] &&
-    [ "${DOCKER_PROFILE}" != "dev" ] &&
-    [ "${DOCKER_PROFILE}" != "demo" ] &&
-    [ "${DOCKER_PROFILE}" != "prod" ] &&
-    [ "${DOCKER_PROFILE}" != "prod-ext" ]; then
-    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
-    printHelp
-    exitProcess 1
-  fi
-  
-  if [ "${DOCKER_PROFILE}" == "ci" ]; then
-    DOCKER_PORT_HTTP=15080
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "demo" ]; then
-    DOCKER_PORT_HTTP=12080
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "dev" ]; then
-    DOCKER_PORT_HTTP=6080
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "prod" ]; then
-    DOCKER_PORT_HTTP=7080
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
-    DOCKER_PORT_HTTP=7080
-  fi  
+  setEnvForDockerOs
+  setEnvForDockerProfile
 }
 
 printHelpOptions() {
-  addHelpOption "-o ${DOCKER_OS_LIST}" "default value is ${DEFAULT_DOCKER_OS}"
-  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DOCKER_PROFILE}"
+  printDockerOsOption
+  printDockerProfileOption
 }
 
 main "$@"

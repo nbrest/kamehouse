@@ -47,18 +47,27 @@ setEnvForDockerProfile() {
   fi
 
   if [ "${DOCKER_PROFILE}" == "ci" ]; then
+    DOCKER_PORT_HTTP=15080
     DOCKER_PORT_SSH=15022
   fi
 
   if [ "${DOCKER_PROFILE}" == "demo" ]; then
+    DOCKER_PORT_HTTP=12080
     DOCKER_PORT_SSH=12022
   fi
 
+  if [ "${DOCKER_PROFILE}" == "dev" ]; then
+    DOCKER_PORT_HTTP=6080
+    DOCKER_PORT_SSH=6022
+  fi
+
   if [ "${DOCKER_PROFILE}" == "prod" ]; then
+    DOCKER_PORT_HTTP=7080
     DOCKER_PORT_SSH=7022
   fi
 
   if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
+    DOCKER_PORT_HTTP=7080
     DOCKER_PORT_SSH=7022
   fi  
 }
