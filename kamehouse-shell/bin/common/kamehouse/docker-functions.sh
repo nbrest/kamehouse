@@ -9,6 +9,18 @@ parseDockerOs() {
       ;;
     esac
   done
+  unset OPTIND
+}
+
+parseDockerProfile() {
+  while getopts ":p:" OPT; do
+    case $OPT in
+    ("p")
+      DOCKER_PROFILE=$OPTARG
+      ;;
+    esac
+  done
+  unset OPTIND
 }
 
 setEnvForDockerOs() {
@@ -25,6 +37,38 @@ setEnvForDockerOs() {
   fi  
 }
 
+setEnvForDockerProfile() {
+  if [ "${DOCKER_PROFILE}" != "ci" ] &&
+    [ "${DOCKER_PROFILE}" != "dev" ] &&
+    [ "${DOCKER_PROFILE}" != "demo" ] &&
+    [ "${DOCKER_PROFILE}" != "prod" ] &&
+    [ "${DOCKER_PROFILE}" != "prod-ext" ]; then
+    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
+    printHelp
+    exitProcess 1
+  fi
+
+  if [ "${DOCKER_PROFILE}" == "ci" ]; then
+    DOCKER_PORT_SSH=15022
+  fi
+
+  if [ "${DOCKER_PROFILE}" == "demo" ]; then
+    DOCKER_PORT_SSH=12022
+  fi
+
+  if [ "${DOCKER_PROFILE}" == "prod" ]; then
+    DOCKER_PORT_SSH=7022
+  fi
+
+  if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
+    DOCKER_PORT_SSH=7022
+  fi  
+}
+
 printDockerOsOption() {
   addHelpOption "-o ${DOCKER_OS_LIST}" "default value is ${DEFAULT_DOCKER_OS}"
+}
+
+printDockerProfileOption() {
+  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
 }

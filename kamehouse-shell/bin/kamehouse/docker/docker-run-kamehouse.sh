@@ -263,6 +263,8 @@ overrideDefaultValues() {
 }
 
 parseArguments() {
+  parseDockerProfile "$@"
+  
   while getopts ":bcdfi:o:p:s:v" OPT; do
     case $OPT in
     ("b")
@@ -282,9 +284,6 @@ parseArguments() {
       ;;
     ("o")
       DOCKER_BASE_OS=$OPTARG
-      ;;
-    ("p")
-      DOCKER_PROFILE=$OPTARG
       ;;
     ("s")
       DOCKER_HOST_SUBNET=$OPTARG      
@@ -312,6 +311,7 @@ setEnvFromArguments() {
     DOCKER_IMAGE_TAG="latest-pi"
   fi
 
+  setEnvForDockerProfile
   buildProfile
   overrideDefaultValues  
 }
@@ -323,7 +323,7 @@ printHelpOptions() {
   addHelpOption "-f" "fast startup. don't build and deploy"
   addHelpOption "-i ${IDE_LIST}" "ide workspace to use for a dev docker container. Default is intellij"
   addHelpOption "-o ${DOCKER_OS_LIST}" "default base os is ${DEFAULT_DOCKER_OS}"
-  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
+  printDockerProfileOption
   addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   addHelpOption "-v" "use volumes to persist data"
 }

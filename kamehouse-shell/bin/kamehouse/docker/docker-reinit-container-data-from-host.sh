@@ -167,13 +167,12 @@ reinitMysql() {
 }
 
 parseArguments() {
+  parseDockerProfile "$@"
+  
   while getopts ":d:p:s" OPT; do
     case $OPT in
     ("d")
       DATA_SOURCE=$OPTARG
-      ;;
-    ("p")
-      DOCKER_PROFILE=$OPTARG
       ;;
     ("s")
       log.info "${COL_RED}Only ssh keys will be reinited"
@@ -202,36 +201,12 @@ setEnvFromArguments() {
     log.info "Database data will be updated from source: ${COL_PURPLE}${DATA_SOURCE}"
   fi
 
-  if [ "${DOCKER_PROFILE}" != "ci" ] &&
-    [ "${DOCKER_PROFILE}" != "dev" ] &&
-    [ "${DOCKER_PROFILE}" != "demo" ] &&
-    [ "${DOCKER_PROFILE}" != "prod" ] &&
-    [ "${DOCKER_PROFILE}" != "prod-ext" ]; then
-    log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
-    printHelp
-    exitProcess 1
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "ci" ]; then
-    DOCKER_PORT_SSH=15022
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "demo" ]; then
-    DOCKER_PORT_SSH=12022
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "prod" ]; then
-    DOCKER_PORT_SSH=7022
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
-    DOCKER_PORT_SSH=7022
-  fi  
+  setEnvForDockerProfile
 }
 
 printHelpOptions() {
   addHelpOption "-d (none|docker-init|docker-backup|host-backup)" "data source to reset all data. Default is none"
-  addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
+  printDockerProfileOption
   addHelpOption "-s" "reinit ssh keys only"
 }
 
