@@ -20,21 +20,20 @@ mainProcess() {
   EXPRESSVPN_STATUS=`expressvpn status`
   echo -e "${EXPRESSVPN_STATUS}"
 
-  STATUS_CONNECTING=${EXPRESSVPN_STATUS:10:13}
-  if [[ "${STATUS_CONNECTING}" =~ "Connecting..." ]]; then
+  if [[ "${EXPRESSVPN_STATUS}" =~ "Connecting..." ]]; then
     log.info "Expressvpn status is Connecting. Disconnect and connect again"
     expressvpn disconnect
   fi
-  STATUS_RECONNECTING=${EXPRESSVPN_STATUS:10:15} 
-  if [[ "${STATUS_RECONNECTING}" =~ "Reconnecting..." ]]; then
+
+  if [[ "${EXPRESSVPN_STATUS}" =~ "Reconnecting..." ]]; then
     log.info "Expressvpn status is Reconnecting. Disconnect and connect again"
     expressvpn disconnect
   fi
-  STATUS_UNABLE=${EXPRESSVPN_STATUS:10:6} 
-  if [[ "${STATUS_UNABLE}" =~ "Unable" ]]; then
+
+  if [[ "${EXPRESSVPN_STATUS}" =~ "Unable" ]]; then
     log.info "Expressvpn status is Unable to connect. Disconnect and connect again"
     expressvpn disconnect
-  fi  
+  fi
 
   log.info "Attempting to connect to expressvpn"
   ${SERVICE_STARTUP} &
