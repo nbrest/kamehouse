@@ -301,4 +301,10 @@ printHelpOptions() {
   addHelpOption "-v" "use volumes to persist data"
 }
 
+printHelpFooter() {
+  echo ""
+  echo "Execute with '-s 192.168.56.*' for example, if the docker host's subnet ip is 192.168.56.0/24"
+  echo ""
+}
+
 main "$@"
