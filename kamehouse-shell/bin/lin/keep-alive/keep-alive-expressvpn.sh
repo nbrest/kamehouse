@@ -47,7 +47,7 @@ filterNewVersionCheck() {
   if [ "${NEW_VERSION_CHECK}" == "A new version is available" ]; then
     log.info "Filtering new version check from status message"
     EXPRESSVPN_STATUS=${EXPRESSVPN_STATUS:113}
-    #echo ${EXPRESSVPN_STATUS}
+    log.trace ${EXPRESSVPN_STATUS}
   fi
 }
 
