@@ -18,8 +18,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
-DEFAULT_HTTPD_PORT=80
-HTTPD_PORT=""
 
 mainProcess() {
   log.info "Searching for apache httpd process"
@@ -33,26 +31,15 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":p:" OPT; do
-    case $OPT in
-    ("p")
-      HTTPD_PORT=$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
+  parseHttpdPort "$@"
 }
 
 setEnvFromArguments() {
-  if [ -z "${HTTPD_PORT}" ]; then
-    HTTPD_PORT=${DEFAULT_HTTPD_PORT}
-  fi  
+  setEnvForHttpdPort
 }
 
 printHelpOptions() {
-  addHelpOption "-p" "httpd port. Default ${DEFAULT_HTTPD_PORT}"
+  printHttpdPortOption
 }
 
 main "$@"

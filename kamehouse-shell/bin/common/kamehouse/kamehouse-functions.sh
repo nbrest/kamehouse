@@ -32,6 +32,9 @@ DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
 TOMCAT_DEBUG_PORT=8000
 
+DEFAULT_HTTPD_PORT=80
+HTTPD_PORT=${DEFAULT_HTTPD_PORT}
+
 IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
 
@@ -40,6 +43,17 @@ CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 # ---------------------------
 # Common kamehouse functions
 # ---------------------------
+
+parseHttpdPort() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -p)
+        HTTPD_PORT="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
 
 parseIde() {
   local ARGS=("$@")
@@ -95,6 +109,15 @@ parseTomcatPort() {
         ;;
     esac
   done
+}
+
+setEnvForHttpdPort() {
+  local REGEX_NUMBER='^[0-9]+$'
+  if [[ ! ${HTTPD_PORT} =~ $REGEX_NUMBER ]]; then
+    log.error "Option -p has an invalid value of ${HTTPD_PORT}"
+    printHelp
+    exitProcess 1
+  fi
 }
 
 setEnvForIde() {
@@ -197,6 +220,10 @@ setEnvForTomcatPort() {
     printHelp
     exitProcess 1
   fi
+}
+
+printHttpdPortOption() {
+  addHelpOption "-p" "httpd port. Default ${DEFAULT_HTTPD_PORT}"
 }
 
 printIdeOption() {
