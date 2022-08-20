@@ -28,7 +28,8 @@ KAMEHOUSE_SERVERS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu
 DEFAULT_KAMEHOUSE_SERVER="local"
 KAMEHOUSE_SERVER="${DEFAULT_KAMEHOUSE_SERVER}"
 
-TOMCAT_PORT=9090
+DEFAULT_TOMCAT_PORT=9090
+TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
 TOMCAT_DEBUG_PORT=8000
 
 IS_DOCKER_CONTAINER=false
@@ -80,6 +81,17 @@ parseMavenProfile() {
     case "${ARGS[i]}" in
       -p)
         MAVEN_PROFILE="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
+parseTomcatPort() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -p)
+        TOMCAT_PORT="${ARGS[i+1]}"
         ;;
     esac
   done
@@ -178,6 +190,15 @@ setEnvForMavenProfile() {
   fi
 }
 
+setEnvForTomcatPort() {
+  local REGEX_NUMBER='^[0-9]+$'
+  if [[ ! ${TOMCAT_PORT} =~ $REGEX_NUMBER ]]; then
+    log.error "Option -p has an invalid value of ${TOMCAT_PORT}"
+    printHelp
+    exitProcess 1
+  fi
+}
+
 printIdeOption() {
   local DESCRIPTION=$1
   addHelpOption "-i ${IDE_LIST}" "${DESCRIPTION}"
@@ -194,6 +215,10 @@ printKameHouseServerOption() {
 
 printMavenProfileOption() {
   addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is ${DEFAULT_MAVEN_PROFILE} if not specified"
+}
+
+printTomcatPortOption() {
+  addHelpOption "-p" "tomcat port. Default ${DEFAULT_TOMCAT_PORT}"
 }
 
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER

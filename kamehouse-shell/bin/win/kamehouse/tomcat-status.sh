@@ -7,9 +7,14 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
+# Import kamehouse functions
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
+  exit 1
+fi
+
 LOG_PROCESS_TO_FILE=false
-DEFAULT_TOMCAT_PORT=9090
-TOMCAT_PORT=""
 
 mainProcess() {
   log.info "Searching for tomcat process"
@@ -20,30 +25,18 @@ mainProcess() {
   else
     log.info "Tomcat is currently running with pid ${COL_PURPLE}${TOMCAT_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${TOMCAT_PORT}"
   fi
-  
 }
 
 parseArguments() {
-  while getopts ":p:" OPT; do
-    case $OPT in
-    ("p")
-      TOMCAT_PORT=$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
+  parseTomcatPort "$@"
 }
 
 setEnvFromArguments() {
-  if [ -z "${TOMCAT_PORT}" ]; then
-    TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
-  fi  
+  setEnvForTomcatPort
 }
 
 printHelpOptions() {
-  addHelpOption "-p" "tomcat port. Default ${DEFAULT_TOMCAT_PORT}"
+  printTomcatPortOption
 }
 
 main "$@"
