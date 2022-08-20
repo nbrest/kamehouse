@@ -119,7 +119,7 @@ setGlobalVariables() {
   esac
 
   SSH_SERVER=${KAMEHOUSE_SERVER}
-  SSH_COMMAND="${SCRIPT_NAME} -e local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
+  SSH_COMMAND="${SCRIPT_NAME} -s local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
   if [ "${KAMEHOUSE_SERVER}" == "docker" ]; then
     SSH_SERVER=localhost
     SSH_PORT=${DOCKER_PORT_SSH}

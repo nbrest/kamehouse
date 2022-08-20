@@ -237,7 +237,7 @@ printKameHouseModuleOption() {
 }
 
 printKameHouseServerOption() {
-  addHelpOption "-e ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
+  addHelpOption "-s ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
 }
 
 printMavenProfileOption() {
