@@ -12,9 +12,6 @@ LOG_PROCESS_TO_FILE=true
 SERVICE="expressvpn"
 SERVICE_STARTUP="/usr/bin/expressvpn connect"
 EXPRESSVPN_STATUS=
-STATUS_CONNECTING=
-STATUS_RECONNECTING=
-STATUS_UNABLE=
 
 mainProcess() {
   EXPRESSVPN_STATUS=`expressvpn status`
