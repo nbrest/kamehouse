@@ -43,16 +43,17 @@ NUM_LINES=""
 TAIL_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/format-tail-log.awk
 
 mainProcess() {
-  setGlobalVariables
+  setTailLogParameters
   if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
     tailLog
   else
     # Tail log remotely
+    setSshParameters
     executeSshCommand
   fi
 }
 
-setGlobalVariables() {
+setTailLogParameters() {
   USER_HOME=$HOME
   # Set number of lines to tail
   if [ "${NUM_LINES_ARG}" -gt "0" ]; then
@@ -117,13 +118,6 @@ setGlobalVariables() {
   *)
     ;;
   esac
-
-  SSH_SERVER=${KAMEHOUSE_SERVER}
-  SSH_COMMAND="${SCRIPT_NAME} -s local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
-  if [ "${KAMEHOUSE_SERVER}" == "docker" ]; then
-    SSH_SERVER=localhost
-    SSH_PORT=${DOCKER_PORT_SSH}
-  fi
 }
 
 addFileToLogFiles() {
@@ -132,6 +126,15 @@ addFileToLogFiles() {
     LOG_FILES=${LOG_FILES}" ${FILE_TO_ADD}"
   else
     log.warn "File ${COL_PURPLE}${FILE_TO_ADD}${COL_DEFAULT_LOG} doesn't exist"
+  fi
+}
+
+setSshParameters() {
+  SSH_SERVER=${KAMEHOUSE_SERVER}
+  SSH_COMMAND="${SCRIPT_NAME} -s local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
+  if [ "${KAMEHOUSE_SERVER}" == "docker" ]; then
+    SSH_SERVER=localhost
+    SSH_PORT=${DOCKER_PORT_SSH}
   fi
 }
 
