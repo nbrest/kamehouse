@@ -27,8 +27,6 @@ KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 
 # Variables set by command line arguments
 EXTENDED_DEPLOYMENT=false
-MODULE=
-MODULE_SHORT=
 DEPLOY_ALL_EXTRA_MODULES=false
 USE_CURRENT_DIR=false
 
@@ -227,6 +225,7 @@ deployKameHouseMobile() {
 }
 
 parseArguments() {
+  parseKameHouseModule "$@"
   parseMavenProfile "$@"
   parseKameHouseServer "$@"
 
@@ -237,10 +236,6 @@ parseArguments() {
       ;;
     ("c")
       USE_CURRENT_DIR=true
-      ;;
-    ("m")
-      MODULE="kamehouse-$OPTARG"
-      MODULE_SHORT="$OPTARG"
       ;;
     ("x")
       EXTENDED_DEPLOYMENT=true
@@ -253,6 +248,7 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
+  setEnvForKameHouseModule
   setEnvForMavenProfile
   setEnvForKameHouseServer
 }
@@ -260,7 +256,7 @@ setEnvFromArguments() {
 printHelpOptions() {
   addHelpOption "-a" "deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
   addHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
-  addHelpOption "-m ${MODULES_LIST}" "module to deploy"
+  printKameHouseModuleOption "deploy"
   printMavenProfileOption
   printKameHouseServerOption
   addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"

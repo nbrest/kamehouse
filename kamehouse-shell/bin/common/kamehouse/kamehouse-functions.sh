@@ -1,6 +1,7 @@
 # Common kamehouse variables
 # DEFAULT_KAMEHOUSE_USERNAME gets set during install kamehouse-shell
 DEFAULT_KAMEHOUSE_USERNAME=""
+
 GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
 PROJECT="kamehouse"
 DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}
@@ -12,20 +13,20 @@ GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
 
 IDE_LIST="(eclipse|intellij)"
-IDE_OPTION="-i ${IDE_LIST}"
 DEFAULT_IDE="intellij"
 IDE="${DEFAULT_IDE}"
 
-KAMEHOUSE_SERVERS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
-DEFAULT_KAMEHOUSE_SERVER="local"
-KAMEHOUSE_SERVER="${DEFAULT_KAMEHOUSE_SERVER}"
-
-TOMCAT_MODULES_LIST="(admin|media|tennisworld|testmodule|ui|vlcrc)"
 MODULES_LIST="(admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
+MODULE_SHORT=""
+MODULE=""
 
 MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
 DEFAULT_MAVEN_PROFILE="prod"
 MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
+
+KAMEHOUSE_SERVERS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
+DEFAULT_KAMEHOUSE_SERVER="local"
+KAMEHOUSE_SERVER="${DEFAULT_KAMEHOUSE_SERVER}"
 
 TOMCAT_PORT=9090
 TOMCAT_DEBUG_PORT=8000
@@ -35,7 +36,32 @@ IS_REMOTE_LINUX_HOST=false
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
+# ---------------------------
 # Common kamehouse functions
+# ---------------------------
+
+parseIde() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -i)
+        IDE="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
+parseKameHouseModule() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -m)
+        MODULE_SHORT="${ARGS[i+1]}"
+        MODULE="kamehouse-${MODULE_SHORT}"
+        ;;
+    esac
+  done
+}
 
 parseKameHouseServer() {
   local ARGS=("$@")
@@ -46,6 +72,47 @@ parseKameHouseServer() {
         ;;
     esac
   done
+}
+
+parseMavenProfile() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -p)
+        MAVEN_PROFILE="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
+setEnvForIde() {
+  IDE=`echo "${IDE}" | tr '[:upper:]' '[:lower:]'`
+  
+  if [ "${IDE}" != "eclipse" ] \
+      && [ "${IDE}" != "intellij" ]; then
+    log.error "Option -i ide needs to be in ${IDE_LIST}"
+    printHelp
+    exitProcess 1
+  fi
+}
+
+setEnvForKameHouseModule() {
+  if [ -n "${MODULE_SHORT}" ]; then
+    if [ "${MODULE_SHORT}" != "admin" ] \
+        && [ "${MODULE_SHORT}" != "cmd" ] \
+        && [ "${MODULE_SHORT}" != "groot" ] \
+        && [ "${MODULE_SHORT}" != "media" ] \
+        && [ "${MODULE_SHORT}" != "mobile" ] \
+        && [ "${MODULE_SHORT}" != "shell" ] \
+        && [ "${MODULE_SHORT}" != "tennisworld" ] \
+        && [ "${MODULE_SHORT}" != "testmodule" ] \
+        && [ "${MODULE_SHORT}" != "ui" ] \
+        && [ "${MODULE_SHORT}" != "vlcrc" ]; then
+      log.error "Option -m module needs to be in ${MODULES_LIST}"
+      printHelp
+      exitProcess 1
+    fi
+  fi
 }
 
 setEnvForKameHouseServer() {
@@ -97,21 +164,6 @@ setEnvForKameHouseServer() {
   esac
 }
 
-printKameHouseServerOption() {
-  addHelpOption "-e ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
-}
-
-parseMavenProfile() {
-  local ARGS=("$@")
-  for i in "${!ARGS[@]}"; do
-    case "${ARGS[i]}" in
-      -p)
-        MAVEN_PROFILE="${ARGS[i+1]}"
-        ;;
-    esac
-  done
-}
-
 setEnvForMavenProfile() {
   MAVEN_PROFILE=`echo "${MAVEN_PROFILE}" | tr '[:upper:]' '[:lower:]'`
   
@@ -126,35 +178,22 @@ setEnvForMavenProfile() {
   fi
 }
 
-printMavenProfileOption() {
-  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is ${DEFAULT_MAVEN_PROFILE} if not specified"
-}
-
-parseIde() {
-  local ARGS=("$@")
-  for i in "${!ARGS[@]}"; do
-    case "${ARGS[i]}" in
-      -i)
-        IDE="${ARGS[i+1]}"
-        ;;
-    esac
-  done
-}
-
-setEnvForIde() {
-  IDE=`echo "${IDE}" | tr '[:upper:]' '[:lower:]'`
-  
-  if [ "${IDE}" != "eclipse" ] \
-      && [ "${IDE}" != "intellij" ]; then
-    log.error "Option -i ide needs to be in ${IDE_LIST}"
-    printHelp
-    exitProcess 1
-  fi
-}
-
 printIdeOption() {
   local DESCRIPTION=$1
-  addHelpOption "${IDE_OPTION}" "${DESCRIPTION}"
+  addHelpOption "-i ${IDE_LIST}" "${DESCRIPTION}"
+}
+
+printKameHouseModuleOption() {
+  local OPERATION=$1
+  addHelpOption "-m ${MODULES_LIST}" "module to ${OPERATION}"
+}
+
+printKameHouseServerOption() {
+  addHelpOption "-e ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
+}
+
+printMavenProfileOption() {
+  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is ${DEFAULT_MAVEN_PROFILE} if not specified"
 }
 
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER

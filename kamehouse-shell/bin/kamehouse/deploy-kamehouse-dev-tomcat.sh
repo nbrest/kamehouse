@@ -27,9 +27,6 @@ PROJECT_DIR=
 TOMCAT_WEBAPPS_DIR=
 TOMCAT_PORT=9980
 
-MODULE=
-MODULE_SHORT=
-
 mainProcess() {
   setGlobalVariables
   cd ${PROJECT_DIR}
@@ -117,15 +114,12 @@ deployToTomcat() {
 
 parseArguments() {
   parseIde "$@"
-
+  parseKameHouseModule "$@"
+  
   while getopts ":di:m:" OPT; do
     case $OPT in
     ("d")
       DEPLOY_TO_DOCKER=true
-      ;;
-    ("m")
-      MODULE="kamehouse-$OPTARG"
-      MODULE_SHORT="$OPTARG"
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -136,12 +130,13 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForIde
+  setEnvForKameHouseModule
 }
 
 printHelpOptions() {
   addHelpOption "-d" "deploy to docker"
   printIdeOption "ide's tomcat to deploy to"
-  addHelpOption "-m ${MODULES_LIST}" "module to deploy"
+  printKameHouseModuleOption "deploy"
 }
 
 main "$@"

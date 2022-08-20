@@ -19,28 +19,20 @@ source ${HOME}/.kamehouse/.shell/.cred
 LOG_PROCESS_TO_FILE=true
 OPERATION=start
 
-# Variables set by command line arguments
-MODULE_SHORT=
-
 mainProcess() {
   executeOperationInTomcatManager ${OPERATION} ${TOMCAT_PORT} ${MODULE_SHORT}
 }
 
 parseArguments() {
-  while getopts ":m:" OPT; do
-    case $OPT in
-    ("m")
-      MODULE_SHORT="$OPTARG"
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
-    esac
-  done
+  parseKameHouseModule "$@"
+}
+
+setEnvFromArguments() {
+  setEnvForKameHouseModule
 }
 
 printHelpOptions() {
-  addHelpOption "-m ${TOMCAT_MODULES_LIST}" "module to ${OPERATION}"
+  printKameHouseModuleOption "${OPERATION}"
 }
 
 main "$@"

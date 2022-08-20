@@ -17,7 +17,6 @@ fi
 LOG_PROCESS_TO_FILE=true
 FAST_BUILD=false
 INTEGRATION_TESTS=false
-MODULE=
 MAVEN_COMMAND=
 RESUME=false
 SKIP_TESTS=false
@@ -91,6 +90,7 @@ buildProject() {
 }
 
 parseArguments() {
+  parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
   while getopts ":acdfim:p:rs" OPT; do
@@ -109,9 +109,6 @@ parseArguments() {
       ;;
     ("i")
       INTEGRATION_TESTS=true
-      ;;      
-    ("m")
-      MODULE="kamehouse-$OPTARG"
       ;;
     ("r")
       RESUME=true
@@ -127,6 +124,7 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
+  setEnvForKameHouseModule
   setEnvForMavenProfile
 }
 
@@ -136,7 +134,7 @@ printHelpOptions() {
   addHelpOption "-d" "delete all output folders on kamehouse-mobile to do a full rebuild. This option is only considered when used with -a or -m mobile"
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
   addHelpOption "-i" "run integration tests only"
-  addHelpOption "-m ${MODULES_LIST}" "module to build"
+  printKameHouseModuleOption "build"
   printMavenProfileOption
   addHelpOption "-r" "resume. Continue where it failed in the last build"
   addHelpOption "-s" "skip tests. Use it to find any checkstyle/findbugs issues on all modules regardless of test coverage"
