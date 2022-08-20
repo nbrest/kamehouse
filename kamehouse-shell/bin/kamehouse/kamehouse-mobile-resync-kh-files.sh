@@ -17,7 +17,7 @@ source ${HOME}/.kamehouse/.shell/.cred
 
 PROJECT_DIR=
 EXPORT_DIR=
-PROFILE="dev"
+GIT_REPO_SOURCE="dev"
 
 mainProcess() {
   setGlobalVariables
@@ -27,7 +27,7 @@ mainProcess() {
 setGlobalVariables() {
   WORKSPACE=${HOME}/workspace-${IDE}
   PROJECT_DIR=${WORKSPACE}/kamehouse
-  if [ "${PROFILE}" == "prod" ]; then
+  if [ "${GIT_REPO_SOURCE}" == "prod" ]; then
     PROJECT_DIR=${HOME}/git/kamehouse
   fi
   SOURCE_FILES_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
@@ -67,10 +67,10 @@ exportWebapp() {
 parseArguments() {
   parseIde "$@"
 
-  while getopts ":i:p:" OPT; do
+  while getopts ":i:s:" OPT; do
     case $OPT in
-    ("p")
-      setProfile "$OPTARG"
+    ("s")
+      setGitRepoSource "$OPTARG"
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -79,18 +79,18 @@ parseArguments() {
   done
 }
 
-setProfile() {
-  local PROFILE_ARG=$1 
-  PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
+setGitRepoSource() {
+  local SOURCE_ARG=$1 
+  SOURCE_ARG=`echo "${SOURCE_ARG}" | tr '[:upper:]' '[:lower:]'`
 
-  if [ "${PROFILE_ARG}" != "prod" ] \
-      && [ "${PROFILE_ARG}" != "dev" ]; then
-    log.error "Option -p profile has an invalid value of ${PROFILE_ARG}"
+  if [ "${SOURCE_ARG}" != "prod" ] \
+      && [ "${SOURCE_ARG}" != "dev" ]; then
+    log.error "Option -s git source has an invalid value of ${SOURCE_ARG}"
     printHelp
     exitProcess 1
   fi
         
-  PROFILE=${PROFILE_ARG}
+  GIT_REPO_SOURCE=${SOURCE_ARG}
 }
 
 setEnvFromArguments() {
@@ -99,7 +99,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   printIdeOption "ide's path to export scripts to. Default is ${DEFAULT_IDE}"
-  addHelpOption "-p (prod|dev)" "environment to deploy. default is dev. use prod when calling from the deployment script"
+  addHelpOption "-s (prod|dev)" "git repo to use as source. default is dev. use prod when calling from the deployment script"
 }
 
 main "$@"

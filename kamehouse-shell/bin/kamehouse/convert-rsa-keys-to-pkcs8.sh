@@ -7,7 +7,6 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-
 mainProcess() {
   cd ${HOME}/.ssh
 

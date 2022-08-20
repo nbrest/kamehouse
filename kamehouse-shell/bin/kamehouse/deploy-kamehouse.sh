@@ -145,7 +145,7 @@ buildProject() {
     # Reset unnecessary git changes after platform remove/add
     git checkout HEAD -- package.json
     git checkout HEAD -- package-lock.json
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -p prod
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
     cp -v -f pom.xml www/
     echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
     date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
