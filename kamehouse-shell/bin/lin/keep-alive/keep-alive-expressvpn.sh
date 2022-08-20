@@ -23,17 +23,17 @@ mainProcess() {
   filterNewVersionCheck
 
   STATUS_CONNECTING=${EXPRESSVPN_STATUS:10:13}
-  if [ "${STATUS_CONNECTING}" == "Connecting..." ]; then
+  if [ "${STATUS_CONNECTING}" =~ "Connecting..." ]; then
     log.info "Expressvpn status is Connecting. Disconnect and connect again"
     expressvpn disconnect
   fi
   STATUS_RECONNECTING=${EXPRESSVPN_STATUS:10:15} 
-  if [ "${STATUS_RECONNECTING}" == "Reconnecting..." ]; then
+  if [ "${STATUS_RECONNECTING}" =~ "Reconnecting..." ]; then
     log.info "Expressvpn status is Reconnecting. Disconnect and connect again"
     expressvpn disconnect
   fi
   STATUS_UNABLE=${EXPRESSVPN_STATUS:10:6} 
-  if [ "${STATUS_UNABLE}" == "Unable" ]; then
+  if [ "${STATUS_UNABLE}" =~ "Unable" ]; then
     log.info "Expressvpn status is Unable to connect. Disconnect and connect again"
     expressvpn disconnect
   fi  
@@ -44,7 +44,7 @@ mainProcess() {
 
 filterNewVersionCheck() {
   NEW_VERSION_CHECK=${EXPRESSVPN_STATUS:10:26}
-  if [ "${NEW_VERSION_CHECK}" == "A new version is available" ]; then
+  if [ "${NEW_VERSION_CHECK}" =~ "A new version is available" ]; then
     log.info "Filtering new version check from status message"
     EXPRESSVPN_STATUS=${EXPRESSVPN_STATUS:113}
     log.trace ${EXPRESSVPN_STATUS}
