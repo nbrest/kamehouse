@@ -155,47 +155,13 @@ parseArguments() {
   while getopts ":f:l:n:p:s:q" OPT; do
     case $OPT in
     "f")
-      FILE_ARG=$OPTARG
-      # Turn argument to lowercase
-      FILE_ARG=$(echo "${FILE_ARG}" | tr '[:upper:]' '[:lower:]')
-      local LOGS_REGEX=^logs/.*\.log$
-      if [ "${FILE_ARG}" != "apache" ] &&
-        [ "${FILE_ARG}" != "eclipse" ] &&
-        [ "${FILE_ARG}" != "intellij" ] &&
-        [ "${FILE_ARG}" != "kamehouse" ] &&
-        [[ ! "${FILE_ARG}" =~ ${LOGS_REGEX} ]] &&
-        [ "${FILE_ARG}" != "tomcat" ]; then
-        log.error "Option -f has an invalid value of ${FILE_ARG}. See help with -h for valid values"
-        printHelp
-        exitProcess 1
-      fi
+      setFileArg "$OPTARG"
       ;;
     "l")
-      LOG_LEVEL_ARG=$(echo "$OPTARG" | tr '[:upper:]' '[:lower:]')
-      if [ "${LOG_LEVEL_ARG}" != "trace" ] &&
-        [ "${LOG_LEVEL_ARG}" != "debug" ] &&
-        [ "${LOG_LEVEL_ARG}" != "info" ] &&
-        [ "${LOG_LEVEL_ARG}" != "warn" ] &&
-        [ "${LOG_LEVEL_ARG}" != "error" ]; then
-        log.error "Option -l has an invalid value of ${LOG_LEVEL_ARG}. See help with -h for valid values"
-        printHelp
-        exitProcess 1
-      fi
+      setLogLevelArg "$OPTARG"
       ;;
     "n")
-      NUM_LINES_ARG=$OPTARG
-      local REGEX_NUMBER='^[0-9]+$'
-      if [[ $NUM_LINES_ARG =~ $REGEX_NUMBER ]]; then
-        if [ "${NUM_LINES_ARG}" -lt "1" ]; then
-          log.error "Option -n has an invalid value of ${NUM_LINES_ARG}"
-          printHelp
-          exitProcess 1
-        fi
-      else
-        log.error "Option -n has an invalid value of ${NUM_LINES_ARG}"
-        printHelp
-        exitProcess 1
-      fi
+      setNumLinesArg "$OPTARG"
       ;;
     "q")
       FOLLOW=""
@@ -205,6 +171,53 @@ parseArguments() {
       ;;
     esac
   done
+}
+
+setFileArg() {
+  FILE_ARG=$1
+  # Turn argument to lowercase
+  FILE_ARG=$(echo "${FILE_ARG}" | tr '[:upper:]' '[:lower:]')
+  local LOGS_REGEX=^logs/.*\.log$
+  if [ "${FILE_ARG}" != "apache" ] &&
+    [ "${FILE_ARG}" != "eclipse" ] &&
+    [ "${FILE_ARG}" != "intellij" ] &&
+    [ "${FILE_ARG}" != "kamehouse" ] &&
+    [[ ! "${FILE_ARG}" =~ ${LOGS_REGEX} ]] &&
+    [ "${FILE_ARG}" != "tomcat" ]; then
+    log.error "Option -f has an invalid value of ${FILE_ARG}. See help with -h for valid values"
+    printHelp
+    exitProcess 1
+  fi  
+}
+
+setLogLevelArg() {
+  LOG_LEVEL_ARG=$1
+  LOG_LEVEL_ARG=$(echo "$LOG_LEVEL_ARG" | tr '[:upper:]' '[:lower:]')
+  if [ "${LOG_LEVEL_ARG}" != "trace" ] &&
+    [ "${LOG_LEVEL_ARG}" != "debug" ] &&
+    [ "${LOG_LEVEL_ARG}" != "info" ] &&
+    [ "${LOG_LEVEL_ARG}" != "warn" ] &&
+    [ "${LOG_LEVEL_ARG}" != "error" ]; then
+    log.error "Option -l has an invalid value of ${LOG_LEVEL_ARG}. See help with -h for valid values"
+    printHelp
+    exitProcess 1
+  fi
+}
+
+setNumLinesArg() {
+  NUM_LINES_ARG=$1
+  local REGEX_NUMBER='^[0-9]+$'
+  if [[ $NUM_LINES_ARG =~ $REGEX_NUMBER ]]; then
+    if [ "${NUM_LINES_ARG}" -lt "1" ]; then
+      log.error "Option -n has an invalid value of ${NUM_LINES_ARG}"
+      printHelp
+      exitProcess 1
+    fi
+  else
+    log.error "Option -n has an invalid value of ${NUM_LINES_ARG}"
+    printHelp
+    exitProcess 1
+  fi
 }
 
 setEnvFromArguments() {

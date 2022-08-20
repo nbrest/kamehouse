@@ -70,23 +70,27 @@ parseArguments() {
   while getopts ":i:p:" OPT; do
     case $OPT in
     ("p")
-      local PROFILE_ARG=$OPTARG 
-      PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
-      
-      if [ "${PROFILE_ARG}" != "prod" ] \
-          && [ "${PROFILE_ARG}" != "dev" ]; then
-        log.error "Option -p profile has an invalid value of ${PROFILE_ARG}"
-        printHelp
-        exitProcess 1
-      fi
-            
-      PROFILE=${PROFILE_ARG}
+      setProfile "$OPTARG"
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
+}
+
+setProfile() {
+  local PROFILE_ARG=$1 
+  PROFILE_ARG=`echo "${PROFILE_ARG}" | tr '[:upper:]' '[:lower:]'`
+
+  if [ "${PROFILE_ARG}" != "prod" ] \
+      && [ "${PROFILE_ARG}" != "dev" ]; then
+    log.error "Option -p profile has an invalid value of ${PROFILE_ARG}"
+    printHelp
+    exitProcess 1
+  fi
+        
+  PROFILE=${PROFILE_ARG}
 }
 
 setEnvFromArguments() {

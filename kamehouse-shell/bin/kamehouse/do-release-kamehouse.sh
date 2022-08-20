@@ -211,21 +211,25 @@ parseArguments() {
   while getopts ":v:" OPT; do
     case $OPT in
     ("v")
-      local RELEASE_VERSION_ARG=$OPTARG 
-      if [[ "${RELEASE_VERSION_ARG}" =~ ${RELEASE_VERSION_RX} ]]; then
-        : # Valid release version
-      else
-        log.error "Option -v has an invalid value of ${RELEASE_VERSION_ARG}"
-        printHelp
-        exitProcess 1
-      fi
-      RELEASE_VERSION=${RELEASE_VERSION_ARG}
+      setReleaseVersion "$OPTARG"
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
+}
+
+setReleaseVersion() {
+  local RELEASE_VERSION_ARG=$1 
+  if [[ "${RELEASE_VERSION_ARG}" =~ ${RELEASE_VERSION_RX} ]]; then
+    : # Valid release version
+  else
+    log.error "Option -v has an invalid value of ${RELEASE_VERSION_ARG}"
+    printHelp
+    exitProcess 1
+  fi
+  RELEASE_VERSION=${RELEASE_VERSION_ARG}
 }
 
 setEnvFromArguments() {

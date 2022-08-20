@@ -62,25 +62,29 @@ parseArguments() {
       SHUTDOWN_ACTION="/s"
       ;;
     "t")
-      DELAY=$OPTARG
-      local REGEX_NUMBER='^[0-9]+$'
-      if [[ $DELAY =~ $REGEX_NUMBER ]]; then
-        if [ "${DELAY}" -lt "0" ]; then
-          log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
-          printHelp
-          exitProcess 1
-        fi
-      else
-        log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
-        printHelp
-        exitProcess 1
-      fi
+      setDelay "$OPTARG"
       ;;
     \?)
       parseInvalidArgument "$OPTARG"
       ;;
     esac
   done
+}
+
+setDelay() {
+  DELAY=$1
+  local REGEX_NUMBER='^[0-9]+$'
+  if [[ $DELAY =~ $REGEX_NUMBER ]]; then
+    if [ "${DELAY}" -lt "0" ]; then
+      log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
+      printHelp
+      exitProcess 1
+    fi
+  else
+    log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
+    printHelp
+    exitProcess 1
+  fi
 }
 
 setEnvFromArguments() {
