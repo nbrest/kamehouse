@@ -5,6 +5,7 @@
 * Added copying git repo to /root on docker init script to update kamehouse-shell for root more easily
 * Added some shell scripts to sync video playlists/subtitles
 * Added sample basic logging node module
+* Refactored shell scripts to simplify parsing arguments and printing help menu and reduce duplication
 
 #### v7.06
 
