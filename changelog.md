@@ -6,6 +6,7 @@
 * Added some shell scripts to sync video playlists/subtitles
 * Added sample basic logging node module
 * Refactored shell scripts to simplify parsing arguments and printing help menu and reduce duplication
+* Fixed bugs
 
 #### v7.06
 
