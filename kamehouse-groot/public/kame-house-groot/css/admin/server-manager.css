@@ -6,21 +6,35 @@
 }
 
 #log-selector {
-  margin: 40px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  margin-right:10px;
 }
 
 @media (max-width : 900px) {
   #log-selector  {
-    margin: 30px;
+    margin: 20px;
   }
 }
 
-#number-of-lines {
+#tail-log-num-lines {
   display: inline;
 }
 
 @media (max-width : 900px) {
-  #number-of-lines {
+  #tail-log-num-lines {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+#tail-log-level {
+  display: inline;
+}
+
+@media (max-width : 900px) {
+  #tail-log-level {
     display: block;
     margin-top: 10px;
   }

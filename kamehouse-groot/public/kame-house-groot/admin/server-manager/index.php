@@ -329,7 +329,7 @@
             onclick="tailLogManagerWrapper.toggleTailLog()" 
             src="/kame-house/img/mplayer/play-green.png"
             alt="Start Tail Log" title="Start Tail Log"/>
-          <div id="number-of-lines">
+          <div id="tail-log-num-lines">
             <span class="bold-kh p-15-d-kh">Number of lines: </span>
             <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-num-lines-dropdown">
               <option value="50" selected>50</option>
@@ -339,6 +339,17 @@
               <option value="1000">1000</option>
               <option value="1500">1500</option>
               <option value="2000">2000</option>
+            </select>
+          </div>
+          <div id="tail-log-level">
+            <span class="bold-kh p-15-d-kh">Log level: </span>
+            <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-level-dropdown">
+              <option value="ERROR">ERROR</option>
+              <option value="WARN">WARN</option>
+              <option value="INFO">INFO</option>
+              <option value="DEBUG">DEBUG</option>
+              <option value="TRACE">TRACE</option>
+              <option value="" selected>ALL</option>
             </select>
           </div>
         </div>

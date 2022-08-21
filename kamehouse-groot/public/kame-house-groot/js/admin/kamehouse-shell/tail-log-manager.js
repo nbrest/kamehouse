@@ -27,11 +27,15 @@ function TailLogManager() {
   }
 
   /** Tails the log based on the script parameter and the number of lines to display */
-  function tailLog(scriptName, numberOfLines, executeOnDockerHost, callback) {
+  function tailLog(scriptName, numberOfLines, logLevel, executeOnDockerHost, callback) {
     if (isValidScript(scriptName)) {
       logger.trace("Executing script : " + scriptName);
+      if (isEmpty(logLevel)) {
+        logLevel = "";
+      }
       const params = new URLSearchParams({
         script: scriptName,
+        args: "-l " + logLevel,
         executeOnDockerHost: executeOnDockerHost
       });
       const getUrl = EXEC_SCRIPT_API + "?" + params;

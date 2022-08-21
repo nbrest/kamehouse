@@ -566,8 +566,9 @@ function TailLogManagerWrapper() {
       logger.trace(" tailLog loop running");
       let tailLogScript = document.getElementById("tail-log-dropdown").value;
       let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
+      let logLevel = document.getElementById("tail-log-level-dropdown").value;
       let executeOnDockerHost = getExecuteOnDockerHost(tailLogScript);
-      tailLogManager.tailLog(tailLogScript, numberOfLines, executeOnDockerHost, collapsibleDivUtils.refreshCollapsibleDiv);
+      tailLogManager.tailLog(tailLogScript, numberOfLines, logLevel, executeOnDockerHost, collapsibleDivUtils.refreshCollapsibleDiv);
   
       await sleep(5000);
     }
