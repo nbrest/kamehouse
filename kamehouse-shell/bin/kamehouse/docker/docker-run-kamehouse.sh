@@ -92,6 +92,7 @@ runDockerImage() {
   log.info "This temporary container will be removed when it exits"
 
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
+      --name ${DOCKER_IMAGE_HOSTNAME}-kamehouse \
       -h ${DOCKER_IMAGE_HOSTNAME} \
       --env BUILD_ON_STARTUP=${BUILD_ON_STARTUP} \
       --env DEBUG_MODE=${DEBUG_MODE} \
