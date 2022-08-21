@@ -320,6 +320,7 @@
             <option value="common/logs/cat-git-pull-all-all-servers-log.sh">git-pull-all-all-servers</option>
             <option value="common/logs/cat-httpd-log.sh">httpd</option>
             <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
+            <option value="common/logs/cat-resync-subtitles-log.sh">resync-subtitles</option>
             <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
             <option value="common/logs/cat-world-cup-bookings-log.sh">world-cup-bookings</option>
           </select>
