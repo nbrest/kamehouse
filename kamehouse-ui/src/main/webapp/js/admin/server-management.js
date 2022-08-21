@@ -121,7 +121,9 @@ function ServerManager() {
    */
   /** Set a suspend command */
   function setSuspendCommand() {
-    const suspendDelay = document.getElementById("suspend-delay-dropdown").value;
+    const suspendDelayHours = document.getElementById("suspend-delay-dropdown-hours").value;
+    const suspendDelayMinutes = document.getElementById("suspend-delay-dropdown-minutes").value;
+    const suspendDelay = Number(suspendDelayHours) + Number(suspendDelayMinutes);
     logger.trace("Suspend delay: " + suspendDelay);
     const requestParam = "delay=" + suspendDelay;
     loadingWheelModal.open();
