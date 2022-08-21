@@ -14,7 +14,9 @@ if [ "$?" != "0" ]; then
 fi
 
 main() {
-  displayBuildVersionAndDate "${HOME}/git/kamehouse"
+  local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
+  cat "${GROOT_VERSION_FILE}"
 }
 
 main "$@"

@@ -35,6 +35,8 @@ DEPLOYMENT_DIR=""
 TOMCAT_DIR=""
 TOMCAT_LOG=""
 MAVEN_COMMAND=""
+KAMEHOUSE_BUILD_VERSION=""
+DEPLOY_TO_TOMCAT=false
 
 mainProcess() {
   setDeploymentParameters
@@ -57,14 +59,17 @@ doLocalDeployment() {
   fi
   log.info "Deploying from directory ${COL_PURPLE}${PROJECT_DIR}"
   checkCurrentDir
+  setKameHouseBuildVersion
   deployKameHouseShell
   deployKameHouseUiStatic
   deployKameHouseGroot
   buildProject
   cleanLogsInGitRepoFolder
-  executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
-  executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
-  deployToTomcat
+  if ${DEPLOY_TO_TOMCAT}; then
+    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
+    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
+    deployToTomcat
+  fi
   deployKameHouseCmd
   deployKameHouseMobile
 }
@@ -74,6 +79,11 @@ checkCurrentDir() {
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
     exitProcess 1
   fi
+}
+
+setKameHouseBuildVersion() {
+  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
+  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
 }
 
 setDeploymentParameters() {
@@ -86,6 +96,19 @@ setDeploymentParameters() {
   else
     local LOG_DATE=`date +%Y-%m-%d`
     TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.${LOG_DATE}.log"
+  fi
+
+  if [ -n "${MODULE_SHORT}" ]; then
+    if [ "${MODULE_SHORT}" == "admin" ] ||
+       [ "${MODULE_SHORT}" == "media" ] ||
+       [ "${MODULE_SHORT}" == "tennisworld" ] ||
+       [ "${MODULE_SHORT}" == "testmodule" ] ||
+       [ "${MODULE_SHORT}" == "ui" ] ||
+       [ "${MODULE_SHORT}" == "vlcrc" ]; then
+      DEPLOY_TO_TOMCAT=true
+    fi
+  else
+    DEPLOY_TO_TOMCAT=true
   fi
 }
 
@@ -121,7 +144,7 @@ buildProject() {
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   
   exportGitCommitHash
-  
+
   MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
   
   if ${EXTENDED_DEPLOYMENT}; then
@@ -192,7 +215,10 @@ deployKameHouseCmd() {
     rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
     unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
     mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-    echo "${GIT_COMMIT_HASH}" > ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/git-commit-hash.txt
+    local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.txt"
+    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
+    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+    echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
   fi
@@ -217,15 +243,18 @@ deployKameHouseGroot() {
     mkdir -p ${HTTPD_CONTENT_ROOT}
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
-  fi
-}
+    
+    local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
+    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
+    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+    echo "buildDate=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
 
-getHttpdContentRoot() {
-  if ${IS_LINUX_HOST}; then
-    echo "/var/www/kamehouse-webserver"  
-  else
-    echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver"
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
+
+    if [ "${MODULE_SHORT}" == "groot" ]; then
+      logFinish
+      exitSuccessfully
+    fi
   fi
 }
 
@@ -236,6 +265,8 @@ deployKameHouseShell() {
     chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
     ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
   
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
+
     if [ "${MODULE_SHORT}" == "shell" ]; then
       logFinish
       exitSuccessfully

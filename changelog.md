@@ -7,6 +7,9 @@
 * Added sample basic logging node module
 * Refactored shell scripts to simplify parsing arguments and printing help menu and reduce duplication
 * Split suspend times dropdowns in admin view into hours and minutes
+* Added groot and ui static files to deployment script and removed dependency on symlinks to git repo
+* Updated deployment script to deploy build version files for cmd, shell and groot
+* Updated deployment script to skip tomcat steps for non tomcat modules
 * Fixed git commit functions
 * Fixed bugs
 

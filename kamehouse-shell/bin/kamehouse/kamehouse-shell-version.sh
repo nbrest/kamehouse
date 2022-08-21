@@ -14,7 +14,10 @@ if [ "$?" != "0" ]; then
 fi
 
 main() {
-  displayBuildVersionAndDate "${HOME}/git/kamehouse"
+  local KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell
+  local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf
+  local SHELL_VERSION_FILE="${KAMEHOUSE_SHELL_CONF_PATH}/shell-version.txt"
+  cat "${SHELL_VERSION_FILE}"
 }
 
 main "$@"

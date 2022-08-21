@@ -33,6 +33,7 @@ main() {
   updateUsername
   fixPermissions
   generateKameHouseShellPathFile
+  generateBuildVersion
   if ! ${INSTALL_SCRIPTS_ONLY}; then
     installCred
     updateBashRc
@@ -63,7 +64,9 @@ createLogsDir() {
 
 installKameHouseShell() {
   log.info "Rebuilding shell scripts directory"
-  rm -r -f ${KAMEHOUSE_SHELL_PATH}
+  rm -r -f ${KAMEHOUSE_SHELL_PATH}/bin
+  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/path.conf
+  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/shell-version.txt
   mkdir -p ${KAMEHOUSE_SHELL_PATH}
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
 }
@@ -159,6 +162,26 @@ getPathWithSubdirectories() {
 
   echo "${PATH_WITH_SUBDIRS}"
 } 
+
+generateBuildVersion() {
+  local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf
+  local SHELL_VERSION_FILE="${KAMEHOUSE_SHELL_CONF_PATH}/shell-version.txt"
+  local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${SHELL_VERSION_FILE}
+  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+  echo "buildDate=${BUILD_DATE}" >> ${SHELL_VERSION_FILE}
+}
+
+getKameHouseBuildVersion() {
+  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
+  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
+  local GIT_COMMIT_HASH=`git rev-parse --short HEAD`
+  local BUILD_VERSION="${GIT_COMMIT_HASH}"
+  if [ -n "${KAMEHOUSE_RELEASE_VERSION}" ]; then
+    BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
+  fi
+  echo "${BUILD_VERSION}"
+}
 
 log.info() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"

@@ -344,3 +344,12 @@ setSudoKameHouseCommand() {
   fi
   log.debug "${SUDO_KAMEHOUSE_COMMAND}"
 }
+
+# Get kamehouse httpd content root directory
+getHttpdContentRoot() {
+  if ${IS_LINUX_HOST}; then
+    echo "/var/www/kamehouse-webserver"  
+  else
+    echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver"
+  fi
+}
