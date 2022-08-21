@@ -10,6 +10,7 @@
 * Added groot and ui static files to deployment script and removed dependency on symlinks to git repo
 * Updated deployment script to deploy build version files for cmd, shell and groot
 * Updated deployment script to skip tomcat steps for non tomcat modules
+* Added support to filter by log level to groot tail log
 * Fixed git commit functions
 * Fixed bugs
 
