@@ -28,6 +28,8 @@ main() {
   else 
     deleteTomcatWebapps
     deleteKameHouseCmd
+    deleteKameHouseUiStaticFiles
+    deleteKameHouseGroot
     deleteKameHouseGit
     purgeConfigFiles
   
@@ -55,6 +57,28 @@ deleteKameHouseShell() {
 deleteKameHouseCmd() {
   log.info "Deleting kamehouse cmd"
   rm -r -f ${HOME}/programs/kamehouse-cmd
+}
+
+deleteKameHouseUiStaticFiles() {
+  log.info "Deleting kamehouse ui static files"
+  if [ -d "/var/www/kamehouse-webserver" ]; then
+    rm -rf /var/www/kamehouse-webserver/kame-house
+  fi
+  
+  if [ -d "${HOME}/programs/apache-httpd/www/kamehouse-webserver" ]; then
+    rm -rf ${HOME}/programs/apache-httpd/www/kamehouse-webserver/kame-house
+  fi
+}
+
+deleteKameHouseGroot() {
+  log.info "Deleting kamehouse groot"
+  if [ -d "/var/www/kamehouse-webserver" ]; then
+    rm -rf /var/www/kamehouse-webserver/kame-house-groot
+  fi
+  
+  if [ -d "${HOME}/programs/apache-httpd/www/kamehouse-webserver" ]; then
+    rm -rf ${HOME}/programs/apache-httpd/www/kamehouse-webserver/kame-house-groot
+  fi
 }
 
 deleteKameHouseGit() {
