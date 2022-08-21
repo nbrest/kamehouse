@@ -30,6 +30,13 @@ RUN apt-get update -y && apt-get -y upgrade ; \
   apt-get autoclean -y ; \
   apt-get clean -y
 
+# Setup users 
+# IMPORTANT: if I update the user here also update it in docker/etc/sudoers
+ARG KAMEHOUSE_USERNAME=goku
+ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}
+ARG KAMEHOUSE_PASSWORD=gohan
+ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
+
 # Setup apache httpd
 COPY docker/apache2/conf /etc/apache2/conf
 COPY docker/apache2/sites-available /etc/apache2/sites-available
@@ -37,15 +44,10 @@ COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
 RUN ln -s /var/www/html/ /var/www/kamehouse-webserver ; \
+  sudo chown ${KAMEHOUSE_USERNAME}:users -R /var/www/kamehouse-webserver \
+  sudo chown ${KAMEHOUSE_USERNAME}:users -R /var/www/html \
   a2ensite default-ssl ; \
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
-
-# Setup users 
-# IMPORTANT: if I update the user here also update it in docker/etc/sudoers
-ARG KAMEHOUSE_USERNAME=goku
-ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}
-ARG KAMEHOUSE_PASSWORD=gohan
-ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
 COPY docker/etc/sudoers /etc/sudoers
 RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
