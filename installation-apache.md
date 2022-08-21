@@ -28,11 +28,6 @@
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
-#### Create symlinks
-
-- Create a symlink in a windows cmd console to serve static files from my ${HOME}/git/kamehouse repo:
-  - Execute the script [setup-apache-httpd-dirs.bat](scripts/setup-apache-httpd-dirs.bat)
-
 #### For media server only:
 - Create link for streaming media-drive files through http
 ```sh
@@ -75,10 +70,11 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
   - Update `/var/apache2/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
   - Update `/var/apache2/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
-#### Create symlinks
-
-- Create a symlink from `/var/www/kamehouse-webserver/kame-house` to `${HOME}/git/kamehouse/kamehouse-ui/src/main/webapp`
-  - Execute the script [setup-apache-httpd-dirs.sh](scripts/setup-apache-httpd-dirs.sh)
+- Make static content root dir for kamehouse:
+```sh
+  sudo mkdir -p /var/www/kamehouse-webserver
+  sudo chown ${USER}:users -R /var/www/kamehouse-webserver
+```
 
 #### Install .httpasswd file
 

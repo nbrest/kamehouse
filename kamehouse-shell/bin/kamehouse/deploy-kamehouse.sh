@@ -37,32 +37,36 @@ TOMCAT_LOG=""
 MAVEN_COMMAND=""
 
 mainProcess() {
-  setGlobalVariables
-    
+  setDeploymentParameters
   if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
-
-    if ${USE_CURRENT_DIR}; then
-      PROJECT_DIR=`pwd`
-    else  
-      cd ${PROJECT_DIR}
-      checkCommandStatus "$?" "Invalid project directory" 
-      pullLatestVersionFromGit
-    fi
-    log.info "Deploying from directory ${COL_PURPLE}${PROJECT_DIR}"
-    checkCurrentDir
-    deployKameHouseShell
-    buildProject
-    cleanLogsInGitRepoFolder
-    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
-    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
-    deployToTomcat
-    deployKameHouseCmd
-    deployKameHouseGroot
-    deployKameHouseMobile
+    doLocalDeployment
   else
     # Execute remote deployment
+    setSshParameters
     executeSshCommand       
   fi
+}
+
+doLocalDeployment() {
+  if ${USE_CURRENT_DIR}; then
+    PROJECT_DIR=`pwd`
+  else  
+    cd ${PROJECT_DIR}
+    checkCommandStatus "$?" "Invalid project directory" 
+    pullLatestVersionFromGit
+  fi
+  log.info "Deploying from directory ${COL_PURPLE}${PROJECT_DIR}"
+  checkCurrentDir
+  deployKameHouseShell
+  deployKameHouseUiStatic
+  deployKameHouseGroot
+  buildProject
+  cleanLogsInGitRepoFolder
+  executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
+  executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
+  deployToTomcat
+  deployKameHouseCmd
+  deployKameHouseMobile
 }
 
 checkCurrentDir() {
@@ -72,7 +76,7 @@ checkCurrentDir() {
   fi
 }
 
-setGlobalVariables() {
+setDeploymentParameters() {
   loadDockerContainerEnv
   
   TOMCAT_DIR="${HOME}/programs/apache-tomcat"
@@ -83,7 +87,9 @@ setGlobalVariables() {
     local LOG_DATE=`date +%Y-%m-%d`
     TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.${LOG_DATE}.log"
   fi
+}
 
+setSshParameters() {
   SSH_SERVER=${KAMEHOUSE_SERVER}
   SSH_COMMAND="${SCRIPT_NAME} -s local -p ${MAVEN_PROFILE}"
   if [ -n "${MODULE_SHORT}" ]; then
@@ -136,24 +142,28 @@ buildProject() {
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
 
   if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    log.info "Building kamehouse-mobile android app"
-    cd kamehouse-mobile
-    log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
-    cordova clean
-    cordova platform remove android
-    cordova platform add android
-    # Reset unnecessary git changes after platform remove/add
-    git checkout HEAD -- package.json
-    git checkout HEAD -- package-lock.json
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
-    cp -v -f pom.xml www/
-    echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
-    date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
-    log.debug "cordova build android"
-    cordova build android
-    checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
-    cd ..
+    buildMobile
   fi
+}
+
+buildMobile() {
+  log.info "Building kamehouse-mobile android app"
+  cd kamehouse-mobile
+  log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
+  cordova clean
+  cordova platform remove android
+  cordova platform add android
+  # Reset unnecessary git changes after platform remove/add
+  git checkout HEAD -- package.json
+  git checkout HEAD -- package-lock.json
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
+  cp -v -f pom.xml www/
+  echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
+  date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
+  log.debug "cordova build android"
+  cordova build android
+  checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
+  cd ..
 }
 
 deployToTomcat() {
@@ -188,10 +198,34 @@ deployKameHouseCmd() {
   fi
 }
 
+deployKameHouseUiStatic() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+    mkdir -p ${HTTPD_CONTENT_ROOT}
+    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
+    cp -rf ./kamehouse-ui/src/main/webapp ${HTTPD_CONTENT_ROOT}/kame-house
+    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house/WEB-INF
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+  fi
+}
+
 deployKameHouseGroot() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
-    log.info "Already pulled latest changes from git at start of deployment, so groot is up to date"
+    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+    mkdir -p ${HTTPD_CONTENT_ROOT}
+    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
+    cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
+  fi
+}
+
+getHttpdContentRoot() {
+  if ${IS_LINUX_HOST}; then
+    echo "/var/www/kamehouse-webserver"  
+  else
+    echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver"
   fi
 }
 
