@@ -6,6 +6,7 @@
 * Added some shell scripts to sync video playlists/subtitles
 * Added sample basic logging node module
 * Refactored shell scripts to simplify parsing arguments and printing help menu and reduce duplication
+* Split suspend times dropdowns in admin view into hours and minutes
 * Fixed git commit functions
 * Fixed bugs
 
