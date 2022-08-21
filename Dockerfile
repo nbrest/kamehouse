@@ -117,11 +117,9 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/pro
   chmod a+rx /var/log/apache2 ; \
   ln -s /var/log/apache2 /home/${KAMEHOUSE_USERNAME}/programs/apache-httpd/logs
 
-# Kamehouse ui and groot static content:
-RUN ln -s /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-ui/src/main/webapp /var/www/html/kame-house ; \
-  ln -s /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/public/kame-house-groot /var/www/html/kame-house-groot ; \
-  rm /var/www/html/index.html ; \
-  ln -s /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
+# Httpd root index.html
+RUN rm /var/www/html/index.html ; \
+  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
 
 #####################################################################
 
