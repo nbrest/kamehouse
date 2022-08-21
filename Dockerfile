@@ -37,23 +37,23 @@ ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}
 ARG KAMEHOUSE_PASSWORD=gohan
 ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
+COPY docker/etc/sudoers /etc/sudoers
+RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
+  echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd ; \
+  usermod -a -G adm ${KAMEHOUSE_USERNAME} ; \
+  usermod -a -G sudo ${KAMEHOUSE_USERNAME}
+
 # Setup apache httpd
 COPY docker/apache2/conf /etc/apache2/conf
 COPY docker/apache2/sites-available /etc/apache2/sites-available
 COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
-RUN ln -s /var/www/html/ /var/www/kamehouse-webserver ; \
-  sudo chown ${KAMEHOUSE_USERNAME}:users -R /var/www/kamehouse-webserver \
-  sudo chown ${KAMEHOUSE_USERNAME}:users -R /var/www/html \
+RUN chown ${KAMEHOUSE_USERNAME}:users -R /var/www/html \
+  ln -s /var/www/html/ /var/www/kamehouse-webserver ; \
+  chown ${KAMEHOUSE_USERNAME}:users -R /var/www/kamehouse-webserver \
   a2ensite default-ssl ; \
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
-
-COPY docker/etc/sudoers /etc/sudoers
-RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
-  echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd ; \
-  usermod -a -G adm ${KAMEHOUSE_USERNAME} ; \
-  usermod -a -G sudo ${KAMEHOUSE_USERNAME}
 
 # Setup ${KAMEHOUSE_USERNAME} home
 RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
