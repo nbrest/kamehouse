@@ -2,6 +2,7 @@
 
 #### v7.08
 
+* Added option to filter lines with untagged log level on tail log shell and groot
 * Fixed bugs
 
 #### v7.07
