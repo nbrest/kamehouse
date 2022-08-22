@@ -96,7 +96,7 @@ function matchPatterns() {
   matchApacheSslRequestLog();
   matchApacheOtherVhostsAccessLog();
   # Default
-  printDefault();
+  printUnmatched();
 }
 
 # Print file headers displayed by tail when tailing multiple files
@@ -345,6 +345,9 @@ function checkHttpResponseCodeToPrint(httpResponseCodeMappedToLogLevel_fn_) {
 # Get the log level numeric value for the specified log level
 function getLogLevelNumber(logLevel_fn_, logLevelNumber_loc_) { 
   logLevelNumber_loc_ = DEFAULT_LOG_LEVEL_NUM;
+  if (filterExtraLines == "true" && logLevel_fn_ == "UNKNOWN") {
+    logLevelNumber_loc_ = 6;
+  }
   if (isLogLevelError(logLevel_fn_)) {
     logLevelNumber_loc_ = 1;
   } 
@@ -437,12 +440,46 @@ function checkLogLevelToPrint(logLevelNumber_fn_) {
   }
 }
 
+# Get log level for unmatched lines
+function getUnmatchedLineLogLevel(lineUpperCase_loc, trace_rx_loc_, debug_rx_loc_, info_rx_loc_, warn_rx_loc_, error_rx_loc_) {
+  lineUpperCase_loc = toupper($0);
+  trace_rx_loc_ = ".*(TRACE|FINER|FINEST).*";
+  if (lineUpperCase_loc ~ trace_rx_loc_) {
+    return "TRACE";
+  }
+
+  debug_rx_loc_ = ".*(DEBUG|FINE).*";
+  if (lineUpperCase_loc ~ debug_rx_loc_) {
+    return "DEBUG";
+  }
+
+  info_rx_loc_ = ".*(INFO|NOTICE).*";
+  if (lineUpperCase_loc ~ info_rx_loc_) {
+    return "INFO";
+  }
+
+  warn_rx_loc_ = ".*(WARN|WARNING).*";
+  if (lineUpperCase_loc ~ warn_rx_loc_) {
+    return "WARN";
+  }
+
+  error_rx_loc_ = ".*(ERROR|SEVERE|EMERG|ALERT|CRIT).*";
+  if (lineUpperCase_loc ~ error_rx_loc_) {
+    return "ERROR";
+  }
+
+  return "UNKNOWN";
+}
+
 ###############################################################################
 # Formatting and printing functions
 ###############################################################################
 
 # Print input without formatting if no other pattern matched.
-function printDefault() {
+function printUnmatched(logLevel_loc_, logLevelNumber_loc_) {
+  logLevel_loc_ = getUnmatchedLineLogLevel();
+  logLevelNumber_loc_ = getLogLevelNumber(logLevel_loc_);
+  checkLogLevelToPrint(logLevelNumber_loc_);
   printColored(COL_NORMAL);
 }
 

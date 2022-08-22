@@ -11,6 +11,7 @@ IS_LINUX_HOST=false
 
 # Is the script running under windows or linux. Sets the variable IS_LINUX_HOST
 # to be used in the script when needed. Default is false.
+# If this changes, also change it in my.scripts repo path.sh
 setIsLinuxHost() {
   IS_LINUX_HOST=false
   local UNAME_S=`uname -s`

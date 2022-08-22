@@ -23,6 +23,10 @@ function parseArguments() {
     # logLevel parameter not set. Set to print everything by default.
     LOG_LEVEL_NUM_TO_PRINT = 5;
   }
+  if (LOG_LEVEL_NUM_TO_PRINT > 5) {
+    # logLevel parameter not set. Set to print everything by default.
+    LOG_LEVEL_NUM_TO_PRINT = 5;
+  }
 }
 
 # Filter lines that don't match the log level to print
@@ -39,34 +43,38 @@ function printCurrentLine() {
 }
 
 # Get the log level of the current line
-function getCurrentLineLogLevel() {
-  trace_rx_loc_ = ".*TRACE.*";
-  if ($0 ~ trace_rx_loc_) {
+function getCurrentLineLogLevel(lineUpperCase_loc, trace_rx_loc_, debug_rx_loc_, info_rx_loc_, warn_rx_loc_, error_rx_loc_) {
+  lineUpperCase_loc = toupper($0);
+  trace_rx_loc_ = ".*(TRACE|FINER|FINEST).*";
+  if (lineUpperCase_loc ~ trace_rx_loc_) {
     return "TRACE";
   }
 
-  debug_rx_loc_ = ".*DEBUG.*";
-  if ($0 ~ debug_rx_loc_) {
+  debug_rx_loc_ = ".*(DEBUG|FINE).*";
+  if (lineUpperCase_loc ~ debug_rx_loc_) {
     return "DEBUG";
   }
 
-  info_rx_loc_ = ".*INFO.*";
-  if ($0 ~ info_rx_loc_) {
+  info_rx_loc_ = ".*(INFO|NOTICE).*";
+  if (lineUpperCase_loc ~ info_rx_loc_) {
     return "INFO";
   }
 
-  warn_rx_loc_ = ".*WARN.*";
-  if ($0 ~ warn_rx_loc_) {
+  warn_rx_loc_ = ".*(WARN|WARNING).*";
+  if (lineUpperCase_loc ~ warn_rx_loc_) {
     return "WARN";
   }
 
-  error_rx_loc_ = ".*ERROR.*";
-  if ($0 ~ error_rx_loc_) {
+  error_rx_loc_ = ".*(ERROR|SEVERE|EMERG|ALERT|CRIT).*";
+  if (lineUpperCase_loc ~ error_rx_loc_) {
     return "ERROR";
   }
 
-  # Return current log level by default
-  return logLevel;
+  if (logLevel == "ALL") {
+    return "ALL";
+  } else {
+    return "SKIP";
+  }
 }
 
 # Get the log level numeric value for the specified log level
@@ -87,6 +95,13 @@ function getLogLevelNumber(logLevel_fn_, logLevelNumber_loc_) {
   if (isLogLevelTrace(logLevel_fn_)) { 
     logLevelNumber_loc_ = 5;
   }
+  if (isLogLevelAll(logLevel_fn_)) {
+    logLevelNumber_loc_ = DEFAULT_LOG_LEVEL_NUM;
+  }
+  if (isLogLevelSkip(logLevel_fn_)) {
+    logLevelNumber_loc_ = 6;
+  }
+
   return logLevelNumber_loc_;
 }
 
@@ -129,6 +144,24 @@ function isLogLevelDebug(logLevel_fn_) {
 function isLogLevelTrace(logLevel_fn_) {
   logLevel_fn_ = toupper(logLevel_fn_);
   if (logLevel_fn_ == "TRACE") {
+    return "true";
+  } else {
+    return "";
+  }  
+}
+
+function isLogLevelAll(logLevel_fn_) {
+  logLevel_fn_ = toupper(logLevel_fn_);
+  if (logLevel_fn_ == "ALL") {
+    return "true";
+  } else {
+    return "";
+  }  
+}
+
+function isLogLevelSkip(logLevel_fn_) {
+  logLevel_fn_ = toupper(logLevel_fn_);
+  if (logLevel_fn_ == "SKIP") {
     return "true";
   } else {
     return "";

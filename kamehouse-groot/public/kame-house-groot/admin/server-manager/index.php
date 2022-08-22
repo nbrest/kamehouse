@@ -349,7 +349,7 @@
               <option value="INFO">INFO</option>
               <option value="DEBUG">DEBUG</option>
               <option value="TRACE">TRACE</option>
-              <option value="" selected>ALL</option>
+              <option value="ALL" selected>ALL</option>
             </select>
           </div>
         </div>

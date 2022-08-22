@@ -32,5 +32,5 @@ parseArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-l (TRACE|DEBUG|INFO|WARN|ERROR)" "log level"
+  addHelpOption "-l (ALL|TRACE|DEBUG|INFO|WARN|ERROR)" "log level"
 }

@@ -36,6 +36,7 @@ FILE_ARG=""
 FOLLOW="-F"
 LOG_LEVEL_ARG=""
 NUM_LINES_ARG="0"
+FILTER_EXTRA_LINES=false
 
 # Global variables set during the process
 LOG_FILES=""
@@ -132,6 +133,9 @@ addFileToLogFiles() {
 setSshParameters() {
   SSH_SERVER=${KAMEHOUSE_SERVER}
   SSH_COMMAND="${SCRIPT_NAME} -s local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
+  if ${FILTER_EXTRA_LINES}; then
+    SSH_COMMAND=${SSH_COMMAND}" -x"
+  fi
   if [ "${KAMEHOUSE_SERVER}" == "docker" ]; then
     SSH_SERVER=localhost
     SSH_PORT=${DOCKER_PORT_SSH}
@@ -140,8 +144,8 @@ setSshParameters() {
 
 tailLog() {
   log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_DEFAULT_LOG} in ${COL_PURPLE}${KAMEHOUSE_SERVER}${COL_DEFAULT_LOG}"
-  log.debug "tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}"
-  tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG}
+  log.debug "tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG} -v filterExtraLines=${FILTER_EXTRA_LINES}"
+  tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG} -v filterExtraLines=${FILTER_EXTRA_LINES}
   checkCommandStatus "$?" "An error occurred displaying ${LOG_FILES}"
 }
 
@@ -155,7 +159,7 @@ parseArguments() {
   parseDockerProfile "$@"
   parseKameHouseServer "$@"
   
-  while getopts ":f:l:n:p:s:q" OPT; do
+  while getopts ":f:l:n:p:s:qx" OPT; do
     case $OPT in
     "f")
       setFileArg "$OPTARG"
@@ -168,6 +172,9 @@ parseArguments() {
       ;;
     "q")
       FOLLOW=""
+      ;;
+    "x")
+      FILTER_EXTRA_LINES=true
       ;;
     \?)
       parseInvalidArgument "$OPTARG"
@@ -246,6 +253,7 @@ printHelpOptions() {
   printDockerProfileOption
   printKameHouseServerOption
   addHelpOption "-q" "quit after tailing once. Don't follow log"
+  addHelpOption "-x" "Filter extra lines that don't have a log level tag, like bash command outputs"
 }
 
 main "$@"
