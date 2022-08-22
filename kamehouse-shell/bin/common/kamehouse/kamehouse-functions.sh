@@ -277,7 +277,13 @@ executeOperationInTomcatManager() {
   local OPERATION=$1
   local TOMCAT_PORT=$2
   local KAMEHOUSE_MODULE=$3
-  log.info "Executing ${OPERATION} kamehouse webapps in localhost:${TOMCAT_PORT} for module '${KAMEHOUSE_MODULE}'"
+
+  if [ -z "${KAMEHOUSE_MODULE}" ]; then
+    log.info "Executing ${COL_PURPLE}${OPERATION}${COL_DEFAULT_LOG} kamehouse webapps in localhost:${TOMCAT_PORT} for all modules"
+  else
+    log.info "Executing ${COL_PURPLE}${OPERATION}${COL_DEFAULT_LOG} kamehouse webapps in localhost:${TOMCAT_PORT} for module ${COL_PURPLE}${KAMEHOUSE_MODULE}${COL_DEFAULT_LOG}"
+  fi
+
   local WEBAPP=${KAMEHOUSE_MODULE}
   if [ "${KAMEHOUSE_MODULE}" == "ui" ]; then
     WEBAPP=""
@@ -287,17 +293,17 @@ executeOperationInTomcatManager() {
   log.debug "curl url: ${URL_LIST}"
   local KAMEHOUSE_WEBAPPS=`curl "${URL_LIST}" 2>/dev/null | grep "/kame-house" | grep "${WEBAPP}" | awk -F':' '{print $1}'`
   
+  if [ -z "${KAMEHOUSE_WEBAPPS}" ]; then
+    log.warn "Tomcat doesn't seem to be running. Nothing to do. Exiting without executing ${COL_PURPLE}${OPERATION}"
+    return
+  fi
+  
   if [ "${KAMEHOUSE_MODULE}" == "ui" ]; then
     KAMEHOUSE_WEBAPPS="/kame-house"
   fi
-  
-  if [ -z "${KAMEHOUSE_WEBAPPS}" ]; then
-    log.warn "KAMEHOUSE_WEBAPPS is empty. Nothing to do. Exiting without executing ${OPERATION}"
-    return
-  fi
 
   echo -e "${KAMEHOUSE_WEBAPPS}" | while read KAMEHOUSE_WEBAPP; do
-    log.info "Executing ${OPERATION} ${KAMEHOUSE_WEBAPP} in localhost:${TOMCAT_PORT}"
+    log.info "Executing ${COL_PURPLE}${OPERATION} ${KAMEHOUSE_WEBAPP}${COL_DEFAULT_LOG} in localhost:${TOMCAT_PORT}"
     local URL_OPERATION="http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/${OPERATION}?path=${KAMEHOUSE_WEBAPP}"
     log.debug "curl url: ${URL_OPERATION}"
     curl "${URL_OPERATION}" 2>/dev/null

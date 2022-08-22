@@ -197,14 +197,14 @@ deployToTomcat() {
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
     local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
-      log.info "Deploying ${KAMEHOUSE_MODULE} in ${DEPLOYMENT_DIR}"
+      log.info "Deploying ${COL_PURPLE}${KAMEHOUSE_MODULE}${COL_DEFAULT_LOG} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
       cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
       checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
     fi
   done
 
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_PURPLE}-  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat  -${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Execute ${COL_CYAN}\`  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 deployKameHouseCmd() {
