@@ -128,16 +128,16 @@ pullKameHouse() {
 
 cloneGitRepoToRoot() {
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
-    log.info "Copying kamehouse git repo to /root/git/kamehouse"
-    mkdir -p /root/git
-    cp -rf /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse /root/git/
-  else
-    log.info "Cloning kamehouse git repo on root home"
+    log.info "Cloning kamehouse git repo to /root/git/kamehouse"
     mkdir -p /root/git
     cd /root/git
     git clone https://github.com/nbrest/kamehouse.git
     git checkout dev
     git branch -D master
+  else
+    log.info "Copying kamehouse git repo to /root/git/kamehouse"
+    mkdir -p /root/git
+    cp -rf /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse /root/git/
   fi
 }
 
