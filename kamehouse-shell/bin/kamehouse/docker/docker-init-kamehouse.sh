@@ -132,9 +132,11 @@ cloneGitRepoToRoot() {
     mkdir -p /root/git
     cd /root/git
     git clone https://github.com/nbrest/kamehouse.git
-    cd kamehouse
-    git checkout dev
-    git branch -D master
+    if [ -d "/root/git/kamehouse" ]; then
+      cd kamehouse
+      git checkout dev
+      git branch -D master    
+    fi
   else
     log.info "Copying kamehouse git repo to /root/git/kamehouse"
     mkdir -p /root/git
