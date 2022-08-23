@@ -67,15 +67,19 @@ setTailLogParameters() {
   local LOG_DATE=$(date +%Y-%m-%d)
   case ${FILE_ARG} in
   "apache")
-    addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/error.log"
     if ${IS_LINUX_HOST}; then
       addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/other_vhosts_access.log"
     else
       addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/ssl_request.log"
     fi
     addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/access.log"
+    addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/error.log"
+    ;;
+  "apache-error")
+    addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/error.log"
     ;;
   "intellij")
+    addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.${LOG_DATE}.log"
     if ${IS_LINUX_HOST}; then
       addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost.${LOG_DATE}.log"
     else
@@ -83,9 +87,9 @@ setTailLogParameters() {
     fi
     addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
     addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.out"
-    addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.${LOG_DATE}.log"
     ;;
   "eclipse")
+    addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.${LOG_DATE}.log"
     if ${IS_LINUX_HOST}; then
       addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost.${LOG_DATE}.log"
     else
@@ -93,7 +97,6 @@ setTailLogParameters() {
     fi
     addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
     addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.out"
-    addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.${LOG_DATE}.log"
     ;;
   "kamehouse")
     if ${IS_LINUX_HOST}; then
@@ -102,6 +105,7 @@ setTailLogParameters() {
     addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"
     ;;
   "tomcat")
+    addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.${LOG_DATE}.log"
     if ${IS_LINUX_HOST}; then
       addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost.${LOG_DATE}.log"
     else
@@ -111,7 +115,6 @@ setTailLogParameters() {
     fi
     addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
     addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.out"
-    addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.${LOG_DATE}.log"
     ;;
   logs/*.log)
     addFileToLogFiles "${HOME}/${FILE_ARG}"
@@ -189,6 +192,7 @@ setFileArg() {
   FILE_ARG=$(echo "${FILE_ARG}" | tr '[:upper:]' '[:lower:]')
   local LOGS_REGEX=^logs/.*\.log$
   if [ "${FILE_ARG}" != "apache" ] &&
+    [ "${FILE_ARG}" != "apache-error" ] &&
     [ "${FILE_ARG}" != "eclipse" ] &&
     [ "${FILE_ARG}" != "intellij" ] &&
     [ "${FILE_ARG}" != "kamehouse" ] &&
@@ -247,7 +251,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f (apache|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-f (apache|apache-error|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   printDockerProfileOption

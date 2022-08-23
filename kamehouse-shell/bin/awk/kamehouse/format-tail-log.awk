@@ -443,27 +443,27 @@ function checkLogLevelToPrint(logLevelNumber_fn_) {
 # Get log level for unmatched lines
 function getUnmatchedLineLogLevel(lineUpperCase_loc, trace_rx_loc_, debug_rx_loc_, info_rx_loc_, warn_rx_loc_, error_rx_loc_) {
   lineUpperCase_loc = toupper($0);
-  trace_rx_loc_ = ".*(TRACE|FINER|FINEST).*";
+  trace_rx_loc_ = ".*\\[.*(TRACE|FINER|FINEST).*\\].*";
   if (lineUpperCase_loc ~ trace_rx_loc_) {
     return "TRACE";
   }
 
-  debug_rx_loc_ = ".*(DEBUG|FINE).*";
+  debug_rx_loc_ = ".*\\[.*(DEBUG|FINE).*\\].*";
   if (lineUpperCase_loc ~ debug_rx_loc_) {
     return "DEBUG";
   }
 
-  info_rx_loc_ = ".*(INFO|NOTICE).*";
+  info_rx_loc_ = ".*\\[.*(INFO|NOTICE).*\\].*";
   if (lineUpperCase_loc ~ info_rx_loc_) {
     return "INFO";
   }
 
-  warn_rx_loc_ = ".*(WARN|WARNING).*";
+  warn_rx_loc_ = ".*\\[.*(WARN|WARNING).*\\.*";
   if (lineUpperCase_loc ~ warn_rx_loc_) {
     return "WARN";
   }
 
-  error_rx_loc_ = ".*(ERROR|SEVERE|EMERG|ALERT|CRIT).*";
+  error_rx_loc_ = ".*\\[.*(ERROR|SEVERE|EMERG|ALERT|CRIT).*\\].*";
   if (lineUpperCase_loc ~ error_rx_loc_) {
     return "ERROR";
   }
