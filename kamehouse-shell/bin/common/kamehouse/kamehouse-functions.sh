@@ -40,6 +40,10 @@ IS_REMOTE_LINUX_HOST=false
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
+# Generic username and password command line arguments
+USERNAME_ARG=""
+PASSWORD_ARG=""
+
 # ---------------------------
 # Common kamehouse functions
 # ---------------------------
@@ -100,12 +104,34 @@ parseMavenProfile() {
   done
 }
 
+parsePasswordArg() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -p)
+        PASSWORD_ARG="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
 parseTomcatPort() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
     case "${ARGS[i]}" in
       -p)
         TOMCAT_PORT="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
+parseUsernameArg() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -u)
+        USERNAME_ARG="${ARGS[i+1]}"
         ;;
     esac
   done
@@ -244,8 +270,16 @@ printMavenProfileOption() {
   addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is ${DEFAULT_MAVEN_PROFILE} if not specified"
 }
 
+printPasswordArgOption() {
+  addHelpOption "-p" "password"
+}
+
 printTomcatPortOption() {
   addHelpOption "-p" "tomcat port. Default ${DEFAULT_TOMCAT_PORT}"
+}
+
+printUsernameArgOption() {
+  addHelpOption "-u" "username"
 }
 
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER

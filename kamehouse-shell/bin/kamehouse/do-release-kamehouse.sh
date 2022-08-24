@@ -233,15 +233,11 @@ setReleaseVersion() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${RELEASE_VERSION}" ]; then
-    log.error "Option -v version needs to be set"
-    printHelp
-    exitProcess 1
-  fi  
+  checkRequiredOption "-v" "${RELEASE_VERSION}"
 }
 
 printHelpOptions() {
-  addHelpOption "-v (9.99)" "Release version [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-v (9.99)" "Release version" "r"
 }
 
 main "$@"

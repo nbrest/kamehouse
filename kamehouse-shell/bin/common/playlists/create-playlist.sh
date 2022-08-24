@@ -88,15 +88,8 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${BASE_PATH}" ]; then
-    log.error "Option -b is required"
-    parseHelp
-  fi
-
-  if [ -z "${PLAYLIST_FULL_PATH}" ]; then
-    log.error "Option -n is required"
-    parseHelp
-  fi
+  checkRequiredOption "-b" "${BASE_PATH}"
+  checkRequiredOption "-n" "${PLAYLIST_FULL_PATH}"
 
   local PREFIX_PATH_END=${PREFIX_PATH: -1}
   if [ "${PREFIX_PATH_END}" != "/" ]; then
@@ -115,8 +108,8 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-b [basePath]" "base path to look for media files to add to the playlist[${COL_RED}required${COL_NORMAL}]"
-  addHelpOption "-n [name]" "full path of the playlist file to create. If only the filename is specified it will be created on the current directory [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-b [basePath]" "base path to look for media files to add to the playlist" "r"
+  addHelpOption "-n [name]" "full path of the playlist file to create. If only the filename is specified it will be created on the current directory" "r"
   addHelpOption "-p [prefixPath]" "prefix path to use on the playlist entries, followed by the paths after the basePath. If not specified, the file entries will have paths relative to the basePath, so the m3u file needs to be on the root of the basePath for the media player to load the files properly. Ej. -p \"D:/Downloads/videos\""
   addHelpOption "-w" "convert all paths to windows style '\\' instead of the default '/'"
 }

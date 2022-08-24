@@ -51,7 +51,22 @@ fi
 addHelpOption() {
   local OPTION=$1
   local DESCRIPTION=$2
+  local REQUIRED=$3
+  if [[ "${REQUIRED}" == "r" ]]; then
+    DESCRIPTION="${DESCRIPTION} [${COL_RED}required${COL_NORMAL}]"
+  fi
   echo -e "     ${COL_BLUE}${OPTION}${COL_NORMAL} ${DESCRIPTION}"
+}
+
+# Check if a required option is set
+checkRequiredOption() {
+  local OPTION_LETTER=$1
+  local OPTION_VALUE=$2
+  if [ -z "${OPTION_VALUE}" ]; then
+    log.error "Option ${OPTION_LETTER} is required"
+    printHelp
+    exitProcess 1
+  fi
 }
 
 # Exit the process with the status code specified as an argument

@@ -38,15 +38,11 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${FILE_ARG}" ]; then
-    log.error "Option -f file to transfer is required"
-    printHelp
-    exitProcess 1
-  fi  
+  checkRequiredOption "-f" "${FILE_ARG}"
 }
 
 printHelpOptions() {
-  addHelpOption "-f (file)" "file or folder to transfer to ${SCP_SERVER} [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-f (file)" "file or folder to transfer to ${SCP_SERVER}" "r"
 }
 
 main "$@"

@@ -66,7 +66,7 @@ function isAuthorizedUser($username, $password) {
   }
 
   $isAuthorizedUser = false;
-  $scriptArgs = $username . " " . $password;
+  $scriptArgs = "-u " . $username . " -p " . $password;
 
   if (isLinuxHost()) {
     /**

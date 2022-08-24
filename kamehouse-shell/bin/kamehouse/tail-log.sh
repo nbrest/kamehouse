@@ -238,11 +238,7 @@ setEnvFromArguments() {
   setEnvForDockerProfile
   setEnvForKameHouseServer
 
-  if [ -z "${FILE_ARG}" ]; then
-    log.error "Option -f file to tail is required"
-    printHelp
-    exitProcess 1
-  fi
+  checkRequiredOption "-f" "${FILE_ARG}"
 
   if [ -z "${LOG_LEVEL_ARG}" ]; then
     log.info "Log level not set. Using default ${COL_PURPLE}${DEFAULT_LOG_LEVEL}"
@@ -251,7 +247,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f (apache|apache-error|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-f (apache|apache-error|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail" "r"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   printDockerProfileOption

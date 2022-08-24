@@ -88,18 +88,14 @@ setDelay() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${DELAY}" ]; then
-    log.error "Option -t is not set and is required"
-    printHelp
-    exitProcess 1
-  fi  
+  checkRequiredOption "-t" "${DELAY}"
 }
 
 printHelpOptions() {
   addHelpOption "-i" "hibernate"
   addHelpOption "-r" "restart"
   addHelpOption "-s" "shutdown"
-  addHelpOption "-t 999" "number of MINUTES to delay shutdown [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-t 999" "number of MINUTES to delay shutdown" "r"
 }
 
 main "$@"

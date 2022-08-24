@@ -118,16 +118,12 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${SCRIPT}" ]; then
-    log.error "Option -s script is required"
-    printHelp
-    exitProcess 1
-  fi
+  checkRequiredOption "-s" "${SCRIPT}"
 }
 
 printHelpOptions() {
   addHelpOption "-a (args)" "script args"
-  addHelpOption "-s (script)" "script to execute [${COL_RED}required${COL_NORMAL}]"
+  addHelpOption "-s (script)" "script to execute" "r"
   addHelpOption "-x" "execute the specified script on the docker host, when control host is enabled"
 }
 

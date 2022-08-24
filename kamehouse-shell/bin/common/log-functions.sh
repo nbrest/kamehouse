@@ -17,6 +17,9 @@ LOG_LEVEL_NUMBER=2
 # I change the color of some words in the log entry.
 COL_DEFAULT_LOG=${COL_GREEN}
 
+# Set to false to skip logging cmd args at start and end of script execution
+LOG_CMD_ARGS=true
+
 # Log an event to the console passing log level and the message as arguments.
 # DON'T use this function directly. Use log.info, log.debug, log.warn, log.error, log.trace functions
 log() {
@@ -90,12 +93,20 @@ log.error() {
 
 # Log standard start of the script
 logStart() {
-  log.info "Started executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG}"
+  if ${LOG_CMD_ARGS}; then
+    log.info "Started executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG}"
+  else
+    log.info "Started executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG}"
+  fi
 }
 
 # Log standard finish of process
 logFinish() {
-  log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} successfully."
+  if ${LOG_CMD_ARGS}; then
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} successfully"
+  else
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} successfully"
+  fi
 }
 
 # Get the current log level number
