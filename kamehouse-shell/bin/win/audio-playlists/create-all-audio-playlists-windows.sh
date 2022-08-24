@@ -14,7 +14,7 @@ fi
 
 ITUNES_EXPORT_JAR="/d/niko9enzo/programs/Itunes/iTunesExportScala/itunesexport.jar"
 
-main() {
+mainProcess() {
   log.warn "********************************************************************************"
   log.warn "RE GENERATE THE ITUNES LIBRARY XML FROM ITUNES BEFORE RUNNING THIS SCRIPT"
   log.warn "********************************************************************************"
