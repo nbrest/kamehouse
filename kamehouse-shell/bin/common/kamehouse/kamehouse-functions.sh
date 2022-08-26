@@ -345,20 +345,6 @@ executeOperationInTomcatManager() {
   done
 }
 
-# Get the ip address of the host running kamehouse in a docker container
-getKameHouseDockerHostIp() {
-  local DOCKER_HOST_SUBNET=$1
-  if [ -z "${DOCKER_HOST_SUBNET}" ]; then
-    DOCKER_HOST_SUBNET=${DOCKER_HOST_DEFAULT_SUBNET}
-  fi
-
-  if ${IS_LINUX_HOST}; then
-    echo `ifconfig docker0 | grep -e "${DOCKER_HOST_SUBNET}" | grep "inet" | awk '{print $2}'`
-  else
-    echo `ipconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "IPv4" | awk '{print $14}'`
-  fi
-}
-
 # Loads the environment variables set when running in a docker container
 # Look at the docker-init script to see what variables are set in the container env
 loadDockerContainerEnv() {

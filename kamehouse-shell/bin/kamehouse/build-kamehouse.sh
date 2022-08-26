@@ -33,7 +33,15 @@ buildProject() {
   log.info "Building ${COL_PURPLE}kamehouse${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   
   exportGitCommitHash
+  buildMavenCommand
+  executeMavenCommand
 
+  if [[ "${BUILD_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
+    buildMobile
+  fi
+}
+
+buildMavenCommand() {
   MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
 
   if ${SKIP_TESTS}; then
@@ -65,14 +73,12 @@ buildProject() {
   else
     log.info "Building all modules"
   fi
+}
 
+executeMavenCommand() {
   log.info "Executing command: '${MAVEN_COMMAND}'"
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building kamehouse"
-
-  if [[ "${BUILD_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    buildMobile
-  fi
 }
 
 buildMobile() {

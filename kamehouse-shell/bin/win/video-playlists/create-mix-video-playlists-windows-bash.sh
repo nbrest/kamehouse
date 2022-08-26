@@ -13,13 +13,13 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  DefineVariables
-  CreatePlaylists
+  defineVariables
+  createPlaylists
   
   wait
 }
 
-CreatePlaylists() {
+createPlaylists() {
   createCtDbzSaintSeiyaPoTMix & 
   createDbzSaintSeiyaMix &
   createDbzSaintSeiyaMoviesMix &
@@ -48,7 +48,7 @@ CreatePlaylists() {
   createAnimeBestDcComicsMarvelComicsMix
 }
 
-DefineVariables() {
+defineVariables() {
   #########################
   ### Root Playlists Paths
   #########################

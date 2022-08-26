@@ -22,10 +22,10 @@ mainProcess() {
 }
 
 printEnv() {
-  log.info "Using prefix path : ${COL_PURPLE}${PREFIX_PATH}"
-  log.info "Using base path : ${COL_PURPLE}${BASE_PATH}"
-  log.info "Saving playlist to : ${COL_PURPLE}${PLAYLIST_FULL_PATH}"
-  log.debug "USE_WINDOWS_PATHS : ${COL_PURPLE}${USE_WINDOWS_PATHS}"
+  log.info "Using prefix path: ${COL_PURPLE}${PREFIX_PATH}"
+  log.info "Using base path: ${COL_PURPLE}${BASE_PATH}"
+  log.info "Saving playlist to: ${COL_PURPLE}${PLAYLIST_FULL_PATH}"
+  log.debug "USE_WINDOWS_PATHS: ${COL_PURPLE}${USE_WINDOWS_PATHS}"
 }
 
 createPlaylist() {

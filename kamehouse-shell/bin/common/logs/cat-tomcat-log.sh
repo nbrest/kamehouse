@@ -14,7 +14,7 @@ if [ "$?" != "0" ]; then
 fi
 
 catLogFunction() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tail-log.sh -f tomcat -q -n 2000
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tail-log.sh -f tomcat -q -n 4000
 }
 
 main "$@"

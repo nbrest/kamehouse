@@ -23,6 +23,20 @@ DOCKER_IMAGE_TAG=""
 DOCKER_HOST_DEFAULT_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
 #DOCKER_HOST_DEFAULT_SUBNET="192\.168\.56\.[0-9]\+"
 
+# Get the ip address of the host running kamehouse in a docker container
+getKameHouseDockerHostIp() {
+  local DOCKER_HOST_SUBNET=$1
+  if [ -z "${DOCKER_HOST_SUBNET}" ]; then
+    DOCKER_HOST_SUBNET=${DOCKER_HOST_DEFAULT_SUBNET}
+  fi
+
+  if ${IS_LINUX_HOST}; then
+    echo `ifconfig docker0 | grep -e "${DOCKER_HOST_SUBNET}" | grep "inet" | awk '{print $2}'`
+  else
+    echo `ipconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "IPv4" | awk '{print $14}'`
+  fi
+}
+
 parseDockerOs() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do

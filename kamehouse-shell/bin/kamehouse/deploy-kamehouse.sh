@@ -45,7 +45,7 @@ mainProcess() {
   else
     # Execute remote deployment
     setSshParameters
-    executeSshCommand       
+    executeSshCommand
   fi
 }
 
@@ -144,7 +144,15 @@ buildProject() {
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   
   exportGitCommitHash
+  buildMavenCommand
+  executeMavenCommand
+  
+  if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
+    buildMobile
+  fi
+}
 
+buildMavenCommand() {
   MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
   
   if ${EXTENDED_DEPLOYMENT}; then
@@ -159,14 +167,12 @@ buildProject() {
   else
     log.info "Building all modules"
   fi
-  
+}
+
+executeMavenCommand() {
   log.info "${MAVEN_COMMAND}"
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
-
-  if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    buildMobile
-  fi
 }
 
 buildMobile() {
