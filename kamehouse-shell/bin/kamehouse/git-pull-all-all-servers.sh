@@ -24,7 +24,7 @@ gitPullAllAllServers() {
   gitPullAll "niko-server-vm-ubuntu" "12080" "lin" "true" "false" &
 
   # pi
-  gitPullAll "pi" "80" "lin" "false" "true" &
+  gitPullAll "pi" "443" "lin" "false" "true" &
 
   # niko-nba
   gitPullAll "niko-nba" "80" "win" "false" "false" &

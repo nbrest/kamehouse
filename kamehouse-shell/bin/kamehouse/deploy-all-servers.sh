@@ -31,7 +31,7 @@ deployInAllServers() {
   deployInServer "niko-server-vm-ubuntu" "12080" "lin" "true" "false" &
 
   # pi
-  deployInServer "pi" "80" "lin" "false" "true" &
+  deployInServer "pi" "443" "lin" "false" "true" &
   
   # niko-nba
   deployInServer "niko-nba" "80" "win" "false" "false" &
