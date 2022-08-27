@@ -16,10 +16,6 @@ The few APIs of GRoot are built with PHP so the apache httpd server needs to hav
 To install copy `public/kame-house-groot` to the apache httpd serving directory. 
 Also copy `public/index.html` to the root of the web server directory to redirect to `/kame-house` from `/`
 
-Building the project with `build-kamehouse.sh -m groot` creates a zip file with everything in `kamehouse-groot/target/kamehouse-groot-bundle.zip`. 
-This zip can be extracted to the directory where the files are served in an apache httpd server.
-It also includes the root `/index.html` to redirect to `/kame-house`
-
 # Edit users:
 
 - KameHouse GRoot runs in apache httpd. The users are authenticated using a .htpassword file as the source located at the root of the webserver
