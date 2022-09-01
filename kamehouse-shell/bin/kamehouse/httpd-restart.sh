@@ -28,6 +28,7 @@ mainProcess() {
     ${HOME}/programs/kamehouse-shell/bin/win/kamehouse/httpd-stop.sh
   fi
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd-startup.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd-status.sh
 }
 
 main "$@"
