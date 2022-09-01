@@ -27,8 +27,14 @@ mainProcess() {
   else
     ${HOME}/programs/kamehouse-shell/bin/win/kamehouse/httpd-stop.sh
   fi
+  
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd-startup.sh
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd-status.sh
+
+  if ${IS_LINUX_HOST}; then
+    ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/httpd-status.sh
+  else
+    ${HOME}/programs/kamehouse-shell/bin/win/kamehouse/httpd-status.sh
+  fi
 }
 
 main "$@"
