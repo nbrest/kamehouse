@@ -15,11 +15,22 @@ COL_MESSAGE=${COL_GREEN}
 
 # KAMEHOUSE_USER gets set during install kamehouse-shell
 KAMEHOUSE_USER=""
-LOG_FILE=/home/${KAMEHOUSE_USER}/logs/rc-local.log
+LOG_FILE=/root/rc-local.log
+LOGS_DIR=/home/${KAMEHOUSE_USER}/logs
+FINAL_LOG_FILE=${LOGS_DIR}/rc-local.log
 
 main() {
   log.info "Starting rc-local.sh" > ${LOG_FILE}
-  
+  checkEnv
+  setupTmpfs
+  disableSwap
+  startTomcat
+  backupServer
+  moveLogFile
+}
+
+checkEnv() {
+  log.info "Checking environment"
   if (( $EUID != 0 )); then
     # User not root
     exitWithError "User not root. This script can only be executed as root"
@@ -29,26 +40,39 @@ main() {
     exitWithError "KAMEHOUSE_USER not set. Re run kamehouse-shell install script as non-root user"
   fi
 
+  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}"
+}
+
+setupTmpfs() {
   log.info "Setup tmpfs" >> ${LOG_FILE}
   /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/pi/startup/setup-tmpfs.sh
+}
 
+startTomcat() {
   log.info "Starting tomcat" >> ${LOG_FILE}
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh
+}
 
+backupServer() {
   log.info "Backing up server" >> ${LOG_FILE}
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/lin/backup/backup-server.sh
+}
 
+disableSwap() {
   log.info "Disabling swap" >> ${LOG_FILE}
   /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/pi/startup/disable-swap.sh
+}
 
-  #log.info "Starting no-ip client" >> ${LOG_FILE}
-  #/usr/local/bin/noip2
-  # this doesn't work. so scheduled through root cron to run every 15 mins to make sure the process keeps running
-
-  log.info "Changing permissions to log file"
-  chown ${KAMEHOUSE_USER}:users ${LOG_FILE}
-
-  log.info "Finished rc-local.sh" >> ${LOG_FILE}
+moveLogFile() {
+  log.info "Moving ${LOG_FILE} file to ${FINAL_LOG_FILE}"
+  if [ -d "${LOGS_DIR}" ]; then
+    log.info "Finished rc-local.sh" >> ${LOG_FILE}
+    mv ${LOG_FILE} ${FINAL_LOG_FILE}
+    chown ${KAMEHOUSE_USER}:users ${FINAL_LOG_FILE}
+  else
+    log.info "ERROR: ${LOGS_DIR} doesn't exist"
+    log.info "Finished rc-local.sh" >> ${LOG_FILE}
+  fi
 }
 
 log.info() {
