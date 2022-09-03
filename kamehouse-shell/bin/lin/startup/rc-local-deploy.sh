@@ -16,6 +16,8 @@ mainProcess() {
   sudo chmod 664 /etc/systemd/system/rc-local.service
   sudo systemctl daemon-reload
   sudo systemctl enable rc-local.service
+  log.info "/etc/systemd/system/rc-local.service"
+  cat /etc/systemd/system/rc-local.service
 }
 
 main "$@"
