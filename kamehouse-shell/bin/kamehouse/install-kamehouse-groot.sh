@@ -30,6 +30,8 @@ createApacheHttpdUserSymLink() {
   ln -s /home/${KAMEHOUSE_USER}/programs /var/www
   mkdir -p /var/www/logs
   chmod a+rwx /var/www/logs
+  chmod a+rx /home/${KAMEHOUSE_USER}
+  chmod a+rx /home/${KAMEHOUSE_USER}/programs
 }
 
 log.info() {
