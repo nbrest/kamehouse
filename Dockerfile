@@ -139,7 +139,7 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/dock
 
 # Open mysqldb to external connections and intial dump of mysql data
 RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
-  service mysql start ; \
+  service mariadb start ; \
   sleep 5 ; \
   mysql < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
