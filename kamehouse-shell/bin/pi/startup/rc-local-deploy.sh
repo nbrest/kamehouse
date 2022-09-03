@@ -18,6 +18,7 @@ mainProcess() {
   sudo systemctl enable rc-local.service
   log.info "/etc/systemd/system/rc-local.service"
   cat /etc/systemd/system/rc-local.service
+  echo ""  
 }
 
 main "$@"
