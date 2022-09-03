@@ -88,11 +88,17 @@ installCred() {
 updateUsername() {
   local USERNAME=`whoami`
   log.info "Updating username in kamehouse-shell scripts to ${COL_PURPLE}${USERNAME}"
+
   sed -i "s#USERNAME=\"\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-username.sh"
   sed -i "s#USERHOME_LIN=\"/home/\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
-  sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
-  sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.sh"
+
   sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/kamehouse/kamehouse-functions.sh"
+
+  sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
+  sed -i "s#KAMEHOUSE_USER#${USERNAME}#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.service"
+
+  sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.sh"
+  sed -i "s#KAMEHOUSE_USER#${USERNAME}#g" "${KAMEHOUSE_SHELL_PATH}/bin/pi/startup/rc-local.service"
 }
 
 updateBashRc() {

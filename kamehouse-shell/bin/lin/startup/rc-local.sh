@@ -19,7 +19,15 @@ LOG_FILE=/home/${KAMEHOUSE_USER}/logs/rc-local.log
 
 main() {
   log.info "Starting rc-local.sh" > ${LOG_FILE}
+  checkEnv
+  startTomcat
+  backupServer
+  setPermissions
+  log.info "Finished rc-local.sh" >> ${LOG_FILE}
+}
 
+checkEnv() {
+  log.info "Checking environment"
   if (( $EUID != 0 )); then
     # User not root
     exitWithError "User not root. This script can only be executed as root"
@@ -29,16 +37,22 @@ main() {
     exitWithError "KAMEHOUSE_USER not set. Re run kamehouse-shell install script as non-root user"
   fi
 
+  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}"
+}
+
+startTomcat() {
   log.info "Starting tomcat" >> ${LOG_FILE}
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh
+}
 
+backupServer() {
   log.info "Backing up server" >> ${LOG_FILE}
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/lin/backup/backup-server.sh
+}
 
+setPermissions() {
   log.info "Changing permissions to log file"
   chown ${KAMEHOUSE_USER}:users ${LOG_FILE}
-  
-  log.info "Finished rc-local.sh" >> ${LOG_FILE}
 }
 
 log.info() {
@@ -56,7 +70,7 @@ log.error() {
 exitWithError() {
   local ERROR_MESSAGE=$1
   log.error "${ERROR_MESSAGE}"
-  log.error "${ERROR_MESSAGE}" >> /root/rc-local.log
+  log.error "${ERROR_MESSAGE}" >> ${LOG_FILE}
   exit 1
 }
 
