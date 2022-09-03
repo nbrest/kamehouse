@@ -30,7 +30,7 @@ main() {
 }
 
 checkEnv() {
-  log.info "Checking environment"
+  log.info "Checking environment" >> ${LOG_FILE}
   if (( $EUID != 0 )); then
     # User not root
     exitWithError "User not root. This script can only be executed as root"
@@ -40,7 +40,7 @@ checkEnv() {
     exitWithError "KAMEHOUSE_USER not set. Re run kamehouse-shell install script as non-root user"
   fi
 
-  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}"
+  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}" >> ${LOG_FILE}
 }
 
 setupTmpfs() {
@@ -64,13 +64,13 @@ disableSwap() {
 }
 
 moveLogFile() {
-  log.info "Moving ${LOG_FILE} file to ${FINAL_LOG_FILE}"
+  log.info "Moving ${LOG_FILE} file to ${FINAL_LOG_FILE}" >> ${LOG_FILE}
   if [ -d "${LOGS_DIR}" ]; then
     log.info "Finished rc-local.sh" >> ${LOG_FILE}
     mv ${LOG_FILE} ${FINAL_LOG_FILE}
     chown ${KAMEHOUSE_USER}:users ${FINAL_LOG_FILE}
   else
-    log.info "ERROR: ${LOGS_DIR} doesn't exist"
+    log.info "ERROR: ${LOGS_DIR} doesn't exist" >> ${LOG_FILE}
     log.info "Finished rc-local.sh" >> ${LOG_FILE}
   fi
 }
@@ -90,7 +90,7 @@ log.error() {
 exitWithError() {
   local ERROR_MESSAGE=$1
   log.error "${ERROR_MESSAGE}"
-  log.error "${ERROR_MESSAGE}" >> /root/rc-local.log
+  log.error "${ERROR_MESSAGE}" >> ${LOG_FILE}
   exit 1
 }
 

@@ -27,7 +27,7 @@ main() {
 }
 
 checkEnv() {
-  log.info "Checking environment"
+  log.info "Checking environment" >> ${LOG_FILE}
   if (( $EUID != 0 )); then
     # User not root
     exitWithError "User not root. This script can only be executed as root"
@@ -37,7 +37,7 @@ checkEnv() {
     exitWithError "KAMEHOUSE_USER not set. Re run kamehouse-shell install script as non-root user"
   fi
 
-  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}"
+  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}" >> ${LOG_FILE}
 }
 
 startTomcat() {
@@ -51,7 +51,7 @@ backupServer() {
 }
 
 setPermissions() {
-  log.info "Changing permissions to log file"
+  log.info "Changing permissions to log file" >> ${LOG_FILE}
   chown ${KAMEHOUSE_USER}:users ${LOG_FILE}
 }
 
