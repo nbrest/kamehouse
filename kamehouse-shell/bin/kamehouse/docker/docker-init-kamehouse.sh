@@ -174,8 +174,8 @@ restartSshService() {
 }
 
 startMysql() {
-  log.info "Starting mysql"
-  service mysql start
+  log.info "Starting mysql/mariadb"
+  service mariadb start
 }
 
 startHttpd() {
