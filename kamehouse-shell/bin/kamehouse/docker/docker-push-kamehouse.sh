@@ -20,8 +20,6 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-DOCKER_IMAGE_TAG="latest"
-
 mainProcess() {
   log.info "Pushing docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
   log.debug "docker push nbrest/kamehouse:${DOCKER_IMAGE_TAG}"

@@ -16,8 +16,9 @@ DEFAULT_DOCKER_OS="ubuntu"
 DOCKER_ENVIRONMENT="${DEFAULT_DOCKER_OS}"
 
 DOCKER_COMMAND=""
-DOCKER_IMAGE_BASE=""
-DOCKER_IMAGE_TAG=""
+# When I update the base image here also update docker-setup.md
+DOCKER_IMAGE_BASE="ubuntu:22.04"
+DOCKER_IMAGE_TAG="latest"
 
 # This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
 DOCKER_HOST_DEFAULT_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
