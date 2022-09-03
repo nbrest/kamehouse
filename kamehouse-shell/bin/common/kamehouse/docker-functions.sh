@@ -70,7 +70,7 @@ setEnvForDockerOs() {
 
   if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
     DOCKER_COMMAND="docker run --privileged --rm"
-    DOCKER_IMAGE_BASE="arm32v7/ubuntu:20.04"
+    DOCKER_IMAGE_BASE="arm32v7/ubuntu:22.04"
     DOCKER_IMAGE_TAG="latest-pi"
   fi  
 }
