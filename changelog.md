@@ -2,6 +2,7 @@
 
 #### v7.08
 
+* Updated docker image base to Ubuntu 22.04
 * Added generic functionality to parse required command line arguments in shell
 * Added option to skip logging command line arguments in shell
 * Added option to filter lines with untagged log level on tail log shell and groot
