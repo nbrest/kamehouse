@@ -528,6 +528,17 @@ hr {
   }
 }
 
+/** br only active on mobile to break the current line */
+.mobile-br-kh {
+  display: none !important;
+}
+
+@media (max-width : 900px) {
+  .mobile-br-kh {
+    display: block !important;
+  }
+}
+
 /** Set margins -t top -b bottom -l left -r right | -d desktop -m mobile */
 /** margin auto */
 .m-auto-d-kh {
