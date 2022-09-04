@@ -3,9 +3,16 @@
 #### v7.08
 
 * Updated docker image base to Ubuntu 22.04
+* Added restart httpd script
+* Updated groot home page links
+* Refactored rc-local scripts
+* Fixed deploy to all servers script
+* Updated mobile module styles
+* Added more scripts to tail log groot
 * Added generic functionality to parse required command line arguments in shell
 * Added option to skip logging command line arguments in shell
 * Added option to filter lines with untagged log level on tail log shell and groot
+* Fixed server management page mobile layout bugs
 * Fixed bugs
 
 #### v7.07
