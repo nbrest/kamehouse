@@ -64,6 +64,9 @@ setPermissions() {
 
   chown pi:users -R /var/log/home/pi
   chown pi:users -R /tmp/home/pi
+
+  touch /var/log/btmp
+  chmod 0600 /var/log/btmp
 }
 
 log.info() {
