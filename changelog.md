@@ -3,6 +3,7 @@
 #### v7.08
 
 * Updated docker image base to Ubuntu 22.04
+* Updated error pages styles. Added background image
 * Added restart httpd script
 * Updated groot home page links
 * Refactored rc-local scripts
