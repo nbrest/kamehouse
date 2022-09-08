@@ -1910,6 +1910,25 @@
   }
 }
 
+.banner-error-401 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-4.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-401 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-401 {
+    background-position-x: -130px;
+  }
+}
+
 .banner-error-403 {
   background: url(/kame-house/img/banners/dragonball/banner-goku-ssj1.jpg) 0 0;
   background-size: cover !important;

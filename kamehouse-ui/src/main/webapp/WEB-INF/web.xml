@@ -34,6 +34,11 @@
 	</error-page>
 
 	<error-page>
+		<error-code>401</error-code>
+		<location>/error/401.html</location>
+	</error-page>
+
+	<error-page>
 		<error-code>403</error-code>
 		<location>/error/403.html</location>
 	</error-page>

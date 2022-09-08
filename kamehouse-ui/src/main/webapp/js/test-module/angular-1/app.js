@@ -21,6 +21,9 @@ App.config(function($routeProvider, $locationProvider) {
     .when("/400", {
       templateUrl: "/kame-house/test-module/angular-1/view/400.html"
     })
+    .when("/401", {
+      templateUrl: "/kame-house/test-module/angular-1/view/401.html"
+    })
     .when("/403", {
       templateUrl: "/kame-house/test-module/angular-1/view/403.html"
     })

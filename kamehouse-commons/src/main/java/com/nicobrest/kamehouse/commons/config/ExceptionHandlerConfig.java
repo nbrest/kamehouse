@@ -36,6 +36,7 @@ public class ExceptionHandlerConfig {
         "org.springframework.security.core.userdetails.UsernameNotFoundException", ERROR_404);
     Properties statusCodes = new Properties();
     statusCodes.setProperty(ERROR_400, "400");
+    statusCodes.setProperty("/error/401", "401");
     statusCodes.setProperty("/error/403", "403");
     statusCodes.setProperty(ERROR_404, "404");
     statusCodes.setProperty("/error/405", "405");
