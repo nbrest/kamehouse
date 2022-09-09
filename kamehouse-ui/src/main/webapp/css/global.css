@@ -39,13 +39,33 @@
   color: #000000;
   font-size: 30px !important; 
   font-weight: bolder;
-  text-shadow: -2px 0 #C0C0C0, 0 2px #C0C0C0, 2px 0 #C0C0C0, 0 -2px #C0C0C0;
+  text-shadow: -1px 0 #939393, 0 1px #939393, 1px 0 #939393, 0 -1px #939393;
+  margin-top: 35px;
 }
 
 @media (max-width : 900px) {
   .banner-p-error {
     font-size: 20px !important; 
     margin: auto;
+    margin-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+.banner-p-error-light {
+  color: #c0c0c0;
+  font-size: 30px !important; 
+  font-weight: bolder;
+  text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+  margin-top: 35px;
+}
+
+@media (max-width : 900px) {
+  .banner-p-error-light {
+    font-size: 20px !important; 
+    margin: auto;
+    margin-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
   }
