@@ -23,6 +23,18 @@
   }
 }
 
+.banner-text-error {
+  color: #000000;
+  text-shadow: -2px 0 #C0C0C0, 0 2px #C0C0C0, 2px 0 #C0C0C0, 0 -2px #C0C0C0;
+  font-size: 70px !important; 
+}
+
+@media (max-width : 900px) {
+  .banner-text-error {
+    font-size: 40px !important; 
+  }
+}
+
 #banner h1 {
   margin-top: 250px;
   font-size: 55px;
@@ -305,6 +317,27 @@ body {
 
   100% {
     opacity: 0.4;
+    transform: scale(1.1);
+  }
+}
+
+.fade-04o-10s {
+  animation: fade-04 10s infinite linear;
+}
+
+@keyframes fade-04 {
+  0% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  50% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 1;
     transform: scale(1.1);
   }
 }
