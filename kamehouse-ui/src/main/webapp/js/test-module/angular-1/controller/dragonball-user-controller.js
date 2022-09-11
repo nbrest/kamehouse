@@ -22,7 +22,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     stamina : 0
   };
   this.users = [];
-  
+
   // Fetch dragonBallUsers from backend
   fetchAllDragonBallUsers();
 
@@ -34,7 +34,12 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         (data) => self.users = data,
         (errResponse) => {
-          console.error('Error while fetching DragonBallUsers');
+          let errorMessage = 'Error while fetching DragonBallUsers';
+          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
+            errorMessage = errorMessage + " : " + errResponse.data.message;
+          }
+          console.error(errorMessage);
+          basicKamehouseModal.open(errorMessage);
           redirectToErrorPage(errResponse.status);
         }
     );
@@ -48,7 +53,12 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         () => fetchAllDragonBallUsers(),
         (errResponse) => {
-          console.error('Error while creating DragonBallUser');
+          let errorMessage = 'Error while creating DragonBallUser';
+          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
+            errorMessage = errorMessage + " : " + errResponse.data.message;
+          }
+          console.error(errorMessage);
+          basicKamehouseModal.open(errorMessage);
           redirectToErrorPage(errResponse.status);
         }
     );
@@ -62,7 +72,12 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         () => fetchAllDragonBallUsers(),
         (errResponse) => {
-          console.error('Error while updating DragonBallUser');
+          let errorMessage = 'Error while updating DragonBallUser';
+          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
+            errorMessage = errorMessage + " : " + errResponse.data.message;
+          }
+          console.error(errorMessage);
+          basicKamehouseModal.open(errorMessage);
           redirectToErrorPage(errResponse.status);
         }
     );
@@ -76,7 +91,12 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         () => fetchAllDragonBallUsers(),
         (errResponse) => {
-          console.error('Error while deleting DragonBallUser');
+          let errorMessage = 'Error while deleting DragonBallUser';
+          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
+            errorMessage = errorMessage + " : " + errResponse.data.message;
+          }
+          console.error(errorMessage);
+          basicKamehouseModal.open(errorMessage);
           redirectToErrorPage(errResponse.status);
         }
     );
