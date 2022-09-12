@@ -21,3 +21,13 @@
 .email.ng-dirty.ng-invalid-email {
   border: 2px solid #808001;
 }
+
+.go-back-btn-kh {
+  cursor: pointer;
+  outline: none;
+  color: #6b6b6b;
+  font-weight: bold;
+  background-color: #1a1a1a;
+  border: 1px solid #383838;
+  width: 60%;
+}

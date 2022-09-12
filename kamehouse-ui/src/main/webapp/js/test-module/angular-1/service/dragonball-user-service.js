@@ -26,7 +26,6 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
       .then(
         (response) => deferred.resolve(response.data),
         (errResponse) => {
-          console.error('Error while fetching all DragonBallUsers');
           deferred.reject(errResponse);
         }
     );
@@ -43,7 +42,6 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
       .then(
         (response) => deferred.resolve(response.data),
         (errResponse) => {
-          console.error('Error while creating DragonBallUser');
           deferred.reject(errResponse);
         }
     );
@@ -60,7 +58,6 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
       .then(
         (response) => deferred.resolve(response.data),
         (errResponse) => {
-          console.error('Error while updating DragonBallUser');
           deferred.reject(errResponse);
         }
     );
@@ -77,7 +74,6 @@ angular.module('myApp').service('dragonBallUserService', [ '$http', '$q', functi
       .then(
         (response) => deferred.resolve(response.data),
         (errResponse) => {
-          console.error('Error while deleting DragonBallUser');
           deferred.reject(errResponse);
         }
     );

@@ -34,13 +34,8 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         (data) => self.users = data,
         (errResponse) => {
-          let errorMessage = 'Error while fetching DragonBallUsers';
-          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
-            errorMessage = errorMessage + " : " + errResponse.data.message;
-          }
-          console.error(errorMessage);
-          basicKamehouseModal.open(errorMessage);
-          redirectToErrorPage(errResponse.status);
+          const errorMessage = 'Error while fetching DragonBallUsers';
+          handleApiErrorResponse(errorMessage, errResponse);
         }
     );
   }
@@ -53,13 +48,8 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         () => fetchAllDragonBallUsers(),
         (errResponse) => {
-          let errorMessage = 'Error while creating DragonBallUser';
-          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
-            errorMessage = errorMessage + " : " + errResponse.data.message;
-          }
-          console.error(errorMessage);
-          basicKamehouseModal.open(errorMessage);
-          redirectToErrorPage(errResponse.status);
+          const errorMessage = 'Error while creating DragonBallUser';
+          handleApiErrorResponse(errorMessage, errResponse);
         }
     );
   }
@@ -72,13 +62,8 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         () => fetchAllDragonBallUsers(),
         (errResponse) => {
-          let errorMessage = 'Error while updating DragonBallUser';
-          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
-            errorMessage = errorMessage + " : " + errResponse.data.message;
-          }
-          console.error(errorMessage);
-          basicKamehouseModal.open(errorMessage);
-          redirectToErrorPage(errResponse.status);
+          const errorMessage = 'Error while updating DragonBallUser';
+          handleApiErrorResponse(errorMessage, errResponse);
         }
     );
   }
@@ -91,15 +76,24 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       .then(
         () => fetchAllDragonBallUsers(),
         (errResponse) => {
-          let errorMessage = 'Error while deleting DragonBallUser';
-          if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
-            errorMessage = errorMessage + " : " + errResponse.data.message;
-          }
-          console.error(errorMessage);
-          basicKamehouseModal.open(errorMessage);
-          redirectToErrorPage(errResponse.status);
+          const errorMessage = 'Error while deleting DragonBallUser';
+          handleApiErrorResponse(errorMessage, errResponse);
         }
     );
+  }
+
+  /** Display api error */
+  function handleApiErrorResponse(errorMessage, errResponse) {
+    if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
+      errorMessage = errorMessage + " : " + errResponse.data.message;
+    }
+    logger.error(errorMessage);
+    basicKamehouseModal.setHtml(errorMessage);
+    basicKamehouseModal.appendHtml(domUtils.getBr());
+    basicKamehouseModal.appendHtml(domUtils.getBr());
+    basicKamehouseModal.appendHtml(createBackButton());
+    basicKamehouseModal.open();
+    redirectToErrorPage(errResponse.status);
   }
 
   /**
@@ -118,7 +112,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Set the user to edit based on the id.
    */
   function edit(id) {
-    console.log('id to be edited', id);
+    logger.info('id to be edited: ' + id);
     for (const user of self.users) {
       if (user.id === id) {
         self.user = angular.copy(user);
@@ -165,5 +159,21 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       //domUtils.empty(mainContent);
       //domUtils.load(mainContent, '/kame-house/app/view/' + statusCode + '.html');
     }
+  }
+
+  /**
+   * Create a button to go back to the previous page.
+   */
+  function createBackButton() {
+    return domUtils.getButton({
+      attr: {
+        class: "btn go-back-btn-kh",
+      },
+      html: "Back",
+      click: () => { 
+        history.back(); 
+        basicKamehouseModal.close(); 
+      }
+    });
   }
 }]);
