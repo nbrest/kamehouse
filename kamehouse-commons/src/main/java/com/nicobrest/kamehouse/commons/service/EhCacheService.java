@@ -36,11 +36,7 @@ public class EhCacheService {
    */
   public ApplicationCache get(String cacheName) {
     logger.trace("get {}", cacheName);
-    CacheManager cacheManager = ehCacheManager.getCacheManager();
-    if (cacheManager == null) {
-      logger.error(CACHE_MANAGER_NULL);
-      throw new KameHouseServerErrorException(CACHE_MANAGER_NULL);
-    }
+    CacheManager cacheManager = getCacheManager();
     Cache cache = cacheManager.getCache(cacheName);
     ApplicationCache applicationCache = getCacheInformation(cache);
     logger.trace("get {} response {}", cacheName, applicationCache);
@@ -52,11 +48,7 @@ public class EhCacheService {
    */
   public List<ApplicationCache> getAll() {
     logger.trace("getAll");
-    CacheManager cacheManager = ehCacheManager.getCacheManager();
-    if (cacheManager == null) {
-      logger.error(CACHE_MANAGER_NULL);
-      throw new KameHouseServerErrorException(CACHE_MANAGER_NULL);
-    }
+    CacheManager cacheManager = getCacheManager();
     String[] cacheNames = cacheManager.getCacheNames();
     List<ApplicationCache> cacheList = new ArrayList<>();
     for (int i = 0; i < cacheNames.length; i++) {
@@ -74,19 +66,13 @@ public class EhCacheService {
    */
   public void clear(String cacheName) {
     logger.trace("clear {}", cacheName);
-    CacheManager cacheManager = ehCacheManager.getCacheManager();
-    if (cacheManager == null) {
-      logger.error(CACHE_MANAGER_NULL);
-      return;
-    }
+    CacheManager cacheManager = getCacheManager();
     Cache cache = cacheManager.getCache(cacheName);
     if (cache != null) {
       cache.removeAll();
       logger.trace("clear {} successfully", cacheName);
     } else {
-      if (logger.isWarnEnabled()) {
-        logger.warn("cache {} not found", sanitizeInput(cacheName));
-      }
+      logger.warn("cache {} not found", sanitizeInput(cacheName));
     }
   }
 
@@ -95,15 +81,23 @@ public class EhCacheService {
    */
   public void clearAll() {
     logger.trace("clearAll");
-    CacheManager cacheManager = ehCacheManager.getCacheManager();
-    if (cacheManager == null) {
-      logger.error(CACHE_MANAGER_NULL);
-      return;
-    }
+    CacheManager cacheManager = getCacheManager();
     String[] cacheNames = cacheManager.getCacheNames();
     for (int i = 0; i < cacheNames.length; i++) {
       clear(cacheNames[i]);
     }
+  }
+
+  /**
+   * Get the internal cache manager.
+   */
+  private CacheManager getCacheManager() {
+    CacheManager cacheManager = ehCacheManager.getCacheManager();
+    if (cacheManager == null) {
+      logger.error(CACHE_MANAGER_NULL);
+      throw new KameHouseServerErrorException(CACHE_MANAGER_NULL);
+    }
+    return cacheManager;
   }
 
   /**

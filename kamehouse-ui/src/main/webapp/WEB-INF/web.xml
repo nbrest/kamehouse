@@ -94,6 +94,11 @@
 	</error-page>
 
 	<error-page>
+		<exception-type>com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException</exception-type>
+		<location>/error/400.html</location>
+	</error-page>
+
+	<error-page>
 		<exception-type>com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException</exception-type>
 		<location>/error/404.html</location>
 	</error-page>

@@ -24,8 +24,8 @@ function DragonBallUserServiceJsp() {
     debuggerHttpClient.get(getUrl, 
       (responseBody, responseCode, responseDescription) => displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription) => {
-        alert("Error getting dragonball user");
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error getting dragonball user");
+        let errorMessage = 'Error getting dragonball user';
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
       }, null);
   }
 
@@ -35,7 +35,11 @@ function DragonBallUserServiceJsp() {
   function getAllDragonBallUsers() {
     debuggerHttpClient.get(SERVLET_SERVICE_URI, 
       (responseBody, responseCode, responseDescription) => displayDragonBallUsers(responseBody),
-      (responseBody, responseCode, responseDescription) => displayErrorGettingDragonBallUsers(),
+      (responseBody, responseCode, responseDescription) => {
+        const errorMessage = 'Error getting dragonball users from the backend';
+        displayErrorTable(errorMessage);
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
+      },
       null);
   }
 
@@ -54,8 +58,8 @@ function DragonBallUserServiceJsp() {
     debuggerHttpClient.postUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => { window.location.href = 'users-list'; },
       (responseBody, responseCode, responseDescription) => {
-        alert("Error adding dragonball user. Check console logs for more details");
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error adding dragonball user");
+        const errorMessage = 'Error adding dragonball user';
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
       });
   }
 
@@ -75,8 +79,8 @@ function DragonBallUserServiceJsp() {
     debuggerHttpClient.putUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
       (responseBody, responseCode, responseDescription) => {
-        alert("Error updating dragonball user. Check console logs for more details");
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error updating dragonball user");
+        const errorMessage = 'Error updating dragonball user';
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
       }, null);
   }
 
@@ -90,8 +94,25 @@ function DragonBallUserServiceJsp() {
 
     debuggerHttpClient.deleteUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => getAllDragonBallUsers(),
-      (responseBody, responseCode, responseDescription) => displayErrorDeletingDragonBallUser(), 
+      (responseBody, responseCode, responseDescription) => {
+        const errorMessage = 'Error deleting dragonball user';
+        displayErrorTable(errorMessage);
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
+      }, 
       null);
+  }
+  
+  /** Display api error */
+  function handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription) {
+    if (!isEmpty(responseBody)) {
+      try {
+        errorMessage = errorMessage + " : " + JSON.parse(responseBody).message;
+      } catch (e) {
+        logger.error("Error parsing response body");
+      } 
+    }
+    basicKamehouseModal.open(errorMessage);
+    logger.logApiError(responseBody, responseCode, responseDescription, errorMessage);
   }
 
   /**
@@ -116,20 +137,6 @@ function DragonBallUserServiceJsp() {
     for (const dragonballUser of dragonBallUsersList) {
       domUtils.append($dragonBallUsersTbody, getDragonBallUserTableRow(dragonballUser));
     }
-  }
-
-  /**
-   * Display dragonball users.
-   */
-  function displayErrorGettingDragonBallUsers() {
-    displayErrorTable("Error getting dragonball users from the backend");
-  }
-
-  /**
-   * Display dragonball users.
-   */
-  function displayErrorDeletingDragonBallUser() {
-    displayErrorTable("Error deleting dragonball user from the backend");
   }
 
   /**

@@ -270,9 +270,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
         return responseBody.toString();
       }
     } catch (IOException e) {
-      if (LOGGER.isTraceEnabled()) { // only log this ERROR when TRACE is enabled
-        LOGGER.error("Error executing request. Message: {}", e.getMessage());
-      }
+      LOGGER.error("Error executing request. Message: {}", e.getMessage());
       return null;
     }
   }

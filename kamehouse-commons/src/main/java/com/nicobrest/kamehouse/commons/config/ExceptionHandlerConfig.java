@@ -29,6 +29,8 @@ public class ExceptionHandlerConfig {
     exceptionMappings.setProperty(
         "com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException", ERROR_400);
     exceptionMappings.setProperty(
+        "com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException", ERROR_400);
+    exceptionMappings.setProperty(
         "com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException", ERROR_404);
     exceptionMappings.setProperty(
         "com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException", "/error/500");

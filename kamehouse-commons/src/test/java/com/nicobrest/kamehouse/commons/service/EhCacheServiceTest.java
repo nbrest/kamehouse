@@ -20,9 +20,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class EhCacheServiceTest {
 
-  @Autowired private EhCacheService ehCacheService;
+  @Autowired
+  private EhCacheService ehCacheService;
 
-  /** Tests retrieving all caches. */
+  /**
+   * Tests retrieving all caches.
+   */
   @Test
   public void readAllTest() {
     List<ApplicationCache> cacheList = ehCacheService.getAll();
@@ -30,7 +33,9 @@ public class EhCacheServiceTest {
     assertEquals(1, cacheList.size());
   }
 
-  /** Tests clearing all caches. Should fail if an exception clearing caches is thrown. */
+  /**
+   * Tests clearing all caches. Should fail if an exception clearing caches is thrown.
+   */
   @Test
   public void clearAllCachesTest() {
     List<String> emptyList = new ArrayList<>();
@@ -42,5 +47,13 @@ public class EhCacheServiceTest {
         assertEquals(emptyList, applicationCache.getValues());
       }
     }
+  }
+
+  /**
+   * Tests clearing an invalid cache. Should fail silently without throwing exception.
+   */
+  @Test
+  public void clearInvalidCacheTest() {
+    ehCacheService.clear("invalid-cache");
   }
 }

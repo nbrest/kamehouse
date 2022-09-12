@@ -62,5 +62,6 @@
   </div>
   <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
 </body>
 </html>
