@@ -60,7 +60,7 @@ function BasicKamehouseModal() {
     if (isEmpty(responseBody)) {
       responseBody = getEmptyResponseBodyText();
     }
-    modalUtils.openAutoCloseable(getErrorMessage(responseBody, responseCode, responseDescription), 7000);
+    modalUtils.open(getErrorMessage(responseBody, responseCode, responseDescription));
   }
 
   function getEmptyResponseBodyText() {
