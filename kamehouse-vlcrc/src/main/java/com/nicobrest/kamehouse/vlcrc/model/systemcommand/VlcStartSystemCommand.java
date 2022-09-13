@@ -4,7 +4,6 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandExceptio
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 
 /**
  * System command to start a vlc player with an optional file (or playlist) to play.

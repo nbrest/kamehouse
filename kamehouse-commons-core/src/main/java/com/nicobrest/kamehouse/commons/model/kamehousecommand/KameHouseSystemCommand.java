@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
