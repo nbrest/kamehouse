@@ -97,7 +97,7 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response) {
     try {
-      Long userId = Long.parseLong(getUrlDecodedParam(request, "id"));
+      Long userId = getLongUrlDecodedParam(request, "id");
       DragonBallUser deletedUser = getDragonBallUserService().delete(userId);
       setResponseBody(response, JsonUtils.toJsonString(deletedUser));
     } catch (KameHouseException e) {
@@ -109,7 +109,7 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
   private DragonBallUserDto getDtoFromRequest(HttpServletRequest request) {
     DragonBallUserDto dragonBallUserDto = new DragonBallUserDto();
     if (request.getParameter("id") != null) {
-      dragonBallUserDto.setId(Long.parseLong(getUrlDecodedParam(request, "id")));
+      dragonBallUserDto.setId(getLongUrlDecodedParam(request, "id"));
     }
     dragonBallUserDto.setUsername(getUrlDecodedParam(request, "username"));
     dragonBallUserDto.setEmail(getUrlDecodedParam(request, "email"));
@@ -118,4 +118,5 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
     dragonBallUserDto.setPowerLevel(Integer.parseInt(getUrlDecodedParam(request, "powerLevel")));
     return dragonBallUserDto;
   }
+
 }

@@ -44,11 +44,12 @@ public class AbstractKameHouseServletTest {
   public void doGetTest() throws ServletException, IOException {
     SampleKameHouseServlet sampleKameHouseServlet = new SampleKameHouseServlet();
     request.setParameter("my-param", "mada mada dane");
+    request.setParameter("my-long-param", "22");
 
     sampleKameHouseServlet.doGet(request, response);
 
     assertEquals(HttpStatus.OK.value(), response.getStatus());
-    assertEquals("mada mada dane", response.getContentAsString());
+    assertEquals("mada mada dane22", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 
@@ -174,7 +175,8 @@ public class AbstractKameHouseServletTest {
         throws ServletException, IOException {
       try {
         String myParam = getUrlDecodedParam(request, "my-param");
-        setResponseBody(response, myParam);
+        Long myLongParam = getLongUrlDecodedParam(request, "my-long-param");
+        setResponseBody(response, myParam + myLongParam);
       } catch (KameHouseException e) {
         handleKameHouseException(response, e);
       }

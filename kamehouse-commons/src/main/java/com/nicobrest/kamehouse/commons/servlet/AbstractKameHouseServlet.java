@@ -31,7 +31,9 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   private static final long serialVersionUID = 1L;
 
-  /** Write the response body. */
+  /**
+   * Write the response body.
+   */
   public void setResponseBody(HttpServletResponse response, String responseBody)
       throws KameHouseServerErrorException {
     try {
@@ -43,7 +45,9 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
     }
   }
 
-  /** Decode URL Encoded parameters. */
+  /**
+   * Decode URL Encoded parameter.
+   */
   public String getUrlDecodedParam(HttpServletRequest request, String paramName) {
     try {
       String value = request.getParameter(paramName);
@@ -57,6 +61,18 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
   }
 
   /**
+   * Decode Long url parameter.
+   */
+  public Long getLongUrlDecodedParam(HttpServletRequest request, String paramName) {
+    try {
+      String value = getUrlDecodedParam(request, paramName);
+      return Long.parseLong(value);
+    } catch (NumberFormatException e) {
+      throw new KameHouseBadRequestException("Error getting url parameter " + paramName, e);
+    }
+  }
+
+  /**
    * Set the response for kamehouse exceptions.
    */
   public void handleKameHouseException(HttpServletResponse response, KameHouseException exception) {
@@ -65,14 +81,18 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
     setErrorStatusCode(response, exception);
   }
 
-  /** Generate the response body to return on errors. */
+  /**
+   * Generate the response body to return on errors.
+   */
   private KameHouseGenericResponse generateErrorResponseBody(String message) {
     KameHouseGenericResponse kameHouseGenericResponse = new KameHouseGenericResponse();
     kameHouseGenericResponse.setMessage(message);
     return kameHouseGenericResponse;
   }
 
-  /** Set the response code for kamehouse exceptions. */
+  /**
+   * Set the response code for kamehouse exceptions.
+   */
   private void setErrorStatusCode(HttpServletResponse response, KameHouseException exception) {
     if (exception instanceof KameHouseBadRequestException) {
       response.setStatus(HttpStatus.BAD_REQUEST.value());
