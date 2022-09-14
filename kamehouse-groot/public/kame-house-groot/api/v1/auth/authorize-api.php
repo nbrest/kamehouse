@@ -32,6 +32,7 @@
       if (isAuthorizedUser($username, $password)) {
         return;
       } else {
+        logToErrorFile("Invalid username and password");
         exitWithError(401, "Invalid username and password");
       }
     }

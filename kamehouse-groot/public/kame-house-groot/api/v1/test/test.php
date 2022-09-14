@@ -14,6 +14,7 @@
   function main() {
     init();
   
+    logToErrorFile("Accessing test page");
     // print server info. ***** DON'T LEAVE THIS UNCOMMENTED *****
     // Gives a lot of info of the server
     echo "<h1>print server info</h1>";

@@ -50,10 +50,12 @@
     }
 
     if(!isValidInputForShell($script)) {
+      logToErrorFile("Script " . $script . " is invalid for shell execution");
       exitWithError(400, "script is invalid for shell execution");
     }
 
     if(!isValidInputForShell($scriptArgs)) {
+      logToErrorFile("Script arguments for script " . $script . " are invalid for shell execution");
       exitWithError(400, "scriptArgs is invalid for shell execution");
     }
     $shellCommand = buildShellCommand($script, $scriptArgs, $executeOnDockerHost);

@@ -148,6 +148,7 @@ function isValidInputForShell($param) {
  */
 function hasForbiddenCharSequenceForShell($param, $invalidCharSequence) {
   if (contains($param, $invalidCharSequence)) {
+    logToErrorFile("Input contains forbidden characters");
     return true;
   } else {
     return false;
@@ -198,5 +199,12 @@ function getDockerContainerEnvProperty($dockerContainerEnv, $propertyName) {
  */
 function getDockerContainerEnvBooleanProperty($dockerContainerEnv, $propertyName) {
   return getBoolean(getDockerContainerEnvProperty($dockerContainerEnv, $propertyName));
+}
+
+/**
+ * Log message to the apache error log file.
+ */
+function logToErrorFile($message) {
+  error_log($message, 0);
 }
 ?>

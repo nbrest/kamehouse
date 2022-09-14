@@ -13,6 +13,7 @@
 * Added generic functionality to parse required command line arguments in shell
 * Added option to skip logging command line arguments in shell
 * Added option to filter lines with untagged log level on tail log shell and groot
+* Added error logging to php apis
 * Fixed server management page mobile layout bugs
 * Fixed dragonball servlet error responses. Added abstract servlet to handle errors
 * Fixed jsp and angular 1 demo crud pages error handling

@@ -34,6 +34,7 @@ function isAuthorizationHeaderSet() {
   if (isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])) {
     return true;
   } else {
+    logToErrorFile("Authorization headers not set");
     return false;
   }
 }
@@ -58,10 +59,12 @@ function getPasswordFromAuthorizationHeader() {
  */
 function isAuthorizedUser($username, $password) {
   if(!isValidInputForShell($username)) {
+    logToErrorFile("Username '" . $username . "' has invalid characters for shell");
     return false;
   }
 
   if(!isValidInputForShell($password)) {
+    logToErrorFile("Password for username '" . $username . "' has invalid characters for shell");
     return false;
   }
 

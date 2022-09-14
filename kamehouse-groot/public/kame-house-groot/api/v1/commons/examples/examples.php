@@ -9,6 +9,7 @@
 
 /** Example isLinuxHost usage */
 function isLinuxHostExample() {
+  logToErrorFile("isLinuxHostExample");
   echo "isLinuxHostExample():<br>";
   if (isLinuxHost()) {
     echo "its a linux host. do linux host specific stuff";

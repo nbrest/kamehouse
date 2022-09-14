@@ -18,6 +18,7 @@
     init();
 
     if (!isset($_POST['username'], $_POST['password'])) {
+      logToErrorFile("Username or password not set");
       redirectLoginError();
     }
     
@@ -28,6 +29,7 @@
       initiateSession($username);
       redirectLoginSuccess();
     } else {
+      logToErrorFile("User '" . $username . "' is not authorized");
       redirectLoginError();
     } 
   }
