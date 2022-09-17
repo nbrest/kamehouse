@@ -71,6 +71,7 @@ function isAuthorizedUser($username, $password) {
   $isAuthorizedUser = false;
   $scriptArgs = "-u " . $username . " -p " . $password;
 
+  logToErrorFile("Started executing script kamehouse/kamehouse-groot-login.sh");
   if (isLinuxHost()) {
     /**
      * This requires to give permission to www-data to execute. Check API exec-script.php for more details.
@@ -80,6 +81,7 @@ function isAuthorizedUser($username, $password) {
   } else {
     $shellCommandOutput = shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'\"");
   }
+  logToErrorFile("Finished executing script kamehouse/kamehouse-groot-login.sh");
   $shellCommandOutput = explode("\n", $shellCommandOutput);
 
   foreach ($shellCommandOutput as $shellCommandOutputLine) {
