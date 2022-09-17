@@ -59,7 +59,9 @@
       exitWithError(400, "scriptArgs is invalid for shell execution");
     }
     $shellCommand = buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
+    logToErrorFile("Started executing script " . $script);
     $shellCommandOutput = shell_exec($shellCommand);
+    logToErrorFile("Finished executing script " . $script);
     return $shellCommandOutput;
   }
 
