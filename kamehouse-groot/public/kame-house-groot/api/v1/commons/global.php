@@ -169,7 +169,9 @@ function getDockerContainerEnv() {
   $dockerContainerEnv = null;
   if (isLinuxHost()) {
     $username = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
-    $dockerContainerEnv = trim(shell_exec("cat /home/" . $username . "/.kamehouse/.kamehouse-docker-container-env"));
+    $dockerContainerEnvFile = "/home/" . $username . "/.kamehouse/.kamehouse-docker-container-env";
+    $script = "if [ -f \"" . $dockerContainerEnvFile . "\" ]; then cat " . $dockerContainerEnvFile . "; fi";
+    $dockerContainerEnv = trim(shell_exec($script));
     $dockerContainerEnv = explode("\n", $dockerContainerEnv);
     if(!startsWith($dockerContainerEnv[0], "#")) {
       array_splice($dockerContainerEnv, 0, 1);
