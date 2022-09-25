@@ -41,6 +41,7 @@ createDefaultPiLogDirs() {
   mkdir -p /var/log/letsencrypt
   mkdir -p /var/log/lightdm
   mkdir -p /var/log/mysql
+  mkdir -p /var/log/openvpn
   mkdir -p /var/log/private
   mkdir -p /var/log/samba
 }
