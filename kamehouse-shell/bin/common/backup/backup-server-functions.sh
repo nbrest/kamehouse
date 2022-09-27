@@ -242,6 +242,12 @@ backupEtc() {
 	  checkCommandStatus "$?" "An error occurred during file copy"
   fi
 
+  if test -d "/etc/openvpn"; then
+    sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc/openvpn
+    sudo cp -vrf /etc/openvpn ${PROJECT_DIR}/${HOSTNAME}/etc/openvpn
+	  checkCommandStatus "$?" "An error occurred during file copy"
+  fi
+
   if test -d "/etc/php"; then
     sudo rm -rf ${PROJECT_DIR}/${HOSTNAME}/etc/php
     sudo cp -vrf /etc/php ${PROJECT_DIR}/${HOSTNAME}/etc/php
