@@ -33,6 +33,7 @@ definePlsPaths() {
   ################################
   PATH_ANIME_PLS=${PATH_VLC_PLS_ROOT}/anime
   PATH_CARTOON_PLS=${PATH_VLC_PLS_ROOT}/cartoons
+  PATH_FUTBOL_PLS=${PATH_VLC_PLS_ROOT}/futbol
   PATH_MOVIES_PLS=${PATH_VLC_PLS_ROOT}/movies
   PATH_MUSIC_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/music_videos
   PATH_SERIES_PLS=${PATH_VLC_PLS_ROOT}/series
@@ -66,6 +67,11 @@ definePlsFiles() {
   ## Marvel Comics
   FILE_SPIDERMAN_PLS=${PATH_CARTOON_PLS}/spiderman_all.m3u
   FILE_XMEN_PLS=${PATH_CARTOON_PLS}/x_men_all.m3u
+
+  ######################
+  ### Futbol pls files
+  ######################
+  FILE_FUTBOL_ALL_PLS=${PATH_FUTBOL_PLS}/futbol_all.m3u
 
   ######################
   ### Movies pls files
@@ -108,6 +114,7 @@ defineVideoPaths() {
   ################################
   PATH_ANIME_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/anime
   PATH_CARTOON_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/cartoons
+  PATH_FUTBOL_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/futbol
   PATH_MOVIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/movies
   PATH_MUSIC_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/music-videos
   PATH_SERIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/series
@@ -174,6 +181,7 @@ defineVideoFilters() {
 createPlaylists() {
   createAnimePlaylists
   createCartoonPlaylists
+  createFutbolPlaylists
   createMoviesPlaylists
   createMusicVideoPlaylists
   createSeriesPlaylists
@@ -218,6 +226,10 @@ createCartoonPlaylists() {
   # Marvel
   createPlaylist ${PATH_SPIDERMAN_VIDEO_FILES} ${FILE_SPIDERMAN_PLS} ${PATH_VIDEO_FILES_ROOT} &
   createPlaylist ${PATH_XMEN_VIDEO_FILES} ${FILE_XMEN_PLS} ${PATH_VIDEO_FILES_ROOT} &
+}
+
+createFutbolPlaylists() {
+  createPlaylist ${PATH_FUTBOL_VIDEO_FILES} ${FILE_FUTBOL_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} &
 }
 
 createMoviesPlaylists() {
