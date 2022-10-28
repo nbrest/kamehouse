@@ -26,6 +26,9 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/win/audio-playlists/create-all-audio-playlists-android-external.sh
   checkCommandStatus "$?"
 
+  ${HOME}/programs/kamehouse-shell/bin/win/audio-playlists/create-all-audio-playlists-sftp-local.sh
+  checkCommandStatus "$?"
+
   log.info "Waiting for all background processes to finish in create-all-audio-playlists.sh"
   jobs -l
   wait
