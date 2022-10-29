@@ -13,7 +13,7 @@ if [ "$?" != "0" ]; then
 fi
 
 PATH_SD_CARD_MUSIC="/storage/0000-0000/Music"
-PATH_PLS_DEST=${PROJECT_DIR}/android-external
+PATH_PLS_DEST=${PROJECT_DIR}/audio-android-external
 PATH_BASE_DEST="${PATH_SD_CARD_MUSIC}/mp3"
 PATH_BASE_N2_DEST="${PATH_SD_CARD_MUSIC}/truecrypt/mp3"
 
