@@ -40,8 +40,6 @@ mainProcess() {
 }
 
 createWindowsPlaylists() {
-  rm -rf ${PROJECT_DIR}/windows
-  mkdir -p ${PROJECT_DIR}/windows
   ${HOME}/programs/kamehouse-shell/bin/win/audio-playlists/create-all-audio-playlists-windows.sh
   CREATE_WIN_PLS_RESULT="$?"
   if [ "${CREATE_WIN_PLS_RESULT}" != "0" ]; then
