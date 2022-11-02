@@ -19,6 +19,7 @@ mainProcess() {
   printWarning
   runItunesExport
   removeExtraPlaylists
+  splitTruecryptPlaylists
   movePlaylistsToSubdirectories
   printOutput
   validateOutput
@@ -59,6 +60,36 @@ removeExtraPlaylists() {
   rm -f ${PROJECT_DIR}/windows/Punk.m3u
   rm -f ${PROJECT_DIR}/windows/Rock-Nacional.m3u
   rm -f ${PROJECT_DIR}/windows/Trance.m3u
+}
+
+splitTruecryptPlaylists() {
+  log.info "Splitting tc container mp3 to separate playlists"
+  local TEMP_DIR=${PATH_PLS_SOURCE}/temp
+  mkdir ${TEMP_DIR}
+  local PATH_PLS_SOURCE=${PROJECT_DIR}/windows
+  find ${PATH_PLS_SOURCE} -maxdepth 1 | grep --ignore-case -e "\.m3u$" | while read FILE; do
+    local PLAYLIST_RELATIVE_FILENAME=${FILE#${PATH_PLS_SOURCE}}
+    local PLAYLIST_FILE_NAME="$(basename "${PLAYLIST_RELATIVE_FILENAME}")"
+    log.info "Splitting playlist ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
+    
+    # Create tc playlist
+    cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep "Z:" > /dev/null
+    if [ "$?" == "0" ]; then
+      log.debug "Creating TC playlist for ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
+      cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep "Z:" > "${TEMP_DIR}/Z-TC-${PLAYLIST_FILE_NAME}"
+    fi  
+
+    # Create normal playlist
+    cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep -v "Z:" > /dev/null
+    if [ "$?" == "0" ]; then
+      log.debug "Creating normal playlist for ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
+      cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep -v "Z:" > "${TEMP_DIR}/${PLAYLIST_FILE_NAME}"
+    fi  
+    
+  done
+  rm -f ${PATH_PLS_SOURCE}/*.m3u
+  mv ${TEMP_DIR}/*.m3u ${PATH_PLS_SOURCE}
+  rm -r ${TEMP_DIR}
 }
 
 movePlaylistsToSubdirectories() {
