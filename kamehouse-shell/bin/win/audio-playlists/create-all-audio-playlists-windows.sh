@@ -26,8 +26,8 @@ mainProcess() {
 }
 
 clearDirectories() {
-  rm -rf ${PROJECT_DIR}/windows
-  mkdir -p ${PROJECT_DIR}/windows  
+  git rm -rf ${PROJECT_DIR}/windows
+  mkdir -p ${PROJECT_DIR}/windows
 }
 
 printWarning() {

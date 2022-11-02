@@ -37,7 +37,8 @@ validateVariables() {
 
 removeDestPlaylists() {
   log.info "removeDestPlaylists"
-  rm -r ${PATH_PLS_DEST}/*.m3u
+  git rm -r ${PATH_PLS_DEST}
+  mkdir -p ${PATH_PLS_DEST}
 }
 
 copySourcePlaylists() {
