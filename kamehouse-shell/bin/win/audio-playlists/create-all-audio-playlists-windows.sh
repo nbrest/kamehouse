@@ -58,8 +58,6 @@ removeExtraPlaylists() {
   rm -f ${PROJECT_DIR}/windows/Movies.m3u
   rm -f ${PROJECT_DIR}/windows/Others.m3u
   rm -f ${PROJECT_DIR}/windows/Punk.m3u
-  rm -f ${PROJECT_DIR}/windows/Rock-Nacional.m3u
-  rm -f ${PROJECT_DIR}/windows/Trance.m3u
 }
 
 splitTruecryptPlaylists() {
