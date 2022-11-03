@@ -96,7 +96,7 @@ movePlaylistsToSubdirectories() {
     local PLAYLIST_RELATIVE_FILENAME=${FILE#${PATH_PLS_SOURCE}}
     local PLAYLIST_SUBDIR=${PLAYLIST_RELATIVE_FILENAME::-4}
     local PLAYLIST_FILE_NAME="$(basename "${PLAYLIST_RELATIVE_FILENAME}")"
-    log.info "Moving playlist ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
+    log.info "Moving playlist to subfolder ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
     mkdir -p "${PATH_PLS_SOURCE}${PLAYLIST_SUBDIR}"
     mv -f "${FILE}" "${PATH_PLS_SOURCE}${PLAYLIST_SUBDIR}/${PLAYLIST_FILE_NAME}"
   done
