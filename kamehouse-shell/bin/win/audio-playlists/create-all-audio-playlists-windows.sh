@@ -15,6 +15,7 @@ fi
 ITUNES_EXPORT_JAR="/d/niko9enzo/programs/Itunes/iTunesExportScala/itunesexport.jar"
 MP3_ROOT_DIR="/d/niko9enzo/mp3"
 MEDIA_TYPES_REGEX="\.mp3$"
+ALL_MUSIC_M3U_WINDOWS="${HOME}/git/kamehouse-audio-playlists/playlists/windows/All.m3u"
 
 mainProcess() {
   clearDirectories
@@ -65,12 +66,10 @@ removeExtraPlaylists() {
 
 createAllMusicPlaylist() {
   log.info "Creating ${COL_PURPLE}All.m3u${COL_DEFAULT_LOG} playlist"
-  ALL_MUSIC_M3U_WINDOWS="${HOME}/git/kamehouse-audio-playlists/playlists/windows/All.m3u"
   echo "" > ${ALL_MUSIC_M3U_WINDOWS}
   find ${MP3_ROOT_DIR} | grep --ignore-case -e ${MEDIA_TYPES_REGEX} | sort | while read FILE; do
       local FILE_NAME=${FILE#${MP3_ROOT_DIR}} 
       local FILE_WITHOUT_ROOT_PREFIX=${FILE#$ROOT_PREFIX}
-      #echo "#EXTINF:0,${FILE_NAME}-${FILE_NAME}" >> ${ALL_MUSIC_M3U_WINDOWS}
       echo "${FILE_WITHOUT_ROOT_PREFIX}" >> ${ALL_MUSIC_M3U_WINDOWS}
   done
   sed -i "s#/d/niko9enzo#D:/niko9enzo#Ig" "${ALL_MUSIC_M3U_WINDOWS}"
