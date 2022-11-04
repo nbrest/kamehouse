@@ -13,12 +13,15 @@ if [ "$?" != "0" ]; then
 fi
 
 ITUNES_EXPORT_JAR="/d/niko9enzo/programs/Itunes/iTunesExportScala/itunesexport.jar"
+MP3_ROOT_DIR="/d/niko9enzo/mp3"
+MEDIA_TYPES_REGEX="\.mp3$"
 
 mainProcess() {
   clearDirectories
   printWarning
   runItunesExport
   removeExtraPlaylists
+  createAllMusicPlaylist
   splitTruecryptPlaylists
   movePlaylistsToSubdirectories
   printOutput
@@ -60,6 +63,20 @@ removeExtraPlaylists() {
   rm -f ${PROJECT_DIR}/windows/Punk.m3u
 }
 
+createAllMusicPlaylist() {
+  log.info "Creating ${COL_PURPLE}All.m3u${COL_DEFAULT_LOG} playlist"
+  ALL_MUSIC_M3U_WINDOWS="${HOME}/git/kamehouse-audio-playlists/playlists/windows/All.m3u"
+  echo "" > ${ALL_MUSIC_M3U_WINDOWS}
+  find ${MP3_ROOT_DIR} | grep --ignore-case -e ${MEDIA_TYPES_REGEX} | sort | while read FILE; do
+      local FILE_NAME=${FILE#${MP3_ROOT_DIR}} 
+      local FILE_WITHOUT_ROOT_PREFIX=${FILE#$ROOT_PREFIX}
+      #echo "#EXTINF:0,${FILE_NAME}-${FILE_NAME}" >> ${ALL_MUSIC_M3U_WINDOWS}
+      echo "${FILE_WITHOUT_ROOT_PREFIX}" >> ${ALL_MUSIC_M3U_WINDOWS}
+  done
+  sed -i "s#/d/niko9enzo#D:/niko9enzo#Ig" "${ALL_MUSIC_M3U_WINDOWS}"
+  sed -i "s#/#\\\#Ig" "${ALL_MUSIC_M3U_WINDOWS}"
+}
+
 splitTruecryptPlaylists() {
   log.info "Splitting tc container mp3 to separate playlists"
   local TEMP_DIR=${PATH_PLS_SOURCE}/temp
@@ -71,17 +88,17 @@ splitTruecryptPlaylists() {
     log.info "Splitting playlist ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
     
     # Create tc playlist
-    cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep "Z:" > /dev/null
+    cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep "Z:\\\\mp3" > /dev/null
     if [ "$?" == "0" ]; then
       log.debug "Creating TC playlist for ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
-      cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep "Z:" > "${TEMP_DIR}/Z-TC-${PLAYLIST_FILE_NAME}"
+      cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep "Z:\\\\mp3" > "${TEMP_DIR}/Z-TC-${PLAYLIST_FILE_NAME}"
     fi  
 
     # Create normal playlist
-    cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep -v "Z:" > /dev/null
+    cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep -v "Z:\\\\mp3" > /dev/null
     if [ "$?" == "0" ]; then
       log.debug "Creating normal playlist for ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
-      cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep -v "Z:" > "${TEMP_DIR}/${PLAYLIST_FILE_NAME}"
+      cat "${PATH_PLS_SOURCE}/${PLAYLIST_FILE_NAME}" | grep -v "Z:\\\\mp3" > "${TEMP_DIR}/${PLAYLIST_FILE_NAME}"
     fi  
     
   done
@@ -96,7 +113,7 @@ movePlaylistsToSubdirectories() {
     local PLAYLIST_RELATIVE_FILENAME=${FILE#${PATH_PLS_SOURCE}}
     local PLAYLIST_SUBDIR=${PLAYLIST_RELATIVE_FILENAME::-4}
     local PLAYLIST_FILE_NAME="$(basename "${PLAYLIST_RELATIVE_FILENAME}")"
-    log.info "Moving playlist to subfolder ${COL_PURPLE}${PLAYLIST_FILE_NAME}"
+    log.info "Moving playlist ${COL_PURPLE}${PLAYLIST_FILE_NAME}${COL_DEFAULT_LOG} to subfolder"
     mkdir -p "${PATH_PLS_SOURCE}${PLAYLIST_SUBDIR}"
     mv -f "${FILE}" "${PATH_PLS_SOURCE}${PLAYLIST_SUBDIR}/${PLAYLIST_FILE_NAME}"
   done
