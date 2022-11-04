@@ -57,6 +57,7 @@ removeExtraPlaylists() {
   rm -f ${PROJECT_DIR}/windows/Anime.m3u
   rm -f ${PROJECT_DIR}/windows/Beatles.m3u
   rm -f ${PROJECT_DIR}/windows/By-Decade.m3u
+  rm -f ${PROJECT_DIR}/windows/Cartoons.m3u
   rm -f ${PROJECT_DIR}/windows/Guns-N-Roses.m3u
   rm -f ${PROJECT_DIR}/windows/Metal.m3u
   rm -f ${PROJECT_DIR}/windows/Movies.m3u
