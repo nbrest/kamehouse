@@ -13,16 +13,17 @@ if [ "$?" != "0" ]; then
 fi
 
 ITUNES_EXPORT_JAR="/d/niko9enzo/programs/Itunes/iTunesExportScala/itunesexport.jar"
-MP3_ROOT_DIR="/d/niko9enzo/mp3"
+MP3_ROOT_DIR=/d/niko9enzo/mp3
 MEDIA_TYPES_REGEX="\.mp3$"
-ALL_MUSIC_M3U_WINDOWS="${HOME}/git/kamehouse-audio-playlists/playlists/windows/All.m3u"
+M3U_WINDOWS_ROOT="${HOME}/git/kamehouse-audio-playlists/playlists/windows"
+ALL_MUSIC_M3U_WINDOWS="${M3U_WINDOWS_ROOT}/All.m3u"
 
 mainProcess() {
   clearDirectories
   printWarning
   runItunesExport
-  removeExtraPlaylists
-  createAllMusicPlaylist
+  removeExtraPlaylists  
+  createAllPlaylists
   splitTruecryptPlaylists
   movePlaylistsToSubdirectories
   printOutput
@@ -30,6 +31,7 @@ mainProcess() {
 }
 
 clearDirectories() {
+  cd ${PROJECT_DIR}
   git rm -rf ${PROJECT_DIR}/windows
   mkdir -p ${PROJECT_DIR}/windows
 }
@@ -65,16 +67,51 @@ removeExtraPlaylists() {
   rm -f ${PROJECT_DIR}/windows/Punk.m3u
 }
 
-createAllMusicPlaylist() {
-  log.info "Creating ${COL_PURPLE}All.m3u${COL_DEFAULT_LOG} playlist"
-  echo "" > ${ALL_MUSIC_M3U_WINDOWS}
-  find ${MP3_ROOT_DIR} | grep --ignore-case -e ${MEDIA_TYPES_REGEX} | sort | while read FILE; do
-      local FILE_NAME=${FILE#${MP3_ROOT_DIR}} 
+createAllPlaylists() {
+  createAllPlaylist "All-Music" "."
+  createAllPlaylist "Aerosmith" "Aerosmith"
+  createAllPlaylist "Anime" "Anime"
+  createAllPlaylist "Bob-And-Tom" "Bob And Tom"
+  createAllPlaylist "Bajoneros" "Bajoneros"
+  createAllPlaylist "Beatles" "The Beatles"
+  createAllPlaylist "Cartoons" "Cartoons"
+  createAllPlaylist "Cirque-Du-Soleil" "Cirque du Soleil"
+  createAllPlaylist "Elton-John" "Elton John"
+  createAllPlaylist "Enya" "Enya"
+  createAllPlaylist "Futbol" "Futbol"
+  createAllPlaylist "Guns-N-Roses" "Guns N Roses"
+  createAllPlaylist "Hits" "Otros/Hits"
+  createAllPlaylist "Jack-Johnson" "Jack Johnson"
+  createAllPlaylist "Madonna" "Madonna"
+  createAllPlaylist "Michael-Jackson" "Michael Jackson"
+  createAllPlaylist "Movies" "Movies"
+  createAllPlaylist "Oasis" "Oasis"
+  createAllPlaylist "Others" "Otros"
+  createAllPlaylist "Phill-Collins" "Phill Collins"
+  createAllPlaylist "Queen" "Queen"
+  createAllPlaylist "Red-Hot-Chili-Peppers" "Red Hot Chili Peppers"
+  createAllPlaylist "Rolling-Stones" "Rolling Stones"
+  createAllPlaylist "SKA-P" "SKA-P"
+  createAllPlaylist "Trance" "Trance"
+  createAllPlaylist "U2" "U2"
+}
+
+createAllPlaylist() {
+  local PLAYLIST_NAME=$1
+  local RELATIVE_SOURCE_DIR=$2
+
+  local PLAYLIST_SOURCE_ROOT_DIR=${MP3_ROOT_DIR}/${RELATIVE_SOURCE_DIR}
+  local PLAYLIST_FILE="${M3U_WINDOWS_ROOT}/${PLAYLIST_NAME}.All.m3u"
+  log.info "Creating ${COL_PURPLE}${PLAYLIST_NAME}.All.m3u${COL_DEFAULT_LOG} playlist"
+  echo "" > ${PLAYLIST_FILE}
+  find "${PLAYLIST_SOURCE_ROOT_DIR}" | grep --ignore-case -e ${MEDIA_TYPES_REGEX} | sort | while read FILE; do
+      local FILE_NAME=${FILE#${PLAYLIST_SOURCE_ROOT_DIR}} 
       local FILE_WITHOUT_ROOT_PREFIX=${FILE#$ROOT_PREFIX}
-      echo "${FILE_WITHOUT_ROOT_PREFIX}" >> ${ALL_MUSIC_M3U_WINDOWS}
+      echo "${FILE_WITHOUT_ROOT_PREFIX}" >> ${PLAYLIST_FILE}
   done
-  sed -i "s#/d/niko9enzo#D:/niko9enzo#Ig" "${ALL_MUSIC_M3U_WINDOWS}"
-  sed -i "s#/#\\\#Ig" "${ALL_MUSIC_M3U_WINDOWS}"
+  sed -i "s#/d/niko9enzo#D:/niko9enzo#Ig" "${PLAYLIST_FILE}"
+  sed -i "s#/\\./#/#Ig" "${PLAYLIST_FILE}"
+  sed -i "s#/#\\\#Ig" "${PLAYLIST_FILE}"
 }
 
 splitTruecryptPlaylists() {
