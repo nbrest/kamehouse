@@ -17,6 +17,7 @@ MP3_ROOT_DIR=/d/niko9enzo/mp3
 MEDIA_TYPES_REGEX="\.mp3$"
 M3U_WINDOWS_ROOT="${HOME}/git/kamehouse-audio-playlists/playlists/windows"
 ALL_MUSIC_M3U_WINDOWS="${M3U_WINDOWS_ROOT}/All.m3u"
+MP3_SUBDIR_SEPARATOR="/.*\|.*/"
 
 mainProcess() {
   clearDirectories
@@ -33,6 +34,7 @@ mainProcess() {
 clearDirectories() {
   cd ${PROJECT_DIR}
   git rm -rf ${PROJECT_DIR}/windows
+  rm -rf ${PROJECT_DIR}/windows
   mkdir -p ${PROJECT_DIR}/windows
 }
 
@@ -68,7 +70,7 @@ removeExtraPlaylists() {
 }
 
 createAllPlaylists() {
-  createAllPlaylist "All-Music" "."
+  createAllPlaylist "All-Music" ".*"
   createAllPlaylist "Aerosmith" "Aerosmith"
   createAllPlaylist "Anime" "Anime"
   createAllPlaylist "Bob-And-Tom" "Bob And Tom"
@@ -88,8 +90,10 @@ createAllPlaylists() {
   createAllPlaylist "Oasis" "Oasis"
   createAllPlaylist "Others" "Otros"
   createAllPlaylist "Phill-Collins" "Phill Collins"
+  createAllPlaylist "Pop" "Pop"
   createAllPlaylist "Queen" "Queen"
   createAllPlaylist "Red-Hot-Chili-Peppers" "Red Hot Chili Peppers"
+  createAllPlaylist "Rock-Nacional" "Rock Nacional${MP3_SUBDIR_SEPARATOR}Attaque 77${MP3_SUBDIR_SEPARATOR}Autenticos Decadentes${MP3_SUBDIR_SEPARATOR}Blender${MP3_SUBDIR_SEPARATOR}Cadena Perpetua${MP3_SUBDIR_SEPARATOR}Callejeros${MP3_SUBDIR_SEPARATOR}Fito Paez"
   createAllPlaylist "Rolling-Stones" "Rolling Stones"
   createAllPlaylist "SKA-P" "SKA-P"
   createAllPlaylist "Trance" "Trance"
@@ -98,14 +102,13 @@ createAllPlaylists() {
 
 createAllPlaylist() {
   local PLAYLIST_NAME=$1
-  local RELATIVE_SOURCE_DIR=$2
+  local MP3_SUBDIRS=$2
 
-  local PLAYLIST_SOURCE_ROOT_DIR=${MP3_ROOT_DIR}/${RELATIVE_SOURCE_DIR}
-  local PLAYLIST_FILE="${M3U_WINDOWS_ROOT}/${PLAYLIST_NAME}.All.m3u"
-  log.info "Creating ${COL_PURPLE}${PLAYLIST_NAME}.All.m3u${COL_DEFAULT_LOG} playlist"
+  local PLAYLIST_FILENAME="${PLAYLIST_NAME}.All.m3u"
+  local PLAYLIST_FILE="${M3U_WINDOWS_ROOT}/${PLAYLIST_FILENAME}"
+  log.info "Creating ${COL_PURPLE}${PLAYLIST_FILENAME}${COL_DEFAULT_LOG} playlist"
   echo "" > ${PLAYLIST_FILE}
-  find "${PLAYLIST_SOURCE_ROOT_DIR}" | grep --ignore-case -e ${MEDIA_TYPES_REGEX} | sort | while read FILE; do
-      local FILE_NAME=${FILE#${PLAYLIST_SOURCE_ROOT_DIR}} 
+  find ${MP3_ROOT_DIR} -regex ".*/${MP3_SUBDIRS}/.*" | grep --ignore-case -e ${MEDIA_TYPES_REGEX} | sort | while read FILE; do
       local FILE_WITHOUT_ROOT_PREFIX=${FILE#$ROOT_PREFIX}
       echo "${FILE_WITHOUT_ROOT_PREFIX}" >> ${PLAYLIST_FILE}
   done
