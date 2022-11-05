@@ -70,6 +70,44 @@ removeExtraPlaylists() {
 }
 
 createAllPlaylists() {
+  local METAL="AC-DC${MP3_SUBDIR_SEPARATOR}\
+Angra${MP3_SUBDIR_SEPARATOR}\
+Dream Theater${MP3_SUBDIR_SEPARATOR}\
+Gamma Ray${MP3_SUBDIR_SEPARATOR}\
+Heavens Gate${MP3_SUBDIR_SEPARATOR}\
+Helloween${MP3_SUBDIR_SEPARATOR}\
+Iron Maiden${MP3_SUBDIR_SEPARATOR}\
+Judas Priest${MP3_SUBDIR_SEPARATOR}\
+Metallica${MP3_SUBDIR_SEPARATOR}\
+Ozzy${MP3_SUBDIR_SEPARATOR}\
+Raphsody${MP3_SUBDIR_SEPARATOR}\
+Satriani"
+
+  local POP="Pop${MP3_SUBDIR_SEPARATOR}\
+Michael Jackson${MP3_SUBDIR_SEPARATOR}\
+Madonna${MP3_SUBDIR_SEPARATOR}\
+Bruno Mars"
+
+  local PUNK="Bad Religion${MP3_SUBDIR_SEPARATOR}\
+Blender${MP3_SUBDIR_SEPARATOR}\
+Blink-182${MP3_SUBDIR_SEPARATOR}\
+Eminem${MP3_SUBDIR_SEPARATOR}\
+Foo Fighters${MP3_SUBDIR_SEPARATOR}\
+Green Day${MP3_SUBDIR_SEPARATOR}\
+Limp Bizkit${MP3_SUBDIR_SEPARATOR}\
+Linkin Park${MP3_SUBDIR_SEPARATOR}\
+Nirvana${MP3_SUBDIR_SEPARATOR}\
+Offspring${MP3_SUBDIR_SEPARATOR}\
+Ramones"
+
+  local ROCK_NACIONAL="Rock Nacional${MP3_SUBDIR_SEPARATOR}\
+Attaque 77${MP3_SUBDIR_SEPARATOR}\
+Autenticos Decadentes${MP3_SUBDIR_SEPARATOR}\
+Blender${MP3_SUBDIR_SEPARATOR}\
+Cadena Perpetua${MP3_SUBDIR_SEPARATOR}\
+Callejeros${MP3_SUBDIR_SEPARATOR}\
+Fito Paez"
+
   createAllPlaylist "All-Music" ".*"
   createAllPlaylist "Aerosmith" "Aerosmith"
   createAllPlaylist "Anime" "Anime"
@@ -85,15 +123,17 @@ createAllPlaylists() {
   createAllPlaylist "Hits" "Otros/Hits"
   createAllPlaylist "Jack-Johnson" "Jack Johnson"
   createAllPlaylist "Madonna" "Madonna"
+  createAllPlaylist "Metal" "${METAL}"
   createAllPlaylist "Michael-Jackson" "Michael Jackson"
   createAllPlaylist "Movies" "Movies"
   createAllPlaylist "Oasis" "Oasis"
   createAllPlaylist "Others" "Otros"
   createAllPlaylist "Phill-Collins" "Phill Collins"
-  createAllPlaylist "Pop" "Pop"
+  createAllPlaylist "Pop" "${POP}"
+  createAllPlaylist "Punk" "${PUNK}"
   createAllPlaylist "Queen" "Queen"
   createAllPlaylist "Red-Hot-Chili-Peppers" "Red Hot Chili Peppers"
-  createAllPlaylist "Rock-Nacional" "Rock Nacional${MP3_SUBDIR_SEPARATOR}Attaque 77${MP3_SUBDIR_SEPARATOR}Autenticos Decadentes${MP3_SUBDIR_SEPARATOR}Blender${MP3_SUBDIR_SEPARATOR}Cadena Perpetua${MP3_SUBDIR_SEPARATOR}Callejeros${MP3_SUBDIR_SEPARATOR}Fito Paez"
+  createAllPlaylist "Rock-Nacional" "${ROCK_NACIONAL}"
   createAllPlaylist "Rolling-Stones" "Rolling Stones"
   createAllPlaylist "SKA-P" "SKA-P"
   createAllPlaylist "Trance" "Trance"
