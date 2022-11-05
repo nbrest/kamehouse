@@ -83,9 +83,29 @@ Ozzy${MP3_SUBDIR_SEPARATOR}\
 Raphsody${MP3_SUBDIR_SEPARATOR}\
 Satriani"
 
+  local OTHERS="Otros${MP3_SUBDIR_SEPARATOR}\
+Bob Marley${MP3_SUBDIR_SEPARATOR}\
+Celtic Music${MP3_SUBDIR_SEPARATOR}\
+Frank Sinatra${MP3_SUBDIR_SEPARATOR}\
+Jack Johnson${MP3_SUBDIR_SEPARATOR}\
+Japanese${MP3_SUBDIR_SEPARATOR}\
+Los Pericos${MP3_SUBDIR_SEPARATOR}\
+Street Fighter${MP3_SUBDIR_SEPARATOR}\
+The Killers${MP3_SUBDIR_SEPARATOR}\
+The Tormentos${MP3_SUBDIR_SEPARATOR}\
+TropiMatch${MP3_SUBDIR_SEPARATOR}\
+Yes${MP3_SUBDIR_SEPARATOR}\
+Enya"
+
   local POP="Pop${MP3_SUBDIR_SEPARATOR}\
 Michael Jackson${MP3_SUBDIR_SEPARATOR}\
 Madonna${MP3_SUBDIR_SEPARATOR}\
+Coldplay${MP3_SUBDIR_SEPARATOR}\
+Elton John${MP3_SUBDIR_SEPARATOR}\
+Elvis Presley${MP3_SUBDIR_SEPARATOR}\
+Oasis${MP3_SUBDIR_SEPARATOR}\
+Phill Collins${MP3_SUBDIR_SEPARATOR}\
+U2${MP3_SUBDIR_SEPARATOR}\
 Bruno Mars"
 
   local PUNK="Bad Religion${MP3_SUBDIR_SEPARATOR}\
@@ -99,6 +119,15 @@ Linkin Park${MP3_SUBDIR_SEPARATOR}\
 Nirvana${MP3_SUBDIR_SEPARATOR}\
 Offspring${MP3_SUBDIR_SEPARATOR}\
 Ramones"
+
+  local ROCK="Aerosmith${MP3_SUBDIR_SEPARATOR}\
+Bon Jovi${MP3_SUBDIR_SEPARATOR}\
+Guns N Roses${MP3_SUBDIR_SEPARATOR}\
+Lenny Kravitz${MP3_SUBDIR_SEPARATOR}\
+Pink Floid${MP3_SUBDIR_SEPARATOR}\
+Queen${MP3_SUBDIR_SEPARATOR}\
+Red Hot Chili Peppers${MP3_SUBDIR_SEPARATOR}\
+Rolling Stones"
 
   local ROCK_NACIONAL="Rock Nacional${MP3_SUBDIR_SEPARATOR}\
 Attaque 77${MP3_SUBDIR_SEPARATOR}\
@@ -116,6 +145,7 @@ Fito Paez"
   createAllPlaylist "Beatles" "The Beatles"
   createAllPlaylist "Cartoons" "Cartoons"
   createAllPlaylist "Cirque-Du-Soleil" "Cirque du Soleil"
+  createAllPlaylist "Cumbia" "Cumbia"
   createAllPlaylist "Elton-John" "Elton John"
   createAllPlaylist "Enya" "Enya"
   createAllPlaylist "Futbol" "Futbol"
@@ -127,12 +157,13 @@ Fito Paez"
   createAllPlaylist "Michael-Jackson" "Michael Jackson"
   createAllPlaylist "Movies" "Movies"
   createAllPlaylist "Oasis" "Oasis"
-  createAllPlaylist "Others" "Otros"
+  createAllPlaylist "Others" "${OTHERS}"
   createAllPlaylist "Phill-Collins" "Phill Collins"
   createAllPlaylist "Pop" "${POP}"
   createAllPlaylist "Punk" "${PUNK}"
   createAllPlaylist "Queen" "Queen"
   createAllPlaylist "Red-Hot-Chili-Peppers" "Red Hot Chili Peppers"
+  createAllPlaylist "Rock" "${ROCK}"
   createAllPlaylist "Rock-Nacional" "${ROCK_NACIONAL}"
   createAllPlaylist "Rolling-Stones" "Rolling Stones"
   createAllPlaylist "SKA-P" "SKA-P"
