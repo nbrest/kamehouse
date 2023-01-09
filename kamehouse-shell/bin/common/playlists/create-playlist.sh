@@ -116,7 +116,7 @@ printHelpOptions() {
 
 printHelpFooter() {
   echo -e ""
-  echo -e "Sample Usage: ${SCRIPT_NAME} -b \"/d/Downloads/videos\" -n \"\${HOME}/downloadVideosWindowsPlaylist\" -p \"D:/Downloads/videos\" -w"
+  echo -e "${COL_YELLOW}Sample Usage:${COL_PURPLE} ${SCRIPT_NAME} ${COL_BLUE}-b${COL_NORMAL} \"/d/Downloads/videos\" ${COL_BLUE}-n${COL_NORMAL} \"\${HOME}/downloadVideosWindowsPlaylist\" ${COL_BLUE}-p${COL_NORMAL} \"D:/Downloads/videos\" ${COL_BLUE}-w${COL_NORMAL}"
   echo -e ""
 }
 
