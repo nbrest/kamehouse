@@ -27,7 +27,7 @@ CMD_ARGUMENTS=$@
 
 # Set the current directory at the beginning of the script when this file is imported
 # so when I exit the process, even if I cd to other dirs, I get back to the initial dir
-INITIAL_DIR=`pwd`
+INITIAL_DIR="`pwd`"
 
 # Subsystem root prefix for mounted drives. Use this as a prefix to all
 # absolute paths I define in the script.
@@ -72,7 +72,7 @@ checkRequiredOption() {
 # Exit the process with the status code specified as an argument
 exitProcess() {
   local EXIT_STATUS=$1
-  cd ${INITIAL_DIR}
+  cd "${INITIAL_DIR}"
   exit ${EXIT_STATUS}
 } 
 
