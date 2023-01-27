@@ -34,6 +34,7 @@ definePlsPaths() {
   PATH_ANIME_PLS=${PATH_VLC_PLS_ROOT}/anime
   PATH_CARTOON_PLS=${PATH_VLC_PLS_ROOT}/cartoons
   PATH_FUTBOL_PLS=${PATH_VLC_PLS_ROOT}/futbol
+  PATH_FUNNY_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/funny_videos
   PATH_MOVIES_PLS=${PATH_VLC_PLS_ROOT}/movies
   PATH_MUSIC_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/music_videos
   PATH_SERIES_PLS=${PATH_VLC_PLS_ROOT}/series
@@ -45,9 +46,10 @@ definePlsFiles() {
   ### Anime pls files
   ####################
   FILE_ANIME_ALL_PLS=${PATH_ANIME_PLS}/anime_all.m3u
+  FILE_CAPTAIN_TSUBASA_MOVIES_PLS=${PATH_ANIME_PLS}/captain_tsubasa_movies.m3u
+  FILE_DETECTIVE_CONAN_MOVIES_PLS=${PATH_ANIME_PLS}/detective_conan_movies.m3u
   FILE_DRAGONBALL_MOVIES_PLS=${PATH_ANIME_PLS}/dragonball_movies.m3u
   FILE_DRAGONBALL_Z_MOVIES_PLS=${PATH_ANIME_PLS}/dragonball_z_movies.m3u
-  FILE_DETECTIVE_CONAN_MOVIES_PLS=${PATH_ANIME_PLS}/detective_conan_movies.m3u
   FILE_POKEMON_MOVIES_PLS=${PATH_ANIME_PLS}/pokemon_movies.m3u
   FILE_PRINCE_OF_TENNIS_MOVIES_PLS=${PATH_ANIME_PLS}/prince_of_tennis_movies.m3u
   FILE_RANMA_MOVIES_PLS=${PATH_ANIME_PLS}/ranma_movies.m3u
@@ -72,6 +74,11 @@ definePlsFiles() {
   ### Futbol pls files
   ######################
   FILE_FUTBOL_ALL_PLS=${PATH_FUTBOL_PLS}/futbol_all.m3u
+
+  ############################
+  ### Funny videos pls files
+  ############################
+  FILE_FUNNY_VIDEOS_ALL_PLS=${PATH_FUNNY_VIDEOS_PLS}/funny_videos_all.m3u
 
   ######################
   ### Movies pls files
@@ -115,6 +122,7 @@ defineVideoPaths() {
   PATH_ANIME_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/anime
   PATH_CARTOON_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/cartoons
   PATH_FUTBOL_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/futbol
+  PATH_FUNNY_VIDEOS_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/funny_videos
   PATH_MOVIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/movies
   PATH_MUSIC_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/music-videos
   PATH_SERIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/series
@@ -124,6 +132,7 @@ defineVideoPaths() {
   ### Second level playlists paths
   #################################
   ### Anime playlists paths
+  PATH_CAPTAIN_TSUBASA_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/captain_tsubasa/movies
   PATH_DETECTIVE_CONAN_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/detective_conan/movies
   PATH_DRAGONBALL_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/dragonball/02_dragonball/movies
   PATH_DRAGONBALL_Z_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/dragonball/01_dragonball_z/movies
@@ -182,6 +191,7 @@ createPlaylists() {
   createAnimePlaylists
   createCartoonPlaylists
   createFutbolPlaylists
+  createFunnyVideosPlaylists
   createMoviesPlaylists
   createMusicVideoPlaylists
   createSeriesPlaylists
@@ -199,9 +209,10 @@ createAnimePlaylists() {
 
   createPlaylist ${PATH_ANIME_VIDEO_FILES} ${FILE_ANIME_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} &
 
+  createPlaylist ${PATH_CAPTAIN_TSUBASA_MOVIES_FILES} ${FILE_CAPTAIN_TSUBASA_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &
+  createPlaylist ${PATH_DETECTIVE_CONAN_MOVIES_FILES} ${FILE_DETECTIVE_CONAN_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &
   createPlaylist ${PATH_DRAGONBALL_MOVIES_FILES} ${FILE_DRAGONBALL_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &
   createPlaylist ${PATH_DRAGONBALL_Z_MOVIES_FILES} ${FILE_DRAGONBALL_Z_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &
-  createPlaylist ${PATH_DETECTIVE_CONAN_MOVIES_FILES} ${FILE_DETECTIVE_CONAN_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &
   createPlaylist ${PATH_POKEMON_MOVIES_VIDEO_FILES} ${FILE_POKEMON_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &
   createPlaylist ${PATH_PRINCE_OF_TENNIS_MOVIES_FILES} ${FILE_PRINCE_OF_TENNIS_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &
   createPlaylist ${PATH_RANMA_MOVIES_FILES} ${FILE_RANMA_MOVIES_PLS} ${PATH_VIDEO_FILES_ROOT} &  
@@ -230,6 +241,10 @@ createCartoonPlaylists() {
 
 createFutbolPlaylists() {
   createPlaylist ${PATH_FUTBOL_VIDEO_FILES} ${FILE_FUTBOL_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} &
+}
+
+createFunnyVideosPlaylists() {
+  createPlaylist ${PATH_FUNNY_VIDEOS_VIDEO_FILES} ${FILE_FUNNY_VIDEOS_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} &
 }
 
 createMoviesPlaylists() {
