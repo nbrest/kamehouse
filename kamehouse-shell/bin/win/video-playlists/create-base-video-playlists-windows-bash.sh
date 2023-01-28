@@ -13,178 +13,11 @@ if [ "$?" != "0" ]; then
 fi
 
 MEDIA_TYPES_REGEX="\.avi$\|\.flv$\|\.mpg$\|\.mpeg$\|\.mp4$\|\.mkv$\|\.m4v$\|\.ogg$\|\.ogm$\|\.webm$"
+PATH_VLC_PLS_ROOT=${PROJECT_DIR}/windows-bash/media-drive
+PATH_VIDEO_FILES_ROOT=${ROOT_PREFIX}/n
 
 mainProcess() {
-  definePlsPaths
-  definePlsFiles
-  defineVideoPaths
-  defineVideoFilters
   createPlaylists
-}
-
-definePlsPaths() {
-  #####################
-  ### Root level paths
-  #####################
-  PATH_VLC_PLS_ROOT=${PROJECT_DIR}/windows-bash/media-drive
-  
-  ################################
-  ### First level playlists paths
-  ################################
-  PATH_ANIME_PLS=${PATH_VLC_PLS_ROOT}/anime
-  PATH_CARTOON_PLS=${PATH_VLC_PLS_ROOT}/cartoons
-  PATH_FUTBOL_PLS=${PATH_VLC_PLS_ROOT}/futbol
-  PATH_FUNNY_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/funny_videos
-  PATH_MOVIES_PLS=${PATH_VLC_PLS_ROOT}/movies
-  PATH_MUSIC_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/music_videos
-  PATH_SERIES_PLS=${PATH_VLC_PLS_ROOT}/series
-  PATH_TENNIS_PLS=${PATH_VLC_PLS_ROOT}/tennis
-}
-
-definePlsFiles() {
-  ####################
-  ### Anime pls files
-  ####################
-  FILE_ANIME_ALL_PLS=${PATH_ANIME_PLS}/anime_all.m3u
-  FILE_CAPTAIN_TSUBASA_MOVIES_PLS=${PATH_ANIME_PLS}/captain_tsubasa_movies.m3u
-  FILE_DETECTIVE_CONAN_MOVIES_PLS=${PATH_ANIME_PLS}/detective_conan_movies.m3u
-  FILE_DRAGONBALL_MOVIES_PLS=${PATH_ANIME_PLS}/dragonball_movies.m3u
-  FILE_DRAGONBALL_Z_MOVIES_PLS=${PATH_ANIME_PLS}/dragonball_z_movies.m3u
-  FILE_POKEMON_MOVIES_PLS=${PATH_ANIME_PLS}/pokemon_movies.m3u
-  FILE_PRINCE_OF_TENNIS_MOVIES_PLS=${PATH_ANIME_PLS}/prince_of_tennis_movies.m3u
-  FILE_RANMA_MOVIES_PLS=${PATH_ANIME_PLS}/ranma_movies.m3u
-  FILE_SAINT_SEIYA_MOVIES_PLS=${PATH_ANIME_PLS}/saint_seiya_movies.m3u
-
-  ######################
-  ### Cartoon pls files
-  ######################
-  FILE_CARTOONS_ALL_PLS=${PATH_CARTOON_PLS}/cartoons_all.m3u
-  ## DC Comics
-  FILE_BATMAN_PLS=${PATH_CARTOON_PLS}/batman_all.m3u
-  FILE_BATMAN_MOVIES_PLS=${PATH_CARTOON_PLS}/batman_movies.m3u
-  FILE_JUSTICE_LEAGUE_PLS=${PATH_CARTOON_PLS}/justice_league_all.m3u
-  FILE_JUSTICE_LEAGUE_MOVIES_PLS=${PATH_CARTOON_PLS}/justice_league_movies.m3u
-  FILE_SUPERMAN_PLS=${PATH_CARTOON_PLS}/superman_all.m3u
-  FILE_SUPERMAN_MOVIES_PLS=${PATH_CARTOON_PLS}/superman_movies.m3u
-  ## Marvel Comics
-  FILE_SPIDERMAN_PLS=${PATH_CARTOON_PLS}/spiderman_all.m3u
-  FILE_XMEN_PLS=${PATH_CARTOON_PLS}/x_men_all.m3u
-
-  ######################
-  ### Futbol pls files
-  ######################
-  FILE_FUTBOL_ALL_PLS=${PATH_FUTBOL_PLS}/futbol_all.m3u
-
-  ############################
-  ### Funny videos pls files
-  ############################
-  FILE_FUNNY_VIDEOS_ALL_PLS=${PATH_FUNNY_VIDEOS_PLS}/funny_videos_all.m3u
-
-  ######################
-  ### Movies pls files
-  ######################
-  FILE_MOVIES_ALL_PLS=${PATH_MOVIES_PLS}/movies_all.m3u
-  FILE_MOVIES_DC_PLS=${PATH_MOVIES_PLS}/movies_dc.m3u
-  FILE_MOVIES_MARVEL_PLS=${PATH_MOVIES_PLS}/movies_marvel.m3u
-  FILE_MOVIES_DISNEY_PLS=${PATH_MOVIES_PLS}/movies_disney.m3u
-  FILE_MOVIES_HARRY_POTTER_PLS=${PATH_MOVIES_PLS}/movies_harry_potter.m3u
-  FILE_MOVIES_STAR_WARS_PLS=${PATH_MOVIES_PLS}/movies_star_wars.m3u   
-  FILE_MOVIES_STUDIO_GHIBLI_PLS=${PATH_MOVIES_PLS}/movies_studio_ghibli.m3u
-  
-  ###########################
-  ### Music videos pls files
-  ###########################
-  FILE_MUSIC_VIDEOS_ALL_PLS=${PATH_MUSIC_VIDEOS_PLS}/music_videos_all.m3u
-  
-  ######################
-  ### Series pls files
-  ######################
-  FILE_SERIES_ALL_PLS=${PATH_SERIES_PLS}/series_all.m3u
-
-  ######################
-  ### Tennis pls files
-  ######################
-  FILE_TENNIS_ALL_PLS=${PATH_TENNIS_PLS}/tennis_all.m3u
-  FILE_TENNIS_HEWITT_PLS=${PATH_TENNIS_PLS}/tennis_hewitt.m3u
-  FILE_TENNIS_NADAL_PLS=${PATH_TENNIS_PLS}/tennis_nadal.m3u
-  FILE_TENNIS_FEDERER_PLS=${PATH_TENNIS_PLS}/tennis_federer.m3u
-}
-
-defineVideoPaths() {
-  #####################
-  ### Root level paths
-  #####################
-  PATH_VIDEO_FILES_ROOT=${ROOT_PREFIX}/n
-  
-  ################################
-  ### First level playlists paths
-  ################################
-  PATH_ANIME_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/anime
-  PATH_CARTOON_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/cartoons
-  PATH_FUTBOL_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/futbol
-  PATH_FUNNY_VIDEOS_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/funny_videos
-  PATH_MOVIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/movies
-  PATH_MUSIC_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/music-videos
-  PATH_SERIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/series
-  PATH_TENNIS_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/tenis
-  
-  #################################
-  ### Second level playlists paths
-  #################################
-  ### Anime playlists paths
-  PATH_CAPTAIN_TSUBASA_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/captain_tsubasa/movies
-  PATH_DETECTIVE_CONAN_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/detective_conan/movies
-  PATH_DRAGONBALL_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/dragonball/02_dragonball/movies
-  PATH_DRAGONBALL_Z_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/dragonball/01_dragonball_z/movies
-  PATH_POKEMON_MOVIES_VIDEO_FILES=${PATH_ANIME_VIDEO_FILES}/pokemon/movies
-  PATH_PRINCE_OF_TENNIS_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/prince_of_tennis/movies
-  PATH_RANMA_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/ranma/movies
-  PATH_SAINT_SEIYA_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/saint_seiya/movies
-  
-  ### Cartoon playlists paths
-  ## DC Comics
-  PATH_BATMAN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/dc_comics/batman
-  PATH_BATMAN_MOVIES_FILES=${PATH_BATMAN_VIDEO_FILES}/movies
-  PATH_JUSTICE_LEAGUE_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/dc_comics/justice_league
-  PATH_JUSTICE_LEAGUE_MOVIES_FILES=${PATH_JUSTICE_LEAGUE_VIDEO_FILES}/movies
-  PATH_SUPERMAN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/dc_comics/superman
-  PATH_SUPERMAN_MOVIES_FILES=${PATH_SUPERMAN_VIDEO_FILES}/movies
-  ## Marvel Comics
-  PATH_SPIDERMAN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/marvel/spiderman
-  PATH_XMEN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/marvel/x_men
-  
-  ### Movies, Series and Tennis video files don´t have second level paths.  
-}
-
-defineVideoFilters() {
-  # Tennis
-  FILTER_TENNIS_HEWITT="Hewitt\|hewitt"
-  FILTER_TENNIS_HEWITT_REMOVE="EMPTY-FILTER"
-  
-  FILTER_TENNIS_NADAL="Nadal\|nadal"
-  FILTER_TENNIS_NADAL_REMOVE="EMPTY-FILTER"
-  
-  FILTER_TENNIS_FEDERER="Federer\|federer"
-  FILTER_TENNIS_FEDERER_REMOVE="EMPTY-FILTER"
-  
-  # Movies
-  FILTER_MOVIES_HARRY_POTTER="fantasy/harry_potter"
-  FILTER_MOVIES_HARRY_POTTER_REMOVE="EMPTY-FILTER"
-  
-  FILTER_MOVIES_STAR_WARS="fantasy/star_wars"
-  FILTER_MOVIES_STAR_WARS_REMOVE="EMPTY-FILTER"
-  
-  FILTER_MOVIES_DC="heroes/dc"
-  FILTER_MOVIES_DC_REMOVE="EMPTY-FILTER"
-  
-  FILTER_MOVIES_MARVEL="heroes/marvel"
-  FILTER_MOVIES_MARVEL_REMOVE="EMPTY-FILTER"
-  
-  FILTER_MOVIES_DISNEY="animated/disney"
-  FILTER_MOVIES_DISNEY_REMOVE="EMPTY-FILTER"
-
-  FILTER_MOVIES_STUDIO_GHIBLI="animated/studio_ghibli"
-  FILTER_MOVIES_STUDIO_GHIBLI_REMOVE="EMPTY-FILTER"
 }
 
 createPlaylists() {
@@ -202,6 +35,28 @@ createPlaylists() {
 }
 
 createAnimePlaylists() {
+  local PATH_ANIME_PLS=${PATH_VLC_PLS_ROOT}/anime
+  
+  local FILE_ANIME_ALL_PLS=${PATH_ANIME_PLS}/anime_all.m3u
+  local FILE_CAPTAIN_TSUBASA_MOVIES_PLS=${PATH_ANIME_PLS}/captain_tsubasa_movies.m3u
+  local FILE_DETECTIVE_CONAN_MOVIES_PLS=${PATH_ANIME_PLS}/detective_conan_movies.m3u
+  local FILE_DRAGONBALL_MOVIES_PLS=${PATH_ANIME_PLS}/dragonball_movies.m3u
+  local FILE_DRAGONBALL_Z_MOVIES_PLS=${PATH_ANIME_PLS}/dragonball_z_movies.m3u
+  local FILE_POKEMON_MOVIES_PLS=${PATH_ANIME_PLS}/pokemon_movies.m3u
+  local FILE_PRINCE_OF_TENNIS_MOVIES_PLS=${PATH_ANIME_PLS}/prince_of_tennis_movies.m3u
+  local FILE_RANMA_MOVIES_PLS=${PATH_ANIME_PLS}/ranma_movies.m3u
+  local FILE_SAINT_SEIYA_MOVIES_PLS=${PATH_ANIME_PLS}/saint_seiya_movies.m3u
+
+  local PATH_ANIME_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/anime
+  local PATH_CAPTAIN_TSUBASA_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/captain_tsubasa/movies
+  local PATH_DETECTIVE_CONAN_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/detective_conan/movies
+  local PATH_DRAGONBALL_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/dragonball/02_dragonball/movies
+  local PATH_DRAGONBALL_Z_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/dragonball/01_dragonball_z/movies
+  local PATH_POKEMON_MOVIES_VIDEO_FILES=${PATH_ANIME_VIDEO_FILES}/pokemon/movies
+  local PATH_PRINCE_OF_TENNIS_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/prince_of_tennis/movies
+  local PATH_RANMA_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/ranma/movies
+  local PATH_SAINT_SEIYA_MOVIES_FILES=${PATH_ANIME_VIDEO_FILES}/saint_seiya/movies
+
   local ANIME_LIST=`ls -1 ${PATH_ANIME_VIDEO_FILES}`
   echo -e "${ANIME_LIST}" | while read ANIME; do
     createPlaylist ${PATH_ANIME_VIDEO_FILES}/${ANIME} ${PATH_ANIME_PLS}/${ANIME}_all.m3u ${PATH_VIDEO_FILES_ROOT} &
@@ -220,6 +75,28 @@ createAnimePlaylists() {
 }
 
 createCartoonPlaylists() {
+  local PATH_CARTOON_PLS=${PATH_VLC_PLS_ROOT}/cartoons
+
+  local FILE_CARTOONS_ALL_PLS=${PATH_CARTOON_PLS}/cartoons_all.m3u
+  local FILE_BATMAN_PLS=${PATH_CARTOON_PLS}/batman_all.m3u
+  local FILE_BATMAN_MOVIES_PLS=${PATH_CARTOON_PLS}/batman_movies.m3u
+  local FILE_JUSTICE_LEAGUE_PLS=${PATH_CARTOON_PLS}/justice_league_all.m3u
+  local FILE_JUSTICE_LEAGUE_MOVIES_PLS=${PATH_CARTOON_PLS}/justice_league_movies.m3u
+  local FILE_SUPERMAN_PLS=${PATH_CARTOON_PLS}/superman_all.m3u
+  local FILE_SUPERMAN_MOVIES_PLS=${PATH_CARTOON_PLS}/superman_movies.m3u
+  local FILE_SPIDERMAN_PLS=${PATH_CARTOON_PLS}/spiderman_all.m3u
+  local FILE_XMEN_PLS=${PATH_CARTOON_PLS}/x_men_all.m3u
+
+  local PATH_CARTOON_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/cartoons
+  local PATH_BATMAN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/dc_comics/batman
+  local PATH_BATMAN_MOVIES_FILES=${PATH_BATMAN_VIDEO_FILES}/movies
+  local PATH_JUSTICE_LEAGUE_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/dc_comics/justice_league
+  local PATH_JUSTICE_LEAGUE_MOVIES_FILES=${PATH_JUSTICE_LEAGUE_VIDEO_FILES}/movies
+  local PATH_SUPERMAN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/dc_comics/superman
+  local PATH_SUPERMAN_MOVIES_FILES=${PATH_SUPERMAN_VIDEO_FILES}/movies
+  local PATH_SPIDERMAN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/marvel/spiderman
+  local PATH_XMEN_VIDEO_FILES=${PATH_CARTOON_VIDEO_FILES}/marvel/x_men
+
   local CARTOONS=`ls -1 ${PATH_CARTOON_VIDEO_FILES}`
   echo -e "${CARTOONS}" | while read CARTOON; do
     createPlaylist ${PATH_CARTOON_VIDEO_FILES}/${CARTOON} ${PATH_CARTOON_PLS}/${CARTOON}_all.m3u ${PATH_VIDEO_FILES_ROOT} &
@@ -240,14 +117,45 @@ createCartoonPlaylists() {
 }
 
 createFutbolPlaylists() {
+  local PATH_FUTBOL_PLS=${PATH_VLC_PLS_ROOT}/futbol
+  local FILE_FUTBOL_ALL_PLS=${PATH_FUTBOL_PLS}/futbol_all.m3u
+  local PATH_FUTBOL_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/futbol
   createPlaylist ${PATH_FUTBOL_VIDEO_FILES} ${FILE_FUTBOL_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} &
 }
 
 createFunnyVideosPlaylists() {
+  local PATH_FUNNY_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/funny_videos
+  local FILE_FUNNY_VIDEOS_ALL_PLS=${PATH_FUNNY_VIDEOS_PLS}/funny_videos_all.m3u
+  local PATH_FUNNY_VIDEOS_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/funny_videos
   createPlaylist ${PATH_FUNNY_VIDEOS_VIDEO_FILES} ${FILE_FUNNY_VIDEOS_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} &
 }
 
 createMoviesPlaylists() {
+  local PATH_MOVIES_PLS=${PATH_VLC_PLS_ROOT}/movies
+
+  local FILE_MOVIES_ALL_PLS=${PATH_MOVIES_PLS}/movies_all.m3u
+  local FILE_MOVIES_DC_PLS=${PATH_MOVIES_PLS}/movies_dc.m3u
+  local FILE_MOVIES_MARVEL_PLS=${PATH_MOVIES_PLS}/movies_marvel.m3u
+  local FILE_MOVIES_DISNEY_PLS=${PATH_MOVIES_PLS}/movies_disney.m3u
+  local FILE_MOVIES_HARRY_POTTER_PLS=${PATH_MOVIES_PLS}/movies_harry_potter.m3u
+  local FILE_MOVIES_STAR_WARS_PLS=${PATH_MOVIES_PLS}/movies_star_wars.m3u   
+  local FILE_MOVIES_STUDIO_GHIBLI_PLS=${PATH_MOVIES_PLS}/movies_studio_ghibli.m3u
+
+  local PATH_MOVIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/movies
+
+  local FILTER_MOVIES_HARRY_POTTER="fantasy/harry_potter"
+  local FILTER_MOVIES_HARRY_POTTER_REMOVE="EMPTY-FILTER"
+  local FILTER_MOVIES_STAR_WARS="fantasy/star_wars"
+  local FILTER_MOVIES_STAR_WARS_REMOVE="EMPTY-FILTER"
+  local FILTER_MOVIES_DC="heroes/dc"
+  local FILTER_MOVIES_DC_REMOVE="EMPTY-FILTER"
+  local FILTER_MOVIES_MARVEL="heroes/marvel"
+  local FILTER_MOVIES_MARVEL_REMOVE="EMPTY-FILTER"
+  local FILTER_MOVIES_DISNEY="animated/disney"
+  local FILTER_MOVIES_DISNEY_REMOVE="EMPTY-FILTER"
+  local FILTER_MOVIES_STUDIO_GHIBLI="animated/studio_ghibli"
+  local FILTER_MOVIES_STUDIO_GHIBLI_REMOVE="EMPTY-FILTER"
+
   local MOVIES_TYPE_LIST=`ls -1 ${PATH_MOVIES_VIDEO_FILES}`
   echo -e "${MOVIES_TYPE_LIST}" | while read MOVIE_TYPE; do
     createPlaylist ${PATH_MOVIES_VIDEO_FILES}/${MOVIE_TYPE} ${PATH_MOVIES_PLS}/movies_${MOVIE_TYPE}_all.m3u ${PATH_VIDEO_FILES_ROOT} &
@@ -264,10 +172,17 @@ createMoviesPlaylists() {
 }
 
 createMusicVideoPlaylists() {
+  local PATH_MUSIC_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/music_videos
+  local FILE_MUSIC_VIDEOS_ALL_PLS=${PATH_MUSIC_VIDEOS_PLS}/music_videos_all.m3u
+  local PATH_MUSIC_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/music-videos
   createPlaylist ${PATH_MUSIC_VIDEO_FILES} ${FILE_MUSIC_VIDEOS_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} & 
 }
 
 createSeriesPlaylists() {
+  local PATH_SERIES_PLS=${PATH_VLC_PLS_ROOT}/series
+  local FILE_SERIES_ALL_PLS=${PATH_SERIES_PLS}/series_all.m3u
+  local PATH_SERIES_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/series
+  
   local SERIES=`ls -1 ${PATH_SERIES_VIDEO_FILES}`
   echo -e "${SERIES}" | while read SERIE; do
     createPlaylist ${PATH_SERIES_VIDEO_FILES}/${SERIE} ${PATH_SERIES_PLS}/${SERIE}_all.m3u ${PATH_VIDEO_FILES_ROOT} &
@@ -279,6 +194,22 @@ createSeriesPlaylists() {
 }
 
 createTennisPlaylists() {
+  local PATH_TENNIS_PLS=${PATH_VLC_PLS_ROOT}/tennis
+
+  local FILE_TENNIS_ALL_PLS=${PATH_TENNIS_PLS}/tennis_all.m3u
+  local FILE_TENNIS_HEWITT_PLS=${PATH_TENNIS_PLS}/tennis_hewitt.m3u
+  local FILE_TENNIS_NADAL_PLS=${PATH_TENNIS_PLS}/tennis_nadal.m3u
+  local FILE_TENNIS_FEDERER_PLS=${PATH_TENNIS_PLS}/tennis_federer.m3u
+
+  local PATH_TENNIS_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/tenis
+
+  local FILTER_TENNIS_HEWITT="Hewitt\|hewitt"
+  local FILTER_TENNIS_HEWITT_REMOVE="EMPTY-FILTER"
+  local FILTER_TENNIS_NADAL="Nadal\|nadal"
+  local FILTER_TENNIS_NADAL_REMOVE="EMPTY-FILTER"
+  local FILTER_TENNIS_FEDERER="Federer\|federer"
+  local FILTER_TENNIS_FEDERER_REMOVE="EMPTY-FILTER"
+
   createPlaylist ${PATH_TENNIS_VIDEO_FILES} ${FILE_TENNIS_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} &
 
   createFilteredPlaylist ${PATH_TENNIS_VIDEO_FILES} ${FILE_TENNIS_HEWITT_PLS} ${PATH_VIDEO_FILES_ROOT} "${FILTER_TENNIS_HEWITT}" "${FILTER_TENNIS_HEWITT_REMOVE}" &
