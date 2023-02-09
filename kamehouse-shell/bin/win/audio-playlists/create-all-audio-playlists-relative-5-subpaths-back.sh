@@ -14,7 +14,11 @@ fi
 
 # To use on android phones where I have both the playlists and the music files in the same storage device
 # Store the playlists git repo in: SD Card/git/kamehouse-audio-playlists
-# Store the music files in: SD Card/Music/mp3
+# Store the music files in:        SD Card/Music/mp3
+
+# Symlinks to test relative path kamehouse-audio-playlists simulating the structure of and sd card in drive D:
+# cmd.exe "/c mklink /D D:\git C:\Users\nbrest\git"
+# cmd.exe "/c mklink /D D:\Music\mp3 D:\niko9enzo\mp3"
 
 PATH_RELATIVE_MUSIC="../../../../../Music"
 PATH_PLS_DEST=${PROJECT_DIR}/audio-relative-5-subpaths-back
