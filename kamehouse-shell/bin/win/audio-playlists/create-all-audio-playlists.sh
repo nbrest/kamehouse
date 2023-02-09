@@ -26,6 +26,9 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/win/audio-playlists/create-all-audio-playlists-android-external.sh
   checkCommandStatus "$?"
 
+  ${HOME}/programs/kamehouse-shell/bin/win/audio-playlists/create-all-audio-playlists-relative-5-subpaths-back.sh
+  checkCommandStatus "$?"
+
   ${HOME}/programs/kamehouse-shell/bin/win/audio-playlists/create-all-audio-playlists-sftp-local.sh
   checkCommandStatus "$?"
 
