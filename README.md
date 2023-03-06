@@ -8,31 +8,31 @@
 
 This application (forever under construction) contains the following modules: 
 
-[Admin](kamehouse-admin/README.md)
+[Admin](/kamehouse-admin/README.md)
 
-[Cmd](kamehouse-cmd/README.md)
+[Cmd](/kamehouse-cmd/README.md)
 
-[Commons](kamehouse-commons/README.md)
+[Commons](/kamehouse-commons/README.md)
 
-[Commons Core](kamehouse-commons-core/README.md)
+[Commons Core](/kamehouse-commons-core/README.md)
 
-[Commons Test](kamehouse-commons-test/README.md)
+[Commons Test](/kamehouse-commons-test/README.md)
 
-[GRoot](kamehouse-groot/README.md)
+[GRoot](/kamehouse-groot/README.md)
 
-[Media](kamehouse-media/README.md)
+[Media](/kamehouse-media/README.md)
 
-[Mobile](kamehouse-mobile/README.md)
+[Mobile](/kamehouse-mobile/README.md)
 
-[Shell](kamehouse-shell/README.md)
+[Shell](/kamehouse-shell/README.md)
 
-[TennisWorld](kamehouse-tennisworld/README.md)
+[TennisWorld](/kamehouse-tennisworld/README.md)
 
-[TestModule](kamehouse-testmodule/README.md)
+[TestModule](/kamehouse-testmodule/README.md)
 
-[UI](kamehouse-ui/README.md)
+[UI](/kamehouse-ui/README.md)
 
-[VlcRc](kamehouse-vlcrc/README.md)
+[VlcRc](/kamehouse-vlcrc/README.md)
 
 The modules **commons**, **commons-core** and **commons-test** are jar libraries imported by the other java modules. 
 
@@ -76,7 +76,7 @@ The project uses **Maven** as a **SCM**. It is configured to validate the test c
 
 ## Node:
 
-- My custom nodejs modules are hosted [this](node/modules/) folder
+- My custom nodejs modules are hosted in the node [modules](/node/modules/) folder
 
 ## Software Configuration Management:
 
@@ -96,9 +96,9 @@ It's currently running on a Raspberry Pi, so might not be up all the time
 
 # Docker demo:
 
-As described in [Docker Setup](docker-setup.md), you can have a local demo of kamehouse running to test most of the functionality by executing one docker command
+As described in [Docker Setup](/docs/docker/docker-setup.md), you can have a local demo of kamehouse running to test most of the functionality by executing one docker command
 
-It's much simpler than going through the complex process of doing all the manual steps to have an installation in your local described in [Installation](installation.md)
+It's much simpler than going through the complex process of doing all the manual steps to have an installation in your local described in [Installation](/docs/installation/installation.md)
 
 I have a sample docker container running at https://docker-demo.nicobrest.com/kame-house/ (not always online)
 
@@ -127,14 +127,14 @@ The application will load even without these installed, however some functionali
 
 ## Other Sections:
 
-[Installation](installation.md)
+[Installation](/docs/installation/installation.md)
 
-[Execution](execution.md)
+[Execution](/docs/execution/execution.md)
 
-[Docker Setup](docker-setup.md)
+[Docker Setup](/docs/docker/docker-setup.md)
 
-[Dev Environment Setup](dev-environment-setup.md)
+[Dev Environment Setup](/docs/dev-environment/dev-environment-setup.md)
 
-[Troubleshoot Issues](troubleshoot-issues.md)
+[Troubleshoot Issues](/docs/troubleshoot/troubleshoot-issues.md)
 
-[ChangeLog](changelog.md)
+[ChangeLog](/changelog.md)

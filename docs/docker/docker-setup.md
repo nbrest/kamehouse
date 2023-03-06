@@ -6,7 +6,7 @@ The docker image loads kamehouse through tomcat and apache httpd and most of the
 
 ## Install kamehouse shell scripts to control docker (optional)
 
-- Download the script [install-kamehouse.sh](scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to install only kamehouse-shell scripts, without affecting the shell
+- Download the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to install only kamehouse-shell scripts, without affecting the shell
 ```sh
 chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -o
 ```
@@ -79,7 +79,7 @@ After that, once the init script finishes deploying kamehouse to tomcat in the c
 
 You can also access kamehouse groot at [https://localhost:12443/kame-house-groot/](https://localhost:12443/kame-house-groot/) or [http://localhost:12080/kame-house-groot/](http://localhost:12080/kame-house-groot/) and login to groot with the admin user mentioned above
 
-You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p demo`  default password `gohan` or manually with the command
+You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` or manually with the command
 
 ```sh
 ssh -p 12022 goku@localhost

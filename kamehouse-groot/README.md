@@ -13,8 +13,8 @@ This module is accessed through /kame-house-groot and relies on some of the js/c
 
 The few APIs of GRoot are built with PHP so the apache httpd server needs to have php installed as well.
 
-To install copy `public/kame-house-groot` to the apache httpd serving directory. 
-Also copy `public/index.html` to the root of the web server directory to redirect to `/kame-house` from `/`
+To install copy [public/kame-house-groot](public/kame-house-groot) to the apache httpd serving directory. 
+Also copy [public/index.html](public/index.html) to the root of the web server directory to redirect to `/kame-house` from `/`
 
 # Edit users:
 

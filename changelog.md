@@ -1,5 +1,12 @@
 # ChangeLog:
 
+#### v8.00
+
+- Restructured application docs
+- Updated audio playlists scripts
+- Updated server backup scripts
+- Fixed bugs
+
 #### v7.08
 
 * Updated docker image base to Ubuntu 22.04

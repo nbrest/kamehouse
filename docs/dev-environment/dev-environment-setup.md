@@ -4,11 +4,11 @@
 
 # Eclipse:
 
-- Follow [dev-environment-setup-eclipse.md](dev-environment-setup-eclipse.md) 
+- Follow [dev-environment-setup-eclipse.md](/docs/dev-environment/dev-environment-setup-eclipse.md) 
 
 # IntelliJ:
 
-- Follow [dev-environment-setup-intellij.md](dev-environment-setup-intellij.md) 
+- Follow [dev-environment-setup-intellij.md](/docs/dev-environment/dev-environment-setup-intellij.md) 
 
 # KameHouse shell:
 
@@ -32,8 +32,8 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 # Apache Httpd:
 
-- Follow [installation-apache.md](installation-apache.md) guide to install apache 
-- Follow [dev-environment-setup-apache.md](dev-environment-setup-apache.md) to configure apache for intellij or eclipse dev
+- Follow [installation-apache.md](/docs/installation/installation-apache.md) guide to install apache 
+- Follow [dev-environment-setup-apache.md](/docs/dev-environment/dev-environment-setup-apache.md) to configure apache for intellij or eclipse dev
 - Start apache httpd with `httpd-startup.sh`
 - Tail apache httpd logs with `tail-log.sh -f apache`
 - Stop apache httdd with `httpd-stop.sh`

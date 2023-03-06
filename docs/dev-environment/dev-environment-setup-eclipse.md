@@ -25,7 +25,7 @@
 ## Replace tabs with spaces:
   - Window -> Preferences -> Java -> Code Style -> Formatter
   - Import Active profile:
-    - From [no-tabs.xml](local-setup/eclipse/no-tabs.xml)
+    - From [no-tabs.xml](/local-setup/eclipse/no-tabs.xml)
 
 ## Setup remote debugging in eclipse:
   - Run > Debug Configurations > Remote Java Application > New Configuration:

@@ -5,7 +5,7 @@
 
 ## Configuration files: 
 
-- The folder `local-setup/apache` in the root of this repo contains sample apache configuration files needed to setup kamehouse locally for both windows and linux with the vhosts setup for both production and eclipse and intellij environments
+- The folder [/local-setup/apache](/local-setup/apache) in the root of this repo contains sample apache configuration files needed to setup kamehouse locally for both windows and linux with the vhosts setup for both production and eclipse and intellij environments
 
 ## Prod environment:
 
@@ -15,8 +15,8 @@
 
 - Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/) and install it to `${HOME}/programs/apache-httpd`
 - Install php to `${HOME}/programs/php`
-- Update the configuration files with the ones in `local-setup/apache` 
-  - Replace all the files in `${HOME}/programs/apache-httpd/conf` with the ones from `local-setup/apache/win/conf` 
+- Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
+  - Replace all the files in `${HOME}/programs/apache-httpd/conf` with the ones from [/local-setup/apache/win/conf/](/local-setup/apache/win/conf/)
   - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
   - Edit `httpd.conf` and check that it points correctly to the php installation. Replace `nbrest` with your username
   ```sh
@@ -37,7 +37,7 @@ mklink /D "%USERPROFILE%\programs\apache-httpd\www\kamehouse-webserver\kame-hous
 
 #### Install .httpasswd file
 
-- This is needed for [Groot](kamehouse-groot/README.md) and [Shell](kamehouse-shell/README.md)
+- This is needed for [Groot](/kamehouse-groot/README.md) and [Shell](/kamehouse-shell/README.md)
 - Create a new one or copy the sample one from `docker/apache2` folder
 ```sh
 cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/www/kamehouse-webserver/
@@ -59,7 +59,7 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
 
 - Install apache httpd from the package manager
 - Install php from the package manager
-- Update the configuration files with the ones in `local-setup/apache` 
+- Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
   ```sh
   # config apache
   sudo cp -v -f -r local-setup/apache/lin/conf to /var/apache2/conf
@@ -78,7 +78,7 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
 
 #### Install .httpasswd file
 
-- This is needed for [Groot](kamehouse-groot/README.md) and [Shell](kamehouse-shell/README.md)
+- This is needed for [Groot](/kamehouse-groot/README.md) and [Shell](/kamehouse-shell/README.md)
 - Create a new one or copy the sample one from `docker/apache2` folder
 ```sh
 cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd /var/www/kamehouse-webserver/

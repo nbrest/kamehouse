@@ -36,7 +36,7 @@
 * To test that it works, open a command prompt and type vlc to see if it finds the executable or if it throws an error that it can't find it
 
 ### Run tomcat through a startup script, not as a system service
-* The commands to start and stop vlc (and possibly other system commands) don't work if tomcat is run as a service in **windows**. Check [Installation](installation.md) to run tomcat from a startup script.
+* The commands to start and stop vlc (and possibly other system commands) don't work if tomcat is run as a service in **windows**. Check [Installation](/docs/installation/installation.md) to run tomcat from a startup script.
 
 *********************
 
@@ -96,7 +96,7 @@ Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by 
 ## Apache httpd VRUNTIME140.dll missing error on startup (windows):
 
 - If I get a `VRUNTIME140.dll missing` error when trying to load httpd.exe, I need to install Some microsoft Visual C++ runtime. Google it. For PHP 7.4+ I need version 2019 of the runtime. version 2015 still throws some errors
-- Remember to run apache with a startup script and not as a service, as described in [installation-apache.md](installation-apache.md)
+- Remember to run apache with a startup script and not as a service, as described in [installation-apache.md](/docs/installation/installation-apache.md)
 
 *********************
 
@@ -137,4 +137,4 @@ ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.0.129"
 
 ## Can't tail apache httpd log on linux
 
-- Add user running kamehouse to adm group as described in [kamehouse-shell](kamehouse-shell/README.md)
+- Add user running kamehouse to adm group as described in [kamehouse-shell](/kamehouse-shell/README.md)
