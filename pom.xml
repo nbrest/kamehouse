@@ -98,7 +98,7 @@
     <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2021/04 -->
-    <hsql.version>2.6.0</hsql.version>
+    <hsql.version>2.7.1</hsql.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2020/10 -->
     <httpclient.version>4.5.13</httpclient.version>
