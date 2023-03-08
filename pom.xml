@@ -146,7 +146,7 @@
     <mockito.version>3.12.4</mockito.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <mysql.connector.java.version>8.0.26</mysql.connector.java.version>
+    <mysql.connector.java.version>8.0.28</mysql.connector.java.version>
 
     <!-- Updated : 2016/02 | Dependency version date: 2016/02 -->
     <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
