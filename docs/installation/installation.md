@@ -1,3 +1,11 @@
+---------------------------------------------------------------
+| | |
+---------------------------------------------------------------
+| [Home](/README.md) | [Docs](/docs/README.md) |
+---------------------------------------------------------------
+
+*********************
+
 # Installation:
 
 * The recommended and easiest way is to install is through docker as explained in [docker-setup.md](/docs/docker/docker-setup.md)

@@ -1,3 +1,11 @@
+---------------------------------------------------------------
+| | |
+---------------------------------------------------------------
+| [Home](/README.md) | [Docs](/docs/README.md) |
+---------------------------------------------------------------
+
+*********************
+
 # Cmd Module:
 
 * kamehouse-cmd is a command line tool written in java to do admin tasks executable through the

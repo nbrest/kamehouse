@@ -1,3 +1,11 @@
+---------------------------------------------------------------
+| | |
+---------------------------------------------------------------
+| [Home](/README.md) | [Docs](/docs/README.md) |
+---------------------------------------------------------------
+
+*********************
+
 # Docker Setup:
 
 The project is hosted on [docker hub](https://hub.docker.com/repository/docker/nbrest/kamehouse).

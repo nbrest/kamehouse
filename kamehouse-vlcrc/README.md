@@ -1,3 +1,11 @@
+---------------------------------------------------------------
+| | |
+---------------------------------------------------------------
+| [Home](/README.md) | [Docs](/docs/README.md) |
+---------------------------------------------------------------
+
+*********************
+
 # VlcRc Module:
 
 This module handles the following functionality:
@@ -8,3 +16,8 @@ This module handles the following functionality:
 * Get the currently running playlist to be rendered in the UI
 * Register and unregister vlc players (both in localhost and remote) in kamehouse to connect to
  their http API
+
+## Stream videos to chromecast:
+
+- In VLC player > Playback > Renderer > Select chromcast device to stream to
+

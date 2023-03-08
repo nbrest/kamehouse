@@ -1,3 +1,11 @@
+---------------------------------------------------------------
+| | |
+---------------------------------------------------------------
+| [Home](/README.md) | [Docs](/docs/README.md) |
+---------------------------------------------------------------
+
+*********************
+
 # Shell Module:
 
 This module contains most of my shell scripts to automate some tasks setting up, building, deploying and debugging kamehouse.

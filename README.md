@@ -1,8 +1,15 @@
+---------------------------------------------------------------
+| | |
+---------------------------------------------------------------
+| [Home](/README.md) | [Docs](/docs/README.md) |
+---------------------------------------------------------------
+
+*********************
+
 ## Dev branch status:
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=dev&project=nbrest_kamehouse&metric=alert_status)](https://sonarcloud.io/dashboard?id=nbrest_kamehouse&branch=dev)
 [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/nbrest/kamehouse/dev)](https://github.com/nbrest/kamehouse/tree/dev)
- 
 
 # Description:
 
@@ -119,22 +126,10 @@ This web application interacts with other applications that need to be installed
 
 The application will load even without these installed, however some functionality will not work without them.
 
-# Stream videos to chromecast:
-
-- In VLC player > Playback > Renderer > Select chromcast device to stream to
-
 *********************
 
 ## Other Sections:
 
-[Installation](/docs/installation/installation.md)
-
-[Execution](/docs/execution/execution.md)
-
-[Docker Setup](/docs/docker/docker-setup.md)
-
-[Dev Environment Setup](/docs/dev-environment/dev-environment-setup.md)
-
-[Troubleshoot Issues](/docs/troubleshoot/troubleshoot-issues.md)
+[Documentation](/docs/README.md)
 
 [ChangeLog](/changelog.md)
