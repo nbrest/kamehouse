@@ -13,6 +13,7 @@
 - Restructured application docs
 - Updated audio playlists scripts
 - Updated server backup scripts
+- Added world cup 2022 scripts and apps to get my tickets. ARGENTINA CAMPEON DEL MUNDO!!! :)
 - Fixed bugs
 
 #### v7.08

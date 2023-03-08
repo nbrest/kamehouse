@@ -46,3 +46,9 @@
 [UI](/kamehouse-ui/README.md)
 
 [VlcRc](/kamehouse-vlcrc/README.md)
+
+# Other sections:
+
+[Chrome Extensions](/chrome-extensions/README.md)
+
+[Node](/node/README.md)

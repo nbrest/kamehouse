@@ -1,0 +1,21 @@
+{
+  "name": "world-cup-bookings Chome Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "world-cup-bookings.js"
+  },
+  "action": {
+    "default_title": "world-cup-bookings Chrome Extension"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ]
+}

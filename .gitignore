@@ -89,3 +89,7 @@ local.properties
 /.apt_generated_tests/
 *.iml
 
+##########
+# Node
+##########
+**/node_modules/

@@ -1,0 +1,15 @@
+#world-cup-bookings-chrome-extension-div {
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  border: 3px solid #640808;
+  background-color: #13181b;
+  color: #a7a7a7;
+  font-size: 25px;
+  padding: 10px;
+  margin: 10px;
+  font-family: Arial;
+  min-width: 600px;
+  line-height: 40px;
+}
