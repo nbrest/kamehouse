@@ -68,7 +68,7 @@
     <commons.lang3.version>3.12.0</commons.lang3.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <commons.text.version>1.9</commons.text.version>
+    <commons.text.version>1.10.0</commons.text.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2019/05 -->
     <compiler.plugin.version>3.8.1</compiler.plugin.version>
