@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.01
+
+- Added sample kamehouse chrome extension
+
 #### v8.00
 
 - Restructured application docs
