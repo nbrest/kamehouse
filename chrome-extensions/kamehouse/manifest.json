@@ -1,0 +1,21 @@
+{
+  "name": "KameHouse Chome Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "kamehouse.js"
+  },
+  "action": {
+    "default_title": "KameHouse Chrome Extension"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ]
+}
