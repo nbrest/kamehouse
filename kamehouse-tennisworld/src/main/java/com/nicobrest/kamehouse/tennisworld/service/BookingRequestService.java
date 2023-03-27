@@ -42,7 +42,7 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
     }
 
     if (entity.getDuration() != null && !DURATION_PATTERN.matcher(entity.getDuration()).matches()) {
-      InputValidator.throwInputValidationError("Invalid duration. Expected 3 digits");
+      InputValidator.throwInputValidationError("Invalid duration. Expected 1 to 3 digits");
     }
   }
 }
