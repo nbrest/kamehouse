@@ -38,11 +38,11 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
     // date gets validated automatically to yyyy-mm-dd
 
     if (entity.getTime() == null || !TIME_PATTERN.matcher(entity.getTime()).matches()) {
-      InputValidator.throwInputValidationError("Invalid time");
+      InputValidator.throwInputValidationError("Invalid time. Expected HH:MM");
     }
 
     if (entity.getDuration() != null && !DURATION_PATTERN.matcher(entity.getDuration()).matches()) {
-      InputValidator.throwInputValidationError("Invalid duration");
+      InputValidator.throwInputValidationError("Invalid duration. Expected 3 digits");
     }
   }
 }

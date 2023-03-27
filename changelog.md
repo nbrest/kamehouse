@@ -8,6 +8,7 @@
 #### v8.01
 
 - Added sample kamehouse chrome extension
+- Deprecated old ActiveCarrot tennis world integration
 
 #### v8.00
 
