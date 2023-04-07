@@ -60,6 +60,8 @@ public abstract class AbstractDaoJpa<E> {
       logger.debug("findAll {} response {}", clazz.getSimpleName(), entitiesList);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
+    } catch (IllegalArgumentException e) {
+      handleIllegalArgumentException(e);
     } finally {
       em.close();
     }
@@ -237,6 +239,8 @@ public abstract class AbstractDaoJpa<E> {
       logger.debug("addEntityToRepository {} response {}", entity, addedEntity);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
+    } catch (IllegalArgumentException e) {
+      handleIllegalArgumentException(e);
     } finally {
       em.close();
     }
