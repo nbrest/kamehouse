@@ -9,7 +9,7 @@
 
 - Added sample kamehouse chrome extension
 - Deprecated old ActiveCarrot tennis world integration
-- Added new PerfectGym tennis world integration to support booking classes, comps and courts
+- Added new PerfectGym tennis world integration to support booking classes, comps and courts (without sending payment details, only for members with enough credits to book)
 
 #### v8.00
 
