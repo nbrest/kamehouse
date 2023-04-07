@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -348,6 +350,21 @@ public class JsonUtilsTest {
   }
 
   /**
+   * Tests toJson with Date field in the object.
+   */
+  @Test
+  public void toJsonDateObjectTest() {
+    TestDateClass testDateClass = new TestDateClass();
+    testDateClass.setDateField(DateUtils.getDate(1984, Calendar.OCTOBER, 15, 10, 11, 12));
+    testDateClass.setId(1);
+    String expected = "{\"id\":1,\"dateField\":\"1984-10-15 10:11:12\"}";
+
+    String output = JsonUtils.toJsonString(testDateClass);
+
+    assertEquals(expected, output);
+  }
+
+  /**
    * Tests toJsonArray.
    */
   @Test
@@ -416,6 +433,36 @@ public class JsonUtilsTest {
       jsonArray.add(MAPPER.createArrayNode().add("" + i++).add("" + i++));
     }
     emptyJsonArray = MAPPER.createArrayNode();
+  }
+
+  /**
+   * Test class for date mappings on jsons.
+   */
+  public static class TestDateClass {
+
+    private int id;
+    private Date dateField;
+
+    public int getId() {
+      return id;
+    }
+
+    public void setId(int id) {
+      this.id = id;
+    }
+
+    public Date getDateField() {
+      return (Date) dateField.clone();
+    }
+
+    public void setDateField(Date dateField) {
+      this.dateField = (Date) dateField.clone();
+    }
+
+    @Override
+    public String toString() {
+      return JsonUtils.toJsonString(this, super.toString());
+    }
   }
 
   /**

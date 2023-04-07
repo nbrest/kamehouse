@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nicobrest.kamehouse.commons.annotations.Masked.MaskedUtils;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +26,7 @@ public class JsonUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
   private static final String FIELD_MASK = "****";
   private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
 
   private JsonUtils() {
     throw new IllegalStateException("Utility class");
@@ -67,6 +69,7 @@ public class JsonUtils {
    */
   public static String toJsonString(Object object, String defaultValue, String[] maskedFields) {
     try {
+      MAPPER.setDateFormat(DATE_FORMAT);
       JsonNode jsonNode = MAPPER.valueToTree(object);
       if (!(jsonNode instanceof ObjectNode)) {
         return MAPPER.writer().writeValueAsString(jsonNode);

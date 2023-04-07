@@ -48,6 +48,7 @@ public class DateUtils {
   public static String toCronExpression(Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
+    calendar.set(Calendar.MILLISECOND, 0);
     return toCronExpression(calendar);
   }
 
@@ -125,6 +126,7 @@ public class DateUtils {
       Integer year, Integer month, Integer day, Integer hours, Integer minutes, Integer seconds) {
     Calendar calendar = Calendar.getInstance();
     calendar.set(year, month, day, hours, minutes, seconds);
+    calendar.set(Calendar.MILLISECOND, 0);
     return calendar.getTime();
   }
 
@@ -299,6 +301,7 @@ public class DateUtils {
   public static Day getDay(Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
+    calendar.set(Calendar.MILLISECOND, 0);
     int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
     return getDay(dayOfWeek);
   }
