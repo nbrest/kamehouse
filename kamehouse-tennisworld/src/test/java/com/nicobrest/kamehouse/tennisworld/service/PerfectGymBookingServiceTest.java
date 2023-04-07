@@ -69,6 +69,14 @@ public class PerfectGymBookingServiceTest {
       "perfectgym/book-class-responses/step-5-book-class.json"
   };
 
+  private static final String[] BOOK_CLASS_STEP_1_ERROR_EMPTY_RESPONSES = {
+      "perfectgym/book-class-responses/step-1-login-error-empty.json"
+  };
+
+  private static final String[] BOOK_CLASS_STEP_1_ERROR_NO_USER_RESPONSES = {
+      "perfectgym/book-class-responses/step-1-login-error-no-user.json"
+  };
+
   private static final String[] BOOK_COURT_RESPONSES = {
       "perfectgym/book-court-responses/step-1-login.json",
       "perfectgym/book-court-responses/step-2-clubs.json",
@@ -161,6 +169,42 @@ public class PerfectGymBookingServiceTest {
     request.setDryRun(true);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setMessage(PerfectGymBookingService.SUCCESSFUL_BOOKING_DRY_RUN);
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a class step 1 error empty response flow.
+   */
+  @Test
+  public void bookClassStep1ErrorEmptyTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_CLASS_STEP_1_ERROR_EMPTY_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.ERROR);
+    expected.setMessage("Invalid login to tennis world.");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a class step 1 error no user response flow.
+   */
+  @Test
+  public void bookClassStep1ErrorNoUserTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_CLASS_STEP_1_ERROR_NO_USER_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.ERROR);
+    expected.setMessage("Invalid login to tennis world.");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = perfectGymBookingServiceSpy.book(request);

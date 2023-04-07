@@ -136,7 +136,7 @@ public class PerfectGymBookingService extends BookingService {
   }
 
   /**
-   * Login to PerfectGym Tennis World.
+   * Step 1: Login to PerfectGym Tennis World.
    */
   private void loginToTennisWorld(HttpClient httpClient, BookingRequest bookingRequest)
       throws IOException {
@@ -174,7 +174,7 @@ public class PerfectGymBookingService extends BookingService {
   }
 
   /**
-   * Get classes clubs from tennis world PerfectGym.
+   * Step 2: Get classes clubs from tennis world PerfectGym.
    */
   private JsonNode[] getClassesClubs(HttpClient httpClient) throws IOException {
     HttpGet getClassesClubsRequest = new HttpGet(CLASSES_CLUBS_URL);
@@ -207,7 +207,7 @@ public class PerfectGymBookingService extends BookingService {
   }
 
   /**
-   * Get calendar filters returned by tennis world PerfectGym.
+   * Step 3: Get calendar filters returned by tennis world PerfectGym.
    */
   private JsonNode getCalendarFilters(HttpClient httpClient, long clubId) throws IOException {
     CalendarFiltersRequest requestBody = new CalendarFiltersRequest();
@@ -228,7 +228,7 @@ public class PerfectGymBookingService extends BookingService {
   }
 
   /**
-   * Get the daily classes for the booking request date from tennis world PerfectGym.
+   * Step 4: Get the daily classes for the booking request date from tennis world PerfectGym.
    */
   public JsonNode getDailyClasses(HttpClient httpClient, long clubId, BookingRequest bookingRequest)
       throws IOException {
@@ -278,7 +278,7 @@ public class PerfectGymBookingService extends BookingService {
   }
 
   /**
-   * Complete the booking request on tennis world PerfectGym for the specified class.
+   * Step 5: Complete the booking request on tennis world PerfectGym for the specified class.
    */
   private void completeClassBooking(HttpClient httpClient, long clubId, long classId)
       throws IOException {
