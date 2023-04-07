@@ -107,16 +107,27 @@ public abstract class BookingService {
           BookingResponse response = book(bookingRequest);
           bookingResponses.add(response);
         } else {
-          logger.debug(
-              "No scheduled booking to be executed today for BookingScheduleConfig id {}",
+          logger.debug("No scheduled booking to be executed today for BookingScheduleConfig id {}",
               bookingScheduleConfig.getId());
         }
       } catch (KameHouseException e) {
         logger.error("Error executing scheduled booking for {}", bookingScheduleConfig, e);
       }
     }
-    logger.info(
-        "Booking scheduled sessions finished with the following responses: {}", bookingResponses);
+    int successfulBookings = 0;
+    int failedBookings = 0;
+    for (BookingResponse bookingResponse : bookingResponses) {
+      if (Status.SUCCESS.equals(bookingResponse.getStatus())) {
+        successfulBookings++;
+      }
+      if (!Status.SUCCESS.equals(bookingResponse.getStatus())) {
+        failedBookings++;
+      }
+    }
+    logger.info("Booking scheduled sessions finished. Executed {} booking requests. {} successful "
+            + "requests and {} failed requests", bookingResponses.size(), successfulBookings,
+        failedBookings);
+    logger.debug("Scheduled booking responses {}", bookingResponses);
     return bookingResponses;
   }
 

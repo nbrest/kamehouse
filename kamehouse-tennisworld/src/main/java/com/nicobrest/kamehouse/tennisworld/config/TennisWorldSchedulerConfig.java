@@ -29,28 +29,34 @@ public class TennisWorldSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired private Scheduler scheduler;
+  @Autowired
+  private Scheduler scheduler;
 
-  /** Init TennisWorldSchedulerConfig. */
+  /**
+   * Init TennisWorldSchedulerConfig.
+   */
   @PostConstruct
   public void init() {
     logger.info("init TennisWorldSchedulerConfig");
     try {
       JobDetail scheduledBookingJobDetail = scheduledBookingJobDetail();
       scheduler.addJob(scheduledBookingJobDetail, true);
-      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 0));
-      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 2));
-      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 0, 10));
-      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 0));
-      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 2));
-      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 10));
-      scheduler.scheduleJob(scheduledBookingTrigger(scheduledBookingJobDetail, 1, 30));
+      int[] bookingHours = {10, 11, 12, 13, 14, 18, 19, 20};
+      int[] bookingMinutes = {5, 35};
+      for (int bookingHour : bookingHours) {
+        for (int bookingMinute : bookingMinutes) {
+          scheduler.scheduleJob(
+              scheduledBookingTrigger(scheduledBookingJobDetail, bookingHour, bookingMinute));
+        }
+      }
     } catch (SchedulerException e) {
       logger.error("Error adding tennisworld jobs to the scheduler", e);
     }
   }
 
-  /** scheduledBookingJobDetail bean. */
+  /**
+   * scheduledBookingJobDetail bean.
+   */
   @Bean(name = "scheduledBookingJobDetail")
   public JobDetail scheduledBookingJobDetail() {
     return JobBuilder.newJob()
@@ -61,7 +67,9 @@ public class TennisWorldSchedulerConfig {
         .build();
   }
 
-  /** Trigger for the scheduledBookingJobDetail at the specified hour and minutes. */
+  /**
+   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes.
+   */
   private static Trigger scheduledBookingTrigger(
       JobDetail scheduledBookingJobDetail, int hour, int minute) {
     return TriggerBuilder.newTrigger()
