@@ -1,0 +1,14 @@
+{
+  "TicketsFormatChanged": [{
+    "TimeTableEventId": 10694,
+    "Name": "Cardio Tennis/Cardio Play",
+    "StartTime": "2023-04-17T13:00:00",
+    "ZoneName": "Court 3",
+    "UserName": "Nicolas Brest",
+    "UserNumber": "41935",
+    "UserId": 36071,
+    "Trainer": "James Hartson"
+  }],
+  "ClassId": 10694,
+  "UserId": 36071
+}

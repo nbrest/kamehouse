@@ -1,0 +1,27 @@
+[
+  "User": {
+    "Member": {
+      "Id": 36071,
+      "UserNumber": "41935",
+      "FirstName": "Nicolas",
+      "LastName": "Brest",
+      "Email": "brest.nico@gmail.com",
+      "PhotoUrl": null,
+      "HomeClubId": 2,
+      "DefaultClubId": 2,
+      "Type": "ClubMember",
+      "IsGuest": false,
+      "IsFamilyChild": false,
+      "NotificationsData": {
+        "CanUpdateFromTrial": false,
+        "HasInvalidContractPaymentMethod": false,
+        "HasFingerprintAssigned": false,
+        "RemainingDeposit": 0.0,
+        "ContractStatus": "Current"
+      }
+    },
+    "Employee": null,
+    "Roles": ["Member"]
+  },
+  "State": "Classes"
+}

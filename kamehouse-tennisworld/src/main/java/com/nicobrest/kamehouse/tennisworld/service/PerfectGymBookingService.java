@@ -36,7 +36,7 @@ public class PerfectGymBookingService extends BookingService {
 
   // URLs
   public static final String ROOT_URL = "https://tennisworld.perfectgym.com.au";
-  private static final String LOGIN_URL = ROOT_URL + "/ClientPortal2/Auth/Login";
+  public static final String LOGIN_URL = ROOT_URL + "/ClientPortal2/Auth/Login";
   private static final String CLASSES_CLUBS_URL =
       ROOT_URL + "/ClientPortal2/Clubs/GetAvailableClassesClubs";
   private static final String CALENDAR_FILTERS_URL =
@@ -203,7 +203,7 @@ public class PerfectGymBookingService extends BookingService {
       }
     }
     throw new KameHouseServerErrorException(
-        "Unable to find club id for " + bookingRequestClub + "from PerfectGym response");
+        "Unable to find club id for " + bookingRequestClub + " from PerfectGym response");
   }
 
   /**

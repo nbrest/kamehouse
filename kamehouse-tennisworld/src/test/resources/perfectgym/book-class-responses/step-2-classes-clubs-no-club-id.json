@@ -1,0 +1,91 @@
+[{
+  "Id": 3,
+  "Name": "Tennis World Albert Reserve",
+  "FullName": "Tennis World Albert Reserve",
+  "Address": "46 Queens Road",
+  "City": {
+    "Id": "108900000002405922",
+    "Name": "Albert Reserve",
+    "Country": "AU"
+  },
+  "ClubNumber": "103",
+  "Latitude": -37.82300000,
+  "Longitude": 144.97900000,
+  "OpeningDate": "2022-08-01T00:00:00",
+  "OpeningDateLocal": "2022-08-01T00:00:00"
+}, {
+  "Id": 4,
+  "Name": "Tennis World Canberra",
+  "FullName": "Tennis World Canberra",
+  "Address": "3 Riggall Place",
+  "City": {
+    "Id": "72628",
+    "Name": "Lyneham",
+    "Country": "AU"
+  },
+  "ClubNumber": "104",
+  "Latitude": null,
+  "Longitude": null,
+  "OpeningDate": "2022-08-01T00:00:00",
+  "OpeningDateLocal": "2022-08-01T00:00:00"
+}, {
+  "Id": 6,
+  "Name": "Tennis World Launceston",
+  "FullName": "Tennis World Launceston",
+  "Address": "57 Racecourse Cres",
+  "City": {
+    "Id": "65756",
+    "Name": "Launceston",
+    "Country": "AU"
+  },
+  "ClubNumber": "106",
+  "Latitude": null,
+  "Longitude": null,
+  "OpeningDate": "2022-08-01T00:00:00",
+  "OpeningDateLocal": "2022-08-01T00:00:00"
+}, {
+  "Id": 2,
+  "Name": "NO MELB PARK CLUB",
+  "FullName": "Tennis World Melbourne Park",
+  "Address": "Entrance D, Olympic Boulevard",
+  "City": {
+    "Id": "108900000002405923",
+    "Name": "Melbourne Park",
+    "Country": "AU"
+  },
+  "ClubNumber": "102",
+  "Latitude": -37.82270000,
+  "Longitude": 144.97900000,
+  "OpeningDate": "2022-08-01T00:00:00",
+  "OpeningDateLocal": "2022-08-01T00:00:00"
+}, {
+  "Id": 5,
+  "Name": "Tennis World Millswood",
+  "FullName": "Tennis World Millswood",
+  "Address": "Chelmsford Ave",
+  "City": {
+    "Id": "37400000002341070",
+    "Name": "Millswood",
+    "Country": "AU"
+  },
+  "ClubNumber": "105",
+  "Latitude": null,
+  "Longitude": null,
+  "OpeningDate": "2022-08-01T00:00:00",
+  "OpeningDateLocal": "2022-08-01T00:00:00"
+}, {
+  "Id": 1,
+  "Name": "Tennis World Sydney",
+  "FullName": "Tennis World Sydney",
+  "Address": "2 Rod Laver Drive",
+  "City": {
+    "Id": "100000000000005142",
+    "Name": "Sydney Olympic Park",
+    "Country": "AU"
+  },
+  "ClubNumber": "101",
+  "Latitude": null,
+  "Longitude": null,
+  "OpeningDate": "2017-01-02T12:04:00",
+  "OpeningDateLocal": "2017-01-02T12:04:00"
+}]

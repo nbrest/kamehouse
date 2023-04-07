@@ -1,0 +1,705 @@
+[
+  "CalendarData": [{
+    "Hour": "1900-01-01T06:00:00",
+    "Classes": [{
+      "Id": 25622,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T06:30:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 4,
+        "Limit": 5,
+        "Available": 4
+      },
+      "Trainer": "Keilah Shepherd",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T07:00:00",
+    "Classes": [{
+      "Id": 25640,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T07:15:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 2,
+        "Limit": 5,
+        "Available": 2
+      },
+      "Trainer": "Keilah Shepherd",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T09:00:00",
+    "Classes": [{
+      "Id": 60928,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Red Hot Shots Holiday Camp (5-8 Year Olds)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 3,
+        "Limit": 16,
+        "Available": 9
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 60942,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Orange Hot Shots Holiday Camp (8-10 Years)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 7
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 60921,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Orange Hot Shots Holiday Camp (8-10 Years)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 8
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 60914,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Orange Hot Shots Holiday Camp (8-10 Years)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 8
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 60913,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Orange Hot Shots Holiday Camp (8-10 Years)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 7
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 61223,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Green Hot Shots Holiday Camp (9+ Year Olds)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 8
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 61137,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Green Hot Shots Holiday Camp (9+ Year Olds)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 8
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 60935,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Green Hot Shots Holiday Camp (9+ Year Olds)",
+      "StartTime": "2023-04-17T09:00:00",
+      "Duration": "PT8H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 7
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 61043,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Junior Development Camps",
+      "StartTime": "2023-04-17T09:30:00",
+      "Duration": "PT6H-30M",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 6,
+        "Available": 5
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 61036,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Junior Development Camps",
+      "StartTime": "2023-04-17T09:30:00",
+      "Duration": "PT6H-30M",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 6,
+        "Available": 6
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 60971,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Junior Development Camps",
+      "StartTime": "2023-04-17T09:30:00",
+      "Duration": "PT6H-30M",
+      "BookingIndicator": {
+        "Indicator": 2,
+        "Limit": 6,
+        "Available": 2
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 61050,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Junior Development Camps",
+      "StartTime": "2023-04-17T09:30:00",
+      "Duration": "PT6H-30M",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 6,
+        "Available": 6
+      },
+      "Trainer": "",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 54940,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "AM Elite Performance Squad (UTR 9+)",
+      "StartTime": "2023-04-17T09:30:00",
+      "Duration": "PT2H",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 4,
+        "Available": 4
+      },
+      "Trainer": "Jarryd Maher",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }]
+  }, {
+    "Hour": "1900-01-01T11:00:00",
+    "Classes": [{
+      "Id": 10658,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T11:30:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Daniel Guccione",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 25586,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T11:30:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Emma Tuddenham",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 25658,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T11:30:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "James Hartson",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T12:00:00",
+    "Classes": [{
+      "Id": 52169,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Performance Passport Gym Session",
+      "StartTime": "2023-04-17T12:00:00",
+      "Duration": "PT2H",
+      "BookingIndicator": null,
+      "Trainer": "Ryan Plavin",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": null
+    }, {
+      "Id": 10676,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T12:15:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Daniel Guccione",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 25604,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T12:15:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Emma Tuddenham",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 25676,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T12:15:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "James Hartson",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T13:00:00",
+    "Classes": [{
+      "Id": 25568,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T13:00:00",
+      "Duration": "PT45M",
+      "BookingIndicator": {
+        "Indicator": 4,
+        "Limit": 5,
+        "Available": 4
+      },
+      "Trainer": "Daniel Guccione",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 10694,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T13:00:00",
+      "Duration": "PT45M",
+      "BookingIndicator": {
+        "Indicator": 1,
+        "Limit": 5,
+        "Available": 1
+      },
+      "Trainer": "James Hartson",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T17:00:00",
+    "Classes": [{
+      "Id": 26107,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Cardio Activ8",
+      "StartTime": "2023-04-17T17:30:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 8,
+        "Available": 8
+      },
+      "Trainer": "Tara Reiter",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 373,
+        "RatingsCount": 3,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T18:00:00",
+    "Classes": [{
+      "Id": 26133,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Cardio Activ8",
+      "StartTime": "2023-04-17T18:15:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 3,
+        "Limit": 8,
+        "Available": 4
+      },
+      "Trainer": "Tara Reiter",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 373,
+        "RatingsCount": 3,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 10712,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T18:30:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Keilah Shepherd",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 25712,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T18:30:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Lucas Kellett",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T19:00:00",
+    "Classes": [{
+      "Id": 57019,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "Cardio Activ8",
+      "StartTime": "2023-04-17T19:00:00",
+      "Duration": "PT45M",
+      "BookingIndicator": {
+        "Indicator": 4,
+        "Limit": 8,
+        "Available": 6
+      },
+      "Trainer": "Tara Reiter",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 373,
+        "RatingsCount": 3,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 10730,
+      "Status": "FullBooked",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T19:15:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Keilah Shepherd",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }, {
+      "Id": 25694,
+      "Status": "Awaitable",
+      "StatusReason": null,
+      "Name": "Cardio Tennis/Cardio Play",
+      "StartTime": "2023-04-17T19:15:00",
+      "Duration": "PT1H-15M",
+      "BookingIndicator": {
+        "Indicator": 0,
+        "Limit": 5,
+        "Available": 0
+      },
+      "Trainer": "Lucas Kellett",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 7,
+        "RatingsCount": 17,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }, {
+    "Hour": "1900-01-01T20:00:00",
+    "Classes": [{
+      "Id": 57362,
+      "Status": "Bookable",
+      "StatusReason": null,
+      "Name": "TW Adult Match Play - SINGLES",
+      "StartTime": "2023-04-17T20:00:00",
+      "Duration": "PT1H30M",
+      "BookingIndicator": {
+        "Indicator": 5,
+        "Limit": 20,
+        "Available": 19
+      },
+      "Trainer": "Tara Reiter",
+      "Users": [],
+      "HasRelatives": false,
+      "AllowBookSeatNumber": false,
+      "IsClassAvailableOnline": false,
+      "ClassRatingSummaryInfo": {
+        "TimeTableId": 520,
+        "RatingsCount": 1,
+        "Rating": 5.0,
+        "Ranking": 5.0
+      }
+    }]
+  }],
+  "PagerData": {
+    "Days": ["2023-04-16", "2023-04-17", "2023-04-18", "2023-04-19", "2023-04-20"],
+    "NextDate": "2023-04-22",
+    "PreviousDate": "2023-04-12",
+    "Date": "2023-04-17",
+    "CanGoForward": true,
+    "CanGoBack": true,
+    "QueryStartDate": "2023-04-17",
+    "QueryEndDate": "2023-04-17"
+  }
+}
