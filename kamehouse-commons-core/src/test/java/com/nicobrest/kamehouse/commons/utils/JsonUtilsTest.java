@@ -1,10 +1,12 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -58,6 +60,7 @@ public class JsonUtilsTest {
     String output = JsonUtils.toJsonString(jsonNode, null, maskedFields);
     String expectedOutput = "{"
         + "  \"intField\":128,"
+        + "  \"longField\":250,"
         + "  \"booleanField\":true,"
         + "  \"textField\":\"****\","
         + "  \"doubleField\":\"****\""
@@ -90,7 +93,8 @@ public class JsonUtilsTest {
         + "  },"
         + "  \"testSubClassList\":null,"
         + "  \"testSubClassMap\":null,"
-        + "  \"name\":\"****\""
+        + "  \"name\":\"****\","
+        + "  \"PasswordRenamed\":\"****\""
         + "}";
     expectedOutput = expectedOutput.replace(" ", "");
     assertEquals(expectedOutput, output);
@@ -99,7 +103,7 @@ public class JsonUtilsTest {
   /**
    * Tests toJsonString with masked annotated fields with nested fields and lists.
    */
-  //TODO Fix JsonUtils.toJsonString() to handle Masked fields on lists and maps. I expect name,
+  //TODO Fix JsonUtils.toJsonString() to handle Masked fields on lists and maps. I expect name, password
   // passwordSub and passwordSubSub to be hidden at all levels. The current fix is to annotate the
   // list or map with Masked and mask the entire list, when some property in an object of the list
   // needs to be hidden
@@ -108,6 +112,7 @@ public class JsonUtilsTest {
     TestClass testClass = new TestClass();
     testClass.setId(1L);
     testClass.setName("goku");
+    testClass.setPassword("gohan");
     TestSubClass testSubClass = new TestSubClass();
     testSubClass.setId(2L);
     testSubClass.setPasswordSub("pegasus");
@@ -153,7 +158,8 @@ public class JsonUtilsTest {
         + "          }"
         + "    }"
         + "  },"
-        + "  \"name\":\"****\""
+        + "  \"name\":\"****\","
+        + "  \"PasswordRenamed\":\"****\""
         + "}";
     expectedOutput = expectedOutput.replace(" ", "");
     assertEquals(expectedOutput, output);
@@ -168,6 +174,7 @@ public class JsonUtilsTest {
     String output = JsonUtils.toJsonString(jsonNodeWithSubNode, null, maskedFields);
     String expectedOutput = "{"
         + "  \"intField\":128,"
+        + "  \"longField\":250,"
         + "  \"booleanField\":true,"
         + "  \"user\":{"
         + "      \"username\":\"goku@dbz.com\","
@@ -189,6 +196,7 @@ public class JsonUtilsTest {
     String expectedOutput = "{"
         + "  \"textField\":\"goku\","
         + "  \"intField\":128,"
+        + "  \"longField\":250,"
         + "  \"doubleField\":255.0,"
         + "  \"booleanField\":true,"
         + "  \"user\":{"
@@ -248,6 +256,21 @@ public class JsonUtilsTest {
 
     Integer emptyJsonOutput = JsonUtils.getInt(emptyJsonNode, "intField");
     assertEquals(Integer.valueOf(0), emptyJsonOutput);
+  }
+
+  /**
+   * Tests the getDouble method from a jsonNode.
+   */
+  @Test
+  public void getLongTest() {
+    Long validKeyOutput = JsonUtils.getLong(jsonNode, "longField");
+    assertEquals(Long.valueOf(250), validKeyOutput);
+
+    Long invalidKeyOutput = JsonUtils.getLong(jsonNode, "invalidField");
+    assertEquals(Long.valueOf(0), invalidKeyOutput);
+
+    Long emptyJsonOutput = JsonUtils.getLong(emptyJsonNode, "longField");
+    assertEquals(Long.valueOf(0), emptyJsonOutput);
   }
 
   /**
@@ -325,6 +348,52 @@ public class JsonUtilsTest {
   }
 
   /**
+   * Tests toJsonArray.
+   */
+  @Test
+  public void toJsonArrayTest() {
+    String jsonString = "[{\"name\":\"goku\"},{\"name\":\"gohan\"}]";
+    JsonNode[] output = JsonUtils.toJsonArray(jsonString);
+    assertNotNull(output);
+    assertEquals(2, output.length);
+
+    output = JsonUtils.toJsonArray(null);
+    assertNull(output);
+
+    String invalidJsonArray = "[{invalid]";
+    output = JsonUtils.toJsonArray(invalidJsonArray);
+    assertNull(output);
+  }
+
+  /**
+   * Tests isJsonObject.
+   */
+  @Test
+  public void isJsonObjectTest() {
+    String jsonString = "{\"name\":\"goku\"}";
+    assertTrue(JsonUtils.isJsonObject(jsonString));
+
+    String invalidJson = "{invalid]";
+    assertFalse(JsonUtils.isJsonObject(invalidJson));
+
+    assertFalse(JsonUtils.isJsonObject(null));
+  }
+
+  /**
+   * Tests isJsonArray.
+   */
+  @Test
+  public void isJsonArrayTest() {
+    String jsonArrayString = "[{\"name\":\"goku\"},{\"name\":\"gohan\"}]";
+    assertTrue(JsonUtils.isJsonArray(jsonArrayString));
+
+    String invalidJsonArray = "{\"name\":\"goku\"}";
+    assertFalse(JsonUtils.isJsonArray(invalidJsonArray));
+
+    assertFalse(JsonUtils.isJsonArray(null));
+  }
+
+  /**
    * Set mock objects.
    */
   private void populateTestData() throws IOException {
@@ -332,6 +401,7 @@ public class JsonUtilsTest {
     ObjectNode objectNode = MAPPER.createObjectNode();
     objectNode.put("textField", "goku");
     objectNode.put("intField", 128);
+    objectNode.put("longField", Long.valueOf(250L));
     objectNode.put("doubleField", Double.valueOf(255));
     objectNode.put("booleanField", true);
     jsonNode = MAPPER.readTree(objectNode.toString());
@@ -358,6 +428,10 @@ public class JsonUtilsTest {
     @Masked
     private String name;
 
+    @JsonProperty("PasswordRenamed")
+    @Masked
+    private String password;
+
     private TestSubClass testSubClass;
 
     private List<TestSubClass> testSubClassList;
@@ -378,6 +452,14 @@ public class JsonUtilsTest {
 
     public void setName(String name) {
       this.name = name;
+    }
+
+    public String getPassword() {
+      return password;
+    }
+
+    public void setPassword(String password) {
+      this.password = password;
     }
 
     public TestSubClass getTestSubClass() {

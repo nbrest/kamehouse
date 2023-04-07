@@ -1,11 +1,15 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nicobrest.kamehouse.commons.annotations.Masked.MaskedUtils;
 import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,6 +115,21 @@ public class JsonUtils {
   }
 
   /**
+   * Converts the specified string to an array of JSON objects.
+   */
+  public static JsonNode[] toJsonArray(String jsonArrayString) {
+    if (jsonArrayString == null) {
+      return null;
+    }
+    try {
+      return MAPPER.readValue(jsonArrayString, JsonNode[].class);
+    } catch (JsonProcessingException e) {
+      LOGGER.error("Error converting string to json array. {}", e.getMessage());
+      return null;
+    }
+  }
+
+  /**
    * Returns the text value of the specified key and node. Returns null if not found.
    */
   public static String getText(JsonNode jsonNode, String key) {
@@ -129,6 +148,17 @@ public class JsonUtils {
       return jsonNode.get(key).asInt();
     } else {
       return 0;
+    }
+  }
+
+  /**
+   * Returns the long value of the specified key and node. Returns 0 if not found.
+   */
+  public static Long getLong(JsonNode jsonNode, String key) {
+    if (jsonNode != null && jsonNode.has(key)) {
+      return jsonNode.get(key).asLong();
+    } else {
+      return 0L;
     }
   }
 
@@ -159,6 +189,36 @@ public class JsonUtils {
    */
   public static boolean isJsonNodeArrayEmpty(JsonNode jsonNodeArray) {
     return !(jsonNodeArray != null && jsonNodeArray.isArray() && jsonNodeArray.size() > 0);
+  }
+
+  /**
+   * Checks if the specified string is a JSON object.
+   */
+  public static boolean isJsonObject(String text) {
+    if (text == null) {
+      return false;
+    }
+    try {
+      new JSONObject(text);
+    } catch (JSONException e) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Checks if the specified string is a JSON array.
+   */
+  public static boolean isJsonArray(String text) {
+    if (text == null) {
+      return false;
+    }
+    try {
+      new JSONArray(text);
+    } catch (JSONException e) {
+      return false;
+    }
+    return true;
   }
 
   /**

@@ -29,8 +29,32 @@ window.onload = () => {
         { 
           name: "sessionType",
           type: "select",
-          values: ["CARDIO", "NTC_CLAY_COURTS", "NTC_OUTDOOR", "ROD_LAVER_OUTDOOR", "ROD_LAVER_SHOW_COURTS"],
-          displayValues: ["Cardio", "NTC Clay Courts", "NTC Outdoors", "Rod Laver Outdoors", "Rod Laver Show Courts"]
+          values: [
+          	"ADULT_MATCH_PLAY_SINGLES",
+          	"ADULT_MATCH_PLAY_DOUBLES",
+          	"ADULT_SOCIAL_PLAY",
+          	"CARDIO",
+          	"CARDIO_ACTIV8",
+          	"NTC_CLAY_COURTS",
+          	"NTC_INDOOR",
+          	"NTC_OUTDOOR",
+          	"ROD_LAVER_OUTDOOR_EASTERN",
+          	"ROD_LAVER_OUTDOOR_WESTERN",
+          	"ROD_LAVER_SHOW_COURTS"
+          ],
+          displayValues: [
+          	"Adult Match Play Singles",
+          	"Adult Match Play Doubles",
+          	"Adult Social Play",
+          	"Cardio Tennis",
+          	"Cardio Activ8",
+          	"NTC Clay Courts",
+          	"NTC Indoor",
+          	"NTC Outdoor",
+          	"Rod Laver Outdoor Eastern",
+          	"Rod Laver Outdoor Western",
+          	"Rod Laver Show Courts"
+          ]
         },
         { 
           name: "site",

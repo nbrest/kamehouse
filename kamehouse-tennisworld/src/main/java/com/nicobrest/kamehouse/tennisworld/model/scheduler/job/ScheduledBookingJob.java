@@ -6,18 +6,19 @@ import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * ScheduledBookingJob to be executed at the scheduled time.
  *
  * @author nbrest
- *
  */
 public class ScheduledBookingJob implements Job {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
+  @Qualifier("perfectGymBookingService")
   private BookingService bookingService;
 
   /**

@@ -1,20 +1,30 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
-import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
+import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.utils.ThreadUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse.Status;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
+import com.nicobrest.kamehouse.tennisworld.model.perfectgym.RequestBody;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +38,10 @@ public abstract class BookingService {
 
   public static final String SUCCESSFUL_BOOKING = "Completed the booking request successfully";
   public static final String SUCCESSFUL_BOOKING_DRY_RUN =
-      "Completed the booking request DRY-RUN" + " successfully";
+      "Completed the booking request DRY-RUN successfully";
   public static final String BOOKING_FINISHED = "Booking to tennis world finished: {}";
+  public static final String NO_BOOKABLE_CLASS_FOUND =
+      "No bookable class was found for this booking request";
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -61,15 +73,11 @@ public abstract class BookingService {
    * Initiate a booking request to tennis world.
    */
   public BookingResponse book(BookingRequest bookingRequest) {
-    try {
-      validateRequest(bookingRequest);
-      Long requestId = persistBookingRequest(bookingRequest);
-      setThreadName(requestId);
-      logger.info("Booking tennis world request: {}", bookingRequest);
-      return executeBookingRequestOnTennisWorld(bookingRequest);
-    } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
-    }
+    validateRequest(bookingRequest);
+    Long requestId = persistBookingRequest(bookingRequest);
+    setThreadName(requestId);
+    logger.info("Booking tennis world request: {}", bookingRequest);
+    return executeBookingRequestOnTennisWorld(bookingRequest);
   }
 
   /**
@@ -141,6 +149,70 @@ public abstract class BookingService {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
+  }
+
+  /**
+   * Execute http request.
+   */
+  protected HttpResponse executeRequest(HttpClient httpClient, HttpRequestBase httpRequest)
+      throws IOException {
+    return executeRequest(httpClient, httpRequest, null);
+  }
+
+  /**
+   * Execute http request.
+   */
+  protected HttpResponse executeRequest(HttpClient httpClient, HttpRequestBase httpRequest,
+      RequestBody requestBody)
+      throws IOException {
+    if (requestBody != null) {
+      logger.trace("Request body: {}", requestBody);
+    }
+    logRequestHeaders(httpRequest);
+    HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpRequest);
+    logHttpResponseCode(httpResponse);
+    return httpResponse;
+  }
+
+  /**
+   * Log request headers.
+   */
+  protected void logRequestHeaders(HttpRequest httpRequest) {
+    logger.debug("Request headers:");
+    if (httpRequest.getAllHeaders() == null || httpRequest.getAllHeaders().length == 0) {
+      logger.debug("No request headers set");
+    }
+    for (Header header : httpRequest.getAllHeaders()) {
+      logger.debug("{} : {}", header.getName(), header.getValue());
+    }
+  }
+
+  /**
+   * Log the response code received from tennis world.
+   */
+  protected void logHttpResponseCode(HttpResponse httpResponse) {
+    logger.info("Response code: {}", HttpClientUtils.getStatusLine(httpResponse));
+  }
+
+  /**
+   * Log response body.
+   */
+  protected void logResponseBody(String responseBody) {
+    if (!StringUtils.isEmpty(responseBody)) {
+      logger.trace("Response body: {}", responseBody);
+    }
+  }
+
+  /**
+   * Get response body from http response. Returns null if there's no response body.
+   */
+  protected String getResponseBody(HttpResponse httpResponse) throws IOException {
+    if (HttpClientUtils.hasResponseBody(httpResponse)) {
+      return IOUtils.toString(HttpClientUtils.getInputStream(httpResponse),
+          Charsets.UTF_8);
+    }
+    logger.trace("Http response doesn't contain a body");
+    return null;
   }
 
   /**

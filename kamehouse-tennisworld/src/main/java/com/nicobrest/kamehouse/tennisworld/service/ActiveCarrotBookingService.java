@@ -18,8 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -35,8 +33,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 /**
- * Service to execute tennis world bookings through ActiveCarrot.
- * This integration was deprecated Dec 2022 by TennisWorld in favor of PerfectGym integration.
+ * Service to execute tennis world bookings through ActiveCarrot. This integration was deprecated
+ * Dec 2022 by TennisWorld in favor of PerfectGym integration.
  *
  * @author nbrest
  */
@@ -76,30 +74,43 @@ public class ActiveCarrotBookingService extends BookingService {
 
   @Override
   protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
-    updateTimeFormatForTennisWorld(bookingRequest);
+    updateTimeFormatForActiveCarrot(bookingRequest);
     SessionType sessionType = bookingRequest.getSessionType();
-    switch (sessionType) {
-      case CARDIO:
-        return bookCardioSessionRequest(bookingRequest);
-      case NTC_CLAY_COURTS:
-      case NTC_OUTDOOR:
-      case ROD_LAVER_OUTDOOR:
-      case ROD_LAVER_SHOW_COURTS:
-        return bookFacilityOverlayRequest(bookingRequest);
-      case UNKNOWN:
-      default:
-        return buildResponse(
-            Status.INTERNAL_ERROR,
-            "Unhandled sessionType: " + sessionType.name(),
-            bookingRequest);
+    try {
+      switch (sessionType) {
+        case CARDIO:
+          return bookCardioSessionRequest(bookingRequest);
+        case NTC_CLAY_COURTS:
+        case NTC_OUTDOOR:
+        case ROD_LAVER_OUTDOOR_EASTERN:
+        case ROD_LAVER_OUTDOOR_WESTERN:
+        case ROD_LAVER_SHOW_COURTS:
+          return bookFacilityOverlayRequest(bookingRequest);
+        case UNKNOWN:
+        default:
+          return buildResponse(
+              Status.INTERNAL_ERROR,
+              "Unhandled sessionType: " + sessionType.name(),
+              bookingRequest);
+      }
+    } catch (KameHouseBadRequestException e) {
+      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
+    } catch (KameHouseServerErrorException e) {
+      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
+    } catch (IOException e) {
+      logger.error(e.getMessage(), e);
+      return buildResponse(
+          Status.INTERNAL_ERROR,
+          "Error executing booking request to tennis world Message: " + e.getMessage(),
+          bookingRequest);
     }
   }
 
   /**
-   * TennisWorld expects a time in the format hh:mm[am|pm] but the standard way to get the time from
-   * the UI is HH:MM. This method converts between the formats.
+   * ActiveCarrot expects a time in the format hh:mm[am|pm] but the standard way to get the time
+   * from the UI is HH:MM. This method converts between the formats.
    */
-  private void updateTimeFormatForTennisWorld(BookingRequest bookingRequest) {
+  private void updateTimeFormatForActiveCarrot(BookingRequest bookingRequest) {
     String formattedTime =
         DateUtils.convertTime(
             bookingRequest.getTime(), DateUtils.HH_MM_24HS, DateUtils.HH_MMAM_PM, true);
@@ -135,51 +146,40 @@ public class ActiveCarrotBookingService extends BookingService {
    *   <li>7) GET Confirm booking url. Check the final result of the booking request
    * </ul>
    */
-  private BookingResponse bookCardioSessionRequest(BookingRequest bookingRequest) {
+  private BookingResponse bookCardioSessionRequest(BookingRequest bookingRequest)
+      throws IOException {
     HttpClient httpClient = HttpClientUtils.getClient(null, null);
-    try {
-      // 1 -------------------------------------------------------------------------
-      Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
-      SessionType sessionType = bookingRequest.getSessionType();
-      String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getValue());
-      String bookingDate = getBookingRequestDate(bookingRequest);
+    // 1 -------------------------------------------------------------------------
+    Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
+    SessionType sessionType = bookingRequest.getSessionType();
+    String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getActiveCarrotName());
+    String bookingDate = getBookingRequestDate(bookingRequest);
 
-      // 2 -------------------------------------------------------------------------
-      Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
-      String selectedSessionDatePath =
-          getSelectedSessionDatePath(sessionTypePage, selectedSessionTypeId, bookingDate);
+    // 2 -------------------------------------------------------------------------
+    Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
+    String selectedSessionDatePath =
+        getSelectedSessionDatePath(sessionTypePage, selectedSessionTypeId, bookingDate);
 
-      // 3 -------------------------------------------------------------------------
-      Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
-      String sessionId = getSessionId(sessionDatePage, bookingRequest);
+    // 3 -------------------------------------------------------------------------
+    Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
+    String sessionId = getSessionId(sessionDatePage, bookingRequest);
 
-      // 4 -------------------------------------------------------------------------
-      postSessionBookOverlayAjax(httpClient, sessionId, bookingDate);
+    // 4 -------------------------------------------------------------------------
+    postSessionBookOverlayAjax(httpClient, sessionId, bookingDate);
 
-      // 5 -------------------------------------------------------------------------
-      getSessionConfirmBookingUrl(httpClient, selectedSessionDatePath);
-      if (!bookingRequest.isDryRun()) {
+    // 5 -------------------------------------------------------------------------
+    getSessionConfirmBookingUrl(httpClient, selectedSessionDatePath);
+    if (!bookingRequest.isDryRun()) {
 
-        // 6 -------------------------------------------------------------------------
-        String confirmBookingRedirectUrl =
-            postSessionBookingRequest(httpClient, bookingRequest.getCardDetails());
+      // 6 -------------------------------------------------------------------------
+      String confirmBookingRedirectUrl =
+          postSessionBookingRequest(httpClient, bookingRequest.getCardDetails());
 
-        // 7 -------------------------------------------------------------------------
-        confirmSessionBookingResult(httpClient, confirmBookingRedirectUrl);
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, bookingRequest);
-      } else {
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, bookingRequest);
-      }
-    } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
-    } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
-    } catch (IOException e) {
-      logger.error(e.getMessage(), e);
-      return buildResponse(
-          Status.INTERNAL_ERROR,
-          "Error executing booking request to tennis" + " world Message: " + e.getMessage(),
-          bookingRequest);
+      // 7 -------------------------------------------------------------------------
+      confirmSessionBookingResult(httpClient, confirmBookingRedirectUrl);
+      return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, bookingRequest);
+    } else {
+      return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, bookingRequest);
     }
   }
 
@@ -282,7 +282,7 @@ public class ActiveCarrotBookingService extends BookingService {
     }
     if (HttpClientUtils.getStatusCode(httpResponse) != HttpStatus.FOUND.value()) {
       throw new KameHouseServerErrorException(
-          "Error posting booking request. Expected a " + "redirect response");
+          "Error posting booking request. Expected a redirect response");
     }
     return HttpClientUtils.getHeader(httpResponse, LOCATION);
   }
@@ -335,62 +335,51 @@ public class ActiveCarrotBookingService extends BookingService {
    *   <li>8) GET Confirm booking url. Check the final result of the booking request
    * </ul>
    */
-  private BookingResponse bookFacilityOverlayRequest(BookingRequest bookingRequest) {
+  private BookingResponse bookFacilityOverlayRequest(BookingRequest bookingRequest)
+      throws IOException {
     HttpClient httpClient = HttpClientUtils.getClient(null, null);
-    try {
-      // 1 -------------------------------------------------------------------------
-      Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
-      SessionType sessionType = bookingRequest.getSessionType();
-      String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getValue());
-      String bookingDate = getBookingRequestDate(bookingRequest);
+    // 1 -------------------------------------------------------------------------
+    Document dashboard = loginToTennisWorld(httpClient, bookingRequest);
+    SessionType sessionType = bookingRequest.getSessionType();
+    String selectedSessionTypeId = getSessionTypeId(dashboard, sessionType.getActiveCarrotName());
+    String bookingDate = getBookingRequestDate(bookingRequest);
 
-      // 2 -------------------------------------------------------------------------
-      Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
-      String selectedSessionDatePath =
-          getSelectedSessionDatePath(sessionTypePage, selectedSessionTypeId, bookingDate);
+    // 2 -------------------------------------------------------------------------
+    Document sessionTypePage = getSessionTypePage(httpClient, selectedSessionTypeId);
+    String selectedSessionDatePath =
+        getSelectedSessionDatePath(sessionTypePage, selectedSessionTypeId, bookingDate);
 
-      // 3 -------------------------------------------------------------------------
-      Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
-      String selectedSessionPath =
-          getSelectedSessionPath(sessionDatePage, bookingRequest.getTime());
+    // 3 -------------------------------------------------------------------------
+    Document sessionDatePage = getSessionDatePage(httpClient, selectedSessionDatePath);
+    String selectedSessionPath =
+        getSelectedSessionPath(sessionDatePage, bookingRequest.getTime());
 
-      // 4 -------------------------------------------------------------------------
-      Document sessionPage = getSessionPage(httpClient, selectedSessionPath);
-      String siteFacilityGroupId = getSiteFacilityGroupId(sessionPage);
-      String bookingTime = getBookingTime(sessionPage);
+    // 4 -------------------------------------------------------------------------
+    Document sessionPage = getSessionPage(httpClient, selectedSessionPath);
+    String siteFacilityGroupId = getSiteFacilityGroupId(sessionPage);
+    String bookingTime = getBookingTime(sessionPage);
 
-      // 5 -------------------------------------------------------------------------
-      postFacilityBookOverlayAjax(
-          httpClient,
-          selectedSessionDatePath,
-          siteFacilityGroupId,
-          bookingTime,
-          bookingRequest.getDuration());
+    // 5 -------------------------------------------------------------------------
+    postFacilityBookOverlayAjax(
+        httpClient,
+        selectedSessionDatePath,
+        siteFacilityGroupId,
+        bookingTime,
+        bookingRequest.getDuration());
 
-      // 6 -------------------------------------------------------------------------
-      getFacilityConfirmBookingUrl(httpClient, selectedSessionDatePath);
-      if (!bookingRequest.isDryRun()) {
+    // 6 -------------------------------------------------------------------------
+    getFacilityConfirmBookingUrl(httpClient, selectedSessionDatePath);
+    if (!bookingRequest.isDryRun()) {
 
-        // 7 -------------------------------------------------------------------------
-        String confirmBookingRedirectUrl =
-            postFacilityBookingRequest(httpClient, bookingRequest.getCardDetails());
+      // 7 -------------------------------------------------------------------------
+      String confirmBookingRedirectUrl =
+          postFacilityBookingRequest(httpClient, bookingRequest.getCardDetails());
 
-        // 8 -------------------------------------------------------------------------
-        confirmFacilityBookingResult(httpClient, confirmBookingRedirectUrl);
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, bookingRequest);
-      } else {
-        return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, bookingRequest);
-      }
-    } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
-    } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
-    } catch (IOException e) {
-      logger.error(e.getMessage(), e);
-      return buildResponse(
-          Status.INTERNAL_ERROR,
-          "Error executing booking request to tennis" + " world Message: " + e.getMessage(),
-          bookingRequest);
+      // 8 -------------------------------------------------------------------------
+      confirmFacilityBookingResult(httpClient, confirmBookingRedirectUrl);
+      return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, bookingRequest);
+    } else {
+      return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING_DRY_RUN, bookingRequest);
     }
   }
 
@@ -441,7 +430,8 @@ public class ActiveCarrotBookingService extends BookingService {
       String siteId = tennisWorldSiteLink.attr("href").substring(SITE_LINK_HREF.length());
       logger.debug("siteName:{}; siteId:{}", siteName, siteId);
       Site site = bookingRequest.getSite();
-      if (siteName != null && site != null && siteName.equalsIgnoreCase(site.getValue())) {
+      if (siteName != null && site != null && siteName.equalsIgnoreCase(
+          site.getActiveCarrotName())) {
         selectedSiteId = siteId;
       }
     }
@@ -748,26 +738,6 @@ public class ActiveCarrotBookingService extends BookingService {
           "Error confirming booking result: "
               + Arrays.toString(getErrorStackMessages(confirmFinalBookingPage).toArray()));
     }
-  }
-
-  /**
-   * Log request headers.
-   */
-  private void logRequestHeaders(HttpRequest httpRequest) {
-    logger.debug("Request headers:");
-    if (httpRequest.getAllHeaders() == null || httpRequest.getAllHeaders().length == 0) {
-      logger.debug("No request headers set");
-    }
-    for (Header header : httpRequest.getAllHeaders()) {
-      logger.debug("{} : {}", header.getName(), header.getValue());
-    }
-  }
-
-  /**
-   * Log the response code received from tennis world.
-   */
-  private void logHttpResponseCode(HttpResponse httpResponse) {
-    logger.info("Response code: {}", HttpClientUtils.getStatusLine(httpResponse));
   }
 
   /**

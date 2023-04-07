@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.annotations;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -58,7 +59,12 @@ public @interface Masked {
       Field[] fields = object.getClass().getDeclaredFields();
       for (Field field : fields) {
         if (field.isAnnotationPresent(Masked.class)) {
-          maskedFields.add(parentNode + field.getName());
+          if (field.isAnnotationPresent(JsonProperty.class)) {
+            String fieldName = field.getAnnotation(JsonProperty.class).value();
+            maskedFields.add(parentNode + fieldName);
+          } else {
+            maskedFields.add(parentNode + field.getName());
+          }
         }
         if (shouldSkip(field)) {
           continue;

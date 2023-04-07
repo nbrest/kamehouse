@@ -1,26 +1,21 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
-import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
+import com.nicobrest.kamehouse.tennisworld.model.BookingResponse.Status;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
-import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.junit.jupiter.api.AfterEach;
@@ -37,7 +32,7 @@ import org.springframework.http.HttpStatus;
 /**
  * Test class for the ActiveCarrotBookingService.
  *
- * @author nbrest
+ * @author nbrest`
  */
 @Deprecated(since = "v8.01")
 public class ActiveCarrotBookingServiceTest {
@@ -66,69 +61,163 @@ public class ActiveCarrotBookingServiceTest {
   HttpResponse httpResponseMock;
 
   private static final String[] BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES = {
-      "facility-booking-responses/step-1.1.html",
-      "facility-booking-responses/step-1.2.html",
-      "facility-booking-responses/step-1.3.html",
-      "facility-booking-responses/step-2.html",
-      "facility-booking-responses/step-3.html",
-      "facility-booking-responses/step-4.html",
-      "facility-booking-responses/step-5.html",
-      "facility-booking-responses/step-6.html",
-      "facility-booking-responses/step-7.html",
-      "facility-booking-responses/step-8.html"
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2.html",
+      "activecarrot/facility-booking-responses/step-1.3.html",
+      "activecarrot/facility-booking-responses/step-2.html",
+      "activecarrot/facility-booking-responses/step-3.html",
+      "activecarrot/facility-booking-responses/step-4.html",
+      "activecarrot/facility-booking-responses/step-5.html",
+      "activecarrot/facility-booking-responses/step-6.html",
+      "activecarrot/facility-booking-responses/step-7.html",
+      "activecarrot/facility-booking-responses/step-8.html"
   };
 
-  private static final String[] BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSES = {
-      "facility-booking-responses/step-1.1.html",
-      "facility-booking-responses/step-1.2.html",
-      "facility-booking-responses/step-1.3.html",
-      "facility-booking-responses/step-2.html",
-      "facility-booking-responses/step-3.html",
-      "facility-booking-responses/step-4.html",
-      "facility-booking-responses/step-5.html",
-      "facility-booking-responses/step-6.html",
-      "facility-booking-responses/step-7.html",
-      "facility-booking-responses/step-8-error.html"
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_1_1_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1-error.html"
   };
 
-  private static final String[] BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSES = {
-      "facility-booking-responses/step-1.1-error.html"
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_1_2_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2-error.html"
+  };
+
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_1_3_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2.html",
+      "activecarrot/facility-booking-responses/step-1.3-error.html"
+  };
+
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_4_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2.html",
+      "activecarrot/facility-booking-responses/step-1.3.html",
+      "activecarrot/facility-booking-responses/step-2.html",
+      "activecarrot/facility-booking-responses/step-3.html",
+      "activecarrot/facility-booking-responses/step-4-error.html"
+  };
+
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_5_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2.html",
+      "activecarrot/facility-booking-responses/step-1.3.html",
+      "activecarrot/facility-booking-responses/step-2.html",
+      "activecarrot/facility-booking-responses/step-3.html",
+      "activecarrot/facility-booking-responses/step-4.html",
+      "activecarrot/facility-booking-responses/step-5-error.html"
+  };
+
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_6_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2.html",
+      "activecarrot/facility-booking-responses/step-1.3.html",
+      "activecarrot/facility-booking-responses/step-2.html",
+      "activecarrot/facility-booking-responses/step-3.html",
+      "activecarrot/facility-booking-responses/step-4.html",
+      "activecarrot/facility-booking-responses/step-5.html",
+      "activecarrot/facility-booking-responses/step-6-error.html"
+  };
+
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_7_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2.html",
+      "activecarrot/facility-booking-responses/step-1.3.html",
+      "activecarrot/facility-booking-responses/step-2.html",
+      "activecarrot/facility-booking-responses/step-3.html",
+      "activecarrot/facility-booking-responses/step-4.html",
+      "activecarrot/facility-booking-responses/step-5.html",
+      "activecarrot/facility-booking-responses/step-6.html",
+      "activecarrot/facility-booking-responses/step-7-error.html"
+  };
+
+  private static final String[] BOOK_FACILITY_OVERLAY_STEP_8_ERROR_RESPONSES = {
+      "activecarrot/facility-booking-responses/step-1.1.html",
+      "activecarrot/facility-booking-responses/step-1.2.html",
+      "activecarrot/facility-booking-responses/step-1.3.html",
+      "activecarrot/facility-booking-responses/step-2.html",
+      "activecarrot/facility-booking-responses/step-3.html",
+      "activecarrot/facility-booking-responses/step-4.html",
+      "activecarrot/facility-booking-responses/step-5.html",
+      "activecarrot/facility-booking-responses/step-6.html",
+      "activecarrot/facility-booking-responses/step-7.html",
+      "activecarrot/facility-booking-responses/step-8-error.html"
   };
 
   private static final String[] BOOK_SESSION_OVERLAY_STANDARD_RESPONSES = {
-      "session-booking-responses/step-1.1.html",
-      "session-booking-responses/step-1.2.html",
-      "session-booking-responses/step-1.3.html",
-      "session-booking-responses/step-2.html",
-      "session-booking-responses/step-3.html",
-      "session-booking-responses/step-4.html",
-      "session-booking-responses/step-5.html",
-      "session-booking-responses/step-6.html",
-      "session-booking-responses/step-7.html",
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2.html",
+      "activecarrot/session-booking-responses/step-1.3.html",
+      "activecarrot/session-booking-responses/step-2.html",
+      "activecarrot/session-booking-responses/step-3.html",
+      "activecarrot/session-booking-responses/step-4.html",
+      "activecarrot/session-booking-responses/step-5.html",
+      "activecarrot/session-booking-responses/step-6.html",
+      "activecarrot/session-booking-responses/step-7.html",
   };
 
-  private static final String[] BOOK_CARDIO_SESSION_SUNDAY_STANDARD_RESPONSES = {
-      "sunday-cardio-booking-responses/step-1.1.html",
-      "sunday-cardio-booking-responses/step-1.2.html",
-      "sunday-cardio-booking-responses/step-1.3.html",
-      "sunday-cardio-booking-responses/step-2.html",
-      "sunday-cardio-booking-responses/step-3.html",
-      "sunday-cardio-booking-responses/step-4.html",
-      "sunday-cardio-booking-responses/step-5.html",
-      "sunday-cardio-booking-responses/step-6.html",
-      "sunday-cardio-booking-responses/step-7.html",
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_1_1_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1-error.html"
   };
 
-  private static final String[] BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES = {
-      "monday-cardio-booking-responses/step-1.1.html",
-      "monday-cardio-booking-responses/step-1.2.html",
-      "monday-cardio-booking-responses/step-1.3.html",
-      "monday-cardio-booking-responses/step-2.html",
-      "monday-cardio-booking-responses/step-3.html",
-      "monday-cardio-booking-responses/step-4.html",
-      "monday-cardio-booking-responses/step-5.html",
-      "monday-cardio-booking-responses/step-6.html",
-      "monday-cardio-booking-responses/step-7.html",
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_1_2_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2-error.html"
+  };
+
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_1_3_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2.html",
+      "activecarrot/session-booking-responses/step-1.3-error.html"
+  };
+
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_3_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2.html",
+      "activecarrot/session-booking-responses/step-1.3.html",
+      "activecarrot/session-booking-responses/step-2.html",
+      "activecarrot/session-booking-responses/step-3-error.html"
+  };
+
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_4_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2.html",
+      "activecarrot/session-booking-responses/step-1.3.html",
+      "activecarrot/session-booking-responses/step-2.html",
+      "activecarrot/session-booking-responses/step-3.html",
+      "activecarrot/session-booking-responses/step-4-error.html"
+  };
+
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_5_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2.html",
+      "activecarrot/session-booking-responses/step-1.3.html",
+      "activecarrot/session-booking-responses/step-2.html",
+      "activecarrot/session-booking-responses/step-3.html",
+      "activecarrot/session-booking-responses/step-4.html",
+      "activecarrot/session-booking-responses/step-5-error.html"
+  };
+
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_6_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2.html",
+      "activecarrot/session-booking-responses/step-1.3.html",
+      "activecarrot/session-booking-responses/step-2.html",
+      "activecarrot/session-booking-responses/step-3.html",
+      "activecarrot/session-booking-responses/step-4.html",
+      "activecarrot/session-booking-responses/step-5.html",
+      "activecarrot/session-booking-responses/step-6-error.html"
+  };
+
+  private static final String[] BOOK_SESSION_OVERLAY_STEP_7_ERROR_RESPONSES = {
+      "activecarrot/session-booking-responses/step-1.1.html",
+      "activecarrot/session-booking-responses/step-1.2.html",
+      "activecarrot/session-booking-responses/step-1.3.html",
+      "activecarrot/session-booking-responses/step-2.html",
+      "activecarrot/session-booking-responses/step-3.html",
+      "activecarrot/session-booking-responses/step-4.html",
+      "activecarrot/session-booking-responses/step-5.html",
+      "activecarrot/session-booking-responses/step-6.html",
+      "activecarrot/session-booking-responses/step-7-error.html"
   };
 
   private MockedStatic<HttpClientUtils> httpClientUtilsMock;
@@ -196,7 +285,7 @@ public class ActiveCarrotBookingServiceTest {
   @Test
   public void bookFacilityOverlayRequestSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
@@ -212,7 +301,7 @@ public class ActiveCarrotBookingServiceTest {
   @Test
   public void bookFacilityOverlayRequestDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setDryRun(true);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setMessage(ActiveCarrotBookingService.SUCCESSFUL_BOOKING_DRY_RUN);
@@ -225,44 +314,65 @@ public class ActiveCarrotBookingServiceTest {
   }
 
   /**
-   * Test booking a facility overlay request invalid site flow.
+   * Test booking a facility overlay request invalid login step 1.1 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidSiteTest() throws Exception {
-    assertThrows(
-        KameHouseInvalidDataException.class,
-        () -> {
-          setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setSite(null);
+  public void bookFacilityOverlayRequestInvalidLoginStep1p1ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_1_1_ERROR_RESPONSES);
+    when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setMessage("Invalid login to tennis world");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
-          activeCarrotBookingServiceSpy.book(request);
-        });
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
   /**
-   * Test booking a facility overlay request invalid session type flow.
+   * Test booking a facility overlay request invalid login step 1.2 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidSessionTypeTest() throws Exception {
-    assertThrows(
-        KameHouseInvalidDataException.class,
-        () -> {
-          setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setSessionType(null);
+  public void bookFacilityOverlayRequestStep1p2ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_1_2_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setMessage("Unable to determine the site id for MELBOURNE_PARK");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
-          activeCarrotBookingServiceSpy.book(request);
-        });
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
   /**
-   * Test booking a facility overlay request invalid date flow.
+   * Test booking a facility overlay request invalid login step 1.3 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidDateTest() throws Exception {
+  public void bookFacilityOverlayRequestStep1p3ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_1_3_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Unable to complete login to siteId 52998021");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a facility overlay request invalid date Step 2 error flow.
+   */
+  @Test
+  public void bookFacilityOverlayRequestInvalidDateStep2ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setDate(DateUtils.getDate(1800, Calendar.DECEMBER, 10));
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Error getting the selectedSessionDatePath");
@@ -275,12 +385,12 @@ public class ActiveCarrotBookingServiceTest {
   }
 
   /**
-   * Test booking a facility overlay request invalid time flow.
+   * Test booking a facility overlay request invalid time Step 3 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidTimeTest() throws Exception {
+  public void bookFacilityOverlayRequestInvalidTimeStep3ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setTime("00:00");
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
     expected.setMessage("Unable to get the selectedSessionPath");
@@ -293,15 +403,15 @@ public class ActiveCarrotBookingServiceTest {
   }
 
   /**
-   * Test booking a facility overlay request invalid login flow.
+   * Test booking a facility overlay request Step 4 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidLoginTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_LOGIN_ERROR_RESPONSES);
-    when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+  public void bookFacilityOverlayRequestInvalidTimeStep4ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_4_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
-    expected.setMessage("Invalid login to tennis world");
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Unable to get the session page");
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = activeCarrotBookingServiceSpy.book(request);
@@ -311,11 +421,65 @@ public class ActiveCarrotBookingServiceTest {
   }
 
   /**
-   * Test booking a facility overlay request error confirming pay flow.
+   * Test booking a facility overlay request Step 5 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestErrorConfirmingPayTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_PAYMENT_ERROR_RESPONSES);
+  public void bookFacilityOverlayRequestInvalidTimeStep5ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_5_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Error posting book overlay ajax");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a facility overlay request Step 6 error flow.
+   */
+  @Test
+  public void bookFacilityOverlayRequestInvalidTimeStep6ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_6_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Error getting the confirm booking page");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a facility overlay request Step 7 error flow.
+   */
+  @Test
+  public void bookFacilityOverlayRequestInvalidTimeStep7ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_7_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Error posting booking request: [Error processing request]");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a facility overlay request error confirming pay step 8 error flow.
+   */
+  @Test
+  public void bookFacilityOverlayRequestErrorConfirmingPayStep8ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_FACILITY_OVERLAY_STEP_8_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
     expected.setMessage(
@@ -331,29 +495,12 @@ public class ActiveCarrotBookingServiceTest {
   }
 
   /**
-   * Test booking a facility overlay request IOException error.
-   */
-  @Test
-  public void bookFacilityOverlayRequestIoExceptionTest() throws IOException {
-    when(HttpClientUtils.execRequest(any(), any())).thenThrow(new IOException("IO Error"));
-    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
-    expected.setMessage("Error executing booking request to tennis world Message: IO Error");
-    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
-
-    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
-    bookingResponseTestUtils.matchDynamicFields(response, expected);
-
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
-  }
-
-  /**
    * Test booking a session overlay request success flow.
    */
   @Test
   public void bookSessionOverlayRequestSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSessionRequest();
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
@@ -369,7 +516,7 @@ public class ActiveCarrotBookingServiceTest {
   @Test
   public void bookSessionOverlayRequestDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
-    BookingRequest request = bookingRequestTestUtils.getSessionRequest();
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
     request.setDryRun(true);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setMessage(ActiveCarrotBookingService.SUCCESSFUL_BOOKING_DRY_RUN);
@@ -382,11 +529,174 @@ public class ActiveCarrotBookingServiceTest {
   }
 
   /**
+   * Test booking a session overlay request invalid login step 1.1 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestInvalidLoginStep1p1ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_1_1_ERROR_RESPONSES);
+    when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setMessage("Invalid login to tennis world");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay request invalid login step 1.2 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestStep1p2ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_1_2_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setMessage("Unable to determine the site id for MELBOURNE_PARK");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay request invalid login step 1.3 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestStep1p3ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_1_3_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Unable to complete login to siteId 52998021");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay request invalid date Step 2 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestInvalidDateStep2ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    request.setDate(DateUtils.getDate(1800, Calendar.DECEMBER, 10));
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setMessage("Error getting the selectedSessionDatePath");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay request step 3 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestStep3ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_3_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.ERROR);
+    expected.setMessage("Error getting the sessionId");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay with step 4 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestStep4ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_4_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Error posting book overlay ajax");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay with step 5 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestStep5ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_5_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Error getting the confirm booking page");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay with step 6 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestStep6ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_6_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Error posting booking request: [Error processing request]");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a session overlay with step 7 error flow.
+   */
+  @Test
+  public void bookSessionOverlayRequestStep7ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(BOOK_SESSION_OVERLAY_STEP_7_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage(
+        "Error confirming booking result: [Name on card is required, Credit card number is invalid,"
+            + " CVV number is required, Expiry month is required, Expiry year is required]");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
    * Test unhandled session type error flow.
    */
   @Test
-  public void bookSessionOverlayRequestErrorTest() {
-    BookingRequest request = bookingRequestTestUtils.getSessionRequest();
+  public void bookUnknownSessionTypeErrorTest() {
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     request.setSessionType(SessionType.UNKNOWN);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setStatus(BookingResponse.Status.INTERNAL_ERROR);
@@ -400,74 +710,20 @@ public class ActiveCarrotBookingServiceTest {
   }
 
   /**
-   * Test booking a recurring scheduled session.
+   * Test IOException error.
    */
   @Test
-  public void bookRecurringScheduledSessionSuccessTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
-    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
-    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
-    when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
-    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+  public void bookIoExceptionTest() throws IOException {
+    when(HttpClientUtils.execRequest(any(), any())).thenThrow(new IOException("IO Error"));
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
+    expected.setMessage("Error executing booking request to tennis world Message: IO Error");
+    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
-    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    expected.getRequest().setScheduled(true);
+    BookingResponse response = activeCarrotBookingServiceSpy.book(request);
+    bookingResponseTestUtils.matchDynamicFields(response, expected);
 
-    BookingScheduleConfig bookingScheduleConfig =
-        bookingScheduleConfigTestUtils.getSingleTestData();
-    bookingScheduleConfig.setBookingDate(null);
-    bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
-    bookingScheduleConfig.setTime("19:15");
-    bookingScheduleConfig.setId(1L);
-    bookingScheduleConfig.setBookAheadDays(14);
-    bookingScheduleConfig.setEnabled(true);
-    bookingScheduleConfig.setSessionType(SessionType.CARDIO);
-    bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(
-        expected, bookingDate, "07:15pm", SessionType.CARDIO, "45");
-    expected.getRequest().setCardDetails(null);
-
-    List<BookingResponse> response = activeCarrotBookingServiceSpy.bookScheduledSessions();
-    bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
-
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
-  }
-
-  /**
-   * Test booking a one off scheduled session.
-   */
-  @Test
-  public void bookOneOffScheduledSessionSuccessTest() throws Exception {
-    setupHttpResponseInputStreamMocks(BOOK_CARDIO_SESSION_MONDAY_STANDARD_RESPONSES);
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
-    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
-    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
-    when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
-    when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
-    when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
-    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
-
-    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    expected.getRequest().setScheduled(true);
-
-    BookingScheduleConfig bookingScheduleConfig =
-        bookingScheduleConfigTestUtils.getSingleTestData();
-    bookingScheduleConfig.setBookingDate(bookingDate);
-    bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
-    bookingScheduleConfig.setTime("19:15");
-    bookingScheduleConfig.setId(1L);
-    bookingScheduleConfig.setBookAheadDays(14);
-    bookingScheduleConfig.setEnabled(true);
-    bookingScheduleConfig.setSessionType(SessionType.CARDIO);
-    bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(
-        expected, bookingDate, "07:15pm", SessionType.CARDIO, "45");
-
-    List<BookingResponse> response = activeCarrotBookingServiceSpy.bookScheduledSessions();
-    bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
-
-    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
 
   /**

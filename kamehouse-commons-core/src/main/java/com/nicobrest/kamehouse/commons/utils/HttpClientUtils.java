@@ -59,6 +59,13 @@ public class HttpClientUtils {
   }
 
   /**
+   * Checks if the http response contains a response body.
+   */
+  public static boolean hasResponseBody(HttpResponse response) throws IOException {
+    return response.getEntity() != null && response.getEntity().getContent() != null;
+  }
+
+  /**
    * Returns the response content as an InputStream.
    */
   public static InputStream getInputStream(HttpResponse response) throws IOException {
@@ -76,7 +83,7 @@ public class HttpClientUtils {
    * Returns the status code from the response.
    */
   public static int getStatusCode(HttpResponse response) {
-    return response.getStatusLine().getStatusCode();
+    return getStatusLine(response).getStatusCode();
   }
 
   /**

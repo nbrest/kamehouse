@@ -23,10 +23,14 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
 
   public static final String API_V1_TENNISWORLD_BOOKING_REQUESTS =
       "/api/v1/tennis-world/booking-requests/";
-  private BookingRequest sessionRequest = null;
+  private BookingRequest cardioTennisBookingRequest = null;
 
-  public BookingRequest getSessionRequest() {
-    return sessionRequest;
+  public BookingRequest getCardioTennisBookingRequest() {
+    return cardioTennisBookingRequest;
+  }
+
+  public BookingRequest getCourtBookingRequest() {
+    return getSingleTestData();
   }
 
   @Override
@@ -76,7 +80,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     singleTestData.setDuration("60");
     singleTestData.setPassword("goku-son");
     singleTestData.setUsername("goku@dbz.com");
-    singleTestData.setSessionType(SessionType.ROD_LAVER_OUTDOOR);
+    singleTestData.setSessionType(SessionType.ROD_LAVER_OUTDOOR_WESTERN);
     singleTestData.setSite(Site.MELBOURNE_PARK);
     BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
     cardDetails.setName("SON GOKU");
@@ -94,7 +98,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
   private void initTestDataList() {
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
-    testDataList.add(sessionRequest);
+    testDataList.add(cardioTennisBookingRequest);
 
     BookingRequest sessionRequest2 = new BookingRequest();
     sessionRequest2.setDate(DateUtils.getDate(2021, Calendar.JULY, 30));
@@ -115,20 +119,20 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
   }
 
   private void initSessionRequest() {
-    sessionRequest = new BookingRequest();
-    sessionRequest.setDate(DateUtils.getDate(2021, Calendar.JULY, 30));
-    sessionRequest.setTime("06:30");
-    sessionRequest.setDuration("45");
-    sessionRequest.setPassword("goku-son");
-    sessionRequest.setUsername("goku@dbz.com");
-    sessionRequest.setSessionType(SessionType.CARDIO);
-    sessionRequest.setSite(Site.MELBOURNE_PARK);
+    cardioTennisBookingRequest = new BookingRequest();
+    cardioTennisBookingRequest.setDate(DateUtils.getDate(2021, Calendar.JULY, 30));
+    cardioTennisBookingRequest.setTime("06:30");
+    cardioTennisBookingRequest.setDuration("45");
+    cardioTennisBookingRequest.setPassword("goku-son");
+    cardioTennisBookingRequest.setUsername("goku@dbz.com");
+    cardioTennisBookingRequest.setSessionType(SessionType.CARDIO);
+    cardioTennisBookingRequest.setSite(Site.MELBOURNE_PARK);
     BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
     cardDetails.setName("SON GOKU");
     cardDetails.setNumber("1111222233334444");
     cardDetails.setCvv("999");
     cardDetails.setExpiryDate("12/3099");
-    sessionRequest.setCardDetails(cardDetails);
-    sessionRequest.setScheduled(false);
+    cardioTennisBookingRequest.setCardDetails(cardDetails);
+    cardioTennisBookingRequest.setScheduled(false);
   }
 }

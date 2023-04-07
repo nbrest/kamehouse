@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.codec.Charsets;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
@@ -145,6 +146,19 @@ public class HttpClientUtilsTest {
   @Test
   public void getHeaderEmptyValueTest() {
     assertEquals(null, HttpClientUtils.getHeader(response, "ContentType"));
+  }
+
+  /**
+   * hasResponseBody test.
+   */
+  @Test
+  public void hasResponseBodyTest() throws IOException {
+    assertEquals(false, HttpClientUtils.hasResponseBody(response));
+
+    BasicHttpEntity entity = new BasicHttpEntity();
+    entity.setContent(new ByteArrayInputStream("Content".getBytes(Charsets.UTF_8)));
+    response.setEntity(entity);
+    assertEquals(true, HttpClientUtils.hasResponseBody(response));
   }
 
   /**

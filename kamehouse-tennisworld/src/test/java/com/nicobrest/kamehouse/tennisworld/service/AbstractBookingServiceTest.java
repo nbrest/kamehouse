@@ -1,8 +1,11 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
@@ -120,10 +123,10 @@ public class AbstractBookingServiceTest {
   }
 
   /**
-   * Test booking a facility overlay request success flow.
+   * Test booking success flow.
    */
   @Test
-  public void bookFacilityOverlayRequestSuccessTest() throws Exception {
+  public void bookSuccessTest() {
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
@@ -138,7 +141,7 @@ public class AbstractBookingServiceTest {
    * Test booking a recurring scheduled session.
    */
   @Test
-  public void bookRecurringScheduledSessionSuccessTest() throws Exception {
+  public void bookRecurringScheduledSessionSuccessTest() {
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -172,7 +175,7 @@ public class AbstractBookingServiceTest {
    * Test booking a one off scheduled session.
    */
   @Test
-  public void bookOneOffScheduledSessionSuccessTest() throws Exception {
+  public void bookOneOffScheduledSessionSuccessTest() {
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -201,6 +204,134 @@ public class AbstractBookingServiceTest {
     bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
+  }
+
+  /**
+   * Test booking empty scheduled sessions.
+   */
+  @Test
+  public void bookEmptyScheduledSessionTest() {
+    when(bookingScheduleConfigService.readAll()).thenReturn(null);
+
+    List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
+
+    assertTrue(response.isEmpty());
+  }
+
+  /**
+   * Test booking a disabled scheduled session.
+   */
+  @Test
+  public void bookDisabledScheduledSessionTest() {
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.getRequest().setScheduled(true);
+
+    BookingScheduleConfig bookingScheduleConfig =
+        bookingScheduleConfigTestUtils.getSingleTestData();
+    bookingScheduleConfig.setEnabled(false);
+    when(bookingScheduleConfigService.readAll()).thenReturn(List.of(bookingScheduleConfig));
+
+    List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
+
+    assertTrue(response.isEmpty());
+  }
+
+  /**
+   * Test booking an invalid scheduled session that throws a KameHouseException while validating the
+   * request.
+   */
+  @Test
+  public void bookInvalidScheduledSessionTest() {
+    when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.getRequest().setScheduled(true);
+
+    BookingScheduleConfig bookingScheduleConfig =
+        bookingScheduleConfigTestUtils.getSingleTestData();
+    bookingScheduleConfig.setEnabled(true);
+    bookingScheduleConfig.setTime(null);
+    bookingScheduleConfig.setBookingDate(DateUtils.getCurrentDate());
+    bookingScheduleConfig.setBookAheadDays(0);
+    when(bookingScheduleConfigService.readAll()).thenReturn(List.of(bookingScheduleConfig));
+
+    List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
+
+    assertTrue(response.isEmpty());
+  }
+
+  /**
+   * Test booking with invalid session type flow.
+   */
+  @Test
+  public void bookInvalidSessionTypeTest() {
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setSessionType(null);
+
+          sampleBookingService.book(request);
+        });
+  }
+
+  /**
+   * Test booking with invalid date flow.
+   */
+  @Test
+  public void bookInvalidDateTest() {
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setDate(null);
+
+          sampleBookingService.book(request);
+        });
+  }
+
+  /**
+   * Test booking with invalid time flow.
+   */
+  @Test
+  public void bookInvalidTimeTest() {
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setTime(null);
+
+          sampleBookingService.book(request);
+        });
+  }
+
+  /**
+   * Test booking with invalid date flow.
+   */
+  @Test
+  public void bookInvalidSiteTest() {
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setSite(null);
+
+          sampleBookingService.book(request);
+        });
+  }
+
+  /**
+   * Test booking with invalid username flow.
+   */
+  @Test
+  public void bookInvalidUsernameTest() {
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setUsername(null);
+
+          sampleBookingService.book(request);
+        });
   }
 
   private static class SampleBookingService extends BookingService {

@@ -1,0 +1,36 @@
+<html>
+<head>
+    <title>SAMPLE STEP 1.1 ERROR RESPONSE</title>
+</head>
+<body>
+<div data-role="page" id="one">
+    <div data-role="header" data-theme="b">
+        <h1>Login</h1>
+    </div>
+
+    <div class="ui-bar ui-bar-e">
+        <h3 style="display:inline-block; width:92%; margin-top:5px;">An error has occured. </h3>
+        <div style="display:inline-block; width:8%; margin-top:0px; text-align:right;">
+            <a href="#" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext">Dismiss</a>
+        </div>
+        <p style="font-size:85%; margin:-.3em 0 1em;">username or password is invalid</p>
+    </div>
+
+    <div data-role="content">
+        <form action="" method="post" data-ajax="false" class="ui-body ui-body-b ui-corner-all">
+            <fieldset>
+                <div data-role="fieldcontain">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" value=""  />
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" value=""  />
+                </div>
+                <button type="submit" data-theme="b" name="submit" value="submit-value">Login</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>
