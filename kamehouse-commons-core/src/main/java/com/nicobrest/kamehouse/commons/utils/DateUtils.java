@@ -134,7 +134,7 @@ public class DateUtils {
    * Get the current date in the specified format pattern. Ej yyyy-MM-dd.
    */
   public static String getFormattedDate(String pattern) {
-    return getFormattedDate(pattern, new Date());
+    return getFormattedDate(pattern, getCurrentDate());
   }
 
   /**

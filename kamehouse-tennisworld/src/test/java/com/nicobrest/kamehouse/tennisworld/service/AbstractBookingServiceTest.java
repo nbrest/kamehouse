@@ -183,7 +183,7 @@ public class AbstractBookingServiceTest {
    */
   @Test
   public void bookRecurringScheduledSessionSuccessTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
@@ -217,7 +217,7 @@ public class AbstractBookingServiceTest {
    */
   @Test
   public void bookOneOffScheduledSessionSuccessTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
@@ -252,7 +252,7 @@ public class AbstractBookingServiceTest {
    */
   @Test
   public void bookOneOffScheduledSessionErrorTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
@@ -280,6 +280,41 @@ public class AbstractBookingServiceTest {
     BookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
+  }
+
+  /**
+   * Test booking a one off scheduled session on valid date but before session time flow.
+   * The booking schedule request should be skipped.
+   */
+  @Test
+  public void bookOneOffScheduledSessionValidDateBeforeSessionTimeTest() {
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 00, 15, 30);
+    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+    when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
+    when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
+    when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
+    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
+    expected.getRequest().setScheduled(true);
+
+    BookingScheduleConfig bookingScheduleConfig =
+        bookingScheduleConfigTestUtils.getSingleTestData();
+    bookingScheduleConfig.setBookingDate(bookingDate);
+    bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
+    bookingScheduleConfig.setTime("19:15");
+    bookingScheduleConfig.setId(1L);
+    bookingScheduleConfig.setBookAheadDays(14);
+    bookingScheduleConfig.setEnabled(true);
+    bookingScheduleConfig.setSessionType(SessionType.ROD_LAVER_SHOW_COURTS);
+    bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
+    BookingResponseTestUtils.updateResponseWithRequestData(
+        expected, bookingDate, "19:15", SessionType.ROD_LAVER_SHOW_COURTS, "45");
+
+    List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
+
+    assertTrue(response.isEmpty());
   }
 
   /**
@@ -325,7 +360,7 @@ public class AbstractBookingServiceTest {
     BookingScheduleConfig bookingScheduleConfig =
         bookingScheduleConfigTestUtils.getSingleTestData();
     bookingScheduleConfig.setEnabled(true);
-    bookingScheduleConfig.setTime(null);
+    bookingScheduleConfig.setTime("00:003");
     bookingScheduleConfig.setBookingDate(DateUtils.getCurrentDate());
     bookingScheduleConfig.setBookAheadDays(0);
     when(bookingScheduleConfigService.readAll()).thenReturn(List.of(bookingScheduleConfig));
@@ -375,6 +410,15 @@ public class AbstractBookingServiceTest {
         () -> {
           BookingRequest request = bookingRequestTestUtils.getSingleTestData();
           request.setTime(null);
+
+          sampleBookingService.book(request);
+        });
+
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> {
+          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+          request.setTime("00:001");
 
           sampleBookingService.book(request);
         });

@@ -109,6 +109,8 @@ public class DateUtilsTest {
 
     formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, new Date());
     assertTrue(formattedDate.matches(expectedDateRegex), "Date doesn't match expected format");
+
+    assertTrue(DateUtils.getFormattedDate(DateUtils.HH_MM_24HS).matches("[0-9]{2}:[0-9]{2}"));
   }
 
   /**

@@ -42,6 +42,7 @@ public abstract class BookingService {
   public static final String BOOKING_FINISHED = "Booking to tennis world finished: {}";
   public static final String NO_BOOKABLE_CLASS_FOUND =
       "No bookable class was found for this booking request";
+  public static final String TIME_PATTERN = "[0-9]{2}:[0-9]{2}";
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -229,21 +230,89 @@ public abstract class BookingService {
    */
   private BookingResponse processScheduledBookingConfig(
       BookingScheduleConfig bookingScheduleConfig) {
+    logger.info("Processing bookingScheduleConfig id {}", bookingScheduleConfig.getId());
     logger.trace("Processing {}", bookingScheduleConfig);
     if (!bookingScheduleConfig.getEnabled()) {
-      logger.debug("BookingScheduleConfig id {} is disabled. Skipping.",
+      logger.info("BookingScheduleConfig id {} is disabled. Skipping",
           bookingScheduleConfig.getId());
       return null;
     }
-    Date bookingDate = calculateBookingDate(bookingScheduleConfig);
-    if (bookingDate == null) {
-      logger.debug("No scheduled booking to be executed today for BookingScheduleConfig id {}",
+    if (!shouldScheduledBookingBeExecutedToday(bookingScheduleConfig)) {
+      logger.info("BookingScheduleConfig id {} is not scheduled to execute today",
           bookingScheduleConfig.getId());
       return null;
     }
-    BookingRequest bookingRequest =
-        createScheduledBookingRequest(bookingScheduleConfig, bookingDate);
+    if (!isBookingTimeValid(bookingScheduleConfig)) {
+      logger.info("BookingScheduleConfig id {} is scheduled for today but should be executed at"
+          + " a later time", bookingScheduleConfig.getId());
+      return null;
+    }
+    BookingRequest bookingRequest = createScheduledBookingRequest(bookingScheduleConfig);
     return book(bookingRequest);
+  }
+
+  /**
+   * Returns true if the booking schedule config should be executed today.
+   */
+  private boolean shouldScheduledBookingBeExecutedToday(
+      BookingScheduleConfig bookingScheduleConfig) {
+    if (bookingScheduleConfig.getBookingDate() != null) {
+      /*
+       * One-off scheduledBookingDate is set in the config. Check if the one-off booking should be
+       * executed today.
+       */
+      Date scheduledBookingDate = bookingScheduleConfig.getBookingDate();
+      if (isValidBookingDate(scheduledBookingDate)
+          && scheduledBookingDateMatchesBookAheadDays(bookingScheduleConfig)) {
+        logger.trace("One-off scheduled booking date '{}' set and should be executed today",
+            scheduledBookingDate);
+        return true;
+      }
+    } else {
+      /*
+       * One-off BookingDate is not set in the config. Checking if recurring booking should be
+       * executed today.
+       */
+      int bookAheadDays = bookingScheduleConfig.getBookAheadDays();
+      Date calculatedBookingDate = DateUtils.getDateFromToday(bookAheadDays);
+      DateUtils.Day configDay = bookingScheduleConfig.getDay();
+      DateUtils.Day bookingDateDay = DateUtils.getDay(calculatedBookingDate);
+      if (configDay == bookingDateDay) {
+        logger.trace("Recurring booking should be executed today for booking date {}",
+            calculatedBookingDate);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Returns true if the current time is at or after the request booking time.
+   */
+  private boolean isBookingTimeValid(BookingScheduleConfig bookingScheduleConfig) {
+    String scheduledBookingTime = bookingScheduleConfig.getTime();
+    String currentTime = DateUtils.getFormattedDate(DateUtils.HH_MM_24HS);
+    if (scheduledBookingTime.compareTo(currentTime) < 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns true if the bookingDate is on or after the current date.
+   */
+  private boolean isValidBookingDate(Date bookingDate) {
+    return DateUtils.isOnOrAfter(DateUtils.getCurrentDate(), bookingDate);
+  }
+
+  /**
+   * Returns true if the bookingDate is 'bookAheadDays' days ahead from the current date.
+   */
+  private boolean scheduledBookingDateMatchesBookAheadDays(
+      BookingScheduleConfig bookingScheduleConfig) {
+    Date bookingDate = bookingScheduleConfig.getBookingDate();
+    long daysToBookingDate = DateUtils.getDaysBetweenDates(DateUtils.getCurrentDate(), bookingDate);
+    return daysToBookingDate == bookingScheduleConfig.getBookAheadDays();
   }
 
   /**
@@ -275,6 +344,10 @@ public abstract class BookingService {
     if (bookingRequest.getTime() == null) {
       throw new KameHouseInvalidDataException("time not set");
     }
+    if (!bookingRequest.getTime().matches(TIME_PATTERN)) {
+      throw new KameHouseInvalidDataException(
+          "time has an invalid value of " + bookingRequest.getTime());
+    }
     if (bookingRequest.getSite() == null) {
       throw new KameHouseInvalidDataException("site not set");
     }
@@ -287,63 +360,12 @@ public abstract class BookingService {
   }
 
   /**
-   * Get the bookingDate calculated from the schedule config. If null is returned then no booking
-   * should be executed.
-   */
-  private Date calculateBookingDate(BookingScheduleConfig bookingScheduleConfig) {
-    if (bookingScheduleConfig.getBookingDate() != null) {
-      /*
-       * One-off bookingDate is set in the config. Check if it's should be used to book.
-       */
-      Date bookingDate = bookingScheduleConfig.getBookingDate();
-      if (isActiveBookingDate(bookingDate)
-          && bookingDateMatchesBookAheadDays(bookingScheduleConfig)) {
-        logger.trace("One-off bookingDate {}", bookingDate);
-        return bookingDate;
-      }
-    } else {
-      /*
-       * One-off bookingDate is not set in the config. Checking recurring booking
-       * schedule config
-       */
-      int bookAheadDays = bookingScheduleConfig.getBookAheadDays();
-      Date bookingDate = DateUtils.getDateFromToday(bookAheadDays);
-      DateUtils.Day configDay = bookingScheduleConfig.getDay();
-      DateUtils.Day bookingDateDay = DateUtils.getDay(bookingDate);
-      if (configDay == bookingDateDay) {
-        logger.trace("Calculated recurring bookingDate {}", bookingDate);
-        return bookingDate;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Returns true if the bookingDate is on or after the current date.
-   */
-  private boolean isActiveBookingDate(Date bookingDate) {
-    if (bookingDate == null) {
-      return false;
-    }
-    return DateUtils.isOnOrAfter(DateUtils.getCurrentDate(), bookingDate);
-  }
-
-  /**
-   * Returns true if the bookingDate is 'bookAheadDays' days ahead from the current date.
-   */
-  private boolean bookingDateMatchesBookAheadDays(BookingScheduleConfig bookingScheduleConfig) {
-    Date bookingDate = bookingScheduleConfig.getBookingDate();
-    long daysToBookingDate = DateUtils.getDaysBetweenDates(DateUtils.getCurrentDate(), bookingDate);
-    return daysToBookingDate == bookingScheduleConfig.getBookAheadDays();
-  }
-
-  /**
    * Create a tennisworld booking request based on the schedule config.
    */
   private BookingRequest createScheduledBookingRequest(
-      BookingScheduleConfig bookingScheduleConfig, Date bookingDate) {
+      BookingScheduleConfig bookingScheduleConfig) {
     BookingRequest request = new BookingRequest();
-    request.setDate(bookingDate);
+    request.setDate(getBookingDateFromBookingScheduleConfig(bookingScheduleConfig));
     TennisWorldUser tennisWorldUser = bookingScheduleConfig.getTennisWorldUser();
     request.setUsername(tennisWorldUser.getEmail());
     request.setPassword(getDecryptedPassword(tennisWorldUser));
@@ -354,6 +376,20 @@ public abstract class BookingService {
     request.setTime(bookingScheduleConfig.getTime());
     request.setScheduled(true);
     return request;
+  }
+
+  /**
+   * Get the bookingDate calculated from the schedule config.
+   */
+  private Date getBookingDateFromBookingScheduleConfig(
+      BookingScheduleConfig bookingScheduleConfig) {
+    if (bookingScheduleConfig.getBookingDate() != null) {
+      return bookingScheduleConfig.getBookingDate();
+    } else {
+      int bookAheadDays = bookingScheduleConfig.getBookAheadDays();
+      Date bookingDate = DateUtils.getDateFromToday(bookAheadDays);
+      return bookingDate;
+    }
   }
 
   /**
