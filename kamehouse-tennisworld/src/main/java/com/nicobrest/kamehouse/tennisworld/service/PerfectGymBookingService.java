@@ -233,7 +233,7 @@ public class PerfectGymBookingService extends BookingService {
   /**
    * Step 4: Get the daily classes for the booking request date from tennis world PerfectGym.
    */
-  public JsonNode getDailyClasses(HttpClient httpClient, long clubId, BookingRequest bookingRequest)
+  private JsonNode getDailyClasses(HttpClient httpClient, long clubId, BookingRequest bookingRequest)
       throws IOException {
     DailyClassesRequest requestBody = new DailyClassesRequest();
     requestBody.setClubId(clubId);
