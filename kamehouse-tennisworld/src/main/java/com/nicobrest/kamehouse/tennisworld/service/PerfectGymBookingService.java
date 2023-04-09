@@ -546,7 +546,7 @@ public class PerfectGymBookingService extends BookingService {
       throw new KameHouseServerErrorException(
           "Error finalizing court booking. No FacilityBooking element in the response");
     }
-    return JsonUtils.toJson(responseBody);
+    return responseBodyJson;
   }
 
   /**
