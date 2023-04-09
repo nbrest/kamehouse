@@ -497,7 +497,7 @@ public class PerfectGymBookingService extends BookingService {
     requestBody.setUserId(userId);
     requestBody.setZoneId(zoneId);
     requestBody.setStartTime(startTime);
-    requestBody.setDuration(Integer.valueOf(bookingRequest.getDuration()));
+    requestBody.setDuration(Integer.parseInt(bookingRequest.getDuration()));
     HttpPost httpPost = new HttpPost(SELECT_COURT_BOOKING_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));

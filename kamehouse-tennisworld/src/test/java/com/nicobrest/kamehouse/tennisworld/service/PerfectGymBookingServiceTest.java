@@ -432,6 +432,120 @@ public class PerfectGymBookingServiceTest {
   }
 
   /**
+   * Test booking a court step 2 error flow.
+   */
+  @Test
+  public void bookCourtStep2ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_2_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Invalid clubs response from PerfectGym");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a court step 3 error flow.
+   */
+  @Test
+  public void bookCourtStep3ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_3_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Invalid club zone types response from PerfectGym");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a court step 4 error flow.
+   */
+  @Test
+  public void bookCourtStep4ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_4_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Invalid court weekly schedule response from PerfectGym");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a court step 5 error flow.
+   */
+  @Test
+  public void bookCourtStep5ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_5_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Invalid start booking modal response from PerfectGym");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a court step 6 error flow.
+   */
+  @Test
+  public void bookCourtStep6ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_6_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Invalid select court booking response from PerfectGym");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a court step 7 error flow.
+   */
+  @Test
+  public void bookCourtStep7ErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_7_ERROR_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Invalid finalize court booking response from PerfectGym");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
    * Test booking an unknown session type flow.
    */
   @Test
@@ -549,6 +663,45 @@ public class PerfectGymBookingServiceTest {
         "perfectgym/book-court-responses/step-5-start-booking-modal.json",
         "perfectgym/book-court-responses/step-6-select-court.json",
         "perfectgym/book-court-responses/step-7-finalize-court-booking.json"
+    }),
+    BOOK_COURT_STEP_2_ERROR_RESPONSES(new String[]{
+        "perfectgym/book-court-responses/step-1-login.json",
+        "perfectgym/book-court-responses/step-2-clubs-error.json"
+    }),
+    BOOK_COURT_STEP_3_ERROR_RESPONSES(new String[]{
+        "perfectgym/book-court-responses/step-1-login.json",
+        "perfectgym/book-court-responses/step-2-clubs.json",
+        "perfectgym/book-court-responses/step-3-club-zone-types-error.json"
+    }),
+    BOOK_COURT_STEP_4_ERROR_RESPONSES(new String[]{
+        "perfectgym/book-court-responses/step-1-login.json",
+        "perfectgym/book-court-responses/step-2-clubs.json",
+        "perfectgym/book-court-responses/step-3-club-zone-types.json",
+        "perfectgym/book-court-responses/step-4-weekly-schedule-error.json"
+    }),
+    BOOK_COURT_STEP_5_ERROR_RESPONSES(new String[]{
+        "perfectgym/book-court-responses/step-1-login.json",
+        "perfectgym/book-court-responses/step-2-clubs.json",
+        "perfectgym/book-court-responses/step-3-club-zone-types.json",
+        "perfectgym/book-court-responses/step-4-weekly-schedule.json",
+        "perfectgym/book-court-responses/step-5-start-booking-modal-error.json"
+    }),
+    BOOK_COURT_STEP_6_ERROR_RESPONSES(new String[]{
+        "perfectgym/book-court-responses/step-1-login.json",
+        "perfectgym/book-court-responses/step-2-clubs.json",
+        "perfectgym/book-court-responses/step-3-club-zone-types.json",
+        "perfectgym/book-court-responses/step-4-weekly-schedule.json",
+        "perfectgym/book-court-responses/step-5-start-booking-modal.json",
+        "perfectgym/book-court-responses/step-6-select-court-error.json"
+    }),
+    BOOK_COURT_STEP_7_ERROR_RESPONSES(new String[]{
+        "perfectgym/book-court-responses/step-1-login.json",
+        "perfectgym/book-court-responses/step-2-clubs.json",
+        "perfectgym/book-court-responses/step-3-club-zone-types.json",
+        "perfectgym/book-court-responses/step-4-weekly-schedule.json",
+        "perfectgym/book-court-responses/step-5-start-booking-modal.json",
+        "perfectgym/book-court-responses/step-6-select-court.json",
+        "perfectgym/book-court-responses/step-7-finalize-court-booking-error.json"
     });
 
     private String[] value;
