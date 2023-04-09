@@ -209,14 +209,15 @@ public abstract class BookingService {
 
   private List<BookingResponse> getTodaySuccessfulBookingResponses() {
     List<BookingResponse> bookingResponses = bookingResponseService.readAll();
+    String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+        DateUtils.getCurrentDate());
     return bookingResponses.stream()
-        .filter(br -> br.getStatus().equals(Status.SUCCESS))
+        .filter(br -> br.getRequest().isScheduled())
+        .filter(br -> Status.SUCCESS.equals(br.getStatus()))
         .filter(br -> {
           String creationDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
               br.getRequest().getCreationDate());
-          String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-              DateUtils.getCurrentDate());
-          return creationDate.equals(currentDate);
+          return currentDate.equals(creationDate);
         })
         .collect(Collectors.toList());
   }
@@ -330,6 +331,8 @@ public abstract class BookingService {
     if (todaySuccessfulBookingResponses == null || todaySuccessfulBookingResponses.isEmpty()) {
       return false;
     }
+    String scheduleConfigDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+        getBookingDateFromBookingScheduleConfig(bookingScheduleConfig));
     for (BookingResponse successfulBookingResponse : todaySuccessfulBookingResponses) {
       BookingRequest successfulBookingRequest = successfulBookingResponse.getRequest();
       boolean isAlreadyBooked = true;
@@ -352,9 +355,7 @@ public abstract class BookingService {
       }
       String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
           successfulBookingRequest.getDate());
-      String scheduleConfigDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-          getBookingDateFromBookingScheduleConfig(bookingScheduleConfig));
-      if (!bookingDate.equals(scheduleConfigDate)) {
+      if (!scheduleConfigDate.equals(bookingDate)) {
         isAlreadyBooked = false;
       }
       if (isAlreadyBooked) {
