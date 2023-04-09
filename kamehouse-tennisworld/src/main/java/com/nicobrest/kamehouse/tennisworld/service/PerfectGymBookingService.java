@@ -72,7 +72,6 @@ public class PerfectGymBookingService extends BookingService {
   private static final List<Integer> CLIENT_ERROR_STATUS = List.of(499,
       HttpStatus.BAD_REQUEST.value());
 
-
   @Override
   protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
     SessionType sessionType = bookingRequest.getSessionType();
@@ -473,7 +472,6 @@ public class PerfectGymBookingService extends BookingService {
    * Get userId for the court booking request.
    */
   private long getUserId(JsonNode response) {
-    logger.info(response.toString());
     if (response.get("Data") != null
         && response.get("Data").get("Users") != null
         && response.get("Data").get("Users").isArray()) {
