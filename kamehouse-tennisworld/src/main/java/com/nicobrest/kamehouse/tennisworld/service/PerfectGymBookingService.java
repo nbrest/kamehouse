@@ -427,17 +427,16 @@ public class PerfectGymBookingService extends BookingService {
     HttpGet httpGet = new HttpGet(START_COURT_BOOKING_MODAL_URL);
     String startDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         bookingRequest.getDate()) + "T" + bookingRequest.getTime() + ":00";
-    URI uri = null;
     try {
-      uri = new URIBuilder(httpGet.getURI())
+      URI uri = new URIBuilder(httpGet.getURI())
           .addParameter("clubId", String.valueOf(clubId))
           .addParameter("zoneTypeId", String.valueOf(zoneTypeId))
           .addParameter("startDate", startDate)
           .build();
+      httpGet.setURI(uri);
     } catch (URISyntaxException e) {
       throw new KameHouseServerErrorException("Unable to build start booking modal request", e);
     }
-    httpGet.setURI(uri);
     logger.info("Step 5: GET request to: {}", START_COURT_BOOKING_MODAL_URL);
     logRequestHeaders(httpGet);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
