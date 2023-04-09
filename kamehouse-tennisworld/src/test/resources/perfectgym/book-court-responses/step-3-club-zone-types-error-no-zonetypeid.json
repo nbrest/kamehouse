@@ -1,0 +1,202 @@
+{
+  "26": {
+    "Id": 26,
+    "Name": "TWMP Western Courts -  (Outdoor Show Court)",
+    "HasSlots": false,
+    "Zones": {
+      "120": {
+        "Id": 120,
+        "Name": "Show Court 2",
+        "ZoneCapacity": null
+      },
+      "121": {
+        "Id": 121,
+        "Name": "Show Court 3",
+        "ZoneCapacity": null
+      }
+    },
+    "ZoneAgeLimits": {},
+    "ZoneWithMaxCapacity": null,
+    "CanBookEntireZone": true
+  },
+  "27": {
+    "Id": 27,
+    "Name": "TWMP Western Courts -  (Outdoor Full Court)",
+    "HasSlots": false,
+    "Zones": {
+      "127": {
+        "Id": 127,
+        "Name": "Court 10",
+        "ZoneCapacity": null
+      },
+      "128": {
+        "Id": 128,
+        "Name": "Court 11",
+        "ZoneCapacity": null
+      },
+      "129": {
+        "Id": 129,
+        "Name": "Court 12",
+        "ZoneCapacity": null
+      },
+      "130": {
+        "Id": 130,
+        "Name": "Court 13",
+        "ZoneCapacity": null
+      },
+      "131": {
+        "Id": 131,
+        "Name": "Court 14",
+        "ZoneCapacity": null
+      },
+      "132": {
+        "Id": 132,
+        "Name": "Court 15",
+        "ZoneCapacity": null
+      },
+      "122": {
+        "Id": 122,
+        "Name": "Court 5",
+        "ZoneCapacity": null
+      },
+      "123": {
+        "Id": 123,
+        "Name": "Court 6",
+        "ZoneCapacity": null
+      },
+      "124": {
+        "Id": 124,
+        "Name": "Court 7",
+        "ZoneCapacity": null
+      },
+      "125": {
+        "Id": 125,
+        "Name": "Court 8",
+        "ZoneCapacity": null
+      },
+      "126": {
+        "Id": 126,
+        "Name": "Court 9",
+        "ZoneCapacity": null
+      }
+    },
+    "ZoneAgeLimits": {},
+    "ZoneWithMaxCapacity": null,
+    "CanBookEntireZone": true
+  },
+  "28": {
+    "Id": 28,
+    "Name": "TWMP Eastern Courts -  (Full Court)",
+    "HasSlots": false,
+    "Zones": {
+      "133": {
+        "Id": 133,
+        "Name": "Court 16",
+        "ZoneCapacity": null
+      },
+      "134": {
+        "Id": 134,
+        "Name": "Court 17",
+        "ZoneCapacity": null
+      }
+    },
+    "ZoneAgeLimits": {},
+    "ZoneWithMaxCapacity": null,
+    "CanBookEntireZone": true
+  },
+  "29": {
+    "Id": 29,
+    "Name": "TWMP National Tennis Centre Outdoor Courts",
+    "HasSlots": false,
+    "Zones": {
+      "135": {
+        "Id": 135,
+        "Name": "Court 18",
+        "ZoneCapacity": null
+      },
+      "136": {
+        "Id": 136,
+        "Name": "Court 19",
+        "ZoneCapacity": null
+      },
+      "137": {
+        "Id": 137,
+        "Name": "Court 20",
+        "ZoneCapacity": null
+      },
+      "138": {
+        "Id": 138,
+        "Name": "Court 21",
+        "ZoneCapacity": null
+      },
+      "139": {
+        "Id": 139,
+        "Name": "Court 22",
+        "ZoneCapacity": null
+      },
+      "140": {
+        "Id": 140,
+        "Name": "Court 23",
+        "ZoneCapacity": null
+      },
+      "141": {
+        "Id": 141,
+        "Name": "Court 24",
+        "ZoneCapacity": null
+      }
+    },
+    "ZoneAgeLimits": {},
+    "ZoneWithMaxCapacity": null,
+    "CanBookEntireZone": true
+  },
+  "30": {
+    "Id": 30,
+    "Name": "TWMP National Tennis Centre Indoor Courts",
+    "HasSlots": false,
+    "Zones": {
+      "142": {
+        "Id": 142,
+        "Name": "Court 1",
+        "ZoneCapacity": null
+      },
+      "143": {
+        "Id": 143,
+        "Name": "Court 2",
+        "ZoneCapacity": null
+      },
+      "144": {
+        "Id": 144,
+        "Name": "Court 3",
+        "ZoneCapacity": null
+      },
+      "145": {
+        "Id": 145,
+        "Name": "Court 4",
+        "ZoneCapacity": null
+      },
+      "146": {
+        "Id": 146,
+        "Name": "Court 5",
+        "ZoneCapacity": null
+      },
+      "147": {
+        "Id": 147,
+        "Name": "Court 6",
+        "ZoneCapacity": null
+      },
+      "148": {
+        "Id": 148,
+        "Name": "Court 7",
+        "ZoneCapacity": null
+      },
+      "149": {
+        "Id": 149,
+        "Name": "Court 8",
+        "ZoneCapacity": null
+      }
+    },
+    "ZoneAgeLimits": {},
+    "ZoneWithMaxCapacity": null,
+    "CanBookEntireZone": true
+  }
+}

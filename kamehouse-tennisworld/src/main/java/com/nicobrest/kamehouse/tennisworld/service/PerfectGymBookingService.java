@@ -545,6 +545,12 @@ public class PerfectGymBookingService extends BookingService {
       throw new KameHouseServerErrorException(
           "Invalid finalize court booking response from PerfectGym");
     }
+    JsonNode responseBodyJson = JsonUtils.toJson(responseBody);
+    if (responseBodyJson.get("Data") == null
+        || responseBodyJson.get("Data").get("FacilityBooking") == null) {
+      throw new KameHouseServerErrorException(
+          "Error finalizing court booking. No FacilityBooking element in the response");
+    }
     return JsonUtils.toJson(responseBody);
   }
 

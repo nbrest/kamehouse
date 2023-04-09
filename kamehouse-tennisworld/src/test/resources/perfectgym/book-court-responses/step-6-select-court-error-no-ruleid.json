@@ -1,0 +1,47 @@
+{
+  "View": "FacilityBookings/Components/BookFacilityWizard/WizardSteps/ChooseBookingRuleStepModal",
+  "Data": {
+    "Rules": {
+      "264": {
+        "Id": 264,
+        "ProductName": null,
+        "RuleName": "TWMP National Tennis Centre Clay Courts Member",
+        "Price": null,
+        "ProductDescription": null,
+        "BaseDuration": "PT30M",
+        "IsContractRequired": true,
+        "HasUserRequiredProducts": true,
+        "HasUserContract": true,
+        "BookingCount": 2,
+        "AvailableLimit": 2,
+        "AvailableProducts": null,
+        "IsPaymentRequired": false,
+        "CanBeBookedNow": true,
+        "ProductsQuantityToBuy": null,
+        "CanBuyProductAndBook": false
+      },
+      "265": {
+        "Id": 265,
+        "ProductName": null,
+        "RuleName": "TWMP National Tennis Centre Clay Courts Member",
+        "Price": null,
+        "ProductDescription": null,
+        "BaseDuration": "PT30M",
+        "IsContractRequired": true,
+        "HasUserRequiredProducts": true,
+        "HasUserContract": true,
+        "BookingCount": 2,
+        "AvailableLimit": 2,
+        "AvailableProducts": null,
+        "IsPaymentRequired": false,
+        "CanBeBookedNow": true,
+        "ProductsQuantityToBuy": null,
+        "CanBuyProductAndBook": false
+      }
+    },
+    "TimeoutForCashlessTransactionsFromMembershipPortal": 12
+  },
+  "AllowGoBack": true,
+  "StepInfo": null,
+  "WizardData": null
+}
