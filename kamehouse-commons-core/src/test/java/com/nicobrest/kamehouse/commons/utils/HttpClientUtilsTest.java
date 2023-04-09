@@ -10,12 +10,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.message.BasicHttpRequest;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,7 @@ public class HttpClientUtilsTest {
 
   private StatusLine statusLine = new BasicStatusLine(new ProtocolVersion("http", 1, 1), 200, "OK");
   private HttpResponse response = new BasicHttpResponse(statusLine);
+  private HttpRequest request = new BasicHttpRequest("GET","http://mada.mada");
 
   /**
    * Tests getting an http client.
@@ -138,6 +141,24 @@ public class HttpClientUtilsTest {
     response.setHeader("ContentType", "application/json");
 
     assertEquals("application/json", HttpClientUtils.getHeader(response, "ContentType"));
+  }
+
+  /**
+   * hasHeaders and getAllHeaders test.
+   */
+  @Test
+  public void hasHeaderTest() {
+    response.setHeaders(null);
+    assertEquals(false, HttpClientUtils.hasHeaders(response));
+
+    response.setHeader("ContentType", "application/json");
+    assertEquals(true, HttpClientUtils.hasHeaders(response));
+
+    request.setHeaders(null);
+    assertEquals(false, HttpClientUtils.hasHeaders(request));
+
+    request.setHeader("ContentType", "application/json");
+    assertEquals(true, HttpClientUtils.hasHeaders(request));
   }
 
   /**

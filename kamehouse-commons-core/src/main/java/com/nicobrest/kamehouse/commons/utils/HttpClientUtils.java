@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.Header;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
@@ -97,6 +98,34 @@ public class HttpClientUtils {
       }
     }
     return null;
+  }
+
+  /**
+   * Returns all header from the request or null if not found.
+   */
+  public static Header[] getAllHeaders(HttpRequest request) {
+    return request.getAllHeaders();
+  }
+
+  /**
+   * Returns all header from the request or null if not found.
+   */
+  public static Header[] getAllHeaders(HttpResponse response) {
+    return response.getAllHeaders();
+  }
+
+  /**
+   * Returns true if the http request has headers.
+   */
+  public static boolean hasHeaders(HttpRequest request) {
+    return getAllHeaders(request) == null || getAllHeaders(request).length > 0;
+  }
+
+  /**
+   * Returns true if the http request has headers.
+   */
+  public static boolean hasHeaders(HttpResponse response) {
+    return getAllHeaders(response) == null || getAllHeaders(response).length > 0;
   }
 
   /**
