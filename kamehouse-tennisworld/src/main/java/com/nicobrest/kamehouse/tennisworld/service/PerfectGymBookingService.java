@@ -16,6 +16,7 @@ import com.nicobrest.kamehouse.tennisworld.model.perfectgym.CalendarFiltersReque
 import com.nicobrest.kamehouse.tennisworld.model.perfectgym.DailyClassesRequest;
 import com.nicobrest.kamehouse.tennisworld.model.perfectgym.LoginRequest;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -46,6 +47,8 @@ public class PerfectGymBookingService extends BookingService {
   private static final String COMPLETE_CLASS_BOOKING_URL =
       ROOT_URL + "/ClientPortal2/Classes/ClassCalendar/BookClass";
   private static final long INVALID_CLASS_ID = -9999L;
+  private static final List<Integer> CLIENT_ERROR_STATUS = List.of(499,
+      HttpStatus.BAD_REQUEST.value());
 
   @Override
   protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
@@ -308,8 +311,13 @@ public class PerfectGymBookingService extends BookingService {
    * Validates that the http status code is 200.
    */
   private static void validateHttpResponseCode(HttpResponse httpResponse, String url) {
+    int httpStatus = HttpClientUtils.getStatusCode(httpResponse);
+    if (CLIENT_ERROR_STATUS.contains(httpStatus)) {
+      throw new KameHouseBadRequestException("Invalid http client error response code: "
+          + HttpClientUtils.getStatusCode(httpResponse) + " for request to " + url);
+    }
     if (HttpClientUtils.getStatusCode(httpResponse) != HttpStatus.OK.value()) {
-      throw new KameHouseServerErrorException("Invalid http response code: "
+      throw new KameHouseServerErrorException("Invalid http server error response code: "
           + HttpClientUtils.getStatusCode(httpResponse) + " for request to " + url);
     }
   }

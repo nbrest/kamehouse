@@ -45,6 +45,8 @@ public class PerfectGymBookingServiceTest {
       new ProtocolVersion("http", 1, 1), 200, "OK");
   private static final StatusLine STATUS_LINE_499 = new BasicStatusLine(
       new ProtocolVersion("http", 1, 1), 499, "Client closed request");
+  private static final StatusLine STATUS_LINE_500 = new BasicStatusLine(
+      new ProtocolVersion("http", 1, 1), 500, "Server Error");
 
   @InjectMocks
   private PerfectGymBookingService perfectGymBookingServiceSpy;
@@ -168,9 +170,30 @@ public class PerfectGymBookingServiceTest {
     when(HttpClientUtils.getStatusLine(any())).thenReturn(STATUS_LINE_499);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.ERROR);
+    expected.setMessage("Invalid http client error response code: 499 for request to "
+        + PerfectGymBookingService.LOGIN_URL);
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking a class step 1 perfectgym server error flow.
+   */
+  @Test
+  public void bookClassStep1PerfectGymServerErrorTest() throws Exception {
+    setupHttpResponseInputStreamMocks(
+        PerfectGymResponses.BOOK_CLASS_STEP_1_ERROR_INVALID_USER_PASS_RESPONSES);
+    when(HttpClientUtils.getStatusLine(any())).thenReturn(STATUS_LINE_500);
+    BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setStatus(Status.INTERNAL_ERROR);
-    expected.setMessage(
-        "Invalid http response code: 499 for request to " + PerfectGymBookingService.LOGIN_URL);
+    expected.setMessage("Invalid http server error response code: 500 for request to "
+        + PerfectGymBookingService.LOGIN_URL);
     BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = perfectGymBookingServiceSpy.book(request);
