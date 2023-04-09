@@ -93,41 +93,16 @@ public abstract class BookingService {
       return bookingResponses;
     }
     for (BookingScheduleConfig bookingScheduleConfig : bookingScheduleConfigs) {
-      logger.trace("Processing {}", bookingScheduleConfig);
-      if (!bookingScheduleConfig.getEnabled()) {
-        logger.debug(
-            "BookingScheduleConfig id {} is disabled. Skipping.", bookingScheduleConfig.getId());
-        continue;
-      }
       try {
-        Date bookingDate = calculateBookingDate(bookingScheduleConfig);
-        if (bookingDate != null) {
-          BookingRequest bookingRequest =
-              createScheduledBookingRequest(bookingScheduleConfig, bookingDate);
-          BookingResponse response = book(bookingRequest);
-          bookingResponses.add(response);
-        } else {
-          logger.debug("No scheduled booking to be executed today for BookingScheduleConfig id {}",
-              bookingScheduleConfig.getId());
+        BookingResponse bookingResponse = processScheduledBookingConfig(bookingScheduleConfig);
+        if (bookingResponse != null) {
+          bookingResponses.add(bookingResponse);
         }
       } catch (KameHouseException e) {
         logger.error("Error executing scheduled booking for {}", bookingScheduleConfig, e);
       }
     }
-    int successfulBookings = 0;
-    int failedBookings = 0;
-    for (BookingResponse bookingResponse : bookingResponses) {
-      if (Status.SUCCESS.equals(bookingResponse.getStatus())) {
-        successfulBookings++;
-      }
-      if (!Status.SUCCESS.equals(bookingResponse.getStatus())) {
-        failedBookings++;
-      }
-    }
-    logger.info("Booking scheduled sessions finished. Executed {} booking requests. {} successful "
-            + "requests and {} failed requests", bookingResponses.size(), successfulBookings,
-        failedBookings);
-    logger.debug("Scheduled booking responses {}", bookingResponses);
+    logScheduledBookingResponses(bookingResponses);
     return bookingResponses;
   }
 
@@ -190,11 +165,12 @@ public abstract class BookingService {
    */
   protected void logRequestHeaders(HttpRequest httpRequest) {
     logger.debug("Request headers:");
-    if (httpRequest.getAllHeaders() == null || httpRequest.getAllHeaders().length == 0) {
+    if (!HttpClientUtils.hasHeaders(httpRequest)) {
       logger.debug("No request headers set");
-    }
-    for (Header header : httpRequest.getAllHeaders()) {
-      logger.debug("{} : {}", header.getName(), header.getValue());
+    } else {
+      for (Header header : HttpClientUtils.getAllHeaders(httpRequest)) {
+        logger.debug("{} : {}", header.getName(), header.getValue());
+      }
     }
   }
 
@@ -224,6 +200,50 @@ public abstract class BookingService {
     }
     logger.trace("Http response doesn't contain a body");
     return null;
+  }
+
+
+  /**
+   * Log the output of the scheduled booking responses.
+   */
+  private void logScheduledBookingResponses(List<BookingResponse> bookingResponses) {
+    int successfulBookings = 0;
+    int failedBookings = 0;
+    for (BookingResponse bookingResponse : bookingResponses) {
+      if (Status.SUCCESS.equals(bookingResponse.getStatus())) {
+        successfulBookings++;
+      }
+      if (!Status.SUCCESS.equals(bookingResponse.getStatus())) {
+        failedBookings++;
+      }
+    }
+    logger.info("Booking scheduled sessions finished. Executed {} booking requests. {} successful "
+            + "requests and {} failed requests", bookingResponses.size(), successfulBookings,
+        failedBookings);
+    logger.debug("Scheduled booking responses {}", bookingResponses);
+  }
+
+  /**
+   * Determine if a booking request should be triggered for the specified booking schedule config
+   * and execute the valid booking requests for the current date.
+   */
+  private BookingResponse processScheduledBookingConfig(
+      BookingScheduleConfig bookingScheduleConfig) {
+    logger.trace("Processing {}", bookingScheduleConfig);
+    if (!bookingScheduleConfig.getEnabled()) {
+      logger.debug("BookingScheduleConfig id {} is disabled. Skipping.",
+          bookingScheduleConfig.getId());
+      return null;
+    }
+    Date bookingDate = calculateBookingDate(bookingScheduleConfig);
+    if (bookingDate == null) {
+      logger.debug("No scheduled booking to be executed today for BookingScheduleConfig id {}",
+          bookingScheduleConfig.getId());
+      return null;
+    }
+    BookingRequest bookingRequest =
+        createScheduledBookingRequest(bookingScheduleConfig, bookingDate);
+    return book(bookingRequest);
   }
 
   /**
@@ -278,7 +298,7 @@ public abstract class BookingService {
       Date bookingDate = bookingScheduleConfig.getBookingDate();
       if (isActiveBookingDate(bookingDate)
           && bookingDateMatchesBookAheadDays(bookingScheduleConfig)) {
-        logger.trace("Calculated one-off bookingDate {}", bookingDate);
+        logger.trace("One-off bookingDate {}", bookingDate);
         return bookingDate;
       }
     } else {

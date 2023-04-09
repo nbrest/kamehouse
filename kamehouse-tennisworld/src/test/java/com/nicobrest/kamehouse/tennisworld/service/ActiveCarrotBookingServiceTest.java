@@ -594,7 +594,7 @@ public class ActiveCarrotBookingServiceTest {
    */
   private void setupHttpResponseInputStreamMocks(ActiveCarrotResponses activeCarrotResponses)
       throws Exception {
-    OngoingStubbing ongoingStubbing = when(HttpClientUtils.getInputStream(any()));
+    OngoingStubbing<InputStream> ongoingStubbing = when(HttpClientUtils.getInputStream(any()));
     for (String testFilename : activeCarrotResponses.getValue()) {
       InputStream testInputStream = BookingRequestTestUtils.getInputStream(testFilename);
       ongoingStubbing = ongoingStubbing.thenReturn(testInputStream);

@@ -106,7 +106,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     sessionRequest2.setDuration("45");
     sessionRequest2.setPassword("goku-son");
     sessionRequest2.setUsername("goku@dbz.com");
-    sessionRequest2.setSessionType(SessionType.CARDIO);
+    sessionRequest2.setSessionType(SessionType.ROD_LAVER_SHOW_COURTS);
     sessionRequest2.setSite(Site.MELBOURNE_PARK);
     BookingRequest.CardDetails cardDetails = new BookingRequest.CardDetails();
     cardDetails.setName("SON GOKU");

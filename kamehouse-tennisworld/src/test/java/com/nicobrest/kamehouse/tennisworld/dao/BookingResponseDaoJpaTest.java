@@ -31,7 +31,7 @@ public class BookingResponseDaoJpaTest
             + ", '60', 'false', '2020-07-28 20:08:08.235', 'false'",
         "2, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', 'CARDIO'"
             + ", '45', 'false', '2020-07-28 20:08:08.235', 'false'",
-        "3, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', 'CARDIO'"
+        "3, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', 'ROD_LAVER_SHOW_COURTS'"
             + ", '45', 'false', '2020-07-28 20:08:08.235', 'false'"
     };
 

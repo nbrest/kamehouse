@@ -15,14 +15,24 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingResponse.Status;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
+import com.nicobrest.kamehouse.tennisworld.model.perfectgym.RequestBody;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import kotlin.text.Charsets;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicStatusLine;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +41,6 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 
 /**
  * Test class for the AbstractBookingService.
@@ -44,6 +53,9 @@ public class AbstractBookingServiceTest {
   private BookingResponseTestUtils bookingResponseTestUtils = new BookingResponseTestUtils();
   private BookingScheduleConfigTestUtils bookingScheduleConfigTestUtils =
       new BookingScheduleConfigTestUtils();
+  private static final StatusLine STATUS_LINE_200 = new BasicStatusLine(
+      new ProtocolVersion("http", 1, 1), 200, "OK");
+  private static final String RESPONSE_BODY = "{\"response\":\"dane\"}";
 
   @InjectMocks
   private SampleBookingService sampleBookingService;
@@ -88,8 +100,18 @@ public class AbstractBookingServiceTest {
     when(HttpClientUtils.execRequest(any(), any())).thenReturn(httpResponseMock);
     when(HttpClientUtils.httpGet(any())).thenCallRealMethod();
     when(HttpClientUtils.getHeader(any(), any())).thenCallRealMethod();
-    when(HttpClientUtils.getHeader(any(), any())).thenReturn(ActiveCarrotBookingService.ROOT_URL);
-    when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.FOUND.value());
+    when(HttpClientUtils.getStatusCode(any())).thenCallRealMethod();
+    when(HttpClientUtils.getStatusLine(any())).thenReturn(STATUS_LINE_200);
+    when(HttpClientUtils.hasResponseBody(any())).thenReturn(true);
+    when(HttpClientUtils.getInputStream(any())).thenReturn(
+        new ByteArrayInputStream(RESPONSE_BODY.getBytes(Charsets.UTF_8)));
+    when(HttpClientUtils.hasHeaders(any(HttpRequest.class))).thenReturn(true);
+    HttpRequest httpRequest = new HttpGet("http://goku.gohan");
+    httpRequest.setHeader("goku", "gohan");
+    when(HttpClientUtils.getAllHeaders(any(HttpRequest.class))).thenReturn(
+        httpRequest.getAllHeaders());
+    when(HttpClientUtils.hasHeaders(any(HttpResponse.class))).thenCallRealMethod();
+    when(HttpClientUtils.getAllHeaders(any(HttpResponse.class))).thenCallRealMethod();
 
     dateUtilsMock = Mockito.mockStatic(DateUtils.class);
     when(DateUtils.getCurrentDate()).thenCallRealMethod();
@@ -129,10 +151,29 @@ public class AbstractBookingServiceTest {
   public void bookSuccessTest() {
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
-    bookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = sampleBookingService.book(request);
-    bookingResponseTestUtils.matchDynamicFields(response, expected);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test booking error flow.
+   */
+  @Test
+  public void bookErrorTest() throws IOException {
+    when(HttpClientUtils.hasResponseBody(any())).thenReturn(false);
+    when(HttpClientUtils.hasHeaders(any(HttpRequest.class))).thenCallRealMethod();
+    when(HttpClientUtils.getAllHeaders(any(HttpRequest.class))).thenCallRealMethod();
+
+    BookingRequest request = bookingRequestTestUtils.getTestDataList().get(2);
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = sampleBookingService.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
   }
@@ -161,18 +202,18 @@ public class AbstractBookingServiceTest {
     bookingScheduleConfig.setEnabled(true);
     bookingScheduleConfig.setSessionType(SessionType.CARDIO);
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(
+    BookingResponseTestUtils.updateResponseWithRequestData(
         expected, bookingDate, "19:15", SessionType.CARDIO, "45");
     expected.getRequest().setCardDetails(null);
 
     List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
-    bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
+    BookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
 
   /**
-   * Test booking a one off scheduled session.
+   * Test booking a one off scheduled session success flow.
    */
   @Test
   public void bookOneOffScheduledSessionSuccessTest() {
@@ -197,11 +238,46 @@ public class AbstractBookingServiceTest {
     bookingScheduleConfig.setEnabled(true);
     bookingScheduleConfig.setSessionType(SessionType.CARDIO);
     bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
-    bookingResponseTestUtils.updateResponseWithCardioRequestData(
+    BookingResponseTestUtils.updateResponseWithRequestData(
         expected, bookingDate, "19:15", SessionType.CARDIO, "45");
 
     List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
-    bookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
+    BookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
+  }
+
+  /**
+   * Test booking a one off scheduled session error flow.
+   */
+  @Test
+  public void bookOneOffScheduledSessionErrorTest() {
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11);
+    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+    when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
+    when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
+    when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
+    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
+    expected.getRequest().setScheduled(true);
+
+    BookingScheduleConfig bookingScheduleConfig =
+        bookingScheduleConfigTestUtils.getSingleTestData();
+    bookingScheduleConfig.setBookingDate(bookingDate);
+    bookingScheduleConfig.setDay(DateUtils.Day.MONDAY);
+    bookingScheduleConfig.setTime("19:15");
+    bookingScheduleConfig.setId(1L);
+    bookingScheduleConfig.setBookAheadDays(14);
+    bookingScheduleConfig.setEnabled(true);
+    bookingScheduleConfig.setSessionType(SessionType.ROD_LAVER_SHOW_COURTS);
+    bookingScheduleConfig.setSite(Site.MELBOURNE_PARK);
+    BookingResponseTestUtils.updateResponseWithRequestData(
+        expected, bookingDate, "19:15", SessionType.ROD_LAVER_SHOW_COURTS, "45");
+
+    List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
+    BookingResponseTestUtils.matchDynamicFields(response.get(0), expected);
 
     bookingResponseTestUtils.assertEqualsAllAttributes(expected, response.get(0));
   }
@@ -336,14 +412,30 @@ public class AbstractBookingServiceTest {
 
   private static class SampleBookingService extends BookingService {
 
+    private static final String REQUEST = "{\"request\":\"mada mada\"}";
+
     @Override
     protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
-      BookingResponse bookingResponse = new BookingResponse();
-      bookingResponse.setRequest(bookingRequest);
-      bookingResponse.setMessage(SUCCESSFUL_BOOKING);
-      bookingResponse.setStatus(Status.SUCCESS);
-      bookingResponse.setId(1000L);
-      return bookingResponse;
+      HttpClient httpClient = HttpClientUtils.getClient("", "");
+      try {
+        executeRequest(httpClient, new HttpGet(""));
+        setSleepMs(1);
+        sleep();
+        HttpResponse response = executeRequest(httpClient, new HttpPost(), new RequestBody() {
+          @Override
+          public String toString() {
+            return REQUEST;
+          }
+        });
+        String responseBody = getResponseBody(response);
+        logResponseBody(responseBody);
+      } catch (IOException e) {
+        logger.info(e.getMessage(), e);
+      }
+      if (SessionType.ROD_LAVER_SHOW_COURTS.equals(bookingRequest.getSessionType())) {
+        return buildResponse(Status.INTERNAL_ERROR, "Server error", bookingRequest);
+      }
+      return buildResponse(Status.SUCCESS, SUCCESSFUL_BOOKING, bookingRequest);
     }
   }
 }
