@@ -457,8 +457,7 @@ public abstract class BookingService {
       return bookingScheduleConfig.getBookingDate();
     } else {
       int bookAheadDays = bookingScheduleConfig.getBookAheadDays();
-      Date bookingDate = DateUtils.getDateFromToday(bookAheadDays);
-      return bookingDate;
+      return DateUtils.getDateFromToday(bookAheadDays);
     }
   }
 

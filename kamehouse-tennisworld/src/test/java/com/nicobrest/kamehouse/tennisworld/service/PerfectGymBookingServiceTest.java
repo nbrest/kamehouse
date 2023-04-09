@@ -94,6 +94,9 @@ public class PerfectGymBookingServiceTest {
     when(HttpClientUtils.getStatusCode(any())).thenCallRealMethod();
     when(HttpClientUtils.getStatusLine(any())).thenReturn(STATUS_LINE_200);
     when(HttpClientUtils.hasResponseBody(any())).thenReturn(true);
+    when(HttpClientUtils.getHeader(httpResponseMock,
+        PerfectGymBookingService.CP_BOOK_FACILITY_SESSION_ID_HEADER)).thenReturn(
+        "3131b9de-204f-45d7-81df-4583e200f23f");
 
     dateUtilsMock = Mockito.mockStatic(DateUtils.class);
     when(DateUtils.getCurrentDate()).thenCallRealMethod();
@@ -541,7 +544,11 @@ public class PerfectGymBookingServiceTest {
     BOOK_COURT_RESPONSES(new String[]{
         "perfectgym/book-court-responses/step-1-login.json",
         "perfectgym/book-court-responses/step-2-clubs.json",
-        "perfectgym/book-court-responses/step-3-club-zone-types.json"
+        "perfectgym/book-court-responses/step-3-club-zone-types.json",
+        "perfectgym/book-court-responses/step-4-weekly-schedule.json",
+        "perfectgym/book-court-responses/step-5-start-booking-modal.json",
+        "perfectgym/book-court-responses/step-6-select-court.json",
+        "perfectgym/book-court-responses/step-7-finalize-court-booking.json"
     });
 
     private String[] value;

@@ -1,0 +1,21 @@
+{
+  "View": "FacilityBookings/Components/BookFacilityWizard/WizardSteps/BookFacilityDoneStepModal",
+  "Data": {
+    "FacilityBooking": {
+      "StartDate": "2023-04-11T16:00:00",
+      "Duration": "PT60M",
+      "User": {
+        "Id": 36071,
+        "FirstName": "Nicolas",
+        "LastName": "Brest",
+        "PhotoUrl": null,
+        "Initials": "YOU",
+        "IsCurrentUser": true
+      },
+      "IsContractPayment": false
+    }
+  },
+  "AllowGoBack": false,
+  "StepInfo": null,
+  "WizardData": null
+}

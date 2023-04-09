@@ -1,0 +1,251 @@
+{
+  "View": "FacilityBookings/Components/BookFacilityWizard/WizardSteps/SetFacilityBookingDetailsStepModal",
+  "Data": {
+    "Name": "Court 1",
+    "Users": [
+      {
+        "UserId": 36071,
+        "FirstName": "Nicolas",
+        "LastName": "Brest",
+        "Initials": "YOU",
+        "IsCurrentUser": true,
+        "PhotoUrl": null
+      }
+    ],
+    "UsersBookingPossibilities": {
+      "36071": {
+        "UserId": 36071,
+        "MeetsAnyRequirments": {
+          "151": true,
+          "152": true,
+          "153": true,
+          "154": true,
+          "155": true,
+          "156": true
+        },
+        "FacilityHasSlots": {
+          "151": false,
+          "152": false,
+          "153": false,
+          "154": false,
+          "155": false,
+          "156": false
+        },
+        "BookingUnavailableInZoneReason": {
+          "151": "NotMeetPaymentPlanRequirements",
+          "152": "NotMeetPaymentPlanRequirements",
+          "153": "NotMeetPaymentPlanRequirements",
+          "154": "NotMeetPaymentPlanRequirements",
+          "155": "NotMeetPaymentPlanRequirements",
+          "156": "NotMeetPaymentPlanRequirements"
+        },
+        "PossibleStartTimes": {
+          "151": [
+            {
+              "Id": "2023-04-11T16:00:00",
+              "Name": "2023-04-11T16:00:00"
+            },
+            {
+              "Id": "2023-04-11T16:30:00",
+              "Name": "2023-04-11T16:30:00"
+            }
+          ],
+          "152": [
+            {
+              "Id": "2023-04-11T16:00:00",
+              "Name": "2023-04-11T16:00:00"
+            },
+            {
+              "Id": "2023-04-11T16:30:00",
+              "Name": "2023-04-11T16:30:00"
+            }
+          ],
+          "153": [
+            {
+              "Id": "2023-04-11T16:00:00",
+              "Name": "2023-04-11T16:00:00"
+            },
+            {
+              "Id": "2023-04-11T16:30:00",
+              "Name": "2023-04-11T16:30:00"
+            }
+          ],
+          "154": [
+            {
+              "Id": "2023-04-11T16:00:00",
+              "Name": "2023-04-11T16:00:00"
+            },
+            {
+              "Id": "2023-04-11T16:30:00",
+              "Name": "2023-04-11T16:30:00"
+            }
+          ],
+          "155": [
+            {
+              "Id": "2023-04-11T16:00:00",
+              "Name": "2023-04-11T16:00:00"
+            },
+            {
+              "Id": "2023-04-11T16:30:00",
+              "Name": "2023-04-11T16:30:00"
+            }
+          ],
+          "156": [
+            {
+              "Id": "2023-04-11T16:00:00",
+              "Name": "2023-04-11T16:00:00"
+            },
+            {
+              "Id": "2023-04-11T16:30:00",
+              "Name": "2023-04-11T16:30:00"
+            }
+          ]
+        },
+        "PossibleDurations": {
+          "151": {
+            "2023-04-11T16:00:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            },
+            "2023-04-11T16:30:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            }
+          },
+          "152": {
+            "2023-04-11T16:00:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            },
+            "2023-04-11T16:30:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            }
+          },
+          "153": {
+            "2023-04-11T16:00:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            },
+            "2023-04-11T16:30:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            }
+          },
+          "154": {
+            "2023-04-11T16:00:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            },
+            "2023-04-11T16:30:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            }
+          },
+          "155": {
+            "2023-04-11T16:00:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            },
+            "2023-04-11T16:30:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            }
+          },
+          "156": {
+            "2023-04-11T16:00:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            },
+            "2023-04-11T16:30:00": {
+              "60": {
+                "Key": 60,
+                "Value": "PT60M",
+                "AvailableSlots": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "StartTime": "2023-04-11T16:00:00",
+    "Duration": null,
+    "UserId": 36071,
+    "RequiredNumberOfSlots": null,
+    "Zones": [
+      {
+        "Id": 151,
+        "Name": "Court 1",
+        "Description": null,
+        "PlanPhotoUrl": ""
+      },
+      {
+        "Id": 152,
+        "Name": "Court 2",
+        "Description": null,
+        "PlanPhotoUrl": ""
+      },
+      {
+        "Id": 153,
+        "Name": "Court 3",
+        "Description": null,
+        "PlanPhotoUrl": ""
+      },
+      {
+        "Id": 154,
+        "Name": "Court 4",
+        "Description": null,
+        "PlanPhotoUrl": ""
+      },
+      {
+        "Id": 155,
+        "Name": "Court 5",
+        "Description": null,
+        "PlanPhotoUrl": ""
+      },
+      {
+        "Id": 156,
+        "Name": "Court 6",
+        "Description": null,
+        "PlanPhotoUrl": ""
+      }
+    ],
+    "ZoneId": 151
+  },
+  "AllowGoBack": false,
+  "StepInfo": null,
+  "WizardData": null
+}
