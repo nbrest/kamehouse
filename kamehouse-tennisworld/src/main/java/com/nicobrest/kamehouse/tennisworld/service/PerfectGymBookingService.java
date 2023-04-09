@@ -217,7 +217,6 @@ public class PerfectGymBookingService extends BookingService {
   private JsonNode[] getClassesClubs(HttpClient httpClient) throws IOException {
     HttpGet httpGet = new HttpGet(CLASSES_CLUBS_URL);
     logger.info("Step 2: GET request to: {}", CLASSES_CLUBS_URL);
-    logRequestHeaders(httpGet);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     validateHttpResponseCode(httpResponse, CLASSES_CLUBS_URL);
     String responseBody = getResponseBody(httpResponse);
@@ -346,7 +345,6 @@ public class PerfectGymBookingService extends BookingService {
       throws IOException {
     HttpGet httpGet = new HttpGet(CLUBS_URL);
     logger.info("Step 2: GET request to: {}", CLUBS_URL);
-    logRequestHeaders(httpGet);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     validateHttpResponseCode(httpResponse, CLUBS_URL);
     String responseBody = getResponseBody(httpResponse);
@@ -437,7 +435,6 @@ public class PerfectGymBookingService extends BookingService {
       throw new KameHouseServerErrorException("Unable to build start booking modal request", e);
     }
     logger.info("Step 5: GET request to: {}", START_COURT_BOOKING_MODAL_URL);
-    logRequestHeaders(httpGet);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     validateHttpResponseCode(httpResponse, START_COURT_BOOKING_MODAL_URL);
     String responseBody = getResponseBody(httpResponse);
