@@ -124,6 +124,7 @@ public class AbstractBookingServiceTest {
     when(DateUtils.getDayOfWeek(any())).thenCallRealMethod();
     when(DateUtils.convertTime(any(), any(), any())).thenCallRealMethod();
     when(DateUtils.convertTime(any(), any(), any(), any(Boolean.class))).thenCallRealMethod();
+    when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
 
     encryptionUtilsMock = Mockito.mockStatic(EncryptionUtils.class);
     when(EncryptionUtils.decrypt(any(), any())).thenReturn(new byte[2]);
@@ -132,6 +133,7 @@ public class AbstractBookingServiceTest {
         .thenReturn(bookingScheduleConfigTestUtils.getTestDataList());
     when(bookingRequestService.create((any()))).thenReturn(1L);
     when(bookingResponseService.create((any()))).thenReturn(1L);
+    when(bookingResponseService.readAll()).thenReturn(bookingResponseTestUtils.getTestDataList());
   }
 
   /**
@@ -318,6 +320,32 @@ public class AbstractBookingServiceTest {
   }
 
   /**
+   * Test booking a session that has been already successfully booked that same day.
+   */
+  @Test
+  public void bookAlreadySuccessfullyBookedSessionTest() {
+    Date currentDate = DateUtils.getDate(2020, Calendar.JULY, 28, 20, 15, 30);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+    BookingResponse successfulBookingResponse = bookingResponseTestUtils.getSingleTestData();
+    successfulBookingResponse.getRequest().setScheduled(true);
+    successfulBookingResponse.getRequest().setSessionType(SessionType.CARDIO);
+    successfulBookingResponse.getRequest().setDuration("45");
+    successfulBookingResponse.getRequest().setCreationDate(DateUtils.getCurrentDate());
+
+    BookingScheduleConfig bookingScheduleConfig =
+        bookingScheduleConfigTestUtils.getSingleTestData();
+    bookingScheduleConfig.setEnabled(true);
+    bookingScheduleConfig.setTime("18:45");
+    bookingScheduleConfig.setBookingDate(DateUtils.getCurrentDate());
+    bookingScheduleConfig.setBookAheadDays(0);
+    when(bookingScheduleConfigService.readAll()).thenReturn(List.of(bookingScheduleConfig));
+
+    List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
+
+    assertTrue(response.isEmpty());
+  }
+
+  /**
    * Test booking empty scheduled sessions.
    */
   @Test
@@ -363,6 +391,8 @@ public class AbstractBookingServiceTest {
     bookingScheduleConfig.setTime("00:003");
     bookingScheduleConfig.setBookingDate(DateUtils.getCurrentDate());
     bookingScheduleConfig.setBookAheadDays(0);
+    bookingScheduleConfig.getTennisWorldUser().setEmail("gohan@dbz.com");
+    bookingScheduleConfig.setSite(Site.ALBERT_RESERVE);
     when(bookingScheduleConfigService.readAll()).thenReturn(List.of(bookingScheduleConfig));
 
     List<BookingResponse> response = sampleBookingService.bookScheduledSessions();

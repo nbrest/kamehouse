@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -93,9 +94,11 @@ public abstract class BookingService {
       logger.info("No scheduled booking configurations setup in this server");
       return bookingResponses;
     }
+    List<BookingResponse> todaySuccessfulBookingResponses = getTodaySuccessfulBookingResponses();
     for (BookingScheduleConfig bookingScheduleConfig : bookingScheduleConfigs) {
       try {
-        BookingResponse bookingResponse = processScheduledBookingConfig(bookingScheduleConfig);
+        BookingResponse bookingResponse = processScheduledBookingConfig(bookingScheduleConfig,
+            todaySuccessfulBookingResponses);
         if (bookingResponse != null) {
           bookingResponses.add(bookingResponse);
         }
@@ -203,6 +206,19 @@ public abstract class BookingService {
     return null;
   }
 
+  private List<BookingResponse> getTodaySuccessfulBookingResponses() {
+    List<BookingResponse> bookingResponses = bookingResponseService.readAll();
+    return bookingResponses.stream()
+        .filter(br -> br.getStatus().equals(Status.SUCCESS))
+        .filter(br -> {
+          String creationDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+              br.getRequest().getCreationDate());
+          String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+              DateUtils.getCurrentDate());
+          return creationDate.equals(currentDate);
+        })
+        .collect(Collectors.toList());
+  }
 
   /**
    * Log the output of the scheduled booking responses.
@@ -229,7 +245,8 @@ public abstract class BookingService {
    * and execute the valid booking requests for the current date.
    */
   private BookingResponse processScheduledBookingConfig(
-      BookingScheduleConfig bookingScheduleConfig) {
+      BookingScheduleConfig bookingScheduleConfig,
+      List<BookingResponse> todaySuccessfulBookingResponses) {
     logger.info("Processing bookingScheduleConfig id {}", bookingScheduleConfig.getId());
     logger.trace("Processing {}", bookingScheduleConfig);
     if (!bookingScheduleConfig.getEnabled()) {
@@ -238,13 +255,13 @@ public abstract class BookingService {
       return null;
     }
     if (!shouldScheduledBookingBeExecutedToday(bookingScheduleConfig)) {
-      logger.info("BookingScheduleConfig id {} is not scheduled to execute today",
-          bookingScheduleConfig.getId());
       return null;
     }
     if (!isBookingTimeValid(bookingScheduleConfig)) {
-      logger.info("BookingScheduleConfig id {} is scheduled for today but should be executed at"
-          + " a later time", bookingScheduleConfig.getId());
+      return null;
+    }
+    if (isSuccessfulBookingExecutedAlready(todaySuccessfulBookingResponses,
+        bookingScheduleConfig)) {
       return null;
     }
     BookingRequest bookingRequest = createScheduledBookingRequest(bookingScheduleConfig);
@@ -283,6 +300,8 @@ public abstract class BookingService {
         return true;
       }
     }
+    logger.info("BookingScheduleConfig id {} is not scheduled to execute today",
+        bookingScheduleConfig.getId());
     return false;
   }
 
@@ -294,6 +313,55 @@ public abstract class BookingService {
     String currentTime = DateUtils.getFormattedDate(DateUtils.HH_MM_24HS);
     if (scheduledBookingTime.compareTo(currentTime) < 0) {
       return true;
+    }
+    logger.info("BookingScheduleConfig id {} is scheduled for today but should be executed at"
+        + " a later time", bookingScheduleConfig.getId());
+    return false;
+  }
+
+  /**
+   * Checks if there is already a successful booking executed today with the same parameters as the
+   * current scheduled booking config.
+   */
+  private boolean isSuccessfulBookingExecutedAlready(
+      List<BookingResponse> todaySuccessfulBookingResponses,
+      BookingScheduleConfig bookingScheduleConfig) {
+    if (todaySuccessfulBookingResponses == null || todaySuccessfulBookingResponses.isEmpty()) {
+      return false;
+    }
+    for (BookingResponse successfulBookingResponse : todaySuccessfulBookingResponses) {
+      BookingRequest successfulBookingRequest = successfulBookingResponse.getRequest();
+      boolean isAlreadyBooked = true;
+      if (!successfulBookingRequest.getTime().equals(bookingScheduleConfig.getTime())) {
+        isAlreadyBooked = false;
+      }
+      if (!successfulBookingRequest.getDuration().equals(bookingScheduleConfig.getDuration())) {
+        isAlreadyBooked = false;
+      }
+      if (!successfulBookingRequest.getSite().equals(bookingScheduleConfig.getSite())) {
+        isAlreadyBooked = false;
+      }
+      if (!successfulBookingRequest.getSessionType()
+          .equals(bookingScheduleConfig.getSessionType())) {
+        isAlreadyBooked = false;
+      }
+      if (!successfulBookingRequest.getUsername()
+          .equals(bookingScheduleConfig.getTennisWorldUser().getEmail())) {
+        isAlreadyBooked = false;
+      }
+      String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+          successfulBookingRequest.getDate());
+      String scheduleConfigDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
+          getBookingDateFromBookingScheduleConfig(bookingScheduleConfig));
+      if (!bookingDate.equals(scheduleConfigDate)) {
+        isAlreadyBooked = false;
+      }
+      if (isAlreadyBooked) {
+        logger.info("A successful booking with booking response id {} was already executed today "
+                + "with the same booking criteria as the scheduled booking config id {}",
+            successfulBookingResponse.getId(), bookingScheduleConfig.getId());
+        return true;
+      }
     }
     return false;
   }

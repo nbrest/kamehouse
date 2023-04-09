@@ -84,7 +84,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
 
   @CreationTimestamp
   @Column(name = "creation_date", unique = false, nullable = false)
-  private Date creationDate = new Date();
+  private Date creationDate = DateUtils.getCurrentDate();
 
   @Column(name = "scheduled", unique = false, nullable = false)
   private boolean scheduled = false;
