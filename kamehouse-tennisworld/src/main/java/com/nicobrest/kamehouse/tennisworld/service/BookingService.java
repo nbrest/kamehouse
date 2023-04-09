@@ -88,6 +88,7 @@ public abstract class BookingService {
    * through an API.
    */
   public List<BookingResponse> bookScheduledSessions() {
+    logger.info("Started processing scheduled booking configs");
     List<BookingScheduleConfig> bookingScheduleConfigs = bookingScheduleConfigService.readAll();
     List<BookingResponse> bookingResponses = new ArrayList<>();
     if (bookingScheduleConfigs == null || bookingScheduleConfigs.isEmpty()) {
