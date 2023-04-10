@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.02
+
+- Added support to book specific court number in tennis world PerfectGym integration
+
 #### v8.01
 
 - Added sample kamehouse chrome extension

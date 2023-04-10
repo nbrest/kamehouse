@@ -384,6 +384,7 @@ public class AbstractBookingServiceTest {
     when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setScheduled(true);
+    expected.getRequest().setCourtNumber(2);
 
     BookingScheduleConfig bookingScheduleConfig =
         bookingScheduleConfigTestUtils.getSingleTestData();

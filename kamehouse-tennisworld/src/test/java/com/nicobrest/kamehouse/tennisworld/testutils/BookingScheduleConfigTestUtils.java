@@ -72,6 +72,7 @@ public class BookingScheduleConfigTestUtils
     singleTestData.setSessionType(SessionType.CARDIO);
     singleTestData.setSite(Site.MELBOURNE_PARK);
     singleTestData.setTime("12:00");
+    singleTestData.setCourtNumber(0);
   }
 
   private void initTestDataDto() {
@@ -85,6 +86,7 @@ public class BookingScheduleConfigTestUtils
     testDataDto.setSessionType(SessionType.CARDIO);
     testDataDto.setSite(Site.MELBOURNE_PARK);
     testDataDto.setTime("12:00");
+    testDataDto.setCourtNumber(0);
   }
 
   private void initTestDataList() {
@@ -98,6 +100,7 @@ public class BookingScheduleConfigTestUtils
     user2.setSessionType(SessionType.CARDIO);
     user2.setSite(Site.MELBOURNE_PARK);
     user2.setTime("12:00");
+    user2.setCourtNumber(0);
 
     BookingScheduleConfig user3 = new BookingScheduleConfig();
     user3.setTennisWorldUser(tennisWorldUser);
@@ -109,6 +112,7 @@ public class BookingScheduleConfigTestUtils
     user3.setSessionType(SessionType.CARDIO);
     user3.setSite(Site.MELBOURNE_PARK);
     user3.setTime("12:00");
+    user3.setCourtNumber(0);
 
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
