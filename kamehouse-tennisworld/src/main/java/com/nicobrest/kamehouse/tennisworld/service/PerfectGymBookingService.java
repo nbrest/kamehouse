@@ -187,13 +187,13 @@ public class PerfectGymBookingService extends BookingService {
         ContentType.APPLICATION_JSON));
     logger.info("Step 1: POST request to: {}", LOGIN_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, loginRequestBody);
-    validateHttpResponseCode(httpResponse, LOGIN_URL);
     String responseBody = getResponseBody(httpResponse);
+    logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, LOGIN_URL);
     if (!isSuccessfulLogin(responseBody)) {
       logger.error("Login to tennis world unsuccessful. Error response: {}", responseBody);
       throw new KameHouseBadRequestException("Invalid login to tennis world.");
     }
-    logResponseBody(responseBody);
   }
 
   /**
@@ -218,9 +218,9 @@ public class PerfectGymBookingService extends BookingService {
     HttpGet httpGet = new HttpGet(CLASSES_CLUBS_URL);
     logger.info("Step 2: GET request to: {}", CLASSES_CLUBS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
-    validateHttpResponseCode(httpResponse, CLASSES_CLUBS_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, CLASSES_CLUBS_URL);
     if (!JsonUtils.isJsonArray(responseBody)) {
       throw new KameHouseServerErrorException("Invalid classes clubs response from PerfectGym");
     }
@@ -254,9 +254,9 @@ public class PerfectGymBookingService extends BookingService {
         ContentType.APPLICATION_JSON));
     logger.info("Step 3: POST request to: {}", CALENDAR_FILTERS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
-    validateHttpResponseCode(httpResponse, CALENDAR_FILTERS_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, CALENDAR_FILTERS_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid calendar filters response from PerfectGym");
     }
@@ -277,9 +277,9 @@ public class PerfectGymBookingService extends BookingService {
         ContentType.APPLICATION_JSON));
     logger.info("Step 4: POST request to: {}", DAILY_CLASSES_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
-    validateHttpResponseCode(httpResponse, DAILY_CLASSES_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, DAILY_CLASSES_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid daily classes response from PerfectGym");
     }
@@ -325,9 +325,9 @@ public class PerfectGymBookingService extends BookingService {
         ContentType.APPLICATION_JSON));
     logger.info("Step 5: POST request to: {}", COMPLETE_CLASS_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
-    validateHttpResponseCode(httpResponse, COMPLETE_CLASS_BOOKING_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, COMPLETE_CLASS_BOOKING_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid book class response from PerfectGym");
     }
@@ -346,9 +346,9 @@ public class PerfectGymBookingService extends BookingService {
     HttpGet httpGet = new HttpGet(CLUBS_URL);
     logger.info("Step 2: GET request to: {}", CLUBS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
-    validateHttpResponseCode(httpResponse, CLUBS_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, CLUBS_URL);
     if (!JsonUtils.isJsonArray(responseBody)) {
       throw new KameHouseServerErrorException("Invalid clubs response from PerfectGym");
     }
@@ -366,9 +366,9 @@ public class PerfectGymBookingService extends BookingService {
         ContentType.APPLICATION_JSON));
     logger.info("Step 3: POST request to: {}", CLUB_ZONE_TYPES_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
-    validateHttpResponseCode(httpResponse, CLUB_ZONE_TYPES_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, CLUB_ZONE_TYPES_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid club zone types response from PerfectGym");
     }
@@ -406,9 +406,9 @@ public class PerfectGymBookingService extends BookingService {
         ContentType.APPLICATION_JSON));
     logger.info("Step 4: POST request to: {}", COURT_WEEKLY_SCHEDULE_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
-    validateHttpResponseCode(httpResponse, COURT_WEEKLY_SCHEDULE_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, COURT_WEEKLY_SCHEDULE_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
           "Invalid court weekly schedule response from PerfectGym");
@@ -436,9 +436,9 @@ public class PerfectGymBookingService extends BookingService {
     }
     logger.info("Step 5: GET request to: {}", START_COURT_BOOKING_MODAL_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
-    validateHttpResponseCode(httpResponse, START_COURT_BOOKING_MODAL_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, START_COURT_BOOKING_MODAL_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
           "Invalid start booking modal response from PerfectGym");
@@ -498,9 +498,9 @@ public class PerfectGymBookingService extends BookingService {
     httpPost.setHeader(CP_BOOK_FACILITY_SESSION_ID_HEADER, sessionId);
     logger.info("Step 6: POST request to: {}", SELECT_COURT_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
-    validateHttpResponseCode(httpResponse, SELECT_COURT_BOOKING_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, SELECT_COURT_BOOKING_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
           "Invalid select court booking response from PerfectGym");
@@ -533,9 +533,9 @@ public class PerfectGymBookingService extends BookingService {
     httpPost.setHeader(CP_BOOK_FACILITY_SESSION_ID_HEADER, sessionId);
     logger.info("Step 7: POST request to: {}", FINALIZE_COURT_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
-    validateHttpResponseCode(httpResponse, FINALIZE_COURT_BOOKING_URL);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    validateHttpResponseCode(httpResponse, FINALIZE_COURT_BOOKING_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
           "Invalid finalize court booking response from PerfectGym");
