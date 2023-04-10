@@ -434,6 +434,24 @@ public class PerfectGymBookingServiceTest {
   }
 
   /**
+   * Test booking a court with a custom court number success flow.
+   */
+  @Test
+  public void bookCourtCustomCourtNumberSuccessTest() throws Exception {
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    request.setCourtNumber(3);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
    * Test booking a court step 1 error flow.
    */
   @Test

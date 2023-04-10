@@ -158,7 +158,7 @@ public class PerfectGymBookingService extends BookingService {
     JsonNode startBookingModalResponse = startBookingModal(httpClient, bookingRequest, clubId,
         zoneTypeId);
     String sessionId = startBookingModalResponse.get(CP_BOOK_FACILITY_SESSION_ID_HEADER).asText();
-    long zoneId = getZoneId(startBookingModalResponse);
+    long zoneId = getZoneId(startBookingModalResponse, bookingRequest.getCourtNumber());
     long userId = getUserId(startBookingModalResponse);
     JsonNode rules = setCourtBookingDetails(httpClient, bookingRequest, zoneId, userId, sessionId);
     long ruleId = getRuleId(rules);
@@ -454,9 +454,29 @@ public class PerfectGymBookingService extends BookingService {
   /**
    * Get zoneId for the court booking request.
    */
-  private static long getZoneId(JsonNode response) {
-    if (response.get("Data") != null && response.get("Data").get("ZoneId") != null) {
-      return response.get("Data").get("ZoneId").asLong();
+  private long getZoneId(JsonNode response, Integer courtNumber) {
+    if (courtNumber != null && courtNumber != 0) {
+      // Look for the zoneId of the specific court.
+      logger.debug("Looking for zoneId for court number {}", courtNumber);
+      String courtName = "Court " + courtNumber;
+      AtomicLong zoneId = new AtomicLong(INVALID_ID);
+      if (response.get("Data") != null && response.get("Data").get("Zones") != null) {
+        ArrayNode zones = (ArrayNode) response.get("Data").get("Zones");
+        zones.forEach(zone -> {
+          if (courtName.equals(zone.get("Name").asText())) {
+            zoneId.set(zone.get("Id").asLong());
+          }
+        });
+        if (zoneId.get() != INVALID_ID) {
+          return zoneId.get();
+        }
+      }
+    } else {
+      // Return the default zoneId
+      logger.debug("Looking for default zoneId");
+      if (response.get("Data") != null && response.get("Data").get("ZoneId") != null) {
+        return response.get("Data").get("ZoneId").asLong();
+      }
     }
     throw new KameHouseServerErrorException("Unable to determine zoneId");
   }

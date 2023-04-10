@@ -349,6 +349,11 @@ public abstract class BookingService {
           .equals(bookingScheduleConfig.getSessionType())) {
         isAlreadyBooked = false;
       }
+      if (successfulBookingRequest.getCourtNumber() != null
+          && !successfulBookingRequest.getCourtNumber()
+          .equals(bookingScheduleConfig.getCourtNumber())) {
+        isAlreadyBooked = false;
+      }
       if (!successfulBookingRequest.getUsername()
           .equals(bookingScheduleConfig.getTennisWorldUser().getEmail())) {
         isAlreadyBooked = false;
