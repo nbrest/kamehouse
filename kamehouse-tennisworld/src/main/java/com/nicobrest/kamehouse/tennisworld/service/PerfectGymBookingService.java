@@ -69,8 +69,6 @@ public class PerfectGymBookingService extends BookingService {
   private static final String FINALIZE_COURT_BOOKING_URL =
       ROOT_URL + "/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next";
   private static final long INVALID_ID = -9999L;
-  private static final List<Integer> CLIENT_ERROR_STATUS = List.of(499,
-      HttpStatus.BAD_REQUEST.value());
 
   @Override
   protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
@@ -554,7 +552,7 @@ public class PerfectGymBookingService extends BookingService {
    */
   private static void validateHttpResponseCode(HttpResponse httpResponse, String url) {
     int httpStatus = HttpClientUtils.getStatusCode(httpResponse);
-    if (CLIENT_ERROR_STATUS.contains(httpStatus)) {
+    if (httpStatus >= 400 && httpStatus < 500) {
       throw new KameHouseBadRequestException("Invalid http client error response code: "
           + HttpClientUtils.getStatusCode(httpResponse) + " for request to " + url);
     }
