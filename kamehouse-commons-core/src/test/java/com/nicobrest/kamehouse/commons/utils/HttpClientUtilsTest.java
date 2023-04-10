@@ -8,8 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.codec.Charsets;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
@@ -31,7 +33,7 @@ public class HttpClientUtilsTest {
 
   private StatusLine statusLine = new BasicStatusLine(new ProtocolVersion("http", 1, 1), 200, "OK");
   private HttpResponse response = new BasicHttpResponse(statusLine);
-  private HttpRequest request = new BasicHttpRequest("GET","http://mada.mada");
+  private HttpRequest request = new BasicHttpRequest("GET", "http://mada.mada");
 
   /**
    * Tests getting an http client.
@@ -208,5 +210,22 @@ public class HttpClientUtilsTest {
         () -> {
           HttpClientUtils.execRequest(httpClient, httpGet);
         });
+  }
+
+  /**
+   * addUrlParameters test.
+   */
+  @Test
+  public void addUrlParametersTest() throws URISyntaxException {
+    HttpGet httpGet = HttpClientUtils.httpGet("http://www.dbz.com");
+    Map<String, String> parameters = new HashMap<>();
+    parameters.put("name", "goku");
+    parameters.put("lastName", "son");
+    parameters.put("planet", "vegita");
+
+    HttpClientUtils.addUrlParameters(httpGet, parameters);
+
+    assertEquals("http://www.dbz.com?lastName=son&planet=vegita&name=goku",
+        httpGet.getURI().toString());
   }
 }

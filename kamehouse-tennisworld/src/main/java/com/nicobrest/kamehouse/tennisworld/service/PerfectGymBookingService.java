@@ -24,6 +24,8 @@ import com.nicobrest.kamehouse.tennisworld.model.perfectgym.SetCourtBookingDetai
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -421,13 +423,12 @@ public class PerfectGymBookingService extends BookingService {
     HttpGet httpGet = new HttpGet(START_COURT_BOOKING_MODAL_URL);
     String startDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         bookingRequest.getDate()) + "T" + bookingRequest.getTime() + ":00";
+    Map<String, String> parameters = new HashMap<>();
+    parameters.put("clubId", String.valueOf(clubId));
+    parameters.put("zoneTypeId", String.valueOf(zoneTypeId));
+    parameters.put("startDate", startDate);
     try {
-      URI uri = new URIBuilder(httpGet.getURI())
-          .addParameter("clubId", String.valueOf(clubId))
-          .addParameter("zoneTypeId", String.valueOf(zoneTypeId))
-          .addParameter("startDate", startDate)
-          .build();
-      httpGet.setURI(uri);
+      HttpClientUtils.addUrlParameters(httpGet, parameters);
     } catch (URISyntaxException e) {
       throw new KameHouseServerErrorException("Unable to build start booking modal request", e);
     }

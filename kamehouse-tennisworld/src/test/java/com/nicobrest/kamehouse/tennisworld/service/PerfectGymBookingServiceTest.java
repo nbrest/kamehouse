@@ -1,6 +1,8 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
@@ -15,6 +17,7 @@ import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
@@ -608,6 +611,26 @@ public class PerfectGymBookingServiceTest {
   }
 
   /**
+   * Test booking a court step 5 build request url error flow.
+   */
+  @Test
+  public void bookCourtStep5ErrorBuildUrlErrorTest() throws Exception {
+    when(HttpClientUtils.addUrlParameters(any(), anyMap())).thenThrow(URISyntaxException.class);
+    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_RESPONSES);
+    BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
+    request.setSessionType(SessionType.NTC_CLAY_COURTS);
+    BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
+    expected.setStatus(Status.INTERNAL_ERROR);
+    expected.setMessage("Unable to build start booking modal request");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
    * Test booking a court step 6 error flow.
    */
   @Test
@@ -670,7 +693,8 @@ public class PerfectGymBookingServiceTest {
    */
   @Test
   public void bookCourtStep7ErrorNoFacilityBookingTest() throws Exception {
-    setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_7_ERROR_NO_FACILITYBOOKING_RESPONSES);
+    setupHttpResponseInputStreamMocks(
+        PerfectGymResponses.BOOK_COURT_STEP_7_ERROR_NO_FACILITYBOOKING_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();

@@ -2,7 +2,11 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.Header;
@@ -15,6 +19,7 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
@@ -168,5 +173,19 @@ public class HttpClientUtils {
       LOGGER.error("Failed to decode url: {}", url, e);
       return null;
     }
+  }
+
+  /**
+   * Add url parameters to the http GET request and return the generated URI.
+   */
+  public static URI addUrlParameters(HttpGet request, Map<String, String> parameters)
+      throws URISyntaxException {
+    URIBuilder uriBuilder = new URIBuilder(request.getURI());
+    for (Entry<String, String> paramEntry : parameters.entrySet()) {
+      uriBuilder.addParameter(paramEntry.getKey(), paramEntry.getValue());
+    }
+    URI uri = uriBuilder.build();
+    request.setURI(uri);
+    return uri;
   }
 }
