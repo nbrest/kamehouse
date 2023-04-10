@@ -22,7 +22,6 @@ import com.nicobrest.kamehouse.tennisworld.model.perfectgym.FinalizeCourtBooking
 import com.nicobrest.kamehouse.tennisworld.model.perfectgym.LoginRequest;
 import com.nicobrest.kamehouse.tennisworld.model.perfectgym.SetCourtBookingDetailsRequest;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +30,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.springframework.http.HttpStatus;
