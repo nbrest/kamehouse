@@ -52,6 +52,7 @@ function BookingService() {
     bookingRequest['time'] = document.getElementById('time').value;
     bookingRequest['date'] = document.getElementById('date').value;
     bookingRequest['duration'] = document.getElementById('duration').value;
+    bookingRequest['courtNumber'] = document.getElementById('court-number').value;
     const dryRun = document.getElementById('dry-run').checked;
     if (!isEmpty(dryRun)) {
       bookingRequest['dryRun'] = dryRun;
@@ -94,6 +95,7 @@ function BookingService() {
     document.getElementById('time').value = "";
     document.getElementById('date').value = "";
     document.getElementById('duration').value = "";
+    document.getElementById('court-number').value = "";
     document.getElementById('dry-run').checked = "";
   }
 
@@ -127,7 +129,8 @@ function BookingService() {
       domUtils.setHtml($('#brt-time'), bookingResponse.request.time);
       domUtils.setHtml($('#brt-session-type'), bookingResponse.request.sessionType);
       domUtils.setHtml($('#brt-site'), bookingResponse.request.site);
-      domUtils.setHtml($('#brt-duration'), bookingResponse.request.duration);    
+      domUtils.setHtml($('#brt-duration'), bookingResponse.request.duration);   
+      domUtils.setHtml($('#brt-court-number'), bookingResponse.request.courtNumber);    
       const creationDate = timeUtils.getDateFromEpoch(bookingResponse.request.creationDate);
       domUtils.setHtml($('#brt-creation-date'), creationDate.toLocaleString());   
   }
