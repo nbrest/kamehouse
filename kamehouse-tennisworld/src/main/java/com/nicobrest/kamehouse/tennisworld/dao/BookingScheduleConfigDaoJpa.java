@@ -67,8 +67,9 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
     persistedEntity.setTime(entity.getTime());
     persistedEntity.setBookingDate(entity.getBookingDate());
     persistedEntity.setBookAheadDays(entity.getBookAheadDays());
-    persistedEntity.setEnabled(entity.getEnabled());
+    persistedEntity.setEnabled(entity.isEnabled());
     persistedEntity.setDuration(entity.getDuration());
+    persistedEntity.setCourtNumber(entity.getCourtNumber());
   }
 
   /**

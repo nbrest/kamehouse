@@ -89,6 +89,9 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
   @Column(name = "scheduled", unique = false, nullable = false)
   private boolean scheduled = false;
 
+  @Column(name = "court_number", unique = false, nullable = true)
+  private Integer courtNumber = 0;
+
   @Override
   public BookingRequestDto buildDto() {
     BookingRequestDto dto = new BookingRequestDto();
@@ -233,6 +236,14 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
     this.scheduled = scheduled;
   }
 
+  public Integer getCourtNumber() {
+    return courtNumber;
+  }
+
+  public void setCourtNumber(Integer courtNumber) {
+    this.courtNumber = courtNumber;
+  }
+
   @Override
   public int hashCode() {
     String dateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, date);
@@ -245,6 +256,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
         .append(site)
         .append(sessionType)
         .append(scheduled)
+        .append(courtNumber)
         .toHashCode();
   }
 
@@ -263,6 +275,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
           .append(site, other.getSite())
           .append(sessionType, other.getSessionType())
           .append(scheduled, other.isScheduled())
+          .append(courtNumber, other.getCourtNumber())
           .isEquals();
     } else {
       return false;

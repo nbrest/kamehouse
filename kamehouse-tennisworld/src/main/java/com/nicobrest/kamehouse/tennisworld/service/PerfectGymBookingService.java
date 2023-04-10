@@ -375,7 +375,7 @@ public class PerfectGymBookingService extends BookingService {
   /**
    * Get the zone type id from the club.
    */
-  private long getZoneTypeId(BookingRequest bookingRequest, JsonNode clubZoneTypes) {
+  private static long getZoneTypeId(BookingRequest bookingRequest, JsonNode clubZoneTypes) {
     String bookingZone = bookingRequest.getSessionType().getPerfectGymName().replaceAll(" ", "");
     AtomicLong zoneTypeId = new AtomicLong(INVALID_ID);
     clubZoneTypes.forEach(node -> {
@@ -454,7 +454,7 @@ public class PerfectGymBookingService extends BookingService {
   /**
    * Get zoneId for the court booking request.
    */
-  private long getZoneId(JsonNode response) {
+  private static long getZoneId(JsonNode response) {
     if (response.get("Data") != null && response.get("Data").get("ZoneId") != null) {
       return response.get("Data").get("ZoneId").asLong();
     }
@@ -464,7 +464,7 @@ public class PerfectGymBookingService extends BookingService {
   /**
    * Get userId for the court booking request.
    */
-  private long getUserId(JsonNode response) {
+  private static long getUserId(JsonNode response) {
     if (response.get("Data") != null
         && response.get("Data").get("Users") != null
         && response.get("Data").get("Users").isArray()) {
@@ -507,7 +507,7 @@ public class PerfectGymBookingService extends BookingService {
   /**
    * Get ruleId to finalize court booking request.
    */
-  private long getRuleId(JsonNode rules) {
+  private static long getRuleId(JsonNode rules) {
     if (rules.get("Data") != null && rules.get("Data").get("RuleId") != null) {
       return rules.get("Data").get("RuleId").asLong();
     }

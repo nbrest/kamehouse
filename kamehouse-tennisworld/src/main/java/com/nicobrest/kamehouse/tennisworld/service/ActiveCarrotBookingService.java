@@ -48,13 +48,13 @@ public class ActiveCarrotBookingService extends BookingService {
   private static final String SITE_LINK_HREF = "/customer/mobile/login/complete_login/";
   private static final String DASHBOARD_URL = ROOT_URL + "/customer/mobile/dashboard";
   private static final String BOOK_FACILITY_OVERLAY_AJAX_URL =
-      ROOT_URL + "/customer/mobile/" + "facility/book_overlay_ajax";
+      ROOT_URL + "/customer/mobile/facility/book_overlay_ajax";
   private static final String BOOK_SESSION_OVERLAY_AJAX_URL =
-      ROOT_URL + "/customer/mobile/" + "session/load_session_ajax";
+      ROOT_URL + "/customer/mobile/session/load_session_ajax";
   private static final String FACILITY_CONFIRM_BOOKING_URL =
-      ROOT_URL + "/customer/mobile" + "/facility/confirm";
+      ROOT_URL + "/customer/mobile/facility/confirm";
   private static final String SESSION_CONFIRM_BOOKING_URL =
-      ROOT_URL + "/customer/mobile" + "/session/confirm";
+      ROOT_URL + "/customer/mobile/session/confirm";
   // Headers
   private static final String LOCATION = "Location";
   private static final String REFERER = "Referer";

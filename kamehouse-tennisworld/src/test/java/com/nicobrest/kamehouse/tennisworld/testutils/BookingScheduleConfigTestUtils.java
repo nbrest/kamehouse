@@ -14,7 +14,8 @@ import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import java.util.LinkedList;
 
 /**
- * Test data and common test methods to test BookingScheduleConfig in all layers of the application.
+ * Test data and common test methods to test BookingScheduleConfig in all layers of the
+ * application.
  *
  * @author nbrest
  */
@@ -23,7 +24,7 @@ public class BookingScheduleConfigTestUtils
     implements TestUtils<BookingScheduleConfig, BookingScheduleConfigDto> {
 
   public static final String API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG =
-      "/api/v1/tennis-world" + "/booking-schedule-configs/";
+      "/api/v1/tennis-world/booking-schedule-configs/";
 
   private TennisWorldUserTestUtils tennisWorldUserTestUtils = new TennisWorldUserTestUtils();
   private TennisWorldUser tennisWorldUser;
@@ -48,8 +49,9 @@ public class BookingScheduleConfigTestUtils
     assertEquals(expectedEntity.getDay(), returnedEntity.getDay());
     assertEquals(expectedEntity.getTime(), returnedEntity.getTime());
     assertEquals(expectedEntity.getBookAheadDays(), returnedEntity.getBookAheadDays());
-    assertEquals(expectedEntity.getEnabled(), returnedEntity.getEnabled());
+    assertEquals(expectedEntity.isEnabled(), returnedEntity.isEnabled());
     assertEquals(expectedEntity.getDuration(), returnedEntity.getDuration());
+    assertEquals(expectedEntity.getCourtNumber(), returnedEntity.getCourtNumber());
     if (expectedEntity.getBookingDate() != null && returnedEntity.getBookingDate() != null) {
       String expectedDate =
           DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, expectedEntity.getBookingDate());

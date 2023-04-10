@@ -28,5 +28,6 @@ public class BookingRequestDaoJpa extends AbstractCrudDaoJpa<BookingRequest> {
     persistedEntity.setSite(entity.getSite());
     persistedEntity.setTime(entity.getTime());
     persistedEntity.setUsername(entity.getUsername());
+    persistedEntity.setCourtNumber(entity.getCourtNumber());
   }
 }

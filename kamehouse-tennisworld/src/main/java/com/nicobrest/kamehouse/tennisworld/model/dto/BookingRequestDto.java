@@ -34,6 +34,7 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
   private boolean dryRun = false;
   private Date creationDate = new Date();
   private boolean scheduled = false;
+  private Integer courtNumber = 0;
 
   @Override
   public BookingRequest buildEntity() {
@@ -50,6 +51,7 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
     entity.setSessionType(getSessionType());
     entity.setSite(getSite());
     entity.setTime(getTime());
+    entity.setCourtNumber(getCourtNumber());
     return entity;
   }
 
@@ -171,6 +173,14 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
     this.scheduled = scheduled;
   }
 
+  public Integer getCourtNumber() {
+    return courtNumber;
+  }
+
+  public void setCourtNumber(Integer courtNumber) {
+    this.courtNumber = courtNumber;
+  }
+
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
@@ -182,6 +192,7 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
         .append(site)
         .append(sessionType)
         .append(scheduled)
+        .append(courtNumber)
         .toHashCode();
   }
 
@@ -198,6 +209,7 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
           .append(site, other.getSite())
           .append(sessionType, other.getSessionType())
           .append(scheduled, other.isScheduled())
+          .append(courtNumber, other.getCourtNumber())
           .isEquals();
     } else {
       return false;

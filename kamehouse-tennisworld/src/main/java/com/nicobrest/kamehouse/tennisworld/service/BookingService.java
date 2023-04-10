@@ -251,7 +251,7 @@ public abstract class BookingService {
       List<BookingResponse> todaySuccessfulBookingResponses) {
     logger.info("Processing bookingScheduleConfig id {}", bookingScheduleConfig.getId());
     logger.trace("Processing {}", bookingScheduleConfig);
-    if (!bookingScheduleConfig.getEnabled()) {
+    if (!bookingScheduleConfig.isEnabled()) {
       logger.info("BookingScheduleConfig id {} is disabled. Skipping",
           bookingScheduleConfig.getId());
       return null;

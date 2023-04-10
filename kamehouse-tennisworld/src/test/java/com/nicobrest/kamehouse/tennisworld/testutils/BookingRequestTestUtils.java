@@ -51,6 +51,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     assertEquals(expected.getUsername(), returned.getUsername());
     assertEquals(expected.getCardDetails(), returned.getCardDetails());
     assertEquals(expected.getDuration(), returned.getDuration());
+    assertEquals(expected.getCourtNumber(), returned.getCourtNumber());
 
     String expectedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, expected.getDate());
     String returnedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, returned.getDate());
@@ -89,6 +90,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     cardDetails.setExpiryDate("12/3099");
     singleTestData.setCardDetails(cardDetails);
     singleTestData.setScheduled(false);
+    singleTestData.setCourtNumber(0);
   }
 
   private void initTestDataDto() {
@@ -115,6 +117,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     cardDetails.setExpiryDate("12/3099");
     sessionRequest2.setCardDetails(cardDetails);
     sessionRequest2.setScheduled(false);
+    sessionRequest2.setCourtNumber(0);
     testDataList.add(sessionRequest2);
   }
 
@@ -134,5 +137,6 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     cardDetails.setExpiryDate("12/3099");
     cardioTennisBookingRequest.setCardDetails(cardDetails);
     cardioTennisBookingRequest.setScheduled(false);
+    cardioTennisBookingRequest.setCourtNumber(0);
   }
 }

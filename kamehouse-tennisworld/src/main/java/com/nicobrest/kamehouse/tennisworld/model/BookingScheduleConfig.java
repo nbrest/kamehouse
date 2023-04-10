@@ -110,6 +110,9 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
   @Column(length = 3, name = "duration", unique = false, nullable = true)
   private String duration;
 
+  @Column(name = "court_number", unique = false, nullable = true)
+  private Integer courtNumber = 0;
+
   @Override
   public BookingScheduleConfigDto buildDto() {
     BookingScheduleConfigDto dto = new BookingScheduleConfigDto();
@@ -121,8 +124,9 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
     dto.setTime(getTime());
     dto.setBookingDate(getBookingDate());
     dto.setBookAheadDays(getBookAheadDays());
-    dto.setEnabled(Boolean.valueOf(getEnabled()));
+    dto.setEnabled(Boolean.valueOf(isEnabled()));
     dto.setDuration(getDuration());
+
     return dto;
   }
 
@@ -208,7 +212,7 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
     this.bookAheadDays = bookAheadDays;
   }
 
-  public boolean getEnabled() {
+  public boolean isEnabled() {
     return enabled;
   }
 
@@ -222,6 +226,14 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
 
   public void setDuration(String duration) {
     this.duration = duration;
+  }
+
+  public Integer getCourtNumber() {
+    return courtNumber;
+  }
+
+  public void setCourtNumber(Integer courtNumber) {
+    this.courtNumber = courtNumber;
   }
 
   @Override
@@ -242,6 +254,7 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
         && site == that.site
         && day == that.day
         && Objects.equals(time, that.time)
+        && Objects.equals(courtNumber, that.courtNumber)
         && Objects.equals(bookingDateFormatted, otherBookingDateFormatted)
         && Objects.equals(bookAheadDays, that.bookAheadDays);
   }
@@ -250,7 +263,8 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
   public int hashCode() {
     String bookingDateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingDate);
     return Objects.hash(
-        id, tennisWorldUser, sessionType, site, day, time, bookingDateFormatted, bookAheadDays);
+        id, tennisWorldUser, sessionType, site, day, time, courtNumber, bookingDateFormatted,
+        bookAheadDays);
   }
 
   @Override

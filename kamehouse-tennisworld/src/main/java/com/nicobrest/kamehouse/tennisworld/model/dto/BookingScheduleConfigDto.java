@@ -32,6 +32,7 @@ public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleCon
   private Integer bookAheadDays;
   private Boolean enabled;
   private String duration;
+  private Integer courtNumber = 0;
 
   @Override
   public BookingScheduleConfig buildEntity() {
@@ -44,8 +45,9 @@ public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleCon
     entity.setTime(getTime());
     entity.setBookingDate(getBookingDate());
     entity.setBookAheadDays(getBookAheadDays());
-    entity.setEnabled(BooleanUtils.isTrue(getEnabled()));
+    entity.setEnabled(BooleanUtils.isTrue(isEnabled()));
     entity.setDuration(getDuration());
+    entity.setCourtNumber(getCourtNumber());
     return entity;
   }
 
@@ -129,7 +131,7 @@ public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleCon
     this.bookAheadDays = bookAheadDays;
   }
 
-  public Boolean getEnabled() {
+  public Boolean isEnabled() {
     return enabled;
   }
 
@@ -143,6 +145,14 @@ public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleCon
 
   public void setDuration(String duration) {
     this.duration = duration;
+  }
+
+  public Integer getCourtNumber() {
+    return courtNumber;
+  }
+
+  public void setCourtNumber(Integer courtNumber) {
+    this.courtNumber = courtNumber;
   }
 
   @Override
@@ -160,6 +170,7 @@ public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleCon
         && site == that.site
         && day == that.day
         && Objects.equals(time, that.time)
+        && Objects.equals(courtNumber, that.courtNumber)
         && Objects.equals(bookingDate, that.bookingDate)
         && Objects.equals(bookAheadDays, that.bookAheadDays);
   }
@@ -167,7 +178,7 @@ public class BookingScheduleConfigDto implements KameHouseDto<BookingScheduleCon
   @Override
   public int hashCode() {
     return Objects.hash(
-        id, tennisWorldUser, sessionType, site, day, time, bookingDate, bookAheadDays);
+        id, tennisWorldUser, sessionType, site, day, time, courtNumber, bookingDate, bookAheadDays);
   }
 
   @Override
