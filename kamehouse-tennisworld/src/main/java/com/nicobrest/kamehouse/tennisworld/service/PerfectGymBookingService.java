@@ -24,7 +24,6 @@ import com.nicobrest.kamehouse.tennisworld.model.perfectgym.SetCourtBookingDetai
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -67,7 +66,7 @@ public class PerfectGymBookingService extends BookingService {
   private static final String SELECT_COURT_BOOKING_URL = ROOT_URL
       + "/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next";
   private static final String FINALIZE_COURT_BOOKING_URL =
-      ROOT_URL + "/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next";
+      ROOT_URL + "/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next";
   private static final long INVALID_ID = -9999L;
 
   @Override
