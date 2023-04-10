@@ -7,6 +7,7 @@
 
 #### v8.02
 
+- Updated UI to handle new court number field in booking requests/responses and scheduled configs
 - Added support to book specific court number in tennis world PerfectGym integration
 
 #### v8.01
