@@ -81,6 +81,10 @@ window.onload = () => {
         { 
           name: "scheduled",
           type: "boolean"
+        },
+        { 
+          name: "courtNumber",
+          type: "number"
         }
       ]
     });

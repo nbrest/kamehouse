@@ -97,6 +97,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
     BookingRequestDto dto = new BookingRequestDto();
     dto.setId(getId());
     dto.setCardDetails(getCardDetails());
+    dto.setCourtNumber(getCourtNumber());
     dto.setCreationDate(getCreationDate());
     dto.setDate(getDate());
     dto.setDryRun(isDryRun());

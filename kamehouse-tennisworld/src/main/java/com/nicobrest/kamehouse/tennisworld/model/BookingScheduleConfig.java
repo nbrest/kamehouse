@@ -126,6 +126,7 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
     dto.setBookAheadDays(getBookAheadDays());
     dto.setEnabled(Boolean.valueOf(isEnabled()));
     dto.setDuration(getDuration());
+    dto.setCourtNumber(getCourtNumber());
 
     return dto;
   }
