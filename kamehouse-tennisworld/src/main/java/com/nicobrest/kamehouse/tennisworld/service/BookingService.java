@@ -365,14 +365,15 @@ public abstract class BookingService {
       String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
           bookingRequest.getDate());
       String username = bookingScheduleConfig.getTennisWorldUser().getEmail();
-      Integer courtNumber = bookingRequest.getCourtNumber();
+      Integer bookingRequestCourtNumber = bookingRequest.getCourtNumber();
+      Integer scheduleConfigCourtNumber = bookingScheduleConfig.getCourtNumber();
       if (bookingRequest.getTime().equals(bookingScheduleConfig.getTime())
           && bookingRequest.getDuration().equals(bookingScheduleConfig.getDuration())
           && bookingRequest.getSite().equals(bookingScheduleConfig.getSite())
           && bookingRequest.getSessionType().equals(bookingScheduleConfig.getSessionType())
-          && courtNumber != null && courtNumber.equals(bookingScheduleConfig.getCourtNumber())
           && bookingRequest.getUsername().equals(username)
           && scheduleConfigDate.equals(bookingDate)
+          && courtNumbersMatch(bookingRequestCourtNumber, scheduleConfigCourtNumber)
       ) {
         logger.debug("Booking scheduled config id {} has a successful booking response id {} "
                 + "already executed today with the same booking criteria as the scheduled config",
@@ -381,6 +382,18 @@ public abstract class BookingService {
       }
     }
     return false;
+  }
+
+  /**
+   * Check if booking request and scheduled config court numbers match.
+   */
+  private static boolean courtNumbersMatch(Integer bookingRequestCourtNumber,
+      Integer scheduleConfigCourtNumber) {
+    return (((bookingRequestCourtNumber != null) && (scheduleConfigCourtNumber != null)
+        && bookingRequestCourtNumber.equals(scheduleConfigCourtNumber))
+        || ((bookingRequestCourtNumber == null) && (scheduleConfigCourtNumber == null))
+        || ((bookingRequestCourtNumber.equals(0L)) && (scheduleConfigCourtNumber == null))
+        || ((bookingRequestCourtNumber == null) && (scheduleConfigCourtNumber.equals(0L))));
   }
 
   /**
