@@ -229,7 +229,11 @@ public abstract class BookingService {
     List<BookingResponse> bookingResponses = bookingResponseService.readAll();
     String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         DateUtils.getCurrentDate());
-    return bookingResponses.stream()
+    if (bookingResponses == null || bookingResponses.isEmpty()) {
+      logger.debug("No booking responses stored in the system yet");
+      return null;
+    }
+    List<BookingResponse> successfulBookingResponses = bookingResponses.stream()
         .filter(br -> br.getRequest().isScheduled())
         .filter(br -> Status.SUCCESS.equals(br.getStatus()))
         .filter(br -> {
@@ -238,6 +242,12 @@ public abstract class BookingService {
           return currentDate.equals(creationDate);
         })
         .collect(Collectors.toList());
+    if (successfulBookingResponses.isEmpty()) {
+      logger.debug("No successfully executed booking requests scheduled today");
+    } else {
+      logger.debug("Successful booking requests executed today {}", successfulBookingResponses);
+    }
+    return successfulBookingResponses;
   }
 
   /**
@@ -258,7 +268,7 @@ public abstract class BookingService {
     logger.info("Finished processing {} scheduled configs. Executed {} booking requests. {} "
             + "successful requests and {} failed requests", scheduledConfigsCount,
         bookingResponses.size(), successfulBookings, failedBookings);
-    logger.trace("Scheduled booking responses {}", bookingResponses);
+    logger.debug("Scheduled booking responses {}", bookingResponses);
   }
 
   /**
@@ -268,8 +278,7 @@ public abstract class BookingService {
   private BookingResponse processScheduledBookingConfig(
       BookingScheduleConfig bookingScheduleConfig,
       List<BookingResponse> todaySuccessfulBookingResponses) {
-    logger.debug("Processing bookingScheduleConfig id {}", bookingScheduleConfig.getId());
-    logger.trace("Processing {}", bookingScheduleConfig);
+    logger.debug("Processing bookingScheduleConfig {}", bookingScheduleConfig);
     if (!bookingScheduleConfig.isEnabled()) {
       logger.debug("BookingScheduleConfig id {} is disabled. Skipping",
           bookingScheduleConfig.getId());
@@ -302,7 +311,7 @@ public abstract class BookingService {
       Date scheduledBookingDate = bookingScheduleConfig.getBookingDate();
       if (isValidBookingDate(scheduledBookingDate)
           && scheduledBookingDateMatchesBookAheadDays(bookingScheduleConfig)) {
-        logger.trace("One-off scheduled booking date '{}' set and should be executed today",
+        logger.debug("One-off scheduled booking date '{}' set and should be executed today",
             scheduledBookingDate);
         return true;
       }
@@ -316,7 +325,7 @@ public abstract class BookingService {
       DateUtils.Day configDay = bookingScheduleConfig.getDay();
       DateUtils.Day bookingDateDay = DateUtils.getDay(calculatedBookingDate);
       if (configDay == bookingDateDay) {
-        logger.trace("Recurring booking should be executed today for booking date {}",
+        logger.debug("Recurring booking should be executed today for booking date {}",
             calculatedBookingDate);
         return true;
       }
@@ -344,48 +353,29 @@ public abstract class BookingService {
    * Checks if there is already a successful booking executed today with the same parameters as the
    * current scheduled booking config.
    */
-  private boolean isSuccessfulBookingExecutedAlready(
-      List<BookingResponse> todaySuccessfulBookingResponses,
+  private boolean isSuccessfulBookingExecutedAlready(List<BookingResponse> bookingResponses,
       BookingScheduleConfig bookingScheduleConfig) {
-    if (todaySuccessfulBookingResponses == null || todaySuccessfulBookingResponses.isEmpty()) {
+    if (bookingResponses == null || bookingResponses.isEmpty()) {
       return false;
     }
     String scheduleConfigDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         getBookingDateFromBookingScheduleConfig(bookingScheduleConfig));
-    for (BookingResponse successfulBookingResponse : todaySuccessfulBookingResponses) {
-      BookingRequest successfulBookingRequest = successfulBookingResponse.getRequest();
-      boolean isAlreadyBooked = true;
-      if (!successfulBookingRequest.getTime().equals(bookingScheduleConfig.getTime())) {
-        isAlreadyBooked = false;
-      }
-      if (!successfulBookingRequest.getDuration().equals(bookingScheduleConfig.getDuration())) {
-        isAlreadyBooked = false;
-      }
-      if (!successfulBookingRequest.getSite().equals(bookingScheduleConfig.getSite())) {
-        isAlreadyBooked = false;
-      }
-      if (!successfulBookingRequest.getSessionType()
-          .equals(bookingScheduleConfig.getSessionType())) {
-        isAlreadyBooked = false;
-      }
-      if (successfulBookingRequest.getCourtNumber() != null
-          && !successfulBookingRequest.getCourtNumber()
-          .equals(bookingScheduleConfig.getCourtNumber())) {
-        isAlreadyBooked = false;
-      }
-      if (!successfulBookingRequest.getUsername()
-          .equals(bookingScheduleConfig.getTennisWorldUser().getEmail())) {
-        isAlreadyBooked = false;
-      }
+    for (BookingResponse successfulBookingResponse : bookingResponses) {
+      BookingRequest bookingRequest = successfulBookingResponse.getRequest();
       String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
-          successfulBookingRequest.getDate());
-      if (!scheduleConfigDate.equals(bookingDate)) {
-        isAlreadyBooked = false;
-      }
-      if (isAlreadyBooked) {
-        logger.debug(
-            "Booking scheduled config id {} has a successful booking response id {} already"
-                + " executed today with the same booking criteria as the scheduled config",
+          bookingRequest.getDate());
+      String username = bookingScheduleConfig.getTennisWorldUser().getEmail();
+      Integer courtNumber = bookingRequest.getCourtNumber();
+      if (bookingRequest.getTime().equals(bookingScheduleConfig.getTime())
+          && bookingRequest.getDuration().equals(bookingScheduleConfig.getDuration())
+          && bookingRequest.getSite().equals(bookingScheduleConfig.getSite())
+          && bookingRequest.getSessionType().equals(bookingScheduleConfig.getSessionType())
+          && courtNumber != null && courtNumber.equals(bookingScheduleConfig.getCourtNumber())
+          && bookingRequest.getUsername().equals(username)
+          && scheduleConfigDate.equals(bookingDate)
+      ) {
+        logger.debug("Booking scheduled config id {} has a successful booking response id {} "
+                + "already executed today with the same booking criteria as the scheduled config",
             bookingScheduleConfig.getId(), successfulBookingResponse.getId());
         return true;
       }

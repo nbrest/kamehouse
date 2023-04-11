@@ -10,6 +10,7 @@
 - Added sorted execution of scheduled booking requests
 - Updated logging level of scheduled booking executions
 - Added switch back to log level INFO on log level updater view
+- Fixed check on already successful bookings for scheduled bookings
 
 #### v8.02
 

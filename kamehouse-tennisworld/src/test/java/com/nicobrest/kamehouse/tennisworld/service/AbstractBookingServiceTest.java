@@ -261,6 +261,7 @@ public class AbstractBookingServiceTest {
     when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
     when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
     when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+    when(bookingResponseService.readAll()).thenReturn(null);
 
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
     expected.getRequest().setScheduled(true);
