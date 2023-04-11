@@ -21,6 +21,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Creates a new entity in the repository from the DTO.
    */
   protected ResponseEntity<Long> create(D dto) {
+    logger.debug("Create {}", dto.getClass().getSimpleName());
     Long createdId = getCrudService().create(dto);
     return generatePostResponseEntity(createdId);
   }
@@ -29,6 +30,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Reads an entity from the repository for the specified id.
    */
   protected ResponseEntity<E> read(Long id) {
+    logger.debug("Read {}", id);
     E entity = getCrudService().read(id);
     return generateGetResponseEntity(entity);
   }
@@ -37,6 +39,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Reads all the entities from the repository for the specified service.
    */
   protected ResponseEntity<List<E>> readAll() {
+    logger.debug("Read all");
     List<E> entitiesList = getCrudService().readAll();
     return generateGetResponseEntity(entitiesList);
   }
@@ -45,6 +48,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Updates an entity in the repository for the specified id and dto.
    */
   protected ResponseEntity<Void> update(Long id, D dto) {
+    logger.debug("Update {}", id);
     Identifiable identifiableDto = (Identifiable) dto;
     validatePathAndRequestBodyIds(id, identifiableDto.getId());
     getCrudService().update(dto);
@@ -55,6 +59,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Deletes an entity from the repository for the specified id.
    */
   protected ResponseEntity<E> delete(Long id) {
+    logger.debug("Delete {}", id);
     E deletedEntity = getCrudService().delete(id);
     return generateDeleteResponseEntity(deletedEntity);
   }

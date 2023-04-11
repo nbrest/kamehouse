@@ -16,7 +16,7 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public Long create(E entity) {
-    logger.trace("Create {} {}", getEntityClass().getSimpleName(), entity);
+    logger.debug("Create {}", getEntityClass().getSimpleName());
     persistEntityInRepository(entity);
     Identifiable identifiableEntity = (Identifiable) entity;
     Long createdId = identifiableEntity.getId();
@@ -26,7 +26,7 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public E read(Long id) {
-    logger.trace("Read {} {}", getEntityClass().getSimpleName(), id);
+    logger.debug("Read {} {}", getEntityClass().getSimpleName(), id);
     E entity = findById(getEntityClass(), id);
     logger.trace("Read {} {} response {}", getEntityClass().getSimpleName(), id, entity);
     return entity;
@@ -34,7 +34,7 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public List<E> readAll() {
-    logger.trace("ReadAll {}", getEntityClass().getSimpleName());
+    logger.debug("ReadAll {}", getEntityClass().getSimpleName());
     List<E> returnedEntities = findAll(getEntityClass());
     logger.trace("ReadAll {} response {}", getEntityClass().getSimpleName(), returnedEntities);
     return returnedEntities;
@@ -42,7 +42,7 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public void update(E entity) {
-    logger.trace("Update {}", entity);
+    logger.debug("Update {}", getEntityClass().getSimpleName());
     Identifiable identifiableEntity = (Identifiable) entity;
     updateEntityInRepository(getEntityClass(), entity, identifiableEntity.getId());
     logger.trace("Update {} completed successfully", entity);
@@ -50,7 +50,7 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public E delete(Long id) {
-    logger.trace("Delete {} {}", getEntityClass().getSimpleName(), id);
+    logger.debug("Delete {} {}", getEntityClass().getSimpleName(), id);
     E deletedEntity = deleteEntityFromRepository(getEntityClass(), id);
     logger.trace("Delete {} {} response {}", getEntityClass().getSimpleName(), id, deletedEntity);
     return deletedEntity;

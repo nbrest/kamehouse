@@ -28,6 +28,7 @@ public abstract class AbstractController {
    * Generates a standard response entity for get requests.
    */
   protected static <T> ResponseEntity<T> generateGetResponseEntity(T entity, boolean logResponse) {
+    STATIC_LOGGER.debug("Building GET response");
     return generateStandardResponseEntity(entity, logResponse);
   }
 
@@ -35,6 +36,7 @@ public abstract class AbstractController {
    * Generates a standard response entity for get requests.
    */
   protected static <T> ResponseEntity<T> generateGetResponseEntity(T entity) {
+    STATIC_LOGGER.debug("Building GET response");
     return generateStandardResponseEntity(entity);
   }
 
@@ -42,6 +44,7 @@ public abstract class AbstractController {
    * Generates a standard response entity for delete requests.
    */
   protected static <T> ResponseEntity<T> generateDeleteResponseEntity(T entity) {
+    STATIC_LOGGER.debug("Building DELETE response");
     return generateStandardResponseEntity(entity);
   }
 
@@ -49,7 +52,7 @@ public abstract class AbstractController {
    * Generates a standard EMPTY response entity for put requests.
    */
   protected static ResponseEntity<Void> generatePutResponseEntity() {
-    STATIC_LOGGER.trace("PUT operation executed successfully");
+    STATIC_LOGGER.debug("PUT operation executed successfully");
     return EMPTY_SUCCESS_RESPONSE;
   }
 
@@ -57,6 +60,7 @@ public abstract class AbstractController {
    * Generates a standard response entity for put requests that expect a response body.
    */
   protected static <T> ResponseEntity<T> generatePutResponseEntity(T entity) {
+    STATIC_LOGGER.debug("Building PUT response");
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
       STATIC_LOGGER.trace(RESPONSE_ENTITY, entity);
@@ -72,6 +76,7 @@ public abstract class AbstractController {
    * Generates a standard response entity for post requests.
    */
   protected static <T> ResponseEntity<T> generatePostResponseEntity(T entity, boolean logResponse) {
+    STATIC_LOGGER.debug("Building POST response");
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
       if (logResponse) {
@@ -131,8 +136,8 @@ public abstract class AbstractController {
    * Generates a standard response entity with the entity parameter as a body and 200 return code
    * and a 404 with empty body if the entity is null.
    */
-  private static <T> ResponseEntity<T> generateStandardResponseEntity(
-      T entity, boolean logResponse) {
+  private static <T> ResponseEntity<T> generateStandardResponseEntity(T entity,
+      boolean logResponse) {
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
       if (logResponse) {
