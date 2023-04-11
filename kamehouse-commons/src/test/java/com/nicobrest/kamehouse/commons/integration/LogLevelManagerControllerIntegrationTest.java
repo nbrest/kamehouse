@@ -39,7 +39,7 @@ public class LogLevelManagerControllerIntegrationTest extends AbstractController
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"/debug", "?level=TRACE", "/trace"})
+  @ValueSource(strings = {"/debug", "?level=TRACE", "/trace", "/info"})
   public void logLevelTest(String suffix) throws Exception {
     logger.info("Running logLevelTest with parameter {}", suffix);
 

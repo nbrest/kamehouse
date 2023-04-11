@@ -118,6 +118,17 @@ public class LogLevelManagerController extends AbstractController {
   }
 
   /**
+   * Set kamehouse log levels to INFO.
+   */
+  @PutMapping(path = "/log-level/info")
+  @ResponseBody
+  public ResponseEntity<List<String>> setKamehouseLogLevelsToInfo() {
+    logLevelManagerService.setKamehouseLogLevelsToInfo();
+    List<String> logLevelList = logLevelManagerService.getLogLevel(null);
+    return generatePutResponseEntity(logLevelList);
+  }
+
+  /**
    * Set kamehouse log levels to DEBUG.
    */
   @PutMapping(path = "/log-level/debug")

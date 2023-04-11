@@ -138,6 +138,19 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
         });
   }
 
+  /** Tests setting the log level for all kamehouse packages to INFO. */
+  @Test
+  public void setKamehouseLogLevelsToInfoSuccessTest() throws Exception {
+    doNothing().when(logLevelManagerService).setKamehouseLogLevelsToInfo();
+
+    MockHttpServletResponse response = doPut("/api/v1/commons/log-level/info");
+
+    verifyResponseStatus(response, HttpStatus.OK);
+    verify(logLevelManagerService, times(1)).setKamehouseLogLevelsToInfo();
+    verify(logLevelManagerService, times(1)).getLogLevel(null);
+    verifyNoMoreInteractions(logLevelManagerService);
+  }
+
   /** Tests setting the log level for all kamehouse packages to DEBUG. */
   @Test
   public void setKamehouseLogLevelsToDebugSuccessTest() throws Exception {

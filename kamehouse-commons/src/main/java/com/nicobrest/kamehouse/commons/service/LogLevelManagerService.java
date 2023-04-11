@@ -145,6 +145,14 @@ public class LogLevelManagerService {
   }
 
   /**
+   * Set kamehouse log levels to INFO.
+   */
+  public void setKamehouseLogLevelsToInfo() {
+    resetLogLevels();
+    setKamehouseLogLevels(INFO);
+  }
+
+  /**
    * Set kamehouse log levels to DEBUG.
    */
   public void setKamehouseLogLevelsToDebug() {

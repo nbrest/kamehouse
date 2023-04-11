@@ -110,4 +110,17 @@ public class LogLevelManagerServiceTest {
         logLevels.size() - 2);
     assertEquals("com.nicobrest.kamehouse:DEBUG", logLevels.get(1));
   }
+
+  /** Tests setting kamehouse log levels to INFO. */
+  @Test
+  public void setKamehouseLogLevelsToInfoSuccessfulTest() {
+    logLevelManagerService.setKamehouseLogLevelsToInfo();
+
+    List<String> logLevels = logLevelManagerService.getLogLevel(null);
+    assertEquals(
+        LogLevelManagerService.KAMEHOUSE_PACKAGES_LOG_LEVEL.size()
+            + LogLevelManagerService.EXTERNAL_PACKAGES_LOG_LEVEL.size(),
+        logLevels.size() - 2);
+    assertEquals("com.nicobrest.kamehouse:INFO", logLevels.get(1));
+  }
 }
