@@ -384,7 +384,9 @@ public class AbstractBookingServiceTest {
    */
   @Test
   public void bookInvalidScheduledSessionTest() {
-    when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 59, 59);
+    when(DateUtils.getCurrentDate()).thenReturn(currentDate);
+
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setScheduled(true);
     expected.getRequest().setCourtNumber(2);

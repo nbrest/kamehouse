@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.04
+
+- Fixed shaky unit tests and build
+
 #### v8.03
 
 - Added sorted execution of scheduled booking requests
