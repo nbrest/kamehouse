@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,6 +22,7 @@ import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -286,8 +288,8 @@ public class AbstractBookingServiceTest {
   }
 
   /**
-   * Test booking a one off scheduled session on valid date but before session time flow.
-   * The booking schedule request should be skipped.
+   * Test booking a one off scheduled session on valid date but before session time flow. The
+   * booking schedule request should be skipped.
    */
   @Test
   public void bookOneOffScheduledSessionValidDateBeforeSessionTimeTest() {
@@ -387,19 +389,56 @@ public class AbstractBookingServiceTest {
     expected.getRequest().setScheduled(true);
     expected.getRequest().setCourtNumber(2);
 
-    BookingScheduleConfig bookingScheduleConfig =
-        bookingScheduleConfigTestUtils.getSingleTestData();
-    bookingScheduleConfig.setEnabled(true);
-    bookingScheduleConfig.setTime("00:003");
-    bookingScheduleConfig.setBookingDate(DateUtils.getCurrentDate());
-    bookingScheduleConfig.setBookAheadDays(0);
-    bookingScheduleConfig.getTennisWorldUser().setEmail("gohan@dbz.com");
-    bookingScheduleConfig.setSite(Site.ALBERT_RESERVE);
-    when(bookingScheduleConfigService.readAll()).thenReturn(List.of(bookingScheduleConfig));
+    BookingScheduleConfig invalidConfig = bookingScheduleConfigTestUtils.getSingleTestData();
+    invalidConfig.setEnabled(true);
+    invalidConfig.setTime("00:003");
+    BookingScheduleConfig validConfig1 = new BookingScheduleConfig();
+    validConfig1.setTennisWorldUser(invalidConfig.getTennisWorldUser());
+    validConfig1.setBookingDate(bookingRequestTestUtils.getSingleTestData().getDate());
+    validConfig1.setBookAheadDays(0);
+    validConfig1.setDay(DateUtils.Day.FRIDAY);
+    validConfig1.setDuration("50");
+    validConfig1.setEnabled(true);
+    validConfig1.setSessionType(SessionType.ROD_LAVER_OUTDOOR_WESTERN);
+    validConfig1.setSite(Site.MELBOURNE_PARK);
+    validConfig1.setTime("18:45");
+    validConfig1.setCourtNumber(0);
+
+    BookingScheduleConfig validConfig2 = new BookingScheduleConfig();
+    validConfig2.setTennisWorldUser(invalidConfig.getTennisWorldUser());
+    validConfig2.setBookingDate(bookingRequestTestUtils.getSingleTestData().getDate());
+    validConfig2.setBookAheadDays(0);
+    validConfig2.setDay(DateUtils.Day.FRIDAY);
+    validConfig2.setDuration("45");
+    validConfig2.setEnabled(true);
+    validConfig2.setSessionType(SessionType.CARDIO);
+    validConfig2.setSite(Site.MELBOURNE_PARK);
+    validConfig2.setTime("18:45");
+    validConfig2.setCourtNumber(0);
+
+    BookingScheduleConfig validConfig3 = new BookingScheduleConfig();
+    validConfig3.setTennisWorldUser(invalidConfig.getTennisWorldUser());
+    validConfig3.setBookingDate(bookingRequestTestUtils.getSingleTestData().getDate());
+    validConfig3.setBookAheadDays(0);
+    validConfig3.setDay(DateUtils.Day.FRIDAY);
+    validConfig3.setDuration("45");
+    validConfig3.setEnabled(true);
+    validConfig3.setSessionType(SessionType.ROD_LAVER_OUTDOOR_WESTERN);
+    validConfig3.setSite(Site.ALBERT_RESERVE);
+    validConfig3.setTime("18:45");
+    validConfig3.setCourtNumber(0);
+
+    List<BookingScheduleConfig> configs = new ArrayList<>();
+    configs.add(invalidConfig);
+    configs.add(validConfig1);
+    configs.add(validConfig2);
+    configs.add(validConfig3);
+
+    when(bookingScheduleConfigService.readAll()).thenReturn(configs);
 
     List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
 
-    assertTrue(response.isEmpty());
+    assertEquals(3, response.size());
   }
 
   /**

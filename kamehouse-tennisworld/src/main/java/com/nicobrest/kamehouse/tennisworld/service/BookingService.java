@@ -368,12 +368,12 @@ public abstract class BookingService {
       String username = bookingScheduleConfig.getTennisWorldUser().getEmail();
       Integer bookingRequestCourtNumber = bookingRequest.getCourtNumber();
       if (bookingRequest.getTime().equals(bookingScheduleConfig.getTime())
-          && bookingRequest.getDuration().equals(bookingScheduleConfig.getDuration())
           && bookingRequest.getSite().equals(bookingScheduleConfig.getSite())
           && bookingRequest.getSessionType().equals(bookingScheduleConfig.getSessionType())
           && bookingRequest.getUsername().equals(username)
           && scheduleConfigDate.equals(bookingDate)
           && courtNumbersMatch(bookingRequestCourtNumber, scheduleConfigCourtNumber)
+          && bookingRequest.getDuration().equals(bookingScheduleConfig.getDuration())
       ) {
         logger.debug("Booking scheduled config id {} has a successful booking response id {} "
                 + "already executed today with the same booking criteria as the scheduled config",
@@ -389,11 +389,19 @@ public abstract class BookingService {
    */
   private static boolean courtNumbersMatch(Integer bookingRequestCourtNumber,
       Integer scheduleConfigCourtNumber) {
-    return (((bookingRequestCourtNumber != null) && (scheduleConfigCourtNumber != null)
-        && bookingRequestCourtNumber.equals(scheduleConfigCourtNumber))
-        || ((bookingRequestCourtNumber == null) && (scheduleConfigCourtNumber == null))
-        || ((bookingRequestCourtNumber.equals(0)) && (scheduleConfigCourtNumber == null))
-        || ((bookingRequestCourtNumber == null) && (scheduleConfigCourtNumber.equals(0))));
+    if (bookingRequestCourtNumber == null) {
+      if (scheduleConfigCourtNumber == null || scheduleConfigCourtNumber == 0) {
+        return true;
+      }
+      return false;
+    }
+    if (scheduleConfigCourtNumber == null) {
+      if (bookingRequestCourtNumber == 0) {
+        return true;
+      }
+      return false;
+    }
+    return bookingRequestCourtNumber.equals(scheduleConfigCourtNumber);
   }
 
   /**
