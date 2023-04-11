@@ -89,7 +89,7 @@ public abstract class BookingService {
    */
   public List<BookingResponse> bookScheduledSessions() {
     logger.info("Started processing scheduled booking configs");
-    List<BookingScheduleConfig> bookingScheduleConfigs = bookingScheduleConfigService.readAll();
+    List<BookingScheduleConfig> bookingScheduleConfigs = getBookingScheduleConfigs();
     List<BookingResponse> bookingResponses = new ArrayList<>();
     if (bookingScheduleConfigs == null || bookingScheduleConfigs.isEmpty()) {
       logger.info("No scheduled booking configurations setup in this server");
@@ -107,7 +107,7 @@ public abstract class BookingService {
         logger.error("Error executing scheduled booking for {}", bookingScheduleConfig, e);
       }
     }
-    logScheduledBookingResponses(bookingResponses);
+    logScheduledBookingResponses(bookingResponses, bookingScheduleConfigs.size());
     return bookingResponses;
   }
 
@@ -207,6 +207,24 @@ public abstract class BookingService {
     return null;
   }
 
+  /**
+   * Get booking schedule configs sorted reversely by time. So the bookings with the latest time
+   * gets executed first. This is to take advantage of the bug in PerfectGym that allows you to do a
+   * 2 hours bookings in certain courts, but doing the latest booking first.
+   */
+  private List<BookingScheduleConfig> getBookingScheduleConfigs() {
+    List<BookingScheduleConfig> configs = bookingScheduleConfigService.readAll();
+    if (configs != null) {
+      return configs.stream()
+          .sorted((o1, o2) -> o2.getTime().compareTo(o1.getTime())) // sort reverse by time
+          .collect(Collectors.toList());
+    }
+    return null;
+  }
+
+  /**
+   * get all scheduled successful bookings executed today.
+   */
   private List<BookingResponse> getTodaySuccessfulBookingResponses() {
     List<BookingResponse> bookingResponses = bookingResponseService.readAll();
     String currentDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
@@ -225,7 +243,8 @@ public abstract class BookingService {
   /**
    * Log the output of the scheduled booking responses.
    */
-  private void logScheduledBookingResponses(List<BookingResponse> bookingResponses) {
+  private void logScheduledBookingResponses(List<BookingResponse> bookingResponses,
+      int scheduledConfigsCount) {
     int successfulBookings = 0;
     int failedBookings = 0;
     for (BookingResponse bookingResponse : bookingResponses) {
@@ -236,10 +255,10 @@ public abstract class BookingService {
         failedBookings++;
       }
     }
-    logger.info("Booking scheduled sessions finished. Executed {} booking requests. {} successful "
-            + "requests and {} failed requests", bookingResponses.size(), successfulBookings,
-        failedBookings);
-    logger.debug("Scheduled booking responses {}", bookingResponses);
+    logger.info("Finished processing {} scheduled configs. Executed {} booking requests. {} "
+            + "successful requests and {} failed requests", scheduledConfigsCount,
+        bookingResponses.size(), successfulBookings, failedBookings);
+    logger.trace("Scheduled booking responses {}", bookingResponses);
   }
 
   /**
@@ -249,10 +268,10 @@ public abstract class BookingService {
   private BookingResponse processScheduledBookingConfig(
       BookingScheduleConfig bookingScheduleConfig,
       List<BookingResponse> todaySuccessfulBookingResponses) {
-    logger.info("Processing bookingScheduleConfig id {}", bookingScheduleConfig.getId());
+    logger.debug("Processing bookingScheduleConfig id {}", bookingScheduleConfig.getId());
     logger.trace("Processing {}", bookingScheduleConfig);
     if (!bookingScheduleConfig.isEnabled()) {
-      logger.info("BookingScheduleConfig id {} is disabled. Skipping",
+      logger.debug("BookingScheduleConfig id {} is disabled. Skipping",
           bookingScheduleConfig.getId());
       return null;
     }
@@ -302,7 +321,7 @@ public abstract class BookingService {
         return true;
       }
     }
-    logger.info("BookingScheduleConfig id {} is not scheduled to execute today",
+    logger.debug("BookingScheduleConfig id {} is not scheduled to execute today",
         bookingScheduleConfig.getId());
     return false;
   }
@@ -316,7 +335,7 @@ public abstract class BookingService {
     if (scheduledBookingTime.compareTo(currentTime) < 0) {
       return true;
     }
-    logger.info("BookingScheduleConfig id {} is scheduled for today but should be executed at"
+    logger.debug("BookingScheduleConfig id {} is scheduled for today but should be executed at"
         + " a later time", bookingScheduleConfig.getId());
     return false;
   }
@@ -364,9 +383,10 @@ public abstract class BookingService {
         isAlreadyBooked = false;
       }
       if (isAlreadyBooked) {
-        logger.info("A successful booking with booking response id {} was already executed today "
-                + "with the same booking criteria as the scheduled booking config id {}",
-            successfulBookingResponse.getId(), bookingScheduleConfig.getId());
+        logger.debug(
+            "Booking scheduled config id {} has a successful booking response id {} already"
+                + " executed today with the same booking criteria as the scheduled config",
+            bookingScheduleConfig.getId(), successfulBookingResponse.getId());
         return true;
       }
     }

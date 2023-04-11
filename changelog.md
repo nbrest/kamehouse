@@ -5,6 +5,12 @@
 
 # ChangeLog:
 
+#### v8.03
+
+- Added sorted execution of scheduled booking requests
+- Updated logging level of scheduled booking executions
+- Added switch back to log level INFO on log level updater view
+
 #### v8.02
 
 - Updated UI to handle new court number field in booking requests/responses and scheduled configs
