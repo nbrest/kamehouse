@@ -360,13 +360,13 @@ public abstract class BookingService {
     }
     String scheduleConfigDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         getBookingDateFromBookingScheduleConfig(bookingScheduleConfig));
+    Integer scheduleConfigCourtNumber = bookingScheduleConfig.getCourtNumber();
     for (BookingResponse successfulBookingResponse : bookingResponses) {
       BookingRequest bookingRequest = successfulBookingResponse.getRequest();
       String bookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
           bookingRequest.getDate());
       String username = bookingScheduleConfig.getTennisWorldUser().getEmail();
       Integer bookingRequestCourtNumber = bookingRequest.getCourtNumber();
-      Integer scheduleConfigCourtNumber = bookingScheduleConfig.getCourtNumber();
       if (bookingRequest.getTime().equals(bookingScheduleConfig.getTime())
           && bookingRequest.getDuration().equals(bookingScheduleConfig.getDuration())
           && bookingRequest.getSite().equals(bookingScheduleConfig.getSite())
@@ -392,8 +392,8 @@ public abstract class BookingService {
     return (((bookingRequestCourtNumber != null) && (scheduleConfigCourtNumber != null)
         && bookingRequestCourtNumber.equals(scheduleConfigCourtNumber))
         || ((bookingRequestCourtNumber == null) && (scheduleConfigCourtNumber == null))
-        || ((bookingRequestCourtNumber.equals(0L)) && (scheduleConfigCourtNumber == null))
-        || ((bookingRequestCourtNumber == null) && (scheduleConfigCourtNumber.equals(0L))));
+        || ((bookingRequestCourtNumber.equals(0)) && (scheduleConfigCourtNumber == null))
+        || ((bookingRequestCourtNumber == null) && (scheduleConfigCourtNumber.equals(0))));
   }
 
   /**
