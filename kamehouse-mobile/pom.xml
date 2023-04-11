@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.nicobrest</groupId>
         <artifactId>kamehouse-parent</artifactId>
-        <version>8.02.1-KAMEHOUSE-SNAPSHOT</version>
+        <version>8.03.1-KAMEHOUSE-SNAPSHOT</version>
     </parent>
 
     <name>KameHouse - Mobile</name>
