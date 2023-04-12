@@ -293,7 +293,7 @@ public class AbstractBookingServiceTest {
    */
   @Test
   public void bookOneOffScheduledSessionValidDateBeforeSessionTimeTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 00, 15, 30);
+    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 0, 15, 30);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);

@@ -390,16 +390,10 @@ public abstract class BookingService {
   private static boolean courtNumbersMatch(Integer bookingRequestCourtNumber,
       Integer scheduleConfigCourtNumber) {
     if (bookingRequestCourtNumber == null) {
-      if (scheduleConfigCourtNumber == null || scheduleConfigCourtNumber == 0) {
-        return true;
-      }
-      return false;
+      return scheduleConfigCourtNumber == null || scheduleConfigCourtNumber == 0;
     }
     if (scheduleConfigCourtNumber == null) {
-      if (bookingRequestCourtNumber == 0) {
-        return true;
-      }
-      return false;
+      return bookingRequestCourtNumber == 0;
     }
     return bookingRequestCourtNumber.equals(scheduleConfigCourtNumber);
   }
