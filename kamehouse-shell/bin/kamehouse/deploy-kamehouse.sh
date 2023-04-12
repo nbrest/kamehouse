@@ -52,6 +52,7 @@ mainProcess() {
 doLocalDeployment() {
   if ${USE_CURRENT_DIR}; then
     PROJECT_DIR=`pwd`
+    KAMEHOUSE_ANDROID_APP="${PROJECT_DIR}/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
   else  
     cd ${PROJECT_DIR}
     checkCommandStatus "$?" "Invalid project directory" 
