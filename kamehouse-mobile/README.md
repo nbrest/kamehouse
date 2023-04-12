@@ -101,7 +101,7 @@ cordova build android
 
 ## Run in a local browser
 
-- Test in a local browser
+- Test in a local browser (recommended)
 
 ```sh
 cd kamehouse-mobile
