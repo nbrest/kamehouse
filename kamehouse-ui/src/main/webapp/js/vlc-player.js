@@ -12,16 +12,19 @@ var vlcPlayer;
 var playlistBrowser;
 
 function mainVlcPlayer() {
-  loadVlcPlayer();
-  loadPlaylistBrowser(); 
-  moduleUtils.waitForModules(["vlcPlayer", "playlistBrowser"], () => {
-    logger.info("Started initializing VLC Player");
-    vlcPlayer.init();
-    playlistBrowser.init();
-    playlistBrowser.populateVideoPlaylistCategories();
-  });
-  moduleUtils.waitForModules(["kameHouseDebugger"], () => {
-    kameHouseDebugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
+  logger.info("Loading vlc player body");
+  domUtils.load($("#vlc-player-body"), "/kame-house/html-snippets/vlc-player/vlc-player-body.html", () => {
+    loadVlcPlayer();
+    loadPlaylistBrowser(); 
+    moduleUtils.waitForModules(["vlcPlayer", "playlistBrowser"], () => {
+      logger.info("Started initializing VLC Player");
+      vlcPlayer.init();
+      playlistBrowser.init();
+      playlistBrowser.populateVideoPlaylistCategories();
+    });
+    moduleUtils.waitForModules(["kameHouseDebugger"], () => {
+      kameHouseDebugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
+    });
   });
 }
 
