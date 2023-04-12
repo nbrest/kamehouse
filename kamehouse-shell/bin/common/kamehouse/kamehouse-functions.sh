@@ -356,6 +356,10 @@ loadDockerContainerEnv() {
 
 # Assumes it's running on the root of the git kamehouse project
 exportGitCommitHash() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
+    cd ..
+  fi
   log.info "Exporting git commit hash to project"
   GIT_COMMIT_HASH=`git rev-parse --short HEAD`
   echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
