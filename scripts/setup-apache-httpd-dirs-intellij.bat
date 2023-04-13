@@ -8,4 +8,7 @@ mklink /D "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house" "%US
 rmdir "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house-groot"
 mklink /D "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house-groot" "%USERPROFILE%\workspace-intellij\kamehouse\kamehouse-groot\public\kame-house-groot"
 
+rmdir "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house-mobile"
+mklink /D "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house-mobile" "%USERPROFILE%\workspace-intellij\kamehouse\kamehouse-mobile\www\kame-house-mobile"
+
 pause

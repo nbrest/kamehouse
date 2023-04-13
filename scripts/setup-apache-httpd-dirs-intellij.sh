@@ -10,3 +10,6 @@ ln -s ${HOME}/workspace-intellij/kamehouse/kamehouse-ui/src/main/webapp kame-hou
 
 rm kame-house-groot
 ln -s ${HOME}/workspace-intellij/kamehouse/kamehouse-groot/public/kame-house-groot kame-house-groot
+
+rm kame-house-mobile
+ln -s ${HOME}/workspace-intellij/kamehouse/kamehouse-mobile/www/kame-house-mobile kame-house-mobile
