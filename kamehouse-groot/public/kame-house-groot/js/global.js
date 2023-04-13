@@ -79,7 +79,7 @@ function GrootHeader() {
     const pageUrl = window.location.pathname;
     $("#groot-menu a").toArray().forEach((navItem) => {
       domUtils.removeClass($(navItem), "active");
-      if (pageUrl == "/kame-house-groot/") {
+      if (pageUrl == "/kame-house-groot/" || pageUrl == "/kame-house-groot/index.html") {
         if ($(navItem).attr("id") == "nav-groot-home") {
           domUtils.addClass($(navItem), "active");
         }
