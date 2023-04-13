@@ -3,6 +3,7 @@
 .idea/*
 
 www/kame-house/*
+www/kame-house-groot/*
 www/kame-house-mobile/pom.xml
 www/kame-house-mobile/git-commit-hash.txt
 www/kame-house-mobile/build-date.txt
