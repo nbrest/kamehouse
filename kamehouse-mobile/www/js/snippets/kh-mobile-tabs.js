@@ -73,13 +73,13 @@ function KameHouseMobileTabsManager() {
       bannerParagraphVal = "KameHouse Mobile"
     }
 
-    if (selectedTabDivId == "tab-config") {
-      bannerHeaderVal = "Config";
+    if (selectedTabDivId == "tab-services") {
+      bannerHeaderVal = "Services";
       bannerParagraphVal = ""
     }
 
-    if (selectedTabDivId == "tab-services") {
-      bannerHeaderVal = "Services";
+    if (selectedTabDivId == "tab-config") {
+      bannerHeaderVal = "Config";
       bannerParagraphVal = ""
     }
 

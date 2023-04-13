@@ -3,7 +3,7 @@
     <name>KameHouse</name>
     <description>KameHouse Mobile App</description>
     <author email="brest.nico@gmail.com" href="https://www.nicobrest.com">nbrest</author>
-    <content src="index.html" />
+    <content src="/kame-house/index.html" />
     <access origin="*"/>
     <allow-navigation href="http://niko-server/*" />
     <allow-intent href="http://*/*" />
