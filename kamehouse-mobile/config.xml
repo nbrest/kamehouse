@@ -8,8 +8,10 @@
     <allow-navigation href="http://niko-server/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <allow-intent href="*" />
 
     <platform name="android">
+      <preference name="ErrorUrl" value="https://localhost/error-not-found.html" />
       <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
         <application android:usesCleartextTraffic="true" />
       </edit-config>

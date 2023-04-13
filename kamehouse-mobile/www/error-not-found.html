@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="description" content="kame-house application">
+<meta name="keywords" content="kame-house nicobrest nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - Mobile Page Not Found</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="cordova.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
+<script src="/kame-house/js/global.js" id="global-js" data-skip-loading-header-footer="true"></script>
+<script src="/js/global-mobile-app.js"></script>
+<script src="/js/index.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/css/global.css" />
+<link rel="stylesheet" href="/css/global-mobile-app.css" />
+</head>
+<body class="mobile-body">
+  <div class="main-body">    
+    <div class="banner-wrapper">
+    <div id="banner" class="fade-in-out-15s banner-fuego-12-casas">
+      <div class="default-layout banner-text">
+        <h1 id="banner-header">Not Found</h1>
+        <p id="banner-p">Redirecting home...</p>
+      </div>
+    </div>
+    </div>
+  </div> <!-- main-body -->
+  <script>
+    setTimeout(() =>{
+     window.location.href="/kame-house/index.html"
+    }, 4000);
+  </script>
+</body>
+</html>
