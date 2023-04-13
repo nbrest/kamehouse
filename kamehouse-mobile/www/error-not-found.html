@@ -15,24 +15,41 @@
 <script src="/kame-house/js/global.js" id="global-js" data-skip-loading-header-footer="true"></script>
 <script src="/js/global-mobile-app.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/snippets/kh-mobile-tabs.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
 <link rel="stylesheet" href="/css/global-mobile-app.css" />
+<link rel="stylesheet" href="/css/snippets/kh-mobile-tabs.css">
 </head>
 <body class="mobile-body">
   <div class="main-body">    
     <div class="banner-wrapper">
     <div id="banner" class="fade-in-out-15s banner-fuego-12-casas">
       <div class="default-layout banner-text">
-        <h1 id="banner-header">Not Found</h1>
-        <p id="banner-p">Redirecting home...</p>
+        <h1>Not Found</h1>
+        <p>Redirecting home...</p>
       </div>
     </div>
     </div>
+    <div class="default-layout">
+      <div id="tab-home" class="kh-mobile-tab-content"></div>
+      <div id="tab-services" class="kh-mobile-tab-content"></div>
+      <div id="tab-config" class="kh-mobile-tab-content"></div>
+
+      <!-- The following is common to all tabs -->
+      <div class="default-layout txt-c-d-kh txt-c-m-kh">
+        <span id="debug-mode-button-wrapper" class="debug-mode-btn-hidden"></span>
+      </div>
+      <span id="debug-mode-wrapper"></span>
+
+    </div> <!-- default-layout -->
   </div> <!-- main-body -->
+  <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
+  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
   <script>
     setTimeout(() =>{
-     window.location.href="/kame-house/index.html"
+      console.log("Redirecting home...");
+      window.location.href="/kame-house/index.html"
     }, 2000);
   </script>
 </body>
