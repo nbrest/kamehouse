@@ -49,8 +49,15 @@ npm install -g cordova
 
 ```sh
 cd kamehouse-mobile
+
+cordova plugin remove cordova-plugin-advanced-http
+cordova plugin remove cordova-plugin-inappbrowser
+cordova plugin remove cordova-plugin-file
+
 cordova plugin add cordova-plugin-inappbrowser
+cordova plugin add cordova-plugin-advanced-http
 cordova plugin add cordova-plugin-file
+
 ```
 
 # Import project in Android Studio (optional)
@@ -129,7 +136,7 @@ kamehouse-mobile-resync-kh-files.sh ; cordova emulate android
 
 # Development of app running natively on android
 
-- Setup local apache httpd to serve the local cordova app on [http://localhost:9987/index.html](http://localhost:9987/index.html) reading the files from `kamehouse-mobile\www`
+- Setup local apache httpd to serve the local cordova app on [http://localhost:9980/kame-house-mobile/index.html](http://localhost:9980/kame-house-mobile/index.html) reading the files from `kamehouse-mobile\www\kame-house-mobile`
 - It won't find the cordova.js dependencies so I can't open the inAppBrowser links, but is still useful to develop and style the app running locally on the phone without having to restart the cordova browser on every change
-- Load the page with mockCordova=true parameter to mock cordova calls [http://localhost:9987/?mockCordova=true&logLevel=trace](http://localhost:9987/?mockCordova=true&logLevel=trace)
+- Load the page with mockCordova=true parameter to mock cordova calls [http://localhost:9980/kame-house-mobile/index.html?mockCordova=true&logLevel=trace](http://localhost:9980/kame-house-mobile/index.html?mockCordova=true&logLevel=trace)
 - For changes that interact with cordova api, it's better to test it directly on the cordova server [http://localhost:8000/index.html](http://localhost:8000/index.html)
