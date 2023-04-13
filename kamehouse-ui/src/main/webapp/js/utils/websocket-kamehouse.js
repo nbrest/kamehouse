@@ -65,6 +65,7 @@ function WebSocketKameHouse() {
     }
     try {
       disconnectPreviousConnections();
+      logger.trace("Attempting to connect websocket to " + statusUrl);
       const socket = new SockJS(statusUrl);
       stompClient = Stomp.over(socket);
       stompClientDebugFunction = stompClient.debug;
@@ -82,6 +83,9 @@ function WebSocketKameHouse() {
         } catch(error) {
           logger.error("Error during stompClient.connect() callback: " + error);
         }
+      },
+      () => {
+        logger.error("Error during stompClient.connect()");
       });
       stompClients.push(stompClient);
     } catch (error) {

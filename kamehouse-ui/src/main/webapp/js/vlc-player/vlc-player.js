@@ -780,7 +780,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
   this.updateView = updateView;
   this.resetView = resetView;
 
-  const playSelectedUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands';
+  const playSelectedUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/commands';
   const dobleLeftImg = createDoubleArrowImg("left");
   const dobleRightImg = createDoubleArrowImg("right");
 
