@@ -105,7 +105,7 @@ cordova build android
 
 ```sh
 cd kamehouse-mobile
-cordova run browser
+kamehouse-mobile-resync-kh-files.sh ; cordova run browser
 ```
 
 - Then a local browser windows should open in chrome
@@ -120,7 +120,7 @@ cordova run browser
 - Execute the command from the project root to deploy to the virtual device
 
 ```sh
-cordova emulate android
+kamehouse-mobile-resync-kh-files.sh ; cordova emulate android
 ```
 
 - This is usually too slow for me, so it's better to test in a local browser
