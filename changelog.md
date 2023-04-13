@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.05
+
+- Rebuilt native mobile app to use all kame-house ui and groot pages natively instead of creating a custom mobile app
+
 #### v8.04
 
 - Fixed shaky unit tests and build
