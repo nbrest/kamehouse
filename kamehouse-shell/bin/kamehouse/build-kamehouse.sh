@@ -91,9 +91,9 @@ buildMobile() {
     cordova platform add android
   fi
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
-  cp -v -f pom.xml www/
-  echo "${GIT_COMMIT_HASH}" > www/git-commit-hash.txt
-  date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
+  cp -v -f pom.xml www/kame-house-mobile/
+  echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
+  date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
   log.debug "cordova build android"
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
