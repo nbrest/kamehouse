@@ -11,7 +11,7 @@ const mobileConfigManager = new MobileConfigManager();
 function mainGlobalMobile() {
   logger.info("Started initializing mobile global");
   moduleUtils.waitForModules([ "debuggerHttpClient"], () => {
-    coreMobileUtils.loadHeaderAndFooter();
+    coreMobileUtils.loadHeader();
     mobileConfigManager.init();
     cordovaManager.init();
   });
@@ -21,10 +21,10 @@ function mainGlobalMobile() {
  * Main generic functionality specific to the mobile app.
  */
 function CoreMobileUtils() {
-  this.loadHeaderAndFooter = loadHeaderAndFooter;
+  this.loadHeader = loadHeader;
 
-  function loadHeaderAndFooter() {
-    fetchUtils.getScript("/js/header-footer/header-footer.js", () => renderHeaderAndFooter());
+  function loadHeader() {
+    fetchUtils.getScript("/kame-house-mobile/js/header.js", () => renderMobileHeader());
   }
 }
 
@@ -231,13 +231,13 @@ function MobileConfigManager() {
   }
 
   async function loadInAppBrowserDefaultConfig() {
-    inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/in-app-browser.json'));
+    inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/kame-house-mobile/json/config/in-app-browser.json'));
     logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
     setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
   }
 
   async function loadServersDefaultConfig() {
-    serversDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/json/config/servers.json'));
+    serversDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/kame-house-mobile/json/config/servers.json'));
     logger.info("servers default config: " + JSON.stringify(serversDefaultConfig));
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
   }

@@ -8,29 +8,30 @@
 <meta name="keywords" content="kame-house nicobrest nbrest">
 <meta name="mobile-web-app-capable" content="yes">
 
-<title>KameHouse - Mobile</title>
+<title>KameHouse - Mobile Page Not Found</title>
 <link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
 <script src="cordova.js"></script>
 <script src="/kame-house/lib/js/jquery.js"></script>
-<script src="/kame-house/js/global.js" id="global-js" data-skip-loading-header-footer="true"></script>
-<script src="/js/global-mobile-app.js"></script>
-<script src="/js/index.js"></script>
-<script src="/js/snippets/kh-mobile-tabs.js"></script>
+<script src="/kame-house/js/global.js"></script>
+<script src="/kame-house-mobile/js/global-mobile-app.js"></script>
+<script src="/kame-house-mobile/js/index.js"></script>
+<script src="/kame-house-mobile/js/snippets/kh-mobile-tabs.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
-<link rel="stylesheet" href="/css/global-mobile-app.css" />
-<link rel="stylesheet" href="/css/snippets/kh-mobile-tabs.css">
+<link rel="stylesheet" href="/kame-house-mobile/css/global-mobile-app.css" />
+<link rel="stylesheet" href="/kame-house-mobile/css/snippets/kh-mobile-tabs.css">
 </head>
 <body class="mobile-body">
   <div class="main-body">    
     <div class="banner-wrapper">
     <div id="banner" class="fade-in-out-15s banner-fuego-12-casas">
       <div class="default-layout banner-text">
-        <h1 id="banner-header">カメハウス</h1>
-        <p id="banner-p">KameHouse Mobile</p>
+        <h1>Not Found</h1>
+        <p>Redirecting home...</p>
       </div>
     </div>
     </div>
+    <div id="kh-mobile-tabs-wrapper"></div>
     <div class="default-layout">
       <div id="tab-home" class="kh-mobile-tab-content"></div>
       <div id="tab-services" class="kh-mobile-tab-content"></div>
@@ -46,5 +47,11 @@
   </div> <!-- main-body -->
   <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script>
+    setTimeout(() =>{
+      logger.info("Redirecting home...");
+      window.location.href="/kame-house-mobile/index.html"
+    }, 2000);
+  </script>
 </body>
 </html>

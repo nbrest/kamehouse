@@ -19,12 +19,12 @@ function KameHouseMobileTabsManager() {
    * Init module.
    */
   function init() {
-    domUtils.load($("#tab-home"), "/html-snippets/tab-home.html", () => {
+    domUtils.load($("#tab-home"), "/kame-house-mobile/html-snippets/tab-home.html", () => {
       moduleUtils.setModuleLoaded("kameHouseMobileTabsManager");
     });
-    domUtils.load($("#tab-services"), "/html-snippets/tab-services.html");
+    domUtils.load($("#tab-services"), "/kame-house-mobile/html-snippets/tab-services.html");
     moduleUtils.waitForModules(["mobileConfigManager"], () => {
-      domUtils.load($("#tab-config"), "/html-snippets/tab-config.html", () => {
+      domUtils.load($("#tab-config"), "/kame-house-mobile/html-snippets/tab-config.html", () => {
         mobileConfigManager.refreshConfigTabView();
       });
     });
@@ -84,10 +84,14 @@ function KameHouseMobileTabsManager() {
     }
 
     const bannerHeader = document.getElementById("banner-header");
-    domUtils.setInnerHtml(bannerHeader, bannerHeaderVal);
+    if (bannerHeader) {
+      domUtils.setInnerHtml(bannerHeader, bannerHeaderVal);
+    }
 
     const bannerParagraph = document.getElementById("banner-p");
-    domUtils.setInnerHtml(bannerParagraph, bannerParagraphVal);
+    if (bannerParagraph) {
+      domUtils.setInnerHtml(bannerParagraph, bannerParagraphVal);
+    }
   }
 }
 

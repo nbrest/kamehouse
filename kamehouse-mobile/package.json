@@ -27,7 +27,8 @@
     ],
     "plugins": {
       "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-file": {}
+      "cordova-plugin-file": {},
+      "cordova-plugin-advanced-http": {}
     }
   }
 }

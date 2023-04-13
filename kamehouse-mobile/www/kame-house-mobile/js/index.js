@@ -12,7 +12,7 @@
     setDeviceStartup();
   });
   moduleUtils.waitForModules(["kameHouseDebugger"], () => {
-    kameHouseDebugger.renderCustomDebugger("/html-snippets/debug-mode-custom.html");
+    kameHouseDebugger.renderCustomDebugger("/kame-house-mobile/html-snippets/debug-mode-custom.html");
   });
 } 
 

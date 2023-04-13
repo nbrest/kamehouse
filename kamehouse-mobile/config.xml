@@ -3,15 +3,14 @@
     <name>KameHouse</name>
     <description>KameHouse Mobile App</description>
     <author email="brest.nico@gmail.com" href="https://www.nicobrest.com">nbrest</author>
-    <content src="/kame-house/index.html" />
+    <content src="/kame-house-mobile/index.html" />
     <access origin="*"/>
-    <allow-navigation href="http://niko-server/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="*" />
 
     <platform name="android">
-      <preference name="ErrorUrl" value="https://localhost/error-not-found.html" />
+      <preference name="ErrorUrl" value="https://localhost/kame-house-mobile/error-not-found.html" />
       <preference name="LoadingDialog" value="Loading KameHouse Mobile,Loading KameHouse Mobile" />
       <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
         <application android:usesCleartextTraffic="true" />
