@@ -16,8 +16,9 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 PROJECT_DIR=
-EXPORT_DIR=
+EXPORT_KAMEHOUSE_DIR=
 GIT_REPO_SOURCE="dev"
+DELETE_ONLY=false
 
 mainProcess() {
   setGlobalVariables
@@ -30,45 +31,51 @@ setGlobalVariables() {
   if [ "${GIT_REPO_SOURCE}" == "prod" ]; then
     PROJECT_DIR=${HOME}/git/kamehouse
   fi
-  SOURCE_FILES_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
-  EXPORT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
+  SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
+  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/public/kame-house-groot
+
+  EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
+  EXPORT_GROOT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-groot
 }
 
 exportWebapp() {
-  cd ${EXPORT_DIR}
+  cd ${EXPORT_KAMEHOUSE_DIR}
 
-  log.info "Using SOURCE_FILES_DIR = ${SOURCE_FILES_DIR}"
-  log.info "Using EXPORT_DIR = ${EXPORT_DIR}"
-  log.info "Deleting existing files from target dir ${EXPORT_DIR}"
-  rm -r -v -f ${EXPORT_DIR}
-  mkdir -p ${EXPORT_DIR}
+  log.info "Using SOURCE_FILES_KAMEHOUSE_DIR = ${SOURCE_FILES_KAMEHOUSE_DIR}"
+  log.info "Using EXPORT_KAMEHOUSE_DIR = ${EXPORT_KAMEHOUSE_DIR}"
+  log.info "Deleting existing files from target dir ${EXPORT_KAMEHOUSE_DIR}"
+  rm -r -v -f ${EXPORT_KAMEHOUSE_DIR}
+  log.info "Deleting existing files from target dir ${EXPORT_GROOT_DIR}"
+  rm -r -v -f ${EXPORT_GROOT_DIR}
 
-  log.info "Copying /css files"
-  cd ${EXPORT_DIR}
-  cp -r -v ${SOURCE_FILES_DIR}/css/ .
+  if ${DELETE_ONLY}; then
+    log.info "Running with -d. Exiting now after deleting /kame-house folder from mobile app"
+    return
+  fi
 
-  log.info "Copying /html-snippets files"
-  cd ${EXPORT_DIR}
-  cp -r -v ${SOURCE_FILES_DIR}/html-snippets/ .
+  mkdir -p ${EXPORT_KAMEHOUSE_DIR}
+  mkdir -p ${EXPORT_GROOT_DIR}
 
-  log.info "Copying /img files"
-  cd ${EXPORT_DIR}
-  cp -r -v ${SOURCE_FILES_DIR}/img/ .
+  log.info "Copying all files from ${SOURCE_FILES_KAMEHOUSE_DIR} to ${EXPORT_KAMEHOUSE_DIR}"
+  cd ${EXPORT_KAMEHOUSE_DIR}
+  cp -r -v ${SOURCE_FILES_KAMEHOUSE_DIR}/* .
 
-  log.info "Copying /js files"
-  cd ${EXPORT_DIR}
-  cp -r -v ${SOURCE_FILES_DIR}/js/ .
-  
-  log.info "Copying /lib files"
-  cd ${EXPORT_DIR}
-  cp -r -v ${SOURCE_FILES_DIR}/lib/ .
+  log.info "Removing WEB-INF folder from ${EXPORT_KAMEHOUSE_DIR}"
+  rm -r -v ${EXPORT_KAMEHOUSE_DIR}/WEB-INF
+
+  log.info "Copying all files from ${SOURCE_FILES_GROOT_DIR} to ${EXPORT_GROOT_DIR}"
+  cd ${EXPORT_GROOT_DIR}
+  cp -r -v ${SOURCE_FILES_GROOT_DIR}/* .
 }
 
 parseArguments() {
   parseIde "$@"
 
-  while getopts ":i:s:" OPT; do
+  while getopts ":di:s:" OPT; do
     case $OPT in
+    ("d")
+      DELETE_ONLY=true
+      ;;
     ("s")
       setGitRepoSource "$OPTARG"
       ;;
@@ -98,6 +105,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
+  addHelpOption "-d" "only delete /kame-house folder from mobile app folder. don't resync"
   printIdeOption "ide's path to export scripts to. Default is ${DEFAULT_IDE}"
   addHelpOption "-s (prod|dev)" "git repo to use as source. default is dev. use prod when calling from the deployment script"
 }

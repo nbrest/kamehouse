@@ -97,6 +97,7 @@ buildMobile() {
   log.debug "cordova build android"
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
 }
 
 parseArguments() {
