@@ -102,7 +102,7 @@ cordova build android
 - Upload `app-debug.apk` to your android phone and install with the package installer
 - It's not signed or verified by playstore so it will show warnings when trying to install it
 - By default it's not allowed to install, so you need to enable installing unverified apps
-- Easiest way I found to upload frequently during development is to download a free webdav server or sftp server on playstore and upload the apk with winscp. The script `upload-apk-to-android.sh` automates this step using SSH/SFTP Server - Terminal from googleplay (from Banana Studio) 
+- Easiest way I found to upload frequently during development is to download a free webdav server or sftp server on playstore and upload the apk with winscp. The script `kamehouse-mobile-upload-apk-to-device.sh` automates this step using SSH/SFTP Server - Terminal from googleplay (from Banana Studio) 
 
 # Run in an emulator
 
@@ -112,7 +112,8 @@ cordova build android
 
 ```sh
 cd kamehouse-mobile
-kamehouse-mobile-resync-kh-files.sh ; cordova run browser
+kamehouse-mobile-run-browser.sh
+# or manually: kamehouse-mobile-resync-kh-files.sh ; cordova run browser
 ```
 
 - Then a local browser windows should open in chrome

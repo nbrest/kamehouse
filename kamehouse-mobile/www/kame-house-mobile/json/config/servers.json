@@ -1,9 +1,10 @@
 [
+  { "name": "backend", "url": "https://192.168.0.109" },
   { "name": "docker-demo", "url": "https://docker-demo.nicobrest.com" },
   { "name": "jenkins", "url": "https://jenkins.nicobrest.com" },
   { "name": "kame", "url": "https://kame.nicobrest.com" },
   { "name": "tw-booking", "url": "https://kame.nicobrest.com" },
-  { "name": "vlc", "url": "http://192.168.0.109" },
   { "name": "vm-ubuntu", "url": "https://vm-ubuntu.nicobrest.com" },
+  { "name": "web-vlc", "url": "http://192.168.0.109" },
   { "name": "wol", "url": "https://kame.nicobrest.com" }
 ]

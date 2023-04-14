@@ -3,22 +3,42 @@
     <img class="config-header-img" src="/kame-house/img/dbz/kamesenin-logo.png" alt="Vlc Player"><span class="config-header-text">Servers</span>
   </form>
   <form class="form-kh">
-    <label>VLC Player</label>
+    <label>Backend</label>
     <br>
-    <select id="vlc-server-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.setVlcPlayerFromDropdown()">
-      <option value="">Select VLC Player</option>
-      <option value="http://192.168.0.109">niko-server</option>
+    <select id="backend-server-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.setBackendFromDropdown()">
+      <option value="">Select Backend Server</option>
+      <option value="https://192.168.0.109">media-server</option>
+      <option value="https://kame.nicobrest.com">tennis world booking server</option>
+      <option value="https://192.168.43.171">niko-w android hotspot</option>
+      <option value="https://192.168.0.107">niko-server-vm-ubuntu</option>
+      <option value="https://192.168.0.100">niko-w</option>
+      <option value="https://192.168.0.100:9989">niko-w intellij</option>
+      <option value="https://192.168.0.100:9988">niko-w eclipse</option>
+      <option value="https://192.168.0.101">niko-w-vm-ubuntu</option>
+      <option value="https://192.168.0.99">niko-nba</option>
+      <option value="https://192.168.0.129">pi</option>
+      <option value="https://0.0.0.0">custom server</option>
+    </select>
+    <br>
+    <input id="backend-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <br>
+    <label>Web VLC Player</label>
+    <br>
+    <select id="web-vlc-server-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.setWebVlcPlayerFromDropdown()">
+      <option value="">Select Web VLC Player</option>
+      <option value="http://192.168.0.109">media-server</option>
+      <option value="http://192.168.43.171">niko-w android hotspot</option>
       <option value="http://192.168.0.107">niko-server-vm-ubuntu</option>
       <option value="http://192.168.0.100">niko-w</option>
-      <option value="http://192.168.43.171">niko-w android hotspot</option>
       <option value="http://192.168.0.100:9989">niko-w intellij</option>
       <option value="http://192.168.0.100:9988">niko-w eclipse</option>
       <option value="http://192.168.0.101">niko-w-vm-ubuntu</option>
       <option value="http://192.168.0.99">niko-nba</option>
       <option value="https://192.168.0.129">pi</option>
+      <option value="https://0.0.0.0">custom server</option>
     </select>
     <br>
-    <input id="vlc-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="web-vlc-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
     <br>
     <label>Wake Media Server</label>
     <br>

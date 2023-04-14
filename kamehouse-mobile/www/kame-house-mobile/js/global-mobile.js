@@ -5,28 +5,15 @@
  * @author nbrest
  */
 const cordovaManager = new CordovaManager();
-const coreMobileUtils = new CoreMobileUtils();
 const mobileConfigManager = new MobileConfigManager();
 
 function mainGlobalMobile() {
-  logger.info("Started initializing mobile global");
-  moduleUtils.waitForModules([ "debuggerHttpClient"], () => {
-    coreMobileUtils.loadHeader();
+  logger.info("Started initializing mobile app global");
+  moduleUtils.waitForModules(["cordova"], () => {
     mobileConfigManager.init();
     cordovaManager.init();
   });
 } 
-
-/**
- * Main generic functionality specific to the mobile app.
- */
-function CoreMobileUtils() {
-  this.loadHeader = loadHeader;
-
-  function loadHeader() {
-    fetchUtils.getScript("/kame-house-mobile/js/header.js", () => renderMobileHeader());
-  }
-}
 
 /**
  * Entity to interact with cordova's api.
@@ -84,11 +71,11 @@ function CordovaManager() {
     if (urlLookup == "tw-booking") {
       serverEntity.url = serverEntity.url + "/kame-house/tennisworld/booking-response.html";
     }
-    if (urlLookup == "vlc") {
-      serverEntity.url = serverEntity.url + "/kame-house/vlc-player";
-    }
     if (urlLookup == "vm-ubuntu") {
       serverEntity.url = serverEntity.url + "/kame-house/";
+    }
+    if (urlLookup == "web-vlc") {
+      serverEntity.url = serverEntity.url + "/kame-house/vlc-player";
     }
     if (urlLookup == "wol") {
       serverEntity.url = serverEntity.url + "/kame-house/admin/wake-on-lan.html";
@@ -173,7 +160,8 @@ function MobileConfigManager() {
   this.getInAppBrowserConfig = getInAppBrowserConfig;
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
   this.updateMobileConfigFromView = updateMobileConfigFromView;
-  this.setVlcPlayerFromDropdown = setVlcPlayerFromDropdown;
+  this.setBackendFromDropdown = setBackendFromDropdown;
+  this.setWebVlcPlayerFromDropdown = setWebVlcPlayerFromDropdown;
   this.refreshConfigTabView = refreshConfigTabView;
   this.confirmResetDefaults = confirmResetDefaults;
   this.resetDefaults = resetDefaults;
@@ -200,34 +188,33 @@ function MobileConfigManager() {
   }
 
   function initGlobalMobileConfig() {
-    global.mobile = {};
-    global.mobile.config = {};
-    global.mobile.config.inAppBrowser = {};
-    global.mobile.config.servers = {};
+    kameHouse.mobile.config = {};
+    kameHouse.mobile.config.inAppBrowser = {};
+    kameHouse.mobile.config.servers = {};
   }
 
   function getMobileConfig() {
-    return global.mobile.config;
+    return kameHouse.mobile.config;
   }
 
   function setMobileConfig(val) {
-    global.mobile.config = val;
+    kameHouse.mobile.config = val;
   }
 
   function getInAppBrowserConfig() {
-    return global.mobile.config.inAppBrowser;
+    return kameHouse.mobile.config.inAppBrowser;
   }
 
   function setInAppBrowserConfig(val) {
-    global.mobile.config.inAppBrowser = val;
+    kameHouse.mobile.config.inAppBrowser = val;
   }
 
   function getServers() {
-    return global.mobile.config.servers;
+    return kameHouse.mobile.config.servers;
   }
 
   function setServers(val) {
-    global.mobile.config.servers = val;
+    kameHouse.mobile.config.servers = val;
   }
 
   async function loadInAppBrowserDefaultConfig() {
@@ -448,9 +435,10 @@ function MobileConfigManager() {
     const inAppBrowserConfig = getInAppBrowserConfig();
 
     // Set servers
+    updateServer("backend");
     updateServer("jenkins");
     updateServer("tw-booking");
-    updateServer("vlc");
+    updateServer("web-vlc");
     updateServer("wol");
 
     // Set InAppBrowser open on startup
@@ -489,16 +477,27 @@ function MobileConfigManager() {
   }
 
   /**
-   * Set the vlc player in the config from the dropdown menu in the config page.
+   * Set the web vlc player in the config from the dropdown menu in the config page.
    */
-  function setVlcPlayerFromDropdown() {
-    logger.info("Setting vlc player from dropdown");
-    const vlcServerInput = document.getElementById("vlc-server-input"); 
-    const vlcServerDropdown = document.getElementById("vlc-server-dropdown");
-    if (!isEmpty(vlcServerDropdown.value) && vlcServerDropdown.value != "") {
-      domUtils.setValue(vlcServerInput, vlcServerDropdown.value);
+  function setWebVlcPlayerFromDropdown() {
+    logger.info("Setting web vlc player from dropdown");
+    const webVlcServerInput = document.getElementById("web-vlc-server-input"); 
+    const webVlcServerDropdown = document.getElementById("web-vlc-server-dropdown");
+    if (!isEmpty(webVlcServerDropdown.value) && webVlcServerDropdown.value != "") {
+      domUtils.setValue(webVlcServerInput, webVlcServerDropdown.value);
       updateMobileConfigFromView();
     }
+  }
+
+  /** Set the backend server in the config from the dropdown menu in the config page */
+  function setBackendFromDropdown() {
+    logger.info("Setting backend server from dropdown");
+    const backendServerInput = document.getElementById("backend-server-input"); 
+    const backendServerDropdown = document.getElementById("backend-server-dropdown");
+    if (!isEmpty(backendServerDropdown.value) && backendServerDropdown.value != "") {
+      domUtils.setValue(backendServerInput, backendServerDropdown.value);
+      updateMobileConfigFromView();
+    }    
   }
 
   /**
@@ -509,17 +508,33 @@ function MobileConfigManager() {
     const inAppBrowserConfig = getInAppBrowserConfig();
 
     // servers
+    setServerInput("backend");
     setServerInput("jenkins");
     setServerInput("tw-booking");
-    setServerInput("vlc");
+    setServerInput("web-vlc");
     setServerInput("wol");
 
-    // VLC Player dropdown
-    const vlcPlayerInputValue = document.getElementById("vlc-server-input").value;
-    const vlcPlayerDropdown = document.getElementById("vlc-server-dropdown");
-    for (let i = 0; i < vlcPlayerDropdown.options.length; ++i) {
-      if (vlcPlayerDropdown.options[i].value === vlcPlayerInputValue) {
-        vlcPlayerDropdown.options[i].selected = true;
+    // Backend dropdown
+    const backendServerInputValue = document.getElementById("backend-server-input").value;
+    const backendServerDropdown = document.getElementById("backend-server-dropdown");
+    if (backendServerInputValue != "") {
+      backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
+    }
+    for (let i = 0; i < backendServerDropdown.options.length; ++i) {
+      if (backendServerDropdown.options[i].value === backendServerInputValue) {
+        backendServerDropdown.options[i].selected = true;
+      }
+    }
+
+    // Web VLC Player dropdown
+    const webVlcPlayerInputValue = document.getElementById("web-vlc-server-input").value;
+    const webVlcPlayerDropdown = document.getElementById("web-vlc-server-dropdown");
+    if (webVlcPlayerInputValue != "") {
+      webVlcPlayerDropdown.options[webVlcPlayerDropdown.options.length-1].selected = true;
+    }
+    for (let i = 0; i < webVlcPlayerDropdown.options.length; ++i) {
+      if (webVlcPlayerDropdown.options[i].value === webVlcPlayerInputValue) {
+        webVlcPlayerDropdown.options[i].selected = true;
       }
     }
 
