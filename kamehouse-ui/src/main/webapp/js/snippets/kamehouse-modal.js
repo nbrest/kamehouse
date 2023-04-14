@@ -109,9 +109,9 @@ function LoadingWheelModal() {
    * Open modal.
    */
   function open(message) {
-    if (isEmpty(message) && !isEmpty(global.session.firstName)) {
+    if (isEmpty(message) && !isEmpty(kameHouse.session.firstName)) {
       const chottoMatte = 'ちょっと まって';
-      message = chottoMatte + ", " + global.session.firstName + "-san!";
+      message = chottoMatte + ", " + kameHouse.session.firstName + "-san!";
     }
     modalUtils.open(message);
   }

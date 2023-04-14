@@ -1,16 +1,19 @@
 /**
- * Global js variables and functions for all pages.
+ * KameHouse js variables and functions for all pages.
  * 
- * Dependencies: logger, httpClient.
+ * Dependencies: jquery
  * 
  * @author nbrest
  */
 /** 
- * ----- Global variables ------------------------------------------------------------------ 
+ * ----- Global kameHouse object -------------------------------------------------------------- 
  */
-const global = {};
+const kameHouse = {};
+kameHouse.mobile = {};
+kameHouse.groot = {};
+kameHouse.session = {};
 
-/** Global utils in global.js */
+/** Global utils in kameHouse.js */
 const bannerUtils = new BannerUtils();
 const collapsibleDivUtils = new CollapsibleDivUtils();
 const cookiesUtils = new CookiesUtils();
@@ -19,6 +22,7 @@ const cursorUtils = new CursorUtils();
 const domUtils = new DomUtils();
 const fetchUtils = new FetchUtils();
 const fileUtils = new FileUtils();
+const mobileAppUtils = new MobileAppUtils();
 const moduleUtils = new ModuleUtils();
 const tabUtils = new TabUtils();
 const tableUtils = new TableUtils();
@@ -29,8 +33,19 @@ const timeUtils = new TimeUtils();
 const httpClient = new HttpClient();
 const logger = new Logger();
 
+kameHouse.init = () => {
+  logger.init();
+  logger.info("Started initializing kamehouse.js")
+  coreUtils.loadHeaderAndFooter();
+  cursorUtils.loadSpinningWheelMobile();
+  mobileAppUtils.init();
+  //testUtils.testLogLevel();
+  //testUtils.testSleep();
+  logger.info("Finished initializing kamehouse.js");
+}
+
 /** 
- * Core global functions mapped to their logic in coreUtils
+ * Core global functions mapped to their logic in coreUtils to simplify their calls
  * Usage example: `if (isEmpty(val)) {...}` 
  */
 const isEmpty = coreUtils.isEmpty;
@@ -39,18 +54,6 @@ const scrollToBottom = coreUtils.scrollToBottom;
 const scrollToTop = coreUtils.scrollToTop;
 const scrollToTopOfDiv = coreUtils.scrollToTopOfDiv;
 const sleep = coreUtils.sleep;
-
-/** 
- * ----- Global functions ------------------------------------------------------------------
- */
-function mainGlobal() {
-  coreUtils.loadHeaderAndFooter();
-  cursorUtils.loadSpinningWheelMobile();
-  logger.init();
-  logger.info("Initialized global functions");
-  //testUtils.testLogLevel();
-  //testUtils.testSleep();
-}
 
 /**
  * BannerUtils to manipulate banners.
@@ -191,8 +194,8 @@ function BannerUtils() {
 
   /** Update the server name in the banner */
   function updateServerName() {
-    if (!isEmpty(global.session.server)) {
-      domUtils.setHtml($("#banner-server-name"), global.session.server);
+    if (!isEmpty(kameHouse.session.server)) {
+      domUtils.setHtml($("#banner-server-name"), kameHouse.session.server);
     }
   }
   
@@ -267,17 +270,14 @@ function CoreUtils() {
   this.scrollToBottom = scrollToBottom;
   this.sleep = sleep;
 
-  /** Set the global variable and set the external reference to global to be used without coreUtils. prefix */
-  global.session = {};
-
   /** 
    * Load header and footer. 
-   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/js/global.js"></script>`
+   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/js/kameHouse.js"></script>`
    */
   function loadHeaderAndFooter() {
-    const globalJs = document.getElementById('global-js');
-    if (!isEmpty(globalJs)) {
-      const skipLoadingHeaderAndFooter = globalJs.getAttribute("data-skip-loading-header-footer");
+    const kameHouseData = document.getElementById('kamehouse-data');
+    if (!isEmpty(kameHouseData)) {
+      const skipLoadingHeaderAndFooter = kameHouseData.getAttribute("data-skip-loading-header-footer");
       if (!isEmpty(skipLoadingHeaderAndFooter) && skipLoadingHeaderAndFooter == "true") {
         logger.info("Skipping loading default kamehouse header and footer"); 
       } else {
@@ -470,6 +470,7 @@ function DomUtils() {
   this.appendChild = appendChild;
   this.removeChild = removeChild;
   this.insertBefore = insertBefore;
+  this.after = after;
   this.cloneNode = cloneNode;
 
   /** ------ Manipulation through jQuery --------------------------------- */
@@ -620,6 +621,13 @@ function DomUtils() {
   function insertBefore(parent, newNode, nextSibling) {
     parent.insertBefore(newNode, nextSibling);
   }
+
+  /**
+   * Insert the new node after the selected node.
+   */
+    function after(sibling, newNode) {
+      sibling.after(newNode);
+    }
 
   /**
    * Clone a node.
@@ -907,6 +915,85 @@ function FileUtils() {
   /** Get the last part of the absolute filename */
   // Split the filename into an array based on the path separators '/' and '\'
   function getShortFilename(filename) { return filename.split(/[\\/]+/).pop(); }
+}
+
+/**
+ * Functionality for the native mobile app.
+ */
+function MobileAppUtils() {
+
+  this.init = init;
+  this.isMobileApp = isMobileApp;
+  this.updateMobileElements = updateMobileElements;
+  this.getBackendServer = getBackendServer;
+
+  function init() {
+    kameHouse.mobile.isMobileApp = false;
+    loadCordovaModule();
+    updateMobileElements();
+    loadGlobalMobile();
+  }
+
+  function loadCordovaModule() {
+    try {
+      if (cordova) { 
+        logger.info("cordova object is present. Running as a mobile app");
+        kameHouse.mobile.isMobileApp = true;
+      }
+    } catch (error) {
+      logger.info("cordova object is not present. Running as a webapp");
+      kameHouse.mobile.isMobileApp = false;
+    }
+    moduleUtils.setModuleLoaded("cordova");
+  }
+
+  function isMobileApp() {
+    return kameHouse.mobile.isMobileApp;
+  }
+
+  function updateMobileElements() {
+    $(document).ready(() => {
+      if (isMobileApp()) {
+        logger.debug("Disabling webapp only elements in mobile app view");
+        const mobileOnlyElements = document.getElementsByClassName("kh-mobile-hidden");
+        for (const mobileOnlyElement of mobileOnlyElements) {
+          domUtils.classListAdd(mobileOnlyElement, "hidden-kh");
+          domUtils.classListRemove(mobileOnlyElement, "kh-mobile-hidden");
+        }
+      } else {
+        logger.debug("Disabling mobile only elements in webapp view");
+        const mobileOnlyElements = document.getElementsByClassName("kh-mobile-only");
+        for (const mobileOnlyElement of mobileOnlyElements) {
+          domUtils.classListAdd(mobileOnlyElement, "hidden-kh");
+          domUtils.classListRemove(mobileOnlyElement, "kh-mobile-only");
+        }
+      }
+    });
+  }
+
+  function loadGlobalMobile() {
+    if (isMobileApp()) {
+      fetchUtils.getScript("/kame-house-mobile/js/global-mobile.js", () => {
+        logger.info("Loaded global-mobile.js");
+      }); 
+    }
+  }
+
+  function getBackendServer() {
+    const mobileConfig = kameHouse.mobile.config;
+    let backendServer = null;
+    if (!isEmpty(mobileConfig) && !isEmpty(mobileConfig.servers)) {
+      mobileConfig.servers.forEach((server) => {
+        if (server.name === "backend") {
+          backendServer = server.url;
+        }
+      });
+    }
+    if (backendServer == null) {
+      logger.error("Couldn't find backend server url in the config. Mobile app config manager may not have completed initialization yet.");
+    }
+    return backendServer;
+  }
 }
 
 /** 
@@ -1598,6 +1685,12 @@ function TimeUtils() {
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
+    if (mobileAppUtils.isMobileApp()) {
+      moduleUtils.waitForModules(["mobileConfigManager"], () => {
+        mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData);
+      });
+      return;
+    }
     if (isEmpty(requestBody)) {
       $.ajax({
         type: httpMethod,
@@ -1673,7 +1766,60 @@ function TimeUtils() {
     logger.trace("request headers: " + JSON.stringify(requestHeaders));
     return requestHeaders;
   }
+  
+  /** 
+   * Http request to be sent from the mobile app.
+   */
+  function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
+    const requestUrl = mobileAppUtils.getBackendServer() + url;   
+    const options = {
+      method: httpMethod,
+    };
+    if (!isEmpty(requestHeaders)) {
+      options.headers = requestHeaders;
+    }
+    if (!isEmpty(requestBody)) {
+      cordova.plugin.http.setDataSerializer('json');
+      options.data = requestBody;
+    }
+    cordova.plugin.http.setServerTrustMode('nocheck', () => {
+      cordova.plugin.http.sendRequest(requestUrl, options, 
+        (response) => { processMobileSuccess(response, successCallback, customData); } ,
+        (response) => { processMobileError(response, errorCallback, requestUrl, customData); }
+      );
+    }, () => {
+      logger.error('Error setting cordova ssl trustmode to nocheck. Unable to execute http ' + httpMethod + ' request to ' + requestUrl);
+    });
+  }
+
+  /** Process a successful response from the api call */
+  function processMobileSuccess(response, successCallback, customData) {
+    /**
+     * data: response body
+     * status: http status code
+     * url: request url
+     * response headers: header map object
+     */
+    const responseBody = JSON.parse(response.data);
+    const responseCode = response.status;
+    successCallback(responseBody, responseCode, customData);
+  }
+
+  /** Process an error response from the api call */
+  function processMobileError(response, errorCallback, url, customData) {
+     /**
+     * error: error message
+     * status: http status code
+     * url: request url
+     * response headers: header map object
+      */
+     const responseBody = response.error;
+     const responseCode = response.status;
+     const responseDescription = response.error;
+     logger.error("Mobile API call error. Url: " + url + ". Response code: " + responseCode + ". Response error: " + responseBody);
+     errorCallback(responseBody, responseCode, responseDescription, customData);
+  }  
 }
 
 /** Call main. */
-$(document).ready(mainGlobal);
+$(document).ready(kameHouse.init());

@@ -27,7 +27,15 @@ function WebSocketKameHouse() {
   let topicUrl = null;
   let pollUrl = null;
   
-  function setStatusUrl(statusUrlParam) { statusUrl = statusUrlParam; }
+  function setStatusUrl(statusUrlParam) {
+    if (mobileAppUtils.isMobileApp()) {
+      moduleUtils.waitForModules(["mobileConfigManager"], () => {
+        statusUrl = mobileAppUtils.getBackendServer() + statusUrlParam;
+      });
+    } else {
+      statusUrl = statusUrlParam; 
+    }
+  }
 
   function setTopicUrl(topicUrlParam) { topicUrl = topicUrlParam; }
 

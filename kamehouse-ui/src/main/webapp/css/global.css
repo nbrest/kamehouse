@@ -539,10 +539,8 @@ html.wait, html.wait * {
   height: 25px;
 }
 
-/** use for elements that should be rendered in the native mobile app only*/
-.kh-mobile-only {
-  display: block !important;
-}
+/** .kh-mobile-only : use for tagging elements that should be rendered in the native mobile app and hidden on the webapp*/
+/** .kh-mobile-hidden : use for tagging elements that should be hidden in the native mobile but are rendered on the webapp*/
 
 .landing-p-body {
   background: #11161a;
