@@ -1800,7 +1800,12 @@ function TimeUtils() {
      * url: request url
      * response headers: header map object
      */
-    const responseBody = JSON.parse(response.data);
+    let responseBody;
+    if (isJsonResponse(response.headers)) {
+      responseBody = JSON.parse(response.data);
+    } else {
+      responseBody = response.data;
+    }
     const responseCode = response.status;
     successCallback(responseBody, responseCode, customData);
   }
@@ -1815,10 +1820,23 @@ function TimeUtils() {
       */
      const responseBody = response.error;
      const responseCode = response.status;
-     const responseDescription = response.error;
-     logger.error("Mobile API call error. Url: " + url + ". Response code: " + responseCode + ". Response error: " + responseBody);
-     errorCallback(responseBody, responseCode, responseDescription, customData);
+     logger.error("Mobile API call error. Url: " + url + ". Response code: " + responseCode + ". Response error: " + JSON.stringify(responseBody));
+     errorCallback(JSON.stringify(responseBody), responseCode, null, customData);
   }  
+
+  function isJsonResponse(headers) {
+    if (isEmpty(headers)) {
+      return false;
+    }
+    let isJson = false;
+    for (const [key, value] of Object.entries(headers)) {
+      if (!isEmpty(key) && key.toLowerCase() == "content-type" 
+        && !isEmpty(value) && value.toLowerCase() == "application/json") {
+          isJson = true;
+      }
+    }
+    return isJson;
+  }
 }
 
 /** Call main. */
