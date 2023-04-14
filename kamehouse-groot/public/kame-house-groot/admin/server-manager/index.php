@@ -12,6 +12,7 @@
 <title>GRoot - Server Manager</title>
 
 <link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
+<script src="/cordova.js"></script>
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/js/global.js"></script>
 <script src="/kame-house-groot/js/global-groot.js"></script>

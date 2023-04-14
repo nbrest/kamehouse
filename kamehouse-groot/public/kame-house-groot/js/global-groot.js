@@ -45,8 +45,7 @@ function GrootHeader() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     httpClient.get(SESSION_STATUS_API, null,
       (responseBody, responseCode, responseDescription) => {
-        global.groot = {};
-        global.groot.session = responseBody;
+        kameHouse.groot.session = responseBody;
         updateSessionStatus();
         moduleUtils.setModuleLoaded("grootHeader");
       },
@@ -60,14 +59,14 @@ function GrootHeader() {
     const $loginStatusDesktop = $("#groot-header-login-status-desktop");
     const $loginStatusMobile = $("#groot-header-login-status-mobile");
     domUtils.empty($loginStatusDesktop);
-    if (isEmpty(global.groot.session.username) || global.groot.session.username.trim() == "" ||
-      global.groot.session.username.trim() == "anonymousUser") {
+    if (isEmpty(kameHouse.groot.session.username) || kameHouse.groot.session.username.trim() == "" ||
+      kameHouse.groot.session.username.trim() == "anonymousUser") {
       domUtils.append($loginStatusDesktop, getLoginButton());
       domUtils.append($loginStatusMobile, getLoginButton());
     } else {
-      domUtils.append($loginStatusDesktop, getUsernameHeader(global.groot.session.username));
+      domUtils.append($loginStatusDesktop, getUsernameHeader(kameHouse.groot.session.username));
       domUtils.append($loginStatusDesktop, getLogoutButton());
-      domUtils.append($loginStatusMobile, getUsernameHeader(global.groot.session.username));
+      domUtils.append($loginStatusMobile, getUsernameHeader(kameHouse.groot.session.username));
       domUtils.append($loginStatusMobile, getLogoutButton());
     }
   }

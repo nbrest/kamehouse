@@ -13,7 +13,8 @@
   <title>GRoot - exec-script</title>
 
   <link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
-  <script src="/kame-house/lib/js/jquery.js"></script>
+  <script src="/cordova.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
   <script src="/kame-house/js/global.js"></script>
   <script src="/kame-house-groot/js/global-groot.js"></script>
   <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />

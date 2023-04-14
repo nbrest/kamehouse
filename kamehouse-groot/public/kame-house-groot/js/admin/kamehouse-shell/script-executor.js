@@ -163,7 +163,7 @@ function ScriptExecutor() {
 
   /** Handle Session Status */
   function handleSessionStatus() {
-    updateServerName(global.groot.session);
+    updateServerName(kameHouse.groot.session);
   }
 
   /** Update server name */

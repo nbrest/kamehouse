@@ -1,7 +1,7 @@
 /** Update page banner with server name */
 function updateBanner() {
-  if (!isEmpty(global.groot.session.server)) {
-    domUtils.setHtml($("#banner-h1"), global.groot.session.server);
+  if (!isEmpty(kameHouse.groot.session.server)) {
+    domUtils.setHtml($("#banner-h1"), kameHouse.groot.session.server);
   }
 }
 
