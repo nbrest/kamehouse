@@ -11,10 +11,17 @@ source ${HOME}/.kamehouse/.shell/.cred
 ANDROID_IP="192.168.0.92"
 ANDROID_PORT=2222
 ANDROID_APK=${HOME}/workspace-intellij/kamehouse/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+SKIP_BUILD_MOBILE=false
 SD_CARD_APK_PATH=/0/Download
 SFTP_USER=android
 
 mainProcess() {
+  if ${SKIP_BUILD_MOBILE}; then
+    log.info "Running with -s. Skipping build kamehouse-mobile"
+  else
+    log.info "Building kamehouse-mobile app first"
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
+  fi
   log.warn "Start SSH/SFTP Server - Terminal on the android phone before proceeding"
   log.warn "The server should be configured as specified in export-sync-audio-playlists.md"
   log.info "Uploading kamehouse mobile apk to android phone. pass ${COL_PURPLE}${ANDROID_SFTP_PASS}"
@@ -23,13 +30,16 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":i:p:" OPT; do
+  while getopts ":i:p:s" OPT; do
     case $OPT in
     ("i")
       ANDROID_IP=$OPTARG
       ;;
     ("p")
       ANDROID_PORT=$OPTARG
+      ;;
+    ("s")
+      SKIP_BUILD_MOBILE=true
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -41,6 +51,7 @@ parseArguments() {
 printHelpOptions() {
   addHelpOption "-i [ip]" "android sftp server ip"
   addHelpOption "-p [port]" "android sftp server port"
+  addHelpOption "-s" "skip build kamehouse-mobile module before uploading. By default it rebuilds the apk"
 }
 
 main "$@"
