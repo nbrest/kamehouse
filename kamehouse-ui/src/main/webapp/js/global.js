@@ -926,6 +926,7 @@ function MobileAppUtils() {
   this.isMobileApp = isMobileApp;
   this.updateMobileElements = updateMobileElements;
   this.getBackendServer = getBackendServer;
+  this.getBackendCredentials = getBackendCredentials;
 
   function init() {
     kameHouse.mobile.isMobileApp = false;
@@ -993,6 +994,15 @@ function MobileAppUtils() {
       logger.error("Couldn't find backend server url in the config. Mobile app config manager may not have completed initialization yet.");
     }
     return backendServer;
+  }
+
+  function getBackendCredentials() {
+    const mobileConfig = kameHouse.mobile.config;
+    if (!isEmpty(mobileConfig) && !isEmpty(mobileConfig.credentials)) {
+      return mobileConfig.credentials;
+    }
+    logger.warn("Could not retrieve credentials from the mobile config");
+    return {};
   }
 }
 
@@ -1775,13 +1785,17 @@ function TimeUtils() {
     const options = {
       method: httpMethod,
     };
+    
     if (!isEmpty(requestHeaders)) {
       options.headers = requestHeaders;
     }
+    setMobileBasicAuthHeader();
+
     if (!isEmpty(requestBody)) {
       cordova.plugin.http.setDataSerializer('json');
       options.data = requestBody;
     }
+    logger.trace("Sending mobile http request to url " + requestUrl + " with options " + JSON.stringify(options));
     cordova.plugin.http.setServerTrustMode('nocheck', () => {
       cordova.plugin.http.sendRequest(requestUrl, options, 
         (response) => { processMobileSuccess(response, successCallback, customData); } ,
@@ -1832,10 +1846,19 @@ function TimeUtils() {
     for (const [key, value] of Object.entries(headers)) {
       if (!isEmpty(key) && key.toLowerCase() == "content-type" 
         && !isEmpty(value) && value.toLowerCase() == "application/json") {
+          logger.trace("Response is json");
           isJson = true;
       }
     }
     return isJson;
+  }
+
+  function setMobileBasicAuthHeader() {
+    const credentials = mobileAppUtils.getBackendCredentials();
+    if (!isEmpty(credentials.username) && !isEmpty(credentials.password)) {
+      logger.debug("Setting basicAuth header for mobile http request");
+      cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
+    }
   }
 }
 

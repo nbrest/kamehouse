@@ -157,6 +157,7 @@ function MobileConfigManager() {
   
   this.init = init;
   this.getServers = getServers;
+  this.getCredentials = getCredentials;
   this.getInAppBrowserConfig = getInAppBrowserConfig;
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
   this.updateMobileConfigFromView = updateMobileConfigFromView;
@@ -173,12 +174,14 @@ function MobileConfigManager() {
   let isCurrentlyPersistingConfig = false;
   let inAppBrowserDefaultConfig = null;
   let serversDefaultConfig = null;
+  let credentialsDefaultConfig = null;
 
   async function init() {
     logger.info("Initializing mobile config manager");
     initGlobalMobileConfig();
     await loadInAppBrowserDefaultConfig();
     await loadServersDefaultConfig();
+    await loadCredentialsDefaultConfig();
     readMobileConfigFile();
   }
 
@@ -191,6 +194,7 @@ function MobileConfigManager() {
     kameHouse.mobile.config = {};
     kameHouse.mobile.config.inAppBrowser = {};
     kameHouse.mobile.config.servers = {};
+    kameHouse.mobile.config.credentials = {};
   }
 
   function getMobileConfig() {
@@ -217,6 +221,14 @@ function MobileConfigManager() {
     kameHouse.mobile.config.servers = val;
   }
 
+  function getCredentials() {
+    return kameHouse.mobile.config.credentials;
+  }
+
+  function setCredentials(val) {
+    kameHouse.mobile.config.credentials = val;
+  }
+
   async function loadInAppBrowserDefaultConfig() {
     inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/kame-house-mobile/json/config/in-app-browser.json'));
     logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
@@ -229,11 +241,20 @@ function MobileConfigManager() {
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
   }
 
+  async function loadCredentialsDefaultConfig() {
+    credentialsDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/kame-house-mobile/json/config/credentials.json'));
+    logger.info("credentials default config: " + JSON.stringify(credentialsDefaultConfig));
+    setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
+  }
+  
   /**
    * Returns true if the config has all the required properties.
    */
   function isValidMobileConfigFile(mobileConfig) {
-    return mobileConfig != null && mobileConfig.inAppBrowser != null && mobileConfig.servers != null;
+    return mobileConfig != null 
+      && mobileConfig.inAppBrowser != null 
+      && mobileConfig.servers != null 
+      && mobileConfig.credentials != null;
   }
 
   /**
@@ -459,11 +480,30 @@ function MobileConfigManager() {
       inAppBrowserConfig.options = inAppBrowserConfig.options.replace("clearcache=yes", "clearcache=no");
     }
 
+    // Update credentials
+    updateBackendCredentials();
+
     logger.info("servers: " + JSON.stringify(getServers()));
     logger.info("inAppBrowser.options: " + inAppBrowserConfig.options);
     logger.info("inAppBrowser.target: " + inAppBrowserConfig.target);
     logger.info("inAppBrowser.openOnStartup: " + inAppBrowserConfig.openOnStartup);
+    logger.info("credentials: " + JSON.stringify(getCredentials()));
     reGenerateMobileConfigFile();
+  }
+
+  /**
+   * Update backend credentials from the input fields.
+   */
+  function updateBackendCredentials() {
+    const credentials = getCredentials();
+    const username = document.getElementById("backend-username-input").value;
+    if (!isEmpty(username)) {
+      credentials.username = username;
+    }
+    const password = document.getElementById("backend-password-input").value; 
+    if (!isEmpty(password)) {
+      credentials.password = password;
+    }
   }
 
   /**
@@ -568,6 +608,23 @@ function MobileConfigManager() {
         inAppBrowserClearCacheCheckbox.checked = true;
       }
     });
+
+    setBackendCredentialsInput();
+  }
+
+  /**
+   * Set the credentials view from the config.
+   */
+  function setBackendCredentialsInput() {
+    const credentials = getCredentials();
+    const usernameInput = document.getElementById("backend-username-input");
+    if (!isEmpty(credentials.username)) {
+      domUtils.setValue(usernameInput, credentials.username);
+    }
+    const passwordInput = document.getElementById("backend-password-input"); 
+    if (!isEmpty(credentials.password)) {
+      domUtils.setValue(passwordInput, credentials.password);
+    }
   }
 
   /**
@@ -619,6 +676,7 @@ function MobileConfigManager() {
     logger.info("Resetting config to default values");
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
     setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
+    setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
     refreshConfigTabView();
     reGenerateMobileConfigFile();
     basicKamehouseModal.close();

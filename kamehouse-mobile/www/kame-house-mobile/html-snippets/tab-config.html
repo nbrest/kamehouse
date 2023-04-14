@@ -1,4 +1,5 @@
 <div class="p-15-d-kh">
+
   <form class="form-kh config-header">
     <img class="config-header-img" src="/kame-house/img/dbz/kamesenin-logo.png" alt="Vlc Player"><span class="config-header-text">Servers</span>
   </form>
@@ -53,6 +54,7 @@
     <input id="jenkins-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
   </form>
   <br><br>
+
   <form class="form-kh config-header">
     <img class="config-header-img" src="/kame-house/img/dbz/kaio-sama-logo.png" alt="InAppBrowser"><span class="config-header-text">In App Browser</span>
   </form>
@@ -72,5 +74,18 @@
     <br>
   </form>
   <br><br>
+
+  <form class="form-kh config-header">
+    <img class="config-header-img" src="/kame-house/img/dbz/kamesenin-logo.png" alt="Vlc Player"><span class="config-header-text">Credentials</span>
+  </form>
+  <form class="form-kh">
+    <label>Backend</label>
+    <br>
+    <input id="backend-username-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <br>
+    <input id="backend-password-input" class="form-input-kh" type="password" name="password" oninput="mobileConfigManager.updateMobileConfigFromView()">
+  </form>
+  <br><br>
+
   <button class="mobile-btn-kh reset-cfg-btn-kh" onclick="mobileConfigManager.confirmResetDefaults()">Reset to defaults</button>
 </div>
