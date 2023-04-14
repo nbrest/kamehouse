@@ -25,8 +25,15 @@ mainProcess() {
   log.warn "Start SSH/SFTP Server - Terminal on the android phone before proceeding"
   log.warn "The server should be configured as specified in export-sync-audio-playlists.md"
   log.info "Uploading kamehouse mobile apk to android phone. pass ${COL_PURPLE}${ANDROID_SFTP_PASS}"
-  log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/\" "
-  sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${ANDROID_APK} ${SD_CARD_APK_PATH}/" 
+  if ${IS_LINUX_HOST}; then 
+    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/\" "
+    sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${ANDROID_APK} ${SD_CARD_APK_PATH}/" 
+  else
+    log.warn "Putty pscp needs to be installed. if not switch to standard scp. Run with log=debug to see scp command"
+    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/\" "
+    log.debug "pscp -pw [pass] -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/"
+    pscp -pw ${ANDROID_SFTP_PASS} -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/
+  fi
 }
 
 parseArguments() {
