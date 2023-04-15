@@ -99,7 +99,7 @@ function GrootHeader() {
   function getLoginButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/login-left-gray-dark.png",
-      className: "groot-header-login-status-btn",
+      className: "groot-header-login-status-btn kh-mobile-hidden",
       alt: "Login GRoot",
       onClick: () => window.location="/kame-house-groot/login.html"
     });
@@ -108,7 +108,7 @@ function GrootHeader() {
   function getLogoutButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/logout-right-gray-dark.png",
-      className: "groot-header-login-status-btn",
+      className: "groot-header-login-status-btn kh-mobile-hidden",
       alt: "Logout GRoot",
       onClick: () => window.location="/kame-house-groot/api/v1/auth/logout.php"
     });

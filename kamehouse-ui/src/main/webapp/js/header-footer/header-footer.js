@@ -249,7 +249,7 @@ function Header() {
   function getLoginButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/login-left-red.png",
-      className: "header-login-status-btn",
+      className: "header-login-status-btn kh-mobile-hidden",
       alt: "Login KameHouse",
       onClick: () => window.location="/kame-house/login.html"
     });
@@ -261,9 +261,8 @@ function Header() {
   function getLogoutButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/logout-right-red.png",
-      className: "header-login-status-btn",
+      className: "header-login-status-btn kh-mobile-hidden",
       alt: "Logout KameHouse",
-      //TODO For mobile this will have to be a cordoba http request
       onClick: () => window.location="/kame-house/logout"
     });
   }
