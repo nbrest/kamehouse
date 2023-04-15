@@ -937,9 +937,9 @@ function MobileAppUtils() {
   function init() {
     kameHouse.mobile.isMobileApp = false;
     loadCordovaModule();
-    asyncLoadCordovaModule();
     updateMobileElements();
     loadGlobalMobile();
+    asyncLoadCordovaModule();
   }
 
   function loadCordovaModule() {
@@ -964,6 +964,8 @@ function MobileAppUtils() {
     }
     setTimeout(() => {
       loadCordovaModule();
+      updateMobileElements();
+      loadGlobalMobile();
       moduleUtils.setModuleLoaded("cordova");
     }, 3000);
   }
