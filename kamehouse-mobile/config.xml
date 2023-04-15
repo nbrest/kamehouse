@@ -11,8 +11,8 @@
     <allow-intent href="*" />
 
     <platform name="android">
-      <preference name="ErrorUrl" value="https://localhost/kame-house-mobile/error-not-found.html" />
-      <preference name="LoadingDialog" value="Loading KameHouse Mobile,Loading KameHouse Mobile" />
+      <preference name="ErrorUrl" value="https://localhost/kame-house/error/404.html" />
+      <preference name="LoadingDialog" value="KameHouse,KameHouse" />
       <preference name="AndroidPersistentFileLocation" value="Internal" />
       <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
         <application android:usesCleartextTraffic="true" />
