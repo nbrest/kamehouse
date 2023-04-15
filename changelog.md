@@ -5,6 +5,12 @@
 
 # ChangeLog:
 
+#### v8.06
+
+- Changed mobile page startup land page to kamehouse ui home
+- Updated login/logout status on mobile
+- Updated mobile index page to start in the config tab
+
 #### v8.05
 
 - Rebuilt native mobile app completely to use most kamehouse ui and groot pages natively instead of creating a custom mobile app
