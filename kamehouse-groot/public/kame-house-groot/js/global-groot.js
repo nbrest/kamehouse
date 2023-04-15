@@ -61,13 +61,17 @@ function GrootHeader() {
     domUtils.empty($loginStatusDesktop);
     if (isEmpty(kameHouse.groot.session.username) || kameHouse.groot.session.username.trim() == "" ||
       kameHouse.groot.session.username.trim() == "anonymousUser") {
-      domUtils.append($loginStatusDesktop, getLoginButton());
-      domUtils.append($loginStatusMobile, getLoginButton());
+      if (!mobileAppUtils.isMobileApp()) {
+        domUtils.append($loginStatusDesktop, getLoginButton());
+        domUtils.append($loginStatusMobile, getLoginButton());
+      }
     } else {
-      domUtils.append($loginStatusDesktop, getUsernameHeader(kameHouse.groot.session.username));
-      domUtils.append($loginStatusDesktop, getLogoutButton());
-      domUtils.append($loginStatusMobile, getUsernameHeader(kameHouse.groot.session.username));
-      domUtils.append($loginStatusMobile, getLogoutButton());
+      if (!mobileAppUtils.isMobileApp()) {
+        domUtils.append($loginStatusDesktop, getUsernameHeader(kameHouse.groot.session.username));
+        domUtils.append($loginStatusDesktop, getLogoutButton());
+        domUtils.append($loginStatusMobile, getUsernameHeader(kameHouse.groot.session.username));
+        domUtils.append($loginStatusMobile, getLogoutButton());
+      }
     }
   }
 
@@ -99,7 +103,7 @@ function GrootHeader() {
   function getLoginButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/login-left-gray-dark.png",
-      className: "groot-header-login-status-btn kh-mobile-hidden",
+      className: "groot-header-login-status-btn",
       alt: "Login GRoot",
       onClick: () => window.location="/kame-house-groot/login.html"
     });
@@ -108,7 +112,7 @@ function GrootHeader() {
   function getLogoutButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/logout-right-gray-dark.png",
-      className: "groot-header-login-status-btn kh-mobile-hidden",
+      className: "groot-header-login-status-btn",
       alt: "Logout GRoot",
       onClick: () => window.location="/kame-house-groot/api/v1/auth/logout.php"
     });

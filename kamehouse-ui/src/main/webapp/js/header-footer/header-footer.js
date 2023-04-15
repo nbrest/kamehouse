@@ -194,10 +194,14 @@ function Header() {
     domUtils.empty($loginStatus);
     if (isEmpty(kameHouse.session.username) || kameHouse.session.username.trim() == "" ||
       kameHouse.session.username.trim() == "anonymousUser") {
-      domUtils.append($loginStatus, getLoginButton());
+      if (!mobileAppUtils.isMobileApp()) {
+        domUtils.append($loginStatus, getLoginButton());
+      }
     } else {
       domUtils.append($loginStatus, getUsernameHeader(kameHouse.session.username));
-      domUtils.append($loginStatus, getLogoutButton());
+      if (!mobileAppUtils.isMobileApp()) {
+        domUtils.append($loginStatus, getLogoutButton());        
+      }
     }
   }
 
@@ -249,7 +253,7 @@ function Header() {
   function getLoginButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/login-left-red.png",
-      className: "header-login-status-btn kh-mobile-hidden",
+      className: "header-login-status-btn",
       alt: "Login KameHouse",
       onClick: () => window.location="/kame-house/login.html"
     });
@@ -261,7 +265,7 @@ function Header() {
   function getLogoutButton() {
     return domUtils.getImgBtn({
       src: "/kame-house/img/pc/logout-right-red.png",
-      className: "header-login-status-btn kh-mobile-hidden",
+      className: "header-login-status-btn",
       alt: "Logout KameHouse",
       onClick: () => window.location="/kame-house/logout"
     });
