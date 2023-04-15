@@ -112,13 +112,16 @@ function Header() {
   function renderHeader() {
     logger.info("Loading header");
     domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
-    domUtils.prepend($("body"), getHeaderContainerDiv());
-    domUtils.load($("#kamehouse-header-container"), "/kame-house/html-snippets/header.html", () => {
-      updateLoginStatus();
-      mobileAppUtils.updateMobileElements();
-      updateActiveTab();
-      loaded = true;
-      logger.info("Finished loading header");
+    $(document).ready(() => {
+      // load the header after the other dom is ready to see if this fixes the very rare random header not loading
+      domUtils.prepend($("body"), getHeaderContainerDiv());
+      domUtils.load($("#kamehouse-header-container"), "/kame-house/html-snippets/header.html", () => {
+        updateLoginStatus();
+        mobileAppUtils.updateMobileElements();
+        updateActiveTab();
+        loaded = true;
+        logger.info("Finished loading header");
+      });
     });
   }
 
