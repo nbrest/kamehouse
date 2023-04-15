@@ -27,13 +27,13 @@ mainProcess() {
   log.info "Uploading kamehouse mobile apk to android phone"
   log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/.shell/.cred as ANDROID_SFTP_PASS=password to execute without password prompt"
   if ${IS_LINUX_HOST}; then 
-    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/\" "
-    sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${ANDROID_APK} ${SD_CARD_APK_PATH}/" 
+    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/kamehouse.apk\" "
+    sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${ANDROID_APK} ${SD_CARD_APK_PATH}/kamehouse.apk" 
   else
     log.warn "Putty pscp needs to be installed. if not switch to standard scp. Run with log=debug to see scp command"
-    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/\" "
-    log.debug "pscp -pw [pass] -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/"
-    pscp -pw ${ANDROID_SFTP_PASS} -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/
+    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/kamehouse.apk\" "
+    log.debug "pscp -pw [pass] -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/kamehouse.apk"
+    pscp -pw ${ANDROID_SFTP_PASS} -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/kamehouse.apk
   fi
 }
 
