@@ -74,14 +74,6 @@ cordova plugin add cordova-plugin-file
 
 - Run the script `kamehouse-mobile-resync-kh-files.sh` of kamehouse-shell to copy the reused files from kamehouse-ui to kamehouse-mobile (or manually copy the folders from kamehouse-ui webapps dir to `kamehouse-media/www/kame-house/`)
 
-- Copy/generate the required files on www that are not synced to the git repo but needed at build time
-```sh
-cd kamehouse-mobile
-cp -v -f pom.xml www/
-echo "a1b2c3d4" > www/git-commit-hash.txt
-date +%Y-%m-%d' '%H:%M:%S > www/build-date.txt
-```
-
 - Build the android native app
 
 ```sh
