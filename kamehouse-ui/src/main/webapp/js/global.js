@@ -929,6 +929,11 @@ function MobileAppUtils() {
   this.getBackendCredentials = getBackendCredentials;
   this.mobileHttpRequst = mobileHttpRequst;
 
+  const GET = "GET";
+  const POST = "POST";
+  const PUT = "PUT";
+  const DELETE = "DELETE";
+  
   function init() {
     kameHouse.mobile.isMobileApp = false;
     loadCordovaModule();
