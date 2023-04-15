@@ -44,9 +44,9 @@ exportWebapp() {
   log.info "Using SOURCE_FILES_KAMEHOUSE_DIR = ${SOURCE_FILES_KAMEHOUSE_DIR}"
   log.info "Using EXPORT_KAMEHOUSE_DIR = ${EXPORT_KAMEHOUSE_DIR}"
   log.info "Deleting existing files from target dir ${EXPORT_KAMEHOUSE_DIR}"
-  rm -r -v -f ${EXPORT_KAMEHOUSE_DIR}
+  rm -r -f ${EXPORT_KAMEHOUSE_DIR}
   log.info "Deleting existing files from target dir ${EXPORT_GROOT_DIR}"
-  rm -r -v -f ${EXPORT_GROOT_DIR}
+  rm -r -f ${EXPORT_GROOT_DIR}
 
   if ${DELETE_ONLY}; then
     log.info "Running with -d. Exiting now after deleting /kame-house folder from mobile app"
@@ -58,14 +58,14 @@ exportWebapp() {
 
   log.info "Copying all files from ${SOURCE_FILES_KAMEHOUSE_DIR} to ${EXPORT_KAMEHOUSE_DIR}"
   cd ${EXPORT_KAMEHOUSE_DIR}
-  cp -r -v ${SOURCE_FILES_KAMEHOUSE_DIR}/* .
+  cp -r ${SOURCE_FILES_KAMEHOUSE_DIR}/* .
 
   log.info "Removing WEB-INF folder from ${EXPORT_KAMEHOUSE_DIR}"
-  rm -r -v ${EXPORT_KAMEHOUSE_DIR}/WEB-INF
+  rm -r ${EXPORT_KAMEHOUSE_DIR}/WEB-INF
 
   log.info "Copying all files from ${SOURCE_FILES_GROOT_DIR} to ${EXPORT_GROOT_DIR}"
   cd ${EXPORT_GROOT_DIR}
-  cp -r -v ${SOURCE_FILES_GROOT_DIR}/* .
+  cp -r ${SOURCE_FILES_GROOT_DIR}/* .
 }
 
 parseArguments() {
