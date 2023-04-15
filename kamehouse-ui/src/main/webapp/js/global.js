@@ -931,6 +931,7 @@ function MobileAppUtils() {
   function init() {
     kameHouse.mobile.isMobileApp = false;
     loadCordovaModule();
+    asyncLoadCordovaModule();
     updateMobileElements();
     loadGlobalMobile();
   }
@@ -940,12 +941,25 @@ function MobileAppUtils() {
       if (cordova) { 
         logger.info("cordova object is present. Running as a mobile app");
         kameHouse.mobile.isMobileApp = true;
+        moduleUtils.setModuleLoaded("cordova");
       }
     } catch (error) {
       logger.info("cordova object is not present. Running as a webapp");
       kameHouse.mobile.isMobileApp = false;
     }
-    moduleUtils.setModuleLoaded("cordova");
+  }
+
+  /**
+   * If the module is not loaded yet, do an async check a few seconds later to allow cordova.js to load.
+   */
+  function asyncLoadCordovaModule() {
+    if (moduleUtils.isModuleLoaded("cordova")) {
+      return;
+    }
+    setTimeout(() => {
+      loadCordovaModule();
+      moduleUtils.setModuleLoaded("cordova");
+    }, 3000);
   }
 
   function isMobileApp() {
@@ -1011,6 +1025,7 @@ function MobileAppUtils() {
  */
 function ModuleUtils() {
 
+  this.isModuleLoaded = isModuleLoaded;
   this.setModuleLoaded = setModuleLoaded;
   this.waitForModules = waitForModules;
   this.loadWebSocketKameHouse = loadWebSocketKameHouse; 
@@ -1026,6 +1041,14 @@ function ModuleUtils() {
   function setModuleLoaded(moduleName) {
     logger.debug("setModuleLoaded: " + moduleName);
     modules[moduleName] = true;
+  }
+
+  /** Checks if the specified module is loaded */
+  function isModuleLoaded(moduleName) {
+    if (isEmpty(modules[moduleName])) {
+      return false;
+    }
+    return modules[moduleName];
   }
 
   /**
@@ -1662,32 +1685,37 @@ function TimeUtils() {
   this.getUrlEncodedHeaders = getUrlEncodedHeaders;
   this.getApplicationJsonHeaders = getApplicationJsonHeaders;
 
+  const GET = "GET";
+  const POST = "POST";
+  const PUT = "PUT";
+  const DELETE = "DELETE";
+
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function get(url, requestHeaders, successCallback, errorCallback, data) {
-    httpRequest("GET", url, requestHeaders, null, successCallback, errorCallback, data)
+    httpRequest(GET, url, requestHeaders, null, successCallback, errorCallback, data)
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function put(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    httpRequest("PUT", url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest(PUT, url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function post(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    httpRequest("POST", url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest(POST, url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http DELETE request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function deleteHttp(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    httpRequest("DELETE", url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest(DELETE, url, requestHeaders, requestBody, successCallback, errorCallback, data)
   }
 
   /** Execute an http request with the specified http method. 
@@ -1695,6 +1723,7 @@ function TimeUtils() {
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
+    logHttpRequest(httpMethod, url, requestHeaders, requestBody);
     if (mobileAppUtils.isMobileApp()) {
       moduleUtils.waitForModules(["mobileConfigManager"], () => {
         mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData);
@@ -1709,16 +1738,66 @@ function TimeUtils() {
         success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, customData),
         error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, customData, url)
       });
-    } else {
+      return;
+    }
+    if (isUrlEncodedRequest(requestHeaders)) {
+      const urlEncoded = url + "?" + urlEncodeParams(requestBody);
       $.ajax({
         type: httpMethod,
-        url: url,
-        data: JSON.stringify(requestBody),
+        url: urlEncoded,
         headers: requestHeaders,
         success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, customData),
         error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, customData, url)
       });
+      return;
     }
+    $.ajax({
+      type: httpMethod,
+      url: url,
+      data: JSON.stringify(requestBody),
+      headers: requestHeaders,
+      success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, customData),
+      error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, customData, url)
+    });
+  }
+
+  function logHttpRequest(httpMethod, url, requestHeaders, requestBody) {
+    logger.debug("http request: [ " 
+    + "'method' : '" + httpMethod + "', "
+    + "'url' : '" + url + "', "
+    + "'headers' : '" + JSON.stringify(requestHeaders) + "', "
+    + "'body' : '" + JSON.stringify(requestBody) + "' ]");
+  }
+  
+  function logHttpResponse(responseBody, responseCode, responseDescription) {
+    logger.debug("http response: [ " 
+    + "'responseCode' : '" + responseCode + "', "
+    + "'responseDescription' : '" + responseDescription + "', "
+    + "'responseBody' : '" + JSON.stringify(responseBody) + "' ]");   
+  }
+
+  function urlEncodeParams(params) {
+    let urlEncodeParams = [];
+    for (const key in params)
+      if (params.hasOwnProperty(key)) {
+        urlEncodeParams.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
+      }
+    return urlEncodeParams.join("&");
+  }
+
+  function isUrlEncodedRequest(headers) {
+    if (isEmpty(headers)) {
+      return false;
+    }
+    let isUrlEncoded = false;
+    for (const [key, value] of Object.entries(headers)) {
+      if (!isEmpty(key) && key.toLowerCase() == "content-type" && !isEmpty(value)) {
+        if (value.toLowerCase() == "application/x-www-form-urlencoded") {
+          isUrlEncoded = true;
+        }
+      }
+    }
+    return isUrlEncoded;
   }
 
   /** Process a successful response from the api call */
@@ -1737,6 +1816,7 @@ function TimeUtils() {
     const responseBody = data;
     const responseCode = xhr.status;
     const responseDescription = xhr.statusText;
+    logHttpResponse(responseBody, responseCode, responseDescription);
     successCallback(responseBody, responseCode, responseDescription, customData);
   }
 
@@ -1755,7 +1835,8 @@ function TimeUtils() {
      const responseBody = jqXhr.responseText;
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
-     logger.error("API call error. Url: " + url + " jqXhr: " + JSON.stringify(jqXhr));
+     logHttpResponse(responseBody, responseCode, responseDescription);
+     logger.logApiError(responseBody, responseBody, responseDescription, null);
      errorCallback(responseBody, responseCode, responseDescription, data);
   }
 
@@ -1764,7 +1845,6 @@ function TimeUtils() {
     const requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = "application/x-www-form-urlencoded";
-    logger.trace("request headers: " + JSON.stringify(requestHeaders));
     return requestHeaders;
   }
 
@@ -1773,7 +1853,6 @@ function TimeUtils() {
     const requestHeaders = {};
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = 'application/json';
-    logger.trace("request headers: " + JSON.stringify(requestHeaders));
     return requestHeaders;
   }
   
@@ -1785,17 +1864,19 @@ function TimeUtils() {
     const options = {
       method: httpMethod,
     };
+    if (httpMethod == POST || httpMethod == PUT || httpMethod == DELETE) {
+      // cordova advanced http plugin breaks if I send these requests with empty data field
+      options.data = "";
+    }
     
     if (!isEmpty(requestHeaders)) {
       options.headers = requestHeaders;
     }
     setMobileBasicAuthHeader();
-
+    setDataSerializer(requestHeaders);
     if (!isEmpty(requestBody)) {
-      cordova.plugin.http.setDataSerializer('json');
       options.data = requestBody;
     }
-    logger.trace("Sending mobile http request to url " + requestUrl + " with options " + JSON.stringify(options));
     cordova.plugin.http.setServerTrustMode('nocheck', () => {
       cordova.plugin.http.sendRequest(requestUrl, options, 
         (response) => { processMobileSuccess(response, successCallback, customData); } ,
@@ -1821,6 +1902,7 @@ function TimeUtils() {
       responseBody = response.data;
     }
     const responseCode = response.status;
+    logHttpResponse(responseBody, responseCode, null);
     successCallback(responseBody, responseCode, customData);
   }
 
@@ -1834,7 +1916,8 @@ function TimeUtils() {
       */
      const responseBody = response.error;
      const responseCode = response.status;
-     logger.error("Mobile API call error. Url: " + url + ". Response code: " + responseCode + ". Response error: " + JSON.stringify(responseBody));
+     logHttpResponse(responseBody, responseCode, null);
+     logger.logApiError(responseBody, responseBody, null, null);
      errorCallback(JSON.stringify(responseBody), responseCode, null, customData);
   }  
 
@@ -1858,6 +1941,25 @@ function TimeUtils() {
     if (!isEmpty(credentials.username) && !isEmpty(credentials.password)) {
       logger.debug("Setting basicAuth header for mobile http request");
       cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
+    }
+  }
+
+  function setDataSerializer(headers) {
+    cordova.plugin.http.setDataSerializer('utf8');
+    if (isEmpty(headers)) {
+      return;
+    }
+    for (const [key, value] of Object.entries(headers)) {
+      if (!isEmpty(key) && key.toLowerCase() == "content-type" && !isEmpty(value)) {
+        if (value.toLowerCase() == "application/json") {
+          cordova.plugin.http.setDataSerializer('json');
+          isContentTypeSet = true;
+        }
+        if (value.toLowerCase() == "application/x-www-form-urlencoded") {
+          cordova.plugin.http.setDataSerializer('urlencoded');
+          isContentTypeSet = true;
+        }
+      }
     }
   }
 }

@@ -292,7 +292,9 @@ function VlcPlayer(hostname) {
   }
 
   function wolMediaServer() {
-    const requestParam = "server=media.server";
+    const requestParam =  {
+      "server" : "media.server"
+    };
     const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
     restClient.postUrlEncoded(WOL_MEDIA_SERVER_API_URL, requestParam);
   }
@@ -335,7 +337,9 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
   function playFile(fileName) {
     logger.debug("File to play: " + fileName);
-    const requestParam = "file=" + fileName;
+    const requestParam =  {
+      "file" : fileName
+    };
     loadingWheelModal.open();
     vlcPlayer.getRestClient().postUrlEncoded(vlcPlayerProcessControlUrl, requestParam, vlcPlayer.loadStateFromApi);
   }

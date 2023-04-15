@@ -33,7 +33,9 @@ function WakeOnLanManager() {
    * WakeOnLan functions
    */
   function execWakeOnLan() {
-    const requestParam = "server=media.server";
+    const requestParam =  {
+      "server" : "media.server"
+    };
     loadingWheelModal.open("Sending WOL packet to media server");
     debuggerHttpClient.postUrlEncoded(WOL_API_URL, requestParam, processSuccess, processError);
   }

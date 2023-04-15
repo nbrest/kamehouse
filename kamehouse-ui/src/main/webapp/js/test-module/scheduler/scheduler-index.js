@@ -36,7 +36,9 @@ function Scheduler() {
   function setSampleJob() {
     const delay = document.getElementById("sample-job-delay-dropdown").value;
     logger.trace("Sample job delay: " + delay);
-    const requestParam = "delay=" + delay;
+    const requestParam =  {
+      "delay" : delay
+    };
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(TEST_MODULE_API_URL + SAMPLE_JOB_URL, requestParam, processSuccessSampleJob, processErrorSampleJob);
   }

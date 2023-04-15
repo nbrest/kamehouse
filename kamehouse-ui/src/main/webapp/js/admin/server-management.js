@@ -57,7 +57,9 @@ function ServerManager() {
    * WakeOnLan functions
    */
   function execAdminWakeOnLan(url, server) {
-    const requestParam = "server=" + server;
+    const requestParam =  {
+      "server" : server
+    };
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + url, requestParam, processSuccess, processError);
   }
@@ -70,7 +72,9 @@ function ServerManager() {
   function setShutdownCommand() {
     const shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
     logger.trace("Shutdown delay: " + shutdownDelay);
-    const requestParam = "delay=" + shutdownDelay;
+    const requestParam = {
+      "delay" : shutdownDelay
+    };
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + SHUTDOWN_URL, requestParam, processSuccessShutdown, processErrorShutdown);
   }
@@ -125,7 +129,9 @@ function ServerManager() {
     const suspendDelayMinutes = document.getElementById("suspend-delay-dropdown-minutes").value;
     const suspendDelay = Number(suspendDelayHours) + Number(suspendDelayMinutes);
     logger.trace("Suspend delay: " + suspendDelay);
-    const requestParam = "delay=" + suspendDelay;
+    const requestParam = {
+      "delay" : suspendDelay
+    };
     loadingWheelModal.open();
     debuggerHttpClient.postUrlEncoded(ADMIN_API_URL + SUSPEND_URL, requestParam, processSuccessSuspend, processErrorSuspend);
   }
