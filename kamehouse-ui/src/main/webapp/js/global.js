@@ -927,6 +927,7 @@ function MobileAppUtils() {
   this.updateMobileElements = updateMobileElements;
   this.getBackendServer = getBackendServer;
   this.getBackendCredentials = getBackendCredentials;
+  this.mobileHttpRequst = mobileHttpRequst;
 
   function init() {
     kameHouse.mobile.isMobileApp = false;
@@ -1017,6 +1018,113 @@ function MobileAppUtils() {
     }
     logger.warn("Could not retrieve credentials from the mobile config");
     return {};
+  }
+
+  /** 
+   * Http request to be sent from the mobile app.
+   */
+  function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
+    const requestUrl = getBackendServer() + url;   
+    const options = {
+      method: httpMethod,
+    };
+    if (httpMethod == POST || httpMethod == PUT || httpMethod == DELETE) {
+      // cordova advanced http plugin breaks if I send these requests with empty data field
+      options.data = "";
+    }
+    
+    if (!isEmpty(requestHeaders)) {
+      options.headers = requestHeaders;
+    }
+    setMobileBasicAuthHeader();
+    setDataSerializer(requestHeaders);
+    if (!isEmpty(requestBody)) {
+      options.data = requestBody;
+    }
+    cordova.plugin.http.setServerTrustMode('nocheck', () => {
+      cordova.plugin.http.sendRequest(requestUrl, options, 
+        (response) => { processMobileSuccess(response, successCallback, customData); } ,
+        (response) => { processMobileError(response, errorCallback, requestUrl, customData); }
+      );
+    }, () => {
+      logger.error('Error setting cordova ssl trustmode to nocheck. Unable to execute http ' + httpMethod + ' request to ' + requestUrl);
+    });
+  }
+
+  /** Process a successful response from the api call */
+  function processMobileSuccess(response, successCallback, customData) {
+    /**
+     * data: response body
+     * status: http status code
+     * url: request url
+     * response headers: header map object
+     */
+    let responseBody;
+    if (isJsonResponse(response.headers)) {
+      responseBody = JSON.parse(response.data);
+    } else {
+      responseBody = response.data;
+    }
+    const responseCode = response.status;
+    logger.logHttpResponse(responseBody, responseCode, null);
+    successCallback(responseBody, responseCode, customData);
+  }
+
+  /** Process an error response from the api call */
+  function processMobileError(response, errorCallback, url, customData) {
+     /**
+     * error: error message
+     * status: http status code
+     * url: request url
+     * response headers: header map object
+      */
+     const responseBody = response.error;
+     const responseCode = response.status;
+     logger.logHttpResponse(responseBody, responseCode, null);
+     logger.logApiError(responseBody, responseBody, null, null);
+     errorCallback(JSON.stringify(responseBody), responseCode, null, customData);
+  }  
+
+  function isJsonResponse(headers) {
+    if (isEmpty(headers)) {
+      return false;
+    }
+    let isJson = false;
+    for (const [key, value] of Object.entries(headers)) {
+      if (!isEmpty(key) && key.toLowerCase() == "content-type" 
+        && !isEmpty(value) && value.toLowerCase() == "application/json") {
+          logger.trace("Response is json");
+          isJson = true;
+      }
+    }
+    return isJson;
+  }
+
+  function setMobileBasicAuthHeader() {
+    const credentials = getBackendCredentials();
+    if (!isEmpty(credentials.username) && !isEmpty(credentials.password)) {
+      logger.debug("Setting basicAuth header for mobile http request");
+      cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
+    }
+  }
+
+  function setDataSerializer(headers) {
+    cordova.plugin.http.setDataSerializer('utf8');
+    if (isEmpty(headers)) {
+      return;
+    }
+    for (const [key, value] of Object.entries(headers)) {
+      if (!isEmpty(key) && key.toLowerCase() == "content-type" && !isEmpty(value)) {
+        if (value.toLowerCase() == "application/json") {
+          cordova.plugin.http.setDataSerializer('json');
+          isContentTypeSet = true;
+        }
+        if (value.toLowerCase() == "application/x-www-form-urlencoded") {
+          cordova.plugin.http.setDataSerializer('urlencoded');
+          isContentTypeSet = true;
+        }
+      }
+    }
   }
 }
 
@@ -1504,6 +1612,8 @@ function TimeUtils() {
   this.debug = debug;
   this.trace = trace;
   this.logApiError = logApiError;
+  this.logHttpRequest = logHttpRequest;
+  this.logHttpResponse = logHttpResponse;
 
   /**
    * Log levels:
@@ -1667,6 +1777,27 @@ function TimeUtils() {
     const errorMessage = message + ": responseBody=" + responseBody + "; responseCode=" + responseCode + "; responseDescription=" + responseDescription + ";";
     error(errorMessage);
   }
+
+  /**
+   * Log an http request.
+   */
+  function logHttpRequest(httpMethod, url, requestHeaders, requestBody) {
+    debug("http request: [ " 
+    + "'method' : '" + httpMethod + "', "
+    + "'url' : '" + url + "', "
+    + "'headers' : '" + JSON.stringify(requestHeaders) + "', "
+    + "'body' : '" + JSON.stringify(requestBody) + "' ]");
+  }
+  
+  /**
+   * Log an http response.
+   */
+  function logHttpResponse(responseBody, responseCode, responseDescription) {
+    debug("http response: [ " 
+    + "'responseCode' : '" + responseCode + "', "
+    + "'responseDescription' : '" + responseDescription + "', "
+    + "'responseBody' : '" + JSON.stringify(responseBody) + "' ]");   
+  }
 }
 
 /**
@@ -1723,10 +1854,10 @@ function TimeUtils() {
    * and errorCallback(responseBody, responseCode, responseDescription)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
-    logHttpRequest(httpMethod, url, requestHeaders, requestBody);
+    logger.logHttpRequest(httpMethod, url, requestHeaders, requestBody);
     if (mobileAppUtils.isMobileApp()) {
       moduleUtils.waitForModules(["mobileConfigManager"], () => {
-        mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData);
+        mobileAppUtils.mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData);
       });
       return;
     }
@@ -1759,21 +1890,6 @@ function TimeUtils() {
       success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback, customData),
       error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback, customData, url)
     });
-  }
-
-  function logHttpRequest(httpMethod, url, requestHeaders, requestBody) {
-    logger.debug("http request: [ " 
-    + "'method' : '" + httpMethod + "', "
-    + "'url' : '" + url + "', "
-    + "'headers' : '" + JSON.stringify(requestHeaders) + "', "
-    + "'body' : '" + JSON.stringify(requestBody) + "' ]");
-  }
-  
-  function logHttpResponse(responseBody, responseCode, responseDescription) {
-    logger.debug("http response: [ " 
-    + "'responseCode' : '" + responseCode + "', "
-    + "'responseDescription' : '" + responseDescription + "', "
-    + "'responseBody' : '" + JSON.stringify(responseBody) + "' ]");   
   }
 
   function urlEncodeParams(params) {
@@ -1816,7 +1932,7 @@ function TimeUtils() {
     const responseBody = data;
     const responseCode = xhr.status;
     const responseDescription = xhr.statusText;
-    logHttpResponse(responseBody, responseCode, responseDescription);
+    logger.logHttpResponse(responseBody, responseCode, responseDescription);
     successCallback(responseBody, responseCode, responseDescription, customData);
   }
 
@@ -1835,7 +1951,7 @@ function TimeUtils() {
      const responseBody = jqXhr.responseText;
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
-     logHttpResponse(responseBody, responseCode, responseDescription);
+     logger.logHttpResponse(responseBody, responseCode, responseDescription);
      logger.logApiError(responseBody, responseBody, responseDescription, null);
      errorCallback(responseBody, responseCode, responseDescription, data);
   }
@@ -1854,114 +1970,7 @@ function TimeUtils() {
     requestHeaders.Accept = '*/*';
     requestHeaders['Content-Type'] = 'application/json';
     return requestHeaders;
-  }
-  
-  /** 
-   * Http request to be sent from the mobile app.
-   */
-  function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
-    const requestUrl = mobileAppUtils.getBackendServer() + url;   
-    const options = {
-      method: httpMethod,
-    };
-    if (httpMethod == POST || httpMethod == PUT || httpMethod == DELETE) {
-      // cordova advanced http plugin breaks if I send these requests with empty data field
-      options.data = "";
-    }
-    
-    if (!isEmpty(requestHeaders)) {
-      options.headers = requestHeaders;
-    }
-    setMobileBasicAuthHeader();
-    setDataSerializer(requestHeaders);
-    if (!isEmpty(requestBody)) {
-      options.data = requestBody;
-    }
-    cordova.plugin.http.setServerTrustMode('nocheck', () => {
-      cordova.plugin.http.sendRequest(requestUrl, options, 
-        (response) => { processMobileSuccess(response, successCallback, customData); } ,
-        (response) => { processMobileError(response, errorCallback, requestUrl, customData); }
-      );
-    }, () => {
-      logger.error('Error setting cordova ssl trustmode to nocheck. Unable to execute http ' + httpMethod + ' request to ' + requestUrl);
-    });
-  }
-
-  /** Process a successful response from the api call */
-  function processMobileSuccess(response, successCallback, customData) {
-    /**
-     * data: response body
-     * status: http status code
-     * url: request url
-     * response headers: header map object
-     */
-    let responseBody;
-    if (isJsonResponse(response.headers)) {
-      responseBody = JSON.parse(response.data);
-    } else {
-      responseBody = response.data;
-    }
-    const responseCode = response.status;
-    logHttpResponse(responseBody, responseCode, null);
-    successCallback(responseBody, responseCode, customData);
-  }
-
-  /** Process an error response from the api call */
-  function processMobileError(response, errorCallback, url, customData) {
-     /**
-     * error: error message
-     * status: http status code
-     * url: request url
-     * response headers: header map object
-      */
-     const responseBody = response.error;
-     const responseCode = response.status;
-     logHttpResponse(responseBody, responseCode, null);
-     logger.logApiError(responseBody, responseBody, null, null);
-     errorCallback(JSON.stringify(responseBody), responseCode, null, customData);
   }  
-
-  function isJsonResponse(headers) {
-    if (isEmpty(headers)) {
-      return false;
-    }
-    let isJson = false;
-    for (const [key, value] of Object.entries(headers)) {
-      if (!isEmpty(key) && key.toLowerCase() == "content-type" 
-        && !isEmpty(value) && value.toLowerCase() == "application/json") {
-          logger.trace("Response is json");
-          isJson = true;
-      }
-    }
-    return isJson;
-  }
-
-  function setMobileBasicAuthHeader() {
-    const credentials = mobileAppUtils.getBackendCredentials();
-    if (!isEmpty(credentials.username) && !isEmpty(credentials.password)) {
-      logger.debug("Setting basicAuth header for mobile http request");
-      cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
-    }
-  }
-
-  function setDataSerializer(headers) {
-    cordova.plugin.http.setDataSerializer('utf8');
-    if (isEmpty(headers)) {
-      return;
-    }
-    for (const [key, value] of Object.entries(headers)) {
-      if (!isEmpty(key) && key.toLowerCase() == "content-type" && !isEmpty(value)) {
-        if (value.toLowerCase() == "application/json") {
-          cordova.plugin.http.setDataSerializer('json');
-          isContentTypeSet = true;
-        }
-        if (value.toLowerCase() == "application/x-www-form-urlencoded") {
-          cordova.plugin.http.setDataSerializer('urlencoded');
-          isContentTypeSet = true;
-        }
-      }
-    }
-  }
 }
 
 /** Call main. */
