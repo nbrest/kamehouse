@@ -7,7 +7,13 @@
 
 #### v8.05
 
-- Rebuilt native mobile app to use all kame-house ui and groot pages natively instead of creating a custom mobile app
+- Rebuilt native mobile app completely to use most kamehouse ui and groot pages natively instead of creating a custom mobile app
+- Most kamehouse-ui functionality works out of the box in the native mobile app. Most groot functionality is disabled as there's no native php support in cordova
+- Added configuration to mobile app to select backend server to connect to and store credentials
+- Updated log level manager api to change back to info more easily
+- Updated dev, build and deployment scripts for mobile app
+- Renamed global js object to kameHouse
+- Fixed bugs
 
 #### v8.04
 
