@@ -19,9 +19,10 @@ function KameHouseMobileTabsManager() {
    * Init module.
    */
   function init() {
-    domUtils.load($("#tab-home"), "/kame-house-mobile/html-snippets/tab-home.html", () => {
+    domUtils.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/html-snippets/header.html", () => {
       moduleUtils.setModuleLoaded("kameHouseMobileTabsManager");
     });
+    domUtils.load($("#tab-home"), "/kame-house-mobile/html-snippets/tab-home.html");
     domUtils.load($("#tab-services"), "/kame-house-mobile/html-snippets/tab-services.html");
     moduleUtils.waitForModules(["mobileConfigManager"], () => {
       domUtils.load($("#tab-config"), "/kame-house-mobile/html-snippets/tab-config.html", () => {
