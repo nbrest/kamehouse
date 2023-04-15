@@ -13,7 +13,7 @@ function MobileApp() {
     logger.info("Started initializing mobile app");
     bannerUtils.setRandomAllBanner();
     moduleUtils.waitForModules(["mobileConfigManager", "cordovaManager", "debuggerHttpClient", "kameHouseMobileTabsManager"], () => {
-      kameHouseMobileTabsManager.openTab('tab-home');
+      kameHouseMobileTabsManager.openTab('tab-config');
       setDeviceStartup();
     });
     moduleUtils.waitForModules(["kameHouseDebugger"], () => {

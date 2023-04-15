@@ -76,12 +76,12 @@ function KameHouseMobileTabsManager() {
 
     if (selectedTabDivId == "tab-services") {
       bannerHeaderVal = "Services";
-      bannerParagraphVal = ""
+      bannerParagraphVal = "かめはうす"
     }
 
     if (selectedTabDivId == "tab-config") {
-      bannerHeaderVal = "Config";
-      bannerParagraphVal = ""
+      bannerHeaderVal = "かめはうす";
+      bannerParagraphVal = "Config"
     }
 
     const bannerHeader = document.getElementById("banner-header");
