@@ -1,7 +1,7 @@
 /**
  * Test module websocket functionality.
  * 
- * Dependencies: logger, webSocketKameHouse
+ * Dependencies: logger, kameHouseWebSocket
  * 
  * @author nbrest
  */
@@ -11,7 +11,7 @@ var websocket;
 function mainWebSocket() {
   bannerUtils.setRandomSaintSeiyaBanner();
   moduleUtils.loadWebSocketKameHouse();
-  moduleUtils.waitForModules(["webSocketKameHouse"], () => {
+  moduleUtils.waitForModules(["kameHouseWebSocket"], () => {
     logger.info("Started initializing WebSocket");
     logger.setLogLevel(4);
     websocket = new WebSocketKameHouse();

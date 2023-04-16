@@ -1170,8 +1170,8 @@ function ModuleUtils() {
    * Load kamehouse websockets module.
    */
   function loadWebSocketKameHouse() {
-    fetchUtils.getScript("/kame-house/js/utils/websocket-kamehouse.js", () => {
-      setModuleLoaded("webSocketKameHouse");
+    fetchUtils.getScript("/kame-house/js/kamehouse-websocket.js", () => {
+      setModuleLoaded("kameHouseWebSocket");
     });
   }
 
