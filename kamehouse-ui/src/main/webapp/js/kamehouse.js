@@ -281,10 +281,10 @@ function CoreUtils() {
       if (!isEmpty(skipLoadingHeaderAndFooter) && skipLoadingHeaderAndFooter == "true") {
         logger.info("Skipping loading default kamehouse header and footer"); 
       } else {
-        fetchUtils.getScript("/kame-house/js/header-footer/header-footer.js", () => renderHeaderAndFooter()); 
+        fetchUtils.getScript("/kame-house/js/kamehouse-header-footer.js", () => renderHeaderAndFooter()); 
       }
     } else {
-      fetchUtils.getScript("/kame-house/js/header-footer/header-footer.js", () => renderHeaderAndFooter());
+      fetchUtils.getScript("/kame-house/js/kamehouse-header-footer.js", () => renderHeaderAndFooter());
     }
   }
   
