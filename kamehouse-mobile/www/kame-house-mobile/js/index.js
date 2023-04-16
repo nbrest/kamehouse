@@ -10,7 +10,7 @@ function MobileApp() {
   this.init = init;
 
   function init() {
-    logger.info("Started initializing mobile app");
+    logger.info("Started initializing kamehouse-mobile app index page");
     bannerUtils.setRandomAllBanner();
     moduleUtils.waitForModules(["mobileConfigManager", "cordovaManager", "debuggerHttpClient", "kameHouseMobileTabsManager"], () => {
       kameHouseMobileTabsManager.openTab('tab-config');
