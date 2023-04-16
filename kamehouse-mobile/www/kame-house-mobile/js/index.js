@@ -5,7 +5,7 @@
  * @author nbrest
  */
 
-function MobileApp() {
+function MobileAppIndex() {
 
   this.init = init;
 
@@ -42,4 +42,4 @@ function MobileApp() {
 } 
 
 /** Call main. */
-$(document).ready(() => {new MobileApp().init();});
+$(document).ready(() => {new MobileAppIndex().init();});
