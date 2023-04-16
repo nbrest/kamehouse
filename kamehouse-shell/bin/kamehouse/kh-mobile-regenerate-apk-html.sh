@@ -31,7 +31,7 @@ HEAD='
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/js/kamehouse.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/kame-house/css/global.css" />
+<link rel="stylesheet" href="/kame-house/css/kamehouse.css" />
 '
 PRE_STYLE='style="color: #c0c0c0;font-size: 17px;margin: 30px; border:3px solid #2a2a2a; padding: 20px; background: #000000"'
 

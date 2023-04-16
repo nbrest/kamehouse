@@ -16,7 +16,7 @@
 <script src="/kame-house/js/kamehouse.js"></script>
 <script src="/kame-house/js/test-module/jsp/index.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/kamehouse.css" />
 </head>
 <body class="landing-p-body">
   <div class="main-body">
