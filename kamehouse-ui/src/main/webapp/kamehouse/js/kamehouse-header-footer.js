@@ -66,7 +66,7 @@ function Footer() {
       // load the footer after the other elements are loaded, if not it randomly puts the footer in the middle
       logger.info("Loading footer");
       domUtils.append($("body"), getFooterContainerDiv());
-      domUtils.load($("#kamehouse-footer-container"), "/kame-house/html-snippets/footer.html", () => {
+      domUtils.load($("#kamehouse-footer-container"), "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
         mobileAppUtils.updateMobileElements();
         loaded = true;
         logger.info("Finished loading footer");
@@ -115,7 +115,7 @@ function Header() {
     $(document).ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
       domUtils.prepend($("body"), getHeaderContainerDiv());
-      domUtils.load($("#kamehouse-header-container"), "/kame-house/html-snippets/header.html", () => {
+      domUtils.load($("#kamehouse-header-container"), "/kame-house/kamehouse/html/kamehouse-header.html", () => {
         updateLoginStatus();
         mobileAppUtils.updateMobileElements();
         updateActiveTab();
