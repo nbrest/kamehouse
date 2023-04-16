@@ -38,7 +38,7 @@ function BasicKamehouseModal() {
   this.openSiteUnderConstruction = openSiteUnderConstruction;
   this.openApiError = openApiError;
 
-  const modalUtils = new ModalUtils("basic-kamehouse-modal");
+  const modalUtils = new ModalUtils("kamehouse-modal-basic");
 
   this.import = modalUtils.importSnippet;
   this.open = modalUtils.open;
@@ -94,7 +94,7 @@ function LoadingWheelModal() {
 
   this.open = open;
 
-  const modalUtils = new ModalUtils("loading-wheel-modal");
+  const modalUtils = new ModalUtils("kamehouse-modal-loading-wheel");
 
   this.import = modalUtils.importSnippet;
   this.openAutoCloseable = modalUtils.openAutoCloseable;
