@@ -15,7 +15,7 @@ function VlcPlayerLoader() {
   this.init = init;
 
   function init() {
-    logger.info("VlcPlayerLoader.init()");
+    logger.info("Loading vlc player");
     domUtils.load($("#vlc-player-body"), "/kame-house/html-snippets/vlc-player/vlc-player-body.html", () => {
       loadVlcPlayer();
       loadPlaylistBrowser(); 
@@ -59,4 +59,4 @@ function VlcPlayerLoader() {
 }
 
 /** Call main. */
-$(document).ready(new VlcPlayerLoader().init());
+$(document).ready(() => {new VlcPlayerLoader().init();});

@@ -42,4 +42,4 @@ function MobileApp() {
 } 
 
 /** Call main. */
-$(document).ready(new MobileApp().init());
+$(document).ready(() => {new MobileApp().init();});
