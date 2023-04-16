@@ -67,8 +67,8 @@ function KameHouseWebappTabsManager() {
    * Import tabs.
    */
   function importTabs() {
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kh-webapp-tabs.css">');
-    domUtils.load($("#kh-webapp-tabs-wrapper"), "/kame-house/html-snippets/kh-webapp-tabs.html", () => {
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-webapp-tabs.css">');
+    domUtils.load($("#kh-webapp-tabs-wrapper"), "/kame-house/kamehouse/html/kamehouse-webapp-tabs.html", () => {
       moduleUtils.setModuleLoaded("kameHouseWebappTabsManager");
     });
   }
