@@ -18,7 +18,7 @@
 <script src="/kame-house-groot/js/kamehouse-groot.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/css/global.css" />
-<link rel="stylesheet" href="/kame-house-groot/css/global-groot.css" />
+<link rel="stylesheet" href="/kame-house-groot/css/kamehouse-groot.css" />
 <link rel="stylesheet" href="/kame-house-groot/css/admin/server-manager.css" />
 </head>
 <body>
