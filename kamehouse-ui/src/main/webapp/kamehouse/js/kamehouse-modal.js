@@ -24,7 +24,7 @@ function main() {
 }
 
 function importKamehouseModalCss() {
-  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kamehouse-modal.css">');
+  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-modal.css">');
 }
 
 /**
