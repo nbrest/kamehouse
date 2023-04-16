@@ -14,7 +14,7 @@
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/kamehouse/js/kamehouse.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/kamehouse.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
 </head>
 <body>
   <div class="default-layout main-body"> 
