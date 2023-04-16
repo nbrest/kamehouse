@@ -19,7 +19,7 @@ function KameHouseMobileTabsManager() {
    * Init module.
    */
   function init() {
-    domUtils.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/html-snippets/header.html", () => {
+    domUtils.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/html-snippets/kh-mobile-tabs.html", () => {
       moduleUtils.setModuleLoaded("kameHouseMobileTabsManager");
     });
     domUtils.load($("#tab-home"), "/kame-house-mobile/html-snippets/tab-home.html");
