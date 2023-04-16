@@ -9,9 +9,13 @@
  */
 var grootHeader;
 
-function mainGlobalGroot() {
-  grootHeader = new GrootHeader();
-  grootHeader.renderGrootMenu();
+function KameHouseGrootLoader() {
+  this.init = init;
+
+  function init() {
+    grootHeader = new GrootHeader();
+    grootHeader.renderGrootMenu();
+  }
 }
 
 /**
@@ -147,4 +151,4 @@ function refreshPageLoop() {
   }
 }
 
-$(document).ready(mainGlobalGroot);
+$(document).ready(() => {new KameHouseGrootLoader().init();});
