@@ -139,7 +139,7 @@ function ModalUtils(modalId) {
 
   /** Import modal content */
   async function importSnippet() {
-    const modalDiv = await fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/" + modalId + ".html");
+    const modalDiv = await fetchUtils.loadHtmlSnippet("/kame-house/kamehouse/html/" + modalId + ".html");
     domUtils.append($('body'), modalDiv);
     const modalDivCloseBtn = document.getElementById(modalId + "-close");
     domUtils.setOnClick(modalDivCloseBtn, () => close());

@@ -413,7 +413,7 @@
     </div>
   </div>
   <span id="debug-mode-wrapper"></span>
-  <script src="/kame-house/js/snippets/kamehouse-modal.js"></script>
+  <script src="/kame-house/kamehouse/js/kamehouse-modal.js"></script>
   <script src="/kame-house/js/admin/module-status-manager.js"></script>
   <script src="/kame-house/js/snippets/kamehouse-debugger.js"></script>
   <script src="/kame-house/js/snippets/sticky-back-to-top.js"></script>
