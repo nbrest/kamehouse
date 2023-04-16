@@ -7,12 +7,16 @@
 const cordovaManager = new CordovaManager();
 const mobileConfigManager = new MobileConfigManager();
 
-function mainGlobalMobile() {
-  logger.info("Started initializing mobile app global");
-  moduleUtils.waitForModules(["cordova"], () => {
-    mobileConfigManager.init();
-    cordovaManager.init();
-  });
+function KameHouseMobileLoader() {
+  this.init = init;
+
+  function init() {
+    logger.info("Started initializing kamehouse-mobile.js");
+    moduleUtils.waitForModules(["cordova"], () => {
+      mobileConfigManager.init();
+      cordovaManager.init();
+    });
+  }
 } 
 
 /**
@@ -745,5 +749,4 @@ function MobileConfigManager() {
   }
 }
 
-/** Call main. */
-$(document).ready(mainGlobalMobile);
+$(document).ready(() => {new KameHouseMobileLoader().init();});
