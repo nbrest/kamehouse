@@ -16,8 +16,8 @@
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-users-add.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/header.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-footer/footer.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-header.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-footer.css" />
 </head>
 <body> 
   <div class="default-layout main-body p-15-m-kh">

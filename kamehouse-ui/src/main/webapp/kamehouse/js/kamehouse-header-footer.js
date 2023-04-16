@@ -61,7 +61,7 @@ function Footer() {
 
   /** Renders the footer */
   function renderFooter() { 
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/footer.css">');
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
     $(document).ready(() => {
       // load the footer after the other elements are loaded, if not it randomly puts the footer in the middle
       logger.info("Loading footer");
@@ -111,7 +111,7 @@ function Header() {
   /** Render the header */
   function renderHeader() {
     logger.info("Loading header");
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/header-footer/header.css">');
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
     $(document).ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
       domUtils.prepend($("body"), getHeaderContainerDiv());
