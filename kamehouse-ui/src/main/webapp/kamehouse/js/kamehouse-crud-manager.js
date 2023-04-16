@@ -39,8 +39,8 @@ function CrudManager() {
    * Load the crud manager module.
    */
   function load() {
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/crud-manager.css">');
-    domUtils.load($("#crud-manager-body-wrapper"), "/kame-house/html-snippets/crud-manager.html", () => {
+    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-crud-manager.css">');
+    domUtils.load($("#crud-manager-body-wrapper"), "/kame-house/kamehouse/html/kamehouse-crud-manager.html", () => {
       moduleUtils.setModuleLoaded("crudManager");
       bannerUtils.setRandomPrinceOfTennisBanner();
     });
