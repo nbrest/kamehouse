@@ -90,6 +90,7 @@ buildMobile() {
     cordova platform remove android
     cordova platform add android
   fi
+  refreshCordovaPlugins
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
   log.debug "cordova build android"
   cordova build android

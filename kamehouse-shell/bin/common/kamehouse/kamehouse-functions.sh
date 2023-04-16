@@ -383,3 +383,13 @@ getHttpdContentRoot() {
     echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver"
   fi
 }
+
+refreshCordovaPlugins() {
+  cordova plugin remove cordova-plugin-advanced-http
+  cordova plugin remove cordova-plugin-inappbrowser
+  cordova plugin remove cordova-plugin-file
+
+  cordova plugin add cordova-plugin-inappbrowser
+  cordova plugin add cordova-plugin-advanced-http
+  cordova plugin add cordova-plugin-file
+}

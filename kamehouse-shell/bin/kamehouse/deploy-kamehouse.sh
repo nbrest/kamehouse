@@ -183,6 +183,7 @@ buildMobile() {
   cordova clean
   cordova platform remove android
   cordova platform add android
+  refreshCordovaPlugins
   # Reset unnecessary git changes after platform remove/add
   git checkout HEAD -- package.json
   git checkout HEAD -- package-lock.json
