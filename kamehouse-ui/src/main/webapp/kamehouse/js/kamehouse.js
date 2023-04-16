@@ -281,10 +281,10 @@ function CoreUtils() {
       if (!isEmpty(skipLoadingHeaderAndFooter) && skipLoadingHeaderAndFooter == "true") {
         logger.info("Skipping loading default kamehouse header and footer"); 
       } else {
-        fetchUtils.getScript("/kame-house/js/kamehouse-header-footer.js", () => renderHeaderAndFooter()); 
+        fetchUtils.getScript("/kame-house/kamehouse/js/kamehouse-header-footer.js", () => renderHeaderAndFooter()); 
       }
     } else {
-      fetchUtils.getScript("/kame-house/js/kamehouse-header-footer.js", () => renderHeaderAndFooter());
+      fetchUtils.getScript("/kame-house/kamehouse/js/kamehouse-header-footer.js", () => renderHeaderAndFooter());
     }
   }
   
@@ -1170,7 +1170,7 @@ function ModuleUtils() {
    * Load kamehouse websockets module.
    */
   function loadWebSocketKameHouse() {
-    fetchUtils.getScript("/kame-house/js/kamehouse-websocket.js", () => {
+    fetchUtils.getScript("/kame-house/kamehouse/js/kamehouse-websocket.js", () => {
       setModuleLoaded("kameHouseWebSocket");
     });
   }
