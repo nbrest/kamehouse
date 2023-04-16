@@ -996,8 +996,8 @@ function MobileAppUtils() {
 
   function loadGlobalMobile() {
     if (isMobileApp()) {
-      fetchUtils.getScript("/kame-house-mobile/js/global-mobile.js", () => {
-        logger.info("Loaded global-mobile.js");
+      fetchUtils.getScript("/kame-house-mobile/js/kamehouse-mobile.js", () => {
+        logger.info("Loaded kamehouse-mobile.js");
       }); 
     }
   }
