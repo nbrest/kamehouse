@@ -21,7 +21,7 @@ function main() {
 
 /** Import debugger-http-client css*/
 function importKameHouseDebuggerCss() {
-  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/kamehouse-debugger.css">');
+  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-debugger.css">');
 }
 
 /** 
@@ -51,7 +51,7 @@ function KameHouseDebugger() {
    * Loads the debugger http client html snippet into a variable to be reused as a template on render.
    */
   async function loadDebuggerHttpClientTemplate() {
-    debuggerHttpClientDivTemplate = await fetchUtils.loadHtmlSnippet('/kame-house/html-snippets/kamehouse-debugger-http-client-table.html');
+    debuggerHttpClientDivTemplate = await fetchUtils.loadHtmlSnippet('/kame-house/kamehouse/html/kamehouse-debugger-http-client-table.html');
     logger.debug("Loaded debuggerHttpClientDivTemplate");
   }
 
@@ -82,8 +82,8 @@ function KameHouseDebugger() {
    * Render debug mode div and it's button.
    */
   function renderDebugMode() {
-    domUtils.load($("#debug-mode-button-wrapper"), "/kame-house/html-snippets/kamehouse-debugger-button.html");
-    domUtils.load($("#debug-mode-wrapper"), "/kame-house/html-snippets/kamehouse-debugger.html", () => {
+    domUtils.load($("#debug-mode-button-wrapper"), "/kame-house/kamehouse/html/kamehouse-debugger-button.html");
+    domUtils.load($("#debug-mode-wrapper"), "/kame-house/kamehouse/html/kamehouse-debugger.html", () => {
       moduleUtils.setModuleLoaded("kameHouseDebugger");
       displayRequestData(null, null, null, null);
     });
