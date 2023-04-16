@@ -304,7 +304,7 @@
 * Created domUtils and moved all dom manipulation to go through there
 * Added fetchUtils to pull html snippets and js from there
 * Huge refactor of the frontend code with all the changes done above. Also removed all `self.` references and updated function definitions to make it more readable. Moved let to const when possible
-* Moved logger and httpClient into global.js and removed them as loadable modules
+* Moved logger and httpClient into kamehouse.js and removed them as loadable modules
 * Updated layout for groot home page
 
 #### v6.01
