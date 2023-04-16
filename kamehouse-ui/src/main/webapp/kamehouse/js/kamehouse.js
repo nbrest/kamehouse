@@ -272,7 +272,7 @@ function CoreUtils() {
 
   /** 
    * Load header and footer. 
-   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/js/kameHouse.js"></script>`
+   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/kamehouse/js/kamehouse.js"></script>`
    */
   function loadHeaderAndFooter() {
     const kameHouseData = document.getElementById('kamehouse-data');

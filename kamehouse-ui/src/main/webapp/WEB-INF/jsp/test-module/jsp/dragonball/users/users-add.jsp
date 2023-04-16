@@ -11,7 +11,7 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <script src="/cordova.js"></script>
 <script src="/kame-house/lib/js/jquery.js"></script>
-<script src="/kame-house/js/kamehouse.js"></script>
+<script src="/kame-house/kamehouse/js/kamehouse.js"></script>
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-user-service-jsp.js"></script>
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-users-add.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
