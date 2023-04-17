@@ -12,8 +12,8 @@ function mainEhcache() {
   kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebappTabsManager"], () => {
     kameHouse.logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
-    kameHouseWebappTabsManager.setCookiePrefix('kh-admin-ehcache');
-    kameHouseWebappTabsManager.loadStateFromCookies();
+    kameHouse.plugin.kameHouseWebappTabsManager.setCookiePrefix('kh-admin-ehcache');
+    kameHouse.plugin.kameHouseWebappTabsManager.loadStateFromCookies();
     ehCacheManager.init();
   });
 }

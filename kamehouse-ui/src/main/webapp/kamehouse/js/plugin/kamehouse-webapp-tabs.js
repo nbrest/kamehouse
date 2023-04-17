@@ -1,24 +1,22 @@
 /**
  * Kamehouse webapp tabs functions.
  */
-var kameHouseWebappTabsManager;
-
-function main() {
-  kameHouseWebappTabsManager = new KameHouseWebappTabsManager();
-  kameHouseWebappTabsManager.importTabs();
-}
-
 /**
  * Prototype to manage the kamehouse webapp tabs.
  */
 function KameHouseWebappTabsManager() {
 
+  this.load = load;
   this.setCookiePrefix = setCookiePrefix;
   this.loadStateFromCookies = loadStateFromCookies;
   this.openTab = openTab;
   this.importTabs = importTabs;
 
   let cookiePrefix = '';
+
+  function load() {
+    importTabs();
+  }
 
   /**
    * Set the cookie prefix for the tab manager.
@@ -77,4 +75,4 @@ function KameHouseWebappTabsManager() {
 /**
  * Call main.
  */
-$(document).ready(main);
+$(document).ready(() => {kameHouse.addPlugin("kameHouseWebappTabsManager", new KameHouseWebappTabsManager());});
