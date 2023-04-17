@@ -7,7 +7,7 @@
  * 
  * @author nbrest
  */
-function WebSocketKameHouse() {
+function KameHouseWebSocket() {
 
   this.setStatusUrl = setStatusUrl;
   this.setTopicUrl = setTopicUrl;

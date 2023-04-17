@@ -575,8 +575,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   this.keepAliveWebSocketsLoop = keepAliveWebSocketsLoop;
   this.syncVlcPlayerHttpLoop = syncVlcPlayerHttpLoop;
 
-  const vlcRcStatusWebSocket = new WebSocketKameHouse();
-  const playlistWebSocket = new WebSocketKameHouse();
+  const vlcRcStatusWebSocket = new KameHouseWebSocket();
+  const playlistWebSocket = new KameHouseWebSocket();
   let isRunningSyncVlcRcStatusLoop = false;
   let isRunningSyncPlaylistLoop = false;
   let isRunningKeepAliveWebSocketLoop = false;

@@ -898,7 +898,7 @@ function KameHouseModuleUtils() {
   this.isModuleLoaded = isModuleLoaded;
   this.setModuleLoaded = setModuleLoaded;
   this.waitForModules = waitForModules;
-  this.loadWebSocketKameHouse = loadWebSocketKameHouse; 
+  this.loadKameHouseWebSocket = loadKameHouseWebSocket; 
   
   /** 
    * Object that determines which module is loaded. 
@@ -924,7 +924,7 @@ function KameHouseModuleUtils() {
   /**
    * Load kamehouse websockets module.
    */
-  function loadWebSocketKameHouse() {
+  function loadKameHouseWebSocket() {
     kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-websocket.js", () => {
       setModuleLoaded("kameHouseWebSocket");
     });

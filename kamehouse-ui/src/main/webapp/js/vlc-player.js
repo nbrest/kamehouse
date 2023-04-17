@@ -35,7 +35,7 @@ function VlcPlayerLoader() {
    * Load the main vlc player object.
    */
   function loadVlcPlayer() {
-    kameHouse.util.module.loadWebSocketKameHouse();
+    kameHouse.util.module.loadKameHouseWebSocket();
     kameHouse.util.fetch.getScript("/kame-house/js/vlc-player/vlc-player.js", () => {
       kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebSocket"], () => {
         //TODO get vlcPlayer hostname from some config

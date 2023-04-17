@@ -10,11 +10,11 @@ var websocket;
 /** Main function. */
 function mainWebSocket() {
   kameHouse.util.banner.setRandomSaintSeiyaBanner();
-  kameHouse.util.module.loadWebSocketKameHouse();
+  kameHouse.util.module.loadKameHouseWebSocket();
   kameHouse.util.module.waitForModules(["kameHouseWebSocket"], () => {
     kameHouse.logger.info("Started initializing WebSocket");
     kameHouse.logger.setLogLevel(4);
-    websocket = new WebSocketKameHouse();
+    websocket = new KameHouseWebSocket();
     websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
     websocket.setTopicUrl('/topic/test-module/websocket-out');
     websocket.setPollUrl("/app/test-module/websocket-in");
