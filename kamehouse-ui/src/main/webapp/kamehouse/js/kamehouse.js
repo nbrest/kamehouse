@@ -1400,8 +1400,7 @@ function KameHouseCoreFunctions() {
   }
 
   /** 
-   * Load header and footer. 
-   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/kamehouse/js/kamehouse.js"></script>`
+   * Load header.
    */
   function loadHeader() {
     const skipHeader = getBooleanKameHouseData("skip-header");
@@ -1410,13 +1409,12 @@ function KameHouseCoreFunctions() {
         kameHouse.addExtension("header", new KameHouseHeader());
       });
     } else {
-      kameHouse.logger.info("Skip header data set to true");
+      kameHouse.logger.info("Skip header kamehouse data set to true");
     }
   }
 
   /** 
-   * Load header and footer. 
-   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/kamehouse/js/kamehouse.js"></script>`
+   * Load footer.
    */
   function loadFooter() {
     const skipFooter = getBooleanKameHouseData("skip-footer");
@@ -1425,7 +1423,7 @@ function KameHouseCoreFunctions() {
         kameHouse.addExtension("footer", new KameHouseFooter());
       });
     } else {
-      kameHouse.logger.info("Skip footer data set to true");
+      kameHouse.logger.info("Skip footer kamehouse data set to true");
     }
   }  
   
