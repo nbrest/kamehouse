@@ -929,10 +929,15 @@ function KameHouseModuleUtils() {
    * to be loaded before the main code is executed.
    */
   async function waitForModules(moduleNames, initFunction) {
-    kameHouse.logger.trace("init: " + initFunction.name + ". Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+    let message;
+    message = "Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
+    kameHouse.logger.trace(message);
+
     let areAllModulesLoaded = false;
     while (!areAllModulesLoaded) {
-      kameHouse.logger.trace("init: " + initFunction.name + ". Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+      message = "Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
+      kameHouse.logger.trace(message);
+
       let isAnyModuleStillLoading = false;
       moduleNames.forEach((moduleName) => {
         if (!modules[moduleName]) {
@@ -945,9 +950,9 @@ function KameHouseModuleUtils() {
       // SLEEP IS IN MS!!
       await kameHouse.core.sleep(15);
     }
-    kameHouse.logger.trace("init: " + initFunction.name + ". *** Finished *** waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules));
+    message = "*** Finished  waitForModules " + JSON.stringify(moduleNames) + " ***. modules status: " + JSON.stringify(modules);
+    kameHouse.logger.trace(message);
     if (kameHouse.core.isFunction(initFunction)) {
-      kameHouse.logger.trace("Executing " + initFunction.name);
       initFunction();
     }
   }
