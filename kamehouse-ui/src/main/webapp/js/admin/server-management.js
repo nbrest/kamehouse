@@ -247,7 +247,7 @@ function ServerManager() {
    */
   function processSuccessSystemCommand(responseBody, responseCode, responseDescription) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    systemCommandManager.renderCommandOutput(responseBody, false, null);
+    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
   }
 
   /**
@@ -256,7 +256,7 @@ function ServerManager() {
   function processErrorSystemCommand(responseBody, responseCode, responseDescription) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
-    systemCommandManager.renderErrorExecutingCommand();
+    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
   }
 
   /**
@@ -264,7 +264,7 @@ function ServerManager() {
    */
   function processSuccessHttpdStatus(responseBody, responseCode, responseDescription) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status");
+    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status");
   }
 
   /**
@@ -285,7 +285,7 @@ function ServerManager() {
    */
   function processSuccessHttpdRestart(responseBody, responseCode, responseDescription) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    systemCommandManager.renderCommandOutput(responseBody, false, null);
+    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
     setTimeout(() => { 
       getHttpdStatus(false);
     }, 5000);
@@ -297,7 +297,7 @@ function ServerManager() {
   function processErrorHttpdRestart(responseBody, responseCode, responseDescription) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
-    systemCommandManager.renderErrorExecutingCommand();
+    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
     setTimeout(() => { 
       getHttpdStatus(false);
     }, 5000);

@@ -3,20 +3,18 @@
  * 
  * @author nbrest
  */
- var systemCommandManager;
- 
-function main() {
-  kameHouse.logger.info("Started initializing systemCommandManager");
-  systemCommandManager = new SystemCommandManager();
-}
-
 /**
  * Handles the functionality for the kamehouse system commands.
  */
 function SystemCommandManager() {
 
+  this.load = load;
   this.renderCommandOutput = renderCommandOutput;
   this.renderErrorExecutingCommand = renderErrorExecutingCommand;
+
+  function load() {
+    kameHouse.logger.info("Started initializing systemCommandManager");
+  }
 
   /**
    * Render the system command output.
@@ -100,4 +98,4 @@ function SystemCommandManager() {
 /**
  * Call main.
  */
- $(document).ready(main);
+ $(document).ready(() => {kameHouse.addPlugin("systemCommandManager", new SystemCommandManager());});
