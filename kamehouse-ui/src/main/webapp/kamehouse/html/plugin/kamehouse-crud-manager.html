@@ -32,11 +32,11 @@
       <tr>
         <td class="p-10-d-kh">
           <input id="search-filter" class="table-kh-filter-input crud-manager-filter" type="search" placeholder="Search..."
-            onkeyup="crudManager.filterRows()" />
+            onkeyup="kameHouse.plugin.crudManager.filterRows()" />
         </td>
         <td class="num-rows-dropdown-td">
           <select id="num-rows" class="form-input-kh num-rows-dropdown" type="select" name="num-rows"
-            onchange="crudManager.filterRows()" onfocus="this.selectedIndex = -1;">
+            onchange="kameHouse.plugin.crudManager.filterRows()" onfocus="this.selectedIndex = -1;">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="50">50</option>
@@ -51,7 +51,7 @@
             src="/kame-house/img/other/back-to-top-gray-dark.png"
             alt="Back To Top" title="Back To Top" />
           <img class="img-btn-kh img-btn-s-kh" 
-            onclick="crudManager.refreshView()"
+            onclick="kameHouse.plugin.crudManager.refreshView()"
             src="/kame-house/img/other/sync-gray-dark.png" 
             alt="Refresh" title="Refresh"/>
         </td>
@@ -75,9 +75,9 @@
     <form class="form-kh">
       <div id="crud-add-input-fields"></div>
       <div class="form-submit-wrapper-kh">
-        <img class="img-btn-kh" onclick="crudManager.create()" 
+        <img class="img-btn-kh" onclick="kameHouse.plugin.crudManager.create()" 
           src="/kame-house/img/other/submit-gray-dark.png" alt="Add" title="Add"/>
-        <img class="img-btn-kh fl-r-d-kh" onclick="crudManager.clearForm('crud-add-input-fields')" 
+        <img class="img-btn-kh fl-r-d-kh" onclick="kameHouse.plugin.crudManager.clearForm('crud-add-input-fields')" 
           src="/kame-house/img/other/clear-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
       </div>
     </form>
@@ -92,9 +92,9 @@
     <form class="form-kh">
       <div id="crud-edit-input-fields"></div>
       <div class="form-submit-wrapper-kh">
-        <img class="img-btn-kh" onclick="crudManager.update()" 
+        <img class="img-btn-kh" onclick="kameHouse.plugin.crudManager.update()" 
           src="/kame-house/img/other/submit-gray-dark.png" alt="Update" title="Update"/>
-        <img class="img-btn-kh fl-r-d-kh" onclick="crudManager.clearForm('crud-edit-input-fields')" 
+        <img class="img-btn-kh fl-r-d-kh" onclick="kameHouse.plugin.crudManager.clearForm('crud-edit-input-fields')" 
           src="/kame-house/img/other/clear-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
       </div>
     </form>

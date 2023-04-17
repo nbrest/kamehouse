@@ -108,6 +108,6 @@ const config = {
 
 window.onload = () => {
   kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
-    crudManager.init(config);
+    kameHouse.plugin.crudManager.init(config);
   });
 }

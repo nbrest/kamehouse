@@ -1,11 +1,3 @@
-var crudManager;
-
-function mainCrudManager() {
-  kameHouse.logger.info("Started initializing crudManager");
-  crudManager = new CrudManager();
-  crudManager.load();
-}
-
 /**
  * Functionality to manage CRUD operations on any entity in the backend.
  */
@@ -39,6 +31,7 @@ function CrudManager() {
    * Load the crud manager module.
    */
   function load() {
+    kameHouse.logger.info("Started initializing crudManager");
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-crud-manager.css">');
     kameHouse.util.dom.load($("#crud-manager-body-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
       kameHouse.util.module.setModuleLoaded("crudManager");
@@ -1045,4 +1038,4 @@ function CrudManager() {
   }
 }
 
-$(document).ready(mainCrudManager);
+$(document).ready(() => {kameHouse.addPlugin("crudManager", new CrudManager())});

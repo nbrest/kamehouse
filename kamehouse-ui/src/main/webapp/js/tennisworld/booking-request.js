@@ -1,6 +1,6 @@
 window.onload = () => {
   kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
-    crudManager.init({
+    kameHouse.plugin.crudManager.init({
       readOnly: true,
       entityName: "Booking Request",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-requests",

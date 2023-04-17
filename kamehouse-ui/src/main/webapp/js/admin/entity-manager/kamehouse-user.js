@@ -1,6 +1,6 @@
 window.onload = () => {
   kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
-    crudManager.init({
+    kameHouse.plugin.crudManager.init({
       entityName: "KameHouse User",
       url: "/kame-house-admin/api/v1/admin/kamehouse/users",
       columns: [

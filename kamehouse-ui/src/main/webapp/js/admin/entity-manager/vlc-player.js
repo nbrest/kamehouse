@@ -1,6 +1,6 @@
 window.onload = () => {
   kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
-    crudManager.init({
+    kameHouse.plugin.crudManager.init({
       entityName: "Vlc Player",
       url: "/kame-house-vlcrc/api/v1/vlc-rc/players",
       columns: [
