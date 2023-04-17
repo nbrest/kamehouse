@@ -5,13 +5,13 @@ var scheduler;
 
 window.onload = () => {
   scheduler = new Scheduler();
-  moduleUtils.waitForModules(["debuggerHttpClient", "kameHouseWebappTabsManager"], () => {
-    logger.info("Started initializing scheduler");
+  kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebappTabsManager"], () => {
+    kameHouse.logger.info("Started initializing scheduler");
     kameHouseWebappTabsManager.setCookiePrefix('kh-admin-scheduler');
     kameHouseWebappTabsManager.loadStateFromCookies();
     scheduler.init();
   });
-  bannerUtils.setRandomAllBanner();
+  kameHouse.util.banner.setRandomAllBanner();
 };
 
 /**
@@ -42,7 +42,7 @@ function Scheduler() {
    * Loads the ehcache table html snippet into a variable to be reused as a template on render.
    */
   async function loadTableTemplate() {
-    schedulerTableTemplate = await fetchUtils.loadHtmlSnippet('/kame-house/html-snippets/scheduler-table.html');
+    schedulerTableTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/html-snippets/scheduler-table.html');
   }
 
   /**
@@ -59,35 +59,35 @@ function Scheduler() {
   /** Get all jobs */
   function getAllJobs(webapp, openModal) {
     if (openModal) {
-      loadingWheelModal.open();
+      kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    debuggerHttpClient.get(getApiUrl(webapp), processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), processSuccess, processError, webapp);
   }
 
   /** Cancel job execution */
   function cancelJobExecution(jobKey, webapp) {
-    loadingWheelModal.open();
+    kameHouse.plugin.modal.loadingWheelModal.open();
     const urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
-    debuggerHttpClient.delete(getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
   }
 
   /** Update the jobs table content */
   function updateJobsTable(webapp) {
     const $jobsData = $("#jobs-data-" + webapp);
-    domUtils.empty($jobsData);
+    kameHouse.util.dom.empty($jobsData);
     jobs.forEach((jobEntry) => {
       const tableIdKey = webapp + jobEntry.key.name;
-      domUtils.append($jobsData, getTableFromTemplate(tableIdKey));
-      domUtils.append($jobsData, domUtils.getBr());
+      kameHouse.util.dom.append($jobsData, getTableFromTemplate(tableIdKey));
+      kameHouse.util.dom.append($jobsData, kameHouse.util.dom.getBr());
 
-      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
-      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
-      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
-      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
-      domUtils.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), formatSchedule(jobEntry.schedules));
+      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
+      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
+      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
+      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
+      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), formatSchedule(jobEntry.schedules));
 
-      domUtils.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
-        logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
+      kameHouse.util.dom.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
+        kameHouse.logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
         cancelJobExecution(jobEntry.key, webapp);
       });
     });
@@ -98,25 +98,25 @@ function Scheduler() {
    */
   function getTableFromTemplate(tableIdKey) {
     // Create a wrapper div to insert the table template
-    const tableDiv = domUtils.getElementFromTemplate(schedulerTableTemplate);
+    const tableDiv = kameHouse.util.dom.getElementFromTemplate(schedulerTableTemplate);
     
     // Update the ids and classes on the table generated from the template
-    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val'), "scheduler-table-" + tableIdKey + "-name-val");
-    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-key-val'), "scheduler-table-" + tableIdKey + "-key-val");
-    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-description-val'), "scheduler-table-" + tableIdKey + "-description-val");
-    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-jobclass-val'), "scheduler-table-" + tableIdKey + "-jobclass-val");
-    domUtils.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-schedule-val'), "scheduler-table-" + tableIdKey + "-schedule-val");
-    domUtils.setId(tableDiv.querySelector('tr #clear-scheduler-table-TEMPLATE'), "clear-scheduler-table-" + tableIdKey);
+    kameHouse.util.dom.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val'), "scheduler-table-" + tableIdKey + "-name-val");
+    kameHouse.util.dom.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-key-val'), "scheduler-table-" + tableIdKey + "-key-val");
+    kameHouse.util.dom.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-description-val'), "scheduler-table-" + tableIdKey + "-description-val");
+    kameHouse.util.dom.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-jobclass-val'), "scheduler-table-" + tableIdKey + "-jobclass-val");
+    kameHouse.util.dom.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-schedule-val'), "scheduler-table-" + tableIdKey + "-schedule-val");
+    kameHouse.util.dom.setId(tableDiv.querySelector('tr #clear-scheduler-table-TEMPLATE'), "clear-scheduler-table-" + tableIdKey);
 
     return tableDiv;
   }
 
   /** Returns the schedule formated to display in the UI */
   function formatSchedule(schedules) {
-    if (!isEmpty(schedules) && schedules.length != 0) {
+    if (!kameHouse.core.isEmpty(schedules) && schedules.length != 0) {
       const scheduleFormattedArray = [];
       schedules.forEach((schedule) => {
-        if (!isEmpty(schedule.nextRun)) {
+        if (!kameHouse.core.isEmpty(schedule.nextRun)) {
           const date = new Date(parseInt(schedule.nextRun));
           scheduleFormattedArray.push(date.toLocaleString());
         }
@@ -130,26 +130,26 @@ function Scheduler() {
   /** Set jobs table to error */
   function updateJobsTableError(webapp) {
     const $jobsData = $('#jobs-data-' + webapp);
-    domUtils.empty($jobsData);
-    domUtils.append($jobsData, getErrorMessage());
+    kameHouse.util.dom.empty($jobsData);
+    kameHouse.util.dom.append($jobsData, getErrorMessage());
   }
 
   /** Get the message for the error table */
   function getErrorMessage() {
-    return domUtils.getP(null, "Error retrieving jobs from the backend");
+    return kameHouse.util.dom.getP(null, "Error retrieving jobs from the backend");
   }
   
   /** Process success response */
   function processSuccess(responseBody, responseCode, responseDescription, webapp) {
-    loadingWheelModal.close();
+    kameHouse.plugin.modal.loadingWheelModal.close();
     jobs = responseBody;
     updateJobsTable(webapp);
   }
 
   /** Process error response */
   function processError(responseBody, responseCode, responseDescription, webapp) {
-    loadingWheelModal.close();
+    kameHouse.plugin.modal.loadingWheelModal.close();
     updateJobsTableError(webapp);
-    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }

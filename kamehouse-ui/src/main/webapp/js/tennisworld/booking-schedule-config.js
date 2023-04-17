@@ -1,5 +1,5 @@
 window.onload = () => {
-  moduleUtils.waitForModules(["debuggerHttpClient", "crudManager"], () => {    
+  kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
     crudManager.init({
       entityName: "Booking Schedule Config",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-schedule-configs",

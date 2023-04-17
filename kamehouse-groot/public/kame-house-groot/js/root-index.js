@@ -1,7 +1,7 @@
 /** Update page banner with server name */
 function updateBanner() {
-  if (!isEmpty(kameHouse.groot.session.server)) {
-    domUtils.setHtml($("#banner-h1"), kameHouse.groot.session.server);
+  if (!kameHouse.core.isEmpty(kameHouse.groot.session.server)) {
+    kameHouse.util.dom.setHtml($("#banner-h1"), kameHouse.groot.session.server);
   }
 }
 
@@ -10,12 +10,12 @@ function setClientTimeAndDate() {
   const clientDate = new Date();
   const clientMonth = clientDate.getMonth() + 1;
   const clientTimeAndDate = "  Client: " + clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
-  domUtils.setInnerHtml(document.getElementById("client-time-and-date"), clientTimeAndDate);
+  kameHouse.util.dom.setInnerHtml(document.getElementById("client-time-and-date"), clientTimeAndDate);
 }
 
 window.onload = () => {
-  bannerUtils.setRandomTennisBanner();
-  moduleUtils.waitForModules(["grootHeader"], () => {
+  kameHouse.util.banner.setRandomTennisBanner();
+  kameHouse.util.module.waitForModules(["grootHeader"], () => {
     updateBanner();
   });
 };

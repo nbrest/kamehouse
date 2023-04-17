@@ -1,7 +1,7 @@
 var crudManager;
 
 function mainCrudManager() {
-  logger.info("Started initializing crudManager");
+  kameHouse.logger.info("Started initializing crudManager");
   crudManager = new CrudManager();
   crudManager.load();
 }
@@ -39,10 +39,10 @@ function CrudManager() {
    * Load the crud manager module.
    */
   function load() {
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-crud-manager.css">');
-    domUtils.load($("#crud-manager-body-wrapper"), "/kame-house/kamehouse/html/kamehouse-crud-manager.html", () => {
-      moduleUtils.setModuleLoaded("crudManager");
-      bannerUtils.setRandomPrinceOfTennisBanner();
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-crud-manager.css">');
+    kameHouse.util.dom.load($("#crud-manager-body-wrapper"), "/kame-house/kamehouse/html/kamehouse-crud-manager.html", () => {
+      kameHouse.util.module.setModuleLoaded("crudManager");
+      kameHouse.util.banner.setRandomPrinceOfTennisBanner();
     });
   }
 
@@ -100,11 +100,11 @@ function CrudManager() {
    * Updates the view with the entity name.
    */
   function updateEntityNameInView() {
-    domUtils.setHtml($("title"), "KameHouse - " + getEntityNames());
-    domUtils.setHtml($("#crud-manager-banner-title"), getEntityNames());
-    domUtils.setHtml($("#crud-manager-list-title"), "List " + getEntityNames());
-    domUtils.setHtml($("#crud-manager-add-title"), "Add " + entityName);
-    domUtils.setHtml($("#crud-manager-edit-title"), "Edit " + entityName);
+    kameHouse.util.dom.setHtml($("title"), "KameHouse - " + getEntityNames());
+    kameHouse.util.dom.setHtml($("#crud-manager-banner-title"), getEntityNames());
+    kameHouse.util.dom.setHtml($("#crud-manager-list-title"), "List " + getEntityNames());
+    kameHouse.util.dom.setHtml($("#crud-manager-add-title"), "Add " + entityName);
+    kameHouse.util.dom.setHtml($("#crud-manager-edit-title"), "Edit " + entityName);
   }
 
   /**
@@ -112,10 +112,10 @@ function CrudManager() {
    */
   function disableEditFunctionalityForReadOnly() {
     if (readOnly) {
-      domUtils.addClass($("#crud-manager-tabs"), "hidden-kh");
-      domUtils.addClass($("#tab-add-link"), "hidden-kh");
-      domUtils.addClass($("#tab-edit-link"), "hidden-kh");
-      tabUtils.openTab('tab-list', 'kh-crud-manager');
+      kameHouse.util.dom.addClass($("#crud-manager-tabs"), "hidden-kh");
+      kameHouse.util.dom.addClass($("#tab-add-link"), "hidden-kh");
+      kameHouse.util.dom.addClass($("#tab-edit-link"), "hidden-kh");
+      kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
     }
   }
 
@@ -130,7 +130,7 @@ function CrudManager() {
    * Load the current state from the cookies.
    */
   function loadStateFromCookies() {
-    tabUtils.openTabFromCookies('kh-crud-manager', 'tab-list');
+    kameHouse.util.tab.openTabFromCookies('kh-crud-manager', 'tab-list');
   }
 
   /**
@@ -139,8 +139,8 @@ function CrudManager() {
   function loadStateFromUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const search = urlParams.get('search');
-    if (!isEmpty(search)) {
-      domUtils.setValue(document.getElementById('search-filter'), search);
+    if (!kameHouse.core.isEmpty(search)) {
+      kameHouse.util.dom.setValue(document.getElementById('search-filter'), search);
     }
   }
 
@@ -169,7 +169,7 @@ function CrudManager() {
    * Set the crud manager as readOnly, to disable updates, only to query data.
    */
   function setReadOnly(crudReadOnly) {
-    if (!isEmpty(crudReadOnly)) {
+    if (!kameHouse.core.isEmpty(crudReadOnly)) {
       readOnly = crudReadOnly;
     }
   }
@@ -178,14 +178,14 @@ function CrudManager() {
    * Set the default sorting of table data.
    */
   function setDefaultSorting(crudDefaultSorting) {
-    if (!isEmpty(crudDefaultSorting)) {
+    if (!kameHouse.core.isEmpty(crudDefaultSorting)) {
       defaultSorting = crudDefaultSorting;
     }
   }
 
   function loadCustomSections(config) {
-    if (!isEmpty(config.customListSection)) {
-      domUtils.load($("#custom-list-section"), config.customListSection);
+    if (!kameHouse.core.isEmpty(config.customListSection)) {
+      kameHouse.util.dom.load($("#custom-list-section"), config.customListSection);
     }
   }
 
@@ -193,15 +193,15 @@ function CrudManager() {
    * Get an entity by it's id.
    */
   function read(id) {
-    logger.info("read");
+    kameHouse.logger.info("read");
     const getUrl = url + "/" + id;
-    debuggerHttpClient.get(getUrl,
+    kameHouse.plugin.debugger.http.get(getUrl,
       (responseBody, responseCode, responseDescription) => {
         setEditFormValues(responseBody, responseCode, responseDescription);
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error getting entity");
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error getting entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
       }, null);
   }
 
@@ -209,15 +209,15 @@ function CrudManager() {
    * Get all entities.
    */
   function readAll() {
-    logger.info("readAll");
-    debuggerHttpClient.get(url,
+    kameHouse.logger.info("readAll");
+    kameHouse.plugin.debugger.http.get(url,
       (responseBody, responseCode, responseDescription) => {
         entities = responseBody;
         reloadView();
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error getting all entities");
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error getting all entities");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
         displayErrorGettingEntities();
       }, null);
   }
@@ -226,21 +226,21 @@ function CrudManager() {
    * Create an entity.
    */
   function create() {
-    logger.info("create");
+    kameHouse.logger.info("create");
     if (readOnly) {
-      basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
     }
     const entity = getEntityFromForm(addInputFieldsId);
-    debuggerHttpClient.post(url, entity,
+    kameHouse.plugin.debugger.http.post(url, entity,
       (responseBody, responseCode, responseDescription) => {
-        logger.info("Created entity successfully. Id: " + responseBody);
+        kameHouse.logger.info("Created entity successfully. Id: " + responseBody);
         readAll();
-        tabUtils.openTab('tab-list', 'kh-crud-manager');
+        kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error creating entity");
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error creating entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
       });
   }
@@ -249,22 +249,22 @@ function CrudManager() {
    * Update an entity.
    */
   function update() {
-    logger.info("update");
+    kameHouse.logger.info("update");
     if (readOnly) {
-      basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
     }
     const entity = getEntityFromForm(editInputFieldsId);
     const updateUrl = url + "/" + entity.id;
-    debuggerHttpClient.put(updateUrl, entity,
+    kameHouse.plugin.debugger.http.put(updateUrl, entity,
       (responseBody, responseCode, responseDescription) => {
-        logger.info("Updated entity successfully. Id: " + entity.id);
+        kameHouse.logger.info("Updated entity successfully. Id: " + entity.id);
         readAll();
-        tabUtils.openTab('tab-list', 'kh-crud-manager');
+        kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error updating entity");
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error updating entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
       }, null);
   }
@@ -274,22 +274,22 @@ function CrudManager() {
    */
   function deleteEntity(event) {
     const id = event.data.id;
-    logger.info("deleteEntity");
+    kameHouse.logger.info("deleteEntity");
     if (readOnly) {
-      basicKamehouseModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
     }
     const deleteUrl = url + "/" + id;
-    debuggerHttpClient.delete(deleteUrl, null,
+    kameHouse.plugin.debugger.http.delete(deleteUrl, null,
       (responseBody, responseCode, responseDescription) => {
-        logger.info("Deleted entity successfully. Id: " + responseBody.id);
-        basicKamehouseModal.close();
+        kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id);
+        kameHouse.plugin.modal.basicModal.close();
         readAll();
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error deleting entity");
-        basicKamehouseModal.close();
-        basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error deleting entity");
+        kameHouse.plugin.modal.basicModal.close();
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
       }, null);
   }
@@ -300,7 +300,7 @@ function CrudManager() {
    * Probably needs to be overriden if custom columns are set or the forms are loaded from a snippet.
    */
   function setEditFormValues(responseBody, responseCode, responseDescription) { 
-    logger.debug("readCallback: override this with setReadCallback when required");
+    kameHouse.logger.debug("readCallback: override this with setReadCallback when required");
     reloadForm(editInputFieldsId);
     updateEditFormFieldValues(responseBody, columns, null);
   }
@@ -320,29 +320,29 @@ function CrudManager() {
       }
       const inputFieldId = editInputFieldsId + "-" + parentNodeChain + name;
       const inputField = $(document.getElementById(inputFieldId));
-      domUtils.setVal(inputField, entity[name]); 
+      kameHouse.util.dom.setVal(inputField, entity[name]); 
 
       if (isDateField(type)) {
-        domUtils.setVal(inputField, getFormattedDateFieldValue(entity[name]));
+        kameHouse.util.dom.setVal(inputField, getFormattedDateFieldValue(entity[name]));
       }
       if (isArrayField(type)) {
-        domUtils.setVal(inputField, null);
+        kameHouse.util.dom.setVal(inputField, null);
         const array = entity[name];
         const arraySourceNode = document.getElementById(inputFieldId);
         let i = 0;
         for (const arrayElement of array) {
-          const newNode = domUtils.cloneNode(arraySourceNode, false);
-          domUtils.setValue(newNode, JSON.stringify(arrayElement, null, 4));
-          domUtils.setId(newNode, arraySourceNode.id + "-" + i);
-          domUtils.classListAdd(newNode, "m-5-t-d-kh");
-          domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+          const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
+          kameHouse.util.dom.setValue(newNode, JSON.stringify(arrayElement, null, 4));
+          kameHouse.util.dom.setId(newNode, arraySourceNode.id + "-" + i);
+          kameHouse.util.dom.classListAdd(newNode, "m-5-t-d-kh");
+          kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
           i++;
         }
-        domUtils.removeChild(arraySourceNode.parentNode, arraySourceNode);
+        kameHouse.util.dom.removeChild(arraySourceNode.parentNode, arraySourceNode);
       }
       if (isBooleanField(type)) {
         if (entity[name]) {
-          domUtils.setAttr(inputField, "checked", "true"); 
+          kameHouse.util.dom.setAttr(inputField, "checked", "true"); 
         }
       }
     }
@@ -363,12 +363,12 @@ function CrudManager() {
    * Display all entities and reload forms.
    */
   function reloadView() {
-    logger.trace("reloadView");
+    kameHouse.logger.trace("reloadView");
     const crudTbody = $('#' + tbodyId);
-    domUtils.empty(crudTbody);
-    domUtils.append(crudTbody, getCrudTableHeader());
+    kameHouse.util.dom.empty(crudTbody);
+    kameHouse.util.dom.append(crudTbody, getCrudTableHeader());
     for (const entity of entities) {
-      domUtils.append(crudTbody, getEntityTr(entity));
+      kameHouse.util.dom.append(crudTbody, getEntityTr(entity));
     }
     filterRows();
     reloadForm(addInputFieldsId);
@@ -381,7 +381,7 @@ function CrudManager() {
    */
   function reloadForm(formFieldsId) {
     const formFields = $('#' + formFieldsId);
-    domUtils.empty(formFields);
+    kameHouse.util.dom.empty(formFields);
     getFormFields(formFields, formFieldsId, columns, null);
   }
 
@@ -390,18 +390,18 @@ function CrudManager() {
    */
   function displayErrorGettingEntities() {
     const crudTbody = $('#' + tbodyId);
-    domUtils.empty(crudTbody);
-    domUtils.append(crudTbody, domUtils.getTrTd("Error getting data from the backend"));
+    kameHouse.util.dom.empty(crudTbody);
+    kameHouse.util.dom.append(crudTbody, kameHouse.util.dom.getTrTd("Error getting data from the backend"));
   }
 
   /**
    * Get the entire table row for the entity.
    */
   function getEntityTr(entity) {
-    const tr = domUtils.getTr({}, null);
+    const tr = kameHouse.util.dom.getTr({}, null);
     createEntityRow(tr, entity, columns, null);
     if (!readOnly) {
-      domUtils.append(tr, getActionButtonsTd(entity.id));
+      kameHouse.util.dom.append(tr, getActionButtonsTd(entity.id));
     }
     return tr;
   }
@@ -435,19 +435,19 @@ function CrudManager() {
    */
   function setColumnValue(tr, type, value) {
     if (isMaskedField(type)) {
-      domUtils.append(tr, getMaskedFieldTd());
+      kameHouse.util.dom.append(tr, getMaskedFieldTd());
       return;
     }
     if (isDateField(type)) {
-      domUtils.append(tr, domUtils.getTd({}, getFormattedDateFieldValue(value)));
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, getFormattedDateFieldValue(value)));
       return;
     }
     if (isTimestampField(type)) {
-      domUtils.append(tr, domUtils.getTd({}, getFormattedTimestampFieldValue(value)));
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, getFormattedTimestampFieldValue(value)));
       return;
     }
     if (isArrayField(type)) {
-      domUtils.append(tr, domUtils.getTd({}, JSON.stringify(value)));
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, JSON.stringify(value)));
       return;
     }
     if (isBooleanField(type)) {
@@ -457,10 +457,10 @@ function CrudManager() {
       } else {
         booleanValue = "false";
       }
-      domUtils.append(tr, domUtils.getTd({}, booleanValue));
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, booleanValue));
       return;
     }
-    domUtils.append(tr, domUtils.getTd({}, value));
+    kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, value));
   }
 
   /**
@@ -475,14 +475,14 @@ function CrudManager() {
    */
   function getFormattedDateFieldValue(value) {
     try {
-      const date = timeUtils.getDateFromEpoch(value);
-      if (timeUtils.isValidDate(date)) {
-        return timeUtils.getDateWithTimezoneOffset(date).toISOString().substring(0,10);
+      const date = kameHouse.util.time.getDateFromEpoch(value);
+      if (kameHouse.util.time.isValidDate(date)) {
+        return kameHouse.util.time.getDateWithTimezoneOffset(date).toISOString().substring(0,10);
       } else {
         return value;
       }
     } catch (error) {
-      logger.warn("Unable to parse " + value + " as a date");
+      kameHouse.logger.warn("Unable to parse " + value + " as a date");
       return value;
     }
   }
@@ -492,15 +492,15 @@ function CrudManager() {
    */
    function getFormattedTimestampFieldValue(value) {
     try {
-      const date = timeUtils.getDateFromEpoch(value);
-      if (timeUtils.isValidDate(date)) {
-        return timeUtils.getTimestamp(date);
+      const date = kameHouse.util.time.getDateFromEpoch(value);
+      if (kameHouse.util.time.isValidDate(date)) {
+        return kameHouse.util.time.getTimestamp(date);
       } else {
-        logger.warn("Invalid timestamp " + value);
+        kameHouse.logger.warn("Invalid timestamp " + value);
         return value;
       }
     } catch (error) {
-      logger.warn("Unable to parse " + value + " as a date");
+      kameHouse.logger.warn("Unable to parse " + value + " as a date");
       return value;
     }
   }  
@@ -509,16 +509,16 @@ function CrudManager() {
    * Returns a masked field td. Used for passwords for example.
    */
   function getMaskedFieldTd() {
-    return domUtils.getTd({}, "****");
+    return kameHouse.util.dom.getTd({}, "****");
   }
 
   /**
    * Get the action buttons for the entity.
    */
   function getActionButtonsTd(id) {
-    const td = domUtils.getTd({}, null);
-    domUtils.append(td, getEditButton(id));
-    domUtils.append(td, getConfirmDeleteButton(id));
+    const td = kameHouse.util.dom.getTd({}, null);
+    kameHouse.util.dom.append(td, getEditButton(id));
+    kameHouse.util.dom.append(td, getConfirmDeleteButton(id));
     return td;
   }
 
@@ -526,12 +526,12 @@ function CrudManager() {
    * Get the edit button for the entity.
    */
   function getEditButton(id) {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/edit-green.png",
       className: "img-btn-kh m-15-d-r-kh",
       alt: "Edit",
       onClick: () => { 
-        tabUtils.openTab('tab-edit', 'kh-crud-manager');
+        kameHouse.util.tab.openTab('tab-edit', 'kh-crud-manager');
         read(id);
       }
     });
@@ -541,7 +541,7 @@ function CrudManager() {
    * Get the button to open a modal to delete the entity.
    */
   function getConfirmDeleteButton(id) {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/delete-red.png",
       className: "img-btn-kh",
       alt: "Delete",
@@ -553,7 +553,7 @@ function CrudManager() {
    * Get the delete button for the entity.
    */
   function getDeleteButton(id) {
-    return domUtils.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         class: "form-submit-btn-kh",
       },
@@ -569,18 +569,18 @@ function CrudManager() {
    * Open modal to confirm reboot.
    */
    function confirmDelete(id) {
-    basicKamehouseModal.setHtml(getDeleteModalMessage(id));
-    basicKamehouseModal.appendHtml(getDeleteButton(id));
-    basicKamehouseModal.open();
+    kameHouse.plugin.modal.basicModal.setHtml(getDeleteModalMessage(id));
+    kameHouse.plugin.modal.basicModal.appendHtml(getDeleteButton(id));
+    kameHouse.plugin.modal.basicModal.open();
   }
 
   /**
    * Get delete modal message.
    */
   function getDeleteModalMessage(id) {
-    const message = domUtils.getSpan({}, "Are you sure you want to delete the " + entityName + " with id " + id + " ?");
-    domUtils.append(message, domUtils.getBr());
-    domUtils.append(message, domUtils.getBr());
+    const message = kameHouse.util.dom.getSpan({}, "Are you sure you want to delete the " + entityName + " with id " + id + " ?");
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     return message;
   }
 
@@ -588,12 +588,12 @@ function CrudManager() {
    * Get the table header row.
    */
   function getCrudTableHeader() {
-    const tr = domUtils.getTr({
+    const tr = kameHouse.util.dom.getTr({
       class: "table-kh-header"
     }, null);
     setHeaderColumns(tr, columns, null, 0);
     if (!readOnly) {
-      domUtils.append(tr, domUtils.getTd({
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({
         class: "table-kh-actions"
       }, "actions"));
     }
@@ -616,21 +616,21 @@ function CrudManager() {
         continue;
       }
       let currentColumnIndex = columnIndex + addedObjectColumnIndexes;
-      const td = domUtils.getTd({
+      const td = kameHouse.util.dom.getTd({
         id: tbodyId + "-col-" + currentColumnIndex,
         class: "clickable",
         alt: "Sort by " + parentNodeChain + name,
         title: "Sort by " + parentNodeChain + name
       }, parentNodeChain + name);
       const sortType = getSortType(column);
-      logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType);
-      domUtils.setClick(td, null,
+      kameHouse.logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType);
+      kameHouse.util.dom.setClick(td, null,
         () => {
-          tableUtils.sortTable("crud-manager-table", currentColumnIndex, sortType);
+          kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType);
           filterRows();
         }
       );
-      domUtils.append(tr, td);
+      kameHouse.util.dom.append(tr, td);
       columnIndex++;
     }
     const lastAddedColumnIndex = columnIndex - 1;
@@ -642,7 +642,7 @@ function CrudManager() {
    */
   function getSortType(column) {
     const type = column.type;
-    if (type == "select" && !isEmpty(column.sortType)) {
+    if (type == "select" && !kameHouse.core.isEmpty(column.sortType)) {
       return column.sortType;
     }
     return type;
@@ -665,7 +665,7 @@ function CrudManager() {
       const fieldClassList = "form-input-kh " + formFieldsId + "-field";
       
       addFieldLabel(div, type, name);
-      domUtils.append(div, getFormInputField(column, fieldId, fieldClassList));
+      kameHouse.util.dom.append(div, getFormInputField(column, fieldId, fieldClassList));
       addAddArrayRowButton(div, column, fieldId);
       addShowPasswordCheckbox(div, type, fieldId);
       addBreak(div, type);
@@ -686,11 +686,11 @@ function CrudManager() {
     };
 
     if (isSelectField(type)) {
-      const select = domUtils.getSelect(config, null);
+      const select = kameHouse.util.dom.getSelect(config, null);
       const values = column.values;
       const displayValues = column.displayValues;
       for (let i = 0; i < values.length; i++) { 
-        domUtils.append(select, domUtils.getOption({
+        kameHouse.util.dom.append(select, kameHouse.util.dom.getOption({
           value: values[i]
         }, displayValues[i]));
       }
@@ -698,10 +698,10 @@ function CrudManager() {
     }
 
     if (isNumberField(type)) {
-      if (!isEmpty(column.min) || column.min == 0) {
+      if (!kameHouse.core.isEmpty(column.min) || column.min == 0) {
         config.min = column.min;
       }
-      if (!isEmpty(column.max) || column.max == 0) {
+      if (!kameHouse.core.isEmpty(column.max) || column.max == 0) {
         config.max = column.max;
       }
     }
@@ -710,11 +710,11 @@ function CrudManager() {
       config.name = fieldId + "[]";
       const arrayType = column.arrayType;
       if (arrayType == "object") {
-        return domUtils.getTextArea(config, null);
+        return kameHouse.util.dom.getTextArea(config, null);
       }
     }
 
-    return domUtils.getInput(config, null);
+    return kameHouse.util.dom.getInput(config, null);
   }
 
   /**
@@ -756,7 +756,7 @@ function CrudManager() {
    */
   function addFieldLabel(div, type, name) {
     if (!isIdField(type) && !isHiddenField(type)) {
-      domUtils.append(div, domUtils.getLabel({}, name));
+      kameHouse.util.dom.append(div, kameHouse.util.dom.getLabel({}, name));
     }
   }
 
@@ -765,7 +765,7 @@ function CrudManager() {
    */
   function addBreak(div, type) {
     if (!isIdField(type) && !isHiddenField(type)) {
-      domUtils.append(div, domUtils.getBr());
+      kameHouse.util.dom.append(div, kameHouse.util.dom.getBr());
     }
   }
 
@@ -777,14 +777,14 @@ function CrudManager() {
       return;
     }
     const buttonId = fieldId + "-add";
-    const button = domUtils.getImgBtn({
+    const button = kameHouse.util.dom.getImgBtn({
       id: buttonId,
       src: "/kame-house/img/other/add-gray-dark.png",
       className: "img-btn-kh p-7-d-kh m-7-d-kh",
       alt: "Add",
       onClick: () => addArrayInputFieldElement(buttonId)
     });
-    domUtils.append(div, button);
+    kameHouse.util.dom.append(div, button);
   }
 
   /**
@@ -792,11 +792,11 @@ function CrudManager() {
    */
   function addArrayInputFieldElement(buttonId) {
     const arraySourceNode = document.getElementById(buttonId).previousSibling; 
-    const newNode = domUtils.cloneNode(arraySourceNode, false);
+    const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
     newNode.value = "";
     newNode.id = "";
-    domUtils.classListAdd(newNode, "m-5-t-d-kh");
-    domUtils.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+    kameHouse.util.dom.classListAdd(newNode, "m-5-t-d-kh");
+    kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
   }
 
   /**
@@ -806,12 +806,12 @@ function CrudManager() {
     if (!isPasswordField(type)) {
       return;
     }
-    const checkbox = domUtils.getInput({
+    const checkbox = kameHouse.util.dom.getInput({
       type: "checkbox",
       class: "m-7-d-kh"
      }, null);
-    domUtils.setClick(checkbox, () => toggleShowHidePassword(fieldId));
-    domUtils.append(div, checkbox);
+    kameHouse.util.dom.setClick(checkbox, () => toggleShowHidePassword(fieldId));
+    kameHouse.util.dom.append(div, checkbox);
   }
 
   /**
@@ -820,9 +820,9 @@ function CrudManager() {
   function toggleShowHidePassword(passwordFieldId) {
     const passwordField = document.getElementById(passwordFieldId);
     if (passwordField.type === "password") {
-      domUtils.setAttribute(passwordField, "type", "text");
+      kameHouse.util.dom.setAttribute(passwordField, "type", "text");
     } else {
-      domUtils.setAttribute(passwordField, "type", "password");
+      kameHouse.util.dom.setAttribute(passwordField, "type", "password");
     }
   }
 
@@ -914,7 +914,7 @@ function CrudManager() {
       const type = column.type;
       const name = column.name;
       if (isObjectField(type)) {
-        if (isEmpty(entity[name])) {
+        if (kameHouse.core.isEmpty(entity[name])) {
           entity[name] = {};
         }
         setEntityProperties(entity[name], formFieldsId, column.columns, parentNodeChain + name);
@@ -943,7 +943,7 @@ function CrudManager() {
 
     entity[name] = val;
 
-    if (isEmpty(val) || val == "") {
+    if (kameHouse.core.isEmpty(val) || val == "") {
       entity[name] = null;
     }
 
@@ -961,7 +961,7 @@ function CrudManager() {
     const arrayType = column.arrayType;
     const arrayVal = [];
     for (const arrayElement of array) {
-      if (!isEmpty(arrayElement.value) && arrayElement.value != "") {
+      if (!kameHouse.core.isEmpty(arrayElement.value) && arrayElement.value != "") {
         if (isObjectField(arrayType)) {
           arrayVal.push(JSON.parse(arrayElement.value));
         } else {
@@ -994,25 +994,25 @@ function CrudManager() {
    */
   function filterRows() {
     // first show all rows, then apply sequentially each of the filters, ignoring hidden rows, then limit row number
-    tableUtils.filterTableRows("", 'crud-manager-tbody', null);
+    kameHouse.util.table.filterTableRows("", 'crud-manager-tbody', null);
 
     const filters = document.getElementsByClassName("crud-manager-filter");
     for (const filter of filters) {
       const filterString = filter.value;
-      logger.trace("Applying filter " + filter.id + " with string " + filterString);
-      tableUtils.filterTableRows(filterString, 'crud-manager-tbody', null, true);
+      kameHouse.logger.trace("Applying filter " + filter.id + " with string " + filterString);
+      kameHouse.util.table.filterTableRows(filterString, 'crud-manager-tbody', null, true);
     }
 
     const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
     for (const columnFilter of columnFilters) {
       const filterString = columnFilter.value;
       const columnNumber = columnFilter.dataset.columnNumber;
-      logger.trace("Applying filter " + columnFilter.id + " with string " + filterString);
-      tableUtils.filterTableRowsByColumn(filterString, 'crud-manager-tbody', columnNumber, null, true);
+      kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString);
+      kameHouse.util.table.filterTableRowsByColumn(filterString, 'crud-manager-tbody', columnNumber, null, true);
     }
     
     const numRows = document.getElementById('num-rows').value;
-    tableUtils.limitRows('crud-manager-table', numRows, true);
+    kameHouse.util.table.limitRows('crud-manager-table', numRows, true);
   }
 
   /**
@@ -1021,15 +1021,15 @@ function CrudManager() {
    * 
    */
   function sortTable() {
-    if (isEmpty(defaultSorting)) {
+    if (kameHouse.core.isEmpty(defaultSorting)) {
       return;
     }
-    logger.trace("Sorting table data with default sorting config: " + JSON.stringify(defaultSorting));
-    tableUtils.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction);
+    kameHouse.logger.trace("Sorting table data with default sorting config: " + JSON.stringify(defaultSorting));
+    kameHouse.util.table.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction);
   }
 
   function refreshView() {
-    domUtils.setValue(document.getElementById('num-rows'), "");
+    kameHouse.util.dom.setValue(document.getElementById('num-rows'), "");
     
     const filters = document.getElementsByClassName("crud-manager-filter");
     for (const filter of filters) {

@@ -2,8 +2,8 @@ var scriptExecutor;
 
 function loadScriptExecutor() {
   scriptExecutor = new ScriptExecutor();
-  moduleUtils.setModuleLoaded("scriptExecutor");
-  logger.info("Initialized scriptExecutor");
+  kameHouse.util.module.setModuleLoaded("scriptExecutor");
+  kameHouse.logger.info("Initialized scriptExecutor");
 }
 
 /**
@@ -31,30 +31,30 @@ function ScriptExecutor() {
 
   /** Execute the specified script*/
   function execute(scriptName, args, executeOnDockerHost, callback, skipUpdateView) {
-    if (!isEmpty(scriptName)) {
+    if (!kameHouse.core.isEmpty(scriptName)) {
       const params = new URLSearchParams({
         script: scriptName,
         args: args,
         executeOnDockerHost: executeOnDockerHost
       });
       const getUrl = EXEC_SCRIPT_API + "?" + params;
-      logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost);
+      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost);
       if (!skipUpdateView) {
         updateScriptExecutionStartDate();
-        domUtils.addClass($('#script-output-header'), "hidden-kh");
-        domUtils.addClass($('#btn-execute-script'), "hidden-kh");
-        domUtils.addClass($('#btn-download-script-output'), "hidden-kh");
-        domUtils.addClass($('#script-output'), "hidden-kh");
+        kameHouse.util.dom.addClass($('#script-output-header'), "hidden-kh");
+        kameHouse.util.dom.addClass($('#btn-execute-script'), "hidden-kh");
+        kameHouse.util.dom.addClass($('#btn-download-script-output'), "hidden-kh");
+        kameHouse.util.dom.addClass($('#script-output'), "hidden-kh");
         setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
         setBannerScriptStatus("in progress...");
       } else {
-        logger.trace("Skipping view update");
+        kameHouse.logger.trace("Skipping view update");
       }
-      httpClient.get(getUrl, null,
+      kameHouse.http.get(getUrl, null,
         (responseBody, responseCode, responseDescription) => updateScriptOutput(responseBody, responseCode, responseDescription, callback, skipUpdateView),
         (responseBody, responseCode, responseDescription) => updateScriptOutputError(responseBody, responseCode, responseDescription, callback, skipUpdateView));
     } else {
-      logger.error("No script specified to execute");
+      kameHouse.logger.error("No script specified to execute");
     }
   }
 
@@ -64,16 +64,16 @@ function ScriptExecutor() {
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
-    domUtils.setHtml($("#st-script-name"), scriptName);
-    domUtils.setHtml($("#st-script-args"), args);
-    domUtils.setHtml($("#st-script-exec-docker-host"), executeOnDockerHost);
+    kameHouse.util.dom.setHtml($("#st-script-name"), scriptName);
+    kameHouse.util.dom.setHtml($("#st-script-args"), args);
+    kameHouse.util.dom.setHtml($("#st-script-exec-docker-host"), executeOnDockerHost);
   }
 
   /** Set the script ouput to show that the script is currently executing */
   function setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost) {
-    domUtils.removeClass($('#script-output-executing-wrapper'), "hidden-kh");
-    domUtils.setHtml($("#script-output-executing"), getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
-    collapsibleDivUtils.refreshCollapsibleDiv();
+    kameHouse.util.dom.removeClass($('#script-output-executing-wrapper'), "hidden-kh");
+    kameHouse.util.dom.setHtml($("#script-output-executing"), getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
+    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
 
   /** Update the script script output with the result of the script */
@@ -83,7 +83,7 @@ function ScriptExecutor() {
       const scriptOutputArray = responseBody.htmlConsoleOutput;
       bashScriptOutput = responseBody.bashConsoleOutput;
       const $scriptOutputTableBody = $('#script-output-table-body');
-      domUtils.empty($scriptOutputTableBody);
+      kameHouse.util.dom.empty($scriptOutputTableBody);
       const tbody = getScriptOutputTbody();
   
       const scriptOutputLength = scriptOutputArray.length;
@@ -91,45 +91,45 @@ function ScriptExecutor() {
         // Show full output
         for (let i = 0; i < scriptOutputLength; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            domUtils.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
+            kameHouse.util.dom.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
           }
         }
       } else {
         // Show only the first x and last y lines
         for (let i = 0; i < 50; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            domUtils.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
+            kameHouse.util.dom.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
           }
         }
          
-        domUtils.append(tbody, getScriptOutputTr(" "));
-        domUtils.append(tbody, getScriptOutputTr(" "));
-        domUtils.append(tbody, getScriptOutputTr(" "));
-        domUtils.append(tbody, getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
-        domUtils.append(tbody, getScriptOutputTr(" "));
-        domUtils.append(tbody, getScriptOutputTr(" "));
-        domUtils.append(tbody, getScriptOutputTr(" "));
+        kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
+        kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
+        kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
+        kameHouse.util.dom.append(tbody, getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
+        kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
+        kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
+        kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
   
         for (let i = scriptOutputLength - 350; i < scriptOutputLength; i++) {
           if (scriptOutputArray[i].trim().length > 0) {
-            domUtils.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
+            kameHouse.util.dom.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
           }
         }
       }
   
-      domUtils.replaceWith($scriptOutputTableBody, tbody);
+      kameHouse.util.dom.replaceWith($scriptOutputTableBody, tbody);
   
       // Update the view
-      domUtils.removeClass($('#script-output-header'), "hidden-kh");
-      domUtils.removeClass($('#btn-execute-script'), "hidden-kh");
-      domUtils.removeClass($('#script-output'), "hidden-kh");
-      domUtils.addClass($('#script-output-executing-wrapper'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#script-output-header'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#btn-execute-script'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#script-output'), "hidden-kh");
+      kameHouse.util.dom.addClass($('#script-output-executing-wrapper'), "hidden-kh");
       setBannerScriptStatus("finished!");
-      domUtils.removeClass($('#btn-download-script-output'), "hidden-kh");  
+      kameHouse.util.dom.removeClass($('#btn-download-script-output'), "hidden-kh");  
     } else {
-      logger.trace("Skipping view update");
+      kameHouse.logger.trace("Skipping view update");
     }
-    if (isFunction(callback)) {
+    if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
     }
   }
@@ -139,24 +139,24 @@ function ScriptExecutor() {
     if (!skipUpdateView) {
       updateScriptExecutionEndDate();
       const $scriptOutputTableBody = $('#script-output-table-body');
-      domUtils.empty($scriptOutputTableBody);
+      kameHouse.util.dom.empty($scriptOutputTableBody);
       const tbody = getScriptOutputTbody();
-      domUtils.append(tbody, getScriptOutputErrorTr("Error response from the backend"));
-      domUtils.append(tbody, getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
-      domUtils.append(tbody, getScriptOutputErrorTr("responseCode : " + responseCode));
-      domUtils.append(tbody, getScriptOutputErrorTr("responseDescription : " + responseDescription));
-      domUtils.replaceWith($scriptOutputTableBody, tbody);
+      kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("Error response from the backend"));
+      kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
+      kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseCode : " + responseCode));
+      kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseDescription : " + responseDescription));
+      kameHouse.util.dom.replaceWith($scriptOutputTableBody, tbody);
   
       // Update the view
-      domUtils.removeClass($('#script-output-header'), "hidden-kh");
-      domUtils.removeClass($('#btn-execute-script'), "hidden-kh");
-      domUtils.removeClass($('#script-output'), "hidden-kh");
-      domUtils.addClass($('#script-output-executing-wrapper'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#script-output-header'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#btn-execute-script'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#script-output'), "hidden-kh");
+      kameHouse.util.dom.addClass($('#script-output-executing-wrapper'), "hidden-kh");
       setBannerScriptStatus("finished!");
     } else {
-      logger.trace("Skipping view update");
+      kameHouse.logger.trace("Skipping view update");
     }
-    if (isFunction(callback)) {
+    if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
     }
   }
@@ -168,23 +168,23 @@ function ScriptExecutor() {
 
   /** Update server name */
   function updateServerName(sessionStatus) {
-    if (!isEmpty(sessionStatus.server)) {
-      domUtils.setHtml($("#st-server-name"), sessionStatus.server);
-      domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
+    if (!kameHouse.core.isEmpty(sessionStatus.server)) {
+      kameHouse.util.dom.setHtml($("#st-server-name"), sessionStatus.server);
+      kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
 
   /** Update script execution start date */
   function updateScriptExecutionStartDate() {
     const clientTimeAndDate = getClientTimeAndDate();
-    domUtils.setHtml($("#st-script-exec-start-date"), clientTimeAndDate);
-    domUtils.setHtml($("#st-script-exec-end-date"), "");
+    kameHouse.util.dom.setHtml($("#st-script-exec-start-date"), clientTimeAndDate);
+    kameHouse.util.dom.setHtml($("#st-script-exec-end-date"), "");
   }
 
   /** Update script execution end date */
   function updateScriptExecutionEndDate() {
     const clientTimeAndDate = getClientTimeAndDate();
-    domUtils.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
+    kameHouse.util.dom.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
   }
 
   /** Get the current time and date on the client */
@@ -200,17 +200,17 @@ function ScriptExecutor() {
     const clientMonth = clientDate.getMonth() + 1;
     const timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
     const downloadLink = getDownloadLink(timestamp);
-    domUtils.appendChild(document.body, downloadLink);
+    kameHouse.util.dom.appendChild(document.body, downloadLink);
     downloadLink.click();
-    domUtils.removeChild(document.body, downloadLink);
+    kameHouse.util.dom.removeChild(document.body, downloadLink);
   }
 
   function setBannerScriptStatus(status) {
-    domUtils.setHtml($("#banner-script-status"), status);
+    kameHouse.util.dom.setHtml($("#banner-script-status"), status);
   }
 
   function getDownloadLink(timestamp) {
-    return domUtils.getDomNode(domUtils.getA({
+    return kameHouse.util.dom.getDomNode(kameHouse.util.dom.getA({
       href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(bashScriptOutput),
       download:  "script-output-" + timestamp + ".log",
       class: "hidden-kh"
@@ -218,39 +218,39 @@ function ScriptExecutor() {
   }
 
   function getScriptOutputTbody() {
-    return domUtils.getTbody({
+    return kameHouse.util.dom.getTbody({
       id: "script-output-table-body"
     }, null);
   }
 
   function getScriptOutputErrorTr(message) {
-    return domUtils.getTrTd(message);
+    return kameHouse.util.dom.getTrTd(message);
   }
 
   function getScriptOutputTr(htmlContent) {
-    return domUtils.getTrTd(htmlContent);
+    return kameHouse.util.dom.getTrTd(htmlContent);
   }
 
   function getScriptExecutingMessage(scriptName, args, executeOnDockerHost) {
-    const executingMessageSpan = domUtils.getSpan({}, "Executing script : ");
-    const scriptNameSpan = domUtils.getSpan({
+    const executingMessageSpan = kameHouse.util.dom.getSpan({}, "Executing script : ");
+    const scriptNameSpan = kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, scriptName);
-    domUtils.append(executingMessageSpan, scriptNameSpan);
-    if (!isEmpty(args)) {
-      domUtils.append(executingMessageSpan, domUtils.getBr());
-      domUtils.append(executingMessageSpan, domUtils.getBr());
-      domUtils.append(executingMessageSpan, "with args : ");
-      const argsSpan = domUtils.getSpan({
+    kameHouse.util.dom.append(executingMessageSpan, scriptNameSpan);
+    if (!kameHouse.core.isEmpty(args)) {
+      kameHouse.util.dom.append(executingMessageSpan, kameHouse.util.dom.getBr());
+      kameHouse.util.dom.append(executingMessageSpan, kameHouse.util.dom.getBr());
+      kameHouse.util.dom.append(executingMessageSpan, "with args : ");
+      const argsSpan = kameHouse.util.dom.getSpan({
         class: "bold-kh"
       }, args);
-      domUtils.append(executingMessageSpan, argsSpan);
+      kameHouse.util.dom.append(executingMessageSpan, argsSpan);
     } else {
-      domUtils.append(executingMessageSpan, " without args");
+      kameHouse.util.dom.append(executingMessageSpan, " without args");
     }
-    domUtils.append(executingMessageSpan, domUtils.getBr());
-    domUtils.append(executingMessageSpan, domUtils.getBr());
-    domUtils.append(executingMessageSpan, "executeOnDockerHost: " + executeOnDockerHost);
+    kameHouse.util.dom.append(executingMessageSpan, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(executingMessageSpan, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(executingMessageSpan, "executeOnDockerHost: " + executeOnDockerHost);
     return executingMessageSpan;
   }
 }

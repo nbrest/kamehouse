@@ -1,7 +1,7 @@
 var scheduledBookingService;
 
 function mainBook() {
-  bannerUtils.setRandomPrinceOfTennisBanner();
+  kameHouse.util.banner.setRandomPrinceOfTennisBanner();
   scheduledBookingService = new ScheduledBookingService();
 }
 
@@ -15,17 +15,17 @@ function ScheduledBookingService() {
    * Trigger the scheduled bookings.
    */
   function triggerScheduledBookings() {
-    logger.info("Triggering execution of scheduled bookings...");
-    loadingWheelModal.open("Triggering execution of scheduled bookings...");
-    debuggerHttpClient.post(SCHEDULED_BOOKINGS_API_URL, null,
+    kameHouse.logger.info("Triggering execution of scheduled bookings...");
+    kameHouse.plugin.modal.loadingWheelModal.open("Triggering execution of scheduled bookings...");
+    kameHouse.plugin.debugger.http.post(SCHEDULED_BOOKINGS_API_URL, null,
       (responseBody, responseCode, responseDescription) => {
-        logger.info("Scheduled bookings executed successfully");
-        loadingWheelModal.close();
+        kameHouse.logger.info("Scheduled bookings executed successfully");
+        kameHouse.plugin.modal.loadingWheelModal.close();
         updateView(responseBody, responseCode);
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error executing scheduled bookings");
-        loadingWheelModal.close();
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error executing scheduled bookings");
+        kameHouse.plugin.modal.loadingWheelModal.close();
         updateView(responseBody, responseCode);
       });
   }
@@ -34,10 +34,10 @@ function ScheduledBookingService() {
    * Update the view with the scheduled bookings response.
    */
   function updateView(responseBody, responseCode) {
-    let message = timeUtils.getTimestamp() + " : ";
+    let message = kameHouse.util.time.getTimestamp() + " : ";
     console.log(responseCode);
     if (responseCode == 200 || responseCode == 201) {
-      if (!isEmpty(responseBody) && !isEmpty(responseBody.length) && responseBody.length > 0) {
+      if (!kameHouse.core.isEmpty(responseBody) && !kameHouse.core.isEmpty(responseBody.length) && responseBody.length > 0) {
         message = message + "Scheduled bookings executed successfully. Check the booking responses view to see the final status of each executed booking";
       } else {
         message = message + "No scheduled bookings triggered with the current configuration"
@@ -46,7 +46,7 @@ function ScheduledBookingService() {
       message = message + "Failed to execute scheduled bookings. Try again later..."
     }
 
-    domUtils.setHtml($('#scheduled-bookings-status'), message);
+    kameHouse.util.dom.setHtml($('#scheduled-bookings-status'), message);
   }
 }
 

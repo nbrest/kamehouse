@@ -9,20 +9,20 @@ var websocket;
 
 /** Main function. */
 function mainWebSocket() {
-  bannerUtils.setRandomSaintSeiyaBanner();
-  moduleUtils.loadWebSocketKameHouse();
-  moduleUtils.waitForModules(["kameHouseWebSocket"], () => {
-    logger.info("Started initializing WebSocket");
-    logger.setLogLevel(4);
+  kameHouse.util.banner.setRandomSaintSeiyaBanner();
+  kameHouse.util.module.loadWebSocketKameHouse();
+  kameHouse.util.module.waitForModules(["kameHouseWebSocket"], () => {
+    kameHouse.logger.info("Started initializing WebSocket");
+    kameHouse.logger.setLogLevel(4);
     websocket = new WebSocketKameHouse();
     websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
     websocket.setTopicUrl('/topic/test-module/websocket-out');
     websocket.setPollUrl("/app/test-module/websocket-in");
     
     $("form").on('submit', (e) => e.preventDefault());
-    domUtils.setClick($("#connect"), null, () => connectWebSocket());
-    domUtils.setClick($("#disconnect"), null, () => disconnectWebSocket());
-    domUtils.setClick($("#send"), null, () => sendWebSocketRequest());
+    kameHouse.util.dom.setClick($("#connect"), null, () => connectWebSocket());
+    kameHouse.util.dom.setClick($("#disconnect"), null, () => disconnectWebSocket());
+    kameHouse.util.dom.setClick($("#send"), null, () => sendWebSocketRequest());
   });
 }
 
@@ -31,23 +31,23 @@ function mainWebSocket() {
  */
 function setConnected(isConnected) {
   if (isConnected) {
-    domUtils.addClass($("#connect"), "hidden-kh");
-    domUtils.removeClass($("#connected"), "hidden-kh");
-    domUtils.removeClass($("#disconnect"), "hidden-kh");
-    domUtils.addClass($("#disconnected"), "hidden-kh");
-    domUtils.removeClass($("#send-label"), "hidden-kh");
-    domUtils.removeClass($("#send"), "hidden-kh");
-    domUtils.removeClass($("#websocket-responses-wrapper"), "hidden-kh");
+    kameHouse.util.dom.addClass($("#connect"), "hidden-kh");
+    kameHouse.util.dom.removeClass($("#connected"), "hidden-kh");
+    kameHouse.util.dom.removeClass($("#disconnect"), "hidden-kh");
+    kameHouse.util.dom.addClass($("#disconnected"), "hidden-kh");
+    kameHouse.util.dom.removeClass($("#send-label"), "hidden-kh");
+    kameHouse.util.dom.removeClass($("#send"), "hidden-kh");
+    kameHouse.util.dom.removeClass($("#websocket-responses-wrapper"), "hidden-kh");
   } else {
-    domUtils.removeClass($("#connect"), "hidden-kh");
-    domUtils.addClass($("#connected"), "hidden-kh");
-    domUtils.addClass($("#disconnect"), "hidden-kh");
-    domUtils.removeClass($("#disconnected"), "hidden-kh");
-    domUtils.addClass($("#send-label"), "hidden-kh");
-    domUtils.addClass($("#send"), "hidden-kh");
-    domUtils.addClass($("#websocket-responses-wrapper"), "hidden-kh");
+    kameHouse.util.dom.removeClass($("#connect"), "hidden-kh");
+    kameHouse.util.dom.addClass($("#connected"), "hidden-kh");
+    kameHouse.util.dom.addClass($("#disconnect"), "hidden-kh");
+    kameHouse.util.dom.removeClass($("#disconnected"), "hidden-kh");
+    kameHouse.util.dom.addClass($("#send-label"), "hidden-kh");
+    kameHouse.util.dom.addClass($("#send"), "hidden-kh");
+    kameHouse.util.dom.addClass($("#websocket-responses-wrapper"), "hidden-kh");
   }
-  domUtils.empty($("#websocket-responses"));
+  kameHouse.util.dom.empty($("#websocket-responses"));
 }
 
 /**
@@ -56,7 +56,7 @@ function setConnected(isConnected) {
 function connectWebSocket() {
   websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body)));
   setConnected(true);
-  logger.debug("Connected WebSocket");
+  kameHouse.logger.debug("Connected WebSocket");
 }
 
 /**
@@ -65,7 +65,7 @@ function connectWebSocket() {
 function disconnectWebSocket() {
   websocket.disconnect();
   setConnected(false);
-  logger.debug("Disconnected WebSocket");
+  kameHouse.logger.debug("Disconnected WebSocket");
 }
 
 /**
@@ -83,13 +83,13 @@ function sendWebSocketRequest() {
  * Update the view after getting a response from the websocket.
  */
 function showTestWebSocketResponse(testWebSocketResponseBody) {
-  logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
-  const date = timeUtils.getDateFromEpoch(testWebSocketResponseBody.date);
-  domUtils.append($("#websocket-responses"), getWebsocketResponseTr(date, testWebSocketResponseBody.message));
+  kameHouse.logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
+  const date = kameHouse.util.time.getDateFromEpoch(testWebSocketResponseBody.date);
+  kameHouse.util.dom.append($("#websocket-responses"), getWebsocketResponseTr(date, testWebSocketResponseBody.message));
 }
 
 function getWebsocketResponseTr(date, message) {
-  return domUtils.getTrTd(date.toLocaleString() + " : " + message);
+  return kameHouse.util.dom.getTrTd(date.toLocaleString() + " : " + message);
 }
 
 /** Call main. */

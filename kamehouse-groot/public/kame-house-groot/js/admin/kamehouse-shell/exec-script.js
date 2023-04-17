@@ -1,6 +1,6 @@
 function main() {
-  bannerUtils.setRandomAllBanner();
-  moduleUtils.waitForModules(["scriptExecutor", "grootHeader"], () => {
+  kameHouse.util.banner.setRandomAllBanner();
+  kameHouse.util.module.waitForModules(["scriptExecutor", "grootHeader"], () => {
     scriptExecutor.setScriptNameAndArgsFromUrlParams();
     scriptExecutor.handleSessionStatus();
   });

@@ -1,37 +1,16 @@
 /** 
- * Handles the debugger functionality including the debugger wrapper to the httpClient.
+ * Handles the debugger functionality including the debugger wrapper to the kameHouse.http.
  * 
  * @author nbrest
  */
-var debuggerHttpClient;
-var kameHouseDebugger;
-
-function main() {
-  importKameHouseDebuggerCss();
-  logger.info("Started initializing kameHouseDebugger");
-  kameHouseDebugger = new KameHouseDebugger();
-  kameHouseDebugger.init();
-  
-  moduleUtils.waitForModules(["kameHouseDebugger"], () => {
-    logger.info("Started initializing debuggerHttpClient");
-    debuggerHttpClient = new DebuggerHttpClient();
-    debuggerHttpClient.init();
-  });
-}
-
-/** Import debugger-http-client css*/
-function importKameHouseDebuggerCss() {
-  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-debugger.css">');
-}
 
 /** 
  * Handles the debugger functionality and renders the api calls in the debugger table.
- * 
- * @author nbrest
  */
 function KameHouseDebugger() {
-
-  this.init = init;
+  
+  this.load = load;
+  this.importKameHouseDebuggerCss = importKameHouseDebuggerCss;
   this.toggleDebugMode = toggleDebugMode;
   this.setConsoleLogLevel = setConsoleLogLevel;
   this.renderCustomDebugger = renderCustomDebugger;
@@ -42,26 +21,34 @@ function KameHouseDebugger() {
   const requests = [];
   let debuggerHttpClientDivTemplate;  
   
-  async function init() {
+  async function load() {
+    kameHouse.logger.info("Started initializing kameHouseDebugger");
+    kameHouse.plugin.debugger.http = new DebuggerHttpClient();
+    importKameHouseDebuggerCss();
     await loadDebuggerHttpClientTemplate();
     renderDebugMode();
+  }
+
+  /** Import debugger-http-client css*/
+  function importKameHouseDebuggerCss() {
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-debugger.css">');
   }
 
   /**
    * Loads the debugger http client html snippet into a variable to be reused as a template on render.
    */
   async function loadDebuggerHttpClientTemplate() {
-    debuggerHttpClientDivTemplate = await fetchUtils.loadHtmlSnippet('/kame-house/kamehouse/html/kamehouse-debugger-http-client-table.html');
-    logger.debug("Loaded debuggerHttpClientDivTemplate");
+    debuggerHttpClientDivTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/kamehouse/html/kamehouse-debugger-http-client-table.html');
+    kameHouse.logger.debug("Loaded debuggerHttpClientDivTemplate");
   }
 
   /** 
    * Toggle debug mode. 
    */
   function toggleDebugMode() {
-    logger.debug("Toggled debug mode");
+    kameHouse.logger.debug("Toggled debug mode");
     const debugModeDiv = document.getElementById("debug-mode");
-    domUtils.classListToggle(debugModeDiv, "hidden-kh");
+    kameHouse.util.dom.classListToggle(debugModeDiv, "hidden-kh");
   }
   
   /**
@@ -69,22 +56,22 @@ function KameHouseDebugger() {
    */
   function setConsoleLogLevel() {
     const logLevel = document.getElementById("debug-mode-log-level-dropdown").value;
-    logger.setLogLevel(logLevel);
+    kameHouse.logger.setLogLevel(logLevel);
     
-    logger.error("Set log level to " + logLevel);
-    logger.warn("Set log level to " + logLevel);
-    logger.info("Set log level to " + logLevel);
-    logger.debug("Set log level to " + logLevel);
-    logger.trace("Set log level to " + logLevel);
+    kameHouse.logger.error("Set log level to " + logLevel);
+    kameHouse.logger.warn("Set log level to " + logLevel);
+    kameHouse.logger.info("Set log level to " + logLevel);
+    kameHouse.logger.debug("Set log level to " + logLevel);
+    kameHouse.logger.trace("Set log level to " + logLevel);
   }
 
   /**
    * Render debug mode div and it's button.
    */
   function renderDebugMode() {
-    domUtils.load($("#debug-mode-button-wrapper"), "/kame-house/kamehouse/html/kamehouse-debugger-button.html");
-    domUtils.load($("#debug-mode-wrapper"), "/kame-house/kamehouse/html/kamehouse-debugger.html", () => {
-      moduleUtils.setModuleLoaded("kameHouseDebugger");
+    kameHouse.util.dom.load($("#debug-mode-button-wrapper"), "/kame-house/kamehouse/html/kamehouse-debugger-button.html");
+    kameHouse.util.dom.load($("#debug-mode-wrapper"), "/kame-house/kamehouse/html/kamehouse-debugger.html", () => {
+      kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
       displayRequestData(null, null, null, null);
     });
   }
@@ -93,7 +80,7 @@ function KameHouseDebugger() {
    * Render the specified html snippet into the custom div of the debugger.
    */
   function renderCustomDebugger(htmlSnippet) {
-    domUtils.load($("#debug-mode-custom-wrapper"), htmlSnippet);
+    kameHouse.util.dom.load($("#debug-mode-custom-wrapper"), htmlSnippet);
   }
 
   /**
@@ -105,24 +92,24 @@ function KameHouseDebugger() {
     request.responseData = {};
     request.responseData.responseCode = responseCode;
     request.responseData.responseBody = responseBody;
-    request.responseData.timestamp = timeUtils.getTimestamp();
+    request.responseData.timestamp = kameHouse.util.time.getTimestamp();
     while (requests.length >= 7) {
       requests.shift();
     }
     requests.push(request);
-    domUtils.setText($('#debugger-http-client-previous-requests-val'), JSON.stringify(requests, null, 2));
-    collapsibleDivUtils.setCollapsibleContent();
+    kameHouse.util.dom.setText($('#debugger-http-client-previous-requests-val'), JSON.stringify(requests, null, 2));
+    kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
   /**
    * Display debugger http client response data.
    */
   function displayResponseData(responseBody, responseCode) {
-    const responseTimestamp = timeUtils.getTimestamp();
-    domUtils.setHtml($("#debugger-http-client-res-code-val"), responseCode);
-    domUtils.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
-    domUtils.setText($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
-    collapsibleDivUtils.setCollapsibleContent();
+    const responseTimestamp = kameHouse.util.time.getTimestamp();
+    kameHouse.util.dom.setHtml($("#debugger-http-client-res-code-val"), responseCode);
+    kameHouse.util.dom.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
+    kameHouse.util.dom.setText($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
+    kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
   /**
@@ -130,17 +117,17 @@ function KameHouseDebugger() {
    */
   function displayRequestData(url, requestType, requestHeaders, requestBody) {
     emptyDebuggerHttpClientDiv();
-    domUtils.setInnerHtml(document.getElementById("debugger-http-client"), debuggerHttpClientDivTemplate);
-    const requestTimestamp = timeUtils.getTimestamp();
-    domUtils.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
-    domUtils.setHtml($('#debugger-http-client-req-url-val'), url);
-    domUtils.setHtml($('#debugger-http-client-req-type-val'), requestType);
-    domUtils.setHtml($('#debugger-http-client-req-headers-val'), JSON.stringify(requestHeaders));
-    domUtils.setText($('#debugger-http-client-req-body-val'), JSON.stringify(requestBody, null, 2));
-    domUtils.setHtml($('#debugger-http-client-res-code-val'), null);
-    domUtils.setHtml($('#debugger-http-client-res-timestamp-val'), null);
-    domUtils.setText($('#debugger-http-client-res-body-val'), JSON.stringify(null, null, 2));
-    collapsibleDivUtils.setCollapsibleContent();
+    kameHouse.util.dom.setInnerHtml(document.getElementById("debugger-http-client"), debuggerHttpClientDivTemplate);
+    const requestTimestamp = kameHouse.util.time.getTimestamp();
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-url-val'), url);
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-type-val'), requestType);
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-headers-val'), JSON.stringify(requestHeaders));
+    kameHouse.util.dom.setText($('#debugger-http-client-req-body-val'), JSON.stringify(requestBody, null, 2));
+    kameHouse.util.dom.setHtml($('#debugger-http-client-res-code-val'), null);
+    kameHouse.util.dom.setHtml($('#debugger-http-client-res-timestamp-val'), null);
+    kameHouse.util.dom.setText($('#debugger-http-client-res-body-val'), JSON.stringify(null, null, 2));
+    kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
   /**
@@ -148,7 +135,7 @@ function KameHouseDebugger() {
    */
   function emptyDebuggerHttpClientDiv() {
     const $debuggerHttpClientDiv = $("#debugger-http-client");
-    domUtils.empty($debuggerHttpClientDiv);
+    kameHouse.util.dom.empty($debuggerHttpClientDiv);
   }
 }
 
@@ -161,7 +148,6 @@ function KameHouseDebugger() {
  */
 function DebuggerHttpClient() {
 
-  this.init = init;
   this.get = get;
   this.getUrlEncoded = getUrlEncoded;
   this.put = put;
@@ -176,10 +162,6 @@ function DebuggerHttpClient() {
   const PUT = "PUT";
   const DELETE = "DELETE";
 
-  function init() {
-    moduleUtils.setModuleLoaded("debuggerHttpClient");
-  }
-
   /** 
    * Execute a GET request, update the debugger http client 
    * and perform the specified success or error functions 
@@ -187,8 +169,8 @@ function DebuggerHttpClient() {
    */
   function get(url, successCallback, errorCallback, data) {
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, GET, null);
-    kameHouseDebugger.displayRequestData(url, GET, null, null);
-    httpClient.get(url, null,
+    kameHouse.plugin.debugger.displayRequestData(url, GET, null, null);
+    kameHouse.http.get(url, null,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -201,9 +183,9 @@ function DebuggerHttpClient() {
   function getUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     const urlEncoded = encodeURI(url + "?" + requestParam);
     const dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, GET, null);
-    const requestHeaders = httpClient.getUrlEncodedHeaders();
-    kameHouseDebugger.displayRequestData(urlEncoded, GET, requestHeaders, null);
-    httpClient.get(urlEncoded, requestHeaders,
+    const requestHeaders = kameHouse.http.getUrlEncodedHeaders();
+    kameHouse.plugin.debugger.displayRequestData(urlEncoded, GET, requestHeaders, null);
+    kameHouse.http.get(urlEncoded, requestHeaders,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -215,12 +197,12 @@ function DebuggerHttpClient() {
    */
   function put(url, requestBody, successCallback, errorCallback, data) {
     let requestHeaders = null;
-    if (!isEmpty(requestBody)) {
-      requestHeaders = httpClient.getApplicationJsonHeaders();
+    if (!kameHouse.core.isEmpty(requestBody)) {
+      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
     }
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, PUT, requestBody);
-    kameHouseDebugger.displayRequestData(url, PUT, requestHeaders, requestBody);
-    httpClient.put(url, requestHeaders, requestBody,
+    kameHouse.plugin.debugger.displayRequestData(url, PUT, requestHeaders, requestBody);
+    kameHouse.http.put(url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
     );
@@ -232,12 +214,12 @@ function DebuggerHttpClient() {
    */
   function putUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     let requestHeaders = null;
-    if (!isEmpty(requestParam)) {
-      requestHeaders = httpClient.getUrlEncodedHeaders();
+    if (!kameHouse.core.isEmpty(requestParam)) {
+      requestHeaders = kameHouse.http.getUrlEncodedHeaders();
     }
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, PUT, requestParam);
-    kameHouseDebugger.displayRequestData(url, PUT, requestHeaders, requestParam);
-    httpClient.put(url, requestHeaders, requestParam,
+    kameHouse.plugin.debugger.displayRequestData(url, PUT, requestHeaders, requestParam);
+    kameHouse.http.put(url, requestHeaders, requestParam,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -249,12 +231,12 @@ function DebuggerHttpClient() {
    */
   function post(url, requestBody, successCallback, errorCallback, data) {
     let requestHeaders = null;
-    if (!isEmpty(requestBody)) {
-      requestHeaders = httpClient.getApplicationJsonHeaders();
+    if (!kameHouse.core.isEmpty(requestBody)) {
+      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
     }
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, POST, requestBody);
-    kameHouseDebugger.displayRequestData(url, POST, requestHeaders, requestBody);
-    httpClient.post(url, requestHeaders, requestBody,
+    kameHouse.plugin.debugger.displayRequestData(url, POST, requestHeaders, requestBody);
+    kameHouse.http.post(url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -266,12 +248,12 @@ function DebuggerHttpClient() {
    */
   function postUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     let requestHeaders = null;
-    if (!isEmpty(requestParam)) {
-      requestHeaders = httpClient.getUrlEncodedHeaders();
+    if (!kameHouse.core.isEmpty(requestParam)) {
+      requestHeaders = kameHouse.http.getUrlEncodedHeaders();
     }
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, POST, requestParam);
-    kameHouseDebugger.displayRequestData(url, POST, requestHeaders, requestParam);
-    httpClient.post(url, requestHeaders, requestParam,
+    kameHouse.plugin.debugger.displayRequestData(url, POST, requestHeaders, requestParam);
+    kameHouse.http.post(url, requestHeaders, requestParam,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -283,12 +265,12 @@ function DebuggerHttpClient() {
    */
   function httpDelete(url, requestBody, successCallback, errorCallback, data) {
     let requestHeaders = null;
-    if (!isEmpty(requestBody)) {
-      requestHeaders = httpClient.getApplicationJsonHeaders();
+    if (!kameHouse.core.isEmpty(requestBody)) {
+      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
     }
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, DELETE, requestBody);
-    kameHouseDebugger.displayRequestData(url, DELETE, requestHeaders, requestBody);
-    httpClient.delete(url, requestHeaders, requestBody,
+    kameHouse.plugin.debugger.displayRequestData(url, DELETE, requestHeaders, requestBody);
+    kameHouse.http.delete(url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -300,12 +282,12 @@ function DebuggerHttpClient() {
    */
   function deleteUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
     let requestHeaders = null;
-    if (!isEmpty(requestParam)) {
-      requestHeaders = httpClient.getApplicationJsonHeaders();
+    if (!kameHouse.core.isEmpty(requestParam)) {
+      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
     }
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, DELETE, requestParam);
-    kameHouseDebugger.displayRequestData(url, DELETE, requestHeaders, requestParam);
-    httpClient.delete(url, requestHeaders, requestParam,
+    kameHouse.plugin.debugger.displayRequestData(url, DELETE, requestHeaders, requestParam);
+    kameHouse.http.delete(url, requestHeaders, requestParam,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -321,15 +303,15 @@ function DebuggerHttpClient() {
     dataWithRequestInfo.requestData.url = url;
     dataWithRequestInfo.requestData.method = method;
     dataWithRequestInfo.requestData.requestBody = requestBody;
-    dataWithRequestInfo.requestData.timestamp = timeUtils.getTimestamp();
+    dataWithRequestInfo.requestData.timestamp = kameHouse.util.time.getTimestamp();
     return dataWithRequestInfo;
   }
 
   /** Process the response of the api call */
   function processResponse(responseBody, responseCode, responseDescription, responseCallback, dataWithRequestInfo) {
-    kameHouseDebugger.displayResponseData(responseBody, responseCode);
-    kameHouseDebugger.displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode);
-    if (isFunction(responseCallback)) {
+    kameHouse.plugin.debugger.displayResponseData(responseBody, responseCode);
+    kameHouse.plugin.debugger.displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode);
+    if (kameHouse.core.isFunction(responseCallback)) {
       responseCallback(responseBody, responseCode, responseDescription, dataWithRequestInfo.data);
     }
   }
@@ -338,4 +320,6 @@ function DebuggerHttpClient() {
 /**
  * Call main.
  */
-$(document).ready(main);
+$(document).ready(() => {
+  kameHouse.addPlugin("debugger", new KameHouseDebugger());
+});

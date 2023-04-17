@@ -1,7 +1,7 @@
 /**
  * Header and Footer functions.
  * 
- * Dependencies: logger, httpClient.
+ * Dependencies: logger, kameHouse.http.
  * 
  * @author nbrest
  */
@@ -12,7 +12,7 @@ var footer;
  * Render header and footer.
  */
 function renderHeaderAndFooter() {
-  logger.info("Started initializing header and footer");
+  kameHouse.logger.info("Started initializing header and footer");
   header = new Header();
   header.renderHeader();
   footer = new Footer();
@@ -26,13 +26,13 @@ function renderHeaderAndFooter() {
 function loadSessionStatus() {
   const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
-  httpClient.get(SESSION_STATUS_URL, null,
+  kameHouse.http.get(SESSION_STATUS_URL, null,
     (responseBody, responseCode, responseDescription) => {
-      logger.trace("Session Status: " + JSON.stringify(responseBody));
+      kameHouse.logger.trace("Session Status: " + JSON.stringify(responseBody));
       kameHouse.session = responseBody;
       updateSessionStatus();
     },
-    (responseBody, responseCode, responseDescription) => logger.error("Error retrieving current session information.")
+    (responseBody, responseCode, responseDescription) => kameHouse.logger.error("Error retrieving current session information.")
   );
 }
 
@@ -41,11 +41,11 @@ function loadSessionStatus() {
  */
 async function updateSessionStatus() {
   while (!header.isLoaded() && !footer.isLoaded()) {
-    await sleep(1000);
+    await kameHouse.core.sleep(1000);
   }
   header.updateLoginStatus();
   footer.updateFooterWithSessionInfo();
-  bannerUtils.updateServerName();
+  kameHouse.util.banner.updateServerName();
 }
 
 /** Footer functionality */
@@ -61,34 +61,35 @@ function Footer() {
 
   /** Renders the footer */
   function renderFooter() { 
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
     $(document).ready(() => {
       // load the footer after the other elements are loaded, if not it randomly puts the footer in the middle
-      logger.info("Loading footer");
-      domUtils.append($("body"), getFooterContainerDiv());
-      domUtils.load($("#kamehouse-footer-container"), "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
-        mobileAppUtils.updateMobileElements();
+      kameHouse.logger.info("Loading footer");
+      kameHouse.util.dom.append($("body"), getFooterContainerDiv());
+      kameHouse.util.dom.load($("#kamehouse-footer-container"), "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
+        kameHouse.util.mobile.disableWebappOnlyElements();
+        kameHouse.util.mobile.disableMobileOnlyElements();
         loaded = true;
-        logger.info("Finished loading footer");
+        kameHouse.logger.info("Finished loading footer");
       });
     });
   }
 
   /** Update the server name, and build info in the footer */
   function updateFooterWithSessionInfo() {
-    if (!isEmpty(kameHouse.session.server)) {
-      domUtils.setHtml($("#footer-server-name"), kameHouse.session.server);
+    if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
+      kameHouse.util.dom.setHtml($("#footer-server-name"), kameHouse.session.server);
     }
-    if (!isEmpty(kameHouse.session.buildVersion)) {
-      domUtils.setHtml($("#footer-build-version"), kameHouse.session.buildVersion);
+    if (!kameHouse.core.isEmpty(kameHouse.session.buildVersion)) {
+      kameHouse.util.dom.setHtml($("#footer-build-version"), kameHouse.session.buildVersion);
     }
-    if (!isEmpty(kameHouse.session.buildDate)) {
-      domUtils.setHtml($("#footer-build-date"), kameHouse.session.buildDate);
+    if (!kameHouse.core.isEmpty(kameHouse.session.buildDate)) {
+      kameHouse.util.dom.setHtml($("#footer-build-date"), kameHouse.session.buildDate);
     }
   }
 
   function getFooterContainerDiv() {
-    return domUtils.getDiv({
+    return kameHouse.util.dom.getDiv({
       id: "kamehouse-footer-container"
     });
   }
@@ -110,17 +111,18 @@ function Header() {
   
   /** Render the header */
   function renderHeader() {
-    logger.info("Loading header");
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
+    kameHouse.logger.info("Loading header");
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
     $(document).ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
-      domUtils.prepend($("body"), getHeaderContainerDiv());
-      domUtils.load($("#kamehouse-header-container"), "/kame-house/kamehouse/html/kamehouse-header.html", () => {
+      kameHouse.util.dom.prepend($("body"), getHeaderContainerDiv());
+      kameHouse.util.dom.load($("#kamehouse-header-container"), "/kame-house/kamehouse/html/kamehouse-header.html", () => {
         updateLoginStatus();
-        mobileAppUtils.updateMobileElements();
+        kameHouse.util.mobile.disableWebappOnlyElements();
+        kameHouse.util.mobile.disableMobileOnlyElements();
         updateActiveTab();
         loaded = true;
-        logger.info("Finished loading header");
+        kameHouse.logger.info("Finished loading header");
       });
     });
   }
@@ -132,7 +134,7 @@ function Header() {
     const pageUrl = window.location.pathname;
     $("#kamehouse-header-container header .default-layout #header-menu a").toArray().forEach((navElement) => {
       const navItem = $(navElement);
-      domUtils.removeClass(navItem, "active");
+      kameHouse.util.dom.removeClass(navItem, "active");
       
       if (pageUrl == "/kame-house/" || pageUrl == "/kame-house/index.html") {
         setActiveNavItem(navItem, "nav-home");
@@ -170,7 +172,7 @@ function Header() {
    */
   function setActiveNavItem(navItem, navId) {
     if (navItem.attr("id") == navId) {
-      domUtils.addClass(navItem, "active");
+      kameHouse.util.dom.addClass(navItem, "active");
     }
   }
 
@@ -180,9 +182,9 @@ function Header() {
   function toggleHeaderNav() {
     const headerMenu = document.getElementById("header-menu");
     if (headerMenu.className === "header-nav") {
-      domUtils.classListAdd(headerMenu, "responsive");
+      kameHouse.util.dom.classListAdd(headerMenu, "responsive");
     } else {
-      domUtils.classListRemove(headerMenu, "responsive");
+      kameHouse.util.dom.classListRemove(headerMenu, "responsive");
     }
   }
 
@@ -191,13 +193,13 @@ function Header() {
    */
   function updateLoginStatus() {
     const $loginStatus = $("#login-status");
-    domUtils.empty($loginStatus);
-    if (isEmpty(kameHouse.session.username) || kameHouse.session.username.trim() == "" ||
+    kameHouse.util.dom.empty($loginStatus);
+    if (kameHouse.core.isEmpty(kameHouse.session.username) || kameHouse.session.username.trim() == "" ||
       kameHouse.session.username.trim() == "anonymousUser") {
-      domUtils.append($loginStatus, getLoginButton());
+      kameHouse.util.dom.append($loginStatus, getLoginButton());
     } else {
-      domUtils.append($loginStatus, getUsernameHeader(kameHouse.session.username));
-      domUtils.append($loginStatus, getLogoutButton());        
+      kameHouse.util.dom.append($loginStatus, getUsernameHeader(kameHouse.session.username));
+      kameHouse.util.dom.append($loginStatus, getLogoutButton());        
     }
   }
 
@@ -216,8 +218,8 @@ function Header() {
       return;
     }
     const menu = document.getElementById("groot-menu-wrapper");
-    if (!isEmpty(menu)) {
-      domUtils.setDisplay(menu, "block");
+    if (!kameHouse.core.isEmpty(menu)) {
+      kameHouse.util.dom.setDisplay(menu, "block");
     }
   }
 
@@ -229,8 +231,8 @@ function Header() {
       return;
     }
     const menu = document.getElementById("groot-menu-wrapper");
-    if (!isEmpty(menu)) {
-      domUtils.setDisplay(menu, "none");
+    if (!kameHouse.core.isEmpty(menu)) {
+      kameHouse.util.dom.setDisplay(menu, "none");
     }
   }
 
@@ -238,7 +240,7 @@ function Header() {
    * Get header container.
    */
   function getHeaderContainerDiv() {
-    return domUtils.getDiv({
+    return kameHouse.util.dom.getDiv({
       id: "kamehouse-header-container"
     });
   }
@@ -247,12 +249,12 @@ function Header() {
    * Get login button.
    */
   function getLoginButton() {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/login-left-red.png",
       className: "header-login-status-btn",
       alt: "Login KameHouse",
       onClick: () => {
-        if (mobileAppUtils.isMobileApp()) {
+        if (kameHouse.util.mobile.isMobileApp()) {
           window.location="/kame-house-mobile/index.html";
           return;
         }
@@ -265,15 +267,15 @@ function Header() {
    * Get logout button.
    */
   function getLogoutButton() {
-    if (mobileAppUtils.isMobileApp()) {
-      return domUtils.getImgBtn({
+    if (kameHouse.util.mobile.isMobileApp()) {
+      return kameHouse.util.dom.getImgBtn({
         src: "/kame-house/img/dbz/goku-dark-gray.png",
         className: "header-login-status-btn",
         alt: "KameHouse",
         onClick: () => {return;}
       });
     }
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/logout-right-red.png",
       className: "header-login-status-btn",
       alt: "Logout KameHouse",
@@ -285,7 +287,7 @@ function Header() {
    * Get username login status header span.
    */
   function getUsernameHeader(username) {
-    return domUtils.getSpan({
+    return kameHouse.util.dom.getSpan({
       class: "header-login-status-text"
     }, username);
   }

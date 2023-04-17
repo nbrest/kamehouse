@@ -1,5 +1,5 @@
 window.onload = () => {
-  moduleUtils.waitForModules(["debuggerHttpClient", "crudManager"], () => {    
+  kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
     crudManager.init({
       entityName: "KameHouse User",
       url: "/kame-house-admin/api/v1/admin/kamehouse/users",

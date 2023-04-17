@@ -19,14 +19,14 @@ function KameHouseMobileTabsManager() {
    * Init module.
    */
   function init() {
-    domUtils.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/html-snippets/kh-mobile-tabs.html", () => {
-      moduleUtils.setModuleLoaded("kameHouseMobileTabsManager");
+    kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/html-snippets/kh-mobile-tabs.html", () => {
+      kameHouse.util.module.setModuleLoaded("kameHouseMobileTabsManager");
     });
-    domUtils.load($("#tab-home"), "/kame-house-mobile/html-snippets/tab-home.html");
-    domUtils.load($("#tab-services"), "/kame-house-mobile/html-snippets/tab-services.html");
-    moduleUtils.waitForModules(["mobileConfigManager"], () => {
-      domUtils.load($("#tab-config"), "/kame-house-mobile/html-snippets/tab-config.html", () => {
-        mobileConfigManager.refreshConfigTabView();
+    kameHouse.util.dom.load($("#tab-home"), "/kame-house-mobile/html-snippets/tab-home.html");
+    kameHouse.util.dom.load($("#tab-services"), "/kame-house-mobile/html-snippets/tab-services.html");
+    kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+      kameHouse.util.dom.load($("#tab-config"), "/kame-house-mobile/html-snippets/tab-config.html", () => {
+        kameHouse.mobile.configManager.refreshConfigTabView();
       });
     });
   }
@@ -39,25 +39,25 @@ function KameHouseMobileTabsManager() {
     // Update tab links
     const kamehouseTabLinks = document.getElementsByClassName("kh-mobile-tab-link");
     for (const kamehouseTabLink of kamehouseTabLinks) {
-      domUtils.classListRemove(kamehouseTabLink, "active");
+      kameHouse.util.dom.classListRemove(kamehouseTabLink, "active");
     }
     const selectedTabLink = document.getElementById(selectedTabDivId + '-link');
-    domUtils.classListAdd(selectedTabLink, "active");
+    kameHouse.util.dom.classListAdd(selectedTabLink, "active");
 
     const kamehouseTabLinkImages = document.getElementsByClassName("kh-mobile-tab-link-img");
     for (const kamehouseTabLinkImage of kamehouseTabLinkImages) {
-      domUtils.classListRemove(kamehouseTabLinkImage, "kh-mobile-tab-img-active");
+      kameHouse.util.dom.classListRemove(kamehouseTabLinkImage, "kh-mobile-tab-img-active");
     }
     const selectedTabLinkImage = document.getElementById(selectedTabDivId + '-link-img');
-    domUtils.classListAdd(selectedTabLinkImage, "kh-mobile-tab-img-active");
+    kameHouse.util.dom.classListAdd(selectedTabLinkImage, "kh-mobile-tab-img-active");
 
     // Update tab content visibility
     const kamehouseTabContent = document.getElementsByClassName("kh-mobile-tab-content");
     for (const kamehouseTabContentElement of kamehouseTabContent) {
-      domUtils.setDisplay(kamehouseTabContentElement, "none");
+      kameHouse.util.dom.setDisplay(kamehouseTabContentElement, "none");
     }
     const selectedTabDiv = document.getElementById(selectedTabDivId);
-    domUtils.setDisplay(selectedTabDiv, "block");
+    kameHouse.util.dom.setDisplay(selectedTabDiv, "block");
 
     setBannerHeader(selectedTabDivId);
   }
@@ -86,12 +86,12 @@ function KameHouseMobileTabsManager() {
 
     const bannerHeader = document.getElementById("banner-header");
     if (bannerHeader) {
-      domUtils.setInnerHtml(bannerHeader, bannerHeaderVal);
+      kameHouse.util.dom.setInnerHtml(bannerHeader, bannerHeaderVal);
     }
 
     const bannerParagraph = document.getElementById("banner-p");
     if (bannerParagraph) {
-      domUtils.setInnerHtml(bannerParagraph, bannerParagraphVal);
+      kameHouse.util.dom.setInnerHtml(bannerParagraph, bannerParagraphVal);
     }
   }
 }

@@ -7,14 +7,12 @@
  * 
  * @author nbrest
  */
-var grootHeader;
+function KameHouseGroot() {
+  this.load = load;
 
-function KameHouseGrootLoader() {
-  this.init = init;
-
-  function init() {
-    grootHeader = new GrootHeader();
-    grootHeader.renderGrootMenu();
+  function load() {
+    kameHouse.groot.header = new GrootHeader();
+    kameHouse.groot.header.renderGrootMenu();
   }
 }
 
@@ -30,15 +28,15 @@ function GrootHeader() {
   function toggleGrootNav() {
     const rootMenu = document.getElementById("groot-menu");
     if (rootMenu.className === "groot-nav") {
-      domUtils.classListAdd(rootMenu, "responsive");
+      kameHouse.util.dom.classListAdd(rootMenu, "responsive");
     } else {
-      domUtils.classListRemove(rootMenu, "responsive");
+      kameHouse.util.dom.classListRemove(rootMenu, "responsive");
     }
   }
 
   /** Render groot sub menu */
   function renderGrootMenu() {
-    domUtils.load($("#groot-menu-wrapper"), "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
+    kameHouse.util.dom.load($("#groot-menu-wrapper"), "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
       updateGRootMenuActiveTab();
       loadSessionStatus();
     });
@@ -47,13 +45,13 @@ function GrootHeader() {
   /** Load session status */
   function loadSessionStatus(successCallback, errorCallback) {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
-    httpClient.get(SESSION_STATUS_API, null,
+    kameHouse.http.get(SESSION_STATUS_API, null,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.groot.session = responseBody;
         updateSessionStatus();
-        moduleUtils.setModuleLoaded("grootHeader");
+        kameHouse.util.module.setModuleLoaded("grootHeader");
       },
-      (responseBody, responseCode, responseDescription) =>  logger.error("Error retrieving current groot session information."));
+      (responseBody, responseCode, responseDescription) =>  kameHouse.logger.error("Error retrieving current groot session information."));
   }
 
   /**
@@ -62,19 +60,19 @@ function GrootHeader() {
   function updateSessionStatus() {
     const $loginStatusDesktop = $("#groot-header-login-status-desktop");
     const $loginStatusMobile = $("#groot-header-login-status-mobile");
-    domUtils.empty($loginStatusDesktop);
-    if (isEmpty(kameHouse.groot.session.username) || kameHouse.groot.session.username.trim() == "" ||
+    kameHouse.util.dom.empty($loginStatusDesktop);
+    if (kameHouse.core.isEmpty(kameHouse.groot.session.username) || kameHouse.groot.session.username.trim() == "" ||
       kameHouse.groot.session.username.trim() == "anonymousUser") {
-      if (!mobileAppUtils.isMobileApp()) {
-        domUtils.append($loginStatusDesktop, getLoginButton());
-        domUtils.append($loginStatusMobile, getLoginButton());
+      if (!kameHouse.util.mobile.isMobileApp()) {
+        kameHouse.util.dom.append($loginStatusDesktop, getLoginButton());
+        kameHouse.util.dom.append($loginStatusMobile, getLoginButton());
       }
     } else {
-      if (!mobileAppUtils.isMobileApp()) {
-        domUtils.append($loginStatusDesktop, getUsernameHeader(kameHouse.groot.session.username));
-        domUtils.append($loginStatusDesktop, getLogoutButton());
-        domUtils.append($loginStatusMobile, getUsernameHeader(kameHouse.groot.session.username));
-        domUtils.append($loginStatusMobile, getLogoutButton());
+      if (!kameHouse.util.mobile.isMobileApp()) {
+        kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.groot.session.username));
+        kameHouse.util.dom.append($loginStatusDesktop, getLogoutButton());
+        kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.groot.session.username));
+        kameHouse.util.dom.append($loginStatusMobile, getLogoutButton());
       }
     }
   }
@@ -85,27 +83,27 @@ function GrootHeader() {
   function updateGRootMenuActiveTab() {
     const pageUrl = window.location.pathname;
     $("#groot-menu a").toArray().forEach((navItem) => {
-      domUtils.removeClass($(navItem), "active");
+      kameHouse.util.dom.removeClass($(navItem), "active");
       if (pageUrl == "/kame-house-groot/" || pageUrl == "/kame-house-groot/index.html") {
         if ($(navItem).attr("id") == "nav-groot-home") {
-          domUtils.addClass($(navItem), "active");
+          kameHouse.util.dom.addClass($(navItem), "active");
         }
       }
       if (pageUrl.startsWith("/kame-house-groot/admin/server-manager")) {
         if ($(navItem).attr("id") == "nav-server-manager") {
-          domUtils.addClass($(navItem), "active");
+          kameHouse.util.dom.addClass($(navItem), "active");
         }
       }
       if (pageUrl.startsWith("/kame-house-groot/admin/kamehouse-shell")) {
         if ($(navItem).attr("id") == "nav-kamehouse-shell") {
-          domUtils.addClass($(navItem), "active");
+          kameHouse.util.dom.addClass($(navItem), "active");
         }
       }
     });
   }
   
   function getLoginButton() {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/login-left-gray-dark.png",
       className: "groot-header-login-status-btn",
       alt: "Login GRoot",
@@ -114,7 +112,7 @@ function GrootHeader() {
   }
 
   function getLogoutButton() {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/logout-right-gray-dark.png",
       className: "groot-header-login-status-btn",
       alt: "Logout GRoot",
@@ -123,7 +121,7 @@ function GrootHeader() {
   }
 
   function getUsernameHeader(username) {
-    return domUtils.getSpan({
+    return kameHouse.util.dom.getSpan({
       class: "groot-header-login-status-text"
     }, username);
   }
@@ -144,11 +142,13 @@ function refreshPageLoop() {
     countdownCounter = 60;
   }
   if (countdownCounter > 0) {
-    domUtils.setInnerHtml(document.getElementById('count'), countdownCounter--);
+    kameHouse.util.dom.setInnerHtml(document.getElementById('count'), countdownCounter--);
     setTimeout(refreshPageLoop, 1000);
   } else {
     location.href = '/';
   }
 }
 
-$(document).ready(() => {new KameHouseGrootLoader().init();});
+$(document).ready(() => {
+  kameHouse.addExtension("groot", new KameHouseGroot());
+});

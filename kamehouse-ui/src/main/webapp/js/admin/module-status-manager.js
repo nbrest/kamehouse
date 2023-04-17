@@ -1,11 +1,11 @@
 var moduleStatusManager;
 
 function loadModuleStatusManager() {
-  moduleUtils.waitForModules(["debuggerHttpClient"], () => {
+  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
     moduleStatusManager = new ModuleStatusManager();
     moduleStatusManager.init();
-    moduleUtils.setModuleLoaded("moduleStatusManager");
-    logger.info("Initialized moduleStatusManager");
+    kameHouse.util.module.setModuleLoaded("moduleStatusManager");
+    kameHouse.logger.info("Initialized moduleStatusManager");
   });
 }
 
@@ -51,8 +51,8 @@ function ModuleStatusManager() {
    * Get module status.
    */
   function getModuleStatus(webapp) {
-    logger.trace("getModuleStatus");
-    debuggerHttpClient.get(getApiUrl(webapp),
+    kameHouse.logger.trace("getModuleStatus");
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp),
       (responseBody, responseCode, responseDescription) => displayModuleStatus(responseBody),
       (responseBody, responseCode, responseDescription) => displayErrorGettingModuleStatus(webapp));
   }
@@ -62,16 +62,16 @@ function ModuleStatusManager() {
    */
   function displayModuleStatus(moduleStatus) {
     const webapp = moduleStatus["module"];
-    domUtils.setHtml($('#mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
-    domUtils.setHtml($('#mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
+    kameHouse.util.dom.setHtml($('#mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
+    kameHouse.util.dom.setHtml($('#mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
   }
 
   /**
    * Display error getting data.
    */
   function displayErrorGettingModuleStatus(webapp) {
-    domUtils.removeClass($("#mst-" + webapp + "-error"), "hidden-kh");
-    logger.error("Error retrieving module status data for " + webapp + ". Please try again later.");
+    kameHouse.util.dom.removeClass($("#mst-" + webapp + "-error"), "hidden-kh");
+    kameHouse.logger.error("Error retrieving module status data for " + webapp + ". Please try again later.");
   }
 }
 

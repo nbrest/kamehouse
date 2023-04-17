@@ -89,7 +89,7 @@
       src="/kame-house/img/other/download-blue.png" alt="Download Output"
       title="Download Output" />
     <img class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh fl-r-d-kh"
-      onclick="scrollToTop()"
+      onclick="kameHouse.core.scrollToTop()"
       src="/kame-house/img/other/back-to-top.png"
       alt="Back To Top" title="Back To Top" />
 

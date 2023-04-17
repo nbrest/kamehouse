@@ -32,7 +32,7 @@ function KameHouseWebappTabsManager() {
    * Load the current state from the cookies.
    */
   function loadStateFromCookies() {
-    let currentTab = cookiesUtils.getCookie(cookiePrefix + '-current-tab');
+    let currentTab = kameHouse.util.cookies.getCookie(cookiePrefix + '-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-admin';
     }
@@ -44,32 +44,32 @@ function KameHouseWebappTabsManager() {
    */
   function openTab(selectedTabDivId) {
     // Set current-tab cookie
-    cookiesUtils.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
+    kameHouse.util.cookies.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
 
     // Update tab links
     const kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
     for (const kamehouseTabLink of kamehouseTabLinks) {
-      domUtils.classListRemove(kamehouseTabLink, "active");
+      kameHouse.util.dom.classListRemove(kamehouseTabLink, "active");
     }
     const selectedTabLink = document.getElementById(selectedTabDivId + '-link');
-    domUtils.classListAdd(selectedTabLink, "active");
+    kameHouse.util.dom.classListAdd(selectedTabLink, "active");
 
     // Update tab content visibility
     const kamehouseTabContent = document.getElementsByClassName("kh-webapp-tab-content");
     for (const kamehouseTabContentElement of kamehouseTabContent) {
-      domUtils.setDisplay(kamehouseTabContentElement, "none");
+      kameHouse.util.dom.setDisplay(kamehouseTabContentElement, "none");
     }
     const selectedTabDiv = document.getElementById(selectedTabDivId);
-    domUtils.setDisplay(selectedTabDiv, "block");
+    kameHouse.util.dom.setDisplay(selectedTabDiv, "block");
   }
 
   /**
    * Import tabs.
    */
   function importTabs() {
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-webapp-tabs.css">');
-    domUtils.load($("#kh-webapp-tabs-wrapper"), "/kame-house/kamehouse/html/kamehouse-webapp-tabs.html", () => {
-      moduleUtils.setModuleLoaded("kameHouseWebappTabsManager");
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-webapp-tabs.css">');
+    kameHouse.util.dom.load($("#kh-webapp-tabs-wrapper"), "/kame-house/kamehouse/html/kamehouse-webapp-tabs.html", () => {
+      kameHouse.util.module.setModuleLoaded("kameHouseWebappTabsManager");
     });
   }
 }

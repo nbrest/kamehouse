@@ -6,7 +6,7 @@
  var systemCommandManager;
  
 function main() {
-  logger.info("Started initializing systemCommandManager");
+  kameHouse.logger.info("Started initializing systemCommandManager");
   systemCommandManager = new SystemCommandManager();
 }
 
@@ -23,37 +23,37 @@ function SystemCommandManager() {
    */
   function renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
     let systemCommandOutputDivSelector;
-    if (!isEmpty(systemCommandOutputDivId)) {
+    if (!kameHouse.core.isEmpty(systemCommandOutputDivId)) {
       systemCommandOutputDivSelector = "#" + systemCommandOutputDivId;
     } else {
       systemCommandOutputDivSelector = "#system-command-output";
     }
     const systemCommandOutputDiv = $(systemCommandOutputDivSelector);
-    domUtils.empty(systemCommandOutputDiv);
+    kameHouse.util.dom.empty(systemCommandOutputDiv);
     systemCommandOutputArray.forEach((systemCommandOutput) => {
       if (displayCommandLine) {
-        domUtils.append(systemCommandOutputDiv, getCommandLine(systemCommandOutput.command));
+        kameHouse.util.dom.append(systemCommandOutputDiv, getCommandLine(systemCommandOutput.command));
       }
-      if (!isEmpty(systemCommandOutput.standardOutput) && 
+      if (!kameHouse.core.isEmpty(systemCommandOutput.standardOutput) && 
           systemCommandOutput.standardOutput.length > 0) {
         systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
-          domUtils.append(systemCommandOutputDiv, standardOutputLine);
-          domUtils.append(systemCommandOutputDiv, domUtils.getBr());
+          kameHouse.util.dom.append(systemCommandOutputDiv, standardOutputLine);
+          kameHouse.util.dom.append(systemCommandOutputDiv, kameHouse.util.dom.getBr());
         });
       }
-      if (!isEmpty(systemCommandOutput.standardError) && 
+      if (!kameHouse.core.isEmpty(systemCommandOutput.standardError) && 
           systemCommandOutput.standardError.length > 0) {
-        domUtils.append(systemCommandOutputDiv, getCommandErrorHeaderLine());
+        kameHouse.util.dom.append(systemCommandOutputDiv, getCommandErrorHeaderLine());
         systemCommandOutput.standardError.forEach((standardErrorLine) => {
-          domUtils.append(systemCommandOutputDiv, standardErrorLine);
-          domUtils.append(systemCommandOutputDiv, domUtils.getBr());
+          kameHouse.util.dom.append(systemCommandOutputDiv, standardErrorLine);
+          kameHouse.util.dom.append(systemCommandOutputDiv, kameHouse.util.dom.getBr());
         });
       }
       if (systemCommandOutput.status == "running") {
-        domUtils.append(systemCommandOutputDiv, getDaemonRunningLine(systemCommandOutput.command));
+        kameHouse.util.dom.append(systemCommandOutputDiv, getDaemonRunningLine(systemCommandOutput.command));
       }
     });
-    collapsibleDivUtils.refreshCollapsibleDiv();
+    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
   
   /**
@@ -61,38 +61,38 @@ function SystemCommandManager() {
    */
   function renderErrorExecutingCommand() {
     const systemCommandOutputDiv = $("#system-command-output");
-    domUtils.empty(systemCommandOutputDiv);
-    domUtils.append(systemCommandOutputDiv, "Error executing system command. Check the logs on the backend...");
-    collapsibleDivUtils.refreshCollapsibleDiv();
+    kameHouse.util.dom.empty(systemCommandOutputDiv);
+    kameHouse.util.dom.append(systemCommandOutputDiv, "Error executing system command. Check the logs on the backend...");
+    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
   
   function getCommandLine(command) {
-    const message = domUtils.getSpan({}, domUtils.getSpan({
+    const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, "command: " + command));
-    domUtils.append(message, domUtils.getBr());
-    domUtils.append(message, domUtils.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     return message;
   }
 
   function getDaemonRunningLine(command) {
-    const message = domUtils.getSpan({}, domUtils.getSpan({
+    const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, command));
-    domUtils.append(message, " is ");
-    domUtils.append(message, domUtils.getSpan({
+    kameHouse.util.dom.append(message, " is ");
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, "running"));
-    domUtils.append(message, domUtils.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     return message;
   }
 
   function getCommandErrorHeaderLine() {
-    const message = domUtils.getSpan({}, domUtils.getSpan({
+    const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, "errors:"));
-    domUtils.append(message, domUtils.getBr());
-    domUtils.append(message, domUtils.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     return message;
   }
 }

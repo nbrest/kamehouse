@@ -4,34 +4,182 @@
  * 
  * @author nbrest
  */
-const cordovaManager = new CordovaManager();
-const mobileConfigManager = new MobileConfigManager();
+function KameHouseMobile() {
+  this.load = load;
 
-function KameHouseMobileLoader() {
-  this.init = init;
-
-  function init() {
-    logger.info("Started initializing kamehouse-mobile.js");
-    moduleUtils.waitForModules(["cordova"], () => {
-      mobileConfigManager.init();
-      cordovaManager.init();
-    });
+  async function load() {
+    kameHouse.logger.info("Started initializing kamehouse-mobile.js");
+    kameHouse.mobile.core = new KameHouseMobileCore();
+    kameHouse.mobile.configManager = new KameHouseMobileConfigManager();
+    kameHouse.mobile.core.init();
+    await kameHouse.mobile.configManager.init();
   }
 } 
 
 /**
- * Entity to interact with cordova's api.
+ * Functionality for the native kamehouse mobile app.
  */
-function CordovaManager() {
+function KameHouseMobileCore() {
 
   this.init = init;
   this.openBrowser = openBrowser;
   this.overrideWindowOpen = overrideWindowOpen;
+  this.disableWebappOnlyElements = disableWebappOnlyElements;
+  this.getBackendServer = getBackendServer;
+  this.getBackendCredentials = getBackendCredentials;
+  this.mobileHttpRequst = mobileHttpRequst;
 
-  async function init() {
-    logger.info("Initializing cordova manager");
+  const GET = "GET";
+  const POST = "POST";
+  const PUT = "PUT";
+  const DELETE = "DELETE";
+  
+  function init() {
     setCordovaMock();
-    moduleUtils.setModuleLoaded("cordovaManager");
+    disableWebappOnlyElements();
+  }
+
+  function disableWebappOnlyElements() {
+    $(document).ready(() => {
+      kameHouse.logger.debug("Disabling webapp only elements in mobile app view");
+      const mobileOnlyElements = document.getElementsByClassName("kh-mobile-hidden");
+      for (const mobileOnlyElement of mobileOnlyElements) {
+        kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
+        kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-hidden");
+      }
+    });
+  }
+
+  function getBackendServer() {
+    const mobileConfig = kameHouse.mobile.config;
+    let backendServer = null;
+    if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.servers)) {
+      mobileConfig.servers.forEach((server) => {
+        if (server.name === "backend") {
+          backendServer = server.url;
+        }
+      });
+    }
+    if (backendServer == null) {
+      kameHouse.logger.error("Couldn't find backend server url in the config. Mobile app config manager may not have completed initialization yet.");
+    }
+    return backendServer;
+  }
+
+  function getBackendCredentials() {
+    if (!kameHouse.core.isEmpty(kameHouse.mobile.config) && !kameHouse.core.isEmpty(kameHouse.mobile.config.credentials)) {
+      return kameHouse.mobile.config.credentials;
+    }
+    kameHouse.logger.warn("Could not retrieve credentials from the mobile config");
+    return {};
+  }
+
+  /** 
+   * Http request to be sent from the mobile app.
+   */
+  function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
+    const requestUrl = getBackendServer() + url;   
+    const options = {
+      method: httpMethod,
+    };
+    if (httpMethod == POST || httpMethod == PUT || httpMethod == DELETE) {
+      // cordova advanced http plugin breaks if I send these requests with empty data field
+      options.data = "";
+    }
+    
+    if (!kameHouse.core.isEmpty(requestHeaders)) {
+      options.headers = requestHeaders;
+    }
+    setMobileBasicAuthHeader();
+    setDataSerializer(requestHeaders);
+    if (!kameHouse.core.isEmpty(requestBody)) {
+      options.data = requestBody;
+    }
+    cordova.plugin.http.setServerTrustMode('nocheck',
+     () => {
+      cordova.plugin.http.sendRequest(requestUrl, options, 
+        (response) => { processMobileSuccess(response, successCallback, customData); } ,
+        (response) => { processMobileError(response, errorCallback, requestUrl, customData); }
+      );
+    }, () => {
+      kameHouse.logger.error('Error setting cordova ssl trustmode to nocheck. Unable to execute http ' + httpMethod + ' request to ' + requestUrl);
+    });
+  }
+
+  /** Process a successful response from the api call */
+  function processMobileSuccess(response, successCallback, customData) {
+    /**
+     * data: response body
+     * status: http status code
+     * url: request url
+     * response headers: header map object
+     */
+    let responseBody;
+    if (isJsonResponse(response.headers)) {
+      responseBody = JSON.parse(response.data);
+    } else {
+      responseBody = response.data;
+    }
+    const responseCode = response.status;
+    kameHouse.logger.logHttpResponse(responseBody, responseCode, null);
+    successCallback(responseBody, responseCode, customData);
+  }
+
+  /** Process an error response from the api call */
+  function processMobileError(response, errorCallback, url, customData) {
+     /**
+     * error: error message
+     * status: http status code
+     * url: request url
+     * response headers: header map object
+      */
+     const responseBody = response.error;
+     const responseCode = response.status;
+     kameHouse.logger.logHttpResponse(responseBody, responseCode, null);
+     kameHouse.logger.logApiError(responseBody, responseCode, null, null);
+     errorCallback(JSON.stringify(responseBody), responseCode, null, customData);
+  }  
+
+  function isJsonResponse(headers) {
+    if (kameHouse.core.isEmpty(headers)) {
+      return false;
+    }
+    let isJson = false;
+    for (const [key, value] of Object.entries(headers)) {
+      if (!kameHouse.core.isEmpty(key) && key.toLowerCase() == "content-type" 
+        && !kameHouse.core.isEmpty(value) && value.toLowerCase() == "application/json") {
+          kameHouse.logger.trace("Response is json");
+          isJson = true;
+      }
+    }
+    return isJson;
+  }
+
+  function setMobileBasicAuthHeader() {
+    const credentials = getBackendCredentials();
+    if (!kameHouse.core.isEmpty(credentials.username) && !kameHouse.core.isEmpty(credentials.password)) {
+      kameHouse.logger.debug("Setting basicAuth header for mobile http request");
+      cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
+    }
+  }
+
+  function setDataSerializer(headers) {
+    cordova.plugin.http.setDataSerializer('utf8');
+    if (kameHouse.core.isEmpty(headers)) {
+      return;
+    }
+    for (const [key, value] of Object.entries(headers)) {
+      if (!kameHouse.core.isEmpty(key) && key.toLowerCase() == "content-type" && !kameHouse.core.isEmpty(value)) {
+        if (value.toLowerCase() == "application/json") {
+          cordova.plugin.http.setDataSerializer('json');
+          isContentTypeSet = true;
+        }
+        if (value.toLowerCase() == "application/x-www-form-urlencoded") {
+          cordova.plugin.http.setDataSerializer('urlencoded');
+          isContentTypeSet = true;
+        }
+      }
+    }
   }
 
   /**
@@ -41,7 +189,7 @@ function CordovaManager() {
     const urlParams = new URLSearchParams(window.location.search);
     const mockCordova = urlParams.get('mockCordova');
     if (mockCordova) {
-      logger.info("Mocking cordova object");
+      kameHouse.logger.info("Mocking cordova object");
       cordova = new CordovaMock();
     }
   }   
@@ -65,7 +213,7 @@ function CordovaManager() {
    * Get complete url from lookup.
    */
   function getServerUrl(urlLookup) {
-    const server = mobileConfigManager.getServers().find(server => server.name === urlLookup);
+    const server = kameHouse.mobile.configManager.getServers().find(server => server.name === urlLookup);
     const serverEntity = {};
     serverEntity.name = server.name;
     serverEntity.url = server.url;
@@ -84,7 +232,7 @@ function CordovaManager() {
     if (urlLookup == "wol") {
       serverEntity.url = serverEntity.url + "/kame-house/admin/wake-on-lan.html";
     }
-    logger.trace("Server entity: " + JSON.stringify(serverEntity));
+    kameHouse.logger.trace("Server entity: " + JSON.stringify(serverEntity));
     return serverEntity;
   }
 
@@ -92,16 +240,16 @@ function CordovaManager() {
    * Open the InAppBrowser with the specified url.
    */
   function openInAppBrowser(serverEntity) {
-    logger.info("Start loading url " + serverEntity.url);
-    const target = mobileConfigManager.getInAppBrowserConfig().target;
-    const options = mobileConfigManager.getInAppBrowserConfig().options;
+    kameHouse.logger.info("Start loading url " + serverEntity.url);
+    const target = kameHouse.mobile.configManager.getInAppBrowserConfig().target;
+    const options = kameHouse.mobile.configManager.getInAppBrowserConfig().options;
     const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
     if (target == "_system") {
-      basicKamehouseModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 2000);
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 2000);
     } else {
-      basicKamehouseModal.setHtml(getOpenBrowserMessage(serverEntity));
-      basicKamehouseModal.setErrorMessage(false);
-      basicKamehouseModal.open();
+      kameHouse.plugin.modal.basicModal.setHtml(getOpenBrowserMessage(serverEntity));
+      kameHouse.plugin.modal.basicModal.setErrorMessage(false);
+      kameHouse.plugin.modal.basicModal.open();
       setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity);
     }
   }
@@ -110,10 +258,10 @@ function CordovaManager() {
    * Get the open browser message for the modal.
    */
   function getOpenBrowserMessage(serverEntity) {
-    const openBrowserMessage = domUtils.getSpan({}, "Opening " + serverEntity.name);
-    domUtils.append(openBrowserMessage, domUtils.getBr());
-    domUtils.append(openBrowserMessage, domUtils.getBr());
-    domUtils.append(openBrowserMessage, "Please Wait ...");
+    const openBrowserMessage = kameHouse.util.dom.getSpan({}, "Opening " + serverEntity.name);
+    kameHouse.util.dom.append(openBrowserMessage, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(openBrowserMessage, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(openBrowserMessage, "Please Wait ...");
     return openBrowserMessage;
   }
 
@@ -123,33 +271,33 @@ function CordovaManager() {
   function setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity) {
 
     inAppBrowserInstance.addEventListener('loadstop', (params) => {
-      logger.info("Executing event loadstop for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
+      kameHouse.logger.info("Executing event loadstop for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
       inAppBrowserInstance.show();
     });
 
     inAppBrowserInstance.addEventListener('loaderror', (params) => {
       const errorMessage = "Error loading url '" + serverEntity.url + "'. with params " + JSON.stringify(params);
-      logger.error("Executing event loaderror. " + errorMessage);
-      basicKamehouseModal.setHtml(errorMessage);
-      basicKamehouseModal.setErrorMessage(true);
-      basicKamehouseModal.open();
+      kameHouse.logger.error("Executing event loaderror. " + errorMessage);
+      kameHouse.plugin.modal.basicModal.setHtml(errorMessage);
+      kameHouse.plugin.modal.basicModal.setErrorMessage(true);
+      kameHouse.plugin.modal.basicModal.open();
       inAppBrowserInstance.close();
     });
 
     inAppBrowserInstance.addEventListener('loadstart', (params) => {
-      logger.info("Executing event loadstart for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
+      kameHouse.logger.info("Executing event loadstart for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
     });
 
     inAppBrowserInstance.addEventListener('exit', (params) => {
-      logger.info("Executing event exit for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
-      if (!basicKamehouseModal.isErrorMessage()) {
-        basicKamehouseModal.close(); 
-        basicKamehouseModal.reset();
+      kameHouse.logger.info("Executing event exit for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
+      if (!kameHouse.plugin.modal.basicModal.isErrorMessage()) {
+        kameHouse.plugin.modal.basicModal.close(); 
+        kameHouse.plugin.modal.basicModal.reset();
       }
     });
 
     inAppBrowserInstance.addEventListener('message', (params) => {
-      logger.info("Executing event message for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
+      kameHouse.logger.info("Executing event message for url: '" + serverEntity.url + "'. with params " + JSON.stringify(params));
     });
   } 
 }
@@ -157,7 +305,7 @@ function CordovaManager() {
 /**
  * Manage the configuration of the mobile app.
  */
-function MobileConfigManager() {
+function KameHouseMobileConfigManager() {
   
   this.init = init;
   this.getServers = getServers;
@@ -181,7 +329,7 @@ function MobileConfigManager() {
   let credentialsDefaultConfig = null;
 
   async function init() {
-    logger.info("Initializing mobile config manager");
+    kameHouse.logger.info("Initializing mobile config manager");
     initGlobalMobileConfig();
     await loadInAppBrowserDefaultConfig();
     await loadServersDefaultConfig();
@@ -189,9 +337,9 @@ function MobileConfigManager() {
     readMobileConfigFile();
   }
 
-  function setMobileConfigManagerModuleLoaded() {
-    logger.info("Finished mobileConfigManager module initialization");
-    moduleUtils.setModuleLoaded("mobileConfigManager");
+  function setKameHouseMobileModuleLoaded() {
+    kameHouse.logger.info("Finished kameHouseMobile module initialization");
+    kameHouse.util.module.setModuleLoaded("kameHouseMobile");
   }
 
   function initGlobalMobileConfig() {
@@ -234,20 +382,20 @@ function MobileConfigManager() {
   }
 
   async function loadInAppBrowserDefaultConfig() {
-    inAppBrowserDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/kame-house-mobile/json/config/in-app-browser.json'));
-    logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
+    inAppBrowserDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/in-app-browser.json'));
+    kameHouse.logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
     setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
   }
 
   async function loadServersDefaultConfig() {
-    serversDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/kame-house-mobile/json/config/servers.json'));
-    logger.info("servers default config: " + JSON.stringify(serversDefaultConfig));
+    serversDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/servers.json'));
+    kameHouse.logger.info("servers default config: " + JSON.stringify(serversDefaultConfig));
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
   }
 
   async function loadCredentialsDefaultConfig() {
-    credentialsDefaultConfig = JSON.parse(await fetchUtils.loadJsonConfig('/kame-house-mobile/json/config/credentials.json'));
-    logger.info("credentials default config: " + JSON.stringify(credentialsDefaultConfig));
+    credentialsDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/credentials.json'));
+    kameHouse.logger.info("credentials default config: " + JSON.stringify(credentialsDefaultConfig));
     setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
   }
   
@@ -265,21 +413,21 @@ function MobileConfigManager() {
    * Create kamehouse-mobile config file in the device's storage.
    */
   function createMobileConfigFile() {
-    logger.info("Creating file " + mobileConfigFile);
+    kameHouse.logger.info("Creating file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
 
       function successCallback(fs) {
         fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
-          logger.info("File " + fileEntry.name + " created successfully");
+          kameHouse.logger.info("File " + fileEntry.name + " created successfully");
         }, errorCallback);
       }
     
       function errorCallback(error) {
-        logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       }
     } catch (error) {
-      logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
   }
   
@@ -287,7 +435,7 @@ function MobileConfigManager() {
    * Write kamehouse-mobile config file to the filesystem.
    */
   function writeMobileConfigFile() {
-    logger.info("Writing to file " + mobileConfigFile);
+    kameHouse.logger.info("Writing to file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
 
@@ -295,7 +443,7 @@ function MobileConfigManager() {
         fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
           fileEntry.createWriter((fileWriter) => {
             const fileContent = JSON.stringify(getMobileConfig());
-            logger.info("File content to write: " + fileContent);
+            kameHouse.logger.info("File content to write: " + fileContent);
             const blob = new Blob([fileContent]);
             fileWriter.write(blob);
           }, errorCallback);
@@ -303,10 +451,10 @@ function MobileConfigManager() {
       }
   
       function errorCallback(error) {
-        logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       }
     } catch (error) {
-      logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
   }
   
@@ -314,7 +462,7 @@ function MobileConfigManager() {
    * Read kamehouse-mobile config file.
    */
    function readMobileConfigFile() {
-    logger.info("Reading file " + mobileConfigFile);
+    kameHouse.logger.info("Reading file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
 
@@ -324,22 +472,22 @@ function MobileConfigManager() {
             const reader = new FileReader();
             reader.onloadend = function(e) {
               const fileContent = this.result;
-              logger.info("file content read: " + fileContent);
+              kameHouse.logger.info("file content read: " + fileContent);
               let mobileConfig = null;
               try {
                 mobileConfig = JSON.parse(fileContent);
               } catch(e) {
                 mobileConfig = null;
-                logger.error("Error parsing file content as json. Error " + JSON.stringify(e));
+                kameHouse.logger.error("Error parsing file content as json. Error " + JSON.stringify(e));
               }
               if (isValidMobileConfigFile(mobileConfig)) {
-                logger.info("Setting mobile config from file");
+                kameHouse.logger.info("Setting mobile config from file");
                 setMobileConfig(mobileConfig);
               } else {
-                logger.warn("Mobile config file read from file is invalid. Re generating it");
+                kameHouse.logger.warn("Mobile config file read from file is invalid. Re generating it");
                 reGenerateMobileConfigFile();
               }
-              setMobileConfigManagerModuleLoaded();
+              setKameHouseMobileModuleLoaded();
             };
             reader.readAsText(file);
           }, errorCallback);
@@ -347,13 +495,13 @@ function MobileConfigManager() {
       }
     
       function errorCallback(error) {
-        logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-        setMobileConfigManagerModuleLoaded();
+        kameHouse.logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        setKameHouseMobileModuleLoaded();
         createMobileConfigFile();
       }
     } catch (error) {
-      logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-      setMobileConfigManagerModuleLoaded();
+      kameHouse.logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      setKameHouseMobileModuleLoaded();
       createMobileConfigFile();
     }
   }	
@@ -362,23 +510,23 @@ function MobileConfigManager() {
    * Delete kamehouse-mobile config file.
    */
    function deleteMobileConfigFile() {
-    logger.info("Deleting file " + mobileConfigFile);
+    kameHouse.logger.info("Deleting file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
   
       function successCallback(fs) {
         fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
           fileEntry.remove(() => {
-            logger.info("File " + fileEntry.name + " deleted successfully");
+            kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
           }, errorCallback);
         }, errorCallback);
       }
     
       function errorCallback(error) {
-        logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       }
     } catch (error) {
-      logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
   }
 
@@ -387,25 +535,25 @@ function MobileConfigManager() {
    */
   function reGenerateMobileConfigFile() {
     if (isCurrentlyPersistingConfig) {
-      logger.info("A regenerate file is already in progress, skipping this call");
+      kameHouse.logger.info("A regenerate file is already in progress, skipping this call");
       return;
     }
     isCurrentlyPersistingConfig = true;
-    logger.info("Regenerating file " + mobileConfigFile);
+    kameHouse.logger.info("Regenerating file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successDeleteFileCallback, errorDeleteFileCallback);
   
       function successDeleteFileCallback(fs) {
         fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
           fileEntry.remove(() => {
-            logger.info("File " + fileEntry.name + " deleted successfully");
+            kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
             createFile();
           }, errorDeleteFileCallback);
         }, errorDeleteFileCallback);
       }
     
       function errorDeleteFileCallback(error) {
-        logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
         createFile();
       }
 
@@ -415,13 +563,13 @@ function MobileConfigManager() {
 
       function successCreateFileCallback(fs) {
         fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
-          logger.info("File " + fileEntry.name + " created successfully");
+          kameHouse.logger.info("File " + fileEntry.name + " created successfully");
           writeFile();
         }, errorCreateFileCallback);
       }
 
       function errorCreateFileCallback(error) {
-        logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
         writeFile();
       }
 
@@ -433,7 +581,7 @@ function MobileConfigManager() {
         fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
           fileEntry.createWriter((fileWriter) => {
             const fileContent = JSON.stringify(getMobileConfig());
-            logger.info("File content to write: " + fileContent);
+            kameHouse.logger.info("File content to write: " + fileContent);
             const blob = new Blob([fileContent]);
             fileWriter.write(blob);
             isCurrentlyPersistingConfig = false;
@@ -442,12 +590,12 @@ function MobileConfigManager() {
       }
 
       function errorWriteFileCallback(error) {
-        logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+        kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
         isCurrentlyPersistingConfig = false;
       }
 
     } catch (error) {
-      logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      kameHouse.logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       isCurrentlyPersistingConfig = false;
     }
   }
@@ -456,7 +604,7 @@ function MobileConfigManager() {
    * Update the mobile config from the view in the config tab.
    */
   function updateMobileConfigFromView() {
-    logger.info("Updating mobile config from view");
+    kameHouse.logger.info("Updating mobile config from view");
     const inAppBrowserConfig = getInAppBrowserConfig();
 
     // Set servers
@@ -472,7 +620,7 @@ function MobileConfigManager() {
 
     // Set InAppBrowser target
     const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
-    if (!isEmpty(inAppBrowserTargetDropdown.value) && inAppBrowserTargetDropdown.value != "") {
+    if (!kameHouse.core.isEmpty(inAppBrowserTargetDropdown.value) && inAppBrowserTargetDropdown.value != "") {
       inAppBrowserConfig.target = inAppBrowserTargetDropdown.value;
     }
 
@@ -487,11 +635,11 @@ function MobileConfigManager() {
     // Update credentials
     updateBackendCredentials();
 
-    logger.info("servers: " + JSON.stringify(getServers()));
-    logger.info("inAppBrowser.options: " + inAppBrowserConfig.options);
-    logger.info("inAppBrowser.target: " + inAppBrowserConfig.target);
-    logger.info("inAppBrowser.openOnStartup: " + inAppBrowserConfig.openOnStartup);
-    logger.info("credentials: " + JSON.stringify(getCredentials()));
+    kameHouse.logger.info("servers: " + JSON.stringify(getServers()));
+    kameHouse.logger.info("inAppBrowser.options: " + inAppBrowserConfig.options);
+    kameHouse.logger.info("inAppBrowser.target: " + inAppBrowserConfig.target);
+    kameHouse.logger.info("inAppBrowser.openOnStartup: " + inAppBrowserConfig.openOnStartup);
+    kameHouse.logger.info("credentials: " + JSON.stringify(getCredentials()));
     reGenerateMobileConfigFile();
   }
 
@@ -501,11 +649,11 @@ function MobileConfigManager() {
   function updateBackendCredentials() {
     const credentials = getCredentials();
     const username = document.getElementById("backend-username-input").value;
-    if (!isEmpty(username)) {
+    if (!kameHouse.core.isEmpty(username)) {
       credentials.username = username;
     }
     const password = document.getElementById("backend-password-input").value; 
-    if (!isEmpty(password)) {
+    if (!kameHouse.core.isEmpty(password)) {
       credentials.password = password;
     }
   }
@@ -524,22 +672,22 @@ function MobileConfigManager() {
    * Set the web vlc player in the config from the dropdown menu in the config page.
    */
   function setWebVlcPlayerFromDropdown() {
-    logger.info("Setting web vlc player from dropdown");
+    kameHouse.logger.info("Setting web vlc player from dropdown");
     const webVlcServerInput = document.getElementById("web-vlc-server-input"); 
     const webVlcServerDropdown = document.getElementById("web-vlc-server-dropdown");
-    if (!isEmpty(webVlcServerDropdown.value) && webVlcServerDropdown.value != "") {
-      domUtils.setValue(webVlcServerInput, webVlcServerDropdown.value);
+    if (!kameHouse.core.isEmpty(webVlcServerDropdown.value) && webVlcServerDropdown.value != "") {
+      kameHouse.util.dom.setValue(webVlcServerInput, webVlcServerDropdown.value);
       updateMobileConfigFromView();
     }
   }
 
   /** Set the backend server in the config from the dropdown menu in the config page */
   function setBackendFromDropdown() {
-    logger.info("Setting backend server from dropdown");
+    kameHouse.logger.info("Setting backend server from dropdown");
     const backendServerInput = document.getElementById("backend-server-input"); 
     const backendServerDropdown = document.getElementById("backend-server-dropdown");
-    if (!isEmpty(backendServerDropdown.value) && backendServerDropdown.value != "") {
-      domUtils.setValue(backendServerInput, backendServerDropdown.value);
+    if (!kameHouse.core.isEmpty(backendServerDropdown.value) && backendServerDropdown.value != "") {
+      kameHouse.util.dom.setValue(backendServerInput, backendServerDropdown.value);
       updateMobileConfigFromView();
     }    
   }
@@ -548,7 +696,7 @@ function MobileConfigManager() {
    * Refresh config tab view values.
    */
   function refreshConfigTabView() {
-    logger.info("Refreshing config tab view values");
+    kameHouse.logger.info("Refreshing config tab view values");
     const inAppBrowserConfig = getInAppBrowserConfig();
 
     // servers
@@ -622,12 +770,12 @@ function MobileConfigManager() {
   function setBackendCredentialsInput() {
     const credentials = getCredentials();
     const usernameInput = document.getElementById("backend-username-input");
-    if (!isEmpty(credentials.username)) {
-      domUtils.setValue(usernameInput, credentials.username);
+    if (!kameHouse.core.isEmpty(credentials.username)) {
+      kameHouse.util.dom.setValue(usernameInput, credentials.username);
     }
     const passwordInput = document.getElementById("backend-password-input"); 
-    if (!isEmpty(credentials.password)) {
-      domUtils.setValue(passwordInput, credentials.password);
+    if (!kameHouse.core.isEmpty(credentials.password)) {
+      kameHouse.util.dom.setValue(passwordInput, credentials.password);
     }
   }
 
@@ -638,25 +786,25 @@ function MobileConfigManager() {
     const servers = getServers();
     const server = servers.find(server => server.name === serverName);
     const serverInput = document.getElementById(serverName + "-server-input");
-    domUtils.setValue(serverInput, server.url);
+    kameHouse.util.dom.setValue(serverInput, server.url);
   }
 
   /**
    * Open confirm reset config modal.
    */
   function confirmResetDefaults() {
-    basicKamehouseModal.setHtml(getResetConfigModalMessage());
-    basicKamehouseModal.open();
+    kameHouse.plugin.modal.basicModal.setHtml(getResetConfigModalMessage());
+    kameHouse.plugin.modal.basicModal.open();
   }
   
   /**
    * Get the message to reset the config.
    */
   function getResetConfigModalMessage() {
-    const resetConfigModalMessage = domUtils.getSpan({}, "Are you sure you want to reset the configuration? ");
-    domUtils.append(resetConfigModalMessage, domUtils.getBr());
-    domUtils.append(resetConfigModalMessage, domUtils.getBr());
-    domUtils.append(resetConfigModalMessage, getConfirmResetConfigButton());
+    const resetConfigModalMessage = kameHouse.util.dom.getSpan({}, "Are you sure you want to reset the configuration? ");
+    kameHouse.util.dom.append(resetConfigModalMessage, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(resetConfigModalMessage, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(resetConfigModalMessage, getConfirmResetConfigButton());
     return resetConfigModalMessage;
   }
 
@@ -664,7 +812,7 @@ function MobileConfigManager() {
    * Get the button to confirm resetting the config.
    */
   function getConfirmResetConfigButton() {
-    return domUtils.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         class: "mobile-btn-kh reset-cfg-btn-kh",
       },
@@ -677,14 +825,14 @@ function MobileConfigManager() {
    * Reset config to default values.
    */
   function resetDefaults() {
-    logger.info("Resetting config to default values");
+    kameHouse.logger.info("Resetting config to default values");
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
     setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
     setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
     refreshConfigTabView();
     reGenerateMobileConfigFile();
-    basicKamehouseModal.close();
-    basicKamehouseModal.openAutoCloseable("Config reset to default values", 2000);
+    kameHouse.plugin.modal.basicModal.close();
+    kameHouse.plugin.modal.basicModal.openAutoCloseable("Config reset to default values", 2000);
   }
 
   /**
@@ -703,50 +851,83 @@ function MobileConfigManager() {
  */
  function CordovaMock() {
 
-  this.InAppBrowser = new InAppBrowserMock();
+  this.plugin = {};
+  this.plugin.http = new CordovaHttpPluginMock();
+  this.InAppBrowser = new CordovaInAppBrowserMock();
   
+  function CordovaHttpPluginMock() {
+    this.setServerTrustMode = setServerTrustMode;
+    this.sendRequest = sendRequest;
+    this.useBasicAuth = useBasicAuth;
+    this.setDataSerializer = setDataSerializer;
+
+    function setServerTrustMode(trustMode, successCallback) {
+      kameHouse.logger.info("Called setServerTrustMode on cordova mock with " + trustMode);
+      successCallback();
+    }
+
+    function sendRequest(requestUrl, options, successCallback, errorCallback) {
+      kameHouse.logger.info("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + JSON.stringify(options) + ". Mocking error response");
+      const mockResponse = {
+        error : '{"message":"mocked cordova http error response"}',
+        status: 999
+      };
+      errorCallback(mockResponse);
+    }
+
+    function useBasicAuth() {
+      kameHouse.logger.info("Called useBasicAuth on cordova mock");
+    }
+
+    function setDataSerializer(serializationType) {
+      kameHouse.logger.info("Called setDataSerializer on cordova mock with " + serializationType);
+    }
+  }
+
   /**
    * Mock of an InAppBrowser.
    */
-  function InAppBrowserMock() {
+  function CordovaInAppBrowserMock() {
 
     this.open = open;
 
     function open(url, target, options) {
-      logger.info("Called open in InAppBrowserMock with url " + url);
+      kameHouse.logger.info("Called open in InAppBrowserMock with url " + url);
       setTimeout(() => {
         alert("cordova.InAppBrowser.open() call with:\n\nurl:\n" + url + "\n\ntarget:\n" + target + "\n\noptions:\n" + options);
       }, 100);
       setTimeout(() => {
-        logger.info("Simulating successful exit event from InAppBrowserInstanceMock closing the modal");
-        basicKamehouseModal.close(); 
-        basicKamehouseModal.reset();
+        kameHouse.logger.info("Simulating successful exit event from InAppBrowserInstanceMock closing the modal");
+        kameHouse.plugin.modal.basicModal.close(); 
+        kameHouse.plugin.modal.basicModal.reset();
       }, 3000);
-      return new InAppBrowserInstanceMock();
+      return new CordovaInAppBrowserInstanceMock();
     }
   }
 
   /**
    * Mock of a InAppBrowserInstance.
    */
-  function InAppBrowserInstanceMock() {
+  function CordovaInAppBrowserInstanceMock() {
 
     this.addEventListener = addEventListener;
     this.close = close;
     this.show = show;
 
     function addEventListener(eventName, callback) {
-      logger.info("Called addEventListener on the InAppBrowserInstanceMock for event " + eventName);
+      kameHouse.logger.info("Called addEventListener on the InAppBrowserInstanceMock for event " + eventName);
     }
 
     function show() {
-      logger.info("Called show on the InAppBrowserInstanceMock");
+      kameHouse.logger.info("Called show on the InAppBrowserInstanceMock");
     }
 
     function close() {
-      logger.info("Called close on the InAppBrowserInstanceMock");
+      kameHouse.logger.info("Called close on the InAppBrowserInstanceMock");
     }
   }
 }
 
-$(document).ready(() => {new KameHouseMobileLoader().init();});
+$(document).ready(() => {
+  kameHouse.addExtension("mobile", new KameHouseMobile());
+});

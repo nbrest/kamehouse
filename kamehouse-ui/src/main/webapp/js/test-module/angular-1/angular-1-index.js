@@ -1,3 +1,3 @@
 window.onload = () => {
-  bannerUtils.setRandomSaintSeiyaBanner();
+  kameHouse.util.banner.setRandomSaintSeiyaBanner();
 };

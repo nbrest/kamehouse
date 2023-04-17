@@ -1,3 +1,3 @@
 window.onload = () => {
-  bannerUtils.setRandomSanctuaryBanner(55000);
+  kameHouse.util.banner.setRandomSanctuaryBanner(55000);
 };

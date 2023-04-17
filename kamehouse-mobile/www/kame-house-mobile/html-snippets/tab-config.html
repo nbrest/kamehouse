@@ -6,7 +6,7 @@
   <form class="form-kh">
     <label>Backend</label>
     <br>
-    <select id="backend-server-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.setBackendFromDropdown()">
+    <select id="backend-server-dropdown" class="form-input-kh" type="select" onchange="kameHouse.mobile.configManager.setBackendFromDropdown()">
       <option value="">Select Backend Server</option>
       <option value="https://192.168.0.109">media-server</option>
       <option value="https://kame.nicobrest.com">tennis world booking server</option>
@@ -21,11 +21,11 @@
       <option value="https://0.0.0.0">custom server</option>
     </select>
     <br>
-    <input id="backend-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="backend-server-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.mobile.configManager.updateMobileConfigFromView()">
     <br>
     <label>Web VLC Player</label>
     <br>
-    <select id="web-vlc-server-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.setWebVlcPlayerFromDropdown()">
+    <select id="web-vlc-server-dropdown" class="form-input-kh" type="select" onchange="kameHouse.mobile.configManager.setWebVlcPlayerFromDropdown()">
       <option value="">Select Web VLC Player</option>
       <option value="http://192.168.0.109">media-server</option>
       <option value="http://192.168.43.171">niko-w android hotspot</option>
@@ -39,19 +39,19 @@
       <option value="https://0.0.0.0">custom server</option>
     </select>
     <br>
-    <input id="web-vlc-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="web-vlc-server-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.mobile.configManager.updateMobileConfigFromView()">
     <br>
     <label>Wake Media Server</label>
     <br>
-    <input id="wol-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="wol-server-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.mobile.configManager.updateMobileConfigFromView()">
     <br>
     <label>TennisWorld Booking</label>
     <br>
-    <input id="tw-booking-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="tw-booking-server-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.mobile.configManager.updateMobileConfigFromView()">
     <br>
     <label>Jenkins</label>
     <br>
-    <input id="jenkins-server-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="jenkins-server-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.mobile.configManager.updateMobileConfigFromView()">
   </form>
   <br><br>
 
@@ -61,16 +61,16 @@
   <form class="form-kh">
     <label>Target</label>
     <br>
-    <select id="iab-target-dropdown" class="form-input-kh" type="select" onchange="mobileConfigManager.updateMobileConfigFromView()">
+    <select id="iab-target-dropdown" class="form-input-kh" type="select" onchange="kameHouse.mobile.configManager.updateMobileConfigFromView()">
       <option value="_blank">blank</option>
       <option value="_self">self</option>
       <option value="_system">system (recommended)</option>
     </select>
     <label>Open VLC On Startup</label>
-    <input id="iab-open-on-startup-checkbox" class="m-15-d-kh" type="checkbox" onchange="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="iab-open-on-startup-checkbox" class="m-15-d-kh" type="checkbox" onchange="kameHouse.mobile.configManager.updateMobileConfigFromView()">
     <br>
     <label>Clear Cache</label>
-    <input id="iab-clearcache-checkbox" class="m-15-d-kh" type="checkbox" onchange="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="iab-clearcache-checkbox" class="m-15-d-kh" type="checkbox" onchange="kameHouse.mobile.configManager.updateMobileConfigFromView()">
     <br>
   </form>
   <br><br>
@@ -81,11 +81,11 @@
   <form class="form-kh">
     <label>Backend</label>
     <br>
-    <input id="backend-username-input" class="form-input-kh" type="text" name="text" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="backend-username-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.mobile.configManager.updateMobileConfigFromView()">
     <br>
-    <input id="backend-password-input" class="form-input-kh" type="password" name="password" oninput="mobileConfigManager.updateMobileConfigFromView()">
+    <input id="backend-password-input" class="form-input-kh" type="password" name="password" oninput="kameHouse.mobile.configManager.updateMobileConfigFromView()">
   </form>
   <br><br>
 
-  <button class="mobile-btn-kh reset-cfg-btn-kh" onclick="mobileConfigManager.confirmResetDefaults()">Reset to defaults</button>
+  <button class="mobile-btn-kh reset-cfg-btn-kh" onclick="kameHouse.mobile.configManager.confirmResetDefaults()">Reset to defaults</button>
 </div>

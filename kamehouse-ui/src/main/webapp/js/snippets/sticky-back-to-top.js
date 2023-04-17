@@ -4,7 +4,7 @@
 var stickyBackToTopManager;
 
 function loadStickyBackToTop() {
-  logger.info("Started initializing sticky back to top");
+  kameHouse.logger.info("Started initializing sticky back to top");
   stickyBackToTopManager = new StickyBackToTopManager();
   stickyBackToTopManager.init();
 }
@@ -25,8 +25,8 @@ function StickyBackToTopManager() {
    * Import the sticky button html.
    */
   async function importHtml() {
-    const stickyBackToTopBtn = await fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/sticky-back-to-top.html");
-    domUtils.append($('body'), stickyBackToTopBtn);
+    const stickyBackToTopBtn = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/sticky-back-to-top.html");
+    kameHouse.util.dom.append($('body'), stickyBackToTopBtn);
     setupEventHandlers();
   }
 
@@ -34,7 +34,7 @@ function StickyBackToTopManager() {
    * Import the sticky button css.
    */
   function importCss() {
-    domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/sticky-back-to-top.css">');
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/sticky-back-to-top.css">');
   }
 
   /**
@@ -43,7 +43,7 @@ function StickyBackToTopManager() {
   function setupEventHandlers() {
     window.addEventListener("scroll", showHideStickyBackToTopBtn);
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
-    domUtils.setOnClick(stickyBackToTopBtn, (e) => {
+    kameHouse.util.dom.setOnClick(stickyBackToTopBtn, (e) => {
       e.preventDefault();
       backToTop();
     });
@@ -56,11 +56,11 @@ function StickyBackToTopManager() {
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
     const verticalScroll = window.scrollY;
     if (verticalScroll > 0) {
-      domUtils.classListAdd(stickyBackToTopBtn, "active");
-      domUtils.classListRemove(stickyBackToTopBtn, "hidden");
+      kameHouse.util.dom.classListAdd(stickyBackToTopBtn, "active");
+      kameHouse.util.dom.classListRemove(stickyBackToTopBtn, "hidden");
     } else {
-      domUtils.classListAdd(stickyBackToTopBtn, "hidden");
-      domUtils.classListRemove(stickyBackToTopBtn, "active");
+      kameHouse.util.dom.classListAdd(stickyBackToTopBtn, "hidden");
+      kameHouse.util.dom.classListRemove(stickyBackToTopBtn, "active");
     }
   }
 

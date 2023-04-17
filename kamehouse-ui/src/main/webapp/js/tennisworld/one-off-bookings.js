@@ -1,7 +1,7 @@
 var bookingService;
 
 function mainBook() {
-  bannerUtils.setRandomPrinceOfTennisBanner();
+  kameHouse.util.banner.setRandomPrinceOfTennisBanner();
   bookingService = new BookingService();
 }
 
@@ -18,24 +18,24 @@ function BookingService() {
    * Execute a booking request.
    */
   function book() {
-    logger.info("Executing booking request...");
-    loadingWheelModal.open("Executing booking request...");
+    kameHouse.logger.info("Executing booking request...");
+    kameHouse.plugin.modal.loadingWheelModal.open("Executing booking request...");
     const bookingRequest = getFormData();
-    debuggerHttpClient.post(BOOK_API_URL, bookingRequest,
+    kameHouse.plugin.debugger.http.post(BOOK_API_URL, bookingRequest,
       (responseBody, responseCode, responseDescription) => {
-        logger.info("Booking request completed successfully");
-        loadingWheelModal.close();
+        kameHouse.logger.info("Booking request completed successfully");
+        kameHouse.plugin.modal.loadingWheelModal.close();
         updateBookingResponseTable(responseBody, responseCode);
       },
       (responseBody, responseCode, responseDescription) => {
-        logger.logApiError(responseBody, responseCode, responseDescription, "Error executing booking request");
-        loadingWheelModal.close();
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error executing booking request");
+        kameHouse.plugin.modal.loadingWheelModal.close();
         try {
           const bookingResponse = JSON.parse(responseBody);
           updateBookingResponseTable(bookingResponse, responseCode);
         } catch (error) {
-          logger.error("Error parsing the response: " + error);
-          domUtils.setHtml($('#brt-status'), "Error parsing response body");
+          kameHouse.logger.error("Error parsing the response: " + error);
+          kameHouse.util.dom.setHtml($('#brt-status'), "Error parsing response body");
         }
       });
   }
@@ -54,11 +54,11 @@ function BookingService() {
     bookingRequest['duration'] = document.getElementById('duration').value;
     bookingRequest['courtNumber'] = document.getElementById('court-number').value;
     const dryRun = document.getElementById('dry-run').checked;
-    if (!isEmpty(dryRun)) {
+    if (!kameHouse.core.isEmpty(dryRun)) {
       bookingRequest['dryRun'] = dryRun;
     }
     const cardHolder = document.getElementById('card-holder-name').value;
-    if (!isEmpty(cardHolder) && cardHolder != "") {
+    if (!kameHouse.core.isEmpty(cardHolder) && cardHolder != "") {
       const cardDetails = {};
       cardDetails['name'] = cardHolder;
       const cardNumber = document.getElementById('card-number-1').value + "" + document.getElementById('card-number-2').value + "" + document.getElementById('card-number-3').value + "" + document.getElementById('card-number-4').value;
@@ -77,9 +77,9 @@ function BookingService() {
   function togglePasswordField(fieldId) {
     const passwordField = document.getElementById(fieldId);
     if (passwordField.type === "password") {
-      domUtils.setAttribute(passwordField, "type", "text");
+      kameHouse.util.dom.setAttribute(passwordField, "type", "text");
     } else {
-      domUtils.setAttribute(passwordField, "type", "password");
+      kameHouse.util.dom.setAttribute(passwordField, "type", "password");
     }
   }
 
@@ -87,7 +87,7 @@ function BookingService() {
    * Clear the booking details.
    */
   function clearBookingDetails() {
-    logger.info("clearBookingDetails");
+    kameHouse.logger.info("clearBookingDetails");
     document.getElementById('username').value = "";
     document.getElementById('password').value = "";
     document.getElementById('session-type').value = "";
@@ -103,7 +103,7 @@ function BookingService() {
    * Clear the payment details.
    */
   function clearPaymentDetails() {
-    logger.info("clearPaymentDetails");
+    kameHouse.logger.info("clearPaymentDetails");
     document.getElementById('card-holder-name').value = "";
     document.getElementById('card-number-1').value = "";
     document.getElementById('card-number-2').value = "";
@@ -118,21 +118,21 @@ function BookingService() {
    * Update the view with the booking response.
    */
   function updateBookingResponseTable(bookingResponse, responseCode) {
-      domUtils.setHtml($('#brt-response-code'), responseCode);
-      domUtils.setHtml($('#brt-response-id'), bookingResponse.id);
-      domUtils.setHtml($('#brt-status'), bookingResponse.status);
-      domUtils.setHtml($('#brt-message'), bookingResponse.message);
-      domUtils.setHtml($('#brt-request-id'), bookingResponse.request.id);
-      domUtils.setHtml($('#brt-username'), bookingResponse.request.username);
-      const date = timeUtils.getDateFromEpoch(bookingResponse.request.date);
-      domUtils.setHtml($('#brt-date'), date.toLocaleDateString());
-      domUtils.setHtml($('#brt-time'), bookingResponse.request.time);
-      domUtils.setHtml($('#brt-session-type'), bookingResponse.request.sessionType);
-      domUtils.setHtml($('#brt-site'), bookingResponse.request.site);
-      domUtils.setHtml($('#brt-duration'), bookingResponse.request.duration);   
-      domUtils.setHtml($('#brt-court-number'), bookingResponse.request.courtNumber);    
-      const creationDate = timeUtils.getDateFromEpoch(bookingResponse.request.creationDate);
-      domUtils.setHtml($('#brt-creation-date'), creationDate.toLocaleString());   
+      kameHouse.util.dom.setHtml($('#brt-response-code'), responseCode);
+      kameHouse.util.dom.setHtml($('#brt-response-id'), bookingResponse.id);
+      kameHouse.util.dom.setHtml($('#brt-status'), bookingResponse.status);
+      kameHouse.util.dom.setHtml($('#brt-message'), bookingResponse.message);
+      kameHouse.util.dom.setHtml($('#brt-request-id'), bookingResponse.request.id);
+      kameHouse.util.dom.setHtml($('#brt-username'), bookingResponse.request.username);
+      const date = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.date);
+      kameHouse.util.dom.setHtml($('#brt-date'), date.toLocaleDateString());
+      kameHouse.util.dom.setHtml($('#brt-time'), bookingResponse.request.time);
+      kameHouse.util.dom.setHtml($('#brt-session-type'), bookingResponse.request.sessionType);
+      kameHouse.util.dom.setHtml($('#brt-site'), bookingResponse.request.site);
+      kameHouse.util.dom.setHtml($('#brt-duration'), bookingResponse.request.duration);   
+      kameHouse.util.dom.setHtml($('#brt-court-number'), bookingResponse.request.courtNumber);    
+      const creationDate = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.creationDate);
+      kameHouse.util.dom.setHtml($('#brt-creation-date'), creationDate.toLocaleString());   
   }
 }
 

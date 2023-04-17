@@ -2,7 +2,7 @@
  * Represents the playlist browser component in vlc-player page.
  * It doesn't control the currently active playlist.
  * 
- * Dependencies: tableUtils, logger, debuggerHttpClient
+ * Dependencies: kameHouse.util.table. logger, kameHouseDebugger
  * 
  * @author nbrest
  */
@@ -28,12 +28,12 @@ function PlaylistBrowser(vlcPlayer) {
 
   /** Init Playlist Browser. */
   function init() {
-    domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
+    kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
   }
 
   /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
   function createDoubleArrowImg(direction) {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       id: "toggle-playlist-browser-filenames-img",
       src: "/kame-house/img/other/double-" + direction + "-green.png",
       className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
@@ -45,13 +45,13 @@ function PlaylistBrowser(vlcPlayer) {
   /** Filter playlist browser rows based on the search string. */
   function filterPlaylistRows() {
     const filterString = document.getElementById("playlist-browser-filter-input").value;
-    tableUtils.filterTableRows(filterString, 'playlist-browser-table-body');
+    kameHouse.util.table.filterTableRows(filterString, 'playlist-browser-table-body');
   }
 
   /** Returns the selected playlist from the dropdowns. */
   function getSelectedPlaylist() {
     const playlistSelected = document.getElementById("playlist-dropdown").value;
-    logger.debug("Playlist selected: " + playlistSelected);
+    kameHouse.logger.debug("Playlist selected: " + playlistSelected);
     return playlistSelected;
   }
 
@@ -61,21 +61,21 @@ function PlaylistBrowser(vlcPlayer) {
     resetPlaylistDropdown();
     resetPlaylistCategoryDropdown();
 
-    debuggerHttpClient.get(mediaVideoAllPlaylistsUrl, 
+    kameHouse.plugin.debugger.http.get(mediaVideoAllPlaylistsUrl, 
       (responseBody, responseCode, responseDescription) => {
         videoPlaylists = responseBody;
         videoPlaylistCategories = [...new Set(videoPlaylists.map((playlist) => playlist.category))];
-        logger.debug("Playlists: " + JSON.stringify(videoPlaylists));
-        logger.debug("Playlist categories: " + videoPlaylistCategories);
+        kameHouse.logger.debug("Playlists: " + JSON.stringify(videoPlaylists));
+        kameHouse.logger.debug("Playlist categories: " + videoPlaylistCategories);
         const playlistCategoryDropdown = $('#playlist-category-dropdown');
         $.each(videoPlaylistCategories, (key, entry) => {
           const category = entry;
           const categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
-          domUtils.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, categoryFormatted));
+          kameHouse.util.dom.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, categoryFormatted));
         });
       },
       (responseBody, responseCode, responseDescription) => 
-        kameHouseDebugger.displayResponseData("Error populating video playlist categories", responseCode)
+        kameHouse.plugin.debugger.displayResponseData("Error populating video playlist categories", responseCode)
       );
   }
 
@@ -84,8 +84,8 @@ function PlaylistBrowser(vlcPlayer) {
    */
   function resetPlaylistDropdown() {
     const playlistDropdown = $('#playlist-dropdown');
-    domUtils.empty(playlistDropdown);
-    domUtils.append(playlistDropdown, getInitialDropdownOption("Playlist"));
+    kameHouse.util.dom.empty(playlistDropdown);
+    kameHouse.util.dom.append(playlistDropdown, getInitialDropdownOption("Playlist"));
   }
 
   /**
@@ -93,21 +93,21 @@ function PlaylistBrowser(vlcPlayer) {
    */
   function resetPlaylistCategoryDropdown() {
     const playlistCategoryDropdown = $('#playlist-category-dropdown');
-    domUtils.empty(playlistCategoryDropdown);
-    domUtils.append(playlistCategoryDropdown, getInitialDropdownOption("Playlist Category"));
+    kameHouse.util.dom.empty(playlistCategoryDropdown);
+    kameHouse.util.dom.append(playlistCategoryDropdown, getInitialDropdownOption("Playlist Category"));
   }
 
   /** Populate video playlists dropdown when a playlist category is selected. */
   function populateVideoPlaylists() {
     const playlistCategoriesList = document.getElementById('playlist-category-dropdown');
     const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
-    logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
+    kameHouse.logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
     resetPlaylistDropdown();
     const playlistDropdown = $('#playlist-dropdown');
     $.each(videoPlaylists, (key, entry) => {
       if (entry.category === selectedPlaylistCategory) {
         const playlistName = entry.name.replace(/.m3u+$/, "");
-        domUtils.append(playlistDropdown, getPlaylistOption(entry.path, playlistName));
+        kameHouse.util.dom.append(playlistDropdown, getPlaylistOption(entry.path, playlistName));
       }
     });
   }
@@ -115,15 +115,15 @@ function PlaylistBrowser(vlcPlayer) {
   /** Load the selected playlist's content in the view */
   function loadPlaylistContent() {
     const playlistFilename = getSelectedPlaylist();
-    logger.debug("Getting content for " + playlistFilename);
+    kameHouse.logger.debug("Getting content for " + playlistFilename);
     const requestParam = "path=" + playlistFilename;
-    debuggerHttpClient.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
+    kameHouse.plugin.debugger.http.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
       (responseBody, responseCode, responseDescription) => {
         currentPlaylist = responseBody;
         populatePlaylistBrowserTable();
       },
       (responseBody, responseCode, responseDescription) =>
-        kameHouseDebugger.displayResponseData("Error getting playlist content", responseCode)
+        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content", responseCode)
       );
   }
 
@@ -138,19 +138,19 @@ function PlaylistBrowser(vlcPlayer) {
   /** Populate the playlist table for browsing. */
   function populatePlaylistBrowserTable() {
     const $playlistTableBody = $('#playlist-browser-table-body');
-    domUtils.empty($playlistTableBody);
-    if (isEmpty(currentPlaylist)) {
-      domUtils.append($playlistTableBody, getEmptyPlaylistTr());
+    kameHouse.util.dom.empty($playlistTableBody);
+    if (kameHouse.core.isEmpty(currentPlaylist)) {
+      kameHouse.util.dom.append($playlistTableBody, getEmptyPlaylistTr());
     } else {
       tbodyFilenames = getPlaylistBrowserTbody();
       tbodyAbsolutePaths = getPlaylistBrowserTbody();
       for (const file of currentPlaylist.files) {
         const absolutePath = file;
-        const filename = fileUtils.getShortFilename(absolutePath);
-        domUtils.append(tbodyFilenames, getPlaylistBrowserTr(filename, absolutePath));
-        domUtils.append(tbodyAbsolutePaths, getPlaylistBrowserTr(absolutePath, absolutePath));
+        const filename = kameHouse.util.file.getShortFilename(absolutePath);
+        kameHouse.util.dom.append(tbodyFilenames, getPlaylistBrowserTr(filename, absolutePath));
+        kameHouse.util.dom.append(tbodyAbsolutePaths, getPlaylistBrowserTr(absolutePath, absolutePath));
       }
-      domUtils.replaceWith($playlistTableBody, tbodyFilenames);
+      kameHouse.util.dom.replaceWith($playlistTableBody, tbodyFilenames);
     }
     filterPlaylistRows();
   }
@@ -158,7 +158,7 @@ function PlaylistBrowser(vlcPlayer) {
   /** Play the clicked element from the playlist. */
   function clickEventOnPlaylistBrowserRow(event) {
     const filename = event.data.filename;
-    logger.debug("Play selected playlist browser file : " + filename);
+    kameHouse.logger.debug("Play selected playlist browser file : " + filename);
     vlcPlayer.playFile(filename);
     vlcPlayer.openTab('tab-playing');
   }
@@ -172,17 +172,17 @@ function PlaylistBrowser(vlcPlayer) {
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
-      if (!isEmpty(tbodyFilenames)) {
-        domUtils.detach(tbodyFilenames);
+      if (!kameHouse.core.isEmpty(tbodyFilenames)) {
+        kameHouse.util.dom.detach(tbodyFilenames);
       }
-      domUtils.append($playlistTable, tbodyAbsolutePaths);
+      kameHouse.util.dom.append($playlistTable, tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
-      if (!isEmpty(tbodyAbsolutePaths)) {
-        domUtils.detach(tbodyAbsolutePaths);
+      if (!kameHouse.core.isEmpty(tbodyAbsolutePaths)) {
+        kameHouse.util.dom.detach(tbodyAbsolutePaths);
       }
-      domUtils.append($playlistTable, tbodyFilenames);
+      kameHouse.util.dom.append($playlistTable, tbodyFilenames);
       isExpandedFilename = false;
     }
     updateExpandPlaylistFilenamesIcon(isExpandedFilename);
@@ -192,47 +192,47 @@ function PlaylistBrowser(vlcPlayer) {
   /** Update the icon to expand or collapse the playlist filenames */
   function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleLeftImg);
+      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleLeftImg);
     } else {
-      domUtils.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
+      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
     }
   }
 
   function getInitialDropdownOption(optionText) {
-    return domUtils.getOption({
+    return kameHouse.util.dom.getOption({
       disabled: true,
       selected: true
     }, optionText);
   }
 
   function getPlaylistOption(entry, category) {
-    return domUtils.getOption({
+    return kameHouse.util.dom.getOption({
       value: entry
     }, category);
   }
 
   function getPlaylistCategoryOption(path, playlistName) {
-    return domUtils.getOption({
+    return kameHouse.util.dom.getOption({
       value: path
     }, playlistName);
   }
   
   function getPlaylistBrowserTbody() {
-    return domUtils.getTbody({
+    return kameHouse.util.dom.getTbody({
       id: "playlist-browser-table-body"
     }, null);
   }
 
   function getEmptyPlaylistTr() {
-    return domUtils.getTrTd("No playlist to browse loaded yet or unable to sync. まだまだだね :)");
+    return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync. まだまだだね :)");
   }
 
   function getPlaylistBrowserTr(displayName, filePath) {
-    return domUtils.getTrTd(getPlaylistBrowserTrButton(displayName, filePath));
+    return kameHouse.util.dom.getTrTd(getPlaylistBrowserTrButton(displayName, filePath));
   }
 
   function getPlaylistBrowserTrButton(displayName, filePath) {
-    return domUtils.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         class: "playlist-browser-table-btn",
       },

@@ -1,5 +1,5 @@
 window.onload = () => {
-  moduleUtils.waitForModules(["debuggerHttpClient", "crudManager"], () => {    
+  kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
     crudManager.init({
       readOnly: true,
       entityName: "Booking Request",

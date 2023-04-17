@@ -10,14 +10,14 @@ function MobileAppIndex() {
   this.init = init;
 
   function init() {
-    logger.info("Started initializing kamehouse-mobile app index page");
-    bannerUtils.setRandomAllBanner();
-    moduleUtils.waitForModules(["mobileConfigManager", "cordovaManager", "debuggerHttpClient", "kameHouseMobileTabsManager"], () => {
+    kameHouse.logger.info("Started initializing kamehouse-mobile app index page");
+    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.module.waitForModules(["kameHouseMobile", "kameHouseDebugger", "kameHouseMobileTabsManager"], () => {
       kameHouseMobileTabsManager.openTab('tab-config');
       setDeviceStartup();
     });
-    moduleUtils.waitForModules(["kameHouseDebugger"], () => {
-      kameHouseDebugger.renderCustomDebugger("/kame-house-mobile/html-snippets/debug-mode-custom.html");
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house-mobile/html-snippets/debug-mode-custom.html");
     });
   }
 
@@ -25,7 +25,7 @@ function MobileAppIndex() {
    * Set listeners for index page.
    */
   function setDeviceStartup() {
-    logger.info("Setting up deviceready");
+    kameHouse.logger.info("Setting up deviceready");
     document.addEventListener("deviceready", onDeviceReady, false);
   }
 
@@ -33,10 +33,10 @@ function MobileAppIndex() {
    * Open media server on startup.
    */
   function onDeviceReady() {
-    cordovaManager.overrideWindowOpen();
-    const openOnStartup = mobileConfigManager.getInAppBrowserConfig().openOnStartup;
+    kameHouse.mobile.core.overrideWindowOpen();
+    const openOnStartup = kameHouse.mobile.configManager.getInAppBrowserConfig().openOnStartup;
     if (openOnStartup) {
-      cordovaManager.openBrowser('vlc');
+      kameHouse.mobile.core.openBrowser('vlc');
     }
   }
 } 

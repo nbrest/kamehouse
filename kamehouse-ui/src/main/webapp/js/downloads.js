@@ -4,7 +4,7 @@
  var kameHouseSlideShowManager;
 
 function mainMobileLinks() {
-  bannerUtils.setRandomAllBanner();
+  kameHouse.util.banner.setRandomAllBanner();
   generateAndroidQrCode();
   kameHouseSlideShowManager = new KameHouseSlideShowManager();
   kameHouseSlideShowManager.setDotSlide(1);
@@ -70,13 +70,13 @@ function KameHouseSlideShowManager() {
       slideIndex = slides.length;
     }
     for (let i = 0; i < slides.length; i++) {
-      domUtils.setDisplay(slides[i], "none");
+      kameHouse.util.dom.setDisplay(slides[i], "none");
     }
     for (let i = 0; i < dots.length; i++) {
-      domUtils.classListRemove(dots[i], "kamehouse-slideshow-dot-active")
+      kameHouse.util.dom.classListRemove(dots[i], "kamehouse-slideshow-dot-active")
     }
-    domUtils.setDisplay(slides[slideIndex-1], "block");
-    domUtils.classListAdd(dots[slideIndex-1], "kamehouse-slideshow-dot-active");
+    kameHouse.util.dom.setDisplay(slides[slideIndex-1], "block");
+    kameHouse.util.dom.classListAdd(dots[slideIndex-1], "kamehouse-slideshow-dot-active");
   }
 }
 

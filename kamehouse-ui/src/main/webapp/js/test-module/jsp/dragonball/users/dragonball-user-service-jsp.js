@@ -21,7 +21,7 @@ function DragonBallUserServiceJsp() {
     });
     const getUrl = SERVLET_SERVICE_URI + "?" + params;
 
-    debuggerHttpClient.get(getUrl, 
+    kameHouse.plugin.debugger.http.get(getUrl, 
       (responseBody, responseCode, responseDescription) => displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription) => {
         let errorMessage = 'Error getting dragonball user';
@@ -33,7 +33,7 @@ function DragonBallUserServiceJsp() {
    * Get all dragonball users.
    */
   function getAllDragonBallUsers() {
-    debuggerHttpClient.get(SERVLET_SERVICE_URI, 
+    kameHouse.plugin.debugger.http.get(SERVLET_SERVICE_URI, 
       (responseBody, responseCode, responseDescription) => displayDragonBallUsers(responseBody),
       (responseBody, responseCode, responseDescription) => {
         const errorMessage = 'Error getting dragonball users from the backend';
@@ -55,7 +55,7 @@ function DragonBallUserServiceJsp() {
       stamina: document.getElementById("input-stamina").value
     });
 
-    debuggerHttpClient.postUrlEncoded(SERVLET_SERVICE_URI, params,
+    kameHouse.plugin.debugger.http.postUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => { window.location.href = 'users-list'; },
       (responseBody, responseCode, responseDescription) => {
         const errorMessage = 'Error adding dragonball user';
@@ -76,7 +76,7 @@ function DragonBallUserServiceJsp() {
       stamina: document.getElementById("input-stamina").value
     });
 
-    debuggerHttpClient.putUrlEncoded(SERVLET_SERVICE_URI, params,
+    kameHouse.plugin.debugger.http.putUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
       (responseBody, responseCode, responseDescription) => {
         const errorMessage = 'Error updating dragonball user';
@@ -92,7 +92,7 @@ function DragonBallUserServiceJsp() {
       id: id
     });
 
-    debuggerHttpClient.deleteUrlEncoded(SERVLET_SERVICE_URI, params,
+    kameHouse.plugin.debugger.http.deleteUrlEncoded(SERVLET_SERVICE_URI, params,
       (responseBody, responseCode, responseDescription) => getAllDragonBallUsers(),
       (responseBody, responseCode, responseDescription) => {
         const errorMessage = 'Error deleting dragonball user';
@@ -104,15 +104,15 @@ function DragonBallUserServiceJsp() {
   
   /** Display api error */
   function handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription) {
-    if (!isEmpty(responseBody)) {
+    if (!kameHouse.core.isEmpty(responseBody)) {
       try {
         errorMessage = errorMessage + " : " + JSON.parse(responseBody).message;
       } catch (e) {
-        logger.error("Error parsing response body");
+        kameHouse.logger.error("Error parsing response body");
       } 
     }
-    basicKamehouseModal.open(errorMessage);
-    logger.logApiError(responseBody, responseCode, responseDescription, errorMessage);
+    kameHouse.plugin.modal.basicModal.open(errorMessage);
+    kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, errorMessage);
   }
 
   /**
@@ -132,10 +132,10 @@ function DragonBallUserServiceJsp() {
    */
   async function displayDragonBallUsers(dragonBallUsersList) {
     const $dragonBallUsersTbody = $('#dragonball-users-tbody');
-    domUtils.empty($dragonBallUsersTbody);
-    domUtils.append($dragonBallUsersTbody, await getDragonBallUserTableHeader());
+    kameHouse.util.dom.empty($dragonBallUsersTbody);
+    kameHouse.util.dom.append($dragonBallUsersTbody, await getDragonBallUserTableHeader());
     for (const dragonballUser of dragonBallUsersList) {
-      domUtils.append($dragonBallUsersTbody, getDragonBallUserTableRow(dragonballUser));
+      kameHouse.util.dom.append($dragonBallUsersTbody, getDragonBallUserTableRow(dragonballUser));
     }
   }
 
@@ -144,39 +144,39 @@ function DragonBallUserServiceJsp() {
    */
   function displayErrorTable(message) {
     const $dragonBallUsersTbody = $('#dragonball-users-tbody');
-    domUtils.empty($dragonBallUsersTbody);
-    domUtils.append($dragonBallUsersTbody, getErrorMessageTr(message));
+    kameHouse.util.dom.empty($dragonBallUsersTbody);
+    kameHouse.util.dom.append($dragonBallUsersTbody, getErrorMessageTr(message));
   }
   
   function getErrorMessageTr(message) {
-    return domUtils.getTrTd(message);
+    return kameHouse.util.dom.getTrTd(message);
   }
 
   function getDragonBallUserTableRow(dragonBallUser) {
-    const tr = domUtils.getTr({}, null);
-    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.id));
-    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.username));
-    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.email));
-    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.age));
-    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.powerLevel));
-    domUtils.append(tr, getDragonBallUserTd(dragonBallUser.stamina));
-    domUtils.append(tr, getActionButtonsTd(dragonBallUser.username, dragonBallUser.id));
+    const tr = kameHouse.util.dom.getTr({}, null);
+    kameHouse.util.dom.append(tr, getDragonBallUserTd(dragonBallUser.id));
+    kameHouse.util.dom.append(tr, getDragonBallUserTd(dragonBallUser.username));
+    kameHouse.util.dom.append(tr, getDragonBallUserTd(dragonBallUser.email));
+    kameHouse.util.dom.append(tr, getDragonBallUserTd(dragonBallUser.age));
+    kameHouse.util.dom.append(tr, getDragonBallUserTd(dragonBallUser.powerLevel));
+    kameHouse.util.dom.append(tr, getDragonBallUserTd(dragonBallUser.stamina));
+    kameHouse.util.dom.append(tr, getActionButtonsTd(dragonBallUser.username, dragonBallUser.id));
     return tr;
   }
 
   function getDragonBallUserTd(dataValue) {
-    return domUtils.getTd({}, dataValue);
+    return kameHouse.util.dom.getTd({}, dataValue);
   }
 
   function getActionButtonsTd(username, id) {
-    const td = domUtils.getTd({}, null);
-    domUtils.append(td, getEditButton(username));
-    domUtils.append(td, getDeleteButton(id));
+    const td = kameHouse.util.dom.getTd({}, null);
+    kameHouse.util.dom.append(td, getEditButton(username));
+    kameHouse.util.dom.append(td, getDeleteButton(id));
     return td; 
   }
 
   function getEditButton(username) {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/edit-green.png",
       className: "img-btn-kh m-15-d-r-kh",
       alt: "Edit",
@@ -185,7 +185,7 @@ function DragonBallUserServiceJsp() {
   }
 
   function getDeleteButton(id) {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/delete-red.png",
       className: "img-btn-kh",
       alt: "Delete",
@@ -194,6 +194,6 @@ function DragonBallUserServiceJsp() {
   }
 
   function getDragonBallUserTableHeader() {
-    return fetchUtils.loadHtmlSnippet("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
+    return kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
   }
 }

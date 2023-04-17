@@ -4,7 +4,7 @@
  * @author nbrest
  */
 function mainModuleStatus() {
-  bannerUtils.setRandomPrinceOfTennisBanner();
+  kameHouse.util.banner.setRandomPrinceOfTennisBanner();
 }
 
 $(document).ready(mainModuleStatus);

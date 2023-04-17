@@ -1,7 +1,7 @@
 var dragonBallUserServiceJsp;
 
 window.onload = () => {
-  moduleUtils.waitForModules(["debuggerHttpClient"], () => {
+  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
     dragonBallUserServiceJsp = new DragonBallUserServiceJsp();
   });
 }

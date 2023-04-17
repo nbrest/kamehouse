@@ -1,24 +1,24 @@
 /**
  * wake on lan functions.
  * 
- * Dependencies: logger, debuggerHttpClient.
+ * Dependencies: logger, kameHouse.plugin.debugger.http.
  * 
  * @author nbrest
  */
 var wakeOnLanManager;
 
 function mainWakeOnLan() {
-  bannerUtils.setRandomAllBanner();
+  kameHouse.util.banner.setRandomAllBanner();
   importWolCss();
-  moduleUtils.waitForModules(["debuggerHttpClient"], () => {
-    logger.info("Started initializing wake on lan");
+  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+    kameHouse.logger.info("Started initializing wake on lan");
     wakeOnLanManager = new WakeOnLanManager();
     wakeOnLanManager.execWakeOnLan();
   });
 }
 
 function importWolCss() {
-  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/wake-on-lan.css">');
+  kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/wake-on-lan.css">');
 }
 
 /**
@@ -36,19 +36,19 @@ function WakeOnLanManager() {
     const requestParam =  {
       "server" : "media.server"
     };
-    loadingWheelModal.open("Sending WOL packet to media server");
-    debuggerHttpClient.postUrlEncoded(WOL_API_URL, requestParam, processSuccess, processError);
+    kameHouse.plugin.modal.loadingWheelModal.open("Sending WOL packet to media server");
+    kameHouse.plugin.debugger.http.postUrlEncoded(WOL_API_URL, requestParam, processSuccess, processError);
   }
 
   function processSuccess(responseBody, responseCode, responseDescription) {
-    loadingWheelModal.close();
-    domUtils.setHtml($("#wol-status"), timeUtils.getTimestamp() + " - " + responseBody.message);
+    kameHouse.plugin.modal.loadingWheelModal.close();
+    kameHouse.util.dom.setHtml($("#wol-status"), kameHouse.util.time.getTimestamp() + " - " + responseBody.message);
   }
 
   function processError(responseBody, responseCode, responseDescription) {
-    loadingWheelModal.close();
-    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
-    domUtils.setHtml($("#wol-status"), timeUtils.getTimestamp() + " - Error sending WOL packet. Please try again");
+    kameHouse.plugin.modal.loadingWheelModal.close();
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.util.dom.setHtml($("#wol-status"), kameHouse.util.time.getTimestamp() + " - Error sending WOL packet. Please try again");
   }
 }
 

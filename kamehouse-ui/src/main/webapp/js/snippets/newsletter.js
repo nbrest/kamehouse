@@ -9,8 +9,8 @@ function mainNewsletter() {
  * Import newsletter content.
  */
 function importNewsletter() {
-  domUtils.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/newsletter.css">');
-  domUtils.load($("#newsletter"), "/kame-house/html-snippets/newsletter.html");
+  kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/newsletter.css">');
+  kameHouse.util.dom.load($("#newsletter"), "/kame-house/html-snippets/newsletter.html");
 }
 
 /**

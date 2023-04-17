@@ -34,19 +34,19 @@
   <div class="tabs-kh bg-lighter-1-kh">
     <div class="default-layout">
       <button id="tab-git-link" class="tab-kh-link"
-        onclick="tabUtils.openTab('tab-git', 'kh-groot-server-manager')">Git</button>
+        onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</button>
 
       <button id="tab-deployment-link" class="tab-kh-link"
-        onclick="tabUtils.openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</button>
+        onclick="kameHouse.util.tab.openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</button>
 
       <button id="tab-media-link" class="tab-kh-link"
-        onclick="tabUtils.openTab('tab-media', 'kh-groot-server-manager')">Media</button>
+        onclick="kameHouse.util.tab.openTab('tab-media', 'kh-groot-server-manager')">Media</button>
 
       <button id="tab-power-link" class="tab-kh-link"
-        onclick="tabUtils.openTab('tab-power', 'kh-groot-server-manager')">Power</button>
+        onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</button>
 
       <button id="tab-tail-log-link" class="tab-kh-link"
-        onclick="tabUtils.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</button>
+        onclick="kameHouse.util.tab.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</button>
     </div>
   </div>
 
@@ -360,7 +360,7 @@
       <button id="tail-log-output-wrapper" class="collapsible-kh collapsible-kh-btn">Tail Log Output</button>
       <div class="collapsible-kh-content">
         <button class="btn-svg-scroll-down fl-r-d-kh"
-          onclick="scrollToBottom('btn-tail-log-scroll-up')">
+          onclick="kameHouse.core.scrollToBottom('btn-tail-log-scroll-up')">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
         </button>
         <!-- pre and table need to be in the same line or it prints some extra lines -->
@@ -374,7 +374,7 @@
             </tbody>
         </table></pre>
         <button class="btn-svg-scroll-up fl-r-d-kh" id="btn-tail-log-scroll-up" 
-          onclick="scrollToTop('tail-log-output-wrapper')">
+          onclick="kameHouse.core.scrollToTop('tail-log-output-wrapper')">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
         </button>
       </div>
@@ -385,7 +385,7 @@
     <button id="command-output-wrapper" class="collapsible-kh collapsible-kh-btn">Command Output</button>
     <div class="collapsible-kh-content">
       <button class="btn-svg-scroll-down fl-r-d-kh"
-        onclick="scrollToTop('btn-command-output-scroll-up')">
+        onclick="kameHouse.core.scrollToTop('btn-command-output-scroll-up')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
       </button>
       
@@ -403,7 +403,7 @@
           </tbody>
       </table></pre>
       <button class="btn-svg-scroll-up fl-r-d-kh" id="btn-command-output-scroll-up" 
-        onclick="scrollToTop('command-output-wrapper')">
+        onclick="kameHouse.core.scrollToTop('command-output-wrapper')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
       </button>
     </div>

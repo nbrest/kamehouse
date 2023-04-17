@@ -55,7 +55,7 @@
         </td>
         <td class="txt-r-d-kh txt-r-m-kh">
           <img class="img-btn-kh img-btn-s-kh btn-kamehouse-shell-controls"
-            onclick="scrollToTopOfDiv('all-kamehouse-shell-table-wrapper')"
+            onclick="kameHouse.core.scrollToTopOfDiv('all-kamehouse-shell-table-wrapper')"
             src="/kame-house/img/other/back-to-top.png"
             alt="Back To Top" title="Back To Top" />
         </td>

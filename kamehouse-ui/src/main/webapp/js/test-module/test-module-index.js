@@ -1,3 +1,3 @@
 window.onload = () => {
-  bannerUtils.setRandomDragonBallBanner();
+  kameHouse.util.banner.setRandomDragonBallBanner();
 };

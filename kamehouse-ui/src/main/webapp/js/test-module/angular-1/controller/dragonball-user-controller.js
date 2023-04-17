@@ -84,15 +84,15 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
 
   /** Display api error */
   function handleApiErrorResponse(errorMessage, errResponse) {
-    if (!isEmpty(errResponse.data) && !isEmpty(errResponse.data.message)) {
+    if (!kameHouse.core.isEmpty(errResponse.data) && !kameHouse.core.isEmpty(errResponse.data.message)) {
       errorMessage = errorMessage + " : " + errResponse.data.message;
     }
-    logger.error(errorMessage);
-    basicKamehouseModal.setHtml(errorMessage);
-    basicKamehouseModal.appendHtml(domUtils.getBr());
-    basicKamehouseModal.appendHtml(domUtils.getBr());
-    basicKamehouseModal.appendHtml(createBackButton());
-    basicKamehouseModal.open();
+    kameHouse.logger.error(errorMessage);
+    kameHouse.plugin.modal.basicModal.setHtml(errorMessage);
+    kameHouse.plugin.modal.basicModal.appendHtml(kameHouse.util.dom.getBr());
+    kameHouse.plugin.modal.basicModal.appendHtml(kameHouse.util.dom.getBr());
+    kameHouse.plugin.modal.basicModal.appendHtml(createBackButton());
+    kameHouse.plugin.modal.basicModal.open();
     redirectToErrorPage(errResponse.status);
   }
 
@@ -112,7 +112,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Set the user to edit based on the id.
    */
   function edit(id) {
-    logger.info('id to be edited: ' + id);
+    kameHouse.logger.info('id to be edited: ' + id);
     for (const user of self.users) {
       if (user.id === id) {
         self.user = angular.copy(user);
@@ -150,14 +150,14 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Redirect to error page based on the status code.
    */
   function redirectToErrorPage(statusCode) {
-    if (!isEmpty(statusCode)) {
+    if (!kameHouse.core.isEmpty(statusCode)) {
       $location.path('/' + statusCode);
       // To display the error page content without redirecting use the following, but it
       // breaks the navigation with angular because I need to reload the page to go back to
       // where I was when the error was produced.
       //const mainContent = $('#main-content');
-      //domUtils.empty(mainContent);
-      //domUtils.load(mainContent, '/kame-house/app/view/' + statusCode + '.html');
+      //kameHouse.util.dom.empty(mainContent);
+      //kameHouse.util.dom.load(mainContent, '/kame-house/app/view/' + statusCode + '.html');
     }
   }
 
@@ -165,14 +165,14 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Create a button to go back to the previous page.
    */
   function createBackButton() {
-    return domUtils.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         class: "btn go-back-btn-kh",
       },
       html: "Back",
       click: () => { 
         history.back(); 
-        basicKamehouseModal.close(); 
+        kameHouse.plugin.modal.basicModal.close(); 
       }
     });
   }

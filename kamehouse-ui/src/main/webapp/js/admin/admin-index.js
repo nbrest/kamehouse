@@ -1,3 +1,3 @@
 window.onload = () => {
-  bannerUtils.setRandomTennisBanner();
+  kameHouse.util.banner.setRandomTennisBanner();
 };

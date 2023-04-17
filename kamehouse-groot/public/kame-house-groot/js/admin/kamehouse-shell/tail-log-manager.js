@@ -2,8 +2,8 @@ var tailLogManager;
 
 function loadTailLogManager() {
   tailLogManager = new TailLogManager();
-  moduleUtils.setModuleLoaded("tailLogManager");
-  logger.info("Initialized tailLogManager");
+  kameHouse.util.module.setModuleLoaded("tailLogManager");
+  kameHouse.logger.info("Initialized tailLogManager");
 }
 
 /**
@@ -29,8 +29,8 @@ function TailLogManager() {
   /** Tails the log based on the script parameter and the number of lines to display */
   function tailLog(scriptName, numberOfLines, logLevel, executeOnDockerHost, callback) {
     if (isValidScript(scriptName)) {
-      logger.trace("Executing script : " + scriptName);
-      if (isEmpty(logLevel)) {
+      kameHouse.logger.trace("Executing script : " + scriptName);
+      if (kameHouse.core.isEmpty(logLevel)) {
         logLevel = "";
       }
       const params = new URLSearchParams({
@@ -39,17 +39,17 @@ function TailLogManager() {
         executeOnDockerHost: executeOnDockerHost
       });
       const getUrl = EXEC_SCRIPT_API + "?" + params;
-      httpClient.get(getUrl, null,
+      kameHouse.http.get(getUrl, null,
         (responseBody, responseCode, responseDescription) => updateTailLogOutput(responseBody, responseCode, responseDescription, numberOfLines, callback),
         (responseBody, responseCode, responseDescription) => updateTailLogOutputError(responseBody, responseCode, responseDescription, callback));
     } else {
-      logger.error("Invalid or no script received as url parameter");
+      kameHouse.logger.error("Invalid or no script received as url parameter");
       displayInvalidScript();
     }
   }
 
   function isValidScript(scriptName) {
-    if (!isEmpty(scriptName)) { 
+    if (!kameHouse.core.isEmpty(scriptName)) { 
       if (scriptName.startsWith("common/logs/cat-") && scriptName.endsWith("-log.sh")) {
         return true;
       } else {
@@ -64,7 +64,7 @@ function TailLogManager() {
   function setScriptName() {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
-    domUtils.setHtml($("#st-script-name"), scriptName);
+    kameHouse.util.dom.setHtml($("#st-script-name"), scriptName);
   }
 
   /** Update the script tail log output with the result of the script */
@@ -77,20 +77,20 @@ function TailLogManager() {
       // Show full output
       for (let i = 0; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
-          domUtils.append(tbody, getTailLogOutputTr(tailLogOutputArray[i]));
+          kameHouse.util.dom.append(tbody, getTailLogOutputTr(tailLogOutputArray[i]));
         }
       }
     } else {
       for (let i = tailLogOutputLength - numberOfLines; i < tailLogOutputLength; i++) {
         if (tailLogOutputArray[i].trim().length > 0) {
-          domUtils.append(tbody, getTailLogOutputTr(tailLogOutputArray[i]));
+          kameHouse.util.dom.append(tbody, getTailLogOutputTr(tailLogOutputArray[i]));
         }
       }
     }
-    domUtils.empty($tailLogOutputTableBody);
-    domUtils.replaceWith($tailLogOutputTableBody, tbody);
+    kameHouse.util.dom.empty($tailLogOutputTableBody);
+    kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
 
-    if (isFunction(callback)) {
+    if (kameHouse.core.isFunction(callback)) {
       callback();
     }
   }
@@ -99,14 +99,14 @@ function TailLogManager() {
   function updateTailLogOutputError(responseBody, responseCode, responseDescription, callback) {
     const $tailLogOutputTableBody = $('#tail-log-output-table-body');
     const tbody = getTailLogOutputTbody();
-    domUtils.append(tbody, getTailLogOutputErrorTr("Error response from the backend"));
-    domUtils.append(tbody, getTailLogOutputErrorTr("responseBody : " + responseBody));
-    domUtils.append(tbody, getTailLogOutputErrorTr("responseCode : " + responseCode));
-    domUtils.append(tbody, getTailLogOutputErrorTr("responseDescription : " + responseDescription));
-    domUtils.empty($tailLogOutputTableBody);
-    domUtils.replaceWith($tailLogOutputTableBody, tbody);
+    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("Error response from the backend"));
+    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseBody : " + responseBody));
+    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseCode : " + responseCode));
+    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseDescription : " + responseDescription));
+    kameHouse.util.dom.empty($tailLogOutputTableBody);
+    kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
 
-    if (isFunction(callback)) {
+    if (kameHouse.core.isFunction(callback)) {
       callback();
     }
   }
@@ -115,9 +115,9 @@ function TailLogManager() {
   function displayInvalidScript() {
     const $tailLogOutputTableBody = $('#tail-log-output-table-body');
     const tbody = getTailLogOutputTbody();
-    domUtils.append(tbody, getTailLogOutputErrorTr("Invalid script sent as parameter"));
-    domUtils.empty($tailLogOutputTableBody);
-    domUtils.replaceWith($tailLogOutputTableBody, tbody);
+    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("Invalid script sent as parameter"));
+    kameHouse.util.dom.empty($tailLogOutputTableBody);
+    kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
   }
 
   /** Handle Session Status */
@@ -127,24 +127,24 @@ function TailLogManager() {
 
   /** Update server name */
   function updateServerName(sessionStatus) {
-    if (!isEmpty(sessionStatus.server)) {
-      domUtils.setHtml($("#st-server-name"), sessionStatus.server);
-      domUtils.setHtml($("#banner-server-name"), sessionStatus.server);
+    if (!kameHouse.core.isEmpty(sessionStatus.server)) {
+      kameHouse.util.dom.setHtml($("#st-server-name"), sessionStatus.server);
+      kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
 
   function getTailLogOutputTbody() {
-    return domUtils.getTbody({
+    return kameHouse.util.dom.getTbody({
       id: "tail-log-output-table-body"
     }, null);
   }
 
   function getTailLogOutputErrorTr(message) {
-    return domUtils.getTrTd(message);
+    return kameHouse.util.dom.getTrTd(message);
   }
 
   function getTailLogOutputTr(htmlContent) {
-    return domUtils.getTrTd(htmlContent);
+    return kameHouse.util.dom.getTrTd(htmlContent);
   }
 }
 

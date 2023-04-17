@@ -1,7 +1,7 @@
 /** 
  * VlcPlayer entity.
  * 
- * Dependencies: fileUtils, tableUtils, cursorUtils, timeUtils, logger, debuggerHttpClient, websocket
+ * Dependencies: fileUtils, tableUtils, cursorUtils, timeUtils, logger, kameHouseDebugger, websocket
  * 
  * Dependencies in same file: VlcPlayerPlaylist, VlcPlayerRestClient, VlcPlayerCommandExecutor, 
  * VlcPlayerSynchronizer, VlcPlayerMainViewUpdater, VlcPlayerDebugger
@@ -73,7 +73,7 @@ function VlcPlayer(hostname) {
    * Load the current state from the cookies.
    */
   function loadStateFromCookies() {
-    let currentTab = cookiesUtils.getCookie('kh-vlc-player-current-tab');
+    let currentTab = kameHouse.util.cookies.getCookie('kh-vlc-player-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-playing';
     }
@@ -104,37 +104,37 @@ function VlcPlayer(hostname) {
    */
   function openTab(vlcPlayerTabDivId) {
     // Set kh-vlc-player-current-tab cookie
-    cookiesUtils.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId);
+    kameHouse.util.cookies.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId);
     // Update tab links
     const vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
     for (const vlcPlayerTabLinkElement of vlcPlayerTabLinks) {
-      domUtils.classListRemove(vlcPlayerTabLinkElement, "active");
+      kameHouse.util.dom.classListRemove(vlcPlayerTabLinkElement, "active");
     }
     const vlcPlayerTabLink = document.getElementById(vlcPlayerTabDivId + '-link');
-    domUtils.classListAdd(vlcPlayerTabLink, "active");
+    kameHouse.util.dom.classListAdd(vlcPlayerTabLink, "active");
 
     // Update tab content visibility
     const vlcPlayerTabContent = document.getElementsByClassName("vlc-player-tab-content");
     for (const vlcPlayerTabContentElement of vlcPlayerTabContent) {
-      domUtils.setDisplay(vlcPlayerTabContentElement, "none");
+      kameHouse.util.dom.setDisplay(vlcPlayerTabContentElement, "none");
     }
     const vlcPlayerTabDiv = document.getElementById(vlcPlayerTabDivId);
-    domUtils.setDisplay(vlcPlayerTabDiv, "block");
+    kameHouse.util.dom.setDisplay(vlcPlayerTabDiv, "block");
 
     setTimeout(() => {
       // Asynchronously show or hide playlist and playlist browser content
       const playlistTable = document.getElementById("playlist-table");
       if ("tab-playlist" == vlcPlayerTabDivId) {
-        domUtils.setDisplay(playlistTable, "table");
+        kameHouse.util.dom.setDisplay(playlistTable, "table");
       } else {
-        domUtils.setDisplay(playlistTable, "none");
+        kameHouse.util.dom.setDisplay(playlistTable, "none");
       }
 
       const playlistBrowserTable = document.getElementById("playlist-browser-table");
       if ("tab-playlist-browser" == vlcPlayerTabDivId) {
-        domUtils.setDisplay(playlistBrowserTable, "table");
+        kameHouse.util.dom.setDisplay(playlistBrowserTable, "table");
       } else {
-        domUtils.setDisplay(playlistBrowserTable, "none");
+        kameHouse.util.dom.setDisplay(playlistBrowserTable, "none");
       }
     }, 0);
   }
@@ -158,7 +158,7 @@ function VlcPlayer(hostname) {
    */
   function updateSubtitleDelay(increment) {
     let subtitleDelay = getVlcRcStatus().subtitleDelay;
-    if (!isEmpty(subtitleDelay)) {
+    if (!kameHouse.core.isEmpty(subtitleDelay)) {
       subtitleDelay = Number(subtitleDelay) + Number(increment);
     } else {
       subtitleDelay = 0 + Number(increment);
@@ -170,7 +170,7 @@ function VlcPlayer(hostname) {
    * Set aspect ratio.
    */
   function updateAspectRatio(aspectRatio) {
-    if (!isEmpty(aspectRatio)) {
+    if (!kameHouse.core.isEmpty(aspectRatio)) {
       commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
   }
@@ -218,7 +218,7 @@ function VlcPlayer(hostname) {
    * through this method.
    */
   function setVlcRcStatus(vlcRcStatusParam) {
-    if (!isEmpty(vlcRcStatusParam)) {
+    if (!kameHouse.core.isEmpty(vlcRcStatusParam)) {
       vlcRcStatus = vlcRcStatusParam;
     } else {
       vlcRcStatus = {};
@@ -237,7 +237,7 @@ function VlcPlayer(hostname) {
 
   function filterPlaylistRows() {
     const filterString = document.getElementById("playlist-filter-input").value;
-    tableUtils.filterTableRows(filterString, 'playlist-table-body');
+    kameHouse.util.table.filterTableRows(filterString, 'playlist-table-body');
   }
 
   function toggleExpandPlaylistFilenames() { playlist.toggleExpandPlaylistFilenames(); }
@@ -321,7 +321,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
   /** Create a vlcrc command with the parameters and execute the request to the server. */
   function execVlcRcCommand(name, val) {
     let requestBody;
-    if (isEmpty(val)) {
+    if (kameHouse.core.isEmpty(val)) {
       requestBody = {
         name: name
       };
@@ -336,11 +336,11 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
 
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
   function playFile(fileName) {
-    logger.debug("File to play: " + fileName);
+    kameHouse.logger.debug("File to play: " + fileName);
     const requestParam =  {
       "file" : fileName
     };
-    loadingWheelModal.open();
+    kameHouse.plugin.modal.loadingWheelModal.open();
     vlcPlayer.getRestClient().postUrlEncoded(vlcPlayerProcessControlUrl, requestParam, vlcPlayer.loadStateFromApi);
   }
 
@@ -394,7 +394,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update vlc player view for main view objects. */
   function updateView() {
-    if (!isEmpty(vlcPlayer.getVlcRcStatus())) {
+    if (!kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus())) {
       updateMediaTitle();
       updateTimeSlider();
       updateVolumeSlider();
@@ -419,11 +419,11 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     const mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    if (!isEmpty(vlcPlayer.getVlcRcStatus().information)) {
+    if (!kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information)) {
       mediaName.filename = vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = vlcPlayer.getVlcRcStatus().information.meta.title;
     }
-    domUtils.setHtml($("#media-title"), mediaName.filename);
+    kameHouse.util.dom.setHtml($("#media-title"), mediaName.filename);
   }
 
   /** Reset the media title. */
@@ -431,21 +431,21 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     const mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    domUtils.setHtml($("#media-title"), mediaName.filename);
+    kameHouse.util.dom.setHtml($("#media-title"), mediaName.filename);
   }
 
   /** Update subtitle delay. */
   function updateSubtitleDelay() {
     let subtitleDelay = vlcPlayer.getVlcRcStatus().subtitleDelay;
-    if (isEmpty(subtitleDelay)) {
+    if (kameHouse.core.isEmpty(subtitleDelay)) {
       subtitleDelay = "0";
     }
-    domUtils.setHtml($("#subtitle-delay-value"), String(subtitleDelay));
+    kameHouse.util.dom.setHtml($("#subtitle-delay-value"), String(subtitleDelay));
   }
 
   /** Reset subtitle delay. */
   function resetSubtitleDelay() {
-    domUtils.setHtml($("#subtitle-delay-value"), "0");
+    kameHouse.util.dom.setHtml($("#subtitle-delay-value"), "0");
   }
 
   /**
@@ -455,7 +455,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update media time slider from VlcRcStatus and resets view when there's no input. */
   function updateTimeSlider() {
     if (!timeSliderLocked) {
-      if (!isEmpty(vlcPlayer.getVlcRcStatus().time)) {
+      if (!kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().time)) {
         updateCurrentTimeView(vlcPlayer.getVlcRcStatus().time);
         updateTotalTimeView(vlcPlayer.getVlcRcStatus().length);
       } else {
@@ -466,23 +466,23 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Reset time slider. */
   function resetTimeSlider() {
-    domUtils.setHtml($("#current-time"), "--:--:--");
-    domUtils.setVal($("#time-slider"), 500);
-    domUtils.setHtml($("#total-time"), "--:--:--");
-    domUtils.setAttr($("#time-slider"),'max', 1000);
+    kameHouse.util.dom.setHtml($("#current-time"), "--:--:--");
+    kameHouse.util.dom.setVal($("#time-slider"), 500);
+    kameHouse.util.dom.setHtml($("#total-time"), "--:--:--");
+    kameHouse.util.dom.setAttr($("#time-slider"),'max', 1000);
   }
 
   /** Update the displayed current time. */
   function updateCurrentTimeView(value) {
     const currentTime = document.getElementById("current-time");
-    domUtils.setInnerHtml(currentTime, timeUtils.convertSecondsToHsMsSs(value));
-    domUtils.setVal($("#time-slider"), value);
+    kameHouse.util.dom.setInnerHtml(currentTime, kameHouse.util.time.convertSecondsToHsMsSs(value));
+    kameHouse.util.dom.setVal($("#time-slider"), value);
   }
 
   /** Update the displayed total time. */
   function updateTotalTimeView(value) {
-    domUtils.setHtml($("#total-time"), timeUtils.convertSecondsToHsMsSs(value));
-    domUtils.setAttr($("#time-slider"),'max', value);
+    kameHouse.util.dom.setHtml($("#total-time"), kameHouse.util.time.convertSecondsToHsMsSs(value));
+    kameHouse.util.dom.setAttr($("#time-slider"),'max', value);
   }
 
   /**
@@ -492,7 +492,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   /** Update volume slider from VlcRcStatus. */
   function updateVolumeSlider() {
     if (!volumeSliderLocked) {
-      if (!isEmpty(vlcPlayer.getVlcRcStatus().volume)) {
+      if (!kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().volume)) {
         updateVolumeView(vlcPlayer.getVlcRcStatus().volume);
       } else {
         resetVolumeSlider();
@@ -505,10 +505,10 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
 
   /** Update volume percentage to display with the specified value. */
   function updateVolumeView(value) {
-    domUtils.setVal($("#volume-slider"), value);
+    kameHouse.util.dom.setVal($("#volume-slider"), value);
     const volumePercentaje = Math.floor(value * 200 / 512);
     const currentVolume = document.getElementById("current-volume");
-    domUtils.setInnerHtml(currentVolume, volumePercentaje + "%");
+    kameHouse.util.dom.setInnerHtml(currentVolume, volumePercentaje + "%");
   }
 }
 
@@ -527,7 +527,7 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
 
   const defaultBtnPrefixClass = 'media-btn';
 
-  if (isEmpty(btnPrefixClass)) {
+  if (kameHouse.core.isEmpty(btnPrefixClass)) {
     btnPrefixClass = defaultBtnPrefixClass;
   }
 
@@ -545,14 +545,14 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
 
   /** Set media button pressed */
   function setMediaButtonPressed() {
-    domUtils.removeClass($('#' + id), btnPrefixClass + '-unpressed');
-    domUtils.addClass($('#' + id), btnPrefixClass + '-pressed');
+    kameHouse.util.dom.removeClass($('#' + id), btnPrefixClass + '-unpressed');
+    kameHouse.util.dom.addClass($('#' + id), btnPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
   function setMediaButtonUnpressed() {
-    domUtils.removeClass($('#' + id), btnPrefixClass + '-pressed');
-    domUtils.addClass($('#' + id), btnPrefixClass + '-unpressed');
+    kameHouse.util.dom.removeClass($('#' + id), btnPrefixClass + '-pressed');
+    kameHouse.util.dom.addClass($('#' + id), btnPrefixClass + '-unpressed');
   }
 }
 
@@ -609,7 +609,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   /** Connects the websocket to the backend. */
   function connectVlcRcStatus() {
     vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
-      if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
+      if (!kameHouse.core.isEmpty(topicResponse) && !kameHouse.core.isEmpty(topicResponse.body)) {
         vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
       } else {
         vlcPlayer.setVlcRcStatus({});
@@ -630,7 +630,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   /** Connects the playlist websocket to the backend. */
   function connectPlaylist() {
     playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
-      if (!isEmpty(topicResponse) && !isEmpty(topicResponse.body)) {
+      if (!kameHouse.core.isEmpty(topicResponse) && !kameHouse.core.isEmpty(topicResponse.body)) {
         vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
       } else {
         vlcPlayer.setUpdatedPlaylist(null);
@@ -655,22 +655,22 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * it increases the wait time between syncs, until the first succesful sync.
    */
   async function syncVlcRcStatusLoop() {
-    logger.info("Started syncVlcRcStatusLoop");
+    kameHouse.logger.info("Started syncVlcRcStatusLoop");
     if (isRunningSyncVlcRcStatusLoop) {
-      logger.error("syncVlcRcStatusLoop is already running");
+      kameHouse.logger.error("syncVlcRcStatusLoop is already running");
       return;
     }
     isRunningSyncVlcRcStatusLoop = true;
     let vlcRcStatusPullWaitTimeMs = 1000;
     let failedCount = 0;
     while (isRunningSyncVlcRcStatusLoop) {
-      logger.trace("Poll vlcRcStatus loop");
-      logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
+      kameHouse.logger.trace("Poll vlcRcStatus loop");
+      kameHouse.logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
       if (vlcRcStatusWebSocket.isConnected()) {
         // poll VlcRcStatus from the websocket.
         vlcRcStatusWebSocket.poll();
         vlcPlayer.updateView();
-        if (!isEmpty(vlcPlayer.getVlcRcStatus().information)) {
+        if (!kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information)) {
           vlcRcStatusPullWaitTimeMs = 1000;
           failedCount = 0;
         } else {
@@ -681,12 +681,12 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         }
       } else {
         vlcRcStatusPullWaitTimeMs = 3000;
-        logger.trace("WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
+        kameHouse.logger.trace("WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
         vlcPlayer.resetView();
       }
-      await sleep(vlcRcStatusPullWaitTimeMs);
+      await kameHouse.core.sleep(vlcRcStatusPullWaitTimeMs);
     }
-    logger.info("Finished syncVlcRcStatusLoop");
+    kameHouse.logger.info("Finished syncVlcRcStatusLoop");
   }
 
   /** 
@@ -694,23 +694,23 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Break the loop setting isRunningSyncPlaylistLoop to false.
    */
   async function syncPlaylistLoop() {
-    logger.info("Started syncPlaylistLoop");
+    kameHouse.logger.info("Started syncPlaylistLoop");
     if (isRunningSyncPlaylistLoop) {
-      logger.error("syncPlaylistLoop is already running");
+      kameHouse.logger.error("syncPlaylistLoop is already running");
       return;
     }
     isRunningSyncPlaylistLoop = true;
     const playlistSyncWaitTimeMs = 5000;
     while (isRunningSyncPlaylistLoop) {
-      logger.trace("Poll playlist loop");
+      kameHouse.logger.trace("Poll playlist loop");
       if (playlistWebSocket.isConnected()) {
         // poll playlist from the websocket.
         playlistWebSocket.poll();
         vlcPlayer.reloadPlaylist();
       }
-      await sleep(playlistSyncWaitTimeMs);
+      await kameHouse.core.sleep(playlistSyncWaitTimeMs);
     }
-    logger.info("Finished syncPlaylistLoop");
+    kameHouse.logger.info("Finished syncPlaylistLoop");
   }
 
   /** 
@@ -718,50 +718,50 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Break the loop setting isRunningKeepAliveWebSocketLoop to false.
    */
   async function keepAliveWebSocketsLoop() {
-    logger.info("Started keepAliveWebSocketsLoop");
+    kameHouse.logger.info("Started keepAliveWebSocketsLoop");
     if (isRunningKeepAliveWebSocketLoop) {
-      logger.error("keepAliveWebSocketsLoop is already running");
+      kameHouse.logger.error("keepAliveWebSocketsLoop is already running");
       return;
     }
     isRunningKeepAliveWebSocketLoop = true;
     const keepAliveWebSocketWaitTimeMs = 5000;
     while (isRunningKeepAliveWebSocketLoop) {
-      logger.trace("Keep websockets connected loop");
-      await sleep(keepAliveWebSocketWaitTimeMs);
+      kameHouse.logger.trace("Keep websockets connected loop");
+      await kameHouse.core.sleep(keepAliveWebSocketWaitTimeMs);
       if (!vlcRcStatusWebSocket.isConnected()) {
-        logger.debug("VlcRcStatus webSocket not connected. Reconnecting.");
+        kameHouse.logger.debug("VlcRcStatus webSocket not connected. Reconnecting.");
         reconnectVlcRcStatus();
       }
       if (!playlistWebSocket.isConnected()) {
-        logger.debug("Playlist webSocket not connected. Reconnecting.");
+        kameHouse.logger.debug("Playlist webSocket not connected. Reconnecting.");
         reconnectPlaylist();
       }
     }
-    logger.info("Finished keepAliveWebSocketsLoop");
+    kameHouse.logger.info("Finished keepAliveWebSocketsLoop");
   }
 
   /** 
    * Start infinite loop to sync falling back to http calls when the websockets are disconnected.
    */
   async function syncVlcPlayerHttpLoop() {
-    logger.info("Started syncVlcPlayerHttpLoop");
+    kameHouse.logger.info("Started syncVlcPlayerHttpLoop");
     if (isRunningSyncVlcPlayerHttpLoop) {
-      logger.error("syncVlcPlayerHttpLoop is already running");
+      kameHouse.logger.error("syncVlcPlayerHttpLoop is already running");
       return;
     }
     isRunningSyncVlcPlayerHttpLoop = true;
     const syncVlcPlayerHttpWaitMs = 30000;
     while (isRunningSyncVlcPlayerHttpLoop) {
-      logger.trace("sync vlc player through fallback to http requests loop");
-      await sleep(syncVlcPlayerHttpWaitMs);
+      kameHouse.logger.trace("sync vlc player through fallback to http requests loop");
+      await kameHouse.core.sleep(syncVlcPlayerHttpWaitMs);
       if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
-        logger.debug("Websockets disconnected, synchronizing vlc player through http requests");
+        kameHouse.logger.debug("Websockets disconnected, synchronizing vlc player through http requests");
         vlcPlayer.loadStateFromApi();
       } else {
-        logger.trace("Websockets connected. Skipping synchronization through http requests");
+        kameHouse.logger.trace("Websockets connected. Skipping synchronization through http requests");
       }
     }
-    logger.info("Finished syncVlcPlayerHttpLoop");
+    kameHouse.logger.info("Finished syncVlcPlayerHttpLoop");
   }
 }
 
@@ -795,12 +795,12 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Init Playlist. */
   function init() {
-    domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
+    kameHouse.util.dom.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
   }
 
   /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
   function createDoubleArrowImg(direction) {
-    return domUtils.getImgBtn({
+    return kameHouse.util.dom.getImgBtn({
       id: "toggle-playlist-filenames-img",
       src: "/kame-house/img/other/double-" + direction + "-green.png",
       className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
@@ -823,23 +823,23 @@ function VlcPlayerPlaylist(vlcPlayer) {
     }
     currentPlaylist = updatedPlaylist;
     // Clear playlist content. 
-    domUtils.empty($("#playlist-table-body"));
+    kameHouse.util.dom.empty($("#playlist-table-body"));
     // Add the new playlist items received from the server.
     const $playlistTableBody = $('#playlist-table-body');
-    if (isEmpty(currentPlaylist) || isEmpty(currentPlaylist.length) ||
+    if (kameHouse.core.isEmpty(currentPlaylist) || kameHouse.core.isEmpty(currentPlaylist.length) ||
       currentPlaylist.length <= 0) {
-      domUtils.append($playlistTableBody, getEmptyPlaylistTr());
+      kameHouse.util.dom.append($playlistTableBody, getEmptyPlaylistTr());
     } else {
       tbodyFilenames = getPlaylistTbody();
       tbodyAbsolutePaths = getPlaylistTbody();
       for (const currentPlaylistElement of currentPlaylist) {
         const absolutePath = currentPlaylistElement.filename;
-        const filename = fileUtils.getShortFilename(absolutePath);
+        const filename = kameHouse.util.file.getShortFilename(absolutePath);
         const playlistElementId = currentPlaylistElement.id;
-        domUtils.append(tbodyFilenames, getPlaylistTr(filename, playlistElementId));
-        domUtils.append(tbodyAbsolutePaths, getPlaylistTr(absolutePath, playlistElementId));
+        kameHouse.util.dom.append(tbodyFilenames, getPlaylistTr(filename, playlistElementId));
+        kameHouse.util.dom.append(tbodyAbsolutePaths, getPlaylistTr(absolutePath, playlistElementId));
       }
-      domUtils.replaceWith($playlistTableBody, tbodyFilenames);
+      kameHouse.util.dom.replaceWith($playlistTableBody, tbodyFilenames);
       highlightCurrentPlayingItem();
       vlcPlayer.filterPlaylistRows();
     }
@@ -849,7 +849,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
   function isPlaylistUpdated(currentPls, updatedPls) {
     const MAX_COMPARISONS = 30;
     // For empty playlists, return true, so it updates the UI
-    if (isEmpty(currentPls) || isEmpty(updatedPls)) {
+    if (kameHouse.core.isEmpty(currentPls) || kameHouse.core.isEmpty(updatedPls)) {
       return true;
     }
     // If the sizes don't match, it's updated
@@ -881,7 +881,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   /** Play the clicked element from the playlist. */
   function clickEventOnPlaylistRow(event) {
-    logger.debug("Play playlist id: " + event.data.id);
+    kameHouse.logger.debug("Play playlist id: " + event.data.id);
     const requestBody = {
       name: 'pl_play',
       id: event.data.id
@@ -893,8 +893,8 @@ function VlcPlayerPlaylist(vlcPlayer) {
   function highlightCurrentPlayingItem() {
     const currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
     const currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
-    domUtils.removeClass($('#playlist-table-body tr td button'), "active");
-    domUtils.addClass($("#" + currentPlIdAsRowId).children().children(), "active");
+    kameHouse.util.dom.removeClass($('#playlist-table-body tr td button'), "active");
+    kameHouse.util.dom.addClass($("#" + currentPlIdAsRowId).children().children(), "active");
   }
 
   /** Toggle expand or collapse filenames in the playlist */
@@ -906,17 +906,17 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
-      if (!isEmpty(tbodyFilenames)) {
-        domUtils.detach(tbodyFilenames);
+      if (!kameHouse.core.isEmpty(tbodyFilenames)) {
+        kameHouse.util.dom.detach(tbodyFilenames);
       }
-      domUtils.append($playlistTable, tbodyAbsolutePaths);
+      kameHouse.util.dom.append($playlistTable, tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
-      if (!isEmpty(tbodyAbsolutePaths)) {
-        domUtils.detach(tbodyAbsolutePaths);
+      if (!kameHouse.core.isEmpty(tbodyAbsolutePaths)) {
+        kameHouse.util.dom.detach(tbodyAbsolutePaths);
       }
-      domUtils.append($playlistTable, tbodyFilenames);
+      kameHouse.util.dom.append($playlistTable, tbodyFilenames);
       isExpandedFilename = false;
     }
     highlightCurrentPlayingItem();
@@ -927,9 +927,9 @@ function VlcPlayerPlaylist(vlcPlayer) {
   /** Update the icon to expand or collapse the playlist filenames */
   function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleLeftImg);
+      kameHouse.util.dom.replaceWith($("#toggle-playlist-filenames-img"), dobleLeftImg);
     } else {
-      domUtils.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
+      kameHouse.util.dom.replaceWith($("#toggle-playlist-filenames-img"), dobleRightImg);
     }
   }
 
@@ -937,7 +937,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
   function scrollToCurrentlyPlaying() {
     const currentPlId = vlcPlayer.getVlcRcStatus().currentPlId;
     const $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
-    if (!isEmpty($currentPlayingRow.length) && $currentPlayingRow.length != 0) {
+    if (!kameHouse.core.isEmpty($currentPlayingRow.length) && $currentPlayingRow.length != 0) {
       const playlistTableWrapper = $('#playlist-table-wrapper');
       playlistTableWrapper.scrollTop(0);
       const scrollToOffset = $currentPlayingRow.offset().top - playlistTableWrapper.offset().top;
@@ -950,7 +950,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
    * to update the view of the playlist when vlcRcStatus changes  
    */
   function updateView() {
-    if (!isEmpty(vlcPlayer.getVlcRcStatus())) {
+    if (!kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus())) {
       highlightCurrentPlayingItem();
     } else {
       resetView();
@@ -967,23 +967,23 @@ function VlcPlayerPlaylist(vlcPlayer) {
 
   function getEmptyPlaylistTr() {
     const madaMadaDane = 'まだまだだね';
-    return domUtils.getTrTd("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
+    return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
   }
   
   function getPlaylistTbody() {
-    return domUtils.getTbody({
+    return kameHouse.util.dom.getTbody({
       id: "playlist-table-body"
     });
   }
 
   function getPlaylistTr(displayName, playlistElementId) {
-    return domUtils.getTr({
+    return kameHouse.util.dom.getTr({
       id: "playlist-table-row-id-" + playlistElementId
-    }, domUtils.getTd({}, getPlaylistTrBtn(displayName, playlistElementId)));
+    }, kameHouse.util.dom.getTd({}, getPlaylistTrBtn(displayName, playlistElementId)));
   }
 
   function getPlaylistTrBtn(displayName, playlistElementId) {
-    return domUtils.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         class: "playlist-table-btn",
       },
@@ -1016,23 +1016,23 @@ function VlcPlayerRestClient(vlcPlayer) {
   /** Execute GET on the specified url and display the output in the debug table. */
   function get(url, updateCursor, successCallback, errorCallback) {
     if (updateCursor) {
-      cursorUtils.setCursorWait();
+      kameHouse.util.cursor.setCursorWait();
     }
-    debuggerHttpClient.get(url,
+    kameHouse.plugin.debugger.http.get(url,
       (responseBody, responseCode, responseDescription) => {
-        if (!isEmpty(successCallback)) {
+        if (!kameHouse.core.isEmpty(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallSuccessDefault(responseBody);
         }
       },
       (responseBody, responseCode, responseDescription) => {
-        if (!isEmpty(errorCallback)) {
+        if (!kameHouse.core.isEmpty(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallErrorDefault(responseBody, responseCode, responseDescription);
           if (responseCode == "404") {
-            kameHouseDebugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
+            kameHouse.plugin.debugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
           }
         }
       });
@@ -1040,8 +1040,8 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a POST request to the specified url with the specified request body. */
   function httpPost(url, requestBody) {
-    cursorUtils.setCursorWait();
-    debuggerHttpClient.post(url, requestBody,
+    kameHouse.util.cursor.setCursorWait();
+    kameHouse.plugin.debugger.http.post(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
     );
@@ -1049,32 +1049,32 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Execute a POST request to the specified url with the specified request url parameters. */
   function httpPostUrlEncoded(url, requestParam, successCallback, errorCallback) {
-    cursorUtils.setCursorWait();
-    debuggerHttpClient.postUrlEncoded(url, requestParam,
+    kameHouse.util.cursor.setCursorWait();
+    kameHouse.plugin.debugger.http.postUrlEncoded(url, requestParam,
       (responseBody, responseCode, responseDescription) => {
-        if (!isEmpty(successCallback)) {
+        if (!kameHouse.core.isEmpty(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallSuccessDefault(responseBody);
         }
         // Modal opened from playFile
-        loadingWheelModal.close();
+        kameHouse.plugin.modal.loadingWheelModal.close();
       },
       (responseBody, responseCode, responseDescription) => {
-        if (!isEmpty(errorCallback)) {
+        if (!kameHouse.core.isEmpty(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription);
         } else {
           apiCallErrorDefault(responseBody, responseCode, responseDescription);
         }
         // Modal opened from playFile
-        loadingWheelModal.close();
+        kameHouse.plugin.modal.loadingWheelModal.close();
       });
   }
 
   /** Execute a DELETE request to the specified url with the specified request body. */
   function httpDelete(url, requestBody) {
-    cursorUtils.setCursorWait();
-    debuggerHttpClient.delete(url, requestBody,
+    kameHouse.util.cursor.setCursorWait();
+    kameHouse.plugin.debugger.http.delete(url, requestBody,
       (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
     );
@@ -1082,15 +1082,15 @@ function VlcPlayerRestClient(vlcPlayer) {
 
   /** Default actions for succesful api responses */
   function apiCallSuccessDefault(responseBody) {
-    cursorUtils.setCursorDefault();
-    logger.debug("Response: " + JSON.stringify(responseBody));
+    kameHouse.util.cursor.setCursorDefault();
+    kameHouse.logger.debug("Response: " + JSON.stringify(responseBody));
     vlcPlayer.pollVlcRcStatus();
   }
 
   /** Default actions for error api responses */
   function apiCallErrorDefault(responseBody, responseCode, responseDescription) {
-    cursorUtils.setCursorDefault();
-    basicKamehouseModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.util.cursor.setCursorDefault();
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }
 
@@ -1123,20 +1123,20 @@ function VlcPlayerDebugger(vlcPlayer) {
 
   /** Update the main player view. */
   function getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription) {
-    cursorUtils.setCursorDefault();
+    kameHouse.util.cursor.setCursorDefault();
     vlcPlayer.setVlcRcStatus(responseBody);
     vlcPlayer.updateView();
   }
 
   /** Don't update anything if there's an error getting the vlcRcStatus. */
   function getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription) {
-    cursorUtils.setCursorDefault();
-    logger.warn("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running");
+    kameHouse.util.cursor.setCursorDefault();
+    kameHouse.logger.warn("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running");
   }
 
   /** Update the playlist view. */
   function getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription) {
-    cursorUtils.setCursorDefault();
+    kameHouse.util.cursor.setCursorDefault();
     vlcPlayer.getPlaylist().setUpdatedPlaylist(responseBody);
     vlcPlayer.getPlaylist().reload();
   }
