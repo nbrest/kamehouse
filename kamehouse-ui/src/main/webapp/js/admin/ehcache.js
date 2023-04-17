@@ -9,11 +9,11 @@ var ehCacheManager;
 
 function mainEhcache() {
   kameHouse.util.banner.setRandomPrinceOfTennisBanner();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebappTabsManager"], () => {
+  kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
     kameHouse.logger.info("Started initializing ehcache");
     ehCacheManager = new EhCacheManager();
-    kameHouse.plugin.kameHouseWebappTabsManager.setCookiePrefix('kh-admin-ehcache');
-    kameHouse.plugin.kameHouseWebappTabsManager.loadStateFromCookies();
+    kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-ehcache');
+    kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     ehCacheManager.init();
   });
 }

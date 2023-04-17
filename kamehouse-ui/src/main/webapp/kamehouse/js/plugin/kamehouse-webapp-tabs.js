@@ -67,7 +67,7 @@ function KameHouseWebappTabsManager() {
   function importTabs() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-webapp-tabs.css">');
     kameHouse.util.dom.load($("#kh-webapp-tabs-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-webapp-tabs.html", () => {
-      kameHouse.util.module.setModuleLoaded("kameHouseWebappTabsManager");
+      kameHouse.util.module.setModuleLoaded("webappTabsManager");
     });
   }
 }
@@ -75,4 +75,4 @@ function KameHouseWebappTabsManager() {
 /**
  * Call main.
  */
-$(document).ready(() => {kameHouse.addPlugin("kameHouseWebappTabsManager", new KameHouseWebappTabsManager());});
+$(document).ready(() => {kameHouse.addPlugin("webappTabsManager", new KameHouseWebappTabsManager());});

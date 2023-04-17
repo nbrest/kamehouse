@@ -5,10 +5,10 @@ var scheduler;
 
 window.onload = () => {
   scheduler = new Scheduler();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebappTabsManager"], () => {
+  kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
     kameHouse.logger.info("Started initializing scheduler");
-    kameHouse.plugin.kameHouseWebappTabsManager.setCookiePrefix('kh-admin-scheduler');
-    kameHouse.plugin.kameHouseWebappTabsManager.loadStateFromCookies();
+    kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-scheduler');
+    kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     scheduler.init();
   });
   kameHouse.util.banner.setRandomAllBanner();

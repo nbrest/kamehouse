@@ -5,10 +5,10 @@ var backendLogLevelUtils;
 
 window.onload = () => {
   backendLogLevelUtils = new BackendLogLevelUtils();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebappTabsManager"], () => {
+  kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
     kameHouse.logger.info("Started initializing log-level");
-    kameHouse.plugin.kameHouseWebappTabsManager.setCookiePrefix('kh-admin-log-level');
-    kameHouse.plugin.kameHouseWebappTabsManager.loadStateFromCookies();
+    kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-log-level');
+    kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     backendLogLevelUtils.init();
   });
   kameHouse.util.banner.setRandomAllBanner();
