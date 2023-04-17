@@ -57,7 +57,7 @@ function KameHouseShellManager() {
   
   /** Handle Session Status */
   function handleSessionStatus() {
-    updateServerName(kameHouse.groot.session);
+    updateServerName(kameHouse.extension.groot.session);
   }
   
   /** Update server name */

@@ -9,10 +9,10 @@ function KameHouseMobile() {
 
   async function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile.js");
-    kameHouse.mobile.core = new KameHouseMobileCore();
-    kameHouse.mobile.configManager = new KameHouseMobileConfigManager();
-    kameHouse.mobile.core.init();
-    await kameHouse.mobile.configManager.init();
+    kameHouse.extension.mobile.core = new KameHouseMobileCore();
+    kameHouse.extension.mobile.configManager = new KameHouseMobileConfigManager();
+    kameHouse.extension.mobile.core.init();
+    await kameHouse.extension.mobile.configManager.init();
   }
 } 
 
@@ -51,7 +51,7 @@ function KameHouseMobileCore() {
   }
 
   function getBackendServer() {
-    const mobileConfig = kameHouse.mobile.config;
+    const mobileConfig = kameHouse.extension.mobile.config;
     let backendServer = null;
     if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.servers)) {
       mobileConfig.servers.forEach((server) => {
@@ -67,8 +67,8 @@ function KameHouseMobileCore() {
   }
 
   function getBackendCredentials() {
-    if (!kameHouse.core.isEmpty(kameHouse.mobile.config) && !kameHouse.core.isEmpty(kameHouse.mobile.config.credentials)) {
-      return kameHouse.mobile.config.credentials;
+    if (!kameHouse.core.isEmpty(kameHouse.extension.mobile.config) && !kameHouse.core.isEmpty(kameHouse.extension.mobile.config.credentials)) {
+      return kameHouse.extension.mobile.config.credentials;
     }
     kameHouse.logger.warn("Could not retrieve credentials from the mobile config");
     return {};
@@ -213,7 +213,7 @@ function KameHouseMobileCore() {
    * Get complete url from lookup.
    */
   function getServerUrl(urlLookup) {
-    const server = kameHouse.mobile.configManager.getServers().find(server => server.name === urlLookup);
+    const server = kameHouse.extension.mobile.configManager.getServers().find(server => server.name === urlLookup);
     const serverEntity = {};
     serverEntity.name = server.name;
     serverEntity.url = server.url;
@@ -241,8 +241,8 @@ function KameHouseMobileCore() {
    */
   function openInAppBrowser(serverEntity) {
     kameHouse.logger.info("Start loading url " + serverEntity.url);
-    const target = kameHouse.mobile.configManager.getInAppBrowserConfig().target;
-    const options = kameHouse.mobile.configManager.getInAppBrowserConfig().options;
+    const target = kameHouse.extension.mobile.configManager.getInAppBrowserConfig().target;
+    const options = kameHouse.extension.mobile.configManager.getInAppBrowserConfig().options;
     const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
     if (target == "_system") {
       kameHouse.plugin.modal.basicModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 2000);
@@ -343,42 +343,42 @@ function KameHouseMobileConfigManager() {
   }
 
   function initGlobalMobileConfig() {
-    kameHouse.mobile.config = {};
-    kameHouse.mobile.config.inAppBrowser = {};
-    kameHouse.mobile.config.servers = {};
-    kameHouse.mobile.config.credentials = {};
+    kameHouse.extension.mobile.config = {};
+    kameHouse.extension.mobile.config.inAppBrowser = {};
+    kameHouse.extension.mobile.config.servers = {};
+    kameHouse.extension.mobile.config.credentials = {};
   }
 
   function getMobileConfig() {
-    return kameHouse.mobile.config;
+    return kameHouse.extension.mobile.config;
   }
 
   function setMobileConfig(val) {
-    kameHouse.mobile.config = val;
+    kameHouse.extension.mobile.config = val;
   }
 
   function getInAppBrowserConfig() {
-    return kameHouse.mobile.config.inAppBrowser;
+    return kameHouse.extension.mobile.config.inAppBrowser;
   }
 
   function setInAppBrowserConfig(val) {
-    kameHouse.mobile.config.inAppBrowser = val;
+    kameHouse.extension.mobile.config.inAppBrowser = val;
   }
 
   function getServers() {
-    return kameHouse.mobile.config.servers;
+    return kameHouse.extension.mobile.config.servers;
   }
 
   function setServers(val) {
-    kameHouse.mobile.config.servers = val;
+    kameHouse.extension.mobile.config.servers = val;
   }
 
   function getCredentials() {
-    return kameHouse.mobile.config.credentials;
+    return kameHouse.extension.mobile.config.credentials;
   }
 
   function setCredentials(val) {
-    kameHouse.mobile.config.credentials = val;
+    kameHouse.extension.mobile.config.credentials = val;
   }
 
   async function loadInAppBrowserDefaultConfig() {

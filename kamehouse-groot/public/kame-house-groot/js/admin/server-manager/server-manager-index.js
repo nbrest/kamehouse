@@ -120,7 +120,7 @@ function ServerManager() {
 
   /** Handle Session Status */
   function handleSessionStatus() {
-    sessionStatus = kameHouse.groot.session;
+    sessionStatus = kameHouse.extension.groot.session;
     isLinuxHost = sessionStatus.isLinuxHost;
     isLinuxDockerHost = sessionStatus.isLinuxDockerHost;
     isDockerContainer = sessionStatus.isDockerContainer;

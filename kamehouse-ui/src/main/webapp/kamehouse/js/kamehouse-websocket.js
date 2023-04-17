@@ -30,7 +30,7 @@ function KameHouseWebSocket() {
   function setStatusUrl(statusUrlParam) {
     if (kameHouse.util.mobile.isMobileApp()) {
       kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-        statusUrl = kameHouse.mobile.core.getBackendServer() + statusUrlParam;
+        statusUrl = kameHouse.extension.mobile.core.getBackendServer() + statusUrlParam;
       });
     } else {
       statusUrl = statusUrlParam; 

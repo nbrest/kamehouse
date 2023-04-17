@@ -33,10 +33,10 @@ function MobileAppIndex() {
    * Open media server on startup.
    */
   function onDeviceReady() {
-    kameHouse.mobile.core.overrideWindowOpen();
-    const openOnStartup = kameHouse.mobile.configManager.getInAppBrowserConfig().openOnStartup;
+    kameHouse.extension.mobile.core.overrideWindowOpen();
+    const openOnStartup = kameHouse.extension.mobile.configManager.getInAppBrowserConfig().openOnStartup;
     if (openOnStartup) {
-      kameHouse.mobile.core.openBrowser('vlc');
+      kameHouse.extension.mobile.core.openBrowser('vlc');
     }
   }
 } 

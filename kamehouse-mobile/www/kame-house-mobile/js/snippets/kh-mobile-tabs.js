@@ -26,7 +26,7 @@ function KameHouseMobileTabsManager() {
     kameHouse.util.dom.load($("#tab-services"), "/kame-house-mobile/html-snippets/tab-services.html");
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
       kameHouse.util.dom.load($("#tab-config"), "/kame-house-mobile/html-snippets/tab-config.html", () => {
-        kameHouse.mobile.configManager.refreshConfigTabView();
+        kameHouse.extension.mobile.configManager.refreshConfigTabView();
       });
     });
   }

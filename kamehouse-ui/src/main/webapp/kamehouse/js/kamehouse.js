@@ -27,6 +27,7 @@ function KameHouse() {
   function init() {
     this.session = {};
     this.plugin = {};
+    this.extension = {};
 
     /** core modules */
     this.core = new KameHouseCoreFunctions();
@@ -64,12 +65,18 @@ function KameHouse() {
     this.logger.info("Finished initializing kamehouse.js");
   }
 
+  /**
+   * Extensions live externally to the kamehouse js/css/html bundle. Examples: kamehouse-mobile.js, kamehouse-groot.js, newsletter.js. They need to implement a load() function that initializes the extension.
+   */
   function addExtension(extensionName, extension) {
     kameHouse.logger.info("Adding extension " + extensionName);
-    this[extensionName] = extension;
+    this.extension[extensionName] = extension;
     extension.load();
   }
 
+  /**
+   * Plugins live in the kamehouse js/css/html bundle, but are not loaded by default. Examples kamehouse-debugger.js, kamehouse-modal.js. They need to implement a load() function that initializes the plugin.
+   */
   function addPlugin(pluginName, plugin) {
     kameHouse.logger.info("Adding plugin " + pluginName);
     this.plugin[pluginName] = plugin;
@@ -876,7 +883,7 @@ function KameHouseMobileUtils() {
   function disableWebappOnlyElements() {
     if (isMobileApp()) {
       kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-        kameHouse.mobile.core.disableWebappOnlyElements();
+        kameHouse.extension.mobile.core.disableWebappOnlyElements();
       });
     }
   }
@@ -1406,7 +1413,8 @@ function KameHouseCoreFunctions() {
     const skipHeader = getBooleanKameHouseData("skip-header");
     if (!skipHeader) {
       kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-header.js", () => {
-        kameHouse.addExtension("header", new KameHouseHeader());
+        kameHouse.header = new KameHouseHeader();
+        kameHouse.header.load();
       });
     } else {
       kameHouse.logger.info("Skip header kamehouse data set to true");
@@ -1420,7 +1428,8 @@ function KameHouseCoreFunctions() {
     const skipFooter = getBooleanKameHouseData("skip-footer");
     if (!skipFooter) {
       kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-footer.js", () => {
-        kameHouse.addExtension("footer", new KameHouseFooter());
+        kameHouse.footer = new KameHouseFooter();
+        kameHouse.footer.load();
       });
     } else {
       kameHouse.logger.info("Skip footer kamehouse data set to true");
@@ -1790,7 +1799,7 @@ function KameHouseCoreFunctions() {
     kameHouse.logger.logHttpRequest(httpMethod, url, requestHeaders, requestBody);
     if (kameHouse.util.mobile.isMobileApp()) {
       kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-        kameHouse.mobile.core.mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData);
+        kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData);
       });
       return;
     }

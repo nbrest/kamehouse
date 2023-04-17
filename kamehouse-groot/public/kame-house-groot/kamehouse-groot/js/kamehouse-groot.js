@@ -11,8 +11,8 @@ function KameHouseGroot() {
   this.load = load;
 
   function load() {
-    kameHouse.groot.header = new GrootHeader();
-    kameHouse.groot.header.renderGrootMenu();
+    kameHouse.extension.groot.header = new GrootHeader();
+    kameHouse.extension.groot.header.renderGrootMenu();
   }
 }
 
@@ -47,7 +47,7 @@ function GrootHeader() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     kameHouse.http.get(SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription) => {
-        kameHouse.groot.session = responseBody;
+        kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("grootHeader");
       },
@@ -61,17 +61,17 @@ function GrootHeader() {
     const $loginStatusDesktop = $("#groot-header-login-status-desktop");
     const $loginStatusMobile = $("#groot-header-login-status-mobile");
     kameHouse.util.dom.empty($loginStatusDesktop);
-    if (kameHouse.core.isEmpty(kameHouse.groot.session.username) || kameHouse.groot.session.username.trim() == "" ||
-      kameHouse.groot.session.username.trim() == "anonymousUser") {
+    if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
+      kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
       if (!kameHouse.util.mobile.isMobileApp()) {
         kameHouse.util.dom.append($loginStatusDesktop, getLoginButton());
         kameHouse.util.dom.append($loginStatusMobile, getLoginButton());
       }
     } else {
       if (!kameHouse.util.mobile.isMobileApp()) {
-        kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.groot.session.username));
+        kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.extension.groot.session.username));
         kameHouse.util.dom.append($loginStatusDesktop, getLogoutButton());
-        kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.groot.session.username));
+        kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.extension.groot.session.username));
         kameHouse.util.dom.append($loginStatusMobile, getLogoutButton());
       }
     }
