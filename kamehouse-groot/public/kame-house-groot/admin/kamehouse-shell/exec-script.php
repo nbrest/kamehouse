@@ -24,7 +24,7 @@
 </head>
 
 <body>
-  <div id="groot-menu-wrapper" onmouseover="header.showGrootMenu()" onmouseleave="header.hideGrootMenu()"></div>
+  <div id="groot-menu-wrapper" onmouseover="kameHouse.header.showGrootMenu()" onmouseleave="kameHouse.header.hideGrootMenu()"></div>
   <div class="banner-wrapper">
     <div id="banner" class="fade-in-out-15s banner-fuji">
       <div class="default-layout banner-text">

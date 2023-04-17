@@ -1,5 +1,11 @@
 /**
- * KameHouse js variables and functions for all pages.
+ * KameHouse js framework.
+ * 
+ * To pass data to the KameHouse object call the script with id="kamehouse-data" tag and set the
+ * custom data- attributes: 
+ * 
+ *  data-skip-header=[true|false]
+ *  data-skip-footer=[true|false]
  * 
  * Dependencies: jquery
  * 
@@ -49,7 +55,9 @@ function KameHouse() {
     this.logger.init();
     this.logger.info("Started initializing kamehouse.js")
     this.util.mobile.init();
-    this.core.loadHeaderAndFooter();
+    this.core.loadSession();
+    this.core.loadHeader();
+    this.core.loadFooter();
     this.util.cursor.loadSpinningWheelMobile();
     //kameHouse.util.test.testLogLevel();
     //kameHouse.util.test.testSleep();
@@ -1363,30 +1371,79 @@ function KameHouseCoreFunctions() {
 
   this.isEmpty = isEmpty;
   this.isFunction = isFunction;
-  this.loadHeaderAndFooter = loadHeaderAndFooter;
+  this.loadSession = loadSession;
+  this.loadHeader= loadHeader;
+  this.loadFooter= loadFooter;
   this.scrollToTopOfDiv = scrollToTopOfDiv;
   this.scrollToTop = scrollToTop;
   this.scrollToBottom = scrollToBottom;
   this.sleep = sleep;
+  this.getBooleanKameHouseData = getBooleanKameHouseData;
+
+  /** 
+   * Get session from the backend. 
+   */
+  function loadSession() {
+    const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
+
+    kameHouse.http.get(SESSION_STATUS_URL, null,
+      (responseBody, responseCode, responseDescription) => {
+        kameHouse.logger.trace("Session Status: " + JSON.stringify(responseBody));
+        kameHouse.session = responseBody;
+        kameHouse.util.module.setModuleLoaded("session");
+      },
+      (responseBody, responseCode, responseDescription) => {
+        kameHouse.logger.error("Error retrieving current session information.");
+        kameHouse.util.module.setModuleLoaded("session");
+      }
+    );
+  }
 
   /** 
    * Load header and footer. 
    * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/kamehouse/js/kamehouse.js"></script>`
    */
-  function loadHeaderAndFooter() {
-    const kameHouseData = document.getElementById('kamehouse-data');
-    if (!isEmpty(kameHouseData)) {
-      const skipLoadingHeaderAndFooter = kameHouseData.getAttribute("data-skip-loading-header-footer");
-      if (!isEmpty(skipLoadingHeaderAndFooter) && skipLoadingHeaderAndFooter == "true") {
-        kameHouse.logger.info("Skipping loading default kamehouse header and footer"); 
-      } else {
-        kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-header-footer.js", () => renderHeaderAndFooter()); 
-      }
+  function loadHeader() {
+    const skipHeader = getBooleanKameHouseData("skip-header");
+    if (!skipHeader) {
+      kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-header.js", () => {
+        kameHouse.addExtension("header", new KameHouseHeader());
+      });
     } else {
-      kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-header-footer.js", () => renderHeaderAndFooter());
+      kameHouse.logger.info("Skip header data set to true");
     }
   }
+
+  /** 
+   * Load header and footer. 
+   * To skip loading header and footer load this script as: `<script id="global-js" data-skip-loading-header-footer="true" src="/kame-house/kamehouse/js/kamehouse.js"></script>`
+   */
+  function loadFooter() {
+    const skipFooter = getBooleanKameHouseData("skip-footer");
+    if (!skipFooter) {
+      kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-footer.js", () => {
+        kameHouse.addExtension("footer", new KameHouseFooter());
+      });
+    } else {
+      kameHouse.logger.info("Skip footer data set to true");
+    }
+  }  
   
+  /**
+   * Returns the boolean value of data-xx attributes defined in the script tag of kamehouse.js
+   * The script tag id must be set to id="kamehouse-data"
+   */
+  function getBooleanKameHouseData(dataAttributeName) {
+    const kameHouseData = document.getElementById('kamehouse-data');
+    if (!isEmpty(kameHouseData)) {
+      let data = kameHouseData.getAttribute("data-" + dataAttributeName);
+      if (!isEmpty(data)) {
+        return data.toLowerCase() === "true";
+      }
+    }
+    return false;
+  }
+
   /** 
    * @deprecated(use kameHouse.core.isEmpty())
    * 

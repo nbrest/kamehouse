@@ -1,127 +1,29 @@
 /**
- * Header and Footer functions.
- * 
- * Dependencies: logger, kameHouse.http.
+ * Header functions.
  * 
  * @author nbrest
  */
-var header;
-var footer;
+function KameHouseHeader() {
 
-/**
- * Render header and footer.
- */
-function renderHeaderAndFooter() {
-  kameHouse.logger.info("Started initializing header and footer");
-  header = new Header();
-  header.renderHeader();
-  footer = new Footer();
-  footer.renderFooter();
-  loadSessionStatus();
-}
-
-/** 
- * Get session status and update the header and footer status. 
- */
-function loadSessionStatus() {
-  const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
-
-  kameHouse.http.get(SESSION_STATUS_URL, null,
-    (responseBody, responseCode, responseDescription) => {
-      kameHouse.logger.trace("Session Status: " + JSON.stringify(responseBody));
-      kameHouse.session = responseBody;
-      updateSessionStatus();
-    },
-    (responseBody, responseCode, responseDescription) => kameHouse.logger.error("Error retrieving current session information.")
-  );
-}
-
-/**
- * Wait for the header and footer to be loaded and then update the session status.
- */
-async function updateSessionStatus() {
-  while (!header.isLoaded() && !footer.isLoaded()) {
-    await kameHouse.core.sleep(1000);
-  }
-  header.updateLoginStatus();
-  footer.updateFooterWithSessionInfo();
-  kameHouse.util.banner.updateServerName();
-}
-
-/** Footer functionality */
-function Footer() {
-
-  this.isLoaded = isLoaded;
-  this.renderFooter = renderFooter;
-  this.updateFooterWithSessionInfo = updateFooterWithSessionInfo;
-
-  let loaded = false;
-
-  function isLoaded() { return loaded; }
-
-  /** Renders the footer */
-  function renderFooter() { 
-    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
-    $(document).ready(() => {
-      // load the footer after the other elements are loaded, if not it randomly puts the footer in the middle
-      kameHouse.logger.info("Loading footer");
-      kameHouse.util.dom.append($("body"), getFooterContainerDiv());
-      kameHouse.util.dom.load($("#kamehouse-footer-container"), "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
-        kameHouse.util.mobile.disableWebappOnlyElements();
-        kameHouse.util.mobile.disableMobileOnlyElements();
-        loaded = true;
-        kameHouse.logger.info("Finished loading footer");
-      });
-    });
-  }
-
-  /** Update the server name, and build info in the footer */
-  function updateFooterWithSessionInfo() {
-    if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
-      kameHouse.util.dom.setHtml($("#footer-server-name"), kameHouse.session.server);
-    }
-    if (!kameHouse.core.isEmpty(kameHouse.session.buildVersion)) {
-      kameHouse.util.dom.setHtml($("#footer-build-version"), kameHouse.session.buildVersion);
-    }
-    if (!kameHouse.core.isEmpty(kameHouse.session.buildDate)) {
-      kameHouse.util.dom.setHtml($("#footer-build-date"), kameHouse.session.buildDate);
-    }
-  }
-
-  function getFooterContainerDiv() {
-    return kameHouse.util.dom.getDiv({
-      id: "kamehouse-footer-container"
-    });
-  }
-}
-
-/** Header functionality */
-function Header() {
-
-  this.isLoaded = isLoaded;
-  this.renderHeader = renderHeader;
+  this.load = load;
   this.toggleHeaderNav = toggleHeaderNav;
-  this.updateLoginStatus = updateLoginStatus;
   this.showGrootMenu = showGrootMenu;
   this.hideGrootMenu = hideGrootMenu;
-
-  let loaded = false;
-
-  function isLoaded() { return loaded; }
   
-  /** Render the header */
-  function renderHeader() {
+  /** Load the header */
+  function load() {
     kameHouse.logger.info("Loading header");
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
     $(document).ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
       kameHouse.util.dom.prepend($("body"), getHeaderContainerDiv());
       kameHouse.util.dom.load($("#kamehouse-header-container"), "/kame-house/kamehouse/html/kamehouse-header.html", () => {
-        updateLoginStatus();
         kameHouse.util.mobile.disableWebappOnlyElements();
         kameHouse.util.mobile.disableMobileOnlyElements();
         updateActiveTab();
-        loaded = true;
+        kameHouse.util.module.waitForModules(["session"], () => {
+          updateSessionStatus();
+        });
         kameHouse.logger.info("Finished loading header");
       });
     });
@@ -291,4 +193,12 @@ function Header() {
       class: "header-login-status-text"
     }, username);
   }
+
+  /**
+   * update the session status.
+   */
+  function updateSessionStatus() {
+    updateLoginStatus();
+    kameHouse.util.banner.updateServerName();
+  }  
 }
