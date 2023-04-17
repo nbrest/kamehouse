@@ -24,7 +24,7 @@ function KameHouseModal() {
   }
 
   function importKamehouseModalCss() {
-    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-modal.css">');
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-modal.css">');
   }
 }
 
@@ -140,7 +140,7 @@ function ModalUtils(modalId) {
 
   /** Import modal content */
   async function importSnippet() {
-    const modalDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/" + modalId + ".html");
+    const modalDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/plugin/" + modalId + ".html");
     kameHouse.util.dom.append($('body'), modalDiv);
     const modalDivCloseBtn = document.getElementById(modalId + "-close");
     kameHouse.util.dom.setOnClick(modalDivCloseBtn, () => close());
