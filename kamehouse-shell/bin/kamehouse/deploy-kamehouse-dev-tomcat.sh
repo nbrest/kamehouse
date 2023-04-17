@@ -25,7 +25,7 @@ source ${HOME}/.kamehouse/.shell/.cred
 DEPLOY_TO_DOCKER=false
 PROJECT_DIR=
 TOMCAT_WEBAPPS_DIR=
-TOMCAT_PORT=9980
+TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 
 mainProcess() {
   setGlobalVariables
