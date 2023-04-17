@@ -73,7 +73,7 @@ function EhCacheManager() {
    */
   function getAllCacheData(webapp) {
     kameHouse.logger.trace("getAllCacheData");
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp),
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null,
       (responseBody, responseCode, responseDescription) => displayCacheData(responseBody, webapp),
       (responseBody, responseCode, responseDescription) => displayErrorGettingCache(webapp));
   }
@@ -155,8 +155,11 @@ function EhCacheManager() {
    * Clear cache data.
    */
   function clearCacheData(cacheName, webapp) {
-    const url = getApiUrl(webapp) + '?name=' + cacheName;
-    kameHouse.plugin.debugger.http.delete(url, null,
+    const url = getApiUrl(webapp);
+    const params = {
+      "name" : cacheName
+    };
+    kameHouse.plugin.debugger.http.delete(url, kameHouse.http.getUrlEncodedHeaders(), params,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.plugin.modal.basicModal.openAutoCloseable("Cache " + cacheName + " cleared successfully", 3000);
         getAllCacheData(webapp);
@@ -172,7 +175,7 @@ function EhCacheManager() {
    * Clear all caches.
    */
   function clearAllCaches(webapp) {
-    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null,
+    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null, null,
       (responseBody, responseCode, responseDescription) => { 
         kameHouse.plugin.modal.basicModal.openAutoCloseable("All caches cleared successfully", 3000);
         getAllCacheData(webapp);

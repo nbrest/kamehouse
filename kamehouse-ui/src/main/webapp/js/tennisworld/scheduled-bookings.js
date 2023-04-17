@@ -17,7 +17,7 @@ function ScheduledBookingService() {
   function triggerScheduledBookings() {
     kameHouse.logger.info("Triggering execution of scheduled bookings...");
     kameHouse.plugin.modal.loadingWheelModal.open("Triggering execution of scheduled bookings...");
-    kameHouse.plugin.debugger.http.post(SCHEDULED_BOOKINGS_API_URL, null,
+    kameHouse.plugin.debugger.http.post(SCHEDULED_BOOKINGS_API_URL, null, null,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.logger.info("Scheduled bookings executed successfully");
         kameHouse.plugin.modal.loadingWheelModal.close();

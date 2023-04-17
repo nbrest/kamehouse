@@ -1386,7 +1386,7 @@ function KameHouseCoreFunctions() {
   function loadSession() {
     const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
-    kameHouse.http.get(SESSION_STATUS_URL, null,
+    kameHouse.http.get(SESSION_STATUS_URL, null, null,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.logger.trace("Session Status: " + JSON.stringify(responseBody));
         kameHouse.session = responseBody;
@@ -1757,29 +1757,29 @@ function KameHouseCoreFunctions() {
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
-  function get(url, requestHeaders, successCallback, errorCallback, data) {
-    httpRequest(GET, url, requestHeaders, null, successCallback, errorCallback, data)
+  function get(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
+    httpRequest(GET, url, requestHeaders, requestBody, successCallback, errorCallback, data);
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function put(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    httpRequest(PUT, url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest(PUT, url, requestHeaders, requestBody, successCallback, errorCallback, data);
   }
 
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function post(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    httpRequest(POST, url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest(POST, url, requestHeaders, requestBody, successCallback, errorCallback, data);
   }
 
   /** Execute an http DELETE request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
    * and errorCallback(responseBody, responseCode, responseDescription) */
   function deleteHttp(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    httpRequest(DELETE, url, requestHeaders, requestBody, successCallback, errorCallback, data)
+    httpRequest(DELETE, url, requestHeaders, requestBody, successCallback, errorCallback, data);
   }
 
   /** Execute an http request with the specified http method. 

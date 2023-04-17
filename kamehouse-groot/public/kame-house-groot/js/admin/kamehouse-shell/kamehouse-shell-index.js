@@ -70,7 +70,7 @@ function KameHouseShellManager() {
   /** Get session status from the backend */
   function getKameHouseShell(successCallback, errorCallback) {
     const MY_SCRIPTS_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php';
-    kameHouse.http.get(MY_SCRIPTS_API, null,
+    kameHouse.http.get(MY_SCRIPTS_API, null, null,
       (responseBody, responseCode, responseDescription) => successCallback(responseBody, responseCode, responseDescription),
       (responseBody, responseCode, responseDescription) => errorCallback(responseBody, responseCode, responseDescription));
   }

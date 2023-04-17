@@ -65,32 +65,32 @@ function BackendLogLevelUtils() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null, processSuccess, processError, webapp);
   }
 
   /** Reset all log levels */
   function resetLogLevels(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null, null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log level */
   function setKamehouseLogLevel(webapp) {
     const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + logLevel, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + logLevel, null, null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to DEBUG */
   function setKamehouseLogLevelToDebug(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/debug", null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/debug", null, null, processSuccess, processError, webapp);
   }
 
   /** Set Kamehouse log levels to TRACE */
   function setKamehouseLogLevelToTrace(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/trace", null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/trace", null, null, processSuccess, processError, webapp);
   }
 
   /** Update the log levels table content */
@@ -180,8 +180,10 @@ function BackendLogLevelUtils() {
   function setRequestLoggerConfig(webapp, propertyToSet, urlParamName) {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const propertyValue = document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp).value;
-    const url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet + "?" + urlParamName + "=" + propertyValue;
-    kameHouse.plugin.debugger.http.put(url, null, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
+    const url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet;
+    const params = {};
+    params[urlParamName] = propertyValue;
+    kameHouse.plugin.debugger.http.put(url,kameHouse.http.getUrlEncodedHeaders(), params, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
   }
 
   /** Process success response for request logger config */

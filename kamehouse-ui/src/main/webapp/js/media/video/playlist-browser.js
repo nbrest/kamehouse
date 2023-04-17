@@ -61,7 +61,7 @@ function PlaylistBrowser(vlcPlayer) {
     resetPlaylistDropdown();
     resetPlaylistCategoryDropdown();
 
-    kameHouse.plugin.debugger.http.get(mediaVideoAllPlaylistsUrl, 
+    kameHouse.plugin.debugger.http.get(mediaVideoAllPlaylistsUrl, null, null, 
       (responseBody, responseCode, responseDescription) => {
         videoPlaylists = responseBody;
         videoPlaylistCategories = [...new Set(videoPlaylists.map((playlist) => playlist.category))];
@@ -116,8 +116,10 @@ function PlaylistBrowser(vlcPlayer) {
   function loadPlaylistContent() {
     const playlistFilename = getSelectedPlaylist();
     kameHouse.logger.debug("Getting content for " + playlistFilename);
-    const requestParam = "path=" + playlistFilename;
-    kameHouse.plugin.debugger.http.getUrlEncoded(mediaVideoPlaylistUrl, requestParam,
+    const requestParam = {
+      "path" : playlistFilename
+    }
+    kameHouse.plugin.debugger.http.get(mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
       (responseBody, responseCode, responseDescription) => {
         currentPlaylist = responseBody;
         populatePlaylistBrowserTable();

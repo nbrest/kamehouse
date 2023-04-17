@@ -149,13 +149,9 @@ function KameHouseDebugger() {
 function DebuggerHttpClient() {
 
   this.get = get;
-  this.getUrlEncoded = getUrlEncoded;
   this.put = put;
-  this.putUrlEncoded = putUrlEncoded;
   this.post = post;
-  this.postUrlEncoded = postUrlEncoded;
   this.delete = httpDelete;
-  this.deleteUrlEncoded = deleteUrlEncoded;
 
   const GET = "GET";
   const POST = "POST";
@@ -167,25 +163,10 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    * data is any extra data I want to pass to the success and error functions
    */
-  function get(url, successCallback, errorCallback, data) {
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, GET, null);
-    kameHouse.plugin.debugger.displayRequestData(url, GET, null, null);
-    kameHouse.http.get(url, null,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
-   * Execute a GET request with url encoded parameters, update the debugger http client 
-   * and perform the specified success or error functions 
-   */
-  function getUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    const urlEncoded = encodeURI(url + "?" + requestParam);
-    const dataWithRequestInfo = createDataWithRequestInfo(data, urlEncoded, GET, null);
-    const requestHeaders = kameHouse.http.getUrlEncodedHeaders();
-    kameHouse.plugin.debugger.displayRequestData(urlEncoded, GET, requestHeaders, null);
-    kameHouse.http.get(urlEncoded, requestHeaders,
+  function get(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
+    const dataWithRequestInfo = createDataWithRequestInfo(data, url, GET, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(url, GET, requestHeaders, requestBody);
+    kameHouse.http.get(url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );
@@ -195,11 +176,7 @@ function DebuggerHttpClient() {
    * Execute a PUT request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function put(url, requestBody, successCallback, errorCallback, data) {
-    let requestHeaders = null;
-    if (!kameHouse.core.isEmpty(requestBody)) {
-      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
-    }
+  function put(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, PUT, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, PUT, requestHeaders, requestBody);
     kameHouse.http.put(url, requestHeaders, requestBody,
@@ -209,31 +186,10 @@ function DebuggerHttpClient() {
   }
 
   /** 
-   * Execute a PUT request with url parameters, update the debugger http client 
-   * and perform the specified success or error functions 
-   */
-  function putUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    let requestHeaders = null;
-    if (!kameHouse.core.isEmpty(requestParam)) {
-      requestHeaders = kameHouse.http.getUrlEncodedHeaders();
-    }
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, PUT, requestParam);
-    kameHouse.plugin.debugger.displayRequestData(url, PUT, requestHeaders, requestParam);
-    kameHouse.http.put(url, requestHeaders, requestParam,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
    * Execute a POST request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function post(url, requestBody, successCallback, errorCallback, data) {
-    let requestHeaders = null;
-    if (!kameHouse.core.isEmpty(requestBody)) {
-      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
-    }
+  function post(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, POST, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, POST, requestHeaders, requestBody);
     kameHouse.http.post(url, requestHeaders, requestBody,
@@ -243,51 +199,13 @@ function DebuggerHttpClient() {
   }
 
   /** 
-   * Execute a POST request with url parameters, update the debugger http client 
-   * and perform the specified success or error functions 
-   */
-  function postUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    let requestHeaders = null;
-    if (!kameHouse.core.isEmpty(requestParam)) {
-      requestHeaders = kameHouse.http.getUrlEncodedHeaders();
-    }
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, POST, requestParam);
-    kameHouse.plugin.debugger.displayRequestData(url, POST, requestHeaders, requestParam);
-    kameHouse.http.post(url, requestHeaders, requestParam,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
    * Execute a DELETE request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function httpDelete(url, requestBody, successCallback, errorCallback, data) {
-    let requestHeaders = null;
-    if (!kameHouse.core.isEmpty(requestBody)) {
-      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
-    }
+  function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
     const dataWithRequestInfo = createDataWithRequestInfo(data, url, DELETE, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, DELETE, requestHeaders, requestBody);
     kameHouse.http.delete(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
-      );
-  }
-
-  /** 
-   * Execute a DELETE request, update the debugger http client 
-   * and perform the specified success or error functions 
-   */
-  function deleteUrlEncoded(url, requestParam, successCallback, errorCallback, data) {
-    let requestHeaders = null;
-    if (!kameHouse.core.isEmpty(requestParam)) {
-      requestHeaders = kameHouse.http.getApplicationJsonHeaders();
-    }
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, DELETE, requestParam);
-    kameHouse.plugin.debugger.displayRequestData(url, DELETE, requestHeaders, requestParam);
-    kameHouse.http.delete(url, requestHeaders, requestParam,
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
       (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
       );

@@ -33,13 +33,12 @@ function TailLogManager() {
       if (kameHouse.core.isEmpty(logLevel)) {
         logLevel = "";
       }
-      const params = new URLSearchParams({
+      const params = {
         script: scriptName,
         args: "-l " + logLevel,
         executeOnDockerHost: executeOnDockerHost
-      });
-      const getUrl = EXEC_SCRIPT_API + "?" + params;
-      kameHouse.http.get(getUrl, null,
+      };
+      kameHouse.http.get(EXEC_SCRIPT_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription) => updateTailLogOutput(responseBody, responseCode, responseDescription, numberOfLines, callback),
         (responseBody, responseCode, responseDescription) => updateTailLogOutputError(responseBody, responseCode, responseDescription, callback));
     } else {

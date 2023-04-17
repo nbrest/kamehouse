@@ -61,14 +61,17 @@ function Scheduler() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null, processSuccess, processError, webapp);
   }
 
   /** Cancel job execution */
   function cancelJobExecution(jobKey, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    const urlParams = "?name=" + jobKey.name + "&group=" + jobKey.group;
-    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp) + urlParams, null, processSuccess, processError, webapp);
+    const params = {
+      "name" : jobKey.name,
+      "group" : jobKey.group
+    };
+    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), kameHouse.http.getUrlEncodedHeaders(), params, processSuccess, processError, webapp);
   }
 
   /** Update the jobs table content */

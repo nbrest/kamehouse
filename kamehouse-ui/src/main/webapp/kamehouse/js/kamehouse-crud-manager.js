@@ -195,7 +195,7 @@ function CrudManager() {
   function read(id) {
     kameHouse.logger.info("read");
     const getUrl = url + "/" + id;
-    kameHouse.plugin.debugger.http.get(getUrl,
+    kameHouse.plugin.debugger.http.get(getUrl, null, null,
       (responseBody, responseCode, responseDescription) => {
         setEditFormValues(responseBody, responseCode, responseDescription);
       },
@@ -210,7 +210,7 @@ function CrudManager() {
    */
   function readAll() {
     kameHouse.logger.info("readAll");
-    kameHouse.plugin.debugger.http.get(url,
+    kameHouse.plugin.debugger.http.get(url, null, null,
       (responseBody, responseCode, responseDescription) => {
         entities = responseBody;
         reloadView();
@@ -232,7 +232,7 @@ function CrudManager() {
       return;
     }
     const entity = getEntityFromForm(addInputFieldsId);
-    kameHouse.plugin.debugger.http.post(url, entity,
+    kameHouse.plugin.debugger.http.post(url, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.logger.info("Created entity successfully. Id: " + responseBody);
         readAll();
@@ -256,7 +256,7 @@ function CrudManager() {
     }
     const entity = getEntityFromForm(editInputFieldsId);
     const updateUrl = url + "/" + entity.id;
-    kameHouse.plugin.debugger.http.put(updateUrl, entity,
+    kameHouse.plugin.debugger.http.put(updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.logger.info("Updated entity successfully. Id: " + entity.id);
         readAll();
@@ -280,7 +280,7 @@ function CrudManager() {
       return;
     }
     const deleteUrl = url + "/" + id;
-    kameHouse.plugin.debugger.http.delete(deleteUrl, null,
+    kameHouse.plugin.debugger.http.delete(deleteUrl, null, null,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id);
         kameHouse.plugin.modal.basicModal.close();

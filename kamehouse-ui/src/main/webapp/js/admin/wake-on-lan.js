@@ -37,7 +37,7 @@ function WakeOnLanManager() {
       "server" : "media.server"
     };
     kameHouse.plugin.modal.loadingWheelModal.open("Sending WOL packet to media server");
-    kameHouse.plugin.debugger.http.postUrlEncoded(WOL_API_URL, requestParam, processSuccess, processError);
+    kameHouse.plugin.debugger.http.post(WOL_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, processSuccess, processError);
   }
 
   function processSuccess(responseBody, responseCode, responseDescription) {

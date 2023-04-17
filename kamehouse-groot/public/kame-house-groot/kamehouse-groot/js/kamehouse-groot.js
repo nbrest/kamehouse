@@ -43,9 +43,9 @@ function GrootHeader() {
   }
   
   /** Load session status */
-  function loadSessionStatus(successCallback, errorCallback) {
+  function loadSessionStatus() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
-    kameHouse.http.get(SESSION_STATUS_API, null,
+    kameHouse.http.get(SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription) => {
         kameHouse.groot.session = responseBody;
         updateSessionStatus();

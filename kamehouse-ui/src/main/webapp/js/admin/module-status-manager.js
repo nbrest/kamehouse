@@ -52,7 +52,7 @@ function ModuleStatusManager() {
    */
   function getModuleStatus(webapp) {
     kameHouse.logger.trace("getModuleStatus");
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp),
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null,
       (responseBody, responseCode, responseDescription) => displayModuleStatus(responseBody),
       (responseBody, responseCode, responseDescription) => displayErrorGettingModuleStatus(webapp));
   }

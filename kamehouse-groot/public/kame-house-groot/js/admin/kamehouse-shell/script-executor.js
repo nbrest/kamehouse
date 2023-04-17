@@ -32,12 +32,11 @@ function ScriptExecutor() {
   /** Execute the specified script*/
   function execute(scriptName, args, executeOnDockerHost, callback, skipUpdateView) {
     if (!kameHouse.core.isEmpty(scriptName)) {
-      const params = new URLSearchParams({
+      const params = {
         script: scriptName,
         args: args,
         executeOnDockerHost: executeOnDockerHost
-      });
-      const getUrl = EXEC_SCRIPT_API + "?" + params;
+      };
       kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost);
       if (!skipUpdateView) {
         updateScriptExecutionStartDate();
@@ -50,7 +49,7 @@ function ScriptExecutor() {
       } else {
         kameHouse.logger.trace("Skipping view update");
       }
-      kameHouse.http.get(getUrl, null,
+      kameHouse.http.get(EXEC_SCRIPT_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription) => updateScriptOutput(responseBody, responseCode, responseDescription, callback, skipUpdateView),
         (responseBody, responseCode, responseDescription) => updateScriptOutputError(responseBody, responseCode, responseDescription, callback, skipUpdateView));
     } else {
