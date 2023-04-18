@@ -1,31 +1,25 @@
 /**
  * Kamehouse mobile tabs functions.
  */
-const kameHouseMobileTabsManager = new KameHouseMobileTabsManager();
-
-function main() {
-  kameHouseMobileTabsManager.init();
-}
-
 /**
  * Prototype to manage the kamehouse mobile tabs.
  */
 function KameHouseMobileTabsManager() {
 
-  this.init = init;
+  this.load = load;
   this.openTab = openTab;
 
   /**
-   * Init module.
+   * load module.
    */
-  function init() {
-    kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/html-snippets/kh-mobile-tabs.html", () => {
-      kameHouse.util.module.setModuleLoaded("kameHouseMobileTabsManager");
+  function load() {
+    kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-tabs.html", () => {
+      kameHouse.util.module.setModuleLoaded("mobileTabsManager");
     });
-    kameHouse.util.dom.load($("#tab-home"), "/kame-house-mobile/html-snippets/tab-home.html");
-    kameHouse.util.dom.load($("#tab-services"), "/kame-house-mobile/html-snippets/tab-services.html");
+    kameHouse.util.dom.load($("#tab-home"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-home.html");
+    kameHouse.util.dom.load($("#tab-services"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-services.html");
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-      kameHouse.util.dom.load($("#tab-config"), "/kame-house-mobile/html-snippets/tab-config.html", () => {
+      kameHouse.util.dom.load($("#tab-config"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-config.html", () => {
         kameHouse.extension.mobile.configManager.refreshConfigTabView();
       });
     });
@@ -96,7 +90,6 @@ function KameHouseMobileTabsManager() {
   }
 }
 
-/**
- * Call main.
- */
-$(document).ready(main);
+$(document).ready(() => {
+  kameHouse.addExtension("mobileTabsManager", new KameHouseMobileTabsManager());
+});

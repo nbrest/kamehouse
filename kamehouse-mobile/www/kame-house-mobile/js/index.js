@@ -4,16 +4,15 @@
  * 
  * @author nbrest
  */
+function KameHouseMobileLoader() {
 
-function MobileAppIndex() {
+  this.load = load;
 
-  this.init = init;
-
-  function init() {
+  function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile app index page");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseMobile", "kameHouseDebugger", "kameHouseMobileTabsManager"], () => {
-      kameHouseMobileTabsManager.openTab('tab-config');
+    kameHouse.util.module.waitForModules(["kameHouseMobile", "kameHouseDebugger", "mobileTabsManager"], () => {
+      kameHouse.extension.mobileTabsManager.openTab('tab-config');
       setDeviceStartup();
     });
     kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
@@ -41,5 +40,6 @@ function MobileAppIndex() {
   }
 } 
 
-/** Call main. */
-$(document).ready(() => {new MobileAppIndex().init();});
+$(document).ready(() => {
+  kameHouse.addExtension("mobileLoader", new KameHouseMobileLoader());
+});
