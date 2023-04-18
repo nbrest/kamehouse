@@ -1,22 +1,15 @@
 /**
  * Functionality to add a sticky back to top button.
  */
-var stickyBackToTopManager;
-
-function loadStickyBackToTop() {
-  kameHouse.logger.info("Started initializing sticky back to top");
-  stickyBackToTopManager = new StickyBackToTopManager();
-  stickyBackToTopManager.init();
-}
-
 /**
  * Manager to handle the sticky button to go back to top.
  */
-function StickyBackToTopManager() {
+function KameHouseStickyBackToTop() {
 
-  this.init = init;
+  this.load = load;
 
-  function init() {
+  function load() {
+    kameHouse.logger.info("Started initializing sticky back to top");
     importCss();
     importHtml();
   }
@@ -25,7 +18,7 @@ function StickyBackToTopManager() {
    * Import the sticky button html.
    */
   async function importHtml() {
-    const stickyBackToTopBtn = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/sticky-back-to-top.html");
+    const stickyBackToTopBtn = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/plugin/kamehouse-sticky-back-to-top.html");
     kameHouse.util.dom.append($('body'), stickyBackToTopBtn);
     setupEventHandlers();
   }
@@ -34,7 +27,7 @@ function StickyBackToTopManager() {
    * Import the sticky button css.
    */
   function importCss() {
-    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/snippets/sticky-back-to-top.css">');
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-sticky-back-to-top.css">');
   }
 
   /**
@@ -79,4 +72,6 @@ function StickyBackToTopManager() {
   }
 }
 
-$(document).ready(loadStickyBackToTop);
+$(document).ready(() => {
+  kameHouse.addPlugin("stickyBackToTop", new KameHouseStickyBackToTop());
+});

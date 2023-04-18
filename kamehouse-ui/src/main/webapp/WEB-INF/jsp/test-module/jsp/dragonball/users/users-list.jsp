@@ -73,6 +73,6 @@
   <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/kamehouse/js/plugin/kamehouse-debugger.js"></script>
   <script src="/kame-house/kamehouse/js/plugin/kamehouse-modal.js"></script>
-  <script src="/kame-house/js/snippets/sticky-back-to-top.js"></script>
+  <script src="/kame-house/kamehouse/js/plugin/kamehouse-sticky-back-to-top.js"></script>
 </body>
 </html>
