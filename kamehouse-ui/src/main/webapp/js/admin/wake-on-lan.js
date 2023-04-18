@@ -1,33 +1,29 @@
 /**
  * wake on lan functions.
  * 
- * Dependencies: logger, kameHouse.plugin.debugger.http.
- * 
  * @author nbrest
  */
-var wakeOnLanManager;
-
-function mainWakeOnLan() {
-  kameHouse.util.banner.setRandomAllBanner();
-  importWolCss();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-    kameHouse.logger.info("Started initializing wake on lan");
-    wakeOnLanManager = new WakeOnLanManager();
-    wakeOnLanManager.execWakeOnLan();
-  });
-}
-
-function importWolCss() {
-  kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/wake-on-lan.css">');
-}
-
 /**
  * Manager to execute a wake on lan command to the media server.
  */
 function WakeOnLanManager() {
 
+  this.load = load;
   this.execWakeOnLan = execWakeOnLan;
   const WOL_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
+
+  function load() {
+    kameHouse.logger.info("Started initializing wake on lan");
+    kameHouse.util.banner.setRandomAllBanner();
+    importWolCss();
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      execWakeOnLan();
+    });
+  }
+
+  function importWolCss() {
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/wake-on-lan.css">');
+  }
 
   /**
    * WakeOnLan functions
@@ -52,7 +48,6 @@ function WakeOnLanManager() {
   }
 }
 
-/**
- * Call main.
- */
-$(document).ready(mainWakeOnLan);
+$(document).ready(() => {
+  kameHouse.addExtension("wakeOnLanManager", new WakeOnLanManager());
+});
