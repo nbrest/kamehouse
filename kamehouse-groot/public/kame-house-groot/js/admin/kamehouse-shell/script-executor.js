@@ -1,16 +1,9 @@
-var scriptExecutor;
-
-function loadScriptExecutor() {
-  scriptExecutor = new ScriptExecutor();
-  kameHouse.util.module.setModuleLoaded("scriptExecutor");
-  kameHouse.logger.info("Initialized scriptExecutor");
-}
-
 /**
  * Execute a script and update the view.
  */
 function ScriptExecutor() {
 
+  this.load = load;
   this.executeFromUrlParams = executeFromUrlParams;
   this.execute = execute;
   this.setScriptNameAndArgsFromUrlParams = setScriptNameAndArgsFromUrlParams;
@@ -19,6 +12,11 @@ function ScriptExecutor() {
 
   const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php';
   let bashScriptOutput = "Script output not set yet.";
+
+  function load() {
+    kameHouse.logger.info("Initialized scriptExecutor");
+    kameHouse.util.module.setModuleLoaded("scriptExecutor");
+  }
 
   /** Execute the specified script in the url parameters*/
   function executeFromUrlParams() {
@@ -254,4 +252,6 @@ function ScriptExecutor() {
   }
 }
 
-$(document).ready(loadScriptExecutor);
+$(document).ready(() => {
+  kameHouse.addExtension("scriptExecutor", new ScriptExecutor());
+});
