@@ -78,28 +78,39 @@ function KameHouseMobileCore() {
    * Http request to be sent from the mobile app.
    */
   function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
-    const requestUrl = getBackendServer() + url;   
+    let requestUrl = getBackendServer() + url;   
     const options = {
       method: httpMethod,
+      data: ""
     };
-    if (httpMethod == POST || httpMethod == PUT || httpMethod == DELETE) {
-      // cordova advanced http plugin breaks if I send these requests with empty data field
-      options.data = "";
-    }
     
     if (!kameHouse.core.isEmpty(requestHeaders)) {
       options.headers = requestHeaders;
     }
     setMobileBasicAuthHeader();
-    setDataSerializer(requestHeaders);
-    if (!kameHouse.core.isEmpty(requestBody)) {
-      options.data = requestBody;
+    setDataSerializer(requestHeaders, httpMethod);
+    if (kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
+      if (httpMethod == GET || httpMethod == PUT || httpMethod == DELETE) {
+        if (!kameHouse.core.isEmpty(requestBody)) {
+          requestUrl = requestUrl + "?" + kameHouse.http.urlEncodeParams(requestBody);
+        }
+      } else {
+        // http method is POST and urlEncoded
+        if (!kameHouse.core.isEmpty(requestBody)) {
+          options.data = requestBody;
+        }
+      }
+    } else {
+      if (!kameHouse.core.isEmpty(requestBody)) {
+        options.data = requestBody;
+      }
     }
+    logMobileHttpRequest(requestUrl, options);
     cordova.plugin.http.setServerTrustMode('nocheck',
      () => {
       cordova.plugin.http.sendRequest(requestUrl, options, 
         (response) => { processMobileSuccess(response, successCallback, customData); } ,
-        (response) => { processMobileError(response, errorCallback, requestUrl, customData); }
+        (response) => { processMobileError(response, errorCallback, customData); }
       );
     }, () => {
       kameHouse.logger.error('Error setting cordova ssl trustmode to nocheck. Unable to execute http ' + httpMethod + ' request to ' + requestUrl);
@@ -121,12 +132,13 @@ function KameHouseMobileCore() {
       responseBody = response.data;
     }
     const responseCode = response.status;
-    kameHouse.logger.logHttpResponse(responseBody, responseCode, null);
-    successCallback(responseBody, responseCode, customData);
+    const responseDescription = null;
+    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription);
+    successCallback(responseBody, responseCode, responseDescription, customData);
   }
 
   /** Process an error response from the api call */
-  function processMobileError(response, errorCallback, url, customData) {
+  function processMobileError(response, errorCallback, customData) {
      /**
      * error: error message
      * status: http status code
@@ -135,9 +147,10 @@ function KameHouseMobileCore() {
       */
      const responseBody = response.error;
      const responseCode = response.status;
-     kameHouse.logger.logHttpResponse(responseBody, responseCode, null);
-     kameHouse.logger.logApiError(responseBody, responseCode, null, null);
-     errorCallback(JSON.stringify(responseBody), responseCode, null, customData);
+     const responseDescription = null;
+     kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription);
+     kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, null);
+     errorCallback(JSON.stringify(responseBody), responseCode, responseDescription, customData);
   }  
 
   function isJsonResponse(headers) {
@@ -163,7 +176,8 @@ function KameHouseMobileCore() {
     }
   }
 
-  function setDataSerializer(headers) {
+  function setDataSerializer(headers, httpMethod) {
+    kameHouse.logger.debug("Setting data serializer to 'utf8'");
     cordova.plugin.http.setDataSerializer('utf8');
     if (kameHouse.core.isEmpty(headers)) {
       return;
@@ -171,17 +185,30 @@ function KameHouseMobileCore() {
     for (const [key, value] of Object.entries(headers)) {
       if (!kameHouse.core.isEmpty(key) && key.toLowerCase() == "content-type" && !kameHouse.core.isEmpty(value)) {
         if (value.toLowerCase() == "application/json") {
+          kameHouse.logger.debug("Overriding data serializer to 'json'");
           cordova.plugin.http.setDataSerializer('json');
-          isContentTypeSet = true;
         }
         if (value.toLowerCase() == "application/x-www-form-urlencoded") {
-          cordova.plugin.http.setDataSerializer('urlencoded');
-          isContentTypeSet = true;
+          // For GET, PUT, DELETE url encoded data in this http plugin, the data in the options object must be set to "" and serializer to utf8 and directly set the encoded url parameters in the request url.
+          // For POST url encoded requests, the data in the options object must be a json object and the serializer needs to be set to urlencoded
+          if (httpMethod != GET && httpMethod != PUT && httpMethod != DELETE) {
+            kameHouse.logger.debug("Overriding data serializer to 'urlencoded'");
+            cordova.plugin.http.setDataSerializer('urlencoded');
+          }
         }
       }
     }
   }
 
+  /**
+   * Log a mobile http request.
+   */
+  function logMobileHttpRequest(url, options) {
+    kameHouse.logger.debug("mobile http request: [ " 
+    + "'url' : '" + url + "', "
+    + "'options' : '" + JSON.stringify(options) + "' ]");
+  }
+  
   /**
    * Mock cordova when cordova is not available. For example when testing in a laptop's browser through apache httpd.
    */
@@ -620,7 +647,7 @@ function KameHouseMobileConfigManager() {
 
     // Set InAppBrowser target
     const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
-    if (!kameHouse.core.isEmpty(inAppBrowserTargetDropdown.value) && inAppBrowserTargetDropdown.value != "") {
+    if (!kameHouse.core.isEmpty(inAppBrowserTargetDropdown.value)) {
       inAppBrowserConfig.target = inAppBrowserTargetDropdown.value;
     }
 
@@ -675,7 +702,7 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Setting web vlc player from dropdown");
     const webVlcServerInput = document.getElementById("web-vlc-server-input"); 
     const webVlcServerDropdown = document.getElementById("web-vlc-server-dropdown");
-    if (!kameHouse.core.isEmpty(webVlcServerDropdown.value) && webVlcServerDropdown.value != "") {
+    if (!kameHouse.core.isEmpty(webVlcServerDropdown.value)) {
       kameHouse.util.dom.setValue(webVlcServerInput, webVlcServerDropdown.value);
       updateMobileConfigFromView();
     }
@@ -686,7 +713,7 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Setting backend server from dropdown");
     const backendServerInput = document.getElementById("backend-server-input"); 
     const backendServerDropdown = document.getElementById("backend-server-dropdown");
-    if (!kameHouse.core.isEmpty(backendServerDropdown.value) && backendServerDropdown.value != "") {
+    if (!kameHouse.core.isEmpty(backendServerDropdown.value)) {
       kameHouse.util.dom.setValue(backendServerInput, backendServerDropdown.value);
       updateMobileConfigFromView();
     }    
