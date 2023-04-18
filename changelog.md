@@ -10,8 +10,11 @@
 - Refactored completely js code to use a single kameHouse object for the entire kamehouse js framework and extend it with plugins and extensions on each page rather than having multiple root level global variables all over the place
 - Moved js code in kamehouse-mobile and kamehouse-groot to extensions of kamehouse
 - Refactored http client and debugger to a common interface
-- Fixed bugs
 - Split header and footer to be loaded independently and with data- attributes to skip them
+- Updated build and deploy scripts for kamehouse mobile
+- Added tomcat dev scripts
+- Updated footer layout
+- Fixed bugs
 
 #### v8.06
 
