@@ -1,5 +1,5 @@
 /** Set alert messages */
-function setAlertMessages() {
+window.onload = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const error = urlParams.get('error');
   const logout = urlParams.get('logout');
@@ -11,8 +11,4 @@ function setAlertMessages() {
     const element = document.getElementById("login-alert-group-logout");
     kameHouse.util.dom.classListRemove(element, "hidden-kh");
   }
-}
-
-window.onload = () => {
-  setAlertMessages();
 };
