@@ -95,7 +95,4 @@ function SystemCommandManager() {
   }
 }
 
-/**
- * Call main.
- */
  $(document).ready(() => {kameHouse.addPlugin("systemCommandManager", new SystemCommandManager());});

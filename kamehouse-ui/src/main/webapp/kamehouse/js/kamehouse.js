@@ -1956,5 +1956,4 @@ function KameHouseCoreFunctions() {
   }
 }
 
-/** Call main. */
 $(document).ready(() => {kameHouse.init();});

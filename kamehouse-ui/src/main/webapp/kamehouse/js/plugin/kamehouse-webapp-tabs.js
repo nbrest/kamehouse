@@ -72,7 +72,4 @@ function KameHouseWebappTabsManager() {
   }
 }
 
-/**
- * Call main.
- */
 $(document).ready(() => {kameHouse.addPlugin("webappTabsManager", new KameHouseWebappTabsManager());});
