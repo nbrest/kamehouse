@@ -1,33 +1,14 @@
 /**
  * Admin Server Management functions.
  * 
- * Dependencies: logger, kameHouse.plugin.debugger.http.
- * 
  * @author nbrest
  */
-var serverManager;
-
-function mainServerManagement() {
-  kameHouse.util.banner.setRandomAllBanner();
-  importServerManagementCss();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-    kameHouse.logger.info("Started initializing server management");
-    serverManager = new ServerManager();
-    serverManager.getSuspendStatus(false);
-    serverManager.getShutdownStatus(false);
-    serverManager.getHttpdStatus(false);
-  });
-}
-
-function importServerManagementCss() {
-  kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
-}
-
 /**
  * Manager to execute the admin commands in the current server.
  */
 function ServerManager() {
 
+  this.load = load;
   this.execAdminWakeOnLan = execAdminWakeOnLan;
   this.setShutdownCommand = setShutdownCommand;
   this.cancelShutdownCommand = cancelShutdownCommand;
@@ -51,6 +32,21 @@ function ServerManager() {
   const FREE_URL = '/system-state/free';
   const DF_URL = '/system-state/df';
   const HTTPD_URL = '/system-state/httpd';
+
+  function load() {
+    kameHouse.logger.info("Started initializing server management");
+    kameHouse.util.banner.setRandomAllBanner();
+    importServerManagementCss();
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      getSuspendStatus(false);
+      getShutdownStatus(false);
+      getHttpdStatus(false);
+    });
+  }
+  
+  function importServerManagementCss() {
+    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
+  }
 
   /**
    * --------------------------------------------------------------------------
@@ -343,7 +339,6 @@ function ServerManager() {
   }
 }
 
-/**
- * Call main.
- */
-$(document).ready(mainServerManagement);
+$(document).ready(() => {
+  kameHouse.addExtension("serverManager", new ServerManager());
+});
