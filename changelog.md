@@ -14,6 +14,7 @@
 - Updated build and deploy scripts for kamehouse mobile
 - Added tomcat dev scripts
 - Updated footer layout
+- Removed all window.onload overrides
 - Fixed bugs
 
 #### v8.06
