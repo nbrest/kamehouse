@@ -1,26 +1,20 @@
-var kameHouseShellManager;
-
-function mainKameHouseShell() {
-  kameHouse.util.banner.setRandomDragonBallBanner();
-  kameHouse.util.module.waitForModules(["kameHouseGroot"], () => {
-    kameHouseShellManager = new KameHouseShellManager();
-    kameHouseShellManager.handleSessionStatus();
-    kameHouseShellManager.getKameHouseShell(kameHouseShellManager.populateKameHouseShellTable, () => { kameHouse.logger.error("Error getting scripts csv"); });
-  });
-}
-
 /**
  * Manager to load and execute scripts.
  */
-function KameHouseShellManager() {
+function KameHouseShell() {
 
-  this.populateKameHouseShellTable = populateKameHouseShellTable;
-  this.executeScript = executeScript;
+  this.load = load;
   this.filterKameHouseShellRows = filterKameHouseShellRows;
-  this.handleSessionStatus = handleSessionStatus;
-  this.getKameHouseShell = getKameHouseShell;
 
   const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script.php";
+
+  function load() {
+    kameHouse.util.banner.setRandomDragonBallBanner();
+    kameHouse.util.module.waitForModules(["kameHouseGroot"], () => {
+      handleSessionStatus();
+      getKameHouseShell(populateKameHouseShellTable, () => { kameHouse.logger.error("Error getting scripts csv"); });
+    });
+  }
 
   /** Populates all kamehouse-shell table */
   function populateKameHouseShellTable(kameHouseShellArray) {
@@ -99,6 +93,6 @@ function KameHouseShellManager() {
   }
 }
 
-window.onload = () => {
-  mainKameHouseShell();
-}
+$(document).ready(() => {
+  kameHouse.addExtension("kameHouseShell", new KameHouseShell());
+});
