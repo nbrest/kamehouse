@@ -1,4 +1,4 @@
-window.onload = () => {
+$(document).ready(() => {
   kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
     kameHouse.plugin.crudManager.init({
       entityName: "KameHouse User",
@@ -56,4 +56,4 @@ window.onload = () => {
       ]
     });
   });
-};
+});
