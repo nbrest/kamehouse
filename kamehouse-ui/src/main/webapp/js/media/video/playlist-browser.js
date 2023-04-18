@@ -2,13 +2,11 @@
  * Represents the playlist browser component in vlc-player page.
  * It doesn't control the currently active playlist.
  * 
- * Dependencies: kameHouse.util.table. logger, kameHouseDebugger
- * 
  * @author nbrest
  */
-function PlaylistBrowser(vlcPlayer) {
+function PlaylistBrowser() {
 
-  this.init = init;
+  this.load = load;
   this.filterPlaylistRows = filterPlaylistRows;
   this.populateVideoPlaylistCategories = populateVideoPlaylistCategories;
   this.populateVideoPlaylists = populateVideoPlaylists;
@@ -26,9 +24,14 @@ function PlaylistBrowser(vlcPlayer) {
   let tbodyAbsolutePaths = null;
   let tbodyFilenames = null;
 
-  /** Init Playlist Browser. */
-  function init() {
-    kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
+  /** Load Playlist Browser. */
+  function load() {
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      kameHouse.logger.info("Started initializing playlist browser");
+      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
+      populateVideoPlaylistCategories();
+      kameHouse.util.module.setModuleLoaded("playlistBrowser");
+    });
   }
 
   /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
@@ -118,23 +121,23 @@ function PlaylistBrowser(vlcPlayer) {
     kameHouse.logger.debug("Getting content for " + playlistFilename);
     const requestParam = {
       "path" : playlistFilename
-    }
+    };
     kameHouse.plugin.debugger.http.get(mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
       (responseBody, responseCode, responseDescription) => {
         currentPlaylist = responseBody;
         populatePlaylistBrowserTable();
       },
       (responseBody, responseCode, responseDescription) =>
-        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content", responseCode)
+        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + JSON.stringify(responseBody), responseCode)
       );
   }
 
-  /** Play selected file in the specified VlcPlayer. */
+  /** Play selected file in the VlcPlayer */
   function playSelectedPlaylist() {
     const playlist = getSelectedPlaylist();
-    vlcPlayer.playFile(playlist);
-    vlcPlayer.openTab('tab-playlist');
-    vlcPlayer.reloadPlaylist();
+    kameHouse.extension.vlcPlayer.playFile(playlist);
+    kameHouse.extension.vlcPlayer.openTab('tab-playlist');
+    kameHouse.extension.vlcPlayer.reloadPlaylist();
   }
 
   /** Populate the playlist table for browsing. */
@@ -161,8 +164,8 @@ function PlaylistBrowser(vlcPlayer) {
   function clickEventOnPlaylistBrowserRow(event) {
     const filename = event.data.filename;
     kameHouse.logger.debug("Play selected playlist browser file : " + filename);
-    vlcPlayer.playFile(filename);
-    vlcPlayer.openTab('tab-playing');
+    kameHouse.extension.vlcPlayer.playFile(filename);
+    kameHouse.extension.vlcPlayer.openTab('tab-playing');
   }
 
   /** Toggle expand or collapse filenames in the playlist */
@@ -246,3 +249,5 @@ function PlaylistBrowser(vlcPlayer) {
     });
   }
 }
+
+$(document).ready(() => {kameHouse.addExtension("playlistBrowser", new PlaylistBrowser())});

@@ -1,24 +1,19 @@
 /** 
  * VlcPlayer entity.
  * 
- * Dependencies: fileUtils, tableUtils, cursorUtils, timeUtils, logger, kameHouseDebugger, websocket
- * 
- * Dependencies in same file: VlcPlayerPlaylist, VlcPlayerRestClient, VlcPlayerCommandExecutor, 
- * VlcPlayerSynchronizer, VlcPlayerMainViewUpdater, VlcPlayerDebugger
- * 
  * This prototype contains the public interface to interact with VlcPlayer. The logic is
  * implemented in the component prototypes mentioned above. It was designed this way because
  * VlcPlayer does a lot of functionality, so it seems best to split it into different
  * prototypes that each handle more specific functionality.
  * 
- * Call init() after instantiating VlcPlayer to connect the internal websocket
+ * Call load() after instantiating VlcPlayer to connect the internal websocket
  * and start the sync loops.
  * 
  * @author nbrest
  */
 function VlcPlayer(hostname) {
 
-  this.init = init;
+  this.load = load;
   this.loadStateFromApi = loadStateFromApi;
   this.getHostname = getHostname;
   this.getPlaylist = getPlaylist;
@@ -50,23 +45,30 @@ function VlcPlayer(hostname) {
   const commandExecutor = new VlcPlayerCommandExecutor(this);
   const playlist = new VlcPlayerPlaylist(this);
   const restClient = new VlcPlayerRestClient(this);
-  const synchronizer = new VlcPlayerSynchronizer(this);
   const mainViewUpdater = new VlcPlayerMainViewUpdater(this);
   const vlcPlayerDebugger = new VlcPlayerDebugger(this);
+  let synchronizer = null;
 
   let vlcRcStatus = {};
 
-  /** Init VlcPlayer */
-  function init() {
-    loadStateFromCookies();
-    playlist.init();
-    loadStateFromApi();
-    synchronizer.connectVlcRcStatus();
-    synchronizer.connectPlaylist();
-    synchronizer.syncVlcRcStatusLoop();
-    synchronizer.syncPlaylistLoop();
-    synchronizer.keepAliveWebSocketsLoop();
-    synchronizer.syncVlcPlayerHttpLoop();
+  /** Load VlcPlayer */
+  function load() {
+    kameHouse.util.module.loadKameHouseWebSocket();
+    kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebSocket"], () => {
+      kameHouse.logger.info("Started initializing VLC Player");
+      synchronizer = new VlcPlayerSynchronizer(this);
+      loadStateFromCookies();
+      playlist.init();
+      loadStateFromApi();
+      synchronizer.connectVlcRcStatus();
+      synchronizer.connectPlaylist();
+      synchronizer.syncVlcRcStatusLoop();
+      synchronizer.syncPlaylistLoop();
+      synchronizer.keepAliveWebSocketsLoop();
+      synchronizer.syncVlcPlayerHttpLoop();
+      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
+      kameHouse.util.module.setModuleLoaded("vlcPlayer");
+    });
   }
 
   /**
@@ -1118,3 +1120,5 @@ function VlcPlayerDebugger(vlcPlayer) {
     vlcPlayer.getPlaylist().reload();
   }
 }
+
+$(document).ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});
