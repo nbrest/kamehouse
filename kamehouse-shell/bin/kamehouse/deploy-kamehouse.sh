@@ -308,13 +308,16 @@ parseArguments() {
   parseMavenProfile "$@"
   parseKameHouseServer "$@"
 
-  while getopts ":acm:p:s:x" OPT; do
+  while getopts ":acm:p:rs:x" OPT; do
     case $OPT in
     ("a")
       DEPLOY_ALL_EXTRA_MODULES=true
       ;;
     ("c")
       USE_CURRENT_DIR=true
+      ;;
+    ("r")
+      REFRESH_CORDOVA_PLUGINS=true
       ;;
     ("x")
       EXTENDED_DEPLOYMENT=true
@@ -338,6 +341,7 @@ printHelpOptions() {
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
   printKameHouseServerOption
+  addHelpOption "-r" "refresh cordova plugins. disabled by default"
   addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
 }
 

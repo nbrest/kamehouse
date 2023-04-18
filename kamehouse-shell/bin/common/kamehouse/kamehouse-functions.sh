@@ -41,6 +41,8 @@ IS_REMOTE_LINUX_HOST=false
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
+REFRESH_CORDOVA_PLUGINS=false
+
 # Generic username and password command line arguments
 USERNAME_ARG=""
 PASSWORD_ARG=""
@@ -386,11 +388,16 @@ getHttpdContentRoot() {
 }
 
 refreshCordovaPlugins() {
-  cordova plugin remove cordova-plugin-advanced-http
-  cordova plugin remove cordova-plugin-inappbrowser
-  cordova plugin remove cordova-plugin-file
+  if ${REFRESH_CORDOVA_PLUGINS}; then
+    log.info "Refreshing cordova plugins"
+    cordova plugin remove cordova-plugin-advanced-http
+    cordova plugin remove cordova-plugin-inappbrowser
+    cordova plugin remove cordova-plugin-file
 
-  cordova plugin add cordova-plugin-inappbrowser
-  cordova plugin add cordova-plugin-advanced-http
-  cordova plugin add cordova-plugin-file
+    cordova plugin add cordova-plugin-inappbrowser
+    cordova plugin add cordova-plugin-advanced-http
+    cordova plugin add cordova-plugin-file
+  else
+    log.info "Not refreshing cordova plugins"
+  fi 
 }

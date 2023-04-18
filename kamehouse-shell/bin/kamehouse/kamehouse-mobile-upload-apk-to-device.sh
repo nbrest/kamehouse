@@ -6,6 +6,13 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
   exit 1
 fi
+
+# Import kamehouse functions
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
+  exit 1
+fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 ANDROID_IP="192.168.0.92"
@@ -20,7 +27,11 @@ mainProcess() {
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
     log.info "Building kamehouse-mobile app first"
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
+    if ${REFRESH_CORDOVA_PLUGINS}; then
+      ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile -b
+    else
+      ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
+    fi
   fi
   log.warn "Start SSH/SFTP Server - Terminal on the android phone before proceeding"
   log.warn "The server should be configured as specified in export-sync-audio-playlists.md"
@@ -38,7 +49,7 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":i:p:s" OPT; do
+  while getopts ":i:pr:s" OPT; do
     case $OPT in
     ("i")
       ANDROID_IP=$OPTARG
@@ -46,6 +57,9 @@ parseArguments() {
     ("p")
       ANDROID_PORT=$OPTARG
       ;;
+    ("r")
+      REFRESH_CORDOVA_PLUGINS=true
+      ;;  
     ("s")
       SKIP_BUILD_MOBILE=true
       ;;
@@ -59,6 +73,7 @@ parseArguments() {
 printHelpOptions() {
   addHelpOption "-i [ip]" "android sftp server ip"
   addHelpOption "-p [port]" "android sftp server port"
+  addHelpOption "-r" "refresh cordova plugins. disabled by default"
   addHelpOption "-s" "skip build kamehouse-mobile module before uploading. By default it rebuilds the apk"
 }
 

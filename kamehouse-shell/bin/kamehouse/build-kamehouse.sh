@@ -102,10 +102,13 @@ parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":acdfim:p:rs" OPT; do
+  while getopts ":abcdfim:p:rs" OPT; do
     case $OPT in
     ("a")
       BUILD_ALL_EXTRA_MODULES=true
+      ;;  
+    ("b")
+      REFRESH_CORDOVA_PLUGINS=true
       ;;  
     ("c")
       CONTINUE_ON_ERRORS=true
@@ -139,6 +142,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-a" "build all modules, including mobile app (by default it builds all without the mobile app)"
+  addHelpOption "-b" "refresh cordova plugins. disabled by default"
   addHelpOption "-c" "continue even with errors when running integration tests"
   addHelpOption "-d" "delete all output folders on kamehouse-mobile to do a full rebuild. This option is only considered when used with -a or -m mobile"
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
