@@ -5,6 +5,11 @@
 
 # ChangeLog:
 
+#### v8.08
+
+- Updated mobile app to have a single settings page
+- Removed the unnecessary configs and tabs deprecated since adding kamehouse ui and groot to the mobile app natively
+
 #### v8.07
 
 - Refactored completely js code to use a single kameHouse object for the entire kamehouse js framework and extend it with plugins and extensions on each page rather than having multiple root level global variables all over the place
