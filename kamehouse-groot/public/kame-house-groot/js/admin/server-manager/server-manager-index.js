@@ -584,7 +584,7 @@ function TailLogManagerWrapper() {
       let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
       let logLevel = document.getElementById("tail-log-level-dropdown").value;
       let executeOnDockerHost = getExecuteOnDockerHost(tailLogScript);
-      tailLogManager.tailLog(tailLogScript, numberOfLines, logLevel, executeOnDockerHost, kameHouse.util.collapsibleDiv.refreshCollapsibleDiv);
+      kameHouse.extension.tailLogManager.tailLog(tailLogScript, numberOfLines, logLevel, executeOnDockerHost, kameHouse.util.collapsibleDiv.refreshCollapsibleDiv);
   
       await kameHouse.core.sleep(5000);
     }

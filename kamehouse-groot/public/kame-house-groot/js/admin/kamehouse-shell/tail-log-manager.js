@@ -1,29 +1,16 @@
-var tailLogManager;
-
-function loadTailLogManager() {
-  tailLogManager = new TailLogManager();
-  kameHouse.util.module.setModuleLoaded("tailLogManager");
-  kameHouse.logger.info("Initialized tailLogManager");
-}
-
 /**
  * Manager to tail logs in the current server.
  */
 function TailLogManager() {
 
-  this.tailLogFromUrlParams = tailLogFromUrlParams;
+  this.load = load;
   this.tailLog = tailLog;
-  this.setScriptName = setScriptName;
-  this.handleSessionStatus = handleSessionStatus;
 
   const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php';
 
-  /** Tails the log based on the script parameter */
-  function tailLogFromUrlParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const scriptName = urlParams.get('script');
-    const executeOnDockerHost = urlParams.get('executeOnDockerHost');
-    tailLog(scriptName, 150, executeOnDockerHost, null);
+  function load() {
+    kameHouse.logger.info("Initialized tailLogManager");
+    kameHouse.util.module.setModuleLoaded("tailLogManager");
   }
 
   /** Tails the log based on the script parameter and the number of lines to display */
@@ -57,13 +44,6 @@ function TailLogManager() {
     } else {
       return false;
     }
-  }
-
-  /** Set script name and args */
-  function setScriptName() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const scriptName = urlParams.get('script');
-    kameHouse.util.dom.setHtml($("#st-script-name"), scriptName);
   }
 
   /** Update the script tail log output with the result of the script */
@@ -119,19 +99,6 @@ function TailLogManager() {
     kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
   }
 
-  /** Handle Session Status */
-  function handleSessionStatus(sessionStatus) {
-    updateServerName(sessionStatus);
-  }
-
-  /** Update server name */
-  function updateServerName(sessionStatus) {
-    if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtml($("#st-server-name"), sessionStatus.server);
-      kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
-    }
-  }
-
   function getTailLogOutputTbody() {
     return kameHouse.util.dom.getTbody({
       id: "tail-log-output-table-body"
@@ -147,4 +114,6 @@ function TailLogManager() {
   }
 }
 
-$(document).ready(loadTailLogManager);
+$(document).ready(() => {
+  kameHouse.addExtension("tailLogManager", new TailLogManager());
+});
