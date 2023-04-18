@@ -1,24 +1,12 @@
 /** 
  * Functionality to manipulate log levels in the backend. 
  */
-var backendLogLevelUtils;
-
-window.onload = () => {
-  backendLogLevelUtils = new BackendLogLevelUtils();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
-    kameHouse.logger.info("Started initializing log-level");
-    kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-log-level');
-    kameHouse.plugin.webappTabsManager.loadStateFromCookies();
-    backendLogLevelUtils.init();
-  });
-  kameHouse.util.banner.setRandomAllBanner();
-};
-
 /**
  * Manage the log level of the backend on the current server.
  */
 function BackendLogLevelUtils() {
 
+  this.load = load;
   this.init = init;
   this.getLogLevels = getLogLevels;
   this.resetLogLevels = resetLogLevels;
@@ -29,6 +17,16 @@ function BackendLogLevelUtils() {
   this.setRequestLoggerConfigHeaders = setRequestLoggerConfigHeaders;
   this.setRequestLoggerConfigQueryString = setRequestLoggerConfigQueryString;
   this.setRequestLoggerConfigClientInfo = setRequestLoggerConfigClientInfo;
+
+  function load() {
+    kameHouse.logger.info("Started initializing log-level");
+    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+      kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-log-level');
+      kameHouse.plugin.webappTabsManager.loadStateFromCookies();
+      init();
+    });
+  }
 
   /**
    * Load templates and initial data.
@@ -210,3 +208,7 @@ function BackendLogLevelUtils() {
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }
+
+$(document).ready(() => {
+  kameHouse.addExtension("backendLogLevelUtils", new BackendLogLevelUtils());
+});
