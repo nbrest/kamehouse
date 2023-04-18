@@ -13,7 +13,6 @@
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/kamehouse/js/kamehouse.js"></script>
 <script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-user-service-jsp.js"></script>
-<script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-users-add.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-header.css" />
@@ -46,7 +45,7 @@
       <br>
 
       <div class="form-submit-wrapper-kh">
-        <img class="img-btn-kh m-15-d-r-kh" onclick="dragonBallUserServiceJsp.addDragonBallUser()" 
+        <img class="img-btn-kh m-15-d-r-kh" onclick="kameHouse.extension.dragonBallUserServiceJsp.addDragonBallUser()" 
         src="/kame-house/img/other/submit-gray-dark.png" alt="Add User" title="Add User"/>
         <img class="img-btn-kh fl-r-d-kh" onclick="window.location.href='users-list'"
           src="/kame-house/img/other/list-bullet-gray-dark.png" alt="List Users" title="List Users"/>

@@ -3,6 +3,7 @@
  */
 function DragonBallUserServiceJsp() {
 
+  this.load = load;
   this.getDragonBallUser = getDragonBallUser;
   this.getAllDragonBallUsers = getAllDragonBallUsers;
   this.addDragonBallUser = addDragonBallUser;
@@ -10,6 +11,13 @@ function DragonBallUserServiceJsp() {
   this.deleteDragonBallUser = deleteDragonBallUser;
 
   const SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
+
+  function load() {
+    kameHouse.logger.info("Loading DragonBallUserServiceJsp");
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      kameHouse.util.module.setModuleLoaded("dragonBallUserServiceJsp");
+    });
+  }
 
   /**
    * Get a dragonball user and populate it to the edit table.
@@ -190,3 +198,7 @@ function DragonBallUserServiceJsp() {
     return kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
   }
 }
+
+$(document).ready(() => {
+  kameHouse.addExtension("dragonBallUserServiceJsp", new DragonBallUserServiceJsp());
+});

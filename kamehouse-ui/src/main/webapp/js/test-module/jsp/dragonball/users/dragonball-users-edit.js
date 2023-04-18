@@ -1,9 +1,6 @@
-var dragonBallUserServiceJsp;
-
 window.onload = () => {
-  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-    dragonBallUserServiceJsp = new DragonBallUserServiceJsp();
-    dragonBallUserServiceJsp.getDragonBallUser();
+  kameHouse.util.module.waitForModules(["dragonBallUserServiceJsp"], () => {
+    kameHouse.extension.dragonBallUserServiceJsp.getDragonBallUser();
   });
 }
 
