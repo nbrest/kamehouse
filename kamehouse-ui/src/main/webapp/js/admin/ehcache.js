@@ -5,24 +5,12 @@
  * 
  * @author nbrest
  */
-var ehCacheManager;
-
-function mainEhcache() {
-  kameHouse.util.banner.setRandomPrinceOfTennisBanner();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
-    kameHouse.logger.info("Started initializing ehcache");
-    ehCacheManager = new EhCacheManager();
-    kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-ehcache');
-    kameHouse.plugin.webappTabsManager.loadStateFromCookies();
-    ehCacheManager.init();
-  });
-}
-
 /**
  * Manage ehcache in the current server.
  */
 function EhCacheManager() {
 
+  this.load = load;
   this.init = init;
   this.getAllCacheData = getAllCacheData;
   this.clearCacheData = clearCacheData;
@@ -35,6 +23,16 @@ function EhCacheManager() {
   ];
   let ehcacheTableTemplate;
   let ehcacheErrorTableTemplate;
+
+  function load() {
+    kameHouse.logger.info("Started initializing ehcache");
+    kameHouse.util.banner.setRandomPrinceOfTennisBanner();
+    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+      kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-ehcache');
+      kameHouse.plugin.webappTabsManager.loadStateFromCookies();
+      init();
+    });
+  }
 
   /**
    * Load the templates and get the cache data.
@@ -212,7 +210,6 @@ function EhCacheManager() {
   }
 }
 
-/**
- * Call main.
- */
-$(document).ready(mainEhcache);
+$(document).ready(() => {
+  kameHouse.addExtension("ehCacheManager", new EhCacheManager());
+});
