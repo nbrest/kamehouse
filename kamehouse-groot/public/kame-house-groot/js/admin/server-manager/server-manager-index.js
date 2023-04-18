@@ -367,7 +367,7 @@ function DeploymentManager() {
     resetAllModulesStatus();
     getTomcatModulesStatus();
     getTomcatProcessStatus();
-    moduleStatusManager.getAllModulesStatus();
+    kameHouse.extension.moduleStatusManager.getAllModulesStatus();
     getNonTomcatModulesStatus();
     serverManager.completeCommandCallback();
   }

@@ -1,22 +1,20 @@
-var moduleStatusManager;
-
-function loadModuleStatusManager() {
-  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-    moduleStatusManager = new ModuleStatusManager();
-    moduleStatusManager.init();
-    kameHouse.util.module.setModuleLoaded("moduleStatusManager");
-    kameHouse.logger.info("Initialized moduleStatusManager");
-  });
-}
-
 /**
  * Manager to get the status of the tomcat modules in the current server.
  */
 function ModuleStatusManager() {
 
+  this.load = load;
   this.init = init;
   this.getAllModulesStatus = getAllModulesStatus;
   
+  function load() {
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      init();
+      kameHouse.util.module.setModuleLoaded("moduleStatusManager");
+      kameHouse.logger.info("Initialized moduleStatusManager");
+    });
+  }
+
   /**
    * Get the data from the backend and import css.
    */
@@ -75,4 +73,6 @@ function ModuleStatusManager() {
   }
 }
 
-$(document).ready(loadModuleStatusManager);
+$(document).ready(() => {
+  kameHouse.addExtension("moduleStatusManager", new ModuleStatusManager());
+});
