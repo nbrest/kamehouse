@@ -1,18 +1,17 @@
-var bookingService;
-
-function mainBook() {
-  kameHouse.util.banner.setRandomPrinceOfTennisBanner();
-  bookingService = new BookingService();
-}
-
 function BookingService() {
 
+  this.load = load;
   this.book = book;
   this.clearBookingDetails = clearBookingDetails;
   this.clearPaymentDetails = clearPaymentDetails;
   this.togglePasswordField = togglePasswordField;
 
   const BOOK_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/bookings';
+
+  function load() {
+    kameHouse.logger.info("Loading BookingService");
+    kameHouse.util.banner.setRandomPrinceOfTennisBanner();
+  }
 
   /**
    * Execute a booking request.
@@ -136,4 +135,6 @@ function BookingService() {
   }
 }
 
-$(document).ready(mainBook);
+$(document).ready(() => {
+  kameHouse.addExtension("bookingService", new BookingService());
+});

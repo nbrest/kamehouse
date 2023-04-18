@@ -1,15 +1,14 @@
-var scheduledBookingService;
-
-function mainBook() {
-  kameHouse.util.banner.setRandomPrinceOfTennisBanner();
-  scheduledBookingService = new ScheduledBookingService();
-}
-
 function ScheduledBookingService() {
 
+  this.load = load;
   this.triggerScheduledBookings = triggerScheduledBookings;
 
   const SCHEDULED_BOOKINGS_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings';
+
+  function load() {
+    kameHouse.logger.info("Loading ScheduledBookingService");
+    kameHouse.util.banner.setRandomPrinceOfTennisBanner();
+  }
 
   /**
    * Trigger the scheduled bookings.
@@ -35,7 +34,7 @@ function ScheduledBookingService() {
    */
   function updateView(responseBody, responseCode) {
     let message = kameHouse.util.time.getTimestamp() + " : ";
-    console.log(responseCode);
+    kameHouse.logger.debug("Response code " + responseCode);
     if (responseCode == 200 || responseCode == 201) {
       if (!kameHouse.core.isEmpty(responseBody) && !kameHouse.core.isEmpty(responseBody.length) && responseBody.length > 0) {
         message = message + "Scheduled bookings executed successfully. Check the booking responses view to see the final status of each executed booking";
@@ -50,4 +49,4 @@ function ScheduledBookingService() {
   }
 }
 
-$(document).ready(mainBook);
+$(document).ready(() => {kameHouse.addExtension("scheduledBookingService", new ScheduledBookingService())});

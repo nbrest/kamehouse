@@ -39,7 +39,7 @@
 
         <label>Password</label>
         <input id="password" class="form-input-kh" type="password" name="password">
-        <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('password')">
+        <input type="checkbox" class="m-7-d-kh" onclick="kameHouse.extension.bookingService.togglePasswordField('password')">
         <br>
 
         <label>Site</label>
@@ -102,7 +102,7 @@
             </td>
             <td class="clear-booking-td">
               <img class="img-btn-kh"
-                onclick="bookingService.clearBookingDetails()"
+                onclick="kameHouse.extension.bookingService.clearBookingDetails()"
                 src="/kame-house/img/other/clear-yellow-dark.png" 
                 alt="Clear Booking Details" title="Clear Booking Details">
             </td>
@@ -146,11 +146,11 @@
               <label>CVV</label>
               <br>
               <input id="card-cvv" class="form-input-kh cc-cvv" type="password" maxlength="3" name="card-cvv">
-              <input type="checkbox" class="m-7-d-kh" onclick="bookingService.togglePasswordField('card-cvv')">
+              <input type="checkbox" class="m-7-d-kh" onclick="kameHouse.extension.bookingService.togglePasswordField('card-cvv')">
             </td>
             <td class="clear-payment-td">
               <img class="img-btn-kh"
-                onclick="bookingService.clearPaymentDetails()"
+                onclick="kameHouse.extension.bookingService.clearPaymentDetails()"
                 src="/kame-house/img/other/clear-yellow-dark.png" 
                 alt="Clear Payment Details" title="Clear Payment Details">
             </td>
@@ -178,7 +178,7 @@
             <tr>
               <td>
                 <span class="form-submit-btn-kh m-15-d-kh" 
-                  onclick="bookingService.book()">Book
+                  onclick="kameHouse.extension.bookingService.book()">Book
                 </span>
               </td>
             </tr>
