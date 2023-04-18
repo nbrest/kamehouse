@@ -22,12 +22,12 @@ function KameHouseMobile() {
 function KameHouseMobileCore() {
 
   this.init = init;
-  this.openBrowser = openBrowser;
-  this.overrideWindowOpen = overrideWindowOpen;
   this.disableWebappOnlyElements = disableWebappOnlyElements;
   this.getBackendServer = getBackendServer;
   this.getBackendCredentials = getBackendCredentials;
   this.mobileHttpRequst = mobileHttpRequst;
+  this.openBrowser = openBrowser;
+  this.overrideWindowOpen = overrideWindowOpen;
 
   const GET = "GET";
   const POST = "POST";
@@ -210,6 +210,18 @@ function KameHouseMobileCore() {
   }
   
   /**
+   * Get complete url from lookup.
+   */
+  function getServerUrl(urlLookup) {
+    const server = kameHouse.extension.mobile.configManager.getServers().find(server => server.name === urlLookup);
+    const serverEntity = {};
+    serverEntity.name = server.name;
+    serverEntity.url = server.url;
+    kameHouse.logger.trace("Server entity: " + JSON.stringify(serverEntity));
+    return serverEntity;
+  }
+
+  /**
    * Mock cordova when cordova is not available. For example when testing in a laptop's browser through apache httpd.
    */
   function setCordovaMock() {
@@ -223,6 +235,7 @@ function KameHouseMobileCore() {
 
   /**
    * Override the default window.open to open the inappbrowser.
+   * @deprecated
    */
   function overrideWindowOpen() {
     window.open = cordova.InAppBrowser.open;
@@ -230,6 +243,7 @@ function KameHouseMobileCore() {
 
   /**
    * Open inAppBrowser with
+   * @deprecated
    */
   function openBrowser(urlLookup) {
     const serverEntity = getServerUrl(urlLookup);
@@ -237,34 +251,8 @@ function KameHouseMobileCore() {
   }
 
   /**
-   * Get complete url from lookup.
-   */
-  function getServerUrl(urlLookup) {
-    const server = kameHouse.extension.mobile.configManager.getServers().find(server => server.name === urlLookup);
-    const serverEntity = {};
-    serverEntity.name = server.name;
-    serverEntity.url = server.url;
-    if (urlLookup == "docker-demo") {
-      serverEntity.url = serverEntity.url + "/kame-house/";
-    }
-    if (urlLookup == "tw-booking") {
-      serverEntity.url = serverEntity.url + "/kame-house/tennisworld/booking-response.html";
-    }
-    if (urlLookup == "vm-ubuntu") {
-      serverEntity.url = serverEntity.url + "/kame-house/";
-    }
-    if (urlLookup == "web-vlc") {
-      serverEntity.url = serverEntity.url + "/kame-house/vlc-player";
-    }
-    if (urlLookup == "wol") {
-      serverEntity.url = serverEntity.url + "/kame-house/admin/wake-on-lan.html";
-    }
-    kameHouse.logger.trace("Server entity: " + JSON.stringify(serverEntity));
-    return serverEntity;
-  }
-
-  /**
    * Open the InAppBrowser with the specified url.
+   * @deprecated
    */
   function openInAppBrowser(serverEntity) {
     kameHouse.logger.info("Start loading url " + serverEntity.url);
@@ -283,6 +271,7 @@ function KameHouseMobileCore() {
 
   /**
    * Get the open browser message for the modal.
+   * @deprecated
    */
   function getOpenBrowserMessage(serverEntity) {
     const openBrowserMessage = kameHouse.util.dom.getSpan({}, "Opening " + serverEntity.name);
@@ -294,6 +283,7 @@ function KameHouseMobileCore() {
 
   /**
    * Set listeners for the events handled by the InAppBrowser when the target isn't _system.
+   * @deprecated
    */
   function setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity) {
 
@@ -337,12 +327,10 @@ function KameHouseMobileConfigManager() {
   this.init = init;
   this.getServers = getServers;
   this.getCredentials = getCredentials;
-  this.getInAppBrowserConfig = getInAppBrowserConfig;
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
   this.updateMobileConfigFromView = updateMobileConfigFromView;
   this.setBackendFromDropdown = setBackendFromDropdown;
-  this.setWebVlcPlayerFromDropdown = setWebVlcPlayerFromDropdown;
-  this.refreshConfigTabView = refreshConfigTabView;
+  this.refreshSettingsView = refreshSettingsView;
   this.confirmResetDefaults = confirmResetDefaults;
   this.resetDefaults = resetDefaults;
 
@@ -351,14 +339,12 @@ function KameHouseMobileConfigManager() {
   const mobileConfigFileSize = 5*1024*1024; //50 mb
 
   let isCurrentlyPersistingConfig = false;
-  let inAppBrowserDefaultConfig = null;
   let serversDefaultConfig = null;
   let credentialsDefaultConfig = null;
 
   async function init() {
     kameHouse.logger.info("Initializing mobile config manager");
     initGlobalMobileConfig();
-    await loadInAppBrowserDefaultConfig();
     await loadServersDefaultConfig();
     await loadCredentialsDefaultConfig();
     readMobileConfigFile();
@@ -371,7 +357,6 @@ function KameHouseMobileConfigManager() {
 
   function initGlobalMobileConfig() {
     kameHouse.extension.mobile.config = {};
-    kameHouse.extension.mobile.config.inAppBrowser = {};
     kameHouse.extension.mobile.config.servers = {};
     kameHouse.extension.mobile.config.credentials = {};
   }
@@ -382,14 +367,6 @@ function KameHouseMobileConfigManager() {
 
   function setMobileConfig(val) {
     kameHouse.extension.mobile.config = val;
-  }
-
-  function getInAppBrowserConfig() {
-    return kameHouse.extension.mobile.config.inAppBrowser;
-  }
-
-  function setInAppBrowserConfig(val) {
-    kameHouse.extension.mobile.config.inAppBrowser = val;
   }
 
   function getServers() {
@@ -406,12 +383,6 @@ function KameHouseMobileConfigManager() {
 
   function setCredentials(val) {
     kameHouse.extension.mobile.config.credentials = val;
-  }
-
-  async function loadInAppBrowserDefaultConfig() {
-    inAppBrowserDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/in-app-browser.json'));
-    kameHouse.logger.info("inAppBrowserConfig default config: " + JSON.stringify(inAppBrowserDefaultConfig));
-    setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
   }
 
   async function loadServersDefaultConfig() {
@@ -431,7 +402,6 @@ function KameHouseMobileConfigManager() {
    */
   function isValidMobileConfigFile(mobileConfig) {
     return mobileConfig != null 
-      && mobileConfig.inAppBrowser != null 
       && mobileConfig.servers != null 
       && mobileConfig.credentials != null;
   }
@@ -569,103 +539,76 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Regenerating file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successDeleteFileCallback, errorDeleteFileCallback);
-  
-      function successDeleteFileCallback(fs) {
-        fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
-          fileEntry.remove(() => {
-            kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
-            createFile();
-          }, errorDeleteFileCallback);
-        }, errorDeleteFileCallback);
-      }
-    
-      function errorDeleteFileCallback(error) {
-        kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-        createFile();
-      }
-
-      function createFile() {
-        window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCreateFileCallback, errorCreateFileCallback);
-      }
-
-      function successCreateFileCallback(fs) {
-        fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
-          kameHouse.logger.info("File " + fileEntry.name + " created successfully");
-          writeFile();
-        }, errorCreateFileCallback);
-      }
-
-      function errorCreateFileCallback(error) {
-        kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-        writeFile();
-      }
-
-      function writeFile() {
-        window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successWriteFileCallback, errorWriteFileCallback);
-      }
-
-      function successWriteFileCallback(fs) {
-        fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
-          fileEntry.createWriter((fileWriter) => {
-            const fileContent = JSON.stringify(getMobileConfig());
-            kameHouse.logger.info("File content to write: " + fileContent);
-            const blob = new Blob([fileContent]);
-            fileWriter.write(blob);
-            isCurrentlyPersistingConfig = false;
-          }, errorCreateFileCallback);
-        }, errorCreateFileCallback);
-      }
-
-      function errorWriteFileCallback(error) {
-        kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-        isCurrentlyPersistingConfig = false;
-      }
-
     } catch (error) {
       kameHouse.logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       isCurrentlyPersistingConfig = false;
     }
   }
 
+  function successDeleteFileCallback(fs) {
+    fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
+      fileEntry.remove(() => {
+        kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
+        createFile();
+      }, errorDeleteFileCallback);
+    }, errorDeleteFileCallback);
+  }
+
+  function errorDeleteFileCallback(error) {
+    kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+    createFile();
+  }
+
+  function createFile() {
+    window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCreateFileCallback, errorCreateFileCallback);
+  }
+
+  function successCreateFileCallback(fs) {
+    fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
+      kameHouse.logger.info("File " + fileEntry.name + " created successfully");
+      writeFile();
+    }, errorCreateFileCallback);
+  }
+
+  function errorCreateFileCallback(error) {
+    kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+    writeFile();
+  }
+
+  function writeFile() {
+    window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successWriteFileCallback, errorWriteFileCallback);
+  }
+
+  function successWriteFileCallback(fs) {
+    fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
+      fileEntry.createWriter((fileWriter) => {
+        const fileContent = JSON.stringify(getMobileConfig());
+        kameHouse.logger.info("File content to write: " + fileContent);
+        const blob = new Blob([fileContent]);
+        fileWriter.write(blob);
+        isCurrentlyPersistingConfig = false;
+      }, errorCreateFileCallback);
+    }, errorCreateFileCallback);
+  }
+
+  function errorWriteFileCallback(error) {
+    kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+    isCurrentlyPersistingConfig = false;
+  }
+
   /**
-   * Update the mobile config from the view in the config tab.
+   * Update the mobile config file from the view in the config tab.
    */
   function updateMobileConfigFromView() {
-    kameHouse.logger.info("Updating mobile config from view");
-    const inAppBrowserConfig = getInAppBrowserConfig();
+    kameHouse.logger.info("Updating mobile config file from view");
 
     // Set servers
     updateServer("backend");
-    updateServer("jenkins");
-    updateServer("tw-booking");
-    updateServer("web-vlc");
-    updateServer("wol");
-
-    // Set InAppBrowser open on startup
-    const inAppBrowserOpenOnStartupCheckbox = document.getElementById("iab-open-on-startup-checkbox");
-    inAppBrowserConfig.openOnStartup = inAppBrowserOpenOnStartupCheckbox.checked;
-
-    // Set InAppBrowser target
-    const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
-    if (!kameHouse.core.isEmpty(inAppBrowserTargetDropdown.value)) {
-      inAppBrowserConfig.target = inAppBrowserTargetDropdown.value;
-    }
-
-    // Set InAppBrowser options clearcache
-    const inAppBrowserClearCacheCheckbox = document.getElementById("iab-clearcache-checkbox");
-    if (inAppBrowserClearCacheCheckbox.checked) {
-      inAppBrowserConfig.options = inAppBrowserConfig.options.replace("clearcache=no", "clearcache=yes");
-    } else {
-      inAppBrowserConfig.options = inAppBrowserConfig.options.replace("clearcache=yes", "clearcache=no");
-    }
 
     // Update credentials
     updateBackendCredentials();
 
     kameHouse.logger.info("servers: " + JSON.stringify(getServers()));
-    kameHouse.logger.info("inAppBrowser.options: " + inAppBrowserConfig.options);
-    kameHouse.logger.info("inAppBrowser.target: " + inAppBrowserConfig.target);
-    kameHouse.logger.info("inAppBrowser.openOnStartup: " + inAppBrowserConfig.openOnStartup);
     kameHouse.logger.info("credentials: " + JSON.stringify(getCredentials()));
     reGenerateMobileConfigFile();
   }
@@ -676,13 +619,9 @@ function KameHouseMobileConfigManager() {
   function updateBackendCredentials() {
     const credentials = getCredentials();
     const username = document.getElementById("backend-username-input").value;
-    if (!kameHouse.core.isEmpty(username)) {
-      credentials.username = username;
-    }
+    credentials.username = username;
     const password = document.getElementById("backend-password-input").value; 
-    if (!kameHouse.core.isEmpty(password)) {
-      credentials.password = password;
-    }
+    credentials.password = password;
   }
 
   /**
@@ -693,19 +632,6 @@ function KameHouseMobileConfigManager() {
     const server = servers.find(server => server.name === serverName);
     const serverInput = document.getElementById(serverName + "-server-input"); 
     server.url = serverInput.value;
-  }
-
-  /**
-   * Set the web vlc player in the config from the dropdown menu in the config page.
-   */
-  function setWebVlcPlayerFromDropdown() {
-    kameHouse.logger.info("Setting web vlc player from dropdown");
-    const webVlcServerInput = document.getElementById("web-vlc-server-input"); 
-    const webVlcServerDropdown = document.getElementById("web-vlc-server-dropdown");
-    if (!kameHouse.core.isEmpty(webVlcServerDropdown.value)) {
-      kameHouse.util.dom.setValue(webVlcServerInput, webVlcServerDropdown.value);
-      updateMobileConfigFromView();
-    }
   }
 
   /** Set the backend server in the config from the dropdown menu in the config page */
@@ -720,18 +646,13 @@ function KameHouseMobileConfigManager() {
   }
 
   /**
-   * Refresh config tab view values.
+   * Refresh settings tab view values.
    */
-  function refreshConfigTabView() {
-    kameHouse.logger.info("Refreshing config tab view values");
-    const inAppBrowserConfig = getInAppBrowserConfig();
+  function refreshSettingsView() {
+    kameHouse.logger.info("Refreshing settings tab view values");
 
     // servers
     setServerInput("backend");
-    setServerInput("jenkins");
-    setServerInput("tw-booking");
-    setServerInput("web-vlc");
-    setServerInput("wol");
 
     // Backend dropdown
     const backendServerInputValue = document.getElementById("backend-server-input").value;
@@ -745,49 +666,6 @@ function KameHouseMobileConfigManager() {
       }
     }
 
-    // Web VLC Player dropdown
-    const webVlcPlayerInputValue = document.getElementById("web-vlc-server-input").value;
-    const webVlcPlayerDropdown = document.getElementById("web-vlc-server-dropdown");
-    if (webVlcPlayerInputValue != "") {
-      webVlcPlayerDropdown.options[webVlcPlayerDropdown.options.length-1].selected = true;
-    }
-    for (let i = 0; i < webVlcPlayerDropdown.options.length; ++i) {
-      if (webVlcPlayerDropdown.options[i].value === webVlcPlayerInputValue) {
-        webVlcPlayerDropdown.options[i].selected = true;
-      }
-    }
-
-    // InAppBrowser open on startup
-    const openOnStartup = inAppBrowserConfig.openOnStartup;
-    const inAppBrowserOpenOnStartupCheckbox = document.getElementById("iab-open-on-startup-checkbox");
-    if (openOnStartup) {
-      inAppBrowserOpenOnStartupCheckbox.checked = true;
-    } else {
-      inAppBrowserOpenOnStartupCheckbox.checked = false;
-    }
-
-    // InAppBrowser target
-    
-    const inAppBrowserTarget = inAppBrowserConfig.target;
-    const inAppBrowserTargetDropdown = document.getElementById("iab-target-dropdown");
-    for (let i = 0; i < inAppBrowserTargetDropdown.options.length; ++i) {
-      if (inAppBrowserTargetDropdown.options[i].value === inAppBrowserTarget) {
-        inAppBrowserTargetDropdown.options[i].selected = true;
-      }
-    }
-
-    // InAppBrowser options
-    const inAppBrowserOptionsArray = inAppBrowserConfig.options.split(",");
-    const inAppBrowserClearCacheCheckbox = document.getElementById("iab-clearcache-checkbox");
-    inAppBrowserOptionsArray.forEach((inAppBrowserOption) => {
-      if (inAppBrowserOption == "clearcache=no") {
-        inAppBrowserClearCacheCheckbox.checked = false;
-      }
-      if (inAppBrowserOption == "clearcache=yes") {
-        inAppBrowserClearCacheCheckbox.checked = true;
-      }
-    });
-
     setBackendCredentialsInput();
   }
 
@@ -797,13 +675,9 @@ function KameHouseMobileConfigManager() {
   function setBackendCredentialsInput() {
     const credentials = getCredentials();
     const usernameInput = document.getElementById("backend-username-input");
-    if (!kameHouse.core.isEmpty(credentials.username)) {
-      kameHouse.util.dom.setValue(usernameInput, credentials.username);
-    }
+    kameHouse.util.dom.setValue(usernameInput, credentials.username);
     const passwordInput = document.getElementById("backend-password-input"); 
-    if (!kameHouse.core.isEmpty(credentials.password)) {
-      kameHouse.util.dom.setValue(passwordInput, credentials.password);
-    }
+    kameHouse.util.dom.setValue(passwordInput, credentials.password);
   }
 
   /**
@@ -854,16 +728,16 @@ function KameHouseMobileConfigManager() {
   function resetDefaults() {
     kameHouse.logger.info("Resetting config to default values");
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
-    setInAppBrowserConfig(JSON.parse(JSON.stringify(inAppBrowserDefaultConfig)));
     setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
-    refreshConfigTabView();
     reGenerateMobileConfigFile();
+    refreshSettingsView();
     kameHouse.plugin.modal.basicModal.close();
     kameHouse.plugin.modal.basicModal.openAutoCloseable("Config reset to default values", 2000);
   }
 
   /**
    * Test file operations.
+   * @deprecated
    */
   function testFileManagement() {
     setTimeout(() => { createMobileConfigFile(); }, 1000);
@@ -913,6 +787,7 @@ function KameHouseMobileConfigManager() {
 
   /**
    * Mock of an InAppBrowser.
+   * @deprecated
    */
   function CordovaInAppBrowserMock() {
 
@@ -934,6 +809,7 @@ function KameHouseMobileConfigManager() {
 
   /**
    * Mock of a InAppBrowserInstance.
+   * @deprecated
    */
   function CordovaInAppBrowserInstanceMock() {
 

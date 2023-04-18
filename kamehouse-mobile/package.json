@@ -17,8 +17,7 @@
     "cordova-browser": "^6.0.0",
     "cordova-ios": "^6.2.0",
     "cordova-plugin-advanced-http": "^3.3.1",
-    "cordova-plugin-file": "^7.0.0",
-    "cordova-plugin-inappbrowser": "^5.0.0"
+    "cordova-plugin-file": "^7.0.0"
   },
   "cordova": {
     "platforms": [
@@ -27,7 +26,6 @@
       "ios"
     ],
     "plugins": {
-      "cordova-plugin-inappbrowser": {},
       "cordova-plugin-advanced-http": {
         "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1"
       },

@@ -391,11 +391,9 @@ refreshCordovaPlugins() {
   if ${REFRESH_CORDOVA_PLUGINS}; then
     log.info "Refreshing cordova plugins"
     cordova plugin remove cordova-plugin-advanced-http
-    cordova plugin remove cordova-plugin-inappbrowser
     cordova plugin remove cordova-plugin-file
 
     cordova plugin add cordova-plugin-inappbrowser
-    cordova plugin add cordova-plugin-advanced-http
     cordova plugin add cordova-plugin-file
   else
     log.info "Not refreshing cordova plugins"

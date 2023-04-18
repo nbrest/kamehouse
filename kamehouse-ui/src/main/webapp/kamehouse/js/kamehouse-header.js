@@ -157,7 +157,7 @@ function KameHouseHeader() {
       alt: "Login KameHouse",
       onClick: () => {
         return kameHouse.util.mobile.executeOnMobile(
-          () => {window.location="/kame-house-mobile/index.html";},
+          () => {window.location="/kame-house-mobile/settings.html";},
           () => {window.location="/kame-house/login.html";}
         );
       }

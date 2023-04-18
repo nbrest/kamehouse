@@ -16,11 +16,9 @@ function KameHouseMobileTabsManager() {
     kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-tabs.html", () => {
       kameHouse.util.module.setModuleLoaded("mobileTabsManager");
     });
-    kameHouse.util.dom.load($("#tab-home"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-home.html");
-    kameHouse.util.dom.load($("#tab-services"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-services.html");
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-      kameHouse.util.dom.load($("#tab-config"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-config.html", () => {
-        kameHouse.extension.mobile.configManager.refreshConfigTabView();
+      kameHouse.util.dom.load($("#tab-backend"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-backend.html", () => {
+        kameHouse.extension.mobile.configManager.refreshSettingsView();
       });
     });
   }
@@ -52,41 +50,6 @@ function KameHouseMobileTabsManager() {
     }
     const selectedTabDiv = document.getElementById(selectedTabDivId);
     kameHouse.util.dom.setDisplay(selectedTabDiv, "block");
-
-    setBannerHeader(selectedTabDivId);
-  }
-
-  /**
-   * Update the banner text based on the tab open.
-   */
-  function setBannerHeader(selectedTabDivId) {
-    let bannerHeaderVal = null;
-    let bannerParagraphVal = null;
-
-    if (selectedTabDivId == "tab-home") {
-      bannerHeaderVal = "カメハウス";
-      bannerParagraphVal = "KameHouse Mobile"
-    }
-
-    if (selectedTabDivId == "tab-services") {
-      bannerHeaderVal = "Services";
-      bannerParagraphVal = "かめはうす"
-    }
-
-    if (selectedTabDivId == "tab-config") {
-      bannerHeaderVal = "かめはうす";
-      bannerParagraphVal = "Config"
-    }
-
-    const bannerHeader = document.getElementById("banner-header");
-    if (bannerHeader) {
-      kameHouse.util.dom.setInnerHtml(bannerHeader, bannerHeaderVal);
-    }
-
-    const bannerParagraph = document.getElementById("banner-p");
-    if (bannerParagraph) {
-      kameHouse.util.dom.setInnerHtml(bannerParagraph, bannerParagraphVal);
-    }
   }
 }
 
