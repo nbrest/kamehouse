@@ -5,28 +5,26 @@
  * 
  * @author nbrest
  */
-var scheduler;
-
-function mainScheduler() {
-  kameHouse.util.banner.setRandomAllBanner();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-    kameHouse.logger.info("Started initializing scheduler");
-    scheduler = new Scheduler();
-    scheduler.getSampleJobStatus(false);
-  });
-}
-
 /**
  * Manager to handle the scheduling of the sample job.
  */
-function Scheduler() {
+function TestScheduler() {
 
+  this.load = load;
   this.setSampleJob = setSampleJob;
   this.cancelSampleJob = cancelSampleJob;
   this.getSampleJobStatus = getSampleJobStatus;
 
   const TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
   const SAMPLE_JOB_URL = '/test-scheduler/sample-job';
+
+  function load() {
+    kameHouse.logger.info("Loading TestScheduler");
+    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      getSampleJobStatus(false);
+    });
+  }
 
   /**
    * --------------------------------------------------------------------------
@@ -84,7 +82,6 @@ function Scheduler() {
   }
 }
 
-/**
- * Call main.
- */
-$(document).ready(mainScheduler);
+$(document).ready(() => {
+  kameHouse.addExtension("testScheduler", new TestScheduler());
+});
