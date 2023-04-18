@@ -2,7 +2,7 @@ var kameHouseShellManager;
 
 function mainKameHouseShell() {
   kameHouse.util.banner.setRandomDragonBallBanner();
-  kameHouse.util.module.waitForModules(["grootHeader"], () => {
+  kameHouse.util.module.waitForModules(["kameHouseGroot"], () => {
     kameHouseShellManager = new KameHouseShellManager();
     kameHouseShellManager.handleSessionStatus();
     kameHouseShellManager.getKameHouseShell(kameHouseShellManager.populateKameHouseShellTable, () => { kameHouse.logger.error("Error getting scripts csv"); });

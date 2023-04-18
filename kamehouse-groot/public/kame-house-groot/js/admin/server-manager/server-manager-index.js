@@ -26,7 +26,7 @@ function ServerManager() {
   function load() {
     kameHouse.logger.info("Loading ServerManager");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["tailLogManager", "scriptExecutor", "grootHeader"], () => {
+    kameHouse.util.module.waitForModules(["tailLogManager", "scriptExecutor", "kameHouseGroot"], () => {
       handleSessionStatus();
       loadStateFromCookies();
       kameHouse.util.module.setModuleLoaded("serverManager");
@@ -246,7 +246,7 @@ function DeploymentManager() {
 
   function load() {
     kameHouse.logger.info("Loading DeploymentManager");
-    kameHouse.util.module.waitForModules(["scriptExecutor", "grootHeader"], () => {
+    kameHouse.util.module.waitForModules(["scriptExecutor", "kameHouseGroot"], () => {
       getTomcatModulesStatus();
       getNonTomcatModulesStatus();
       kameHouse.util.module.setModuleLoaded("deploymentManager");

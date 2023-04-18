@@ -49,7 +49,7 @@ function GrootHeader() {
       (responseBody, responseCode, responseDescription) => {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
-        kameHouse.util.module.setModuleLoaded("grootHeader");
+        kameHouse.util.module.setModuleLoaded("kameHouseGroot");
       },
       (responseBody, responseCode, responseDescription) =>  kameHouse.logger.error("Error retrieving current groot session information."));
   }

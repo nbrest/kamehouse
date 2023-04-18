@@ -1,11 +1,15 @@
-function main() {
-  kameHouse.util.banner.setRandomAllBanner();
-  kameHouse.util.module.waitForModules(["scriptExecutor", "grootHeader"], () => {
-    scriptExecutor.setScriptNameAndArgsFromUrlParams();
-    scriptExecutor.handleSessionStatus();
-  });
+function ExecScriptLoader() {
+  this.load = load;
+
+  function load() {
+    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.module.waitForModules(["scriptExecutor", "kameHouseGroot"], () => {
+      scriptExecutor.setScriptNameAndArgsFromUrlParams();
+      scriptExecutor.handleSessionStatus();
+    });
+  }
 }
 
-window.onload = () => {
-  main();
-}
+$(document).ready(() => {
+  kameHouse.addExtension("execScriptLoader", new ExecScriptLoader());
+});
