@@ -195,7 +195,7 @@ function CrudManager() {
       (responseBody, responseCode, responseDescription) => {
         kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error getting entity");
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
-      }, null);
+      });
   }
 
   /**
@@ -212,7 +212,7 @@ function CrudManager() {
         kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error getting all entities");
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
         displayErrorGettingEntities();
-      }, null);
+      });
   }
 
   /**
@@ -259,7 +259,7 @@ function CrudManager() {
         kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error updating entity");
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
-      }, null);
+      });
   }
 
   /**
@@ -284,7 +284,7 @@ function CrudManager() {
         kameHouse.plugin.modal.basicModal.close();
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
         readAll();
-      }, null);
+      });
   }
 
   /**
@@ -936,7 +936,7 @@ function CrudManager() {
 
     entity[name] = val;
 
-    if (kameHouse.core.isEmpty(val) || val == "") {
+    if (kameHouse.core.isEmpty(val)) {
       entity[name] = null;
     }
 
@@ -954,7 +954,7 @@ function CrudManager() {
     const arrayType = column.arrayType;
     const arrayVal = [];
     for (const arrayElement of array) {
-      if (!kameHouse.core.isEmpty(arrayElement.value) && arrayElement.value != "") {
+      if (!kameHouse.core.isEmpty(arrayElement.value)) {
         if (isObjectField(arrayType)) {
           arrayVal.push(JSON.parse(arrayElement.value));
         } else {

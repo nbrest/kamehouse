@@ -65,32 +65,42 @@ function BackendLogLevelUtils() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null,
+    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
   }
 
   /** Reset all log levels */
   function resetLogLevels(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null, null,
+    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
   }
 
   /** Set Kamehouse log level */
   function setKamehouseLogLevel(webapp) {
     const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + logLevel, null, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + logLevel, null, null, 
+    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
   }
 
   /** Set Kamehouse log levels to DEBUG */
   function setKamehouseLogLevelToDebug(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/debug", null, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/debug", null, null, 
+    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
   }
 
   /** Set Kamehouse log levels to TRACE */
   function setKamehouseLogLevelToTrace(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/trace", null, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/trace", null, null, 
+    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
   }
 
   /** Update the log levels table content */
@@ -183,7 +193,9 @@ function BackendLogLevelUtils() {
     const url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet;
     const params = {};
     params[urlParamName] = propertyValue;
-    kameHouse.plugin.debugger.http.put(url,kameHouse.http.getUrlEncodedHeaders(), params, processSuccessRequestLoggerConfig, processErrorRequestLoggerConfig, webapp);
+    kameHouse.plugin.debugger.http.put(url,kameHouse.http.getUrlEncodedHeaders(), params, 
+    (responseBody, responseCode, responseDescription) => { processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription); });
   }
 
   /** Process success response for request logger config */
@@ -193,7 +205,7 @@ function BackendLogLevelUtils() {
   }
 
   /** Process error response for request logger config */
-  function processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp) {
+  function processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
   }

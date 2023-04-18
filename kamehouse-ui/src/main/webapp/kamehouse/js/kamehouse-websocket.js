@@ -28,13 +28,16 @@ function KameHouseWebSocket() {
   let pollUrl = null;
   
   function setStatusUrl(statusUrlParam) {
-    if (kameHouse.util.mobile.isMobileApp()) {
-      kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-        statusUrl = kameHouse.extension.mobile.core.getBackendServer() + statusUrlParam;
-      });
-    } else {
-      statusUrl = statusUrlParam; 
-    }
+    kameHouse.util.mobile.executeOnMobile(
+      () => {
+        kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+          statusUrl = kameHouse.extension.mobile.core.getBackendServer() + statusUrlParam;
+        });
+      },
+      () => {
+        statusUrl = statusUrlParam; 
+      }
+    );
   }
 
   function setTopicUrl(topicUrlParam) { topicUrl = topicUrlParam; }

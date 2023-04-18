@@ -24,7 +24,7 @@ function DragonBallUserServiceJsp() {
       (responseBody, responseCode, responseDescription) => {
         let errorMessage = 'Error getting dragonball user';
         handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
-      }, null);
+      });
   }
 
   /**
@@ -37,8 +37,7 @@ function DragonBallUserServiceJsp() {
         const errorMessage = 'Error getting dragonball users from the backend';
         displayErrorTable(errorMessage);
         handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
-      },
-      null);
+      });
   }
 
   /**
@@ -77,7 +76,7 @@ function DragonBallUserServiceJsp() {
       (responseBody, responseCode, responseDescription) => {
         const errorMessage = 'Error updating dragonball user';
         handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
-      }, null);
+      });
   }
 
   /**
@@ -93,8 +92,7 @@ function DragonBallUserServiceJsp() {
         const errorMessage = 'Error deleting dragonball user';
         displayErrorTable(errorMessage);
         handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
-      }, 
-      null);
+      });
   }
   
   /** Display api error */

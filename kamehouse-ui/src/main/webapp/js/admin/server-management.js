@@ -239,7 +239,7 @@ function ServerManager() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.post(ADMIN_API_URL + HTTPD_URL, null, null, processSuccessHttpdRestart, processErrorHttpdRestart, null);
+    kameHouse.plugin.debugger.http.post(ADMIN_API_URL + HTTPD_URL, null, null, processSuccessHttpdRestart, processErrorHttpdRestart);
   }
 
   /**
@@ -324,7 +324,11 @@ function ServerManager() {
    */
   function post(url, requestBody) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.post(ADMIN_API_URL + url, kameHouse.http.getApplicationJsonHeaders(), requestBody, processSuccess, processError);
+    let headers = null;
+    if (!kameHouse.core.isEmpty(requestBody)) {
+      headers = kameHouse.http.getApplicationJsonHeaders();
+    }
+    kameHouse.plugin.debugger.http.post(ADMIN_API_URL + url, headers, requestBody, processSuccess, processError);
   }
 
   /** Generic process success response */

@@ -61,7 +61,9 @@ function Scheduler() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null, 
+    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
   }
 
   /** Cancel job execution */
@@ -71,7 +73,9 @@ function Scheduler() {
       "name" : jobKey.name,
       "group" : jobKey.group
     };
-    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), kameHouse.http.getUrlEncodedHeaders(), params, processSuccess, processError, webapp);
+    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), kameHouse.http.getUrlEncodedHeaders(), params, 
+    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
+    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
   }
 
   /** Update the jobs table content */

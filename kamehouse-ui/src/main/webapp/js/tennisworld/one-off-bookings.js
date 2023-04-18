@@ -58,7 +58,7 @@ function BookingService() {
       bookingRequest['dryRun'] = dryRun;
     }
     const cardHolder = document.getElementById('card-holder-name').value;
-    if (!kameHouse.core.isEmpty(cardHolder) && cardHolder != "") {
+    if (!kameHouse.core.isEmpty(cardHolder)) {
       const cardDetails = {};
       cardDetails['name'] = cardHolder;
       const cardNumber = document.getElementById('card-number-1').value + "" + document.getElementById('card-number-2').value + "" + document.getElementById('card-number-3').value + "" + document.getElementById('card-number-4').value;

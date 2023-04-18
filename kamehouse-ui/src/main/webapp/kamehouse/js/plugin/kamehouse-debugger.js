@@ -86,9 +86,9 @@ function KameHouseDebugger() {
   /**
    * Displays the list of the N previous requests.
    */
-  function displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode) {
+  function displayPreviousRequestsTable(requestData, responseBody, responseCode) {
     const request = {};
-    request.requestData = dataWithRequestInfo.requestData;
+    request.requestData = requestData;
     request.responseData = {};
     request.responseData.responseCode = responseCode;
     request.responseData.responseBody = responseBody;
@@ -163,12 +163,12 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    * data is any extra data I want to pass to the success and error functions
    */
-  function get(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, GET, requestBody);
+  function get(url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(url, GET, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, GET, requestHeaders, requestBody);
     kameHouse.http.get(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
       );
   }
 
@@ -176,12 +176,12 @@ function DebuggerHttpClient() {
    * Execute a PUT request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function put(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, PUT, requestBody);
+  function put(url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(url, PUT, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, PUT, requestHeaders, requestBody);
     kameHouse.http.put(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
     );
   }
 
@@ -189,12 +189,12 @@ function DebuggerHttpClient() {
    * Execute a POST request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function post(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, POST, requestBody);
+  function post(url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(url, POST, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, POST, requestHeaders, requestBody);
     kameHouse.http.post(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
       );
   }
 
@@ -202,42 +202,38 @@ function DebuggerHttpClient() {
    * Execute a DELETE request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback, data) {
-    const dataWithRequestInfo = createDataWithRequestInfo(data, url, DELETE, requestBody);
+  function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(url, DELETE, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, DELETE, requestHeaders, requestBody);
     kameHouse.http.delete(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, dataWithRequestInfo),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, dataWithRequestInfo)
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
+      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
       );
   }
 
   /**
    * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
    */
-  function createDataWithRequestInfo(data, url, method, requestBody) {
-    const dataWithRequestInfo = {};
-    dataWithRequestInfo.data = data;
-    dataWithRequestInfo.requestData = {};
-    dataWithRequestInfo.requestData.url = url;
-    dataWithRequestInfo.requestData.method = method;
-    dataWithRequestInfo.requestData.requestBody = requestBody;
-    dataWithRequestInfo.requestData.timestamp = kameHouse.util.time.getTimestamp();
-    return dataWithRequestInfo;
+  function createRequestDataForLog(url, method, requestHeaders, requestBody) {
+    const requestData = {};
+    requestData.url = url;
+    requestData.method = method;
+    requestData.headers = requestHeaders;
+    requestData.requestBody = requestBody;
+    requestData.timestamp = kameHouse.util.time.getTimestamp();
+    return requestData;
   }
 
   /** Process the response of the api call */
-  function processResponse(responseBody, responseCode, responseDescription, responseCallback, dataWithRequestInfo) {
+  function processResponse(responseBody, responseCode, responseDescription, responseCallback, requestData) {
     kameHouse.plugin.debugger.displayResponseData(responseBody, responseCode);
-    kameHouse.plugin.debugger.displayPreviousRequestsTable(dataWithRequestInfo, responseBody, responseCode);
+    kameHouse.plugin.debugger.displayPreviousRequestsTable(requestData, responseBody, responseCode);
     if (kameHouse.core.isFunction(responseCallback)) {
-      responseCallback(responseBody, responseCode, responseDescription, dataWithRequestInfo.data);
+      responseCallback(responseBody, responseCode, responseDescription);
     }
   }
 }
 
-/**
- * Call main.
- */
 $(document).ready(() => {
   kameHouse.addPlugin("debugger", new KameHouseDebugger());
 });
