@@ -11,7 +11,6 @@
 function EhCacheManager() {
 
   this.load = load;
-  this.init = init;
   this.getAllCacheData = getAllCacheData;
   this.clearCacheData = clearCacheData;
   this.clearAllCaches = clearAllCaches;

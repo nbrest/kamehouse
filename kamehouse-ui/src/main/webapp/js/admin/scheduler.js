@@ -1,29 +1,26 @@
 /** 
  * Functionality to list and manipulate scheduled jobs in the backend.
  */
-var scheduler;
-
-window.onload = () => {
-  scheduler = new Scheduler();
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
-    kameHouse.logger.info("Started initializing scheduler");
-    kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-scheduler');
-    kameHouse.plugin.webappTabsManager.loadStateFromCookies();
-    scheduler.init();
-  });
-  kameHouse.util.banner.setRandomAllBanner();
-};
-
 /**
  * Manager to get the scheduled jobs in the current server and cancel their scheduling.
  */
 function Scheduler() {
 
-  this.init = init;
+  this.load = load;
   this.getAllJobs = getAllJobs;
 
   let jobs = [[]];
   let schedulerTableTemplate;
+
+  function load() {
+    kameHouse.logger.info("Started initializing scheduler");
+    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+      kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-scheduler');
+      kameHouse.plugin.webappTabsManager.loadStateFromCookies();
+      init();
+    });
+  }
 
   /**
    * Loads initial data.
@@ -160,3 +157,7 @@ function Scheduler() {
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
   }
 }
+
+$(document).ready(() => {
+  kameHouse.addExtension("scheduler", new Scheduler());
+});

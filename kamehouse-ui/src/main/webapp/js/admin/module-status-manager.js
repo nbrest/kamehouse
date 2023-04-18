@@ -4,7 +4,6 @@
 function ModuleStatusManager() {
 
   this.load = load;
-  this.init = init;
   this.getAllModulesStatus = getAllModulesStatus;
   
   function load() {

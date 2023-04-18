@@ -3,8 +3,6 @@
  * 
  * @author nbrest
  */
-function mainModuleStatus() {
+$(document).ready(() => {
   kameHouse.util.banner.setRandomPrinceOfTennisBanner();
-}
-
-$(document).ready(mainModuleStatus);
+});

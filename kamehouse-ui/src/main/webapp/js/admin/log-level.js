@@ -7,7 +7,6 @@
 function BackendLogLevelUtils() {
 
   this.load = load;
-  this.init = init;
   this.getLogLevels = getLogLevels;
   this.resetLogLevels = resetLogLevels;
   this.setKamehouseLogLevel = setKamehouseLogLevel;
