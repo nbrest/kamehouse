@@ -1,0 +1,57 @@
+/* KameHouse Slideshow */
+.kamehouse-slideshow-slide {
+  display: none;
+  border: 10px solid #000000;
+  border-radius: 30px;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 300px;
+  height: 500px;
+}
+
+.kamehouse-slideshow-table {
+  width: 100%;
+}
+
+.kamehouse-slideshow-table-prev-td {
+  text-align: right;
+}
+
+.kamehouse-slideshow-table-slides-td {
+  width: 300px;
+}
+
+.kamehouse-slideshow-table-next-td {
+  text-align: left;
+}
+
+.kamehouse-slideshow-prev, .kamehouse-slideshow-next {
+  margin-top: 240px;
+  cursor: pointer;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+}
+
+.kamehouse-slideshow-prev:hover, .kamehouse-slideshow-next:hover {
+  background-color: #383838cc;
+}
+
+.kamehouse-slideshow-dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  background-color: #bbbbbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.kamehouse-slideshow-dot-active, .kamehouse-slideshow-dot:hover {
+  background-color: #717171;
+}
