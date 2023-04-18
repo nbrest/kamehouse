@@ -91,5 +91,5 @@ function KameHouseMobileTabsManager() {
 }
 
 $(document).ready(() => {
-  kameHouse.addExtension("mobileTabsManager", new KameHouseMobileTabsManager());
+  kameHouse.addPlugin("mobileTabsManager", new KameHouseMobileTabsManager());
 });

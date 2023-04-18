@@ -12,7 +12,7 @@ function KameHouseMobileLoader() {
     kameHouse.logger.info("Started initializing kamehouse-mobile app index page");
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["kameHouseMobile", "kameHouseDebugger", "mobileTabsManager"], () => {
-      kameHouse.extension.mobileTabsManager.openTab('tab-config');
+      kameHouse.plugin.mobileTabsManager.openTab('tab-config');
       setDeviceStartup();
     });
     kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
