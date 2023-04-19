@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.09
+
+- Extended debug mode console log entries
+
 #### v8.08
 
 - Updated mobile app settings page
