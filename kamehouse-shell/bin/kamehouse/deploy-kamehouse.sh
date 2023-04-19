@@ -29,6 +29,7 @@ KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 EXTENDED_DEPLOYMENT=false
 DEPLOY_ALL_EXTRA_MODULES=false
 USE_CURRENT_DIR=false
+REFRESH_CORDOVA_PLUGINS=true
 
 # Global variables set during the process
 DEPLOYMENT_DIR=""
@@ -317,7 +318,7 @@ parseArguments() {
       USE_CURRENT_DIR=true
       ;;
     ("r")
-      REFRESH_CORDOVA_PLUGINS=true
+      REFRESH_CORDOVA_PLUGINS=false
       ;;
     ("x")
       EXTENDED_DEPLOYMENT=true
@@ -341,7 +342,7 @@ printHelpOptions() {
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
   printKameHouseServerOption
-  addHelpOption "-r" "refresh cordova plugins. disabled by default"
+  addHelpOption "-r" "skip refresh pf cordova plugins. refreshed by default on deploy mobile"
   addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
 }
 
