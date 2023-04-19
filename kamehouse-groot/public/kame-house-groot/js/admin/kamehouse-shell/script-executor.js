@@ -48,8 +48,8 @@ function ScriptExecutor() {
         kameHouse.logger.trace("Skipping view update");
       }
       kameHouse.http.get(EXEC_SCRIPT_API, kameHouse.http.getUrlEncodedHeaders(), params,
-        (responseBody, responseCode, responseDescription) => updateScriptOutput(responseBody, responseCode, responseDescription, callback, skipUpdateView),
-        (responseBody, responseCode, responseDescription) => updateScriptOutputError(responseBody, responseCode, responseDescription, callback, skipUpdateView));
+        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback, skipUpdateView),
+        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback, skipUpdateView));
     } else {
       kameHouse.logger.error("No script specified to execute");
     }
@@ -74,7 +74,7 @@ function ScriptExecutor() {
   }
 
   /** Update the script script output with the result of the script */
-  function updateScriptOutput(responseBody, responseCode, responseDescription, callback, skipUpdateView) {
+  function updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback, skipUpdateView) {
     if (!skipUpdateView) {
       updateScriptExecutionEndDate();
       const scriptOutputArray = responseBody.htmlConsoleOutput;
@@ -132,7 +132,7 @@ function ScriptExecutor() {
   }
 
   /** Displays the error message in the script output */
-  function updateScriptOutputError(responseBody, responseCode, responseDescription, callback, skipUpdateView) {
+  function updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback, skipUpdateView) {
     if (!skipUpdateView) {
       updateScriptExecutionEndDate();
       const $scriptOutputTableBody = $('#script-output-table-body');

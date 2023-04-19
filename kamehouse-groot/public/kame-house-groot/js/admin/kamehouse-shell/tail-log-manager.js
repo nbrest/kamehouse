@@ -26,8 +26,8 @@ function TailLogManager() {
         executeOnDockerHost: executeOnDockerHost
       };
       kameHouse.http.get(EXEC_SCRIPT_API, kameHouse.http.getUrlEncodedHeaders(), params,
-        (responseBody, responseCode, responseDescription) => updateTailLogOutput(responseBody, responseCode, responseDescription, numberOfLines, callback),
-        (responseBody, responseCode, responseDescription) => updateTailLogOutputError(responseBody, responseCode, responseDescription, callback));
+        (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
+        (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
     } else {
       kameHouse.logger.error("Invalid or no script received as url parameter");
       displayInvalidScript();
@@ -47,7 +47,7 @@ function TailLogManager() {
   }
 
   /** Update the script tail log output with the result of the script */
-  function updateTailLogOutput(responseBody, responseCode, responseDescription, numberOfLines, callback) {
+  function updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback) {
     const tailLogOutputArray = responseBody.htmlConsoleOutput;
     const $tailLogOutputTableBody = $('#tail-log-output-table-body');  
     const tbody = getTailLogOutputTbody();
@@ -75,7 +75,7 @@ function TailLogManager() {
   }
 
   /** Displays the error message in the tail log output */
-  function updateTailLogOutputError(responseBody, responseCode, responseDescription, callback) {
+  function updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback) {
     const $tailLogOutputTableBody = $('#tail-log-output-table-body');
     const tbody = getTailLogOutputTbody();
     kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("Error response from the backend"));

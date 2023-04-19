@@ -46,12 +46,12 @@ function GrootHeader() {
   function loadSessionStatus() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     kameHouse.http.get(SESSION_STATUS_API, null, null,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGroot");
       },
-      (responseBody, responseCode, responseDescription) =>  kameHouse.logger.error("Error retrieving current groot session information."));
+      (responseBody, responseCode, responseDescription, responseHeaders) =>  kameHouse.logger.error("Error retrieving current groot session information."));
   }
 
   /**
