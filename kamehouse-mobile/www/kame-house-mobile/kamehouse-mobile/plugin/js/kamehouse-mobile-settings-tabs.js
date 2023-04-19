@@ -13,7 +13,7 @@ function KameHouseMobileTabsManager() {
    * load module.
    */
   function load() {
-    kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-tabs.html", () => {
+    kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-settings-tabs.html", () => {
       kameHouse.util.module.setModuleLoaded("mobileTabsManager");
     });
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {

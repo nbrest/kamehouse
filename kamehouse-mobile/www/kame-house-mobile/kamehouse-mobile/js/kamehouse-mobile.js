@@ -10,8 +10,8 @@ function KameHouseMobile() {
   async function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile.js");
     kameHouse.extension.mobile.core = new KameHouseMobileCore();
-    kameHouse.extension.mobile.configManager = new KameHouseMobileConfigManager();
     kameHouse.extension.mobile.core.init();
+    kameHouse.extension.mobile.configManager = new KameHouseMobileConfigManager();
     await kameHouse.extension.mobile.configManager.init();
   }
 } 
@@ -25,6 +25,7 @@ function KameHouseMobileCore() {
   this.disableWebappOnlyElements = disableWebappOnlyElements;
   this.getBackendServer = getBackendServer;
   this.getBackendCredentials = getBackendCredentials;
+  this.testBackendConnectivity = testBackendConnectivity;
   this.mobileHttpRequst = mobileHttpRequst;
   this.openBrowser = openBrowser;
   this.overrideWindowOpen = overrideWindowOpen;
@@ -74,10 +75,43 @@ function KameHouseMobileCore() {
     return {};
   }
 
+  function testBackendConnectivity() {
+    kameHouse.logger.info("Testing backend connectivity");
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const LOGIN_URL = "/kame-house/login";
+    const credentials = getBackendCredentials();
+    const loginData = {
+      username : credentials.username,
+      password : credentials.password
+    }
+    kameHouse.plugin.debugger.http.post(LOGIN_URL, kameHouse.http.getUrlEncodedHeaders(), loginData,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        if (responseBody.includes("KameHouse - Login")) {
+          kameHouse.logger.error("Backend connectivity test error - redirected back to login");
+          kameHouse.plugin.modal.basicModal.openAutoCloseable("Invalid credentials", 1000);
+          return;
+        }
+        kameHouse.logger.info("Backend connectivity test successful");
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("Success!", 1000);
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        if (responseCode == 401 || responseCode == 403) {
+          kameHouse.logger.error("Backend connectivity test error - invalid credentials");
+          kameHouse.plugin.modal.basicModal.openAutoCloseable("Invalid credentials", 1000);
+          return;
+        }
+        kameHouse.logger.error("Error connecting to the backend. Response code: " + responseCode);
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error connecting to the backend. Response code: " + responseCode, 2000);
+      }
+    );
+  }
+
   /** 
    * Http request to be sent from the mobile app.
    */
-  function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback, customData) {
+  function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
     let requestUrl = getBackendServer() + url;   
     const options = {
       method: httpMethod,
@@ -109,8 +143,8 @@ function KameHouseMobileCore() {
     cordova.plugin.http.setServerTrustMode('nocheck',
      () => {
       cordova.plugin.http.sendRequest(requestUrl, options, 
-        (response) => { processMobileSuccess(response, successCallback, customData); } ,
-        (response) => { processMobileError(response, errorCallback, customData); }
+        (response) => { processMobileSuccess(response, successCallback); } ,
+        (response) => { processMobileError(response, errorCallback); }
       );
     }, () => {
       kameHouse.logger.error('Error setting cordova ssl trustmode to nocheck. Unable to execute http ' + httpMethod + ' request to ' + requestUrl);
@@ -118,7 +152,7 @@ function KameHouseMobileCore() {
   }
 
   /** Process a successful response from the api call */
-  function processMobileSuccess(response, successCallback, customData) {
+  function processMobileSuccess(response, successCallback) {
     /**
      * data: response body
      * status: http status code
@@ -133,12 +167,13 @@ function KameHouseMobileCore() {
     }
     const responseCode = response.status;
     const responseDescription = null;
-    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription);
-    successCallback(responseBody, responseCode, responseDescription, customData);
+    const responseHeaders = response.headers;
+    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders);
+    successCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
   /** Process an error response from the api call */
-  function processMobileError(response, errorCallback, customData) {
+  function processMobileError(response, errorCallback) {
      /**
      * error: error message
      * status: http status code
@@ -148,9 +183,9 @@ function KameHouseMobileCore() {
      const responseBody = response.error;
      const responseCode = response.status;
      const responseDescription = null;
-     kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription);
-     kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, null);
-     errorCallback(JSON.stringify(responseBody), responseCode, responseDescription, customData);
+     const responseHeaders = response.headers;
+     kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, null);
+     errorCallback(JSON.stringify(responseBody), responseCode, responseDescription, responseHeaders);
   }  
 
   function isJsonResponse(headers) {
@@ -412,18 +447,23 @@ function KameHouseMobileConfigManager() {
   function createMobileConfigFile() {
     kameHouse.logger.info("Creating file " + mobileConfigFile);
     try {
-      window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
-
-      function successCallback(fs) {
-        fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
-          kameHouse.logger.info("File " + fileEntry.name + " created successfully");
-        }, errorCallback);
-      }
-    
-      function errorCallback(error) {
-        kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-      }
+      window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, 
+        successCallback, 
+        errorCallback
+      );
     } catch (error) {
+      kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+    }
+
+    // createMobileConfigFile callback
+    function successCallback(fs) {
+      fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
+        kameHouse.logger.info("File " + fileEntry.name + " created successfully");
+      }, errorCallback);
+    }
+  
+    // createMobileConfigFile callback
+    function errorCallback(error) {
       kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
   }
@@ -435,22 +475,24 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Writing to file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
-
-      function successCallback(fs) {
-        fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
-          fileEntry.createWriter((fileWriter) => {
-            const fileContent = JSON.stringify(getMobileConfig());
-            kameHouse.logger.info("File content to write: " + fileContent);
-            const blob = new Blob([fileContent]);
-            fileWriter.write(blob);
-          }, errorCallback);
-        }, errorCallback);
-      }
-  
-      function errorCallback(error) {
-        kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-      }
     } catch (error) {
+      kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+    }
+
+    // writeMobileConfigFile callback
+    function successCallback(fs) {
+      fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
+        fileEntry.createWriter((fileWriter) => {
+          const fileContent = JSON.stringify(getMobileConfig());
+          kameHouse.logger.info("File content to write: " + fileContent);
+          const blob = new Blob([fileContent]);
+          fileWriter.write(blob);
+        }, errorCallback);
+      }, errorCallback);
+    }
+  
+    // writeMobileConfigFile callback
+    function errorCallback(error) {
       kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
   }
@@ -462,46 +504,48 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Reading file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
-
-      function successCallback(fs) {
-        fs.root.getFile(mobileConfigFile, {}, function(fileEntry) {
-          fileEntry.file(function(file) {
-            const reader = new FileReader();
-            reader.onloadend = function(e) {
-              const fileContent = this.result;
-              kameHouse.logger.info("file content read: " + fileContent);
-              let mobileConfig = null;
-              try {
-                mobileConfig = JSON.parse(fileContent);
-              } catch(e) {
-                mobileConfig = null;
-                kameHouse.logger.error("Error parsing file content as json. Error " + JSON.stringify(e));
-              }
-              if (isValidMobileConfigFile(mobileConfig)) {
-                kameHouse.logger.info("Setting mobile config from file");
-                setMobileConfig(mobileConfig);
-              } else {
-                kameHouse.logger.warn("Mobile config file read from file is invalid. Re generating it");
-                reGenerateMobileConfigFile();
-              }
-              setKameHouseMobileModuleLoaded();
-            };
-            reader.readAsText(file);
-          }, errorCallback);
-        }, errorCallback);
-      }
-    
-      function errorCallback(error) {
-        kameHouse.logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-        setKameHouseMobileModuleLoaded();
-        createMobileConfigFile();
-      }
     } catch (error) {
       kameHouse.logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       setKameHouseMobileModuleLoaded();
       createMobileConfigFile();
     }
-  }	
+  
+    // readMobileConfigFile callback
+    function successCallback(fs) {
+      fs.root.getFile(mobileConfigFile, {}, function(fileEntry) {
+        fileEntry.file(function(file) {
+          const reader = new FileReader();
+          reader.onloadend = function(e) {
+            const fileContent = this.result;
+            kameHouse.logger.info("file content read: " + fileContent);
+            let mobileConfig = null;
+            try {
+              mobileConfig = JSON.parse(fileContent);
+            } catch(e) {
+              mobileConfig = null;
+              kameHouse.logger.error("Error parsing file content as json. Error " + JSON.stringify(e));
+            }
+            if (isValidMobileConfigFile(mobileConfig)) {
+              kameHouse.logger.info("Setting mobile config from file");
+              setMobileConfig(mobileConfig);
+            } else {
+              kameHouse.logger.warn("Mobile config file read from file is invalid. Re generating it");
+              reGenerateMobileConfigFile(false);
+            }
+            setKameHouseMobileModuleLoaded();
+          };
+          reader.readAsText(file);
+        }, errorCallback);
+      }, errorCallback);
+    }
+  
+    // readMobileConfigFile callback
+    function errorCallback(error) {
+      kameHouse.logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      setKameHouseMobileModuleLoaded();
+      createMobileConfigFile();
+    }
+  }
   
   /**
    * Delete kamehouse-mobile config file.
@@ -510,90 +554,23 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Deleting file " + mobileConfigFile);
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
-  
-      function successCallback(fs) {
-        fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
-          fileEntry.remove(() => {
-            kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
-          }, errorCallback);
-        }, errorCallback);
-      }
-    
-      function errorCallback(error) {
-        kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-      }
     } catch (error) {
       kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
-  }
 
-  /**
-   * Re generate kamehouse-mobile config file.
-   */
-  function reGenerateMobileConfigFile() {
-    if (isCurrentlyPersistingConfig) {
-      kameHouse.logger.info("A regenerate file is already in progress, skipping this call");
-      return;
+    // deleteMobileConfigFile callback
+    function successCallback(fs) {
+      fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
+        fileEntry.remove(() => {
+          kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
+        }, errorCallback);
+      }, errorCallback);
     }
-    isCurrentlyPersistingConfig = true;
-    kameHouse.logger.info("Regenerating file " + mobileConfigFile);
-    try {
-      window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successDeleteFileCallback, errorDeleteFileCallback);
-    } catch (error) {
-      kameHouse.logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-      isCurrentlyPersistingConfig = false;
+  
+    // deleteMobileConfigFile callback
+    function errorCallback(error) {
+      kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
     }
-  }
-
-  function successDeleteFileCallback(fs) {
-    fs.root.getFile(mobileConfigFile, {create: false}, (fileEntry) => {
-      fileEntry.remove(() => {
-        kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
-        createFile();
-      }, errorDeleteFileCallback);
-    }, errorDeleteFileCallback);
-  }
-
-  function errorDeleteFileCallback(error) {
-    kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-    createFile();
-  }
-
-  function createFile() {
-    window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCreateFileCallback, errorCreateFileCallback);
-  }
-
-  function successCreateFileCallback(fs) {
-    fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
-      kameHouse.logger.info("File " + fileEntry.name + " created successfully");
-      writeFile();
-    }, errorCreateFileCallback);
-  }
-
-  function errorCreateFileCallback(error) {
-    kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-    writeFile();
-  }
-
-  function writeFile() {
-    window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successWriteFileCallback, errorWriteFileCallback);
-  }
-
-  function successWriteFileCallback(fs) {
-    fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
-      fileEntry.createWriter((fileWriter) => {
-        const fileContent = JSON.stringify(getMobileConfig());
-        kameHouse.logger.info("File content to write: " + fileContent);
-        const blob = new Blob([fileContent]);
-        fileWriter.write(blob);
-        isCurrentlyPersistingConfig = false;
-      }, errorCreateFileCallback);
-    }, errorCreateFileCallback);
-  }
-
-  function errorWriteFileCallback(error) {
-    kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
-    isCurrentlyPersistingConfig = false;
   }
 
   /**
@@ -610,7 +587,7 @@ function KameHouseMobileConfigManager() {
 
     kameHouse.logger.info("servers: " + JSON.stringify(getServers()));
     kameHouse.logger.info("credentials: " + JSON.stringify(getCredentials()));
-    reGenerateMobileConfigFile();
+    reGenerateMobileConfigFile(false);
   }
 
   /**
@@ -729,10 +706,131 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Resetting config to default values");
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
     setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
-    reGenerateMobileConfigFile();
+    reGenerateMobileConfigFile(false);
     refreshSettingsView();
     kameHouse.plugin.modal.basicModal.close();
-    kameHouse.plugin.modal.basicModal.openAutoCloseable("Config reset to default values", 2000);
+    kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings reset to defaults", 1000);
+  }
+
+  /**
+   * Re generate kamehouse-mobile config file process.
+   * 1. delete file if it exists
+   * 2. recreate the file
+   * 3. rewrite the file
+   */
+  /** 
+   * 1. Delete the file 
+   * */
+  function reGenerateMobileConfigFile(openResultModal) {
+    if (isCurrentlyPersistingConfig) {
+      kameHouse.logger.info("A regenerate file is already in progress, skipping this call");
+      return;
+    }
+    isCurrentlyPersistingConfig = true;
+    kameHouse.logger.info("Regenerating file " + mobileConfigFile);
+    try {
+      // request file to delete
+      window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, 
+        (fs) => {deleteFile(fs, openResultModal);}, 
+        (error) => {errorDeleteFileCallback(error, openResultModal);}
+      );
+    } catch (error) {
+      kameHouse.logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      isCurrentlyPersistingConfig = false;
+      if (openResultModal) {
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error saving settings", 1000);
+      }
+    }
+
+    // reGenerateMobileConfigFile success callback
+    function deleteFile(fs, openResultModal) {
+      fs.root.getFile(mobileConfigFile, {create: false}, 
+        (fileEntry) => {
+          fileEntry.remove(
+            () => {
+              kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
+              requestRecreateFile(openResultModal);
+            }, 
+            (error) => {errorDeleteFileCallback(error, openResultModal)}
+          );
+        }, 
+        (error) => {errorDeleteFileCallback(error, openResultModal)}
+      );
+    }
+
+    // deleteFile error callback
+    function errorDeleteFileCallback(error, openResultModal) {
+      kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      requestRecreateFile(openResultModal);
+    }
+  }
+
+  /**
+   * 2. Recreate the file.
+   */
+  function requestRecreateFile(openResultModal) {
+    window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, 
+      (fs) => {recreateFile(fs, openResultModal);}, 
+      (error) => {errorRecreateFileCallback(error, openResultModal);}
+    );
+  
+    // requestRecreateFile success callback
+    function recreateFile(fs, openResultModal) {
+      fs.root.getFile(mobileConfigFile, {create: true, exclusive: true}, 
+        (fileEntry) => {
+          kameHouse.logger.info("File " + fileEntry.name + " recreated successfully");
+          requestRewriteFile(openResultModal);
+        }, 
+        (error) => {errorRecreateFileCallback(error, openResultModal)}
+      );
+    }
+
+    // recreateFile error callback
+    function errorRecreateFileCallback(error, openResultModal) {
+      kameHouse.logger.info("Error recreating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      requestRewriteFile(openResultModal);
+    }
+  }
+
+  /**
+   * 3. Rewrite file.
+   */
+  function requestRewriteFile(openResultModal) {
+    window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, 
+      (fs) => {rewriteFile(fs, openResultModal);}, 
+      (error) => {errorRewriteFileCallback(error, openResultModal);}
+    );
+
+    // requestRewriteFile success callback
+    function rewriteFile(fs, openResultModal) {
+      fs.root.getFile(mobileConfigFile, {create: true}, 
+        (fileEntry) => {
+          fileEntry.createWriter(
+            (fileWriter) => {
+              const fileContent = JSON.stringify(getMobileConfig());
+              kameHouse.logger.info("File content to write: " + fileContent);
+              const blob = new Blob([fileContent]);
+              fileWriter.write(blob);
+              isCurrentlyPersistingConfig = false;
+              if (openResultModal) {
+                kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings saved", 1000);
+              }
+            }, 
+            (error) => {errorRewriteFileCallback(error, openResultModal)}
+          );
+        }, 
+        (error) => {errorRewriteFileCallback(error, openResultModal)}
+      );
+    }
+
+    // rewriteFile error callback
+    function errorRewriteFileCallback(error, openResultModal) {
+      kameHouse.logger.info("Error rewriting file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      isCurrentlyPersistingConfig = false;
+      if (openResultModal) {
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error saving settings", 1000);
+      }
+    }
   }
 
   /**
@@ -771,7 +869,7 @@ function KameHouseMobileConfigManager() {
       kameHouse.logger.info("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + JSON.stringify(options) + ". Mocking error response");
       const mockResponse = {
         error : '{"message":"mocked cordova http error response"}',
-        status: 999
+        status: 302
       };
       errorCallback(mockResponse);
     }

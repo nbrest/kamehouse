@@ -1,9 +1,9 @@
 <div class="p-15-d-kh">
   <form class="form-kh config-header">
-    <img class="config-header-img" src="/kame-house/img/dbz/kamesenin-logo.png" alt="Vlc Player"><span class="config-header-text">Servers</span>
+    <img class="config-header-img" src="/kame-house/img/dbz/kamesenin-logo.png" alt="Vlc Player"><span class="config-header-text">Backend</span>
   </form>
   <form class="form-kh">
-    <label>Backend</label>
+    <label>Server</label>
     <br>
     <select id="backend-server-dropdown" class="form-input-kh" type="select" onchange="kameHouse.extension.mobile.configManager.setBackendFromDropdown()">
       <option value="">Select Backend Server</option>
@@ -21,17 +21,15 @@
     </select>
     <br>
     <input id="backend-server-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.extension.mobile.configManager.updateMobileConfigFromView()">
-  </form>
-  <br>
-
-  <form class="form-kh config-header">
-    <img class="config-header-img" src="/kame-house/img/dbz/kamesenin-logo.png" alt="Vlc Player"><span class="config-header-text">Credentials</span>
-  </form>
-  <form class="form-kh">
-    <label>Backend</label>
+    <br>
+    <label>Username</label>
     <br>
     <input id="backend-username-input" class="form-input-kh" type="text" name="text" oninput="kameHouse.extension.mobile.configManager.updateMobileConfigFromView()">
     <br>
+    <label>Password</label>
+    <br>
     <input id="backend-password-input" class="form-input-kh" type="password" name="password" oninput="kameHouse.extension.mobile.configManager.updateMobileConfigFromView()">
+    <br>
+    <span class="form-submit-btn-kh" onclick="kameHouse.extension.mobile.core.testBackendConnectivity()">Test</span>
   </form>
 </div>

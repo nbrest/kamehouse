@@ -1,6 +1,6 @@
 
 /**
- * Functions for kamehouse-mobile app index page.
+ * Functions for kamehouse-mobile app settings page.
  * 
  * @author nbrest
  */

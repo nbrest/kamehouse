@@ -14,11 +14,11 @@
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data" data-skip-header="false" data-skip-footer="false"></script>
 <script src="/kame-house-mobile/js/settings.js"></script>
-<script src="/kame-house-mobile/kamehouse-mobile/plugin/js/kamehouse-mobile-tabs.js"></script>
+<script src="/kame-house-mobile/kamehouse-mobile/plugin/js/kamehouse-mobile-settings-tabs.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
 <link rel="stylesheet" href="/kame-house-mobile/kamehouse-mobile/css/kamehouse-mobile.css" />
-<link rel="stylesheet" href="/kame-house-mobile/kamehouse-mobile/plugin/css/kamehouse-mobile-tabs.css">
+<link rel="stylesheet" href="/kame-house-mobile/kamehouse-mobile/plugin/css/kamehouse-mobile-settings-tabs.css">
 </head>
 <body class="mobile-body">
   <div class="main-body">    
@@ -34,7 +34,7 @@
     <div class="default-layout">
       <div id="tab-backend" class="kh-mobile-tab-content"></div>
       <br>
-      <button class="mobile-btn-kh" onclick="kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile()">Save Settings</button>
+      <button class="mobile-btn-kh" onclick="kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(true)">Save Settings</button>
       <br>
       <button class="mobile-btn-kh reset-cfg-btn-kh" onclick="kameHouse.extension.mobile.configManager.confirmResetDefaults()">Reset to defaults</button>
       <br>
