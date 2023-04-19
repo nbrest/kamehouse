@@ -1075,7 +1075,6 @@ function VlcPlayerRestClient(vlcPlayer) {
   function apiCallSuccessDefault(responseBody) {
     kameHouse.util.cursor.setCursorDefault();
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.logger.debug("Response: " + JSON.stringify(responseBody));
     vlcPlayer.pollVlcRcStatus();
   }
 
