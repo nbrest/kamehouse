@@ -834,7 +834,6 @@ function KameHouseFileUtils() {
 function KameHouseMobileUtils() {
 
   this.init = init;
-  this.isMobileApp = isMobileApp;
   this.disableMobileOnlyElements = disableMobileOnlyElements;
   this.disableWebappOnlyElements = disableWebappOnlyElements;
   this.executeOnMobile = executeOnMobile;
@@ -871,19 +870,22 @@ function KameHouseMobileUtils() {
 
   function disableMobileOnlyElements() {
     $(document).ready(() => {
-      if (!isMobileApp()) {
-        kameHouse.logger.debug("Disabling mobile only elements in webapp view");
-        const mobileOnlyElements = document.getElementsByClassName("kh-mobile-only");
-        for (const mobileOnlyElement of mobileOnlyElements) {
-          kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
-          kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-only");
+      executeOnMobile(
+        () => { return; },
+        () => { 
+          kameHouse.logger.debug("Disabling mobile only elements in webapp view");
+          const mobileOnlyElements = document.getElementsByClassName("kh-mobile-only");
+          for (const mobileOnlyElement of mobileOnlyElements) {
+            kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
+            kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-only");
+          }
         }
-      }
+      );
     });
   }
 
   function disableWebappOnlyElements() {
-    kameHouse.util.mobile.executeOnMobile(() => {
+    executeOnMobile(() => {
         kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
           kameHouse.extension.mobile.core.disableWebappOnlyElements();
         });
@@ -892,7 +894,7 @@ function KameHouseMobileUtils() {
   }
 
   function loadGlobalMobile() {
-    kameHouse.util.mobile.executeOnMobile(() => {
+    executeOnMobile(() => {
         kameHouse.util.fetch.getScript("/kame-house-mobile/kamehouse-mobile/js/kamehouse-mobile.js", () => {
           kameHouse.logger.info("Loaded kamehouse-mobile.js");
         }); 
@@ -900,6 +902,10 @@ function KameHouseMobileUtils() {
     );
   }
 
+  /**
+   * Executes the first parmeter function only when running on the mobile app.
+   * Executes the second parameter function only when running as a web app.
+   */
   function executeOnMobile(functionToExecuteOnMobile, functionToExecuteOnWeb) {
     if (!kameHouse.core.isFunction(functionToExecuteOnMobile)) {
       kameHouse.logger.error("Parameter passed to executeOnMobile is not a function");

@@ -61,20 +61,21 @@ function GrootHeader() {
     const $loginStatusDesktop = $("#groot-header-login-status-desktop");
     const $loginStatusMobile = $("#groot-header-login-status-mobile");
     kameHouse.util.dom.empty($loginStatusDesktop);
-    if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
-      kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
-      if (!kameHouse.util.mobile.isMobileApp()) {
-        kameHouse.util.dom.append($loginStatusDesktop, getLoginButton());
-        kameHouse.util.dom.append($loginStatusMobile, getLoginButton());
+    kameHouse.util.mobile.executeOnMobile(
+      () => { kameHouse.logger.debug("Skip updating groot session status on mobile for now")},
+      () => {
+        if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
+        kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
+          kameHouse.util.dom.append($loginStatusDesktop, getLoginButton());
+          kameHouse.util.dom.append($loginStatusMobile, getLoginButton());
+        } else {
+          kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.extension.groot.session.username));
+          kameHouse.util.dom.append($loginStatusDesktop, getLogoutButton());
+          kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.extension.groot.session.username));
+          kameHouse.util.dom.append($loginStatusMobile, getLogoutButton());
+        }        
       }
-    } else {
-      if (!kameHouse.util.mobile.isMobileApp()) {
-        kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.extension.groot.session.username));
-        kameHouse.util.dom.append($loginStatusDesktop, getLogoutButton());
-        kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.extension.groot.session.username));
-        kameHouse.util.dom.append($loginStatusMobile, getLogoutButton());
-      }
-    }
+    );
   }
 
   /**
