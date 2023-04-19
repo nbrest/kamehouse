@@ -49,7 +49,7 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":i:pr:s" OPT; do
+  while getopts ":i:p:rs" OPT; do
     case $OPT in
     ("i")
       ANDROID_IP=$OPTARG

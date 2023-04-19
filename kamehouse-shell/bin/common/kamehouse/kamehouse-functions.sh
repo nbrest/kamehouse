@@ -390,10 +390,12 @@ getHttpdContentRoot() {
 refreshCordovaPlugins() {
   if ${REFRESH_CORDOVA_PLUGINS}; then
     log.info "Refreshing cordova plugins"
+    # remove all plugins I ever added here, even the ones are no longer in the project
+    cordova plugin remove cordova-plugin-inappbrowser # removed from project
     cordova plugin remove cordova-plugin-advanced-http
     cordova plugin remove cordova-plugin-file
 
-    cordova plugin add cordova-plugin-inappbrowser
+    cordova plugin add cordova-plugin-advanced-http
     cordova plugin add cordova-plugin-file
   else
     log.info "Not refreshing cordova plugins"
