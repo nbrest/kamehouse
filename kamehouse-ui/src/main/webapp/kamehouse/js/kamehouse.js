@@ -1708,7 +1708,7 @@ function KameHouseCoreFunctions() {
    * Log the entry into the debug mode console log table.
    */
   function logToDebugMode(logEntry) {
-    const DEBUG_MODE_LOG_SIZE = 20;
+    const DEBUG_MODE_LOG_SIZE = 40;
     const debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
     if (!kameHouse.core.isEmpty(debugModeConsoleLog)) {
       // Remove first log N entries

@@ -28,14 +28,14 @@
   background-color: #000000;
   border: 3px solid #343434;
   padding: 3px;
-  height: 680px;
+  height: 480px;
   overflow: scroll;
   width: max-content;
 }
 
 @media (max-width : 900px) {
   #debug-mode-console-log-entries {
-    height: 780px;
+    height: 580px;
   }
 }
 
