@@ -869,7 +869,7 @@ function KameHouseMobileConfigManager() {
       kameHouse.logger.info("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + JSON.stringify(options) + ". Mocking error response");
       const mockResponse = {
         error : '{"message":"mocked cordova http error response"}',
-        status: 302
+        status: 999
       };
       errorCallback(mockResponse);
     }
