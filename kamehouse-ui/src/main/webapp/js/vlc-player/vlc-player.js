@@ -56,19 +56,33 @@ function VlcPlayer(hostname) {
     kameHouse.util.module.loadKameHouseWebSocket();
     kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebSocket"], () => {
       kameHouse.logger.info("Started initializing VLC Player");
-      synchronizer = new VlcPlayerSynchronizer(this);
       loadStateFromCookies();
       playlist.init();
       loadStateFromApi();
-      synchronizer.connectVlcRcStatus();
-      synchronizer.connectPlaylist();
-      synchronizer.syncVlcRcStatusLoop();
-      synchronizer.syncPlaylistLoop();
-      synchronizer.keepAliveWebSocketsLoop();
+      synchronizer = new VlcPlayerSynchronizer(this);
       synchronizer.syncVlcPlayerHttpLoop();
+      kameHouse.util.mobile.executeOnMobile(
+        () => {
+          kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+            // wait for the mobile config to be available before starting the websockets
+            startSynchronizerWebsockets();
+          });
+        },
+        () => {startSynchronizerWebsockets();}
+      );
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
       kameHouse.util.module.setModuleLoaded("vlcPlayer");
     });
+  }
+
+  function startSynchronizerWebsockets() {
+    kameHouse.logger.info("Started initializing vlc player websockets");
+    synchronizer.initWebSockets();
+    synchronizer.connectVlcRcStatus();
+    synchronizer.connectPlaylist();
+    synchronizer.syncVlcRcStatusLoop();
+    synchronizer.syncPlaylistLoop();
+    synchronizer.keepAliveWebSocketsLoop();
   }
 
   /**
@@ -569,6 +583,7 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
  */
 function VlcPlayerSynchronizer(vlcPlayer) {
 
+  this.initWebSockets = initWebSockets;
   this.pollVlcRcStatus = pollVlcRcStatus;
   this.connectVlcRcStatus = connectVlcRcStatus;
   this.connectPlaylist = connectPlaylist;
@@ -584,7 +599,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   let isRunningKeepAliveWebSocketLoop = false;
   let isRunningSyncVlcPlayerHttpLoop = false;
 
-  function setWebSockets() {
+  function initWebSockets() {
     const vlcRcStatusWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/status';
     const vlcRcStatusWebSocketPollUrl = "/app/vlc-player/status-in";
     const vlcRcStatusWebSocketTopicUrl = '/topic/vlc-player/status-out';
@@ -599,7 +614,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     playlistWebSocket.setPollUrl(playlistWebSocketPollUrl);
     playlistWebSocket.setTopicUrl(playlistWebSocketTopicUrl);
   }
-  setWebSockets();
 
   /**
    * --------------------------------------------------------------------------
@@ -752,7 +766,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       return;
     }
     isRunningSyncVlcPlayerHttpLoop = true;
-    const syncVlcPlayerHttpWaitMs = 30000;
+    const syncVlcPlayerHttpWaitMs = 7000;
     while (isRunningSyncVlcPlayerHttpLoop) {
       kameHouse.logger.trace("sync vlc player through fallback to http requests loop");
       await kameHouse.core.sleep(syncVlcPlayerHttpWaitMs);
@@ -1020,20 +1034,20 @@ function VlcPlayerRestClient(vlcPlayer) {
       kameHouse.util.cursor.setCursorWait();
     }
     kameHouse.plugin.debugger.http.get(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         if (!kameHouse.core.isEmpty(successCallback)) {
-          successCallback(responseBody, responseCode, responseDescription);
+          successCallback(responseBody, responseCode, responseDescription, responseHeaders);
         } else {
           apiCallSuccessDefault(responseBody);
         }
       },
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         if (!kameHouse.core.isEmpty(errorCallback)) {
-          errorCallback(responseBody, responseCode, responseDescription);
+          errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
         } else {
-          apiCallErrorDefault(responseBody, responseCode, responseDescription);
+          apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
           if (responseCode == "404") {
-            kameHouse.plugin.debugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode);
+            kameHouse.plugin.debugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode, responseDescription, responseHeaders);
           }
         }
       });
@@ -1043,8 +1057,8 @@ function VlcPlayerRestClient(vlcPlayer) {
   function httpPost(url, requestHeaders, requestBody) {
     kameHouse.util.cursor.setCursorWait();
     kameHouse.plugin.debugger.http.post(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
-      (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
+      (responseBody, responseCode, responseDescription, responseHeaders) => apiCallSuccessDefault(responseBody),
+      (responseBody, responseCode, responseDescription, responseHeaders) => apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders)
     );
   }
 
@@ -1052,8 +1066,8 @@ function VlcPlayerRestClient(vlcPlayer) {
   function httpDelete(url, requestHeaders, requestBody) {
     kameHouse.util.cursor.setCursorWait();
     kameHouse.plugin.debugger.http.delete(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => apiCallSuccessDefault(responseBody),
-      (responseBody, responseCode, responseDescription) => apiCallErrorDefault(responseBody, responseCode, responseDescription)
+      (responseBody, responseCode, responseDescription, responseHeaders) => apiCallSuccessDefault(responseBody),
+      (responseBody, responseCode, responseDescription, responseHeaders) => apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders)
     );
   }
 
@@ -1066,10 +1080,13 @@ function VlcPlayerRestClient(vlcPlayer) {
   }
 
   /** Default actions for error api responses */
-  function apiCallErrorDefault(responseBody, responseCode, responseDescription) {
+  function apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.util.cursor.setCursorDefault();
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    // Don't display api errors for not found or service not available errors
+    if (responseCode != 404 && responseCode != 503 && responseCode > 300) {
+      kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+    }
   }
 }
 
@@ -1101,20 +1118,20 @@ function VlcPlayerDebugger(vlcPlayer) {
   }
 
   /** Update the main player view. */
-  function getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription) {
+  function getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.util.cursor.setCursorDefault();
     vlcPlayer.setVlcRcStatus(responseBody);
     vlcPlayer.updateView();
   }
 
   /** Don't update anything if there's an error getting the vlcRcStatus. */
-  function getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription) {
+  function getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.util.cursor.setCursorDefault();
     kameHouse.logger.warn("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running");
   }
 
   /** Update the playlist view. */
-  function getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription) {
+  function getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.util.cursor.setCursorDefault();
     vlcPlayer.getPlaylist().setUpdatedPlaylist(responseBody);
     vlcPlayer.getPlaylist().reload();

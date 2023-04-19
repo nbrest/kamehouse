@@ -1425,12 +1425,12 @@ function KameHouseCoreFunctions() {
     const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
     kameHouse.http.get(SESSION_STATUS_URL, null, null,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.trace("Session Status: " + JSON.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("session");
       },
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.error("Error retrieving current session information.");
         kameHouse.util.module.setModuleLoaded("session");
       }
@@ -1743,11 +1743,11 @@ function KameHouseCoreFunctions() {
   /**
    * Log an api call error to the console.
    */
-  function logApiError(responseBody, responseCode, responseDescription, message) {
+  function logApiError(responseBody, responseCode, responseDescription, responseHeaders, message) {
     if (kameHouse.core.isEmpty(message)) {
       message = "Error executing api call";
     }
-    const errorMessage = message + ": responseBody=" + responseBody + "; responseCode=" + responseCode + "; responseDescription=" + responseDescription + ";";
+    const errorMessage = message + ": responseBody=" + responseBody + "; responseCode=" + responseCode + "; responseDescription=" + responseDescription + "; responseHeaders=" + JSON.stringify(responseHeaders);
     error(errorMessage);
   }
 
@@ -1765,10 +1765,11 @@ function KameHouseCoreFunctions() {
   /**
    * Log an http response.
    */
-  function logHttpResponse(responseBody, responseCode, responseDescription) {
+  function logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders) {
     debug("http response: [ " 
     + "'responseCode' : '" + responseCode + "', "
     + "'responseDescription' : '" + responseDescription + "', "
+    + "'responseHeaders' : '" + JSON.stringify(responseHeaders) + "', "
     + "'responseBody' : '" + JSON.stringify(responseBody) + "' ]");   
   }
 }
@@ -1798,36 +1799,36 @@ function KameHouseCoreFunctions() {
   const DELETE = "DELETE";
 
   /** Execute an http GET request.
-   * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
-   * and errorCallback(responseBody, responseCode, responseDescription) */
+   * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
+   * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   function get(url, requestHeaders, requestBody, successCallback, errorCallback) {
     httpRequest(GET, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http PUT request.
-   * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
-   * and errorCallback(responseBody, responseCode, responseDescription) */
+   * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
+   * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   function put(url, requestHeaders, requestBody, successCallback, errorCallback) {
     httpRequest(PUT, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http POST request.
-   * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
-   * and errorCallback(responseBody, responseCode, responseDescription) */
+   * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
+   * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   function post(url, requestHeaders, requestBody, successCallback, errorCallback) {
     httpRequest(POST, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http DELETE request.
-   * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
-   * and errorCallback(responseBody, responseCode, responseDescription) */
+   * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
+   * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   function deleteHttp(url, requestHeaders, requestBody, successCallback, errorCallback) {
     httpRequest(DELETE, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http request with the specified http method. 
-   * Implement and pass successCallback(responseBody, responseCode, responseDescription) 
-   * and errorCallback(responseBody, responseCode, responseDescription)
+   * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
+   * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
     kameHouse.logger.logHttpRequest(httpMethod, url, requestHeaders, requestBody);
@@ -1868,6 +1869,18 @@ function KameHouseCoreFunctions() {
           error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
         });        
       }
+    );
+  }
+
+  function getResponseHeaders(xhr) {
+    return xhr.getAllResponseHeaders()
+      .trim()
+      .split('\r\n')
+      .reduce((acc, current) => {
+          const [x,v] = current.split(': ');
+          return Object.assign(acc, { [x] : v });
+      }, 
+      {}
     );
   }
 
@@ -1915,8 +1928,9 @@ function KameHouseCoreFunctions() {
     const responseBody = data;
     const responseCode = xhr.status;
     const responseDescription = xhr.statusText;
-    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription);
-    successCallback(responseBody, responseCode, responseDescription);
+    const responseHeaders = getResponseHeaders(xhr);
+    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders);
+    successCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
   /** Process an error response from the api call */
@@ -1934,9 +1948,9 @@ function KameHouseCoreFunctions() {
      const responseBody = jqXhr.responseText;
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
-     kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription);
-     kameHouse.logger.logApiError(responseBody, responseBody, responseDescription, null);
-     errorCallback(responseBody, responseCode, responseDescription);
+     const responseHeaders = getResponseHeaders(jqXhr);
+     kameHouse.logger.logApiError(responseBody, responseBody, responseDescription, responseHeaders, null);
+     errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
   /** Get request headers object with Url Encoded content type. */

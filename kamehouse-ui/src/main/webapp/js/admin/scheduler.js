@@ -59,8 +59,8 @@ function Scheduler() {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
     kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null, 
-    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
 
   /** Cancel job execution */
@@ -71,8 +71,8 @@ function Scheduler() {
       "group" : jobKey.group
     };
     kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), kameHouse.http.getUrlEncodedHeaders(), params, 
-    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
 
   /** Update the jobs table content */
@@ -144,17 +144,17 @@ function Scheduler() {
   }
   
   /** Process success response */
-  function processSuccess(responseBody, responseCode, responseDescription, webapp) {
+  function processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     jobs = responseBody;
     updateJobsTable(webapp);
   }
 
   /** Process error response */
-  function processError(responseBody, responseCode, responseDescription, webapp) {
+  function processError(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     updateJobsTableError(webapp);
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
   }
 }
 

@@ -86,11 +86,12 @@ function KameHouseDebugger() {
   /**
    * Displays the list of the N previous requests.
    */
-  function displayPreviousRequestsTable(requestData, responseBody, responseCode) {
+  function displayPreviousRequestsTable(requestData, responseBody, responseCode, responseHeaders) {
     const request = {};
     request.requestData = requestData;
     request.responseData = {};
     request.responseData.responseCode = responseCode;
+    request.responseData.headers = responseHeaders;
     request.responseData.responseBody = responseBody;
     request.responseData.timestamp = kameHouse.util.time.getTimestamp();
     while (requests.length >= 7) {
@@ -104,10 +105,11 @@ function KameHouseDebugger() {
   /**
    * Display debugger http client response data.
    */
-  function displayResponseData(responseBody, responseCode) {
+  function displayResponseData(responseBody, responseCode, responseDescription, responseHeaders) {
     const responseTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtml($("#debugger-http-client-res-code-val"), responseCode);
     kameHouse.util.dom.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
+    kameHouse.util.dom.setHtml($("#debugger-http-client-res-headers-val"), JSON.stringify(responseHeaders));
     kameHouse.util.dom.setText($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
@@ -167,8 +169,8 @@ function DebuggerHttpClient() {
     const requestData = createRequestDataForLog(url, GET, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, GET, requestHeaders, requestBody);
     kameHouse.http.get(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
   }
 
@@ -180,8 +182,8 @@ function DebuggerHttpClient() {
     const requestData = createRequestDataForLog(url, PUT, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, PUT, requestHeaders, requestBody);
     kameHouse.http.put(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
     );
   }
 
@@ -193,8 +195,8 @@ function DebuggerHttpClient() {
     const requestData = createRequestDataForLog(url, POST, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, POST, requestHeaders, requestBody);
     kameHouse.http.post(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
   }
 
@@ -206,8 +208,8 @@ function DebuggerHttpClient() {
     const requestData = createRequestDataForLog(url, DELETE, requestHeaders, requestBody);
     kameHouse.plugin.debugger.displayRequestData(url, DELETE, requestHeaders, requestBody);
     kameHouse.http.delete(url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, successCallback, requestData),
-      (responseBody, responseCode, responseDescription) => processResponse(responseBody, responseCode, responseDescription, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
   }
 
@@ -225,11 +227,11 @@ function DebuggerHttpClient() {
   }
 
   /** Process the response of the api call */
-  function processResponse(responseBody, responseCode, responseDescription, responseCallback, requestData) {
-    kameHouse.plugin.debugger.displayResponseData(responseBody, responseCode);
-    kameHouse.plugin.debugger.displayPreviousRequestsTable(requestData, responseBody, responseCode);
+  function processResponse(responseBody, responseCode, responseDescription, responseHeaders, responseCallback, requestData) {
+    kameHouse.plugin.debugger.displayResponseData(responseBody, responseCode, responseDescription, responseHeaders);
+    kameHouse.plugin.debugger.displayPreviousRequestsTable(requestData, responseBody, responseCode, responseHeaders);
     if (kameHouse.core.isFunction(responseCallback)) {
-      responseCallback(responseBody, responseCode, responseDescription);
+      responseCallback(responseBody, responseCode, responseDescription, responseHeaders);
     }
   }
 }

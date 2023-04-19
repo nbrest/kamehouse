@@ -28,10 +28,10 @@ function DragonBallUserServiceJsp() {
       "username" : urlParams.get('username')
     };
     kameHouse.plugin.debugger.http.get(SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params, 
-      (responseBody, responseCode, responseDescription) => displayDragonBallUserToEdit(responseBody),
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => displayDragonBallUserToEdit(responseBody),
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         let errorMessage = 'Error getting dragonball user';
-        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -40,11 +40,11 @@ function DragonBallUserServiceJsp() {
    */
   function getAllDragonBallUsers() {
     kameHouse.plugin.debugger.http.get(SERVLET_SERVICE_URI, null, null, 
-      (responseBody, responseCode, responseDescription) => displayDragonBallUsers(responseBody),
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => displayDragonBallUsers(responseBody),
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error getting dragonball users from the backend';
         displayErrorTable(errorMessage);
-        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -60,10 +60,10 @@ function DragonBallUserServiceJsp() {
       stamina: document.getElementById("input-stamina").value
     };
     kameHouse.plugin.debugger.http.post(SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
-      (responseBody, responseCode, responseDescription) => { window.location.href = 'users-list'; },
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => { window.location.href = 'users-list'; },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error adding dragonball user';
-        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -80,10 +80,10 @@ function DragonBallUserServiceJsp() {
       stamina: document.getElementById("input-stamina").value
     };
     kameHouse.plugin.debugger.http.put(SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
-      (responseBody, responseCode, responseDescription) => {window.location.href = 'users-list'},
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {window.location.href = 'users-list'},
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error updating dragonball user';
-        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -95,16 +95,16 @@ function DragonBallUserServiceJsp() {
       id: id
     };
     kameHouse.plugin.debugger.http.delete(SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
-      (responseBody, responseCode, responseDescription) => getAllDragonBallUsers(),
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => getAllDragonBallUsers(),
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error deleting dragonball user';
         displayErrorTable(errorMessage);
-        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription);
+        handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
   
   /** Display api error */
-  function handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription) {
+  function handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders) {
     if (!kameHouse.core.isEmpty(responseBody)) {
       try {
         errorMessage = errorMessage + " : " + JSON.parse(responseBody).message;
@@ -113,7 +113,7 @@ function DragonBallUserServiceJsp() {
       } 
     }
     kameHouse.plugin.modal.basicModal.open(errorMessage);
-    kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, errorMessage);
+    kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, errorMessage);
   }
 
   /**

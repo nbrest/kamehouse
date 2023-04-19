@@ -65,7 +65,7 @@ function PlaylistBrowser() {
     resetPlaylistCategoryDropdown();
 
     kameHouse.plugin.debugger.http.get(mediaVideoAllPlaylistsUrl, null, null, 
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         videoPlaylists = responseBody;
         videoPlaylistCategories = [...new Set(videoPlaylists.map((playlist) => playlist.category))];
         kameHouse.logger.debug("Playlists: " + JSON.stringify(videoPlaylists));
@@ -77,8 +77,8 @@ function PlaylistBrowser() {
           kameHouse.util.dom.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, categoryFormatted));
         });
       },
-      (responseBody, responseCode, responseDescription) => 
-        kameHouse.plugin.debugger.displayResponseData("Error populating video playlist categories", responseCode)
+      (responseBody, responseCode, responseDescription, responseHeaders) => 
+        kameHouse.plugin.debugger.displayResponseData("Error populating video playlist categories", responseCode, responseDescription, responseHeaders)
       );
   }
 
@@ -123,12 +123,12 @@ function PlaylistBrowser() {
       "path" : playlistFilename
     };
     kameHouse.plugin.debugger.http.get(mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         currentPlaylist = responseBody;
         populatePlaylistBrowserTable();
       },
-      (responseBody, responseCode, responseDescription) =>
-        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + JSON.stringify(responseBody), responseCode)
+      (responseBody, responseCode, responseDescription, responseHeaders) =>
+        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + JSON.stringify(responseBody), responseCode, responseDescription, responseHeaders)
       );
   }
 

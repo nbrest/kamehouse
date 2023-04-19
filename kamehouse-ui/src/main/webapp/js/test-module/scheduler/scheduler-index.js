@@ -56,28 +56,28 @@ function TestScheduler() {
   }
 
   /** Process the success response of a SampleJob command (set/cancel) */
-  function processSuccessSampleJob(responseBody, responseCode, responseDescription) {
+  function processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     getSampleJobStatus();
   }
 
   /** Process the error response of a SampleJob command (set/cancel) */
-  function processErrorSampleJob(responseBody, responseCode, responseDescription) {
+  function processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     getSampleJobStatus();
   }
 
   /** Update the status of SampleJob command */
-  function processSuccessSampleJobStatus(responseBody, responseCode, responseDescription) {
+  function processSuccessSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.util.dom.setHtml($("#sample-job-status"), responseBody.message);
   }
 
   /** Update the status of SampleJob command with an error */
-  function processErrorSampleJobStatus(responseBody, responseCode, responseDescription) {
+  function processErrorSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.util.dom.setHtml($("#sample-job-status"), "Error getting the status of SampleJob command");
   }
 }

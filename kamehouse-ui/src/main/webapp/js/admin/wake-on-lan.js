@@ -36,14 +36,14 @@ function WakeOnLanManager() {
     kameHouse.plugin.debugger.http.post(WOL_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, processSuccess, processError);
   }
 
-  function processSuccess(responseBody, responseCode, responseDescription) {
+  function processSuccess(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.util.dom.setHtml($("#wol-status"), kameHouse.util.time.getTimestamp() + " - " + responseBody.message);
   }
 
-  function processError(responseBody, responseCode, responseDescription) {
+  function processError(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.util.dom.setHtml($("#wol-status"), kameHouse.util.time.getTimestamp() + " - Error sending WOL packet. Please try again");
   }
 }

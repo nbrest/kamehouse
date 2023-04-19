@@ -21,13 +21,13 @@ function BookingService() {
     kameHouse.plugin.modal.loadingWheelModal.open("Executing booking request...");
     const bookingRequest = getFormData();
     kameHouse.plugin.debugger.http.post(BOOK_API_URL, kameHouse.http.getApplicationJsonHeaders(), bookingRequest,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Booking request completed successfully");
         kameHouse.plugin.modal.loadingWheelModal.close();
         updateBookingResponseTable(responseBody, responseCode);
       },
-      (responseBody, responseCode, responseDescription) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error executing booking request");
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error executing booking request");
         kameHouse.plugin.modal.loadingWheelModal.close();
         try {
           const bookingResponse = JSON.parse(responseBody);

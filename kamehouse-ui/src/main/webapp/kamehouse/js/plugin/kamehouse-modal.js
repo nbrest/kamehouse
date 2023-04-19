@@ -57,11 +57,11 @@ function BasicKamehouseModal() {
   function openSiteUnderConstruction() { modalUtils.open(SITE_UNDER_CONSTRUCTION); }
 
   /** Open api call error message auto closeable modal */
-  function openApiError(responseBody, responseCode, responseDescription) {
+  function openApiError(responseBody, responseCode, responseDescription, responseHeaders) {
     if (kameHouse.core.isEmpty(responseBody)) {
       responseBody = getEmptyResponseBodyText();
     }
-    modalUtils.open(getErrorMessage(responseBody, responseCode, responseDescription));
+    modalUtils.open(getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders));
   }
 
   function getEmptyResponseBodyText() {
@@ -71,7 +71,7 @@ function BasicKamehouseModal() {
     return message;
   }
   
-  function getErrorMessage(responseBody, responseCode, responseDescription) {
+  function getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders) {
     const message = kameHouse.util.dom.getSpan({}, "Error executing the request.");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());

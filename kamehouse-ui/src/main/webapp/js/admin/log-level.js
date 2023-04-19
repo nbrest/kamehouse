@@ -63,16 +63,16 @@ function BackendLogLevelUtils() {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
     kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null,
-    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
 
   /** Reset all log levels */
   function resetLogLevels(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
     kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null, null,
-    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
 
   /** Set Kamehouse log level */
@@ -80,24 +80,24 @@ function BackendLogLevelUtils() {
     const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     kameHouse.plugin.modal.loadingWheelModal.open();
     kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + logLevel, null, null, 
-    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
 
   /** Set Kamehouse log levels to DEBUG */
   function setKamehouseLogLevelToDebug(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
     kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/debug", null, null, 
-    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
 
   /** Set Kamehouse log levels to TRACE */
   function setKamehouseLogLevelToTrace(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
     kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/trace", null, null, 
-    (responseBody, responseCode, responseDescription) => { processSuccess(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processError(responseBody, responseCode, responseDescription, webapp); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
 
   /** Update the log levels table content */
@@ -151,16 +151,16 @@ function BackendLogLevelUtils() {
   }
 
   /** Process success response */
-  function processSuccess(responseBody, responseCode, responseDescription, webapp) {
+  function processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     updateLogLevelTable(responseBody, webapp);
   }
 
   /** Process error response */
-  function processError(responseBody, responseCode, responseDescription, webapp) {
+  function processError(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     updateLogLevelTableError(webapp);
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
   /** Set request logger config payload */
@@ -191,20 +191,20 @@ function BackendLogLevelUtils() {
     const params = {};
     params[urlParamName] = propertyValue;
     kameHouse.plugin.debugger.http.put(url,kameHouse.http.getUrlEncodedHeaders(), params, 
-    (responseBody, responseCode, responseDescription) => { processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp); },
-    (responseBody, responseCode, responseDescription) => { processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders); });
   }
 
   /** Process success response for request logger config */
-  function processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, webapp) {
+  function processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openAutoCloseable(webapp + " : " + responseBody.message, 7000);
   }
 
   /** Process error response for request logger config */
-  function processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription) {
+  function processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
   }
 }
 

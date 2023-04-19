@@ -90,28 +90,28 @@ function ServerManager() {
   }
 
   /** Process the success response of a Shutdown command (set/cancel) */
-  function processSuccessShutdown(responseBody, responseCode, responseDescription) {
+  function processSuccessShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     getShutdownStatus();
   }
 
   /** Process the error response of a Shutdown command (set/cancel) */
-  function processErrorShutdown(responseBody, responseCode, responseDescription) {
+  function processErrorShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     getShutdownStatus();
   }
 
   /** Update the status of Shutdown command */
-  function processSuccessShutdownStatus(responseBody, responseCode, responseDescription) {
+  function processSuccessShutdownStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.util.dom.setHtml($("#shutdown-status"), responseBody.message);
   }
 
   /** Update the status of Shutdown command with an error */
-  function processErrorShutdownStatus(responseBody, responseCode, responseDescription) {
+  function processErrorShutdownStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.util.dom.setHtml($("#shutdown-status"), "Error getting the status of Shutdown command");
   }
 
@@ -147,28 +147,28 @@ function ServerManager() {
   }
 
   /** Process the success response of a suspend command (set/cancel) */
-  function processSuccessSuspend(responseBody, responseCode, responseDescription) {
+  function processSuccessSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     getSuspendStatus();
   }
 
   /** Process the error response of a suspend command (set/cancel) */
-  function processErrorSuspend(responseBody, responseCode, responseDescription) {
+  function processErrorSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     getSuspendStatus();
   }
 
   /** Update the status of suspend command */
-  function processSuccessSuspendStatus(responseBody, responseCode, responseDescription) {
+  function processSuccessSuspendStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.util.dom.setHtml($("#suspend-status"), responseBody.message);
   }
 
   /** Update the status of suspend command with an error */
-  function processErrorSuspendStatus(responseBody, responseCode, responseDescription) {
+  function processErrorSuspendStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.util.dom.setHtml($("#suspend-status"), "Error getting the status of Suspend command");
   }
 
@@ -241,7 +241,7 @@ function ServerManager() {
   /**
    * Callback after successful system command execution.
    */
-  function processSuccessSystemCommand(responseBody, responseCode, responseDescription) {
+  function processSuccessSystemCommand(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
   }
@@ -249,16 +249,16 @@ function ServerManager() {
   /**
    * Callback after error executing a system command.
    */
-  function processErrorSystemCommand(responseBody, responseCode, responseDescription) {
+  function processErrorSystemCommand(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
   }
 
   /**
    * Callback after successfully getting the httpd process status.
    */
-  function processSuccessHttpdStatus(responseBody, responseCode, responseDescription) {
+  function processSuccessHttpdStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status");
   }
@@ -266,10 +266,10 @@ function ServerManager() {
   /**
    * Callback after an error getting the httpd process status.
    */
-  function processErrorHttpdStatus(responseBody, responseCode, responseDescription) {
+  function processErrorHttpdStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     if (responseCode != 404) {
-      kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+      kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
       kameHouse.util.dom.setHtml($("#httpd-status"), "Error getting the status of the apache httpd server");      
     } else {
       kameHouse.util.dom.setHtml($("#httpd-status"), "Unable to get the status of apache httpd server. Is it running?");   
@@ -279,7 +279,7 @@ function ServerManager() {
   /**
    * Callback after successfully restarting httpd server.
    */
-  function processSuccessHttpdRestart(responseBody, responseCode, responseDescription) {
+  function processSuccessHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
     setTimeout(() => { 
@@ -290,9 +290,9 @@ function ServerManager() {
   /**
    * Callback after an error restarting httpd server.
    */
-  function processErrorHttpdRestart(responseBody, responseCode, responseDescription) {
+  function processErrorHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
     setTimeout(() => { 
       getHttpdStatus(false);
@@ -328,14 +328,14 @@ function ServerManager() {
   }
 
   /** Generic process success response */
-  function processSuccess(responseBody, responseCode, responseDescription) {
+  function processSuccess(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
   }
 
   /** Generic process error response */
-  function processError(responseBody, responseCode, responseDescription) {
+  function processError(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
   }
 }
 

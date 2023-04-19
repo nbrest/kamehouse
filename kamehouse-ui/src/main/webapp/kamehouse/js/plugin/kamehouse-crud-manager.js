@@ -189,12 +189,12 @@ function CrudManager() {
     kameHouse.logger.info("read");
     const getUrl = url + "/" + id;
     kameHouse.plugin.debugger.http.get(getUrl, null, null,
-      (responseBody, responseCode, responseDescription) => {
-        setEditFormValues(responseBody, responseCode, responseDescription);
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders);
       },
-      (responseBody, responseCode, responseDescription) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error getting entity");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -204,13 +204,13 @@ function CrudManager() {
   function readAll() {
     kameHouse.logger.info("readAll");
     kameHouse.plugin.debugger.http.get(url, null, null,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         entities = responseBody;
         reloadView();
       },
-      (responseBody, responseCode, responseDescription) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error getting all entities");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting all entities");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         displayErrorGettingEntities();
       });
   }
@@ -226,14 +226,14 @@ function CrudManager() {
     }
     const entity = getEntityFromForm(addInputFieldsId);
     kameHouse.plugin.debugger.http.post(url, kameHouse.http.getApplicationJsonHeaders(), entity,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Created entity successfully. Id: " + responseBody);
         readAll();
         kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
-      (responseBody, responseCode, responseDescription) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error creating entity");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error creating entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         readAll();
       });
   }
@@ -250,14 +250,14 @@ function CrudManager() {
     const entity = getEntityFromForm(editInputFieldsId);
     const updateUrl = url + "/" + entity.id;
     kameHouse.plugin.debugger.http.put(updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Updated entity successfully. Id: " + entity.id);
         readAll();
         kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
-      (responseBody, responseCode, responseDescription) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error updating entity");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error updating entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         readAll();
       });
   }
@@ -274,15 +274,15 @@ function CrudManager() {
     }
     const deleteUrl = url + "/" + id;
     kameHouse.plugin.debugger.http.delete(deleteUrl, null, null,
-      (responseBody, responseCode, responseDescription) => {
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id);
         kameHouse.plugin.modal.basicModal.close();
         readAll();
       },
-      (responseBody, responseCode, responseDescription) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, "Error deleting entity");
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error deleting entity");
         kameHouse.plugin.modal.basicModal.close();
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription);
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         readAll();
       });
   }
@@ -292,7 +292,7 @@ function CrudManager() {
    * This should usually be used to load the form fields to edit an entity.
    * Probably needs to be overriden if custom columns are set or the forms are loaded from a snippet.
    */
-  function setEditFormValues(responseBody, responseCode, responseDescription) { 
+  function setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders) { 
     kameHouse.logger.debug("readCallback: override this with setReadCallback when required");
     reloadForm(editInputFieldsId);
     updateEditFormFieldValues(responseBody, columns, null);
