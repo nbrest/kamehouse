@@ -7,8 +7,12 @@
 
 #### v8.08
 
-- Updated mobile app to have a single settings page
+- Updated mobile app settings page
 - Removed the unnecessary configs and tabs deprecated since adding kamehouse ui and groot to the mobile app natively
+- Fixed initial websockets sync error in vlc player on mobile app
+- Fixed refresh cordova plugins in build and deploy script
+- Added button to test backend connectivity and credentials on the mobile settings page
+- Added exposing response headers to the http client and debugger callbacks
 
 #### v8.07
 
