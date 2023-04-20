@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.nicobrest</groupId>
         <artifactId>kamehouse-parent</artifactId>
-        <version>8.08.1-KAMEHOUSE-SNAPSHOT</version>
+        <version>8.09.1-KAMEHOUSE-SNAPSHOT</version>
     </parent>
 
     <name>KameHouse - GRoot</name>
