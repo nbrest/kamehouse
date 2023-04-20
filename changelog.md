@@ -9,6 +9,8 @@
 
 - Extended debug mode console log entries
 - Added support for all groot pages on the native mobile app
+- Fixed broken external links on the mobile app
+- Fixed old angular app in test module to work in the mobile app
 
 #### v8.08
 
