@@ -156,10 +156,7 @@ function KameHouseHeader() {
       className: "header-login-status-btn",
       alt: "Login KameHouse",
       onClick: () => {
-        return kameHouse.util.mobile.executeOnMobile(
-          () => {window.location="/kame-house-mobile/settings.html";},
-          () => {window.location="/kame-house/login.html";}
-        );
+        kameHouse.util.mobile.windowLocation("/kame-house/login.html", "/kame-house-mobile/settings.html");
       }
     });
   }
@@ -168,21 +165,21 @@ function KameHouseHeader() {
    * Get logout button.
    */
   function getLogoutButton() {
-    return kameHouse.util.mobile.executeOnMobile(
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku-dark-gray.png",
-          className: "header-login-status-btn",
-          alt: "KameHouse",
-          onClick: () => {return;}
-        });
-      },
+    return kameHouse.util.mobile.exec(
       () => {
         return kameHouse.util.dom.getImgBtn({
           src: "/kame-house/img/pc/logout-right-red.png",
           className: "header-login-status-btn",
           alt: "Logout KameHouse",
           onClick: () => window.location="/kame-house/logout"
+        });
+      },
+      () => {
+        return kameHouse.util.dom.getImgBtn({
+          src: "/kame-house/img/dbz/goku-dark-gray.png",
+          className: "header-login-status-btn",
+          alt: "KameHouse",
+          onClick: () => {return;}
         });
       }
     );

@@ -61,14 +61,14 @@ function VlcPlayer(hostname) {
       loadStateFromApi();
       synchronizer = new VlcPlayerSynchronizer(this);
       synchronizer.syncVlcPlayerHttpLoop();
-      kameHouse.util.mobile.executeOnMobile(
+      kameHouse.util.mobile.exec(
+        () => {startSynchronizerWebsockets();},
         () => {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
             // wait for the mobile config to be available before starting the websockets
             startSynchronizerWebsockets();
           });
-        },
-        () => {startSynchronizerWebsockets();}
+        }
       );
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
       kameHouse.util.module.setModuleLoaded("vlcPlayer");

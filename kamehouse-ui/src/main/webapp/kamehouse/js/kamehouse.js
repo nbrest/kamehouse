@@ -836,7 +836,8 @@ function KameHouseMobileUtils() {
   this.init = init;
   this.disableMobileOnlyElements = disableMobileOnlyElements;
   this.disableWebappOnlyElements = disableWebappOnlyElements;
-  this.executeOnMobile = executeOnMobile;
+  this.windowLocation = windowLocation;
+  this.exec = exec;
   this.generateAndroidQrCode = generateAndroidQrCode;
 
   let isMobileAppStatus = false;
@@ -868,10 +869,19 @@ function KameHouseMobileUtils() {
     }
   }
 
+  /**
+   * Set the window location differently depending if running on web or mobile app.
+   */
+  function windowLocation(webLocation, mobileLocation) {
+    return exec(
+      () => {window.location=webLocation},
+      () => {window.location=mobileLocation}
+    )
+  }
+
   function disableMobileOnlyElements() {
     $(document).ready(() => {
-      executeOnMobile(
-        () => { return; },
+      exec(
         () => { 
           kameHouse.logger.debug("Disabling mobile only elements in webapp view");
           const mobileOnlyElements = document.getElementsByClassName("kh-mobile-only");
@@ -879,13 +889,16 @@ function KameHouseMobileUtils() {
             kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
             kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-only");
           }
-        }
+        }, 
+        null
       );
     });
   }
 
   function disableWebappOnlyElements() {
-    executeOnMobile(() => {
+    exec(
+      null,
+      () => {
         kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
           kameHouse.extension.mobile.core.disableWebappOnlyElements();
         });
@@ -894,7 +907,9 @@ function KameHouseMobileUtils() {
   }
 
   function loadGlobalMobile() {
-    executeOnMobile(() => {
+    exec(
+      null,
+      () => {
         kameHouse.util.fetch.getScript("/kame-house-mobile/kamehouse-mobile/js/kamehouse-mobile.js", () => {
           kameHouse.logger.info("Loaded kamehouse-mobile.js");
         }); 
@@ -903,24 +918,22 @@ function KameHouseMobileUtils() {
   }
 
   /**
-   * Executes the first parmeter function only when running on the mobile app.
-   * Executes the second parameter function only when running as a web app.
+   * Executes the first parmeter function only when running on the web app.
+   * Executes the second parameter function only when running as a mobile app.
    */
-  function executeOnMobile(functionToExecuteOnMobile, functionToExecuteOnWeb) {
-    if (!kameHouse.core.isFunction(functionToExecuteOnMobile)) {
-      kameHouse.logger.error("Parameter passed to executeOnMobile is not a function");
-      return;
-    }
-    if (isMobileApp()) {
+  function exec(webFunction, mobileFunction) {
+    if (!isMobileApp()) {
+      if (kameHouse.core.isFunction(webFunction)) {
+        return webFunction(); 
+      }
+    } else {
       try {
-        return functionToExecuteOnMobile();
+        if (kameHouse.core.isFunction(mobileFunction)) {
+          return mobileFunction(); 
+        }
       } catch (error) {
         kameHouse.logger.error("Error executing mobile code. Error: " + error);
         return null;
-      }
-    } else {
-      if (kameHouse.core.isFunction(functionToExecuteOnWeb)) {
-        return functionToExecuteOnWeb(); 
       }
     }
   }
@@ -1838,12 +1851,7 @@ function KameHouseCoreFunctions() {
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
     kameHouse.logger.logHttpRequest(httpMethod, url, requestHeaders, requestBody);
-    kameHouse.util.mobile.executeOnMobile(
-      () => {
-        kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-          kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback);
-        });
-      },
+    kameHouse.util.mobile.exec(
       () => {
         if (kameHouse.core.isEmpty(requestBody)) {
           $.ajax({
@@ -1874,7 +1882,12 @@ function KameHouseCoreFunctions() {
           success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
           error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
         });        
-      }
+      },
+      () => {
+        kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+          kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback);
+        });
+      },
     );
   }
 

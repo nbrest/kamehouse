@@ -28,9 +28,12 @@ function KameHouseWebSocket() {
   let pollUrl = null;
   
   function setStatusUrl(statusUrlParam) {
-    kameHouse.util.mobile.executeOnMobile(
+    kameHouse.util.mobile.exec(
       () => {
-        // It's better to waitForModule kameHouseMobile in the caller of this function so I get a synchronous set of the statusUrl and the connect call usually done inmediately after doesn't fail. See vlc-player.js
+        statusUrl = statusUrlParam; 
+      },
+      () => {
+        // It's better to also waitForModule kameHouseMobile in the caller of this function so I get a synchronous set of the statusUrl and the connect call usually done inmediately after doesn't fail. See vlc-player.js
         if (kameHouse.util.module.isModuleLoaded("kameHouseMobile")) {
           statusUrl = kameHouse.extension.mobile.core.getBackendServer() + statusUrlParam;
         } else {
@@ -38,9 +41,6 @@ function KameHouseWebSocket() {
             statusUrl = kameHouse.extension.mobile.core.getBackendServer() + statusUrlParam;
           });
         }
-      },
-      () => {
-        statusUrl = statusUrlParam; 
       }
     );
   }
