@@ -22,7 +22,8 @@ DELETE_ONLY=false
 
 mainProcess() {
   setGlobalVariables
-  exportWebapp
+  exportKameHouseUi
+  exportGroot
 }
 
 setGlobalVariables() {
@@ -38,34 +39,46 @@ setGlobalVariables() {
   EXPORT_GROOT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-groot
 }
 
-exportWebapp() {
+exportKameHouseUi() {
   cd ${EXPORT_KAMEHOUSE_DIR}
-
   log.info "Using SOURCE_FILES_KAMEHOUSE_DIR = ${SOURCE_FILES_KAMEHOUSE_DIR}"
   log.info "Using EXPORT_KAMEHOUSE_DIR = ${EXPORT_KAMEHOUSE_DIR}"
   log.info "Deleting existing files from target dir ${EXPORT_KAMEHOUSE_DIR}"
   rm -r -f ${EXPORT_KAMEHOUSE_DIR}
-  log.info "Deleting existing files from target dir ${EXPORT_GROOT_DIR}"
-  rm -r -f ${EXPORT_GROOT_DIR}
-
   if ${DELETE_ONLY}; then
-    log.info "Running with -d. Exiting now after deleting /kame-house folder from mobile app"
+    log.info "Running with -d. Skip resyncing kamehouse ui files to mobile app"
     return
   fi
 
   mkdir -p ${EXPORT_KAMEHOUSE_DIR}
-  mkdir -p ${EXPORT_GROOT_DIR}
-
+  
   log.info "Copying all files from ${SOURCE_FILES_KAMEHOUSE_DIR} to ${EXPORT_KAMEHOUSE_DIR}"
   cd ${EXPORT_KAMEHOUSE_DIR}
   cp -r ${SOURCE_FILES_KAMEHOUSE_DIR}/* .
 
   log.info "Removing WEB-INF folder from ${EXPORT_KAMEHOUSE_DIR}"
   rm -r ${EXPORT_KAMEHOUSE_DIR}/WEB-INF
+}
 
+exportGroot() {
+  log.info "Deleting existing files from target dir ${EXPORT_GROOT_DIR}"
+  rm -r -f ${EXPORT_GROOT_DIR}
+  if ${DELETE_ONLY}; then
+    log.info "Running with -d. Skip resyncing groot files to mobile app"
+    return
+  fi
   log.info "Copying all files from ${SOURCE_FILES_GROOT_DIR} to ${EXPORT_GROOT_DIR}"
+  mkdir -p ${EXPORT_GROOT_DIR}
   cd ${EXPORT_GROOT_DIR}
   cp -r ${SOURCE_FILES_GROOT_DIR}/* .
+
+  log.info "Moving groot php files to html from kamehouse groot for mobile app and removing php tags"
+  local PHP_FILES=`find ./admin | grep -e ".php"`;
+  while read PHP_FILE; do
+    local HTML_FILE=${PHP_FILE::-3}html
+    mv ${PHP_FILE} ${HTML_FILE}
+    sed -i "s#<?php.*?>##Ig" "${HTML_FILE}"
+  done <<< ${PHP_FILES}  
 }
 
 parseArguments() {

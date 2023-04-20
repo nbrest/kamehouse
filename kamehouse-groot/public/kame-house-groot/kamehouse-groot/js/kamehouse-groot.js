@@ -9,11 +9,21 @@
  */
 function KameHouseGroot() {
   this.load = load;
+  this.windowLocation = windowLocation;
 
   function load() {
     kameHouse.extension.groot.header = new GrootHeader();
     kameHouse.extension.groot.header.renderGrootMenu();
   }
+
+  /** Set the location to php on web and html on mobile. pass the location without extension */
+  function windowLocation(location, args) {
+    if (kameHouse.core.isEmpty(args)) {
+      return kameHouse.util.mobile.windowLocation(location + ".php", location + ".html");
+    }
+    return kameHouse.util.mobile.windowLocation(location + ".php" + args, location + ".html" + args);
+  }
+
 }
 
 /**
@@ -61,21 +71,16 @@ function GrootHeader() {
     const $loginStatusDesktop = $("#groot-header-login-status-desktop");
     const $loginStatusMobile = $("#groot-header-login-status-mobile");
     kameHouse.util.dom.empty($loginStatusDesktop);
-    kameHouse.util.mobile.executeOnMobile(
-      () => { kameHouse.logger.debug("Skip updating groot session status on mobile for now")},
-      () => {
-        if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
-        kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
-          kameHouse.util.dom.append($loginStatusDesktop, getLoginButton());
-          kameHouse.util.dom.append($loginStatusMobile, getLoginButton());
-        } else {
-          kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.extension.groot.session.username));
-          kameHouse.util.dom.append($loginStatusDesktop, getLogoutButton());
-          kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.extension.groot.session.username));
-          kameHouse.util.dom.append($loginStatusMobile, getLogoutButton());
-        }        
-      }
-    );
+    if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
+    kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
+      kameHouse.util.dom.append($loginStatusDesktop, getLoginButton());
+      kameHouse.util.dom.append($loginStatusMobile, getLoginButton());
+    } else {
+      kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.extension.groot.session.username));
+      kameHouse.util.dom.append($loginStatusDesktop, getLogoutButton());
+      kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.extension.groot.session.username));
+      kameHouse.util.dom.append($loginStatusMobile, getLogoutButton());
+    }
   }
 
   /**
@@ -108,17 +113,31 @@ function GrootHeader() {
       src: "/kame-house/img/pc/login-left-gray-dark.png",
       className: "groot-header-login-status-btn",
       alt: "Login GRoot",
-      onClick: () => window.location="/kame-house-groot/login.html"
+      onClick: () => {
+        kameHouse.util.mobile.windowLocation("/kame-house-groot/login.html", "/kame-house-mobile/settings.html");
+      }
     });
   }
 
   function getLogoutButton() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/pc/logout-right-gray-dark.png",
-      className: "groot-header-login-status-btn",
-      alt: "Logout GRoot",
-      onClick: () => window.location="/kame-house-groot/api/v1/auth/logout.php"
-    });
+    return kameHouse.util.mobile.exec(
+      () => {
+        return kameHouse.util.dom.getImgBtn({
+          src: "/kame-house/img/pc/logout-right-gray-dark.png",
+          className: "groot-header-login-status-btn",
+          alt: "Logout GRoot",
+          onClick: () => window.location="/kame-house-groot/api/v1/auth/logout.php"
+        });
+      },
+      () => {
+        return kameHouse.util.dom.getImgBtn({
+          src: "/kame-house/img/dbz/goku-red-very-dark.png",
+          className: "header-login-status-btn",
+          alt: "KameHouse Groot",
+          onClick: () => {return;}
+        });
+      }
+    );
   }
 
   function getUsernameHeader(username) {

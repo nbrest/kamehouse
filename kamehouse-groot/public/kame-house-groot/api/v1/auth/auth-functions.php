@@ -92,4 +92,45 @@ function isAuthorizedUser($username, $password) {
   
   return $isAuthorizedUser;
 }
+
+/**
+ * Start a new session.
+ */
+function initiateSession($username) {
+  try {
+    if(session_status() !== PHP_SESSION_ACTIVE) {
+      logToErrorFile("Initiating session for user " . $username);
+      ini_set('session.gc_maxlifetime', 0);
+      session_set_cookie_params(0);
+      session_start();
+      session_regenerate_id();
+      $_SESSION['logged-in'] = true;
+      $_SESSION['username'] = $username;
+      unlockSession();
+    } else {
+      logToErrorFile("Session already active for user " . $username);
+      $_SESSION['logged-in'] = true;
+      $_SESSION['username'] = $username;
+    }
+  } catch(Exception $e) {
+    // session already open throws an exception, ignore it
+  }
+}
+
+/**
+ * End a current session.
+ */
+function endSession($username) {
+  try {
+    if(session_status() == PHP_SESSION_ACTIVE) {
+      $_SESSION['logged-in'] = false;
+      unset($_SESSION['username']);
+      session_destroy();
+    } else {
+      //logToErrorFile("Session already ended for user " . $username);
+    }
+  } catch(Exception $e) {
+    // session already open throws an exception, ignore it
+  }
+}
 ?> 

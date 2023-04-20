@@ -6,7 +6,7 @@ function KameHouseShell() {
   this.load = load;
   this.filterKameHouseShellRows = filterKameHouseShellRows;
 
-  const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script.php";
+  const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script";
 
   function load() {
     kameHouse.util.banner.setRandomDragonBallBanner();
@@ -38,9 +38,9 @@ function KameHouseShell() {
     kameHouse.logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
     if (!kameHouse.core.isEmpty(scriptArguments)) {
       const urlEncodedArgs = encodeURI(scriptArguments);
-      window.location.href = EXEC_SCRIPT_PAGE + "?script=" + scriptName + "&args=" + urlEncodedArgs;
+      kameHouse.extension.groot.windowLocation(EXEC_SCRIPT_PAGE, "?script=" + scriptName + "&args=" + urlEncodedArgs);
     } else {
-      window.location.href = EXEC_SCRIPT_PAGE + "?script=" + scriptName;
+      kameHouse.extension.groot.windowLocation(EXEC_SCRIPT_PAGE, "?script=" + scriptName);
     }
   }
   

@@ -8,6 +8,7 @@
 #### v8.09
 
 - Extended debug mode console log entries
+- Added support for all groot pages on the native mobile app
 
 #### v8.08
 
