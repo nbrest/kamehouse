@@ -147,7 +147,7 @@ function KameHouseMobileCore() {
         (response) => { processMobileError(response, errorCallback); }
       );
     }, () => {
-      kameHouse.logger.error('Error setting cordova ssl trustmode to nocheck. Unable to execute http ' + httpMethod + ' request to ' + requestUrl);
+      kameHouse.logger.error("Error setting cordova ssl trustmode to nocheck");
       cordova.plugin.http.sendRequest(requestUrl, options, 
         (response) => { processMobileSuccess(response, successCallback); } ,
         (response) => { processMobileError(response, errorCallback); }
