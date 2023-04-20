@@ -940,7 +940,8 @@ function KameHouseMobileUtils() {
           return mobileFunction(); 
         }
       } catch (error) {
-        kameHouse.logger.error("Error executing mobile code. Error: " + error);
+        kameHouse.logger.error("Unexpected error executing mobile function. Error: " + error);
+        alert("Unexpected error executing mobile function. Error: " + error)
         return null;
       }
     }
