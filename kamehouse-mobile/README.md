@@ -102,9 +102,8 @@ cordova build android
 - Test in a local cordova browser
 
 ```sh
-cd kamehouse-mobile
 kamehouse-mobile-run-browser.sh
-# or manually: kamehouse-mobile-resync-kh-files.sh ; cordova run browser
+# or manually: kamehouse-mobile-resync-kh-files.sh ; cd kamehouse-mobile; cordova run browser
 ```
 
 - Then a local browser windows should open in chrome
