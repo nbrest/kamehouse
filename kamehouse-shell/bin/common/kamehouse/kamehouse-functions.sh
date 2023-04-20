@@ -390,6 +390,7 @@ getHttpdContentRoot() {
 refreshCordovaPlugins() {
   if ${REFRESH_CORDOVA_PLUGINS}; then
     log.info "Refreshing cordova plugins"
+    # When updating the plugins here, also update the README.md in kamehouse-mobile
     # remove all plugins I ever added here, even the ones are no longer in the project
     cordova plugin remove cordova-plugin-inappbrowser # removed from project
     cordova plugin remove cordova-plugin-advanced-http

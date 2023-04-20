@@ -9,7 +9,7 @@ This module handles the following functionality:
 
 * Build a native mobile app for android and ios using apache cordova
 
-* All the webapp kamehouse functionality is now supported on the native mobile app
+* Kamehouse ui and groot frontend code are built into the mobile app and supported natively connecting to the backend server configurable in the settings page of the native mobile app 
 
 * The cordova file plugin is used to persist the app settings
 
@@ -37,8 +37,6 @@ npm install -g cordova
   - Install Android SDK Build-Tools 30.0.3 onwards
   - Install Android SDK Command line tools latest (currently 6.0)
   - Install Android SDK Platform Tools (currently 33.0.0)
-  - Install Android Emulator (currently 31.2.8)
-  - Install Intel x86 Emulator Accelerator (HAXM Installer)
 
 - Set environment variables: 
   - `ANDROID_SDK_ROOT = C:\Users\USERNAME\AppData\Local\Android\Sdk`
@@ -52,13 +50,12 @@ npm install -g cordova
 ```sh
 cd kamehouse-mobile
 
+cordova plugin remove cordova-plugin-inappbrowser # removed from project
 cordova plugin remove cordova-plugin-advanced-http
-cordova plugin remove cordova-plugin-inappbrowser
 cordova plugin remove cordova-plugin-file
 
 cordova plugin add cordova-plugin-advanced-http
 cordova plugin add cordova-plugin-file
-
 ```
 
 # Import project in Android Studio (optional)
