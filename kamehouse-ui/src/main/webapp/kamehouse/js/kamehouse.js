@@ -837,6 +837,7 @@ function KameHouseMobileUtils() {
   this.disableMobileOnlyElements = disableMobileOnlyElements;
   this.disableWebappOnlyElements = disableWebappOnlyElements;
   this.windowLocation = windowLocation;
+  this.windowOpen = windowOpen;
   this.exec = exec;
   this.generateAndroidQrCode = generateAndroidQrCode;
 
@@ -876,6 +877,13 @@ function KameHouseMobileUtils() {
     return exec(
       () => {window.location=webLocation},
       () => {window.location=mobileLocation}
+    )
+  }
+
+  function windowOpen(url, targetWeb) {
+    return exec(
+      () => {window.open(url, targetWeb)},
+      () => {window.open(kameHouse.extension.mobile.core.getBackendServer() + url)}
     )
   }
 
