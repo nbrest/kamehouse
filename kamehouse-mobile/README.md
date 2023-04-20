@@ -17,7 +17,7 @@ This module handles the following functionality:
 
 * A link to download the app can be found [here](https://kame.nicobrest.com/kame-house/downloads)
 
-# Android build requirements on a windows host (2022-03-06):
+# Android build requirements on a windows host:
 
 - Install gradle
 - Install node
@@ -43,12 +43,6 @@ npm install -g cordova
   - Add to `PATH`:
     - `%ANDROID_SDK_ROOT%\platform-tools`
     - `%ANDROID_SDK_ROOT%\cmdline-tools\latest\bin`
-
-# Import project in Android Studio (optional)
-
-- I prefer using vscode to edit the html, css, js files of kamehouse-mobile
-- Select kamehouse-mobile as the root of the project
-- Set the SDK in the project properties 
 
 # Build Instructions
 
