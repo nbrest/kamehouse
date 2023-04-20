@@ -679,7 +679,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     isRunningSyncVlcRcStatusLoop = true;
     let vlcRcStatusPullWaitTimeMs = 1000;
     let failedCount = 0;
-    let skipResetViewCount = 3;
+    let skipResetViewCount = 6;
     while (isRunningSyncVlcRcStatusLoop) {
       kameHouse.logger.trace("Poll vlcRcStatus loop");
       kameHouse.logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
@@ -761,7 +761,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         }
       }
       kameHouse.logger.info("Finished keepAliveWebSocketsLoop");
-    }, 9000);
+    }, 12000);
   }
 
   /** 
