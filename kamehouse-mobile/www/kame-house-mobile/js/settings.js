@@ -13,6 +13,7 @@ function KameHouseMobileSettings() {
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["kameHouseMobile", "kameHouseDebugger", "mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
+      kameHouse.extension.mobile.core.setMobileBuildVersion();
       setDeviceStartup();
     });
   }

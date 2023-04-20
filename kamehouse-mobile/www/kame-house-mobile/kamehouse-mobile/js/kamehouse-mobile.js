@@ -27,6 +27,7 @@ function KameHouseMobileCore() {
   this.getBackendCredentials = getBackendCredentials;
   this.testBackendConnectivity = testBackendConnectivity;
   this.mobileHttpRequst = mobileHttpRequst;
+  this.setMobileBuildVersion = setMobileBuildVersion;
   this.openBrowser = openBrowser;
   this.overrideWindowOpen = overrideWindowOpen;
 
@@ -258,6 +259,37 @@ function KameHouseMobileCore() {
     serverEntity.url = server.url;
     kameHouse.logger.trace("Server entity: " + JSON.stringify(serverEntity));
     return serverEntity;
+  }
+
+  function setMobileBuildVersion() { 
+    setAppVersion();
+    setGitCommitHash();
+    setBuildDate();
+  }
+
+  async function setAppVersion() {
+    const pom = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house-mobile/pom.xml');
+    const versionPrefix = "<version>";
+    const versionSuffix = "-KAMEHOUSE-SNAPSHOT";
+    const tempVersion = pom.slice(pom.indexOf(versionPrefix) + versionPrefix.length);
+    const appVersion = tempVersion.slice(0, tempVersion.indexOf(versionSuffix));
+    kameHouse.logger.info("Mobile app version: " + appVersion);
+    const mobileBuildVersion = document.getElementById("mobile-build-version");
+    kameHouse.util.dom.setInnerHtml(mobileBuildVersion, appVersion);
+  }
+
+  async function setGitCommitHash() {
+    const gitHash = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house-mobile/git-commit-hash.txt');
+    kameHouse.logger.info("Mobile git hash: " + gitHash);
+    const gitHashDiv = document.getElementById("mobile-git-hash");
+    kameHouse.util.dom.setInnerHtml(gitHashDiv, gitHash);
+  }
+
+  async function setBuildDate() {
+    const buildDate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house-mobile/build-date.txt');
+    kameHouse.logger.info("Mobile build date: " + buildDate);
+    const buildDateDiv = document.getElementById("mobile-build-date");
+    kameHouse.util.dom.setInnerHtml(buildDateDiv, buildDate);
   }
 
   /**
