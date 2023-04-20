@@ -5,9 +5,16 @@
 
 # ChangeLog:
 
+#### v8.11
+
+- 
+
 #### v8.10
 
 - Added mobile build version in the settings page
+- Added attempt to run the mobile http request even when ssl nocheck fails
+- Refactored mobile functions
+- Fixed bugs
 
 #### v8.09
 
