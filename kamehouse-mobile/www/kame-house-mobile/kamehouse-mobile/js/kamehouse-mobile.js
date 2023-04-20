@@ -708,6 +708,7 @@ function KameHouseMobileConfigManager() {
    */
   function resetDefaults() {
     kameHouse.logger.info("Resetting config to default values");
+    initGlobalMobileConfig();
     setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
     setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
     reGenerateMobileConfigFile(false);
