@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.10
+
+- Added mobile build version in the settings page
+
 #### v8.09
 
 - Extended debug mode console log entries
