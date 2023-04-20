@@ -733,27 +733,29 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Start infinite loop to keep alive the websocket connections.
    * Break the loop setting isRunningKeepAliveWebSocketLoop to false.
    */
-  async function keepAliveWebSocketsLoop() {
-    kameHouse.logger.info("Started keepAliveWebSocketsLoop");
-    if (isRunningKeepAliveWebSocketLoop) {
-      kameHouse.logger.error("keepAliveWebSocketsLoop is already running");
-      return;
-    }
-    isRunningKeepAliveWebSocketLoop = true;
-    const keepAliveWebSocketWaitTimeMs = 5000;
-    while (isRunningKeepAliveWebSocketLoop) {
-      kameHouse.logger.trace("Keep websockets connected loop");
-      await kameHouse.core.sleep(keepAliveWebSocketWaitTimeMs);
-      if (!vlcRcStatusWebSocket.isConnected()) {
-        kameHouse.logger.debug("VlcRcStatus webSocket not connected. Reconnecting.");
-        reconnectVlcRcStatus();
+  function keepAliveWebSocketsLoop() {
+    setTimeout(async () => {
+      kameHouse.logger.info("Started keepAliveWebSocketsLoop");
+      if (isRunningKeepAliveWebSocketLoop) {
+        kameHouse.logger.error("keepAliveWebSocketsLoop is already running");
+        return;
       }
-      if (!playlistWebSocket.isConnected()) {
-        kameHouse.logger.debug("Playlist webSocket not connected. Reconnecting.");
-        reconnectPlaylist();
+      isRunningKeepAliveWebSocketLoop = true;
+      const keepAliveWebSocketWaitTimeMs = 5000;
+      while (isRunningKeepAliveWebSocketLoop) {
+        kameHouse.logger.trace("Keep websockets connected loop");
+        await kameHouse.core.sleep(keepAliveWebSocketWaitTimeMs);
+        if (!vlcRcStatusWebSocket.isConnected()) {
+          kameHouse.logger.debug("VlcRcStatus webSocket not connected. Reconnecting.");
+          reconnectVlcRcStatus();
+        }
+        if (!playlistWebSocket.isConnected()) {
+          kameHouse.logger.debug("Playlist webSocket not connected. Reconnecting.");
+          reconnectPlaylist();
+        }
       }
-    }
-    kameHouse.logger.info("Finished keepAliveWebSocketsLoop");
+      kameHouse.logger.info("Finished keepAliveWebSocketsLoop");
+    }, 6000);
   }
 
   /** 
