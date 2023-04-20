@@ -7,7 +7,7 @@
 
 This module handles the following functionality:
 
-* Build a native mobile app for android and ios using apache cordova
+* Build a native mobile app for android (and ios eventually) using apache cordova
 
 * Kamehouse ui and groot frontend code are built into the mobile app and supported natively connecting to the backend server configurable in the settings page of the native mobile app 
 
@@ -44,20 +44,6 @@ npm install -g cordova
     - `%ANDROID_SDK_ROOT%\platform-tools`
     - `%ANDROID_SDK_ROOT%\cmdline-tools\latest\bin`
 
-# Add required plugins (optional)
-- this shouldn't be necessary as they should be part of the project already
-
-```sh
-cd kamehouse-mobile
-
-cordova plugin remove cordova-plugin-inappbrowser # removed from project
-cordova plugin remove cordova-plugin-advanced-http
-cordova plugin remove cordova-plugin-file
-
-cordova plugin add cordova-plugin-advanced-http
-cordova plugin add cordova-plugin-file
-```
-
 # Import project in Android Studio (optional)
 
 - I prefer using vscode to edit the html, css, js files of kamehouse-mobile
@@ -66,26 +52,7 @@ cordova plugin add cordova-plugin-file
 
 # Build Instructions
 
-- Use the `build-kamehouse.sh -m mobile` script from the root of kamehouse parent project or from kamehouse-mobile dir to do all these following steps automatically
-
-## To build manually:
-
-- Run the script `kamehouse-mobile-resync-kh-files.sh` of kamehouse-shell to copy the reused files from kamehouse-ui to kamehouse-mobile (or manually copy the folders from kamehouse-ui webapps dir to `kamehouse-media/www/kame-house/`)
-
-- Build the android native app
-
-```sh
-cordova build android
-```
-
-- The apk generated is in `kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk`
-
-- Sometimes I need to refresh the build, for example if I delete some files in www/ and want them removed from the apk:
-
-```sh
-cordova clean
-cordova build android
-```
+- Use the `build-kamehouse.sh -m mobile` script from the root of kamehouse parent project or from kamehouse-mobile dir to build the apk for android (ios build not supported yet)
 
 # Install Instructions
 
@@ -97,10 +64,10 @@ cordova build android
 # Run in a local cordova browser
 
 - Test in a local cordova browser
+- From the project root or kamehouse-mobile run:
 
 ```sh
 kamehouse-mobile-run-browser.sh
-# or manually: kamehouse-mobile-resync-kh-files.sh ; cd kamehouse-mobile; cordova run browser
 ```
 
 - Then a local browser windows should open in chrome
