@@ -7,11 +7,13 @@
 
 This module handles the following functionality:
 
-* Build a native mobile app for android and ios
+* Build a native mobile app for android and ios using apache cordova
 
-* The app uses the inAppBrowser plugin to load kamehouse-ui and kamehouse-groot from the server and render it's mobile view 
+* All the webapp kamehouse functionality is now supported on the native mobile app
 
-* The file plugin is used to persist the app configuration
+* The cordova file plugin is used to persist the app settings
+
+* The cordova advanced-http plugin is used to do all the api calls to the backend server avoiding cors of pure javascript requests
 
 * A link to download the app can be found [here](https://kame.nicobrest.com/kame-house/downloads)
 
@@ -54,7 +56,6 @@ cordova plugin remove cordova-plugin-advanced-http
 cordova plugin remove cordova-plugin-inappbrowser
 cordova plugin remove cordova-plugin-file
 
-cordova plugin add cordova-plugin-inappbrowser
 cordova plugin add cordova-plugin-advanced-http
 cordova plugin add cordova-plugin-file
 
@@ -96,11 +97,9 @@ cordova build android
 - By default it's not allowed to install, so you need to enable installing unverified apps
 - Easiest way I found to upload frequently during development is to download a free webdav server or sftp server on playstore and upload the apk with winscp. The script `kamehouse-mobile-upload-apk-to-device.sh` automates this step using SSH/SFTP Server - Terminal from googleplay (from Banana Studio) 
 
-# Run in an emulator
+# Run in a local cordova browser
 
-## Run in a local browser
-
-- Test in a local browser (recommended)
+- Test in a local cordova browser
 
 ```sh
 cd kamehouse-mobile
@@ -111,25 +110,11 @@ kamehouse-mobile-run-browser.sh
 - Then a local browser windows should open in chrome
 - Currently the default url is: [http://localhost:8000/index.html](http://localhost:8000/index.html)
 - Open chrome dev tools and set the visible width to 391px. That's as similar view as I get to my phone
+- Running like this will fail to do any backend api calls. I can test some cordova functionality though like storing/updating the settings file
 
-## Run in an emulated android device
+# Development
 
-- In Android Studio > Projects > More Settings > Virtual Device Manager
-- Follow the prompts to create a new virtual device (I tried Pixel 5)
-- Start the virtual device on Android Studio
-- Execute the command from the project root to deploy to the virtual device
-
-```sh
-kamehouse-mobile-resync-kh-files.sh ; cordova emulate android
-```
-
-- This is usually too slow for me, so it's better to test in a local browser
-
-- *__Note__: The emulator didn't pickup `http://niko-server`, I had to update the code to use the server IP address `http://192.168.0.109` for the emulator to connect to the backend and pull kamehouse*
-
-# Development of app running natively on android
-
-- Setup local apache httpd to serve the local cordova app on [http://localhost:9980/kame-house-mobile/index.html](http://localhost:9980/kame-house-mobile/index.html) reading the files from `kamehouse-mobile\www\kame-house-mobile`
-- It won't find the cordova.js dependencies so I can't open the inAppBrowser links, but is still useful to develop and style the app running locally on the phone without having to restart the cordova browser on every change
-- Load the page with mockCordova=true parameter to mock cordova calls [http://localhost:9980/kame-house-mobile/index.html?mockCordova=true&logLevel=trace](http://localhost:9980/kame-house-mobile/index.html?mockCordova=true&logLevel=trace). I can add the url parameter mockCordova=true to any page I load in the browser and test the mobile functionality with mocked cordova for any page, not just the mobile index page for example [http://localhost:9989/kame-house/vlc-player.html?mockCordova=true](http://localhost:9989/kame-house/vlc-player.html?mockCordova=true)
+- Setup local apache httpd to serve the mobile app frontend code on [http://localhost:9980/kame-house-mobile/index.html](http://localhost:9980/kame-house-mobile/index.html) reading the files from the intellij or eclipse dev folder `kamehouse-mobile\www\kame-house-mobile` using the httpd setup scripts mentioned in the [setup docs](/docs/dev-environment/dev-environment-setup-apache.md)
+- This is the fastest way to test ui changes to the mobile app or test my javascript logic that runs differently for native mobile app, but it won't be able to connect to the backend server to test any interaction with the backend. For interactions with the backend, I need to upload the apk to my phone and test from my phone. There's no way to test that from my dev laptop directly
+- Load the page with ?mockCordova=true&logLevel=trace parameter to mock cordova calls [http://localhost:9980/kame-house-mobile/index.html?mockCordova=true&logLevel=trace](http://localhost:9980/kame-house-mobile/index.html?mockCordova=true&logLevel=trace). I can add the url parameter mockCordova=true to any page I load in the browser and test the mobile functionality with mocked cordova for any page, not just the mobile settings page. For example [http://localhost:9989/kame-house/vlc-player.html?mockCordova=true](http://localhost:9989/kame-house/vlc-player.html?mockCordova=true)
 - For changes that interact with cordova api, it's better to test it directly on the cordova server [http://localhost:8000/index.html](http://localhost:8000/index.html) but on every ui code change I need to restart the server so it's slower for changes that don't require cordova
