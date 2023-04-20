@@ -1775,7 +1775,11 @@ function KameHouseCoreFunctions() {
     if (kameHouse.core.isEmpty(message)) {
       message = "Error executing api call";
     }
-    const errorMessage = message + ": responseBody=" + responseBody + "; responseCode=" + responseCode + "; responseDescription=" + responseDescription + "; responseHeaders=" + JSON.stringify(responseHeaders);
+    const errorMessage = message + ": [ 'responseCode' : '" + responseCode 
+      + "', 'responseDescription' : '" + responseDescription 
+      + "', 'responseHeaders' : '" + JSON.stringify(responseHeaders) 
+      + "', 'responseBody' : '" + responseBody 
+      + "' ]";
     error(errorMessage);
   }
 
