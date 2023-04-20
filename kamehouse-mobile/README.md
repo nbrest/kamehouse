@@ -107,7 +107,7 @@ kamehouse-mobile-run-browser.sh
 ```
 
 - Then a local browser windows should open in chrome
-- Currently the default url is: [http://localhost:8000/index.html](http://localhost:8000/index.html)
+- Currently the default url is: [http://localhost:8000/kame-house/index.html](http://localhost:8000/kame-house/index.html)
 - Open chrome dev tools and set the visible width to 391px. That's as similar view as I get to my phone
 - Running like this will fail to do any backend api calls. I can test some cordova functionality though like storing/updating the settings file
 
@@ -117,4 +117,4 @@ kamehouse-mobile-run-browser.sh
 - This is the fastest way to test ui changes to the mobile app or test my javascript logic that runs differently for native mobile app, but it won't be able to connect to the backend server to test any interaction with the backend. For interactions with the backend, I need to upload the apk to my phone and test from my phone. There's no way to test that from my dev laptop directly
 - Load the page with ?mockCordova=true&logLevel=trace parameter to mock cordova calls [http://localhost:9989/kame-house-mobile/settings.html?mockCordova=true&logLevel=trace](http://localhost:9989/kame-house-mobile/settings.html?mockCordova=true&logLevel=trace) 
 - I can add the url parameter mockCordova=true to any page I load in the browser and test the mobile functionality with mocked cordova for any page, not just the mobile settings page. For example [http://localhost:9989/kame-house/vlc-player.html?mockCordova=true](http://localhost:9989/kame-house/vlc-player.html?mockCordova=true)
-- For changes that interact with cordova api, it's better to test it directly on the cordova server [http://localhost:8000/index.html](http://localhost:8000/index.html) but on every ui code change I need to restart the server so it's slower for changes that don't require cordova
+- For changes that interact with cordova api, it's better to test it directly on the cordova server [http://localhost:8000/kame-house/index.html](http://localhost:8000/kame-house/index.html) but on every ui code change I need to restart the server so it's slower for changes that don't require cordova
