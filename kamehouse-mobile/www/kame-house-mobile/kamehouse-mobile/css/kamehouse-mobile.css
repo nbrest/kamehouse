@@ -14,62 +14,11 @@
   margin-right: 20px;
 }
 
-.home-link-img {
-  width: 110px;
-  height: 110px;
-  cursor: pointer;
-}
-
-#home-tab-app-links {
-  margin: auto;
-  text-align: center;
-  padding-top: 10px;
-}
-
-.home-tab-app-link {
-  background: #000000;
-  padding-top: 30px;
-  margin-top: 30px;
-  margin-bottom: 47px;
-  padding-bottom: 8px;
-  border: 1px;
-  border-color: #000000;
-  border-style: none none solid none;
-  width: 33%;
-  display: inline-block;
-}
-
-@media (max-width : 900px) {
-  .home-tab-app-link {
-    float: none;
-    text-align: center;
-    width: 100%;
-  }	
-}
-
-.home-tab-app-link-text {
-  font-weight: bold;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-
-#iab-target-dropdown {
-  margin-bottom: 10px;
-}
-
-#mobile-build-version-table {
+.mobile-build-version-table {
   width:90%;
   margin:auto;
-}
-
-.mobile-build-version-table-header {
-  background-color: #020202;
   color: #494848;
-}
-
-.mobile-build-version-table-data {
-  background-color: #040303;
-  color: #494747;
+  background-color: #000000;
 }
 
 .mobile-body {
@@ -103,44 +52,18 @@
 }
 
 .reset-cfg-btn-kh {
-  background: #3a0101;
-  width: 60%;
+  border: 1px solid #272727;
+  background: #210000;
+  color: #3f3f3f;
+  width: 40%;
+  min-width: 180px;
+  max-width: 240px;
 }
 
-.services-link-img {
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-
-.services-link-text {
-  font-weight: bold;
-  font-size: 20px;
-  text-align: left;
-}
-
-.services-link-desc {
-  text-align: left;
-  font-size: 14px;
-}
-
-.services-table {
-  border: none;
-  background: none;
-  width: 80%;
-  margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.services-table tr {
-  border: none;
-}
-
-.services-table tr td {
-  border: none;
+.save-settings-btn {
+  width: 50%;
+  min-width: 180px;
+  max-width: 280px;
 }
 
 /** animation: contract and expand in 10 seconds */

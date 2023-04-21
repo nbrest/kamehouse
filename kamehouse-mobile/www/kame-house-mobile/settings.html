@@ -34,25 +34,26 @@
     <div class="default-layout">
       <div id="tab-backend" class="kh-mobile-tab-content"></div>
       <br>
-      <button class="mobile-btn-kh" onclick="kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(true)">Save Settings</button>
-      <br>
-      <button class="mobile-btn-kh reset-cfg-btn-kh" onclick="kameHouse.extension.mobile.configManager.confirmResetDefaults()">Reset to defaults</button>
-      <br>
-      <table id="mobile-build-version-table" class="table-kh">
+      <button class="mobile-btn-kh save-settings-btn" onclick="kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(true)">Save Settings</button>
+      <br><br>
+      <table class="table-kh mobile-build-version-table">
         <caption class="hidden-kh">Mobile Version</caption>
         <thead class="hidden-kh"><tr><th>Header</th></tr></thead>
         <tbody>
           <tr>
-            <td class="mobile-build-version-table-header">Mobile Build Version</td>
+            <td>Mobile Build Version</td>
           </tr>
           <tr>
-          <td class="mobile-build-version-table-data">
+          <td>
             v<span id="mobile-build-version">0.00.0</span>-<span id="mobile-git-hash">a1b2c3d4</span> - 
             <span id="mobile-build-date">0000-00-00 00:00:00</span>
           </td>
         </tr>
         </tbody>
       </table>
+      <br>
+      <button class="mobile-btn-kh reset-cfg-btn-kh" onclick="kameHouse.extension.mobile.configManager.confirmResetDefaults()">Reset Settings</button>
+      <br>
       <!-- The following is common to all tabs -->
       <div class="default-layout txt-c-d-kh txt-c-m-kh">
         <span id="debug-mode-button-wrapper" class="debug-mode-btn-hidden"></span>
