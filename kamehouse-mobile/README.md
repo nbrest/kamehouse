@@ -53,7 +53,7 @@ npm install -g cordova
 - Upload `app-debug.apk` to your android phone and install with the package installer
 - It's not signed or verified by playstore so it will show warnings when trying to install it
 - By default it's not allowed to install, so you need to enable installing unverified apps
-- Easiest way I found to upload frequently during development is to download a free webdav server or sftp server on playstore and upload the apk with winscp. The script `kamehouse-mobile-upload-apk-to-device.sh` automates this step using SSH/SFTP Server - Terminal from googleplay (from Banana Studio) 
+- Easiest way I found to upload frequently during development is to download a free webdav server or sftp server on playstore and upload the apk with winscp or upload it to google drive. The script `kamehouse-mobile-upload-apk-to-device.sh` automates this step using SSH/SFTP Server - Terminal from googleplay (from Banana Studio) 
 
 # Run in a local cordova browser
 

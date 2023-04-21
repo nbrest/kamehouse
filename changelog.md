@@ -8,6 +8,11 @@
 #### v8.11
 
 - Fixed vlc player concurrency issues that were resetting the player view randomly the first seconds of loading the page on the mobile app
+- Updated scrollbar styles
+- Updated debug mode console styles
+- Removed .m2 repository kamehouse entries after deployment
+- Updated build and deploy mobile scripts to upload the apk to local synced google drive
+- Refactored build and deploy scripts to use common functions
 
 #### v8.10
 
