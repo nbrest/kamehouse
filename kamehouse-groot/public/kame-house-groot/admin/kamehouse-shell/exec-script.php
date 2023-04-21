@@ -24,7 +24,6 @@
 </head>
 
 <body>
-  <div id="groot-menu-wrapper" onmouseover="kameHouse.header.showGrootMenu()" onmouseleave="kameHouse.header.hideGrootMenu()"></div>
   <div class="banner-wrapper">
     <div id="banner" class="fade-in-out-15s banner-fuji">
       <div class="default-layout banner-text">
@@ -35,6 +34,7 @@
       </div>
     </div>
   </div>
+  <div id="groot-menu-wrapper"></div>
   <div class="default-layout">
     <br>
     <p class="p-15-m-kh">Executes the specified script from kamehouse-shell in my

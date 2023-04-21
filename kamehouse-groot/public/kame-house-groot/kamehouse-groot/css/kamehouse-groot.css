@@ -76,23 +76,7 @@ a:active {
 
 /** groot header */
 #groot-menu-wrapper {
-  display: none;
-}
-
-@media ( max-width : 900px) {  
-  #groot-menu-wrapper {
-    display: block;
-  }
-}
-
-#groot-header-branding-desktop {
   display: block;
-}
-
-@media ( max-width : 900px) {  
-  #groot-header-branding-desktop {
-    display: none;
-  } 
 }
 
 #groot-header-login-status-desktop {
@@ -102,16 +86,6 @@ a:active {
 @media ( max-width : 900px) {  
   #groot-header-login-status-desktop {
     display: none;
-  } 
-}
-
-#groot-header-branding-mobile {
-  display: none;
-}
-
-@media ( max-width : 900px) {  
-  #groot-header-branding-mobile {
-    display: block;
   } 
 }
 
@@ -130,7 +104,8 @@ a:active {
   height: 25px;
   width: 25px;
   margin-top: 6px;
-  margin-left: 25px;
+  margin-left: 30px;
+  margin-right: 10px;
   filter: brightness(0.3);
   float: left;
 }
@@ -216,22 +191,22 @@ a:active {
   }
 }
 
-#groot-header-top-wrapper {
+#groot-header-bottom-wrapper {
   background-color: #000000;
   display: none;
   overflow: none;
 }
 
 @media ( max-width : 900px) {	 
-  #groot-header-top-wrapper {
-    padding: 0px;
-    width: 100%;
+  #groot-header-bottom-wrapper {
     display: block;
+    padding: 3px;
+    width: 100%;
   }
 }  
 
 @media ( max-width : 900px) {
-  #groot-header-top {
+  #groot-header-bottom {
     display: block;
     overflow: hidden;
   }
@@ -245,8 +220,14 @@ a:active {
 .groot-nav-wrapper {
   background-color: #000000;
   overflow: hidden;
-  border-bottom: #4d0000 3px solid;
+  border-bottom: #353535 3px solid;
 }
+
+@media ( max-width : 900px) {
+  .groot-nav-wrapper {
+    border-bottom: #191919 2px solid;
+  }
+}  
 
 .groot-nav a {
   float: left;
@@ -259,13 +240,13 @@ a:active {
 }
 
 .groot-nav a.active {
-  background-color: #500000;
-  color: #cccccc;
+  background-color: #222222;
+  color: #8e8e8e;
 }
 
 .groot-nav a:hover {
-  background-color: #222222;
-  color: #dbdbdb;
+  background-color: #424242;
+  color: #8e8e8e;
 }
 
 .groot-nav .icon {
@@ -273,41 +254,7 @@ a:active {
 }
 
 .groot-nav .highlight {
-  color: #d90000;
+  color: #575757;
   font-weight: bold;
-}
-
-@media (max-width : 900px) {
-
-  .groot-nav .default-layout {
-    padding: 0px;
-    width: 100%;
-    display: block;
-  }
-
-  .groot-nav a:nth-child(n+4) {
-    display: none;
-  }
-
-  .groot-nav a.icon {
-    float: right;
-    display: block;
-  }
-
-  .groot-nav.responsive {
-    position: relative;
-  }
-  
-  .groot-nav.responsive a.icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
-  .groot-nav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
 }
 /** groot menu nav end */

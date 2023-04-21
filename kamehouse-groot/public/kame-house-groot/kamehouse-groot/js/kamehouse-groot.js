@@ -31,18 +31,7 @@ function KameHouseGroot() {
  */
 function GrootHeader() {
 
-  this.toggleGrootNav = toggleGrootNav;
   this.renderGrootMenu = renderGrootMenu;
-
-  /** Toggle expanding/collapsing the groot menu hamburguer */
-  function toggleGrootNav() {
-    const rootMenu = document.getElementById("groot-menu");
-    if (rootMenu.className === "groot-nav") {
-      kameHouse.util.dom.classListAdd(rootMenu, "responsive");
-    } else {
-      kameHouse.util.dom.classListRemove(rootMenu, "responsive");
-    }
-  }
 
   /** Render groot sub menu */
   function renderGrootMenu() {

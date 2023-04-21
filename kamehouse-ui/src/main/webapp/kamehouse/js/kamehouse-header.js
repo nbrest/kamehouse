@@ -7,8 +7,6 @@ function KameHouseHeader() {
 
   this.load = load;
   this.toggleHeaderNav = toggleHeaderNav;
-  this.showGrootMenu = showGrootMenu;
-  this.hideGrootMenu = hideGrootMenu;
   
   /** Load the header */
   function load() {
@@ -102,39 +100,6 @@ function KameHouseHeader() {
     } else {
       kameHouse.util.dom.append($loginStatus, getUsernameHeader(kameHouse.session.username));
       kameHouse.util.dom.append($loginStatus, getLogoutButton());        
-    }
-  }
-
-  /**
-   * Checks if it's running in mobile device view.
-   */
-  function isMobile() {
-    return window.matchMedia("only screen and (max-width: 900px)").matches;
-  }
-
-  /**
-   * Show groot submenu.
-   */
-  function showGrootMenu() {
-    if (isMobile()) {
-      return;
-    }
-    const menu = document.getElementById("groot-menu-wrapper");
-    if (!kameHouse.core.isEmpty(menu)) {
-      kameHouse.util.dom.setDisplay(menu, "block");
-    }
-  }
-
-  /**
-   * Hide groot submenu.
-   */
-  function hideGrootMenu() {
-    if (isMobile()) {
-      return;
-    }
-    const menu = document.getElementById("groot-menu-wrapper");
-    if (!kameHouse.core.isEmpty(menu)) {
-      kameHouse.util.dom.setDisplay(menu, "none");
     }
   }
 

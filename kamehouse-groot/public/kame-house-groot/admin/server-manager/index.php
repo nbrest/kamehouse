@@ -22,7 +22,6 @@
 <link rel="stylesheet" href="/kame-house-groot/css/admin/server-manager.css" />
 </head>
 <body>
-  <div id="groot-menu-wrapper" onmouseover="kameHouse.header.showGrootMenu()" onmouseleave="kameHouse.header.hideGrootMenu()"></div>
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-goku-ssj4-earth">
     <div class="default-layout banner-text">
@@ -31,6 +30,7 @@
     </div>
   </div>  
   </div>
+  <div id="groot-menu-wrapper"></div>
   <div class="tabs-kh bg-lighter-1-kh">
     <div class="default-layout">
       <button id="tab-git-link" class="tab-kh-link"
