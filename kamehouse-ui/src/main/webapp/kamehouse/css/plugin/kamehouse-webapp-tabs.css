@@ -6,13 +6,26 @@
 }
 
 .kh-webapp-tabs {
-  overflow: hidden;
+  background-color: #0e1214;
   border-bottom: #272727 3px solid;
 }
 
-.kh-webapp-tabs button {
-  background-color: inherit;
-  float: left;
+@media (max-width : 900px) {
+  .kh-webapp-tabs {
+    border-bottom: none;
+  }
+}
+
+.kh-webapp-tabs-table {
+  background-color: #0e1214;
+  border: none;
+}
+
+.kh-webapp-tabs-table tr {
+  border: none;
+}
+
+.kh-webapp-tabs-table tr td {
   border: none;
   outline: none;
   cursor: pointer;
@@ -25,22 +38,12 @@
   text-decoration: none;
 }
 
-@media (max-width : 900px) {
-  .kh-webapp-tabs button {
-    padding-right: 5px;
-    padding-left: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    min-width: 50px;
-  }
-}
-
-.kh-webapp-tabs button:hover {
+.kh-webapp-tabs-table tr td:hover {
   background-color: black;
   color: #eeeded;
 }
 
-.kh-webapp-tabs button.active {
+.kh-webapp-tabs-table tr td.active {
   background-color: #500000;
   color: #dfdfdf;
 }

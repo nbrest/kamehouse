@@ -1,19 +1,28 @@
-<div class="kh-webapp-tabs bg-lighter-1-kh">
+<div class="kh-webapp-tabs">
   <div class="default-layout">
-    <button id="tab-admin-link" class="kh-webapp-tab-link"
-      onclick="kameHouse.plugin.webappTabsManager.openTab('tab-admin')">Admin</button>
-    <button id="tab-media-link" class="kh-webapp-tab-link"
-      onclick="kameHouse.plugin.webappTabsManager.openTab('tab-media')">Media</button>
-    <button id="tab-tennisworld-link" class="kh-webapp-tab-link"
-      onclick="kameHouse.plugin.webappTabsManager.openTab('tab-tennisworld')">TennisWorld</button>
-    <button id="tab-testmodule-link" class="kh-webapp-tab-link"
-      onclick="kameHouse.plugin.webappTabsManager.openTab('tab-testmodule')">TestModule</button>
-    <button id="tab-ui-link" class="kh-webapp-tab-link"
-      onclick="kameHouse.plugin.webappTabsManager.openTab('tab-ui')">UI</button>
-    <button id="tab-vlcrc-link" class="kh-webapp-tab-link"
-      onclick="kameHouse.plugin.webappTabsManager.openTab('tab-vlcrc')">VlcRc</button>
+    <table class="table-kh kh-webapp-tabs-table">
+      <caption class="hidden-kh">KameHouse Webapp Tabs</caption>
+      <thead class="hidden-kh"><tr><th>Header</th></tr></thead>
+      <tbody>
+        <tr>
+          <td id="tab-admin-link" class="kh-webapp-tab-link"
+          onclick="kameHouse.plugin.webappTabsManager.openTab('tab-admin')">Admin</td>  
+          <td  id="tab-media-link" class="kh-webapp-tab-link"
+            onclick="kameHouse.plugin.webappTabsManager.openTab('tab-media')">Media</td>  
+          <td id="tab-tennisworld-link" class="kh-webapp-tab-link"
+            onclick="kameHouse.plugin.webappTabsManager.openTab('tab-tennisworld')">TennisWorld</td>  
+          <td id="tab-testmodule-link" class="kh-webapp-tab-link"
+            onclick="kameHouse.plugin.webappTabsManager.openTab('tab-testmodule')">TestModule</td>  
+          <td id="tab-ui-link" class="kh-webapp-tab-link"
+            onclick="kameHouse.plugin.webappTabsManager.openTab('tab-ui')">UI</td>  
+          <td id="tab-vlcrc-link" class="kh-webapp-tab-link"
+            onclick="kameHouse.plugin.webappTabsManager.openTab('tab-vlcrc')">VlcRc</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div> <!-- kh-webapp-tabs -->
+</div>
+ <!-- kh-webapp-tabs -->
 
 <!-- 
   Create these divs in the page where I'm importing kh-webapp-tabs.js and insert the content of each tab inside each of these divs:
