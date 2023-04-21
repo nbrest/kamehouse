@@ -11,6 +11,7 @@
 - Updated scrollbar styles
 - Updated mobile app settings styles
 - Updated debug mode console styles
+- Updated groot menu styles and layout
 - Removed .m2 repository kamehouse entries after deployment
 - Updated build and deploy mobile scripts to upload the apk to local synced google drive
 - Refactored build and deploy scripts to use common functions
