@@ -72,7 +72,7 @@ doLocalDeployment() {
   fi
   deployKameHouseCmd
   deployKameHouseMobile
-  cleanUpM2
+  cleanUpMavenRepository
 }
 
 checkCurrentDir() {
@@ -241,7 +241,7 @@ deployKameHouseMobile() {
   fi
 }
 
-cleanUpM2() {
+cleanUpMavenRepository() {
   log.info "Removing com.nicobrest entries from ${HOME}/.m2"
   rm -rf ${HOME}/.m2/repository/com/nicobrest
 }
