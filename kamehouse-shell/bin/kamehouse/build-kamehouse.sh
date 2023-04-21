@@ -15,109 +15,28 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
-FAST_BUILD=false
-INTEGRATION_TESTS=false
-MAVEN_COMMAND=
-RESUME=false
-SKIP_TESTS=false
-CONTINUE_ON_ERRORS=false
-BUILD_ALL_EXTRA_MODULES=false
-DELETE_ALL_MOBILE_OUTPUTS=false
+
+# buildMobile default settings override for build
+USE_CURRENT_DIR_FOR_CORDOVA=true
 
 mainProcess() {
-  buildProject
-  cleanLogsInGitRepoFolder
-}
-
-buildProject() {
-  log.info "Building ${COL_PURPLE}kamehouse${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
-  
-  exportGitCommitHash
-  buildMavenCommand
-  executeMavenCommand
-
-  if [[ "${BUILD_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    buildMobile
-  fi
-}
-
-buildMavenCommand() {
-  MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
-
-  if ${SKIP_TESTS}; then
-    log.info "Executing build skipping tests"
-    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true"
-  fi
-
-  if ${FAST_BUILD}; then
-    log.info "Executing fast build. Skipping checkstyle, findbugs and tests"
-    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-  fi
-
-  if ${INTEGRATION_TESTS}; then
-    if ${CONTINUE_ON_ERRORS}; then
-      MAVEN_COMMAND="mvn test-compile failsafe:integration-test -P ${MAVEN_PROFILE}"
-    else
-      MAVEN_COMMAND="mvn test-compile failsafe:integration-test failsafe:verify -P ${MAVEN_PROFILE}"
-    fi
-  fi
-
-  if [ -n "${MODULE}" ]; then
-    log.info "Building module ${COL_PURPLE}${MODULE}"
-    if ${RESUME}; then
-      log.info "Resuming from last build"
-      MAVEN_COMMAND="${MAVEN_COMMAND} -rf :${MODULE}"
-    else
-      MAVEN_COMMAND="${MAVEN_COMMAND} -pl :${MODULE} -am"
-    fi
-  else
-    log.info "Building all modules"
-  fi
-}
-
-executeMavenCommand() {
-  log.info "Executing command: '${MAVEN_COMMAND}'"
-  ${MAVEN_COMMAND}
-  checkCommandStatus "$?" "An error occurred building kamehouse"
-}
-
-buildMobile() {
-  log.info "Building kamehouse-mobile android app"
-  cd kamehouse-mobile
-  if ${DELETE_ALL_MOBILE_OUTPUTS}; then
-    log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
-    cordova clean
-    cordova platform remove android
-    cordova platform add android
-  fi
-  refreshCordovaPlugins
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
-  cp -v -f pom.xml www/kame-house-mobile/
-  echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
-  date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
-  log.debug "cordova build android"
-  cordova build android
-  checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
+  buildKameHouseProject
 }
 
 parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":abcdfim:p:rs" OPT; do
-    case $OPT in
-    ("a")
-      BUILD_ALL_EXTRA_MODULES=true
-      ;;  
+  while getopts ":bcdfim:p:r" OPT; do
+    case $OPT in 
     ("b")
       REFRESH_CORDOVA_PLUGINS=true
       ;;  
     ("c")
-      CONTINUE_ON_ERRORS=true
+      CONTINUE_INTEGRATION_TESTS_ON_ERRORS=true
       ;;    
     ("d")
-      DELETE_ALL_MOBILE_OUTPUTS=true
+      CLEAN_CORDOVA_BEFORE_BUILD=true
       ;;    
     ("f")
       FAST_BUILD=true
@@ -126,10 +45,7 @@ parseArguments() {
       INTEGRATION_TESTS=true
       ;;
     ("r")
-      RESUME=true
-      ;;
-    ("s")
-      SKIP_TESTS=true
+      RESUME_BUILD=true
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -144,16 +60,14 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-a" "build all modules, including mobile app (by default it builds all without the mobile app)"
-  addHelpOption "-b" "refresh cordova plugins. disabled by default"
+  addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-c" "continue even with errors when running integration tests"
-  addHelpOption "-d" "delete all output folders on kamehouse-mobile to do a full rebuild. This option is only considered when used with -a or -m mobile"
+  addHelpOption "-d" "mobile: reset platforms on project. ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
   addHelpOption "-i" "run integration tests only"
   printKameHouseModuleOption "build"
   printMavenProfileOption
-  addHelpOption "-r" "resume. Continue where it failed in the last build"
-  addHelpOption "-s" "skip tests. Use it to find any checkstyle/findbugs issues on all modules regardless of test coverage"
+  addHelpOption "-r" "resume build. Continue where it failed in the last build"
 }
 
 main "$@"

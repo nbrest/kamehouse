@@ -17,7 +17,6 @@ source ${HOME}/.kamehouse/.shell/.cred
 
 ANDROID_IP="192.168.0.92"
 ANDROID_PORT=2222
-ANDROID_APK=${HOME}/workspace-intellij/kamehouse/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk
 SKIP_BUILD_MOBILE=false
 SD_CARD_APK_PATH=/0/Download
 SFTP_USER=android
@@ -33,18 +32,23 @@ mainProcess() {
       ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
     fi
   fi
-  log.warn "Start SSH/SFTP Server - Terminal on the android phone before proceeding"
-  log.warn "The server should be configured as specified in export-sync-audio-playlists.md"
-  log.info "Uploading kamehouse mobile apk to android phone"
-  log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/.shell/.cred as ANDROID_SFTP_PASS=password to execute without password prompt"
+  uploadApkToDeviceSftp
+}
+
+uploadApkToDeviceSftp() {
+  setKameHouseMobileApkPath
+  log.warn "${COL_PURPLE}Start SSH/SFTP Server - Terminal${COL_DEFAULT_LOG} on the android phone before proceeding"
+  log.warn "The server should be configured as specified in ${COL_PURPLE}export-sync-audio-playlists.md"
+  log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_DEFAULT_LOG} through sftp"
+  log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/.shell/.cred as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt"
   if ${IS_LINUX_HOST}; then 
-    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/kamehouse.apk\" "
-    sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${ANDROID_APK} ${SD_CARD_APK_PATH}/kamehouse.apk" 
+    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${KAMEHOUSE_ANDROID_APK_PATH} ${SD_CARD_APK_PATH}/kamehouse.apk\" "
+    sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${KAMEHOUSE_ANDROID_APK_PATH} ${SD_CARD_APK_PATH}/kamehouse.apk" 
   else
     log.warn "Putty pscp needs to be installed. if not switch to standard scp. Run with log=debug to see scp command"
-    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${ANDROID_APK} ${SD_CARD_APK_PATH}/kamehouse.apk\" "
-    log.debug "pscp -pw [pass] -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/kamehouse.apk"
-    pscp -pw ${ANDROID_SFTP_PASS} -v -P ${ANDROID_PORT} ${ANDROID_APK} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/kamehouse.apk
+    log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${KAMEHOUSE_ANDROID_APK_PATH} ${SD_CARD_APK_PATH}/kamehouse.apk\" "
+    log.debug "pscp -pw [pass] -v -P ${ANDROID_PORT} ${KAMEHOUSE_ANDROID_APK_PATH} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/kamehouse.apk"
+    pscp -pw ${ANDROID_SFTP_PASS} -v -P ${ANDROID_PORT} ${KAMEHOUSE_ANDROID_APK_PATH} ${SFTP_USER}@${ANDROID_IP}:${SD_CARD_APK_PATH}/kamehouse.apk
   fi
 }
 

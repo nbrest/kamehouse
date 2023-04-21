@@ -20,24 +20,24 @@ DEFAULT_ENV=local
 LOG_PROCESS_TO_FILE=true
 PROJECT_DIR="${HOME}/git/${PROJECT}"
 KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
-KAMEHOUSE_ANDROID_APP="${PROJECT_DIR}/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_MOBILE_APP_SERVER="pi"
 KAMEHOUSE_MOBILE_APP_USER="pi"
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
-
-# Variables set by command line arguments
-EXTENDED_DEPLOYMENT=false
-DEPLOY_ALL_EXTRA_MODULES=false
-USE_CURRENT_DIR=false
-REFRESH_CORDOVA_PLUGINS=true
 
 # Global variables set during the process
 DEPLOYMENT_DIR=""
 TOMCAT_DIR=""
 TOMCAT_LOG=""
-MAVEN_COMMAND=""
 KAMEHOUSE_BUILD_VERSION=""
 DEPLOY_TO_TOMCAT=false
+
+USE_CURRENT_DIR_FOR_DEPLOYMENT=false
+
+# buildMavenCommand default settings override for deployment
+FAST_BUILD=true
+
+# buildMobile default settings override for deployment
+RESET_PACKAGE_JSON=true
 
 mainProcess() {
   setDeploymentParameters
@@ -51,9 +51,8 @@ mainProcess() {
 }
 
 doLocalDeployment() {
-  if ${USE_CURRENT_DIR}; then
+  if ${USE_CURRENT_DIR_FOR_DEPLOYMENT}; then
     PROJECT_DIR=`pwd`
-    KAMEHOUSE_ANDROID_APP="${PROJECT_DIR}/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
   else  
     cd ${PROJECT_DIR}
     checkCommandStatus "$?" "Invalid project directory" 
@@ -65,8 +64,7 @@ doLocalDeployment() {
   deployKameHouseShell
   deployKameHouseUiStatic
   deployKameHouseGroot
-  buildProject
-  cleanLogsInGitRepoFolder
+  buildKameHouseProject
   if ${DEPLOY_TO_TOMCAT}; then
     executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
     executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
@@ -74,6 +72,7 @@ doLocalDeployment() {
   fi
   deployKameHouseCmd
   deployKameHouseMobile
+  cleanUpM2
 }
 
 checkCurrentDir() {
@@ -140,71 +139,6 @@ pullLatestVersionFromGit() {
     git pull origin dev
     checkCommandStatus "$?" "An error occurred pulling origin dev"
   fi
-}
-
-buildProject() {
-  log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
-  
-  exportGitCommitHash
-  buildMavenCommand
-  executeMavenCommand
-  
-  if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    buildMobile
-  fi
-}
-
-buildMavenCommand() {
-  MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
-  
-  if ${EXTENDED_DEPLOYMENT}; then
-    log.info "Executing extended deployment. Performing checkstyle, findbugs and unit tests"
-  else
-    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-  fi
-
-  if [ -n "${MODULE}" ]; then
-    log.info "Building module ${COL_PURPLE}${MODULE}"
-    MAVEN_COMMAND="${MAVEN_COMMAND} -pl :${MODULE} -am"
-  else
-    log.info "Building all modules"
-  fi
-}
-
-executeMavenCommand() {
-  log.info "${MAVEN_COMMAND}"
-  ${MAVEN_COMMAND}
-  checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
-}
-
-buildMobile() {
-  log.info "Building kamehouse-mobile android app"
-  cd kamehouse-mobile
-  log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
-  cordova clean
-  cordova platform remove android
-  cordova platform add android
-  refreshCordovaPlugins
-  # Reset unnecessary git changes after platform remove/add
-  git checkout HEAD -- package.json
-  git checkout HEAD -- package-lock.json
-  if ${USE_CURRENT_DIR}; then
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
-  else
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
-  fi
-  cp -v -f pom.xml www/kame-house-mobile/
-  echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
-  date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
-  log.debug "cordova build android"
-  cordova build android
-  checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
-  if ${USE_CURRENT_DIR}; then
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
-  else
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod -d
-  fi  
-  cd ..
 }
 
 deployToTomcat() {
@@ -293,18 +227,23 @@ deployKameHouseShell() {
 }
 
 deployKameHouseMobile() {
-  if [[ "${DEPLOY_ALL_EXTRA_MODULES}" == "true" || "${MODULE}" == "kamehouse-mobile" ]]; then
+  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"
-    if [ -f "${KAMEHOUSE_ANDROID_APP}" ]; then
-      log.debug "scp -v ${KAMEHOUSE_ANDROID_APP} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
-      scp -v ${KAMEHOUSE_ANDROID_APP} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
+    if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
+      log.debug "scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
+      scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
 
       log.debug "ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C \"\\\${HOME}/programs/kamehouse-shell/bin/kamehouse/kh-mobile-regenerate-apk-html.sh -c ${GIT_COMMIT_HASH}\""
       ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "\${HOME}/programs/kamehouse-shell/bin/kamehouse/kh-mobile-regenerate-apk-html.sh -c ${GIT_COMMIT_HASH}"
     else
-      log.error "${KAMEHOUSE_ANDROID_APP} not found. Was the build successful?"
+      log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
     fi
   fi
+}
+
+cleanUpM2() {
+  log.info "Removing com.nicobrest entries from ${HOME}/.m2"
+  rm -rf ${HOME}/.m2/repository/com/nicobrest
 }
 
 parseArguments() {
@@ -312,19 +251,14 @@ parseArguments() {
   parseMavenProfile "$@"
   parseKameHouseServer "$@"
 
-  while getopts ":acm:p:rs:x" OPT; do
+  while getopts ":bcm:p:s:" OPT; do
     case $OPT in
-    ("a")
-      DEPLOY_ALL_EXTRA_MODULES=true
+    ("b")
+      REFRESH_CORDOVA_PLUGINS=true
       ;;
     ("c")
-      USE_CURRENT_DIR=true
-      ;;
-    ("r")
-      REFRESH_CORDOVA_PLUGINS=false
-      ;;
-    ("x")
-      EXTENDED_DEPLOYMENT=true
+      USE_CURRENT_DIR_FOR_DEPLOYMENT=true
+      USE_CURRENT_DIR_FOR_CORDOVA=true
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -340,13 +274,11 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-a" "deploy all modules, including mobile app (by default it doesn't deploy the mobile app)"
+  addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-c" "deploy from current directory instead of default ${PROJECT_DIR}"
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
   printKameHouseServerOption
-  addHelpOption "-r" "skip refresh pf cordova plugins. refreshed by default on deploy mobile"
-  addHelpOption "-x" "extended deployment. Perform checkstyle, findbugs and unit tests"
 }
 
 main "$@"

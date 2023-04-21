@@ -41,12 +41,12 @@ setGlobalVariables() {
 
 exportKameHouseUi() {
   cd ${EXPORT_KAMEHOUSE_DIR}
-  log.info "Using SOURCE_FILES_KAMEHOUSE_DIR = ${SOURCE_FILES_KAMEHOUSE_DIR}"
-  log.info "Using EXPORT_KAMEHOUSE_DIR = ${EXPORT_KAMEHOUSE_DIR}"
+  log.debug "Using SOURCE_FILES_KAMEHOUSE_DIR = ${SOURCE_FILES_KAMEHOUSE_DIR}"
+  log.debug "Using EXPORT_KAMEHOUSE_DIR = ${EXPORT_KAMEHOUSE_DIR}"
   log.info "Deleting existing files from target dir ${EXPORT_KAMEHOUSE_DIR}"
   rm -r -f ${EXPORT_KAMEHOUSE_DIR}
   if ${DELETE_ONLY}; then
-    log.info "Running with -d. Skip resyncing kamehouse ui files to mobile app"
+    log.debug "Running with -d. Skip resyncing kamehouse ui files to mobile app"
     return
   fi
 
@@ -56,7 +56,7 @@ exportKameHouseUi() {
   cd ${EXPORT_KAMEHOUSE_DIR}
   cp -r ${SOURCE_FILES_KAMEHOUSE_DIR}/* .
 
-  log.info "Removing WEB-INF folder from ${EXPORT_KAMEHOUSE_DIR}"
+  log.debug "Removing WEB-INF folder from ${EXPORT_KAMEHOUSE_DIR}"
   rm -r ${EXPORT_KAMEHOUSE_DIR}/WEB-INF
 }
 
@@ -64,7 +64,7 @@ exportGroot() {
   log.info "Deleting existing files from target dir ${EXPORT_GROOT_DIR}"
   rm -r -f ${EXPORT_GROOT_DIR}
   if ${DELETE_ONLY}; then
-    log.info "Running with -d. Skip resyncing groot files to mobile app"
+    log.debug "Running with -d. Skip resyncing groot files to mobile app"
     return
   fi
   log.info "Copying all files from ${SOURCE_FILES_GROOT_DIR} to ${EXPORT_GROOT_DIR}"
@@ -72,7 +72,7 @@ exportGroot() {
   cd ${EXPORT_GROOT_DIR}
   cp -r ${SOURCE_FILES_GROOT_DIR}/* .
 
-  log.info "Moving groot php files to html from kamehouse groot for mobile app and removing php tags"
+  log.debug "Moving groot php files to html from kamehouse groot for mobile app and removing php tags"
   local PHP_FILES=`find ./admin | grep -e ".php"`;
   while read PHP_FILE; do
     local HTML_FILE=${PHP_FILE::-3}html

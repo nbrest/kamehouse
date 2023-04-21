@@ -36,16 +36,31 @@ DEFAULT_TOMCAT_DEV_PORT=9980
 DEFAULT_HTTPD_PORT=443
 HTTPD_PORT=${DEFAULT_HTTPD_PORT}
 
+# docker defaults
 IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
-REFRESH_CORDOVA_PLUGINS=false
-
 # Generic username and password command line arguments
 USERNAME_ARG=""
 PASSWORD_ARG=""
+
+# buildMavenCommand defaults 
+MAVEN_COMMAND=
+INTEGRATION_TESTS=false
+CONTINUE_INTEGRATION_TESTS_ON_ERRORS=false
+RESUME_BUILD=false
+FAST_BUILD=false
+
+# buildMobile defaults
+USE_CURRENT_DIR_FOR_CORDOVA=false
+REFRESH_CORDOVA_PLUGINS=false
+CLEAN_CORDOVA_BEFORE_BUILD=false
+RESET_PACKAGE_JSON=false
+KAMEHOUSE_MOBILE_GDRIVE_PATH="/d/Downloads/Google Drive/KameHouse/kamehouse-mobile"
+KAMEHOUSE_ANDROID_APK="/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
+KAMEHOUSE_ANDROID_APK_PATH=""
 
 # ---------------------------
 # Common kamehouse functions
@@ -300,16 +315,6 @@ executeSshCommand() {
   log.info "Finished executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
 }
 
-cleanLogsInGitRepoFolder() {
-  log.info "Clearing logs in git repo folder"
-  rm -v -f logs/*.log
-
-  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
-  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    rm -v -f ${KAMEHOUSE_MODULE}/logs/*.log
-  done
-}
-
 executeOperationInTomcatManager() {
   local OPERATION=$1
   local TOMCAT_PORT=$2
@@ -357,17 +362,6 @@ loadDockerContainerEnv() {
   fi
 }
 
-# Assumes it's running on the root of the git kamehouse project
-exportGitCommitHash() {
-  local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
-    cd ..
-  fi
-  log.info "Exporting git commit hash to project"
-  GIT_COMMIT_HASH=`git rev-parse --short HEAD`
-  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
-}
-
 # Set a kamehouse command to execute through exec-script.sh or sudo or as root
 setSudoKameHouseCommand() {
   log.warn "This script needs to run as ${COL_RED}root${COL_DEFAULT_LOG} or with ${COL_RED}sudo${COL_DEFAULT_LOG} or with ${COL_RED}exec-script.sh${COL_DEFAULT_LOG}"  
@@ -387,9 +381,116 @@ getHttpdContentRoot() {
   fi
 }
 
+buildKameHouseProject() {
+  log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
+  
+  exportGitCommitHash
+  buildMavenCommand
+  executeMavenCommand
+  
+  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
+    buildMobile
+  fi
+  cleanLogsInGitRepoFolder
+}
+
+# Assumes it's running on the root of the git kamehouse project
+exportGitCommitHash() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
+    cd ..
+  fi
+  log.info "Exporting git commit hash to project"
+  GIT_COMMIT_HASH=`git rev-parse --short HEAD`
+  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+}
+
+buildMavenCommand() {
+  MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
+
+  if ${FAST_BUILD}; then
+    log.info "Executing fast build. Skipping checkstyle, findbugs and tests"
+    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
+  fi
+
+  if ${INTEGRATION_TESTS}; then
+    if ${CONTINUE_INTEGRATION_TESTS_ON_ERRORS}; then
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test -P ${MAVEN_PROFILE}"
+    else
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test failsafe:verify -P ${MAVEN_PROFILE}"
+    fi
+  fi
+
+  if [ -n "${MODULE}" ]; then
+    log.info "Building module ${COL_PURPLE}${MODULE}"
+    if ${RESUME_BUILD}; then
+      log.info "Resuming from last build"
+      MAVEN_COMMAND="${MAVEN_COMMAND} -rf :${MODULE}"
+    else
+      MAVEN_COMMAND="${MAVEN_COMMAND} -pl :${MODULE} -am"
+    fi
+  else
+    log.info "Building all modules"
+  fi
+}
+
+executeMavenCommand() {
+  log.info "${MAVEN_COMMAND}"
+  ${MAVEN_COMMAND}
+  checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
+}
+
+cleanLogsInGitRepoFolder() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
+    cd ..
+  fi
+  log.debug "Clearing logs in git repo folder"
+  rm -v -f logs/*.log
+
+  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
+  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
+    rm -v -f ${KAMEHOUSE_MODULE}/logs/*.log
+  done
+}
+
+buildMobile() {
+  log.info "${COL_PURPLE}Building kamehouse-mobile app"
+  cd kamehouse-mobile
+  setKameHouseMobileApkPath
+  if ${CLEAN_CORDOVA_BEFORE_BUILD}; then
+    cleanCordovaProject
+  fi
+  refreshCordovaPlugins
+  if ${RESET_PACKAGE_JSON}; then
+    # Reset unnecessary git changes after platform remove/add
+    git checkout HEAD -- package.json
+    git checkout HEAD -- package-lock.json
+  fi
+  buildCordovaProject
+  uploadKameHouseMobileApkToGDrive
+}
+
+setKameHouseMobileApkPath() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse" ]; then
+    cd kamehouse-mobile
+  fi
+  KAMEHOUSE_ANDROID_APK_PATH=`pwd`${KAMEHOUSE_ANDROID_APK}
+  log.debug "Setting KAMEHOUSE_ANDROID_APK_PATH=${KAMEHOUSE_ANDROID_APK_PATH}"
+}
+
+cleanCordovaProject() {
+  log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
+  cordova clean
+  cordova platform remove android
+  cordova platform add android
+}
+
+# Do this only when I really want to upgrade plugins, it might break my code with newer versions
 refreshCordovaPlugins() {
   if ${REFRESH_CORDOVA_PLUGINS}; then
-    log.info "Refreshing cordova plugins"
+    log.info "Refreshing cordova plugins for this build"
     # remove all plugins I ever added here, even the ones are no longer in the project
     cordova plugin remove cordova-plugin-inappbrowser # removed from project
     cordova plugin remove cordova-plugin-advanced-http
@@ -398,6 +499,32 @@ refreshCordovaPlugins() {
     cordova plugin add cordova-plugin-advanced-http
     cordova plugin add cordova-plugin-file
   else
-    log.info "Not refreshing cordova plugins"
+    log.debug "Not refreshing cordova plugins for this build"
   fi 
+}
+
+buildCordovaProject() {
+  if ${USE_CURRENT_DIR_FOR_CORDOVA}; then
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
+  else
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
+  fi
+  cp -f pom.xml www/kame-house-mobile/
+  echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
+  date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
+  log.debug "cordova build android"
+  cordova build android
+  checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
+  if ${USE_CURRENT_DIR_FOR_CORDOVA}; then
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
+  else
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod -d
+  fi  
+}
+
+uploadKameHouseMobileApkToGDrive() {
+  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH}" ]; then
+    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder"
+    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH}/kamehouse.apk"
+  fi
 }
