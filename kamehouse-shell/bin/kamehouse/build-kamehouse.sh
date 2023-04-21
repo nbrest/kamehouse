@@ -61,10 +61,10 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
-  addHelpOption "-c" "continue even with errors when running integration tests"
+  addHelpOption "-c" "integration tests: continue even with errors when running integration tests"
   addHelpOption "-d" "mobile: reset platforms on project. ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
-  addHelpOption "-i" "run integration tests only"
+  addHelpOption "-i" "integration tests: run integration tests only"
   printKameHouseModuleOption "build"
   printMavenProfileOption
   addHelpOption "-r" "resume build. Continue where it failed in the last build"
