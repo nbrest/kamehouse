@@ -30,6 +30,7 @@
   padding: 3px;
   height: 480px;
   overflow: scroll;
+  min-width: 100%;
   width: max-content;
 }
 

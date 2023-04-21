@@ -1341,7 +1341,7 @@ ul {
 
 /** Set scrollbar style FIREFOX */
 * {
-  scrollbar-color: #d90000 #060606 !important;
+  scrollbar-color: #400e0e #060606 !important;
   scrollbar-width: thin !important;
 }
 
@@ -1363,7 +1363,7 @@ ul {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9b0101;
+  background: #400e0e;
 }
 
 ::-webkit-scrollbar-corner {
