@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.13
+
+- Updated groot menu styles on mobile app
+
 #### v8.12
 
 - Fixed issues with logic to restart the vlc player sync loops in the mobile app after returning from background
