@@ -8,6 +8,7 @@
 #### v8.11
 
 - Fixed vlc player concurrency issues that were resetting the player view randomly the first seconds of loading the page on the mobile app
+- Added handlers for pause and resume event to restart the sync loops to avoid the callbacks piling up on the background
 - Updated scrollbar styles
 - Updated mobile app settings styles
 - Updated debug mode console styles
