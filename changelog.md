@@ -7,6 +7,7 @@
 
 #### v8.12
 
+- Fixed issues with logic to restart the vlc player sync loops in the mobile app after returning from background
 - Added sticky back to top to vlc player
 
 #### v8.11
