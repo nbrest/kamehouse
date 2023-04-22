@@ -818,6 +818,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   /** 
    * Start infinite loop to sync falling back to http calls when the websockets are disconnected.
+   * Break the loop setting isRunningSyncVlcPlayerHttpLoop to false.
    */
   async function syncVlcPlayerHttpLoop() {
     setTimeout(async () => {
