@@ -7,7 +7,7 @@
 
 #### v8.13
 
-- Updated groot menu styles on mobile app
+- Updated groot menu styles on mobile app and settings page
 
 #### v8.12
 
