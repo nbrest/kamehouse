@@ -832,7 +832,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
       let syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
       while (isRunningSyncVlcPlayerHttpLoop) {
-        kameHouse.logger.trace("syncVlcPlayerHttpLoop");
         if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
           kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests");
           vlcPlayer.loadStateFromApi();
