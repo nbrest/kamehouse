@@ -16,16 +16,13 @@
         <div>
           <span class="bold-kh txt-l-d-kh txt-l-m-kh">Console Log Level</span>
           <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh"
-            id="debug-mode-log-level-dropdown">
+            id="debug-mode-log-level-dropdown" onchange="kameHouse.plugin.debugger.setConsoleLogLevel()">
             <option value="0">ERROR</option>
             <option value="1">WARN</option>
             <option value="2" selected>INFO</option>
             <option value="3">DEBUG</option>
             <option value="4">TRACE</option>
           </select>
-          <img class="img-btn-kh" src="/kame-house/img/mplayer/play-gray.png"
-            onclick="kameHouse.plugin.debugger.setConsoleLogLevel()"
-            alt="Set Log Level" title="Set Log Level" />
         </div>
       </td></tr>
       <tr><td><h6 class="h5-kh txt-l-d-kh txt-l-m-kh">Console Log</h6></td></tr>
