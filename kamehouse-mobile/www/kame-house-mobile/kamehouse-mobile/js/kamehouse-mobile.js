@@ -201,7 +201,6 @@ function KameHouseMobileCore() {
     for (const [key, value] of Object.entries(headers)) {
       if (!kameHouse.core.isEmpty(key) && key.toLowerCase() == "content-type" 
         && !kameHouse.core.isEmpty(value) && value.toLowerCase() == "application/json") {
-          kameHouse.logger.trace("Response is json");
           isJson = true;
       }
     }

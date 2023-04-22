@@ -834,7 +834,7 @@ function KameHouseFileUtils() {
 function KameHouseMobileUtils() {
 
   this.init = init;
-  this.isMobileAppOnBackground = isMobileAppOnBackground;
+  this.setMobileEventListeners = setMobileEventListeners;
   this.disableMobileOnlyElements = disableMobileOnlyElements;
   this.disableWebappOnlyElements = disableWebappOnlyElements;
   this.windowLocation = windowLocation;
@@ -843,21 +843,19 @@ function KameHouseMobileUtils() {
   this.generateAndroidQrCode = generateAndroidQrCode;
 
   let isMobileAppStatus = false;
-  let isMobileAppOnBackgroundStatus = false;
 
   function init() {
     loadCordovaModule();
     disableMobileOnlyElements();
     loadGlobalMobile();
-    setMobileEventListeners();
+    setMobileEventListeners(
+      () => {kameHouse.logger.debug("mobile app sent to background");}, 
+      () => {kameHouse.logger.debug("mobile app sent to foreground");}
+    );
   }
 
   function isMobileApp() {
     return isMobileAppStatus;
-  }
-  
-  function isMobileAppOnBackground() {
-    return isMobileAppOnBackgroundStatus;
   }
   
   function loadCordovaModule() {
@@ -870,6 +868,7 @@ function KameHouseMobileUtils() {
       if (cordova) { 
         kameHouse.logger.info("cordova object is present. Running as a mobile app");
         isMobileAppStatus = true;
+        addCordovaErrorHandler();
       }
     } catch (error) {
       kameHouse.logger.info("cordova object is not present. Running as a webapp");
@@ -877,33 +876,35 @@ function KameHouseMobileUtils() {
     }
   }
 
-  function setMobileEventListeners() {
+  function addCordovaErrorHandler() {
+    kameHouse.logger.info("Adding cordova error handler");
+    window.addEventListener("cordovacallbackerror", (event) => {
+      kameHouse.logger.error("Unexpected cordova error: " + event);
+      alert("Unexpected cordova error: " + event);
+    });  
+  }
+
+  function setMobileEventListeners(onPauseFunction, onResumeFunction) {
     exec(
       null,
       () => {
         kameHouse.logger.info("Setting mobile app event handlers");
-        document.addEventListener("deviceready", onDeviceReady, false);
-        window.addEventListener("cordovacallbackerror", (event) => {
-          kameHouse.logger.error("Unexpected cordova error: " + event);
-          alert("Unexpected cordova error: " + event);
-        });  
+        document.addEventListener("pause", () => {onPause(onPauseFunction)} , false);
+        document.addEventListener("resume", () => {onResume(onResumeFunction)}, false);   
       }
     )
   }
 
-  function onDeviceReady() {
-    document.addEventListener("pause", onPause, false);
-    document.addEventListener("resume", onResume, false);   
+  function onPause(onPauseFunction) {
+    if (kameHouse.core.isFunction(onPauseFunction)) {
+      onPauseFunction();
+    }
   }
 
-  function onPause() {
-    isMobileAppOnBackground = true;
-    kameHouse.logger.info("mobile app sent to background");
-  }
-
-  function onResume() {
-    isMobileAppOnBackground = false;
-    kameHouse.logger.info("mobile app sent to foreground");
+  function onResume(onResumeFunction) {
+    if (kameHouse.core.isFunction(onResumeFunction)) {
+      onResumeFunction();
+    }
   }
 
   /**
@@ -1044,27 +1045,21 @@ function KameHouseModuleUtils() {
     kameHouse.logger.trace(message);
 
     let areAllModulesLoaded = false;
-    const WAIT_FOR_MODULES_BACKGROUND_MS = 2500;
     const WAIT_FOR_MODULES_MS = 15;
     let waitForModulesMs = WAIT_FOR_MODULES_MS;
     while (!areAllModulesLoaded) {
-      if (kameHouse.util.mobile.isMobileAppOnBackground()) { 
-        kameHouse.logger.trace("mobile app is on background. skipping waitForModules");
-        waitForModulesMs = WAIT_FOR_MODULES_BACKGROUND_MS;
-      } else {
-        waitForModulesMs = WAIT_FOR_MODULES_MS;
-        message = "Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
-        kameHouse.logger.trace(message);
-  
-        let isAnyModuleStillLoading = false;
-        moduleNames.forEach((moduleName) => {
-          if (!modules[moduleName]) {
-            isAnyModuleStillLoading = true;
-          }
-        });
-        if (!isAnyModuleStillLoading) {
-          areAllModulesLoaded = true;
+      waitForModulesMs = WAIT_FOR_MODULES_MS;
+      message = "Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
+      kameHouse.logger.trace(message);
+
+      let isAnyModuleStillLoading = false;
+      moduleNames.forEach((moduleName) => {
+        if (!modules[moduleName]) {
+          isAnyModuleStillLoading = true;
         }
+      });
+      if (!isAnyModuleStillLoading) {
+        areAllModulesLoaded = true;
       }
       // SLEEP IS IN MS!!
       await kameHouse.core.sleep(waitForModulesMs);

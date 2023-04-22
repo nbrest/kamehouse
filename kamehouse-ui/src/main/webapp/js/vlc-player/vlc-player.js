@@ -70,6 +70,7 @@ function VlcPlayer(hostname) {
           });
         }
       );
+      kameHouse.util.mobile.setMobileEventListeners(stopVlcPlayerLoops, restartVlcPlayerLoops);
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
       kameHouse.util.module.setModuleLoaded("vlcPlayer");
     });
@@ -83,6 +84,15 @@ function VlcPlayer(hostname) {
     synchronizer.syncVlcRcStatusLoop();
     synchronizer.syncPlaylistLoop();
     synchronizer.keepAliveWebSocketsLoop();
+    synchronizer.syncLoopsStatus();
+  }
+
+  function stopVlcPlayerLoops() {
+    synchronizer.stopVlcPlayerLoops();
+  }
+
+  function restartVlcPlayerLoops() {
+    synchronizer.restartVlcPlayerLoops();
   }
 
   /**
@@ -590,15 +600,25 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   this.syncVlcRcStatusLoop = syncVlcRcStatusLoop;
   this.syncPlaylistLoop = syncPlaylistLoop;
   this.keepAliveWebSocketsLoop = keepAliveWebSocketsLoop;
+  this.stopVlcPlayerLoops = stopVlcPlayerLoops;
+  this.restartVlcPlayerLoops = restartVlcPlayerLoops;
   this.syncVlcPlayerHttpLoop = syncVlcPlayerHttpLoop;
+  this.syncLoopsStatus = syncLoopsStatus;
 
-  const APP_IN_BACKGROUND_MS = 3000;
   const vlcRcStatusWebSocket = new KameHouseWebSocket();
   const playlistWebSocket = new KameHouseWebSocket();
   let isRunningSyncVlcRcStatusLoop = false;
   let isRunningSyncPlaylistLoop = false;
   let isRunningKeepAliveWebSocketLoop = false;
   let isRunningSyncVlcPlayerHttpLoop = false;
+  let isFinishedSyncVlcRcStatusLoop = false;
+  let isFinishedSyncPlaylistLoop = false;
+  let isFinishedKeepAliveWebSocketLoop = false;
+  let isFinishedSyncVlcPlayerHttpLoop = false;
+  let vlcRcStatusLoopCount = 0;
+  let vlcPlaylistLoopCount = 0;
+  let keepAliveWebSocketLoopCount = 0;
+  let syncVlcPlayerHttpLoopCount = 0;
 
   function initWebSockets() {
     const vlcRcStatusWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/status';
@@ -671,27 +691,23 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * If it fails to get an update from the websocket for 10 seconds in a row,
    * it increases the wait time between syncs, until the first succesful sync.
    */
-  async function syncVlcRcStatusLoop() {
-    kameHouse.logger.info("Started syncVlcRcStatusLoop");
-    if (isRunningSyncVlcRcStatusLoop) {
-      kameHouse.logger.error("syncVlcRcStatusLoop is already running");
-      return;
-    }
-    isRunningSyncVlcRcStatusLoop = true;
-    const VLC_STATUS_CONNECTED_SUCCESS_MS = 1000;
-    const VLC_STATUS_CONNECTED_FAIL_MS = 7000;
-    const VLC_STATUS_DISCONNECTED_MS = 3000;
-    let vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_SUCCESS_MS;
-    let failedCount = 0;
-    let skipResetViewCount = 10;
-    while (isRunningSyncVlcRcStatusLoop) {
-      if (kameHouse.util.mobile.isMobileAppOnBackground()) {
-        kameHouse.logger.trace("mobile app is on background, skipping syncVlcRcStatusLoop");
-        vlcRcStatusPullWaitTimeMs = APP_IN_BACKGROUND_MS;
-        failedCount = 0;
-      } else {
-        kameHouse.logger.trace("Poll vlcRcStatus loop");
-        kameHouse.logger.trace("InfiniteLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
+   function syncVlcRcStatusLoop() {
+    setTimeout(async () => {
+      kameHouse.logger.info("Started syncVlcRcStatusLoop");
+      if (isRunningSyncVlcRcStatusLoop || vlcRcStatusLoopCount > 1) {
+        kameHouse.logger.error("syncVlcRcStatusLoop is already running");
+        return;
+      }
+      isRunningSyncVlcRcStatusLoop = true;
+      vlcRcStatusLoopCount = vlcRcStatusLoopCount + 1;
+      const VLC_STATUS_CONNECTED_SUCCESS_MS = 1000;
+      const VLC_STATUS_CONNECTED_FAIL_MS = 7000;
+      const VLC_STATUS_DISCONNECTED_MS = 3000;
+      let vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_SUCCESS_MS;
+      let failedCount = 0;
+      let skipResetViewCount = 10;
+      while (isRunningSyncVlcRcStatusLoop) {
+        kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
         if (vlcRcStatusWebSocket.isConnected()) {
           // poll VlcRcStatus from the websocket.
           vlcRcStatusWebSocket.poll();
@@ -708,47 +724,57 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           vlcRcStatusPullWaitTimeMs = VLC_STATUS_DISCONNECTED_MS;
           if (skipResetViewCount > 0) {
             skipResetViewCount = skipResetViewCount - 1;
-            kameHouse.logger.trace("WebSocket is disconnected. Skipping reset view on this loop count");
+            kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Skipping reset view on this loop count");
           } else  {
-            kameHouse.logger.trace("WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
+            kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
             vlcPlayer.resetView();
           }
         }
+        await kameHouse.core.sleep(vlcRcStatusPullWaitTimeMs);
+        if (vlcRcStatusLoopCount > 1) {
+          kameHouse.logger.info("syncVlcRcStatusLoop: Running multiple syncVlcRcStatusLoop, exiting this loop");
+          break;
+        }
       }
-      await kameHouse.core.sleep(vlcRcStatusPullWaitTimeMs);
-    }
-    kameHouse.logger.info("Finished syncVlcRcStatusLoop");
+      vlcRcStatusLoopCount = vlcRcStatusLoopCount - 1;
+      isFinishedSyncVlcRcStatusLoop = true;
+      kameHouse.logger.info("Finished syncVlcRcStatusLoop");
+    }, 0);
   }
 
   /** 
    * Start infinite loop to sync the current playlist from the server.
    * Break the loop setting isRunningSyncPlaylistLoop to false.
    */
-  async function syncPlaylistLoop() {
-    kameHouse.logger.info("Started syncPlaylistLoop");
-    if (isRunningSyncPlaylistLoop) {
-      kameHouse.logger.error("syncPlaylistLoop is already running");
-      return;
-    }
-    isRunningSyncPlaylistLoop = true;
-    const PLAYLIST_WAIT_MS = 5000;
-    let playlistLoopWaitMs = PLAYLIST_WAIT_MS;
-    while (isRunningSyncPlaylistLoop) {
-      if (kameHouse.util.mobile.isMobileAppOnBackground()) {
-        kameHouse.logger.trace("mobile app is on background, skipping syncPlaylistLoop");
-        playlistLoopWaitMs = APP_IN_BACKGROUND_MS;
-      } else {
-        kameHouse.logger.trace("Poll playlist loop");
+  function syncPlaylistLoop() {
+    setTimeout(async () => {
+      kameHouse.logger.info("Started syncPlaylistLoop");
+      if (isRunningSyncPlaylistLoop || vlcPlaylistLoopCount > 1) {
+        kameHouse.logger.error("syncPlaylistLoop is already running");
+        return;
+      }
+      isRunningSyncPlaylistLoop = true;
+      vlcPlaylistLoopCount = vlcPlaylistLoopCount + 1;
+      const PLAYLIST_WAIT_MS = 5000;
+      let playlistLoopWaitMs = PLAYLIST_WAIT_MS;
+      while (isRunningSyncPlaylistLoop) {
+        kameHouse.logger.trace("syncPlaylistLoop");
         playlistLoopWaitMs = PLAYLIST_WAIT_MS;
         if (playlistWebSocket.isConnected()) {
           // poll playlist from the websocket.
           playlistWebSocket.poll();
           vlcPlayer.reloadPlaylist();
         }        
+        await kameHouse.core.sleep(playlistLoopWaitMs);
+        if (vlcPlaylistLoopCount > 1) {
+          kameHouse.logger.info("syncPlaylistLoop: Running multiple syncPlaylistLoop, exiting this loop");
+          break;
+        }
       }
-      await kameHouse.core.sleep(PLAYLIST_WAIT_MS);
-    }
-    kameHouse.logger.info("Finished syncPlaylistLoop");
+      vlcPlaylistLoopCount = vlcPlaylistLoopCount - 1;
+      isFinishedSyncPlaylistLoop = true;
+      kameHouse.logger.info("Finished syncPlaylistLoop");
+    }, 0);
   }
 
   /** 
@@ -756,69 +782,138 @@ function VlcPlayerSynchronizer(vlcPlayer) {
    * Break the loop setting isRunningKeepAliveWebSocketLoop to false.
    */
   function keepAliveWebSocketsLoop() {
-    KEEP_ALIVE_LOOP_STARTUP_DELAY_MS = 15000;
     setTimeout(async () => {
-      kameHouse.logger.info("Started keepAliveWebSocketsLoop");
-      if (isRunningKeepAliveWebSocketLoop) {
-        kameHouse.logger.error("keepAliveWebSocketsLoop is already running");
+      if (isRunningKeepAliveWebSocketLoop || keepAliveWebSocketLoopCount > 1) {
+        kameHouse.logger.error("Attempted to start keepAliveWebSocketsLoop but is already running");
         return;
       }
       isRunningKeepAliveWebSocketLoop = true;
+      keepAliveWebSocketLoopCount = keepAliveWebSocketLoopCount + 1;
+      kameHouse.logger.info("Started keepAliveWebSocketsLoop with initial 15 seconds delay");
+      await kameHouse.core.sleep(15000);
       const KEEP_ALIVE_WAIT_MS = 5000;
       let keepAliveWaitWebSocketsMs = KEEP_ALIVE_WAIT_MS;
       while (isRunningKeepAliveWebSocketLoop) {
-        if (kameHouse.util.mobile.isMobileAppOnBackground()) {
-          kameHouse.logger.trace("mobile app is on background, skipping keepAliveWebSocketsLoop");
-          keepAliveWaitWebSocketsMs = APP_IN_BACKGROUND_MS;
-        } else {
-          kameHouse.logger.trace("Keep websockets connected loop");
-          keepAliveWaitWebSocketsMs = KEEP_ALIVE_WAIT_MS;
-          if (!vlcRcStatusWebSocket.isConnected()) {
-            kameHouse.logger.trace("VlcRcStatus webSocket not connected. Reconnecting.");
-            reconnectVlcRcStatus();
-          }
-          if (!playlistWebSocket.isConnected()) {
-            kameHouse.logger.trace("Playlist webSocket not connected. Reconnecting.");
-            reconnectPlaylist();
-          }
+        kameHouse.logger.trace("keepAliveWebSocketsLoop");
+        keepAliveWaitWebSocketsMs = KEEP_ALIVE_WAIT_MS;
+        if (!vlcRcStatusWebSocket.isConnected()) {
+          kameHouse.logger.trace("keepAliveWebSocketsLoop: VlcRcStatus webSocket not connected. Reconnecting.");
+          reconnectVlcRcStatus();
+        }
+        if (!playlistWebSocket.isConnected()) {
+          kameHouse.logger.trace("keepAliveWebSocketsLoop: Playlist webSocket not connected. Reconnecting.");
+          reconnectPlaylist();
         }
         await kameHouse.core.sleep(keepAliveWaitWebSocketsMs);
+        if (keepAliveWebSocketLoopCount > 1) {
+          kameHouse.logger.info("keepAliveWebSocketsLoop: Running multiple keepAliveWebSocketsLoop, exiting this loop");
+          break;
+        }
       }
+      keepAliveWebSocketLoopCount = keepAliveWebSocketLoopCount - 1;
+      isFinishedKeepAliveWebSocketLoop = true;
       kameHouse.logger.info("Finished keepAliveWebSocketsLoop");
-    }, KEEP_ALIVE_LOOP_STARTUP_DELAY_MS);
+    }, 0);
   }
 
   /** 
    * Start infinite loop to sync falling back to http calls when the websockets are disconnected.
    */
   async function syncVlcPlayerHttpLoop() {
-    kameHouse.logger.info("Started syncVlcPlayerHttpLoop");
-    if (isRunningSyncVlcPlayerHttpLoop) {
-      kameHouse.logger.error("syncVlcPlayerHttpLoop is already running");
-      return;
-    }
-    isRunningSyncVlcPlayerHttpLoop = true;
-    const WEB_SOCKETS_CONNECTED_WAIT_MS = 10000;
-    const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2500;
-    let syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
-    while (isRunningSyncVlcPlayerHttpLoop) {
-      if (kameHouse.util.mobile.isMobileAppOnBackground()) { 
-        kameHouse.logger.trace("mobile app is on background, skipping syncVlcPlayerHttpLoop");
-        syncVlcPlayerHttpWaitMs = APP_IN_BACKGROUND_MS;
-      } else {
-        kameHouse.logger.trace("sync vlc player through fallback to http requests loop");
+    setTimeout(async () => {
+      kameHouse.logger.info("Started syncVlcPlayerHttpLoop");
+      if (isRunningSyncVlcPlayerHttpLoop || syncVlcPlayerHttpLoopCount > 1) {
+        kameHouse.logger.error("syncVlcPlayerHttpLoop is already running");
+        return;
+      }
+      isRunningSyncVlcPlayerHttpLoop = true;
+      syncVlcPlayerHttpLoopCount = syncVlcPlayerHttpLoopCount + 1;
+      const WEB_SOCKETS_CONNECTED_WAIT_MS = 10000;
+      const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
+      let syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
+      while (isRunningSyncVlcPlayerHttpLoop) {
+        kameHouse.logger.trace("syncVlcPlayerHttpLoop");
         if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
-          kameHouse.logger.debug("Websockets disconnected, synchronizing vlc player through http requests");
+          kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests");
           vlcPlayer.loadStateFromApi();
           syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
         } else {
-          kameHouse.logger.trace("Websockets connected. Skipping synchronization through http requests");
+          kameHouse.logger.trace("syncVlcPlayerHttpLoop: Websockets connected. Skipping synchronization through http requests");
           syncVlcPlayerHttpWaitMs = WEB_SOCKETS_CONNECTED_WAIT_MS;
         }
         await kameHouse.core.sleep(syncVlcPlayerHttpWaitMs);
+        if (syncVlcPlayerHttpLoopCount > 1) {
+          kameHouse.logger.info("syncVlcPlayerHttpLoop: Running multiple syncVlcPlayerHttpLoop, exiting this loop");
+          break;
+        }
       }
-    }
-    kameHouse.logger.info("Finished syncVlcPlayerHttpLoop");
+      syncVlcPlayerHttpLoopCount = syncVlcPlayerHttpLoopCount - 1;
+      isFinishedSyncVlcPlayerHttpLoop = true;
+      kameHouse.logger.info("Finished syncVlcPlayerHttpLoop");
+    }, 0);
+  }
+
+  function syncLoopsStatus() {
+    const PERIODIC_STATUS_WAIT_MS = 20000;
+    setTimeout(async () => {
+      while (true) {
+        kameHouse.logger.trace("---------------------------------------------");
+        kameHouse.logger.trace("Periodic sync loops status");
+        kameHouse.logger.trace("isRunningSyncVlcRcStatusLoop: " + isRunningSyncVlcRcStatusLoop);
+        kameHouse.logger.trace("isRunningSyncPlaylistLoop: " + isRunningSyncPlaylistLoop);
+        kameHouse.logger.trace("isRunningKeepAliveWebSocketLoop: " + isRunningKeepAliveWebSocketLoop);
+        kameHouse.logger.trace("isRunningSyncVlcPlayerHttpLoop: " + isRunningSyncVlcPlayerHttpLoop);
+        kameHouse.logger.trace("vlcRcStatusLoopCount: " + vlcRcStatusLoopCount);
+        kameHouse.logger.trace("vlcPlaylistLoopCount: " + vlcPlaylistLoopCount);
+        kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + keepAliveWebSocketLoopCount);
+        kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + syncVlcPlayerHttpLoopCount);
+        kameHouse.logger.trace("---------------------------------------------");
+        await kameHouse.core.sleep(PERIODIC_STATUS_WAIT_MS);
+      }
+    }, 0);
+  }
+
+  function stopVlcPlayerLoops() {
+    kameHouse.logger.info("vlcPlayer sent to background. Stopping sync loops");
+    isRunningSyncVlcRcStatusLoop = false;
+    isRunningSyncPlaylistLoop = false;
+    isRunningKeepAliveWebSocketLoop = false;
+    isRunningSyncVlcPlayerHttpLoop = false;
+    vlcRcStatusWebSocket.disconnect();
+    playlistWebSocket.disconnect(); 
+  }
+
+  function restartVlcPlayerLoops() {
+    kameHouse.logger.info("vlcPlayer sent to foreground. Restarting sync loops");
+    const RESTART_LOOPS_WAIT_MS = 1000;
+    setTimeout(async () => {
+      while (!isFinishedSyncVlcPlayerHttpLoop || syncVlcPlayerHttpLoopCount > 0) {
+        kameHouse.logger.trace("waiting for syncVlcPlayerHttpLoop to finish before restarting");
+        await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
+      }
+      syncVlcPlayerHttpLoop();
+    }, 0);
+    setTimeout(async () => {
+      while (!isFinishedSyncVlcRcStatusLoop || vlcRcStatusLoopCount > 0) {
+        kameHouse.logger.trace("waiting for syncVlcRcStatusLoop to finish before restarting");
+        await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
+      }
+      syncVlcRcStatusLoop();
+    }, 0);
+    setTimeout(async () => {
+      while (!isFinishedSyncPlaylistLoop || vlcPlaylistLoopCount > 0) {
+        kameHouse.logger.trace("waiting for syncPlaylistLoop to finish before restarting");
+        await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
+      }
+      syncPlaylistLoop();
+    }, 0);
+    setTimeout(async () => {
+      while (!isFinishedKeepAliveWebSocketLoop || keepAliveWebSocketLoopCount > 0) {
+        kameHouse.logger.trace("waiting for keepAliveWebSocketsLoop to finish before restarting");
+        await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
+      }
+      keepAliveWebSocketsLoop();
+    }, 0);
   }
 }
 
