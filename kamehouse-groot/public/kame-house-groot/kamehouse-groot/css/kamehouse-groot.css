@@ -187,7 +187,7 @@ a:active {
 
 @media (max-width : 900px) {
   .groot-menu button {
-    width: 60px;
+    width: 70px;
     padding-bottom: 8px;
     padding-top: 8px;
   }
@@ -210,8 +210,8 @@ a:active {
 
 @media (max-width : 900px) {
   .groot-menu-img {
-    width: 20px;
-    height: 20px; 
+    width: 30px;
+    height: 30px; 
   }
 }
 
@@ -220,9 +220,3 @@ a:active {
   overflow: hidden;
   border-bottom: #353535 3px solid;
 }
-
-@media ( max-width : 900px) {
-  .groot-nav-wrapper {
-    border-bottom: #191919 2px solid;
-  }
-}  
