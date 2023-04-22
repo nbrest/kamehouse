@@ -75,44 +75,12 @@ a:active {
 }
 
 /** groot header */
-#groot-menu-wrapper {
-  display: block;
-}
-
-#groot-header-login-status-desktop {
-  display: block;
-}
-
-@media ( max-width : 900px) {  
-  #groot-header-login-status-desktop {
-    display: none;
-  } 
-}
-
-#groot-header-login-status-mobile {
-  display: none;
-}
-
-@media ( max-width : 900px) {  
-  #groot-header-login-status-mobile {
-    display: block;
-    margin-top: 5px;
-  } 
-}
-
-.groot-header-db-img {
-  height: 25px;
-  width: 25px;
-  margin-top: 6px;
-  margin-bottom: 8px;
-  margin-left: 30px;
-  margin-right: 10px;
-  filter: brightness(0.3);
-  float: left;
+#groot-header-status-wrapper {
+  text-align: right;
+  vertical-align: middle;
 }
 
 .groot-header-branding {
-  float: right;
   font-size: 20px;
   color: #5a5a5a;
   padding-top: 6px;
@@ -125,7 +93,7 @@ a:active {
     padding-left: 10px;
     font-size: 15px;
     text-align: right;
-    display: inline;
+    display: none;
   }
 }  
 
@@ -139,12 +107,10 @@ a:active {
   padding-right: 10px;
   padding-left: 10px;
   padding-bottom: 0px;
-  float: right;
 }
 
 @media ( max-width : 900px) {  
   .groot-header-login-status {
-    float: right;
     text-align: right;
     padding: 0px;
     padding-top: 0px;
@@ -153,6 +119,7 @@ a:active {
 }  
 
 .groot-header-login-status-text {
+  font-weight: bold;
   font-size: 18px;
 	padding-left: 10px;
   padding-right: 10px;
@@ -161,6 +128,7 @@ a:active {
 
 @media ( max-width : 900px) {  
   .groot-header-login-status-text {
+    margin-top: 5px;
     font-size: 18px;
     height: 22px;
   }
@@ -177,6 +145,7 @@ a:active {
   .groot-header-login-status-btn {
     margin-top: 5px;
     margin-bottom: 7px;
+    margin-right: 3px;
     width: 22px;
     height: 22px;
     transform: scale(1);
@@ -192,30 +161,58 @@ a:active {
   }
 }
 
-#groot-header-bottom-wrapper {
-  background-color: #000000;
-  display: none;
-  overflow: none;
+#groot-menu-wrapper {
+  display: block;
 }
 
-@media ( max-width : 900px) {	 
-  #groot-header-bottom-wrapper {
-    display: block;
-    padding: 3px;
-    width: 100%;
-  }
-}  
-
-@media ( max-width : 900px) {
-  #groot-header-bottom {
-    display: block;
-    overflow: hidden;
-  }
-}  
-
-/** GRoot menu nav begin */
-.groot-nav {
+.groot-menu {
   overflow: hidden;
+}
+
+.groot-menu-table {
+  width: 100%;
+}
+
+.groot-menu button {
+  background: #000000;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  padding: 8px;
+  width: 100px;
+}
+
+@media (max-width : 900px) {
+  .groot-menu button {
+    width: 60px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+}
+
+.groot-menu button:hover {
+  background-color: #310000;
+  color: black;
+}
+
+.groot-menu button.active {
+  background-color: #272727;
+  color: #000000;
+}
+
+.groot-menu-img {
+  width: 30px;
+  height: 30px;  
+}
+
+@media (max-width : 900px) {
+  .groot-menu-img {
+    width: 20px;
+    height: 20px; 
+  }
 }
 
 .groot-nav-wrapper {
@@ -229,33 +226,3 @@ a:active {
     border-bottom: #191919 2px solid;
   }
 }  
-
-.groot-nav a {
-  float: left;
-  display: block;
-  color: #969696;
-  text-align: center;
-  padding: 8px 10px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.groot-nav a.active {
-  background-color: #222222;
-  color: #8e8e8e;
-}
-
-.groot-nav a:hover {
-  background-color: #424242;
-  color: #8e8e8e;
-}
-
-.groot-nav .icon {
-  display: none;
-}
-
-.groot-nav .highlight {
-  color: #575757;
-  font-weight: bold;
-}
-/** groot menu nav end */

@@ -57,18 +57,14 @@ function GrootHeader() {
    * Update groot session status.
    */
   function updateSessionStatus() {
-    const $loginStatusDesktop = $("#groot-header-login-status-desktop");
-    const $loginStatusMobile = $("#groot-header-login-status-mobile");
-    kameHouse.util.dom.empty($loginStatusDesktop);
+    const $loginStatus = $("#groot-header-login-status");
+    kameHouse.util.dom.empty($loginStatus);
     if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
     kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
-      kameHouse.util.dom.append($loginStatusDesktop, getLoginButton());
-      kameHouse.util.dom.append($loginStatusMobile, getLoginButton());
+      kameHouse.util.dom.append($loginStatus, getLoginButton());
     } else {
-      kameHouse.util.dom.append($loginStatusDesktop, getUsernameHeader(kameHouse.extension.groot.session.username));
-      kameHouse.util.dom.append($loginStatusDesktop, getLogoutButton());
-      kameHouse.util.dom.append($loginStatusMobile, getUsernameHeader(kameHouse.extension.groot.session.username));
-      kameHouse.util.dom.append($loginStatusMobile, getLogoutButton());
+      kameHouse.util.dom.append($loginStatus, getUsernameHeader(kameHouse.extension.groot.session.username));
+      kameHouse.util.dom.append($loginStatus, getLogoutButton());
     }
   }
 
@@ -77,7 +73,7 @@ function GrootHeader() {
   */
   function updateGRootMenuActiveTab() {
     const pageUrl = window.location.pathname;
-    $("#groot-menu a").toArray().forEach((navItem) => {
+    $("#groot-menu button").toArray().forEach((navItem) => {
       kameHouse.util.dom.removeClass($(navItem), "active");
       if (pageUrl == "/kame-house-groot/" || pageUrl == "/kame-house-groot/index.html") {
         if ($(navItem).attr("id") == "nav-groot-home") {
