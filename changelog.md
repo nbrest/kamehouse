@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.12
+
+- Added sticky back to top to vlc player
+
 #### v8.11
 
 - Fixed vlc player concurrency issues that were resetting the player view randomly the first seconds of loading the page on the mobile app
