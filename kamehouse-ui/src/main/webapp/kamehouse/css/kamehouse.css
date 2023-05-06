@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
-
 @import url('kamehouse-banners.css');
+
+@import url('fonts/varela-round.css');
 
 /** From bootstrap */
 *, ::after, ::before {
@@ -146,7 +146,7 @@
 }
 
 body {
-  font-family: 'Varela Round', Arial, Helvetica, sans-serif;
+  font-family: 'varela_roundregular', Arial, Helvetica, sans-serif;
   font-size: 15px;
   line-height: 1.5;
   padding: 0;
