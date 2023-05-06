@@ -8,6 +8,7 @@
 #### v8.13
 
 - Updated groot menu styles on mobile app and settings page
+- Moved loading varela round fonts locally for offline connections
 
 #### v8.12
 
