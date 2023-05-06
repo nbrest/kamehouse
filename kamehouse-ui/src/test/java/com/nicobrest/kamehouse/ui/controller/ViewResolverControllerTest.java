@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -54,15 +53,6 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
   public void testModuleUrlsTest() throws Exception {
     testTestModuleJsp("/jsp/test-module/", "/jsp/test-module/index");
     testTestModuleJsp("/jsp/test-module/trunks", "/jsp/test-module/trunks");
-  }
-
-  /** Tests logout. */
-  @Test
-  public void logoutTest() throws Exception {
-    MockHttpServletResponse response = doGet("/logout");
-
-    verifyResponseStatus(response, HttpStatus.FOUND);
-    assertEquals("/login.html?logout", response.getRedirectedUrl());
   }
 
   /** Tests test module jsp view generated from the source url. */

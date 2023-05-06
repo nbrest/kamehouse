@@ -10,18 +10,13 @@
     <!-- The order of intercept-urls matters. Order them from more specific to more 
       general within the same url. Ej: /api/v1/admin/kamehouse/** before /api/v1/admin/** -->
 
-    <intercept-url pattern="/admin/**" access="hasRole('ROLE_KAMISAMA')" method="GET" />
-
-    <intercept-url pattern="/tennisworld/**" access="hasRole('ROLE_SAIYAJIN')"
-                   method="GET" />
-
-    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="permitAll"
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="permitAll"
       method="GET" />
-    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
       method="POST" />
-    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
       method="PUT" />
-    <intercept-url pattern="/test-module/jsp/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
       method="DELETE" />
 
     <intercept-url pattern="/test-module/**" access="hasRole('ROLE_SAIYAJIN')"
@@ -36,14 +31,18 @@
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="PUT" />
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="DELETE" />
 
-    <form-login login-page="/login"
-                username-parameter="username"
-                password-parameter="password"
-                always-use-default-target="false"
-                authentication-success-handler-ref="authenticationSuccessHandler" />
+    <form-login login-page="/login.html"
+      login-processing-url="/login"
+      username-parameter="username"
+      password-parameter="password"
+      default-target-url="/index.html"
+      always-use-default-target="true"
+      authentication-failure-url="/login.html?error=true"
+      authentication-success-handler-ref="authenticationSuccessHandler" />
     <logout invalidate-session="true"
-            delete-cookies="KAMEHOUSE-SESSION-ID"
-            logout-url="/logout" />
+      delete-cookies="KAMEHOUSE-SESSION-ID"
+      logout-success-url="/login.html?logout=true"
+      logout-url="/logout" />
     <http-basic />
     <csrf disabled="true" />
   </http>

@@ -24,15 +24,6 @@
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="PUT" />
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="DELETE" />
 
-    <form-login login-page="/login"
-                username-parameter="username"
-                password-parameter="password"
-                always-use-default-target="false"
-                authentication-success-handler-ref="authenticationSuccessHandler" />
-    <logout invalidate-session="true"
-            delete-cookies="KAMEHOUSE-SESSION-ID"
-            logout-url="/logout" />
-    <http-basic />
     <csrf disabled="true" />
   </http>
 

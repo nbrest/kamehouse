@@ -55,7 +55,7 @@
    * Redirect after a failed login.
    */
   function redirectLoginError() {
-    header('Location: /kame-house-groot/login.html?error');
+    header('Location: /kame-house-groot/login.html?error=true');
     exit;
   }
 ?>

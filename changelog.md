@@ -12,6 +12,7 @@
 - Fixed loading static content directly from tomcat
 - Moved jsps to load from /jsp
 - Simplified httpd config
+- Simplified spring security config
 
 #### v8.12
 
