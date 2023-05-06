@@ -13,6 +13,7 @@
 - Moved jsps to load from /jsp
 - Simplified httpd config
 - Simplified spring security config
+- Fixed login/logout messages
 
 #### v8.12
 
